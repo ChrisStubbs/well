@@ -30,3 +30,4 @@ _ReSharper*/
 src/.vs/*
 /src/packages/*
 !/src/packages/repositories.config
+!tools/**

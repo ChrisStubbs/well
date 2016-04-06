@@ -8,11 +8,20 @@ namespace PH.Well.Common
 {
     using System.Configuration;
     using System.Web;
+    using Contracts;
     using Newtonsoft.Json;
     using Security;
 
     public class SecurityApiClient
     {
+        private IApiClient apiClient;
+
+
+        public SecurityApiClient()
+        {
+            apiClient = new ApiClient();
+        }
+
         public class Role
         {
             public Guid Id { get; set; }
@@ -42,7 +51,7 @@ namespace PH.Well.Common
         public virtual User GetUser(string userIdentifier)
         {
             var userUri = ConfigurationManager.AppSettings["SecurityApi"] + "/Users?useridentifier=" + HttpUtility.UrlEncode(userIdentifier);
-            var user = JsonConvert.DeserializeObject<List<User>>(ApiClient.GetJsonData(userUri)).FirstOrDefault();
+            var user = JsonConvert.DeserializeObject<List<User>>(apiClient.DownloadString(userUri)).FirstOrDefault();
             return user;
         }
 
@@ -54,14 +63,14 @@ namespace PH.Well.Common
         public virtual List<Role> GetRoles(Guid userId)
         {
             var rolesUri = ConfigurationManager.AppSettings["SecurityApi"] + "/Users/" + HttpUtility.UrlEncode(userId.ToString()) + "/Roles";
-            var roles = JsonConvert.DeserializeObject<List<Role>>(ApiClient.GetJsonData(rolesUri));
+            var roles = JsonConvert.DeserializeObject<List<Role>>(apiClient.DownloadString(rolesUri));
             return roles;
         }
 
         public virtual void AddUserToRoles(UserRoleRequest request)
         {
             var uri = ConfigurationManager.AppSettings["SecurityApi"] + "/Userroles";
-            ApiClient.PostJsonData(uri, JsonConvert.SerializeObject(request));
+            apiClient.UploadString(uri, "POST", JsonConvert.SerializeObject(request));
         }
 
 

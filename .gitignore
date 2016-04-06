@@ -31,3 +31,4 @@ src/.vs/*
 /src/packages/*
 !/src/packages/repositories.config
 !tools/**
+src/3. Database/Well/Well.dbmdl

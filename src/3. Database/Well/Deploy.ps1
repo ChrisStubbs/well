@@ -1,7 +1,7 @@
 # Internal Variables
 $databaseName = $OctopusParameters["DatabaseName"]
 #$databaseName = "Well"
-$OctopusOriginalPackageDirectoryPath = "C:\temp\WellDB";
+#$OctopusOriginalPackageDirectoryPath = "C:\temp\WellDB";
 $contentPath  = (Join-Path $OctopusOriginalPackageDirectoryPath "content")
 $deployPath  = (Join-Path $contentPath "deploy")
 $dbFileName = (Get-ChildItem $deployPath\*.dacpac -Name | Select-Object -First 1)

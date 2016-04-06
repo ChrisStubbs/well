@@ -2,11 +2,12 @@
 {
     using System;
     using System.Threading;
-
+    using Framework;
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
 
     using PH.Well.Common;
+    using Configuration = Framework.Configuration;
 
     public class DatabaseSetup
     {

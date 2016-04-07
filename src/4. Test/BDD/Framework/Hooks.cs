@@ -38,7 +38,7 @@
             InitIoc();
         }
 
-        [AfterFeature]
+        [AfterFeature(@"UITests")]
         public static void DisposeDriver()
         {
             var driver = DriverContext.CurrentDriver;

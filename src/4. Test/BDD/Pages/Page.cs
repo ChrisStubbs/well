@@ -36,7 +36,7 @@ namespace PH.Well.BDD.Pages
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
-            wait.Until(d => d.Url.ToString(CultureInfo.InvariantCulture).Contains(url));
+            wait.Until(d => d.Url.ToString(CultureInfo.InvariantCulture).IndexOf(url, StringComparison.InvariantCultureIgnoreCase) > -1);
 
             this.Driver.WaitForAjax();
         }

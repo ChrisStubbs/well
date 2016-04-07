@@ -1,8 +1,6 @@
 ﻿param($profileName, $testPath, $toolsPath, $projectName)
 
-#.\SpecRun.ps1 "QA1" "C:\dev\od\CurrentSprint-Upgrade\src\Tests\BDD\bin\Release" "C:\dev\od\CurrentSprint-Upgrade\tools\SpecRun.Runner.1.2.0"
-
-#$HtmlName = $profileName.Substring(0,$profileName.Length-4)
+#.\SpecRun.ps1 "staging1" "C:\dev\well\src\4. Test\BDD\bin\Release" "C:\dev\well\tools\SpecRun.Runner.1.2.0"
 
 $HtmlName = $profileName
 

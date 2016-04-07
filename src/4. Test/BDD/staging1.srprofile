@@ -1,0 +1,25 @@
+<TestProfile xmlns="http://www.specrun.com/schemas/2011/09/TestProfile">
+  <Settings projectName="Well" reportTemplate="ReportTemplate.cshtml" />
+  <Execution stopAfterFailures="0" retryFor="None" />
+  <!-- For collecting by a SpecRun server update and enable the following element. For using the 
+      collected statistics, set testSchedulingMode="Adaptive" attribute on the <Execution> element.
+    <Server serverUrl="http://specrunserver:6365" publishResults="true" />
+  -->
+  <TestAssemblyPaths>
+    <TestAssemblyPath>PH.Well.BDD.dll</TestAssemblyPath>
+  </TestAssemblyPaths>
+  <DeploymentTransformation>
+    <Steps>
+      <ConfigFileTransformation configFile="app.config">
+        <Transformation>
+          <![CDATA[<?xml version="1.0" encoding="utf-8"?>
+							<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">  
+                <appSettings configSource="ConfigurationSections\app-staging1.config" xdt:Transform="Replace" xdt:Locator="Condition(/configuration/appSettings)"/>
+                <connectionStrings configSource="ConfigurationSections\connectionstring-staging1.config" xdt:Transform="Replace" xdt:Locator="Condition(/configuration/connectionStrings)"/>
+              </configuration>
+          ]]>
+        </Transformation>
+      </ConfigFileTransformation>
+    </Steps>
+  </DeploymentTransformation>
+</TestProfile>

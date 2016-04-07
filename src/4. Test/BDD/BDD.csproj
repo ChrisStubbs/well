@@ -143,6 +143,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ConfigurationSections\app-staging1.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConfigurationSections\app-qa1.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConfigurationSections\connectionstring-staging1.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConfigurationSections\connectionstring-qa1.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Features\API\VersionCheck.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
@@ -152,6 +164,9 @@
       <LastGenOutput>Smoke.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="staging1.srprofile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="qa1.srprofile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

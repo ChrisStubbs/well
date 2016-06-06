@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+	<id>Well.Database</id>
+	<version>$version$</version>
+	<authors>Palmer and Harvey</authors>
+	<description>Package for Well Database</description>
+	</metadata>
+	<files>
+		<file src="\bin\Release\Well.dacpac" target="Content\Deploy" />
+    <file src="\bin\Release\Well.xml" target="Content\Deploy" />
+		<file src="Deploy.ps1" />
+	</files>
+</package>

@@ -3,7 +3,6 @@
 Thumbs.db
 #Ignore files build by Visual Studio
 *.obj
-*.exe
 *.pdb
 *.user
 *.aps
@@ -30,3 +29,5 @@ _ReSharper*/
 src/.vs/*
 /src/packages/*
 !/src/packages/repositories.config
+!tools/**
+src/3. Database/Well/Well.dbmdl

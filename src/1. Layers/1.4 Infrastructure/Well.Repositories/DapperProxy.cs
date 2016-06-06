@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlClient;
@@ -11,22 +12,15 @@
 
     public class DapperProxy : IDapperProxy
     {
-        DynamicParameters parameters;
+        private DynamicParameters parameters;
 
         private string storedProcedure;
 
-        private string sql;
+        public string ConnectionString { get; set; }
 
         public IDapperProxy WithStoredProcedure(string storedProcedure)
         {
             this.storedProcedure = storedProcedure;
-
-            return this;
-        }
-
-        public IDapperProxy WithSql(string sql)
-        {
-            this.sql = sql;
 
             return this;
         }
@@ -47,19 +41,35 @@
             return this;
         }
 
-        public TEntity Query<TEntity>(string connectionString)
+        public TEntity Query<TEntity>()
         {
-            return Query<TEntity>(connectionString, storedProcedure, parameters).Single();
+            return DapperQuery<TEntity>().Single();
         }
 
-        public IEnumerable<TEntity> QueryMany<TEntity>(string connectionString)
+        public IEnumerable<TEntity> QueryMany<TEntity>()
         {
-            return Query<TEntity>(connectionString, storedProcedure, parameters);
+            return DapperQuery<TEntity>();
         }
 
-        private IEnumerable<TEntity> Query<TEntity>(string connectionString, string storedProcedure, object parameters = null)
+        public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action)
         {
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                action(connection.QueryMultiple(storedProcedure, parameters, commandType: CommandType.StoredProcedure));
+            }
+        }
+
+        public void Execute()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
+            }
+        }
+
+        private IEnumerable<TEntity> DapperQuery<TEntity>()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 return connection.Query<TEntity>(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout).AsQueryable();
             }

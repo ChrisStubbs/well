@@ -1,18 +1,25 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
 
+    using Dapper;
+
     public interface IDapperProxy
     {
-        IDapperProxy WithStoredProcedure(string storedProcedure);
+        string ConnectionString { get; set; }
 
-        IDapperProxy WithSql(string sql);
+        IDapperProxy WithStoredProcedure(string storedProcedure);
 
         IDapperProxy AddParameter(string name, object parameter, DbType dbType, int? size = null);
 
-        TEntity Query<TEntity>(string connectionString);
+        TEntity Query<TEntity>();
 
-        IEnumerable<TEntity> QueryMany<TEntity>(string connectionString);
+        IEnumerable<TEntity> QueryMany<TEntity>();
+
+        void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action);
+
+        void Execute();
     }
 }

@@ -1,0 +1,21 @@
+﻿CREATE TABLE [dbo].[JobDetail]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL,
+	[LineNumber] INT NOT NULL,
+	[Barcode] NVARCHAR(60) NOT NULL,
+	[OriginalDespatchQty] DECIMAL(5,3) NOT NULL,
+	[ProdDesc] NVARCHAR(100) NOT NULL,
+	[OrderedQty] INT NULL,
+	[SkuWeight] DECIMAL(3,2) NOT NULL,
+	[SkuCube] DECIMAL(3,2) NOT NULL,
+	[UnitMeasure] NVARCHAR(20) NOT NULL,
+	[TextField1] NVARCHAR(20) NULL,
+	[TextField2] NVARCHAR(20) NULL,
+	[TextField3] NVARCHAR(20) NULL,
+	[TextField4] NVARCHAR(20) NULL,
+	[SkuGoodsValue] FLOAT NOT NULL,
+	[JobId] INT NOT NULL,
+	CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT [FK_JobDetail_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+)

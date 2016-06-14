@@ -48,10 +48,13 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IDapperProxy.cs" />
+    <Compile Include="Contracts\IFooRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="DapperProxy.cs" />
     <Compile Include="DapperRepository.cs" />
+    <Compile Include="FooRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoredProcedures.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

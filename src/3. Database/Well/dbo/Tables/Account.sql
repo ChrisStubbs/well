@@ -1,0 +1,23 @@
+﻿CREATE TABLE [dbo].[Account]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL,
+	[Code] NVARCHAR(20) NOT NULL,
+	[AccountTypeCode] INT NOT NULL,
+	[Name] NVARCHAR(50) NOT NULL,
+	[Address1] NVARCHAR(50) NOT NULL,
+	[Address2] NVARCHAR(50) NOT NULL,
+	[PostCode]	NVARCHAR(10) NOT NULL,
+	[ContactName] NVARCHAR(50) NOT NULL,
+	[ContactNumber] NVARCHAR(15) NOT NULL,
+	[ContactNumber2] NVARCHAR(15) NULL,
+	[ContactEmailAddress] NVARCHAR(50) NULL,
+	[StartWindow] TIME NOT NULL,
+	[EndWindow] TIME NOT NULL,
+	[DepotID] NVARCHAR(5) NOT NULL,
+	[Latitude] FLOAT NOT NULL,
+	[Longitude] FLOAT NOT NULL,
+	[IsDropAndDrive] BIT NULL,
+	[StopId] INT NOT NULL,
+	CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT [FK_Account_Stop] FOREIGN KEY ([StopId]) REFERENCES [dbo].[Stop] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+)

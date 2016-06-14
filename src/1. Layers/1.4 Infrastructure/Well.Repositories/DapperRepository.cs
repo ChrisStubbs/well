@@ -22,6 +22,7 @@
 
         protected readonly IDapperProxy dapperProxy;
 
+
         protected DapperRepository(ILogger logger, IDapperProxy dapperProxy)
         {
             this.logger = logger;

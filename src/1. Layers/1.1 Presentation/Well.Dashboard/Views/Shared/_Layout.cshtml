@@ -6,38 +6,72 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/angular2")
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+        System.config({
+        packages: {
+          app: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('app/main')
+            .then(null, console.error.bind(console));
+    </script>
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <div>
+        <header>
+            <div class="row-fluid">
+                <div>
+                    <a href="@Url.Action("Index", "Home")" title="Home">
+                        <div class="logo"></div>
+                    </a>
+
+                    <div id="headerHolder">
+                        <h1 class="header">OrderWell</h1>
+                        <span style="color: white; font-weight: bold">V 1.0.0.0</span> &nbsp <span style="color: white; font-weight: bold">Fareham Branch</span>
+                    </div>
+                    <div id="user-details" class="pull-right">
+                        <div>Logged in as Fiona Pond</div>
+                        <img id="avatar" src="" alt="Fiona Pond" height="41" width="41" />
+                    </div>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
+            <div id="xxx" class="row-fluid">
+                <div id="nav">
+                    <ul class="nav nav-pills" style="min-height: 39px;">
+                        <li>@Html.ActionLink("Routes", "Index", "Branch")</li>
+                        <li>@Html.ActionLink("Clean", "Index", "CleanDeliveries")</li>
+                        <li>@Html.ActionLink("Resolved", "Index", "ResolvedDeliveries")</li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </header>
+
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+                <section id="app">
+                    <div>
+                        <div>@RenderBody()</div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
+
+
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jsscripts")
 </body>
+
 </html>

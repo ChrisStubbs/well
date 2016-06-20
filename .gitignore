@@ -31,3 +31,5 @@ src/.vs/*
 !/src/packages/repositories.config
 !tools/**
 src/3. Database/Well/Well.dbmdl
+src/3. Database/Well/Well.dbmdl
+src/1. Layers/1.1 Presentation/Well.Dashboard/Well.Dashboard.csproj.orig

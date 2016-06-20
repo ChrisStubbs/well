@@ -95,51 +95,23 @@
       <HintPath>..\..\packages\SpecFlow.2.0.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="WebDriver, Version=2.53.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Selenium.WebDriver.2.53.0\lib\net40\WebDriver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="WebDriver.Support, Version=2.53.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Selenium.Support.2.53.0\lib\net40\WebDriver.Support.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseSetup.cs" />
-    <Compile Include="Factories\DriverFactory.cs" />
-    <Compile Include="Features\API\VersionCheck.feature.cs">
+    <Compile Include="Features\Version\VersionCheck.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionCheck.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Dashboard\Smoke.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Smoke.feature</DependentUpon>
     </Compile>
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Context\ContextDescriptors.cs" />
     <Compile Include="Framework\Context\FeatureContextWrapper.cs" />
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
-    <Compile Include="Framework\Context\WebDriverContextWrapper.cs" />
-    <Compile Include="Framework\Driver.cs" />
-    <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
-    <Compile Include="Framework\Screenshot.cs" />
-    <Compile Include="Framework\WebElements\Button.cs" />
-    <Compile Include="Framework\WebElements\ButtonDropDown.cs" />
-    <Compile Include="Framework\WebElements\CheckBox.cs" />
-    <Compile Include="Framework\WebElements\Grid.cs" />
-    <Compile Include="Framework\WebElements\Heading.cs" />
-    <Compile Include="Framework\WebElements\TextBox.cs" />
-    <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="IocRegistrar.cs" />
-    <Compile Include="Pages\HomePage.cs" />
-    <Compile Include="Pages\Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\API\VersionCheckSteps.cs" />
-    <Compile Include="Steps\Dashboard\SmokeSteps.cs" />
+    <Compile Include="Steps\Version\VersionCheckSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -155,13 +127,9 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\API\VersionCheck.feature">
+    <None Include="Features\Version\VersionCheck.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Dashboard\Smoke.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Smoke.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <None Include="staging1.srprofile">
@@ -180,17 +148,8 @@
       <Name>Well.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="chromedriver.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IEDriverServer.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="phantomjs.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="Factories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -24,7 +24,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'ow-app',
-                        template: '<div> Orderwell Start</div>'
+                        template: '<div id="owContainer">Orderwell Start</div>'
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

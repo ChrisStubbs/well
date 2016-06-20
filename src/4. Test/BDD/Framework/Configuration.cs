@@ -17,9 +17,6 @@
 
         public static string PathToScreenshots => ConfigurationManager.AppSettings["PathToScreenshots"];
 
-        public static Driver Driver => (Driver)Enum.Parse(typeof(Driver), ConfigurationManager.AppSettings["WebDriver"]);
-
-        public static string WellDashboardUrl => ConfigurationManager.AppSettings["WellDashboardUrl"];
         public static string WellApiUrl => ConfigurationManager.AppSettings["WellApiUrl"];
         public static string SecurityApiUrl => ConfigurationManager.AppSettings["SecurityApiUrl"];
 

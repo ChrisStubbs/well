@@ -9,7 +9,6 @@
     using Common;
     using Common.Security;
     using Context;
-    using Factories;
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
     using NLog;
@@ -23,28 +22,12 @@
         public static void SetBuycoUrl()
         {
             //SetUserRoles(new List<string> { "SomeUserRole" });
-            UrlContext.CurrentUrl = Configuration.WellDashboardUrl;
-        }
-
-        [BeforeFeature(@"UITests")]
-        public static void SetDriver()
-        {
-            DriverContext.CurrentDriver = DriverFactory.Create(Configuration.Driver);
         }
 
         [BeforeFeature]
         public static void SetupDependancies()
         {
             InitIoc();
-        }
-
-        [AfterFeature(@"UITests")]
-        public static void DisposeDriver()
-        {
-            var driver = DriverContext.CurrentDriver;
-
-            driver.Close();
-            driver.Quit();
         }
 
         #region Database setup

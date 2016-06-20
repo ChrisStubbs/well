@@ -31,7 +31,10 @@ src/.vs/*
 !/src/packages/repositories.config
 !tools/**
 src/3. Database/Well/Well.dbmdl
+<<<<<<< HEAD
+src/3. Database/Well/Well.dbmdl
 src/1. Layers/1.1 Presentation/Well.Dashboard/Well.Dashboard.csproj.orig
+=======
 **/node_modules/*
 **/typings/*
-
+>>>>>>> b0adf137682415d73a76a201ef17bb93cfe29019

@@ -35,3 +35,4 @@ src/1. Layers/1.1 Presentation/Well.Dashboard/Well.Dashboard.csproj.orig
 **/node_modules/*
 src/1. Layers/1.1 Presentation/Well.Dashboard/typings/*
 
+src/4. Test/Well.Test.UI/.ntvs_analysis.dat

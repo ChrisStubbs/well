@@ -106,6 +106,8 @@
     <Build Include="dbo\Tables\JobDetailAttribute.sql" />
     <Build Include="dbo\Tables\JobDetailDamageReasons.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
+    <Build Include="dbo\Tables\ExceptionAction.sql" />
+    <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

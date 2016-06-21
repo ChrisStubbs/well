@@ -5,5 +5,12 @@ exports.config = {
     useAllAngular2AppRoots: true,
     rootElement: "[ow-app]",
     //seleniumAddress: 'http://localhost:4444/wd/hub',
-    specs: ['Specs/*.js']
+    specs: ['Specs/*.js'],
+    onPrepare: function () {
+        //If running on TeamCity then use the TeamCity test results reporter
+        if (process.env.TEAMCITY_VERSION) { 
+            var jasmineReporters = require('jasmine-reporters');
+            jasmine.getEnv().addReporter(new jasmineReporters.TeamCityReporter());
+        }
+    }
 }

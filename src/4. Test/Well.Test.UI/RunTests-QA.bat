@@ -1,0 +1,1 @@
+node_modules\.bin\protractor conf.js --params.baseUrl=http://ho-ms-qa1/well/dashboard/

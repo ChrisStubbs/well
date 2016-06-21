@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "protractor": "^3.0.0",
-    "jasmine-reporters": "<2.0.0"
+    "jasmine-reporters": "^2.0.0"
   },
   "scripts": {
     "postinstall": "webdriver-manager update"

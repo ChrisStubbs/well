@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Enums\AccountType.cs" />
+    <Compile Include="Enums\ExceptionAction.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteStatus.cs" />

@@ -26,7 +26,7 @@ namespace Well.Dashboard
             bundles.Add(new ScriptBundle("~/bundles/jsscripts").Include(
                   "~/Scripts/toastr.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/bundles/css").Include(
                       "~/Content/css/bootstrap.css",
                       "~/Content/css/bootstrap-responsive.css",
                       "~/Content/css/bootstrap-flatten.css",
@@ -34,7 +34,7 @@ namespace Well.Dashboard
                       "~/Content/css/jquery-ui.min.css",
                       "~/Content/css/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/angular2").Include(
+            bundles.Add(new Bundle("~/bundles/angular2").Include(
                         "~/node_modules/es6-shim/es6-shim.js",
                         "~/node_modules/systemjs/dist/system-polyfills.js",
                         "~/node_modules/angular2/bundles/angular2-polyfills.js",

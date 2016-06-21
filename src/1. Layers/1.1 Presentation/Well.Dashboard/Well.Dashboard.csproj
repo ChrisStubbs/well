@@ -222,6 +222,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
+    <Content Include="Well.Dashboard.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

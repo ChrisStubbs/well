@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Well.Dashboard</id>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The Well.Dashboard deployment package</description>
-    <releaseNotes />
+    <version>$version$</version>
+    <authors>Palmer and Harvey</authors>
+    <description>Package for Well.Dashboard</description>
   </metadata>
   <files>
 	<file src="node_modules\**" target="node_modules"  />

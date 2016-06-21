@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Well.Dashboard</id>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The Well.Dashboard deployment package</description>
+    <releaseNotes />
+  </metadata>
+  <files>
+	<file src="node_modules\**" target="node_modules"  />
+  </files>
+</package>

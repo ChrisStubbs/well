@@ -35,14 +35,14 @@ namespace Well.Dashboard
                       "~/Content/css/site.css"));
 
             bundles.Add(new Bundle("~/bundles/angular2").Include(
-                        "~/node_modules/es6-shim/es6-shim.js",
-                        "~/node_modules/systemjs/dist/system-polyfills.js",
-                        "~/node_modules/angular2/bundles/angular2-polyfills.js",
-                        "~/node_modules/systemjs/dist/system.src.js",
-                        "~/node_modules/rxjs/bundles/rx.js",
-                        "~/node_modules/angular2/bundles/angular2.dev.js",
-                        "~/node_modules/angular2/bundles/router.dev.js",
-                        "~/node_modules/angular2/bundles/http.dev.js"
+                        "~/Scripts/angular2/es6-shim.js",
+                        "~/Scripts/angular2/system-polyfills.js",
+                        "~/Scripts/angular2/system.src.js",
+                        "~/Scripts/angular2/rx.js",
+                        "~/Scripts/angular2/angular2-polyfills.js",
+                        "~/Scripts/angular2/angular2.dev.js",
+                        "~/Scripts/angular2/router.dev.js",
+                        "~/Scripts/angular2/http.dev.js"
                         ));
         }
     }

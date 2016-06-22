@@ -183,6 +183,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
+    <Content Include="Scripts\angular2\angular2-polyfills.js" />
+    <Content Include="Scripts\angular2\angular2.dev.js" />
+    <Content Include="Scripts\angular2\es6-shim.js" />
+    <Content Include="Scripts\angular2\http.dev.js" />
+    <Content Include="Scripts\angular2\router.dev.js" />
+    <Content Include="Scripts\angular2\rx.js" />
+    <Content Include="Scripts\angular2\system-polyfills.js" />
+    <Content Include="Scripts\angular2\system.src.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -248,6 +256,21 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <TypeScriptTarget>Unknown</TypeScriptTarget>
+    <TypeScriptJSXEmit>-1</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />

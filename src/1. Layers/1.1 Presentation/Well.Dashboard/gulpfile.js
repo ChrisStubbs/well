@@ -11,6 +11,7 @@ var config = {
     //Include all js files but exclude any min.js files
     src: ['content/*.less', '!content/toastr.less', '!content/library.less'],
     angularSrc: [
+        "node_modules/angular2/es6/dev/src/testing/shims_for_IE.js",
         "node_modules/es6-shim/es6-shim.js",
         "node_modules/systemjs/dist/system-polyfills.js",
         "node_modules/systemjs/dist/system.src.js",

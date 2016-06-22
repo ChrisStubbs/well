@@ -3,6 +3,8 @@ using System.Web.Optimization;
 
 namespace Well.Dashboard
 {
+    using PH.Well.Dashboard;
+
     public class BundleConfig
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
@@ -26,24 +28,32 @@ namespace Well.Dashboard
             bundles.Add(new ScriptBundle("~/bundles/jsscripts").Include(
                   "~/Scripts/toastr.min.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/css").Include(
-                      "~/Content/css/bootstrap.css",
-                      "~/Content/css/bootstrap-responsive.css",
-                      "~/Content/css/bootstrap-flatten.css",
-                      "~/Content/css/toastr.min.css",
-                      "~/Content/css/jquery-ui.min.css",
-                      "~/Content/css/site.css"));
+            var cssBundle = new StyleBundle("~/bundles/css").Include(
+                "~/Content/css/bootstrap.css",
+                "~/Content/css/bootstrap-responsive.css",
+                "~/Content/css/bootstrap-flatten.css",
+                "~/Content/css/toastr.min.css",
+                "~/Content/css/jquery-ui.min.css",
+                "~/Content/css/site.css");
+            cssBundle.Orderer = new DefinedBundlerOrderer();
+            bundles.Add(cssBundle);
 
-            bundles.Add(new Bundle("~/bundles/angular2").Include(
-                        "~/Scripts/angular2/es6-shim.js",
-                        "~/Scripts/angular2/system-polyfills.js",
-                        "~/Scripts/angular2/system.src.js",
-                        "~/Scripts/angular2/rx.js",
-                        "~/Scripts/angular2/angular2-polyfills.js",
-                        "~/Scripts/angular2/angular2.dev.js",
-                        "~/Scripts/angular2/router.dev.js",
-                        "~/Scripts/angular2/http.dev.js"
-                        ));
+            var angularShimsBundle = new Bundle("~/bundles/angular2Shims").Include(
+                "~/Scripts/angular2/shims_for_IE.js",
+                "~/Scripts/angular2/es6-shim.js",
+                "~/Scripts/angular2/system-polyfills.js");
+            angularShimsBundle.Orderer = new DefinedBundlerOrderer();
+            bundles.Add(angularShimsBundle);
+
+            var angularBundle = new Bundle("~/bundles/angular2").Include(
+                "~/Scripts/angular2/angular2-polyfills.js",
+                "~/Scripts/angular2/system.src.js",
+                "~/Scripts/angular2/rx.js",
+                "~/Scripts/angular2/angular2.dev.js",
+                "~/Scripts/angular2/router.dev.js",
+                "~/Scripts/angular2/http.dev.js");
+            angularBundle.Orderer = new DefinedBundlerOrderer();
+            bundles.Add(angularBundle);
         }
     }
 }

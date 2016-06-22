@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -191,6 +192,7 @@
     <Content Include="Scripts\angular2\http.dev.js" />
     <Content Include="Scripts\angular2\router.dev.js" />
     <Content Include="Scripts\angular2\rx.js" />
+    <Content Include="Scripts\angular2\shims_for_IE.js" />
     <Content Include="Scripts\angular2\system-polyfills.js" />
     <Content Include="Scripts\angular2\system.src.js" />
     <Content Include="Scripts\bootstrap.js" />

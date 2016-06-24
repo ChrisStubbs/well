@@ -28,7 +28,7 @@ Write-Host "BDD $BDDSkipped"
 Write-Host "BDD $BDDFailed"
 
 $Result = "FAILURE"
-If ($Failed.Contains("Failed: 0") -and $UITotals[0].Failed -eq 0)
+If ($BDDFailed.Contains("Failed: 0") -and $UITotals[0].Failed -eq 0)
 {
 	$Result = "SUCCESS"
 }
@@ -65,32 +65,32 @@ $XmlWriter.WriteAttributeString('number', '1.0.{build.number}')
 
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("BDD " + $Total)
+		$XmlWriter.WriteRaw("BDD " + $BDDTotal)
 		$xmlWriter.WriteEndElement()
 		
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("BDD " + $Succeeded)
+		$XmlWriter.WriteRaw("BDD " + $BDDSucceeded)
 		$xmlWriter.WriteEndElement()
 		
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("BDD " + $Ignored)
+		$XmlWriter.WriteRaw("BDD " + $BDDIgnored)
 		$xmlWriter.WriteEndElement()
 		
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("BDD " + $Pending)
+		$XmlWriter.WriteRaw("BDD " + $BDDPending)
 		$xmlWriter.WriteEndElement()	
 
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("BDD " + $Skipped)
+		$XmlWriter.WriteRaw("BDD " + $BDDSkipped)
 		$xmlWriter.WriteEndElement()		
 		
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("BDD " + $Failed)
+		$XmlWriter.WriteRaw("BDD " + $BDDFailed)
 		$xmlWriter.WriteEndElement()
 	$xmlWriter.WriteEndElement()
 

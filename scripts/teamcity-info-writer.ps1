@@ -1,13 +1,13 @@
-param($BuildRoot, $SpecRunLog, $ProtractorLog)
+param($BuildRoot, $SpecRunLog, $ProtractorLogPath)
 
 #$BuildRoot = "C:\dev\well"
 #$SpecRunLog = "..\specrun.log"
-#$ProtractorLog = "..\ProtractorOutput.txt"
+#$ProtractorLogPath = "..\ProtractorOutput.txt"
 
 Write-Host $BuildRoot
 Write-Host $SpecRunLog
 
-$UITotals = Get-Content $ProtractorLog | Where { $_ -match "\b(?<total>[0-9]+) spec, (?<failed>[0-9]+) failures\b" } | 
+$UITotals = Get-Content $ProtractorLogPath | Where { $_ -match "\b(?<total>[0-9]+) spec, (?<failed>[0-9]+) failures\b" } | 
 foreach { new-object PSObject –prop @{ Total=$matches['total']; Failed=$matches['failed'] }   }
 
 Write-Host "UI Total: " $UITotals[0].Total

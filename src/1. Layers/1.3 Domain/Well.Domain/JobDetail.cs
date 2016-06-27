@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
+    using System.Collections.Generic;
 
     public class JobDetail : Entity<int>
     {

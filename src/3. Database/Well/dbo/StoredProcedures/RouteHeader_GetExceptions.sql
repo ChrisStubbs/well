@@ -12,6 +12,6 @@ SET NOCOUNT ON;
 	--INNER JOIN JobDetail Jd ON jd.JobId = jb.Id
 	--INNER JOIN JobDetailDamageReasons jdm ON jdm.JobDetailId = jd.Id
 
-	select [NoOfExceptions],[Assigned], [Outstanding], [OnHold] from SampleExceptions
+	select [NoOfExceptions],[Assigned], [Outstanding], [OnHold], [Notifications] from SampleExceptions
 
 END

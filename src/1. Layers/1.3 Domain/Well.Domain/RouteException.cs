@@ -12,5 +12,6 @@ namespace PH.Well.Domain
         public int Assigned { get; set; }
         public int Outstanding { get; set; }
         public int OnHold{ get; set; }
+        public int Notifications { get; set; }
     }
 }

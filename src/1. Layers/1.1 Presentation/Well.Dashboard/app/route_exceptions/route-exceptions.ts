@@ -3,6 +3,7 @@
     assigned: number;
     outstanding: number;
     onHold: number;
+    notifications: number;
     id: number;
     dateCreated: string;
     dateUpdated: string;

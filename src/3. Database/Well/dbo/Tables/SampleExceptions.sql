@@ -5,5 +5,6 @@
 	[Assigned] INT, 
 	[Outstanding] INT, 
 	[OnHold] INT, 
+	[Notifications] INT,
 
 )

@@ -69,14 +69,17 @@
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\IBranchRepository.cs" />
     <Compile Include="Contracts\IDapperProxy.cs" />
     <Compile Include="Contracts\IDbConfiguration.cs" />
+    <Compile Include="Contracts\IPreferenceRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Contracts\IRouteHeaderRepository.cs" />
     <Compile Include="Contracts\IWellDapperProxy.cs" />
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="DependancyEvents\ChangeEventArgs.cs" />
+    <Compile Include="PreferenceRepository.cs" />
     <Compile Include="DependancyEvents\ChangeNotifier.cs" />
     <Compile Include="Contracts\IChangeNotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

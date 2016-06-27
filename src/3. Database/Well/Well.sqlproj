@@ -108,6 +108,8 @@
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetExceptions.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />
+    <Build Include="dbo\Tables\ExceptionAction.sql" />
+    <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
     <Build Include="dbo\Tables\SampleExceptions.sql" />
   </ItemGroup>
   <ItemGroup>

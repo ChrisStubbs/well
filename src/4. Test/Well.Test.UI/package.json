@@ -1,0 +1,17 @@
+{
+  "name": "well.test.ui",
+  "version": "0.0.0",
+  "description": "Well.Test.UI",
+  "main": "app.js",
+  "author": {
+    "name": "michael.hook",
+    "email": ""
+  },
+  "devDependencies": {
+    "protractor": "^3.0.0",
+    "jasmine-reporters": "^2.0.0"
+  },
+  "scripts": {
+    "postinstall": "webdriver-manager update --proxy http://localhost:8888"
+  }
+}

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Well</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{cd9abe6e-66c0-4ee7-a805-5b429c5b5fb6}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Well</RootNamespace>
+    <AssemblyName>Well</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\StoredProcedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="Post-Deployement" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deploy.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Well.nuspec" />
+    <None Include="Well.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Post-Deployement\Populate-VisitTypes.sql" />
+    <None Include="Post-Deployement\Populate-JobType.sql" />
+    <None Include="Post-Deployement\Populate-AccountType.sql" />
+    <None Include="Post-Deployement\Populate-ReasonCategory.sql" />
+    <None Include="Post-Deployement\Populate-RouteStatus.sql" />
+    <None Include="Post-Deployement\Populate-RoutePerformanceStatus.sql" />
+    <None Include="Post-Deployement\Populate-JobPerformanceStatus.sql" />
+    <None Include="Post-Deployement\Populate-ByPassReasons.sql" />
+    <None Include="Post-Deployement\Populate-DamageReasons.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\VisitType.sql" />
+    <Build Include="dbo\Tables\JobType.sql" />
+    <Build Include="dbo\Tables\ReasonCategory.sql" />
+    <Build Include="dbo\Tables\DamageReasons.sql" />
+    <Build Include="dbo\Tables\RouteStatus.sql" />
+    <Build Include="dbo\Tables\RoutePerformanceStatus.sql" />
+    <Build Include="dbo\Tables\JobStatus.sql" />
+    <Build Include="dbo\Tables\JobPerformanceStatus.sql" />
+    <Build Include="dbo\Tables\AccountType.sql" />
+    <Build Include="dbo\Tables\ByPassReasons.sql" />
+    <Build Include="dbo\Tables\RoyaltyExceptions.sql" />
+    <Build Include="dbo\Tables\BranchCreditApproval.sql" />
+    <Build Include="dbo\Tables\BranchApprovalTime.sql" />
+    <Build Include="dbo\Tables\RouteImport.sql" />
+    <Build Include="dbo\Tables\RouteHeader.sql" />
+    <Build Include="dbo\Tables\RouteHeaderAttribute.sql" />
+    <Build Include="dbo\Tables\Stop.sql" />
+    <Build Include="dbo\Tables\Account.sql" />
+    <Build Include="dbo\Tables\AccountAttribute.sql" />
+    <Build Include="dbo\Tables\Job.sql" />
+    <Build Include="dbo\Tables\JobAttribute.sql" />
+    <Build Include="dbo\Tables\JobDetail.sql" />
+    <Build Include="dbo\Tables\JobDetailAttribute.sql" />
+    <Build Include="dbo\Tables\JobDetailDamageReasons.sql" />
+    <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
+<<<<<<< HEAD
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetExceptions.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />
+    <Build Include="dbo\Tables\SampleExceptions.sql" />
+=======
+    <Build Include="dbo\Tables\ExceptionAction.sql" />
+    <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
+>>>>>>> 2252f287f1404d8af2d71749779473885bd795c3
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\packages\OctoPack.3.0.60\tools\OctoPack.targets" />
+</Project>

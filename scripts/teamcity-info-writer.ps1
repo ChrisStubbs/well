@@ -1,29 +1,36 @@
-param($BuildRoot, $SpecRunLog)
+param($BuildRoot, $SpecRunLog, $ProtractorLogPath)
+
+#$BuildRoot = "C:\dev\well"
+#$SpecRunLog = "..\specrun.log"
+#$ProtractorLogPath = "..\ProtractorOutput.txt"
 
 Write-Host $BuildRoot
 Write-Host $SpecRunLog
 
-$Total = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Total:") }
-$Succeeded = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Succeeded:") }
-$Ignored = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Ignored:") }
-$Pending = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Pending:") }
-$Skipped = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Skipped:") }
-$Failed = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Failed:") }
+$UITotals = Get-Content $ProtractorLogPath | Where { $_ -match "\b(?<total>[0-9]+) spec, (?<failed>[0-9]+) failures\b" } | 
+foreach { new-object PSObject –prop @{ Total=$matches['total']; Failed=$matches['failed'] }   }
 
-Write-Host "$Total"
-Write-Host "$Succeeded"
-Write-Host "$Ignored"
-Write-Host "$Pending"
-Write-Host "$Skipped"
-Write-Host "$Failed"
+Write-Host "UI Total: " $UITotals[0].Total
+Write-Host "UI Failed: " $UITotals[0].Failed
 
-If ($Failed.Contains("Failed: 0"))
+$BDDTotal = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Total:") }
+$BDDSucceeded = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Succeeded:") }
+$BDDIgnored = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Ignored:") }
+$BDDPending = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Pending:") }
+$BDDSkipped = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Skipped:") }
+$BDDFailed = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Failed:") }
+
+Write-Host "BDD $BDDTotal"
+Write-Host "BDD $BDDSucceeded"
+Write-Host "BDD $BDDIgnored"
+Write-Host "BDD $BDDPending"
+Write-Host "BDD $BDDSkipped"
+Write-Host "BDD $BDDFailed"
+
+$Result = "FAILURE"
+If ($BDDFailed.Contains("Failed: 0") -and $UITotals[0].Failed -eq 0)
 {
 	$Result = "SUCCESS"
-}
-Else
-{
-	$Result = "FAILURE"
 }
 
 # this is where the document will be saved:
@@ -46,34 +53,14 @@ $XmlWriter.WriteAttributeString('number', '1.0.{build.number}')
 
 	$xmlWriter.WriteStartElement('statusInfo')
     $XmlWriter.WriteAttributeString('status', $Result)
-		$XmlWriter.WriteStartElement('text')
+    	$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw($Total)
+		$XmlWriter.WriteRaw("UI Total:" + $UITotals[0].Total + " Failed:" + $UITotals[0].Failed)
 		$xmlWriter.WriteEndElement()
-		
-		$XmlWriter.WriteStartElement('text')
-		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw($Succeeded)
-		$xmlWriter.WriteEndElement()
-		
-		$XmlWriter.WriteStartElement('text')
-		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw($Ignored)
-		$xmlWriter.WriteEndElement()
-		
-		$XmlWriter.WriteStartElement('text')
-		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw($Pending)
-		$xmlWriter.WriteEndElement()	
 
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw($Skipped)
-		$xmlWriter.WriteEndElement()		
-		
-		$XmlWriter.WriteStartElement('text')
-		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw($Failed)
+		$XmlWriter.WriteRaw("BDD: " + $BDDTotal + " " + $BDDFailed)
 		$xmlWriter.WriteEndElement()
 	$xmlWriter.WriteEndElement()
 

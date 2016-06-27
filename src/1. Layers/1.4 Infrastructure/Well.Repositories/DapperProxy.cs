@@ -46,6 +46,12 @@
             return this.QueryDapper<TEntity>();
         }
 
+        public IEnumerable<TEntity> Query<TEntity>(string storedprocedure)
+        {
+            this.storedProcedure = storedprocedure;
+            return this.QueryDapper<TEntity>();
+        }
+
         public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action)
         {
             using (var connection = new SqlConnection(this.Connection))

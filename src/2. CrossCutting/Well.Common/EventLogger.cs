@@ -25,7 +25,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogError("Error occured writing to the event log!", ex);
+                logger.LogError(ex.Message);
                 return false;
             }
         }
@@ -39,14 +39,14 @@
             }
             catch (Exception ex)
             {
-                logger.LogError("Error occured writing to the event log!", ex);
+                logger.LogError(ex.Message);
                 return false;
             }
         }
 
         private void WriteEventLog(string source, string logText, int eventId, EventLogEntryType entryType)
         {
-            var fullSource = $"Well.{source}";
+            var fullSource = $"Pmp.{source}";
             if (!EventLog.SourceExists(fullSource))
             {
                 EventLog.CreateEventSource(fullSource, "Application");

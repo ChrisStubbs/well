@@ -8,18 +8,15 @@
 
     public interface IDapperProxy
     {
-        string Connection { get; set; }
+        IDbConfiguration DbConfiguration { get; set; }
 
-        void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action);
+        IEnumerable<TEntity> Query<TEntity>(string storedProcedure, object parameters = null);
+        IEnumerable<TEntity> SqlQuery<TEntity>(string sql);
 
-        void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action);
+        void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action, string sql, CommandType commandType = CommandType.StoredProcedure, object parameters = null);
 
-        void Execute();
+        void Execute(string storedProcedure, object parameters = null);
+        void ExecuteSql(string sql);
 
-        IDapperProxy WithStoredProcedure(string storedProcedure);
-
-        IDapperProxy AddParameter(string name, object parameter, DbType dbType, int? size = null);
-
-        IEnumerable<TEntity> Query<TEntity>();
     }
 }

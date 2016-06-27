@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using PH.Well.Domain.Base;
+    
 
     public class RoueImport: Entity<int>
     {

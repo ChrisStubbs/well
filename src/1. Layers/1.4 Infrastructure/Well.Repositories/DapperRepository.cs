@@ -89,7 +89,7 @@
                 entity.SetCreatedProperties(this.CurrentUser);
             }
 
-            using (var bulkCopy = new SqlBulkCopy(this.dapperProxy.Connection, SqlBulkCopyOptions.CheckConstraints))
+            using (var bulkCopy = new SqlBulkCopy(this.dapperProxy.DbConfiguration.DatabaseConnection, SqlBulkCopyOptions.CheckConstraints))
             {
                 bulkCopy.DestinationTableName = tableName;
 

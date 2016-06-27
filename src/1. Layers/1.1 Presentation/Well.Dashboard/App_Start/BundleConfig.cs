@@ -44,6 +44,9 @@ namespace Well.Dashboard
                         "~/node_modules/angular2/bundles/router.dev.js",
                         "~/node_modules/angular2/bundles/http.dev.js"
                         ));
+
+            bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                  "~/Scripts/jquery.signalR-2.2.0.min.js"));
         }
     }
 }

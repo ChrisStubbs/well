@@ -1,4 +1,4 @@
-﻿namespace PH.Well.Domain.Base
+﻿namespace PH.Well.Domain
 {
     using System;
     using System.Collections.Generic;

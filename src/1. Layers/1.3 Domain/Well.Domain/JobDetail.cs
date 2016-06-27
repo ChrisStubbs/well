@@ -2,13 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using Base;
+
 
     public class JobDetail:Entity<int>
     {
         public JobDetail()
         {
-            this.JobDetailAttributes = new List<JobDetailAttribute>();
+           
         }
 
         public int LineNumber { get; set; }
@@ -25,6 +25,7 @@
         public string TextField4 { get; set; }
         public double SkuGoodsValue  { get; set; }
         public int JobId { get; set; }
-        public List<JobDetailAttribute> JobDetailAttributes { get; set; }
+        public KeyValuePair<int, KeyValuePair<int, string>> JobMetaData { get; set; }
+
     }
 }

@@ -106,6 +106,9 @@
     <Build Include="dbo\Tables\JobDetailAttribute.sql" />
     <Build Include="dbo\Tables\JobDetailDamageReasons.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetExceptions.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />
+    <Build Include="dbo\Tables\SampleExceptions.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

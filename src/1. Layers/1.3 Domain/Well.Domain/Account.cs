@@ -2,12 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using Base;
+   
    public class Account:Entity<int>
     {
        public Account()
        {
-           this.AccountAttributes = new List<AccountAttribute>();
+           
        }
 
        public string Code { get; set; }
@@ -27,7 +27,7 @@
        public double Longitude { get; set; }
        public Boolean IsDropAndDrive { get; set; }
        public int StopId { get; set; }
-       public List<AccountAttribute> AccountAttributes { get; set; } 
-    
+       public KeyValuePair<int, KeyValuePair<int, string>> AccountMetaData { get; set; }
+
     }
 }

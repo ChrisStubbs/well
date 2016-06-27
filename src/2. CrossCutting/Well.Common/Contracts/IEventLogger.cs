@@ -3,6 +3,8 @@
     using System;
     using System.Diagnostics;
     using System.Diagnostics.Tracing;
+    using PH.Well.Common;
+    using EventSource = Common.EventSource;
 
     public interface IEventLogger
     {

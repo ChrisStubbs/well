@@ -2,13 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using Base;
+    
 
     public class Job:Entity<int>
     {
         public Job()
         {
-            this.JobAttributes = new List<JobAttribute>();
+           
         }
 
         public int Sequence { get; set; }
@@ -22,6 +22,7 @@
         public string TextField1 { get; set; }
         public string TextField2 { get; set; }
         public int StopId { get; set; }
-        public List<JobAttribute> JobAttributes { get; set; }
-        }
+        public KeyValuePair<int, KeyValuePair<int, string>> JobMetaData { get; set; }
+
+    }
 }

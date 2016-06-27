@@ -41,23 +41,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
-    <Compile Include="AccountAttribute.cs" />
-    <Compile Include="Base\AttributeBase.cs" />
     <Compile Include="Contracts\IEntity.cs" />
-    <Compile Include="Base\Entity.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="Enums\AccountType.cs" />
+    <Compile Include="Enums\ChangeInfo.cs" />
+    <Compile Include="Enums\ChangeSource.cs" />
+    <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteStatus.cs" />
     <Compile Include="Foo.cs" />
-    <Compile Include="JobDetailAttribute.cs" />
     <Compile Include="Job.cs" />
-    <Compile Include="JobAttribute.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoueImport.cs" />
+    <Compile Include="RouteException.cs" />
     <Compile Include="RouteHeader.cs" />
-    <Compile Include="RouteHeaderAttribute.cs" />
     <Compile Include="Stop.cs" />
   </ItemGroup>
   <ItemGroup>

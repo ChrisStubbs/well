@@ -2,14 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using Base;
     using Enums;
 
     public class RouteHeader:Entity<int>
     {
         public RouteHeader()
         {
-            this.RouteAttributes = new List<RouteHeaderAttribute>();
             this.Stops = new List<Stop>();
         }
 
@@ -34,7 +32,7 @@
         public int PlannedStops { get; set; }
         public RouteStatus RouteStatus { get; set; }
         public int RouteImportId { get; set; }
-        public List<RouteHeaderAttribute> RouteAttributes { get; set; } 
         public List<Stop> Stops { get; set; } 
+        public KeyValuePair<int, KeyValuePair<int, string>> RouteMetaData { get; set; }
     }
 }

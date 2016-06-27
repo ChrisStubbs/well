@@ -21,7 +21,7 @@
                 x =>
                 {
                     x.For<ILogger>().Use<NLogger>();
-                    x.For<IDapperProxy>().Use<DapperProxy>();
+                    x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                 });
         }
     }

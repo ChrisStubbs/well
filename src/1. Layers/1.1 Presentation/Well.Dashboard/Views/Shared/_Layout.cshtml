@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/angular2")
 
     <!-- 2. Configure SystemJS -->
@@ -34,7 +35,7 @@
 
                     <div id="headerHolder">
                         <h1 class="header">OrderWell</h1>
-                        <span style="color: white; font-weight: bold">V 1.0.0.0</span> &nbsp <span style="color: white; font-weight: bold">Fareham Branch</span>
+                        <span style="color: white; font-weight: bold">V 1.0.0.0</span> &nbsp; <span style="color: white; font-weight: bold">Fareham Branch</span>
                     </div>
                     <div id="user-details" class="pull-right">
                         <div>Logged in as Fiona Pond</div>
@@ -72,6 +73,8 @@
 
     @RenderSection("scripts", required: false)
     @Scripts.Render("~/bundles/jsscripts")
+    @Scripts.Render("~/bundles/signalr")
+    <script src="~/signalr/hubs"></script>
 </body>
 
 </html>

@@ -2,18 +2,18 @@
 import {Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http'
 import {Observable} from 'rxjs/Observable';
-import {IRouteException} from './route-exceptions'
+import {IRouteExceptions} from './route-exceptions'
 
 @Injectable()
 export class RouteExceptionService {
-    private _exceptionsUrl = '/Well.Api/';
+    private _exceptionsUrl = '/Well/Api/';
 
     constructor(private _http: Http) { }
 
-    getExceptions(): Observable<IRouteException> {
+    getExceptions(): Observable<IRouteExceptions> {
 
        return this._http.get(this._exceptionsUrl + 'exceptions')
-            .map((response: Response) => <IRouteException> response.json())
+            .map((response: Response) => <IRouteExceptions> response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }

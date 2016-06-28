@@ -1,4 +1,4 @@
-﻿export interface IRouteException {
+﻿export interface IRouteExceptions {
     noOfExceptions: number;
     assigned: number;
     outstanding: number;

@@ -27,7 +27,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             RouteExceptionService = (function () {
                 function RouteExceptionService(_http) {
                     this._http = _http;
-                    this._exceptionsUrl = '/Well.Api/';
+                    this._exceptionsUrl = '/Well/Api/';
                 }
                 RouteExceptionService.prototype.getExceptions = function () {
                     return this._http.get(this._exceptionsUrl + 'exceptions')

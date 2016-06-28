@@ -26,7 +26,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', './route_exception
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(routeExceptionService) {
+                function AppComponent(changeDetectorRef, routeExceptionService) {
+                    this.changeDetectorRef = changeDetectorRef;
                     this.routeExceptionService = routeExceptionService;
                 }
                 AppComponent.prototype.ngOnInit = function () {
@@ -35,15 +36,21 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', './route_exception
                     var exceptionNotifications = $.connection.exceptionsHub;
                     exceptionNotifications.qs = { 'version': '1.0' };
                     exceptionNotifications.client.widgetExceptions = function () {
+                        console.log("widgetExceptions triggered");
                         self.getExceptions();
                     };
                     $.connection.hub.start().done(function (data) {
+                        console.log("Hub Started");
                     });
+                };
+                AppComponent.prototype.handleExceptions = function (exception) {
+                    this.exception = exception;
+                    this.changeDetectorRef.detectChanges();
                 };
                 AppComponent.prototype.getExceptions = function () {
                     var _this = this;
                     this.routeExceptionService.getExceptions()
-                        .subscribe(function (exception) { return _this.exception = exception; }, function (error) { return _this.errorMessage = error; });
+                        .subscribe(function (response) { return _this.handleExceptions(response); }, function (error) { return _this.errorMessage = error; });
                 };
                 AppComponent = __decorate([
                     core_1.Component({
@@ -51,7 +58,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', './route_exception
                         templateUrl: './app/main.html',
                         providers: [route_exception_service_1.RouteExceptionService, http_1.HTTP_PROVIDERS]
                     }), 
-                    __metadata('design:paramtypes', [route_exception_service_1.RouteExceptionService])
+                    __metadata('design:paramtypes', [core_1.ChangeDetectorRef, route_exception_service_1.RouteExceptionService])
                 ], AppComponent);
                 return AppComponent;
             }());

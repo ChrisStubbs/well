@@ -1,9 +1,9 @@
 ﻿/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
 import {bootstrap} from 'angular2/platform/browser';
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import 'rxjs/Rx';   // Load all features
-import {IRouteException} from './route_exceptions/route-exceptions';
+import {IRouteExceptions} from './route_exceptions/route-exceptions';
 import {RouteExceptionService} from './route_exceptions/route-exception.service';
 declare var $: any;
 
@@ -11,20 +11,17 @@ declare var $: any;
     selector: 'ow-app',
     templateUrl: './app/main.html',
     providers: [RouteExceptionService, HTTP_PROVIDERS]
-
-
 })
 
-
 export class AppComponent  implements OnInit { 
-    exception: IRouteException;
+    exception: IRouteExceptions;
     errorMessage: string;
-    exceptionNumber:number;
+    exceptionNumber: number;
     
 
-    constructor(private routeExceptionService: RouteExceptionService) { }
+    constructor(private changeDetectorRef: ChangeDetectorRef, private routeExceptionService: RouteExceptionService) { }
  
-    ngOnInit() {
+    ngOnInit(): void {
         var self = this;
 
         this.getExceptions();     
@@ -34,17 +31,24 @@ export class AppComponent  implements OnInit {
         exceptionNotifications.qs = { 'version': '1.0' };
 
         exceptionNotifications.client.widgetExceptions = function () {
-            self.getExceptions();  
+            console.log("widgetExceptions triggered");
+            self.getExceptions();
         };
 
         $.connection.hub.start().done((data) => {
+            console.log("Hub Started");
         });
 
     }
 
-    getExceptions() {
+    handleExceptions(exception): void {
+        this.exception = exception;
+        this.changeDetectorRef.detectChanges();
+    }
+
+    getExceptions(): void {
         this.routeExceptionService.getExceptions()
-            .subscribe(exception => this.exception = exception, error => this.errorMessage = <any>error);
+            .subscribe(response => this.handleExceptions(response), error => this.errorMessage = <any>error);
     }
 
 }

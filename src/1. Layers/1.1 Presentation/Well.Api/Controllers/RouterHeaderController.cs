@@ -6,6 +6,7 @@
     using System.Web.Http;
     using System.Web.Http.Description;
     using Common.Contracts;
+    using Domain;
     using Repositories.Contracts;
 
     public class RouterHeaderController : ApiController
@@ -32,7 +33,7 @@
         {
             try
             {
-                var noOfCleanDeliveries = this.routeHeaderRepository.GetCleanDeliveries();
+                var noOfCleanDeliveries = this.routeHeaderRepository.GetCleanDeliveries() ?? new RouteException();
                 return this.Request.CreateResponse(HttpStatusCode.OK, noOfCleanDeliveries);
             }
             catch (Exception ex)
@@ -48,7 +49,7 @@
         {
             try
             {
-                var noOfExceptions = this.routeHeaderRepository.GetExceptions();
+                var noOfExceptions = this.routeHeaderRepository.GetExceptions() ?? new RouteException();
                 return this.Request.CreateResponse(HttpStatusCode.OK, noOfExceptions);
             }
             catch (Exception ex)

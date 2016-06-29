@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 
 [assembly: OwinStartup(typeof(PH.Well.Dashboard.Startup))]
 namespace PH.Well.Dashboard

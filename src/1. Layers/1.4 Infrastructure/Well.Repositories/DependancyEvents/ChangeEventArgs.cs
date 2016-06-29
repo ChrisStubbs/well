@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace PH.Well.Repositories.DependancyEvents
+﻿namespace PH.Well.Repositories.DependancyEvents
 {
+    using System;
     using Domain.Enums;
 
     [Serializable]

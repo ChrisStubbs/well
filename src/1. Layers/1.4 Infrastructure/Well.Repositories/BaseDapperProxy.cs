@@ -1,6 +1,4 @@
-﻿
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +7,6 @@ namespace PH.Well.Repositories
     using System.Linq;
     using Contracts;
     using Dapper;
-    using Microsoft.AspNet.SignalR;
 
     public abstract class BaseDapperProxy
     {

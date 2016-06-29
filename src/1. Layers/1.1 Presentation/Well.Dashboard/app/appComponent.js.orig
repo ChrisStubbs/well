@@ -44,25 +44,47 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             }],
         execute: function() {
             AppComponent = (function () {
+<<<<<<< HEAD
                 function AppComponent(router) {
                     this.router = router;
+=======
                 function AppComponent(changeDetectorRef, routeExceptionService) {
                     this.changeDetectorRef = changeDetectorRef;
+                    this.routeExceptionService = routeExceptionService;
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
                 }
                 //re-direct to widget stats on load
                 AppComponent.prototype.ngOnInit = function () {
+<<<<<<< HEAD
                     this.router.navigate(['WidgetStats']);
+=======
+                    var self = this;
+                    this.getExceptions();
+                    var exceptionNotifications = $.connection.exceptionsHub;
+                    exceptionNotifications.qs = { 'version': '1.0' };
+                    exceptionNotifications.client.widgetExceptions = function () {
                         console.log("widgetExceptions triggered");
+                        self.getExceptions();
+                    };
+                    $.connection.hub.start().done(function (data) {
                         console.log("Hub Started");
+                    });
+                };
                 AppComponent.prototype.handleExceptions = function (exception) {
                     this.exception = exception;
                     this.changeDetectorRef.detectChanges();
                 };
+                AppComponent.prototype.getExceptions = function () {
+                    var _this = this;
+                    this.routeExceptionService.getExceptions()
+                        .subscribe(function (response) { return _this.handleExceptions(response); }, function (error) { return _this.errorMessage = error; });
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'ow-app',
                         templateUrl: './app/main.html',
+<<<<<<< HEAD
                         directives: [router_1.ROUTER_DIRECTIVES],
                         providers: [widgetstats_service_1.WidgetStatsService, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS]
                     }),
@@ -74,6 +96,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
                     ]), 
                     __metadata('design:paramtypes', [router_1.Router])
+=======
+                        providers: [route_exception_service_1.RouteExceptionService, http_1.HTTP_PROVIDERS]
+                    }), 
+                    __metadata('design:paramtypes', [core_1.ChangeDetectorRef, route_exception_service_1.RouteExceptionService])
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
                 ], AppComponent);
                 return AppComponent;
             }());

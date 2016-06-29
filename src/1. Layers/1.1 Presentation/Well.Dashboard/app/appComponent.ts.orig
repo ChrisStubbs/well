@@ -4,6 +4,7 @@ import {bootstrap} from 'angular2/platform/browser';
 import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import 'rxjs/Rx';   // Load all features
+<<<<<<< HEAD
 import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router } from 'angular2/router';
 
 //widget stats
@@ -18,11 +19,16 @@ import {ResolvedRoutesComponent} from './resolved/resolved-routesComponent';
 //notifications
 import {NotificationsComponent} from './notifications/notificationsComponent';
 
+=======
+import {IRouteExceptions} from './route_exceptions/route-exceptions';
+import {RouteExceptionService} from './route_exceptions/route-exception.service';
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
 declare var $: any;
 
 @Component({
     selector: 'ow-app',
     templateUrl: './app/main.html',
+<<<<<<< HEAD
     directives: [ROUTER_DIRECTIVES],
     providers: [WidgetStatsService, HTTP_PROVIDERS, ROUTER_PROVIDERS]
 })
@@ -34,24 +40,57 @@ declare var $: any;
         { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
         { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
     ])
+
 export class AppComponent implements OnInit  {
 
     constructor(private router: Router) { }
     
-    constructor(private changeDetectorRef: ChangeDetectorRef, private routeExceptionService: RouteExceptionService) { }
 
     //re-direct to widget stats on load
+    ngOnInit() {
 
         this.router.navigate(['WidgetStats']);
+=======
+    providers: [RouteExceptionService, HTTP_PROVIDERS]
+})
+
+export class AppComponent  implements OnInit { 
+    exception: IRouteExceptions;
+    errorMessage: string;
+    exceptionNumber: number;
+    
+
+    constructor(private changeDetectorRef: ChangeDetectorRef, private routeExceptionService: RouteExceptionService) { }
+ 
+    ngOnInit(): void {
+        var self = this;
+
+        this.getExceptions();     
+
+
+        var exceptionNotifications =  $.connection.exceptionsHub;
+        exceptionNotifications.qs = { 'version': '1.0' };
+
+        exceptionNotifications.client.widgetExceptions = function () {
             console.log("widgetExceptions triggered");
+            self.getExceptions();
+        };
+
+        $.connection.hub.start().done((data) => {
             console.log("Hub Started");
+        });
+
+    }
+
     handleExceptions(exception): void {
         this.exception = exception;
         this.changeDetectorRef.detectChanges();
     }
 
     getExceptions(): void {
+        this.routeExceptionService.getExceptions()
             .subscribe(response => this.handleExceptions(response), error => this.errorMessage = <any>error);
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
     }
 
 }

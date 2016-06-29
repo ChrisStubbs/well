@@ -1,0 +1,51 @@
+﻿namespace Well.Dashboard
+{
+    using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
+    using PH.Well.Dashboard.App_Start;
+<<<<<<< HEAD
+    using PH.Well.Dashboard.Hubs;
+    using PH.Well.Domain.Enums;
+    using PH.Well.Repositories;
+    using PH.Well.Repositories.DependancyEvents;
+
+=======
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
+
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            DbChangeNotifierStartup.Init();
+        }
+
+        protected void Application_End()
+        {
+
+<<<<<<< HEAD
+        protected void NotifyStartUp()
+        {
+            var notifier = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IChangeNotifier>(); 
+            notifier.Change += this.OnChange;
+            notifier.Start(con, StoredProcedures.WidgetStatsGet);
+        }
+
+
+        private void OnChange(object sender, ChangeEventArgs e)
+        {
+            if (e.Type == ChangeType.Change)
+            {
+                var context = GlobalHost.ConnectionManager.GetHubContext<ExceptionsHub>();
+                context.Clients.All.widgetExceptions();
+            }
+=======
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
+        }
+    }
+
+}

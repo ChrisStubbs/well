@@ -11,7 +11,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>ffddce46-6485-4a3c-85b1-8aba9116acac</ProjectGuid>
+    <ProjectGuid>c96b41f0-6770-4b0d-982c-a24b02397153</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>node_modules\protractor\built\cli.js</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
@@ -40,13 +40,12 @@
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="node_modules\" />
-    <Folder Include="Specs\" />
     <Folder Include="node_modules\protractor\" />
     <Folder Include="node_modules\protractor\built\" />
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\node\" />
+    <Folder Include="Specs\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="conf.js" />
@@ -54,19 +53,6 @@
     <Compile Include="Specs\Example.js" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <TypeScriptTarget>Unknown</TypeScriptTarget>
-    <TypeScriptJSXEmit>-1</TypeScriptJSXEmit>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile />
-    <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
-  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
   <ProjectExtensions>

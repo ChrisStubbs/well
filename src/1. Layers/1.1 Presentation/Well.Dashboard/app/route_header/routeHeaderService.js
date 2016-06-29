@@ -27,7 +27,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             RouteHeaderService = (function () {
                 function RouteHeaderService(_http) {
                     this._http = _http;
-                    this._exceptionsUrl = '/Well.Api/';
+                    this._exceptionsUrl = '/Well/Api/';
                 }
                 RouteHeaderService.prototype.getRouteHeaders = function () {
                     return this._http.get(this._exceptionsUrl + 'routeheaders')

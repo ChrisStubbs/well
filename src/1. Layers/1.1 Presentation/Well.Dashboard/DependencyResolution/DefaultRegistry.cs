@@ -15,24 +15,26 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace PH.Well.Dashboard.DependencyResolution {
+namespace PH.Well.Dashboard.DependencyResolution
+{
+    using Repositories;
+    using Repositories.Contracts;
     using Repositories.DependancyEvents;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-	
-    public class DefaultRegistry : Registry {
-        #region Constructors and Destructors
 
-        public DefaultRegistry() {
-            Scan(
-                scan => {
-                    scan.TheCallingAssembly();
-                    scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
-                });
-            For<IChangeNotifier>().Use<ChangeNotifier>();
+    public class DefaultRegistry : Registry
+    {
+        public DefaultRegistry()
+        {
+            Scan(scan =>
+            {
+                scan.TheCallingAssembly();
+                scan.WithDefaultConventions();
+                scan.With(new ControllerConvention());
+            });
+            For<IDbChangeNotifier>().Use<DbChangeNotifier>();
+            For<IWellDbConfiguration>().Use<WellDbConfiguration>();
         }
-
-        #endregion
     }
 }

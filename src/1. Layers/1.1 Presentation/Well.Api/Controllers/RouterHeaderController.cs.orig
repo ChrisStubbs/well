@@ -33,12 +33,37 @@
         {
             try
             {
+<<<<<<< HEAD
                 var routeHeaders = this.routeHeaderRepository.GetRouteHeaders();
                 return this.Request.CreateResponse(HttpStatusCode.OK, routeHeaders);
             }
             catch (Exception ex)
             {
                 this.logger.LogError($"An error occcured when getting route headers");
+=======
+                var noOfCleanDeliveries = this.routeHeaderRepository.GetCleanDeliveries() ?? new RouteException();
+                return this.Request.CreateResponse(HttpStatusCode.OK, noOfCleanDeliveries);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting the number of clean deliveries");
+                return serverErrorResponseHandler.HandleException(Request, ex);
+            }
+        }
+
+        [Route("exceptions", Name = "GetExceptions")]
+        [HttpGet]
+        public HttpResponseMessage GetExceptions()
+        {
+            try
+            {
+                var noOfExceptions = this.routeHeaderRepository.GetExceptions() ?? new RouteException();
+                return this.Request.CreateResponse(HttpStatusCode.OK, noOfExceptions);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting the number of exceptions");
+>>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

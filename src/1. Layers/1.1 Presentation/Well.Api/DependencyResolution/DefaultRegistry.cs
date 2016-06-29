@@ -4,7 +4,7 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
     using PH.Well.Repositories.Contracts;
-    using StructureMap;
+    using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
     public class DefaultRegistry : Registry

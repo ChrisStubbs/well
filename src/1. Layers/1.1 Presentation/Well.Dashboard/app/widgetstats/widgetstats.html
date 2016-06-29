@@ -1,0 +1,77 @@
+﻿<div class="widget-container" *ngIf='widgetstats'>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-title pull-left">
+                <img class="widget_img" src="../../Content/Images/actions.png" width="19" height="28" />
+                <span class="widget-header">Exceptions</span>
+            </div>
+            <div class="widget-title pull-right">
+                <img class="widget_img" src="~/Content/Images/actions.png" width="19" height="28" />
+                <span class="widget-header">Assigned</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-left">
+                <div class="widget-content">
+                    <br /><a>{{widgetstats.noOfExceptions}}</a> <br /><br /> <a>Exceptions</a>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div class="widget-content">
+                    <br /><a>{{widgetstats.assigned}}</a> <br /><br /> <a>Assigned</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-title pull-left">
+                <img class="widget_img" src="~/Content/Images/actions.png" width="19" height="28" />
+                <span class="widget-header">Outstanding</span>
+                <br />
+            </div>
+            <div class="widget-title pull-right">
+                <img class="widget_img" src="~/Content/Images/actions.png" width="19" height="28" />
+                <span class="widget-header">On Hold</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-left">
+                <div class="widget-content">
+                    <br /><a>{{widgetstats.outstanding}}</a> <br /><br /> <a>Outstanding</a>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div class="widget-content">
+                    <br /><a>{{widgetstats.onHold}}</a> <br /><br /> <a>On Hold</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-title pull-left">
+                <img class="widget_img" src="../Content/Images/actions.png" width="19" height="28" />
+                <span class="widget-header">Notifications</span>
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-left">
+                <div class="widget-content">
+                    <br /><a>{{widgetstats.notifications}}</a> <br /><br /> <a>Notifications</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

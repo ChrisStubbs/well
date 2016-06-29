@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, http_1, Observable_1;
-    var ExceptionService;
+    var WidgetStatsService;
     return {
         setters:[
             function (core_1_1) {
@@ -24,29 +24,29 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 Observable_1 = Observable_1_1;
             }],
         execute: function() {
-            ExceptionService = (function () {
-                function ExceptionService(_http) {
+            WidgetStatsService = (function () {
+                function WidgetStatsService(_http) {
                     this._http = _http;
-                    this._exceptionsUrl = 'Well.Api/exceptions';
+                    this._exceptionsUrl = '/Well.Api/';
                 }
-                ExceptionService.prototype.getProducts = function () {
-                    return this._http.get(this._exceptionsUrl)
+                WidgetStatsService.prototype.getWidgetStats = function () {
+                    return this._http.get(this._exceptionsUrl + 'getwidgetstats')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
                 };
-                ExceptionService.prototype.handleError = function (error) {
+                WidgetStatsService.prototype.handleError = function (error) {
                     console.log(error);
                     return Observable_1.Observable.throw(error.json().error || 'Server error');
                 };
-                ExceptionService = __decorate([
+                WidgetStatsService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])
-                ], ExceptionService);
-                return ExceptionService;
+                ], WidgetStatsService);
+                return WidgetStatsService;
             }());
-            exports_1("ExceptionService", ExceptionService);
+            exports_1("WidgetStatsService", WidgetStatsService);
         }
     }
 });
-//# sourceMappingURL=routeExceptionService.js.map
+//# sourceMappingURL=widgetstats-service.js.map

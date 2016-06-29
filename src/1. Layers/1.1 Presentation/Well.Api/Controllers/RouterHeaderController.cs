@@ -26,34 +26,18 @@
         }
 
 
-        [Route("cleanDeliveries", Name = "GetCleanDeliveries")]
+        [Route("routeheaders", Name = "GetRouteHeaders")]
         [HttpGet]
-        public HttpResponseMessage GetCleanDeliveries()
+        public HttpResponseMessage GetRouteHeaders()
         {
             try
             {
-                var noOfCleanDeliveries = this.routeHeaderRepository.GetCleanDeliveries();
-                return this.Request.CreateResponse(HttpStatusCode.OK, noOfCleanDeliveries);
+                var routeHeaders = this.routeHeaderRepository.GetRouteHeaders();
+                return this.Request.CreateResponse(HttpStatusCode.OK, routeHeaders);
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting the number of clean deliveries");
-                return serverErrorResponseHandler.HandleException(Request, ex);
-            }
-        }
-
-        [Route("exceptions", Name = "GetExceptions")]
-        [HttpGet]
-        public HttpResponseMessage GetExceptions()
-        {
-            try
-            {
-                var noOfExceptions = this.routeHeaderRepository.GetExceptions();
-                return this.Request.CreateResponse(HttpStatusCode.OK, noOfExceptions);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError($"An error occcured when getting the number of exceptions");
+                this.logger.LogError($"An error occcured when getting route headers");
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

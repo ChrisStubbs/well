@@ -51,7 +51,13 @@
 
         public int PlannedStops { get; set; }
 
-        public RouteStatus RouteStatus { get; set; }
+        public int RouteStatusId { get; set; }
+
+        public RouteStatus RouteStatus
+        {
+            get { return (RouteStatus)RouteStatusId; }
+            private set { RouteStatusId = (int)value; }
+        }
 
         public int RouteImportId { get; set; }
 

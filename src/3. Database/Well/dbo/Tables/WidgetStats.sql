@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[WidgetStats]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL,
+	[NoOfExceptions] INT DEFAULT 0 NOT NULL,
+	[Assigned] INT DEFAULT 0 NOT NULL,
+	[Outstanding] INT DEFAULT 0 NOT NULL,
+	[OnHold] INT DEFAULT 0 NOT NULL,
+	[Notifications] INT DEFAULT 0 NOT NULL,
+	CONSTRAINT [PK_WidgetStats] PRIMARY KEY CLUSTERED ([Id] ASC),
+)

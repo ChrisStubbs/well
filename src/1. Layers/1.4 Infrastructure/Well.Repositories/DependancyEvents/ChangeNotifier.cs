@@ -35,7 +35,7 @@
             this.con.Open();
 
             this.cmd = this.con.CreateCommand();
-            this.cmd.CommandType = CommandType.StoredProcedure;
+           this.cmd.CommandType = CommandType.StoredProcedure;
             this.cmd.CommandText = this.dependencyCheckSql;
 
             this.Setup(true);

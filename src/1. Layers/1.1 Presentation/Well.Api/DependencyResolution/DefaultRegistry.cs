@@ -23,6 +23,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
             For<IServerErrorResponseHandler>().Use<ServerErrorResponseHandler>();
             For<IEventLogger>().Use<EventLogger>();
+            For<IStopRepository>().Use<StopRepository>();
+            For<IWidgetStatsRepository>().Use<WidgetStatsRepository>();
 
         }
     }

@@ -2,9 +2,15 @@
 {
     public struct StoredProcedures
     {
-        public static string RouteHeaderGetCleanDeliveries = "RouteHeader_GetCleanDeliveries";
-        public static string RouteHeaderGetExceptions = "RouteHeader_GetExceptions";
-        public static string DependancyGetExceptions = "RouteHeader_GetExceptions";
+        //widgets
+        public static string WidgetStatsGet = "WidgetStats_Get";
 
+        //route header
+        public static string RouteHeaderGetCleanDeliveries = "RouteHeader_GetCleanDeliveries";       
+        public static string RouteHeadersGet = "RouteHeaders_Get";
+
+        //Stops
+        public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
+        
     }
 }

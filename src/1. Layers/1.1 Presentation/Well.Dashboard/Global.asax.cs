@@ -11,6 +11,7 @@
     using Microsoft.Owin.Logging;
     using PH.Well.Dashboard.App_Start;
     using PH.Well.Dashboard.Hubs;
+    using PH.Well.Domain.Enums;
     using PH.Well.Repositories;
     using PH.Well.Repositories.DependancyEvents;
 
@@ -39,14 +40,17 @@
         {
             var notifier = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IChangeNotifier>(); 
             notifier.Change += this.OnChange;
-            notifier.Start(con, StoredProcedures.DependancyGetExceptions);
+            notifier.Start(con, StoredProcedures.WidgetStatsGet);
         }
 
 
         private void OnChange(object sender, ChangeEventArgs e)
         {
-            var context = GlobalHost.ConnectionManager.GetHubContext<ExceptionsHub>();
-            context.Clients.All.widgetExceptions();
+            if (e.Type == ChangeType.Change)
+            {
+                var context = GlobalHost.ConnectionManager.GetHubContext<ExceptionsHub>();
+                context.Clients.All.widgetExceptions();
+            }
         }
     }
 

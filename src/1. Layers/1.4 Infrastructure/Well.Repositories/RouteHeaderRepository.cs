@@ -4,6 +4,7 @@ namespace PH.Well.Repositories
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
@@ -14,16 +15,27 @@ namespace PH.Well.Repositories
   
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
-        public RouteHeaderRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy) { }
 
-        public RouteException GetCleanDeliveries()
+        private readonly IStopRepository stopRepository;
+
+        public RouteHeaderRepository(ILogger logger, IWellDapperProxy dapperProxy, IStopRepository stopRepository)
+            : base(logger, dapperProxy)
         {
-            return dapperProxy.Query<RouteException>(StoredProcedures.RouteHeaderGetCleanDeliveries).FirstOrDefault();
+            this.stopRepository = stopRepository;
         }
 
-        public RouteException GetExceptions()
-        {     
-            return dapperProxy.Query<RouteException>(StoredProcedures.RouteHeaderGetExceptions, parameters: null).FirstOrDefault();
+
+        public IEnumerable<RouteHeader> GetRouteHeaders()
+        {
+            var routeHeaders = dapperProxy.Query<RouteHeader>(StoredProcedures.RouteHeadersGet, parameters: null);
+
+            foreach (var routeHeader in routeHeaders)
+            {
+                var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id).ToList();
+                routeHeader.Stops = new Collection<Stop>(stops);
+            }
+
+            return routeHeaders;
         }
 
 

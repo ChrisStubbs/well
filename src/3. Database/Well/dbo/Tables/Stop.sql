@@ -17,6 +17,6 @@
 	[TextField4] nvarchar(100) NULL,
 	[BypassReasonId] TINYINT NULL,
 	CONSTRAINT [PK_Stops] PRIMARY KEY CLUSTERED ([Id] ASC),
-	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteImport] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Stops_BypassReason] FOREIGN KEY ([BypassReasonId]) REFERENCES [dbo].[ByPassReasons] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

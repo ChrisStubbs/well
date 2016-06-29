@@ -1,50 +1,49 @@
 ﻿/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
+//common
 import {bootstrap} from 'angular2/platform/browser';
 import {Component, OnInit} from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import 'rxjs/Rx';   // Load all features
-import {IRouteException} from './route_exceptions/route-exceptions';
-import {RouteExceptionService} from './route_exceptions/route-exception.service';
+import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router } from 'angular2/router';
+
+//widget stats
+import {WidgetStatsService} from './widgetstats/widgetstats-service';
+import {WidgetStatsComponent} from './widgetstats/widgetStatsComponent';
+//routes
+import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
+//clean
+import {CleanRoutesComponent} from './clean/cleanRoutesComponent';
+//resolved
+import {ResolvedRoutesComponent} from './resolved/resolved-routesComponent';
+//notifications
+import {NotificationsComponent} from './notifications/notificationsComponent';
+
 declare var $: any;
 
 @Component({
     selector: 'ow-app',
     templateUrl: './app/main.html',
-    providers: [RouteExceptionService, HTTP_PROVIDERS]
-
-
+    directives: [ROUTER_DIRECTIVES],
+    providers: [WidgetStatsService, HTTP_PROVIDERS, ROUTER_PROVIDERS]
 })
 
+    @RouteConfig([
+        { path: '/widgetstats', name: 'WidgetStats', component: WidgetStatsComponent, useAsDefault: true },
+        { path: '/route_header', name: 'Routes', component: RouteHeaderComponent },
+        { path: '/clean', name: 'Clean', component: CleanRoutesComponent },
+        { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
+        { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
+    ])
 
-export class AppComponent  implements OnInit { 
-    exception: IRouteException;
-    errorMessage: string;
-    exceptionNumber:number;
+export class AppComponent implements OnInit  {
+
+    constructor(private router: Router) { }
     
 
-    constructor(private routeExceptionService: RouteExceptionService) { }
- 
+    //re-direct to widget stats on load
     ngOnInit() {
-        var self = this;
 
-        this.getExceptions();     
-
-
-        var exceptionNotifications =  $.connection.exceptionsHub;
-        exceptionNotifications.qs = { 'version': '1.0' };
-
-        exceptionNotifications.client.widgetExceptions = function () {
-            self.getExceptions();  
-        };
-
-        $.connection.hub.start().done((data) => {
-        });
-
-    }
-
-    getExceptions() {
-        this.routeExceptionService.getExceptions()
-            .subscribe(exception => this.exception = exception, error => this.errorMessage = <any>error);
+        this.router.navigate(['WidgetStats']);
     }
 
 }

@@ -207,10 +207,8 @@
     <Content Include="app\appComponent.js" />
     <Content Include="app\main.html" />
     <Content Include="app\main.js" />
-    <Content Include="app\route_exceptions\route-exception.service.js" />
-    <Content Include="app\route_exceptions\route-exceptions.js" />
-    <Content Include="app\route_exceptions\routeExceptions.js" />
-    <Content Include="app\route_exceptions\routeExceptionService.js" />
+    <Content Include="app\route_header\routeheader-list.html" />
+    <Content Include="app\widgetstats\widgetstats.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
@@ -322,10 +320,19 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
+    <TypeScriptCompile Include="app\clean\cleanRoutesComponent.ts" />
     <TypeScriptCompile Include="app\main.ts" />
-    <TypeScriptCompile Include="app\route_exceptions\route-exceptions.ts" />
-    <TypeScriptCompile Include="app\route_exceptions\route-exception.service.ts" />
+    <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
+    <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />
+    <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
+    <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
+    <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
+    <TypeScriptCompile Include="app\stops\stops.ts" />
+    <TypeScriptCompile Include="app\widgetstats\widgetstats-service.ts" />
+    <TypeScriptCompile Include="app\widgetstats\widgetstats.ts" />
+    <TypeScriptCompile Include="app\widgetstats\widgetStatsComponent.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

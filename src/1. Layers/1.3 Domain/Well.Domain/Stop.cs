@@ -2,24 +2,23 @@
 {
     using System;
     using System.Collections.ObjectModel;
- 
-    public class Stop:Entity<int>
+
+    public class Stop : Entity<int>
     {
         public Stop()
         {
             this.Accounts = new Collection<Account>();
-            this.Stops = new Collection<Stop>();
         }
 
-        public string PLannedStopNumber { get; set; }
+        public string PlannedStopNumber { get; set; }
 
-        public TimeSpan PLannedArrivalTime { get; set; }
+        public TimeSpan PlannedArrivalTime { get; set; }
 
-        public TimeSpan PLannedDepartTime { get; set; }
+        public TimeSpan PlannedDepartTime { get; set; }
 
         public int RouteHeaderId { get; set; }
 
-        public int DropId { get; set; }
+        public string DropId { get; set; }
 
         public int LocationId { get; set; }
 
@@ -40,7 +39,5 @@
         public string TextField4 { get; set; }
 
         public Collection<Account> Accounts { get; set; }
-
-        public Collection<Stop> Stops { get; set; }
     }
 }

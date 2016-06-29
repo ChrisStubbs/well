@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, http_1, Observable_1;
-    var RouteExceptionService;
+    var RouteHeaderService;
     return {
         setters:[
             function (core_1_1) {
@@ -24,29 +24,29 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 Observable_1 = Observable_1_1;
             }],
         execute: function() {
-            RouteExceptionService = (function () {
-                function RouteExceptionService(_http) {
+            RouteHeaderService = (function () {
+                function RouteHeaderService(_http) {
                     this._http = _http;
                     this._exceptionsUrl = '/Well.Api/';
                 }
-                RouteExceptionService.prototype.getExceptions = function () {
-                    return this._http.get(this._exceptionsUrl + 'exceptions')
+                RouteHeaderService.prototype.getRouteHeaders = function () {
+                    return this._http.get(this._exceptionsUrl + 'routeheaders')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
                 };
-                RouteExceptionService.prototype.handleError = function (error) {
+                RouteHeaderService.prototype.handleError = function (error) {
                     console.log(error);
                     return Observable_1.Observable.throw(error.json().error || 'Server error');
                 };
-                RouteExceptionService = __decorate([
+                RouteHeaderService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])
-                ], RouteExceptionService);
-                return RouteExceptionService;
+                ], RouteHeaderService);
+                return RouteHeaderService;
             }());
-            exports_1("RouteExceptionService", RouteExceptionService);
+            exports_1("RouteHeaderService", RouteHeaderService);
         }
     }
 });
-//# sourceMappingURL=route-exception.service.js.map
+//# sourceMappingURL=routeHeaderService.js.map

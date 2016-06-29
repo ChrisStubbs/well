@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', './route_exceptions/route-exception.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanRoutesComponent', './resolved/resolved-routesComponent', './notifications/notificationsComponent'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', './route_exception
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, route_exception_service_1;
+    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanRoutesComponent_1, resolved_routesComponent_1, notificationsComponent_1;
     var AppComponent;
     return {
         setters:[
@@ -21,37 +21,51 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', './route_exception
                 http_1 = http_1_1;
             },
             function (_1) {},
-            function (route_exception_service_1_1) {
-                route_exception_service_1 = route_exception_service_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
+            },
+            function (widgetstats_service_1_1) {
+                widgetstats_service_1 = widgetstats_service_1_1;
+            },
+            function (widgetStatsComponent_1_1) {
+                widgetStatsComponent_1 = widgetStatsComponent_1_1;
+            },
+            function (routeHeaderComponent_1_1) {
+                routeHeaderComponent_1 = routeHeaderComponent_1_1;
+            },
+            function (cleanRoutesComponent_1_1) {
+                cleanRoutesComponent_1 = cleanRoutesComponent_1_1;
+            },
+            function (resolved_routesComponent_1_1) {
+                resolved_routesComponent_1 = resolved_routesComponent_1_1;
+            },
+            function (notificationsComponent_1_1) {
+                notificationsComponent_1 = notificationsComponent_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(routeExceptionService) {
-                    this.routeExceptionService = routeExceptionService;
+                function AppComponent(router) {
+                    this.router = router;
                 }
+                //re-direct to widget stats on load
                 AppComponent.prototype.ngOnInit = function () {
-                    var self = this;
-                    this.getExceptions();
-                    var exceptionNotifications = $.connection.exceptionsHub;
-                    exceptionNotifications.qs = { 'version': '1.0' };
-                    exceptionNotifications.client.widgetExceptions = function () {
-                        self.getExceptions();
-                    };
-                    $.connection.hub.start().done(function (data) {
-                    });
-                };
-                AppComponent.prototype.getExceptions = function () {
-                    var _this = this;
-                    this.routeExceptionService.getExceptions()
-                        .subscribe(function (exception) { return _this.exception = exception; }, function (error) { return _this.errorMessage = error; });
+                    this.router.navigate(['WidgetStats']);
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'ow-app',
                         templateUrl: './app/main.html',
-                        providers: [route_exception_service_1.RouteExceptionService, http_1.HTTP_PROVIDERS]
-                    }), 
-                    __metadata('design:paramtypes', [route_exception_service_1.RouteExceptionService])
+                        directives: [router_1.ROUTER_DIRECTIVES],
+                        providers: [widgetstats_service_1.WidgetStatsService, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS]
+                    }),
+                    router_1.RouteConfig([
+                        { path: '/widgetstats', name: 'WidgetStats', component: widgetStatsComponent_1.WidgetStatsComponent, useAsDefault: true },
+                        { path: '/route_header', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
+                        { path: '/clean', name: 'Clean', component: cleanRoutesComponent_1.CleanRoutesComponent },
+                        { path: '/resolved', name: 'Resolved', component: resolved_routesComponent_1.ResolvedRoutesComponent },
+                        { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
+                    ]), 
+                    __metadata('design:paramtypes', [router_1.Router])
                 ], AppComponent);
                 return AppComponent;
             }());

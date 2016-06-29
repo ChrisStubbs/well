@@ -1,19 +1,18 @@
-﻿
-import {Injectable} from 'angular2/core';
+﻿import {Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http'
 import {Observable} from 'rxjs/Observable';
-import {IRouteException} from './route-exceptions'
+import {IWidgetStats} from './widgetstats'
 
 @Injectable()
-export class RouteExceptionService {
+export class WidgetStatsService {
     private _exceptionsUrl = '/Well.Api/';
 
     constructor(private _http: Http) { }
 
-    getExceptions(): Observable<IRouteException> {
+    getWidgetStats(): Observable<IWidgetStats> {
 
-       return this._http.get(this._exceptionsUrl + 'exceptions')
-            .map((response: Response) => <IRouteException> response.json())
+        return this._http.get(this._exceptionsUrl + 'getwidgetstats')
+            .map((response: Response) => <IWidgetStats>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }

@@ -16,7 +16,7 @@
                     <img id="avatar" src="" alt="Fiona Pond" height="41" width="41" />
                 </div>
             </div>
-        </div>
+       </div>
         <div id="xxx" class="row-fluid">
             <div id="nav">
                 <ul class="nav nav-pills" style="min-height: 39px;">
@@ -25,21 +25,17 @@
                     <li><a [routerLink]="['Resolved']">Resolved</a></li>
                     <li><a [routerLink]="['Notifications']">Notifications</a></li>
                 </ul>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <router-outlet></router-outlet>
 =======
 <div id="owContainer">
     <div class="widget-container" *ngIf='exception'>
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-title pull-left">
-                    <img class="widget_img" src="../Content/Images/actions.png" width="19" height="28"/>
+                    <img class="widget_img" src="Content/Images/actions.png" width="19" height="28"/>
                     <span class="widget-header">Exceptions</span>
                 </div>
                 <div class="widget-title pull-right">
-                    <img class="widget_img" src="~/Content/Images/actions.png" width="19" height="28"/>
+                    <img class="widget_img" src="Content/Images/actions.png" width="19" height="28"/>
                     <span class="widget-header">Assigned</span>
                 </div>
             </div>
@@ -63,12 +59,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-title pull-left">
-                    <img class="widget_img" src="~/Content/Images/actions.png" width="19" height="28"/>
+                    <img class="widget_img" src="Content/Images/actions.png" width="19" height="28"/>
                     <span class="widget-header">Outstanding</span>
                     <br/>
                 </div>
                 <div class="widget-title pull-right">
-                    <img class="widget_img" src="~/Content/Images/actions.png" width="19" height="28"/>
+                    <img class="widget_img" src="Content/Images/actions.png" width="19" height="28"/>
                     <span class="widget-header">On Hold</span>
                 </div>
             </div>
@@ -92,21 +88,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-title pull-left">
-                    <img class="widget_img" src="../Content/Images/actions.png" width="19" height="28"/>
+                    <img class="widget_img" src="Content/Images/actions.png" width="19" height="28"/>
                     <span class="widget-header">Notifications</span>
                     <br/>
                 </div>
+>>>>>>> 68c3700ff32805df6f6a8d1fa95b4291928b6ae6
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="pull-left">
-                    <div class="widget-content">
-                        <br/><a>{{exception.notifications}}</a> <br/><br/> <a>Notifications</a>
-                    </div>
-                </div>
-            </div>
->>>>>>> 21d206bca82196e382e23ba7f562149a07b6f69b
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
         </div>
     </header>
 </div>

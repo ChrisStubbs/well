@@ -42,10 +42,8 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                     if (isAutoUpdateDisabled === true)
                         return; //We can get rid of this once signalr is using webSockets
                     var exceptionNotifications = $.connection.exceptionsHub;
-                    console.log(exceptionNotifications);
                     exceptionNotifications.qs = { 'version': '1.0' };
                     exceptionNotifications.client.widgetExceptions = function () {
-                        console.log("change");
                         _this.getWidgetStats();
                     };
                     $.connection.hub.start().done(function (data) {

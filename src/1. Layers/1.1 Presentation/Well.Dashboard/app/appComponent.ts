@@ -5,6 +5,7 @@ import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import 'rxjs/Rx';   // Load all features
 import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router } from 'angular2/router';
+import * as lodash from 'lodash';
 
 //widget stats
 import {WidgetStatsService} from './widgetstats/widgetstats-service';

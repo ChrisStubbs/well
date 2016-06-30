@@ -28,11 +28,9 @@ export class WidgetStatsComponent implements OnInit {
         if (isAutoUpdateDisabled === true) return; //We can get rid of this once signalr is using webSockets
 
         var exceptionNotifications = $.connection.exceptionsHub;
-        console.log(exceptionNotifications);
         exceptionNotifications.qs = { 'version': '1.0' };
 
         exceptionNotifications.client.widgetExceptions = () => {
-            console.log("change");
             this.getWidgetStats();
         };
 

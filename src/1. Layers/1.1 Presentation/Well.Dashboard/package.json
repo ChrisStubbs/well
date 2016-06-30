@@ -3,12 +3,12 @@
     "version": "1.0.0",
     "author": "Palmer and Harvey",
     "description": "Package for the Orderwell application",
-    "scripts": {
-        "tsc": "tsc",
-        "tsc:w": "tsc -w",
-        "typings": "typings",
-        "postinstall": "typings install"
-    },
+  "scripts": {
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings",
+    "postinstall": "typings install"
+  },
     "license": "ISC",
     "dependencies": {
         "angular2": "2.0.0-beta.15",

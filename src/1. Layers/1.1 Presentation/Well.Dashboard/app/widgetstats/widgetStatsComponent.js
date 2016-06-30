@@ -34,6 +34,13 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                 WidgetStatsComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.getWidgetStats();
+                    this.widgetStatsService.autoUpdateDisabled()
+                        .subscribe(function (isAutoUpdateDisabled) { return _this.initSignalr(isAutoUpdateDisabled); }, function (error) { return _this.errorMessage = error; });
+                };
+                WidgetStatsComponent.prototype.initSignalr = function (isAutoUpdateDisabled) {
+                    var _this = this;
+                    if (isAutoUpdateDisabled === true)
+                        return; //We can get rid of this once signalr is using webSockets
                     var exceptionNotifications = $.connection.exceptionsHub;
                     console.log(exceptionNotifications);
                     exceptionNotifications.qs = { 'version': '1.0' };
@@ -42,6 +49,7 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                         _this.getWidgetStats();
                     };
                     $.connection.hub.start().done(function (data) {
+                        console.log("Hub started");
                     });
                 };
                 WidgetStatsComponent.prototype.handleExceptions = function (widgetstats) {

@@ -111,7 +111,6 @@
     <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />
     <Build Include="dbo\Tables\ExceptionAction.sql" />
     <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
-    <Build Include="dbo\Tables\SampleExceptions.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeaders_Get.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
     <Build Include="dbo\Tables\WidgetStats.sql" />

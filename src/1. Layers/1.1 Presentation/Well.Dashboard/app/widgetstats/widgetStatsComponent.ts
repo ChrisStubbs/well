@@ -19,6 +19,13 @@ export class WidgetStatsComponent implements OnInit {
     ngOnInit() {
         this.getWidgetStats();
 
+        this.widgetStatsService.autoUpdateDisabled()
+            .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
+                error => this.errorMessage = <any>error);
+    }
+
+    initSignalr(isAutoUpdateDisabled): void {
+        if (isAutoUpdateDisabled === true) return; //We can get rid of this once signalr is using webSockets
 
         var exceptionNotifications = $.connection.exceptionsHub;
         console.log(exceptionNotifications);
@@ -30,8 +37,8 @@ export class WidgetStatsComponent implements OnInit {
         };
 
         $.connection.hub.start().done((data) => {
+            console.log("Hub started");
         });
-
     }
 
     handleExceptions(widgetstats): void {

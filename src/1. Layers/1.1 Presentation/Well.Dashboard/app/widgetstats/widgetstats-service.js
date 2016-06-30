@@ -29,6 +29,12 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     this._http = _http;
                     this._exceptionsUrl = '/Well/Api/';
                 }
+                WidgetStatsService.prototype.autoUpdateDisabled = function () {
+                    return this._http.get(this._exceptionsUrl + 'IsDebug')
+                        .map(function (response) { return response.json(); })
+                        .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
+                        .catch(this.handleError);
+                };
                 WidgetStatsService.prototype.getWidgetStats = function () {
                     return this._http.get(this._exceptionsUrl + 'getwidgetstats')
                         .map(function (response) { return response.json(); })

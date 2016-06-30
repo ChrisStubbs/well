@@ -44,20 +44,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(router) {
+                function AppComponent(router, changeDetectorRef) {
                     this.router = router;
-                function AppComponent(changeDetectorRef, routeExceptionService) {
                     this.changeDetectorRef = changeDetectorRef;
                 }
                 //re-direct to widget stats on load
                 AppComponent.prototype.ngOnInit = function () {
                     this.router.navigate(['WidgetStats']);
-                        console.log("widgetExceptions triggered");
-                        console.log("Hub Started");
-                AppComponent.prototype.handleExceptions = function (exception) {
-                    this.exception = exception;
-                    this.changeDetectorRef.detectChanges();
-                };
                 };
                 AppComponent = __decorate([
                     core_1.Component({
@@ -73,7 +66,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                         { path: '/resolved', name: 'Resolved', component: resolved_routesComponent_1.ResolvedRoutesComponent },
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
                     ]), 
-                    __metadata('design:paramtypes', [router_1.Router])
+                    __metadata('design:paramtypes', [router_1.Router, core_1.ChangeDetectorRef])
                 ], AppComponent);
                 return AppComponent;
             }());

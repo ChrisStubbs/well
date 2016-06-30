@@ -27,7 +27,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             WidgetStatsService = (function () {
                 function WidgetStatsService(_http) {
                     this._http = _http;
-                    this._exceptionsUrl = '/Well.Api/';
+                    this._exceptionsUrl = '/Well/Api/';
                 }
                 WidgetStatsService.prototype.getWidgetStats = function () {
                     return this._http.get(this._exceptionsUrl + 'getwidgetstats')

@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from 'angular2/core';
+﻿import { Component, OnInit, ChangeDetectorRef} from 'angular2/core';
 import { RouteParams, Router } from 'angular2/router';
 import {IWidgetStats} from './widgetstats'
 import {WidgetStatsService} from './widgetstats-service'
@@ -14,17 +14,19 @@ export class WidgetStatsComponent implements OnInit {
     errorMessage: string;
 
     constructor(private widgetStatsService: WidgetStatsService,
-        private router: Router, private routeParams: RouteParams    ) { }
+        private router: Router, private routeParams: RouteParams, private changeDetectorRef: ChangeDetectorRef) { }
 
     ngOnInit() {
-        this.getWiidgetStats();
+        this.getWidgetStats();
 
 
         var exceptionNotifications = $.connection.exceptionsHub;
+        console.log(exceptionNotifications);
         exceptionNotifications.qs = { 'version': '1.0' };
 
         exceptionNotifications.client.widgetExceptions = () => {
-            this.getWiidgetStats();
+            console.log("change");
+            this.getWidgetStats();
         };
 
         $.connection.hub.start().done((data) => {
@@ -32,9 +34,14 @@ export class WidgetStatsComponent implements OnInit {
 
     }
 
-    getWiidgetStats() {
+    handleExceptions(widgetstats): void {
+        this.widgetstats = widgetstats;
+        this.changeDetectorRef.detectChanges();
+    }
+
+    getWidgetStats() {
         this.widgetStatsService.getWidgetStats()
-            .subscribe(widgetstats => this.widgetstats = widgetstats, error => this.errorMessage = <any>error);
+            .subscribe(widgetstats => this.handleExceptions(widgetstats), error => this.errorMessage = <any>error);
     }
 
    

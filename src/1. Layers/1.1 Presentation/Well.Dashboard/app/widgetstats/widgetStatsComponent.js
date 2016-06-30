@@ -25,32 +25,39 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
             }],
         execute: function() {
             WidgetStatsComponent = (function () {
-                function WidgetStatsComponent(widgetStatsService, router, routeParams) {
+                function WidgetStatsComponent(widgetStatsService, router, routeParams, changeDetectorRef) {
                     this.widgetStatsService = widgetStatsService;
                     this.router = router;
                     this.routeParams = routeParams;
+                    this.changeDetectorRef = changeDetectorRef;
                 }
                 WidgetStatsComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this.getWiidgetStats();
+                    this.getWidgetStats();
                     var exceptionNotifications = $.connection.exceptionsHub;
+                    console.log(exceptionNotifications);
                     exceptionNotifications.qs = { 'version': '1.0' };
                     exceptionNotifications.client.widgetExceptions = function () {
-                        _this.getWiidgetStats();
+                        console.log("change");
+                        _this.getWidgetStats();
                     };
                     $.connection.hub.start().done(function (data) {
                     });
                 };
-                WidgetStatsComponent.prototype.getWiidgetStats = function () {
+                WidgetStatsComponent.prototype.handleExceptions = function (widgetstats) {
+                    this.widgetstats = widgetstats;
+                    this.changeDetectorRef.detectChanges();
+                };
+                WidgetStatsComponent.prototype.getWidgetStats = function () {
                     var _this = this;
                     this.widgetStatsService.getWidgetStats()
-                        .subscribe(function (widgetstats) { return _this.widgetstats = widgetstats; }, function (error) { return _this.errorMessage = error; });
+                        .subscribe(function (widgetstats) { return _this.handleExceptions(widgetstats); }, function (error) { return _this.errorMessage = error; });
                 };
                 WidgetStatsComponent = __decorate([
                     core_1.Component({
                         templateUrl: './app/widgetstats/widgetstats.html'
                     }), 
-                    __metadata('design:paramtypes', [widgetstats_service_1.WidgetStatsService, router_1.Router, router_1.RouteParams])
+                    __metadata('design:paramtypes', [widgetstats_service_1.WidgetStatsService, router_1.Router, router_1.RouteParams, core_1.ChangeDetectorRef])
                 ], WidgetStatsComponent);
                 return WidgetStatsComponent;
             }());

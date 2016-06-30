@@ -36,23 +36,15 @@ declare var $: any;
     ])
 export class AppComponent implements OnInit  {
 
-    constructor(private router: Router) { }
-    
-    constructor(private changeDetectorRef: ChangeDetectorRef, private routeExceptionService: RouteExceptionService) { }
+    constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef ) { }
 
     //re-direct to widget stats on load
-
+    ngOnInit() {
         this.router.navigate(['WidgetStats']);
-            console.log("widgetExceptions triggered");
-            console.log("Hub Started");
-    handleExceptions(exception): void {
-        this.exception = exception;
-        this.changeDetectorRef.detectChanges();
     }
-
-    getExceptions(): void {
-            .subscribe(response => this.handleExceptions(response), error => this.errorMessage = <any>error);
-    }
+        
 
 }
+
+
 

@@ -12,7 +12,7 @@
         {
             var notifier = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IDbChangeNotifier>();
             notifier.Change += OnChange;
-            notifier.Start(StoredProcedures.DependancyGetExceptions);
+            notifier.Start(StoredProcedures.WidgetStatsGet);
         }
 
         private static void OnChange(object sender, ChangeEventArgs e)

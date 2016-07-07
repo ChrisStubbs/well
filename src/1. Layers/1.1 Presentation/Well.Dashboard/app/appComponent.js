@@ -61,7 +61,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                     }),
                     router_1.RouteConfig([
                         { path: '/widgetstats', name: 'WidgetStats', component: widgetStatsComponent_1.WidgetStatsComponent, useAsDefault: true },
-                        { path: '/route_header', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
+                        { path: '/routes', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
                         { path: '/clean', name: 'Clean', component: cleanRoutesComponent_1.CleanRoutesComponent },
                         { path: '/resolved', name: 'Resolved', component: resolved_routesComponent_1.ResolvedRoutesComponent },
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }

@@ -326,9 +326,11 @@
     <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanRoutesComponent.ts" />
+    <TypeScriptCompile Include="app\globalSettings.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />
+    <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />

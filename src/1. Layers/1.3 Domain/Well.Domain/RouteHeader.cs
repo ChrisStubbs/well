@@ -5,12 +5,11 @@
     using System.Collections.ObjectModel;
     using Enums;
 
-    public class RouteHeader:Entity<int>
+    public class RouteHeader : Entity<int>
     {
         public RouteHeader()
         {
             this.Stops = new Collection<Stop>();
-            
         }
 
         public int CompanyId { get; set; }

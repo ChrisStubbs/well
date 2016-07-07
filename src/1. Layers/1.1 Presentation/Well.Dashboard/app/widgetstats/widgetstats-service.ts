@@ -10,7 +10,7 @@ export class WidgetStatsService {
     constructor(private _http: Http) { }
 
     autoUpdateDisabled(): Observable<boolean> {
-        return this._http.get(this._exceptionsUrl + 'IsDebug')
+        return this._http.get(this._exceptionsUrl + 'EnableSignular')
             .map((response: Response) => <boolean>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);

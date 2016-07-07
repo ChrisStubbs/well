@@ -30,7 +30,7 @@ declare var $: any;
 
     @RouteConfig([
         { path: '/widgetstats', name: 'WidgetStats', component: WidgetStatsComponent, useAsDefault: true },
-        { path: '/route_header', name: 'Routes', component: RouteHeaderComponent },
+        { path: '/routes', name: 'Routes', component: RouteHeaderComponent },
         { path: '/clean', name: 'Clean', component: CleanRoutesComponent },
         { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
         { path: '/notifications', name: 'Notifications', component: NotificationsComponent }

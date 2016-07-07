@@ -13,7 +13,7 @@ import {WidgetStatsComponent} from './widgetstats/widgetStatsComponent';
 //routes
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 //clean
-import {CleanRoutesComponent} from './clean/cleanRoutesComponent';
+import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 //resolved
 import {ResolvedRoutesComponent} from './resolved/resolved-routesComponent';
 //notifications
@@ -31,7 +31,7 @@ declare var $: any;
     @RouteConfig([
         { path: '/widgetstats', name: 'WidgetStats', component: WidgetStatsComponent, useAsDefault: true },
         { path: '/route_header', name: 'Routes', component: RouteHeaderComponent },
-        { path: '/clean', name: 'Clean', component: CleanRoutesComponent },
+        { path: '/clean', name: 'Clean', component: CleanDeliveryComponent },
         { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
         { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
     ])

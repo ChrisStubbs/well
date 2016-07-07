@@ -210,6 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\appComponent.js" />
+    <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\main.html" />
     <Content Include="app\main.js" />
     <Content Include="app\route_header\routeheader-list.html" />
@@ -325,7 +326,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
-    <TypeScriptCompile Include="app\clean\cleanRoutesComponent.ts" />
+    <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
+    <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
+    <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />

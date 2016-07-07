@@ -52,8 +52,10 @@
   <ItemGroup>
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
+    <Compile Include="CleanDeliveryRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
+    <Compile Include="Contracts\ICleanDeliveryRespository.cs" />
     <Compile Include="Contracts\IDapperProxy.cs" />
     <Compile Include="Contracts\IDbConfiguration.cs" />
     <Compile Include="Contracts\IPreferenceRepository.cs" />

@@ -19,9 +19,9 @@ export class WidgetStatsComponent implements OnInit {
     ngOnInit() {
         this.getWidgetStats();
 
-        this.widgetStatsService.autoUpdateDisabled()
-            .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
-                error => this.errorMessage = <any>error);
+        //this.widgetStatsService.autoUpdateDisabled()
+        //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
+        //        error => this.errorMessage = <any>error);
     }
 
     initSignalr(isAutoUpdateDisabled): void {

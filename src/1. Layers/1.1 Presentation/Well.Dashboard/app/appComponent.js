@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanRoutesComponent', './resolved/resolved-routesComponent', './notifications/notificationsComponent'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-routesComponent', './notifications/notificationsComponent'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanRoutesComponent_1, resolved_routesComponent_1, notificationsComponent_1;
+    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_routesComponent_1, notificationsComponent_1;
     var AppComponent;
     return {
         setters:[
@@ -33,8 +33,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             function (routeHeaderComponent_1_1) {
                 routeHeaderComponent_1 = routeHeaderComponent_1_1;
             },
-            function (cleanRoutesComponent_1_1) {
-                cleanRoutesComponent_1 = cleanRoutesComponent_1_1;
+            function (cleanDeliveryComponent_1_1) {
+                cleanDeliveryComponent_1 = cleanDeliveryComponent_1_1;
             },
             function (resolved_routesComponent_1_1) {
                 resolved_routesComponent_1 = resolved_routesComponent_1_1;
@@ -62,7 +62,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                     router_1.RouteConfig([
                         { path: '/widgetstats', name: 'WidgetStats', component: widgetStatsComponent_1.WidgetStatsComponent, useAsDefault: true },
                         { path: '/route_header', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
-                        { path: '/clean', name: 'Clean', component: cleanRoutesComponent_1.CleanRoutesComponent },
+                        { path: '/clean', name: 'Clean', component: cleanDeliveryComponent_1.CleanDeliveryComponent },
                         { path: '/resolved', name: 'Resolved', component: resolved_routesComponent_1.ResolvedRoutesComponent },
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
                     ]), 

@@ -12,5 +12,7 @@
         //Stops
         public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         
+        //Jobs
+        public static string JobGetCleanDeliveries = "Job_GetCleanDeliveries";
     }
 }

@@ -328,10 +328,12 @@
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
+    <TypeScriptCompile Include="app\globalSettings.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />
+    <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />

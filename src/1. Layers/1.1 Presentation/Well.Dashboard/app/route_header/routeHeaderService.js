@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', "../globalSettings"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, Observable_1;
+    var core_1, http_1, Observable_1, Settings;
     var RouteHeaderService;
     return {
         setters:[
@@ -22,15 +22,19 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             },
             function (Observable_1_1) {
                 Observable_1 = Observable_1_1;
+            },
+            function (Settings_1) {
+                Settings = Settings_1;
             }],
         execute: function() {
             RouteHeaderService = (function () {
-                function RouteHeaderService(_http) {
-                    this._http = _http;
-                    this._exceptionsUrl = '/Well.Api/';
+                function RouteHeaderService(http, globalSettings) {
+                    this.http = http;
+                    this.globalSettings = globalSettings;
                 }
                 RouteHeaderService.prototype.getRouteHeaders = function () {
-                    return this._http.get(this._exceptionsUrl + 'routeheaders')
+                    console.log(this.globalSettings.WellApiUrl);
+                    return this.http.get(this.globalSettings.WellApiUrl + 'routeheaders')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
@@ -41,7 +45,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 };
                 RouteHeaderService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [http_1.Http, Settings.GlobalSettings])
                 ], RouteHeaderService);
                 return RouteHeaderService;
             }());

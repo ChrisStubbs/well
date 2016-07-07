@@ -1,33 +1,26 @@
 ﻿<div class="jumbotron">
-    <table class="table table-hover table-striped table-bordered" *ngIf="routeheaders && routeheaders.length">
+    <table class="table table-hover table-bordered" *ngIf="routeheaders && routeheaders.length">
         <thead>
-            <tr>
-                <th>Route</th>
-                <th>Driver</th>
-                <th>No of Drops</th>
-                <th>Exceptions</th>
-                <th>Clean</th>
-                <th>Status</th>
-                <th>Last updated date/time</th>
-                <th>Details</th>
-            </tr>
+        <tr>
+            <th>Route</th>
+            <th>Driver</th>
+            <th>No of Drops</th>
+            <th>Exceptions</th>
+            <th>Clean</th>
+            <th>Status</th>
+            <th>Last updated date/time</th>
+        </tr>
         </thead>
         <tbody>
-            <tr *ngFor="#routeheader of routeheaders">
-                <td>{{routeheader.routeNumber}}</td>
-                <td>{{routeheader.driverName}}</td>
-                <td>{{routeheader.driverName}}</td>
-                <td>8</td>
-                <td>2</td>
-                <td>In progress</td>
-                <td>20-05-16 10:30</td>
-                <td>
-                    <a class="btn btn-primary branch-show">Show</a>
-                </td>
-            </tr>
+        <tr *ngFor="#route of routes" (click)="routeSelected()">
+            <td>{{route.route}}</td>
+            <td>{{route.driverName}}</td>
+            <td>{{route.totalDrops}}</td>
+            <td>{{route.DeliveryExceptionCount}}</td>
+            <td>{{route.DeliveryCleanCount}}</td>
+            <td>{{route.routeStatus}}</td>
+            <td>{{route.DateTimeUpdated}}</td>
+        </tr>
         </tbody>
     </table>
-
-
-
 </div>

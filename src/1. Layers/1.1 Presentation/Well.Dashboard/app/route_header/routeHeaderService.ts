@@ -9,10 +9,10 @@ export class RouteHeaderService {
     
     constructor(private http: Http, private globalSettings: Settings.GlobalSettings) { }
 
-    getRouteHeaders(): Observable<IRoute> {
-        console.log(this.globalSettings.WellApiUrl);
-        return this.http.get(this.globalSettings.WellApiUrl + 'routeheaders')
-            .map((response: Response) => <IRoute>response.json())
+    getRouteHeaders(): Observable<IRoute[]> {
+        
+        return this.http.get(this.globalSettings.WellApiUrl + 'routes')
+            .map((response: Response) => <IRoute[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }

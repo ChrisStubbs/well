@@ -33,8 +33,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', "../global
                     this.globalSettings = globalSettings;
                 }
                 RouteHeaderService.prototype.getRouteHeaders = function () {
-                    console.log(this.globalSettings.WellApiUrl);
-                    return this.http.get(this.globalSettings.WellApiUrl + 'routeheaders')
+                    return this.http.get(this.globalSettings.WellApiUrl + 'routes')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);

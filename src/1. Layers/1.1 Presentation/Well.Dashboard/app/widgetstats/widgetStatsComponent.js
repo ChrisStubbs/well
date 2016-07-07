@@ -32,10 +32,10 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                     this.changeDetectorRef = changeDetectorRef;
                 }
                 WidgetStatsComponent.prototype.ngOnInit = function () {
-                    var _this = this;
                     this.getWidgetStats();
-                    this.widgetStatsService.autoUpdateDisabled()
-                        .subscribe(function (isAutoUpdateDisabled) { return _this.initSignalr(isAutoUpdateDisabled); }, function (error) { return _this.errorMessage = error; });
+                    //this.widgetStatsService.autoUpdateDisabled()
+                    //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
+                    //        error => this.errorMessage = <any>error);
                 };
                 WidgetStatsComponent.prototype.initSignalr = function (isAutoUpdateDisabled) {
                     var _this = this;
@@ -52,7 +52,7 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                 };
                 WidgetStatsComponent.prototype.handleExceptions = function (widgetstats) {
                     this.widgetstats = widgetstats;
-                    this.changeDetectorRef.detectChanges();
+                    //this.changeDetectorRef.detectChanges();
                 };
                 WidgetStatsComponent.prototype.getWidgetStats = function () {
                     var _this = this;

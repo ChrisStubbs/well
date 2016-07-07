@@ -34,7 +34,8 @@ declare var $: any;
         { path: '/clean', name: 'Clean', component: CleanRoutesComponent },
         { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
         { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
-    ])
+])
+
 export class AppComponent implements OnInit  {
 
     constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef ) { }

@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit }  from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
@@ -13,14 +13,16 @@ import {RouteHeaderService} from './routeHeaderService';
 
 export class RouteHeaderComponent implements OnInit {
     errorMessage: string;
-    routes: IRoute;
+    routes: IRoute[];
 
     constructor(private routerHeaderService: RouteHeaderService) { }
 
-    ngOnInit(): void {
+    ngOnInit() {
+
         this.routerHeaderService.getRouteHeaders()
             .subscribe(routes => this.routes = routes, error => this.errorMessage = <any>error);
     }
+
 }
 
 

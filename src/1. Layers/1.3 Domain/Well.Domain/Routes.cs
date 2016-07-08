@@ -5,7 +5,6 @@
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
     [Serializable()]
-    //[XmlRoot("Routes")]
     public class Routes: Entity<int>
     { 
         public Routes()
@@ -17,8 +16,6 @@
 
         public DateTime ImportDate { get; set; }
 
-        //[XmlArray("RouteHeaders")]
-        //[XmlArrayItem("RouteHeader", typeof(RouteHeader))]
         public Collection<RouteHeader> RouteHeaders { get; set; }
     }
 }

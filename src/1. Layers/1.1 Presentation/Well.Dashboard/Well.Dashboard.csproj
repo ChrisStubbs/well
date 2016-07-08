@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\appComponent.js" />
+    <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\main.html" />
     <Content Include="app\main.js" />
     <Content Include="app\route_header\routeheader-list.html" />
@@ -233,7 +234,9 @@
     <Content Include="Content\css\supplierInvoiceOptions.css" />
     <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\Images\actions.png" />
+    <Content Include="Content\Images\actions.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\bg-bar.gif" />
     <Content Include="Content\Images\bg-body.gif" />
@@ -258,7 +261,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Scripts\angular2\angular2-polyfills.js" />
     <Content Include="Scripts\angular2\angular2.dev.js" />
@@ -278,6 +280,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
+    <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -325,10 +328,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
-    <TypeScriptCompile Include="app\clean\cleanRoutesComponent.ts" />
+    <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
+    <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
+    <TypeScriptCompile Include="app\globalSettings.ts" />
+    <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />
+    <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />

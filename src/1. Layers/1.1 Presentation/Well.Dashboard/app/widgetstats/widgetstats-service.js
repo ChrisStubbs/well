@@ -30,7 +30,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     this._exceptionsUrl = '/Well/Api/';
                 }
                 WidgetStatsService.prototype.autoUpdateDisabled = function () {
-                    return this._http.get(this._exceptionsUrl + 'IsDebug')
+                    return this._http.get(this._exceptionsUrl + 'EnableSignular')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);

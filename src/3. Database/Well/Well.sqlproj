@@ -95,7 +95,7 @@
     <Build Include="dbo\Tables\RoyaltyExceptions.sql" />
     <Build Include="dbo\Tables\BranchCreditApproval.sql" />
     <Build Include="dbo\Tables\BranchApprovalTime.sql" />
-    <Build Include="dbo\Tables\RouteImport.sql" />
+    <Build Include="dbo\Tables\Routes.sql" />
     <Build Include="dbo\Tables\RouteHeader.sql" />
     <Build Include="dbo\Tables\RouteHeaderAttribute.sql" />
     <Build Include="dbo\Tables\Stop.sql" />
@@ -114,6 +114,10 @@
     <Build Include="dbo\StoredProcedures\RouteHeaders_Get.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
     <Build Include="dbo\Tables\WidgetStats.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetCleanDeliveries.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

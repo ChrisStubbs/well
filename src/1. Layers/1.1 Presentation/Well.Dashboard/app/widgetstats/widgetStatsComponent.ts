@@ -19,9 +19,11 @@ export class WidgetStatsComponent implements OnInit {
     ngOnInit() {
         this.getWidgetStats();
 
-        this.widgetStatsService.autoUpdateDisabled()
-            .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
-                error => this.errorMessage = <any>error);
+        //this.widgetStatsService.autoUpdateDisabled()
+        //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
+        //        error => this.errorMessage = <any>error);
+        //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
+        //        error => this.errorMessage = <any>error);
     }
 
     initSignalr(isAutoUpdateDisabled): void {
@@ -41,7 +43,7 @@ export class WidgetStatsComponent implements OnInit {
 
     handleExceptions(widgetstats): void {
         this.widgetstats = widgetstats;
-        this.changeDetectorRef.detectChanges();
+      
     }
 
     getWidgetStats() {

@@ -1,16 +1,10 @@
-﻿
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Data;
-    using System.Data.SqlClient;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
-    using Dapper;
     using Domain;
   
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
@@ -27,7 +21,8 @@ namespace PH.Well.Repositories
 
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
-            var routeHeaders = dapperProxy.Query<RouteHeader>(StoredProcedures.RouteHeadersGet, parameters: null);
+            var routeHeaders = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
+                                            .Query<RouteHeader>().ToArray();
 
             foreach (var routeHeader in routeHeaders)
             {

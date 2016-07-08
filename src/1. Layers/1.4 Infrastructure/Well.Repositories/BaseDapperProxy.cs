@@ -8,16 +8,18 @@
     using Contracts;
     using Dapper;
 
-    public abstract class BaseDapperProxy
+    public abstract class BaseDapperProxy : IDapperProxy
     {
+
         public IDbConfiguration DbConfiguration { get; set; }
 
-        public IEnumerable<TEntity> Query<TEntity>(string storedProcedure, object parameters = null)
+        DynamicParameters parameters;
+        private string storedProcedure;
+
+
+        public IEnumerable<TEntity> Query<TEntity>()
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
-            {
-                return connection.Query<TEntity>(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout).AsQueryable();
-            }
+            return this.QueryDapper<TEntity>();
         }
 
         public IEnumerable<TEntity> SqlQuery<TEntity>(string sql)
@@ -28,20 +30,30 @@
             }
         }
 
-        public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action, string sql, CommandType commandType = CommandType.StoredProcedure, object parameters = null)
+        public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                action(connection.QueryMultiple(sql, parameters, commandType: commandType, commandTimeout: DbConfiguration.CommandTimeout));
+                action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+
+                this.parameters = null;
             }
         }
 
-        public void Execute(string storedProcedure, object parameters = null)
+        public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout);
+                action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+
+                this.parameters = null;
             }
+        }
+
+
+        public void Execute()
+        {
+            throw new NotImplementedException();
         }
 
         public void ExecuteSql(string sql)
@@ -52,6 +64,39 @@
             }
         }
 
+        public IDapperProxy WithStoredProcedure(string storedProcedure)
+        {
+            this.storedProcedure = storedProcedure;
 
+            return this;
+        }
+
+        public IDapperProxy AddParameter(string name, object parameter, DbType dbType, int? size = null)
+        {
+            if (this.parameters == null) this.parameters = new DynamicParameters();
+
+            if (size.HasValue)
+            {
+                this.parameters.Add(name, parameter, dbType, size: size);
+            }
+            else
+            {
+                this.parameters.Add(name, parameter, dbType);
+            }
+
+            return this;
+        }
+
+        private IEnumerable<TEntity> QueryDapper<TEntity>()
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                var result = connection.Query<TEntity>(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout).AsQueryable();
+
+                this.parameters = null;
+
+                return result;
+            }
+        }
     }
 }

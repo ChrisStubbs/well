@@ -3,7 +3,6 @@
     using System.Linq;
     using Common.Contracts;
     using Contracts;
-    using Domain;
     using Domain.ValueObjects;
 
     public class WidgetStatsRepository : DapperRepository<WidgetStats, int>, IWidgetStatsRepository
@@ -15,7 +14,8 @@
 
         public WidgetStats GetWidgetStats()
         {
-            return dapperProxy.Query<WidgetStats>(StoredProcedures.WidgetStatsGet).FirstOrDefault();
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.WidgetStatsGet)
+                                    .Query<WidgetStats>().SingleOrDefault();
         }
     }
 }

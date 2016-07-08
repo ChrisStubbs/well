@@ -1,9 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
-
-namespace Well.Dashboard
+﻿namespace PH.Well.Dashboard
 {
-    using PH.Well.Dashboard;
+    using System.Web.Optimization;
 
     public class BundleConfig
     {

@@ -25,13 +25,13 @@ System.register(['angular2/core', 'angular2/router', './routeHeaderService'], fu
             }],
         execute: function() {
             RouteHeaderComponent = (function () {
-                function RouteHeaderComponent(_routerHeaderService) {
-                    this._routerHeaderService = _routerHeaderService;
+                function RouteHeaderComponent(routerHeaderService) {
+                    this.routerHeaderService = routerHeaderService;
                 }
                 RouteHeaderComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this._routerHeaderService.getRouteHeaders()
-                        .subscribe(function (routeheaders) { return _this.routeheaders = routeheaders; }, function (error) { return _this.errorMessage = error; });
+                    this.routerHeaderService.getRouteHeaders()
+                        .subscribe(function (routes) { return _this.routes = routes; }, function (error) { return _this.errorMessage = error; });
                 };
                 RouteHeaderComponent = __decorate([
                     core_1.Component({

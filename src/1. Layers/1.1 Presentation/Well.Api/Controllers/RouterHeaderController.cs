@@ -1,47 +1,74 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using System.Web.Http.Description;
     using Common.Contracts;
-    using Domain;
+
+    using PH.Well.Api.Models;
+
     using Repositories.Contracts;
 
-    public class RouterHeaderController : ApiController
+    public class RouteController : ApiController
     {
-
         private readonly ILogger logger;
 
-        private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IRouteHeaderRepository routeRepository;
 
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
-        public RouterHeaderController(ILogger logger, IRouteHeaderRepository routeHeaderRepository,
+        public RouteController(ILogger logger, IRouteHeaderRepository routeRepository,
             IServerErrorResponseHandler serverErrorResponseHandler)
         {
             this.logger = logger;
-            this.routeHeaderRepository = routeHeaderRepository;
+            this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
-
-        [Route("routeheaders", Name = "GetRouteHeaders")]
+        [Route("routes", Name = "GetRoutes")]
         [HttpGet]
-        public HttpResponseMessage GetRouteHeaders()
+        public HttpResponseMessage GetRoutes()
         {
             try
             {
-                var routeHeaders = this.routeHeaderRepository.GetRouteHeaders();
-                return this.Request.CreateResponse(HttpStatusCode.OK, routeHeaders);
+                /*var routes = this.routeRepository.GetRouteHeaders();
+
+                if (!routes.Any()) return this.Request.CreateResponse(HttpStatusCode.NotFound);*/
+
+                var model = new RouteModel
+                {
+                    Route = "1",
+                    DriverName = "Leeroy Brown",
+                    DeliveryExceptionCount = 43,
+                    DeliveryCleanCount = 2,
+                    RouteStatus = "In Progress",
+                    TotalDrops = 1234,
+                    DateTimeUpdated = "12 january 2016"
+                };
+
+                var model2 = new RouteModel
+                {
+                    Route = "2",
+                    DriverName = "Shirley Vallentine",
+                    DeliveryExceptionCount = 10,
+                    DeliveryCleanCount = 200,
+                    RouteStatus = "Complete",
+                    TotalDrops = 50,
+                    DateTimeUpdated = "12 february 2016"
+                };
+
+                var routes = new List<RouteModel> { model, model2 };
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, routes);
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting route headers");
+                this.logger.LogError($"An error occcured when getting routes");
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
-
     }
 }

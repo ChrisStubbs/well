@@ -7,12 +7,11 @@
     using Enums;
 
     [Serializable()]
-    public class RouteHeader:Entity<int>
+    public class RouteHeader : Entity<int>
     {
         public RouteHeader()
         {
             this.Stops = new Collection<Stop>();
-            
         }
 
         [XmlElement("CompanyID")]

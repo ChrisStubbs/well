@@ -107,7 +107,7 @@
     <Compile Include="Factories\StopFactory.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
-    <Compile Include="Infrastructure\WidgetStatsFactory.cs" />
+    <Compile Include="Factories\WidgetStatsFactory.cs" />
     <Compile Include="Infrastructure\WidgetStatsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestTest.cs" />

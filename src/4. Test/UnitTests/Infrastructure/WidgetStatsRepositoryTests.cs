@@ -4,6 +4,7 @@
     using Common.Contracts;
     using Domain;
     using Domain.ValueObjects;
+    using Factories;
     using Moq;
     using NUnit.Framework;
     using Repositories;

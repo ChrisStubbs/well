@@ -1,7 +1,6 @@
-﻿namespace PH.Well.UnitTests.Infrastructure
+﻿namespace PH.Well.UnitTests.Factories
 {
     using Domain.ValueObjects;
-    using Factories;
 
     public class WidgetStatsFactory : EntityFactory<WidgetStatsFactory, WidgetStats>
     {

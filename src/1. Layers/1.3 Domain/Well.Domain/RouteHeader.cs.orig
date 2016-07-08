@@ -6,8 +6,12 @@
     using System.Xml.Serialization;
     using Enums;
 
+<<<<<<< HEAD
     [Serializable()]
+    public class RouteHeader:Entity<int>
+=======
     public class RouteHeader : Entity<int>
+>>>>>>> f2df321e1775e89a158f5beb1549ec275b431e81
     {
         public RouteHeader()
         {
@@ -20,14 +24,8 @@
         [XmlElement("RouteNumber")]
         public string RouteNumber { get; set; }
 
-        public DateTime RouteDate { get; set; }
-
         [XmlElement("RouteDate")]
-        public string RouteDateString
-        {
-            get { return this.RouteDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.RouteDate = DateTime.Parse(value); }
-        }
+        public DateTime RouteDate { get; set; }
 
         [XmlElement("DriverName")]
         public string DriverName { get; set; }
@@ -61,7 +59,7 @@
             private set { RouteStatusId = (int)value; }
         }
 
-        public int RoutesId { get; set; }
+        public int RouteImportId { get; set; }
 
         [XmlElement("Stops")]
         public Collection<Stop> Stops { get; set; } 

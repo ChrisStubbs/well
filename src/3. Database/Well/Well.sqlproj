@@ -118,6 +118,8 @@
     <Build Include="dbo\StoredProcedures\Job_GetCleanDeliveries.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

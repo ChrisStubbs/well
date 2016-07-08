@@ -11,5 +11,9 @@
         Routes GetById(int id);
 
         Routes GetByFilename(string filename);
+
+        RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader);
+
+        RouteHeader GetRouteHeaderById(int id);
     }
 }

@@ -1,15 +1,19 @@
-﻿namespace PH.Well.Repositories
+﻿
+
+namespace PH.Well.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Data;
+    using System.Data.SqlClient;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
     using Dapper;
     using Domain;
-
-    public class RouteHeaderRepository : DapperRepository<RouteHeader, int>, IRouteHeaderRepository
+  
+    public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
 
         private readonly IStopRepository stopRepository;
@@ -23,8 +27,7 @@
 
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
-            var routeHeaders = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
-                                            .Query<RouteHeader>().ToArray();
+            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet).Query<RouteHeader>();
 
             foreach (var routeHeader in routeHeaders)
             {
@@ -40,24 +43,60 @@
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate)
                 .AddParameter("Id", routes.Id, DbType.Int32)
                 .AddParameter("Filename", routes.FileName, DbType.String)
-                .AddParameter("Username", this.CurrentUser, DbType.String)
-                .Query<int>().SingleOrDefault();
+                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>().FirstOrDefault();
 
             return this.GetById(id);
+
         }
 
         public Routes GetById(int id)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesGetById)
-                        .AddParameter("Id", id, DbType.Int32)
-                        .Query<Routes>().SingleOrDefault();
+            var routeImport =
+                dapperProxy.WithStoredProcedure(StoredProcedures.RoutesGetById)
+                    .AddParameter("Id", id, DbType.Int32)
+                    .Query<Routes>()
+                    .FirstOrDefault();
+
+            return routeImport;
+        }
+
+        public RouteHeader GetRouteHeaderById(int id)
+        {
+            var routeImport =
+                dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetById)
+                    .AddParameter("Id", id, DbType.Int32)
+                    .Query<RouteHeader>()
+                    .FirstOrDefault();
+
+            return routeImport;
         }
 
         public Routes GetByFilename(string filename)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCheckDuplicate)
-                        .AddParameter("FileName", filename, DbType.String)
-                        .Query<Routes>().SingleOrDefault();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCheckDuplicate)
+                    .AddParameter("FileName", filename, DbType.String).Query<Routes>().FirstOrDefault();
+        }
+
+        public RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
+        {
+            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate)
+                .AddParameter("Id", routeHeader.Id, DbType.Int32)
+                .AddParameter("Username", this.CurrentUser, DbType.String)
+                .AddParameter("CompanyId", routeHeader.CompanyID, DbType.Int32)
+                .AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String)
+                .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
+                .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
+                .AddParameter("VehicleReg", routeHeader.VehicleReg, DbType.String)
+                .AddParameter("StartDepotCode", routeHeader.StartDepotCode, DbType.String)
+                .AddParameter("PlannedRouteStartTime", routeHeader.PlannedRouteStartTime, DbType.Time)
+                .AddParameter("PlannedRouteFinishTime", routeHeader.PlannedRouteFinishTime, DbType.Time)
+                .AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal)
+                .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.Time)
+                .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
+                .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int16).Query<int>().FirstOrDefault();
+
+            return this.GetRouteHeaderById(id);
+
         }
 
 

@@ -60,7 +60,18 @@
                     DateTimeUpdated = "12 february 2016"
                 };
 
-                var routes = new List<RouteModel> { model, model2 };
+                var model3 = new RouteModel
+                {
+                    Route = "3",
+                    DriverName = "Miley Cirus",
+                    DeliveryExceptionCount = 12,
+                    DeliveryCleanCount = 100,
+                    RouteStatus = "Complete",
+                    TotalDrops = 20,
+                    DateTimeUpdated = "12 february 2016"
+                };
+
+                var routes = new List<RouteModel> { model, model2, model3, model, model2, model3, model, model2, model3 };
 
                 return this.Request.CreateResponse(HttpStatusCode.OK, routes);
             }

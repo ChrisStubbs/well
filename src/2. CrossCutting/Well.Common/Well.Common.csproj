@@ -70,6 +70,9 @@
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />
     <Compile Include="HttpWebRequestExtensions.cs" />

@@ -52,7 +52,7 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                 };
                 WidgetStatsComponent.prototype.handleExceptions = function (widgetstats) {
                     this.widgetstats = widgetstats;
-                    this.changeDetectorRef.detectChanges();
+                    //this.changeDetectorRef.detectChanges();
                 };
                 WidgetStatsComponent.prototype.getWidgetStats = function () {
                     var _this = this;

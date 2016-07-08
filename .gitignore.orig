@@ -1,0 +1,50 @@
+
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.obj
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+src/.vs/*
+/src/packages/*
+!/src/packages/repositories.config
+!tools/**
+src/3. Database/Well/Well.dbmdl
+src/1. Layers/1.1 Presentation/Well.Dashboard/Well.Dashboard.csproj.orig
+**/node_modules/*
+src/1. Layers/1.1 Presentation/Well.Dashboard/typings/*
+
+src/4. Test/Well.Test.UI/.ntvs_analysis.dat
+*.ntvs_analysis.dat.tmp
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js.map.orig
+<<<<<<< HEAD
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.ts.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanRoutesComponent.js.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
+=======
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.map.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.ts.orig
+>>>>>>> f931dc6a9ee76aa61b3e0cef4ce4ed0eaaba0679

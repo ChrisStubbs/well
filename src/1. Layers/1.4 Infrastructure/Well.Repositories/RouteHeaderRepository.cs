@@ -2,12 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
+    using Dapper;
     using Domain;
-  
-    public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
+
+    public class RouteHeaderRepository : DapperRepository<RouteHeader, int>, IRouteHeaderRepository
     {
 
         private readonly IStopRepository stopRepository;
@@ -32,34 +34,30 @@
 
             return routeHeaders;
         }
+
         public Routes CreateOrUpdate(Routes routes)
         {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("Id", routes.Id, DbType.Int32);
-            parameters.Add("Filename", routes.FileName, DbType.String);
-            parameters.Add("Username", this.CurrentUser, DbType.String);
-
-            var id = this.dapperProxy.Query<int>(StoredProcedures.RoutesCreateOrUpdate, parameters).FirstOrDefault();
+            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate)
+                .AddParameter("Id", routes.Id, DbType.Int32)
+                .AddParameter("Filename", routes.FileName, DbType.String)
+                .AddParameter("Username", this.CurrentUser, DbType.String)
+                .Query<int>().SingleOrDefault();
 
             return this.GetById(id);
         }
 
         public Routes GetById(int id)
         {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("Id", id, DbType.Int32);
-            var routeImport = dapperProxy.Query<Routes>(StoredProcedures.RoutesGetById, parameters).FirstOrDefault();
-            return routeImport;
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesGetById)
+                        .AddParameter("Id", id, DbType.Int32)
+                        .Query<Routes>().SingleOrDefault();
         }
 
         public Routes GetByFilename(string filename)
         {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("FileName", filename, DbType.String);
-            return dapperProxy.Query<Routes>(StoredProcedures.RoutesCheckDuplicate, parameters).FirstOrDefault();
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCheckDuplicate)
+                        .AddParameter("FileName", filename, DbType.String)
+                        .Query<Routes>().SingleOrDefault();
         }
 
 

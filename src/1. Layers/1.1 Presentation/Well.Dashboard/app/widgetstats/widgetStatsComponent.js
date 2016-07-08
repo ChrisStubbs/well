@@ -36,6 +36,8 @@ System.register(['angular2/core', 'angular2/router', './widgetstats-service'], f
                     //this.widgetStatsService.autoUpdateDisabled()
                     //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
                     //        error => this.errorMessage = <any>error);
+                    //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
+                    //        error => this.errorMessage = <any>error);
                 };
                 WidgetStatsComponent.prototype.initSignalr = function (isAutoUpdateDisabled) {
                     var _this = this;

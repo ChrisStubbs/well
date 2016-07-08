@@ -48,7 +48,8 @@
                 "~/Scripts/angular2/rx.js",
                 "~/Scripts/angular2/angular2.dev.js",
                 "~/Scripts/angular2/router.dev.js",
-                "~/Scripts/angular2/http.dev.js");
+                "~/Scripts/angular2/http.dev.js",
+                "~/Scripts/ng2-pagination-bundle.js");
             angularBundle.Orderer = new DefinedBundlerOrderer();
             bundles.Add(angularBundle);
             

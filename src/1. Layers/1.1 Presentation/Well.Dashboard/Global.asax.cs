@@ -14,8 +14,6 @@
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            DbChangeNotifierStartup.Init();
-
 #if DEBUG
             //Don't run signalr locally as it breaks protractor UI tests, won't be an issue once signalr is using WebSockets 
 #else

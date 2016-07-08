@@ -1,26 +1,27 @@
 {
-    "name": "ph-well",
-    "version": "1.0.0",
-    "author": "Palmer and Harvey",
-    "description": "Package for the Orderwell application",
+  "name": "ph-well",
+  "version": "1.0.0",
+  "author": "Palmer and Harvey",
+  "description": "Package for the Orderwell application",
   "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings",
     "postinstall": "typings install"
   },
-    "license": "ISC",
-    "dependencies": {
-        "angular2": "2.0.0-beta.15",
-        "systemjs": "0.19.26",
-        "es6-shim": "^0.35.0",
-        "lodash": "^4.1.0",
-        "reflect-metadata": "0.1.2",
-        "rxjs": "5.0.0-beta.2",
-        "zone.js": "0.6.10",
-        "jquery"  : "1.12.0",
-        "bootstrap": "^3.3.6"
-    },
+  "license": "ISC",
+  "dependencies": {
+    "angular2": "2.0.0-beta.15",
+    "bootstrap": "^3.3.6",
+    "es6-shim": "^0.35.0",
+    "jquery": "1.12.0",
+    "lodash": "^4.1.0",
+    "ng2-pagination": "^0.3.4",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "systemjs": "0.19.26",
+    "zone.js": "0.6.10"
+  },
   "devDependencies": {
     "concurrently": "^2.0.0",
     "typescript": "^1.8.10",
@@ -34,7 +35,5 @@
     "gulp-watch": "^4.3.5",
     "systemjs-builder": "^0.15.23"
   },
-    "repository": {}
+  "repository": {}
 }
-
-

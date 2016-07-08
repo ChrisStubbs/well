@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Xml.Serialization;
     using Enums;
 
+    [Serializable()]
     public class RouteHeader : Entity<int>
     {
         public RouteHeader()
@@ -12,42 +14,37 @@
             this.Stops = new Collection<Stop>();
         }
 
-        public int CompanyId { get; set; }
+        [XmlElement("CompanyID")]
+        public int CompanyID { get; set; }
 
+        [XmlElement("RouteNumber")]
         public string RouteNumber { get; set; }
 
+        [XmlElement("RouteDate")]
         public DateTime RouteDate { get; set; }
 
+        [XmlElement("DriverName")]
         public string DriverName { get; set; }
 
+        [XmlElement("VehicleReg")]
         public string VehicleReg { get; set; }
 
+        [XmlElement("StartDepotCode")]
         public string StartDepotCode  { get; set; }
 
-        public string StartDepotId { get; set; }
-
-        public string FinishDepotCode { get; set; }
-
-        public string FinishDepotId { get; set; }
-
-        public string SubDepotCode { get; set; }
-
-        public string SubDepotId { get; set; }
-
-        public string FinishSubDepotCode { get; set; }
-
-        public string FinishSubDepotId { get; set; }
-
+        [XmlElement("PlannedRouteStartTime")]
         public TimeSpan PlannedRouteStartTime { get; set; }
 
+        [XmlElement("PlannedRouteFinishTime")]
         public TimeSpan PlannedRouteFinishTime { get; set; }
 
-        public string InitialSealNumber { get; set; }
-
+        [XmlElement("PlannedDistance")]
         public decimal PlannedDistance { get; set; }
 
+        [XmlElement("PlannedTravelTime")]
         public TimeSpan PlannedTravelTime { get; set; }
 
+        [XmlElement("PlannedStops")]
         public int PlannedStops { get; set; }
 
         public int RouteStatusId { get; set; }
@@ -60,6 +57,7 @@
 
         public int RouteImportId { get; set; }
 
+        [XmlElement("Stops")]
         public Collection<Stop> Stops { get; set; } 
         public KeyValuePair<int, KeyValuePair<int, string>> RouteMetaData { get; set; }
     }

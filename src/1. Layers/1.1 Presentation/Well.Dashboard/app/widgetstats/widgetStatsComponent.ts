@@ -43,7 +43,7 @@ export class WidgetStatsComponent implements OnInit {
 
     handleExceptions(widgetstats): void {
         this.widgetstats = widgetstats;
-        //this.changeDetectorRef.detectChanges();
+      
     }
 
     getWidgetStats() {

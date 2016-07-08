@@ -5,5 +5,5 @@
 	[Value] NVARCHAR(100) NOT NULL,
 	[RouteHeaderId] INT NOT NULL,
 	CONSTRAINT [PK_RouteHeaderAttribute] PRIMARY KEY CLUSTERED ([Id] ASC),
-	CONSTRAINT [FK_RouteHeaderAttribute_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteImport] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+	CONSTRAINT [FK_RouteHeaderAttribute_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

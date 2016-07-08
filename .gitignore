@@ -37,6 +37,8 @@ src/1. Layers/1.1 Presentation/Well.Dashboard/typings/*
 
 src/4. Test/Well.Test.UI/.ntvs_analysis.dat
 *.ntvs_analysis.dat.tmp
+*.ncrunchproject
+*.ncrunchsolution
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js.map.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.map.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig

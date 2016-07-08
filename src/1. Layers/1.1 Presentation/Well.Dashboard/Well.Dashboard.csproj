@@ -206,6 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\ExceptionsHub.cs" />
+    <Compile Include="Models\BootstrapData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -317,7 +318,6 @@
   <ItemGroup>
     <Folder Include="app\NewFolder1\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="repo\" />
   </ItemGroup>
   <ItemGroup>

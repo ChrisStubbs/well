@@ -3,20 +3,21 @@ import { ROUTER_DIRECTIVES} from 'angular2/router';
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
+import { RouteFilterPipe } from './routeFilterPipe';
 
 @Component({
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [RouteHeaderService, PaginationService],
     directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
-    pipes: [PaginatePipe]
+    pipes: [PaginatePipe, RouteFilterPipe]
 })
-
 export class RouteHeaderComponent implements OnInit {
     errorMessage: string;
     routes: IRoute[];
     rowCount: number = 10;
+    filterText: string;
 
-    constructor(private routerHeaderService: RouteHeaderService) { }
+    constructor(private routerHeaderService: RouteHeaderService) {}
 
     ngOnInit() {
 
@@ -26,6 +27,14 @@ export class RouteHeaderComponent implements OnInit {
 
     routeSelected(route): void {
         console.log(route.driverName);
+    }
+
+    clearFilterText(): void {
+        this.filterText = '';
+    }
+
+    foo(): void {
+        console.log(this.filterText);
     }
 }
 

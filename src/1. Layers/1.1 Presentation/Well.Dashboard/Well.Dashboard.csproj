@@ -338,6 +338,7 @@
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
+    <TypeScriptCompile Include="app\route_header\routeFilterPipe.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />

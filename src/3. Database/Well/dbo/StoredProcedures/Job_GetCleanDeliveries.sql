@@ -4,7 +4,7 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-	SELECT rh.RouteNumber, s.DropId, j.JobRef3, a.Code, a.Name ,jps.[Description] 
+	SELECT rh.RouteNumber, s.DropId, j.JobRef3 AS InvoiceNumber, a.Code AS AccountCode, a.Name AS AccountName ,jps.[Description] AS JobStatus
 	FROM Well.dbo.Job j
 	JOIN Well.dbo.JobPerformanceStatus jps on j.PerformanceStatusCode = jps.Code
 	JOIN Well.dbo.[Stop] s on j.StopId = s.Id

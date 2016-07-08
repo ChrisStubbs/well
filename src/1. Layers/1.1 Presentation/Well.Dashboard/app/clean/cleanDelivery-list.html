@@ -1,30 +1,29 @@
-﻿<div class="jumbotron">
-    <table class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
-        <thead>
-            <tr>
-                <th>Route</th>
-                <th>Drop</th>
-                <th>Invoice No</th>
-                <th>Account</th>
-                <th>Account Name</th>
-                <th>Status</th>
-                <th>Last updated date/time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="#delivery of cleanDeliveries" >
-                <td>{{delivery.routeNumber}}</td>
-                <td>{{delivery.dropId}}</td>
-                <td>{{delivery.invoiceNumber}}</td>
-                <td>{{delivery.accountCode}}</td>
-                <td>{{delivery.accountName}}</td>
-                <td>{{delivery.jobStatus}}</td>
-                <td>20-05-16 10:30</td>
-              </tr>
-        </tbody>
-    </table>
-
-
-
+﻿<div class="row">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
+            <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Drop</th>
+                    <th>Invoice No</th>
+                    <th>Account</th>
+                    <th>Account Name</th>
+                    <th>Status</th>
+                    <th>Last updated date/time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="#delivery of cleanDeliveries">
+                    <td>{{delivery.routeNumber}}</td>
+                    <td>{{delivery.dropId}}</td>
+                    <td>{{delivery.invoiceNumber}}</td>
+                    <td>{{delivery.accountCode}}</td>
+                    <td>{{delivery.accountName}}</td>
+                    <td>{{delivery.jobStatus}}</td>
+                    <td>20-05-16 10:30</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 

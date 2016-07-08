@@ -50,10 +50,14 @@
             }
         }
 
-
         public void Execute()
         {
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
+
+                this.parameters = null;
+            }
         }
 
         public void ExecuteSql(string sql)

@@ -96,6 +96,7 @@
 
             return httpWebRequest;
         }
+
         private System.Net.WebClient SetupClient()
         {
             HttpWebRequest.DefaultMaximumErrorResponseLength = 1048576;

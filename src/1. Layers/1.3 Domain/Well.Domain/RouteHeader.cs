@@ -20,8 +20,14 @@
         [XmlElement("RouteNumber")]
         public string RouteNumber { get; set; }
 
-        [XmlElement("RouteDate")]
         public DateTime RouteDate { get; set; }
+
+        [XmlElement("RouteDate")]
+        public string RouteDateString
+        {
+            get { return this.RouteDate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { this.RouteDate = DateTime.Parse(value); }
+        }
 
         [XmlElement("DriverName")]
         public string DriverName { get; set; }
@@ -55,7 +61,7 @@
             private set { RouteStatusId = (int)value; }
         }
 
-        public int RouteImportId { get; set; }
+        public int RoutesId { get; set; }
 
         [XmlElement("Stops")]
         public Collection<Stop> Stops { get; set; } 

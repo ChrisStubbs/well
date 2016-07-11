@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './routeHeaderService'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', 'ng2-pagination', './routeHeaderService', './routeFilterPipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './routeHeaderService'], fu
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, routeHeaderService_1;
+    var core_1, router_1, ng2_pagination_1, routeHeaderService_1, routeFilterPipe_1;
     var RouteHeaderComponent;
     return {
         setters:[
@@ -20,24 +20,41 @@ System.register(['angular2/core', 'angular2/router', './routeHeaderService'], fu
             function (router_1_1) {
                 router_1 = router_1_1;
             },
+            function (ng2_pagination_1_1) {
+                ng2_pagination_1 = ng2_pagination_1_1;
+            },
             function (routeHeaderService_1_1) {
                 routeHeaderService_1 = routeHeaderService_1_1;
+            },
+            function (routeFilterPipe_1_1) {
+                routeFilterPipe_1 = routeFilterPipe_1_1;
             }],
         execute: function() {
             RouteHeaderComponent = (function () {
                 function RouteHeaderComponent(routerHeaderService) {
                     this.routerHeaderService = routerHeaderService;
+                    this.rowCount = 10;
                 }
                 RouteHeaderComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.routerHeaderService.getRouteHeaders()
                         .subscribe(function (routes) { return _this.routes = routes; }, function (error) { return _this.errorMessage = error; });
                 };
+                RouteHeaderComponent.prototype.routeSelected = function (route) {
+                    console.log(route.driverName);
+                };
+                RouteHeaderComponent.prototype.clearFilterText = function () {
+                    this.filterText = '';
+                };
+                RouteHeaderComponent.prototype.foo = function () {
+                    console.log(this.filterText);
+                };
                 RouteHeaderComponent = __decorate([
                     core_1.Component({
                         templateUrl: './app/route_header/routeheader-list.html',
-                        providers: [routeHeaderService_1.RouteHeaderService],
-                        directives: [router_1.ROUTER_DIRECTIVES]
+                        providers: [routeHeaderService_1.RouteHeaderService, ng2_pagination_1.PaginationService],
+                        directives: [router_1.ROUTER_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
+                        pipes: [ng2_pagination_1.PaginatePipe, routeFilterPipe_1.RouteFilterPipe]
                     }), 
                     __metadata('design:paramtypes', [routeHeaderService_1.RouteHeaderService])
                 ], RouteHeaderComponent);

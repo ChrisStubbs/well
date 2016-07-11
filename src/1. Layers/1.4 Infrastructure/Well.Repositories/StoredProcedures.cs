@@ -11,7 +11,9 @@
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public static string RoutesCreateOrUpdate = "Routes_CreateOrUpdate";
         public static string RoutesGetById = "Routes_GetById";
-        
+        public static string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
+        public static string RouteHeaderGetById = "RouteHeader_GetById";
+
 
         //Stops
         public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";

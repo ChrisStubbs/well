@@ -11,25 +11,34 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var ResolvedRoutesComponent;
+    var ResolvedDeliveryFilterPipe;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            ResolvedRoutesComponent = (function () {
-                function ResolvedRoutesComponent() {
-                    this.pageTitle = 'Welcome';
+            ResolvedDeliveryFilterPipe = (function () {
+                function ResolvedDeliveryFilterPipe() {
                 }
-                ResolvedRoutesComponent = __decorate([
-                    core_1.Component({}), 
+                ResolvedDeliveryFilterPipe.prototype.transform = function (value, args) {
+                    var filter = args[0] ? args[0].toLocaleLowerCase() : null;
+                    return filter
+                        ? value.filter(function (delivery) {
+                            return delivery.accountName.toLocaleLowerCase().indexOf(filter) !== -1;
+                        })
+                        : value;
+                };
+                ResolvedDeliveryFilterPipe = __decorate([
+                    core_1.Pipe({
+                        name: 'resolvedDeliveryFilter'
+                    }), 
                     __metadata('design:paramtypes', [])
-                ], ResolvedRoutesComponent);
-                return ResolvedRoutesComponent;
+                ], ResolvedDeliveryFilterPipe);
+                return ResolvedDeliveryFilterPipe;
             }());
-            exports_1("ResolvedRoutesComponent", ResolvedRoutesComponent);
+            exports_1("ResolvedDeliveryFilterPipe", ResolvedDeliveryFilterPipe);
         }
     }
 });
-//# sourceMappingURL=resolved-routes.js.map
+//# sourceMappingURL=resolvedDeliveryPipe.js.map

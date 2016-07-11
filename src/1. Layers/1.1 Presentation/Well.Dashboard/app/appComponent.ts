@@ -15,7 +15,7 @@ import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 //clean
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 //resolved
-import {ResolvedRoutesComponent} from './resolved/resolved-routesComponent';
+import {ResolvedDeliveryComponent} from './resolved/resolved-deliveryComponent';
 //notifications
 import {NotificationsComponent} from './notifications/notificationsComponent';
 //configuration
@@ -34,7 +34,7 @@ declare var $: any;
         { path: '/widgetstats', name: 'WidgetStats', component: WidgetStatsComponent, useAsDefault: true },
         { path: '/routes', name: 'Routes', component: RouteHeaderComponent },
         { path: '/clean', name: 'Clean', component: CleanDeliveryComponent },
-        { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
+        { path: '/resolved', name: 'Resolved', component: ResolvedDeliveryComponent },
         { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
 ])
 

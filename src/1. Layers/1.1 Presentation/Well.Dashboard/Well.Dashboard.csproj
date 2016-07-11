@@ -214,6 +214,7 @@
     <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\main.html" />
     <Content Include="app\main.js" />
+    <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\routeheader-list.html" />
     <Content Include="app\widgetstats\widgetstats.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
@@ -334,7 +335,10 @@
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
-    <TypeScriptCompile Include="app\resolved\resolved-routesComponent.ts" />
+    <TypeScriptCompile Include="app\resolved\resolved-deliveryComponent.ts" />
+    <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
+    <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
+    <TypeScriptCompile Include="app\resolved\resolvedDeliveryFilterPipe.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeFilterPipe.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />

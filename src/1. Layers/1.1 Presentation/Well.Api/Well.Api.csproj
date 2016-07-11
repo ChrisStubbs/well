@@ -198,6 +198,7 @@
     <Compile Include="Controllers\CleanDeliveryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
+    <Compile Include="Controllers\ResolvedDeliveryController.cs" />
     <Compile Include="Controllers\RouterHeaderController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResolvedDeliveryModel.cs" />
     <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

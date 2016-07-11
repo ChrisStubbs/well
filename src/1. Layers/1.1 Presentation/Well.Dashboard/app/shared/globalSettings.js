@@ -14,19 +14,13 @@ System.register(["angular2/core"], function(exports_1, context_1) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
     var core_1;
-    var GlobalSettings, GlobalSettingsService;
+    var GlobalSettingsService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            GlobalSettings = (function () {
-                function GlobalSettings() {
-                }
-                return GlobalSettings;
-            }());
-            exports_1("GlobalSettings", GlobalSettings);
             GlobalSettingsService = (function () {
                 function GlobalSettingsService(settings) {
                     this.settings = settings;
@@ -35,7 +29,7 @@ System.register(["angular2/core"], function(exports_1, context_1) {
                 GlobalSettingsService = __decorate([
                     core_1.Injectable(),
                     __param(0, core_1.Inject("global.settings")), 
-                    __metadata('design:paramtypes', [GlobalSettings])
+                    __metadata('design:paramtypes', [Object])
                 ], GlobalSettingsService);
                 return GlobalSettingsService;
             }());

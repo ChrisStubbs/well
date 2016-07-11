@@ -1,15 +1,15 @@
 ﻿import {Injectable, Inject} from "angular2/core";
 
-export class GlobalSettings {
+export interface IGlobalSettings {
     apiUrl: string;
 }
 
 @Injectable()
 export class GlobalSettingsService {
     constructor(
-        @Inject("global.settings") private settings: GlobalSettings
+        @Inject("global.settings") private settings: IGlobalSettings
     ) {
         this.globalSettings = settings;
     }
-    globalSettings: GlobalSettings;
+    globalSettings: IGlobalSettings;
 }

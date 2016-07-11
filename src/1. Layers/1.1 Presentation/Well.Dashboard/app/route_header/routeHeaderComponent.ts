@@ -4,10 +4,11 @@ import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagi
 import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 import { RouteFilterPipe } from './routeFilterPipe';
+import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Component({
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [RouteHeaderService, PaginationService],
+    providers: [RouteHeaderService, PaginationService, GlobalSettingsService],
     directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
     pipes: [PaginatePipe, RouteFilterPipe]
 })

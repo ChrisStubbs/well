@@ -316,7 +316,6 @@
     <Content Include="typings.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\NewFolder1\" />
     <Folder Include="App_Data\" />
     <Folder Include="repo\" />
   </ItemGroup>
@@ -332,7 +331,6 @@
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
-    <TypeScriptCompile Include="app\globalSettings.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
@@ -342,6 +340,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
+    <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\stops\stops.ts" />
     <TypeScriptCompile Include="app\widgetstats\widgetstats-service.ts" />
     <TypeScriptCompile Include="app\widgetstats\widgetstats.ts" />

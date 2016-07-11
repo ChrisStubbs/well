@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-routesComponent', './notifications/notificationsComponent'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-routesComponent', './notifications/notificationsComponent', './shared/globalSettings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_routesComponent_1, notificationsComponent_1;
+    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_routesComponent_1, notificationsComponent_1, globalSettings_1;
     var AppComponent;
     return {
         setters:[
@@ -41,12 +41,16 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             },
             function (notificationsComponent_1_1) {
                 notificationsComponent_1 = notificationsComponent_1_1;
+            },
+            function (globalSettings_1_1) {
+                globalSettings_1 = globalSettings_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(router, changeDetectorRef) {
+                function AppComponent(router, changeDetectorRef, globalSettings) {
                     this.router = router;
                     this.changeDetectorRef = changeDetectorRef;
+                    this.globalSettings = globalSettings;
                 }
                 //re-direct to widget stats on load
                 AppComponent.prototype.ngOnInit = function () {
@@ -57,7 +61,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                         selector: 'ow-app',
                         templateUrl: './app/main.html',
                         directives: [router_1.ROUTER_DIRECTIVES],
-                        providers: [widgetstats_service_1.WidgetStatsService, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS]
+                        providers: [widgetstats_service_1.WidgetStatsService, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS, globalSettings_1.GlobalSettingsService]
                     }),
                     router_1.RouteConfig([
                         { path: '/widgetstats', name: 'WidgetStats', component: widgetStatsComponent_1.WidgetStatsComponent, useAsDefault: true },
@@ -66,7 +70,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                         { path: '/resolved', name: 'Resolved', component: resolved_routesComponent_1.ResolvedRoutesComponent },
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
                     ]), 
-                    __metadata('design:paramtypes', [router_1.Router, core_1.ChangeDetectorRef])
+                    __metadata('design:paramtypes', [router_1.Router, core_1.ChangeDetectorRef, globalSettings_1.GlobalSettingsService])
                 ], AppComponent);
                 return AppComponent;
             }());

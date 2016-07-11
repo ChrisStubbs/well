@@ -18,6 +18,8 @@ import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {ResolvedRoutesComponent} from './resolved/resolved-routesComponent';
 //notifications
 import {NotificationsComponent} from './notifications/notificationsComponent';
+//configuration
+import {GlobalSettingsService} from './shared/globalSettings';
 
 declare var $: any;
 
@@ -25,7 +27,7 @@ declare var $: any;
     selector: 'ow-app',
     templateUrl: './app/main.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [WidgetStatsService, HTTP_PROVIDERS, ROUTER_PROVIDERS]
+    providers: [WidgetStatsService, HTTP_PROVIDERS, ROUTER_PROVIDERS, GlobalSettingsService]
 })
 
     @RouteConfig([
@@ -38,7 +40,7 @@ declare var $: any;
 
 export class AppComponent implements OnInit  {
 
-    constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef ) { }
+    constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef, private globalSettings: GlobalSettingsService  ) { }
 
     //re-direct to widget stats on load
     ngOnInit() {

@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
     using Enums;
+    using ValueObjects;
 
     [Serializable()]
     public class RouteHeader : Entity<int>
@@ -13,6 +14,7 @@
         {
             this.Stops = new Collection<Stop>();
             this.EntityAttributes = new Collection<Attribute>();
+            this.Depot = new Depot();
         }
 
         [XmlElement("CompanyID")]
@@ -56,13 +58,54 @@
 
         public int RouteStatusId { get; set; }
 
-        public RouteStatus RouteStatus
+        [XmlElement("RouteStatusCode")]
+        public string RouteStatusCode
         {
-            get { return (RouteStatus)RouteStatusId; }
-            private set { RouteStatusId = (int)value; }
+            get { return RouteStatusCode; }
+            private set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value); }
         }
 
+        public int RoutePerformanceStatusId { get; set; }
+
+        [XmlElement("PerformanceStatusCode")]
+        public string PerformanceStatusCode
+        {
+            get { return PerformanceStatusCode; }
+            private set { RoutePerformanceStatusId = (int)(PerformanceStatusCode)Enum.Parse(typeof(PerformanceStatusCode), value); }
+        }
+
+        [XmlIgnore]
+        public DateTime LastRouteUpdate { get; set; }
+
+        [XmlElement("LastRouteUpdate")]
+        public string LastRouteUpdateString
+        {
+            get { return this.LastRouteUpdate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { this.LastRouteUpdate = DateTime.Parse(value); }
+        }
+
+        [XmlElement("AuthByPass")]
+        public int AuthByPass { get; set; }
+
+        [XmlElement("NonAuthByPass")]
+        public int NonAuthByPass { get; set; }
+
+        [XmlElement("ShortDeliveries")]
+        public int ShortDeliveries { get; set; }
+
+        [XmlElement("DamagesRejected")]
+        public int DamagesRejected { get; set; }
+
+        [XmlElement("DamagesAccepted")]
+        public int DamagesAccepted { get; set; }
+
+        [XmlElement("NotRequired")]
+        public int NotRequired { get; set; }
+
         public int RoutesId { get; set; }
+
+        [XmlElement("Depot")]
+        public Depot Depot { get; set; }
 
         [XmlArray("Stops")]
         [XmlArrayItem("Stop", typeof(Stop))]

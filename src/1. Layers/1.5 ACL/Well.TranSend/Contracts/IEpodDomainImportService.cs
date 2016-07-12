@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.TranSend.Contracts
 {
     using Domain;
+    using Enums;
 
     public interface IEpodDomainImportService
     {
@@ -9,9 +10,9 @@
 
         string CurrentUser { get; set; }
 
-        void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
+        EpodFileType EpodType { get; set; }
 
-        void AddRouteHeaderStops(RouteHeader routeHeader, int id);
+        void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
 
     }
 }

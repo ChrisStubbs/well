@@ -93,7 +93,17 @@ namespace PH.Well.Repositories
                 .AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal)
                 .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.String)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
-                .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int16).Query<int>().FirstOrDefault();
+                .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
+                .AddParameter("RouteStatusId", routeHeader.RouteStatusId, DbType.Int16)
+                .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
+                .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
+                .AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32)
+                .AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32)
+                .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
+                .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
+                .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
+                .AddParameter("Depot", routeHeader.Depot, DbType.String).Query<int>().FirstOrDefault();
 
             return this.GetRouteHeaderById(id);
 

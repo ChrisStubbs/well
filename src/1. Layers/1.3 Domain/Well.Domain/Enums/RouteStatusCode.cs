@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum RouteStatus
+    public enum RouteStatusCode
     {
         [Description("Not Departed")]
         Ndepa = 1,

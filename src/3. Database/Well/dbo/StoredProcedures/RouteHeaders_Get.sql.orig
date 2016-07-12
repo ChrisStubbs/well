@@ -1,0 +1,51 @@
+﻿CREATE PROCEDURE [dbo].[RouteHeaders_Get]
+
+AS
+	SELECT 
+	   [Id]
+      ,[CompanyId]
+      ,[RouteNumber]
+      ,[RouteDate]
+      ,[DriverName]
+      ,[VehicleReg]
+      ,[StartDepotCode]
+<<<<<<< HEAD
+      ,[PlannedRouteStartTime]
+      ,[PlannedRouteFinishTime]
+=======
+      --,[StartDepotId]
+      --,[FinishDepotCode]
+      --,[FinishDepotId]
+      --,[SubDepotCode]
+      --,[SubDepotId]
+      --,[FinishSubDepotCode]
+      --,[FinishSubDepotId]
+      ,[PlannedRouteStartTime]
+      ,[PlannedRouteFinishTime]
+      --,[InitialSealNumber]
+>>>>>>> 0a6aabac40bfb4a4906e2a29a9e8d715903356a1
+      ,[PlannedDistance]
+      ,[PlannedTravelTime]
+      ,[PlannedStops]
+      ,[ActualStopsCompleted]
+<<<<<<< HEAD
+=======
+      --,[AuthByPass]
+      --,[NonAuthByPass]
+      --,[ShortDeliveries]
+      --,[DamagesRejected]
+      --,[DamagesAccepted]
+      --,[NotRequired]
+>>>>>>> 0a6aabac40bfb4a4906e2a29a9e8d715903356a1
+      ,[RoutesId]
+      ,[RouteStatusId]
+      ,[RoutePerformanceStatusId]
+      ,[CreatedBy]
+      ,[DateCreated]
+      ,[UpdatedBy]
+      ,[DateUpdated]
+      ,[Version]
+
+  FROM [Well].[dbo].[RouteHeader]
+
+RETURN 0

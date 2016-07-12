@@ -3,6 +3,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Enums;
     using Repositories.Contracts;
 
     public class EpodDomainImportService : IEpodDomainImportService
@@ -13,6 +14,8 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly ILogger logger;
         public string CurrentUser { get; set; }
+
+        public EpodFileType EpodType { get; set; }
 
         public EpodDomainImportService(IRouteHeaderRepository routeHeaderRepository, ILogger logger, IStopRepository stopRepository,
                                         IJobRepository jobRepository, IJobDetailRepository jobDetailRepository)
@@ -44,20 +47,21 @@
                 routeHeader.RoutesId = routesId;
                 var newRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(routeHeader);
 
-                //route header attributes
-                foreach (var attribute in routeHeader.EntityAttributes)
+                if (this.EpodType == EpodFileType.RouteHeader)
                 {
-                    attribute.AttributeId = newRouteHeader.Id;
-                    this.routeHeaderRepository.AddRouteHeaderAttributes(attribute);
+                    foreach (var attribute in routeHeader.EntityAttributes)
+                    {
+                        attribute.AttributeId = newRouteHeader.Id;
+                        this.routeHeaderRepository.AddRouteHeaderAttributes(attribute);
+                    }
                 }
-
-                //stops
+               
                 AddRouteHeaderStops(routeHeader, newRouteHeader.Id);
             }
 
         }
 
-        public void AddRouteHeaderStops(RouteHeader routeHeader, int id)
+        private void AddRouteHeaderStops(RouteHeader routeHeader, int id)
         {
             foreach (var stop in routeHeader.Stops)
             {
@@ -68,12 +72,15 @@
                 stop.Accounts.StopId = newStop.Id;
                 stopRepository.StopAccountCreateOrUpdate(stop.Accounts);
 
-                foreach (var stopAttribute in stop.EntityAttributes)
+                if (this.EpodType == EpodFileType.RouteHeader)
                 {
-                    stopAttribute.AttributeId = newStop.Id;
-                    this.stopRepository.AddStopAttributes(stopAttribute);
+                    foreach (var stopAttribute in stop.EntityAttributes)
+                    {
+                        stopAttribute.AttributeId = newStop.Id;
+                        this.stopRepository.AddStopAttributes(stopAttribute);
+                    }
                 }
-                //jobs
+                
                 AddStopJobs(stop, newStop.Id);
             }
         }
@@ -87,10 +94,13 @@
                 job.StopId = newStopId;
                 var newJob = this.jobRepository.JobCreateOrUpdate(job);
 
-                foreach (var jobAttribute in job.EntityAttributes)
+                if (this.EpodType == EpodFileType.RouteHeader)
                 {
-                    jobAttribute.AttributeId = newJob.Id;
-                    jobRepository.AddJobAttributes(jobAttribute);
+                    foreach (var jobAttribute in job.EntityAttributes)
+                    {
+                        jobAttribute.AttributeId = newJob.Id;
+                        jobRepository.AddJobAttributes(jobAttribute);
+                    }
                 }
 
                 AddJobJobDetail(job, newJob.Id);
@@ -105,10 +115,13 @@
                 jobDetail.JobId = newJobId;
                 var newJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
 
-                foreach (var jobDetailAttribute in jobDetail.EntityAttributes)
+                if (this.EpodType == EpodFileType.RouteHeader)
                 {
-                    jobDetailAttribute.AttributeId = newJobDetail.Id;
-                    jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
+                    foreach (var jobDetailAttribute in jobDetail.EntityAttributes)
+                    {
+                        jobDetailAttribute.AttributeId = newJobDetail.Id;
+                        jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
+                    }
                 }
             }
         }

@@ -71,7 +71,14 @@
                     DateTimeUpdated = "12 february 2016"
                 };
 
-                var routes = new List<RouteModel> { model, model2, model3, model, model2, model3, model, model2, model3 };
+                var routes = new List<RouteModel>();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    routes.Add(model);
+                    routes.Add(model2);
+                    routes.Add(model3);
+                }
 
                 return this.Request.CreateResponse(HttpStatusCode.OK, routes);
             }

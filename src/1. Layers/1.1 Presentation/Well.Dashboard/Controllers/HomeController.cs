@@ -20,8 +20,7 @@
                 Configuration = JsonConvert.SerializeObject(config)
             };
 
-
-            return View();
+            return this.View("Index",model);
         }
 
         public ActionResult About()

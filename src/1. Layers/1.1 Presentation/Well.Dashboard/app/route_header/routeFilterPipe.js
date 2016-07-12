@@ -11,25 +11,34 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var ResolvedRoutesComponent;
+    var RouteFilterPipe;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            ResolvedRoutesComponent = (function () {
-                function ResolvedRoutesComponent() {
-                    this.pageTitle = 'Welcome';
+            RouteFilterPipe = (function () {
+                function RouteFilterPipe() {
                 }
-                ResolvedRoutesComponent = __decorate([
-                    core_1.Component({}), 
+                RouteFilterPipe.prototype.transform = function (value, args) {
+                    var filter = args[0] ? args[0].toLocaleLowerCase() : null;
+                    return filter
+                        ? value.filter(function (route) {
+                            return route.driverName.toLocaleLowerCase().indexOf(filter) !== -1;
+                        })
+                        : value;
+                };
+                RouteFilterPipe = __decorate([
+                    core_1.Pipe({
+                        name: 'routeFilter'
+                    }), 
                     __metadata('design:paramtypes', [])
-                ], ResolvedRoutesComponent);
-                return ResolvedRoutesComponent;
+                ], RouteFilterPipe);
+                return RouteFilterPipe;
             }());
-            exports_1("ResolvedRoutesComponent", ResolvedRoutesComponent);
+            exports_1("RouteFilterPipe", RouteFilterPipe);
         }
     }
 });
-//# sourceMappingURL=resolved-routesComponent.js.map
+//# sourceMappingURL=routeFilterPipe.js.map

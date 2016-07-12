@@ -1,20 +1,20 @@
 ﻿import {Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http'
 import {Observable} from 'rxjs/Observable';
-import {IRoute} from './route';
+import {IResolvedDelivery} from './resolvedDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 
 
 @Injectable()
-export class RouteHeaderService {
+export class ResolvedDeliveryService {
     
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getRouteHeaders(): Observable<IRoute[]> {
+    getResolvedDeliveries(): Observable<IResolvedDelivery[]> {
         
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'routes')
-            .map((response: Response) => <IRoute[]>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/resolved')
+            .map((response: Response) => <IResolvedDelivery[]>response.json())
+            //.do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

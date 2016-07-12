@@ -43,3 +43,5 @@ src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js.map.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.map.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.ts.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/*.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/*.js.map

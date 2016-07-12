@@ -11,5 +11,7 @@
 
         void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
 
+        void AddRouteHeaderStops(RouteHeader routeHeader, int id);
+
     }
 }

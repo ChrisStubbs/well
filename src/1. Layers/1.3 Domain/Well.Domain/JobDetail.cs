@@ -1,42 +1,71 @@
 ﻿namespace PH.Well.Domain
 {
+    using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Xml.Serialization;
 
+    [Serializable()]
     public class JobDetail : Entity<int>
     {
         public JobDetail()
         {
-           
+           this.EntityAttributes = new Collection<Attribute>();
         }
 
+        [XmlElement("LineNumber")]
         public int LineNumber { get; set; }
 
+        [XmlElement("Barcode")]
         public string BarCode { get; set; }
 
+        [XmlIgnore]
         public decimal OriginalDispatchQty { get; set; }
 
+
+        [XmlElement("OriginalDespatchQty")]
+        public string OriginalDispatchQtyString
+        {
+            get { return OriginalDispatchQtyString; }
+            set { this.OriginalDispatchQty = value != string.Empty ? Convert.ToDecimal(value) : 0m; }
+        }
+
+        [XmlElement("ProdDesc")]
         public string ProdDesc { get; set; }
 
+        [XmlElement("OrderedQty")]
         public int OrderedQty { get; set; }
 
+        [XmlElement("SkuWeight")]
         public decimal SkuWeight { get; set; }
 
+        [XmlElement("SkuCube")]
         public decimal SkuCube { get; set; }
 
+        [XmlElement("UnitMeasure")]
         public string UnitMeasure { get; set; }
 
+        [XmlElement("TextField1")]
         public string TextField1 { get; set; }
 
+        [XmlElement("TextField2")]
         public string TextField2 { get; set; }
 
+        [XmlElement("TextField3")]
         public string TextField3 { get; set; }
 
+        [XmlElement("TextField4")]
         public string TextField4 { get; set; }
 
+        [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }
 
+        [XmlIgnore]
         public int JobId { get; set; }
-        public KeyValuePair<int, KeyValuePair<int, string>> JobMetaData { get; set; }
+
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(Attribute))]
+        public Collection<Attribute> EntityAttributes { get; set; }
 
     }
 }

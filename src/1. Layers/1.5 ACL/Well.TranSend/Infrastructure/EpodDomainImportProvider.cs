@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.InteropServices;
     using System.Xml.Serialization;
     using Common;
     using Common.Contracts;
@@ -52,14 +54,10 @@
             if (epodType == EpodFileType.RouteHeader)
             {
                 
-
                 var overrides = new XmlAttributeOverrides();
                 var attribs = new XmlAttributes {XmlIgnore = true};
                 attribs.XmlElements.Add(new XmlElementAttribute("RouteStatus"));
                 overrides.Add(typeof(RouteHeader), "RouteStatus", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("RouteMetaData"));
-                overrides.Add(typeof(RouteHeader), "RouteMetaData", attribs);
 
                 attribs.XmlElements.Add(new XmlElementAttribute("RouteDate"));
                 overrides.Add(typeof(RouteHeader), "RouteDate", attribs);
@@ -68,10 +66,12 @@
                 var reader = new StreamReader(filename);
 
                 routes = (RouteDeliveries)routeImportSerializer.Deserialize(reader);
+
                 reader.Close();
 
                 epodDomainImportService.CurrentUser = "ePodDomainImport";
                 epodDomainImportService.AddRoutesFile(routes, routesId);
+                logger.LogDebug($"File {filename} imported successfully");
 
             }
 

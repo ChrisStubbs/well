@@ -15,5 +15,7 @@
         RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader);
 
         RouteHeader GetRouteHeaderById(int id);
+
+        void AddRouteHeaderAttributes(Attribute attribute);
     }
 }

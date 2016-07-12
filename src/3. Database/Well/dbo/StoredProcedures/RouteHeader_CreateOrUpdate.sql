@@ -7,10 +7,10 @@
 	@DriverName				NVARCHAR(50),
 	@VehicleReg				NVARCHAR(10),
 	@StartDepotCode			NVARCHAR(10),
-	@PlannedRouteStartTime  TIME,
-	@PlannedRouteFinishTime TIME,
-	@PlannedDistance		DECIMAL(3,2),
-	@PlannedTravelTime		TIME,
+	@PlannedRouteStartTime  NVARCHAR(10),
+	@PlannedRouteFinishTime NVARCHAR(10),
+	@PlannedDistance		DECIMAL(5,2),
+	@PlannedTravelTime		NVARCHAR(10),
 	@PlannedStops			TINYINT,
 	@RoutesId				INT
 

@@ -79,7 +79,7 @@ namespace PH.Well.Repositories
 
         public RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
         {
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate)
+            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
                 .AddParameter("Id", routeHeader.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("CompanyId", routeHeader.CompanyID, DbType.Int32)
@@ -88,15 +88,25 @@ namespace PH.Well.Repositories
                 .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
                 .AddParameter("VehicleReg", routeHeader.VehicleReg, DbType.String)
                 .AddParameter("StartDepotCode", routeHeader.StartDepotCode, DbType.String)
-                .AddParameter("PlannedRouteStartTime", routeHeader.PlannedRouteStartTime, DbType.Time)
-                .AddParameter("PlannedRouteFinishTime", routeHeader.PlannedRouteFinishTime, DbType.Time)
+                .AddParameter("PlannedRouteStartTime", routeHeader.PlannedRouteStartTime, DbType.String)
+                .AddParameter("PlannedRouteFinishTime", routeHeader.PlannedRouteFinishTime, DbType.String)
                 .AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal)
-                .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.Time)
+                .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.String)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int16).Query<int>().FirstOrDefault();
 
             return this.GetRouteHeaderById(id);
 
+        }
+
+        public void AddRouteHeaderAttributes(Domain.Attribute attribute)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderAttributeCreateOrUpdate)
+                .AddParameter("Id", attribute.Id, DbType.Int32)
+                .AddParameter("Code", attribute.Code, DbType.String)
+                .AddParameter("Value", attribute.Value1, DbType.String)
+                .AddParameter("RouteHeaderId", attribute.AttributeId, DbType.Int32)
+                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
 

@@ -12,6 +12,7 @@
         public RouteHeader()
         {
             this.Stops = new Collection<Stop>();
+            this.EntityAttributes = new Collection<Attribute>();
         }
 
         [XmlElement("CompanyID")]
@@ -39,16 +40,16 @@
         public string StartDepotCode  { get; set; }
 
         [XmlElement("PlannedRouteStartTime")]
-        public TimeSpan PlannedRouteStartTime { get; set; }
+        public string PlannedRouteStartTime { get; set; }
 
         [XmlElement("PlannedRouteFinishTime")]
-        public TimeSpan PlannedRouteFinishTime { get; set; }
+        public string PlannedRouteFinishTime { get; set; }
 
         [XmlElement("PlannedDistance")]
         public decimal PlannedDistance { get; set; }
 
         [XmlElement("PlannedTravelTime")]
-        public TimeSpan PlannedTravelTime { get; set; }
+        public string PlannedTravelTime { get; set; }
 
         [XmlElement("PlannedStops")]
         public int PlannedStops { get; set; }
@@ -63,8 +64,12 @@
 
         public int RoutesId { get; set; }
 
-        [XmlElement("Stops")]
-        public Collection<Stop> Stops { get; set; } 
-        public KeyValuePair<int, KeyValuePair<int, string>> RouteMetaData { get; set; }
+        [XmlArray("Stops")]
+        [XmlArrayItem("Stop", typeof(Stop))]
+        public Collection<Stop> Stops { get; set; }
+
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(Attribute))]
+        public Collection<Attribute> EntityAttributes { get; set; }
     }
 }

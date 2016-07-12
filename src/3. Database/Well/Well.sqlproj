@@ -120,6 +120,18 @@
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeaderAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Stops_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\StopAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\Tables\StopAttribute.sql" />
+    <Build Include="dbo\StoredProcedures\StopAccount_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\JobAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailAttribute_CreateOrUpdate.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

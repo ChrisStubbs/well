@@ -216,6 +216,7 @@
     <Content Include="app\main.js" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\routeheader-list.html" />
+    <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\widgetstats\widgetstats.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
@@ -338,13 +339,15 @@
     <TypeScriptCompile Include="app\resolved\resolved-deliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
-    <TypeScriptCompile Include="app\resolved\resolvedDeliveryFilterPipe.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
-    <TypeScriptCompile Include="app\route_header\routeFilterPipe.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
+    <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
+    <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
+    <TypeScriptCompile Include="app\shared\filterOption.ts" />
+    <TypeScriptCompile Include="app\shared\optionFilterPipe.ts" />
     <TypeScriptCompile Include="app\stops\stops.ts" />
     <TypeScriptCompile Include="app\widgetstats\widgetstats-service.ts" />
     <TypeScriptCompile Include="app\widgetstats\widgetstats.ts" />

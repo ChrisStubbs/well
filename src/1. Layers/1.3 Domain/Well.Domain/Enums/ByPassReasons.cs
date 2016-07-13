@@ -41,6 +41,6 @@
         Z3 = 12,
 
         [Description("Not Defined")]
-        ND = 13,
+        Notdef = 13,
     }
 }

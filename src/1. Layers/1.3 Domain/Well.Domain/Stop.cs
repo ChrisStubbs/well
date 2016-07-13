@@ -84,7 +84,10 @@
         public string StopStatusCode
         {
             get { return StopStatusCode; }
-            set { StopStatusCodeId = (int)(StopStatus)Enum.Parse(typeof(StopStatus), value); }
+            set
+            {          
+                StopStatusCodeId = value == null ? (int)StopStatus.Notdef : (int)(StopStatus)Enum.Parse(typeof(StopStatus), value);
+            }
         }
 
         [XmlIgnore]
@@ -94,7 +97,10 @@
         public string StopPerformanceStatusCode
         {
             get { return StopPerformanceStatusCode; }
-            set { StopPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
+            set
+            {
+                StopPerformanceStatusCodeId = value == null ? (int)PerformanceStatus.Notdef : (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value);
+            }
         }
 
         [XmlIgnore]
@@ -104,7 +110,7 @@
         public string StopByPassReason
         {
             get { return StopByPassReason; }
-            set { StopPerformanceStatusCodeId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
+            set { StopPerformanceStatusCodeId = value == null ? (int)ByPassReasons.Notdef : (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
         }
 
 

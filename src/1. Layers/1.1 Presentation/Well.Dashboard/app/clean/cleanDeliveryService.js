@@ -33,9 +33,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../shared
                     this.globalSettingsService = globalSettingsService;
                 }
                 CleanDeliveryService.prototype.getCleanDeliveries = function () {
-                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'clean')
+                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean')
                         .map(function (response) { return response.json(); })
-                        .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
                 };
                 CleanDeliveryService.prototype.handleError = function (error) {

@@ -6,6 +6,7 @@
 
     public interface IDeliveryService
     {
-        IEnumerable<CleanDelivery> GetCleanDeliveries();
+        IEnumerable<Delivery> GetCleanDeliveries();
+        IEnumerable<Delivery> GetResolvedDeliveries();
     }
 }

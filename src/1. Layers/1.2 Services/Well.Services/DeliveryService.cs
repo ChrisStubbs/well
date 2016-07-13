@@ -4,9 +4,10 @@ namespace PH.Well.Services
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
+    using System.Linq;
     using Common.Contracts;
     using Common.Extensions;
+    using Domain;
     using Domain.ValueObjects;
     using Domain.Enums;
 
@@ -33,15 +34,27 @@ namespace PH.Well.Services
             this.AccountRepository = accountRepository;
         }
 
-        public IEnumerable<CleanDelivery> GetCleanDeliveries()
+        public IEnumerable<Delivery> GetCleanDeliveries()
         {
-            var status = 6; // complete
+            return GetDeliveriesByStatus(PerformanceStatus.Compl);
+        }
+
+        public IEnumerable<Delivery> GetResolvedDeliveries()
+        {
+            //Todo this is not right
+            return GetDeliveriesByStatus(PerformanceStatus.Incom);
+        }
+
+        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status)
+        {
             var jobs = this.JobRepository.GetByStatus(status);
-            var cleanDeliveries = new Collection<CleanDelivery>();
+            var cleanDeliveries = new Collection<Delivery>();
+            var routes = new Collection<RouteHeader>();
+            var accounts = new Collection<Account>();
 
             foreach (var job in jobs)
             {
-                var cleanDelivery = new CleanDelivery();
+                var cleanDelivery = new Delivery();
 
                 cleanDelivery.InvoiceNumber = job.JobRef3;
                 cleanDelivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.JobPerformanceStatusCodeId);
@@ -50,21 +63,31 @@ namespace PH.Well.Services
                 var stop = this.StopRepository.GetById(job.StopId);
                 cleanDelivery.DropId = stop.DropId;
 
-                var route = this.RouteHeaderRepository.GetRouteHeaderById(int.Parse(stop.RouteId));
+                var routeId = int.Parse(stop.RouteId);
+                var route = routes.FirstOrDefault(x => x.RoutesId == routeId);
+
+                if (route == null)
+                {
+                    route = this.RouteHeaderRepository.GetRouteHeaderById(int.Parse(stop.RouteId));
+                    routes.Add(route);
+                }
                 cleanDelivery.RouteNumber = route.RouteNumber;
 
-                var account = this.AccountRepository.GetAccountByStopId(job.StopId);
-                cleanDelivery.AccountName = account.Name;
+                var account = accounts.FirstOrDefault(x => x.StopId == job.StopId);
 
+                if (account == null)
+                {
+                    account = this.AccountRepository.GetAccountByStopId(job.StopId);
+                    accounts.Add(account);
+                }
+
+                cleanDelivery.AccountName = account.Name;
                 cleanDeliveries.Add(cleanDelivery);
             }
 
             return cleanDeliveries;
         }
 
-
-
-
-
+       
     }
 }

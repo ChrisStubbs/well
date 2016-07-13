@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Branch.cs" />
-    <Compile Include="ValueObjects\CleanDelivery.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Attribute.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
     <Compile Include="Depot.cs" />
+    <Compile Include="ValueObjects\Delivery.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>
   <ItemGroup>

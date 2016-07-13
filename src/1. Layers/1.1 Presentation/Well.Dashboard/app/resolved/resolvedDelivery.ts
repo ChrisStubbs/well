@@ -1,10 +1,10 @@
 ﻿export interface IResolvedDelivery {
-    route: string;
-    drop: string;
-    invoiceNo: number;
-    account: string;
+    routeNumber: string;
+    dropId: string;
+    invoiceNumber: number;
+    accountCode: string;
     accountName: string;
-    status: string;
+    jobStatus: string;
     action: string;
     assigned: string;
     dateTime: string;

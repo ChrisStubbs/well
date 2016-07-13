@@ -4,7 +4,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
     using Common.Contracts;
     using Repositories.Contracts;
 
@@ -49,8 +48,6 @@
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
-
-
 
     }
 }

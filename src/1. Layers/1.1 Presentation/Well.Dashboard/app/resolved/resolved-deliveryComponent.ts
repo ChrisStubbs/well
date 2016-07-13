@@ -22,12 +22,12 @@ export class ResolvedDeliveryComponent implements OnInit {
     rowCount: number = 10;
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
-        new DropDownItem("Route", "route"),
-        new DropDownItem("Drop", "drop"),
-        new DropDownItem("Invoice No", "invoiceNo"),
-        new DropDownItem("Account", "account"),
+        new DropDownItem("Route", "routeNumber"),
+        new DropDownItem("Drop", "dropId"),
+        new DropDownItem("Invoice No", "invoiceNumber"),
+        new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
-        new DropDownItem("Status", "status"),
+        new DropDownItem("Status", "jobStatus"),
         new DropDownItem("Action", "action"),
         new DropDownItem("Assigned", "assigned"),
         new DropDownItem("Date", "dateTime")

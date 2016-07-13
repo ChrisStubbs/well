@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
@@ -25,11 +26,11 @@
             return job;
         }
 
-        public IEnumerable<Job> GetByStatus(int status)
+        public IEnumerable<Job> GetByStatus(PerformanceStatus status)
         {
             var jobs =
                dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStatus)
-                   .AddParameter("PerformanceStatusCode", status, DbType.Int32)
+                   .AddParameter("PerformanceStatusCode", (int)status, DbType.Int32)
                    .Query<Job>()
                    .ToList();
 

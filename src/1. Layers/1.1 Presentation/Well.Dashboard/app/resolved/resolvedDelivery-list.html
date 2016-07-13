@@ -26,15 +26,15 @@
             </thead>
             <tbody>
                 <tr *ngFor="let delivery of deliveries | optionFilter:filterOption" (click)="deliverySelected(delivery)">
-                    <td>{{delivery.route}}</td>
-                    <td>{{delivery.drop}}</td>
-                    <td>{{delivery.invoiceNo}}</td>
-                    <td>{{delivery.account}}</td>
+                    <td>{{delivery.routeNumber}}</td>
+                    <td>{{delivery.dropId}}</td>
+                    <td>{{delivery.invoiceNumber}}</td>
+                    <td>{{delivery.accountCode}}</td>
                     <td>{{delivery.accountName}}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#myModal">Info</button>
                     </td>
-                    <td>{{delivery.status}}</td>
+                    <td>{{delivery.jobStatus}}</td>
                     <td>{{delivery.action}}</td>
                     <td>{{delivery.assigned}}</td>
                     <td>{{delivery.dateTime}}</td>

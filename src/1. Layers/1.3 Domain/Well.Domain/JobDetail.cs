@@ -36,6 +36,9 @@
         [XmlElement("OrderedQty")]
         public int OrderedQty { get; set; }
 
+        [XmlElement("ShortQty")]
+        public int ShortQty { get; set; }
+
         [XmlElement("SkuWeight")]
         public decimal SkuWeight { get; set; }
 
@@ -56,6 +59,9 @@
 
         [XmlElement("TextField4")]
         public string TextField4 { get; set; }
+
+        [XmlElement("TextField5")]
+        public string TextField5 { get; set; }
 
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }

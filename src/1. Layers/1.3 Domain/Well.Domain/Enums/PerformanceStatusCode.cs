@@ -14,9 +14,12 @@
         Late = 3,
 
         [Description("On Time")]
-        Ontim = 3,
+        Ontim = 4,
 
         [Description("Out of Sequence")]
-        Outof = 3,
+        Outof = 5,
+
+        [Description("Not Defined")]
+        Notdef = 6,
     }
 }

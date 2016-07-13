@@ -12,7 +12,8 @@ namespace PH.Well.Repositories
     using Contracts;
     using Dapper;
     using Domain;
-  
+    using Domain.Enums;
+
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
 
@@ -94,16 +95,16 @@ namespace PH.Well.Repositories
                 .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.String)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
-                .AddParameter("RouteStatusId", routeHeader.RouteStatusId, DbType.Int16)
-                .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId, DbType.Int16)
-                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
+                .AddParameter("RouteStatusId", routeHeader.RouteStatusId = routeHeader.RouteStatusId == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatusId, DbType.Int16)
+                .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)PerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("LastRouteUpdate", DateTime.Now, DbType.DateTime)
                 .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32)
                 .AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32)
                 .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
                 .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
-                .AddParameter("Depot", routeHeader.Depot, DbType.String).Query<int>().FirstOrDefault();
+                .AddParameter("Depot", routeHeader.Depot.Code, DbType.String).Query<int>().FirstOrDefault();
 
             return this.GetRouteHeaderById(id);
 

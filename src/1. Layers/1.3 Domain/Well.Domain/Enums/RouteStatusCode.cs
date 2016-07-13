@@ -12,5 +12,8 @@
 
         [Description("Complete")]
         Compl = 3,
+
+        [Description("Not Defined")]
+        Notdef = 4,
     }
 }

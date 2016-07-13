@@ -5,7 +5,6 @@
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
     using Enums;
-    using ValueObjects;
 
     [Serializable()]
     public class RouteHeader : Entity<int>
@@ -81,7 +80,10 @@
         public string LastRouteUpdateString
         {
             get { return this.LastRouteUpdate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.LastRouteUpdate = DateTime.Parse(value); }
+            set
+            {             
+                this.LastRouteUpdate = value == string.Empty? DateTime.Now : DateTime.Parse(value);
+            }
         }
 
         [XmlElement("AuthByPass")]

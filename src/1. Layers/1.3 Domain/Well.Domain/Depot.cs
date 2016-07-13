@@ -1,9 +1,9 @@
-﻿namespace PH.Well.Domain.ValueObjects
+﻿namespace PH.Well.Domain
 {
     using System;
 
     [Serializable]
-    public class Depot
+    public class Depot : Entity<int>
     {
         public string Code { get; set; }
     }

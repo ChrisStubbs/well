@@ -105,7 +105,7 @@
     <Build Include="dbo\Tables\JobAttribute.sql" />
     <Build Include="dbo\Tables\JobDetail.sql" />
     <Build Include="dbo\Tables\JobDetailAttribute.sql" />
-    <Build Include="dbo\Tables\JobDetailDamageReasons.sql" />
+    <Build Include="dbo\Tables\JobDetailDamage.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
     <Build Include="dbo\StoredProcedures\WidgetStats_Get.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />

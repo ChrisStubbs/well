@@ -50,6 +50,7 @@
     <Compile Include="Enums\ChangeInfo.cs" />
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
+    <Compile Include="Enums\DamageReasons.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteImportType.cs" />
@@ -57,13 +58,14 @@
     <Compile Include="Enums\RouteStatusCode.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
+    <Compile Include="JobDetailDamageReason.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteDeliveries.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
-    <Compile Include="ValueObjects\Depot.cs" />
+    <Compile Include="Depot.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>
   <ItemGroup />

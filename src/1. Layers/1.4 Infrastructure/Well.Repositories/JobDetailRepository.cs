@@ -41,6 +41,7 @@
                 .AddParameter("TextField2", jobDetail.TextField2, DbType.String)
                 .AddParameter("TextField3", jobDetail.TextField3, DbType.String)
                 .AddParameter("TextField4", jobDetail.TextField4, DbType.String)
+                .AddParameter("TextField5", jobDetail.TextField5, DbType.String)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .Query<int>().FirstOrDefault();

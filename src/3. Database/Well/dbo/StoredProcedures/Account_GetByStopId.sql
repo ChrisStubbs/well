@@ -14,7 +14,7 @@ BEGIN
 		  ,[ContactNumber]
 		  ,[ContactNumber2]
 		  ,[ContactEmailAddress]
-		--  ,[DepotID]
+		  ,[DepotID]
 	  FROM [dbo].[Account]
 	  WHERE StopId = @StopId
 

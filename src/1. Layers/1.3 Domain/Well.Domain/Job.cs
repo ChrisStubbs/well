@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
+    using Common.Extensions;
+    using Enums;
 
     [Serializable()]
     public class Job:Entity<int>
@@ -51,8 +53,25 @@
         [XmlElement("TextField2")]
         public string TextField2 { get; set; }
 
-        [XmlElement("RoutePerformanceStatusCode")]
-        public string PerformanceStatusCode { get; set; }
+        [XmlIgnore]
+        public int JobPerformanceStatusCodeId { get; set; }
+
+        [XmlElement("PerformanceStatusCode")]
+        public string JobPerformanceStatusCode
+        {
+            get { return JobPerformanceStatusCode; }
+            private set { JobPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
+        }
+
+        [XmlIgnore]
+        public int ByPassReasonId { get; set; }
+
+        [XmlElement("Reason_Description")]
+        public string JobByPassReason
+        {
+            get { return JobByPassReason; }
+            private set { ByPassReasonId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
+        }
 
         [XmlIgnore]
         public int StopId { get; set; }

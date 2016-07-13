@@ -6,7 +6,9 @@ namespace PH.Well.Services
     using System.Collections.ObjectModel;
 
     using Common.Contracts;
+    using Common.Extensions;
     using Domain.ValueObjects;
+    using Domain.Enums;
 
     using PH.Well.Services.Contracts;
 
@@ -42,7 +44,7 @@ namespace PH.Well.Services
                 var cleanDelivery = new CleanDelivery();
 
                 cleanDelivery.InvoiceNumber = job.JobRef3;
-                cleanDelivery.JobStatus = job.PerformanceStatusCode;
+                cleanDelivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.JobPerformanceStatusCodeId);
                 cleanDelivery.AccountCode = job.JobRef1;
 
                 var stop = this.StopRepository.GetById(job.StopId);

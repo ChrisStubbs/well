@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {IRoute} from './route';
 import {GlobalSettingsService} from '../shared/globalSettings';
 
-
 @Injectable()
 export class RouteHeaderService {
     

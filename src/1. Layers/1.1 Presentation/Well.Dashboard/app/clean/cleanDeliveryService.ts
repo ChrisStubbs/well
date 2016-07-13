@@ -2,17 +2,17 @@
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {ICleanDelivery} from './cleanDelivery';
+import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Injectable()
 export class CleanDeliveryService {
 
-    private cleanDeliveriesUrl = '/Well.Api/';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
     getCleanDeliveries(): Observable<ICleanDelivery> {
 
-        return this.http.get(this.cleanDeliveriesUrl + 'clean')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'clean')
             .map((response: Response) => <ICleanDelivery>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);

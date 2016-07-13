@@ -3,9 +3,10 @@ import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
 import {IResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
-import {ResolvedDeliveryFilterPipe } from './resolvedDeliveryFilterPipe';
-import {GlobalSettingsService} from '../shared/globalSettings';
+import {OptionFilterComponent} from '../shared/optionfilter.component';
+import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {MODAL_DIRECTIVES} from 'ng2-bootstrap';
+import {DropDownItem} from "../shared/DropDownItem";
 
 @Component({
     templateUrl: './app/resolved/resolveddelivery-list.html',
@@ -17,8 +18,18 @@ export class ResolvedDeliveryComponent implements OnInit {
     errorMessage: string;
     deliveries: IResolvedDelivery[];
     rowCount: number = 10;
-    filterText: string;
-
+    filterOption: FilterOption = new FilterOption();
+    options: DropDownItem[] = [
+        new DropDownItem("Route", "route"),
+        new DropDownItem("Drop", "drop"),
+        new DropDownItem("Invoice No", "invoiceNo"),
+        new DropDownItem("Account", "account"),
+        new DropDownItem("Account Name", "accountName"),
+        new DropDownItem("Status", "status"),
+        new DropDownItem("Action", "action"),
+        new DropDownItem("Assigned", "assigned"),
+        new DropDownItem("Date", "dateTime")
+    ];
     constructor(private resolvedDeliveryService: ResolvedDeliveryService) { }
 
     ngOnInit() {
@@ -35,8 +46,8 @@ export class ResolvedDeliveryComponent implements OnInit {
         console.log(delivery.accountName);
     }
 
-
-    foo(): void {
-        console.log(this.filterText);
+    onFilterClicked(filterOption: FilterOption) {
+        this.filterOption = filterOption;
     }
+
 }

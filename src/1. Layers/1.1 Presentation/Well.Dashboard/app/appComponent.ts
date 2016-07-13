@@ -18,6 +18,8 @@ import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolved-deliveryComponent';
 //notifications
 import {NotificationsComponent} from './notifications/notificationsComponent';
+//account
+import {AccountComponent} from './account/accountComponent';
 //configuration
 import {GlobalSettingsService} from './shared/globalSettings';
 
@@ -35,7 +37,8 @@ declare var $: any;
         { path: '/routes', name: 'Routes', component: RouteHeaderComponent },
         { path: '/clean', name: 'Clean', component: CleanDeliveryComponent },
         { path: '/resolved', name: 'Resolved', component: ResolvedDeliveryComponent },
-        { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
+        { path: '/notifications', name: 'Notifications', component: NotificationsComponent },
+        { path: '/account', name: 'Account', component: AccountComponent }
 ])
 
 export class AppComponent implements OnInit  {

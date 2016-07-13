@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PH.Well.Common">
+      <HintPath>..\..\1.4 Infrastructure\Well.Repositories\bin\Debug\PH.Well.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,28 +45,41 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Branch.cs" />
-    <Compile Include="CleanDelivery.cs" />
+    <Compile Include="ValueObjects\CleanDelivery.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Attribute.cs" />
     <Compile Include="Enums\AccountType.cs" />
+    <Compile Include="Enums\ByPassReasons.cs" />
     <Compile Include="Enums\ChangeInfo.cs" />
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
+    <Compile Include="Enums\DamageReasons.cs" />
+    <Compile Include="Enums\PerformanceStatus.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteImportType.cs" />
-    <Compile Include="Enums\RouteStatus.cs" />
+    <Compile Include="Enums\RoutePerformanceStatusCode.cs" />
+    <Compile Include="Enums\RouteStatusCode.cs" />
+    <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
+    <Compile Include="JobDetailDamage.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteDeliveries.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
+    <Compile Include="Depot.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
+      <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
+      <Name>Well.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

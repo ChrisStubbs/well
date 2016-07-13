@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', 'rxjs/Observable'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', 'rxjs/Observable', '../shared/globalSettings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable'], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, Observable_1;
+    var core_1, http_1, Observable_1, globalSettings_1;
     var CleanDeliveryService;
     return {
         setters:[
@@ -22,15 +22,18 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable'], function(
             },
             function (Observable_1_1) {
                 Observable_1 = Observable_1_1;
+            },
+            function (globalSettings_1_1) {
+                globalSettings_1 = globalSettings_1_1;
             }],
         execute: function() {
             CleanDeliveryService = (function () {
-                function CleanDeliveryService(http) {
+                function CleanDeliveryService(http, globalSettingsService) {
                     this.http = http;
-                    this.cleanDeliveriesUrl = '/Well.Api/';
+                    this.globalSettingsService = globalSettingsService;
                 }
                 CleanDeliveryService.prototype.getCleanDeliveries = function () {
-                    return this.http.get(this.cleanDeliveriesUrl + 'clean')
+                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'clean')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
@@ -41,7 +44,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable'], function(
                 };
                 CleanDeliveryService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
                 ], CleanDeliveryService);
                 return CleanDeliveryService;
             }());

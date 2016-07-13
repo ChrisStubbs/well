@@ -14,7 +14,6 @@ export class ResolvedDeliveryService {
         
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/resolved')
             .map((response: Response) => <IResolvedDelivery[]>response.json())
-            //.do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

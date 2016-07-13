@@ -124,7 +124,7 @@
                                                       <xs:sequence>
                                                         <xs:element name="LineNumber" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
                                                         <xs:element name="Barcode" type="xs:unsignedInt" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="OriginalDespatchQty" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="OriginalDespatchQty" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="ProdDesc" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                                         <xs:element name="OrderedQty" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
                                                         <xs:element name="SkuWeight" type="xs:decimal" minOccurs="1" maxOccurs="1"/>

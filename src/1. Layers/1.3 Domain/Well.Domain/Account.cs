@@ -2,45 +2,74 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Xml.Serialization;
 
-
-        public class Account : Entity<int>
+    [Serializable()]
+    public class Account : Entity<int>
         {
 
-            public string Code { get; set; }
+        public Account()
+        {
+            this.EntityAttributes = new Collection<Attribute>();
+        }
 
-            public int AccountTypeCode { get; set; }
+        [XmlElement("Code")]
+        public string Code { get; set; }
 
-            public string Name { get; set; }
+        [XmlElement("AccountTypeCode")]
+        public string AccountTypeCode { get; set; }
 
-            public string Address1 { get; set; }
+        [XmlElement("DepotID")]
+        public int DepotId { get; set; }
 
-            public string Address2 { get; set; }
+        [XmlElement("Name")]
+        public string Name { get; set; }
 
-            public string PostCode { get; set; }
 
-            public string ContactName { get; set; }
+        [XmlElement("Address1")]
+        public string Address1 { get; set; }
 
-            public string ContactNumber { get; set; }
+        [XmlElement("Address2")]
+        public string Address2 { get; set; }
 
-            public string ContactNumber2 { get; set; }
+        [XmlElement("PostCode")]
+        public string PostCode { get; set; }
 
-            public string ContactEmailAddress { get; set; }
+        [XmlElement("ContactName")]
+        public string ContactName { get; set; }
 
-            public TimeSpan StartWindow { get; set; }
+        [XmlElement("ContactNumber")]
+        public string ContactNumber { get; set; }
 
-            public TimeSpan EndWindow { get; set; }
+        [XmlElement("ContactNumber2")]
+        public string ContactNumber2 { get; set; }
 
-            public string DepotId { get; set; }
+        [XmlElement("ContactEmailAddress")]
+        public string ContactEmailAddress { get; set; }
 
-            public double Latitude { get; set; }
+        [XmlElement("StartWindow")]
+        public string StartWindow { get; set; }
 
-            public double Longitude { get; set; }
-            public KeyValuePair<int, KeyValuePair<int, string>> AccountMetaData { get; set; }
+        [XmlElement("EndWindow")]
+        public string EndWindow { get; set; }
 
-            public bool IsDropAndDrive { get; set; }
+        [XmlElement("Latitude")]
+        public double Latitude { get; set; }
 
-            public int StopId { get; set; }
+        [XmlElement("Longitude")]
+        public double Longitude { get; set; }
+
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("EntityAttribute", typeof(Attribute))]
+        public Collection<Attribute> EntityAttributes { get; set; }
+
+        [XmlElement("IsDropAndDrive")]
+        public string IsDropAndDrive { get; set; }
+
+        [XmlIgnore]
+        public int StopId { get; set; }
         }
     }
 

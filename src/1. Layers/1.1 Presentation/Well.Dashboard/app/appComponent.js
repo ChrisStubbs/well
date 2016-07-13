@@ -42,6 +42,9 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', '@angular/router-d
             function (notificationsComponent_1_1) {
                 notificationsComponent_1 = notificationsComponent_1_1;
             },
+            function (accountComponent_1_1) {
+                accountComponent_1 = accountComponent_1_1;
+            },
             function (globalSettings_1_1) {
                 globalSettings_1 = globalSettings_1_1;
             }],
@@ -68,7 +71,8 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', '@angular/router-d
                         { path: '/routes', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
                         { path: '/clean', name: 'Clean', component: cleanDeliveryComponent_1.CleanDeliveryComponent },
                         { path: '/resolved', name: 'Resolved', component: resolved_deliveryComponent_1.ResolvedDeliveryComponent },
-                        { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
+                        { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent },
+                        { path: '/account', name: 'Account', component: accountComponent_1.AccountComponent }
                     ]), 
                     __metadata('design:paramtypes', [router_deprecated_1.Router, core_1.ChangeDetectorRef, globalSettings_1.GlobalSettingsService])
                 ], AppComponent);

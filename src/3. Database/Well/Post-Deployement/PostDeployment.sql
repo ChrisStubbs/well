@@ -12,7 +12,7 @@ Post-Deployment Script Template
 :r .\Populate-AccountType.sql
 :r .\Populate-ByPassReasons.sql
 :r .\Populate-DamageReasons.sql
-:r .\Populate-JobPerformanceStatus.sql
+:r .\Populate-PerformanceStatus.sql
 :r .\Populate-JobType.sql
 :r .\Populate-ReasonCategory.sql
 :r .\Populate-RoutePerformanceStatus.sql
@@ -20,3 +20,4 @@ Post-Deployment Script Template
 :r .\Populate-VisitTypes.sql
 :r .\EventServiceBroker.sql
 :r .\Pupulate-DefaultWidgetStats.sql
+:r .\Populate-StopStatus.sql

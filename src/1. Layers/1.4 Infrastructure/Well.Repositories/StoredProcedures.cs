@@ -34,6 +34,10 @@
         public static string JobDetailGetById = "JobDetail_GetById";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
 
+        //Account
+        public static string AccountGetByStopId = "Account_GetByStopId";
+
+
 
     }
 }

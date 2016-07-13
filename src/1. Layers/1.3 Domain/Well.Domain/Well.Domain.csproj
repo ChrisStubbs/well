@@ -58,7 +58,7 @@
     <Compile Include="Enums\RouteStatusCode.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
-    <Compile Include="JobDetailDamageReason.cs" />
+    <Compile Include="JobDetailDamage.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteDeliveries.cs" />

@@ -7,7 +7,7 @@ namespace PH.Well.Domain
     using Enums;
 
     [Serializable()]
-    public class JobDetailDamageReason : Entity<int>
+    public class JobDetailDamage : Entity<int>
     {
         public decimal Qty { get; set; }
 

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-routesComponent', './notifications/notificationsComponent', './account/accountComponent'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-deliveryComponent', './notifications/notificationsComponent', './account/accountComponent', './shared/globalSettings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_routesComponent_1, notificationsComponent_1, accountComponent_1;
+    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_deliveryComponent_1, notificationsComponent_1, accountComponent_1, globalSettings_1;
     var AppComponent;
     return {
         setters:[
@@ -44,6 +44,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             },
             function (accountComponent_1_1) {
                 accountComponent_1 = accountComponent_1_1;
+            },
+            function (globalSettings_1_1) {
+                globalSettings_1 = globalSettings_1_1;
             }],
         execute: function() {
             AppComponent = (function () {

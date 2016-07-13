@@ -24,6 +24,12 @@ namespace PH.Well.Domain
         [XmlIgnore]
         public int DamageReasonId { get; set; }
 
+        [XmlElement("ReasonCode")]
+        public string ReasonCode
+        {
+            get { return ReasonCode; }
+            private set { ReasonCategoryId = (int)(DamageReasons)Enum.Parse(typeof(DamageReasons), value); }
+        }
 
 
         [XmlIgnore]

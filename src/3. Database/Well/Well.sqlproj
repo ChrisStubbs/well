@@ -77,7 +77,7 @@
     <None Include="Post-Deployement\Populate-ReasonCategory.sql" />
     <None Include="Post-Deployement\Populate-RouteStatus.sql" />
     <None Include="Post-Deployement\Populate-RoutePerformanceStatus.sql" />
-    <None Include="Post-Deployement\Populate-JobPerformanceStatus.sql" />
+    <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <None Include="Post-Deployement\Populate-ByPassReasons.sql" />
     <None Include="Post-Deployement\Populate-DamageReasons.sql" />
   </ItemGroup>
@@ -89,7 +89,7 @@
     <Build Include="dbo\Tables\RouteStatus.sql" />
     <Build Include="dbo\Tables\RoutePerformanceStatus.sql" />
     <Build Include="dbo\Tables\JobStatus.sql" />
-    <Build Include="dbo\Tables\JobPerformanceStatus.sql" />
+    <Build Include="dbo\Tables\PerformanceStatus.sql" />
     <Build Include="dbo\Tables\AccountType.sql" />
     <Build Include="dbo\Tables\ByPassReasons.sql" />
     <Build Include="dbo\Tables\RoyaltyExceptions.sql" />
@@ -133,11 +133,13 @@
     <Build Include="dbo\StoredProcedures\JobDetail_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
+    <Build Include="dbo\Tables\StopStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
     <None Include="Post-Deployement\EventServiceBroker.sql" />
     <None Include="Post-Deployement\Pupulate-DefaultWidgetStats.sql" />
+    <None Include="Post-Deployement\Populate-StopStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

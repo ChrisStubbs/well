@@ -57,8 +57,8 @@
                 attribs.XmlElements.Add(new XmlElementAttribute("RouteStatusCode"));
                 overrides.Add(typeof(RouteHeader), "RouteStatusCode", attribs);
 
-                attribs.XmlElements.Add(new XmlElementAttribute("PerformanceStatusCode"));
-                overrides.Add(typeof(RouteHeader), "PerformanceStatusCode", attribs);
+                attribs.XmlElements.Add(new XmlElementAttribute("RoutePerformanceStatusCode"));
+                overrides.Add(typeof(RouteHeader), "RoutePerformanceStatusCode", attribs);
 
                 attribs.XmlElements.Add(new XmlElementAttribute("LastRouteUpdate"));
                 overrides.Add(typeof(RouteHeader), "LastRouteUpdate", attribs);

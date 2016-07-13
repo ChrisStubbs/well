@@ -66,11 +66,11 @@
 
         public int RoutePerformanceStatusId { get; set; }
 
-        [XmlElement("PerformanceStatusCode")]
+        [XmlElement("RoutePerformanceStatusCode")]
         public string PerformanceStatusCode
         {
             get { return PerformanceStatusCode; }
-            private set { RoutePerformanceStatusId = (int)(PerformanceStatusCode)Enum.Parse(typeof(PerformanceStatusCode), value); }
+            private set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value); }
         }
 
         [XmlIgnore]

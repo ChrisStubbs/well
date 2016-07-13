@@ -51,7 +51,7 @@
         [XmlElement("TextField2")]
         public string TextField2 { get; set; }
 
-        [XmlElement("PerformanceStatusCode")]
+        [XmlElement("RoutePerformanceStatusCode")]
         public string PerformanceStatusCode { get; set; }
 
         [XmlIgnore]

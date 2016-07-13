@@ -51,11 +51,13 @@
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\DamageReasons.cs" />
+    <Compile Include="Enums\PerformanceStatus.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteImportType.cs" />
-    <Compile Include="Enums\PerformanceStatusCode.cs" />
+    <Compile Include="Enums\RoutePerformanceStatusCode.cs" />
     <Compile Include="Enums\RouteStatusCode.cs" />
+    <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />

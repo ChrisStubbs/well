@@ -49,7 +49,10 @@
                 .AddParameter("TextField1", stop.TextField1, DbType.String)
                 .AddParameter("TextField2", stop.TextField2, DbType.String)
                 .AddParameter("TextField3", stop.TextField3, DbType.String)
-                .AddParameter("TextField4", stop.TextField4, DbType.String).Query<int>().FirstOrDefault();
+                .AddParameter("TextField4", stop.TextField4, DbType.String)
+                .AddParameter("StopStatusId", stop.StopStatusCodeId, DbType.Int16)
+                .AddParameter("StopPerformanceStatusId", stop.StopPerformanceStatusCodeId, DbType.Int16)
+                .AddParameter("ByPassReasonId", stop.ByPassReasonId, DbType.Int16).Query<int>().FirstOrDefault();
 
             return this.GetById(id);
 

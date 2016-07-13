@@ -17,7 +17,10 @@ SELECT [Id],
       [TextField1],
       [TextField2],
       [TextField3],
-      [TextField4]
+      [TextField4],
+	  [StopStatusId],
+	  [StopPerformanceStatusId],
+	  [ByPassReasonId]
   FROM [Well].[dbo].[Stop]
   WHERE [Id] = @Id
 END

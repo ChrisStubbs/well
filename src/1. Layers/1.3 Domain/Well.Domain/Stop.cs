@@ -4,6 +4,8 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Xml.Serialization;
+    using Common.Extensions;
+    using Enums;
 
     [Serializable()]
     public class Stop : Entity<int>
@@ -74,6 +76,37 @@
 
         [XmlElement("TextField4")]
         public string TextField4 { get; set; }
+
+        [XmlIgnore]
+        public int StopStatusCodeId { get; set; }
+
+        [XmlElement("StopStatusCode")]
+        public string StopStatusCode
+        {
+            get { return StopStatusCode; }
+            private set { StopStatusCodeId = (int)(StopStatus)Enum.Parse(typeof(StopStatus), value); }
+        }
+
+        [XmlIgnore]
+        public int StopPerformanceStatusCodeId { get; set; }
+
+        [XmlElement("StopStatusCode")]
+        public string StopPerformanceStatusCode
+        {
+            get { return StopPerformanceStatusCode; }
+            private set { StopPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
+        }
+
+        [XmlIgnore]
+        public int ByPassReasonId { get; set; }
+
+        [XmlElement("Reason_Description")]
+        public string StopByPassReason
+        {
+            get { return StopByPassReason; }
+            private set { StopPerformanceStatusCodeId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
+        }
+
 
         [XmlElement("Account")]
         public Account Accounts { get; set; }

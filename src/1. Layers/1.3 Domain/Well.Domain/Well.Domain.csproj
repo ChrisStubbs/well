@@ -74,7 +74,12 @@
     <Compile Include="Depot.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
+      <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
+      <Name>Well.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

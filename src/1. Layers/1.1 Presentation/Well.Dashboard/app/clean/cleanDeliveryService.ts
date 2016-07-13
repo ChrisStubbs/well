@@ -1,8 +1,9 @@
-﻿import {Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+﻿import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {ICleanDelivery} from './cleanDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CleanDeliveryService {
@@ -12,9 +13,9 @@ export class CleanDeliveryService {
 
     getCleanDeliveries(): Observable<ICleanDelivery> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'clean')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean')
             .map((response: Response) => <ICleanDelivery>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
+            //.do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
 
     }

@@ -1,10 +1,10 @@
 ﻿/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
 //common
-import {bootstrap} from 'angular2/platform/browser';
-import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
-import { HTTP_PROVIDERS } from 'angular2/http';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/Rx';   // Load all features
-import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
 import * as lodash from 'lodash';
 
 //widget stats

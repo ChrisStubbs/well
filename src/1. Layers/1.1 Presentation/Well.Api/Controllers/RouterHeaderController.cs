@@ -73,7 +73,7 @@
 
                 var routes = new List<RouteModel>();
 
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     routes.Add(model);
                     routes.Add(model2);

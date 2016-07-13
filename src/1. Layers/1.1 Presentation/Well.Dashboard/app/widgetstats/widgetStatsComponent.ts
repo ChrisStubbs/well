@@ -1,5 +1,5 @@
-﻿import { Component, OnInit, ChangeDetectorRef} from 'angular2/core';
-import { RouteParams, Router } from 'angular2/router';
+﻿import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { RouteParams, Router } from '@angular/router-deprecated';
 import {IWidgetStats} from './widgetstats'
 import {WidgetStatsService} from './widgetstats-service'
 declare var $: any;

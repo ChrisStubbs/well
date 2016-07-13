@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../shared/globalSettings'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', 'rxjs/Observable', '../shared/globalSettings', 'rxjs/add/operator/map'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -25,7 +25,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../shared
             },
             function (globalSettings_1_1) {
                 globalSettings_1 = globalSettings_1_1;
-            }],
+            },
+            function (_1) {}],
         execute: function() {
             CleanDeliveryService = (function () {
                 function CleanDeliveryService(http, globalSettingsService) {
@@ -33,9 +34,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../shared
                     this.globalSettingsService = globalSettingsService;
                 }
                 CleanDeliveryService.prototype.getCleanDeliveries = function () {
-                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'clean')
+                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean')
                         .map(function (response) { return response.json(); })
-                        .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
                 };
                 CleanDeliveryService.prototype.handleError = function (error) {

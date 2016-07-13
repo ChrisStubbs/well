@@ -1,6 +1,5 @@
-﻿import { Component, OnInit }  from 'angular2/core';
-import { ROUTER_DIRECTIVES} from 'angular2/router';
-import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
+﻿import { Component, OnInit }  from '@angular/core';
+import { ROUTER_DIRECTIVES} from '@angular/router';
 import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 
@@ -12,9 +11,9 @@ import {DropDownItem} from "../shared/DropDownItem";
 
 @Component({
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [RouteHeaderService, PaginationService, GlobalSettingsService],
-    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp, OptionFilterComponent], 
-    pipes: [PaginatePipe, OptionFilterPipe]
+    providers: [RouteHeaderService, GlobalSettingsService],
+    directives: [ROUTER_DIRECTIVES],
+    pipes: [OptionFilterPipe]
 })
 export class RouteHeaderComponent implements OnInit {
     errorMessage: string;

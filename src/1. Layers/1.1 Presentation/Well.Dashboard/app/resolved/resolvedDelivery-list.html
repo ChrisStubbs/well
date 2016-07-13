@@ -48,7 +48,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="#delivery of deliveries | resolvedDeliveryFilter:filterText | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
+            <tr *ngFor="let delivery of deliveries | resolvedDeliveryFilter:filterText | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
                 <td>{{delivery.route}}</td>
                 <td>{{delivery.drop}}</td>
                 <td>{{delivery.invoiceNo}}</td>

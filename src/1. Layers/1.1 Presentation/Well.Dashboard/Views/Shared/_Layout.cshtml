@@ -8,17 +8,26 @@
     @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/angular2Shims")
-    @Scripts.Render("~/bundles/angular2")
 </head>
 <body>
     <div>@RenderBody()</div>
 
-@RenderSection("scripts", required: false)
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("~/bundles/bootstrap")
 <script src="~/signalr/hubs"></script>
+
+<!-- 1. Load libraries -->
+<!-- Polyfill(s) for older browsers -->
+<script src="~/node_modules/core-js/client/shim.min.js"></script>
+<script src="~/node_modules/zone.js/dist/zone.js"></script>
+<script src="~/node_modules/reflect-metadata/Reflect.js"></script>
+<script src="~/node_modules/systemjs/dist/system.src.js"></script>
+<!-- 2. Configure SystemJS -->
+<script src="~/systemjs.config.js"></script>
+
+@RenderSection("scripts", required: false)
+
 </body>
 
 </html>

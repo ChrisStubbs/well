@@ -1,15 +1,15 @@
-System.register(['angular2/platform/browser', "angular2/core", './appComponent'], function(exports_1, context_1) {
+System.register(['@angular/platform-browser-dynamic', "@angular/core", './appComponent'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var browser_1, core_1, appComponent_1;
+    var platform_browser_dynamic_1, core_1, appComponent_1;
     function runApplication(config) {
-        browser_1.bootstrap(appComponent_1.AppComponent, [core_1.provide('global.settings', { useValue: config })]);
+        platform_browser_dynamic_1.bootstrap(appComponent_1.AppComponent, [core_1.provide('global.settings', { useValue: config })]);
     }
     exports_1("runApplication", runApplication);
     return {
         setters:[
-            function (browser_1_1) {
-                browser_1 = browser_1_1;
+            function (platform_browser_dynamic_1_1) {
+                platform_browser_dynamic_1 = platform_browser_dynamic_1_1;
             },
             function (core_1_1) {
                 core_1 = core_1_1;

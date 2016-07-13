@@ -44,7 +44,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="#route of routes | routeFilter:filterText | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="routeSelected(route)">
+            <tr *ngFor="let route of routes" (click)="routeSelected(route)">
                 <td>{{route.route}}</td>
                 <td>{{route.driverName}}</td>
                 <td>{{route.totalDrops}}</td>
@@ -55,8 +55,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div class="row pull-right">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

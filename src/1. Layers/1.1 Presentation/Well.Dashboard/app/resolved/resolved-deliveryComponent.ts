@@ -1,16 +1,17 @@
-﻿import {Component, OnInit}  from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
+﻿import {Component, OnInit}  from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
 import {IResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {ResolvedDeliveryFilterPipe } from './resolvedDeliveryFilterPipe';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {MODAL_DIRECTIVES} from 'ng2-bootstrap';
 
 @Component({
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [ResolvedDeliveryService, PaginationService, GlobalSettingsService],
-    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
-    pipes: [PaginatePipe, ResolvedDeliveryFilterPipe]
+    providers: [ResolvedDeliveryService, GlobalSettingsService],
+    directives: [ROUTER_DIRECTIVES],
+    pipes: [ResolvedDeliveryFilterPipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     errorMessage: string;

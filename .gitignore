@@ -47,3 +47,12 @@ src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsCompone
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.ts.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/*.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/*.js.map
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/shared/*.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/shared/*.js.map
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js.map
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js.map
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/notifications/notificationsComponent.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/notifications/notificationsComponent.js.map

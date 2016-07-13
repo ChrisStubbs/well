@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(["angular2/core"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,26 +10,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    var __param = (this && this.__param) || function (paramIndex, decorator) {
+        return function (target, key) { decorator(target, key, paramIndex); }
+    };
     var core_1;
-    var ResolvedRoutesComponent;
+    var GlobalSettingsService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            ResolvedRoutesComponent = (function () {
-                function ResolvedRoutesComponent() {
-                    this.pageTitle = 'Welcome';
+            GlobalSettingsService = (function () {
+                function GlobalSettingsService(settings) {
+                    this.settings = settings;
+                    this.globalSettings = settings;
                 }
-                ResolvedRoutesComponent = __decorate([
-                    core_1.Component({}), 
-                    __metadata('design:paramtypes', [])
-                ], ResolvedRoutesComponent);
-                return ResolvedRoutesComponent;
+                GlobalSettingsService = __decorate([
+                    core_1.Injectable(),
+                    __param(0, core_1.Inject("global.settings")), 
+                    __metadata('design:paramtypes', [Object])
+                ], GlobalSettingsService);
+                return GlobalSettingsService;
             }());
-            exports_1("ResolvedRoutesComponent", ResolvedRoutesComponent);
+            exports_1("GlobalSettingsService", GlobalSettingsService);
         }
     }
 });
-//# sourceMappingURL=resolved-routes.js.map
+//# sourceMappingURL=globalSettings.js.map

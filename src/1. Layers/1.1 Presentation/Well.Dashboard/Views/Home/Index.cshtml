@@ -3,5 +3,30 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<!-- 2. Configure SystemJS -->
+<script>
 
+    var serverConfig = @Html.Raw(Model.Configuration);
+
+
+    System.config({
+        packages: {
+            app: {
+                format: 'register',
+                defaultExtension: 'js'
+            },
+            'lodash': { main: 'index.js', defaultExtension: 'js' }
+        },
+        map: {
+            'lodash': './node_modules/lodash'
+        }
+    });
+
+    //var m = function ()
+    System.import('app/main')
+        .then(
+        (m) => {
+            m.runApplication(serverConfig);
+        } , console.error.bind(console));
+</script>
 <ow-app>Loading App...</ow-app>

@@ -1,6 +1,9 @@
 ﻿import { bootstrap }    from 'angular2/platform/browser';
-import { GlobalSettings } from './globalSettings';
+import {provide} from "angular2/core";
+import { IGlobalSettings } from './shared/globalSettings';
 // Our main component
 import { AppComponent } from './appComponent';
 
-bootstrap(AppComponent, [GlobalSettings]);
+export function runApplication(config: IGlobalSettings) {
+    bootstrap(AppComponent, [provide('global.settings', { useValue: config })]);
+}

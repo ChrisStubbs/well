@@ -36,8 +36,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             function (cleanDeliveryComponent_1_1) {
                 cleanDeliveryComponent_1 = cleanDeliveryComponent_1_1;
             },
-            function (resolved_routesComponent_1_1) {
-                resolved_routesComponent_1 = resolved_routesComponent_1_1;
+            function (resolved_deliveryComponent_1_1) {
+                resolved_deliveryComponent_1 = resolved_deliveryComponent_1_1;
             },
             function (notificationsComponent_1_1) {
                 notificationsComponent_1 = notificationsComponent_1_1;
@@ -47,9 +47,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(router, changeDetectorRef) {
+                function AppComponent(router, changeDetectorRef, globalSettings) {
                     this.router = router;
                     this.changeDetectorRef = changeDetectorRef;
+                    this.globalSettings = globalSettings;
                 }
                 //re-direct to widget stats on load
                 AppComponent.prototype.ngOnInit = function () {
@@ -60,17 +61,17 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                         selector: 'ow-app',
                         templateUrl: './app/main.html',
                         directives: [router_1.ROUTER_DIRECTIVES],
-                        providers: [widgetstats_service_1.WidgetStatsService, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS]
+                        providers: [widgetstats_service_1.WidgetStatsService, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS, globalSettings_1.GlobalSettingsService]
                     }),
                     router_1.RouteConfig([
                         { path: '/widgetstats', name: 'WidgetStats', component: widgetStatsComponent_1.WidgetStatsComponent, useAsDefault: true },
                         { path: '/routes', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
                         { path: '/clean', name: 'Clean', component: cleanDeliveryComponent_1.CleanDeliveryComponent },
-                        { path: '/resolved', name: 'Resolved', component: resolved_routesComponent_1.ResolvedRoutesComponent },
+                        { path: '/resolved', name: 'Resolved', component: resolved_deliveryComponent_1.ResolvedDeliveryComponent },
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent },
                         { path: '/account', name: 'Account', component: accountComponent_1.AccountComponent }
                     ]), 
-                    __metadata('design:paramtypes', [router_1.Router, core_1.ChangeDetectorRef])
+                    __metadata('design:paramtypes', [router_1.Router, core_1.ChangeDetectorRef, globalSettings_1.GlobalSettingsService])
                 ], AppComponent);
                 return AppComponent;
             }());

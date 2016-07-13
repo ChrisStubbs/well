@@ -11,25 +11,6 @@
     @Scripts.Render("~/bundles/angular2Shims")
     @Scripts.Render("~/bundles/angular2")
 
-
-    <!-- 2. Configure SystemJS -->
-    <script>
-        System.config({
-            packages: {
-                app: {
-                    format: 'register',
-                    defaultExtension: 'js'
-                },
-                'lodash': { main: 'index.js', defaultExtension: 'js' }
-            },
-            map: {
-                'lodash': './node_modules/lodash'
-            }
-        });
-        System.import('app/main')
-            .then(null, console.error.bind(console));
-    </script>
-
 </head>
 <body>
     <div>@RenderBody()</div>

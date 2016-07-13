@@ -84,7 +84,7 @@
         public string StopStatusCode
         {
             get { return StopStatusCode; }
-            private set { StopStatusCodeId = (int)(StopStatus)Enum.Parse(typeof(StopStatus), value); }
+            set { StopStatusCodeId = (int)(StopStatus)Enum.Parse(typeof(StopStatus), value); }
         }
 
         [XmlIgnore]
@@ -104,7 +104,7 @@
         public string StopByPassReason
         {
             get { return StopByPassReason; }
-            private set { StopPerformanceStatusCodeId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
+            set { StopPerformanceStatusCodeId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
         }
 
 

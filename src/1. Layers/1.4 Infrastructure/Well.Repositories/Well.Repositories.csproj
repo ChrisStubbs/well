@@ -50,10 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="CleanDeliveryRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
     <Compile Include="Contracts\ICleanDeliveryRepository.cs" />
     <Compile Include="Contracts\IDapperProxy.cs" />

@@ -20,5 +20,8 @@
         
         //Jobs
         public static string JobGetCleanDeliveries = "Job_GetCleanDeliveries";
+
+        //Account
+        public static string AccountGetByStopId = "Account_GetByStopId";
     }
 }

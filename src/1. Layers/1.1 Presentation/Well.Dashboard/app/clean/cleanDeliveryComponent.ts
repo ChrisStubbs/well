@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
+//import { MODAL_DIRECTIVES } from '../../node_modules/ng2-bs3-modal/ng2-bs3-modal';
 
 import {ICleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
@@ -9,6 +10,7 @@ import {CleanDeliveryService} from './cleanDeliveryService';
     templateUrl: './app/clean/cleanDelivery-list.html',
     providers: [CleanDeliveryService],
     directives: [ROUTER_DIRECTIVES]
+    //directives: [ROUTER_DIRECTIVES, MODAL_DIRECTIVES]
     
 })
 export class CleanDeliveryComponent implements OnInit {

@@ -4,7 +4,7 @@ import {bootstrap} from 'angular2/platform/browser';
 import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import 'rxjs/Rx';   // Load all features
-import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router } from 'angular2/router';
+import { ROUTER_PROVIDERS, RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import * as lodash from 'lodash';
 
 //widget stats
@@ -18,6 +18,8 @@ import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {ResolvedRoutesComponent} from './resolved/resolved-routesComponent';
 //notifications
 import {NotificationsComponent} from './notifications/notificationsComponent';
+//account
+import {AccountComponent} from './account/accountComponent';
 
 declare var $: any;
 
@@ -33,7 +35,8 @@ declare var $: any;
         { path: '/routes', name: 'Routes', component: RouteHeaderComponent },
         { path: '/clean', name: 'Clean', component: CleanDeliveryComponent },
         { path: '/resolved', name: 'Resolved', component: ResolvedRoutesComponent },
-        { path: '/notifications', name: 'Notifications', component: NotificationsComponent }
+        { path: '/notifications', name: 'Notifications', component: NotificationsComponent },
+        { path: '/account', name: 'Account', component: AccountComponent }
 ])
 
 export class AppComponent implements OnInit  {

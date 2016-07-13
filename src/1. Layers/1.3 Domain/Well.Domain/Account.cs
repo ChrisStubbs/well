@@ -9,7 +9,7 @@
 
             public string Code { get; set; }
 
-            public int AccountTypeCode { get; set; }
+         //   public int AccountTypeCode { get; set; }
 
             public string Name { get; set; }
 
@@ -27,20 +27,20 @@
 
             public string ContactEmailAddress { get; set; }
 
-            public TimeSpan StartWindow { get; set; }
+         //   public TimeSpan StartWindow { get; set; }
 
-            public TimeSpan EndWindow { get; set; }
+         //   public TimeSpan EndWindow { get; set; }
 
             public string DepotId { get; set; }
 
-            public double Latitude { get; set; }
+         //   public double Latitude { get; set; }
 
-            public double Longitude { get; set; }
-            public KeyValuePair<int, KeyValuePair<int, string>> AccountMetaData { get; set; }
+       //     public double Longitude { get; set; }
+       //     public KeyValuePair<int, KeyValuePair<int, string>> AccountMetaData { get; set; }
 
-            public bool IsDropAndDrive { get; set; }
+     //       public bool IsDropAndDrive { get; set; }
 
-            public int StopId { get; set; }
+      //      public int StopId { get; set; }
         }
     }
 

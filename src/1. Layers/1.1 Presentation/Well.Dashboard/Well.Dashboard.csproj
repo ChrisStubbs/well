@@ -210,6 +210,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\account\accountModal.html" />
     <Content Include="app\appComponent.js" />
     <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\main.html" />
@@ -329,6 +330,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\account\account.ts" />
+    <TypeScriptCompile Include="app\account\accountComponent.ts" />
+    <TypeScriptCompile Include="app\account\accountService.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />

@@ -1,4 +1,4 @@
-﻿import {Component, OnChanges, Input, Output, EventEmitter} from "angular2/core";
+﻿import {Component, OnChanges, Input, Output, EventEmitter} from "@angular/core";
 import {FilterOption} from "./filterOption";
 import {DropDownItem} from "./dropDownItem";
 

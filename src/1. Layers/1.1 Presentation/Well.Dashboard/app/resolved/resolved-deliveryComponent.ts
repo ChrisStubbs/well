@@ -7,18 +7,20 @@ import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {MODAL_DIRECTIVES} from 'ng2-bootstrap';
 import {DropDownItem} from "../shared/DropDownItem";
+import GlobalSettings = require("../shared/globalSettings");
+import Option = require("../shared/filterOption");
+import FilterOption = Option.FilterOption;
 
 @Component({
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [ResolvedDeliveryService, GlobalSettingsService],
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [ResolvedDeliveryFilterPipe]
+    providers: [ResolvedDeliveryService, GlobalSettings.GlobalSettingsService],
+    directives: [ROUTER_DIRECTIVES]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     errorMessage: string;
     deliveries: IResolvedDelivery[];
     rowCount: number = 10;
-    filterOption: FilterOption = new FilterOption();
+    filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "route"),
         new DropDownItem("Drop", "drop"),
@@ -36,10 +38,6 @@ export class ResolvedDeliveryComponent implements OnInit {
 
         this.resolvedDeliveryService.getResolvedDeliveries()
             .subscribe(deliveries => this.deliveries = deliveries, error => this.errorMessage = <any>error);
-    }
-
-    clearFilterText(): void {
-        this.filterText = '';
     }
 
     deliverySelected(delivery : IResolvedDelivery): void {

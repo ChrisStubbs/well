@@ -20,9 +20,6 @@ System.register(['@angular/core', '@angular/router-deprecated', './cleanDelivery
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
             },
-            function (ng2_pagination_1_1) {
-                ng2_pagination_1 = ng2_pagination_1_1;
-            },
             function (cleanDeliveryService_1_1) {
                 cleanDeliveryService_1 = cleanDeliveryService_1_1;
             },
@@ -64,9 +61,9 @@ System.register(['@angular/core', '@angular/router-deprecated', './cleanDelivery
                 CleanDeliveryComponent = __decorate([
                     core_1.Component({
                         templateUrl: './app/clean/cleanDelivery-list.html',
-                        providers: [cleanDeliveryService_1.CleanDeliveryService, ng2_pagination_1.PaginationService],
-                        directives: [router_1.ROUTER_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, optionfilter_component_1.OptionFilterComponent],
-                        pipes: [ng2_pagination_1.PaginatePipe, optionFilterPipe_1.OptionFilterPipe]
+                        providers: [cleanDeliveryService_1.CleanDeliveryService],
+                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, optionfilter_component_1.OptionFilterComponent],
+                        pipes: [optionFilterPipe_1.OptionFilterPipe]
                     }), 
                     __metadata('design:paramtypes', [cleanDeliveryService_1.CleanDeliveryService])
                 ], CleanDeliveryComponent);

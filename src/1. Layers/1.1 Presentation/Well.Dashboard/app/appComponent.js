@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', 'rxjs/Rx', '@angular/router-deprecated', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-deliveryComponent', './notifications/notificationsComponent', './shared/globalSettings'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', 'rxjs/Rx', '@angular/router-deprecated', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-deliveryComponent', './notifications/notificationsComponent', './account/accountComponent', './shared/globalSettings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', '@angular/router-d
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, router_deprecated_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_deliveryComponent_1, notificationsComponent_1, globalSettings_1;
+    var core_1, http_1, router_deprecated_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_deliveryComponent_1, notificationsComponent_1, accountComponent_1, globalSettings_1;
     var AppComponent;
     return {
         setters:[

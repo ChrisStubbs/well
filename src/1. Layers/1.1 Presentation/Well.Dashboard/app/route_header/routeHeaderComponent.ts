@@ -13,7 +13,7 @@ import {DropDownItem} from "../shared/DropDownItem";
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [RouteHeaderService, GlobalSettingsService],
     directives: [ROUTER_DIRECTIVES],
-    pipes: [RouteFilterPipe]
+    pipes: [OptionFilterPipe]
 })
 export class RouteHeaderComponent implements OnInit {
     errorMessage: string;

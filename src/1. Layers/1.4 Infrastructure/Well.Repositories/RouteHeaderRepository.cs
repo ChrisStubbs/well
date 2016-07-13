@@ -1,16 +1,11 @@
-﻿
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Data;
-    using System.Data.SqlClient;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
-    using Dapper;
     using Domain;
   
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository

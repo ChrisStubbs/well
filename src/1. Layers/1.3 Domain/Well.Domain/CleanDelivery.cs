@@ -6,7 +6,7 @@
         {
         }
 
-        public string  RouteNumber { get; set; }
+        public string RouteNumber { get; set; }
         public int DropId { get; set; }
         public int InvoiceNumber { get; set; }
         public string AccountCode { get; set; }

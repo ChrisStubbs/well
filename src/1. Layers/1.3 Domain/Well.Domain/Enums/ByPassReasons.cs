@@ -38,6 +38,9 @@
         Z2 = 11,
 
         [Description("No spur plate on pre-call")]
-        Z3 = 3,
+        Z3 = 12,
+
+        [Description("Not Defined")]
+        ND = 13,
     }
 }

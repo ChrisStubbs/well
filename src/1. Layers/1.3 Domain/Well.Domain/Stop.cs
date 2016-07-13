@@ -94,7 +94,7 @@
         public string StopPerformanceStatusCode
         {
             get { return StopPerformanceStatusCode; }
-            private set { StopPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
+            set { StopPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
         }
 
         [XmlIgnore]

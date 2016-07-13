@@ -18,7 +18,7 @@ namespace PH.Well.Domain
         public string ReasonCategory
         {
             get { return ReasonCategory; }
-            private set { ReasonCategoryId = (int)(ReasonCategory)Enum.Parse(typeof(ReasonCategory), value); }
+            set { ReasonCategoryId = (int)(ReasonCategory)Enum.Parse(typeof(ReasonCategory), value); }
         }
 
         [XmlIgnore]
@@ -28,7 +28,7 @@ namespace PH.Well.Domain
         public string ReasonCode
         {
             get { return ReasonCode; }
-            private set { ReasonCategoryId = (int)(DamageReasons)Enum.Parse(typeof(DamageReasons), value); }
+            set { ReasonCategoryId = (int)(DamageReasons)Enum.Parse(typeof(DamageReasons), value); }
         }
 
 

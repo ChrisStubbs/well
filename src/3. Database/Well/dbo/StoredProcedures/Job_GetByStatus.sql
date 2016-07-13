@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Job_GetById]
-	@Id INT
+﻿CREATE PROCEDURE [dbo].[Job_GetByStatus]
+	@PerformanceStatusCode VARCHAR(5)
 
 AS
 BEGIN
@@ -16,6 +16,6 @@ SELECT [Id]
       ,[TextField2]
       ,[PerformanceStatusCode]
       ,[StopId]
-  FROM dbo.[Job]
-  WHERE [Id] = @Id
+  FROM [dbo].[Job]
+  WHERE [PerformanceStatusCode] = @PerformanceStatusCode
 END

@@ -1,36 +1,33 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
-    using PH.Well.Repositories.Contracts;
+    using Common.Contracts;
+
+    using PH.Well.Services.Contracts;
+
+    using Repositories.Contracts;
 
 
     public class CleanDeliveryController : ApiController
     {
         private readonly ILogger logger;
 
-        private readonly ICleanDeliveryRepository cleanDeliveryRespository;
+        private readonly IDeliveryService deliveryService;
 
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
-        public CleanDeliveryController()
-        {
-        }
-
         public CleanDeliveryController(
             ILogger logger,
-            ICleanDeliveryRepository cleanDeliveryRespository,
+            IDeliveryService deliveryService,
             IServerErrorResponseHandler serverErrorResponseHandler)
         {
             this.logger = logger;
-            this.cleanDeliveryRespository = cleanDeliveryRespository;
+            this.deliveryService= deliveryService;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
@@ -40,7 +37,8 @@
         {
             try
             {
-                var cleanDeliveries = this.cleanDeliveryRespository.GetCleanDeliveries().ToList();
+               
+                 var cleanDeliveries = this.deliveryService.GetCleanDeliveries().ToList();
 
                 if (!cleanDeliveries.Any()) return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 else

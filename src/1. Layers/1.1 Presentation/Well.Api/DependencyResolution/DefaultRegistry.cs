@@ -4,6 +4,9 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
     using PH.Well.Repositories.Contracts;
+    using PH.Well.Services;
+    using PH.Well.Services.Contracts;
+
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
@@ -25,8 +28,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IEventLogger>().Use<EventLogger>();
             For<IStopRepository>().Use<StopRepository>();
             For<IWidgetStatsRepository>().Use<WidgetStatsRepository>();
-            For<ICleanDeliveryRepository>().Use<CleanDeliveryRepository>();
             For<IAccountRepository>().Use<AccountRepository>();
+            For<IDeliveryService>().Use<DeliveryService>();
 
         }
     }

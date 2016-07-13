@@ -28,6 +28,7 @@
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
+        public static string JobGetByStatus = "Job_GetByStatus";
 
         //jobdetail
         public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";

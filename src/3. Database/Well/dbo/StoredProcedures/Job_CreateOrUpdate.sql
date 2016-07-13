@@ -11,8 +11,8 @@
 	@Originator				NVARCHAR(50),
 	@TextField1				NVARCHAR(50),
 	@TextField2				NVARCHAR(50),
-	@PerformanceStatusId	TINYINT = NULL,
-	@ByPassReasonId         TINYINT = NULL,
+	@PerformanceStatusId	TINYINT = 6,
+	@ByPassReasonId         TINYINT = 13,
 	@StopId					INT
 
 AS

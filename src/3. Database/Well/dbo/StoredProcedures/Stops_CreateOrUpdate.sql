@@ -15,9 +15,9 @@
 	@TextField2				NVARCHAR(100), 
 	@TextField3				NVARCHAR(100),
 	@TextField4				NVARCHAR(100),
-	@StopStatusId			TINYINT= NULL,
-	@StopPerformanceStatusId TINYINT= NULL,
-	@ByPassReasonId			TINYINT= NULL
+	@StopStatusId			TINYINT= 4,
+	@StopPerformanceStatusId TINYINT= 6,
+	@ByPassReasonId			TINYINT= 13
 
 
 

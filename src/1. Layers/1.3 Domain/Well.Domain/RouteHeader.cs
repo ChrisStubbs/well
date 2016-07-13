@@ -61,7 +61,7 @@
         public string RouteStatusCode
         {
             get { return RouteStatusCode; }
-            private set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value); }
+            set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value); }
         }
 
         public int RoutePerformanceStatusId { get; set; }
@@ -70,7 +70,7 @@
         public string PerformanceStatusCode
         {
             get { return PerformanceStatusCode; }
-            private set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value); }
+            set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value); }
         }
 
         [XmlIgnore]

@@ -11,6 +11,7 @@
         public JobDetail()
         {
            this.EntityAttributes = new Collection<Attribute>();
+           this.JobDetailDamages = new Collection<JobDetailDamage>();
         }
 
         [XmlElement("LineNumber")]
@@ -68,6 +69,10 @@
 
         [XmlIgnore]
         public int JobId { get; set; }
+
+        [XmlArray("JobDetailDamages")]
+        [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
+        public Collection<JobDetailDamage> JobDetailDamages { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(Attribute))]

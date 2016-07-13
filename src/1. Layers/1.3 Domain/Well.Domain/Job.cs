@@ -60,7 +60,7 @@
         public string JobPerformanceStatusCode
         {
             get { return JobPerformanceStatusCode; }
-            private set { JobPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
+            set { JobPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
         }
 
         [XmlIgnore]
@@ -70,7 +70,7 @@
         public string JobByPassReason
         {
             get { return JobByPassReason; }
-            private set { ByPassReasonId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
+            set { ByPassReasonId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
         }
 
         [XmlIgnore]

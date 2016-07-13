@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
 
     public class StopRepository : DapperRepository<Stop, int>, IStopRepository
     {
@@ -33,6 +34,10 @@
 
         public Stop StopCreateOrUpdate(Stop stop)
         {
+            var stopStatusId = stop.StopStatusCodeId == 0 ? (int) StopStatus.Notdef : stop.StopStatusCodeId;
+            var stopPerformanceStatusId = stop.StopPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : stop.StopPerformanceStatusCodeId;
+            var stopByPassReasonId = stop.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : stop.ByPassReasonId;
+
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate)
                 .AddParameter("Id", stop.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
@@ -50,9 +55,9 @@
                 .AddParameter("TextField2", stop.TextField2, DbType.String)
                 .AddParameter("TextField3", stop.TextField3, DbType.String)
                 .AddParameter("TextField4", stop.TextField4, DbType.String)
-                .AddParameter("StopStatusId", stop.StopStatusCodeId, DbType.Int16)
-                .AddParameter("StopPerformanceStatusId", stop.StopPerformanceStatusCodeId, DbType.Int16)
-                .AddParameter("ByPassReasonId", stop.ByPassReasonId, DbType.Int16).Query<int>().FirstOrDefault();
+                .AddParameter("StopStatusId", stopStatusId, DbType.Int16)
+                .AddParameter("StopPerformanceStatusId", stopPerformanceStatusId, DbType.Int16)
+                .AddParameter("ByPassReasonId", stopByPassReasonId, DbType.Int16).Query<int>().FirstOrDefault();
 
             return this.GetById(id);
 

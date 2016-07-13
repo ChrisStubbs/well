@@ -28,7 +28,10 @@
         public string OriginalDispatchQtyString
         {
             get { return OriginalDispatchQtyString; }
-            set { this.OriginalDispatchQty = value != string.Empty ? Convert.ToDecimal(value) : 0m; }
+            set
+            {
+                this.OriginalDispatchQty = string.IsNullOrEmpty(value) ? Convert.ToDecimal(value) : 0m;
+            }
         }
 
         [XmlElement("ProdDesc")]

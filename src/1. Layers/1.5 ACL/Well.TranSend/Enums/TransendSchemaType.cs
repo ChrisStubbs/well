@@ -7,7 +7,7 @@
         [Description("TransendPHRoutesSchema.xsd")]
         RouteHeaderSchema = 1,
 
-        [Description("ePOD_")]
+        [Description("TransendPHEpodSchema.xsd")]
         RouteEpodSchema = 2,
 
     }

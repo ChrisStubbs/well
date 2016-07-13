@@ -22,6 +22,7 @@
         [XmlElement("RouteNumber")]
         public string RouteNumber { get; set; }
 
+        [XmlIgnore]
         public DateTime RouteDate { get; set; }
 
         [XmlElement("RouteDate")]
@@ -61,7 +62,7 @@
         public string RouteStatusCode
         {
             get { return RouteStatusCode; }
-            set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value); }
+            set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value, true); }
         }
 
         public int RoutePerformanceStatusId { get; set; }
@@ -70,7 +71,7 @@
         public string PerformanceStatusCode
         {
             get { return PerformanceStatusCode; }
-            set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value); }
+            set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
         [XmlIgnore]
@@ -86,23 +87,82 @@
             }
         }
 
-        [XmlElement("AuthByPass")]
+       [XmlIgnore]
         public int AuthByPass { get; set; }
 
-        [XmlElement("NonAuthByPass")]
+        [XmlElement("AuthByPass")]
+        public string AuthByPassString
+        {
+            get { return this.AuthByPass.ToString(); }
+            set {
+                this.AuthByPass = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         public int NonAuthByPass { get; set; }
 
-        [XmlElement("ShortDeliveries")]
+        [XmlElement("NonAuthByPass")]
+        public string NonAuthByPassString
+        {
+            get { return this.NonAuthByPass.ToString(); }
+            set {
+                this.NonAuthByPass = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         public int ShortDeliveries { get; set; }
 
-        [XmlElement("DamagesRejected")]
+        [XmlElement("ShortDeliveries")]
+        public string ShortDeliveriesString
+        {
+            get { return this.ShortDeliveries.ToString(); }
+            set
+            {
+                this.ShortDeliveries = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         public int DamagesRejected { get; set; }
 
-        [XmlElement("DamagesAccepted")]
+        [XmlElement("DamagesRejected")]
+        public string DamagesRejectedString
+        {
+            get { return this.DamagesRejected.ToString(); }
+            set
+            {
+                this.DamagesRejected = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         public int DamagesAccepted { get; set; }
 
-        [XmlElement("NotRequired")]
+        [XmlElement("DamagesAccepted")]
+        public string DamagesAcceptedString
+        {
+            get { return this.DamagesAccepted.ToString(); }
+            set
+            {
+                this.DamagesAccepted = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            }
+        }
+
+        [XmlIgnore]
         public int NotRequired { get; set; }
+
+        [XmlElement("NotRequired")]
+        public string NotRequiredString
+        {
+            get { return this.NotRequired.ToString(); }
+            set
+            {
+                this.NotRequired = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            }
+        }
+
 
         public int RoutesId { get; set; }
 

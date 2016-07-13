@@ -60,7 +60,17 @@
         public string JobPerformanceStatusCode
         {
             get { return JobPerformanceStatusCode; }
-            set { JobPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value); }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    JobPerformanceStatusCodeId = (int)PerformanceStatus.Notdef;
+                }
+                else
+                {
+                    JobPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
+                }             
+            }
         }
 
         [XmlIgnore]
@@ -70,7 +80,17 @@
         public string JobByPassReason
         {
             get { return JobByPassReason; }
-            set { ByPassReasonId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value); }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    ByPassReasonId = (int) ByPassReasons.Notdef;
+                }
+                else
+                {
+                    ByPassReasonId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value);
+                }            
+            }
         }
 
         [XmlIgnore]

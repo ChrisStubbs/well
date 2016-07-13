@@ -5,7 +5,7 @@
     public enum RouteStatusCode
     {
         [Description("Not Departed")]
-        Ndepa = 1,
+        NDEPA = 1,
 
         [Description("In Progress")]
         Inpro = 2,

@@ -37,7 +37,8 @@ USING	(VALUES	(1,'CAR01','Dented','deployment',GETDATE(),'deployment',GETDATE())
 				(33,'DRR07','Not Repaired','deployment',GETDATE(),'deployment',GETDATE()),
 				(34,'DRR08','Wrong Colour / Product','deployment',GETDATE(),'deployment',GETDATE()),
 				(35,'DRR09','Delivered to Store','deployment',GETDATE(),'deployment',GETDATE()),
-				(36,'DRR10','Unused Loan','deployment',GETDATE(),'deployment',GETDATE())
+				(36,'DRR10','Unused Loan','deployment',GETDATE(),'deployment',GETDATE()),
+				(37,'Notdef','Not Defined','deployment',GETDATE(),'deployment',GETDATE())
 		)
 AS Source ([Id],[Code],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]

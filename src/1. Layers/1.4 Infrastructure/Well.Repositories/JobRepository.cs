@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
@@ -39,6 +40,9 @@
 
         public Job JobCreateOrUpdate(Job job)
         {
+            var jobPerformanceStatusId = job.JobPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : job.JobPerformanceStatusCodeId;
+            var jobByPassReasonId = job.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : job.ByPassReasonId;
+
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
                 .AddParameter("Id", job.Id, DbType.Int32)
                 .AddParameter("Sequence", job.Sequence, DbType.Int32)
@@ -52,8 +56,8 @@
                 .AddParameter("Originator", job.Originator, DbType.String)
                 .AddParameter("TextField1", job.TextField1, DbType.String)
                 .AddParameter("TextField2", job.TextField2, DbType.String)
-                .AddParameter("PerformanceStatusCode", job.JobPerformanceStatusCodeId, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", job.ByPassReasonId, DbType.Int16)
+                .AddParameter("PerformanceStatusId", jobPerformanceStatusId, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", jobByPassReasonId, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
 
             return this.GetById(id);

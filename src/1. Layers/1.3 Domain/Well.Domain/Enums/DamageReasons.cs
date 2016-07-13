@@ -45,7 +45,8 @@ namespace PH.Well.Domain.Enums
         Drr07 = 33,
         Drr08 = 34,
         Drr09 = 35,
-        Drr10 = 36
+        Drr10 = 36,
+        Notdef = 37,
 
     }
 }

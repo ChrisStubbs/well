@@ -1,15 +1,13 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
-    using PH.Well.Repositories.Contracts;
+    using Common.Contracts;
+    using Repositories.Contracts;
 
 
     public class CleanDeliveryController : ApiController
@@ -40,7 +38,8 @@
         {
             try
             {
-                var cleanDeliveries = this.cleanDeliveryRespository.GetCleanDeliveries().ToList();
+               
+                 var cleanDeliveries = this.cleanDeliveryRespository.GetCleanDeliveries().ToList();
 
                 if (!cleanDeliveries.Any()) return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 else

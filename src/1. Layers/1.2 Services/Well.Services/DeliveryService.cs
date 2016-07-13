@@ -4,8 +4,8 @@ namespace PH.Well.Services
 {
     using System.Collections.Generic;
 
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
+    using Common.Contracts;
+    using Domain;
 
     public class DeliveryService
     {
@@ -28,6 +28,34 @@ namespace PH.Well.Services
             this.AccountRepository = accountRepository;
         }
 
+        public IEnumerable<CleanDelivery> GetCleanDeliveries()
+        {
+            var status = 6; // complete
+            var jobs = this.JobRepository.GetByStatus(status);
+            var cleanDeliveries = new List<CleanDelivery>();
+
+            foreach (var job in jobs)
+            {
+                var cleanDelivery = new CleanDelivery();
+
+                cleanDelivery.InvoiceNumber = job.JobRef3;
+                cleanDelivery.JobStatus = job.PerformanceStatusCode;
+                cleanDelivery.AccountCode = job.JobRef1;
+
+                var stop = this.StopRepository.GetById(job.StopId);
+                cleanDelivery.DropId = stop.DropId;
+
+                var route = this.RouteHeaderRepository.GetRouteHeaderById(int.Parse(stop.RouteId));
+                cleanDelivery.RouteNumber = route.RouteNumber;
+
+                var account = this.AccountRepository.GetAccountByStopId(job.StopId);
+                cleanDelivery.AccountName = account.Name;
+
+                cleanDeliveries.Add(cleanDelivery);
+            }
+
+            return cleanDeliveries;
+        }
 
 
 

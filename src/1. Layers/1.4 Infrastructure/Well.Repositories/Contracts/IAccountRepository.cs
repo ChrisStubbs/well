@@ -4,7 +4,6 @@
 
     public interface IAccountRepository :IRepository<Account, int>
     {
-        //Account GetAccountByStopId(int stopId);
-        Account GetAccountByStopId();
+        Account GetAccountByStopId(int stopId);
     }
 }

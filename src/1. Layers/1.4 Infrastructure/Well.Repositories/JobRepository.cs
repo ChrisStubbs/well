@@ -25,15 +25,15 @@
             return job;
         }
 
-        public Job GetByStatus(int status)
+        public IEnumerable<Job> GetByStatus(int status)
         {
-            var job =
+            var jobs =
                dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStatus)
                    .AddParameter("PerformanceStatusCode", status, DbType.Int32)
                    .Query<Job>()
-                   .FirstOrDefault();
+                   .ToList();
 
-            return job;
+            return jobs;
         }
 
 

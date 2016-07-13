@@ -15,7 +15,7 @@ BEGIN
 		  ,[ContactNumber2]
 		  ,[ContactEmailAddress]
 		  ,[DepotID]
-	  FROM [Well].[dbo].[Account]
+	  FROM [dbo].[Account]
 	  WHERE StopId = @StopId
 
 END

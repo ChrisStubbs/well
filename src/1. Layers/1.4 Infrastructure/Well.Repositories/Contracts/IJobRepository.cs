@@ -7,5 +7,6 @@
         void AddJobAttributes(Attribute attribute);
         Job GetById(int id);
         Job JobCreateOrUpdate(Job job);
+        Job GetByStatus(int id);
     }
 }

@@ -25,6 +25,18 @@
             return job;
         }
 
+        public Job GetByStatus(int status)
+        {
+            var job =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStatus)
+                   .AddParameter("PerformanceStatusCode", status, DbType.Int32)
+                   .Query<Job>()
+                   .FirstOrDefault();
+
+            return job;
+        }
+
+
         public Job JobCreateOrUpdate(Job job)
         {
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
@@ -40,7 +52,7 @@
                 .AddParameter("Originator", job.Originator, DbType.String)
                 .AddParameter("TextField1", job.TextField1, DbType.String)
                 .AddParameter("TextField2", job.TextField2, DbType.String)
-                .AddParameter("RoutePerformanceStatusCode", job.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusCode", job.PerformanceStatusCode, DbType.String)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
 
             return this.GetById(id);

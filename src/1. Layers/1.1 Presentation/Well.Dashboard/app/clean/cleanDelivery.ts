@@ -6,5 +6,6 @@
     accountCode: string;
     accountName: string;
     jobStatus: string;
+    dateTime: string;
     
 }

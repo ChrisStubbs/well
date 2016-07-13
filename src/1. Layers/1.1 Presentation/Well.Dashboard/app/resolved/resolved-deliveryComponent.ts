@@ -3,7 +3,6 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
 import {IResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
-import {GlobalSettingsService} from '../shared/globalSettings';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {FilterOption} from "../shared/filterOption";
@@ -11,7 +10,7 @@ import {DropDownItem} from "../shared/DropDownItem";
 
 @Component({
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [ResolvedDeliveryService, PaginationService, GlobalSettingsService],
+    providers: [ResolvedDeliveryService, PaginationService],
     directives: [ROUTER_DIRECTIVES, PaginationControlsCmp, OptionFilterComponent],
     pipes: [PaginatePipe, OptionFilterPipe]
 })

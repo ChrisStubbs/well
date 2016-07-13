@@ -1,9 +1,19 @@
-﻿<div class="row">
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
+﻿
+
+<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Clean Deliveries</li>
     </ol>
 </div>
 
+<div class="jumbotron">
+    <div class="row">
+        <ow-optionfilter [options]="options"
+                         (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+    </div>
+
+    <div class="table-responsive table-container">
+        <table class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
             <thead>
             <tr>
                 <th>Route</th>
@@ -17,20 +27,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="#delivery of cleanDeliveries">
+            <tr *ngFor="#delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
                 <td>{{delivery.routeNumber}}</td>
                 <td>{{delivery.dropId}}</td>
                 <td>{{delivery.invoiceNumber}}</td>
                 <td>{{delivery.accountCode}}</td>
                 <td>{{delivery.accountName}}</td>
                 <td>{{delivery.jobStatus}}</td>
-                <td>20-05-16 10:30</td>
+                <td>{{delivery.dateTime}}</td>
                 <td><button type="button" class="btn btn-default" (click)="modal.open()">Contact</button></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div class="row pull-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
 </div>
-
 
 

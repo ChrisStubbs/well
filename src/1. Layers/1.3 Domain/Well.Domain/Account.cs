@@ -21,6 +21,9 @@
         [XmlElement("AccountTypeCode")]
         public string AccountTypeCode { get; set; }
 
+        [XmlElement("DepotID")]
+        public int DepotId { get; set; }
+
         [XmlElement("Name")]
         public string Name { get; set; }
 

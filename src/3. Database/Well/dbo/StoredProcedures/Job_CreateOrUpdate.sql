@@ -11,8 +11,9 @@
 	@Originator				NVARCHAR(50),
 	@TextField1				NVARCHAR(50),
 	@TextField2				NVARCHAR(50),
-	@PerformanceStatusCode	NVARCHAR(5) = NULL,
-	@StopId				INT
+	@PerformanceStatusId	TINYINT = NULL,
+	@ByPassReasonId         TINYINT = NULL,
+	@StopId					INT
 
 AS
 BEGIN
@@ -23,10 +24,10 @@ BEGIN
 	MERGE INTO [Job] AS Target
 	USING (VALUES
 		(@Id, @Sequence, @JobTypeCode, @JobRef1, @JobRef2, @JobRef3, @JobRef4, @OrderDate, @Originator, @TextField1, @TextField2,
-		 @PerformanceStatusCode, @StopId, @Username, GETDATE(), @Username, GETDATE())
+		 @PerformanceStatusId,@ByPassReasonId, @StopId, @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[Sequence],[JobTypeCode],[JobRef1], [JobRef2], [JobRef3], [JobRef4], [OrderDate], [Originator],
-				[TextField1], [TextField2], [PerformanceStatusCode], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[TextField1], [TextField2], [PerformanceStatusId],[ByPassReasonId], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
 	UPDATE SET
@@ -40,7 +41,8 @@ BEGIN
 		[Originator] = Source.[Originator],
 		[TextField1] = Source.[TextField1],
 		[TextField2] = Source.[TextField2],
-		[PerformanceStatusCode] = Source.[PerformanceStatusCode],
+		[PerformanceStatusId] = Source.[PerformanceStatusId],
+		[ByPassReasonId] = Source.[ByPassReasonId],
 		[StopId] = Source.[StopId],
 		[CreatedBy] = Source.[CreatedBy],
 		[DateCreated] = Source.[DateCreated],
@@ -48,9 +50,9 @@ BEGIN
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([Sequence],[JobTypeCode],[JobRef1], [JobRef2], [JobRef3], [JobRef4], [OrderDate], [Originator],
-				[TextField1], [TextField2], [PerformanceStatusCode], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[TextField1], [TextField2], [PerformanceStatusId],[ByPassReasonId], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([Sequence],[JobTypeCode],[JobRef1], [JobRef2], [JobRef3], [JobRef4], [OrderDate], [Originator],
-				[TextField1], [TextField2], [PerformanceStatusCode], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[TextField1], [TextField2], [PerformanceStatusId],[ByPassReasonId], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;
 

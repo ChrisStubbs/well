@@ -90,7 +90,7 @@
         [XmlIgnore]
         public int StopPerformanceStatusCodeId { get; set; }
 
-        [XmlElement("StopStatusCode")]
+        [XmlElement("PerformanceStatusCode")]
         public string StopPerformanceStatusCode
         {
             get { return StopPerformanceStatusCode; }

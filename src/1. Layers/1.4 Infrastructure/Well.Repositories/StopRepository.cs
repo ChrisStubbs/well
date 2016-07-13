@@ -77,6 +77,7 @@
                 .AddParameter("Code", account.Code, DbType.String)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("AccountTypeCode", account.AccountTypeCode, DbType.String)
+                .AddParameter("DepotId", account.DepotId, DbType.Int32)
                 .AddParameter("Name", account.Name, DbType.String)
                 .AddParameter("Address1", account.Address1, DbType.String)
                 .AddParameter("Address2", account.Address2, DbType.String)

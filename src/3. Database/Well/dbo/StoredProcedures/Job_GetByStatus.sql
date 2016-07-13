@@ -3,19 +3,21 @@
 
 AS
 BEGIN
-SELECT [Id]
-      ,[Sequence]
-      ,[JobTypeCode]
-      ,[JobRef1]
-      ,[JobRef2]
-      ,[JobRef3]
-      ,[JobRef4]
-      ,[OrderDate]
-      ,[Originator]
-      ,[TextField1]
-      ,[TextField2]
-      ,[PerformanceStatusCode]
-      ,[StopId]
-  FROM [dbo].[Job]
-  WHERE [PerformanceStatusCode] = @PerformanceStatusCode
+SELECT j.[Id]
+      ,j.[Sequence]
+      ,j.[JobTypeCode]
+      ,j.[JobRef1]
+      ,j.[JobRef2]
+      ,j.[JobRef3]
+      ,j.[JobRef4]
+      ,j.[OrderDate]
+      ,j.[Originator]
+      ,j.[TextField1]
+      ,j.[TextField2]
+      ,j.[PerformanceStatusId]
+      ,j.[StopId]
+  FROM [dbo].[Job] AS j
+  INNER JOIN PerformanceStatus AS ps 
+  ON ps.Id = j.PerformanceStatusId	
+  WHERE ps.Code = @PerformanceStatusCode
 END

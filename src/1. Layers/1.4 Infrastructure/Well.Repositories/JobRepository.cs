@@ -52,7 +52,8 @@
                 .AddParameter("Originator", job.Originator, DbType.String)
                 .AddParameter("TextField1", job.TextField1, DbType.String)
                 .AddParameter("TextField2", job.TextField2, DbType.String)
-                .AddParameter("PerformanceStatusCode", job.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusCode", job.JobPerformanceStatusCodeId, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", job.ByPassReasonId, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
 
             return this.GetById(id);

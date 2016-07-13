@@ -5,7 +5,11 @@
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
 
+<<<<<<< HEAD
     public class CleanDeliveryRepository : DapperRepository<CleanDelivery, int> , ICleanDeliveryRepository
+=======
+    public class CleanDeliveryRepository : DapperRepository<CleanDelivery, int>, ICleanDeliveryRespository
+>>>>>>> 3a3370b873d2903322f7c58da379287e130614b3
     {
         public CleanDeliveryRepository(ILogger logger, IWellDapperProxy dapperProxy
             )

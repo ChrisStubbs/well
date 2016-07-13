@@ -25,6 +25,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IEventLogger>().Use<EventLogger>();
             For<IStopRepository>().Use<StopRepository>();
             For<IWidgetStatsRepository>().Use<WidgetStatsRepository>();
+            For<ICleanDeliveryRepository>().Use<CleanDeliveryRepository>();
+            For<IAccountRepository>().Use<AccountRepository>();
 
         }
     }

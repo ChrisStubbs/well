@@ -5,6 +5,8 @@
     using System.Web.Routing;
     using App_Start;
 
+    using PH.Well.Dashboard.App_Start;
+
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()

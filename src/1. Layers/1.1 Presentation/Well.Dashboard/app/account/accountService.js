@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../shared
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, http_1, Observable_1, globalSettings_1;
-    var CleanDeliveryService;
+    var AccountService;
     return {
         setters:[
             function (core_1_1) {
@@ -27,29 +27,29 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../shared
                 globalSettings_1 = globalSettings_1_1;
             }],
         execute: function() {
-            CleanDeliveryService = (function () {
-                function CleanDeliveryService(http, globalSettingsService) {
+            AccountService = (function () {
+                function AccountService(http, globalSettingsService) {
                     this.http = http;
                     this.globalSettingsService = globalSettingsService;
                 }
-                CleanDeliveryService.prototype.getCleanDeliveries = function () {
-                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'clean')
+                AccountService.prototype.getAccountByStopId = function () {
+                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'account')
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
                 };
-                CleanDeliveryService.prototype.handleError = function (error) {
+                AccountService.prototype.handleError = function (error) {
                     console.log(error);
                     return Observable_1.Observable.throw(error.json().error || 'Server error');
                 };
-                CleanDeliveryService = __decorate([
+                AccountService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
-                ], CleanDeliveryService);
-                return CleanDeliveryService;
+                ], AccountService);
+                return AccountService;
             }());
-            exports_1("CleanDeliveryService", CleanDeliveryService);
+            exports_1("AccountService", AccountService);
         }
     }
 });
-//# sourceMappingURL=cleanDeliveryService.js.map
+//# sourceMappingURL=accountService.js.map

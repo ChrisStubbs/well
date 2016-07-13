@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-deliveryComponent', './notifications/notificationsComponent', './shared/globalSettings'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router', './widgetstats/widgetstats-service', './widgetstats/widgetStatsComponent', './route_header/routeHeaderComponent', './clean/cleanDeliveryComponent', './resolved/resolved-deliveryComponent', './notifications/notificationsComponent', './account/accountComponent', './shared/globalSettings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_deliveryComponent_1, notificationsComponent_1, globalSettings_1;
+    var core_1, http_1, router_1, widgetstats_service_1, widgetStatsComponent_1, routeHeaderComponent_1, cleanDeliveryComponent_1, resolved_deliveryComponent_1, notificationsComponent_1, accountComponent_1, globalSettings_1;
     var AppComponent;
     return {
         setters:[
@@ -42,6 +42,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
             function (notificationsComponent_1_1) {
                 notificationsComponent_1 = notificationsComponent_1_1;
             },
+            function (accountComponent_1_1) {
+                accountComponent_1 = accountComponent_1_1;
+            },
             function (globalSettings_1_1) {
                 globalSettings_1 = globalSettings_1_1;
             }],
@@ -68,7 +71,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'angular2/router',
                         { path: '/routes', name: 'Routes', component: routeHeaderComponent_1.RouteHeaderComponent },
                         { path: '/clean', name: 'Clean', component: cleanDeliveryComponent_1.CleanDeliveryComponent },
                         { path: '/resolved', name: 'Resolved', component: resolved_deliveryComponent_1.ResolvedDeliveryComponent },
-                        { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent }
+                        { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent },
+                        { path: '/account', name: 'Account', component: accountComponent_1.AccountComponent }
                     ]), 
                     __metadata('design:paramtypes', [router_1.Router, core_1.ChangeDetectorRef, globalSettings_1.GlobalSettingsService])
                 ], AppComponent);

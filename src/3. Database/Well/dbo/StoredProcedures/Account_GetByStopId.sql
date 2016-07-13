@@ -1,0 +1,21 @@
+﻿CREATE PROCEDURE  [dbo].[Account_GetByStopId]
+	@StopId INT
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	SELECT [Code]
+		  ,[Name]
+		  ,[Address1]
+		  ,[Address2]
+		  ,[PostCode]
+		  ,[ContactName]
+		  ,[ContactNumber]
+		  ,[ContactNumber2]
+		  ,[ContactEmailAddress]
+		  ,[DepotID]
+	  FROM [Well].[dbo].[Account]
+	  WHERE StopId = @StopId
+
+END

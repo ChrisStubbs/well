@@ -105,7 +105,7 @@
     <Build Include="dbo\Tables\JobAttribute.sql" />
     <Build Include="dbo\Tables\JobDetail.sql" />
     <Build Include="dbo\Tables\JobDetailAttribute.sql" />
-    <Build Include="dbo\Tables\JobDetailDamageReasons.sql" />
+    <Build Include="dbo\Tables\JobDetailDamage.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
     <Build Include="dbo\StoredProcedures\WidgetStats_Get.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />
@@ -114,18 +114,37 @@
     <Build Include="dbo\StoredProcedures\RouteHeaders_Get.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
     <Build Include="dbo\Tables\WidgetStats.sql" />
-<<<<<<< HEAD
     <Build Include="dbo\StoredProcedures\Routes_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetCleanDeliveries.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
+<<<<<<< HEAD
+    <Build Include="dbo\StoredProcedures\RouteHeaderAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Stops_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\StopAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\Tables\StopAttribute.sql" />
+    <Build Include="dbo\StoredProcedures\StopAccount_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\JobAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailAttribute_CreateOrUpdate.sql" />
+    <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
 =======
-    <Build Include="dbo\StoredProcedures\Job_GetCleanDeliveries.sql" />
->>>>>>> f2df321e1775e89a158f5beb1549ec275b431e81
+    <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
+>>>>>>> e1eb306c9f46c3a6246ab59d08fd73922a9ec302
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
     <None Include="Post-Deployement\EventServiceBroker.sql" />
     <None Include="Post-Deployement\Pupulate-DefaultWidgetStats.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Well.refactorlog" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\packages\OctoPack.3.0.60\tools\OctoPack.targets" />
 </Project>

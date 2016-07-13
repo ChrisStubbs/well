@@ -19,7 +19,6 @@ SELECT
       ,[TextField2]
       ,[TextField3]
       ,[TextField4]
-      ,[BypassReasonId]
 FROM 
 	  [Well].[dbo].[Stop]
 WHERE 

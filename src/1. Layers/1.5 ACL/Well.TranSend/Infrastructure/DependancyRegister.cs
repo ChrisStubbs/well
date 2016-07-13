@@ -25,6 +25,9 @@ namespace PH.Well.TranSend.Infrastructure
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IEpodDomainImportService>().Use<EpodDomainImportService>();
+                    x.For<IStopRepository>().Use<StopRepository>();
+                    x.For<IJobRepository>().Use<JobRepository>();
+                    x.For<IJobDetailRepository>().Use<JobDetailRepository>();
 
                 } );
         }

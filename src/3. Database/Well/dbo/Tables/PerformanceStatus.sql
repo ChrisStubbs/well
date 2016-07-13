@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[JobPerformanceStatus]
+﻿CREATE TABLE [dbo].[PerformanceStatus]
 (
 	[Id] [TINYINT] IDENTITY(1,1) NOT NULL,
 	[Code] VARCHAR(20) NOT NULL,

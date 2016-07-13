@@ -16,11 +16,10 @@
         {
         }
 
-        //public Account GetAccountByStopId(int stopId)
-        public Account GetAccountByStopId()
+        public Account GetAccountByStopId(int stopId)
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountGetByStopId)
-                   // .AddParameter("StopId", stopId, DbType.Int32)
+                    .AddParameter("StopId", stopId, DbType.Int32)
                     .Query<Account>()
                     .FirstOrDefault();
 

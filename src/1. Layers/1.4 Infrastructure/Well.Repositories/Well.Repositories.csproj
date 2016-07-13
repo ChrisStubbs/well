@@ -53,11 +53,9 @@
     <Compile Include="AccountRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
-    <Compile Include="CleanDeliveryRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
-    <Compile Include="Contracts\ICleanDeliveryRepository.cs" />
     <Compile Include="Contracts\IDapperProxy.cs" />
     <Compile Include="Contracts\IDbConfiguration.cs" />
     <Compile Include="Contracts\IPreferenceRepository.cs" />
@@ -69,6 +67,10 @@
     <Compile Include="DependancyEvents\ChangeEventArgs.cs" />
     <Compile Include="Contracts\IStopRepository.cs" />
     <Compile Include="Contracts\IWidgetStatsRepository.cs" />
+    <Compile Include="Contracts\IJobRepository.cs" />
+    <Compile Include="Contracts\IJobDetailRepository.cs" />
+    <Compile Include="JobDetailRepository.cs" />
+    <Compile Include="JobRepository.cs" />
     <Compile Include="PreferenceRepository.cs" />
     <Compile Include="DependancyEvents\DbChangeNotifier.cs" />
     <Compile Include="Contracts\IDbChangeNotifier.cs" />

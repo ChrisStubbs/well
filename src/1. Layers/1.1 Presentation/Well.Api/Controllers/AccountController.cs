@@ -32,14 +32,11 @@
 
         [Route("account", Name = "GetAccountByStopId")]
         [HttpGet]
-       // public HttpResponseMessage GetAccountByStopId(int stopId)
-        public HttpResponseMessage GetAccountByStopId()
-
+        public HttpResponseMessage GetAccountByStopId(int stopId)
         {
             try
             {
-               // var account = this.accountRespository.GetAccountByStopId(stopId);
-                var account = this.accountRespository.GetAccountByStopId();
+                var account = this.accountRespository.GetAccountByStopId(stopId);
                 if (account.Code == String.Empty) return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 else
                 {

@@ -12,6 +12,8 @@
         public RouteHeader()
         {
             this.Stops = new Collection<Stop>();
+            this.EntityAttributes = new Collection<Attribute>();
+            this.Depot = new Depot();
         }
 
         [XmlElement("CompanyID")]
@@ -39,32 +41,80 @@
         public string StartDepotCode  { get; set; }
 
         [XmlElement("PlannedRouteStartTime")]
-        public TimeSpan PlannedRouteStartTime { get; set; }
+        public string PlannedRouteStartTime { get; set; }
 
         [XmlElement("PlannedRouteFinishTime")]
-        public TimeSpan PlannedRouteFinishTime { get; set; }
+        public string PlannedRouteFinishTime { get; set; }
 
         [XmlElement("PlannedDistance")]
         public decimal PlannedDistance { get; set; }
 
         [XmlElement("PlannedTravelTime")]
-        public TimeSpan PlannedTravelTime { get; set; }
+        public string PlannedTravelTime { get; set; }
 
         [XmlElement("PlannedStops")]
         public int PlannedStops { get; set; }
 
         public int RouteStatusId { get; set; }
 
-        public RouteStatus RouteStatus
+        [XmlElement("RouteStatusCode")]
+        public string RouteStatusCode
         {
-            get { return (RouteStatus)RouteStatusId; }
-            private set { RouteStatusId = (int)value; }
+            get { return RouteStatusCode; }
+            private set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value); }
         }
+
+        public int RoutePerformanceStatusId { get; set; }
+
+        [XmlElement("RoutePerformanceStatusCode")]
+        public string PerformanceStatusCode
+        {
+            get { return PerformanceStatusCode; }
+            private set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value); }
+        }
+
+        [XmlIgnore]
+        public DateTime LastRouteUpdate { get; set; }
+
+        [XmlElement("LastRouteUpdate")]
+        public string LastRouteUpdateString
+        {
+            get { return this.LastRouteUpdate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set
+            {             
+                this.LastRouteUpdate = value == string.Empty? DateTime.Now : DateTime.Parse(value);
+            }
+        }
+
+        [XmlElement("AuthByPass")]
+        public int AuthByPass { get; set; }
+
+        [XmlElement("NonAuthByPass")]
+        public int NonAuthByPass { get; set; }
+
+        [XmlElement("ShortDeliveries")]
+        public int ShortDeliveries { get; set; }
+
+        [XmlElement("DamagesRejected")]
+        public int DamagesRejected { get; set; }
+
+        [XmlElement("DamagesAccepted")]
+        public int DamagesAccepted { get; set; }
+
+        [XmlElement("NotRequired")]
+        public int NotRequired { get; set; }
 
         public int RoutesId { get; set; }
 
-        [XmlElement("Stops")]
-        public Collection<Stop> Stops { get; set; } 
-        public KeyValuePair<int, KeyValuePair<int, string>> RouteMetaData { get; set; }
+        [XmlElement("Depot")]
+        public Depot Depot { get; set; }
+
+        [XmlArray("Stops")]
+        [XmlArrayItem("Stop", typeof(Stop))]
+        public Collection<Stop> Stops { get; set; }
+
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(Attribute))]
+        public Collection<Attribute> EntityAttributes { get; set; }
     }
 }

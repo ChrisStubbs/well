@@ -3,11 +3,14 @@
 namespace PH.Well.Services
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     using Common.Contracts;
-    using Domain;
+    using Domain.ValueObjects;
 
-    public class DeliveryService
+    using PH.Well.Services.Contracts;
+
+    public class DeliveryService : IDeliveryService
     {
         public ILogger Logger { get; set; }
 
@@ -32,7 +35,7 @@ namespace PH.Well.Services
         {
             var status = 6; // complete
             var jobs = this.JobRepository.GetByStatus(status);
-            var cleanDeliveries = new List<CleanDelivery>();
+            var cleanDeliveries = new Collection<CleanDelivery>();
 
             foreach (var job in jobs)
             {

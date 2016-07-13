@@ -1,11 +1,7 @@
-﻿namespace PH.Well.Domain
+﻿namespace PH.Well.Domain.ValueObjects
 {
-    public class CleanDelivery:Entity<int>
+    public class CleanDelivery
     {
-        public CleanDelivery()
-        {
-        }
-
         public string  RouteNumber { get; set; }
         public string DropId { get; set; }
         public string InvoiceNumber { get; set; }

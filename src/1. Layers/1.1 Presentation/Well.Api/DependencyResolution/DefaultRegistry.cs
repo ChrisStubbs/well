@@ -30,6 +30,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetStatsRepository>().Use<WidgetStatsRepository>();
             For<IAccountRepository>().Use<AccountRepository>();
             For<IDeliveryService>().Use<DeliveryService>();
+            For<IJobRepository>().Use<JobRepository>();
 
         }
     }

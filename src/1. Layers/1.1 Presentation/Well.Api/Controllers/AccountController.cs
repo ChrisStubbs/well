@@ -6,6 +6,7 @@
     using System.Web.Http;
     using Common.Contracts;
     using Repositories.Contracts;
+    using static System.String;
 
 
     public class AccountController : ApiController
@@ -36,11 +37,9 @@
             try
             {
                 var account = this.accountRespository.GetAccountByStopId(stopId);
-                if (account.Code == String.Empty) return this.Request.CreateResponse(HttpStatusCode.NotFound);
-                else
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, account);
-                }
+                return account.Code == Empty
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, account);
             }
             catch (Exception ex)
             {

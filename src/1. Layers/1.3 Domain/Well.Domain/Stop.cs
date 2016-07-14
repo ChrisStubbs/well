@@ -21,7 +21,7 @@
         public string PlannedStopNumber { get; set; }
 
         [XmlElement("PlannedArriveTime")]
-        public string PlannedArrivalTime { get; set; }
+        public string PlannedArriveTime { get; set; }
 
         [XmlElement("PlannedDepartTime")]
         public string PlannedDepartTime { get; set; }
@@ -36,7 +36,7 @@
             set
             {
                 var transportOrderDetails = value.Split(' ');
-                this.RouteId = transportOrderDetails[0];
+                this.RouteHeaderCode = transportOrderDetails[0];
                 this.DropId = transportOrderDetails[1];
                 this.LocationId = transportOrderDetails[2];
                 this.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
@@ -45,7 +45,7 @@
         }
 
         [XmlIgnore]
-        public string RouteId { get; set; }
+        public string RouteHeaderCode { get; set; }
 
         [XmlIgnore]
         public string DropId { get; set; }

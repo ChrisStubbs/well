@@ -15,6 +15,7 @@
         public static string RouteHeaderGetById = "RouteHeader_GetById";
         public static string RouteHeaderAttributeCreateOrUpdate = "RouteHeaderAttribute_CreateOrUpdate";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
+        public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
 
 
         //Stops
@@ -22,6 +23,7 @@
         public static string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
+        public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
 
         //Jobs
         public static string JobGetCleanDeliveries = "Job_GetCleanDeliveries";
@@ -29,11 +31,14 @@
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public static string JobGetByStatus = "Job_GetByStatus";
+        public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
 
         //jobdetail
         public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";
         public static string JobDetailGetById = "JobDetail_GetById";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
+        public static string JobDetailGetByBarcodeLineNumberAndJobId = "JobDetail_GetByBarcodeLineNumberAndJobId";
+        public static string JobDetailDamageCreateOrUpdate = "JobDetailDamage_CreateOrUpdate";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";

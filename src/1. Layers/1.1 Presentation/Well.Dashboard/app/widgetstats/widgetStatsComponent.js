@@ -64,9 +64,10 @@ System.register(['@angular/core', '@angular/router-deprecated', './widgetstats-s
                     core_1.Component({
                         templateUrl: './app/widgetstats/widgetstats.html'
                     }), 
-                    __metadata('design:paramtypes', [widgetstats_service_1.WidgetStatsService, router_deprecated_1.Router, router_deprecated_1.RouteParams, core_1.ChangeDetectorRef])
+                    __metadata('design:paramtypes', [widgetstats_service_1.WidgetStatsService, (typeof (_a = typeof router_deprecated_1.Router !== 'undefined' && router_deprecated_1.Router) === 'function' && _a) || Object, (typeof (_b = typeof router_deprecated_1.RouteParams !== 'undefined' && router_deprecated_1.RouteParams) === 'function' && _b) || Object, (typeof (_c = typeof core_1.ChangeDetectorRef !== 'undefined' && core_1.ChangeDetectorRef) === 'function' && _c) || Object])
                 ], WidgetStatsComponent);
                 return WidgetStatsComponent;
+                var _a, _b, _c;
             }());
             exports_1("WidgetStatsComponent", WidgetStatsComponent);
         }

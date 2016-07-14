@@ -10,5 +10,9 @@
         JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail);
 
         void AddJobDetailAttributes(Attribute attribute);
+
+        JobDetail GetByBarcodeLineNumberAndJobId(int lineNumber, string barcode, int jobId);
+
+        void JobDetailDamageCreateOrUpdate(JobDetailDamage jobDetailDamage);
     }
 }

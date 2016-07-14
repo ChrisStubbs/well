@@ -57,18 +57,18 @@ namespace PH.Well.Services
                 var cleanDelivery = new Delivery();
 
                 cleanDelivery.InvoiceNumber = job.JobRef3;
-                cleanDelivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.JobPerformanceStatusCodeId);
+                cleanDelivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.PerformanceStatusId);
                 cleanDelivery.AccountCode = job.JobRef1;
 
                 var stop = this.StopRepository.GetById(job.StopId);
                 cleanDelivery.DropId = stop.DropId;
 
-                var routeId = int.Parse(stop.RouteId);
+                var routeId = stop.RouteHeaderId;
                 var route = routes.FirstOrDefault(x => x.RoutesId == routeId);
 
                 if (route == null)
                 {
-                    route = this.RouteHeaderRepository.GetRouteHeaderById(int.Parse(stop.RouteId));
+                    route = this.RouteHeaderRepository.GetRouteHeaderById(stop.RouteHeaderId);
                     routes.Add(route);
                 }
                 cleanDelivery.RouteNumber = route.RouteNumber;

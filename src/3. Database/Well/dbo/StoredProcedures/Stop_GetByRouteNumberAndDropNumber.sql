@@ -1,5 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[Stop_GetById]
-	@Id INT
+﻿CREATE PROCEDURE [dbo].[Stop_GetByRouteNumberAndDropNumber]
+	@RouteHeaderCode	NVARCHAR(10),
+	@RouteHeaderId   	INT,
+	@DropId				NVARCHAR(2)
 
 AS
 BEGIN
@@ -23,5 +25,7 @@ SELECT [Id],
 	  [StopPerformanceStatusId],
 	  [ByPassReasonId]
   FROM [Well].[dbo].[Stop]
-  WHERE [Id] = @Id
+  WHERE [RouteHeaderCode] = @RouteHeaderCode
+  AND [RouteHeaderId] = @RouteHeaderId
+  AND [DropId] = @DropId
 END

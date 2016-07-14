@@ -133,19 +133,13 @@
                     <xs:element name="CreatedDate" type="xs:string" />
                     <xs:element name="UpdatedDate" type="xs:string" />
                     <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
-                    <xs:element name="Vehicle_VehicleReg" type="xs:string" />
-                    <xs:element name="Driver_Name" type="xs:string" />
+                    <xs:element name="VehicleReg" type="xs:string" />
+                    <xs:element name="DriverName" type="xs:string" />
                     <xs:element name="ShiftType_Code" />
                     <xs:element name="DriverCode" type="xs:unsignedInt" />
                     <xs:element name="Job_JobID" />
                     <xs:element name="Job_StopID" />
-                    <xs:element name="Depot">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element name="Code" type="xs:string" />
-                        </xs:sequence>
-                      </xs:complexType>
-                    </xs:element>
+                    <xs:element name="Depot" type="xs:string" />
                     <xs:element name="FinishDepot" />
                     <xs:element name="RouteCheckResponses" />
                     <xs:element name="Signatures" />

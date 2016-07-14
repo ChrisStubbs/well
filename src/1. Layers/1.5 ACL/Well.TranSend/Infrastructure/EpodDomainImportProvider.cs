@@ -84,7 +84,10 @@
                 attribs.XmlElements.Add(new XmlElementAttribute("Depot"));
                 overrides.Add(typeof(RouteHeader), "Depot", attribs);
 
+                attribs.XmlElements.Add(new XmlElementAttribute("ActualStopsCompleted"));
+                overrides.Add(typeof(RouteHeader), "ActualStopsCompleted", attribs);
 
+                
                 attribs.XmlElements.Add(new XmlElementAttribute("RouteDate"));
                 overrides.Add(typeof(RouteHeader), "RouteDate", attribs);
             }
@@ -102,7 +105,15 @@
 
             epodDomainImportService.EpodType = epodType;
             epodDomainImportService.CurrentUser = "ePodDomainImport";
-            epodDomainImportService.AddRoutesFile(routes, routesId);
+            if (epodType == EpodFileType.RouteHeader)
+            {
+                epodDomainImportService.AddRoutesFile(routes, routesId);
+            }
+            else
+            {
+                epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+            }
+            
             logger.LogDebug($"File {filename} imported successfully");
 
         }

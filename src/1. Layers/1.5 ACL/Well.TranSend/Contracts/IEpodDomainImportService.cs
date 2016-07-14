@@ -14,5 +14,7 @@
 
         void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
 
+        void AddRoutesEpodFile(RouteDeliveries routeDeliveries, int routesId);
+
     }
 }

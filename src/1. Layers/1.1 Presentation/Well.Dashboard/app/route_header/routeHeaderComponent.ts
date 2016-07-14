@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit }  from '@angular/core';
 import { ROUTER_DIRECTIVES} from '@angular/router';
+import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 
@@ -11,14 +12,14 @@ import {DropDownItem} from "../shared/DropDownItem";
 
 @Component({
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [RouteHeaderService, GlobalSettingsService],
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [OptionFilterPipe]
+    providers: [RouteHeaderService, GlobalSettingsService, PaginationService],
+    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
+    pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class RouteHeaderComponent implements OnInit {
     errorMessage: string;
     routes: IRoute[];
-    rowCount: number = 10;
+    rowCount: number = 5;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "route"),        

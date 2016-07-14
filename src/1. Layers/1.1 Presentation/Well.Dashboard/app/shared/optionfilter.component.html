@@ -4,7 +4,7 @@
             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{selectedOption.description}}<span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="filter-option">
                 <li><a><i>Option</i></a></li>
-                <li *ngFor="#option of options"><a (click)="setSelectedOption(option)">{{option.description}}</a></li>
+                <li *ngFor="let option of options"><a (click)="setSelectedOption(option)">{{option.description}}</a></li>
             </ul>
         </div>
     </div>

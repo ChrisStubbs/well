@@ -35,3 +35,8 @@
         </table>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12 pull-right">
+        <pagination [totalItems]="5" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+</div>

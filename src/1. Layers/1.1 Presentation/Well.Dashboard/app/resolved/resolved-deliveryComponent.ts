@@ -14,7 +14,8 @@ import FilterOption = Option.FilterOption;
 @Component({
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [ResolvedDeliveryService, GlobalSettings.GlobalSettingsService],
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, OptionFilterComponent],
+    pipes: [OptionFilterPipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     errorMessage: string;

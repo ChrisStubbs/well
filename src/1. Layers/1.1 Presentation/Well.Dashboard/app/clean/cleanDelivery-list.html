@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="#delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
+            <tr *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption" (click)="deliverySelected(delivery)">
                 <td>{{delivery.routeNumber}}</td>
                 <td>{{delivery.dropId}}</td>
                 <td>{{delivery.invoiceNumber}}</td>
@@ -39,9 +39,6 @@
             </tr>
             </tbody>
         </table>
-    </div>
-        <div class="row pull-right">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
 

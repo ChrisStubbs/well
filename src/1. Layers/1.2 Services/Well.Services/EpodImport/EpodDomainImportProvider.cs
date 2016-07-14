@@ -1,17 +1,13 @@
-﻿namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.Services.EpodImport
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Runtime.InteropServices;
     using System.Xml.Serialization;
-    using Common;
     using Common.Contracts;
     using Common.Extensions;
-    using Contracts;
     using Domain;
-    using Enums;
-    using Repositories.Contracts;
+    using Domain.Enums;
+    using Services.Contracts;
 
     public class EpodDomainImportProvider : IEpodDomainImportProvider
     {

@@ -1,7 +1,7 @@
-﻿namespace PH.Well.TranSend.Contracts
+﻿namespace PH.Well.Services.Contracts
 {
     using Domain;
-    using Enums;
+    using Domain.Enums;
 
     public interface IEpodDomainImportService
     {
@@ -15,6 +15,16 @@
         void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
 
         void AddRoutesEpodFile(RouteDeliveries routeDeliveries, int routesId);
+
+        string MatchFileNameToSchema(string fileTypeIndentifier);
+
+        string GetFileTypeIdentifier(string filename);
+
+        EpodFileType GetEpodFileType(string fileTypeIndentifier);
+
+        string GetSchemaFilePath(string schemaName);
+
+        bool IsFileXmlType(string fileName);
 
     }
 }

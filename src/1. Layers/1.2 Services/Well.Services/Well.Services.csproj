@@ -41,7 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IDeliveryService.cs" />
+    <Compile Include="Contracts\IEpodDomainImportProvider.cs" />
+    <Compile Include="Contracts\IEpodDomainImportService.cs" />
+    <Compile Include="Contracts\IEpodSchemaProvider.cs" />
     <Compile Include="DeliveryService.cs" />
+    <Compile Include="EpodDomainImportService.cs" />
+    <Compile Include="EpodImport\EpodDomainImportProvider.cs" />
+    <Compile Include="EpodImport\EpodSchemaProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +63,18 @@
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Schemas\TransendPHEpodSchema.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Schemas\TransendPHRoutesSchema.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

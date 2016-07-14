@@ -1,12 +1,14 @@
-﻿namespace PH.Well.TranSend.Services
+﻿namespace PH.Well.Services
 {
     using System;
-    using System.Runtime.CompilerServices;
+    using System.IO;
+    using System.Linq;
     using Common.Contracts;
-    using Contracts;
+    using Common.Extensions;
     using Domain;
-    using Enums;
+    using Domain.Enums;
     using Repositories.Contracts;
+    using Well.Services.Contracts;
 
     public class EpodDomainImportService : IEpodDomainImportService
     {
@@ -16,6 +18,9 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly ILogger logger;
         public string CurrentUser { get; set; }
+
+        private readonly string assemblyName = "PH.Well.Services";
+        private readonly string correctExtension = ".xml";
 
         public EpodFileType EpodType { get; set; }
 
@@ -231,5 +236,37 @@
                 }
             }
         }
+
+        public bool IsFileXmlType(string fileName)
+        {
+            return Path.GetExtension(fileName) == correctExtension;
+        }
+
+        public string MatchFileNameToSchema(string fileTypeIndentifier)
+        {
+            var fileType = GetEpodFileType(fileTypeIndentifier);
+
+            return StringExtensions.GetEnumDescription(fileType == EpodFileType.RouteHeader ? TransendSchemaType.RouteHeaderSchema : TransendSchemaType.RouteEpodSchema);
+        }
+
+        public string GetFileTypeIdentifier(string filename)
+        {
+            var position = filename.IndexOf("_", StringComparison.Ordinal);
+            return filename.Substring(0, position + 1);
+        }
+
+        public EpodFileType GetEpodFileType(string fileTypeIndentifier)
+        {
+            return StringExtensions.GetValueFromDescription<EpodFileType>(fileTypeIndentifier);
+        }
+
+        public string GetSchemaFilePath(string schemaName)
+        {
+            var bundleAssembly = AppDomain.CurrentDomain.GetAssemblies().First(x => x.FullName.Contains(assemblyName));
+            var asmPath = new Uri(bundleAssembly.CodeBase).LocalPath;
+            return Path.Combine(Path.GetDirectoryName(asmPath), "Schemas", schemaName);
+        }
+
+
     }
 }

@@ -8,7 +8,8 @@
     using System.Linq;
     using Common.Contracts;
     using Common.Extensions;
-    using Enums;
+    using Domain.Enums;
+    using Well.Services.Contracts;
     using static System.String;
 
     public class EpodFtpProvider : IEpodFtpProvider
@@ -20,17 +21,20 @@
         private string networkUserPass;
         private readonly IEpodSchemaProvider epodSchemaProvider;
         private readonly IEpodDomainImportProvider epodDomainImportProvider;
+        private readonly IEpodDomainImportService epodDomainImportService;
         private readonly ILogger logger;
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
 
 
 
-        public EpodFtpProvider(IEpodSchemaProvider epodSchemaProvider, ILogger logger, IEpodDomainImportProvider epodDomainImportProvider)
+        public EpodFtpProvider(IEpodSchemaProvider epodSchemaProvider, ILogger logger, IEpodDomainImportProvider epodDomainImportProvider,
+            IEpodDomainImportService epodDomainImportService)
         {
             this.epodSchemaProvider = epodSchemaProvider;
             this.logger = logger;
             this.epodDomainImportProvider = epodDomainImportProvider;
+            this.epodDomainImportService = epodDomainImportService;
         }
 
 
@@ -66,11 +70,11 @@
 
                 var filenameWithoutPath = downloadedFile.GetFilenameWithoutPath();
 
-                if (routeFile != null && IsFileXmlType(downloadedFile))
+                if (routeFile != null && epodDomainImportService.IsFileXmlType(downloadedFile))
                 {
-                    var fileTypeIndentifier = GetFileTypeIdentifier(filenameWithoutPath);
-                    var schemaName = MatchFileNameToSchema(fileTypeIndentifier);
-                    var schemaPath = GetSchemaFilePath(schemaName);
+                    var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
+                    var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
+                    var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
                     var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath);
 
                     if (!isFileValidBySchema)
@@ -79,7 +83,7 @@
                     }
                     else
                     {
-                        var epodType = GetEpodFileType(fileTypeIndentifier);
+                        var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
                         epodDomainImportProvider.ImportRouteHeader(downloadedFile, epodType);
                     }              
                 }
@@ -109,38 +113,6 @@
                 }
             }
         }
-
-
-        private bool IsFileXmlType(string fileName)
-        {
-            return Path.GetExtension(fileName) == correctExtension;
-        }
-
-        private static string MatchFileNameToSchema(string fileTypeIndentifier)
-        {
-            var fileType = GetEpodFileType(fileTypeIndentifier);
-
-            return StringExtensions.GetEnumDescription(fileType == EpodFileType.RouteHeader ? TransendSchemaType.RouteHeaderSchema : TransendSchemaType.RouteEpodSchema);
-        }
-
-        private static string GetFileTypeIdentifier(string filename)
-        {
-            var position = filename.IndexOf("_", StringComparison.Ordinal);
-            return filename.Substring(0, position + 1);
-        }
-
-        private static EpodFileType GetEpodFileType(string fileTypeIndentifier)
-        {
-            return StringExtensions.GetValueFromDescription<EpodFileType>(fileTypeIndentifier);
-        }
-
-        private string GetSchemaFilePath(string schemaName)
-        {
-            var bundleAssembly = AppDomain.CurrentDomain.GetAssemblies().First(x => x.FullName.Contains(assemblyName));
-            var asmPath = new Uri(bundleAssembly.CodeBase).LocalPath;
-            return Path.Combine(Path.GetDirectoryName(asmPath), "Schemas", schemaName);
-        }
-
 
     }
 }

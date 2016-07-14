@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="RouteDeliveries">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Header">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SimNumber" />
+              <xs:element name="TransmissionMethod" />
+              <xs:element name="DestinationFolder" />
+              <xs:element name="SubmissionNo" />
+              <xs:element name="RetryInterval" />
+              <xs:element name="Timeout" />
+              <xs:element name="Stamp" type="xs:unsignedByte" />
+              <xs:element name="Fallback">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="TransmissionMethod" />
+                    <xs:element name="DestinationFolder" />
+                    <xs:element name="RetryInterval" />
+                    <xs:element name="Timeout" />
+                    <xs:element name="Stamp" type="xs:unsignedByte" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Reasons" />
+              <xs:element name="Date">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Day" type="xs:unsignedByte" />
+                    <xs:element name="Month" type="xs:unsignedByte" />
+                    <xs:element name="Year" type="xs:unsignedShort" />
+                    <xs:element name="Time" type="xs:time" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="PDAVersionNumber" />
+              <xs:element name="Authorised" type="xs:string" />
+              <xs:element name="DeviceTypeCode" />
+              <xs:element name="DeviceCode" />
+              <xs:element name="IsWasteLicenced" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Routes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RouteHeader">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RouteHeaderID" type="xs:unsignedShort" />
+                    <xs:element name="CompanyID" type="xs:unsignedByte" />
+                    <xs:element name="DriverID" type="xs:unsignedShort" />
+                    <xs:element name="StartDepotID" type="xs:unsignedByte" />
+                    <xs:element name="FinishDepotID" />
+                    <xs:element name="SubDepotID" />
+                    <xs:element name="FinishSubDepotID" />
+                    <xs:element name="VehicleID" type="xs:unsignedShort" />
+                    <xs:element name="VehicleTypeID" />
+                    <xs:element name="LastStopID" type="xs:unsignedInt" />
+                    <xs:element name="LastTransactionEventID" />
+                    <xs:element name="LastLocatedEventID" />
+                    <xs:element name="DeviceID" />
+                    <xs:element name="TelematicsDeviceID" />
+                    <xs:element name="DriversMateID" />
+                    <xs:element name="ShiftTypeID" />
+                    <xs:element name="TrailerID" />
+                    <xs:element name="TrailerCode" />
+                    <xs:element name="RouteNumber" type="xs:unsignedByte" />
+                    <xs:element name="RouteDate" type="xs:string" />
+                    <xs:element name="Version" />
+                    <xs:element name="LastProductUpdate" type="xs:string" />
+                    <xs:element name="LastRequest" />
+                    <xs:element name="LastAcknowledgement" />
+                    <xs:element name="Trip" />
+                    <xs:element name="FirstAcknowledgement" />
+                    <xs:element name="LastRouteUpdate" type="xs:string" />
+                    <xs:element name="ActualDriverLoginTime" />
+                    <xs:element name="ActualDriverLogoutTime" />
+                    <xs:element name="startOdometer" type="xs:unsignedByte" />
+                    <xs:element name="FinishOdometer" type="xs:unsignedByte" />
+                    <xs:element name="OriginalVehicleOdo" type="xs:unsignedShort" />
+                    <xs:element name="PlannedRouteStartTime" type="xs:string" />
+                    <xs:element name="PlannedRouteFinishTime" type="xs:string" />
+                    <xs:element name="ActualRouteLogonTime" />
+                    <xs:element name="ActualRouteRequestTime" />
+                    <xs:element name="ActualRouteStartTime" />
+                    <xs:element name="ActualRouteFinishTime" />
+                    <xs:element name="ActualDepotDepartTime" />
+                    <xs:element name="ActualDepotArriveTime" />
+                    <xs:element name="StartGPSDistance" />
+                    <xs:element name="FinishGPSDistance" />
+                    <xs:element name="ActualGPSDistance" />
+                    <xs:element name="PlannedStops" type="xs:unsignedByte" />
+                    <xs:element name="ActualStopsCompleted" type="xs:unsignedByte" />
+                    <xs:element name="PlannedDistance" type="xs:unsignedByte" />
+                    <xs:element name="RouteStatusCode" type="xs:string" />
+                    <xs:element name="RouteStatusDescription" type="xs:string" />
+                    <xs:element name="PerformanceStatusCode" type="xs:string" />
+                    <xs:element name="PerformanceStatusDescription" type="xs:string" />
+                    <xs:element name="VehicleLoadPlan" />
+                    <xs:element name="OutOfSequence" />
+                    <xs:element name="AuthByPass" />
+                    <xs:element name="NonAuthByPass" />
+                    <xs:element name="ShortDeliveries" />
+                    <xs:element name="DamagesRejected" />
+                    <xs:element name="DamagesAccepted" />
+                    <xs:element name="NotRequired" />
+                    <xs:element name="OutSidePlannedWindow" />
+                    <xs:element name="OutSideStopWindow" />
+                    <xs:element name="PlannedStopTime" type="xs:string" />
+                    <xs:element name="ActualStopTime" />
+                    <xs:element name="PlannedTravelTime" type="xs:string" />
+                    <xs:element name="ActualTravelTime" />
+                    <xs:element name="ActualBreakTime" />
+                    <xs:element name="HasExceptions" />
+                    <xs:element name="HasUnackExceptions" />
+                    <xs:element name="InitialSealNumber" />
+                    <xs:element name="InvalidSealNumberEntry" />
+                    <xs:element name="ExternalReference" />
+                    <xs:element name="ExternalStatusCode" />
+                    <xs:element name="TextField1" />
+                    <xs:element name="TextField2" />
+                    <xs:element name="TextField3" />
+                    <xs:element name="TextField4" />
+                    <xs:element name="TextField5" />
+                    <xs:element name="RuledOffDate" />
+                    <xs:element name="LastETACalcDateTime" />
+                    <xs:element name="ETADepotArriveTime" />
+                    <xs:element name="CurrentDriverBreakStartTime" />
+                    <xs:element name="Deleted" type="xs:string" />
+                    <xs:element name="CreatedDate" type="xs:string" />
+                    <xs:element name="UpdatedDate" type="xs:string" />
+                    <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                    <xs:element name="VehicleReg" type="xs:string" />
+                    <xs:element name="DriverName" type="xs:string" />
+                    <xs:element name="ShiftType_Code" />
+                    <xs:element name="DriverCode" type="xs:unsignedInt" />
+                    <xs:element name="Job_JobID" />
+                    <xs:element name="Job_StopID" />
+                    <xs:element name="Depot" type="xs:string" />
+                    <xs:element name="FinishDepot" />
+                    <xs:element name="RouteCheckResponses" />
+                    <xs:element name="Signatures" />
+                    <xs:element name="EntityAttributeValues">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="EntityAttributeValue">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="EntityAttributeValueID" type="xs:unsignedByte" />
+                                <xs:element name="EntityName" type="xs:string" />
+                                <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                <xs:element name="EntityID" type="xs:unsignedShort" />
+                                <xs:element name="Value1" type="xs:boolean" />
+                                <xs:element name="Value2" />
+                                <xs:element name="Deleted" type="xs:string" />
+                                <xs:element name="CreatedDate" type="xs:string" />
+                                <xs:element name="UpdatedDate" type="xs:string" />
+                                <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                <xs:element name="EntityAttribute">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                      <xs:element name="CompanyID" type="xs:unsignedByte" />
+                                      <xs:element name="EntityName" type="xs:string" />
+                                      <xs:element name="Sequence" type="xs:unsignedByte" />
+                                      <xs:element name="Code" type="xs:string" />
+                                      <xs:element name="Description" type="xs:string" />
+                                      <xs:element name="Label" type="xs:string" />
+                                      <xs:element name="DataType" type="xs:string" />
+                                      <xs:element name="Size" />
+                                      <xs:element name="DecimalPlaces" />
+                                      <xs:element name="Format" />
+                                      <xs:element name="IsRangeType" type="xs:string" />
+                                      <xs:element name="IsMandatory" type="xs:string" />
+                                      <xs:element name="ExportToPDA" type="xs:string" />
+                                      <xs:element name="Deleted" type="xs:string" />
+                                      <xs:element name="CreatedDate" type="xs:string" />
+                                      <xs:element name="UpdatedDate" type="xs:string" />
+                                      <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Stops">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="Stop">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="StopID" type="xs:unsignedInt" />
+                                <xs:element name="RouteHeaderID" type="xs:unsignedShort" />
+                                <xs:element name="AccountID" type="xs:unsignedShort" />
+                                <xs:element name="ByPassReasonID" />
+                                <xs:element name="MissedWindowReasonID" />
+                                <xs:element name="PlannedStopNumber" type="xs:unsignedByte" />
+                                <xs:element name="ActualStopNumber" type="xs:unsignedByte" />
+                                <xs:element name="TransportOrderRef" type="xs:string" />
+                                <xs:element name="PlannedArriveTime" type="xs:string" />
+                                <xs:element name="PlannedDepartTime" type="xs:string" />
+                                <xs:element name="EstimatedArriveTime" />
+                                <xs:element name="EstimatedDepartTime" />
+                                <xs:element name="ActualArriveTime" type="xs:string" />
+                                <xs:element name="ActualDepartTime" type="xs:string" />
+                                <xs:element name="ActualStopCompletedTime" type="xs:string" />
+                                <xs:element name="StopStatusCode" type="xs:string" />
+                                <xs:element name="StopStatusDescription" type="xs:string" />
+                                <xs:element name="PerformanceStatusCode" type="xs:string" />
+                                <xs:element name="PerformanceStatusDescription" type="xs:string" />
+                                <xs:element name="SpecialInstructions" type="xs:string" />
+                                <xs:element name="CustomerPin" />
+                                <xs:element name="StartWindow" type="xs:string" />
+                                <xs:element name="EndWindow" type="xs:string" />
+                                <xs:element name="PaymentMethod" />
+                                <xs:element name="CreditValue" />
+                                <xs:element name="CreditText" />
+                                <xs:element name="FirstCall" />
+                                <xs:element name="TimesCalled" />
+                                <xs:element name="CallOnTime" />
+                                <xs:element name="TotalCallDuration" />
+                                <xs:element name="TextTimeWindow" />
+                                <xs:element name="ThisSealNumber" />
+                                <xs:element name="NextSealNumber" />
+                                <xs:element name="ScannedBadgeNumber" />
+                                <xs:element name="InvalidSealNumberEntry" />
+                                <xs:element name="PreArrivalNotification" />
+                                <xs:element name="IsClaused" />
+                                <xs:element name="IsOutSidePlannedWindow" />
+                                <xs:element name="IsOutSideStopWindow" />
+                                <xs:element name="OriginalOrderDate" />
+                                <xs:element name="OriginalDeliveryDate" />
+                                <xs:element name="SummaryNotes" />
+                                <xs:element name="TextField1" type="xs:unsignedByte" />
+                                <xs:element name="TextField2" type="xs:string" />
+                                <xs:element name="TextField3" type="xs:string" />
+                                <xs:element name="TextField4" type="xs:string" />
+                                <xs:element name="TextField5" />
+                                <xs:element name="Deleted" type="xs:string" />
+                                <xs:element name="CreatedDate" type="xs:string" />
+                                <xs:element name="UpdatedDate" type="xs:string" />
+                                <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                <xs:element name="OrigPlannedStopNumber" />
+                                <xs:element name="BookTime" />
+                                <xs:element name="SchedulingPriority" />
+                                <xs:element name="SchedulingSequence" />
+                                <xs:element name="TimeAtStop" />
+                                <xs:element name="ArrivalOdometer" />
+                                <xs:element name="TrailerID" />
+                                <xs:element name="TrailerCode" />
+                                <xs:element name="ArrivalTrailerID" />
+                                <xs:element name="ArrivalTrailerCode" />
+                                <xs:element name="AlertTrigger" />
+                                <xs:element name="CreatedByPDA" />
+                                <xs:element name="LastETAEventID" />
+                                <xs:element name="StopStartWindowInJeopardy" />
+                                <xs:element name="StopEndWindowInJeopardy" />
+                                <xs:element name="WorkTime" />
+                                <xs:element name="LoadingTime" />
+                                <xs:element name="UnloadingTime" />
+                                <xs:element name="Revenue" />
+                                <xs:element name="WindowOverridden" />
+                                <xs:element name="Reason_ReasonCode" />
+                                <xs:element name="Reason_Description" />
+                                <xs:element name="Account_Code" />
+                                <xs:element name="Account">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="AccountID" type="xs:unsignedShort" />
+                                      <xs:element name="CompanyID" type="xs:unsignedByte" />
+                                      <xs:element name="PlaceID" type="xs:unsignedShort" />
+                                      <xs:element name="DepotID" type="xs:unsignedByte" />
+                                      <xs:element name="AccountTypeID" type="xs:unsignedByte" />
+                                      <xs:element name="GroupAccountID" />
+                                      <xs:element name="DestinationAccID1" />
+                                      <xs:element name="DestinationAccID2" />
+                                      <xs:element name="DestinationAccID3" />
+                                      <xs:element name="Code" type="xs:decimal" />
+                                      <xs:element name="Name" type="xs:string" />
+                                      <xs:element name="Address1" type="xs:string" />
+                                      <xs:element name="Address2" type="xs:string" />
+                                      <xs:element name="Address3" />
+                                      <xs:element name="Address4" />
+                                      <xs:element name="Address5" />
+                                      <xs:element name="Address6" />
+                                      <xs:element name="PostCode" type="xs:string" />
+                                      <xs:element name="ContactName" type="xs:string" />
+                                      <xs:element name="ContactNumber" type="xs:unsignedInt" />
+                                      <xs:element name="ContactNumber2" />
+                                      <xs:element name="ContactNumber3" />
+                                      <xs:element name="ContactEmailAddress" />
+                                      <xs:element name="ContactEmailAddress2" />
+                                      <xs:element name="StartWindow" type="xs:string" />
+                                      <xs:element name="EndWindow" type="xs:string" />
+                                      <xs:element name="DefaultUnplannedStop" type="xs:unsignedByte" />
+                                      <xs:element name="IsDropAndDrive" />
+                                      <xs:element name="UseGroupLocation" />
+                                      <xs:element name="IsGroupAccount" />
+                                      <xs:element name="SpecialInstructions" />
+                                      <xs:element name="NotLocated" type="xs:string" />
+                                      <xs:element name="Priority" />
+                                      <xs:element name="OperatorRequired" />
+                                      <xs:element name="Deleted" type="xs:string" />
+                                      <xs:element name="CreatedDate" type="xs:string" />
+                                      <xs:element name="UpdatedDate" type="xs:string" />
+                                      <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                      <xs:element name="AccountType_Code" type="xs:string" />
+                                      <xs:element name="DestinationAccount1_Code" />
+                                      <xs:element name="DestinationAccount2_Code" />
+                                      <xs:element name="DestinationAccount3_Code" />
+                                      <xs:element name="Latitude" type="xs:decimal" />
+                                      <xs:element name="Longitude" type="xs:decimal" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Jobs">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element maxOccurs="unbounded" name="Job">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="JobID" type="xs:unsignedInt" />
+                                            <xs:element name="StopID" type="xs:unsignedInt" />
+                                            <xs:element name="StaticJobID" />
+                                            <xs:element name="JobTypeID" type="xs:unsignedByte" />
+                                            <xs:element name="BackOfficeUserID" type="xs:unsignedByte" />
+                                            <xs:element name="ByPassReasonID" />
+                                            <xs:element name="DependantJobID" />
+                                            <xs:element name="Sequence" type="xs:unsignedByte" />
+                                            <xs:element name="JobRef1" type="xs:decimal" />
+                                            <xs:element name="JobRef2" type="xs:unsignedInt" />
+                                            <xs:element name="JobRef3" />
+                                            <xs:element name="JobRef4" type="xs:string" />
+                                            <xs:element name="PerformanceStatusCode" type="xs:string" />
+                                            <xs:element name="PerformanceStatusDescription" type="xs:string" />
+                                            <xs:element name="ResetVersion" />
+                                            <xs:element name="TickBoxEnabled" />
+                                            <xs:element name="Exported" />
+                                            <xs:element name="OrderDate" type="xs:string" />
+                                            <xs:element name="Originator" type="xs:unsignedShort" />
+                                            <xs:element name="BackOfficeUpdate" />
+                                            <xs:element name="IsClaused" />
+                                            <xs:element name="Deleted" type="xs:string" />
+                                            <xs:element name="CreatedDate" type="xs:string" />
+                                            <xs:element name="UpdatedDate" type="xs:string" />
+                                            <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                            <xs:element name="TextField1" type="xs:unsignedShort" />
+                                            <xs:element name="TextField2" type="xs:string" />
+                                            <xs:element name="TextField3" />
+                                            <xs:element name="TextField4" />
+                                            <xs:element name="TextField5" />
+                                            <xs:element name="JobType_VisitType" type="xs:string" />
+                                            <xs:element name="JobType_Code" type="xs:string" />
+                                            <xs:element name="JobType_Description" type="xs:string" />
+                                            <xs:element name="Reason_ReasonCode" />
+                                            <xs:element name="Reason_Description" />
+                                            <xs:element name="DependantJob_Sequence" type="xs:unsignedByte" />
+                                            <xs:element name="DependantJob_PlannedStopNumber" type="xs:unsignedByte" />
+                                            <xs:element name="EntityAttributeValues">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" name="EntityAttributeValue">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="EntityAttributeValueID" type="xs:unsignedByte" />
+                                                        <xs:element name="EntityName" type="xs:string" />
+                                                        <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                                        <xs:element name="EntityID" type="xs:unsignedInt" />
+                                                        <xs:element name="Value1" type="xs:string" />
+                                                        <xs:element name="Value2" />
+                                                        <xs:element name="Deleted" type="xs:string" />
+                                                        <xs:element name="CreatedDate" type="xs:string" />
+                                                        <xs:element name="UpdatedDate" type="xs:string" />
+                                                        <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                                        <xs:element name="EntityAttribute">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                                              <xs:element name="CompanyID" type="xs:unsignedByte" />
+                                                              <xs:element name="EntityName" type="xs:string" />
+                                                              <xs:element name="Sequence" type="xs:unsignedByte" />
+                                                              <xs:element name="Code" type="xs:string" />
+                                                              <xs:element name="Description" type="xs:string" />
+                                                              <xs:element name="Label" type="xs:string" />
+                                                              <xs:element name="DataType" type="xs:string" />
+                                                              <xs:element name="Size" type="xs:string" />
+                                                              <xs:element name="DecimalPlaces" type="xs:string" />
+                                                              <xs:element name="Format" />
+                                                              <xs:element name="IsRangeType" type="xs:string" />
+                                                              <xs:element name="IsMandatory" type="xs:string" />
+                                                              <xs:element name="ExportToPDA" type="xs:string" />
+                                                              <xs:element name="Deleted" type="xs:string" />
+                                                              <xs:element name="CreatedDate" type="xs:string" />
+                                                              <xs:element name="UpdatedDate" type="xs:string" />
+                                                              <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                                            </xs:sequence>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="JobDetails">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" name="JobDetail">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="JobDetailID" type="xs:unsignedInt" />
+                                                        <xs:element name="JobID" type="xs:unsignedInt" />
+                                                        <xs:element name="ContainerID" />
+                                                        <xs:element name="Barcode" type="xs:unsignedShort" />
+                                                        <xs:element name="VendorBarcode" />
+                                                        <xs:element name="EanItf" />
+                                                        <xs:element name="UnitMeasure" type="xs:unsignedByte" />
+                                                        <xs:element name="OriginalDespatchQty" type="xs:unsignedByte" />
+                                                        <xs:element name="ToFollowQty" />
+                                                        <xs:element name="LineNumber" type="xs:unsignedByte" />
+                                                        <xs:element name="LineStatus" type="xs:unsignedByte" />
+                                                        <xs:element name="ProdDesc" type="xs:string" />
+                                                        <xs:element name="ExtendedDescription" />
+                                                        <xs:element name="OrderedQty" type="xs:unsignedByte" />
+                                                        <xs:element name="DeliveredQty" type="xs:unsignedByte" />
+                                                        <xs:element name="SkuWeight" type="xs:decimal" />
+                                                        <xs:element name="skuCube" />
+                                                        <xs:element name="ShortQty" />
+                                                        <xs:element name="ManualEntry" />
+                                                        <xs:element name="SerialNumber" />
+                                                        <xs:element name="Deleted" type="xs:string" />
+                                                        <xs:element name="CreatedDate" type="xs:string" />
+                                                        <xs:element name="UpdatedDate" type="xs:string" />
+                                                        <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                                        <xs:element name="TextField1" type="xs:unsignedByte" />
+                                                        <xs:element name="TextField2" type="xs:unsignedByte" />
+                                                        <xs:element name="TextField3" />
+                                                        <xs:element name="TextField4" />
+                                                        <xs:element name="TextField5" />
+                                                        <xs:element name="SkuLoadingTime" />
+                                                        <xs:element name="SkuUnloadingTime" />
+                                                        <xs:element name="SkuGoodsValue" type="xs:decimal" />
+                                                        <xs:element minOccurs="0" name="EntityAttributeValues">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="EntityAttributeValue">
+                                                                <xs:complexType>
+                                                                  <xs:sequence>
+                                                                    <xs:element name="EntityAttributeValueID" type="xs:unsignedByte" />
+                                                                    <xs:element name="EntityName" type="xs:string" />
+                                                                    <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                                                    <xs:element name="EntityID" type="xs:unsignedInt" />
+                                                                    <xs:element name="Value1" type="xs:string" />
+                                                                    <xs:element name="Value2" />
+                                                                    <xs:element name="Deleted" type="xs:string" />
+                                                                    <xs:element name="CreatedDate" type="xs:string" />
+                                                                    <xs:element name="UpdatedDate" type="xs:string" />
+                                                                    <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                                                    <xs:element name="EntityAttribute">
+                                                                      <xs:complexType>
+                                                                        <xs:sequence>
+                                                                          <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                                                          <xs:element name="CompanyID" type="xs:unsignedByte" />
+                                                                          <xs:element name="EntityName" type="xs:string" />
+                                                                          <xs:element name="Sequence" type="xs:unsignedByte" />
+                                                                          <xs:element name="Code" type="xs:string" />
+                                                                          <xs:element name="Description" type="xs:string" />
+                                                                          <xs:element name="Label" type="xs:string" />
+                                                                          <xs:element name="DataType" type="xs:string" />
+                                                                          <xs:element name="Size" type="xs:unsignedByte" />
+                                                                          <xs:element name="DecimalPlaces" />
+                                                                          <xs:element name="Format" />
+                                                                          <xs:element name="IsRangeType" type="xs:string" />
+                                                                          <xs:element name="IsMandatory" type="xs:string" />
+                                                                          <xs:element name="ExportToPDA" type="xs:string" />
+                                                                          <xs:element name="Deleted" type="xs:string" />
+                                                                          <xs:element name="CreatedDate" type="xs:string" />
+                                                                          <xs:element name="UpdatedDate" type="xs:string" />
+                                                                          <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                                                        </xs:sequence>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="JobDetailDamages" />
+                                                        <xs:element name="JobGenericForms" />
+                                                        <xs:element name="Notes" />
+                                                      </xs:sequence>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="JobGenericForms" />
+                                            <xs:element name="PaymentCheckResponses" />
+                                            <xs:element name="JobCheckResponses" />
+                                            <xs:element name="Notes" />
+                                            <xs:element name="Signatures" />
+                                            <xs:element name="JobPhotos" />
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="StopCheckResponses" />
+                                <xs:element name="Notes" />
+                                <xs:element name="Signatures" />
+                                <xs:element name="Photos" />
+                                <xs:element minOccurs="0" name="EntityAttributeValues">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="EntityAttributeValue">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="EntityAttributeValueID" type="xs:unsignedByte" />
+                                            <xs:element name="EntityName" type="xs:string" />
+                                            <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                            <xs:element name="EntityID" type="xs:unsignedInt" />
+                                            <xs:element name="Value1" type="xs:boolean" />
+                                            <xs:element name="Value2" />
+                                            <xs:element name="Deleted" type="xs:string" />
+                                            <xs:element name="CreatedDate" type="xs:string" />
+                                            <xs:element name="UpdatedDate" type="xs:string" />
+                                            <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                            <xs:element name="EntityAttribute">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="EntityAttributeID" type="xs:unsignedByte" />
+                                                  <xs:element name="CompanyID" type="xs:unsignedByte" />
+                                                  <xs:element name="EntityName" type="xs:string" />
+                                                  <xs:element name="Sequence" type="xs:unsignedByte" />
+                                                  <xs:element name="Code" type="xs:string" />
+                                                  <xs:element name="Description" type="xs:string" />
+                                                  <xs:element name="Label" type="xs:string" />
+                                                  <xs:element name="DataType" type="xs:string" />
+                                                  <xs:element name="Size" />
+                                                  <xs:element name="DecimalPlaces" />
+                                                  <xs:element name="Format" />
+                                                  <xs:element name="IsRangeType" type="xs:string" />
+                                                  <xs:element name="IsMandatory" type="xs:string" />
+                                                  <xs:element name="ExportToPDA" type="xs:string" />
+                                                  <xs:element name="Deleted" type="xs:string" />
+                                                  <xs:element name="CreatedDate" type="xs:string" />
+                                                  <xs:element name="UpdatedDate" type="xs:string" />
+                                                  <xs:element name="UserIDLastUpdate" type="xs:unsignedByte" />
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

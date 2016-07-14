@@ -60,7 +60,7 @@ namespace PH.Well.Services
                 var delivery = new Delivery();
 
                 delivery.InvoiceNumber = job.JobRef3;
-                delivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.JobPerformanceStatusCodeId);
+                delivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.PerformanceStatusId);
                 delivery.AccountCode = job.JobRef1;
                 
                 var stop = this.StopRepository.GetById(job.StopId);

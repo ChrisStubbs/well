@@ -81,6 +81,7 @@
         [HttpGet]
         public HttpResponseMessage GetResolvedDeliveries()
         {
+            //var cleanDeliveries = this.deliveryService.GetResolvedDeliveries().ToList();
             try
             {
                 var model1 = new Delivery

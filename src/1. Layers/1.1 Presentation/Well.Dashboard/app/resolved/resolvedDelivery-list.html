@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let delivery of deliveries | optionFilter:filterOption" (click)="deliverySelected(delivery)">
+                <tr *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
                     <td>{{delivery.routeNumber}}</td>
                     <td>{{delivery.dropId}}</td>
                     <td>{{delivery.invoiceNumber}}</td>

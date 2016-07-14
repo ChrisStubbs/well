@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {ICleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
@@ -10,9 +11,9 @@ import {DropDownItem} from "../shared/DropDownItem";
 @Component({
 
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [CleanDeliveryService],
-    directives: [ROUTER_DIRECTIVES, OptionFilterComponent],
-    pipes: [OptionFilterPipe]
+    providers: [CleanDeliveryService, PaginationService],
+    directives: [ROUTER_DIRECTIVES, OptionFilterComponent, PaginationControlsCmp],
+    pipes: [OptionFilterPipe, PaginatePipe]
     
 })
 export class CleanDeliveryComponent implements OnInit {

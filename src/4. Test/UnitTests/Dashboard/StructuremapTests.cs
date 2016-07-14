@@ -8,7 +8,6 @@
     using NUnit.Framework;
     using Repositories.Contracts;
     using StructureMap;
-    using Well.Dashboard.App_Start;
     using Well.Dashboard.DependencyResolution;
 
     [TestFixture]

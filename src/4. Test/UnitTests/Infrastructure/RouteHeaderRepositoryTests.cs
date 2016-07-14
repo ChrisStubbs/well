@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Domain;
@@ -43,7 +44,7 @@
             }
 
             [Test]
-            public void ShouldCallGetStopByRouteHedaerIdOnceForEachRouteHeader()
+            public void ShouldCallGetStopByRouteHedearIdOnceForEachRouteHeader()
             {
                 var routeHeaders = new List<RouteHeader>
                 {
@@ -70,6 +71,24 @@
                 Assert.That(results.First(x => x.Id == 2).Stops.Contains(stops2[0]));
                 Assert.That(results.First(x => x.Id == 2).Stops.Contains(stops2[1]));
                 Assert.That(results.First(x => x.Id == 2).Stops.Count, Is.EqualTo(2));
+            }
+        }
+
+        public class TheGetRouteHeaderByIdMethod : RouteHeaderRepositoryTests
+        {
+            [Test]
+            public void ShouldCallTheStoredProcedureCorrectly()
+            {
+                var routeId = 1;
+                dapperProxy.Setup(x => x.WithStoredProcedure("RouteHeader_GetById")).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Id",routeId,DbType.Int32,null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
+                repository.GetRouteHeaderById(routeId);
+
+                dapperProxy.Verify(x => x.WithStoredProcedure("RouteHeader_GetById"), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("Id", routeId, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Once);
+
             }
         }
     }

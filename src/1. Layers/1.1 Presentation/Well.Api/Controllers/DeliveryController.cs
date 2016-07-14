@@ -10,22 +10,22 @@
     using Domain.ValueObjects;
     using Models;
     using PH.Well.Services.Contracts;
+    using Repositories.Contracts;
 
     public class DeliveryController : ApiController
     {
         private readonly ILogger logger;
-
-        private readonly IDeliveryService deliveryService;
+        private readonly IDeliveryReadRepository deliveryReadRepository;
 
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public DeliveryController(
             ILogger logger,
-            IDeliveryService deliveryService,
+            IDeliveryReadRepository deliveryReadRepository,
             IServerErrorResponseHandler serverErrorResponseHandler)
         {
             this.logger = logger;
-            this.deliveryService= deliveryService;
+            this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
@@ -35,43 +35,43 @@
         {
             try
             {
-                //var cleanDeliveries = this.deliveryService.GetCleanDeliveries().ToList();
-                var clean1 = new Delivery
-                {
-                    RouteNumber="1",
-                    DropId = "C",
-                    InvoiceNumber = "12435",
-                    AccountCode = "5845.621",
-                    AccountName = "Fag Mags and Bags",
-                    JobStatus = "Complete",
-                    DateTime = "20-05-16 14.10"
-                };
+                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries().ToList();
+                //var clean1 = new Delivery
+                //{
+                //    RouteNumber = "1",
+                //    DropId = "C",
+                //    InvoiceNumber = "12435",
+                //    AccountCode = "5845.621",
+                //    AccountName = "Fag Mags and Bags",
+                //    JobStatus = "Complete",
+                //    DateTime = "20-05-16 14.10"
+                //};
 
-                var clean2 = new Delivery
-                {
-                    RouteNumber = "2",
-                    DropId = "F",
-                    InvoiceNumber = "2363300",
-                    AccountCode = "	7332.000",
-                    AccountName = "Huge Store",
-                    JobStatus = "Complete",
-                    DateTime = "20-05-16 11.25"
-                };
+                //var clean2 = new Delivery
+                //{
+                //    RouteNumber = "2",
+                //    DropId = "F",
+                //    InvoiceNumber = "2363300",
+                //    AccountCode = "	7332.000",
+                //    AccountName = "Huge Store",
+                //    JobStatus = "Complete",
+                //    DateTime = "20-05-16 11.25"
+                //};
 
-                var cleanDeliveries = new List<Delivery>();
-                for (int i = 0; i < 100; i++)
-                {
-                    cleanDeliveries.Add(clean1);
-                    cleanDeliveries.Add(clean2);
-                }
+                //var cleanDeliveries = new List<Delivery>();
+                //for (int i = 0; i < 100; i++)
+                //{
+                //    cleanDeliveries.Add(clean1);
+                //    cleanDeliveries.Add(clean2);
+                //}
 
-                return !cleanDeliveries.Any() 
-                    ? this.Request.CreateResponse(HttpStatusCode.NotFound) 
+                return !cleanDeliveries.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                     : this.Request.CreateResponse(HttpStatusCode.OK, cleanDeliveries);
             }
             catch (Exception ex)
             {
-                this.logger.LogError ($"An error occcured when getting clean deliveries");
+                this.logger.LogError($"An error occcured when getting clean deliveries");
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

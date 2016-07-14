@@ -26,18 +26,6 @@
             return job;
         }
 
-        public IEnumerable<Job> GetByStatus(PerformanceStatus status)
-        {
-            var jobs =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStatus)
-                   .AddParameter("PerformanceStatusCode", (int)status, DbType.Int32)
-                   .Query<Job>()
-                   .ToList();
-
-            return jobs;
-        }
-
-
         public Job JobCreateOrUpdate(Job job)
         {
             var jobPerformanceStatusId = job.JobPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : job.JobPerformanceStatusCodeId;

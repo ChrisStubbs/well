@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-namespace PH.Well.Domain.ValueObjects
+﻿namespace PH.Well.Domain.ValueObjects
 {
     public class WidgetStats: Entity<int>
     {

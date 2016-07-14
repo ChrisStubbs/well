@@ -7,7 +7,7 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-
+    using Mapper;
     using PH.Well.Api.Models;
 
     using Repositories.Contracts;
@@ -19,13 +19,15 @@
         private readonly IRouteHeaderRepository routeRepository;
 
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
+        private readonly IRouteModelsMapper routeModelsMapper;
 
         public RouteController(ILogger logger, IRouteHeaderRepository routeRepository,
-            IServerErrorResponseHandler serverErrorResponseHandler)
+            IServerErrorResponseHandler serverErrorResponseHandler, IRouteModelsMapper routeModelsMapper)
         {
             this.logger = logger;
             this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
+            this.routeModelsMapper = routeModelsMapper;
         }
 
         [Route("routes", Name = "GetRoutes")]
@@ -34,9 +36,11 @@
         {
             try
             {
-                /*var routes = this.routeRepository.GetRouteHeaders();
+                //var routeHeaders = this.routeRepository.GetRouteHeaders().ToArray();
 
-                if (!routes.Any()) return this.Request.CreateResponse(HttpStatusCode.NotFound);*/
+                //if (!routeHeaders.Any()) return this.Request.CreateResponse(HttpStatusCode.NotFound);
+
+                //var routes = routeModelsMapper.Map(routeHeaders);
 
                 var model = new RouteModel
                 {

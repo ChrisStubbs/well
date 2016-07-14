@@ -1,5 +1,6 @@
 namespace PH.Well.Api.DependencyResolution
 {
+    using Mapper;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -33,6 +34,9 @@ namespace PH.Well.Api.DependencyResolution
             For<IAccountRepository>().Use<AccountRepository>();
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
+
+            // Mappers
+            For<IRouteModelsMapper>().Use<RouteModelsMapper>();
         }
     }
 }

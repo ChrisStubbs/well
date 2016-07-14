@@ -136,6 +136,7 @@
     <None Include="Post-Deployement\Populate-StopStatus.sql" />
     <Build Include="dbo\StoredProcedures\Deliveries_GetByPerformanceStatus.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\RouteSummary_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

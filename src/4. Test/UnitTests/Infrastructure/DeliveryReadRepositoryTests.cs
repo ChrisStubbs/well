@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Data;
     using Common.Contracts;
-    using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
     using Moq;

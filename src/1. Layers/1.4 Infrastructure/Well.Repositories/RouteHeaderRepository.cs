@@ -90,6 +90,7 @@
                 .AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal)
                 .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.String)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
+                .AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
                 .AddParameter("RouteStatusId", routeHeader.RouteStatusId = routeHeader.RouteStatusId == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatusId, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
@@ -100,7 +101,7 @@
                 .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
                 .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
-                .AddParameter("Depot", routeHeader.Depot.Code, DbType.String).Query<int>().FirstOrDefault();
+                .AddParameter("Depot", routeHeader.Depot, DbType.String).Query<int>().FirstOrDefault();
 
             return this.GetRouteHeaderById(id);
 
@@ -114,6 +115,18 @@
                 .AddParameter("Value", attribute.Value1, DbType.String)
                 .AddParameter("RouteHeaderId", attribute.AttributeId, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
+        }
+
+        public RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate)
+        {
+            var routeImportId =
+                dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetByRouteNumberAndDate)
+                    .AddParameter("RouteNumber", routeNumber, DbType.String)
+                    .AddParameter("RouteDate", routeDate, DbType.DateTime)
+                    .Query<RouteHeader>()
+                    .FirstOrDefault();
+
+            return routeImportId;
         }
 
 

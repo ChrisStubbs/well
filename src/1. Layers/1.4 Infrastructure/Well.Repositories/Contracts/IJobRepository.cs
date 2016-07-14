@@ -10,5 +10,6 @@
         void AddJobAttributes(Attribute attribute);
         Job GetById(int id);
         Job JobCreateOrUpdate(Job job);
+        Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId);
     }
 }

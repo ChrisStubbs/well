@@ -28,7 +28,7 @@
 
         public Job JobCreateOrUpdate(Job job)
         {
-            var jobPerformanceStatusId = job.JobPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : job.JobPerformanceStatusCodeId;
+            var jobPerformanceStatusId = job.PerformanceStatusId == 0 ? (int)PerformanceStatus.Notdef : job.PerformanceStatusId;
             var jobByPassReasonId = job.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : job.ByPassReasonId;
 
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
@@ -60,6 +60,19 @@
                 .AddParameter("Value", attribute.Value1, DbType.String)
                 .AddParameter("JobId", attribute.AttributeId, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
+        }
+
+        public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
+        {
+            var job =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)
+                .AddParameter("AccountId", accountId, DbType.String)
+                .AddParameter("PicklistId", picklistId, DbType.String)
+                .AddParameter("StopId", stopId, DbType.Int32)
+                .Query<Job>()
+                .FirstOrDefault();
+
+            return job;
         }
 
     }

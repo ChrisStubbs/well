@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
+    using System;
     using System.Collections.Generic;
     using Domain;
+    using Attribute = Domain.Attribute;
 
     public  interface IStopRepository : IRepository<Stop, int>
     {
@@ -14,5 +16,7 @@
         Stop GetById(int id);
 
         void StopAccountCreateOrUpdate(Account account);
+
+        Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId);
     }
 }

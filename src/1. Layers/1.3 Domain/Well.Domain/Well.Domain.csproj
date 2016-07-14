@@ -54,6 +54,7 @@
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\DamageReasons.cs" />
+    <Compile Include="Enums\EpodFileTYpe.cs" />
     <Compile Include="Enums\PerformanceStatus.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Enums\RoutePerformanceStatusCode.cs" />
     <Compile Include="Enums\RouteStatusCode.cs" />
     <Compile Include="Enums\StopStatus.cs" />
+    <Compile Include="Enums\TransendSchemaType.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
@@ -70,7 +72,6 @@
     <Compile Include="Routes.cs" />
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
-    <Compile Include="Depot.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>

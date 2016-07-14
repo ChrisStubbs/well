@@ -30,7 +30,7 @@
             get { return OriginalDispatchQtyString; }
             set
             {
-                this.OriginalDispatchQty = string.IsNullOrEmpty(value) ? Convert.ToDecimal(value) : 0m;
+                this.OriginalDispatchQty = value == string.Empty ? 0m : Convert.ToDecimal(value);
             }
         }
 
@@ -40,8 +40,19 @@
         [XmlElement("OrderedQty")]
         public int OrderedQty { get; set; }
 
-        [XmlElement("ShortQty")]
+        [XmlIgnore]
         public int ShortQty { get; set; }
+
+        [XmlElement("ShortQty")]
+        public string ShortQtyString
+        {
+            get { return ShortQtyString; }
+            set
+            {
+                ShortQty = value == string.Empty ? 0 : int.Parse(value);
+            }
+        }
+
 
         [XmlElement("SkuWeight")]
         public decimal SkuWeight { get; set; }

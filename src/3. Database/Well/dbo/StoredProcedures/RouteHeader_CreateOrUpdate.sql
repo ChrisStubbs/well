@@ -12,6 +12,7 @@
 	@PlannedDistance		DECIMAL(5,2),
 	@PlannedTravelTime		NVARCHAR(10),
 	@PlannedStops			TINYINT,
+	@ActualStopsCompleted   TINYINT = 0, 
 	@RoutesId				INT,
 	@RouteStatusId			TINYINT= NULL,
 	@RoutePerformanceStatusId TINYINT= NULL,
@@ -34,11 +35,11 @@ BEGIN
 	MERGE INTO [RouteHeader] AS Target
 	USING (VALUES
 		(@Id, @CompanyId, @RouteNumber, @RouteDate, @DriverName, @VehicleReg, @StartDepotCode, @PlannedRouteStartTime, @PlannedRouteFinishTime, @PlannedDistance, @PlannedTravelTime,
-		 @PlannedStops, @RoutesId, @RouteStatusId, @RoutePerformanceStatusId, @LastRouteUpdate, @AuthByPass, @NonAuthByPass, @ShortDeliveries, @DamagesRejected,
+		 @PlannedStops,@ActualStopsCompleted, @RoutesId, @RouteStatusId, @RoutePerformanceStatusId, @LastRouteUpdate, @AuthByPass, @NonAuthByPass, @ShortDeliveries, @DamagesRejected,
 		 @DamagesAccepted, @NotRequired,  @Depot, @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[CompanyId],[RouteNumber],[RouteDate],[DriverName],[VehicleReg],[StartDepotCode],[PlannedRouteStartTime],[PlannedRouteFinishTime],
-			   [PlannedDistance],[PlannedTravelTime],[PlannedStops],[RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
+			   [PlannedDistance],[PlannedTravelTime],[PlannedStops], [ActualStopsCompleted],  [RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
 			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot],
 			   [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
@@ -72,11 +73,11 @@ BEGIN
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([CompanyId],[RouteNumber],[RouteDate],[DriverName],[VehicleReg],[StartDepotCode],[PlannedRouteStartTime],[PlannedRouteFinishTime],
-			   [PlannedDistance],[PlannedTravelTime],[PlannedStops],[RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
+			   [PlannedDistance],[PlannedTravelTime],[PlannedStops], [ActualStopsCompleted],  [RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
 			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot],
 			   [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([CompanyId],[RouteNumber],[RouteDate],[DriverName],[VehicleReg],[StartDepotCode],[PlannedRouteStartTime],[PlannedRouteFinishTime],
-			   [PlannedDistance],[PlannedTravelTime],[PlannedStops],[RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
+			   [PlannedDistance],[PlannedTravelTime],[PlannedStops], [ActualStopsCompleted],  [RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
 			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot],
 			   [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 

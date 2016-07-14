@@ -1,15 +1,14 @@
-﻿using System;
-namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.Adam.Infrastructure
 {
     using Common;
     using Common.Contracts;
     using Contracts;
     using Repositories;
     using Repositories.Contracts;
+    using Services;
+    using Services.Contracts;
+    using Services.EpodImport;
     using StructureMap;
-    using Well.Services.Contracts;
-    using Well.Services;
-    using Well.Services.EpodImport;
 
     public static class DependancyRegister
     {
@@ -19,7 +18,6 @@ namespace PH.Well.TranSend.Infrastructure
                 x =>
                 {
                     x.For<IEpodSchemaProvider>().Use<EpodSchemaProvider>();
-                    x.For<IEpodFtpProvider>().Use<EpodFtpProvider>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
@@ -30,6 +28,7 @@ namespace PH.Well.TranSend.Infrastructure
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
+                    x.For<IAdamRouteFileProvider>().Use<AdamRouteFileProvider>();
 
                 } );
         }

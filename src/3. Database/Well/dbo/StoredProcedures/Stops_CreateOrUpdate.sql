@@ -4,9 +4,10 @@
 	@PlannedStopNumber		NVARCHAR(4),
 	@PlannedArriveTime		NVARCHAR(12),
 	@PlannedDepartTime		NVARCHAR(12),
+	@RouteHeaderCode		NVARCHAR(10),
 	@RouteHeaderId			INT,
 	@DropId					NVARCHAR(2),
-	@LocatiodId				NVARCHAR(20),
+	@LocationId				NVARCHAR(20),
 	@DeliveryDate			DATETIME ,
 	@SpecialInstructions	NVARCHAR(100),
 	@StartWindow			NVARCHAR(12),
@@ -29,10 +30,10 @@ BEGIN
 
 	MERGE INTO [Stop] AS Target
 	USING (VALUES
-		(@Id, @PlannedStopNumber, @PlannedArriveTime,@PlannedDepartTime, @RouteHeaderId, @DropId, @LocatiodId, @DeliveryDate, @SpecialInstructions, @StartWindow, @EndWindow, @TextField1,
+		(@Id, @PlannedStopNumber, @PlannedArriveTime,@PlannedDepartTime,@RouteHeaderCode, @RouteHeaderId, @DropId, @LocationId, @DeliveryDate, @SpecialInstructions, @StartWindow, @EndWindow, @TextField1,
 		 @TextField2, @TextField3,@TextField4, @StopStatusId,@StopPerformanceStatusId, @ByPassReasonId,   @Username, GETDATE(), @Username, GETDATE())
 	)
-	AS Source ([Id],[PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderId],[DropId],[LocatiodId],[DeliveryDate],[SpecialInstructions],
+	AS Source ([Id],[PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[SpecialInstructions],
 			   [StartWindow],[EndWindow],[TextField1],[TextField2], [TextField3], [TextField4],
 			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
@@ -41,9 +42,10 @@ BEGIN
 		[PlannedStopNumber] = Source.[PlannedStopNumber],
 		[PlannedArriveTime] = Source.[PlannedArriveTime],
 		[PlannedDepartTime] = Source.[PlannedDepartTime],
+		[RouteHeaderCode] = Source.[RouteHeaderCode],
 		[RouteHeaderId] = Source.[RouteHeaderId],
 		[DropId] = Source.[DropId],
-		[LocatiodId] = Source.[LocatiodId],
+		[LocationId] = Source.[LocationId],
 		[DeliveryDate] = Source.[DeliveryDate],
 		[SpecialInstructions] = Source.[SpecialInstructions],
 		[StartWindow] = Source.[StartWindow],
@@ -60,10 +62,10 @@ BEGIN
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
-	INSERT ([PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderId],[DropId],[LocatiodId],[DeliveryDate],[SpecialInstructions],
+	INSERT ([PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[SpecialInstructions],
 			   [StartWindow],[EndWindow],[TextField1],[TextField2], [TextField3], [TextField4],
 			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
-	VALUES ([PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderId],[DropId],[LocatiodId],[DeliveryDate],[SpecialInstructions],
+	VALUES ([PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[SpecialInstructions],
 			   [StartWindow],[EndWindow],[TextField1],[TextField2], [TextField3], [TextField4],
 			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 

@@ -10,7 +10,7 @@ SELECT
       ,[PlannedDepartTime]
       ,[RouteHeaderId]
       ,[DropId]
-      ,[LocatiodId]
+      ,[LocationId]
       ,[DeliveryDate]
       ,[SpecialInstructions]
       ,[StartWindow]

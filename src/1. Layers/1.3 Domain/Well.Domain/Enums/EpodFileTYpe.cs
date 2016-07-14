@@ -1,4 +1,4 @@
-﻿namespace PH.Well.TranSend.Enums
+﻿namespace PH.Well.Domain.Enums
 {
     using System.ComponentModel;
 

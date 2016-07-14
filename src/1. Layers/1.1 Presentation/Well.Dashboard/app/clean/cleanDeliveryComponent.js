@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', './cleanDeliveryService', '../shared/optionfilter.component', '../shared/optionFilterPipe', "../shared/filterOption", "../shared/DropDownItem"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination', './cleanDeliveryService', '../shared/optionfilter.component', '../shared/optionFilterPipe', "../shared/filterOption", "../shared/DropDownItem"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', './cleanDelivery
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, cleanDeliveryService_1, optionfilter_component_1, optionFilterPipe_1, filterOption_1, DropDownItem_1;
+    var core_1, router_deprecated_1, ng2_pagination_1, cleanDeliveryService_1, optionfilter_component_1, optionFilterPipe_1, filterOption_1, DropDownItem_1;
     var CleanDeliveryComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', '@angular/router-deprecated', './cleanDelivery
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
+            },
+            function (ng2_pagination_1_1) {
+                ng2_pagination_1 = ng2_pagination_1_1;
             },
             function (cleanDeliveryService_1_1) {
                 cleanDeliveryService_1 = cleanDeliveryService_1_1;
@@ -61,9 +64,9 @@ System.register(['@angular/core', '@angular/router-deprecated', './cleanDelivery
                 CleanDeliveryComponent = __decorate([
                     core_1.Component({
                         templateUrl: './app/clean/cleanDelivery-list.html',
-                        providers: [cleanDeliveryService_1.CleanDeliveryService],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, optionfilter_component_1.OptionFilterComponent],
-                        pipes: [optionFilterPipe_1.OptionFilterPipe]
+                        providers: [cleanDeliveryService_1.CleanDeliveryService, ng2_pagination_1.PaginationService],
+                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp],
+                        pipes: [optionFilterPipe_1.OptionFilterPipe, ng2_pagination_1.PaginatePipe]
                     }), 
                     __metadata('design:paramtypes', [cleanDeliveryService_1.CleanDeliveryService])
                 ], CleanDeliveryComponent);

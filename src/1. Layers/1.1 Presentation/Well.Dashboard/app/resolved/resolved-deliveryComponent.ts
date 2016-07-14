@@ -1,21 +1,19 @@
 ﻿import {Component, OnInit}  from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-//import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
+import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {IResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
-//import {MODAL_DIRECTIVES} from 'ng2-bootstrap';
 import {DropDownItem} from "../shared/DropDownItem";
-import GlobalSettings = require("../shared/globalSettings");
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 
 @Component({
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [ResolvedDeliveryService, GlobalSettings.GlobalSettingsService],
-    directives: [ROUTER_DIRECTIVES, OptionFilterComponent],
-    pipes: [OptionFilterPipe]
+    providers: [ResolvedDeliveryService, PaginationService],
+    directives: [ROUTER_DIRECTIVES, OptionFilterComponent, PaginationControlsCmp],
+    pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     errorMessage: string;
@@ -41,7 +39,7 @@ export class ResolvedDeliveryComponent implements OnInit {
             .subscribe(deliveries => this.deliveries = deliveries, error => this.errorMessage = <any>error);
     }
 
-    deliverySelected(delivery : IResolvedDelivery): void {
+    deliverySelected(delivery: IResolvedDelivery): void {
         console.log(delivery.accountName);
     }
 

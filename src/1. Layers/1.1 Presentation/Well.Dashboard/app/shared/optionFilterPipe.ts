@@ -5,9 +5,9 @@ import {FilterOption} from "./filterOption";
     name: 'optionFilter'
 })
 export class OptionFilterPipe implements PipeTransform {
-    transform(value: any[], args: FilterOption[]): any[] {
-        
-        let filterOption: FilterOption = args[0] ? args[0] : null;
+    transform(value: any[], args: FilterOption): any[] {
+
+        let filterOption: FilterOption = args; /*args[0] ? args[0] : null;*/
 
         return filterOption
             ? value.filter((delivery: any) => {

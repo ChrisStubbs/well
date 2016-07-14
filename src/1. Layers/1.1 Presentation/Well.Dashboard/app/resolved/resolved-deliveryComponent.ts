@@ -1,11 +1,11 @@
 ﻿import {Component, OnInit}  from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
+//import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
 import {IResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
-import {MODAL_DIRECTIVES} from 'ng2-bootstrap';
+//import {MODAL_DIRECTIVES} from 'ng2-bootstrap';
 import {DropDownItem} from "../shared/DropDownItem";
 import GlobalSettings = require("../shared/globalSettings");
 import Option = require("../shared/filterOption");

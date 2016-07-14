@@ -41,27 +41,30 @@ namespace PH.Well.Services
 
         public IEnumerable<Delivery> GetResolvedDeliveries()
         {
-            //Todo this is not right
+            //Todo this is not right what is the status For Resolved!!
             return GetDeliveriesByStatus(PerformanceStatus.Incom);
         }
 
         private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status)
         {
+
             var jobs = this.JobRepository.GetByStatus(status);
-            var cleanDeliveries = new Collection<Delivery>();
+
+            var deliveries = new Collection<Delivery>();
+            //these are used to cache data once retrieved from dtabase my be more performant just to get the hole lot up front
             var routes = new Collection<RouteHeader>();
             var accounts = new Collection<Account>();
 
             foreach (var job in jobs)
             {
-                var cleanDelivery = new Delivery();
+                var delivery = new Delivery();
 
-                cleanDelivery.InvoiceNumber = job.JobRef3;
-                cleanDelivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.PerformanceStatusId);
-                cleanDelivery.AccountCode = job.JobRef1;
-
+                delivery.InvoiceNumber = job.JobRef3;
+                delivery.JobStatus =  StringExtensions.GetEnumDescription((PerformanceStatus)job.JobPerformanceStatusCodeId);
+                delivery.AccountCode = job.JobRef1;
+                
                 var stop = this.StopRepository.GetById(job.StopId);
-                cleanDelivery.DropId = stop.DropId;
+                delivery.DropId = stop.DropId;
 
                 var routeId = stop.RouteHeaderId;
                 var route = routes.FirstOrDefault(x => x.RoutesId == routeId);
@@ -71,7 +74,7 @@ namespace PH.Well.Services
                     route = this.RouteHeaderRepository.GetRouteHeaderById(stop.RouteHeaderId);
                     routes.Add(route);
                 }
-                cleanDelivery.RouteNumber = route.RouteNumber;
+                delivery.RouteNumber = route.RouteNumber;
 
                 var account = accounts.FirstOrDefault(x => x.StopId == job.StopId);
 
@@ -81,11 +84,11 @@ namespace PH.Well.Services
                     accounts.Add(account);
                 }
 
-                cleanDelivery.AccountName = account.Name;
-                cleanDeliveries.Add(cleanDelivery);
+                delivery.AccountName = account.Name;
+                deliveries.Add(delivery);
             }
 
-            return cleanDeliveries;
+            return deliveries;
         }
 
        

@@ -52,21 +52,19 @@ body {
     overflow-y: scroll;
 }
 
-#app { max-width: 1280px; margin: 0 auto; margin-top: 115px; }
+#app { margin: 0 auto; margin-top: 115px; }
 
-header {
-    position: fixed;
+.app {
     width: 100%;
-    z-index: 9999;
 }
 
-header .row-fluid > div {
+.app .row-fluid > div {
     max-width: 1280px;
     margin: 0 auto;
     min-height: 39px;
 }
 
-header .row-fluid:first-child {
+.app .row-fluid:first-child {
     .gradient(left, @brand-color, darken(@brand-color, 20%));
     border-bottom: 1px solid #939d9e;
     margin: 0;
@@ -75,7 +73,7 @@ header .row-fluid:first-child {
     width: 100%;
 }
 
-header .row-fluid:first-child .span7 { position: relative; }
+.app .row-fluid:first-child .span7 { position: relative; }
 
 .logo {
     background: url(../../content/images/logo.png); //Don't change this URL, it works with bundling on!
@@ -87,9 +85,9 @@ header .row-fluid:first-child .span7 { position: relative; }
     width: 108px;
 }
 
-header .row-fluid:first-child div:nth-child(2) { float: left; margin: 6px 0 0 120px; }
+.app .row-fluid:first-child div:nth-child(2) { float: left; margin: 6px 0 0 120px; }
 
-header .row-fluid:first-child div:nth-child(2) h1 {
+.app .row-fluid:first-child div:nth-child(2) h1 {
     color: #fff;
     display: inline;
     font-size: 100%;
@@ -98,13 +96,13 @@ header .row-fluid:first-child div:nth-child(2) h1 {
     width: 100px;
 }
 
-header .row-fluid:first-child div:nth-child(2) span {
+.app .row-fluid:first-child div:nth-child(2) span {
     color: #f39b91;
     font-size: small;
     margin: 0 0 0 12px;
 }
 
-header .row-fluid:first-child div.pull-right div:first-child {
+.app .row-fluid:first-child div.pull-right div:first-child {
     float: left;
     font-size: 100%;
     font-weight: bold;
@@ -112,14 +110,14 @@ header .row-fluid:first-child div.pull-right div:first-child {
     margin: 16px 12px 0 0;
 }
 
-header .row-fluid:first-child div.pull-right img {
+.app .row-fluid:first-child div.pull-right img {
     border: 2px solid #fff;
     margin: 7px 41px 0 0;
     height: 40px;
     box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
-header .row-fluid:nth-child(2) {
+.app .row-fluid:nth-child(2) {
     background: #ececec; 
     box-shadow: 0 0 5px 0  #777;
 }
@@ -304,7 +302,7 @@ input.period-filter{
 }
 
 .widget-content {
-    background-color: white;
+    background-color: white; 
     text-align: center;
     padding-top: 20px;
     width: 250px;
@@ -314,3 +312,15 @@ input.period-filter{
 
 .table-container { margin-top: 32px; }
 
+.ng2-pagination li {
+    background-color: #fff;
+    font-size: 1.2em;
+}
+
+.ng2-pagination li span, .ng2-pagination li a, .ng2-pagination li div{
+    font-size: 1.2em;
+}
+
+.ng2-pagination .current {
+    background-color: #ff8080 !important;
+}

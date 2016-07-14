@@ -42,9 +42,25 @@
                 dapperProxy.Verify(x => x.AddParameter("routeHeaderId", routeHeaderId, DbType.Int32, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<Stop>(), Times.Once());
             }
-
-            
         }
 
+        public class TheGetByIdMethod : StopRepositoryTests
+        {
+            [Test]
+            public void ShouldCallTheStoredProcedureCorrectly()
+            {
+                const int id = 1;
+                dapperProxy.Setup(x => x.WithStoredProcedure("Stop_GetById")).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop>());
+                var result = repository.GetById(id);
+
+                dapperProxy.Verify(x => x.WithStoredProcedure("Stop_GetById"), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.Query<Stop>(), Times.Once());
+            }
+
+        }
+        
     }
 }

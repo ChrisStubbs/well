@@ -46,21 +46,5 @@
             }
         }
 
-        public class TheGetByStatusMethod : JobRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                var status = PerformanceStatus.Compl;
-                dapperProxy.Setup(x => x.WithStoredProcedure("Job_GetByStatus")).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("PerformanceStatusCode", (int)status, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Job>()).Returns(new List<Job>());
-                var result = repository.GetByStatus(status);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure("Job_GetByStatus"), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("PerformanceStatusCode", (int)status, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Job>(), Times.Once());
-            }
-        }
     }
 }

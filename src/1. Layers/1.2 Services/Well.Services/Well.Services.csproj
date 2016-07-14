@@ -44,7 +44,6 @@
     <Compile Include="Contracts\IEpodDomainImportProvider.cs" />
     <Compile Include="Contracts\IEpodDomainImportService.cs" />
     <Compile Include="Contracts\IEpodSchemaProvider.cs" />
-    <Compile Include="DeliveryService.cs" />
     <Compile Include="EpodDomainImportService.cs" />
     <Compile Include="EpodImport\EpodDomainImportProvider.cs" />
     <Compile Include="EpodImport\EpodSchemaProvider.cs" />

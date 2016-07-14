@@ -26,11 +26,10 @@
         public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
 
         //Jobs
-        public static string JobGetCleanDeliveries = "Job_GetCleanDeliveries";
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
-        public static string JobGetByStatus = "Job_GetByStatus";
+        
         public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
 
         //jobdetail
@@ -43,7 +42,8 @@
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
 
-
+        //Deliveries
+        public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
 
     }
 }

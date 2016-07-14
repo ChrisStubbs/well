@@ -116,6 +116,7 @@
     <Compile Include="Factories\StopFactory.cs" />
     <Compile Include="Factories\WidgetStatsFactory.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
+    <Compile Include="Infrastructure\DeliveryReadRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />

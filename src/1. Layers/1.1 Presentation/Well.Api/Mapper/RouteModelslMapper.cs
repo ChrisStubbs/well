@@ -15,7 +15,6 @@
         {
             var routeModels = new List<RouteModel>();
 
-           
             foreach (var routeHeader in source)
             {
                 
@@ -26,8 +25,8 @@
                     TotalDrops = routeHeader.Stops.Count,
                     DeliveryCleanCount = routeHeader.Stops.Count(x=> x.StopPerformanceStatusCodeId == (int)PerformanceStatus.Compl),
                     DeliveryExceptionCount = routeHeader.Stops.Count(x => x.StopPerformanceStatusCodeId != (int)PerformanceStatus.Compl),
-                    RouteStatus =   StringExtensions.GetEnumDescription((RouteStatusCode)Enum.Parse(typeof(RouteStatusCode), routeHeader.RouteStatusCode, true)),
-                    DateTimeUpdated = routeHeader.DateUpdated.ToShortTimeString()
+                    RouteStatus =   StringExtensions.GetEnumDescription(routeHeader.RouteStatus),
+                    DateTimeUpdated = routeHeader.LastRouteUpdate.ToLongDateString()
                 };
                 routeModels.Add(model);
             }

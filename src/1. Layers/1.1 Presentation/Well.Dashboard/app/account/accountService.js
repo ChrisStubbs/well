@@ -45,10 +45,9 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable', 'rxjs/add/
                 };
                 AccountService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof http_1.Http !== 'undefined' && http_1.Http) === 'function' && _a) || Object, globalSettings_1.GlobalSettingsService])
+                    __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
                 ], AccountService);
                 return AccountService;
-                var _a;
             }());
             exports_1("AccountService", AccountService);
         }

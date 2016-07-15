@@ -1,8 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
-    using Domain;
-   
-
+    using Well.Domain;
+    
     public class StopFactory : EntityFactory<StopFactory,Stop>
     {
         public StopFactory()

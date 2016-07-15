@@ -74,10 +74,9 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', '@angular/router-d
                         { path: '/notifications', name: 'Notifications', component: notificationsComponent_1.NotificationsComponent },
                         { path: '/account', name: 'Account', component: accountComponent_1.AccountComponent }
                     ]), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof router_deprecated_1.Router !== 'undefined' && router_deprecated_1.Router) === 'function' && _a) || Object, (typeof (_b = typeof core_1.ChangeDetectorRef !== 'undefined' && core_1.ChangeDetectorRef) === 'function' && _b) || Object, globalSettings_1.GlobalSettingsService])
+                    __metadata('design:paramtypes', [router_deprecated_1.Router, core_1.ChangeDetectorRef, globalSettings_1.GlobalSettingsService])
                 ], AppComponent);
                 return AppComponent;
-                var _a, _b;
             }());
             exports_1("AppComponent", AppComponent);
         }

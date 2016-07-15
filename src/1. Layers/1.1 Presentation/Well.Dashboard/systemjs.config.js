@@ -5,14 +5,17 @@
         '@angular': 'node_modules/@angular',
         'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
         'rxjs': 'node_modules/rxjs',
-        'ng2-pagination': 'node_modules/ng2-pagination'
+        'ng2-pagination': 'node_modules/ng2-pagination',
+        'angular2-modal': 'node_modules/angular2-modal'
     };
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
         'app': { main: 'main.js', defaultExtension: 'js' },
         'rxjs': { defaultExtension: 'js' },
         'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
-        'ng2-pagination': { main: 'index.js', defaultExtension: 'js' }
+        'ng2-pagination': { main: 'index.js', defaultExtension: 'js' },
+        'angular2-modal': { main: 'index.js', defaultExtension: 'js' },
+        'angular2-modal/plugins/bootstrap': { defaultExtension: 'js', main: 'index' }
     };
     var ngPackageNames = [
       'common',

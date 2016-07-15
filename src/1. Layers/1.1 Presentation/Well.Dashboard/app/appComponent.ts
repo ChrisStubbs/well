@@ -32,24 +32,24 @@ declare var $: any;
     providers: [WidgetStatsService, HTTP_PROVIDERS, ROUTER_PROVIDERS, GlobalSettingsService]
 })
 
-    @RouteConfig([
-        { path: '/widgetstats', name: 'WidgetStats', component: WidgetStatsComponent, useAsDefault: true },
-        { path: '/routes', name: 'Routes', component: RouteHeaderComponent },
-        { path: '/clean', name: 'Clean', component: CleanDeliveryComponent },
-        { path: '/resolved', name: 'Resolved', component: ResolvedDeliveryComponent },
-        { path: '/notifications', name: 'Notifications', component: NotificationsComponent },
-        { path: '/account', name: 'Account', component: AccountComponent }
+@RouteConfig([
+    { path: '/widgetstats', name: 'WidgetStats', component: WidgetStatsComponent, useAsDefault: true },
+    { path: '/routes', name: 'Routes', component: RouteHeaderComponent },
+    { path: '/clean', name: 'Clean', component: CleanDeliveryComponent },
+    { path: '/resolved', name: 'Resolved', component: ResolvedDeliveryComponent },
+    { path: '/notifications', name: 'Notifications', component: NotificationsComponent },
+    { path: '/account', name: 'Account', component: AccountComponent }
 ])
 
-export class AppComponent implements OnInit  {
+export class AppComponent implements OnInit {
 
-    constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef, private globalSettings: GlobalSettingsService  ) { }
+    constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef, private globalSettings: GlobalSettingsService) { }
 
     //re-direct to widget stats on load
     ngOnInit() {
         this.router.navigate(['WidgetStats']);
     }
-        
+
 
 }
 

@@ -30,7 +30,7 @@
 
         [Route("routes", Name = "GetRoutes")]
         [HttpGet]
-        public HttpResponseMessage GetRoutes()
+        public HttpResponseMessage GetRoutes(string searchField = null, string searchTerm = null)
         {
             try
             {
@@ -73,7 +73,7 @@
 
                 var routes = new List<RouteModel>();
 
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     routes.Add(model);
                     routes.Add(model2);

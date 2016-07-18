@@ -1,6 +1,6 @@
-﻿namespace PH.Well.TranSend.Contracts
+﻿namespace PH.Well.Services.Contracts
 {
-    using Enums;
+    using Domain.Enums;
 
     public interface IEpodDomainImportProvider
     {

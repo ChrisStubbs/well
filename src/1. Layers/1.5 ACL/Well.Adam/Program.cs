@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Adam
 {
+    using Infrastructure;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -11,18 +12,8 @@
     {
         static void Main(string[] args)
         {
-            var container = InitIoc();
+            var container = DependancyRegister.InitIoc();
             new Import().Process(container);
-        }
-
-        private static Container InitIoc()
-        {
-            return new Container(
-                x =>
-                {
-                    x.For<ILogger>().Use<NLogger>();
-                    x.For<IWellDapperProxy>().Use<WellDapperProxy>();
-                });
         }
 
     }

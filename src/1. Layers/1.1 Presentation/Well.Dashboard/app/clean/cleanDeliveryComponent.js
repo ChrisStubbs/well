@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination', './cleanDeliveryService', '../shared/optionfilter.component', '../shared/optionFilterPipe', "../shared/filterOption", "../shared/DropDownItem"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination', './cleanDeliveryService', '../shared/optionfilter.component', '../shared/optionFilterPipe', "../shared/filterOption", "../shared/DropDownItem", "../account/AccountComponent"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination'
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, ng2_pagination_1, cleanDeliveryService_1, optionfilter_component_1, optionFilterPipe_1, filterOption_1, DropDownItem_1;
+    var core_1, router_deprecated_1, ng2_pagination_1, cleanDeliveryService_1, optionfilter_component_1, optionFilterPipe_1, filterOption_1, DropDownItem_1, AccountComponent_1;
     var CleanDeliveryComponent;
     return {
         setters:[
@@ -37,6 +37,9 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination'
             },
             function (DropDownItem_1_1) {
                 DropDownItem_1 = DropDownItem_1_1;
+            },
+            function (AccountComponent_1_1) {
+                AccountComponent_1 = AccountComponent_1_1;
             }],
         execute: function() {
             CleanDeliveryComponent = (function () {
@@ -61,11 +64,13 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination'
                 CleanDeliveryComponent.prototype.onFilterClicked = function (filterOption) {
                     this.filterOption = filterOption;
                 };
+                CleanDeliveryComponent.prototype.openModal = function (delivery) {
+                };
                 CleanDeliveryComponent = __decorate([
                     core_1.Component({
                         templateUrl: './app/clean/cleanDelivery-list.html',
                         providers: [cleanDeliveryService_1.CleanDeliveryService, ng2_pagination_1.PaginationService],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp],
+                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp, AccountComponent_1.AccountComponent],
                         pipes: [optionFilterPipe_1.OptionFilterPipe, ng2_pagination_1.PaginatePipe]
                     }), 
                     __metadata('design:paramtypes', [cleanDeliveryService_1.CleanDeliveryService])

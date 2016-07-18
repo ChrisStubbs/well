@@ -54,7 +54,7 @@
         public string TextField2 { get; set; }
 
         [XmlIgnore]
-        public int JobPerformanceStatusCodeId { get; set; }
+        public int PerformanceStatusId { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
         public string JobPerformanceStatusCode
@@ -64,11 +64,11 @@
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    JobPerformanceStatusCodeId = (int)PerformanceStatus.Notdef;
+                    PerformanceStatusId = (int)PerformanceStatus.Notdef;
                 }
                 else
                 {
-                    JobPerformanceStatusCodeId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
+                    PerformanceStatusId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
                 }             
             }
         }

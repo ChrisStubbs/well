@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PH.Well.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\1.2 Services\Well.Services\bin\Debug\PH.Well.Services.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -52,22 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IEpodDomainImportService.cs" />
-    <Compile Include="Enums\EpodFileType.cs" />
-    <Compile Include="Enums\TransendSchemaType.cs" />
     <Compile Include="Extensions\IPrincipleExtensions.cs" />
     <Compile Include="Import.cs" />
     <Compile Include="Infrastructure\DependancyRegister.cs" />
-    <Compile Include="Infrastructure\EpodDomainImportProvider.cs" />
     <Compile Include="Infrastructure\EpodFtpProvider.cs" />
-    <Compile Include="Infrastructure\EpodSchemaProvider.cs" />
-    <Compile Include="Contracts\IEpodSchemaProvider.cs" />
     <Compile Include="Contracts\IEpodFtpProvider.cs" />
-    <Compile Include="Contracts\IEpodDomainImportProvider.cs" />
-    <Compile Include="Infrastructure\ResourceReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\EpodDomainImportService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

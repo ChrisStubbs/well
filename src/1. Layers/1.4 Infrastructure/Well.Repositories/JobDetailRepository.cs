@@ -60,6 +60,31 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
+        public JobDetail GetByBarcodeLineNumberAndJobId(int lineNumber, string barcode, int jobId)
+        {
+            var jobDetail =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeLineNumberAndJobId)
+                   .AddParameter("LineNumber", lineNumber, DbType.Int32)
+                   .AddParameter("Barcode", barcode, DbType.String)
+                   .AddParameter("JobId", jobId, DbType.Int32)
+                   .Query<JobDetail>()
+                   .FirstOrDefault();
+
+            return jobDetail;
+        }
+
+        public void JobDetailDamageCreateOrUpdate(JobDetailDamage jobDetailDamage)
+        {
+            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)
+                .AddParameter("Id", jobDetailDamage.Id, DbType.Int32)
+                .AddParameter("JobDetailId", jobDetailDamage.JobDetailId, DbType.Int32)
+                .AddParameter("Qty", jobDetailDamage.Qty, DbType.Int32)
+                .AddParameter("DamageReasonsId", jobDetailDamage.DamageReasonId, DbType.Int32)
+                .AddParameter("DamageReasonCategoryId", jobDetailDamage.ReasonCategoryId, DbType.Int32)
+                .AddParameter("Username", this.CurrentUser, DbType.String)
+                .Query<int>().FirstOrDefault();
+        }
+
     }
 
 

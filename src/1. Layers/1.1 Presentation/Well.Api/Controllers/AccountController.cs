@@ -48,5 +48,23 @@
             }
         }
 
+        [Route("account", Name = "GetAccountByAccountId")]
+        [HttpGet]
+        public HttpResponseMessage GetAccountByAccountId(int accountId)
+        {
+            try
+            {
+                var account = this.accountRespository.GetAccountByAccountId(accountId);
+                return account.Code == Empty
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, account);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting account");
+                return this.serverErrorResponseHandler.HandleException(Request, ex);
+            }
+        }
+
     }
 }

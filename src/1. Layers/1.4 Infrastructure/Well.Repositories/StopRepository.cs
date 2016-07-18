@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -7,6 +8,7 @@
     using Contracts;
     using Domain;
     using Domain.Enums;
+    using Attribute = Domain.Attribute;
 
     public class StopRepository : DapperRepository<Stop, int>, IStopRepository
     {
@@ -42,11 +44,12 @@
                 .AddParameter("Id", stop.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("PlannedStopNumber", stop.PlannedStopNumber, DbType.Int32)
-                .AddParameter("PlannedArriveTime", stop.PlannedArrivalTime, DbType.String)
+                .AddParameter("PlannedArriveTime", stop.PlannedArriveTime, DbType.String)
                 .AddParameter("PlannedDepartTime", stop.PlannedDepartTime, DbType.String)
+                .AddParameter("RouteHeaderCode", stop.RouteHeaderCode, DbType.String)
                 .AddParameter("RouteHeaderId", stop.RouteHeaderId, DbType.Int32)
                 .AddParameter("DropId", stop.DropId, DbType.String)
-                .AddParameter("LocatiodId", stop.LocationId, DbType.String)
+                .AddParameter("LocationId", stop.LocationId, DbType.String)
                 .AddParameter("DeliveryDate", stop.DeliveryDate, DbType.DateTime)
                 .AddParameter("SpecialInstructions", stop.SpecialInstructions, DbType.String)
                 .AddParameter("StartWindow", stop.StartWindow, DbType.String)
@@ -98,6 +101,19 @@
                 .AddParameter("IsDropAndDrive", dropAndDrive, DbType.Boolean)
                 .AddParameter("StopId", account.StopId, DbType.Int32).Query<int>().FirstOrDefault();
 
+        }
+
+        public Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId)
+        {
+            var stop =
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByRouteNumberAndDropNumber)
+                   .AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String)
+                   .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
+                   .AddParameter("DropId", dropId, DbType.String)
+                   .Query<Stop>()
+                   .FirstOrDefault();
+
+            return stop;
         }
 
     }

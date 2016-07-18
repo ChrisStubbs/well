@@ -13,7 +13,6 @@
         {
             this.Stops = new Collection<Stop>();
             this.EntityAttributes = new Collection<Attribute>();
-            this.Depot = new Depot();
         }
 
         [XmlElement("CompanyID")]
@@ -56,13 +55,16 @@
         [XmlElement("PlannedStops")]
         public int PlannedStops { get; set; }
 
+        [XmlElement("ActualStopsCompleted")]
+        public int ActualStopsCompleted { get; set; }
+
         public int RouteStatusId { get; set; }
 
         [XmlElement("RouteStatusCode")]
         public string RouteStatusCode
         {
             get { return RouteStatusCode; }
-            set { RouteStatusId = (int) (RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value, true); }
+            set { RouteStatusId = string.IsNullOrEmpty(value) ? (int)Enums.RouteStatusCode.Notdef : (int)(RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value, true); }
         }
 
         public int RoutePerformanceStatusId { get; set; }
@@ -71,7 +73,7 @@
         public string PerformanceStatusCode
         {
             get { return PerformanceStatusCode; }
-            set { RoutePerformanceStatusId = (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
+            set { RoutePerformanceStatusId = string.IsNullOrEmpty(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
         [XmlIgnore]
@@ -167,7 +169,7 @@
         public int RoutesId { get; set; }
 
         [XmlElement("Depot")]
-        public Depot Depot { get; set; }
+        public string Depot { get; set; }
 
         [XmlArray("Stops")]
         [XmlArrayItem("Stop", typeof(Stop))]

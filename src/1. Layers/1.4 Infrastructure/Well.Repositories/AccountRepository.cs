@@ -25,5 +25,15 @@
 
         }
 
+        public Account GetAccountByAccountId(int accountId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountGetByAccountId)
+                    .AddParameter("AccountId", accountId, DbType.Int32)
+                    .Query<Account>()
+                    .FirstOrDefault();
+
+        }
+
+
     }
 }

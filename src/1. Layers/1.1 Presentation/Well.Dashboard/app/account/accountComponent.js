@@ -27,12 +27,17 @@ System.register(['@angular/core', './accountService'], function(exports_1, conte
                 }
                 AccountComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this.accountService.getAccountByStopId()
+                    this.accountService.getAccountByAccountId(this.accountId)
                         .subscribe(function (account) { return _this.account = account; }, function (error) { return _this.errorMessage = error; });
+                };
+                AccountComponent.prototype.openModal = function (accountId) {
+                    console.log(accountId);
                 };
                 AccountComponent = __decorate([
                     core_1.Component({
-                        templateUrl: './app/account/accountModal.html',
+                        selector: 'contact-details',
+                        //template: `<button type="button" class="btn btn-default"(click) = "openModal(delivery.accountId)">lee</button>`,
+                        template: "<button type=\"button\" class=\"btn btn-default\"(click) = \"openModal()\">Contact</button>",
                         providers: [accountService_1.AccountService]
                     }), 
                     __metadata('design:paramtypes', [accountService_1.AccountService])
@@ -43,4 +48,4 @@ System.register(['@angular/core', './accountService'], function(exports_1, conte
         }
     }
 });
-//# sourceMappingURL=accountComponent.js.map
+//# sourceMappingURL=AccountComponent.js.map

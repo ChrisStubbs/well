@@ -11,5 +11,6 @@
         public string DateTime { get; set; }
         public string Action { get; set; }
         public string Assigned { get; set; }
+        public string AccountId { get; set; }
     }
 }

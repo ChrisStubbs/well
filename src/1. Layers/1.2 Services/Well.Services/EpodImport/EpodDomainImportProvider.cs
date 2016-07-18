@@ -1,17 +1,13 @@
-﻿namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.Services.EpodImport
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Runtime.InteropServices;
     using System.Xml.Serialization;
-    using Common;
     using Common.Contracts;
     using Common.Extensions;
-    using Contracts;
     using Domain;
-    using Enums;
-    using Repositories.Contracts;
+    using Domain.Enums;
+    using Services.Contracts;
 
     public class EpodDomainImportProvider : IEpodDomainImportProvider
     {
@@ -84,7 +80,10 @@
                 attribs.XmlElements.Add(new XmlElementAttribute("Depot"));
                 overrides.Add(typeof(RouteHeader), "Depot", attribs);
 
+                attribs.XmlElements.Add(new XmlElementAttribute("ActualStopsCompleted"));
+                overrides.Add(typeof(RouteHeader), "ActualStopsCompleted", attribs);
 
+                
                 attribs.XmlElements.Add(new XmlElementAttribute("RouteDate"));
                 overrides.Add(typeof(RouteHeader), "RouteDate", attribs);
             }
@@ -102,7 +101,15 @@
 
             epodDomainImportService.EpodType = epodType;
             epodDomainImportService.CurrentUser = "ePodDomainImport";
-            epodDomainImportService.AddRoutesFile(routes, routesId);
+            if (epodType == EpodFileType.RouteHeader)
+            {
+                epodDomainImportService.AddRoutesFile(routes, routesId);
+            }
+            else
+            {
+                epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+            }
+            
             logger.LogDebug($"File {filename} imported successfully");
 
         }

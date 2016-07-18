@@ -1,0 +1,39 @@
+﻿namespace PH.Well.Repositories.Read
+{
+    using System.Collections.Generic;
+    using System.Data;
+    using Common.Contracts;
+    using Contracts;
+    using Domain.Enums;
+    using Domain.ValueObjects;
+
+    public class DeliveryReadRepository : IDeliveryReadRepository
+    {
+        private readonly ILogger logger;
+        private readonly IDapperReadProxy dapperReadProxy;
+
+        public DeliveryReadRepository(ILogger logger, IDapperReadProxy dapperReadProxy)
+        {
+            this.logger = logger;
+            this.dapperReadProxy = dapperReadProxy;
+        }
+
+        public IEnumerable<Delivery> GetCleanDeliveries()
+        {
+            return GetDeliveriesByStatus(PerformanceStatus.Compl);
+        }
+
+        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status)
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPerformanceStatus)
+                .AddParameter("PerformanceStatusId", status, DbType.Int32)
+                .Query<Delivery>();
+        }
+
+        public IEnumerable<Delivery> GetResolvedDeliveries()
+        {
+            //Todo this is not right what is the status For Resolved!!
+            return GetDeliveriesByStatus(PerformanceStatus.Incom);
+        }
+    }
+}

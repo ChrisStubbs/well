@@ -6,8 +6,10 @@ namespace PH.Well.TranSend.Infrastructure
     using Contracts;
     using Repositories;
     using Repositories.Contracts;
-    using Services;
     using StructureMap;
+    using Well.Services.Contracts;
+    using Well.Services;
+    using Well.Services.EpodImport;
 
     public static class DependancyRegister
     {

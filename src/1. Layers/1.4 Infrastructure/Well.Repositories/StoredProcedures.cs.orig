@@ -15,6 +15,7 @@
         public static string RouteHeaderGetById = "RouteHeader_GetById";
         public static string RouteHeaderAttributeCreateOrUpdate = "RouteHeaderAttribute_CreateOrUpdate";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
+        public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
 
 
         //Stops
@@ -22,24 +23,31 @@
         public static string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
+        public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
 
         //Jobs
-        public static string JobGetCleanDeliveries = "Job_GetCleanDeliveries";
-<<<<<<< HEAD
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
+<<<<<<< HEAD
+        public static string JobGetByStatus = "Job_GetByStatus";
+        public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
+=======
+        
+>>>>>>> 8102073136af6e443fbfbe124bfb4829e324e54a
 
         //jobdetail
         public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";
         public static string JobDetailGetById = "JobDetail_GetById";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
-
-
-=======
+        public static string JobDetailGetByBarcodeLineNumberAndJobId = "JobDetail_GetByBarcodeLineNumberAndJobId";
+        public static string JobDetailDamageCreateOrUpdate = "JobDetailDamage_CreateOrUpdate";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
->>>>>>> e1eb306c9f46c3a6246ab59d08fd73922a9ec302
+
+        //Deliveries
+        public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
+
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace PH.Well.TranSend.Contracts
+﻿namespace PH.Well.Services.Contracts
 {
     public interface IEpodSchemaProvider
     {

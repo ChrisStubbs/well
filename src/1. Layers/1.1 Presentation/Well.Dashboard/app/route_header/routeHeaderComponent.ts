@@ -1,6 +1,4 @@
-﻿import { Component, OnInit, ViewContainerRef }  from '@angular/core';
-import { DialogRef } from 'angular2-modal';
-import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap';
+﻿import { Component, OnInit}  from '@angular/core';
 import { ROUTER_DIRECTIVES} from '@angular/router';
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {IRoute} from './route';
@@ -13,7 +11,7 @@ import FilterOption = Option.FilterOption;
 
 @Component({
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [RouteHeaderService, PaginationService, BS_MODAL_PROVIDERS],
+    providers: [RouteHeaderService, PaginationService],
     directives: [ROUTER_DIRECTIVES, OptionFilterComponent, PaginationControlsCmp],
     pipes: [OptionFilterPipe, PaginatePipe]
 })
@@ -30,24 +28,14 @@ export class RouteHeaderComponent implements OnInit {
         new DropDownItem("Assignee", "assignee", true)
     ];
 
-    constructor(private routerHeaderService: RouteHeaderService, public modal: Modal, viewContainer: ViewContainerRef) {
-        modal.defaultViewContainer = viewContainer;
-    }
+    constructor(private routerHeaderService: RouteHeaderService) {}
 
     ngOnInit() {
         this.routerHeaderService.getRouteHeaders("lee", "foo")
             .subscribe(routes => this.routes = routes, error => this.errorMessage = <any>error);
     }
 
-    routeSelected(route): void {
-        this.modal.confirm()
-            .isBlocking(true)
-            .showClose(true)
-            .keyboard(27)
-            .title("A title")
-            .body("<p>hi lee</p><p>hi paul</p>")
-            .open();
-    }
+    routeSelected(route): void {}
 
     onFilterClicked(filterOption: FilterOption) {
 

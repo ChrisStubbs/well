@@ -1,9 +1,9 @@
-﻿namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.Services.EpodImport
 {
     using System.Xml;
     using System.Xml.Schema;
     using Common.Contracts;
-    using Contracts;
+    using Well.Services.Contracts;
 
     public class EpodSchemaProvider : IEpodSchemaProvider
     {

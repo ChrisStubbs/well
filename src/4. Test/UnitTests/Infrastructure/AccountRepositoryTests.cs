@@ -8,6 +8,7 @@
     using Repositories;
     using Repositories.Contracts;
     using System.Collections.Generic;
+    using Well.Domain;
 
     [TestFixture]
     public class AccountRepositoryTests

@@ -13,7 +13,8 @@
         [Description("Complete")]
         Compl = 3,
 
-        [Description("Not Defined")]
-        Notdef = 4,
+        //Default by setting value to 0
+        [Description("Not Defined")] 
+        Notdef = 0,
     }
 }

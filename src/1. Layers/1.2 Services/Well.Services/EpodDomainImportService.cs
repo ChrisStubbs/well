@@ -141,7 +141,7 @@
                 if (currentRouteHeader != null)
                 {
                     ePodRouteHeader.Id = currentRouteHeader.Id;
-                    currentRouteHeader.RouteStatusId = ePodRouteHeader.RouteStatusId;
+                    currentRouteHeader.RouteStatus = ePodRouteHeader.RouteStatus;
                     currentRouteHeader.RoutePerformanceStatusId = ePodRouteHeader.RoutePerformanceStatusId;
                     currentRouteHeader.AuthByPass = ePodRouteHeader.AuthByPass;
                     currentRouteHeader.NonAuthByPass = ePodRouteHeader.NonAuthByPass;

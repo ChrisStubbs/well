@@ -10,6 +10,7 @@
     using NUnit.Framework;
     using Repositories;
     using Repositories.Contracts;
+    using Well.Domain;
 
     [TestFixture]
     public class RouteHeaderRepositoryTests

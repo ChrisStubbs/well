@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
-    using Domain.ValueObjects;
+    using Well.Domain.ValueObjects;
 
     public class WidgetStatsFactory : EntityFactory<WidgetStatsFactory, WidgetStats>
     {

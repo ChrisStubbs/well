@@ -6,6 +6,7 @@
     using Domain;
     using Moq;
     using NUnit.Framework;
+    using Well.Domain;
     using Well.Repositories;
     using Well.Repositories.Contracts;
 

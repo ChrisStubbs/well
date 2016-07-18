@@ -3,12 +3,12 @@
     using System.Collections.Generic;
     using System.Data;
     using Common.Contracts;
-    using Domain.Enums;
-    using Domain.ValueObjects;
     using Moq;
     using NUnit.Framework;
     using Repositories.Contracts;
     using Repositories.Read;
+    using Well.Domain.Enums;
+    using Well.Domain.ValueObjects;
 
     [TestFixture]
     public class DeliveryReadRepositoryTests

@@ -33,6 +33,7 @@ namespace PH.Well.Dashboard.DependencyResolution
                 scan.WithDefaultConventions();
                 scan.With(new ControllerConvention());
             });
+
             For<IDbChangeNotifier>().Use<DbChangeNotifier>();
             For<IWellDbConfiguration>().Use<WellDbConfiguration>();
         }

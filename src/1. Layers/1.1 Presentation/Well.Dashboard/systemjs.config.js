@@ -5,8 +5,7 @@
         '@angular': 'node_modules/@angular',
         'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
         'rxjs': 'node_modules/rxjs',
-        'ng2-pagination': 'node_modules/ng2-pagination',
-        'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
+        'ng2-pagination': 'node_modules/ng2-pagination'
     };
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {

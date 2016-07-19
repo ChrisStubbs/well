@@ -6,6 +6,9 @@
     using System.Web.Mvc;
     using global::Well.Dashboard.Controllers;
     using NUnit.Framework;
+
+    using PH.Well.Dashboard.Controllers;
+
     using Repositories.Contracts;
     using StructureMap;
     using Well.Dashboard.DependencyResolution;
@@ -19,7 +22,7 @@
             IContainer container = IoC.Initialize();
             var structureMapDependencyScope = new StructureMapDependencyScope(container);
 
-            List<Type> controllerTypes = GetSubClasses<Controller>();
+            List<Type> controllerTypes = GetSubClasses<BaseController>();
 
             foreach (Type controllerType in controllerTypes)
             {

@@ -2,6 +2,6 @@
 {
    public  interface IAdamRouteFileProvider
    {
-       void ListFilesAndProcess();
+       void ListFilesAndProcess(IAdamImportConfiguration config);
    }
 }

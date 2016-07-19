@@ -6,12 +6,20 @@
     using System.IO;
     using System.Security.Principal;
     using System.Threading;
+    using Adam.Contracts;
+    using Adam.Infrastructure;
     using Common;
+    using Common.Contracts;
     using Common.Security;
     using Context;
+    using Factories;
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
-    using NLog;
+    using Repositories;
+    using Repositories.Contracts;
+    using Services;
+    using Services.Contracts;
+    using Services.EpodImport;
     using StructureMap;
     using TechTalk.SpecFlow;
 
@@ -24,6 +32,30 @@
             //SetUserRoles(new List<string> { "SomeUserRole" });
         }
 
+        [BeforeScenario(@"WebDriverFeature")]
+        public static void SetDashboardUrl()
+        {
+            UrlContext.CurrentUrl = Configuration.DashboardUrl;
+        }
+
+        #region WebDriver setup
+        [BeforeFeature(@"WebDriverFeature")]
+        public static void SetDriver()
+        {
+            
+            DriverContext.CurrentDriver = DriverFactory.Create(Configuration.Driver);
+        }
+
+        [AfterFeature(@"WebDriverFeature")]
+        public static void DisposeDriver()
+        {
+            var driver = DriverContext.CurrentDriver;
+
+            driver.Close();
+            driver.Quit();
+        }
+        #endregion
+
         [BeforeFeature]
         public static void SetupDependancies()
         {
@@ -35,8 +67,8 @@
         [BeforeTestRun]
         public static void SetupDatabase()
         {
-            DropDatabase();
-            RunDacpac();
+            //DropDatabase();
+            //RunDacpac();
         }
 
         [AfterTestRun]
@@ -95,7 +127,19 @@
             var container = new Container(
                                             x =>
                                             {
-                                                x.For<Common.Contracts.ILogger>().Use<NLogger>();
+                                                x.For<IEpodSchemaProvider>().Use<EpodSchemaProvider>();
+                                                x.For<ILogger>().Use<NLogger>();
+                                                x.For<IWellDapperProxy>().Use<WellDapperProxy>();
+                                                x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
+                                                x.For<IEpodDomainImportProvider>().Use<EpodDomainImportProvider>();
+                                                x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+                                                x.For<IStopRepository>().Use<StopRepository>();
+                                                x.For<IEpodDomainImportService>().Use<EpodDomainImportService>();
+                                                x.For<IStopRepository>().Use<StopRepository>();
+                                                x.For<IJobRepository>().Use<JobRepository>();
+                                                x.For<IJobDetailRepository>().Use<JobDetailRepository>();
+                                                x.For<IAdamRouteFileProvider>().Use<AdamRouteFileProvider>();
+                                                x.For<IAdamImportConfiguration>().Use<AdamImportConfiguration>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

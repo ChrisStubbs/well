@@ -29,7 +29,7 @@
 
         [Route("routes", Name = "GetRoutes")]
         [HttpGet]
-        public HttpResponseMessage GetRoutes()
+        public HttpResponseMessage GetRoutes(string searchField = null, string searchTerm = null)
         {
             try
             {

@@ -9,9 +9,15 @@ export class RouteHeaderService {
     
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getRouteHeaders(): Observable<IRoute[]> {
-        
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'routes')
+    getRouteHeaders(searchField: string = '', searchTerm: string = ''): Observable<IRoute[]> {
+
+        var url = this.globalSettingsService.globalSettings.apiUrl +
+            'routes?searchField=' +
+            searchField +
+            '&searchTerm=' +
+            searchTerm;
+
+        return this.http.get(url)
             .map((response: Response) => <IRoute[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);

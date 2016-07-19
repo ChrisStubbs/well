@@ -41,6 +41,7 @@
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
+        public static string AccountGetByAccountId = "Account_GetByAccountId";
 
         //Deliveries
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";

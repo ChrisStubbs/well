@@ -1,27 +1,33 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit}  from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
+import {GlobalSettingsService} from '../shared/globalSettings';
+import 'rxjs/Rx';   // Load all features
 
 import { IAccount } from './account';
 import { AccountService } from './accountService';
 
-
 @Component({
-
-    templateUrl: './app/account/accountModal.html',
+    selector: 'ow-contact-details',
+    //template: `<button type="button" class="btn btn-default"(click) = "openModal(delivery.accountId)">lee</button>`,
+    template: `<button type="button" class="btn btn-default"(click) = "openModal()">Contact</button>`,
     providers: [AccountService]
-
 })
-
 
 export class AccountComponent implements OnInit {
     errorMessage: string;
     account: IAccount;
+    accountId: number;
 
-    constructor(private accountService: AccountService) { }
+    constructor(private accountService: AccountService) {}
 
     ngOnInit(): void {
-        this.accountService.getAccountByStopId()
+        this.accountService.getAccountByAccountId(this.accountId)
             .subscribe(account => this.account = account,
                 error => this.errorMessage = <any>error);
+    }
+
+    openModal(accountId: number): void {
+        console.log(accountId);
     }
 
 

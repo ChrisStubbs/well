@@ -225,6 +225,7 @@
     <Content Include="app\notifications\notifications-list.html" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\routeheader-list.html" />
+    <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
@@ -365,6 +366,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
+    <TypeScriptCompile Include="app\shared\well-modal.ts" />
     <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
     <TypeScriptCompile Include="app\shared\filterOption.ts" />
     <TypeScriptCompile Include="app\shared\optionFilterPipe.ts" />

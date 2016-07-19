@@ -20,7 +20,7 @@
 
             Model = new BootstrapData
             {
-                Configuration = JsonConvert.SerializeObject(config),
+                Configuration = JsonConvert.SerializeObject(config)
             };
         }
 

@@ -68,6 +68,7 @@
     <Compile Include="Contracts\IEventLogger.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
+    <Compile Include="Contracts\IWebClient.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Security\UserRoleProvider.cs" />
     <Compile Include="Security\UserRoleRequest.cs" />
     <Compile Include="ServerErrorResponseHandler.cs" />
+    <Compile Include="UserRoleProvider.cs" />
+    <Compile Include="WebClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,8 @@
-﻿import {Component, OnInit}  from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+﻿import { Component, OnInit}  from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
+import {GlobalSettingsService} from '../shared/globalSettings';
+import 'rxjs/Rx';   // Load all features
+
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {IResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
@@ -10,9 +13,10 @@ import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 
 @Component({
+    selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [ResolvedDeliveryService, PaginationService],
-    directives: [ROUTER_DIRECTIVES, OptionFilterComponent, PaginationControlsCmp],
+    providers: [HTTP_PROVIDERS, GlobalSettingsService, ResolvedDeliveryService, PaginationService],
+    directives: [OptionFilterComponent, PaginationControlsCmp],
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {

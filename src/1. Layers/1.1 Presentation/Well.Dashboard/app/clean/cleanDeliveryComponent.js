@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination', './cleanDeliveryService', '../shared/optionfilter.component', '../shared/optionFilterPipe', "../shared/filterOption", "../shared/DropDownItem", "../account/AccountComponent"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', '../shared/globalSettings', 'rxjs/Rx', 'ng2-pagination', './cleanDeliveryService', '../shared/optionfilter.component', '../shared/optionFilterPipe', "../shared/filterOption", "../shared/DropDownItem", "../account/AccountComponent"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,16 +10,20 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination'
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, ng2_pagination_1, cleanDeliveryService_1, optionfilter_component_1, optionFilterPipe_1, filterOption_1, DropDownItem_1, AccountComponent_1;
+    var core_1, http_1, globalSettings_1, ng2_pagination_1, cleanDeliveryService_1, optionfilter_component_1, optionFilterPipe_1, filterOption_1, DropDownItem_1, AccountComponent_1;
     var CleanDeliveryComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
+            function (http_1_1) {
+                http_1 = http_1_1;
             },
+            function (globalSettings_1_1) {
+                globalSettings_1 = globalSettings_1_1;
+            },
+            function (_1) {},
             function (ng2_pagination_1_1) {
                 ng2_pagination_1 = ng2_pagination_1_1;
             },
@@ -68,9 +72,10 @@ System.register(['@angular/core', '@angular/router-deprecated', 'ng2-pagination'
                 };
                 CleanDeliveryComponent = __decorate([
                     core_1.Component({
+                        selector: 'ow-clean',
                         templateUrl: './app/clean/cleanDelivery-list.html',
-                        providers: [cleanDeliveryService_1.CleanDeliveryService, ng2_pagination_1.PaginationService],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp, AccountComponent_1.AccountComponent],
+                        providers: [http_1.HTTP_PROVIDERS, globalSettings_1.GlobalSettingsService, cleanDeliveryService_1.CleanDeliveryService, ng2_pagination_1.PaginationService],
+                        directives: [optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp, AccountComponent_1.AccountComponent],
                         pipes: [optionFilterPipe_1.OptionFilterPipe, ng2_pagination_1.PaginatePipe]
                     }), 
                     __metadata('design:paramtypes', [cleanDeliveryService_1.CleanDeliveryService])

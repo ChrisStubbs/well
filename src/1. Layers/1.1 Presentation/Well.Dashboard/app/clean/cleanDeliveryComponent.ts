@@ -1,7 +1,10 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+﻿import { Component, OnInit}  from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
+import {GlobalSettingsService} from '../shared/globalSettings';
+import 'rxjs/Rx';   // Load all features
+
+
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
-//import {MODAL_DIRECTIVES, ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 import {ICleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
@@ -11,11 +14,12 @@ import {DropDownItem} from "../shared/DropDownItem";
 import {AccountComponent} from "../account/AccountComponent";
 
 @Component({
-
+    selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [CleanDeliveryService, PaginationService],
-    directives: [ROUTER_DIRECTIVES, OptionFilterComponent, PaginationControlsCmp, AccountComponent],//, MODAL_DIRECTIVES],
+    providers: [HTTP_PROVIDERS, GlobalSettingsService, CleanDeliveryService, PaginationService],
+    directives: [OptionFilterComponent, PaginationControlsCmp, AccountComponent],//, MODAL_DIRECTIVES],
     pipes: [OptionFilterPipe, PaginatePipe]
+
 })
 export class CleanDeliveryComponent implements OnInit {
     errorMessage: string;
@@ -36,7 +40,7 @@ export class CleanDeliveryComponent implements OnInit {
     ngOnInit(): void {
         this.cleanDeliveryService.getCleanDeliveries()
             .subscribe(cleanDeliveries => this.cleanDeliveries = cleanDeliveries,
-                error => this.errorMessage = <any>error);
+            error => this.errorMessage = <any>error);
     }
 
     onFilterClicked(filterOption: FilterOption) {

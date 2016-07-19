@@ -5,12 +5,11 @@ import 'rxjs/Rx';   // Load all features
 
 
 @Component({
-    selector: 'ow-notifications',
-    templateUrl: './app/notifications/notifications-list.html'
+    selector: 'ow-exceptions',
+    templateUrl: './app/exceptions/exceptions-list.html'
 })
-export class NotificationsComponent implements OnInit {
+export class ExceptionsComponent implements OnInit {
    
     ngOnInit() {
-
     }
 }

@@ -1,4 +1,4 @@
-﻿import { Component, OnInit}  from '@angular/core';
+﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -11,12 +11,13 @@ import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {DropDownItem} from "../shared/DropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
+import {WellModal} from "../shared/well-modal";
 
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, RouteHeaderService, PaginationService],
-    directives: [OptionFilterComponent, PaginationControlsCmp],
+    directives: [OptionFilterComponent, PaginationControlsCmp, WellModal],
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class RouteHeaderComponent implements OnInit {
@@ -34,12 +35,16 @@ export class RouteHeaderComponent implements OnInit {
 
     constructor(private routerHeaderService: RouteHeaderService) { }
 
+    @ViewChild(WellModal) modal = new WellModal();
+
     ngOnInit() {
         this.routerHeaderService.getRouteHeaders("lee", "foo")
             .subscribe(routes => this.routes = routes, error => this.errorMessage = <any>error);
     }
 
-    routeSelected(route): void { }
+    routeSelected(route): void {
+        this.modal.show();
+    }
 
     onFilterClicked(filterOption: FilterOption) {
 

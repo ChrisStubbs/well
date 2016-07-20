@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps
 {
+    using Domain.Enums;
     using Framework.Context;
     using Repositories.Contracts;
     using StructureMap;
@@ -7,13 +8,13 @@
 
 
     [Binding]
-    public class ClearDatabase
+    public class DatabaseSteps
     {
         private readonly IContainer container;
 
         private readonly IWellDapperProxy dapperProxy;
 
-        public ClearDatabase()
+        public DatabaseSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
@@ -33,6 +34,20 @@
             this.dapperProxy.ExecuteSql("DELETE FROM RouteHeader");
             this.dapperProxy.ExecuteSql("DELETE FROM Routes");
         }
+
+        [Given(@"The all deliveries have been marked as clean")]
+        public void GivenTheAllDeliveriesHaveBeenMarkedAsClean()
+        {
+            
+        }
+
+        [Given(@"(.*) deliveries have been marked as clean")]
+        public void GivenDeliveriesHaveBeenMarkedAsClean(int noOfCleanDeliveries)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfCleanDeliveries}) Job SET PerformanceStatusId = {(int)PerformanceStatus.Compl}");
+        }
+
+
     }
 
 }

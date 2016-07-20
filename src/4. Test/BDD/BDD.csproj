@@ -105,6 +105,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\Clean\CleanPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CleanPage.feature</DependentUpon>
+    </Compile>
     <Compile Include="Framework\AdamImportConfiguration.cs" />
     <Compile Include="DatabaseSetup.cs" />
     <Compile Include="Factories\DriverFactory.cs" />
@@ -138,15 +143,18 @@
     <Compile Include="Framework\WebElements\TextBox.cs" />
     <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="IocRegistrar.cs" />
+    <Compile Include="Pages\CleanDeliveriesPage.cs" />
     <Compile Include="Pages\FilterControl.cs" />
     <Compile Include="Pages\Page.cs" />
     <Compile Include="Pages\PagerControl.cs" />
     <Compile Include="Pages\RoutesPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AdamImportSteps.cs" />
-    <Compile Include="Steps\ClearDatabase.cs" />
+    <Compile Include="Steps\DatabaseSteps.cs" />
+    <Compile Include="Steps\Version\CleanPageSteps.cs" />
     <Compile Include="Steps\Version\RoutesPageSteps.cs" />
     <Compile Include="Steps\Version\VersionCheckSteps.cs" />
+    <Compile Include="Steps\TransendImportSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -161,6 +169,10 @@
     </None>
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Features\Clean\CleanPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Routes\RoutesPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

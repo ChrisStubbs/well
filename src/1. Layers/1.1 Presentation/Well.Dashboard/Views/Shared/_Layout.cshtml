@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div id="xxx" class="row-fluid">
+    <div class="row-fluid">
         <div id="nav">
             <ul class="nav nav-pills" style="min-height: 39px;">
                 <li>@Html.ActionLink("Routes", "Index", "Routes")</li>
@@ -44,18 +44,20 @@
                 <li>@Html.ActionLink("Resolved", "Index", "Resolved")</li>
                 <li>@Html.ActionLink("Notifications", "Index", "Notifications")</li>
                 <li>@Html.ActionLink("Account", "Index", "Account")</li>
+                <li class="dropdown pull-right" style="margin-right: 125px;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Branch Selection", "Index", "Branch")</li>
+                        <li>@Html.ActionLink("User Preferences", "Index", "Preferences")</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
-
 </div>
 
-
-
-
-
 <div class="container">
-
     @RenderBody()
 </div>
 

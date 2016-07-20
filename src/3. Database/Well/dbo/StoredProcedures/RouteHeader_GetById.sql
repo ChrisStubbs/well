@@ -32,6 +32,6 @@ BEGIN
 		[UpdatedBy],
 		[DateUpdated],
 		[Version]
-  FROM [Well].[dbo].[RouteHeader]
+  FROM [dbo].[RouteHeader]
   WHERE [Id] = @Id
 END

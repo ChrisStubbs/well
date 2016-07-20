@@ -20,7 +20,7 @@ SELECT
       ,[TextField3]
       ,[TextField4]
 FROM 
-	  [Well].[dbo].[Stop]
+	  [dbo].[Stop]
 WHERE 
 	  [RouteHeaderId] = @routeHeaderId
 

@@ -145,6 +145,8 @@
     <Build Include="dbo\Tables\Branch.sql" />
     <None Include="Post-Deployement\Populate-Branch.sql" />
     <Build Include="dbo\StoredProcedures\BranchesGet.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\UserBranch.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

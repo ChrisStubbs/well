@@ -32,7 +32,7 @@ BEGIN
 		[UpdatedBy],
 		[DateUpdated],
 		[Version]
-  FROM [Well].[dbo].[RouteHeader]
+  FROM [dbo].[RouteHeader]
   WHERE [RouteNumber] = @RouteNumber
   AND [RouteDate] = @RouteDate
 END

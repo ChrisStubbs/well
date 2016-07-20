@@ -7,6 +7,7 @@
     using System.Web.Http;
 
     using PH.Well.Common.Contracts;
+    using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
 
     public class BranchController : ApiController
@@ -43,6 +44,12 @@
                 this.logger.LogError("An error occcured when getting branches!", ex);
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Post(Branch[] branches)
+        {
+            return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
         }
     }
 }

@@ -24,6 +24,6 @@ AS
       ,[DateUpdated]
       ,[Version]
 
-  FROM [Well].[dbo].[RouteHeader]
+  FROM [dbo].[RouteHeader]
 
 RETURN 0

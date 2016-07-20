@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Data;
-    using Common.Contracts;
+    using PH.Well.Common.Contracts;
     using Domain;
     using Moq;
     using NUnit.Framework;

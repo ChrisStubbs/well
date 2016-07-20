@@ -29,5 +29,15 @@ namespace PH.Well.BDD.Steps
             
             adamImport.Process(container);
         }
+
+        [Given(@"I have loaded the Adam route data that has 21 lines")]
+        public void GivenIHaveLoadedTheAdamRouteDataThatHasLines()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                LoadAdamRouteData();
+            }
+        }
+
     }
 }

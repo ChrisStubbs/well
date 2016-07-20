@@ -17,7 +17,25 @@
             this.RoutesPage.Open();
         }
 
-     
+        [When(@"I filter the grid with the option '(.*)' and value '(.*)'")]
+        public void WhenIFilterTheGridWithTheOptionAndValue(string option, string value)
+        {
+            this.RoutesPage.Filter.Apply(option, value);
+        }
+
+        [When(@"I clear the filter")]
+        public void WhenIClearTheFilter()
+        {
+            this.RoutesPage.Filter.Clear();
+        }
+
+        [When(@"I click on page (.*)")]
+        public void WhenIClickOnPage(int pageNo)
+        {
+            this.RoutesPage.Pager.Click(pageNo);
+        }
+
+
         [Then(@"The following routes will be displayed")]
         public void ThenTheFollowingRoutesWillBeDisplayed(Table table)
         {
@@ -34,6 +52,18 @@
             }
         }
 
+        [Then(@"'(.*)' rows of data will be displayed")]
+        public void CheckNoOfRows(int noOfRowsExpected)
+        {
+            var pageRows = this.RoutesPage.RoutesGrid.ReturnAllRows().ToList();
+            Assert.That(pageRows.Count, Is.EqualTo(noOfRowsExpected));
+        }
+
+        [Then(@"I will have (.*) pages of data")]
+        public void CheckNoOfPages(int noOfPages)
+        {
+            Assert.That(RoutesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
+        }
 
     }
 }

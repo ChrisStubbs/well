@@ -67,8 +67,8 @@
         [BeforeTestRun]
         public static void SetupDatabase()
         {
-            DropDatabase();
-            RunDacpac();
+            //DropDatabase();
+            //RunDacpac();
         }
 
         [AfterTestRun]

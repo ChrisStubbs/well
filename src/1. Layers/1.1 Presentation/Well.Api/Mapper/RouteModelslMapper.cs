@@ -26,7 +26,7 @@
                     DeliveryCleanCount = routeHeader.Stops.Count(x=> x.StopPerformanceStatusCodeId == (int)PerformanceStatus.Compl),
                     DeliveryExceptionCount = routeHeader.Stops.Count(x => x.StopPerformanceStatusCodeId != (int)PerformanceStatus.Compl),
                     RouteStatus =   StringExtensions.GetEnumDescription(routeHeader.RouteStatus),
-                    DateTimeUpdated = routeHeader.DateUpdated.ToString("yy/MM/yyyy HH:mm:ss")
+                    DateTimeUpdated = routeHeader.DateUpdated.ToDashboardDateFormat()
                 };
                 routeModels.Add(model);
             }

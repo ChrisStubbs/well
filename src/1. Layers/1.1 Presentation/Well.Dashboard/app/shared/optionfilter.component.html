@@ -9,12 +9,12 @@
         </div>
     </div>
     <div class="btn-group">
-        <input type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" />
+        <input id="filter-text" type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" />
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-success btn-sm" (click)="applyFilter()">Filter</button>
+        <button id="filter-apply" type="button" class="btn btn-success btn-sm" (click)="applyFilter()">Filter</button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-primary btn-sm" (click)="clearFilterText()">Clear</button>
+        <button id="filter-clear" type="button" class="btn btn-primary btn-sm" (click)="clearFilterText()">Clear</button>
     </div>
 </div>

@@ -123,7 +123,7 @@
 
             foreach (var field in type.GetFields())
             {
-                var attribute = Attribute.GetCustomAttribute(field,typeof(DescriptionAttribute)) as DescriptionAttribute;
+                var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
                 if (attribute != null)
                 {
@@ -158,13 +158,13 @@
                 foreach (var field in type.GetFields())
                 {
                     var attribute =
-                        Attribute.GetCustomAttribute(field, typeof (DescriptionAttribute)) as DescriptionAttribute;
+                        Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
                     if (attribute != null)
                     {
                         if (attribute.Description.ToLower() == description.ToLower())
                         {
-                            value = (T) field.GetValue(null);
+                            value = (T)field.GetValue(null);
                             return true;
                         }
                     }
@@ -172,7 +172,7 @@
                     {
                         if (field.Name.ToLower() == description.ToLower())
                         {
-                            value = (T) field.GetValue(null);
+                            value = (T)field.GetValue(null);
                             return true;
                         }
                     }
@@ -188,5 +188,12 @@
         {
             return Path.GetFileName(filePath);
         }
+
+
+        public static string ToDashboardDateFormat(this DateTime dateTime)
+        {
+            return dateTime.ToString("dd-MM-yyyy HH:mm:ss");
+        }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Collections.Generic;
-    using Common.Contracts;
+    using PH.Well.Common.Contracts;
     using Domain;
     using Factories;
     using Moq;

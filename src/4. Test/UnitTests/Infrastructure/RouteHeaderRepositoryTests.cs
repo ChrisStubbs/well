@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using Common.Contracts;
+    using PH.Well.Common.Contracts;
     using Domain;
     using Factories;
     using Moq;

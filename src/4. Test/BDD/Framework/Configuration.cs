@@ -20,7 +20,12 @@
         public static string WellApiUrl => ConfigurationManager.AppSettings["WellApiUrl"];
         public static string SecurityApiUrl => ConfigurationManager.AppSettings["SecurityApiUrl"];
 
+        public static string DashboardUrl => ConfigurationManager.AppSettings["DashboardUrl"];
+
         public static int TransactionTimeout => int.Parse(ConfigurationManager.AppSettings["TransactionTimeout"]);
         public static string ApplicationId => ConfigurationManager.AppSettings["ApplicationId"];
+
+        public static Driver Driver => (Driver)Enum.Parse(typeof(Driver), ConfigurationManager.AppSettings["WebDriver"]);
+
     }
 }

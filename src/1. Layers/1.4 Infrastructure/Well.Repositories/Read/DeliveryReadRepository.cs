@@ -34,5 +34,21 @@
         {
             return GetDeliveriesByStatus(PerformanceStatus.Resolved);
         }
+
+        public IEnumerable<Delivery> GetExceptionDeliveries()
+        {
+            var incompletes = GetDeliveriesByStatus(PerformanceStatus.Incom);
+            var authorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Abypa);
+            var nonAuthorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Nbypa);
+
+            var allExceptions = new List<Delivery>();
+
+            allExceptions.AddRange(incompletes);
+            allExceptions.AddRange(authorisedBypassed);
+            allExceptions.AddRange(nonAuthorisedBypassed); 
+
+            return allExceptions;
+        }
+
     }
 }

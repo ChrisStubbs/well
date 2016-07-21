@@ -7,5 +7,6 @@
     {
         IEnumerable<Delivery> GetCleanDeliveries();
         IEnumerable<Delivery> GetResolvedDeliveries();
+        IEnumerable<Delivery> GetExceptionDeliveries();
     }
 }

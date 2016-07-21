@@ -38,15 +38,22 @@
         [Given(@"The all deliveries have been marked as clean")]
         public void GivenTheAllDeliveriesHaveBeenMarkedAsClean()
         {
-            
+
         }
 
         [Given(@"(.*) deliveries have been marked as clean")]
-        public void GivenDeliveriesHaveBeenMarkedAsClean(int noOfCleanDeliveries)
+        public void MarkDeliveriesAsClean(int noOfCleanDeliveries)
         {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfCleanDeliveries}) Job SET PerformanceStatusId = {(int)PerformanceStatus.Compl}");
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfCleanDeliveries}) Job " +
+                                        $"SET PerformanceStatusId = {(int)PerformanceStatus.Compl}, " +
+                                        "    JobRef3 =  '9' + JobRef1  ");
         }
 
+        [Given(@"All the deliveries are marked as clean")]
+        public void GivenAllTheDeliveriesAreMarkedAsClean()
+        {
+            MarkDeliveriesAsClean(10000);
+        }
 
     }
 

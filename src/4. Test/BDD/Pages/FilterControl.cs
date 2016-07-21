@@ -20,6 +20,7 @@
 
         public void Apply(string filterOption, string filterValue)
         {
+            Clear();
             this.optionDropDown.Select(filterOption);
             this.filterText.EnterText(filterValue);
             this.applyFilter.Click();

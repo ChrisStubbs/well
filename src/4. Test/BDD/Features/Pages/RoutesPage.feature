@@ -32,14 +32,14 @@ Scenario: A user can filter Route information
 #TODO Add more filter scenarios when the additional filters have been implemented
 
 Scenario: A user can page through Route information
-Given I have a clean database
-And I have loaded the Adam route data that has 21 lines
-When I open the routes page
-Then '10' rows of data will be displayed
-And I will have 3 pages of data
-When I click on page 2
-Then '10' rows of data will be displayed
-When I click on page 3
-Then '1' rows of data will be displayed
-When I click on page 1
-Then '10' rows of data will be displayed
+	Given I have a clean database
+	And I have loaded the Adam route data that has 21 lines
+	When I open the routes page
+	Then '10' rows of data will be displayed
+	And I will have 3 pages of data
+	When I click on page 2
+	Then '10' rows of data will be displayed
+	When I click on page 3
+	Then '1' rows of data will be displayed
+	When I click on page 1
+	Then '10' rows of data will be displayed

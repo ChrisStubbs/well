@@ -32,8 +32,7 @@
 
         public IEnumerable<Delivery> GetResolvedDeliveries()
         {
-            //Todo this is not right what is the status For Resolved!!
-            return GetDeliveriesByStatus(PerformanceStatus.Incom);
+            return GetDeliveriesByStatus(PerformanceStatus.Resolved);
         }
     }
 }

@@ -31,9 +31,6 @@ System.register(['@angular/core', 'rxjs/Rx', './accountService'], function(expor
                     this.accountService.getAccountByAccountId(this.accountId)
                         .subscribe(function (account) { return _this.account = account; }, function (error) { return _this.errorMessage = error; });
                 };
-                AccountComponent.prototype.openModal = function (accountId) {
-                    console.log(accountId);
-                };
                 AccountComponent = __decorate([
                     core_1.Component({
                         selector: 'ow-contact-details',
@@ -49,4 +46,4 @@ System.register(['@angular/core', 'rxjs/Rx', './accountService'], function(expor
         }
     }
 });
-//# sourceMappingURL=AccountComponent.js.map
+//# sourceMappingURL=accountComponent.js.map

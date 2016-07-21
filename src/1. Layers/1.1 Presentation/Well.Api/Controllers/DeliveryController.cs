@@ -92,7 +92,8 @@
                     JobStatus = "Bypassed",
                     Action = "Credited",
                     Assigned = "FLP",
-                    DateTime = "20-05-16 11.25"
+                    DateTime = "20-05-16 11.25",
+                    AccountId = "2"
                 };
 
                 var model2 = new Delivery
@@ -105,7 +106,8 @@
                     JobStatus = "Short",
                     Action = "Credited",
                     Assigned = "BAD",
-                    DateTime = "20-05-16 11.15"
+                    DateTime = "20-05-16 11.15",
+                    AccountId = "2"
                 };
 
                 var model3 = new Delivery
@@ -118,7 +120,8 @@
                     JobStatus = "Damaged",
                     Action = "Replanned",
                     Assigned = "FLP",
-                    DateTime = "20-05-16 12.00"
+                    DateTime = "20-05-16 12.00",
+                    AccountId = "2"
                 };
 
                 var resolvedDeliveries = new List<Delivery>();

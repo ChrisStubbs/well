@@ -1,8 +1,7 @@
-﻿import { Component, OnInit}  from '@angular/core';
+﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-
 
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {ICleanDelivery} from './cleanDelivery';
@@ -11,19 +10,23 @@ import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/DropDownItem";
-import {AccountComponent} from "../account/AccountComponent";
+import {ContactModal} from "../shared/contact-modal";
+import {AccountService} from "../account/accountService";
+import {IAccount} from "../account/account";
+
+
 
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, CleanDeliveryService, PaginationService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, AccountComponent],//, MODAL_DIRECTIVES],
+    providers: [HTTP_PROVIDERS, GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
+    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal],
     pipes: [OptionFilterPipe, PaginatePipe]
 
 })
 export class CleanDeliveryComponent implements OnInit {
     errorMessage: string;
-    cleanDeliveries: ICleanDelivery;
+    cleanDeliveries: ICleanDelivery[];
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -34,8 +37,9 @@ export class CleanDeliveryComponent implements OnInit {
         new DropDownItem("Account Name", "accountName"),
         new DropDownItem("Date", "dateTime")
     ];
+    account: IAccount;
 
-    constructor(private cleanDeliveryService: CleanDeliveryService) { }
+    constructor(private cleanDeliveryService: CleanDeliveryService, private accountService: AccountService) { }
 
     ngOnInit(): void {
         this.cleanDeliveryService.getCleanDeliveries()
@@ -47,6 +51,16 @@ export class CleanDeliveryComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    openModal(delivery: ICleanDelivery): void {
+    deliverySelected(delivery: ICleanDelivery): void {
+        console.log(delivery.accountName);
+    }
+
+    @ViewChild(ContactModal) modal = new ContactModal();
+
+    openModal(accountId): void {
+
+        this.accountService.getAccountByAccountId(accountId)
+            .subscribe(account => { this.account = account; this.modal.show(this.account);},
+            error => this.errorMessage = <any>error);
     }
 }

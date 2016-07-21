@@ -26,25 +26,25 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
-        [Route("account", Name = "GetAccountByStopId")]
-        [HttpGet]
-        public HttpResponseMessage GetAccountByStopId(int stopId)
-        {
-            try
-            {
-                var account = this.accountRespository.GetAccountByStopId(stopId);
-                return account.Code == Empty
-                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
-                    : this.Request.CreateResponse(HttpStatusCode.OK, account);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError($"An error occcured when getting account");
-                return this.serverErrorResponseHandler.HandleException(Request, ex);
-            }
-        }
+        //[Route("account", Name = "GetAccountByStopId")]
+        //[HttpGet]
+        //public HttpResponseMessage GetAccountByStopId(int stopId)
+        //{
+        //    try
+        //    {
+        //        var account = this.accountRespository.GetAccountByStopId(stopId);
+        //        return account.Code == Empty
+        //            ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+        //            : this.Request.CreateResponse(HttpStatusCode.OK, account);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.logger.LogError($"An error occcured when getting account");
+        //        return this.serverErrorResponseHandler.HandleException(Request, ex);
+        //    }
+        //}
 
-        [Route("account", Name = "GetAccountByAccountId")]
+        [Route("account/{accountId:int}", Name = "GetAccountByAccountId")]
         [HttpGet]
         public HttpResponseMessage GetAccountByAccountId(int accountId)
         {

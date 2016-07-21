@@ -33,7 +33,9 @@
                 <td>{{delivery.invoiceNumber}}</td>
                 <td>{{delivery.accountCode}}</td>
                 <td>{{delivery.accountName}}</td>
-                <td><button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery)">Info</button></td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)" >Info</button>
+                </td>
                 <td>{{delivery.jobStatus}}</td>
                 <td>{{delivery.dateTime}}</td>
             </tr>
@@ -44,3 +46,4 @@
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
+<contact-modal></contact-modal>

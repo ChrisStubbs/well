@@ -46,5 +46,6 @@
         //Deliveries
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
 
+        public static string BranchesGet = "BranchesGet";
     }
 }

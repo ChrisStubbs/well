@@ -22,6 +22,6 @@ SELECT [Id],
 	  [StopStatusId],
 	  [StopPerformanceStatusId],
 	  [ByPassReasonId]
-  FROM [Well].[dbo].[Stop]
+  FROM [dbo].[Stop]
   WHERE [Id] = @Id
 END

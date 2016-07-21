@@ -8,7 +8,7 @@
         public void Process(IContainer container)
         {
             var adamRouteFileProvider = container.GetInstance<IAdamRouteFileProvider>();
-            adamRouteFileProvider.ListFilesAndProcess();
+            adamRouteFileProvider.ListFilesAndProcess(container.GetInstance<IAdamImportConfiguration>());
         }
     }
 }

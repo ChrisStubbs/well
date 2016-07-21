@@ -6,6 +6,7 @@
     using Factories;
     using NUnit.Framework;
     using Well.Api.Mapper;
+    using Well.Common.Extensions;
     using Well.Domain;
     using Well.Domain.Enums;
 
@@ -21,7 +22,7 @@
                     With(x => x.RouteNumber = "2").
                     With(x => x.DriverName = "Chris").
                     With(x => x.RouteStatusCode = RouteStatusCode.Compl.ToString()).
-                    With(x => x.LastRouteUpdate = DateTime.Now).Build();
+                    With(x => x.DateUpdated = DateTime.Now).Build();
 
                 routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Compl).Build());
                 routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Abypa).Build());
@@ -43,7 +44,7 @@
                 Assert.That(model.Route, Is.EqualTo("2"));
                 Assert.That(model.DriverName, Is.EqualTo("Chris"));
                 Assert.That(model.RouteStatus, Is.EqualTo("Complete"));
-                Assert.That(model.DateTimeUpdated, Is.EqualTo(routeHeader1.LastRouteUpdate.ToLongDateString()));
+                Assert.That(model.DateTimeUpdated, Is.EqualTo(routeHeader1.DateUpdated.ToDashboardDateFormat()));
                 Assert.That(model.TotalDrops, Is.EqualTo(7));
                 Assert.That(model.DeliveryExceptionCount, Is.EqualTo(6));
                 Assert.That(model.DeliveryCleanCount, Is.EqualTo(1));

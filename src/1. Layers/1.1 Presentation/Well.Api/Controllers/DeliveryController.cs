@@ -8,8 +8,6 @@
     using System.Web.Http;
     using Common.Contracts;
     using Domain.ValueObjects;
-    using Models;
-    using PH.Well.Services.Contracts;
     using Repositories.Contracts;
 
     public class DeliveryController : ApiController

@@ -5,10 +5,8 @@
     using System.Net;
     using Contracts;
     using System.Configuration;
-    using System.Linq;
     using Common.Contracts;
     using Common.Extensions;
-    using Domain.Enums;
     using Well.Services.Contracts;
     using static System.String;
 
@@ -26,8 +24,6 @@
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
 
-
-
         public EpodFtpProvider(IEpodSchemaProvider epodSchemaProvider, ILogger logger, IEpodDomainImportProvider epodDomainImportProvider,
             IEpodDomainImportService epodDomainImportService)
         {
@@ -36,7 +32,6 @@
             this.epodDomainImportProvider = epodDomainImportProvider;
             this.epodDomainImportService = epodDomainImportService;
         }
-
 
         public void ListFilesAndProcess()
         {

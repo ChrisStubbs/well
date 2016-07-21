@@ -16,11 +16,7 @@
         private readonly IAccountRepository accountRespository;
 
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
-
-        public AccountController()
-        {
-        }
-
+        
         public AccountController(
             ILogger logger,
             IAccountRepository accountRepository, IServerErrorResponseHandler serverErrorResponseHandler)

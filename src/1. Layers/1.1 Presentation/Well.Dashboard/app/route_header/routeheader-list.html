@@ -9,28 +9,28 @@
                          (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
     </div>
     <div class="table-responsive table-container">
-        <table class="table table-hover table-bordered" *ngIf='routes && routes.length'>
+        <table id="tableRoutes" class="table table-hover table-bordered" *ngIf='routes && routes.length'>
             <thead>
-            <tr>
-                <th>Route</th>
-                <th>Driver</th>
-                <th>No of Drops</th>
-                <th>Exceptions</th>
-                <th>Clean</th>
-                <th>Status</th>
-                <th>Last updated date/time</th>
-            </tr>
+                <tr>
+                    <th>Route</th>
+                    <th>Driver</th>
+                    <th>No of Drops</th>
+                    <th>Exceptions</th>
+                    <th>Clean</th>
+                    <th>Status</th>
+                    <th>Last updated date/time</th>
+                </tr>
             </thead>
-            <tbody>
-            <tr *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="routeSelected(route)">
-                <td>{{route.route}}</td>
-                <td>{{route.driverName}}</td>
-                <td>{{route.totalDrops}}</td>
-                <td>{{route.deliveryExceptionCount}}</td>
-                <td>{{route.deliveryCleanCount}}</td>
-                <td>{{route.routeStatus}}</td>
-                <td>{{route.dateTimeUpdated}}</td>
-            </tr>
+            <tbody >
+                <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="routeSelected(route)">
+                    <td>{{route.route}}</td>
+                    <td>{{route.driverName}}</td>
+                    <td>{{route.totalDrops}}</td>
+                    <td>{{route.deliveryExceptionCount}}</td>
+                    <td>{{route.deliveryCleanCount}}</td>
+                    <td>{{route.routeStatus}}</td>
+                    <td>{{route.dateTimeUpdated}}</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -39,4 +39,3 @@
         <div class="col-md-6"><pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls></div>
     </div>
 </div>
-<well-modal></well-modal>

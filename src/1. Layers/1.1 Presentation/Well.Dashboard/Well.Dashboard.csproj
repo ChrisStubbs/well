@@ -198,10 +198,12 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CleanController.cs" />
     <Compile Include="Controllers\ExceptionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\PreferencesController.cs" />
     <Compile Include="Controllers\ResolvedController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
@@ -220,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
+    <Content Include="app\branch\branch-list.html" />
     <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\notifications\notifications-list.html" />
@@ -330,10 +333,12 @@
     <Content Include="Views\Clean\Index.cshtml" />
     <Content Include="Views\Resolved\Index.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="repo\" />
+    <Folder Include="Views\Preferences\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -347,6 +352,10 @@
     <TypeScriptCompile Include="app\account\accountComponent.ts" />
     <TypeScriptCompile Include="app\account\accountService.ts" />
     <TypeScriptCompile Include="app\account\main.ts" />
+    <TypeScriptCompile Include="app\branch\Branch.ts" />
+    <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
+    <TypeScriptCompile Include="app\branch\branchService.ts" />
+    <TypeScriptCompile Include="app\branch\main.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
@@ -366,6 +375,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
     <TypeScriptCompile Include="app\shared\contact-modal.ts" />
+    <TypeScriptCompile Include="app\shared\http-response.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\shared\well-modal.ts" />

@@ -19,5 +19,6 @@ Post-Deployment Script Template
 :r .\Populate-RouteStatus.sql
 :r .\Populate-VisitTypes.sql
 :r .\EventServiceBroker.sql
-:r .\Pupulate-DefaultWidgetStats.sql
+:r .\Populate-DefaultWidgetStats.sql
 :r .\Populate-StopStatus.sql
+:r .\Populate-Branch.sql

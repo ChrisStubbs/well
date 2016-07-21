@@ -22,7 +22,7 @@ SELECT [Id]
 	  ,[TextField5]
       ,[SkuGoodsValue]
       ,[JobId]
-  FROM [Well].[dbo].[JobDetail]
+  FROM [dbo].[JobDetail]
   WHERE [LineNumber] = @LineNumber
   AND [Barcode] = @Barcode
   AND [JobId] = @JobId

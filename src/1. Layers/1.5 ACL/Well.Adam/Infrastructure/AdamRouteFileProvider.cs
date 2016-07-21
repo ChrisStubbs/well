@@ -1,17 +1,10 @@
 ﻿namespace PH.Well.Adam.Infrastructure
 {
-
-    using System;
     using System.IO;
-    using System.Net;
     using Contracts;
-    using System.Configuration;
-    using System.Linq;
     using Common.Contracts;
     using Common.Extensions;
-    using Domain.Enums;
     using Well.Services.Contracts;
-    using static System.String;
 
     public class AdamRouteFileProvider : IAdamRouteFileProvider
     {
@@ -33,11 +26,11 @@
         }
 
 
-        public void ListFilesAndProcess()
+        public void ListFilesAndProcess(IAdamImportConfiguration config)
         {
-            var filepath = ConfigurationManager.AppSettings["downloadFilePath"];
+            var filepath = config.FilePath;
 
-            var ePodFiles = Directory.GetFiles(filepath, "*.xml*", SearchOption.TopDirectoryOnly);
+            var ePodFiles = Directory.GetFiles(filepath, config.SearchPattern, SearchOption.TopDirectoryOnly);
 
             foreach (var file in ePodFiles)
             {

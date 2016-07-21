@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[StopAttribute]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
-	[Code] NVARCHAR(10) NOT NULL,
-	[Value] NVARCHAR(100) NOT NULL,
+	[Code] VARCHAR(10) NOT NULL,
+	[Value] VARCHAR(100) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

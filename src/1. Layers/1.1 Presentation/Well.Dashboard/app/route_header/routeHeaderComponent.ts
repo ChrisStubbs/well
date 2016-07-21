@@ -38,12 +38,11 @@ export class RouteHeaderComponent implements OnInit {
     @ViewChild(WellModal) modal = new WellModal();
 
     ngOnInit() {
-        this.routerHeaderService.getRouteHeaders("lee", "foo")
+        this.routerHeaderService.getRouteHeaders()
             .subscribe(routes => this.routes = routes, error => this.errorMessage = <any>error);
     }
 
     routeSelected(route): void {
-        this.modal.show();
     }
 
     onFilterClicked(filterOption: FilterOption) {

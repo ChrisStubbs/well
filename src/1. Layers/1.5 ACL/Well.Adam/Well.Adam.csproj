@@ -69,8 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IAdamRouteFileProvider.cs" />
+    <Compile Include="Contracts\IAdamImportConfiguration.cs" />
     <Compile Include="Import.cs" />
     <Compile Include="Infrastructure\AdamRouteFileProvider.cs" />
+    <Compile Include="Infrastructure\Configuration.cs" />
     <Compile Include="Infrastructure\DependancyRegister.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

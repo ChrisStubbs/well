@@ -216,6 +216,7 @@
     <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Mapper\IRouteModelsMapper.cs" />
     <Compile Include="Mapper\RouteModelslMapper.cs" />
+    <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

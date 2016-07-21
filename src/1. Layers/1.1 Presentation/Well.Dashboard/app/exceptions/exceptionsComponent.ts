@@ -34,6 +34,15 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Account Name", "accountName"),
         new DropDownItem("Date", "dateTime")
     ];
+    defaultAction: DropDownItem = new DropDownItem("Action");
+    actions: DropDownItem[] = [
+        new DropDownItem("Assign", "#"),
+        new DropDownItem("Credit", "#"),
+        new DropDownItem("Credit and Re-Order", "#"),
+        new DropDownItem("Re-Plan", "#"),
+        new DropDownItem("Future Re-plan", "#"),
+        new DropDownItem("No Action", "#")
+    ];
     account: IAccount;
 
     constructor(private exceptionDeliveryService: ExceptionDeliveryService, private accountService: AccountService) { }
@@ -42,7 +51,6 @@ export class ExceptionsComponent implements OnInit {
         this.exceptionDeliveryService.getExceptions()
             .subscribe(exceptions => this.exceptions = exceptions,
             error => this.errorMessage = <any>error);
-    
     }
 
     onFilterClicked(filterOption: FilterOption) {
@@ -60,6 +68,11 @@ export class ExceptionsComponent implements OnInit {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => { this.account = account; this.modal.show(this.account); },
             error => this.errorMessage = <any>error);
+    }
+
+    setSelectedAction(delivery: IExceptionDelivery, action: DropDownItem): void {
+        delivery.action = action.description;
+        //this.selectedAction = action;
     }
 
 }

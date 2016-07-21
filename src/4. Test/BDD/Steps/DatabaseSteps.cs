@@ -44,15 +44,32 @@
         [Given(@"(.*) deliveries have been marked as clean")]
         public void MarkDeliveriesAsClean(int noOfCleanDeliveries)
         {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfCleanDeliveries}) Job " +
-                                        $"SET PerformanceStatusId = {(int)PerformanceStatus.Compl}, " +
-                                        "    JobRef3 =  '9' + JobRef1  ");
+            SetDeliveryStatus(PerformanceStatus.Compl, noOfCleanDeliveries);
         }
 
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
-            MarkDeliveriesAsClean(10000);
+            SetDeliveryStatus(PerformanceStatus.Compl, 10000);
+        }
+
+        [Given(@"All the deliveries are marked as Resolved")]
+        public void GivenAllTheDeliveriesAreMarkedAsResolved()
+        {
+            SetDeliveryStatus(PerformanceStatus.Resolved, 10000);
+        }
+
+        [Given(@"(.*) deliveries have been marked as Resolved")]
+        public void GivenDeliveriesHaveBeenMarkedAsResolved(int noOfCleanDeliveries)
+        {
+            SetDeliveryStatus(PerformanceStatus.Resolved, noOfCleanDeliveries);
+        }
+
+        public void SetDeliveryStatus(PerformanceStatus status, int noOfCleanDeliveries)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfCleanDeliveries}) Job " +
+                                     $"SET PerformanceStatusId = {(int)status}, " +
+                                     "    JobRef3 =  '9' + JobRef1  ");
         }
 
     }

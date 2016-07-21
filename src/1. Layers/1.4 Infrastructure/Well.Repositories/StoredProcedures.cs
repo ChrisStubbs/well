@@ -47,5 +47,11 @@
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
 
         public static string BranchesGet = "BranchesGet";
+
+        public static string DeleteUserBranches = "DeleteUserBranches";
+        public static string SaveUserBranch = "UserBranchInsert";
+
+        public static string UserGetByName = "UserGetByName";
+        public static string UserSave = "UserSave";
     }
 }

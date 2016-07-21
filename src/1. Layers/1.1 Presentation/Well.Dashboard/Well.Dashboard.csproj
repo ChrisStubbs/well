@@ -355,6 +355,7 @@
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
     <TypeScriptCompile Include="app\branch\branchService.ts" />
     <TypeScriptCompile Include="app\branch\main.ts" />
+    <TypeScriptCompile Include="app\branch\userBranchService.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />

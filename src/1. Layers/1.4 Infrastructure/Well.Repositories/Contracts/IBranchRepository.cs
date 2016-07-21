@@ -7,5 +7,9 @@
     public interface IBranchRepository : IRepository<Branch, int>
     {
         IEnumerable<Branch> GetAll();
+
+        void DeleteUserBranches(User user);
+
+        void SaveBranchesForUser(IEnumerable<Branch> branches, User user);
     }
 }

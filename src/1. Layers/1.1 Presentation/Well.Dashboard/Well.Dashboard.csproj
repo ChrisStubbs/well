@@ -360,6 +360,8 @@
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\clean\main.ts" />
+    <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
+    <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
     <TypeScriptCompile Include="app\exceptions\main.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
     <TypeScriptCompile Include="app\home\main.ts" />

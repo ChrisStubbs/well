@@ -3,7 +3,6 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Account Details</h4>
             </div>
             <div class="modal-body">
@@ -16,7 +15,7 @@
                     <strong>{{account.contactName}}</strong><br>
                     Phone     : {{account.contactNumber}}<br>
                     Alt Phone : {{account.contactNumber2}}<br><br>
-                    Email     : {{account.contactEmailAddress}}
+                    Email     : <a href="mailto:{{account.contactEmailAddress}}">{{account.contactEmailAddress}}</a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" (click)="hide()">Close</button>

@@ -1,4 +1,4 @@
-﻿namespace PH.Well.BDD.Steps.Version
+﻿namespace PH.Well.BDD.Steps.Page
 {
     using System.Linq;
     using NUnit.Framework;

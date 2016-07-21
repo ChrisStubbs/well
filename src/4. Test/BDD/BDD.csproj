@@ -151,8 +151,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AdamImportSteps.cs" />
     <Compile Include="Steps\DatabaseSteps.cs" />
-    <Compile Include="Steps\Version\CleanPageSteps.cs" />
-    <Compile Include="Steps\Version\RoutesPageSteps.cs" />
+    <Compile Include="Steps\Page\CleanPageSteps.cs" />
+    <Compile Include="Steps\Page\RoutesPageSteps.cs" />
     <Compile Include="Steps\Version\VersionCheckSteps.cs" />
     <Compile Include="Steps\TransendImportSteps.cs" />
   </ItemGroup>

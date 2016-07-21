@@ -1,17 +1,64 @@
-﻿<!DOCTYPE html>
+﻿@using PH.Well.Dashboard.Extensions
+@model PH.Well.Dashboard.Models.BootstrapData
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/well/dashboard/" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/favicon.ico" />
     @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
 
 </head>
 <body>
-    <div>@RenderBody()</div>
+    <!--[if lt IE 7]>
+                <div class="alert alert-warning">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+            <![endif]-->
+    <noscript>
+        <div class="alert alert-warning">Javascript must be turned on for this website to work!</div>
+    </noscript>
+<div class="app">
+    <div class="row-fluid">
+        <div>
+            <a href="@Url.Action("Index", "Home")" title="Home">
+                <div class="logo"></div></a>
+            <div id="headerHolder">
+                <h1 class="header">OrderWell</h1>
+                <span style="color: white; font-weight: bold">V 1.0.0.0</span> &nbsp; <span style="color: white; font-weight: bold">Fareham Branch</span>
+            </div>
+            <div id="user-details" class="pull-right">
+                <div>Logged in as @Model.UserName</div>
+                <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
+            </div>
+        </div>
+    </div>
+    <div id="xxx" class="row-fluid">
+        <div id="nav">
+            <ul class="nav nav-pills" style="min-height: 39px;">
+                <li>@Html.ActionLink("Routes", "Index", "Routes")</li>
+                <li>@Html.ActionLink("Exceptions", "Index", "Exceptions")</li>
+                <li>@Html.ActionLink("Clean", "Index", "Clean")</li>
+                <li>@Html.ActionLink("Resolved", "Index", "Resolved")</li>
+                <li>@Html.ActionLink("Notifications", "Index", "Notifications")</li>
+                <li>@Html.ActionLink("Account", "Index", "Account")</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<div class="container">
+
+    @RenderBody()
+</div>
+
 
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")
@@ -28,6 +75,13 @@
 <script src="~/systemjs.config.js"></script>
 
 @RenderSection("scripts", required: false)
+
+
+
+
+
+
+
 
 </body>
 

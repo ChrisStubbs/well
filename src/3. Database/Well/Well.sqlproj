@@ -141,6 +141,7 @@
     <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_GetByBarcodeLineNumberAndJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Account_GetByAccountId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -1,11 +1,17 @@
-﻿import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import { RouteParams, Router } from '@angular/router-deprecated';
+﻿import { Component, OnInit}  from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
+import {GlobalSettingsService} from '../shared/globalSettings';
+import 'rxjs/Rx';   // Load all features
+
+
 import {IWidgetStats} from './widgetstats'
 import {WidgetStatsService} from './widgetstats-service'
 declare var $: any;
 
 @Component({
-    templateUrl: './app/widgetstats/widgetstats.html'
+    templateUrl: './app/home/widgetstats.html',
+    providers: [HTTP_PROVIDERS, GlobalSettingsService, WidgetStatsService ],
+    selector:'ow-widgetstats'
 })
 
 export class WidgetStatsComponent implements OnInit {
@@ -13,8 +19,7 @@ export class WidgetStatsComponent implements OnInit {
     widgetstats: IWidgetStats;
     errorMessage: string;
 
-    constructor(private widgetStatsService: WidgetStatsService,
-        private router: Router, private routeParams: RouteParams, private changeDetectorRef: ChangeDetectorRef) { }
+    constructor(private widgetStatsService: WidgetStatsService) { }
 
     ngOnInit() {
         this.getWidgetStats();

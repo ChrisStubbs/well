@@ -1,7 +1,7 @@
 ﻿<div class="col-md-12">
     <div class="btn-group">
         <div class="dropdown">
-            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{selectedOption.description}}<span class="caret"></span></button>
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{selectedOption.description}} <span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="filter-option">
                 <li><a><i>Option</i></a></li>
                 <li *ngFor="let option of options"><a (click)="setSelectedOption(option)">{{option.description}}</a></li>
@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="btn-group">
-        <input type="text" class="form-control input-sm" [(ngModel)]="filterText" />
+        <input type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" />
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn-success btn-sm" (click)="applyFilter()">Filter</button>

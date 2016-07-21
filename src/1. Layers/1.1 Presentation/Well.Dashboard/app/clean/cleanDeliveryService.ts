@@ -8,10 +8,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class CleanDeliveryService {
 
-
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getCleanDeliveries(): Observable<ICleanDelivery> {
+    getCleanDeliveries(): Observable<ICleanDelivery[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean')
             .map((response: Response) => <ICleanDelivery>response.json())

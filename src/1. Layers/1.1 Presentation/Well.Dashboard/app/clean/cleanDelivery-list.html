@@ -21,9 +21,9 @@
                 <th>Invoice No</th>
                 <th>Account</th>
                 <th>Account Name</th>
+                <th>Contact</th>
                 <th>Status</th>
                 <th>Last updated date/time</th>
-                <th>Contact Details</th>
             </tr>
             </thead>
             <tbody>
@@ -33,9 +33,11 @@
                 <td>{{delivery.invoiceNumber}}</td>
                 <td>{{delivery.accountCode}}</td>
                 <td>{{delivery.accountName}}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)" >Info</button>
+                </td>
                 <td>{{delivery.jobStatus}}</td>
                 <td>{{delivery.dateTime}}</td>
-                <td><button type="button" class="btn btn-default" (click)="modal.open()">Contact</button></td>
             </tr>
             </tbody>
         </table>
@@ -44,5 +46,4 @@
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
-
-
+<contact-modal></contact-modal>

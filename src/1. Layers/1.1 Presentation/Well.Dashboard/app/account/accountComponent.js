@@ -1,4 +1,4 @@
-System.register(['@angular/core', './accountService'], function(exports_1, context_1) {
+System.register(['@angular/core', 'rxjs/Rx', './accountService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -17,6 +17,7 @@ System.register(['@angular/core', './accountService'], function(exports_1, conte
             function (core_1_1) {
                 core_1 = core_1_1;
             },
+            function (_1) {},
             function (accountService_1_1) {
                 accountService_1 = accountService_1_1;
             }],
@@ -27,12 +28,14 @@ System.register(['@angular/core', './accountService'], function(exports_1, conte
                 }
                 AccountComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this.accountService.getAccountByStopId()
+                    this.accountService.getAccountByAccountId(this.accountId)
                         .subscribe(function (account) { return _this.account = account; }, function (error) { return _this.errorMessage = error; });
                 };
                 AccountComponent = __decorate([
                     core_1.Component({
-                        templateUrl: './app/account/accountModal.html',
+                        selector: 'ow-contact-details',
+                        //template: `<button type="button" class="btn btn-default"(click) = "openModal(delivery.accountId)">lee</button>`,
+                        template: "<button type=\"button\" class=\"btn btn-default\"(click) = \"openModal()\">Contact</button>",
                         providers: [accountService_1.AccountService]
                     }), 
                     __metadata('design:paramtypes', [accountService_1.AccountService])

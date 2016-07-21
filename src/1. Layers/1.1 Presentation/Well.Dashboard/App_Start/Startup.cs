@@ -3,6 +3,8 @@
 [assembly: OwinStartup(typeof(PH.Well.Dashboard.Startup))]
 namespace PH.Well.Dashboard
 {
+    using System;
+
     using Microsoft.AspNet.SignalR;
     using Microsoft.Owin.Cors;
     using Owin;

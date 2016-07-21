@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace PH.Well.BDD.Features.Routes
+namespace PH.Well.BDD.Features.Pages
 {
     using TechTalk.SpecFlow;
     

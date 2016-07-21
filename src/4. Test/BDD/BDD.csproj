@@ -105,7 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\Clean\CleanPage.feature.cs">
+    <Compile Include="Features\Pages\CleanPage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CleanPage.feature</DependentUpon>
@@ -113,12 +113,12 @@
     <Compile Include="Framework\AdamImportConfiguration.cs" />
     <Compile Include="DatabaseSetup.cs" />
     <Compile Include="Factories\DriverFactory.cs" />
-    <Compile Include="Features\Routes\RoutesPage.feature.cs">
+    <Compile Include="Features\Pages\RoutesPage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RoutesPage.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Version\VersionCheck.feature.cs">
+    <Compile Include="Features\Api\VersionCheck.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionCheck.feature</DependentUpon>
@@ -170,15 +170,15 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\Clean\CleanPage.feature">
+    <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Routes\RoutesPage.feature">
+    <None Include="Features\Pages\RoutesPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RoutesPage.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Version\VersionCheck.feature">
+    <None Include="Features\Api\VersionCheck.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>

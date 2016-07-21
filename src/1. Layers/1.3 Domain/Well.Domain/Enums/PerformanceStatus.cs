@@ -23,7 +23,9 @@
         Compl = 6,
 
         [Description("Not Defined")]
-        Notdef = 7
+        Notdef = 7,
 
+        [Description("Resolved")]
+        Resolved = 8
     }
 }

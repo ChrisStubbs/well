@@ -16,6 +16,7 @@ import {ToasterContainerComponent, ToasterService} from 'angular2-toaster/angula
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;
     branches: IBranch[];
+    usersBranchIds: number[];
     selectedBranches: Array<IBranch> = [];
     selectAllCheckbox: boolean;
     httpResponse: HttpResponse = new HttpResponse();
@@ -25,7 +26,10 @@ export class BranchSelectionComponent implements OnInit {
 
     ngOnInit(): void {
         this.branchService.getBranches()
-            .subscribe(branches => this.branches = branches,
+            .subscribe(branches => {
+                    this.branches = branches;
+                    if (this.branches.every(x => x.selected)) this.selectAllCheckbox = true;
+                },
             error => this.errorMessage = <any>error);
     }
 

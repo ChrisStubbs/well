@@ -6,6 +6,7 @@
     using System.Net.Http;
     using System.Web.Http;
 
+    using PH.Well.Api.Mapper;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -21,16 +22,20 @@
 
         private readonly IBranchService branchService;
 
+        private readonly IBranchModelMapper branchModelMapper;
+
         public BranchController(
             ILogger logger,
             IBranchRepository branchRepository, 
             IServerErrorResponseHandler serverErrorResponseHandler,
-            IBranchService branchService)
+            IBranchService branchService,
+            IBranchModelMapper branchModelMapper)
         {
             this.logger = logger;
             this.branchRespository = branchRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.branchService = branchService;
+            this.branchModelMapper = branchModelMapper;
         }
 
         [HttpGet]
@@ -40,9 +45,16 @@
             {
                 var branches = this.branchRespository.GetAll();
 
-                return !branches.Any()
-                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
-                    : this.Request.CreateResponse(HttpStatusCode.OK, branches);
+                if (branches.Any())
+                {
+                    var userBranches = this.branchRespository.GetBranchesForUser(this.UserName);
+
+                    var model = this.branchModelMapper.Map(branches, userBranches);
+
+                    return this.Request.CreateResponse(HttpStatusCode.OK, model);
+                }
+
+                return this.Request.CreateResponse(HttpStatusCode.NotFound);
             }
             catch (Exception ex)
             {

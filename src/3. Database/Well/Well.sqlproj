@@ -151,6 +151,7 @@
     <Build Include="dbo\StoredProcedures\UserSave.sql" />
     <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
     <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -41,6 +41,7 @@ namespace PH.Well.Api.DependencyResolution
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();
+            For<IBranchModelMapper>().Use<BranchModelMapper>();
         }
     }
 }

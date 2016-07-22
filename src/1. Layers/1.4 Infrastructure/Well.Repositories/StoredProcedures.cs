@@ -50,6 +50,7 @@
 
         public static string DeleteUserBranches = "DeleteUserBranches";
         public static string SaveUserBranch = "UserBranchInsert";
+        public static string GetBranchesForUser = "GetBranchesForUser";
 
         public static string UserGetByName = "UserGetByName";
         public static string UserSave = "UserSave";

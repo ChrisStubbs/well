@@ -26,8 +26,8 @@
             <a href="@Url.Action("Index", "Home")" title="Home">
                 <div class="logo"></div></a>
             <div id="headerHolder">
-                <h1 class="header">OrderWell</h1>
-                <span style="color: white; font-weight: bold">V 1.0.0.0</span> &nbsp; <span style="color: white; font-weight: bold">Fareham Branch</span>
+                <h1 class="header">@Html.EmployeeDisplayName()</h1>
+                <span style="color: white; font-weight: bold">@Model.Version</span> &nbsp; <span style="color: white; font-weight: bold">@Model.UsersBranches</span>
             </div>
             <div id="user-details" class="pull-right">
                 <div>Logged in as @Model.UserName</div>

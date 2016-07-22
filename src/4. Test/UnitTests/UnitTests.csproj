@@ -101,6 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
+    <Compile Include="Api\Controllers\UserControllerTests.cs" />
+    <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />

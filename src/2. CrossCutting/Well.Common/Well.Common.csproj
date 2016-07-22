@@ -63,8 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClient.cs" />
-    <Compile Include="Contracts\IApiClient.cs" />
     <Compile Include="Contracts\IEventLogger.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />

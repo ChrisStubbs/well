@@ -5,5 +5,7 @@
     public interface IBranchService
     {
         void SaveBranchesForUser(Branch[] branches, string username);
+
+        string GetUserBranchesFriendlyInformation(string username);
     }
 }

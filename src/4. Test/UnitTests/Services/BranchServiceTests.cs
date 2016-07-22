@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
+    using System.Collections.Generic;
+
     using Moq;
 
     using NUnit.Framework;
@@ -68,6 +70,24 @@
                 this.userRepository.Verify(x => x.GetByName(username), Times.Once);
                 this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, user), Times.Once);
                 this.branchRepository.Verify(x => x.DeleteUserBranches(user), Times.Once);
+            }
+        }
+
+        public class TheGetUserBranchesFriendlyString : BranchServiceTests
+        {
+            [Test]
+            public void ShouldReturnBranchFriendlyInformation()
+            {
+                var branches = new List<Branch>();
+                branches.Add(BranchFactory.New.With(x => x.Name = "Medway").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Coventry").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Farham").Build());
+
+                this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
+
+                var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
+
+                Assert.That(branchInformation, Is.EqualTo("Med, Cov, Far"));
             }
         }
     }

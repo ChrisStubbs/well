@@ -40,5 +40,13 @@
                     .Execute();
             }
         }
+
+        public IEnumerable<Branch> GetBranchesForUser(string username)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForUser)
+                    .AddParameter("Username", username, DbType.String, size: 500)
+                    .Query<Branch>();
+        }
     }
 }

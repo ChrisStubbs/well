@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
 
     using Moq;
 
@@ -112,6 +113,31 @@
                 this.dapperProxy.Verify(x => x.AddParameter("BranchId", branches[0].Id, DbType.Int32, null), Times.Exactly(2));
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Exactly(2));
+            }
+        }
+
+        public class TheGetBranchesForUserMethod : BranchRepositoryTests
+        {
+            [Test]
+            public void ShouldreturnAllTheBranchIdsForAGivenUsername()
+            {
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.GetBranchesForUser))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Username", "foo", DbType.String, 500))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<Branch>()).Returns(new List<Branch> { new Branch { Id = 1 }, new Branch { Id = 2 }, new Branch { Id = 3 }});
+
+                var branchIds = this.repository.GetBranchesForUser("foo");
+
+                Assert.That(branchIds.Count(), Is.EqualTo(3));
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.GetBranchesForUser), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Username", "foo", DbType.String, 500), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
             }
         }
     }

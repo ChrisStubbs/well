@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PH.Well.Common
+﻿namespace PH.Well.Common.Security
 {
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
     using System.Web;
-    using Contracts;
+
     using Newtonsoft.Json;
-    using Security;
+
+    using PH.Well.Common.Contracts;
 
     public class SecurityApiClient
     {
-        private IApiClient apiClient;
-
-
+        private IWebClient apiClient;
+        
         public SecurityApiClient()
         {
-            apiClient = new ApiClient();
+            this.apiClient = new WebClient();
         }
 
         public class Role
@@ -51,7 +48,7 @@ namespace PH.Well.Common
         public virtual User GetUser(string userIdentifier)
         {
             var userUri = ConfigurationManager.AppSettings["SecurityApi"] + "/Users?useridentifier=" + HttpUtility.UrlEncode(userIdentifier);
-            var user = JsonConvert.DeserializeObject<List<User>>(apiClient.DownloadString(userUri)).FirstOrDefault();
+            var user = JsonConvert.DeserializeObject<List<User>>(this.apiClient.DownloadString(userUri)).FirstOrDefault();
             return user;
         }
 
@@ -63,16 +60,14 @@ namespace PH.Well.Common
         public virtual List<Role> GetRoles(Guid userId)
         {
             var rolesUri = ConfigurationManager.AppSettings["SecurityApi"] + "/Users/" + HttpUtility.UrlEncode(userId.ToString()) + "/Roles";
-            var roles = JsonConvert.DeserializeObject<List<Role>>(apiClient.DownloadString(rolesUri));
+            var roles = JsonConvert.DeserializeObject<List<Role>>(this.apiClient.DownloadString(rolesUri));
             return roles;
         }
 
         public virtual void AddUserToRoles(UserRoleRequest request)
         {
             var uri = ConfigurationManager.AppSettings["SecurityApi"] + "/Userroles";
-            apiClient.UploadString(uri, "POST", JsonConvert.SerializeObject(request));
+            this.apiClient.UploadString(uri, "POST", JsonConvert.SerializeObject(request));
         }
-
-
     }
 }

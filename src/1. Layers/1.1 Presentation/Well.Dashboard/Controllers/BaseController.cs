@@ -31,7 +31,7 @@
             {
                 Configuration = JsonConvert.SerializeObject(config),
                 Version = version.Version,
-                UsersBranches = userBranches
+                UsersBranches = userBranches.Trim('"')
             };
         }
 

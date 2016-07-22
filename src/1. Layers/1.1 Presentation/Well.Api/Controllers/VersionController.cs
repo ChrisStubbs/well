@@ -27,9 +27,7 @@
         [HttpGet]
         public HttpResponseMessage IsDebug()
         {
-            return this.Request.CreateResponse(HttpStatusCode.OK, false); 
-
-                bool isDebugMode = false;
+            bool isDebugMode = false;
             #if DEBUG
                 isDebugMode = true;
             #endif

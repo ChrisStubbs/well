@@ -217,6 +217,7 @@
     </Compile>
     <Compile Include="Hubs\ExceptionsHub.cs" />
     <Compile Include="Models\BootstrapData.cs" />
+    <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -337,7 +338,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="repo\" />
     <Folder Include="Views\Preferences\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,22 +1,24 @@
 ﻿namespace PH.Well.BDD.Steps.API
 {
     using System.Net;
-    using Common;
+
     using Framework;
     using NUnit.Framework;
     using TechTalk.SpecFlow;
 
+    using WebClient = PH.Well.Common.WebClient;
+
     [Binding]
     public class VersionCheckSteps
     {
-        private ApiClient apiClient;
+        private WebClient apiClient;
         private string responseString;
 
         [When(@"I get the API version")]
         public void WhenIGetTheAPIVersion()
         {
             var endpoint = Configuration.WellApiUrl + "/version";
-            apiClient = new ApiClient();
+            apiClient = new WebClient();
             responseString = apiClient.DownloadString(endpoint);
         }
         

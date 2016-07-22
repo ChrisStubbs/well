@@ -69,6 +69,7 @@
     <Compile Include="Routes.cs" />
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>

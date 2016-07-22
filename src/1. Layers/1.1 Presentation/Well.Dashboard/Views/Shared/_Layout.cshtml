@@ -26,11 +26,10 @@
             <a href="@Url.Action("Index", "Home")" title="Home">
                 <div class="logo"></div></a>
             <div id="headerHolder">
-                <h1 class="header">@Html.EmployeeDisplayName()</h1>
                 <span style="color: white; font-weight: bold">@Model.Version</span> &nbsp; <span style="color: white; font-weight: bold">@Model.UsersBranches</span>
             </div>
             <div id="user-details" class="pull-right">
-                <div>Logged in as @Model.UserName</div>
+                <div>Logged in as @Html.EmployeeDisplayName()</div>
                 <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
             </div>
         </div>

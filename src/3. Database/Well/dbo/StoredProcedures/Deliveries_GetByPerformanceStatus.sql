@@ -14,6 +14,7 @@ BEGIN
 		ps.Description as JobStatus,
 		s.DeliveryDate  as [DateTime],
 		null as Action,
+		null as Reason, 
 		null as Assigned,
 		a.Id as AccountId  -- this is the main P&H account that is attached to the stop, needed for contact info 
 	FROM

@@ -32,8 +32,23 @@
 
         public IEnumerable<Delivery> GetResolvedDeliveries()
         {
-            //Todo this is not right what is the status For Resolved!!
-            return GetDeliveriesByStatus(PerformanceStatus.Incom);
+            return GetDeliveriesByStatus(PerformanceStatus.Resolved);
         }
+
+        public IEnumerable<Delivery> GetExceptionDeliveries()
+        {
+            var incompletes = GetDeliveriesByStatus(PerformanceStatus.Incom);
+            var authorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Abypa);
+            var nonAuthorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Nbypa);
+
+            var allExceptions = new List<Delivery>();
+
+            allExceptions.AddRange(incompletes);
+            allExceptions.AddRange(authorisedBypassed);
+            allExceptions.AddRange(nonAuthorisedBypassed); 
+
+            return allExceptions;
+        }
+
     }
 }

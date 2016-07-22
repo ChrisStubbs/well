@@ -1,8 +1,62 @@
-﻿<div class="table-container">
+﻿
+<div class="table-container">
     <ol class="breadcrumb">
         <li class="active">Exceptions</li>
     </ol>
 </div>
 <div class="jumbotron">
-    Put your template here!
+    <div class="row">
+        <ow-optionfilter [options]="options"
+                         (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+    </div>
+    <div class="table-responsive table-container">
+        <table id="tableExceptionDeliveries" class="table table-hover table-bordered" *ngIf="exceptions && exceptions.length">
+            <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Drop</th>
+                    <th>Invoice No</th>
+                    <th>Account</th>
+                    <th>Account Name</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                    <th>Assigned</th>
+                    <th>Action</th>
+                    <th>Last updated date/time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="grid-row" *ngFor="let delivery of exceptions | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
+                    <td>{{delivery.routeNumber}}</td>
+                    <td>{{delivery.dropId}}</td>
+                    <td>{{delivery.invoiceNumber}}</td>
+                    <td>{{delivery.accountCode}}</td>
+                    <td>{{delivery.accountName}}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
+                    </td>
+                    <td>{{delivery.jobStatus}}</td>
+                    <td>{{delivery.reason}}</td>
+                    <td>{{delivery.assigned}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu" aria-labelledby="filter-option">
+                                    <li><a><i>Action</i></a></li>
+                                    <li *ngFor="let action of actions"><a (click)="setSelectedAction(delivery,action)">{{action.description}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{delivery.dateTime}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row pull-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
 </div>
+<contact-modal></contact-modal>

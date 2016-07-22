@@ -229,6 +229,7 @@
     <Content Include="app\notifications\notifications-list.html" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\routeheader-list.html" />
+    <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
@@ -359,6 +360,8 @@
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
     <TypeScriptCompile Include="app\clean\main.ts" />
+    <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
+    <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
     <TypeScriptCompile Include="app\exceptions\main.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
     <TypeScriptCompile Include="app\home\main.ts" />
@@ -373,6 +376,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
+    <TypeScriptCompile Include="app\shared\contact-modal.ts" />
     <TypeScriptCompile Include="app\shared\http-response.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />

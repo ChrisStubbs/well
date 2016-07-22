@@ -26,9 +26,9 @@ export class AccountComponent implements OnInit {
                 error => this.errorMessage = <any>error);
     }
 
-    openModal(accountId: number): void {
-        console.log(accountId);
-    }
+    //openModal(accountId: number): void {
+    //    console.log(accountId);
+    //}
 
 
 }

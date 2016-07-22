@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace PH.Well.BDD.Features.Version
+namespace PH.Well.BDD.Features.Api
 {
     using TechTalk.SpecFlow;
     

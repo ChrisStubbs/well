@@ -48,7 +48,7 @@
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                var status = PerformanceStatus.Incom;
+                var status = PerformanceStatus.Resolved;
                 dapperProxy.Setup(x => x.WithStoredProcedure("Deliveries_GetByPerformanceStatus")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", status, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());

@@ -1,4 +1,4 @@
-﻿import { Component, OnInit}  from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -19,14 +19,14 @@ export class WidgetStatsComponent implements OnInit {
     widgetstats: IWidgetStats;
     errorMessage: string;
 
-    constructor(private widgetStatsService: WidgetStatsService) { }
+    constructor(private widgetStatsService: WidgetStatsService, private changeDetectorRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.getWidgetStats();
 
+        this.initSignalr(false);
+
         //this.widgetStatsService.autoUpdateDisabled()
-        //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
-        //        error => this.errorMessage = <any>error);
         //    .subscribe(isAutoUpdateDisabled => this.initSignalr(isAutoUpdateDisabled),
         //        error => this.errorMessage = <any>error);
     }
@@ -48,7 +48,7 @@ export class WidgetStatsComponent implements OnInit {
 
     handleExceptions(widgetstats): void {
         this.widgetstats = widgetstats;
-      
+        this.changeDetectorRef.detectChanges();
     }
 
     getWidgetStats() {

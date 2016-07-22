@@ -62,6 +62,7 @@
     <Compile Include="Contracts\IPreferenceRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Contracts\IRouteHeaderRepository.cs" />
+    <Compile Include="Contracts\IUserRepository.cs" />
     <Compile Include="Contracts\IWellDapperProxy.cs" />
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="RouteHeaderRepository.cs" />
     <Compile Include="StopRepository.cs" />
     <Compile Include="StoredProcedures.cs" />
+    <Compile Include="UserRepository.cs" />
     <Compile Include="WellDapperProxy.cs" />
     <Compile Include="WellDbConfiguration.cs" />
     <Compile Include="WidgetStatsRepository.cs" />

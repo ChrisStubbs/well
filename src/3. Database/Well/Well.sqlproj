@@ -147,6 +147,11 @@
     <Build Include="dbo\StoredProcedures\BranchesGet.sql" />
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserBranch.sql" />
+    <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
+    <Build Include="dbo\StoredProcedures\UserSave.sql" />
+    <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
+    <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -101,11 +101,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
+    <Compile Include="Api\Controllers\UserControllerTests.cs" />
+    <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
     <Compile Include="Domain\RouteHeaderTests.cs" />
+    <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
@@ -117,8 +120,10 @@
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
+    <Compile Include="Infrastructure\UserRepositoryTests.cs" />
     <Compile Include="Infrastructure\WidgetStatsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BranchServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

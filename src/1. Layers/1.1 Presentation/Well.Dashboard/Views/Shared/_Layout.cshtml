@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@ViewBag.Title</title>
-    <link rel="shortcut icon" href="~/favicon.ico" />
+    <link rel="shortcut icon" href="~/favicon.ico"/>
     @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -26,11 +26,10 @@
             <a href="@Url.Action("Index", "Home")" title="Home">
                 <div class="logo"></div></a>
             <div id="headerHolder">
-                <h1 class="header">OrderWell</h1>
-                <span style="color: white; font-weight: bold">V 1.0.0.0</span> &nbsp; <span style="color: white; font-weight: bold">Fareham Branch</span>
+                <span style="color: white; font-weight: bold">@Model.Version</span> &nbsp; <span style="color: white; font-weight: bold">@Model.UsersBranches</span>
             </div>
             <div id="user-details" class="pull-right">
-                <div>Logged in as @Model.UserName</div>
+                <div>Logged in as @Html.EmployeeDisplayName()</div>
                 <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
             </div>
         </div>

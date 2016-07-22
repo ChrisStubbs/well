@@ -3,25 +3,21 @@
         <li class="active">Branch Selection</li>
     </ol>
 </div>
-
+<toaster-container></toaster-container>
 <div class="jumbotron">
-    <div *ngIf="httpResponse.success" class="alert alert-success">
-        <strong>Branches have been saved!</strong>
+    <div class="alert alert-info"><strong>Select the branches you want to see information about using the checkboxes below!</strong>
     </div>
-    <div *ngIf="httpResponse.failure" class="alert alert-danger">
-        <strong>Branches could not be saved at this time!</strong>
-        Please try again later!
-    </div>
-    <p>Select the branches you are interested in</p>
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" (click)="selectAll(selectAllCheckbox)" [(ngModel)]="selectAllCheckbox"/>Select all
-        </label>
-    </div>
-    <div class="checkbox" *ngFor="let branch of branches">
-        <label>
-            <input type="checkbox" [(ngModel)]="branch.selected" (click)="selectBranch(branch)"/>{{branch.name}}
-        </label>
+    <div class="well">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" (click)="selectAll(selectAllCheckbox)" [(ngModel)]="selectAllCheckbox" />Select all
+            </label>
+        </div>
+        <div class="checkbox" *ngFor="let branch of branches">
+            <label>
+                <input type="checkbox" [(ngModel)]="branch.selected" (click)="selectBranch(branch)" />{{branch.name}} ({{branch.id}})
+            </label>
+        </div>
     </div>
     <div class="btn-group pull-right">
         <button class="btn btn-primary" (click)="save()">Save</button>

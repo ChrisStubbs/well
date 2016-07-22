@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PH.Well.Common">
-      <HintPath>..\..\1.4 Infrastructure\Well.Repositories\bin\Debug\PH.Well.Common.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +69,7 @@
     <Compile Include="Routes.cs" />
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>

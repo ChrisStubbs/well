@@ -86,13 +86,16 @@
             }
             httpWebRequest.Method = method;
             httpWebRequest.UseDefaultCredentials = true;
-            httpWebRequest.Credentials = this.Credentials;
+
             if (timeout.HasValue) httpWebRequest.Timeout = timeout.Value;
+
             return httpWebRequest;
         }
+
         private System.Net.WebClient SetupClient()
         {
             HttpWebRequest.DefaultMaximumErrorResponseLength = 1048576;
+
             var webClient = new System.Net.WebClient { UseDefaultCredentials = this.UseDefaultCredentials, Credentials = this.Credentials };
 
             if (this.Headers != null)

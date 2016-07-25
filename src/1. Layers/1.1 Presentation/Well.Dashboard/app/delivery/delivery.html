@@ -1,0 +1,68 @@
+﻿<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Delivery {{delivery.id}}</li>
+    </ol>
+</div>
+<div class="jumbotron">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="btn-group">
+                <span style="margin-right: 25px"><label>Account : {{delivery.accountCode}}</label></span>
+                <span style="margin-right: 25px"><label>Contact : {{delivery.contactName}}</label></span>
+                <span style="margin-right: 25px"><label>Phone : {{delivery.phoneNumber}}</label></span>
+                <span style="margin-right: 25px"><label>Mobile : {{delivery.mobileNumber}}</label></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group" style="float: right">
+                <label>{{delivery.accountName}}, {{delivery.accountAddress}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="btn-group">
+                <label>Invoice : 1363660</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive table-container">
+        <table id="tableDelivery" class="table table-hover table-bordered" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
+            <thead>
+            <tr>
+                <th>Line No</th>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Value</th>
+                <th>Inv Qty</th>
+                <th>Del Qty</th>
+                <th>Damaged Qty</th>
+                <th>Short Qty</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
+                <td>{{line.lineNo}}</td>
+                <td>{{line.productCode}}</td>
+                <td>{{line.productDescription}}</td>
+                <td>{{line.value}}</td>
+                <td>{{line.invoicedQuantity}}</td>
+                <td>{{line.deliveredQuantity}}</td>
+                <td>{{line.damagedQuantity}}</td>
+                <td>{{line.shortQuantity}}</td>
+                <td>{{line.status}}</td>
+                <td>{{line.reason}}</td>
+                <td>{{line.action}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row pull-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>

@@ -18,13 +18,5 @@
             }
             return base.OnConnected();
         }
-
-
-        public static void WidgetUpdates()
-        {
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<ExceptionsHub>();
-            context.Clients.All.widgetExceptions();
-        }
-
     }
 }

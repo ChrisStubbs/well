@@ -28,6 +28,7 @@
             this.stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
 
             this.repository = new RouteHeaderRepository(this.logger.Object, this.dapperProxy.Object, stopRepository.Object);
+            this.repository.CurrentUser = "Test";
         }
 
         public class TheGetRouteHeadersMethod : RouteHeaderRepositoryTests
@@ -35,11 +36,14 @@
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
+                var name = "Test";
                 dapperProxy.Setup(x => x.WithStoredProcedure("RouteHeaders_Get")).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UserName", name, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
                 repository.GetRouteHeaders();
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("RouteHeaders_Get"), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("UserName", name, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Once);
 
             }
@@ -47,6 +51,7 @@
             [Test]
             public void ShouldCallGetStopByRouteHedearIdOnceForEachRouteHeader()
             {
+                var name = "Test";
                 var routeHeaders = new List<RouteHeader>
                 {
                     RouteHeaderFactory.New.With(x => x.Id = 1).Build(),
@@ -57,6 +62,7 @@
                 var stops2 = new List<Stop> { new Stop(), new Stop() };
 
                 dapperProxy.Setup(x => x.WithStoredProcedure("RouteHeaders_Get")).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UserName", name, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(routeHeaders);
                 stopRepository.Setup(x => x.GetStopByRouteHeaderId(1)).Returns(stops1);
                 stopRepository.Setup(x => x.GetStopByRouteHeaderId(2)).Returns(stops2);

@@ -176,7 +176,7 @@
                     DamagedQuantity = 0,
                     ShortQuantity = 0,
                     Reason = "Short deliverd",
-                    Status = "OK"
+                    Status = "Complete"
                 });
             }
             return deliveryDetail;

@@ -1,29 +1,34 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeaders_Get]
+	@UserName VARCHAR(500)
 
 AS
 	SELECT 
-	   [Id]
-      ,[CompanyId]
-      ,[RouteNumber]
-      ,[RouteDate]
-      ,[DriverName]
-      ,[VehicleReg]
-      ,[StartDepotCode]
-      ,[PlannedRouteStartTime]
-      ,[PlannedRouteFinishTime]
-      ,[PlannedDistance]
-      ,[PlannedTravelTime]
-      ,[PlannedStops]
-      ,[ActualStopsCompleted]
-      ,[RoutesId]
-      ,[RouteStatusId]
-      ,[RoutePerformanceStatusId]
-      ,[CreatedBy]
-      ,[DateCreated]
-      ,[UpdatedBy]
-      ,[DateUpdated]
-      ,[Version]
+	  rh.[Id]
+      ,rh.[CompanyId]
+      ,rh.[RouteNumber]
+      ,rh.[RouteDate]
+      ,rh.[DriverName]
+      ,rh.[VehicleReg]
+      ,rh.[StartDepotCode]
+      ,rh.[PlannedRouteStartTime]
+      ,rh.[PlannedRouteFinishTime]
+      ,rh.[PlannedDistance]
+      ,rh.[PlannedTravelTime]
+      ,rh.[PlannedStops]
+      ,rh.[ActualStopsCompleted]
+      ,rh.[RoutesId]
+      ,rh.[RouteStatusId]
+      ,rh.[RoutePerformanceStatusId]
+      ,rh.[CreatedBy]
+      ,rh.[DateCreated]
+      ,rh.[UpdatedBy]
+      ,rh.[DateUpdated]
+      ,rh.[Version]
 
-  FROM [dbo].[RouteHeader]
+  FROM [dbo].[RouteHeader] rh
+  INNER JOIN
+	dbo.UserBranch ub on rh.Depot = ub.BranchId
+  INNER JOIN
+	dbo.[User] u on u.Id = ub.UserId
 
 RETURN 0

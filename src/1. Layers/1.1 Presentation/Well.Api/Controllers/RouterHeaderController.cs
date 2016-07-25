@@ -9,7 +9,7 @@
     using Mapper;
     using Repositories.Contracts;
 
-    public class RouteController : ApiController
+    public class RouteController : BaseApiController
     {
         private readonly ILogger logger;
 

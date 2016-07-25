@@ -21,20 +21,29 @@ export class BranchSelectionComponent implements OnInit {
     selectAllCheckbox: boolean;
     httpResponse: HttpResponse = new HttpResponse();
 
-    constructor(private branchService: BranchService, private toasterService: ToasterService){
+    constructor(private branchService: BranchService, private toasterService: ToasterService) {
     }
 
     ngOnInit(): void {
+        this.selectAllCheckbox = false;
+
         this.branchService.getBranches()
             .subscribe(branches => {
-                    this.branches = branches;
-                    if (this.branches.every(x => x.selected)) this.selectAllCheckbox = true;
-                },
+                this.branches = branches;
+                this.branches.forEach(branch => { if(branch.selected) this.selectedBranches.push(branch) });
+
+                if (this.branches.every(x => x.selected)) this.selectAllCheckbox = true;
+            },
             error => this.errorMessage = <any>error);
     }
 
-    selectAll(selected): void {
+    selectAll(): void {
+        var selected = !this.selectAllCheckbox;
+
         this.branches.forEach(branch => {
+            var index = this.selectedBranches.indexOf(branch, 0);
+            if (index > -1)
+                this.selectedBranches.splice(index, 1);
             branch.selected = selected;
 
             if (selected) {
@@ -48,7 +57,9 @@ export class BranchSelectionComponent implements OnInit {
     selectBranch(branch): void {
         var index = this.selectedBranches.indexOf(branch, 0);
 
-        if (index > -1 && branch.selected === false) {
+        var selected = !branch.selected;
+
+        if (index > -1 && selected === false) {
             this.selectedBranches.splice(index, 1);
         } else {
             this.selectedBranches.push(branch);
@@ -60,7 +71,7 @@ export class BranchSelectionComponent implements OnInit {
             this.selectAllCheckbox = false;
         }
     }
-    
+
     save(): void {
         this.branchService.saveBranches(this.selectedBranches)
             .subscribe((res: Response) => {
@@ -68,9 +79,10 @@ export class BranchSelectionComponent implements OnInit {
 
                 if (this.httpResponse.success) this.toasterService.pop('success', 'Branches have been saved!', '');
                 if (this.httpResponse.failure) this.toasterService.pop('error', 'Branches could not be saved at this time!', 'Please try again later!');
-                if (this.httpResponse.notAcceptable) this.toasterService.pop('warning', 'Please select at least one branch!', ''); 
+                if (this.httpResponse.notAcceptable) this.toasterService.pop('warning', 'Please select at least one branch!', '');
 
 
             });
     }
 }
+

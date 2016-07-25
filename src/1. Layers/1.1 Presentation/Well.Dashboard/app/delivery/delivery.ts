@@ -12,5 +12,6 @@ export class Delivery {
     contactName: string;
     phoneNumber: string;
     mobileNumber: string;
+    deliveryType: string;
     deliveryLines: DeliveryLine[];
 }

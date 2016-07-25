@@ -21,6 +21,7 @@
         private readonly ILogger logger;
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
+        private string archiveLocation;
 
 
         public AdamRouteFileProvider(IEpodSchemaProvider epodSchemaProvider, IEpodDomainImportProvider epodDomainImportProvider,
@@ -36,6 +37,7 @@
         public void ListFilesAndProcess()
         {
             var filepath = ConfigurationManager.AppSettings["downloadFilePath"];
+            this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
 
             var ePodFiles = Directory.GetFiles(filepath, "*.xml*", SearchOption.TopDirectoryOnly);
 
@@ -57,12 +59,15 @@
                     else
                     {
                         var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
-                        epodDomainImportProvider.ImportRouteHeader(file, epodType);
+                        epodDomainImportProvider.ImportRouteHeader(file, epodType); 
+                        epodDomainImportService.CopyFileToArchive(file, filenameWithoutPath, archiveLocation);                    
                     }
                 }
 
             }
         }
+
+
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ByPassReasons]
 (
 	[Id] [TINYINT] IDENTITY(1,1) NOT NULL,
-	[Code] VARCHAR(20) NOT NULL,
+	[Code] VARCHAR(30) NOT NULL,
 	[Description] VARCHAR(50) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,

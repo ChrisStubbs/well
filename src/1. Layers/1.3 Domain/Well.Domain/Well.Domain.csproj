@@ -68,6 +68,8 @@
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reason.cs" />
+    <Compile Include="RouteAttributeException.cs" />
     <Compile Include="RouteDeliveries.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="RouteHeader.cs" />

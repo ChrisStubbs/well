@@ -16,6 +16,7 @@
         public static string RouteHeaderAttributeCreateOrUpdate = "RouteHeaderAttribute_CreateOrUpdate";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
+        public static string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
 
 
         //Stops

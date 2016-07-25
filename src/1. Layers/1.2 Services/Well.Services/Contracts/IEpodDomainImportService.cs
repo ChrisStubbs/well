@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Services.Contracts
 {
+    using System.Collections.Generic;
     using Domain;
     using Domain.Enums;
 
@@ -25,6 +26,10 @@
         string GetSchemaFilePath(string schemaName);
 
         bool IsFileXmlType(string fileName);
+
+        IEnumerable<RouteAttributeException> GetRouteAttributeException();
+
+        void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation);
 
     }
 }

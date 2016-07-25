@@ -9,33 +9,26 @@ namespace PH.Well.Domain
     [Serializable()]
     public class JobDetailDamage : Entity<int>
     {
+        public JobDetailDamage()
+        {
+            this.Reason = new Reason();
+        }
+
+        [XmlElement("Qty")]
         public decimal Qty { get; set; }
 
-        [XmlIgnore]
-        public int ReasonCategoryId { get; set; }
-
-        [XmlElement("ReasonCategory")]
-        public string ReasonCategory
-        {
-            get { return ReasonCategory; }
-            set { ReasonCategoryId = (int)(ReasonCategory)Enum.Parse(typeof(ReasonCategory), value, true); }
-        }
+        [XmlElement("JobDetailID")]
+        public string JobDetailCode { get; set; }
 
         [XmlIgnore]
-        public int DamageReasonId { get; set; }
-
-        [XmlElement("ReasonCode")]
-        public string ReasonCode
-        {
-            get { return ReasonCode; }
-            set
-            {
-                DamageReasonId = string.IsNullOrEmpty(value) ? (int)DamageReasons.Notdef : (int)(DamageReasons)Enum.Parse(typeof(DamageReasons), value, true);
-            }
-        }
-
+        public int ReasonId { get; set; }
 
         [XmlIgnore]
         public int JobDetailId { get; set; }
+
+        [XmlElement("Reason")]
+        public Reason Reason { get; set; }
+
+
     }
 }

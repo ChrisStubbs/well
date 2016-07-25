@@ -11,6 +11,6 @@ BEGIN
        [UpdatedBy],
        [DateUpdated],
        [Version]
-  FROM [Well].[dbo].[Routes]
+  FROM [dbo].[Routes]
   WHERE [Id] = @Id
 END

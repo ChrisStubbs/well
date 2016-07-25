@@ -27,7 +27,6 @@
         [XmlElement("OriginalDespatchQty")]
         public string OriginalDispatchQtyString
         {
-            get { return OriginalDispatchQtyString; }
             set
             {
                 this.OriginalDispatchQty = value == string.Empty ? 0m : Convert.ToDecimal(value);
@@ -46,7 +45,6 @@
         [XmlElement("ShortQty")]
         public string ShortQtyString
         {
-            get { return ShortQtyString; }
             set
             {
                 ShortQty = value == string.Empty ? 0 : int.Parse(value);

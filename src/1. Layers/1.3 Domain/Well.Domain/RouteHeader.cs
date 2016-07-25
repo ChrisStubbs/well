@@ -63,7 +63,6 @@
         [XmlElement("RouteStatusCode")]
         public string RouteStatusCode
         {
-            get { return RouteStatusCode; }
             set { RouteStatusId = string.IsNullOrEmpty(value) ? (int)Enums.RouteStatusCode.Notdef : (int)(RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value, true); }
         }
 
@@ -72,7 +71,6 @@
         [XmlElement("RoutePerformanceStatusCode")]
         public string PerformanceStatusCode
         {
-            get { return PerformanceStatusCode; }
             set { RoutePerformanceStatusId = string.IsNullOrEmpty(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
@@ -82,7 +80,6 @@
         [XmlElement("LastRouteUpdate")]
         public string LastRouteUpdateString
         {
-            get { return this.LastRouteUpdate.ToString("yyyy-MM-dd HH:mm:ss"); }
             set
             {             
                 this.LastRouteUpdate = value == string.Empty? DateTime.Now : DateTime.Parse(value);
@@ -95,9 +92,10 @@
         [XmlElement("AuthByPass")]
         public string AuthByPassString
         {
-            get { return this.AuthByPass.ToString(); }
-            set {
-                this.AuthByPass = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            get { return AuthByPassString; }
+            set
+            {
+                this.AuthByPass = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
             }
         }
 
@@ -107,9 +105,10 @@
         [XmlElement("NonAuthByPass")]
         public string NonAuthByPassString
         {
-            get { return this.NonAuthByPass.ToString(); }
-            set {
-                this.NonAuthByPass = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            get { return NonAuthByPassString; }
+            set
+            {
+                this.NonAuthByPass = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
             }
         }
 
@@ -119,10 +118,10 @@
         [XmlElement("ShortDeliveries")]
         public string ShortDeliveriesString
         {
-            get { return this.ShortDeliveries.ToString(); }
+            get { return ShortDeliveriesString; } 
             set
             {
-                this.ShortDeliveries = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+                this.ShortDeliveries = value == string.Empty? 0 : int.Parse(value);
             }
         }
 
@@ -132,23 +131,23 @@
         [XmlElement("DamagesRejected")]
         public string DamagesRejectedString
         {
-            get { return this.DamagesRejected.ToString(); }
+            get { return DamagesRejectedString; }
             set
             {
-                this.DamagesRejected = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+                this.DamagesRejected = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
             }
         }
 
-        [XmlIgnore]
+[XmlIgnore]
         public int DamagesAccepted { get; set; }
 
         [XmlElement("DamagesAccepted")]
         public string DamagesAcceptedString
         {
-            get { return this.DamagesAccepted.ToString(); }
+            get { return DamagesAcceptedString; }
             set
             {
-                this.DamagesAccepted = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+                this.DamagesAccepted = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
             }
         }
 
@@ -158,7 +157,7 @@
         [XmlElement("NotRequired")]
         public string NotRequiredString
         {
-            get { return this.NotRequired.ToString(); }
+            get { return NotRequiredString; }
             set
             {
                 this.NotRequired = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);

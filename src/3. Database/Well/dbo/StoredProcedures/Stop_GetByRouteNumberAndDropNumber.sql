@@ -24,7 +24,7 @@ SELECT [Id],
 	  [StopStatusId],
 	  [StopPerformanceStatusId],
 	  [ByPassReasonId]
-  FROM [Well].[dbo].[Stop]
+  FROM [dbo].[Stop]
   WHERE [RouteHeaderCode] = @RouteHeaderCode
   AND [RouteHeaderId] = @RouteHeaderId
   AND [DropId] = @DropId

@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[RouteAttributeExceptions]
 (
-	[Id] INT NOT NULL, 
-    [EpodType] INT NOT NULL, 
+	[Id] INT  IDENTITY(1,1) NOT NULL, 
     [ObjectType] VARCHAR(20) NOT NULL, 
     [AttributeName] VARCHAR(50) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,

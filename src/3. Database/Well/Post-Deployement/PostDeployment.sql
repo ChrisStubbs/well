@@ -21,3 +21,4 @@ Post-Deployment Script Template
 :r .\EventServiceBroker.sql
 :r .\Pupulate-DefaultWidgetStats.sql
 :r .\Populate-StopStatus.sql
+:r .\Populate-RouteHeaderExceptions.sql

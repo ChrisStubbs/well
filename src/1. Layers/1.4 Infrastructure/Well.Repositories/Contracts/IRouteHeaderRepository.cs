@@ -22,5 +22,7 @@
         void AddRouteHeaderAttributes(Attribute attribute);
 
         RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate);
+
+        IEnumerable<RouteAttributeException> GetRouteAttributeException();
     }
 }

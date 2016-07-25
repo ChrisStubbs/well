@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Common.Contracts;
@@ -143,12 +144,12 @@
                     ePodRouteHeader.Id = currentRouteHeader.Id;
                     currentRouteHeader.RouteStatusId = ePodRouteHeader.RouteStatusId;
                     currentRouteHeader.RoutePerformanceStatusId = ePodRouteHeader.RoutePerformanceStatusId;
-                    currentRouteHeader.AuthByPass = ePodRouteHeader.AuthByPass;
-                    currentRouteHeader.NonAuthByPass = ePodRouteHeader.NonAuthByPass;
-                    currentRouteHeader.ShortDeliveries = ePodRouteHeader.ShortDeliveries;
-                    currentRouteHeader.DamagesRejected = ePodRouteHeader.DamagesRejected;
-                    currentRouteHeader.DamagesAccepted = ePodRouteHeader.DamagesAccepted;
-                    currentRouteHeader.NotRequired = ePodRouteHeader.NotRequired;
+                    currentRouteHeader.AuthByPass = currentRouteHeader.AuthByPass + ePodRouteHeader.AuthByPass;
+                    currentRouteHeader.NonAuthByPass = currentRouteHeader.NonAuthByPass + ePodRouteHeader.NonAuthByPass;
+                    currentRouteHeader.ShortDeliveries = currentRouteHeader.ShortDeliveries + ePodRouteHeader.ShortDeliveries;
+                    currentRouteHeader.DamagesRejected = currentRouteHeader.DamagesRejected + ePodRouteHeader.DamagesRejected;
+                    currentRouteHeader.DamagesAccepted = currentRouteHeader.DamagesAccepted + ePodRouteHeader.DamagesAccepted;
+                    currentRouteHeader.NotRequired = currentRouteHeader.NotRequired + ePodRouteHeader.NotRequired;
                     currentRouteHeader.Depot = ePodRouteHeader.Depot;
 
                     currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
@@ -223,10 +224,11 @@
                 {
                     currentJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(currentJobDetail);
 
-                    foreach (var jobDetailDamages in ePodJobDetail.JobDetailDamages)
+                    foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                     {
-                        jobDetailDamages.JobDetailId = currentJobDetail.Id;
-                        this.jobDetailRepository.JobDetailDamageCreateOrUpdate(jobDetailDamages);
+                        jobDetailDamage.JobDetailId = currentJobDetail.Id;
+                        jobDetailDamage.ReasonId = string.IsNullOrEmpty(jobDetailDamage.Reason.JobDamageReasonCode) ? (int)DamageReasons.Notdef : (int)(DamageReasons)Enum.Parse(typeof(DamageReasons), jobDetailDamage.Reason.JobDamageReasonCode, true);
+                        this.jobDetailRepository.JobDetailDamageCreateOrUpdate(jobDetailDamage);
                     }
                 }
                 else
@@ -267,6 +269,15 @@
             return Path.Combine(Path.GetDirectoryName(asmPath), "Schemas", schemaName);
         }
 
+        public IEnumerable<RouteAttributeException> GetRouteAttributeException()
+        {
+            return this.routeHeaderRepository.GetRouteAttributeException();
+        }
+
+        public void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation)
+        {
+            File.Move(filename, Path.Combine(archiveLocation, fileNameWithoutPath));
+        }
 
     }
 }

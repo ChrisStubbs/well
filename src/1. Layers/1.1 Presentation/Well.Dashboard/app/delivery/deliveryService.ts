@@ -13,7 +13,7 @@ export class DeliveryService {
     getDelivery(deliveryId: number): Observable<Delivery> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId)
             .map((response: Response) => <Delivery>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
+            //.do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

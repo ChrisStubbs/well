@@ -1,5 +1,5 @@
-﻿export interface ICleanDelivery {
-
+﻿export class CleanDelivery {
+    id: number;
     routeNumber: string;
     dropId: string;
     invoiceNumber: number;

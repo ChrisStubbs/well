@@ -4,7 +4,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
-import {ICleanDelivery} from './cleanDelivery';
+import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
@@ -26,7 +26,7 @@ import {IAccount} from "../account/account";
 })
 export class CleanDeliveryComponent implements OnInit {
     errorMessage: string;
-    cleanDeliveries: ICleanDelivery[];
+    cleanDeliveries: CleanDelivery[];
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -51,8 +51,8 @@ export class CleanDeliveryComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery: ICleanDelivery): void {
-        console.log(delivery.accountName);
+    deliverySelected(delivery: CleanDelivery): void {
+        window.location.href = './Clean/Delivery/' + delivery.id;
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();

@@ -74,7 +74,7 @@ System.register(['@angular/core', '@angular/http', '../shared/globalSettings', '
                     this.filterOption = filterOption;
                 };
                 CleanDeliveryComponent.prototype.deliverySelected = function (delivery) {
-                    console.log(delivery.accountName);
+                    window.location.href = './Clean/Delivery/' + delivery.id;
                 };
                 CleanDeliveryComponent.prototype.openModal = function (accountId) {
                     var _this = this;

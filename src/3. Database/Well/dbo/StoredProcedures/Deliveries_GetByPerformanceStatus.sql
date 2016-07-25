@@ -6,7 +6,8 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-	SELECT 
+	SELECT
+		j.Id,
 		rh.RouteNumber, 
 		s.DropId,
 		j.JobRef3 as InvoiceNumber, 

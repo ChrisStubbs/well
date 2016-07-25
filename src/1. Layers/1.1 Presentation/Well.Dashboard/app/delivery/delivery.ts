@@ -13,5 +13,6 @@ export class Delivery {
     phoneNumber: string;
     mobileNumber: string;
     deliveryType: string;
+    isException: boolean;
     deliveryLines: DeliveryLine[];
 }

@@ -9,6 +9,11 @@
         {
         }
 
+        public override ActionResult Index()
+        {
+            return RedirectToAction("Index","Home");
+        }
+
         [HttpGet]
         [Route("exceptions/delivery/{id:int}", Name = "GetExceptionDelivery")]
         [Route("clean/delivery/{id:int}", Name = "GetCleanDelivery")]

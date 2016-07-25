@@ -28,14 +28,14 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <input type="checkbox" name="showAll" >Show All
-        </div>
-    </div>
     <div class="table-responsive table-container">
         <table id="tableDelivery" class="table table-hover table-bordered" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
             <thead>
+                <tr >
+                    <th colspan="100">
+                        <input type="checkbox" [(ngModel)]="selectAll" (click)="onShowAllClicked()" />Select All
+                    </th>
+                </tr>
                 <tr>
                     <th>Line No</th>
                     <th>Product</th>
@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
+                <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | exceptionsFilter :selectAll | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
                     <td>{{line.lineNo}}</td>
                     <td>{{line.productCode}}</td>
                     <td>{{line.productDescription}}</td>
@@ -60,8 +60,8 @@
                     <td>{{line.deliveredQuantity}}</td>
                     <td>{{line.damagedQuantity}}</td>
                     <td>{{line.shortQuantity}}</td>
-                    <td>{{line.status}}</td>
                     <td>{{line.reason}}</td>
+                    <td>{{line.status}}</td>
                     <td>{{line.action}}</td>
                 </tr>
             </tbody>

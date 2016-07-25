@@ -2,6 +2,7 @@
 {
     public class Delivery
     {
+        public int Id { get; set; } 
         public string RouteNumber { get; set; }
         public string DropId { get; set; }
         public string InvoiceNumber { get; set; }

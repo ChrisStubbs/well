@@ -1,31 +1,24 @@
 ﻿namespace PH.Well.Dashboard.Controllers
 {
-    using System.Collections.Generic;
-    using System.Web.Mvc;
-    using Models;
-    using Newtonsoft.Json;
+    using global::System.Web.Mvc;
+    using Common.Contracts;
 
-    public class DeliveryController : Controller
+    public class DeliveryController : BaseController
     {
-
-        protected BootstrapData Model { get; set; }
-        
-        [HttpGet]
-        //[Route("delivery/{id:int}", Name = "GetDelivery")]
-        public ActionResult Index()
+        public DeliveryController(IWebClient webClient) : base(webClient)
         {
-            var config = new Dictionary<string, string>
-            {
-                {"apiUrl", Configuration.OrderWellApi},
-                {"deliveryId","4"} //id.ToString()}
-            };
+        }
 
-            Model = new BootstrapData
-            {
-                Configuration = JsonConvert.SerializeObject(config)
-            };
-
+        [HttpGet]
+        [Route("exceptions/delivery/{id:int}", Name = "GetExceptionDelivery")]
+        [Route("clean/delivery/{id:int}", Name = "GetCleanDelivery")]
+        [Route("resolved/delivery/{id:int}", Name = "GetResolvedDelivery")]
+        [Route("delivery/{id:int}", Name = "GetDelivery")]
+        public ActionResult Index(int id)
+        {
+            Model.ConfigDictionary.Add("deliveryId",id.ToString());
             return this.View("Index", Model);
         }
+
     }
 }

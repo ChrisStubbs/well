@@ -35,6 +35,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IAccountRepository>().Use<AccountRepository>();
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
+            //For<IDeliveryReadRepository>().Use<Controllers.MockDeliveryRepository>();
+            
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();

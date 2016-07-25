@@ -11,7 +11,7 @@ import {DropDownItem} from "../shared/DropDownItem";
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
-import {IExceptionDelivery} from "./exceptionDelivery";
+import {ExceptionDelivery} from "./exceptionDelivery";
 import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 
 @Component({
@@ -23,7 +23,7 @@ import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 })
 export class ExceptionsComponent implements OnInit {
     errorMessage: string;
-    exceptions: IExceptionDelivery[];
+    exceptions: ExceptionDelivery[];
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -57,8 +57,8 @@ export class ExceptionsComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery: IExceptionDelivery): void {
-        console.log(delivery.accountName);
+    deliverySelected(delivery: ExceptionDelivery): void {
+        window.location.href ='./Exceptions/Delivery/' + delivery.id;
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();
@@ -70,9 +70,8 @@ export class ExceptionsComponent implements OnInit {
             error => this.errorMessage = <any>error);
     }
 
-    setSelectedAction(delivery: IExceptionDelivery, action: DropDownItem): void {
+    setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
         delivery.action = action.description;
-        //this.selectedAction = action;
     }
 
 }

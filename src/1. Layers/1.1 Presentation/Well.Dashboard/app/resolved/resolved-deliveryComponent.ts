@@ -4,7 +4,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
-import {IResolvedDelivery} from './resolvedDelivery';
+import {ResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
@@ -24,7 +24,7 @@ import {IAccount} from "../account/account";
 })
 export class ResolvedDeliveryComponent implements OnInit {
     errorMessage: string;
-    deliveries: IResolvedDelivery[];
+    deliveries: ResolvedDelivery[];
     rowCount: number = 10;
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -48,8 +48,8 @@ export class ResolvedDeliveryComponent implements OnInit {
             .subscribe(deliveries => this.deliveries = deliveries, error => this.errorMessage = <any>error);
     }
 
-    deliverySelected(delivery: IResolvedDelivery): void {
-        console.log(delivery.accountName);
+    deliverySelected(delivery: ResolvedDelivery): void {
+        window.location.href = './Resolved/Delivery/' + delivery.id;
     }
 
     onFilterClicked(filterOption: FilterOption) {

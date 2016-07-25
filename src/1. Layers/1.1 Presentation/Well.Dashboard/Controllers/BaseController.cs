@@ -29,15 +29,16 @@
 
             Model = new BootstrapData
             {
-                Configuration = JsonConvert.SerializeObject(config),
                 Version = version.Version,
-                UsersBranches = userBranches.Trim('"')
+                UsersBranches = userBranches.Trim('"'),
+                ConfigDictionary = config
             };
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+           
             return this.View("Index", Model);
         }
     }

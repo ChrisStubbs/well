@@ -32,14 +32,16 @@
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 var status = PerformanceStatus.Compl;
-                var name = "Test";
+                var userName = "TheUser";
                 dapperProxy.Setup(x => x.WithStoredProcedure("Deliveries_GetByPerformanceStatus")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", status, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UserName", userName, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());
-                var result = repository.GetCleanDeliveries(name);
+                var result = repository.GetCleanDeliveries(userName);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("Deliveries_GetByPerformanceStatus"), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("PerformanceStatusId", status, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("UserName", userName, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<Delivery>(), Times.Once());
             }
         }
@@ -50,14 +52,17 @@
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 var status = PerformanceStatus.Resolved;
-                var name = "Test";
+                var userName = "TheUser";
+
                 dapperProxy.Setup(x => x.WithStoredProcedure("Deliveries_GetByPerformanceStatus")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", status, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UserName", userName, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());
-                var result = repository.GetResolvedDeliveries(name);
+                var result = repository.GetResolvedDeliveries(userName);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("Deliveries_GetByPerformanceStatus"), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("PerformanceStatusId", status, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("UserName", userName, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<Delivery>(), Times.Once());
             }
         }

@@ -1,5 +1,5 @@
-﻿export interface IExceptionDelivery {
-
+﻿export class ExceptionDelivery {
+    id: number;
     routeNumber: string;
     dropId: string;
     invoiceNumber: number;
@@ -10,5 +10,5 @@
     assigned: string;
     dateTime: string;
     accountId: string;
-    
+
 }

@@ -1,4 +1,5 @@
-﻿export interface IResolvedDelivery {
+﻿export class ResolvedDelivery {
+    id: number;
     routeNumber: string;
     dropId: string;
     invoiceNumber: number;

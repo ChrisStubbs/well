@@ -1,7 +1,7 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
-import {IResolvedDelivery} from './resolvedDelivery';
+import {ResolvedDelivery} from './resolvedDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 
 
@@ -10,10 +10,10 @@ export class ResolvedDeliveryService {
     
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getResolvedDeliveries(): Observable<IResolvedDelivery[]> {
+    getResolvedDeliveries(): Observable<ResolvedDelivery[]> {
         
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/resolved')
-            .map((response: Response) => <IResolvedDelivery[]>response.json())
+            .map((response: Response) => <ResolvedDelivery[]>response.json())
             .catch(this.handleError);
     }
 

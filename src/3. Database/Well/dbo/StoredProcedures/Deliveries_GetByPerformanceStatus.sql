@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Deliveries_GetByPerformanceStatus]
-	@PerformanceStatusId INT
+	@PerformanceStatusId INT,
+	@UserName VARCHAR(500)
 AS
 BEGIN
 
@@ -27,8 +28,15 @@ BEGIN
 		dbo.Account a on s.Id = a.StopId
 	INNER JOIN
 		dbo.PerformanceStatus ps on ps.Id = j.PerformanceStatusId
+	INNER JOIN
+		dbo.UserBranch ub on rh.Depot = ub.BranchId
+	INNER JOIN
+		dbo.[User] u on u.Id = ub.UserId
+
 	WHERE
 		ps.Id =  @PerformanceStatusId
+	AND 
+		u.Name = @UserName
 
 
 END

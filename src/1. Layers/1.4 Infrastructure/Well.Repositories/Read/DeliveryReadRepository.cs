@@ -18,28 +18,29 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        public IEnumerable<Delivery> GetCleanDeliveries()
+        public IEnumerable<Delivery> GetCleanDeliveries(string userName)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Compl);
+            return GetDeliveriesByStatus(PerformanceStatus.Compl, userName);
         }
 
-        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status)
+        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status, string userName)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPerformanceStatus)
                 .AddParameter("PerformanceStatusId", status, DbType.Int32)
+                .AddParameter("UserName", userName, DbType.String)
                 .Query<Delivery>();
         }
 
-        public IEnumerable<Delivery> GetResolvedDeliveries()
+        public IEnumerable<Delivery> GetResolvedDeliveries(string userName)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Resolved);
+            return GetDeliveriesByStatus(PerformanceStatus.Resolved, userName);
         }
 
-        public IEnumerable<Delivery> GetExceptionDeliveries()
+        public IEnumerable<Delivery> GetExceptionDeliveries(string userName)
         {
-            var incompletes = GetDeliveriesByStatus(PerformanceStatus.Incom);
-            var authorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Abypa);
-            var nonAuthorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Nbypa);
+            var incompletes = GetDeliveriesByStatus(PerformanceStatus.Incom, userName);
+            var authorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Abypa, userName);
+            var nonAuthorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Nbypa, userName);
 
             var allExceptions = new List<Delivery>();
 

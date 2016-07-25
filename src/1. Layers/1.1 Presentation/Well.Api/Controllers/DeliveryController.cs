@@ -11,7 +11,7 @@
     using Repositories.Contracts;
     using Well.Domain.ValueObjects;
 
-    public class DeliveryController : ApiController
+    public class DeliveryController : BaseApiController
     {
         private readonly ILogger logger;
         private readonly IDeliveryReadRepository deliveryReadRepository;
@@ -54,7 +54,7 @@
         {
             try
             {
-                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries().ToList();
+                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserName).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
@@ -74,7 +74,7 @@
         {
             try
             {
-                var resolvedDeliveries = this.deliveryReadRepository.GetResolvedDeliveries().ToList();
+                var resolvedDeliveries = this.deliveryReadRepository.GetResolvedDeliveries(this.UserName).ToList();
                 return !resolvedDeliveries.Any()
                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                    : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);

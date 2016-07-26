@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories.Read
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlClient;
@@ -34,6 +35,16 @@
                 this.parameters = null;
 
                 return result;
+            }
+        }
+
+        public void QueryMultiple<TValueObject>(Func<SqlMapper.GridReader, TValueObject> action)
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+
+                this.parameters = null;
             }
         }
 

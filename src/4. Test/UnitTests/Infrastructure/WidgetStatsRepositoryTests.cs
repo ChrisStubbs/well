@@ -1,14 +1,14 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Collections.Generic;
-    using Common.Contracts;
+    using PH.Well.Common.Contracts;
     using Domain;
-    using Domain.ValueObjects;
     using Factories;
     using Moq;
     using NUnit.Framework;
     using Repositories;
     using Repositories.Contracts;
+    using Well.Domain.ValueObjects;
 
     [TestFixture]
     public class WidgetStatsRepositoryTests

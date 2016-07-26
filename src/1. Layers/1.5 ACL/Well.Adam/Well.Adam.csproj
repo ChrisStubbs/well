@@ -33,22 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PH.Well.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\1.4 Infrastructure\Well.Repositories\bin\Debug\PH.Well.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="PH.Well.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\1.4 Infrastructure\Well.Repositories\bin\Debug\PH.Well.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="PH.Well.Repositories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\1.4 Infrastructure\Well.Repositories\bin\Debug\PH.Well.Repositories.dll</HintPath>
-    </Reference>
-    <Reference Include="PH.Well.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\1.2 Services\Well.Services\bin\Debug\PH.Well.Services.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -69,8 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IAdamRouteFileProvider.cs" />
+    <Compile Include="Contracts\IAdamImportConfiguration.cs" />
     <Compile Include="Import.cs" />
     <Compile Include="Infrastructure\AdamRouteFileProvider.cs" />
+    <Compile Include="Infrastructure\Configuration.cs" />
     <Compile Include="Infrastructure\DependancyRegister.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,7 +91,6 @@
       <Name>Well.Repositories</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

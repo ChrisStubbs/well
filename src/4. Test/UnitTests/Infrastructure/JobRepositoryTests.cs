@@ -2,13 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Data;
-    using Common.Contracts;
-    using Domain;
-    using Domain.Enums;
+    using PH.Well.Common.Contracts;
     using Moq;
     using NUnit.Framework;
+    
     using Repositories;
     using Repositories.Contracts;
+    using Well.Domain;
+
 
     [TestFixture]
     public class JobRepositoryTests

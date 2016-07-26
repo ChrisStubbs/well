@@ -13,7 +13,7 @@
     </div>
 
     <div class="table-responsive table-container">
-        <table class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
+        <table id="tableCleanDeliveries" class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
             <thead>
             <tr>
                 <th>Route</th>
@@ -21,21 +21,23 @@
                 <th>Invoice No</th>
                 <th>Account</th>
                 <th>Account Name</th>
+                <th>Contact</th>
                 <th>Status</th>
                 <th>Last updated date/time</th>
-                <th>Contact Details</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
+            <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
                 <td>{{delivery.routeNumber}}</td>
                 <td>{{delivery.dropId}}</td>
                 <td>{{delivery.invoiceNumber}}</td>
                 <td>{{delivery.accountCode}}</td>
                 <td>{{delivery.accountName}}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)" >Info</button>
+                </td>
                 <td>{{delivery.jobStatus}}</td>
                 <td>{{delivery.dateTime}}</td>
-                <td><button type="button" class="btn btn-default" (click)="modal.open()">Contact</button></td>
             </tr>
             </tbody>
         </table>
@@ -44,5 +46,4 @@
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
-
-
+<contact-modal></contact-modal>

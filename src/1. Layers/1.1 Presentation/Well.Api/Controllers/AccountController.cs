@@ -16,11 +16,7 @@
         private readonly IAccountRepository accountRespository;
 
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
-
-        public AccountController()
-        {
-        }
-
+        
         public AccountController(
             ILogger logger,
             IAccountRepository accountRepository, IServerErrorResponseHandler serverErrorResponseHandler)
@@ -30,13 +26,31 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
-        [Route("account", Name = "GetAccountByStopId")]
+        //[Route("account", Name = "GetAccountByStopId")]
+        //[HttpGet]
+        //public HttpResponseMessage GetAccountByStopId(int stopId)
+        //{
+        //    try
+        //    {
+        //        var account = this.accountRespository.GetAccountByStopId(stopId);
+        //        return account.Code == Empty
+        //            ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+        //            : this.Request.CreateResponse(HttpStatusCode.OK, account);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.logger.LogError($"An error occcured when getting account");
+        //        return this.serverErrorResponseHandler.HandleException(Request, ex);
+        //    }
+        //}
+
+        [Route("account/{accountId:int}", Name = "GetAccountByAccountId")]
         [HttpGet]
-        public HttpResponseMessage GetAccountByStopId(int stopId)
+        public HttpResponseMessage GetAccountByAccountId(int accountId)
         {
             try
             {
-                var account = this.accountRespository.GetAccountByStopId(stopId);
+                var account = this.accountRespository.GetAccountByAccountId(accountId);
                 return account.Code == Empty
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                     : this.Request.CreateResponse(HttpStatusCode.OK, account);

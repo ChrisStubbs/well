@@ -1,5 +1,6 @@
 namespace PH.Well.Api.DependencyResolution
 {
+    using Mapper;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -23,6 +24,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IWellDbConfiguration>().Use<WellDbConfiguration>();
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
+            For<IDapperProxy>().Use<WellDapperProxy>();
             For<IDbConfiguration>().Use<WellDbConfiguration>();
             For<ILogger>().Use<NLogger>();
             For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
@@ -32,7 +34,16 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetStatsRepository>().Use<WidgetStatsRepository>();
             For<IAccountRepository>().Use<AccountRepository>();
             For<IJobRepository>().Use<JobRepository>();
-            For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
+            //For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
+            For<IDeliveryReadRepository>().Use<Controllers.MockDeliveryRepository>();
+            
+            For<IBranchRepository>().Use<BranchRepository>();
+            For<IUserRepository>().Use<UserRepository>();
+            For<IBranchService>().Use<BranchService>();
+
+            // Mappers
+            For<IRouteModelsMapper>().Use<RouteModelsMapper>();
+            For<IBranchModelMapper>().Use<BranchModelMapper>();
         }
     }
 }

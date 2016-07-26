@@ -7,12 +7,12 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Domain.ValueObjects;
+    using Common.Extensions;
     using Models;
-    using PH.Well.Services.Contracts;
     using Repositories.Contracts;
+    using Well.Domain.ValueObjects;
 
-    public class DeliveryController : ApiController
+    public class DeliveryController : BaseApiController
     {
         private readonly ILogger logger;
         private readonly IDeliveryReadRepository deliveryReadRepository;
@@ -29,41 +29,33 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
-        [Route("deliveries/clean", Name = "GetCleanDeliveries")]
+
         [HttpGet]
+        [Route("deliveries/exception", Name = "GetExceptions")]
+        public HttpResponseMessage GetExceptions()
+        {
+            try
+            {
+               var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
+
+                return !exceptionDeliveries.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting exceptions");
+                return this.serverErrorResponseHandler.HandleException(Request, ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("deliveries/clean", Name = "GetCleanDeliveries")]
         public HttpResponseMessage GetCleanDeliveries()
         {
             try
             {
-                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries().ToList();
-                //var clean1 = new Delivery
-                //{
-                //    RouteNumber = "1",
-                //    DropId = "C",
-                //    InvoiceNumber = "12435",
-                //    AccountCode = "5845.621",
-                //    AccountName = "Fag Mags and Bags",
-                //    JobStatus = "Complete",
-                //    DateTime = "20-05-16 14.10"
-                //};
-
-                //var clean2 = new Delivery
-                //{
-                //    RouteNumber = "2",
-                //    DropId = "F",
-                //    InvoiceNumber = "2363300",
-                //    AccountCode = "	7332.000",
-                //    AccountName = "Huge Store",
-                //    JobStatus = "Complete",
-                //    DateTime = "20-05-16 11.25"
-                //};
-
-                //var cleanDeliveries = new List<Delivery>();
-                //for (int i = 0; i < 100; i++)
-                //{
-                //    cleanDeliveries.Add(clean1);
-                //    cleanDeliveries.Add(clean2);
-                //}
+                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserName).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
@@ -77,61 +69,17 @@
         }
 
 
-        [Route("deliveries/resolved", Name = "GetResolvedDeliveries")]
+
         [HttpGet]
+        [Route("deliveries/resolved", Name = "GetResolvedDeliveries")]
         public HttpResponseMessage GetResolvedDeliveries()
         {
-            //var cleanDeliveries = this.deliveryService.GetResolvedDeliveries().ToList();
             try
             {
-                var model1 = new Delivery
-                {
-                    RouteNumber = "1",
-                    DropId = "C",
-                    InvoiceNumber = "1365000",
-                    AccountCode = "5895.002",
-                    AccountName = "Sweet Shop",
-                    JobStatus = "Bypassed",
-                    Action = "Credited",
-                    Assigned = "FLP",
-                    DateTime = "20-05-16 11.25"
-                };
-
-                var model2 = new Delivery
-                {
-                    RouteNumber = "1",
-                    DropId = "D",
-                    InvoiceNumber = "2363292",
-                    AccountCode = "5895.002",
-                    AccountName = "Fags Mags and Bags",
-                    JobStatus = "Short",
-                    Action = "Credited",
-                    Assigned = "BAD",
-                    DateTime = "20-05-16 11.15"
-                };
-
-                var model3 = new Delivery
-                {
-                    RouteNumber = "1",
-                    DropId = "E",
-                    InvoiceNumber = "22655555",
-                    AccountCode = "6898.002",
-                    AccountName = "Ye Olde and valued customer",
-                    JobStatus = "Damaged",
-                    Action = "Replanned",
-                    Assigned = "FLP",
-                    DateTime = "20-05-16 12.00"
-                };
-
-                var resolvedDeliveries = new List<Delivery>();
-                for (int i = 0; i < 100; i++)
-                {
-                    resolvedDeliveries.Add(model1);
-                    resolvedDeliveries.Add(model2);
-                    resolvedDeliveries.Add(model3);
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
+                var resolvedDeliveries = this.deliveryReadRepository.GetResolvedDeliveries(this.UserName).ToList();
+                return !resolvedDeliveries.Any()
+                   ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                   : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
             }
             catch (Exception ex)
             {
@@ -139,6 +87,103 @@
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
+
+        [HttpGet]
+        [Route("deliveries/{id:int}", Name = "GetDelivery")]
+        public HttpResponseMessage GetDelivery(int id)
+        {
+            try
+            {
+                //Todo: Replace this with call to database and mapping!
+                var delivery = this.GetMockDeliveryDetails(id);
+                return (delivery == null)
+                   ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                   : this.Request.CreateResponse(HttpStatusCode.OK, delivery);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting delivery detail id: {id}");
+                return serverErrorResponseHandler.HandleException(Request, ex);
+            }
+        }
+
+
+        private DeliveryDetailModel GetMockDeliveryDetails(int id)
+        {
+            var deliveryDetail = new DeliveryDetailModel
+            {
+                Id = id,
+                AccountCode = "4895.002",
+                AccountName = "Fags bags and Mags",
+                AccountAddress = "Gaddesdon Place, Great Gaddesdon, Hemel Hempstead HP2 6EX",
+                InvoiceNumber = "1363291",
+                ContactName = "Chuck Chidlow",
+                PhoneNumber = "01234 678901",
+                MobileNumber = "07756 914463",
+                DeliveryType = "Exception"
+            };
+
+            for (int i = 0; i < 5; i++)
+            {
+                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
+                {
+                    LineNo = i,
+                    ProductCode = "19152",
+                    ProductDescription = "Blu Cart Ref C/Tob12mg3s",
+                    Value = "149.70",
+                    InvoicedQuantity = 10,
+                    DeliveredQuantity = 7,
+                    DamagedQuantity = 0,
+                    ShortQuantity = 3,
+                    Reason = "Picking Error",
+                    Status = "Short",
+                    Action = "Credited"
+                });
+                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
+                {
+                    LineNo = i + 1,
+                    ProductCode = "19144",
+                    ProductDescription = "Blu Cart Ref Gold18mg 3s",
+                    Value = "29.94",
+                    InvoicedQuantity = 2,
+                    DeliveredQuantity = 2,
+                    DamagedQuantity = 1,
+                    ShortQuantity = 0,
+                    Status = "Damaged",
+                    Action = "Credited"
+                });
+                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
+                {
+                    LineNo = i + 2,
+                    ProductCode = "19136",
+                    ProductDescription = "Blu Clearomiser",
+                    Value = "299.90",
+                    InvoicedQuantity = 19,
+                    DeliveredQuantity = 8,
+                    DamagedQuantity = 0,
+                    ShortQuantity = 11,
+                    Reason = "Short deliverd",
+                    Status = "Short",
+                    Action = "Credited"
+                });
+                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
+                {
+                    LineNo = i + 2,
+                    ProductCode = "19500",
+                    ProductDescription = "Marlboro Reds 20s",
+                    Value = "299.90",
+                    InvoicedQuantity = 20,
+                    DeliveredQuantity = 20,
+                    DamagedQuantity = 0,
+                    ShortQuantity = 0,
+                    Reason = "Short deliverd",
+                    Status = "Complete"
+                });
+            }
+            return deliveryDetail;
+        }
+
+
 
 
     }

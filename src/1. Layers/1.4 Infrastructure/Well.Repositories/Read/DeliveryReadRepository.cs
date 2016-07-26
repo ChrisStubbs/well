@@ -18,22 +18,38 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        public IEnumerable<Delivery> GetCleanDeliveries()
+        public IEnumerable<Delivery> GetCleanDeliveries(string userName)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Compl);
+            return GetDeliveriesByStatus(PerformanceStatus.Compl, userName);
         }
 
-        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status)
+        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status, string userName)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPerformanceStatus)
                 .AddParameter("PerformanceStatusId", status, DbType.Int32)
+                .AddParameter("UserName", userName, DbType.String)
                 .Query<Delivery>();
         }
 
-        public IEnumerable<Delivery> GetResolvedDeliveries()
+        public IEnumerable<Delivery> GetResolvedDeliveries(string userName)
         {
-            //Todo this is not right what is the status For Resolved!!
-            return GetDeliveriesByStatus(PerformanceStatus.Incom);
+            return GetDeliveriesByStatus(PerformanceStatus.Resolved, userName);
         }
+
+        public IEnumerable<Delivery> GetExceptionDeliveries(string userName)
+        {
+            var incompletes = GetDeliveriesByStatus(PerformanceStatus.Incom, userName);
+            var authorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Abypa, userName);
+            var nonAuthorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Nbypa, userName);
+
+            var allExceptions = new List<Delivery>();
+
+            allExceptions.AddRange(incompletes);
+            allExceptions.AddRange(authorisedBypassed);
+            allExceptions.AddRange(nonAuthorisedBypassed); 
+
+            return allExceptions;
+        }
+
     }
 }

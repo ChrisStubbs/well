@@ -143,11 +143,22 @@
     <Build Include="dbo\StoredProcedures\JobDetailDamage_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />
     <Build Include="dbo\Tables\Reason.sql" />
+    <Build Include="dbo\StoredProcedures\Account_GetByAccountId.sql" />
+    <Build Include="dbo\Tables\Branch.sql" />
+    <None Include="Post-Deployement\Populate-Branch.sql" />
+    <Build Include="dbo\StoredProcedures\BranchesGet.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\UserBranch.sql" />
+    <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
+    <Build Include="dbo\StoredProcedures\UserSave.sql" />
+    <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
+    <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
     <None Include="Post-Deployement\EventServiceBroker.sql" />
-    <None Include="Post-Deployement\Pupulate-DefaultWidgetStats.sql" />
+    <None Include="Post-Deployement\Populate-DefaultWidgetStats.sql" />
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
   </ItemGroup>
   <ItemGroup>

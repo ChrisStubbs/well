@@ -1,0 +1,13 @@
+﻿@model PH.Well.Dashboard.Models.BootstrapData
+@{
+    ViewBag.Title = "Branch Selection";
+}
+@section scripts{
+    <script>
+        var serverConfig = @Html.Raw(Model.Configuration);
+        System.import('app/branch/main')
+            .then(function(m) { m.runApplication(serverConfig); })
+            .catch(console.error.bind(console));
+    </script>
+}
+<ow-branch>Loading Branch selection...</ow-branch>

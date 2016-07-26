@@ -24,7 +24,8 @@
 
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
-            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet).Query<RouteHeader>();
+            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
+                .AddParameter("UserName", this.CurrentUser, DbType.String).Query<RouteHeader>();
 
             foreach (var routeHeader in routeHeaders)
             {
@@ -92,7 +93,7 @@
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
-                .AddParameter("RouteStatusId", routeHeader.RouteStatusId = routeHeader.RouteStatusId == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatusId, DbType.Int16)
+                .AddParameter("RouteStatusId", routeHeader.RouteStatus = routeHeader.RouteStatus == 0 ? RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
                 .AddParameter("LastRouteUpdate", DateTime.Now, DbType.DateTime)
                 .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)

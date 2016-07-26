@@ -5,7 +5,8 @@
 
     public interface IDeliveryReadRepository
     {
-        IEnumerable<Delivery> GetCleanDeliveries();
-        IEnumerable<Delivery> GetResolvedDeliveries();
+        IEnumerable<Delivery> GetCleanDeliveries(string userName);
+        IEnumerable<Delivery> GetResolvedDeliveries(string userName);
+        IEnumerable<Delivery> GetExceptionDeliveries(string userName);
     }
 }

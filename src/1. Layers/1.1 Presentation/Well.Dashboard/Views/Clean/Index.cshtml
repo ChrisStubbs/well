@@ -1,0 +1,13 @@
+﻿@model PH.Well.Dashboard.Models.BootstrapData
+@{
+    ViewBag.Title = "Clean deliveries";
+}
+@section scripts{
+    <script>
+        var serverConfig = @Html.Raw(Model.Configuration);
+        System.import('app/clean/main')
+            .then(function(m) { m.runApplication(serverConfig); })
+            .catch(console.error.bind(console));
+    </script>
+}
+    <ow-clean>Loading Clean deliveries...</ow-clean>

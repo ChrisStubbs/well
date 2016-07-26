@@ -1,34 +1,14 @@
 ﻿@model PH.Well.Dashboard.Models.BootstrapData
-
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Order Well Stats";
 }
-
 @section scripts{
-    <!-- 2. Configure SystemJS -->
     <script>
-
         var serverConfig = @Html.Raw(Model.Configuration);
-
-
-        System.config({
-            packages: {
-                app: {
-                    format: 'register',
-                    defaultExtension: 'js'
-                },
-                'lodash': { main: 'index.js', defaultExtension: 'js' }
-            },
-            map: {
-                'lodash': './node_modules/lodash'
-            }
-        });
-
-        System.import('app/main')
+        System.import('app/home/main')
             .then(function(m) { m.runApplication(serverConfig); })
             .catch(console.error.bind(console));
-        
     </script>
 
 }
-<ow-app>Loading App...</ow-app>
+<ow-widgetstats>Loading Stats!...</ow-widgetstats>

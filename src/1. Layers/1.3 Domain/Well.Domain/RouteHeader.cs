@@ -58,12 +58,23 @@
         [XmlElement("ActualStopsCompleted")]
         public int ActualStopsCompleted { get; set; }
 
-        public int RouteStatusId { get; set; }
+        public RouteStatusCode RouteStatus { get; set; }
 
         [XmlElement("RouteStatusCode")]
         public string RouteStatusCode
         {
-            set { RouteStatusId = string.IsNullOrEmpty(value) ? (int)Enums.RouteStatusCode.Notdef : (int)(RouteStatusCode) Enum.Parse(typeof(RouteStatusCode), value, true); }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    RouteStatusCode enumVal;
+
+                    if (Enum.TryParse(value, out enumVal))
+                    {
+                        this.RouteStatus = enumVal;
+                    }
+                }
+            }
         }
 
         public int RoutePerformanceStatusId { get; set; }

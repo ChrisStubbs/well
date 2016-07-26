@@ -95,23 +95,73 @@
       <HintPath>..\..\packages\SpecFlow.2.0.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WebDriver, Version=2.53.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Selenium.WebDriver.2.53.1\lib\net40\WebDriver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=2.53.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Selenium.Support.2.53.1\lib\net40\WebDriver.Support.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\Pages\CleanPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CleanPage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Pages\ResolvedPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResolvedPage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\AdamImportConfiguration.cs" />
     <Compile Include="DatabaseSetup.cs" />
-    <Compile Include="Features\Version\VersionCheck.feature.cs">
+    <Compile Include="Factories\DriverFactory.cs" />
+    <Compile Include="Features\Pages\RoutesPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoutesPage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Api\VersionCheck.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionCheck.feature</DependentUpon>
     </Compile>
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Context\ContextDescriptors.cs" />
+    <Compile Include="Framework\Context\DriverContext.cs" />
     <Compile Include="Framework\Context\FeatureContextWrapper.cs" />
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
+    <Compile Include="Framework\Driver.cs" />
+    <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\PagerContainer.cs" />
+    <Compile Include="Framework\WebElements\Button.cs" />
+    <Compile Include="Framework\WebElements\ButtonDropDown.cs" />
+    <Compile Include="Framework\WebElements\CheckBox.cs" />
+    <Compile Include="Framework\WebElements\Grid.cs" />
+    <Compile Include="Framework\WebElements\Heading.cs" />
+    <Compile Include="Framework\WebElements\HtmlSelectElement.cs" />
+    <Compile Include="Framework\WebElements\ModalButton.cs" />
+    <Compile Include="Framework\WebElements\TextBox.cs" />
+    <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="IocRegistrar.cs" />
+    <Compile Include="Pages\CleanDeliveriesPage.cs" />
+    <Compile Include="Pages\FilterControl.cs" />
+    <Compile Include="Pages\Page.cs" />
+    <Compile Include="Pages\PagerControl.cs" />
+    <Compile Include="Pages\ResolvedDeliveriesPage.cs" />
+    <Compile Include="Pages\RoutesPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\AdamImportSteps.cs" />
+    <Compile Include="Steps\DatabaseSteps.cs" />
+    <Compile Include="Steps\Page\CleanPageSteps.cs" />
+    <Compile Include="Steps\Page\ResolvedPageSteps.cs" />
+    <Compile Include="Steps\Page\RoutesPageSteps.cs" />
     <Compile Include="Steps\Version\VersionCheckSteps.cs" />
+    <Compile Include="Steps\TransendImportSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -127,11 +177,25 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\Version\VersionCheck.feature">
+    <None Include="Features\Pages\CleanPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\ResolvedPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ResolvedPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\RoutesPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RoutesPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Api\VersionCheck.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="staging1.srprofile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -143,13 +207,38 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\1. Layers\1.2 Services\Well.Services\Well.Services.csproj">
+      <Project>{8c839ee3-9b46-4d0b-a38b-6e653e471fbf}</Project>
+      <Name>Well.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.3 Domain\Well.Domain\Well.Domain.csproj">
+      <Project>{94ded6ae-3fda-42c6-afd5-d7ecdb59ab7b}</Project>
+      <Name>Well.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
+      <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
+      <Name>Well.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam\Well.Adam.csproj">
+      <Project>{dda686b1-7d6f-4895-89ad-4d81dcef2a02}</Project>
+      <Name>Well.Adam</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{D1032947-BBA3-4D82-91FB-8E2AE054F0E3}</Project>
       <Name>Well.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Factories\" />
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IEDriverServer.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="phantomjs.exe" />
+    <Content Include="Xml\PH_ROUTES_30062016_02.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
     using Common.Extensions;
@@ -41,7 +40,7 @@
         public string JobDateString
         {
             get { return this.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.OrderDate = DateTime.Parse(value); }
+            set { this.OrderDate = DateTime.ParseExact(value,"dd/mm/yyyy",null); }
         }
 
         [XmlElement("Originator")]

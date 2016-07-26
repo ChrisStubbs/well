@@ -1,40 +1,12 @@
-﻿namespace Well.Dashboard.Controllers
+﻿namespace PH.Well.Dashboard.Controllers
 {
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Web.Mvc;
-    using Newtonsoft.Json;
-    using PH.Well.Dashboard.Models;
+    using PH.Well.Common.Contracts;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public HomeController(IWebClient webClient)
+            : base(webClient)
         {
-            var config = new Dictionary<string, string>
-            {
-                {"apiUrl", ConfigurationManager.AppSettings["OrderWellApi"]}
-            };
-
-            var model = new BootstrapData
-            {
-                Configuration = JsonConvert.SerializeObject(config)
-            };
-
-            return this.View("Index",model);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

@@ -2,10 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Data;
-    using Common.Contracts;
+    using PH.Well.Common.Contracts;
     using Domain;
     using Moq;
     using NUnit.Framework;
+    using Well.Domain;
     using Well.Repositories;
     using Well.Repositories.Contracts;
 

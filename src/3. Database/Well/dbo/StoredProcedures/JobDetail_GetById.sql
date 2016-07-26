@@ -20,6 +20,6 @@ SELECT [Id]
 	  ,[TextField5]
       ,[SkuGoodsValue]
       ,[JobId]
-  FROM [JobDetail]
+  FROM [dbo].[JobDetail]
   WHERE [Id] = @Id
 END

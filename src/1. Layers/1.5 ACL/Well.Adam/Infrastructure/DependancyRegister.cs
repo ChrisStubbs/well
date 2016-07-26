@@ -29,7 +29,7 @@
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IAdamRouteFileProvider>().Use<AdamRouteFileProvider>();
-
+                    x.For<IAdamImportConfiguration>().Use<Configuration>();
                 } );
         }
     }

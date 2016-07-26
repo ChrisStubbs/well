@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', 'rxjs/Observable', 'rxjs/add/operator/map', '../shared/globalSettings'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', 'rxjs/Observable', '../shared/globalSettings', 'rxjs/add/operator/map'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -23,18 +23,18 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable', 'rxjs/add/
             function (Observable_1_1) {
                 Observable_1 = Observable_1_1;
             },
-            function (_1) {},
             function (globalSettings_1_1) {
                 globalSettings_1 = globalSettings_1_1;
-            }],
+            },
+            function (_1) {}],
         execute: function() {
             AccountService = (function () {
                 function AccountService(http, globalSettingsService) {
                     this.http = http;
                     this.globalSettingsService = globalSettingsService;
                 }
-                AccountService.prototype.getAccountByStopId = function () {
-                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'account')
+                AccountService.prototype.getAccountByAccountId = function (accountId) {
+                    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'account/' + accountId)
                         .map(function (response) { return response.json(); })
                         .do(function (data) { return console.log("All: " + JSON.stringify(data)); })
                         .catch(this.handleError);
@@ -45,10 +45,9 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable', 'rxjs/add/
                 };
                 AccountService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof http_1.Http !== 'undefined' && http_1.Http) === 'function' && _a) || Object, globalSettings_1.GlobalSettingsService])
+                    __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
                 ], AccountService);
                 return AccountService;
-                var _a;
             }());
             exports_1("AccountService", AccountService);
         }

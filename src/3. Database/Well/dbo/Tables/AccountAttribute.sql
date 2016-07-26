@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[AccountAttribute]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
-	[Code] NVARCHAR(10) NOT NULL,
-	[Value] NVARCHAR(100) NOT NULL,
+	[Code] VARCHAR(10) NOT NULL,
+	[Value] VARCHAR(100) NOT NULL,
 	[AccountId] INT NOT NULL,
 	CONSTRAINT [PK_AccountAttribute] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_AccountAttribute_Account] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[Account] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION

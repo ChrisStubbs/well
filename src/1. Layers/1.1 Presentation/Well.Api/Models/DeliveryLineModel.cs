@@ -13,5 +13,6 @@
         public string Reason { get; set; }
         public string Status { get; set; }
         public string Action { get; set; }
+        public bool IsException => Status != "Complete";
     }
 }

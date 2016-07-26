@@ -369,6 +369,7 @@
     <TypeScriptCompile Include="app\delivery\deliveryLine.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryService.ts" />
     <TypeScriptCompile Include="app\delivery\main.ts" />
+    <TypeScriptCompile Include="app\delivery\exceptionsFilterPipe.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
     <TypeScriptCompile Include="app\exceptions\main.ts" />

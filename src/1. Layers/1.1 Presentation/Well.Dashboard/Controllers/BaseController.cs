@@ -36,7 +36,7 @@
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
            
             return this.View("Index", Model);

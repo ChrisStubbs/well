@@ -119,7 +119,8 @@
                 InvoiceNumber = "1363291",
                 ContactName = "Chuck Chidlow",
                 PhoneNumber = "01234 678901",
-                MobileNumber = "07756 914463"
+                MobileNumber = "07756 914463",
+                DeliveryType = "Exception"
             };
 
             for (int i = 0; i < 5; i++)

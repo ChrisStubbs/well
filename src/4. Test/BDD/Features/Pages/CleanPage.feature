@@ -8,6 +8,7 @@ Feature: CleanPage
 Scenario: A user can view Clean Delivery Information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected Birtley branch
 	And  3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the following clean deliveries will be displayed

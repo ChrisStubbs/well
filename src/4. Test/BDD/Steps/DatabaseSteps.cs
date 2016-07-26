@@ -72,6 +72,24 @@
                                      "    JobRef3 =  '9' + JobRef1  ");
         }
 
-    }
 
+        [Given(@"I have selected Birtley branch")]
+        public void GivenIHaveSelectedBirtleyBranch()
+        {
+            SetUpUser();
+            SetUpUserBranch();
+        }
+
+        public void SetUpUser()
+        {
+            this.dapperProxy.ExecuteSql($"INSERT INTO [User] (Name, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES ('PALMERHARVEY\\fiona.pond', 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+        }
+
+        public void SetUpUserBranch()
+        {
+            this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = 'PALMERHARVEY\\fiona.pond'), 22, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+        }
+    }
 }
+
+

@@ -236,6 +236,7 @@
     <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
+    <Content Include="app\user_preferences\user-preferences.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap-responsive.min.css" />
@@ -300,6 +301,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
+    <Content Include="tsconfig.json" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -330,7 +332,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <Content Include="Views\Routes\Index.cshtml" />
     <Content Include="Views\Exceptions\Index.cshtml" />
@@ -339,10 +340,10 @@
     <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\Delivery\Index.cshtml" />
+    <Content Include="Views\Preferences\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Preferences\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -398,6 +399,10 @@
     <TypeScriptCompile Include="app\home\widgetstats-service.ts" />
     <TypeScriptCompile Include="app\home\widgetstats.ts" />
     <TypeScriptCompile Include="app\home\widgetStatsComponent.ts" />
+    <TypeScriptCompile Include="app\user_preferences\main.ts" />
+    <TypeScriptCompile Include="app\user_preferences\User.ts" />
+    <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
+    <TypeScriptCompile Include="app\user_preferences\userPreferenceService.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -422,13 +427,13 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <TypeScriptTarget>Unknown</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>-1</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile />
+    <TypeScriptModuleKind>System</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptOutFile>$(ProjectDir)\Scripts\angular2\bundle.js</TypeScriptOutFile>
     <TypeScriptOutDir />
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>

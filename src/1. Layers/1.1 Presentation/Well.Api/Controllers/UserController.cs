@@ -23,5 +23,12 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, userBranches);
         }
+
+        [Route("users/{name}")]
+        [HttpGet]
+        public HttpResponseMessage Users(string name)
+        {
+            return this.Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Adam.Infrastructure
 {
+    using System.Configuration;
     using System.IO;
     using Contracts;
     using Common.Contracts;

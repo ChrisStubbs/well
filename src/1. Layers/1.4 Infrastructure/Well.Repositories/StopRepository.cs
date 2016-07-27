@@ -96,8 +96,8 @@
                 .AddParameter("ContactEmailAddress", account.ContactEmailAddress, DbType.String)
                 .AddParameter("StartWindow", account.StartWindow, DbType.String)
                 .AddParameter("EndWindow", account.EndWindow, DbType.String)
-                .AddParameter("Latitude", account.Longitude, DbType.Double)
-                .AddParameter("Longitude", account.Latitude, DbType.Double)
+                .AddParameter("Latitude", account.Latitude, DbType.Double)
+                .AddParameter("Longitude", account.Longitude, DbType.Double)
                 .AddParameter("IsDropAndDrive", dropAndDrive, DbType.Boolean)
                 .AddParameter("StopId", account.StopId, DbType.Int32).Query<int>().FirstOrDefault();
 

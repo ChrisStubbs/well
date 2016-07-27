@@ -39,12 +39,12 @@
             {
                 var name = "Test";
                 dapperProxy.Setup(x => x.WithStoredProcedure("RouteHeaders_Get")).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("UserName", UserName, DbType.String, null)).Returns(this.dapperProxy.Object);
+               // dapperProxy.Setup(x => x.AddParameter("UserName", UserName, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
                 repository.GetRouteHeaders();
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("RouteHeaders_Get"), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("UserName", UserName, DbType.String, null), Times.Once);
+               // dapperProxy.Verify(x => x.AddParameter("UserName", UserName, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Once);
 
             }

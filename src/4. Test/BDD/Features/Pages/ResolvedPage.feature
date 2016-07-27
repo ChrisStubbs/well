@@ -7,6 +7,7 @@ Feature: Resolved Delivery Page
 Scenario: A user can view Resolved Delivery Information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	And  3 deliveries have been marked as Resolved
 	When I open the resolved deliveries page
 	Then the following resolved deliveries will be displayed
@@ -18,6 +19,7 @@ Scenario: A user can view Resolved Delivery Information
 Scenario: A user can filter Resolved Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	And  All the deliveries are marked as Resolved
 	When I open the resolved deliveries page
 	And I filter the resolved delivery grid with the option 'Route' and value '006'
@@ -49,6 +51,7 @@ Scenario: A user can filter Resolved Delivery information
 Scenario: A user can page through Resolved Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	And  All the deliveries are marked as Resolved
 	When I open the resolved deliveries page
 	Then '10' rows of resolved delivery data will be displayed

@@ -140,6 +140,7 @@
                                                 x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                                                 x.For<IAdamRouteFileProvider>().Use<AdamRouteFileProvider>();
                                                 x.For<IAdamImportConfiguration>().Use<AdamImportConfiguration>();
+                                                x.For<IWebClient>().Use<WebClient>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

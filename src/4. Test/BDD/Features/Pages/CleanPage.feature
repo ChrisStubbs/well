@@ -8,7 +8,7 @@ Feature: CleanPage
 Scenario: A user can view Clean Delivery Information
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected Birtley branch
+	And I have selected branch 22
 	And  3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the following clean deliveries will be displayed
@@ -20,6 +20,7 @@ Scenario: A user can view Clean Delivery Information
 Scenario: A user can filter Clean Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	And  All the deliveries are marked as clean
 	When I open the clean deliveries
 	And I filter the clean delivery grid with the option 'Route' and value '006'
@@ -51,6 +52,7 @@ Scenario: A user can filter Clean Delivery information
 Scenario: A user can page through Clean Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	And  All the deliveries are marked as clean
 	When I open the clean deliveries
 	Then '10' rows of clean delivery data will be displayed

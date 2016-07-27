@@ -51,5 +51,12 @@ namespace PH.Well.Api.Controllers
             }
 
         }
+
+        [Route("users/{name}")]
+        [HttpGet]
+        public HttpResponseMessage Users(string name)
+        {
+            return this.Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }

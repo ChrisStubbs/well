@@ -131,6 +131,18 @@
             return routeImportId;
         }
 
+        public IEnumerable<RouteAttributeException>  GetRouteAttributeException()
+        {
+
+            return dapperProxy.WithStoredProcedure(StoredProcedures.RouteAttributesGetExceptions)
+                .Query<RouteAttributeException>();
+        }
+
+
+
+
+
+
 
     }
 }

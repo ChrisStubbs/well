@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Adam.Infrastructure
 {
+    using System.Configuration;
     using System.IO;
     using Contracts;
     using Common.Contracts;
@@ -14,6 +15,7 @@
         private readonly ILogger logger;
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
+        private string archiveLocation;
 
 
         public AdamRouteFileProvider(IEpodSchemaProvider epodSchemaProvider, IEpodDomainImportProvider epodDomainImportProvider,
@@ -29,6 +31,7 @@
         public void ListFilesAndProcess(IAdamImportConfiguration config)
         {
             var filepath = config.FilePath;
+            this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
 
             var ePodFiles = Directory.GetFiles(filepath, config.SearchPattern, SearchOption.TopDirectoryOnly);
 
@@ -50,12 +53,15 @@
                     else
                     {
                         var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
-                        epodDomainImportProvider.ImportRouteHeader(file, epodType);
+                        epodDomainImportProvider.ImportRouteHeader(file, epodType); 
+                        epodDomainImportService.CopyFileToArchive(file, filenameWithoutPath, archiveLocation);                    
                     }
                 }
 
             }
         }
+
+
 
     }
 }

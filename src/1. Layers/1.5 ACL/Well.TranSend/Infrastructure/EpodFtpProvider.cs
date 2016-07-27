@@ -17,6 +17,7 @@
         private string ftpPass;
         private string networkUser;
         private string networkUserPass;
+        private string archiveLocation;
         private readonly IEpodSchemaProvider epodSchemaProvider;
         private readonly IEpodDomainImportProvider epodDomainImportProvider;
         private readonly IEpodDomainImportService epodDomainImportService;
@@ -36,6 +37,7 @@
         public void ListFilesAndProcess()
         {
 
+            this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
             this.ftpLocation = ConfigurationManager.AppSettings["transendFTPLocation"];
             this.ftpUser = ConfigurationManager.AppSettings["transendUser"];
             this.ftpPass = ConfigurationManager.AppSettings["transendPass"];
@@ -80,6 +82,8 @@
                     {
                         var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
                         epodDomainImportProvider.ImportRouteHeader(downloadedFile, epodType);
+                        epodDomainImportService.CopyFileToArchive(downloadedFile, filenameWithoutPath, this.archiveLocation);
+                        DeleteFileOnFtpServer(new Uri(this.ftpLocation + filenameWithoutPath), this.ftpUser, this.ftpPass);
                     }              
                 }
             }
@@ -88,6 +92,32 @@
             responseStream.Close();
             reader.Close();
         }
+
+
+
+        private bool DeleteFileOnFtpServer(Uri serverUri, string ftpUsername, string ftpPassword)
+        {
+            try
+            {
+                if (serverUri.Scheme != Uri.UriSchemeFtp)
+                {
+                    return false;
+                }
+
+                var request = (FtpWebRequest)WebRequest.Create(serverUri);
+                request.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                request.Method = WebRequestMethods.Ftp.DeleteFile;
+
+                var response = (FtpWebResponse)request.GetResponse();
+                return response.StatusCode == FtpStatusCode.FileActionOK;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
 
         private void DownLoadFileFromFtp(string routeFile, out string downloadedFilePath)
         {
@@ -108,6 +138,8 @@
                 }
             }
         }
+
+ 
 
     }
 }

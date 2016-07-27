@@ -75,12 +75,11 @@
 
         public void JobDetailDamageCreateOrUpdate(JobDetailDamage jobDetailDamage)
         {
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)
+            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageCreateOrUpdate)
                 .AddParameter("Id", jobDetailDamage.Id, DbType.Int32)
                 .AddParameter("JobDetailId", jobDetailDamage.JobDetailId, DbType.Int32)
-                .AddParameter("Qty", jobDetailDamage.Qty, DbType.Int32)
-                .AddParameter("DamageReasonsId", jobDetailDamage.DamageReasonId, DbType.Int32)
-                .AddParameter("DamageReasonCategoryId", jobDetailDamage.ReasonCategoryId, DbType.Int32)
+                .AddParameter("Qty", jobDetailDamage.Qty, DbType.Decimal)
+                .AddParameter("DamageReasonsId", jobDetailDamage.ReasonId, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .Query<int>().FirstOrDefault();
         }

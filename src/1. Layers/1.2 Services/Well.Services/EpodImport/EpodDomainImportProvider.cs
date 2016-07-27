@@ -24,11 +24,14 @@
         {
             var filenameWithoutPath = filename.GetFilenameWithoutPath();
 
-            //var currentRouteImportFile = epodDomainImportService.GetByFileName(filenameWithoutPath);
-            var currentRouteImportFile = epodDomainImportService.GetByFileName("a");
+            var currentRouteImportFile = new Routes();
 
+            if (fileType == EpodFileType.RouteHeader)
+            {
+                currentRouteImportFile = epodDomainImportService.GetByFileName(filenameWithoutPath);
+            }
 
-            if (currentRouteImportFile != null)
+            if (currentRouteImportFile != null && fileType == EpodFileType.RouteHeader)
             {
                 logger.LogError($"file {filenameWithoutPath} has already been imported");
                 throw new Exception("error with file download");
@@ -49,47 +52,19 @@
 
             if (epodType == EpodFileType.RouteHeader)
             {
-              
-                attribs.XmlElements.Add(new XmlElementAttribute("RouteStatusCode"));
-                overrides.Add(typeof(RouteHeader), "RouteStatusCode", attribs);
 
-                attribs.XmlElements.Add(new XmlElementAttribute("RoutePerformanceStatusCode"));
-                overrides.Add(typeof(RouteHeader), "RoutePerformanceStatusCode", attribs);
+                var attributesExceptions = this.epodDomainImportService.GetRouteAttributeException();
 
-                attribs.XmlElements.Add(new XmlElementAttribute("LastRouteUpdate"));
-                overrides.Add(typeof(RouteHeader), "LastRouteUpdate", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("AuthByPass"));
-                overrides.Add(typeof(RouteHeader), "AuthByPass", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("NonAuthByPass"));
-                overrides.Add(typeof(RouteHeader), "NonAuthByPass", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("ShortDeliveries"));
-                overrides.Add(typeof(RouteHeader), "ShortDeliveries", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("DamagesRejected"));
-                overrides.Add(typeof(RouteHeader), "DamagesRejected", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("DamagesAccepted"));
-                overrides.Add(typeof(RouteHeader), "DamagesAccepted", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("NotRequired"));
-                overrides.Add(typeof(RouteHeader), "NotRequired", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("Depot"));
-                overrides.Add(typeof(RouteHeader), "Depot", attribs);
-
-                attribs.XmlElements.Add(new XmlElementAttribute("ActualStopsCompleted"));
-                overrides.Add(typeof(RouteHeader), "ActualStopsCompleted", attribs);
-
-                
-                attribs.XmlElements.Add(new XmlElementAttribute("RouteDate"));
-                overrides.Add(typeof(RouteHeader), "RouteDate", attribs);
+                foreach (var attributesException in attributesExceptions)
+                {
+                    attribs.XmlElements.Add(new XmlElementAttribute(attributesException.AttributeName));
+                    overrides.Add(typeof(RouteHeader), attributesException.AttributeName, attribs);
+                }
             }
             else
             {
-                
+                attribs.XmlElements.Add(new XmlElementAttribute("EntityAttributeValues"));
+                overrides.Add(typeof(RouteHeader), "EntityAttributeValues", attribs);
             }
 
             var routeImportSerializer = new XmlSerializer(typeof(RouteDeliveries), overrides);

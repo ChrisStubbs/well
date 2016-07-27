@@ -82,7 +82,6 @@
         [XmlElement("StopStatusCode")]
         public string StopStatusCode
         {
-            get { return StopStatusCode; }
             set
             {          
                 StopStatusCodeId = string.IsNullOrEmpty(value) ? (int)StopStatus.Notdef : (int)(StopStatus)Enum.Parse(typeof(StopStatus), value, true);
@@ -95,7 +94,6 @@
         [XmlElement("PerformanceStatusCode")]
         public string StopPerformanceStatusCode
         {
-            get { return StopPerformanceStatusCode; }
             set
             {
                 StopPerformanceStatusCodeId = string.IsNullOrEmpty(value) ? (int)PerformanceStatus.Notdef : (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);

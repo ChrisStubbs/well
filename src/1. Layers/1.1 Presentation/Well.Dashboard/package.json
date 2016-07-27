@@ -31,19 +31,21 @@
     "jquery": "1.12.0",
     "lodash": "^4.1.0",
     "ng2-pagination": "^0.3.4",
-    "angular2-toaster": "0.3.6-rc.4" 
+    "angular2-toaster": "0.3.6-rc.4"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.4",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.2",
     "gulp-less": "^3.0.3",
     "gulp-minify-css": "^1.2.1",
     "gulp-notify": "^2.2.0",
+    "gulp-typescript": "^2.13.6",
     "gulp-util": "^3.0.6",
-    "gulp-watch": "^4.3.5"
+    "gulp-watch": "^4.3.5",
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
   },
-  "repository": { }
+  "repository": {}
 }

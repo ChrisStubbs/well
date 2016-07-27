@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using System.Threading;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -55,6 +57,7 @@
         {
             try
             {
+                logger.LogDebug(Thread.CurrentPrincipal.Identity.Name);
                 var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserName).ToList();
 
                 return !cleanDeliveries.Any()

@@ -1,4 +1,10 @@
-﻿namespace PH.Well.BDD.Steps
+﻿using System.Threading;
+using Newtonsoft.Json;
+using PH.Well.BDD.Framework;
+using PH.Well.Common.Contracts;
+using PH.Well.Domain;
+
+namespace PH.Well.BDD.Steps
 {
     using Domain.Enums;
     using Framework.Context;
@@ -14,10 +20,13 @@
 
         private readonly IWellDapperProxy dapperProxy;
 
+        private readonly IWebClient webClient;
+
         public DatabaseSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
+            this.webClient = this.container.GetInstance<IWebClient>();
         }
 
         [Given("I have a clean database")]
@@ -33,6 +42,8 @@
             this.dapperProxy.ExecuteSql("DELETE FROM RouteHeaderAttribute");
             this.dapperProxy.ExecuteSql("DELETE FROM RouteHeader");
             this.dapperProxy.ExecuteSql("DELETE FROM Routes");
+            this.dapperProxy.ExecuteSql("DELETE FROM UserBranch");
+            this.dapperProxy.ExecuteSql("DELETE FROM [User]");
         }
 
         [Given(@"The all deliveries have been marked as clean")]
@@ -42,9 +53,9 @@
         }
 
         [Given(@"(.*) deliveries have been marked as clean")]
-        public void MarkDeliveriesAsClean(int noOfCleanDeliveries)
+        public void MarkDeliveriesAsClean(int noOfDeliveries)
         {
-            SetDeliveryStatus(PerformanceStatus.Compl, noOfCleanDeliveries);
+            SetDeliveryStatus(PerformanceStatus.Compl, noOfDeliveries);
         }
 
         [Given(@"All the deliveries are marked as clean")]
@@ -60,18 +71,50 @@
         }
 
         [Given(@"(.*) deliveries have been marked as Resolved")]
-        public void GivenDeliveriesHaveBeenMarkedAsResolved(int noOfCleanDeliveries)
+        public void GivenDeliveriesHaveBeenMarkedAsResolved(int noOfDeliveries)
         {
-            SetDeliveryStatus(PerformanceStatus.Resolved, noOfCleanDeliveries);
+            SetDeliveryStatus(PerformanceStatus.Resolved, noOfDeliveries);
         }
 
-        public void SetDeliveryStatus(PerformanceStatus status, int noOfCleanDeliveries)
+        [Given(@"(.*) deliveries have been marked as exceptions")]
+        public void MarkDeliveriesAsException(int noOfDeliveries)
         {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfCleanDeliveries}) Job " +
+            SetDeliveryStatus(PerformanceStatus.Incom, noOfDeliveries);
+        }
+
+        [Given(@"All the deliveries are marked as exceptions")]
+        public void GivenAllTheDeliveriesAreMarkedAsExceptions()
+        {
+            SetDeliveryStatus(PerformanceStatus.Incom, 10000);
+        }
+
+        public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
                                      $"SET PerformanceStatusId = {(int)status}, " +
                                      "    JobRef3 =  '9' + JobRef1  ");
         }
 
-    }
 
+        [Given(@"I have selected branch (.*)")]
+        public void GivenIHaveSelectedBranch(int branch)
+        {
+            var user = SetUpUser();
+            SetUpUserBranch(user, branch);
+        }
+
+        public User SetUpUser()
+        {
+            var user = JsonConvert.DeserializeObject<User>(this.webClient.DownloadString(Configuration.WellApiUrl + "create-user-using-current-context"));
+
+            return user;
+        }
+
+        public void SetUpUserBranch(User user, int branch)
+        {
+            this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{user.Name}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+        }
+    }
 }
+
+

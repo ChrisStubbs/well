@@ -6,7 +6,7 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-	SELECT
+		SELECT
 		j.Id,
 		rh.RouteNumber, 
 		s.DropId,
@@ -30,7 +30,9 @@ BEGIN
 	INNER JOIN
 		dbo.PerformanceStatus ps on ps.Id = j.PerformanceStatusId
 	INNER JOIN
-		dbo.UserBranch ub on rh.Depot = ub.BranchId
+		dbo.Branch b on rh.StartDepotCode = UPPER(b.TranscendMapping)
+	INNER JOIN
+		dbo.UserBranch ub on b.Id = ub.BranchId
 	INNER JOIN
 		dbo.[User] u on u.Id = ub.UserId
 

@@ -25,7 +25,8 @@
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
             var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
-                .AddParameter("UserName", this.CurrentUser, DbType.String).Query<RouteHeader>();
+              //  .AddParameter("UserName", this.CurrentUser, DbType.String)
+              .Query<RouteHeader>();
 
             foreach (var routeHeader in routeHeaders)
             {

@@ -32,6 +32,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveDirectoryService.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="Contracts\IActiveDirectoryService.cs" />
     <Compile Include="Contracts\IBranchService.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
     <Compile Include="Contracts\IEpodDomainImportProvider.cs" />

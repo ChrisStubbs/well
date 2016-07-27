@@ -1,7 +1,11 @@
 ﻿namespace PH.Well.Adam.Infrastructure
 {
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.IO;
+    using System.Xml.Schema;
+    using Common;
     using Contracts;
     using Common.Contracts;
     using Common.Extensions;
@@ -28,12 +32,13 @@
         }
 
 
-        public void ListFilesAndProcess(IAdamImportConfiguration config)
+        public void ListFilesAndProcess(IAdamImportConfiguration config, out List<string> schemaErrors)
         {
             var filepath = config.FilePath;
             this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
 
             var ePodFiles = Directory.GetFiles(filepath, config.SearchPattern, SearchOption.TopDirectoryOnly);
+            schemaErrors = new List<string>();
 
             foreach (var file in ePodFiles)
             {
@@ -44,17 +49,24 @@
                     var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(file, schemaPath);
-
+                    var validationErrors = new List<string>();
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(file, schemaPath, out validationErrors);
+                    
                     if (!isFileValidBySchema)
                     {
-                        logger.LogError($"file {filenameWithoutPath} failed schema validation");
+
+                        var validationError =
+                            $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";
+
+                        schemaErrors.Add(validationError);
+                        logger.LogError(validationError);
                     }
                     else
                     {
                         var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
                         epodDomainImportProvider.ImportRouteHeader(file, epodType); 
-                        epodDomainImportService.CopyFileToArchive(file, filenameWithoutPath, archiveLocation);                    
+                        epodDomainImportService.CopyFileToArchive(file, filenameWithoutPath, archiveLocation);    
+                        logger.LogDebug($"File {file} imported.");                
                     }
                 }
 

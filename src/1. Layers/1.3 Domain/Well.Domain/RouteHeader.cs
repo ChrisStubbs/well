@@ -86,14 +86,14 @@
         }
 
         [XmlIgnore]
-        public DateTime LastRouteUpdate { get; set; }
+        public DateTime? LastRouteUpdate { get; set; }
 
         [XmlElement("LastRouteUpdate")]
         public string LastRouteUpdateString
         {
             set
-            {             
-                this.LastRouteUpdate = value == string.Empty? DateTime.Now : DateTime.Parse(value);
+            {
+                this.LastRouteUpdate = string.IsNullOrWhiteSpace(value) ? DateTime.Now : DateTime.Parse(value);
             }
         }
 

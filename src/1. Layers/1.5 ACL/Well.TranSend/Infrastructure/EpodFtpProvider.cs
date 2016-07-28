@@ -10,7 +10,7 @@
     using Well.Services.Contracts;
     using static System.String;
 
-    public class EpodFtpProvider : IEpodFtpProvider
+    public class EpodFtpProvider : IEpodProvider
     {
         private string ftpLocation;
         private string ftpUser;
@@ -116,8 +116,6 @@
                 return false;
             }
         }
-
-
 
         private void DownLoadFileFromFtp(string routeFile, out string downloadedFilePath)
         {

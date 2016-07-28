@@ -8,7 +8,7 @@
     {
         public void Process(IContainer container)
         {
-            var ePodFtpProvider = container.GetInstance<IEpodFtpProvider>();
+            var ePodFtpProvider = container.GetInstance<IEpodProvider>();
             ePodFtpProvider.ListFilesAndProcess();
 
         }

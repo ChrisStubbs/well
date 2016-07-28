@@ -19,7 +19,7 @@ namespace PH.Well.TranSend.Infrastructure
                 x =>
                 {
                     x.For<IEpodSchemaProvider>().Use<EpodSchemaProvider>();
-                    x.For<IEpodFtpProvider>().Use<EpodFtpProvider>();
+                    x.For<IEpodProvider>().Use<EpodFileProvider>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();

@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.TranSend.Contracts
 {
-    public interface IEpodFtpProvider
+    public interface IEpodProvider
     {
         void ListFilesAndProcess();
     }

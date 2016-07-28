@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using PH.Well.Adam.Contracts;
+using PH.Well.Common.Extensions;
 
 namespace PH.Well.BDD.Steps
 {
     using Adam;
-    using Adam.Contracts;
     using Framework.Context;
     using StructureMap;
     using TechTalk.SpecFlow;
@@ -16,18 +14,31 @@ namespace PH.Well.BDD.Steps
     public class AdamImportSteps
     {
         private readonly IContainer container;
+        private readonly IAdamImportConfiguration config;
 
         public AdamImportSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
+            this.config = this.container.GetInstance<IAdamImportConfiguration>();
         }
 
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
             var adamImport = new Import();
-            
             adamImport.Process(container);
+
+            var archiveLocation = @"D:\wellEpodArchive";
+            //var originalLocation = @"D:\_dev\well\src\4. Test\BDD\bin\Debug\Xml";
+            // string[] fileList = Directory.GetFiles(this.config.ArchiveLocation, "*.xml*");
+
+            string[] fileList = Directory.GetFiles(archiveLocation, "*.xml*");
+
+            foreach (var file in fileList)
+            {
+                var filenameWithoutPath = file.GetFilenameWithoutPath();
+                File.Move(file, Path.Combine(this.config.FilePath, filenameWithoutPath));
+            }
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

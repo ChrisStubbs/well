@@ -37,7 +37,7 @@
             this.config = config;
         }
 
-        public void ListFilesAndProcess(out List<string> schemaErrors)
+        public void ListFilesAndProcess(List<string> schemaErrors)
         {
 
             this.archiveLocation = config.ArchiveLocation;
@@ -76,7 +76,7 @@
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, out validationErrors);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, ref  validationErrors);
 
                     if (!isFileValidBySchema)
                     {

@@ -4,6 +4,6 @@
 
     public interface IEpodFtpProvider
     {
-        void ListFilesAndProcess(out List<string> schemaErrors);
+        void ListFilesAndProcess(List<string> schemaErrors);
     }
 }

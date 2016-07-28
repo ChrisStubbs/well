@@ -22,7 +22,7 @@
             this.logger = logger;
         }
 
-        public bool IsFileValid(string sourceFile, string schemaFile, out List<string> schemaErrors)
+        public bool IsFileValid(string sourceFile, string schemaFile, ref List<string> schemaErrors)
         {
 
             var validationErrors = default(IList<Tuple<object, XmlSchemaException>>);

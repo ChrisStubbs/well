@@ -1,4 +1,4 @@
-﻿namespace PH.Well.Adam.Infrastructure
+﻿ namespace PH.Well.Adam.Infrastructure
 {
     using Contracts;
     using System.Configuration;

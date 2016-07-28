@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Api.Controllers
+﻿using PH.Well.Repositories.Contracts;
+
+namespace PH.Well.UnitTests.Api.Controllers
 {
     using System.Collections.Generic;
     using System.Net;
@@ -22,7 +24,7 @@
     public class UserControllerTests
     {
         private Mock<IBranchService> branchService;
-
+        private Mock<IUserRepository> userRepository;
         private Mock<IActiveDirectoryService> activeDirectoryService;
 
         private UserController controller;
@@ -31,8 +33,10 @@
         public void Setup()
         {
             this.branchService = new Mock<IBranchService>(MockBehavior.Strict);
+            this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
-            this.controller = new UserController(this.branchService.Object, this.activeDirectoryService.Object);
+
+            this.controller = new UserController(this.branchService.Object, this.activeDirectoryService.Object, this.userRepository.Object);
 
             var config = new HttpConfiguration();
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/events");

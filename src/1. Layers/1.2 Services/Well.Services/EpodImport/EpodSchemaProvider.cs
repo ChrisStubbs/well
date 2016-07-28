@@ -1,52 +1,38 @@
 ﻿namespace PH.Well.Services.EpodImport
 {
-    using System.Xml;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Xml.Schema;
-    using Common.Contracts;
     using Well.Services.Contracts;
 
     public class EpodSchemaProvider : IEpodSchemaProvider
     {
-        private XmlSchemaSet schemas;
-        private bool validFile = true;
-        private readonly ILogger logger;
-
-
-        public EpodSchemaProvider(ILogger logger)
+        public bool IsFileValid(string sourceFile, string schemaFile, List<string> schemaErrors)
         {
-            this.logger = logger;
-        }
+            var validationErrors = default(IList<Tuple<object, XmlSchemaException>>);
 
-        public bool IsFileValid(string sourceFile, string schemaFile)
-        {
-            
-            schemas = new XmlSchemaSet();
-            schemas.Add("", schemaFile);
-
-            var settings = new XmlReaderSettings
+            try
             {
-                ValidationType = ValidationType.Schema,
-                Schemas = schemas
-            };
+                var isValid = LbF.XmlSerialisation.XmlSerialisationHelper.IsValidXml(sourceFile, schemaFile, out validationErrors);
 
-            settings.ValidationEventHandler += ValidationError;
-
-            var reader = XmlReader.Create(sourceFile, settings);
-            while (reader.Read())
+                if(!isValid)
+                    throw new XmlSchemaException($"{sourceFile} did not pass validation against schema file");
+            }
+            catch 
             {
+                if (validationErrors != null && validationErrors.Any())
+                {
+                    foreach (var error in validationErrors)
+                    {
+                        schemaErrors.Add($"{error.Item1}:\t{error.Item2.Message}");
+                    }
+                }
+
+                return false;
             }
 
-            reader.Close();
-            return validFile;
+            return true;
         }
-
-        private void ValidationError(object sender,
-         ValidationEventArgs arguments)
-        {
-            logger.LogError(arguments.Message); 
-            validFile = false; 
-        }
-
-     
     }
 }

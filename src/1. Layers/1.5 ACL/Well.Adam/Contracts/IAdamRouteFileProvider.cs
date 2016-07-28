@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.Adam.Contracts
 {
-   public  interface IAdamRouteFileProvider
-   {
-       void ListFilesAndProcess(IAdamImportConfiguration config);
-   }
+    using System.Collections.Generic;
+
+    public  interface IAdamRouteFileProvider
+    {
+        void ListFilesAndProcess(IAdamImportConfiguration config, List<string> schemaErrors);
+    }
 }

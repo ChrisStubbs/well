@@ -47,8 +47,9 @@ var CleanDeliveryComponent = (function () {
     CleanDeliveryComponent.prototype.deliverySelected = function (delivery) {
         window.location.href = './Clean/Delivery/' + delivery.id;
     };
-    CleanDeliveryComponent.prototype.openModal = function (accountId) {
+    CleanDeliveryComponent.prototype.openModal = function (accountId, event) {
         var _this = this;
+        event.stopPropagation();
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(function (account) { _this.account = account; _this.modal.show(_this.account); }, function (error) { return _this.errorMessage = error; });
     };

@@ -14,8 +14,11 @@
     {
         static void Main(string[] args)
         {
+            string epodStatusMessage = string.Empty;
             var container = DependancyRegister.InitIoc();
-            new Import().Process(container);
+            var logger = container.GetInstance<ILogger>();
+            new Import().Process(container, ref  epodStatusMessage);      
+            logger.LogDebug(epodStatusMessage);
         }
     }
 }

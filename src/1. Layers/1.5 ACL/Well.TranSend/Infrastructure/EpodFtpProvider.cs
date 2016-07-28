@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Net;
     using Contracts;
@@ -10,7 +11,7 @@
     using Well.Services.Contracts;
     using static System.String;
 
-    public class EpodFtpProvider : IEpodFtpProvider
+    public class EpodFtpProvider : IEpodProvider
     {
         private string ftpLocation;
         private string ftpUser;
@@ -21,35 +22,37 @@
         private readonly IEpodSchemaProvider epodSchemaProvider;
         private readonly IEpodDomainImportProvider epodDomainImportProvider;
         private readonly IEpodDomainImportService epodDomainImportService;
+        private readonly IEpodImportConfiguration config;
         private readonly ILogger logger;
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
 
         public EpodFtpProvider(IEpodSchemaProvider epodSchemaProvider, ILogger logger, IEpodDomainImportProvider epodDomainImportProvider,
-            IEpodDomainImportService epodDomainImportService)
+            IEpodDomainImportService epodDomainImportService, IEpodImportConfiguration config)
         {
             this.epodSchemaProvider = epodSchemaProvider;
             this.logger = logger;
             this.epodDomainImportProvider = epodDomainImportProvider;
             this.epodDomainImportService = epodDomainImportService;
+            this.config = config;
         }
 
-        public void ListFilesAndProcess()
+        public void ListFilesAndProcess(List<string> schemaErrors)
         {
 
-            this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
-            this.ftpLocation = ConfigurationManager.AppSettings["transendFTPLocation"];
-            this.ftpUser = ConfigurationManager.AppSettings["transendUser"];
-            this.ftpPass = ConfigurationManager.AppSettings["transendPass"];
-            this.networkUser = ConfigurationManager.AppSettings["localUser"];
-            this.networkUserPass = ConfigurationManager.AppSettings["localUserPass"];
+            this.archiveLocation = config.ArchiveLocation;
+            this.ftpLocation = config.FtpLocation;
+            this.ftpUser = config.FtpUser;
+            this.ftpPass = config.FtpPass;
+            this.networkUser = config.NetworkUser;
+            this.networkUserPass = config.NetworkUserPass;
 
             var request = (FtpWebRequest) WebRequest.Create(ftpLocation);
             request.Method = WebRequestMethods.Ftp.ListDirectory;
             request.Credentials = new NetworkCredential(ftpUser, ftpPass);
             var response = (FtpWebResponse) request.GetResponse();
             var responseStream = response.GetResponseStream();
-            var schemaErrors = Empty;
+            schemaErrors = new List<string>();
 
             if (responseStream == null)
                 throw new Exception("response stream is null");
@@ -72,11 +75,14 @@
                     var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath);
+
+                    var validationErrors = new List<string>();
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, validationErrors);
 
                     if (!isFileValidBySchema)
                     {
-                        logger.LogError($"file {routeFile} failed schema validation");
+                        var validationError = $"file {routeFile} failed schema validation with the following: {string.Join(",", validationErrors)}";
+                        logger.LogError(validationError);
                     }
                     else
                     {
@@ -84,6 +90,7 @@
                         epodDomainImportProvider.ImportRouteHeader(downloadedFile, epodType);
                         epodDomainImportService.CopyFileToArchive(downloadedFile, filenameWithoutPath, this.archiveLocation);
                         DeleteFileOnFtpServer(new Uri(this.ftpLocation + filenameWithoutPath), this.ftpUser, this.ftpPass);
+                        logger.LogDebug($"File {routeFile} imported.");
                     }              
                 }
             }
@@ -116,8 +123,6 @@
                 return false;
             }
         }
-
-
 
         private void DownLoadFileFromFtp(string routeFile, out string downloadedFilePath)
         {

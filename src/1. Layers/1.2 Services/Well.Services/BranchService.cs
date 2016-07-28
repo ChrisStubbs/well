@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using System.Collections.Generic;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Text;
@@ -13,7 +15,7 @@
         private readonly IUserRepository userRepository;
 
         private readonly IBranchRepository branchRepository;
-
+        
         private readonly IActiveDirectoryService activeDirectoryService;
 
         public BranchService(IUserRepository userRepository, IBranchRepository branchRepository, IActiveDirectoryService activeDirectoryService)

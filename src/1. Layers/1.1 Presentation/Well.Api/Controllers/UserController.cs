@@ -6,17 +6,19 @@
     using System.Web.Http;
 
     using PH.Well.Domain;
+    using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
     public class UserController : BaseApiController
     {
         private readonly IBranchService branchService;
-
+        private readonly IUserRepository userRepository;
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService)
+        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService, IUserRepository userRepository)
         {
             this.branchService = branchService;
+            this.userRepository = userRepository;
             this.activeDirectoryService = activeDirectoryService;
         }
 
@@ -27,6 +29,27 @@
             var userBranches = this.branchService.GetUserBranchesFriendlyInformation(this.UserName);
 
             return this.Request.CreateResponse(HttpStatusCode.OK, userBranches);
+        }
+
+        [Route("create-user-using-current-context")]
+        [HttpGet]
+        public HttpResponseMessage CreateUserUsingCurrentContext()
+        {
+            try
+            {
+                var user = this.activeDirectoryService.GetUser(this.UserName);
+
+                this.userRepository.CurrentUser = this.UserName;
+
+                this.userRepository.Save(user);
+
+                return this.Request.CreateResponse(HttpStatusCode.Created, user);
+            }
+            catch 
+            {
+                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+
         }
 
         [Route("users/{name}")]

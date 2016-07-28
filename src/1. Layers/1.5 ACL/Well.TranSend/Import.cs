@@ -9,22 +9,22 @@
 
     public class Import
     {
-        public void Process(IContainer container)
+        public void Process(IContainer container, out string epodStatusMessage)
         {
             List<string> schemaErrors;
             var ePodFtpProvider = container.GetInstance<IEpodFtpProvider>();
             var logger = container.GetInstance<ILogger>();
             ePodFtpProvider.ListFilesAndProcess(out schemaErrors);
 
-            var adamStatusMessage = schemaErrors.Any() ? $"Import completed with the following errors:  {string.Join(",", schemaErrors)}" : "Import complete with no errors";
+            epodStatusMessage = schemaErrors.Any() ? $"Epod file import completed with the following errors:  {string.Join(",", schemaErrors)}" : "Epod file import complete with no errors";
 
             if (schemaErrors.Any())
             {
-                logger.LogError(adamStatusMessage);
+                logger.LogError(epodStatusMessage);
             }
             else
             {
-                logger.LogDebug(adamStatusMessage);
+                logger.LogDebug(epodStatusMessage);
             }
 
         }

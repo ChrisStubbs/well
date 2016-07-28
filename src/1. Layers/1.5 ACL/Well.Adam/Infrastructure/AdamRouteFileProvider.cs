@@ -35,7 +35,7 @@
         public void ListFilesAndProcess(IAdamImportConfiguration config, out List<string> schemaErrors)
         {
             var filepath = config.FilePath;
-            this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
+            this.archiveLocation = config.ArchiveLocation;
 
             var ePodFiles = Directory.GetFiles(filepath, config.SearchPattern, SearchOption.TopDirectoryOnly);
             schemaErrors = new List<string>();

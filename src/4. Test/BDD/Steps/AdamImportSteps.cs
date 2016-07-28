@@ -16,6 +16,7 @@ namespace PH.Well.BDD.Steps
     public class AdamImportSteps
     {
         private readonly IContainer container;
+        private string adamStatusMessage;
 
         public AdamImportSteps()
         {
@@ -27,7 +28,7 @@ namespace PH.Well.BDD.Steps
         {
             var adamImport = new Import();
             
-            adamImport.Process(container);
+            adamImport.Process(container, out adamStatusMessage);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

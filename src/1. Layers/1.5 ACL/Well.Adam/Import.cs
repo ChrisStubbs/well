@@ -8,16 +8,16 @@
 
     public class Import
     {
-        public void Process(IContainer container)
+        public void Process(IContainer container, out string adamStatusMessage)
         {
             List<string> schemaErrors;
             var adamRouteFileProvider = container.GetInstance<IAdamRouteFileProvider>();
             var logger = container.GetInstance<ILogger>();
             adamRouteFileProvider.ListFilesAndProcess(container.GetInstance<IAdamImportConfiguration>(), out schemaErrors);
 
-            var adamStatusMessage = schemaErrors.Any()
-                ? $"Import completed with the following errors: {string.Join(",", schemaErrors)}"
-                : "Import complete with no errors";
+            adamStatusMessage = schemaErrors.Any()
+                ? $"Adam file import completed with the following errors: {string.Join(",", schemaErrors)}"
+                : "Adam file import completed with no errors";
 
             if (schemaErrors.Any())
             {

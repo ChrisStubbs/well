@@ -22,28 +22,30 @@
         private readonly IEpodSchemaProvider epodSchemaProvider;
         private readonly IEpodDomainImportProvider epodDomainImportProvider;
         private readonly IEpodDomainImportService epodDomainImportService;
+        private readonly IEpodImportConfiguration config;
         private readonly ILogger logger;
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
 
         public EpodFtpProvider(IEpodSchemaProvider epodSchemaProvider, ILogger logger, IEpodDomainImportProvider epodDomainImportProvider,
-            IEpodDomainImportService epodDomainImportService)
+            IEpodDomainImportService epodDomainImportService, IEpodImportConfiguration config)
         {
             this.epodSchemaProvider = epodSchemaProvider;
             this.logger = logger;
             this.epodDomainImportProvider = epodDomainImportProvider;
             this.epodDomainImportService = epodDomainImportService;
+            this.config = config;
         }
 
         public void ListFilesAndProcess(out List<string> schemaErrors)
         {
 
-            this.archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
-            this.ftpLocation = ConfigurationManager.AppSettings["transendFTPLocation"];
-            this.ftpUser = ConfigurationManager.AppSettings["transendUser"];
-            this.ftpPass = ConfigurationManager.AppSettings["transendPass"];
-            this.networkUser = ConfigurationManager.AppSettings["localUser"];
-            this.networkUserPass = ConfigurationManager.AppSettings["localUserPass"];
+            this.archiveLocation = config.ArchiveLocation;
+            this.ftpLocation = config.FtpLocation;
+            this.ftpUser = config.FtpUser;
+            this.ftpPass = config.FtpPass;
+            this.networkUser = config.NetworkUser;
+            this.networkUserPass = config.NetworkUserPass;
 
             var request = (FtpWebRequest) WebRequest.Create(ftpLocation);
             request.Method = WebRequestMethods.Ftp.ListDirectory;

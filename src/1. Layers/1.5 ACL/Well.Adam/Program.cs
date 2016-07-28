@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Adam
 {
+    using System.Collections.Generic;
     using Infrastructure;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
@@ -12,8 +13,11 @@
     {
         static void Main(string[] args)
         {
+            string adamStatusMessage; 
             var container = DependancyRegister.InitIoc();
-            new Import().Process(container);
+            var logger = container.GetInstance<ILogger>();
+            new Import().Process(container, out adamStatusMessage);
+            logger.LogDebug(adamStatusMessage);
         }
 
     }

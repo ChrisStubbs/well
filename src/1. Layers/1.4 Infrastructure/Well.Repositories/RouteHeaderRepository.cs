@@ -78,6 +78,7 @@
 
         public RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
         {
+
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
                 .AddParameter("Id", routeHeader.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
@@ -96,7 +97,7 @@
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
                 .AddParameter("RouteStatusId", routeHeader.RouteStatus = routeHeader.RouteStatus == 0 ? RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
-                .AddParameter("LastRouteUpdate", DateTime.Now, DbType.DateTime)
+                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32)
                 .AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32)

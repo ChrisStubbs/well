@@ -14,7 +14,7 @@ namespace PH.Well.BDD.Steps
     public class AdamImportSteps
     {
         private readonly IContainer container;
-        private readonly IAdamImportConfiguration config;
+        private string adamStatusMessage;
 
         public AdamImportSteps()
         {
@@ -26,7 +26,8 @@ namespace PH.Well.BDD.Steps
         public void LoadAdamRouteData()
         {
             var adamImport = new Import();
-            adamImport.Process(container);
+            
+            adamImport.Process(container, out adamStatusMessage);
 
             var archiveLocation = @"D:\wellEpodArchive";
             //var originalLocation = @"D:\_dev\well\src\4. Test\BDD\bin\Debug\Xml";

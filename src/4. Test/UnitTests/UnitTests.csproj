@@ -108,6 +108,11 @@
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
     <Compile Include="Domain\RouteHeaderTests.cs" />
+    <Compile Include="Factories\JobDetailFactory.cs" />
+    <Compile Include="Factories\JobFactory.cs" />
+    <Compile Include="Factories\RouteHeaderAttributeFactory.cs" />
+    <Compile Include="Factories\RoutesFactory.cs" />
+    <Compile Include="Factories\StopAttributeFactory.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />
     <Compile Include="Factories\RouteHeaderFactory.cs" />
@@ -117,6 +122,7 @@
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
     <Compile Include="Infrastructure\BranchRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeliveryReadRepositoryTests.cs" />
+    <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />

@@ -33,6 +33,7 @@ var AccountService = (function () {
         __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
     ], AccountService);
     return AccountService;
+                var _a;
 }());
 exports.AccountService = AccountService;
 //# sourceMappingURL=accountService.js.map

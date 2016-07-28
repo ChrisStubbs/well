@@ -28,13 +28,12 @@ namespace PH.Well.BDD.Steps
         {
             var adamImport = new Import();
             
-            adamImport.Process(container, adamStatusMessage);
+            adamImport.Process(container, ref adamStatusMessage);
 
-            var archiveLocation = @"D:\wellEpodArchive";
-            //var originalLocation = @"D:\_dev\well\src\4. Test\BDD\bin\Debug\Xml";
-            // string[] fileList = Directory.GetFiles(this.config.ArchiveLocation, "*.xml*");
+            //var archiveLocation = this.config.ArchiveLocation;
+            //var originalLocation = this.config.FilePath;
 
-            string[] fileList = Directory.GetFiles(archiveLocation, "*.xml*");
+            string[] fileList = Directory.GetFiles(this.config.ArchiveLocation, "*.xml*");
 
             foreach (var file in fileList)
             {

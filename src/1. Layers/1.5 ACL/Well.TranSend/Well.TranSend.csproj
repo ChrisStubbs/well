@@ -52,13 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IEpodImportConfiguration.cs" />
     <Compile Include="Extensions\IPrincipleExtensions.cs" />
     <Compile Include="Import.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />
     <Compile Include="Infrastructure\DependancyRegister.cs" />
+    <Compile Include="Infrastructure\EpodFileProvider.cs" />
     <Compile Include="Infrastructure\EpodFtpProvider.cs" />
-    <Compile Include="Contracts\IEpodFtpProvider.cs" />
-    <Compile Include="Contracts\IEpodImportConfiguration.cs" />
+    <Compile Include="Contracts\IEpodProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

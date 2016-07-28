@@ -32,7 +32,6 @@ var CleanDeliveryService = (function () {
         __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
     ], CleanDeliveryService);
     return CleanDeliveryService;
-                var _a;
 }());
 exports.CleanDeliveryService = CleanDeliveryService;
 //# sourceMappingURL=cleanDeliveryService.js.map

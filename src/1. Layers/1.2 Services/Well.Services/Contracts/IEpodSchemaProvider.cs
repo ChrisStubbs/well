@@ -6,6 +6,6 @@
 
     public interface IEpodSchemaProvider
     {
-        bool IsFileValid(string sourceFile, string schemaFile, out List<string> schemaErrors);
+        bool IsFileValid(string sourceFile, string schemaFile, List<string> schemaErrors);
     }
 }

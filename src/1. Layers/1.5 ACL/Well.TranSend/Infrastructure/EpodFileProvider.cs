@@ -1,7 +1,7 @@
-﻿using System.IO;
-
-namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.TranSend.Infrastructure
 {
+    using System.Collections.Generic;
+    using System.IO;
     using Contracts;
     using Common.Contracts;
     using Common.Extensions;
@@ -15,32 +15,35 @@ namespace PH.Well.TranSend.Infrastructure
         private readonly ILogger logger;
         private readonly string correctExtension = ".xml";
         private readonly string assemblyName = "PH.Well.TranSend";
+        private readonly IEpodImportConfiguration config;
 
         public EpodFileProvider(IEpodSchemaProvider epodSchemaProvider, ILogger logger, IEpodDomainImportProvider epodDomainImportProvider,
-            IEpodDomainImportService epodDomainImportService)
+            IEpodDomainImportService epodDomainImportService, IEpodImportConfiguration config)
         {
             this.epodSchemaProvider = epodSchemaProvider;
             this.logger = logger;
             this.epodDomainImportProvider = epodDomainImportProvider;
             this.epodDomainImportService = epodDomainImportService;
+            this.config = config;
         }
 
-        public void ListFilesAndProcess()
+        public void ListFilesAndProcess(List<string> schemaErrors)
         {
-            var filePath = Configuration.FileLocation;
+            var filePath = config.FilePath;
 
             var filesToRead = Directory.GetFiles(filePath);
 
             foreach (var fileToRead in filesToRead)
             {
                 var filenameWithoutPath = fileToRead.GetFilenameWithoutPath();
+                var errors = new List<string>();
 
                 if (epodDomainImportService.IsFileXmlType(fileToRead))
                 {
                     var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(fileToRead, schemaPath);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(fileToRead, schemaPath, errors);
 
                     if (!isFileValidBySchema)
                     {

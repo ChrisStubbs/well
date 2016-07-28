@@ -34,7 +34,7 @@
                     <td>{{delivery.accountCode}}</td>
                     <td>{{delivery.accountName}}</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
+                        <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId, $event)">Info</button>
                     </td>
                     <td>{{delivery.jobStatus}}</td>
                     <td>{{delivery.reason}}</td>

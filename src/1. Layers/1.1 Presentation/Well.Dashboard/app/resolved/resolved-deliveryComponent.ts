@@ -58,8 +58,9 @@ export class ResolvedDeliveryComponent implements OnInit {
 
     @ViewChild(ContactModal) modal = new ContactModal();
 
-    openModal(accountId): void {
+    openModal(accountId, event): void {
 
+        event.stopPropagation();
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => { this.account = account; this.modal.show(this.account); },
             error => this.errorMessage = <any>error);

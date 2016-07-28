@@ -15,6 +15,7 @@ namespace PH.Well.BDD.Steps
     {
         private readonly IContainer container;
         private string adamStatusMessage;
+        private readonly IAdamImportConfiguration config;
 
         public AdamImportSteps()
         {

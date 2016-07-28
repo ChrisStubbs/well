@@ -5,7 +5,9 @@
 </div>
 <toaster-container></toaster-container>
 <div class="jumbotron">
-    <div class="alert alert-info"><strong>Select the branches you want to see information about using the checkboxes below!</strong>
+    <div class="alert alert-info">
+        <strong *ngIf="!username">Select the branches you want to see information about using the checkboxes below!</strong>
+        <strong *ngIf="username">Select the branches to set up for {{username}}</strong>
     </div>
     <div class="well">
         <div class="checkbox">

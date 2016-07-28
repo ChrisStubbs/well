@@ -10,21 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var globalSettings_1 = require('../shared/globalSettings');
 require('rxjs/Rx'); // Load all features
 var branchService_1 = require('./branchService');
 var http_response_1 = require('../shared/http-response');
 var angular2_toaster_1 = require('angular2-toaster/angular2-toaster');
+var globalSettings_1 = require('../shared/globalSettings');
 var BranchSelectionComponent = (function () {
-    function BranchSelectionComponent(branchService, toasterService) {
+    function BranchSelectionComponent(branchService, toasterService, globalSettingsService) {
         this.branchService = branchService;
         this.toasterService = toasterService;
+        this.globalSettingsService = globalSettingsService;
         this.selectedBranches = [];
         this.httpResponse = new http_response_1.HttpResponse();
     }
     BranchSelectionComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.selectAllCheckbox = false;
+        this.username = this.globalSettingsService.globalSettings.username;
         this.branchService.getBranches()
             .subscribe(function (branches) {
             _this.branches = branches;
@@ -84,9 +86,9 @@ var BranchSelectionComponent = (function () {
             selector: 'ow-branch',
             templateUrl: './app/branch/branch-list.html',
             directives: [angular2_toaster_1.ToasterContainerComponent],
-            providers: [http_1.HTTP_PROVIDERS, globalSettings_1.GlobalSettingsService, branchService_1.BranchService, angular2_toaster_1.ToasterService]
+            providers: [http_1.HTTP_PROVIDERS, branchService_1.BranchService, angular2_toaster_1.ToasterService]
         }), 
-        __metadata('design:paramtypes', [branchService_1.BranchService, angular2_toaster_1.ToasterService])
+        __metadata('design:paramtypes', [branchService_1.BranchService, angular2_toaster_1.ToasterService, globalSettings_1.GlobalSettingsService])
     ], BranchSelectionComponent);
     return BranchSelectionComponent;
 }());

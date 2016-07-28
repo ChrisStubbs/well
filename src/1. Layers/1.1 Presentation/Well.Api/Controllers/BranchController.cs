@@ -39,7 +39,7 @@
         }
 
         [HttpGet]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage Get(string username = null)
         {
             try
             {
@@ -47,7 +47,7 @@
 
                 if (branches.Any())
                 {
-                    var userBranches = this.branchRespository.GetBranchesForUser(this.UserName);
+                    var userBranches = this.branchRespository.GetBranchesForUser(string.IsNullOrWhiteSpace(username) ? this.UserName : username.Replace('-', ' '));
 
                     var model = this.branchModelMapper.Map(branches, userBranches);
 
@@ -71,6 +71,27 @@
                 if (branches.Length > 0)
                 {
                     this.branchService.SaveBranchesForUser(branches, this.UserName);
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+                }
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error when trying to save branches for the user", exception);
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
+
+        [Route("save-branches-on-behalf-of-user")]
+        [HttpPost]
+        public HttpResponseMessage Post(Branch[] branches, string username, string domain)
+        {
+            try
+            {
+                if (branches.Length > 0)
+                {
+                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserName, domain);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 

@@ -90,10 +90,10 @@
                 this.dapperProxy.Setup(x => x.AddParameter("BranchId", branches[0].Id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", user.Name, DbType.String, 50))
+                this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", It.IsAny<string>(), DbType.String, 50))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", user.Name, DbType.String, 50))
+                this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", It.IsAny<string>(), DbType.String, 50))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null))
@@ -124,7 +124,7 @@
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.GetBranchesForUser))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Username", "foo", DbType.String, 500))
+                this.dapperProxy.Setup(x => x.AddParameter("Name", "foo", DbType.String, 255))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<Branch>()).Returns(new List<Branch> { new Branch { Id = 1 }, new Branch { Id = 2 }, new Branch { Id = 3 }});
@@ -135,7 +135,7 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.GetBranchesForUser), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("Username", "foo", DbType.String, 500), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("Name", "foo", DbType.String, 255), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
             }

@@ -17,9 +17,15 @@ var BranchService = (function () {
     function BranchService(http, globalSettingsService) {
         this.http = http;
         this.globalSettingsService = globalSettingsService;
+        this.username = this.globalSettingsService.globalSettings.username;
+        if (this.username === undefined)
+            this.username = '';
+        this.domain = this.globalSettingsService.globalSettings.domain;
+        if (this.domain === undefined)
+            this.domain = '';
     }
     BranchService.prototype.getBranches = function () {
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + this.username)
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };
@@ -27,8 +33,14 @@ var BranchService = (function () {
         var body = JSON.stringify(branches);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch', body, options)
-            .map(function (res) { return res.json(); });
+        if (this.username) {
+            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + this.username + '&domain=' + this.domain, body, options)
+                .map(function (res) { return res.json(); });
+        }
+        else {
+            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch', body, options)
+                .map(function (res) { return res.json(); });
+        }
     };
     BranchService.prototype.handleError = function (error) {
         console.log(error);

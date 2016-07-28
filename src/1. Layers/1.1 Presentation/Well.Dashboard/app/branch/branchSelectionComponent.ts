@@ -1,17 +1,17 @@
 ﻿import { Component, OnInit}  from '@angular/core';
 import { HTTP_PROVIDERS, Response } from '@angular/http';
-import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {IBranch} from './branch';
 import {BranchService} from './branchService';
 import {HttpResponse} from '../shared/http-response';
 import {ToasterContainerComponent, ToasterService} from 'angular2-toaster/angular2-toaster';
+import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html',
     directives: [ToasterContainerComponent],
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, BranchService, ToasterService]
+    providers: [HTTP_PROVIDERS, BranchService, ToasterService]
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;
@@ -20,12 +20,15 @@ export class BranchSelectionComponent implements OnInit {
     selectedBranches: Array<IBranch> = [];
     selectAllCheckbox: boolean;
     httpResponse: HttpResponse = new HttpResponse();
+    username: string;
 
-    constructor(private branchService: BranchService, private toasterService: ToasterService) {
+    constructor(private branchService: BranchService, private toasterService: ToasterService, private globalSettingsService: GlobalSettingsService) {
+
     }
 
     ngOnInit(): void {
         this.selectAllCheckbox = false;
+        this.username = this.globalSettingsService.globalSettings.username;
 
         this.branchService.getBranches()
             .subscribe(branches => {

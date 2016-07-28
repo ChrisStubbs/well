@@ -56,8 +56,9 @@ var ExceptionsComponent = (function () {
     ExceptionsComponent.prototype.deliverySelected = function (delivery) {
         window.location.href = './Exceptions/Delivery/' + delivery.id;
     };
-    ExceptionsComponent.prototype.openModal = function (accountId) {
+    ExceptionsComponent.prototype.openModal = function (accountId, event) {
         var _this = this;
+        event.stopPropagation();
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(function (account) { _this.account = account; _this.modal.show(_this.account); }, function (error) { return _this.errorMessage = error; });
     };

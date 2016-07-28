@@ -1,7 +1,36 @@
-﻿import { Component, OnInit}  from '@angular/core';
+﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS, Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
+import {User} from './user';
+import {UserPreferenceService} from './userPreferenceService';
+import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
+import {UserPreferenceModal} from './userPreferenceModalComponent';
 
+@Component({
+    selector: 'ow-user-preferences',
+    templateUrl: './app/user_preferences/user-preferences.html',
+    providers: [HTTP_PROVIDERS, UserPreferenceService, GlobalSettingsService, PaginationService],
+    directives: [PaginationControlsCmp, UserPreferenceModal],
+    pipes: [PaginatePipe]
+    }
+)
 export class UserPreferenceComponent {
+    userText: string;
+    users: Array<User> = [];
+    rowCount = 10;
+
+    constructor(private userPreferenceService: UserPreferenceService) {
+    }
+
+    @ViewChild(UserPreferenceModal) modal = new UserPreferenceModal();
+
+    find(): void {
+        this.userPreferenceService.getUsers(this.userText)
+            .subscribe(users => this.users = users);
+    }
+
+    userSelected(user): void {
+        this.modal.show(user);
+    }
 }

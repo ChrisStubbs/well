@@ -7,5 +7,9 @@
     public interface IActiveDirectoryService
     {
         IEnumerable<User> FindUsers(string name, string domains);
+
+        User GetUser(string username);
+
+        User GetUser(string username, string domain);
     }
 }

@@ -13,24 +13,24 @@ var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 var globalSettings_1 = require('../shared/globalSettings');
 require('rxjs/add/operator/map');
-var Userservice = (function () {
-    function Userservice(http, globalSettingsService) {
+var UserPreferenceService = (function () {
+    function UserPreferenceService(http, globalSettingsService) {
         this.http = http;
         this.globalSettingsService = globalSettingsService;
     }
-    Userservice.prototype.getUsers = function (name) {
+    UserPreferenceService.prototype.getUsers = function (name) {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users/' + name)
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };
-    Userservice.prototype.handleError = function (error) {
+    UserPreferenceService.prototype.handleError = function (error) {
         console.log(error);
         return Observable_1.Observable.throw(error.json().error || 'Server error');
     };
-    Userservice = __decorate([
+    UserPreferenceService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
-    ], Userservice);
-    return Userservice;
+    ], UserPreferenceService);
+    return UserPreferenceService;
 }());
-exports.Userservice = Userservice;
+exports.UserPreferenceService = UserPreferenceService;

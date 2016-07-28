@@ -42,7 +42,7 @@
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserGetByName))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Name", "Leeroy", DbType.String, 500))
+                this.dapperProxy.Setup(x => x.AddParameter("Name", "Leeroy", DbType.String, 255))
                     .Returns(this.dapperProxy.Object);
 
                 var users = new List<User> { UserFactory.New.Build() };
@@ -55,7 +55,7 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserGetByName), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("Name", "Leeroy", DbType.String, 500), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("Name", "Leeroy", DbType.String, 255), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Query<User>(), Times.Once);
             }
@@ -71,7 +71,16 @@
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserSave))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Name", user.Name, DbType.String, 500))
+                this.dapperProxy.Setup(x => x.AddParameter("Name", user.Name, DbType.String, 255))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("JobDescription", user.JobDescription, DbType.String, 500))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("IdentityName", user.IdentityName, DbType.String, 255))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Domain", user.Domain, DbType.String, 50))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", this.repository.CurrentUser, DbType.String, 50))
@@ -94,7 +103,13 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserSave), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("Name", user.Name, DbType.String, 500), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("Name", user.Name, DbType.String, 255), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("JobDescription", user.JobDescription, DbType.String, 500), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Domain", user.Domain, DbType.String, 50), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("IdentityName", user.IdentityName, DbType.String, 255), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
 

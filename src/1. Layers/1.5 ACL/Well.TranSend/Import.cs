@@ -9,7 +9,7 @@
 
     public class Import
     {
-        public void Process(IContainer container, string epodStatusMessage)
+        public void Process(IContainer container, ref string epodStatusMessage)
         {
             List<string> schemaErrors = new List<string>();
             var logger = container.GetInstance<ILogger>();

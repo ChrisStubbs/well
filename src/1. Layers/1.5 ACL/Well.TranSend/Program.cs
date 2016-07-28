@@ -17,7 +17,7 @@
             string epodStatusMessage = string.Empty;
             var container = DependancyRegister.InitIoc();
             var logger = container.GetInstance<ILogger>();
-            new Import().Process(container, epodStatusMessage);      
+            new Import().Process(container, ref  epodStatusMessage);      
             logger.LogDebug(epodStatusMessage);
         }
     }

@@ -76,7 +76,45 @@
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, validationErrors);
+        {
+
+            this.archiveLocation = config.ArchiveLocation;
+            this.ftpLocation = config.FtpLocation;
+            this.ftpUser = config.FtpUser;
+            this.ftpPass = config.FtpPass;
+            this.networkUser = config.NetworkUser;
+            this.networkUserPass = config.NetworkUserPass;
+
+            var request = (FtpWebRequest) WebRequest.Create(ftpLocation);
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            request.Credentials = new NetworkCredential(ftpUser, ftpPass);
+            var response = (FtpWebResponse) request.GetResponse();
+            var responseStream = response.GetResponseStream();
+            schemaErrors = new List<string>();
+
+            if (responseStream == null)
+                throw new Exception("response stream is null");
+
+            var reader = new StreamReader(responseStream);
+
+            while (!reader.EndOfStream)
+            {
+                var routeFile = reader.ReadLine();
+                string downloadedFile;
+                DownLoadFileFromFtp(routeFile, out downloadedFile);
+                
+                if(downloadedFile == Empty)
+                    throw new Exception("error with file download");
+
+                var filenameWithoutPath = downloadedFile.GetFilenameWithoutPath();
+
+                if (routeFile != null && epodDomainImportService.IsFileXmlType(downloadedFile))
+                {
+                    var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
+                    var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
+                    var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
+                    var validationErrors = new List<string>();
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, ref  validationErrors);
 
                     if (!isFileValidBySchema)
                     {

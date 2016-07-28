@@ -32,7 +32,7 @@
         }
 
 
-        public void ListFilesAndProcess(IAdamImportConfiguration config, out List<string> schemaErrors)
+        public void ListFilesAndProcess(IAdamImportConfiguration config, ref List<string> schemaErrors)
         {
             var filepath = config.FilePath;
             this.archiveLocation = config.ArchiveLocation;
@@ -50,7 +50,7 @@
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(file, schemaPath, validationErrors);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(file, schemaPath, ref validationErrors);
                     
                     if (!isFileValidBySchema)
                     {

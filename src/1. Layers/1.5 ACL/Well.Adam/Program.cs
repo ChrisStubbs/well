@@ -13,10 +13,10 @@
     {
         static void Main(string[] args)
         {
-            string adamStatusMessage; 
+            string adamStatusMessage = string.Empty; 
             var container = DependancyRegister.InitIoc();
             var logger = container.GetInstance<ILogger>();
-            new Import().Process(container, out adamStatusMessage);
+            new Import().Process(container, ref adamStatusMessage);
             logger.LogDebug(adamStatusMessage);
         }
 

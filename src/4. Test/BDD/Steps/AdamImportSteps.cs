@@ -28,7 +28,7 @@ namespace PH.Well.BDD.Steps
         {
             var adamImport = new Import();
             
-            adamImport.Process(container, out adamStatusMessage);
+            adamImport.Process(container, adamStatusMessage);
 
             var archiveLocation = @"D:\wellEpodArchive";
             //var originalLocation = @"D:\_dev\well\src\4. Test\BDD\bin\Debug\Xml";

@@ -4,38 +4,32 @@
     </ol>
 </div>
 <div class="jumbotron">
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="btn-group">
-                <span style="margin-right: 25px"><label>Account : {{delivery.accountCode}}</label></span>
-                <span style="margin-right: 25px"><label>Contact : {{delivery.contactName}}</label></span>
-                <span style="margin-right: 25px"><label>Phone : {{delivery.phoneNumber}}</label></span>
-                <span style="margin-right: 25px"><label>Mobile : {{delivery.mobileNumber}}</label></span>
-            </div>
+        <div class="col-md-6">
+            <address>
+                <strong>{{delivery.accountCode}} {{delivery.contactName}}</strong><br />
+                <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br />
+                <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br />
+                <abbr *ngIf="delivery.invoiceNumber" title="Mobile">Mobile:</abbr> {{delivery.invoiceNumber}}<br />
+            </address>
         </div>
-        <div class="col-md-4">
-            <div class="btn-group" style="float: right">
-                <label>{{delivery.accountName}}, {{delivery.accountAddress}}</label>
-            </div>
+        <div class="col-md-6">
+            <address>
+                <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
+            </address>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="btn-group">
-                <label>Invoice : {{delivery.invoiceNumber}}</label>
-            </div>
-        </div>
-    </div>
 
     <div class="table-responsive table-container">
         <table id="tableDelivery" class="table table-hover table-bordered" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
             <thead>
-                <tr >
+                <!--<tr>
                     <th colspan="100">
-                        <input type="checkbox" [(ngModel)]="selectAll" (click)="onShowAllClicked()" />Select All
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" [(ngModel)]="selectAll" (click)="onShowAllClicked()" /> Select All
+                            </label>
+                        </div>
                     </th>
-                </tr>
+                </tr>-->
                 <tr>
                     <th>Line No</th>
                     <th>Product</th>

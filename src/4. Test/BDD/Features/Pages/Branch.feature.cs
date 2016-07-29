@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace PH.Well.BDD.Features.Api
+namespace PH.Well.BDD.Features.Pages
 {
     using TechTalk.SpecFlow;
     
@@ -18,21 +18,23 @@ namespace PH.Well.BDD.Features.Api
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("VersionCheck")]
-    public partial class VersionCheckFeature
+    [NUnit.Framework.DescriptionAttribute("Branch")]
+    [NUnit.Framework.CategoryAttribute("WebDriverFeature")]
+    public partial class BranchFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "VersionCheck.feature"
+#line 1 "Branch.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "VersionCheck", "\tIn order to know which API version I\'m using\r\n\tAs a user\r\n\tI want to query the A" +
-                    "PI version", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Branch", "\tIn order to view the branch deliveries\r\n\tAs a well user\r\n\tI want to be able to d" +
+                    "etermine what branches I can see", ProgrammingLanguage.CSharp, new string[] {
+                        "WebDriverFeature"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,20 +67,24 @@ namespace PH.Well.BDD.Features.Api
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Check API version")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
-        public virtual void CheckAPIVersion()
+        [NUnit.Framework.DescriptionAttribute("A user sets all branches to themselves")]
+        public virtual void AUserSetsAllBranchesToThemselves()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check API version", new string[] {
-                        "mytag"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user sets all branches to themselves", ((string[])(null)));
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.When("I get the API version", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.Then("the response code is \'200\' OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.And("a version number is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select all the branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 11
+ testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 12
+    testRunner.And("select branches selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 13
+    testRunner.Then("all the branches are selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

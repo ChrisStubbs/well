@@ -12,17 +12,17 @@
     <div class="well">
         <div class="checkbox">
             <label>
-                <input type="checkbox" (click)="selectAll()" [(ngModel)]="selectAllCheckbox" />Select all
+                <input id="select-all-branches" type="checkbox" (click)="selectAll()" [(ngModel)]="selectAllCheckbox" />Select all
             </label>
         </div>
         <div class="checkbox" *ngFor="let branch of branches">
             <label>
-                <input type="checkbox" [(ngModel)]="branch.selected" (click)="selectBranch(branch)" />{{branch.name}} ({{branch.id}})
+                <input class="branch-checkboxes" type="checkbox" [(ngModel)]="branch.selected" (click)="selectBranch(branch)" />{{branch.name}} ({{branch.id}})
             </label>
         </div>
     </div>
     <div class="btn-group pull-right">
-        <button class="btn btn-primary" (click)="save()">Save</button>
+        <button class="btn btn-primary" (click)="save()" id="save">Save</button>
     </div>
 </div>
 

@@ -25,6 +25,7 @@
             this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.routeModelsMapper = routeModelsMapper;
+            this.routeRepository.CurrentUser = this.UserName;
         }
 
         [Route("routes", Name = "GetRoutes")]

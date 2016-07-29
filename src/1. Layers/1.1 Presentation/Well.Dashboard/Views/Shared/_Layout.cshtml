@@ -43,11 +43,11 @@
                 <li>@Html.ActionLink("Clean", "Index", "Clean")</li>
                 <li>@Html.ActionLink("Resolved", "Index", "Resolved")</li>
                 <li>@Html.ActionLink("Notifications", "Index", "Notifications")</li>
-                <li class="dropdown pull-right" style="margin-right: 125px;">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span>
+                <li class="dropdown pull-right" style="margin-right: 125px;" id="admin-dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret" id="admin-dropdown-anchor"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Branch Selection", "Index", "Branch")</li>
+                        <li>@Html.ActionLink("Branch Selection", "Index", "Branch", null, new { id = "branch-selection" })</li>
                         <li>@Html.ActionLink("User Preferences", "Index", "Preferences")</li>
                     </ul>
                 </li>

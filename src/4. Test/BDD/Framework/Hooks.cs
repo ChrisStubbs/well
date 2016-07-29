@@ -42,7 +42,6 @@
         [BeforeFeature(@"WebDriverFeature")]
         public static void SetDriver()
         {
-            
             DriverContext.CurrentDriver = DriverFactory.Create(Configuration.Driver);
         }
 

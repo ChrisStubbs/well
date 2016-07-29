@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace PH.Well.BDD.Pages
+﻿namespace PH.Well.BDD.Pages
 {
+    using System;
     using System.Globalization;
     using Framework;
     using Framework.Context;

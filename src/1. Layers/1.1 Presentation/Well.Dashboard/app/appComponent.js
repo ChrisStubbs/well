@@ -10,27 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-//import { ROUTER_PROVIDERS, ROUTER_DIRECTIVES, RouteConfig } from "@angular2/router";
+var router_1 = require('@angular/router');
 require('rxjs/Rx'); // Load all features
-var accountComponent_1 = require('./account/accountComponent');
-var branchSelectionComponent_1 = require('./branch/branchSelectionComponent');
-var cleanDeliveryComponent_1 = require('./clean/cleanDeliveryComponent');
-var deliveryComponent_1 = require('./delivery/deliveryComponent');
-var exceptionsComponent_1 = require('./exceptions/exceptionsComponent');
-var notificationsComponent_1 = require('./notifications/notificationsComponent');
-var resolved_deliveryComponent_1 = require('./resolved/resolved-deliveryComponent');
-var routeHeaderComponent_1 = require('./route_header/routeHeaderComponent');
-var widgetStatsComponent_1 = require('./home/widgetStatsComponent');
 var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
+        // Load all features
         core_1.Component({
             selector: 'ow-app',
-            template: "<ow-widgetstats></ow-widgetstats>\n                ",
+            templateUrl: 'applayout',
             providers: [http_1.HTTP_PROVIDERS],
-            directives: [accountComponent_1.AccountComponent, branchSelectionComponent_1.BranchSelectionComponent, cleanDeliveryComponent_1.CleanDeliveryComponent, deliveryComponent_1.DeliveryComponent,
-                exceptionsComponent_1.ExceptionsComponent, notificationsComponent_1.NotificationsComponent, resolved_deliveryComponent_1.ResolvedDeliveryComponent, routeHeaderComponent_1.RouteHeaderComponent, widgetStatsComponent_1.WidgetStatsComponent]
+            directives: [router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

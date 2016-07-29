@@ -1,4 +1,5 @@
-﻿require('ts-loader');
+﻿/// <binding AfterBuild='Run - Development' />
+require('ts-loader');
 var webpack = require("webpack");
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
         ,filename: "[name]Bundle.js"
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({minimize: true})
+        //new webpack.optimize.UglifyJsPlugin({minimize: true})
     ],
     module: {
     loaders: [

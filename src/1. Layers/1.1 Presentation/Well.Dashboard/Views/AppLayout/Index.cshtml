@@ -1,0 +1,46 @@
+﻿@using PH.Well.Dashboard.Extensions
+
+@{
+    Layout = null;
+}
+
+<div class="app">
+    <div class="row-fluid">
+        <div>
+            <a routerLink="/widgets" routerLinkActive="active" title="Home">
+                <div class="logo"></div>
+            </a>
+            <div id="headerHolder">
+                <span style="color: white; font-weight: bold">@Model.Version</span> &nbsp; <span style="color: white; font-weight: bold">@Model.UsersBranches</span>
+            </div>
+            <div id="user-details" class="pull-right">
+                <div>Logged in as @Html.EmployeeDisplayName()</div>
+                <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div id="nav">
+            <ul class="nav nav-pills" style="min-height: 39px;">
+                <li><a routerLink="/routes" routerLinkActive="active">Routes</a></li>
+                <li><a routerLink="/exceptions" routerLinkActive="active">Exceptions</a></li>
+                <li><a routerLink="/clean" routerLinkActive="active">Clean</a></li>
+                <li><a routerLink="/resolved" routerLinkActive="active">Resolved</a></li>
+                <li><a routerLink="/notifications" routerLinkActive="active">Notifications</a></li>
+                <li class="dropdown pull-right" style="margin-right: 125px;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Admin <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a routerLink="/branch" routerLinkActive="active">Branch Selection</a></li>
+                        <li><a routerLink="/preferences" routerLinkActive="active">User Preferences</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

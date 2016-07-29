@@ -21,44 +21,8 @@
     <noscript>
         <div class="alert alert-warning">Javascript must be turned on for this website to work!</div>
     </noscript>
-<div class="app">
-    <div class="row-fluid">
-        <div>
-            <a href="@Url.Action("Index", "Home")" title="Home">
-                <div class="logo"></div></a>
-            <div id="headerHolder">
-                <span style="color: white; font-weight: bold">@Model.Version</span> &nbsp; <span style="color: white; font-weight: bold">@Model.UsersBranches</span>
-            </div>
-            <div id="user-details" class="pull-right">
-                <div>Logged in as @Html.EmployeeDisplayName()</div>
-                <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
-            </div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div id="nav">
-            <ul class="nav nav-pills" style="min-height: 39px;">
-                <li>@Html.ActionLink("Routes", "Index", "Routes")</li>
-                <li>@Html.ActionLink("Exceptions", "Index", "Exceptions")</li>
-                <li>@Html.ActionLink("Clean", "Index", "Clean")</li>
-                <li>@Html.ActionLink("Resolved", "Index", "Resolved")</li>
-                <li>@Html.ActionLink("Notifications", "Index", "Notifications")</li>
-                <li class="dropdown pull-right" style="margin-right: 125px;" id="admin-dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret" id="admin-dropdown-anchor"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Branch Selection", "Index", "Branch", null, new { id = "branch-selection" })</li>
-                        <li>@Html.ActionLink("User Preferences", "Index", "Preferences", null, new { id = "user-preference-selection" })</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 
-<div class="container">
-    @RenderBody()
-</div>
+@RenderBody()
 
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")

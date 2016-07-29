@@ -98,7 +98,11 @@ namespace PH.Well.Api.Controllers
             try
             {
                 //Todo: Replace this with call to database and mapping!
-                var delivery = this.GetMockDeliveryDetails(id);
+             //   var delivery = this.GetMockDeliveryDetails(id);
+
+                var deliveryDetail = this.deliveryReadRepository.GetDeliveryById(id);
+                var deliveryLines = this.deliveryReadRepository.GetDeliveryLinesById(id);
+                var delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
                 return (delivery == null)
                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                    : this.Request.CreateResponse(HttpStatusCode.OK, delivery);
@@ -109,6 +113,44 @@ namespace PH.Well.Api.Controllers
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
+
+
+        private DeliveryDetailModel CreateDeliveryDetails(IEnumerable<DeliveryLine> lines, DeliveryDetail detail )
+        {
+            var deliveryDetail = new DeliveryDetailModel
+            {
+                Id = detail.Id,
+                AccountCode = detail.AccountCode,
+                AccountName = detail.AccountName,
+                AccountAddress = detail.AccountAddress,
+                InvoiceNumber = detail.InvoiceNumber,
+                ContactName = detail.ContactName,
+                PhoneNumber = detail.PhoneNumber,
+                MobileNumber = detail.MobileNumber,
+                DeliveryType = detail.DeliveryType
+            };
+
+            foreach (var line in lines)
+            {
+                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
+                {
+                    LineNo = line.LineNo,
+                    ProductCode = line.ProductCode,
+                    ProductDescription = line.ProductDescription,
+                    Value = line.Value.ToString(),
+                    InvoicedQuantity = line.InvoicedQuantity,
+                    DeliveredQuantity = line.DeliveredQuantity,
+                    DamagedQuantity = line.DamagedQuantity,
+                    ShortQuantity = line.ShortQuantity,
+                    Reason = line.Reason,
+                    Status = line.Status
+                });
+            }
+
+            return deliveryDetail;
+        }
+
+
 
 
         private DeliveryDetailModel GetMockDeliveryDetails(int id)

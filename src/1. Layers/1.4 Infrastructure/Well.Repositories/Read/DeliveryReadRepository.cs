@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories.Read
+﻿using System.Linq;
+
+namespace PH.Well.Repositories.Read
 {
     using System.Collections.Generic;
     using System.Data;
@@ -49,6 +51,21 @@
             allExceptions.AddRange(nonAuthorisedBypassed); 
 
             return allExceptions;
+        }
+
+        public DeliveryDetail GetDeliveryById(int id)
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveryGetById)
+               .AddParameter("Id", id, DbType.Int32)
+               .Query<DeliveryDetail>()
+               .FirstOrDefault();
+        }
+
+        public IEnumerable<DeliveryLine> GetDeliveryLinesById(int id)
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveryLinesGetById)
+               .AddParameter("Id", id, DbType.Int32)
+               .Query<DeliveryLine>();
         }
 
     }

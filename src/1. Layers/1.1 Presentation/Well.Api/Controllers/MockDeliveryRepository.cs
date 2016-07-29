@@ -25,7 +25,6 @@ namespace PH.Well.Api.Controllers
             return GetMockDeliveries();
         }
 
-
         private List<Delivery> GetMockDeliveries()
         {
             var list = new List<Delivery>();
@@ -81,5 +80,16 @@ namespace PH.Well.Api.Controllers
 
             return list;
         }
+
+        public IEnumerable<DeliveryLine> GetDeliveryLinesById (int id)
+        {
+            return null;
+        }
+
+        public DeliveryDetail GetDeliveryById(int id)
+        {
+            return null;
+        }
+
     }
 }

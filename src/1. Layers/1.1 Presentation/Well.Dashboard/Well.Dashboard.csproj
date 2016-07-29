@@ -284,6 +284,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
+    <Content Include="Scripts\angular2\appBundle.js" />
+    <Content Include="Scripts\angular2\vendorBundle.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -294,6 +296,7 @@
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="tsconfig.json" />
+    <Content Include="webpack.config.js" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -309,7 +312,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="systemjs.config.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -350,6 +352,7 @@
     <TypeScriptCompile Include="app\account\accountComponent.ts" />
     <TypeScriptCompile Include="app\account\accountService.ts" />
     <TypeScriptCompile Include="app\account\main.ts" />
+    <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\branch\Branch.ts" />
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
     <TypeScriptCompile Include="app\branch\branchService.ts" />
@@ -369,6 +372,7 @@
     <TypeScriptCompile Include="app\exceptions\main.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
     <TypeScriptCompile Include="app\home\main.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\notifications\main.ts" />
     <TypeScriptCompile Include="app\resolved\main.ts" />
@@ -384,6 +388,7 @@
     <TypeScriptCompile Include="app\shared\http-response.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
+    <TypeScriptCompile Include="app\shared\vendor.ts" />
     <TypeScriptCompile Include="app\shared\well-modal.ts" />
     <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
     <TypeScriptCompile Include="app\shared\filterOption.ts" />

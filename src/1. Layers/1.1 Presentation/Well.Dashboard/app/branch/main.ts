@@ -7,3 +7,5 @@ import {BranchSelectionComponent} from './branchSelectionComponent';
 export function runApplication(config: IGlobalSettings) {
     bootstrap(BranchSelectionComponent, [GlobalSettingsService, provide('global.settings', { useValue: config })]);
 }
+
+bootstrap(BranchSelectionComponent, []);

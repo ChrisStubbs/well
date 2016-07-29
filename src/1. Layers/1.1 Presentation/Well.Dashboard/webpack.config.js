@@ -2,11 +2,14 @@
 var webpack = require("webpack");
 
 module.exports = {
-    entry: ["./app/branch/main.ts", "./app/clean/main.ts"],
+    entry: {
+        vendor: "./app/shared/vendor.ts",
+        app: ["./app/main.ts"]
+    },
     devtool: "source-map",
     output: {
-        path: "./Scripts/angular2",
-        filename: "bundle.js"
+        path: "./Scripts/angular2/"
+        ,filename: "[name]Bundle.js"
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({minimize: true})

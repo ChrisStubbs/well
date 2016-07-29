@@ -32,4 +32,4 @@ gulp.task('watch',
         gulp.watch(config.src, ['less']); // Watch all the .less files, then run the less task
     });
 
-gulp.task('default', ['less', 'angular2'], function () { });
+gulp.task('default', ['less'], function () { });

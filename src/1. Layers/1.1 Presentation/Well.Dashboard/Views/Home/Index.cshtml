@@ -1,14 +1,6 @@
 ﻿@model PH.Well.Dashboard.Models.BootstrapData
 @{
-    ViewBag.Title = "Order Well Stats";
+    ViewBag.Title = "Order Well";
 }
-@section scripts{
-    <script>
-        var serverConfig = @Html.Raw(Model.Configuration);
-        System.import('app/home/main')
-            .then(function(m) { m.runApplication(serverConfig); })
-            .catch(console.error.bind(console));
-    </script>
 
-}
-<ow-widgetstats>Loading Stats!...</ow-widgetstats>
+<ow-app>Loading The Well!...</ow-app>

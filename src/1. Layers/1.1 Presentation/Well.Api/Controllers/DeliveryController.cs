@@ -1,4 +1,8 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
+using PH.Well.Domain.ValueObjects;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Linq;
@@ -88,12 +92,20 @@
         {
             try
             {
-                return this.Request.CreateResponse(HttpStatusCode.OK);
-             //   var delivery = this.GetMockDeliveryDetails(id);
+                //   var delivery = this.GetMockDeliveryDetails(id);
 
                 var deliveryDetail = this.deliveryReadRepository.GetDeliveryById(id);
                 var deliveryLines = this.deliveryReadRepository.GetDeliveryLinesById(id);
                 var delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
+
+                if (delivery.AccountCode.Length <= 0)
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+                else
+
+                { return this.Request.CreateResponse(HttpStatusCode.OK, delivery); }
+            
             }
             catch (Exception ex)
             {

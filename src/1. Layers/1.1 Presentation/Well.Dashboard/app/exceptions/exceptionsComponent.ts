@@ -57,15 +57,13 @@ export class ExceptionsComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery: ExceptionDelivery): void {
+    deliverySelected(delivery: ExceptionDelivery, event): void {
         window.location.href ='./Exceptions/Delivery/' + delivery.id;
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();
 
-    openModal(accountId, event): void {
-
-        event.stopPropagation();
+    openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => { this.account = account; this.modal.show(this.account); },
             error => this.errorMessage = <any>error);

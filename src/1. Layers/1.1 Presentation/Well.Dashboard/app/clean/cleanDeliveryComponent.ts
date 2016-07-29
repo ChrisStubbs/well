@@ -14,8 +14,6 @@ import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 
-
-
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
@@ -57,9 +55,7 @@ export class CleanDeliveryComponent implements OnInit {
 
     @ViewChild(ContactModal) modal = new ContactModal();
 
-    openModal(accountId, event): void {
-
-        event.stopPropagation();
+    openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => { this.account = account; this.modal.show(this.account);},
             error => this.errorMessage = <any>error);

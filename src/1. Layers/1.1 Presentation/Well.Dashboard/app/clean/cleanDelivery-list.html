@@ -7,43 +7,48 @@
 </div>
 
 <div class="jumbotron">
-    <div class="row">
-        <ow-optionfilter [options]="options"
-                         (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+    <div *ngIf="!cleanDeliveries">
+        <div class="alert alert-info"><strong>No clean deliveries!</strong></div>
     </div>
+    <div *ngIf="cleanDeliveries && cleanDeliveries.length">
+        <div class="row">
+            <ow-optionfilter [options]="options"
+                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+        </div>
 
-    <div class="table-responsive table-container">
-        <table id="tableCleanDeliveries" class="table table-hover table-bordered" *ngIf="cleanDeliveries && cleanDeliveries.length">
-            <thead>
-            <tr>
-                <th>Route</th>
-                <th>Drop</th>
-                <th>Invoice No</th>
-                <th>Account</th>
-                <th>Account Name</th>
-                <th>Contact</th>
-                <th>Status</th>
-                <th>Last updated date/time</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
-                <td>{{delivery.routeNumber}}</td>
-                <td>{{delivery.dropId}}</td>
-                <td>{{delivery.invoiceNumber}}</td>
-                <td>{{delivery.accountCode}}</td>
-                <td>{{delivery.accountName}}</td>
-                <td>
-                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId, $event)" >Info</button>
-                </td>
-                <td>{{delivery.jobStatus}}</td>
-                <td>{{delivery.dateTime}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="row pull-right">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        <div class="table-responsive table-container">
+            <table id="tableCleanDeliveries" class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Drop</th>
+                    <th>Invoice No</th>
+                    <th>Account</th>
+                    <th>Account Name</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th>Last updated date/time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                    <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                    <td>
+                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)" >Info</button>
+                    </td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.dateTime}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row pull-right">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
     </div>
 </div>
 <contact-modal></contact-modal>

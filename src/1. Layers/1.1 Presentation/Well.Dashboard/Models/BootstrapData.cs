@@ -9,6 +9,7 @@
         {
             ConfigDictionary = new Dictionary<string, string>();
         }
+
         public string UserName { get; set; }
 
         public string Configuration => JsonConvert.SerializeObject(ConfigDictionary);

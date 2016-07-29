@@ -4,6 +4,6 @@
 
     public  interface IAdamRouteFileProvider
     {
-        void ListFilesAndProcess(IAdamImportConfiguration config, ref List<string> schemaErrors);
+        void ListFilesAndProcess(IAdamImportConfiguration config, List<string> schemaErrors);
     }
 }

@@ -3,6 +3,8 @@
 export interface IGlobalSettings {
     apiUrl: string;
     deliveryId: number;
+    username: string;
+    domain: string;
 }
 
 @Injectable()

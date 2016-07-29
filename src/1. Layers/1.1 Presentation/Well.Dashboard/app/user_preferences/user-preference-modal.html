@@ -1,0 +1,16 @@
+﻿<div *ngIf="isVisible" class="modal fade show in danger" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{user.name}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning"><strong>Are you sure you want to set up branches for {{user.name}}!</strong></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="setBranches()">Yes</button>
+                <button type="button" class="btn btn-primary" (click)="hide()">No</button>
+            </div>
+        </div>
+    </div>
+</div>   

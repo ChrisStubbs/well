@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -33,9 +34,9 @@
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveUserBranch)
                     .AddParameter("UserId", user.Id, DbType.Int32)
                     .AddParameter("BranchId", branch.Id, DbType.Int32)
-                    .AddParameter("CreatedBy", user.Name, DbType.String, size: 50)
+                    .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                     .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
-                    .AddParameter("UpdatedBy", user.Name, DbType.String, size: 50)
+                    .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                     .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
                     .Execute();
             }
@@ -45,7 +46,7 @@
         {
             return
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForUser)
-                    .AddParameter("Username", username, DbType.String, size: 500)
+                    .AddParameter("Name", username, DbType.String, size: 255)
                     .Query<Branch>();
         }
     }

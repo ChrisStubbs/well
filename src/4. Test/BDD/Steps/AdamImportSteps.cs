@@ -1,12 +1,13 @@
-﻿using System;
-using System.IO;
-using PH.Well.Adam.Contracts;
-using PH.Well.Common.Extensions;
-
-namespace PH.Well.BDD.Steps
+﻿namespace PH.Well.BDD.Steps
 {
+    using System.IO;
+
     using Adam;
     using Framework.Context;
+
+    using PH.Well.Adam.Contracts;
+    using PH.Well.Common.Extensions;
+
     using StructureMap;
     using TechTalk.SpecFlow;
 
@@ -14,7 +15,6 @@ namespace PH.Well.BDD.Steps
     public class AdamImportSteps
     {
         private readonly IContainer container;
-        private string adamStatusMessage;
         private readonly IAdamImportConfiguration config;
 
         public AdamImportSteps()
@@ -28,7 +28,7 @@ namespace PH.Well.BDD.Steps
         {
             var adamImport = new Import();
             
-            adamImport.Process(container, ref adamStatusMessage);
+            adamImport.Process(container);
 
             //var archiveLocation = this.config.ArchiveLocation;
             //var originalLocation = this.config.FilePath;

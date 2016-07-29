@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeaders_Get]
-	--@UserName VARCHAR(500)
+	@UserName VARCHAR(500)
 
 AS
 	SELECT 
@@ -26,13 +26,13 @@ AS
       ,rh.[Version]
 
   FROM [dbo].[RouteHeader] rh
- -- INNER JOIN
-	--dbo.Branch b on rh.StartDepotCode = UPPER(b.TranscendMapping)
- -- INNER JOIN
-	--dbo.UserBranch ub on b.Id = ub.BranchId
- -- INNER JOIN
-	--dbo.[User] u on u.Id = ub.UserId
- -- WHERE
-	--u.Name = @UserName
+  INNER JOIN
+	dbo.Branch b on rh.StartDepotCode = UPPER(b.TranscendMapping)
+INNER JOIN
+	dbo.UserBranch ub on b.Id = ub.BranchId
+ INNER JOIN
+	dbo.[User] u on u.Id = ub.UserId
+ WHERE
+	u.IdentityName = @UserName
 
 RETURN 0

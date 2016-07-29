@@ -53,7 +53,7 @@ var ExceptionsComponent = (function () {
     ExceptionsComponent.prototype.onFilterClicked = function (filterOption) {
         this.filterOption = filterOption;
     };
-    ExceptionsComponent.prototype.deliverySelected = function (delivery) {
+    ExceptionsComponent.prototype.deliverySelected = function (delivery, event) {
         window.location.href = './Exceptions/Delivery/' + delivery.id;
     };
     ExceptionsComponent.prototype.openModal = function (accountId) {

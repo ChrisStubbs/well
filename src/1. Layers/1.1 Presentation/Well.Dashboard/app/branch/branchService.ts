@@ -7,12 +7,22 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BranchService {
+    username: string;
+    domain: string;
 
-    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
+    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) {
+        this.username = this.globalSettingsService.globalSettings.username;
+       
+        if (this.username === undefined) this.username = '';
+
+        this.domain = this.globalSettingsService.globalSettings.domain;
+
+        if (this.domain === undefined) this.domain = '';
+    }
 
     getBranches(): Observable<IBranch[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + this.username)
             .map((response: Response) => <IBranch[]>response.json())
             .catch(this.handleError);
     }
@@ -22,8 +32,17 @@ export class BranchService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({headers: headers});
 
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch', body, options)
-            .map(res => res.json());
+        if (this.username) {
+            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + this.username + '&domain=' + this.domain,
+                    body,
+                    options)
+                .map(res => res.json());
+        } else {
+            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch',
+                    body,
+                    options)
+                .map(res => res.json());
+        }
     }
 
     private handleError(error: Response) {

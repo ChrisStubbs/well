@@ -1,11 +1,7 @@
 ﻿namespace PH.Well.Adam.Infrastructure
 {
-    using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.IO;
-    using System.Xml.Schema;
-    using Common;
     using Contracts;
     using Common.Contracts;
     using Common.Extensions;
@@ -32,13 +28,12 @@
         }
 
 
-        public void ListFilesAndProcess(IAdamImportConfiguration config, ref List<string> schemaErrors)
+        public void ListFilesAndProcess(IAdamImportConfiguration config, List<string> schemaErrors)
         {
             var filepath = config.FilePath;
             this.archiveLocation = config.ArchiveLocation;
 
             var ePodFiles = Directory.GetFiles(filepath, config.SearchPattern, SearchOption.TopDirectoryOnly);
-            schemaErrors = new List<string>();
 
             foreach (var file in ePodFiles)
             {
@@ -50,7 +45,7 @@
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(file, schemaPath, ref validationErrors);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(file, schemaPath, validationErrors);
                     
                     if (!isFileValidBySchema)
                     {
@@ -69,11 +64,7 @@
                         logger.LogDebug($"File {file} imported.");                
                     }
                 }
-
             }
         }
-
-
-
     }
 }

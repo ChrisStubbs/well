@@ -75,8 +75,9 @@
                     var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
+
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, ref  validationErrors);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, validationErrors);
 
                     if (!isFileValidBySchema)
                     {

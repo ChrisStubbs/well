@@ -6,6 +6,8 @@
     {
         void SaveBranchesForUser(Branch[] branches, string username);
 
+        void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string identityName, string domain);
+
         string GetUserBranchesFriendlyInformation(string username);
     }
 }

@@ -39,7 +39,7 @@ BEGIN
 	WHERE
 		ps.Id =  @PerformanceStatusId
 	AND 
-		u.Name = @UserName
+		u.IdentityName = @UserName
 
 
 END

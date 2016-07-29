@@ -8,9 +8,7 @@ import {IAccount} from "../account/account";
 export class ContactModal  {
     public IsVisible: boolean;
     account: IAccount;
-
-
-
+    
     show(account: IAccount) {
 
         this.account = account;

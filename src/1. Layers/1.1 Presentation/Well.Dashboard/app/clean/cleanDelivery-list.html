@@ -31,17 +31,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
-                    <td>{{delivery.routeNumber}}</td>
-                    <td>{{delivery.dropId}}</td>
-                    <td>{{delivery.invoiceNumber}}</td>
-                    <td>{{delivery.accountCode}}</td>
-                    <td>{{delivery.accountName}}</td>
+                <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                    <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
                     <td>
-                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId, $event)" >Info</button>
+                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)" >Info</button>
                     </td>
-                    <td>{{delivery.jobStatus}}</td>
-                    <td>{{delivery.dateTime}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.dateTime}}</td>
                 </tr>
                 </tbody>
             </table>

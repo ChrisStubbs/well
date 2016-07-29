@@ -9,6 +9,6 @@ BEGIN
 	FROM [dbo].[UserBranch] ub
 	JOIN [dbo].[User] u on u.Id = ub.UserId
 	JOIN [dbo].[Branch] b on b.Id = ub.BranchId
-	WHERE u.IdentityName = @Name OR u.IdentityName = @Name
+	WHERE u.Name = @Name OR u.IdentityName = @Name
 
 END

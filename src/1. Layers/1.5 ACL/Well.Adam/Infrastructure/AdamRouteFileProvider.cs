@@ -54,7 +54,6 @@
                     
                     if (!isFileValidBySchema)
                     {
-
                         var validationError =
                             $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";
 

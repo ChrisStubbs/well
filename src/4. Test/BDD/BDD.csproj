@@ -105,6 +105,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdamRouteFileSchemaValidation.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\ACL\EpodRouteFileSchemaValidation.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EpodRouteFileSchemaValidation.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\CleanPage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -140,6 +150,7 @@
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
+    <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
     <Compile Include="Framework\WebElements\PagerContainer.cs" />
@@ -182,6 +193,14 @@
     </None>
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Features\ACL\AdamRouteFileSchemaValidation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdamRouteFileSchemaValidation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EpodRouteFileSchemaValidation.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -246,9 +265,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="phantomjs.exe" />
+    <Content Include="Epod\ePOD__20160701_10452212189454.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Xml\PH_ROUTES_30062016_02.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RouteFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

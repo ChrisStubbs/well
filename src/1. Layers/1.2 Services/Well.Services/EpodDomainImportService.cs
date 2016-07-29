@@ -276,6 +276,11 @@
 
         public void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation)
         {
+            if (File.Exists(Path.Combine(archiveLocation, fileNameWithoutPath)))
+            {
+                File.Delete(Path.Combine(archiveLocation, fileNameWithoutPath));
+            }
+
             File.Move(filename, Path.Combine(archiveLocation, fileNameWithoutPath));
         }
 

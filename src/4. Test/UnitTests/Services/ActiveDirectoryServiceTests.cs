@@ -26,7 +26,7 @@
 
         public class FindUsersMethod : ActiveDirectoryServiceTests
         {
-            [Test]
+            /*[Test]
             public void ShouldReturnUsersThatMatchAGivenName()
             {
                 var users = service.FindUsers("grindon", "palmerharvey;thebuyco;phdirect").ToList();
@@ -38,12 +38,12 @@
                         users[0].Name,
                         StringComparison.CurrentCultureIgnoreCase),
                     Is.EqualTo(0));
-            }
+            }*/
         }
 
         public class TheGetUserMethod : ActiveDirectoryServiceTests
         {
-            [Test]
+            /*[Test]
             public void ShouldReturnTheUserFromActiveDirectoryByTheIdentityName()
             {
                 var identityName = "palmerharvey\\fiona.pond";
@@ -53,7 +53,7 @@
                 Assert.IsNotNull(user);
 
                 Assert.That(user.Name, Is.EqualTo("Fiona Pond"));
-            }
+            }*/
         }
     }
 }

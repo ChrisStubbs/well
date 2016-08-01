@@ -14,6 +14,7 @@ namespace PH.Well.BDD.Steps
     using TechTalk.SpecFlow;
     using Framework.Extensions;
     using NUnit.Framework;
+    using TechTalk.SpecFlow.Assist.ValueRetrievers;
 
     [Binding]
     public class AdamImportSteps
@@ -86,6 +87,36 @@ namespace PH.Well.BDD.Steps
             Assert.That(actualSchemaResult, Is.EqualTo(expectedSchemaErrorMessage));
              
         }
+
+        [Given(@"I have an invalid ADAM route file '(.*)' with a '(.*)' node at position '(.*)' with a '(.*)' node added with a value of '(.*)'")]
+        public void GivenIHaveAnInvalidADAMRouteFileWithANodeAtPositionWithANodeAddedWithAValueOf(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeValue)
+        {
+            var fileFolder = "xml";
+            ProcessImportFileWithNodeAdded(resultFile, parentNode, nodePosition, nodeToAdd, nodeValue,  fileFolder, currentAdamRouteFile);
+        }
+
+        [Given(@"I have an invalid Epod route file '(.*)' with a '(.*)' node at position '(.*)' with a '(.*)' node added with a value of '(.*)'")]
+        public void GivenIHaveAnInvalidEpodRouteFileWithANodeAtPositionWithANodeAddedWithAValueOf(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeValue)
+        {
+            var fileFolder = "Epod";
+            ProcessImportFileWithNodeAdded(resultFile, parentNode, nodePosition, nodeToAdd, nodeValue, fileFolder, currentEpodRouteFile);
+        }
+
+
+
+        private void ProcessImportFileWithNodeAdded(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeToAddValue,  string routeFileFolder, string currentRouteFile)
+        {
+            var sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, routeFileFolder + @"\" + currentRouteFile);
+            var importRouteFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles") + @"\" + resultFile;
+
+            RouteFileExtensions.DeleteTestRouteFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles"));
+
+            var isChildCollectionNode = parentNode != ParentNode;
+
+            RouteFileExtensions.AddElementsToRouteFile(sourceFile, parentNode, nodePosition, nodeToAdd, nodeToAddValue, importRouteFile);
+            ScenarioContext.Current.Add("currentRouteTestFile", importRouteFile);
+        }
+
 
         private void ProcessImportFile(string resultFile, string parentNode, int nodePosition, string nodeToRemove, string routeFileFolder, string currentRouteFile)
         {

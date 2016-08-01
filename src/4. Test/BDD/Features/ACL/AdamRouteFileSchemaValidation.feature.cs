@@ -165,6 +165,76 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import ADAM route file with the additional CompanyName node added to the first fi" +
+            "rst route header node")]
+        public virtual void ImportADAMRouteFileWithTheAdditionalCompanyNameNodeAddedToTheFirstFirstRouteHeaderNode()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import ADAM route file with the additional CompanyName node added to the first fi" +
+                    "rst route header node", ((string[])(null)));
+#line 31
+this.ScenarioSetup(scenarioInfo);
+#line 32
+ testRunner.Given("I have an invalid ADAM route file \'PH_ROUTES_AdditionalCompanyNameNode.xml\' with " +
+                    "a \'RouteHeader\' node at position \'0\' with a \'CompanyName2\' node added with a val" +
+                    "ue of \'NewCompanyName\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 33
+ testRunner.When("I import the route file \'PH_ROUTES_AdditionalCompanyNameNode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 34
+ testRunner.Then("The schema validation error should be \"file PH_ROUTES_AdditionalCompanyNameNode.x" +
+                    "ml failed schema validation with the following: System.Xml.XsdValidatingReader:\t" +
+                    "The element \'RouteHeader\' has invalid child element \'CompanyName2\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import ADAM route file with a duplicate TransportOrderRef node added to the first" +
+            " first Stop node")]
+        public virtual void ImportADAMRouteFileWithADuplicateTransportOrderRefNodeAddedToTheFirstFirstStopNode()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import ADAM route file with a duplicate TransportOrderRef node added to the first" +
+                    " first Stop node", ((string[])(null)));
+#line 36
+this.ScenarioSetup(scenarioInfo);
+#line 37
+ testRunner.Given("I have an invalid ADAM route file \'PH_ROUTES_30062016_02_AddedTransportRef.xml\' w" +
+                    "ith a \'Stop\' node at position \'0\' with a \'TransportOrderRef\' node added with a v" +
+                    "alue of \'001 01 49214.152 01/07/2016\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 38
+ testRunner.When("I import the route file \'PH_ROUTES_30062016_02_AddedTransportRef.xml\' into the we" +
+                    "ll", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 39
+ testRunner.Then("The schema validation error should be \"file PH_ROUTES_30062016_02_AddedTransportR" +
+                    "ef.xml failed schema validation with the following: System.Xml.XsdValidatingRead" +
+                    "er:\tThe element \'Stop\' has invalid child element \'TransportOrderRef\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import ADAM route file with a duplicate JobRef1 node added to the first first job" +
+            " node")]
+        public virtual void ImportADAMRouteFileWithADuplicateJobRef1NodeAddedToTheFirstFirstJobNode()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import ADAM route file with a duplicate JobRef1 node added to the first first job" +
+                    " node", ((string[])(null)));
+#line 41
+this.ScenarioSetup(scenarioInfo);
+#line 42
+ testRunner.Given("I have an invalid ADAM route file \'PH_ROUTES_30062016_02_AddedJobRef.xml\' with a " +
+                    "\'Job\' node at position \'0\' with a \'JobRef1\' node added with a value of \'49214.15" +
+                    "2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 43
+ testRunner.When("I import the route file \'PH_ROUTES_30062016_02_AddedJobRef.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 44
+ testRunner.Then("The schema validation error should be \"file PH_ROUTES_30062016_02_AddedJobRef.xml" +
+                    " failed schema validation with the following: System.Xml.XsdValidatingReader:\tTh" +
+                    "e element \'Job\' has invalid child element \'JobRef1\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

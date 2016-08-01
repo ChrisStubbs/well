@@ -21,3 +21,8 @@ Scenario: Import Epod route file with the ReasonCode child node missing from the
 	Given I have an invalid Epod route file 'ePOD_MissingReasonCodeNode.xml' with a 'Reason' node at position '0' with the 'ReasonCode' node missing
 	When I import the route file 'ePOD_MissingReasonCodeNode.xml' into the well
 	Then The schema validation error should be "file ePOD_MissingReasonCodeNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Reason' has invalid child element 'Description'. List of possible elements expected: 'ReasonCode'."
+
+Scenario: Import Epod route file with a duplicate ReasonCode node added to the first first JobDamageDetail node
+	Given I have an invalid Epod route file 'ePOD__AdditionalDamageReasonCode.xml' with a 'Reason' node at position '0' with a 'ReasonCode' node added with a value of 'CAR01'
+	When I import the route file 'ePOD__AdditionalDamageReasonCode.xml' into the well
+	Then The schema validation error should be "file ePOD__AdditionalDamageReasonCode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Reason' has invalid child element 'ReasonCode'."

@@ -9,15 +9,18 @@
     public static class RouteFileExtensions
     {
 
-        public static void AddElementsToRouteFile(string sourceFile, string parentElement, string elementToAdd, string elementValue,
+        public static void AddElementsToRouteFile(string sourceFile, string parentElement, int nodeListPosition, string elementToAdd, string elementValue,
             string resultFile)
         {
             var routeFile = new XmlDocument();
             routeFile.Load(sourceFile);
 
-            var currentParentNode = routeFile.SelectSingleNode(parentElement);
+            var routeHeaderNodeList = routeFile.GetElementsByTagName(parentElement);
+            var routeHeaderCurrentParent = routeHeaderNodeList[nodeListPosition];
+
             var newNode = routeFile.CreateNode(XmlNodeType.Element, null, elementToAdd, null);
             newNode.InnerText = elementValue;
+            routeHeaderCurrentParent.AppendChild(newNode);
 
             CreateResultDirectoryFromFileName(resultFile);
 

@@ -27,3 +27,18 @@ Scenario: Import ADAM route file with the Barcode missing from the JobDetail nod
 	Given I have an invalid ADAM route file 'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml' with a 'JobDetail' node at position '0' with the 'Barcode' node missing
 	When I import the route file 'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml' into the well
 	Then The schema validation error should be "file PH_ROUTES_MissingBarcodeFromJobDetailNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'Barcode'."
+
+Scenario: Import ADAM route file with the additional CompanyName node added to the first first route header node
+	Given I have an invalid ADAM route file 'PH_ROUTES_AdditionalCompanyNameNode.xml' with a 'RouteHeader' node at position '0' with a 'CompanyName2' node added with a value of 'NewCompanyName'
+	When I import the route file 'PH_ROUTES_AdditionalCompanyNameNode.xml' into the well
+	Then The schema validation error should be "file PH_ROUTES_AdditionalCompanyNameNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'RouteHeader' has invalid child element 'CompanyName2'."
+
+Scenario: Import ADAM route file with a duplicate TransportOrderRef node added to the first first Stop node
+	Given I have an invalid ADAM route file 'PH_ROUTES_30062016_02_AddedTransportRef.xml' with a 'Stop' node at position '0' with a 'TransportOrderRef' node added with a value of '001 01 49214.152 01/07/2016'
+	When I import the route file 'PH_ROUTES_30062016_02_AddedTransportRef.xml' into the well
+	Then The schema validation error should be "file PH_ROUTES_30062016_02_AddedTransportRef.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Stop' has invalid child element 'TransportOrderRef'."
+
+Scenario: Import ADAM route file with a duplicate JobRef1 node added to the first first job node
+	Given I have an invalid ADAM route file 'PH_ROUTES_30062016_02_AddedJobRef.xml' with a 'Job' node at position '0' with a 'JobRef1' node added with a value of '49214.152'
+	When I import the route file 'PH_ROUTES_30062016_02_AddedJobRef.xml' into the well
+	Then The schema validation error should be "file PH_ROUTES_30062016_02_AddedJobRef.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'JobRef1'."

@@ -140,6 +140,31 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import Epod route file with a duplicate ReasonCode node added to the first first " +
+            "JobDamageDetail node")]
+        public virtual void ImportEpodRouteFileWithADuplicateReasonCodeNodeAddedToTheFirstFirstJobDamageDetailNode()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Epod route file with a duplicate ReasonCode node added to the first first " +
+                    "JobDamageDetail node", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 26
+ testRunner.Given("I have an invalid Epod route file \'ePOD__AdditionalDamageReasonCode.xml\' with a \'" +
+                    "Reason\' node at position \'0\' with a \'ReasonCode\' node added with a value of \'CAR" +
+                    "01\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 27
+ testRunner.When("I import the route file \'ePOD__AdditionalDamageReasonCode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 28
+ testRunner.Then("The schema validation error should be \"file ePOD__AdditionalDamageReasonCode.xml " +
+                    "failed schema validation with the following: System.Xml.XsdValidatingReader:\tThe" +
+                    " element \'Reason\' has invalid child element \'ReasonCode\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

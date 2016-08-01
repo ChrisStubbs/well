@@ -88,6 +88,33 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user sets medway and birtley as her branches")]
+        public virtual void AUserSetsMedwayAndBirtleyAsHerBranches()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user sets medway and birtley as her branches", ((string[])(null)));
+#line 15
+this.ScenarioSetup(scenarioInfo);
+#line 16
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.And("I select branch Birtley", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+ testRunner.And("I select branch Medway", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 20
+ testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.And("select branches selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 22
+ testRunner.Then("branch is selected Birtley", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 23
+ testRunner.And("branch is selected Medway", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

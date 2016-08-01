@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using System.Linq;
     using System.Threading;
 
     using NUnit.Framework;
@@ -37,6 +38,20 @@
         public void SaveBranches()
         {
             this.branchPage.SaveButton.Click();
+        }
+
+        [When("I select branch (.*)")]
+        public void SelectBranch(string branch)
+        {
+            this.branchPage.GetCheckBox(branch).Click();
+        }
+        
+        [Then("branch is selected (.*)")]
+        public void BranchIsSelected(string branch)
+        {
+            var branchCheckbox = this.branchPage.GetCheckBox(branch);
+
+            Assert.IsTrue(branchCheckbox.Selected);
         }
 
         [Then("all the branches are selected")]

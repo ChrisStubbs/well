@@ -28,6 +28,13 @@
 
         protected override string UrlSuffix { get; }
 
+        public IWebElement GetCheckBox(string id)
+        {
+            var checkbox = new CheckBox { Locator = By.Id(id) };
+
+            return checkbox.GetElement();
+        }
+
         public List<IWebElement> GetBranchCheckboxElements()
         {
             this.Driver.WaitForAjax();

@@ -284,15 +284,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
-    <Content Include="Scripts\angular2\angular2-polyfills.js" />
-    <Content Include="Scripts\angular2\angular2.dev.js" />
-    <Content Include="Scripts\angular2\es6-shim.js" />
-    <Content Include="Scripts\angular2\http.dev.js" />
-    <Content Include="Scripts\angular2\router.dev.js" />
-    <Content Include="Scripts\angular2\rx.js" />
-    <Content Include="Scripts\angular2\shims_for_IE.js" />
-    <Content Include="Scripts\angular2\system-polyfills.js" />
-    <Content Include="Scripts\angular2\system.src.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -345,6 +336,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\angular2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

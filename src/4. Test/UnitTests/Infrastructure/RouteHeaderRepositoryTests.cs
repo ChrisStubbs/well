@@ -5,7 +5,6 @@
     using System.Data;
     using System.Linq;
     using PH.Well.Common.Contracts;
-    using Domain;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -21,13 +20,13 @@
         private Mock<IStopRepository> stopRepository;
         private RouteHeaderRepository repository;
         private string UserName = "TestUser";
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             this.stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
-
             
             this.repository = new RouteHeaderRepository(this.logger.Object, this.dapperProxy.Object, stopRepository.Object);
             this.repository.CurrentUser = UserName;
@@ -38,16 +37,15 @@
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                var name = "Test";
                 dapperProxy.Setup(x => x.WithStoredProcedure("RouteHeaders_Get")).Returns(this.dapperProxy.Object);
-               // dapperProxy.Setup(x => x.AddParameter("UserName", UserName, DbType.String, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UserName", UserName, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
+
                 repository.GetRouteHeaders();
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("RouteHeaders_Get"), Times.Once);
-               // dapperProxy.Verify(x => x.AddParameter("UserName", UserName, DbType.String, null), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("UserName", UserName, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Once);
-
             }
 
             [Test]

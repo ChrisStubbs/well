@@ -5,7 +5,6 @@
     using Common.Contracts;
     using Contracts;
     using StructureMap;
-    using global::PH.Well.Domain;
 
     public class Import
     {

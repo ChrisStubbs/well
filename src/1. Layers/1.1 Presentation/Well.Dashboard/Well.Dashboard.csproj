@@ -394,7 +394,6 @@
     <TypeScriptCompile Include="app\home\widgetStatsComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\main.ts" />
     <TypeScriptCompile Include="app\user_preferences\User.ts" />
-    <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceModalComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceService.ts" />
   </ItemGroup>

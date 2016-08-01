@@ -11,6 +11,7 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
         }
+
         protected override string UrlSuffix => "Clean";
 
         public Grid<CleanDeliveriesGrid> RoutesGrid { get; set; }

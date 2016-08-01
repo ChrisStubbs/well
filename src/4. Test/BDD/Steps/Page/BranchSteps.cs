@@ -21,6 +21,13 @@
             this.branchPage.AdminDropDown.Select();
         }
 
+        [Then("I am on the branch selection page")]
+        public void IAmOnBranchSelectionPage()
+        {
+            Thread.Sleep(2000);
+            Assert.That(this.branchPage.Driver.Title, Is.EqualTo("Branch Selection"));
+        }
+
         [When("select branches selection")]
         public void ClickBranchsSelection()
         {
@@ -28,6 +35,7 @@
         }
 
         [When("I select all the branches")]
+        [Then("I select all the branches")]
         public void SelectAllBranches()
         {
             Thread.Sleep(2000);
@@ -35,6 +43,7 @@
         }
 
         [When("I save my branches")]
+        [Then("I save my branches")]
         public void SaveBranches()
         {
             this.branchPage.SaveButton.Click();
@@ -52,6 +61,14 @@
             var branchCheckbox = this.branchPage.GetCheckBox(branch);
 
             Assert.IsTrue(branchCheckbox.Selected);
+        }
+
+        [Then("branch is not selected (.*)")]
+        public void BranchIsNotSelected(string branch)
+        {
+            var branchCheckbox = this.branchPage.GetCheckBox(branch);
+
+            Assert.IsFalse(branchCheckbox.Selected);
         }
 
         [Then("all the branches are selected")]

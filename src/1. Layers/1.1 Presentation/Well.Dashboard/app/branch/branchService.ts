@@ -1,39 +1,29 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {IBranch} from './branch';
+import {Branch} from './branch';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BranchService {
-    username: string;
-    domain: string;
 
-    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) {
-        this.username = ""; //TODO - Fix
-       
-        if (this.username === undefined) this.username = '';
+    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) {}
 
-        this.domain = "";//TODO - Fix
+    getBranches(username): Observable<Branch[]> {
 
-        if (this.domain === undefined) this.domain = '';
-    }
-
-    getBranches(): Observable<IBranch[]> {
-
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + this.username)
-            .map((response: Response) => <IBranch[]>response.json())
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
+            .map((response: Response) => <Branch[]>response.json())
             .catch(this.handleError);
     }
 
-    saveBranches(branches: IBranch[]): Observable<any> {
+    saveBranches(branches: Branch[], username, domain): Observable<any> {
         let body = JSON.stringify(branches);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({headers: headers});
 
-        if (this.username) {
-            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + this.username + '&domain=' + this.domain,
+        if (username) {
+            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + username + '&domain=' + domain,
                     body,
                     options)
                 .map(res => res.json());

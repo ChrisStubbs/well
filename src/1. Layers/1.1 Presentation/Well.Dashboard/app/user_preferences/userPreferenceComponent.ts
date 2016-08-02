@@ -1,4 +1,5 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+﻿import {Router} from '@angular/router';
+import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS, Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -20,10 +21,10 @@ export class UserPreferenceComponent {
     users: Array<User> = [];
     rowCount = 10;
 
-    constructor(private userPreferenceService: UserPreferenceService) {
+    constructor(private userPreferenceService: UserPreferenceService, private router: Router) {
     }
 
-    @ViewChild(UserPreferenceModal) modal = new UserPreferenceModal();
+    @ViewChild(UserPreferenceModal) modal = new UserPreferenceModal(this.router);
 
     find(): void {
         this.userPreferenceService.getUsers(this.userText)

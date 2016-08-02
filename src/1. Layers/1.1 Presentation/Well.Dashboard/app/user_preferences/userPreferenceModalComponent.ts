@@ -1,4 +1,5 @@
-﻿import {Component} from '@angular/core';
+﻿import {Router} from '@angular/router';
+import {Component} from '@angular/core';
 import {User} from './user';
 
 @Component({
@@ -9,6 +10,8 @@ export class UserPreferenceModal {
     isVisible = false;
     user: User;
 
+    constructor(private router: Router) {}
+
     show(user) {
         this.user = user;
         this.isVisible = true;
@@ -18,7 +21,7 @@ export class UserPreferenceModal {
         this.isVisible = false;
     }
 
-    setBranches() {
-        window.location.href = encodeURI('./user-preferences/branches/' +  this.user.friendlyName + '/' + this.user.domain);
+    setBranches(user) {
+        this.router.navigate(['/branch', user.name, user.domain]);
     }
 }

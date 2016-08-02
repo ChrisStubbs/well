@@ -67319,13 +67319,13 @@
 	exports.ImmediateDefinition = ImmediateDefinition;
 	exports.Immediate = new ImmediateDefinition(root_1.root);
 	//# sourceMappingURL=Immediate.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/timers-browserify/main.js */ 584).clearImmediate, __webpack_require__(/*! ./~/timers-browserify/main.js */ 584).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 584).clearImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 584).setImmediate))
 
 /***/ },
 /* 584 */
-/*!*************************************!*\
-  !*** ./~/timers-browserify/main.js ***!
-  \*************************************/
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
+  \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 585).nextTick;
@@ -67404,13 +67404,13 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/timers-browserify/main.js */ 584).setImmediate, __webpack_require__(/*! ./~/timers-browserify/main.js */ 584).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 584).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 584).clearImmediate))
 
 /***/ },
 /* 585 */
-/*!******************************!*\
-  !*** ./~/process/browser.js ***!
-  \******************************/
+/*!**********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
+  \**********************************************************/
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -67465,7 +67465,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = cachedSetTimeout.call(null, cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 	
 	    var len = queue.length;
@@ -67482,7 +67482,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    cachedClearTimeout.call(null, timeout);
+	    cachedClearTimeout(timeout);
 	}
 	
 	process.nextTick = function (fun) {
@@ -67494,7 +67494,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        cachedSetTimeout.call(null, drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 	
@@ -69896,8 +69896,9 @@
 	    { path: '', redirectTo: '/widgets', pathMatch: 'full' },
 	    { path: 'account', component: accountComponent_1.AccountComponent },
 	    { path: 'branch', component: branchSelectionComponent_1.BranchSelectionComponent },
+	    { path: 'branch/:name/:domain', component: branchSelectionComponent_1.BranchSelectionComponent },
 	    { path: 'clean', component: cleanDeliveryComponent_1.CleanDeliveryComponent },
-	    { path: 'delivery', component: deliveryComponent_1.DeliveryComponent },
+	    { path: 'delivery/:id', component: deliveryComponent_1.DeliveryComponent },
 	    { path: 'exceptions', component: exceptionsComponent_1.ExceptionsComponent },
 	    { path: 'notifications', component: notificationsComponent_1.NotificationsComponent },
 	    { path: 'resolved', component: resolved_deliveryComponent_1.ResolvedDeliveryComponent },
@@ -70053,24 +70054,30 @@
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var branchService_1 = __webpack_require__(/*! ./branchService */ 632);
 	var http_response_1 = __webpack_require__(/*! ../shared/http-response */ 633);
 	var angular2_toaster_1 = __webpack_require__(/*! angular2-toaster/angular2-toaster */ 634);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	var BranchSelectionComponent = (function () {
-	    function BranchSelectionComponent(branchService, toasterService, globalSettingsService) {
+	    function BranchSelectionComponent(branchService, toasterService, globalSettingsService, route) {
+	        var _this = this;
 	        this.branchService = branchService;
 	        this.toasterService = toasterService;
 	        this.globalSettingsService = globalSettingsService;
+	        this.route = route;
 	        this.selectedBranches = [];
 	        this.httpResponse = new http_response_1.HttpResponse();
+	        route.params.subscribe(function (params) {
+	            _this.username = params['name'] === undefined ? '' : params['name'];
+	            _this.domain = params['domain'];
+	        });
 	    }
 	    BranchSelectionComponent.prototype.ngOnInit = function () {
 	        var _this = this;
 	        this.selectAllCheckbox = false;
-	        this.username = ""; //TODO - Fix this
-	        this.branchService.getBranches()
+	        this.branchService.getBranches(this.username)
 	            .subscribe(function (branches) {
 	            _this.branches = branches;
 	            _this.branches.forEach(function (branch) { if (branch.selected)
@@ -70113,7 +70120,7 @@
 	    };
 	    BranchSelectionComponent.prototype.save = function () {
 	        var _this = this;
-	        this.branchService.saveBranches(this.selectedBranches)
+	        this.branchService.saveBranches(this.selectedBranches, this.username, this.domain)
 	            .subscribe(function (res) {
 	            _this.httpResponse = JSON.parse(JSON.stringify(res));
 	            if (_this.httpResponse.success)
@@ -70131,7 +70138,7 @@
 	            directives: [angular2_toaster_1.ToasterContainerComponent],
 	            providers: [http_1.HTTP_PROVIDERS, branchService_1.BranchService, angular2_toaster_1.ToasterService, globalSettings_1.GlobalSettingsService]
 	        }), 
-	        __metadata('design:paramtypes', [branchService_1.BranchService, angular2_toaster_1.ToasterService, globalSettings_1.GlobalSettingsService])
+	        __metadata('design:paramtypes', [branchService_1.BranchService, angular2_toaster_1.ToasterService, globalSettings_1.GlobalSettingsService, router_1.ActivatedRoute])
 	    ], BranchSelectionComponent);
 	    return BranchSelectionComponent;
 	}());
@@ -70164,24 +70171,18 @@
 	    function BranchService(http, globalSettingsService) {
 	        this.http = http;
 	        this.globalSettingsService = globalSettingsService;
-	        this.username = ""; //TODO - Fix
-	        if (this.username === undefined)
-	            this.username = '';
-	        this.domain = ""; //TODO - Fix
-	        if (this.domain === undefined)
-	            this.domain = '';
 	    }
-	    BranchService.prototype.getBranches = function () {
-	        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + this.username)
+	    BranchService.prototype.getBranches = function (username) {
+	        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
 	            .map(function (response) { return response.json(); })
 	            .catch(this.handleError);
 	    };
-	    BranchService.prototype.saveBranches = function (branches) {
+	    BranchService.prototype.saveBranches = function (branches, username, domain) {
 	        var body = JSON.stringify(branches);
 	        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
 	        var options = new http_1.RequestOptions({ headers: headers });
-	        if (this.username) {
-	            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + this.username + '&domain=' + this.domain, body, options)
+	        if (username) {
+	            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + username + '&domain=' + domain, body, options)
 	                .map(function (res) { return res.json(); });
 	        }
 	        else {
@@ -70696,6 +70697,7 @@
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
 	var cleanDeliveryService_1 = __webpack_require__(/*! ./cleanDeliveryService */ 648);
@@ -70706,9 +70708,10 @@
 	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 654);
 	var accountService_1 = __webpack_require__(/*! ../account/accountService */ 629);
 	var CleanDeliveryComponent = (function () {
-	    function CleanDeliveryComponent(cleanDeliveryService, accountService) {
+	    function CleanDeliveryComponent(cleanDeliveryService, accountService, router) {
 	        this.cleanDeliveryService = cleanDeliveryService;
 	        this.accountService = accountService;
+	        this.router = router;
 	        this.rowCount = 10;
 	        this.filterOption = new filterOption_1.FilterOption();
 	        this.options = [
@@ -70730,7 +70733,7 @@
 	        this.filterOption = filterOption;
 	    };
 	    CleanDeliveryComponent.prototype.deliverySelected = function (delivery) {
-	        window.location.href = './Clean/Delivery/' + delivery.id;
+	        this.router.navigate(['/delivery', delivery.id]);
 	    };
 	    CleanDeliveryComponent.prototype.openModal = function (accountId) {
 	        var _this = this;
@@ -70749,7 +70752,7 @@
 	            directives: [optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp, contact_modal_1.ContactModal],
 	            pipes: [optionFilterPipe_1.OptionFilterPipe, ng2_pagination_1.PaginatePipe]
 	        }), 
-	        __metadata('design:paramtypes', [cleanDeliveryService_1.CleanDeliveryService, accountService_1.AccountService])
+	        __metadata('design:paramtypes', [cleanDeliveryService_1.CleanDeliveryService, accountService_1.AccountService, router_1.Router])
 	    ], CleanDeliveryComponent);
 	    return CleanDeliveryComponent;
 	}());
@@ -71575,6 +71578,7 @@
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
@@ -71583,9 +71587,11 @@
 	var exceptionsFilterPipe_1 = __webpack_require__(/*! ./exceptionsFilterPipe */ 658);
 	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
 	var DeliveryComponent = (function () {
-	    function DeliveryComponent(deliveryService, globalSettingsService) {
+	    function DeliveryComponent(deliveryService, globalSettingsService, route) {
+	        var _this = this;
 	        this.deliveryService = deliveryService;
 	        this.globalSettingsService = globalSettingsService;
+	        this.route = route;
 	        this.delivery = new delivery_1.Delivery();
 	        this.rowCount = 10;
 	        this.showAll = false;
@@ -71598,10 +71604,11 @@
 	            new DropDownItem_1.DropDownItem("Status", "status"),
 	            new DropDownItem_1.DropDownItem("Action", "action")
 	        ];
+	        route.params.subscribe(function (params) { _this.deliveryId = params['id']; });
 	    }
 	    DeliveryComponent.prototype.ngOnInit = function () {
 	        var _this = this;
-	        this.deliveryService.getDelivery(1) //TODO - Fix
+	        this.deliveryService.getDelivery(this.deliveryId)
 	            .subscribe(function (delivery) { _this.delivery = delivery; console.log(_this.delivery.id); }, function (error) { return _this.errorMessage = error; });
 	    };
 	    DeliveryComponent.prototype.onShowAllClicked = function () {
@@ -71615,7 +71622,7 @@
 	            directives: [ng2_pagination_1.PaginationControlsCmp],
 	            pipes: [exceptionsFilterPipe_1.ExceptionsFilterPipe, ng2_pagination_1.PaginatePipe]
 	        }), 
-	        __metadata('design:paramtypes', [deliveryService_1.DeliveryService, globalSettings_1.GlobalSettingsService])
+	        __metadata('design:paramtypes', [deliveryService_1.DeliveryService, globalSettings_1.GlobalSettingsService, router_1.ActivatedRoute])
 	    ], DeliveryComponent);
 	    return DeliveryComponent;
 	}());
@@ -71741,6 +71748,7 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
@@ -71753,9 +71761,10 @@
 	var accountService_1 = __webpack_require__(/*! ../account/accountService */ 629);
 	var exceptionDeliveryService_1 = __webpack_require__(/*! ./exceptionDeliveryService */ 660);
 	var ExceptionsComponent = (function () {
-	    function ExceptionsComponent(exceptionDeliveryService, accountService) {
+	    function ExceptionsComponent(exceptionDeliveryService, accountService, router) {
 	        this.exceptionDeliveryService = exceptionDeliveryService;
 	        this.accountService = accountService;
+	        this.router = router;
 	        this.rowCount = 10;
 	        this.filterOption = new filterOption_1.FilterOption();
 	        this.options = [
@@ -71785,8 +71794,8 @@
 	    ExceptionsComponent.prototype.onFilterClicked = function (filterOption) {
 	        this.filterOption = filterOption;
 	    };
-	    ExceptionsComponent.prototype.deliverySelected = function (delivery, event) {
-	        window.location.href = './Exceptions/Delivery/' + delivery.id;
+	    ExceptionsComponent.prototype.deliverySelected = function (delivery) {
+	        this.router.navigate(['/delivery', delivery.id]);
 	    };
 	    ExceptionsComponent.prototype.openModal = function (accountId) {
 	        var _this = this;
@@ -71808,7 +71817,7 @@
 	            directives: [optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp, contact_modal_1.ContactModal],
 	            pipes: [optionFilterPipe_1.OptionFilterPipe, ng2_pagination_1.PaginatePipe]
 	        }), 
-	        __metadata('design:paramtypes', [exceptionDeliveryService_1.ExceptionDeliveryService, accountService_1.AccountService])
+	        __metadata('design:paramtypes', [exceptionDeliveryService_1.ExceptionDeliveryService, accountService_1.AccountService, router_1.Router])
 	    ], ExceptionsComponent);
 	    return ExceptionsComponent;
 	}());
@@ -71917,6 +71926,7 @@
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
 	var ResolvedDeliveryService_1 = __webpack_require__(/*! ./ResolvedDeliveryService */ 663);
@@ -71928,9 +71938,10 @@
 	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 654);
 	var accountService_1 = __webpack_require__(/*! ../account/accountService */ 629);
 	var ResolvedDeliveryComponent = (function () {
-	    function ResolvedDeliveryComponent(resolvedDeliveryService, accountService) {
+	    function ResolvedDeliveryComponent(resolvedDeliveryService, accountService, router) {
 	        this.resolvedDeliveryService = resolvedDeliveryService;
 	        this.accountService = accountService;
+	        this.router = router;
 	        this.rowCount = 10;
 	        this.filterOption = new FilterOption();
 	        this.options = [
@@ -71952,7 +71963,7 @@
 	            .subscribe(function (deliveries) { return _this.deliveries = deliveries; }, function (error) { return _this.errorMessage = error; });
 	    };
 	    ResolvedDeliveryComponent.prototype.deliverySelected = function (delivery) {
-	        window.location.href = './Resolved/Delivery/' + delivery.id;
+	        this.router.navigate(['/delivery', delivery.id]);
 	    };
 	    ResolvedDeliveryComponent.prototype.onFilterClicked = function (filterOption) {
 	        this.filterOption = filterOption;
@@ -71974,7 +71985,7 @@
 	            directives: [optionfilter_component_1.OptionFilterComponent, ng2_pagination_1.PaginationControlsCmp, contact_modal_1.ContactModal],
 	            pipes: [optionFilterPipe_1.OptionFilterPipe, ng2_pagination_1.PaginatePipe]
 	        }), 
-	        __metadata('design:paramtypes', [ResolvedDeliveryService_1.ResolvedDeliveryService, accountService_1.AccountService])
+	        __metadata('design:paramtypes', [ResolvedDeliveryService_1.ResolvedDeliveryService, accountService_1.AccountService, router_1.Router])
 	    ], ResolvedDeliveryComponent);
 	    return ResolvedDeliveryComponent;
 	}());
@@ -72042,6 +72053,7 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
@@ -72050,11 +72062,12 @@
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
 	var userPreferenceModalComponent_1 = __webpack_require__(/*! ./userPreferenceModalComponent */ 666);
 	var UserPreferenceComponent = (function () {
-	    function UserPreferenceComponent(userPreferenceService) {
+	    function UserPreferenceComponent(userPreferenceService, router) {
 	        this.userPreferenceService = userPreferenceService;
+	        this.router = router;
 	        this.users = [];
 	        this.rowCount = 10;
-	        this.modal = new userPreferenceModalComponent_1.UserPreferenceModal();
+	        this.modal = new userPreferenceModalComponent_1.UserPreferenceModal(this.router);
 	    }
 	    UserPreferenceComponent.prototype.find = function () {
 	        var _this = this;
@@ -72076,7 +72089,7 @@
 	            directives: [ng2_pagination_1.PaginationControlsCmp, userPreferenceModalComponent_1.UserPreferenceModal],
 	            pipes: [ng2_pagination_1.PaginatePipe]
 	        }), 
-	        __metadata('design:paramtypes', [userPreferenceService_1.UserPreferenceService])
+	        __metadata('design:paramtypes', [userPreferenceService_1.UserPreferenceService, router_1.Router])
 	    ], UserPreferenceComponent);
 	    return UserPreferenceComponent;
 	}());
@@ -72145,9 +72158,11 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
+	var router_1 = __webpack_require__(/*! @angular/router */ 351);
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var UserPreferenceModal = (function () {
-	    function UserPreferenceModal() {
+	    function UserPreferenceModal(router) {
+	        this.router = router;
 	        this.isVisible = false;
 	    }
 	    UserPreferenceModal.prototype.show = function (user) {
@@ -72157,15 +72172,15 @@
 	    UserPreferenceModal.prototype.hide = function () {
 	        this.isVisible = false;
 	    };
-	    UserPreferenceModal.prototype.setBranches = function () {
-	        window.location.href = encodeURI('./user-preferences/branches/' + this.user.friendlyName + '/' + this.user.domain);
+	    UserPreferenceModal.prototype.setBranches = function (user) {
+	        this.router.navigate(['/branch', user.name, user.domain]);
 	    };
 	    UserPreferenceModal = __decorate([
 	        core_1.Component({
 	            selector: 'ow-user-preference-modal',
 	            templateUrl: './app/user_preferences/user-preference-modal.html'
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [router_1.Router])
 	    ], UserPreferenceModal);
 	    return UserPreferenceModal;
 	}());

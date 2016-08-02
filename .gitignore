@@ -69,3 +69,8 @@ src/1. Layers/1.1 Presentation/Well.Dashboard/Views/Home/Index.cshtml.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/Views/Shared/_Layout.cshtml.orig
 *.orig
 src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanDeliveryService.js.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/appRoutes.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/appRoutes.js.map
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/main.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/shared/globalSettings.js

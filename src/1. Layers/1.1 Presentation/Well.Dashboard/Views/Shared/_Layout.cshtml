@@ -30,8 +30,8 @@
 <script src="~/signalr/hubs"></script>
 
 <!-- Load Angular2 -->
-<script src="~/Scripts/angular2/vendorBundle.js"></script>
-<script src="~/Scripts/angular2/appBundle.js"></script>
+<script src="~/Scripts/angular2/vendorBundle.js?ticks=@DateTime.Now.Ticks"></script>
+<script src="~/Scripts/angular2/appBundle.js?ticks=@DateTime.Now.Ticks"></script>
 
 @RenderSection("scripts", required: false)
     

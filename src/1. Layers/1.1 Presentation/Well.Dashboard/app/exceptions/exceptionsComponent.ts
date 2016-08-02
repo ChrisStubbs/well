@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import {Router} from '@angular/router';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -45,7 +46,10 @@ export class ExceptionsComponent implements OnInit {
     ];
     account: IAccount;
 
-    constructor(private exceptionDeliveryService: ExceptionDeliveryService, private accountService: AccountService) { }
+    constructor(
+        private exceptionDeliveryService: ExceptionDeliveryService,
+        private accountService: AccountService,
+        private router: Router) { }
        
     ngOnInit(): void {
         this.exceptionDeliveryService.getExceptions()
@@ -57,8 +61,8 @@ export class ExceptionsComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery: ExceptionDelivery, event): void {
-        window.location.href ='./Exceptions/Delivery/' + delivery.id;
+    deliverySelected(delivery): void {
+        this.router.navigate(['/delivery', delivery.id]);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();

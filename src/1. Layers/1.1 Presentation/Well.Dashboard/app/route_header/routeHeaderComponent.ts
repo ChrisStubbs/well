@@ -8,7 +8,7 @@ import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
-import {DropDownItem} from "../shared/DropDownItem";
+import {DropDownItem} from "../shared/dropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 import {WellModal} from "../shared/well-modal";

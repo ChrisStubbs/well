@@ -69885,13 +69885,13 @@
 	var accountComponent_1 = __webpack_require__(/*! ./account/accountComponent */ 628);
 	var branchSelectionComponent_1 = __webpack_require__(/*! ./branch/branchSelectionComponent */ 631);
 	var cleanDeliveryComponent_1 = __webpack_require__(/*! ./clean/cleanDeliveryComponent */ 641);
-	var deliveryComponent_1 = __webpack_require__(/*! ./delivery/deliveryComponent */ 655);
-	var exceptionsComponent_1 = __webpack_require__(/*! ./exceptions/exceptionsComponent */ 659);
-	var notificationsComponent_1 = __webpack_require__(/*! ./notifications/notificationsComponent */ 661);
-	var resolved_deliveryComponent_1 = __webpack_require__(/*! ./resolved/resolved-deliveryComponent */ 662);
-	var userPreferenceComponent_1 = __webpack_require__(/*! ./user_preferences/userPreferenceComponent */ 664);
-	var routeHeaderComponent_1 = __webpack_require__(/*! ./route_header/routeHeaderComponent */ 667);
-	var widgetStatsComponent_1 = __webpack_require__(/*! ./home/widgetStatsComponent */ 670);
+	var deliveryComponent_1 = __webpack_require__(/*! ./delivery/deliveryComponent */ 654);
+	var exceptionsComponent_1 = __webpack_require__(/*! ./exceptions/exceptionsComponent */ 658);
+	var notificationsComponent_1 = __webpack_require__(/*! ./notifications/notificationsComponent */ 660);
+	var resolved_deliveryComponent_1 = __webpack_require__(/*! ./resolved/resolved-deliveryComponent */ 661);
+	var userPreferenceComponent_1 = __webpack_require__(/*! ./user_preferences/userPreferenceComponent */ 663);
+	var routeHeaderComponent_1 = __webpack_require__(/*! ./route_header/routeHeaderComponent */ 666);
+	var widgetStatsComponent_1 = __webpack_require__(/*! ./home/widgetStatsComponent */ 669);
 	var routes = [
 	    { path: '', redirectTo: '/widgets', pathMatch: 'full' },
 	    { path: 'account', component: accountComponent_1.AccountComponent },
@@ -70702,8 +70702,8 @@
 	var optionfilter_component_1 = __webpack_require__(/*! ../shared/optionfilter.component */ 649);
 	var optionFilterPipe_1 = __webpack_require__(/*! ../shared/optionFilterPipe */ 652);
 	var filterOption_1 = __webpack_require__(/*! ../shared/filterOption */ 650);
-	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
-	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 654);
+	var dropDownItem_1 = __webpack_require__(/*! ../shared/dropDownItem */ 651);
+	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 653);
 	var accountService_1 = __webpack_require__(/*! ../account/accountService */ 629);
 	var CleanDeliveryComponent = (function () {
 	    function CleanDeliveryComponent(cleanDeliveryService, accountService) {
@@ -70712,12 +70712,12 @@
 	        this.rowCount = 10;
 	        this.filterOption = new filterOption_1.FilterOption();
 	        this.options = [
-	            new DropDownItem_1.DropDownItem("Route", "routeNumber"),
-	            new DropDownItem_1.DropDownItem("Drop", "dropId"),
-	            new DropDownItem_1.DropDownItem("Invoice No", "invoiceNumber"),
-	            new DropDownItem_1.DropDownItem("Account", "accountCode"),
-	            new DropDownItem_1.DropDownItem("Account Name", "accountName"),
-	            new DropDownItem_1.DropDownItem("Date", "dateTime")
+	            new dropDownItem_1.DropDownItem("Route", "routeNumber"),
+	            new dropDownItem_1.DropDownItem("Drop", "dropId"),
+	            new dropDownItem_1.DropDownItem("Invoice No", "invoiceNumber"),
+	            new dropDownItem_1.DropDownItem("Account", "accountCode"),
+	            new dropDownItem_1.DropDownItem("Account Name", "accountName"),
+	            new dropDownItem_1.DropDownItem("Date", "dateTime")
 	        ];
 	        this.modal = new contact_modal_1.ContactModal();
 	    }
@@ -71496,28 +71496,6 @@
 
 /***/ },
 /* 653 */
-/*!************************************!*\
-  !*** ./app/shared/DropDownItem.js ***!
-  \************************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	var DropDownItem = (function () {
-	    function DropDownItem(description, value, requiresServerCall) {
-	        if (description === void 0) { description = ""; }
-	        if (value === void 0) { value = ""; }
-	        if (requiresServerCall === void 0) { requiresServerCall = false; }
-	        this.description = description;
-	        this.value = value;
-	        this.requiresServerCall = requiresServerCall;
-	    }
-	    return DropDownItem;
-	}());
-	exports.DropDownItem = DropDownItem;
-	//# sourceMappingURL=dropDownItem.js.map
-
-/***/ },
-/* 654 */
 /*!*************************************!*\
   !*** ./app/shared/contact-modal.js ***!
   \*************************************/
@@ -71557,7 +71535,7 @@
 	//# sourceMappingURL=contact-modal.js.map
 
 /***/ },
-/* 655 */
+/* 654 */
 /*!*******************************************!*\
   !*** ./app/delivery/deliveryComponent.js ***!
   \*******************************************/
@@ -71578,10 +71556,10 @@
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
-	var delivery_1 = __webpack_require__(/*! ./delivery */ 656);
-	var deliveryService_1 = __webpack_require__(/*! ./deliveryService */ 657);
-	var exceptionsFilterPipe_1 = __webpack_require__(/*! ./exceptionsFilterPipe */ 658);
-	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
+	var delivery_1 = __webpack_require__(/*! ./delivery */ 655);
+	var deliveryService_1 = __webpack_require__(/*! ./deliveryService */ 656);
+	var exceptionsFilterPipe_1 = __webpack_require__(/*! ./exceptionsFilterPipe */ 657);
+	var dropDownItem_1 = __webpack_require__(/*! ../shared/dropDownItem */ 651);
 	var DeliveryComponent = (function () {
 	    function DeliveryComponent(deliveryService, globalSettingsService) {
 	        this.deliveryService = deliveryService;
@@ -71590,13 +71568,13 @@
 	        this.rowCount = 10;
 	        this.showAll = false;
 	        this.options = [
-	            new DropDownItem_1.DropDownItem("Exceptions", "isException"),
-	            new DropDownItem_1.DropDownItem("Line", "lineNo"),
-	            new DropDownItem_1.DropDownItem("Product", "productCode"),
-	            new DropDownItem_1.DropDownItem("Description", "productDescription"),
-	            new DropDownItem_1.DropDownItem("Reason", "reason"),
-	            new DropDownItem_1.DropDownItem("Status", "status"),
-	            new DropDownItem_1.DropDownItem("Action", "action")
+	            new dropDownItem_1.DropDownItem("Exceptions", "isException"),
+	            new dropDownItem_1.DropDownItem("Line", "lineNo"),
+	            new dropDownItem_1.DropDownItem("Product", "productCode"),
+	            new dropDownItem_1.DropDownItem("Description", "productDescription"),
+	            new dropDownItem_1.DropDownItem("Reason", "reason"),
+	            new dropDownItem_1.DropDownItem("Status", "status"),
+	            new dropDownItem_1.DropDownItem("Action", "action")
 	        ];
 	    }
 	    DeliveryComponent.prototype.ngOnInit = function () {
@@ -71623,7 +71601,7 @@
 	//# sourceMappingURL=deliveryComponent.js.map
 
 /***/ },
-/* 656 */
+/* 655 */
 /*!**********************************!*\
   !*** ./app/delivery/delivery.js ***!
   \**********************************/
@@ -71640,7 +71618,7 @@
 	//# sourceMappingURL=delivery.js.map
 
 /***/ },
-/* 657 */
+/* 656 */
 /*!*****************************************!*\
   !*** ./app/delivery/deliveryService.js ***!
   \*****************************************/
@@ -71685,7 +71663,7 @@
 	//# sourceMappingURL=deliveryService.js.map
 
 /***/ },
-/* 658 */
+/* 657 */
 /*!**********************************************!*\
   !*** ./app/delivery/exceptionsFilterPipe.js ***!
   \**********************************************/
@@ -71724,7 +71702,7 @@
 	//# sourceMappingURL=exceptionsFilterPipe.js.map
 
 /***/ },
-/* 659 */
+/* 658 */
 /*!***********************************************!*\
   !*** ./app/exceptions/exceptionsComponent.js ***!
   \***********************************************/
@@ -71748,10 +71726,10 @@
 	var optionfilter_component_1 = __webpack_require__(/*! ../shared/optionfilter.component */ 649);
 	var optionFilterPipe_1 = __webpack_require__(/*! ../shared/optionFilterPipe */ 652);
 	var filterOption_1 = __webpack_require__(/*! ../shared/filterOption */ 650);
-	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
-	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 654);
+	var dropDownItem_1 = __webpack_require__(/*! ../shared/dropDownItem */ 651);
+	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 653);
 	var accountService_1 = __webpack_require__(/*! ../account/accountService */ 629);
-	var exceptionDeliveryService_1 = __webpack_require__(/*! ./exceptionDeliveryService */ 660);
+	var exceptionDeliveryService_1 = __webpack_require__(/*! ./exceptionDeliveryService */ 659);
 	var ExceptionsComponent = (function () {
 	    function ExceptionsComponent(exceptionDeliveryService, accountService) {
 	        this.exceptionDeliveryService = exceptionDeliveryService;
@@ -71759,21 +71737,21 @@
 	        this.rowCount = 10;
 	        this.filterOption = new filterOption_1.FilterOption();
 	        this.options = [
-	            new DropDownItem_1.DropDownItem("Route", "routeNumber"),
-	            new DropDownItem_1.DropDownItem("Drop", "dropId"),
-	            new DropDownItem_1.DropDownItem("Invoice No", "invoiceNumber"),
-	            new DropDownItem_1.DropDownItem("Account", "accountCode"),
-	            new DropDownItem_1.DropDownItem("Account Name", "accountName"),
-	            new DropDownItem_1.DropDownItem("Date", "dateTime")
+	            new dropDownItem_1.DropDownItem("Route", "routeNumber"),
+	            new dropDownItem_1.DropDownItem("Drop", "dropId"),
+	            new dropDownItem_1.DropDownItem("Invoice No", "invoiceNumber"),
+	            new dropDownItem_1.DropDownItem("Account", "accountCode"),
+	            new dropDownItem_1.DropDownItem("Account Name", "accountName"),
+	            new dropDownItem_1.DropDownItem("Date", "dateTime")
 	        ];
-	        this.defaultAction = new DropDownItem_1.DropDownItem("Action");
+	        this.defaultAction = new dropDownItem_1.DropDownItem("Action");
 	        this.actions = [
-	            new DropDownItem_1.DropDownItem("Assign", "#"),
-	            new DropDownItem_1.DropDownItem("Credit", "#"),
-	            new DropDownItem_1.DropDownItem("Credit and Re-Order", "#"),
-	            new DropDownItem_1.DropDownItem("Re-Plan", "#"),
-	            new DropDownItem_1.DropDownItem("Future Re-plan", "#"),
-	            new DropDownItem_1.DropDownItem("No Action", "#")
+	            new dropDownItem_1.DropDownItem("Assign", "#"),
+	            new dropDownItem_1.DropDownItem("Credit", "#"),
+	            new dropDownItem_1.DropDownItem("Credit and Re-Order", "#"),
+	            new dropDownItem_1.DropDownItem("Re-Plan", "#"),
+	            new dropDownItem_1.DropDownItem("Future Re-plan", "#"),
+	            new dropDownItem_1.DropDownItem("No Action", "#")
 	        ];
 	        this.modal = new contact_modal_1.ContactModal();
 	    }
@@ -71816,7 +71794,7 @@
 	//# sourceMappingURL=exceptionsComponent.js.map
 
 /***/ },
-/* 660 */
+/* 659 */
 /*!****************************************************!*\
   !*** ./app/exceptions/exceptionDeliveryService.js ***!
   \****************************************************/
@@ -71861,7 +71839,7 @@
 	//# sourceMappingURL=exceptionDeliveryService.js.map
 
 /***/ },
-/* 661 */
+/* 660 */
 /*!*****************************************************!*\
   !*** ./app/notifications/notificationsComponent.js ***!
   \*****************************************************/
@@ -71898,7 +71876,7 @@
 	//# sourceMappingURL=notificationsComponent.js.map
 
 /***/ },
-/* 662 */
+/* 661 */
 /*!****************************************************!*\
   !*** ./app/resolved/resolved-deliveryComponent.js ***!
   \****************************************************/
@@ -71919,13 +71897,13 @@
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
-	var ResolvedDeliveryService_1 = __webpack_require__(/*! ./ResolvedDeliveryService */ 663);
+	var ResolvedDeliveryService_1 = __webpack_require__(/*! ./ResolvedDeliveryService */ 662);
 	var optionfilter_component_1 = __webpack_require__(/*! ../shared/optionfilter.component */ 649);
 	var optionFilterPipe_1 = __webpack_require__(/*! ../shared/optionFilterPipe */ 652);
-	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
+	var dropDownItem_1 = __webpack_require__(/*! ../shared/dropDownItem */ 651);
 	var Option = __webpack_require__(/*! ../shared/filterOption */ 650);
 	var FilterOption = Option.FilterOption;
-	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 654);
+	var contact_modal_1 = __webpack_require__(/*! ../shared/contact-modal */ 653);
 	var accountService_1 = __webpack_require__(/*! ../account/accountService */ 629);
 	var ResolvedDeliveryComponent = (function () {
 	    function ResolvedDeliveryComponent(resolvedDeliveryService, accountService) {
@@ -71934,15 +71912,15 @@
 	        this.rowCount = 10;
 	        this.filterOption = new FilterOption();
 	        this.options = [
-	            new DropDownItem_1.DropDownItem("Route", "routeNumber"),
-	            new DropDownItem_1.DropDownItem("Drop", "dropId"),
-	            new DropDownItem_1.DropDownItem("Invoice No", "invoiceNumber"),
-	            new DropDownItem_1.DropDownItem("Account", "accountCode"),
-	            new DropDownItem_1.DropDownItem("Account Name", "accountName"),
-	            new DropDownItem_1.DropDownItem("Status", "jobStatus"),
-	            new DropDownItem_1.DropDownItem("Action", "action"),
-	            new DropDownItem_1.DropDownItem("Assigned", "assigned"),
-	            new DropDownItem_1.DropDownItem("Date", "dateTime")
+	            new dropDownItem_1.DropDownItem("Route", "routeNumber"),
+	            new dropDownItem_1.DropDownItem("Drop", "dropId"),
+	            new dropDownItem_1.DropDownItem("Invoice No", "invoiceNumber"),
+	            new dropDownItem_1.DropDownItem("Account", "accountCode"),
+	            new dropDownItem_1.DropDownItem("Account Name", "accountName"),
+	            new dropDownItem_1.DropDownItem("Status", "jobStatus"),
+	            new dropDownItem_1.DropDownItem("Action", "action"),
+	            new dropDownItem_1.DropDownItem("Assigned", "assigned"),
+	            new dropDownItem_1.DropDownItem("Date", "dateTime")
 	        ];
 	        this.modal = new contact_modal_1.ContactModal();
 	    }
@@ -71982,7 +71960,7 @@
 	//# sourceMappingURL=resolved-deliveryComponent.js.map
 
 /***/ },
-/* 663 */
+/* 662 */
 /*!*************************************************!*\
   !*** ./app/resolved/ResolvedDeliveryService.js ***!
   \*************************************************/
@@ -72026,7 +72004,7 @@
 	//# sourceMappingURL=ResolvedDeliveryService.js.map
 
 /***/ },
-/* 664 */
+/* 663 */
 /*!*********************************************************!*\
   !*** ./app/user_preferences/userPreferenceComponent.js ***!
   \*********************************************************/
@@ -72046,9 +72024,9 @@
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
-	var userPreferenceService_1 = __webpack_require__(/*! ./userPreferenceService */ 665);
+	var userPreferenceService_1 = __webpack_require__(/*! ./userPreferenceService */ 664);
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
-	var userPreferenceModalComponent_1 = __webpack_require__(/*! ./userPreferenceModalComponent */ 666);
+	var userPreferenceModalComponent_1 = __webpack_require__(/*! ./userPreferenceModalComponent */ 665);
 	var UserPreferenceComponent = (function () {
 	    function UserPreferenceComponent(userPreferenceService) {
 	        this.userPreferenceService = userPreferenceService;
@@ -72084,7 +72062,7 @@
 	//# sourceMappingURL=userPreferenceComponent.js.map
 
 /***/ },
-/* 665 */
+/* 664 */
 /*!*******************************************************!*\
   !*** ./app/user_preferences/userPreferenceService.js ***!
   \*******************************************************/
@@ -72129,7 +72107,7 @@
 	//# sourceMappingURL=userPreferenceService.js.map
 
 /***/ },
-/* 666 */
+/* 665 */
 /*!**************************************************************!*\
   !*** ./app/user_preferences/userPreferenceModalComponent.js ***!
   \**************************************************************/
@@ -72173,7 +72151,7 @@
 	//# sourceMappingURL=userPreferenceModalComponent.js.map
 
 /***/ },
-/* 667 */
+/* 666 */
 /*!**************************************************!*\
   !*** ./app/route_header/routeHeaderComponent.js ***!
   \**************************************************/
@@ -72194,13 +72172,13 @@
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
-	var routeHeaderService_1 = __webpack_require__(/*! ./routeHeaderService */ 668);
+	var routeHeaderService_1 = __webpack_require__(/*! ./routeHeaderService */ 667);
 	var optionfilter_component_1 = __webpack_require__(/*! ../shared/optionfilter.component */ 649);
 	var optionFilterPipe_1 = __webpack_require__(/*! ../shared/optionFilterPipe */ 652);
-	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
+	var dropDownItem_1 = __webpack_require__(/*! ../shared/dropDownItem */ 651);
 	var Option = __webpack_require__(/*! ../shared/filterOption */ 650);
 	var FilterOption = Option.FilterOption;
-	var well_modal_1 = __webpack_require__(/*! ../shared/well-modal */ 669);
+	var well_modal_1 = __webpack_require__(/*! ../shared/well-modal */ 668);
 	var RouteHeaderComponent = (function () {
 	    function RouteHeaderComponent(routerHeaderService) {
 	        this.routerHeaderService = routerHeaderService;
@@ -72208,10 +72186,10 @@
 	        this.lastRefresh = '01 january 1666 13:05';
 	        this.filterOption = new FilterOption();
 	        this.options = [
-	            new DropDownItem_1.DropDownItem("Route", "route"),
-	            new DropDownItem_1.DropDownItem("Account", "account", true),
-	            new DropDownItem_1.DropDownItem("Invoice", "invoice", true),
-	            new DropDownItem_1.DropDownItem("Assignee", "assignee", true)
+	            new dropDownItem_1.DropDownItem("Route", "route"),
+	            new dropDownItem_1.DropDownItem("Account", "account", true),
+	            new dropDownItem_1.DropDownItem("Invoice", "invoice", true),
+	            new dropDownItem_1.DropDownItem("Assignee", "assignee", true)
 	        ];
 	        this.modal = new well_modal_1.WellModal();
 	    }
@@ -72252,7 +72230,7 @@
 	//# sourceMappingURL=routeHeaderComponent.js.map
 
 /***/ },
-/* 668 */
+/* 667 */
 /*!************************************************!*\
   !*** ./app/route_header/routeHeaderService.js ***!
   \************************************************/
@@ -72304,7 +72282,7 @@
 	//# sourceMappingURL=routeHeaderService.js.map
 
 /***/ },
-/* 669 */
+/* 668 */
 /*!**********************************!*\
   !*** ./app/shared/well-modal.js ***!
   \**********************************/
@@ -72343,7 +72321,7 @@
 	//# sourceMappingURL=well-modal.js.map
 
 /***/ },
-/* 670 */
+/* 669 */
 /*!******************************************!*\
   !*** ./app/home/widgetStatsComponent.js ***!
   \******************************************/
@@ -72363,7 +72341,7 @@
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
-	var widgetstats_service_1 = __webpack_require__(/*! ./widgetstats-service */ 671);
+	var widgetstats_service_1 = __webpack_require__(/*! ./widgetstats-service */ 670);
 	var WidgetStatsComponent = (function () {
 	    function WidgetStatsComponent(widgetStatsService, changeDetectorRef) {
 	        this.widgetStatsService = widgetStatsService;
@@ -72412,7 +72390,7 @@
 	//# sourceMappingURL=widgetStatsComponent.js.map
 
 /***/ },
-/* 671 */
+/* 670 */
 /*!*****************************************!*\
   !*** ./app/home/widgetstats-service.js ***!
   \*****************************************/

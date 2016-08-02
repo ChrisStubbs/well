@@ -38,8 +38,17 @@
         public string VehicleReg { get; set; }
 
         [XmlElement("StartDepotCode")]
-        public string StartDepotCode  { get; set; }
+        public string StartDepotCode { get; set; }
+        //{
+        //    set
+        //    {
+        //        StartDepot = value == string.Empty ? (int)Branches.Ndf : (int)Enum.Parse(typeof(Branches), value, true);
+        //    }
+        //}
 
+        [XmlIgnore]
+        public int StartDepot { get; set; }
+         
         [XmlElement("PlannedRouteStartTime")]
         public string PlannedRouteStartTime { get; set; }
 
@@ -65,15 +74,7 @@
         {
             set
             {
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    RouteStatusCode enumVal;
-
-                    if (Enum.TryParse(value, out enumVal))
-                    {
-                        this.RouteStatus = enumVal;
-                    }
-                }
+                RouteStatus = string.IsNullOrWhiteSpace(value) ? Enums.RouteStatusCode.Notdef : (RouteStatusCode)Enum.Parse(typeof(RouteStatusCode), value, true);
             }
         }
 
@@ -82,7 +83,7 @@
         [XmlElement("RoutePerformanceStatusCode")]
         public string PerformanceStatusCode
         {
-            set { RoutePerformanceStatusId = string.IsNullOrEmpty(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
+            set { RoutePerformanceStatusId = string.IsNullOrWhiteSpace(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
         [XmlIgnore]
@@ -149,7 +150,7 @@
             }
         }
 
-[XmlIgnore]
+        [XmlIgnore]
         public int DamagesAccepted { get; set; }
 
         [XmlElement("DamagesAccepted")]
@@ -178,8 +179,17 @@
 
         public int RoutesId { get; set; }
 
+        [XmlIgnore]
+        public int EpodDepot { get; set; }
+
         [XmlElement("Depot")]
         public string Depot { get; set; }
+        //{
+        //    set
+        //    {
+        //        EpodDepot = value == string.Empty ? (int)Branches.Ndf : (int)Enum.Parse(typeof(Branches), value, true);
+        //    }
+        //}
 
         [XmlArray("Stops")]
         [XmlArrayItem("Stop", typeof(Stop))]

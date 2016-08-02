@@ -46,6 +46,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Attribute.cs" />
     <Compile Include="Enums\AccountType.cs" />
+    <Compile Include="Enums\Branches.cs" />
     <Compile Include="Enums\ByPassReasons.cs" />
     <Compile Include="Enums\ChangeInfo.cs" />
     <Compile Include="Enums\ChangeSource.cs" />

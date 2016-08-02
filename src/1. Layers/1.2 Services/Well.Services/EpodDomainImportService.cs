@@ -53,6 +53,16 @@
             foreach (var routeHeader in routeDeliveries.RouteHeaders)
             {
                 routeHeader.RoutesId = routesId;
+
+                routeHeader.StartDepot = string.IsNullOrWhiteSpace(routeHeader.StartDepotCode)
+                                        ? (int)Branches.Ndf
+                                        : (int)Enum.Parse(typeof(Branches), routeHeader.StartDepotCode, true);
+
+                routeHeader.EpodDepot = string.IsNullOrWhiteSpace(routeHeader.Depot)
+                                        ? (int)Branches.Ndf
+                                        : (int)Enum.Parse(typeof(Branches), routeHeader.Depot, true);
+
+
                 var newRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(routeHeader);
 
                 if (this.EpodType == EpodFileType.RouteHeader)
@@ -150,7 +160,7 @@
                     currentRouteHeader.DamagesRejected = currentRouteHeader.DamagesRejected + ePodRouteHeader.DamagesRejected;
                     currentRouteHeader.DamagesAccepted = currentRouteHeader.DamagesAccepted + ePodRouteHeader.DamagesAccepted;
                     currentRouteHeader.NotRequired = currentRouteHeader.NotRequired + ePodRouteHeader.NotRequired;
-                    currentRouteHeader.Depot = ePodRouteHeader.Depot;
+                    currentRouteHeader.EpodDepot = ePodRouteHeader.EpodDepot;
 
                     currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
                     AddEpodRouteHeaderStops(ePodRouteHeader);

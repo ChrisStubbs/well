@@ -11,7 +11,7 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
         }
-        protected override string UrlSuffix => "Exceptions";
+        protected override string UrlSuffix => "exceptions";
 
         public Grid<ExceptionDeliveriesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }

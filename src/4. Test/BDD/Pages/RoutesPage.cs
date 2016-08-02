@@ -13,7 +13,7 @@
             this.Pager = new PagerControl();
         }
 
-        protected override string UrlSuffix => "Routes";
+        protected override string UrlSuffix => "routes";
         public Grid<RoutesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }

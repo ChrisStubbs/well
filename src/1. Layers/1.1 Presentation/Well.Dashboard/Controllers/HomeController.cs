@@ -1,12 +1,19 @@
 ﻿namespace PH.Well.Dashboard.Controllers
 {
-    using PH.Well.Common.Contracts;
+    using System.Web.Mvc;
 
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        public HomeController() : base()
-        //public HomeController(IWebClient webClient) : base(webClient)
+        [HttpGet]
+        public virtual ActionResult Index()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public virtual ActionResult AppLayout()
+        {
+            return View();
         }
     }
 }

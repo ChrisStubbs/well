@@ -11,19 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var router_1 = require('@angular/router');
+var globalSettings_1 = require('./shared/globalSettings');
 require('rxjs/Rx'); // Load all features
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(globalSettingsService) {
+        var _this = this;
+        this.globalSettingsService = globalSettingsService;
+        this.version = "";
+        this.branches = "";
+        this.globalSettingsService.getVersion().subscribe(function (version) { return _this.version = version; });
+        this.globalSettingsService.getBranches().subscribe(function (branches) { return _this.branches = branches; });
     }
     AppComponent = __decorate([
         // Load all features
         core_1.Component({
             selector: 'ow-app',
-            templateUrl: 'applayout',
-            providers: [http_1.HTTP_PROVIDERS],
+            templateUrl: 'home/applayout',
+            providers: [http_1.HTTP_PROVIDERS, globalSettings_1.GlobalSettingsService],
             directives: [router_1.ROUTER_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [globalSettings_1.GlobalSettingsService])
     ], AppComponent);
     return AppComponent;
 }());

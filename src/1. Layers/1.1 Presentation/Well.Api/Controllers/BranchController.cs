@@ -1,11 +1,12 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
+    using Models;
     using PH.Well.Api.Mapper;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -49,7 +50,7 @@
                 {
                     var userBranches = this.branchRespository.GetBranchesForUser(string.IsNullOrWhiteSpace(username) ? this.UserName : username.Replace('-', ' '));
 
-                    var model = this.branchModelMapper.Map(branches, userBranches);
+                    IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
 
                     return this.Request.CreateResponse(HttpStatusCode.OK, model);
                 }

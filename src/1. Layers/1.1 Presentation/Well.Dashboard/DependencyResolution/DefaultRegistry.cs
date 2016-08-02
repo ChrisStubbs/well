@@ -17,9 +17,6 @@
 
 namespace PH.Well.Dashboard.DependencyResolution
 {
-    using PH.Well.Common;
-    using PH.Well.Common.Contracts;
-
     using Repositories;
     using Repositories.Contracts;
     using Repositories.DependancyEvents;
@@ -39,7 +36,6 @@ namespace PH.Well.Dashboard.DependencyResolution
 
             For<IDbChangeNotifier>().Use<DbChangeNotifier>();
             For<IWellDbConfiguration>().Use<WellDbConfiguration>();
-            For<IWebClient>().Use<WebClient>();
         }
     }
 }

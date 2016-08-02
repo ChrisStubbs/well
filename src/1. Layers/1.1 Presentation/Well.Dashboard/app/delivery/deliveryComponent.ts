@@ -9,7 +9,7 @@ import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
 import {ExceptionsFilterPipe} from "./exceptionsFilterPipe";
 
-import {DropDownItem} from "../shared/DropDownItem";
+import {DropDownItem} from "../shared/dropDownItem";
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',

@@ -9,7 +9,7 @@ import {ResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
-import {DropDownItem} from "../shared/DropDownItem";
+import {DropDownItem} from "../shared/dropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 import {ContactModal} from "../shared/contact-modal";

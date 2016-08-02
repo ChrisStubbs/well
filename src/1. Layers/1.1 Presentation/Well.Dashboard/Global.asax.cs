@@ -16,7 +16,7 @@
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            DbChangeNotifierStartup.Init(); //We can get rid of this 
+            DbChangeNotifierStartup.Init();
         }
     }
 }

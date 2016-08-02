@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
+import {ActivatedRoute} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
@@ -22,6 +23,7 @@ export class DeliveryComponent implements OnInit {
     delivery: Delivery = new Delivery();
     rowCount: number = 10;
     showAll: boolean = false;
+    deliveryId: number;
 
     options: DropDownItem[] = [
         new DropDownItem("Exceptions", "isException"),
@@ -33,11 +35,16 @@ export class DeliveryComponent implements OnInit {
         new DropDownItem("Action", "action")
     ];
 
-    constructor(private deliveryService: DeliveryService, private globalSettingsService: GlobalSettingsService) { }
+    constructor(
+        private deliveryService: DeliveryService,
+        private globalSettingsService: GlobalSettingsService,
+        private route: ActivatedRoute) {
+        route.params.subscribe(params => { this.deliveryId = params['id'] });
+    }
 
     ngOnInit(): void {
        
-        this.deliveryService.getDelivery(1) //TODO - Fix
+        this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(delivery => { this.delivery = delivery; console.log(this.delivery.id) },
             error => this.errorMessage = <any>error);
     }
@@ -45,5 +52,4 @@ export class DeliveryComponent implements OnInit {
     onShowAllClicked() {
         this.showAll = !this.showAll;
     }
-
 }

@@ -1,7 +1,8 @@
 ﻿import { Component, OnInit}  from '@angular/core';
 import { HTTP_PROVIDERS, Response } from '@angular/http';
+import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
-import {IBranch} from './branch';
+import {Branch} from './branch';
 import {BranchService} from './branchService';
 import {HttpResponse} from '../shared/http-response';
 import {ToasterContainerComponent, ToasterService} from 'angular2-toaster/angular2-toaster';
@@ -15,22 +16,27 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;
-    branches: IBranch[];
+    branches: Branch[];
     usersBranchIds: number[];
-    selectedBranches: Array<IBranch> = [];
+    selectedBranches: Array<Branch> = [];
     selectAllCheckbox: boolean;
     httpResponse: HttpResponse = new HttpResponse();
     username: string;
+    domain: string;
 
-    constructor(private branchService: BranchService, private toasterService: ToasterService, private globalSettingsService: GlobalSettingsService) {
-
+    constructor(private branchService: BranchService,
+        private toasterService: ToasterService,
+        private globalSettingsService: GlobalSettingsService,
+        private route: ActivatedRoute) {
+        route.params.subscribe(params => {
+            this.username = params['name'] === undefined ? '' : params['name']; this.domain = params['domain'];
+        });
     }
 
     ngOnInit(): void {
         this.selectAllCheckbox = false;
-        this.username = ""; //TODO - Fix this
 
-        this.branchService.getBranches()
+        this.branchService.getBranches(this.username)
             .subscribe(branches => {
                 this.branches = branches;
                 this.branches.forEach(branch => { if(branch.selected) this.selectedBranches.push(branch) });
@@ -76,15 +82,13 @@ export class BranchSelectionComponent implements OnInit {
     }
 
     save(): void {
-        this.branchService.saveBranches(this.selectedBranches)
+        this.branchService.saveBranches(this.selectedBranches, this.username, this.domain)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) this.toasterService.pop('success', 'Branches have been saved!', '');
                 if (this.httpResponse.failure) this.toasterService.pop('error', 'Branches could not be saved at this time!', 'Please try again later!');
                 if (this.httpResponse.notAcceptable) this.toasterService.pop('warning', 'Please select at least one branch!', '');
-
-
             });
     }
 }

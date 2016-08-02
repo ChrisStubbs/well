@@ -20,14 +20,7 @@
             this.branchPage.Open();
             this.branchPage.AdminDropDown.Select();
         }
-
-        [Then("I am on the branch selection page")]
-        public void IAmOnBranchSelectionPage()
-        {
-            Thread.Sleep(2000);
-            Assert.That(this.branchPage.Driver.Title, Is.EqualTo("Branch Selection"));
-        }
-
+        
         [When("select branches selection")]
         public void ClickBranchsSelection()
         {

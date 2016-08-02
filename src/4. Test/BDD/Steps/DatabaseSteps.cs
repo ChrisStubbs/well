@@ -6,6 +6,8 @@ using PH.Well.Domain;
 
 namespace PH.Well.BDD.Steps
 {
+    using System;
+
     using Domain.Enums;
     using Framework.Context;
     using Repositories.Contracts;
@@ -22,11 +24,14 @@ namespace PH.Well.BDD.Steps
 
         private readonly IWebClient webClient;
 
+        private readonly ILogger logger;
+
         public DatabaseSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
+            this.logger = this.container.GetInstance<ILogger>();
         }
 
         [Given("I have a clean database")]
@@ -99,8 +104,15 @@ namespace PH.Well.BDD.Steps
         [Given(@"I have selected branch (.*)")]
         public void GivenIHaveSelectedBranch(int branch)
         {
-            var user = SetUpUser();
-            SetUpUserBranch(user, branch);
+            try
+            {
+                var user = SetUpUser();
+                SetUpUserBranch(user, branch);
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error!", exception);
+            }
         }
 
         public User SetUpUser()

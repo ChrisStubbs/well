@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -37,7 +38,10 @@ export class CleanDeliveryComponent implements OnInit {
     ];
     account: IAccount;
 
-    constructor(private cleanDeliveryService: CleanDeliveryService, private accountService: AccountService) { }
+    constructor(
+        private cleanDeliveryService: CleanDeliveryService,
+        private accountService: AccountService,
+        private router: Router) { }
 
     ngOnInit(): void {
         this.cleanDeliveryService.getCleanDeliveries()
@@ -49,8 +53,8 @@ export class CleanDeliveryComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery: CleanDelivery): void {
-        window.location.href = './Clean/Delivery/' + delivery.id;
+    deliverySelected(delivery): void {
+        this.router.navigate(['/delivery', delivery.id]);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();

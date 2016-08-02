@@ -15,7 +15,8 @@ module.exports = {
         ,filename: "[name]Bundle.js"
     },
     plugins: [
-        //new webpack.optimize.UglifyJsPlugin({minimize: true}),
+        //new webpack.optimize.UglifyJsPlugin({minimize: true, comments: false}),
+        //new webpack.optimize.DedupePlugin(),
         //new webpack.optimize.CommonsChunkPlugin({name: ['app', 'vendor', 'polyfills']})
     ],
     module: {

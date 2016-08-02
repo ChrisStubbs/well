@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Dashboard.Controllers
 {
     using System.Web.Mvc;
-
     public class HomeController : Controller
     {
         [HttpGet]

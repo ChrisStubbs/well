@@ -4,8 +4,8 @@
 
     public class AppLayoutController : BaseController
     {
-        public AppLayoutController(IWebClient webClient)
-            : base(webClient)
+        public AppLayoutController()
+        //public AppLayoutController(IWebClient webClient) : base(webClient)
         {
         }
     }

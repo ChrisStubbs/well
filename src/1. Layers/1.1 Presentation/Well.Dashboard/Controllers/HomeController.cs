@@ -4,8 +4,8 @@
 
     public class HomeController : BaseController
     {
-        public HomeController(IWebClient webClient)
-            : base(webClient)
+        public HomeController() : base()
+        //public HomeController(IWebClient webClient) : base(webClient)
         {
         }
     }

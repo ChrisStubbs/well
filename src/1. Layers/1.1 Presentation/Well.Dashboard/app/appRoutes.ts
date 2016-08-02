@@ -7,6 +7,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolved-deliveryComponent';
+import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetStatsComponent} from './home/widgetStatsComponent';
 
@@ -20,7 +21,8 @@ const routes: RouterConfig = [
     { path: 'notifications', component: NotificationsComponent },
     { path: 'resolved', component: ResolvedDeliveryComponent },
     { path: 'routes', component: RouteHeaderComponent },
-    { path: 'widgets', component: WidgetStatsComponent }
+    { path: 'widgets', component: WidgetStatsComponent },
+    { path: 'preferences', component: UserPreferenceComponent }
 ];
 
 export const appRouterProviders = [

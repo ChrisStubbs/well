@@ -15,7 +15,6 @@ var GlobalSettingsService = (function () {
         this.globalSettings =
             {
                 apiUrl: (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/",
-                deliveryId: 1 //TODO - Remove this from global settings once Angular routing is in place
             };
     }
     GlobalSettingsService = __decorate([

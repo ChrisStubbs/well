@@ -11,11 +11,11 @@ export class BranchService {
     domain: string;
 
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) {
-        this.username = this.globalSettingsService.globalSettings.username;
+        this.username = ""; //TODO - Fix
        
         if (this.username === undefined) this.username = '';
 
-        this.domain = this.globalSettingsService.globalSettings.domain;
+        this.domain = "";//TODO - Fix
 
         if (this.domain === undefined) this.domain = '';
     }

@@ -69889,8 +69889,9 @@
 	var exceptionsComponent_1 = __webpack_require__(/*! ./exceptions/exceptionsComponent */ 659);
 	var notificationsComponent_1 = __webpack_require__(/*! ./notifications/notificationsComponent */ 661);
 	var resolved_deliveryComponent_1 = __webpack_require__(/*! ./resolved/resolved-deliveryComponent */ 662);
-	var routeHeaderComponent_1 = __webpack_require__(/*! ./route_header/routeHeaderComponent */ 664);
-	var widgetStatsComponent_1 = __webpack_require__(/*! ./home/widgetStatsComponent */ 667);
+	var userPreferenceComponent_1 = __webpack_require__(/*! ./user_preferences/userPreferenceComponent */ 664);
+	var routeHeaderComponent_1 = __webpack_require__(/*! ./route_header/routeHeaderComponent */ 667);
+	var widgetStatsComponent_1 = __webpack_require__(/*! ./home/widgetStatsComponent */ 670);
 	var routes = [
 	    { path: '', redirectTo: '/widgets', pathMatch: 'full' },
 	    { path: 'account', component: accountComponent_1.AccountComponent },
@@ -69901,7 +69902,8 @@
 	    { path: 'notifications', component: notificationsComponent_1.NotificationsComponent },
 	    { path: 'resolved', component: resolved_deliveryComponent_1.ResolvedDeliveryComponent },
 	    { path: 'routes', component: routeHeaderComponent_1.RouteHeaderComponent },
-	    { path: 'widgets', component: widgetStatsComponent_1.WidgetStatsComponent }
+	    { path: 'widgets', component: widgetStatsComponent_1.WidgetStatsComponent },
+	    { path: 'preferences', component: userPreferenceComponent_1.UserPreferenceComponent }
 	];
 	exports.appRouterProviders = [
 	    router_1.provideRouter(routes)
@@ -70021,7 +70023,6 @@
 	        this.globalSettings =
 	            {
 	                apiUrl: (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/",
-	                deliveryId: 1 //TODO - Remove this from global settings once Angular routing is in place
 	            };
 	    }
 	    GlobalSettingsService = __decorate([
@@ -70052,21 +70053,23 @@
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 6);
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
-	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var branchService_1 = __webpack_require__(/*! ./branchService */ 632);
 	var http_response_1 = __webpack_require__(/*! ../shared/http-response */ 633);
 	var angular2_toaster_1 = __webpack_require__(/*! angular2-toaster/angular2-toaster */ 634);
+	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	var BranchSelectionComponent = (function () {
-	    function BranchSelectionComponent(branchService, toasterService) {
+	    function BranchSelectionComponent(branchService, toasterService, globalSettingsService) {
 	        this.branchService = branchService;
 	        this.toasterService = toasterService;
+	        this.globalSettingsService = globalSettingsService;
 	        this.selectedBranches = [];
 	        this.httpResponse = new http_response_1.HttpResponse();
 	    }
 	    BranchSelectionComponent.prototype.ngOnInit = function () {
 	        var _this = this;
 	        this.selectAllCheckbox = false;
+	        this.username = ""; //TODO - Fix this
 	        this.branchService.getBranches()
 	            .subscribe(function (branches) {
 	            _this.branches = branches;
@@ -70126,9 +70129,9 @@
 	            selector: 'ow-branch',
 	            templateUrl: './app/branch/branch-list.html',
 	            directives: [angular2_toaster_1.ToasterContainerComponent],
-	            providers: [http_1.HTTP_PROVIDERS, globalSettings_1.GlobalSettingsService, branchService_1.BranchService, angular2_toaster_1.ToasterService]
+	            providers: [http_1.HTTP_PROVIDERS, branchService_1.BranchService, angular2_toaster_1.ToasterService, globalSettings_1.GlobalSettingsService]
 	        }), 
-	        __metadata('design:paramtypes', [branchService_1.BranchService, angular2_toaster_1.ToasterService])
+	        __metadata('design:paramtypes', [branchService_1.BranchService, angular2_toaster_1.ToasterService, globalSettings_1.GlobalSettingsService])
 	    ], BranchSelectionComponent);
 	    return BranchSelectionComponent;
 	}());
@@ -70161,9 +70164,15 @@
 	    function BranchService(http, globalSettingsService) {
 	        this.http = http;
 	        this.globalSettingsService = globalSettingsService;
+	        this.username = ""; //TODO - Fix
+	        if (this.username === undefined)
+	            this.username = '';
+	        this.domain = ""; //TODO - Fix
+	        if (this.domain === undefined)
+	            this.domain = '';
 	    }
 	    BranchService.prototype.getBranches = function () {
-	        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch')
+	        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + this.username)
 	            .map(function (response) { return response.json(); })
 	            .catch(this.handleError);
 	    };
@@ -70171,8 +70180,14 @@
 	        var body = JSON.stringify(branches);
 	        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
 	        var options = new http_1.RequestOptions({ headers: headers });
-	        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch', body, options)
-	            .map(function (res) { return res.json(); });
+	        if (this.username) {
+	            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + this.username + '&domain=' + this.domain, body, options)
+	                .map(function (res) { return res.json(); });
+	        }
+	        else {
+	            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch', body, options)
+	                .map(function (res) { return res.json(); });
+	        }
 	    };
 	    BranchService.prototype.handleError = function (error) {
 	        console.log(error);
@@ -70717,9 +70732,8 @@
 	    CleanDeliveryComponent.prototype.deliverySelected = function (delivery) {
 	        window.location.href = './Clean/Delivery/' + delivery.id;
 	    };
-	    CleanDeliveryComponent.prototype.openModal = function (accountId, event) {
+	    CleanDeliveryComponent.prototype.openModal = function (accountId) {
 	        var _this = this;
-	        event.stopPropagation();
 	        this.accountService.getAccountByAccountId(accountId)
 	            .subscribe(function (account) { _this.account = account; _this.modal.show(_this.account); }, function (error) { return _this.errorMessage = error; });
 	    };
@@ -71587,7 +71601,7 @@
 	    }
 	    DeliveryComponent.prototype.ngOnInit = function () {
 	        var _this = this;
-	        this.deliveryService.getDelivery(this.globalSettingsService.globalSettings.deliveryId)
+	        this.deliveryService.getDelivery(1) //TODO - Fix
 	            .subscribe(function (delivery) { _this.delivery = delivery; console.log(_this.delivery.id); }, function (error) { return _this.errorMessage = error; });
 	    };
 	    DeliveryComponent.prototype.onShowAllClicked = function () {
@@ -71771,12 +71785,11 @@
 	    ExceptionsComponent.prototype.onFilterClicked = function (filterOption) {
 	        this.filterOption = filterOption;
 	    };
-	    ExceptionsComponent.prototype.deliverySelected = function (delivery) {
+	    ExceptionsComponent.prototype.deliverySelected = function (delivery, event) {
 	        window.location.href = './Exceptions/Delivery/' + delivery.id;
 	    };
-	    ExceptionsComponent.prototype.openModal = function (accountId, event) {
+	    ExceptionsComponent.prototype.openModal = function (accountId) {
 	        var _this = this;
-	        event.stopPropagation();
 	        this.accountService.getAccountByAccountId(accountId)
 	            .subscribe(function (account) { _this.account = account; _this.modal.show(_this.account); }, function (error) { return _this.errorMessage = error; });
 	    };
@@ -71944,9 +71957,8 @@
 	    ResolvedDeliveryComponent.prototype.onFilterClicked = function (filterOption) {
 	        this.filterOption = filterOption;
 	    };
-	    ResolvedDeliveryComponent.prototype.openModal = function (accountId, event) {
+	    ResolvedDeliveryComponent.prototype.openModal = function (accountId) {
 	        var _this = this;
-	        event.stopPropagation();
 	        this.accountService.getAccountByAccountId(accountId)
 	            .subscribe(function (account) { _this.account = account; _this.modal.show(_this.account); }, function (error) { return _this.errorMessage = error; });
 	    };
@@ -72015,6 +72027,153 @@
 
 /***/ },
 /* 664 */
+/*!*********************************************************!*\
+  !*** ./app/user_preferences/userPreferenceComponent.js ***!
+  \*********************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 6);
+	var http_1 = __webpack_require__(/*! @angular/http */ 330);
+	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
+	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
+	var userPreferenceService_1 = __webpack_require__(/*! ./userPreferenceService */ 665);
+	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
+	var userPreferenceModalComponent_1 = __webpack_require__(/*! ./userPreferenceModalComponent */ 666);
+	var UserPreferenceComponent = (function () {
+	    function UserPreferenceComponent(userPreferenceService) {
+	        this.userPreferenceService = userPreferenceService;
+	        this.users = [];
+	        this.rowCount = 10;
+	        this.modal = new userPreferenceModalComponent_1.UserPreferenceModal();
+	    }
+	    UserPreferenceComponent.prototype.find = function () {
+	        var _this = this;
+	        this.userPreferenceService.getUsers(this.userText)
+	            .subscribe(function (users) { return _this.users = users; });
+	    };
+	    UserPreferenceComponent.prototype.userSelected = function (user) {
+	        this.modal.show(user);
+	    };
+	    __decorate([
+	        core_1.ViewChild(userPreferenceModalComponent_1.UserPreferenceModal), 
+	        __metadata('design:type', Object)
+	    ], UserPreferenceComponent.prototype, "modal", void 0);
+	    UserPreferenceComponent = __decorate([
+	        core_1.Component({
+	            selector: 'ow-user-preferences',
+	            templateUrl: './app/user_preferences/user-preferences.html',
+	            providers: [http_1.HTTP_PROVIDERS, userPreferenceService_1.UserPreferenceService, globalSettings_1.GlobalSettingsService, ng2_pagination_1.PaginationService],
+	            directives: [ng2_pagination_1.PaginationControlsCmp, userPreferenceModalComponent_1.UserPreferenceModal],
+	            pipes: [ng2_pagination_1.PaginatePipe]
+	        }), 
+	        __metadata('design:paramtypes', [userPreferenceService_1.UserPreferenceService])
+	    ], UserPreferenceComponent);
+	    return UserPreferenceComponent;
+	}());
+	exports.UserPreferenceComponent = UserPreferenceComponent;
+	//# sourceMappingURL=userPreferenceComponent.js.map
+
+/***/ },
+/* 665 */
+/*!*******************************************************!*\
+  !*** ./app/user_preferences/userPreferenceService.js ***!
+  \*******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 6);
+	var http_1 = __webpack_require__(/*! @angular/http */ 330);
+	var Observable_1 = __webpack_require__(/*! rxjs/Observable */ 39);
+	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
+	__webpack_require__(/*! rxjs/add/operator/map */ 354);
+	var UserPreferenceService = (function () {
+	    function UserPreferenceService(http, globalSettingsService) {
+	        this.http = http;
+	        this.globalSettingsService = globalSettingsService;
+	    }
+	    UserPreferenceService.prototype.getUsers = function (name) {
+	        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users/' + name)
+	            .map(function (response) { return response.json(); })
+	            .catch(this.handleError);
+	    };
+	    UserPreferenceService.prototype.handleError = function (error) {
+	        console.log(error);
+	        return Observable_1.Observable.throw(error.json().error || 'Server error');
+	    };
+	    UserPreferenceService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http, globalSettings_1.GlobalSettingsService])
+	    ], UserPreferenceService);
+	    return UserPreferenceService;
+	}());
+	exports.UserPreferenceService = UserPreferenceService;
+	//# sourceMappingURL=userPreferenceService.js.map
+
+/***/ },
+/* 666 */
+/*!**************************************************************!*\
+  !*** ./app/user_preferences/userPreferenceModalComponent.js ***!
+  \**************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 6);
+	var UserPreferenceModal = (function () {
+	    function UserPreferenceModal() {
+	        this.isVisible = false;
+	    }
+	    UserPreferenceModal.prototype.show = function (user) {
+	        this.user = user;
+	        this.isVisible = true;
+	    };
+	    UserPreferenceModal.prototype.hide = function () {
+	        this.isVisible = false;
+	    };
+	    UserPreferenceModal.prototype.setBranches = function () {
+	        window.location.href = encodeURI('./user-preferences/branches/' + this.user.friendlyName + '/' + this.user.domain);
+	    };
+	    UserPreferenceModal = __decorate([
+	        core_1.Component({
+	            selector: 'ow-user-preference-modal',
+	            templateUrl: './app/user_preferences/user-preference-modal.html'
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], UserPreferenceModal);
+	    return UserPreferenceModal;
+	}());
+	exports.UserPreferenceModal = UserPreferenceModal;
+	//# sourceMappingURL=userPreferenceModalComponent.js.map
+
+/***/ },
+/* 667 */
 /*!**************************************************!*\
   !*** ./app/route_header/routeHeaderComponent.js ***!
   \**************************************************/
@@ -72035,13 +72194,13 @@
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
 	var ng2_pagination_1 = __webpack_require__(/*! ng2-pagination */ 642);
-	var routeHeaderService_1 = __webpack_require__(/*! ./routeHeaderService */ 665);
+	var routeHeaderService_1 = __webpack_require__(/*! ./routeHeaderService */ 668);
 	var optionfilter_component_1 = __webpack_require__(/*! ../shared/optionfilter.component */ 649);
 	var optionFilterPipe_1 = __webpack_require__(/*! ../shared/optionFilterPipe */ 652);
 	var DropDownItem_1 = __webpack_require__(/*! ../shared/DropDownItem */ 653);
 	var Option = __webpack_require__(/*! ../shared/filterOption */ 650);
 	var FilterOption = Option.FilterOption;
-	var well_modal_1 = __webpack_require__(/*! ../shared/well-modal */ 666);
+	var well_modal_1 = __webpack_require__(/*! ../shared/well-modal */ 669);
 	var RouteHeaderComponent = (function () {
 	    function RouteHeaderComponent(routerHeaderService) {
 	        this.routerHeaderService = routerHeaderService;
@@ -72093,7 +72252,7 @@
 	//# sourceMappingURL=routeHeaderComponent.js.map
 
 /***/ },
-/* 665 */
+/* 668 */
 /*!************************************************!*\
   !*** ./app/route_header/routeHeaderService.js ***!
   \************************************************/
@@ -72145,7 +72304,7 @@
 	//# sourceMappingURL=routeHeaderService.js.map
 
 /***/ },
-/* 666 */
+/* 669 */
 /*!**********************************!*\
   !*** ./app/shared/well-modal.js ***!
   \**********************************/
@@ -72184,7 +72343,7 @@
 	//# sourceMappingURL=well-modal.js.map
 
 /***/ },
-/* 667 */
+/* 670 */
 /*!******************************************!*\
   !*** ./app/home/widgetStatsComponent.js ***!
   \******************************************/
@@ -72204,7 +72363,7 @@
 	var http_1 = __webpack_require__(/*! @angular/http */ 330);
 	var globalSettings_1 = __webpack_require__(/*! ../shared/globalSettings */ 630);
 	__webpack_require__(/*! rxjs/Rx */ 403); // Load all features
-	var widgetstats_service_1 = __webpack_require__(/*! ./widgetstats-service */ 668);
+	var widgetstats_service_1 = __webpack_require__(/*! ./widgetstats-service */ 671);
 	var WidgetStatsComponent = (function () {
 	    function WidgetStatsComponent(widgetStatsService, changeDetectorRef) {
 	        this.widgetStatsService = widgetStatsService;
@@ -72253,7 +72412,7 @@
 	//# sourceMappingURL=widgetStatsComponent.js.map
 
 /***/ },
-/* 668 */
+/* 671 */
 /*!*****************************************!*\
   !*** ./app/home/widgetstats-service.js ***!
   \*****************************************/

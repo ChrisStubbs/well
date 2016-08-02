@@ -7,6 +7,7 @@ var deliveryComponent_1 = require('./delivery/deliveryComponent');
 var exceptionsComponent_1 = require('./exceptions/exceptionsComponent');
 var notificationsComponent_1 = require('./notifications/notificationsComponent');
 var resolved_deliveryComponent_1 = require('./resolved/resolved-deliveryComponent');
+var userPreferenceComponent_1 = require('./user_preferences/userPreferenceComponent');
 var routeHeaderComponent_1 = require('./route_header/routeHeaderComponent');
 var widgetStatsComponent_1 = require('./home/widgetStatsComponent');
 var routes = [
@@ -19,7 +20,8 @@ var routes = [
     { path: 'notifications', component: notificationsComponent_1.NotificationsComponent },
     { path: 'resolved', component: resolved_deliveryComponent_1.ResolvedDeliveryComponent },
     { path: 'routes', component: routeHeaderComponent_1.RouteHeaderComponent },
-    { path: 'widgets', component: widgetStatsComponent_1.WidgetStatsComponent }
+    { path: 'widgets', component: widgetStatsComponent_1.WidgetStatsComponent },
+    { path: 'preferences', component: userPreferenceComponent_1.UserPreferenceComponent }
 ];
 exports.appRouterProviders = [
     router_1.provideRouter(routes)

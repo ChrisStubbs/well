@@ -16,17 +16,17 @@
 
         protected BootstrapData Model { get; set; }
 
-        protected BaseController(IWebClient webClient)
+        protected BaseController()
         {
             var config = new Dictionary<string, string>
             {
                 {"apiUrl", Configuration.OrderWellApi}
             };
 
-            var version = JsonConvert.DeserializeObject<ApiVersion>(webClient.DownloadString(Configuration.OrderWellApi + "version"));
-
-            var userBranches = webClient.DownloadString(Configuration.OrderWellApi + "user-branches");
-
+            //var version = JsonConvert.DeserializeObject<ApiVersion>(webClient.DownloadString(Configuration.OrderWellApi + "version"));
+            var version = new ApiVersion() {Version = "a.b.c"};
+            //var userBranches = webClient.DownloadString(Configuration.OrderWellApi + "user-branches");
+            var userBranches = "Bing, Bong";
             Model = new BootstrapData
             {
                 Version = version.Version,

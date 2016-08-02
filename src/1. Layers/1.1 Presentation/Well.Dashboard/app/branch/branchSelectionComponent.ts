@@ -11,7 +11,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html',
     directives: [ToasterContainerComponent],
-    providers: [HTTP_PROVIDERS, BranchService, ToasterService]
+    providers: [HTTP_PROVIDERS, BranchService, ToasterService, GlobalSettingsService]
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;
@@ -28,7 +28,7 @@ export class BranchSelectionComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectAllCheckbox = false;
-        this.username = this.globalSettingsService.globalSettings.username;
+        this.username = ""; //TODO - Fix this
 
         this.branchService.getBranches()
             .subscribe(branches => {

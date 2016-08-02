@@ -2,9 +2,9 @@
 
 export interface IGlobalSettings {
     apiUrl: string;
-    deliveryId: number;
-    username: string;
-    domain: string;
+    //deliveryId: number;
+    //username: string;
+    //domain: string;
 }
 
 @Injectable()
@@ -14,7 +14,7 @@ export class GlobalSettingsService {
         this.globalSettings =
         {
             apiUrl: (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/",
-            deliveryId: 1   //TODO - Remove this from global settings once Angular routing is in place
+            //deliveryId: 1   //TODO - Remove this from global settings once Angular routing is in place
         };
     }
     globalSettings: IGlobalSettings;

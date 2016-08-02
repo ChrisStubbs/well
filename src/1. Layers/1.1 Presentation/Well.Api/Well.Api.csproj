@@ -217,11 +217,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mapper\BranchModelMapper.cs" />
-    <Compile Include="Mapper\IBranchModelMapper.cs" />
-    <Compile Include="Mapper\IMapper.cs" />
-    <Compile Include="Mapper\IRouteModelsMapper.cs" />
-    <Compile Include="Mapper\RouteModelslMapper.cs" />
+    <Compile Include="Areas\Mapper\BranchModelMapper.cs" />
+    <Compile Include="Areas\Mapper\IBranchModelMapper.cs" />
+    <Compile Include="Areas\Mapper\IMapper.cs" />
+    <Compile Include="Areas\Mapper\IRouteModelsMapper.cs" />
+    <Compile Include="Areas\Mapper\RouteModelslMapper.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />

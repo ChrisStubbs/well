@@ -37,7 +37,7 @@ export class DeliveryComponent implements OnInit {
 
     ngOnInit(): void {
        
-        this.deliveryService.getDelivery(this.globalSettingsService.globalSettings.deliveryId)
+        this.deliveryService.getDelivery(1) //TODO - Fix
             .subscribe(delivery => { this.delivery = delivery; console.log(this.delivery.id) },
             error => this.errorMessage = <any>error);
     }

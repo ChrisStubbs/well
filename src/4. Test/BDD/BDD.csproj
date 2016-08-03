@@ -105,10 +105,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\Pages\Branch.feature.cs">
+      <DependentUpon>Branch.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Features\Pages\CleanPage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CleanPage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Pages\ExceptionPage.feature.cs">
+      <DependentUpon>ExceptionPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Features\Pages\ResolvedPage.feature.cs">
+      <DependentUpon>ResolvedPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Features\Pages\RoutesPage.feature.cs">
+      <DependentUpon>RoutesPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Framework\AdamImportConfiguration.cs" />
     <Compile Include="DatabaseSetup.cs" />
@@ -174,6 +194,10 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Features\Pages\Branch.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Branch.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
@@ -181,6 +205,18 @@
     <None Include="Features\Api\VersionCheck.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\ExceptionPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ExceptionPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\ResolvedPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ResolvedPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\RoutesPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RoutesPage.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -37,7 +37,6 @@ src/4. Test/Well.Test.UI/.ntvs_analysis.dat
 *.ntvs_analysis.dat.tmp
 *.ncrunchproject
 *.ncrunchsolution
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js.map
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/**/*.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/**/*.js.map
 *.orig

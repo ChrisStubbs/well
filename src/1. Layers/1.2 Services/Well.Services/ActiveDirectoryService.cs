@@ -48,11 +48,20 @@
 
             var domain = parts[0];
 
-            var nameParts = parts[1].Split('.');
-            var firstname = nameParts[0];
-            var surname = nameParts[1];
+            if (username.Contains('.'))
+            {
+                var nameParts = parts[1].Split('.');
+                var firstname = nameParts[0];
+                var surname = nameParts[1];
 
-            return this.Search(domain, firstname, surname, username);
+                return this.Search(domain, firstname, surname, username);
+            }
+            else
+            {
+                var firstname = parts[1];
+
+                return this.Search(domain, firstname, string.Empty, username);
+            }
         }
 
         public User GetUser(string username, string domain)
@@ -83,7 +92,13 @@
         {
             var context = new PrincipalContext(ContextType.Domain, domain);
 
-            var userPrincipal = new UserPrincipal(context) { GivenName = firstname, Surname = surname };
+            var userPrincipal = new UserPrincipal(context) { GivenName = firstname };
+
+            if (!string.IsNullOrWhiteSpace(surname))
+            {
+                userPrincipal.Surname = surname;
+            }
+
             var search = new PrincipalSearcher(userPrincipal);
 
             var results = search.FindAll();

@@ -24,13 +24,13 @@
 
 @RenderBody()
 
+<script src="~/Scripts/angular2/polyfillsBundle.js?ticks=@DateTime.Now.Ticks"></script>
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("~/bundles/bootstrap")
 <script src="~/signalr/hubs"></script>
 
 <!-- Load Angular2 -->
-<script src="~/Scripts/angular2/polyfillsBundle.js?ticks=@DateTime.Now.Ticks"></script>
 <script src="~/Scripts/angular2/vendorBundle.js?ticks=@DateTime.Now.Ticks"></script>
 <script src="~/Scripts/angular2/appBundle.js?ticks=@DateTime.Now.Ticks"></script>
 

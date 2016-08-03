@@ -70162,6 +70162,7 @@
 	        this.globalSettingsService = globalSettingsService;
 	        this.route = route;
 	        this.selectedBranches = [];
+	        this.selectAllCheckbox = false;
 	        this.httpResponse = new http_response_1.HttpResponse();
 	        route.params.subscribe(function (params) {
 	            _this.username = params['name'] === undefined ? '' : params['name'];
@@ -70170,7 +70171,6 @@
 	    }
 	    BranchSelectionComponent.prototype.ngOnInit = function () {
 	        var _this = this;
-	        this.selectAllCheckbox = false;
 	        this.branchService.getBranches(this.username)
 	            .subscribe(function (branches) {
 	            _this.branches = branches;

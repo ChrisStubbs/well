@@ -78,5 +78,12 @@
             Assert.That(ExceptionDeliveriesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
         }
 
+        [When(@"I click on a exception row")]
+        public void ClickExceptionDetail()
+        {
+            this.ExceptionDeliveriesPage.GetFirstCell().Click();
+        }
+
+        
     }
 }

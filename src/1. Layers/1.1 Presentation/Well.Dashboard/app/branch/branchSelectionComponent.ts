@@ -19,7 +19,7 @@ export class BranchSelectionComponent implements OnInit {
     branches: Branch[];
     usersBranchIds: number[];
     selectedBranches: Array<Branch> = [];
-    selectAllCheckbox: boolean;
+    selectAllCheckbox: boolean = false;
     httpResponse: HttpResponse = new HttpResponse();
     username: string;
     domain: string;
@@ -34,8 +34,6 @@ export class BranchSelectionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.selectAllCheckbox = false;
-
         this.branchService.getBranches(this.username)
             .subscribe(branches => {
                 this.branches = branches;

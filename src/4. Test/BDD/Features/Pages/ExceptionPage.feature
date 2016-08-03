@@ -61,3 +61,16 @@ Scenario: A user can page through Exception Delivery information
 	Then '7' rows of exception delivery data will be displayed
 	When I click on exception delivery page 1
 	Then '10' rows of exception delivery data will be displayed
+
+Scenario: View exception details at lower level
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And I have selected branch 22
+	And  All the deliveries are marked as exceptions
+	When I open the exception deliveries
+	And I click on a exception row
+	Then I am shown the exception detail
+	| LineNo | Product | Description            | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
+	| 1      | 50035   | Ind Potato Gratin 400g | 39    | 0               | 0                | 0               | 0             |
+	| 2      | 50035   | Ind Potato Gratin 400g | 39    | 0               | 0                | 0               | 0             |
+	

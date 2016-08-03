@@ -31,7 +31,7 @@
         [Then(@"a version number is returned")]
         public void ThenAVersionNumberIsReturned()
         {
-            Assert.That(responseString.Contains("version"));
+            Assert.That(string.IsNullOrEmpty(responseString) == false);
         }
     }
 }

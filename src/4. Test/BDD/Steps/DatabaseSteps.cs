@@ -114,6 +114,8 @@
 
             if (user == null) this.logger.LogDebug("User is null");
 
+            this.logger.LogDebug($"User created {user.Name}");
+
             return user;
         }
 

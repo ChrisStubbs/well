@@ -67280,13 +67280,13 @@
 	exports.ImmediateDefinition = ImmediateDefinition;
 	exports.Immediate = new ImmediateDefinition(root_1.root);
 	//# sourceMappingURL=Immediate.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/timers-browserify/main.js */ 585).clearImmediate, __webpack_require__(/*! ./~/timers-browserify/main.js */ 585).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 585).clearImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 585).setImmediate))
 
 /***/ },
 /* 585 */
-/*!*************************************!*\
-  !*** ./~/timers-browserify/main.js ***!
-  \*************************************/
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
+  \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 586).nextTick;
@@ -67365,13 +67365,13 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/timers-browserify/main.js */ 585).setImmediate, __webpack_require__(/*! ./~/timers-browserify/main.js */ 585).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 585).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 585).clearImmediate))
 
 /***/ },
 /* 586 */
-/*!******************************!*\
-  !*** ./~/process/browser.js ***!
-  \******************************/
+/*!**********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
+  \**********************************************************/
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -67426,7 +67426,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = cachedSetTimeout.call(null, cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 	
 	    var len = queue.length;
@@ -67443,7 +67443,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    cachedClearTimeout.call(null, timeout);
+	    cachedClearTimeout(timeout);
 	}
 	
 	process.nextTick = function (fun) {
@@ -67455,7 +67455,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        cachedSetTimeout.call(null, drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 	

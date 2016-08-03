@@ -1,4 +1,4 @@
-﻿import {Injectable} from '@angular/core';
+﻿import {Injectable, EventEmitter} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch';
@@ -7,8 +7,11 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BranchService {
+    public userBranchesChanged$: EventEmitter<Branch[]>;
 
-    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) {}
+    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) {
+        this.userBranchesChanged$ = new EventEmitter<Branch[]>();
+    }
 
     getBranches(username): Observable<Branch[]> {
 
@@ -31,7 +34,10 @@ export class BranchService {
             return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch',
                     body,
                     options)
-                .map(res => res.json());
+                .map(res => {
+                    this.userBranchesChanged$.emit(branches);
+                    return res.json();
+                });
         }
     }
 

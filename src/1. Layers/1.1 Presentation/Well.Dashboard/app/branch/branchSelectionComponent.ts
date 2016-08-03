@@ -12,7 +12,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html',
     directives: [ToasterContainerComponent],
-    providers: [HTTP_PROVIDERS, BranchService, ToasterService, GlobalSettingsService]
+    providers: [HTTP_PROVIDERS, ToasterService, GlobalSettingsService]
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;

@@ -16,6 +16,7 @@ namespace PH.Well.UnitTests.Api.Controllers
     using NUnit.Framework;
 
     using PH.Well.Api.Controllers;
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Services.Contracts;
     using PH.Well.UnitTests.Factories;
@@ -25,6 +26,7 @@ namespace PH.Well.UnitTests.Api.Controllers
     {
         private Mock<IBranchService> branchService;
         private Mock<IUserRepository> userRepository;
+        private Mock<ILogger> logger;
         private Mock<IActiveDirectoryService> activeDirectoryService;
 
         private UserController controller;
@@ -34,9 +36,10 @@ namespace PH.Well.UnitTests.Api.Controllers
         {
             this.branchService = new Mock<IBranchService>(MockBehavior.Strict);
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
 
-            this.controller = new UserController(this.branchService.Object, this.activeDirectoryService.Object, this.userRepository.Object);
+            this.controller = new UserController(this.branchService.Object, this.activeDirectoryService.Object, this.userRepository.Object, this.logger.Object);
 
             var config = new HttpConfiguration();
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/events");

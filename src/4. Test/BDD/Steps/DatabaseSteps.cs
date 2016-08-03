@@ -1,15 +1,14 @@
-﻿using System.Threading;
-using Newtonsoft.Json;
-using PH.Well.BDD.Framework;
-using PH.Well.Common.Contracts;
-using PH.Well.Domain;
-
-namespace PH.Well.BDD.Steps
+﻿namespace PH.Well.BDD.Steps
 {
-    using System;
-
     using Domain.Enums;
     using Framework.Context;
+
+    using Newtonsoft.Json;
+
+    using PH.Well.BDD.Framework;
+    using PH.Well.Common.Contracts;
+    using PH.Well.Domain;
+
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
@@ -104,15 +103,8 @@ namespace PH.Well.BDD.Steps
         [Given(@"I have selected branch (.*)")]
         public void GivenIHaveSelectedBranch(int branch)
         {
-            try
-            {
-                var user = SetUpUser();
-                SetUpUserBranch(user, branch);
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error!", exception);
-            }
+            var user = SetUpUser();
+            SetUpUserBranch(user, branch);
         }
 
         public User SetUpUser()
@@ -124,6 +116,8 @@ namespace PH.Well.BDD.Steps
 
         public void SetUpUserBranch(User user, int branch)
         {
+            this.logger.LogDebug($"User created {user.Name}");
+            this.logger.LogDebug($"Branch created {branch}");
             this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{user.Name}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
         }
     }

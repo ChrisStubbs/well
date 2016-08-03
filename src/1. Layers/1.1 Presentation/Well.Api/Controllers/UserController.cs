@@ -5,6 +5,7 @@
     using System.Net.Http;
     using System.Web.Http;
 
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
@@ -13,12 +14,16 @@
     {
         private readonly IBranchService branchService;
         private readonly IUserRepository userRepository;
+
+        private readonly ILogger logger;
+
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService, IUserRepository userRepository)
+        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService, IUserRepository userRepository, ILogger logger)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
+            this.logger = logger;
             this.activeDirectoryService = activeDirectoryService;
         }
 
@@ -37,6 +42,8 @@
         {
             try
             {
+                this.logger.LogDebug($"User name in API is {this.UserName}");
+
                 var user = this.activeDirectoryService.GetUser(this.UserName);
 
                 this.userRepository.CurrentUser = this.UserName;

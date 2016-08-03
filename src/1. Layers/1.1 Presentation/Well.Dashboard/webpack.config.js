@@ -14,11 +14,7 @@ module.exports = {
         path: "./Scripts/angular2/"
         ,filename: "[name]Bundle.js"
     },
-    plugins: [
-        //new webpack.optimize.UglifyJsPlugin({minimize: true, comments: false}),
-        //new webpack.optimize.DedupePlugin(),
-        //new webpack.optimize.CommonsChunkPlugin({name: ['app', 'vendor', 'polyfills']})
-    ],
+    plugins: [],
     module: {
     loaders: [
     {

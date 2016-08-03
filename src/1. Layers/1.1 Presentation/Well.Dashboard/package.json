@@ -4,8 +4,8 @@
   "author": "Palmer and Harvey",
   "description": "Package for the Orderwell application",
   "scripts": {
-    "build": "SET NODE_ENV=development && webpack -d --color",
-    "buildProduction": "SET NODE_ENV=production && webpack -d --color",
+    "build": "webpack --config webpack.config.js --color",
+    "buildProduction": "webpack --config webpackProd.config.js --color",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings",

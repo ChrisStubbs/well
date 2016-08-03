@@ -109,7 +109,10 @@
 
         public User SetUpUser()
         {
+            this.logger.LogDebug("Calling create user");
             var user = JsonConvert.DeserializeObject<User>(this.webClient.DownloadString(Configuration.WellApiUrl + "create-user-using-current-context"));
+
+            if (user == null) this.logger.LogDebug("User is null");
 
             return user;
         }

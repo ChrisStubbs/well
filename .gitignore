@@ -31,46 +31,12 @@ src/.vs/*
 !/src/packages/repositories.config
 !tools/**
 src/3. Database/Well/Well.dbmdl
-src/1. Layers/1.1 Presentation/Well.Dashboard/Well.Dashboard.csproj.orig
 **/node_modules/*
 src/1. Layers/1.1 Presentation/Well.Dashboard/typings/*
-
 src/4. Test/Well.Test.UI/.ntvs_analysis.dat
 *.ntvs_analysis.dat.tmp
 *.ncrunchproject
 *.ncrunchsolution
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js.map.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.ts.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanRoutesComponent.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.map.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.ts.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/widgetstats/widgetStatsComponent.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/*.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/*.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/shared/*.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/shared/*.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/*/*.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/notifications/notificationsComponent.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/notifications/notificationsComponent.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/account/accountService.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanDeliveryComponent.js.map.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanDeliveryComponent.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanDeliveryComponent.ts.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanDeliveryService.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/resolved-deliveryComponent.ts.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/resolved/resolvedDelivery-list.html.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/route_header/routeHeaderComponent.ts.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/route_header/routeheader-list.html.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/Views/Home/Index.cshtml.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/Views/Shared/_Layout.cshtml.orig
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/**/*.js
+src/1. Layers/1.1 Presentation/Well.Dashboard/app/**/*.js.map
 *.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/clean/cleanDeliveryService.js.orig
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/appComponent.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/appRoutes.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/appRoutes.js.map
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/main.js
-src/1. Layers/1.1 Presentation/Well.Dashboard/app/shared/globalSettings.js

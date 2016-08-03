@@ -304,6 +304,59 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("View exception details at lower level")]
+        public virtual void ViewExceptionDetailsAtLowerLevel()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details at lower level", ((string[])(null)));
+#line 65
+this.ScenarioSetup(scenarioInfo);
+#line 66
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 67
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 68
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 69
+ testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 70
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 71
+ testRunner.And("I click on a exception row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo",
+                        "Product",
+                        "Description",
+                        "Value",
+                        "InvoiceQuantity",
+                        "DeliveryQuantity",
+                        "DamagedQuantity",
+                        "ShortQuantity"});
+            table7.AddRow(new string[] {
+                        "1",
+                        "50035",
+                        "Ind Potato Gratin 400g",
+                        "39",
+                        "0",
+                        "0",
+                        "0",
+                        "0"});
+            table7.AddRow(new string[] {
+                        "2",
+                        "50035",
+                        "Ind Potato Gratin 400g",
+                        "39",
+                        "0",
+                        "0",
+                        "0",
+                        "0"});
+#line 72
+ testRunner.Then("I am shown the exception detail", ((string)(null)), table7, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

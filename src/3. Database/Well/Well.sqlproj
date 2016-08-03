@@ -159,7 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
-    <None Include="Post-Deployement\EventServiceBroker.sql" />
     <None Include="Post-Deployement\Populate-DefaultWidgetStats.sql" />
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
   </ItemGroup>

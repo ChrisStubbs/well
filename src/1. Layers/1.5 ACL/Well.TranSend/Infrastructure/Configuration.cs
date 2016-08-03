@@ -16,6 +16,7 @@
             FtpPass = ConfigurationManager.AppSettings["transendPass"];
             NetworkUser = ConfigurationManager.AppSettings["localUser"];
             NetworkUserPass = ConfigurationManager.AppSettings["localUserPass"];
+            DashboardRefreshEndpoint = ConfigurationManager.AppSettings["dashboardRefreshEndpoint"];
         }
 
         public string FilePath { get; set; }
@@ -26,5 +27,6 @@
         public string FtpPass{ get; set; }
         public string NetworkUser { get; set; }
         public string NetworkUserPass { get; set; }
+        public string DashboardRefreshEndpoint { get; set; }
     }
 }

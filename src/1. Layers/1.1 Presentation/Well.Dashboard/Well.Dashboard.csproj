@@ -373,6 +373,7 @@
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
+    <TypeScriptCompile Include="app\shared\refreshService.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
     <TypeScriptCompile Include="app\shared\well-modal.ts" />
     <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />

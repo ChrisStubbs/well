@@ -3,13 +3,14 @@ import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES  } from '@angular/router';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {BranchService} from './branch/branchService';
+import {RefreshService} from './shared/refreshService';
 
 import 'rxjs/Rx';   // Load all features
 
 @Component({
     selector: 'ow-app',
     templateUrl: 'home/applayout',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, BranchService],
+    providers: [HTTP_PROVIDERS, GlobalSettingsService, BranchService, RefreshService],
     directives: [ROUTER_DIRECTIVES]
 })
 

@@ -41,18 +41,19 @@ export class BranchSelectionComponent implements OnInit {
                 this.branches = branches;
                 this.branches.forEach(branch => { if(branch.selected) this.selectedBranches.push(branch) });
 
-                if (this.branches.every(x => x.selected)) this.selectAllCheckbox = true;
+                if (this.branches.every(x => x.selected)){ this.selectAllCheckbox = true;}
             },
             error => this.errorMessage = <any>error);
     }
 
-    selectAll(): void {
-        var selected = !this.selectAllCheckbox;
+    selectAll(selectAllCheckbox): void {
+        var selected = !selectAllCheckbox;
 
         this.branches.forEach(branch => {
             var index = this.selectedBranches.indexOf(branch, 0);
-            if (index > -1)
+            if (index > -1) {
                 this.selectedBranches.splice(index, 1);
+            }
             branch.selected = selected;
 
             if (selected) {
@@ -66,7 +67,7 @@ export class BranchSelectionComponent implements OnInit {
     selectBranch(branch): void {
         var index = this.selectedBranches.indexOf(branch, 0);
 
-        var selected = !branch.selected;
+        var selected = branch.selected;
 
         if (index > -1 && selected === false) {
             this.selectedBranches.splice(index, 1);

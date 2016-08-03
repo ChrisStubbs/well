@@ -18,7 +18,6 @@ Post-Deployment Script Template
 :r .\Populate-RoutePerformanceStatus.sql
 :r .\Populate-RouteStatus.sql
 :r .\Populate-VisitTypes.sql
-:r .\EventServiceBroker.sql
 :r .\Populate-DefaultWidgetStats.sql
 :r .\Populate-StopStatus.sql
 :r .\Populate-RouteHeaderExceptions.sql

@@ -13,6 +13,8 @@
             List<string> schemaErrors = new List<string>();
             var logger = container.GetInstance<ILogger>();
             var ePodProvider = container.GetInstance<IEpodProvider>();
+            var webClient = container.GetInstance<IWebClient>();
+            var configuration = container.GetInstance<IEpodImportConfiguration>();
             ePodProvider.ListFilesAndProcess(schemaErrors);
 
             epodStatusMessage = schemaErrors.Any() ? $"Epod file import completed with the following errors:  {string.Join(",", schemaErrors)}" : "Epod file import complete with no errors";
@@ -26,6 +28,7 @@
                 logger.LogDebug(epodStatusMessage);
             }
 
+            webClient.DownloadString(configuration.DashboardRefreshEndpoint);
         }
     }
 }

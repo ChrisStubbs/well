@@ -1,4 +1,4 @@
-﻿/// <binding AfterBuild='Run - Development' />
+﻿/// <binding BeforeBuild='Run - Development' />
 require('ts-loader');
 var webpack = require("webpack");
 

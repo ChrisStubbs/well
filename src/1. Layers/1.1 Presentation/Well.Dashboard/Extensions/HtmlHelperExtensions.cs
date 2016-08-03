@@ -1,18 +1,11 @@
 ﻿namespace PH.Well.Dashboard.Extensions
 {
-    using System;
     using System.Linq;
-    using System.Net;
     using System.Reflection;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Mvc.Html;
-
-    using Newtonsoft.Json.Linq;
-
-    using PH.Well.Common.Contracts;
-    using PH.Well.Dashboard;
-    using PH.Well.Dashboard.Modules;
+    using Modules;
 
     public static class HtmlHelperExtensions
     {
@@ -21,8 +14,6 @@
         private static string applicationVersion;
 
         private static string apiVersion;
-
-        private static ILogger logger;
 
         /// <summary>
         /// Provides the current version of the application.
@@ -51,30 +42,7 @@
             return applicationVersion;
         }
 
-        public static string ApiVersion(this HtmlHelper htmlHelper, IWebClient webClient = null)
-        {
-            if (apiVersion != null)
-                return apiVersion;
 
-            try
-            {
-                if (webClient == null) webClient = new PH.Well.Common.WebClient { Credentials = CredentialCache.DefaultCredentials };
-
-                var result = webClient.DownloadString($"{Configuration.OrderWellApi}{"Version"}");
-
-                if (result != string.Empty)
-                {
-                    var version = JObject.Parse(result);
-                    apiVersion = version.GetValue("version").ToString();
-                }
-            }
-            catch (Exception)
-            {
-                apiVersion = "unknown";
-            }
-
-            return apiVersion;
-        }
 
         /// <summary>
         /// Provides the application name.

@@ -10,5 +10,6 @@
         string NetworkUser { get; set; }
         string NetworkUserPass { get; set; }
         string SearchPattern { get; set; }
+        string DashboardRefreshEndpoint { get; }
     }
 }

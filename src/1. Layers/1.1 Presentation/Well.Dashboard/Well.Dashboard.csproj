@@ -288,6 +288,7 @@
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="tsconfig.json" />
+    <Content Include="webpackProd.config.js" />
     <Content Include="webpack.config.js" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

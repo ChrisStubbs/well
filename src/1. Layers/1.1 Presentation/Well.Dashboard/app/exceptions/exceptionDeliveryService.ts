@@ -14,7 +14,7 @@ export class ExceptionDeliveryService {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception')
             .map((response: Response) => <ExceptionDelivery>response.json())
-            //.do(data => console.log("All: " + JSON.stringify(data)))
+            .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
 
     }

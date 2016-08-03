@@ -14,6 +14,7 @@ import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     selector: 'ow-clean',
@@ -24,6 +25,7 @@ import {IAccount} from "../account/account";
 
 })
 export class CleanDeliveryComponent implements OnInit {
+    refreshSubscription: any;
     errorMessage: string;
     cleanDeliveries: CleanDelivery[];
     rowCount: number = 10;
@@ -41,9 +43,19 @@ export class CleanDeliveryComponent implements OnInit {
     constructor(
         private cleanDeliveryService: CleanDeliveryService,
         private accountService: AccountService,
-        private router: Router) { }
+        private router: Router,
+        private refreshService: RefreshService) { }
 
     ngOnInit(): void {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
+        this.getDeliveries();
+    }
+
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
+    }
+
+    getDeliveries() {
         this.cleanDeliveryService.getCleanDeliveries()
             .subscribe(cleanDeliveries => this.cleanDeliveries = cleanDeliveries,
             error => this.errorMessage = <any>error);

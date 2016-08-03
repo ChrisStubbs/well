@@ -13,8 +13,6 @@ import FilterOption = Option.FilterOption;
 import {WellModal} from "../shared/well-modal";
 import {RefreshService} from "../shared/refreshService";
 
-declare var $: any;
-
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
@@ -36,15 +34,15 @@ export class RouteHeaderComponent implements OnInit {
         new DropDownItem("Assignee", "assignee", true)
     ];
 
-    constructor(private routerHeaderService: RouteHeaderService,
-        private refreshService: RefreshService)
-    {
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
+    constructor(
+        private routerHeaderService: RouteHeaderService,
+        private refreshService: RefreshService){
     }
 
     @ViewChild(WellModal) modal = new WellModal();
 
     ngOnInit() {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
     }
 

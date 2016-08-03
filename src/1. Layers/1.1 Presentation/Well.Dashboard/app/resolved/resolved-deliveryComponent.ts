@@ -15,6 +15,7 @@ import FilterOption = Option.FilterOption;
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     selector: 'ow-resolved',
@@ -24,6 +25,7 @@ import {IAccount} from "../account/account";
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {
+    refreshSubscription: any;
     errorMessage: string;
     deliveries: ResolvedDelivery[];
     rowCount: number = 10;
@@ -44,10 +46,19 @@ export class ResolvedDeliveryComponent implements OnInit {
     constructor(
         private resolvedDeliveryService: ResolvedDeliveryService,
         private accountService: AccountService,
-        private router: Router) { }
+        private router: Router,
+        private refreshService: RefreshService) { }
 
     ngOnInit() {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
+        this.getDeliveries();
+    }
 
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
+    }
+
+    getDeliveries() {
         this.resolvedDeliveryService.getResolvedDeliveries()
             .subscribe(deliveries => this.deliveries = deliveries, error => this.errorMessage = <any>error);
     }

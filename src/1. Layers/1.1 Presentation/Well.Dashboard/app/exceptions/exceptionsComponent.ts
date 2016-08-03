@@ -14,6 +14,7 @@ import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {ExceptionDelivery} from "./exceptionDelivery";
 import {ExceptionDeliveryService} from "./exceptionDeliveryService";
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     selector: 'ow-exceptions',
@@ -23,6 +24,7 @@ import {ExceptionDeliveryService} from "./exceptionDeliveryService";
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class ExceptionsComponent implements OnInit {
+    refreshSubscription: any;
     errorMessage: string;
     exceptions: ExceptionDelivery[];
     rowCount: number = 10;
@@ -49,9 +51,20 @@ export class ExceptionsComponent implements OnInit {
     constructor(
         private exceptionDeliveryService: ExceptionDeliveryService,
         private accountService: AccountService,
-        private router: Router) { }
-       
+        private router: Router,
+        private refreshService: RefreshService) {
+    }
+
     ngOnInit(): void {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
+        this.getExceptions();
+    }
+
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
+    }
+
+    getExceptions() {
         this.exceptionDeliveryService.getExceptions()
             .subscribe(exceptions => this.exceptions = exceptions,
             error => this.errorMessage = <any>error);

@@ -5,7 +5,6 @@ import 'rxjs/Rx';   // Load all features
 import {IWidgetStats} from './widgetstats';
 import {WidgetStatsService} from './widgetstats-service';
 import {RefreshService} from '../shared/refreshService';
-declare var $: any;
 
 @Component({
     templateUrl: './app/home/widgetstats.html',
@@ -19,13 +18,13 @@ export class WidgetStatsComponent implements OnInit {
     errorMessage: string;
     refreshSubscription: any;
 
-    constructor(private widgetStatsService: WidgetStatsService,
-        private refreshService: RefreshService)
-    {
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getWidgetStats());
+    constructor(
+        private widgetStatsService: WidgetStatsService,
+        private refreshService: RefreshService) {
     }
 
     ngOnInit() {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getWidgetStats());
         this.getWidgetStats();
     }
 

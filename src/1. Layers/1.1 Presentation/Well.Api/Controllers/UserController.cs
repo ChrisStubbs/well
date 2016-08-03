@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Api.Controllers
 {
+    using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -42,8 +43,6 @@
         {
             try
             {
-                this.logger.LogDebug($"User name in API is {this.UserName}");
-
                 var user = this.activeDirectoryService.GetUser(this.UserName);
 
                 this.userRepository.CurrentUser = this.UserName;
@@ -52,8 +51,10 @@
 
                 return this.Request.CreateResponse(HttpStatusCode.Created, user);
             }
-            catch 
+            catch(Exception exception)
             {
+                this.logger.LogError($"Error when trying to save user {this.UserName}", exception);
+
                 return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
 

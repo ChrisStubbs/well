@@ -3,34 +3,24 @@ import {Http, Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {IWidgetStats} from './widgetstats';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {HttpErrorService} from '../shared/httpErrorService';
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class WidgetStatsService {
-    constructor(private _http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    private _exceptionsUrl = this.globalSettingsService.globalSettings.apiUrl;
-
-    autoUpdateDisabled(): Observable<boolean> {
-        return this._http.get(this._exceptionsUrl + 'EnableSignular')
-            .map((response: Response) => <boolean>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
-            .catch(this.handleError);
+    constructor(
+        private http: Http,
+        private globalSettingsService: GlobalSettingsService,
+        private httpErrorService: HttpErrorService,
+        private toasterService: ToasterService) {
     }
 
     getWidgetStats(): Observable<IWidgetStats> {
 
-        return this._http.get(this._exceptionsUrl + 'getwidgetstats')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'getwidgetstats')
             .map((response: Response) => <IWidgetStats>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
-            .catch(this.handleError);
+            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
-
-
-    private handleError(error: Response) {
-        console.log(error);
-        return Observable.throw(error.json().error || 'Server error');
-    }
-
-
-
 }

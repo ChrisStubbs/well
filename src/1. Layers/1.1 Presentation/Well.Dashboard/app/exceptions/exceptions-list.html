@@ -60,8 +60,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="row pull-right">
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
-        </div></div>
+    </div>
+        <div class="row">
+            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+            <div class="col-md-6" *ngIf="exceptions && exceptions.length">
+                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+
     </div>
 <contact-modal></contact-modal>

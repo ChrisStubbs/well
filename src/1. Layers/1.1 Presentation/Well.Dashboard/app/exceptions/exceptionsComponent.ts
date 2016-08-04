@@ -47,6 +47,7 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("No Action", "#")
     ];
     account: IAccount;
+    lastRefresh = Date.now();
 
     constructor(
         private exceptionDeliveryService: ExceptionDeliveryService,
@@ -66,9 +67,20 @@ export class ExceptionsComponent implements OnInit {
 
     getExceptions() {
         this.exceptionDeliveryService.getExceptions()
-            .subscribe(exceptions => this.exceptions = exceptions,
-            error => this.errorMessage = <any>error);
+            .subscribe(responseData => this.function1(responseData),
+                error => this.function2(error));
     }
+
+    function1(responseData) {
+        this.exceptions = responseData;
+        this.lastRefresh = Date.now();
+    };
+
+    function2(error) {
+        if (error.status && error.status === 404) {
+            this.lastRefresh = Date.now();
+        }
+    };
 
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;

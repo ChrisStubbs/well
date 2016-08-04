@@ -25,8 +25,8 @@ import {RefreshService} from '../shared/refreshService';
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {
+    lastRefresh = Date.now();
     refreshSubscription: any;
-    errorMessage: string;
     deliveries: ResolvedDelivery[];
     rowCount: number = 10;
     filterOption: Option.FilterOption = new FilterOption();
@@ -60,7 +60,11 @@ export class ResolvedDeliveryComponent implements OnInit {
 
     getDeliveries() {
         this.resolvedDeliveryService.getResolvedDeliveries()
-            .subscribe(deliveries => this.deliveries = deliveries, error => this.errorMessage = <any>error);
+            .subscribe(deliveries => {
+                    this.deliveries = deliveries;
+                    this.lastRefresh = Date.now();
+                },
+                error => this.lastRefresh = Date.now());
     }
 
     deliverySelected(delivery): void {
@@ -75,8 +79,10 @@ export class ResolvedDeliveryComponent implements OnInit {
 
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => { this.account = account; this.modal.show(this.account); },
-            error => this.errorMessage = <any>error);
+            .subscribe(account => {
+                this.account = account;
+                this.modal.show(this.account);
+            });
     }
 
 }

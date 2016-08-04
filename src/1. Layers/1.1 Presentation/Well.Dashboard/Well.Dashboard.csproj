@@ -372,6 +372,7 @@
     <TypeScriptCompile Include="app\shared\http-response.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
+    <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
     <TypeScriptCompile Include="app\shared\refreshService.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />

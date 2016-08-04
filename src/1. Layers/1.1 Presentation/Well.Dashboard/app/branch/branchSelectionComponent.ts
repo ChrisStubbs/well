@@ -5,14 +5,13 @@ import 'rxjs/Rx';   // Load all features
 import {Branch} from './branch';
 import {BranchService} from './branchService';
 import {HttpResponse} from '../shared/http-response';
-import {ToasterContainerComponent, ToasterService} from 'angular2-toaster/angular2-toaster';
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html',
-    directives: [ToasterContainerComponent],
-    providers: [HTTP_PROVIDERS, ToasterService, GlobalSettingsService]
+    providers: [HTTP_PROVIDERS, GlobalSettingsService]
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;

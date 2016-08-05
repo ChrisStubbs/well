@@ -25,7 +25,7 @@ export class RouteHeaderComponent implements OnInit {
     errorMessage: string;
     routes: IRoute[];
     rowCount: number = 10;
-    lastRefresh: string = '01 january 1666 13:05';
+    lastRefresh = Date.now();
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "route"),
@@ -52,7 +52,11 @@ export class RouteHeaderComponent implements OnInit {
 
     getRoutes(): void {
         this.routerHeaderService.getRouteHeaders()
-            .subscribe(routes => this.routes = routes, error => this.errorMessage = <any>error);
+            .subscribe(routes => {
+                    this.routes = routes;
+                    this.lastRefresh = Date.now();
+                },
+                error => this.lastRefresh = Date.now());
     }
 
     routeSelected(route): void {

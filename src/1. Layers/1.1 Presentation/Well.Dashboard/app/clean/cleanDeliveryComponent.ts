@@ -25,6 +25,7 @@ import {RefreshService} from '../shared/refreshService';
 
 })
 export class CleanDeliveryComponent implements OnInit {
+    lastRefresh = Date.now();
     refreshSubscription: any;
     errorMessage: string;
     cleanDeliveries: CleanDelivery[];
@@ -56,8 +57,11 @@ export class CleanDeliveryComponent implements OnInit {
 
     getDeliveries() {
         this.cleanDeliveryService.getCleanDeliveries()
-            .subscribe(cleanDeliveries => this.cleanDeliveries = cleanDeliveries,
-            error => this.errorMessage = <any>error);
+            .subscribe(cleanDeliveries => {
+                    this.cleanDeliveries = cleanDeliveries;
+                    this.lastRefresh = Date.now();
+                },
+                error => this.lastRefresh = Date.now());
     }
 
     onFilterClicked(filterOption: FilterOption) {

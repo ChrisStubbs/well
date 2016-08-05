@@ -32,7 +32,6 @@ export class ResolvedDeliveryComponent implements OnInit {
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "routeNumber"),
-        new DropDownItem("Drop", "dropId"),
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),

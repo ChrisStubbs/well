@@ -25,7 +25,6 @@
                         <th>Account Name</th>
                         <th>Contact</th>
                         <th>Status</th>
-                        <th>Reason</th>
                         <th>Assigned</th>
                         <th>Action</th>
                         <th>Last updated date/time</th>
@@ -42,7 +41,6 @@
                             <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.reason}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
                         <td>
                             <div class="btn-group">

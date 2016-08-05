@@ -31,7 +31,6 @@ export class ExceptionsComponent implements OnInit {
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "routeNumber"),
-        new DropDownItem("Drop", "dropId"),
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
@@ -42,9 +41,10 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Assign", "#"),
         new DropDownItem("Credit", "#"),
         new DropDownItem("Credit and Re-Order", "#"),
-        new DropDownItem("Re-Plan", "#"),
-        new DropDownItem("Future Re-plan", "#"),
-        new DropDownItem("No Action", "#")
+        new DropDownItem("Re-plan in TranSend", "#"),
+        new DropDownItem("Re-plan in Roadnet", "#"),
+        new DropDownItem("Re-plan in Queue", "#"),
+        new DropDownItem("Reject - No Action", "#")
     ];
     account: IAccount;
 

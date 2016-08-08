@@ -196,6 +196,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\ExceptionEventController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
@@ -298,6 +299,10 @@
     <ProjectReference Include="..\..\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1.5 ACL\Well.Adam.Events\Well.Adam.Events.csproj">
+      <Project>{9B115560-A7E1-45A9-9213-712A0860303C}</Project>
+      <Name>Well.Adam.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

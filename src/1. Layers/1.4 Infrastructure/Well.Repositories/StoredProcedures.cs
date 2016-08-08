@@ -57,5 +57,7 @@
 
         public static string UserGetByName = "UserGetByName";
         public static string UserSave = "UserSave";
+
+        public static string EventInsert = "EventInsert";
     }
 }

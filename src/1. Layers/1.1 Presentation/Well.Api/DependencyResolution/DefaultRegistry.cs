@@ -35,12 +35,13 @@ namespace PH.Well.Api.DependencyResolution
             For<IAccountRepository>().Use<AccountRepository>();
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
-            //For<IDeliveryReadRepository>().Use<Controllers.MockDeliveryRepository>();
-            
+            For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
+            For<IExceptionEventService>().Use<ExceptionEventService>();
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
             For<IActiveDirectoryService>().Use<ActiveDirectoryService>();
+            For<IAdamRepository>().Use<AdamRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

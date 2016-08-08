@@ -23,6 +23,7 @@ import {RefreshService} from '../shared/refreshService';
     directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal],
     pipes: [OptionFilterPipe, PaginatePipe]
 })
+
 export class ExceptionsComponent implements OnInit {
     refreshSubscription: any;
     errorMessage: string;
@@ -34,6 +35,7 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
+        new DropDownItem("Assignee", "assigned"),
         new DropDownItem("Date", "dateTime")
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");

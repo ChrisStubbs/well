@@ -12,10 +12,10 @@ Scenario: A user can view Clean Delivery Information
 	And  3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Complete |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Complete |
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Complete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | 
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | 
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | 
 
 Scenario: A user can filter Clean Delivery information
 	Given I have a clean database
@@ -25,30 +25,24 @@ Scenario: A user can filter Clean Delivery information
 	When I open the clean deliveries
 	And I filter the clean delivery grid with the option 'Route' and value '006'
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Complete |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Complete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Complete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Complete |
-	When I filter the clean delivery grid with the option 'Drop' and value '03'
-	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName        | Status   |
-	| 011   | 03   | 954107.000 | 54107.000 | WB - WAITROSE SHOP | Complete |
-	| 011   | 03   | 954107.000 | 54107.000 | WB - WAITROSE SHOP | Complete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | 
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | 
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | 
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | 
 	When I filter the clean delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Complete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | 
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | 
 	When I filter the clean delivery grid with the option 'Account' and value '28398.080'
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName   | Status   |
-	| 011   | 05   | 928398.080 | 28398.080 | TESCO EXPRESS | Complete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName   | 
+	| 011   | 05   | 928398.080 | 28398.080 | TESCO EXPRESS | 
 	When I filter the clean delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName | Status   |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Complete |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Complete |
-
+	| Route | Drop | InvoiceNo  | Account   | AccountName | 
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | 
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | 
 Scenario: A user can page through Clean Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data

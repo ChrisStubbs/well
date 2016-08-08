@@ -29,11 +29,6 @@ Scenario: A user can filter Exception Delivery information
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Incomplete |
 	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
 	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
-	When I filter the exception delivery grid with the option 'Drop' and value '03'
-	Then the following exception deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName        | Status	  |
-	| 011   | 03   | 954107.000 | 54107.000 | WB - WAITROSE SHOP | Incomplete |
-	| 011   | 03   | 954107.000 | 54107.000 | WB - WAITROSE SHOP | Incomplete |
 	When I filter the exception delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |

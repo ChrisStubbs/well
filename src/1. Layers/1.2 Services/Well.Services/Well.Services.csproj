@@ -55,11 +55,13 @@
     <Compile Include="Contracts\IEpodDomainImportProvider.cs" />
     <Compile Include="Contracts\IEpodDomainImportService.cs" />
     <Compile Include="Contracts\IEpodSchemaProvider.cs" />
+    <Compile Include="Contracts\IExceptionEventService.cs" />
     <Compile Include="Contracts\IFriendlyNameService.cs" />
     <Compile Include="EpodDomainImportService.cs" />
     <Compile Include="EpodImport\EpodDomainImportProvider.cs" />
     <Compile Include="EpodImport\EpodSchemaProvider.cs" />
     <Compile Include="EpodImport\XmlSerialisationHelper.cs" />
+    <Compile Include="ExceptionEventService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

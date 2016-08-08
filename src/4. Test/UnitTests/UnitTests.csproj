@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
+    <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />

@@ -34,5 +34,55 @@
 
             return response;
         }
+
+        public void CreditReorder(CreditReorderEvent creditReorderEvent, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse CreditReorder(CreditReorderEvent creditReorderEvent, AdamSettings adamSettings, string username)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Reject(RejectEvent rejectEvent, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse Reject(RejectEvent rejectEvent, AdamSettings adamSettings, string username)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ReplanRoadnet(RoadnetEvent roadnetEvent, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse ReplanRoadnet(RoadnetEvent roadnetEvent, AdamSettings adamSettings, string username)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ReplanTranscend(TranscendEvent transcendEvet, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse ReplanTranscend(TranscendEvent transcendEvet, AdamSettings adamSettings, string username)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ReplanQueue(QueueEvent queueEvent, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse ReplanQueue(QueueEvent queueEvent, AdamSettings adamSettings, string username)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

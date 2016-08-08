@@ -77,6 +77,11 @@
     <Compile Include="Stop.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ValueObjects\AdamSettings.cs" />
+    <Compile Include="ValueObjects\QueueEvent.cs" />
+    <Compile Include="ValueObjects\TranscendEvent.cs" />
+    <Compile Include="ValueObjects\RoadnetEvent.cs" />
+    <Compile Include="ValueObjects\RejectEvent.cs" />
+    <Compile Include="ValueObjects\CreditReorderEvent.cs" />
     <Compile Include="ValueObjects\CreditEvent.cs" />
     <Compile Include="ValueObjects\DeliveryDetail.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />

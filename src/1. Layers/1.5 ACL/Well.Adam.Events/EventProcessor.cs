@@ -31,11 +31,35 @@
                 {
                     case ExceptionAction.Credit:
                         var creditEvent = JsonConvert.DeserializeObject<CreditEvent>(eventToProcess.Event);
-                        var adamSettings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
-                        this.exceptionEventService.Credit(creditEvent, adamSettings);
+                        this.exceptionEventService.Credit(creditEvent, GetAdamSettings(creditEvent.BranchId));
+                        break;
+                    case ExceptionAction.CreditAndReorder:
+                        var creditReorderEvent = JsonConvert.DeserializeObject<CreditReorderEvent>(eventToProcess.Event);
+                        this.exceptionEventService.CreditReorder(creditReorderEvent, GetAdamSettings(creditReorderEvent.BranchId));
+                        break;
+                    case ExceptionAction.Reject:
+                        var rejectEvent = JsonConvert.DeserializeObject<RejectEvent>(eventToProcess.Event);
+                        this.exceptionEventService.Reject(rejectEvent, GetAdamSettings(rejectEvent.BranchId));
+                        break;
+                    case ExceptionAction.ReplanInRoadnet:
+                        var roadnetEvent = JsonConvert.DeserializeObject<RoadnetEvent>(eventToProcess.Event);
+                        this.exceptionEventService.ReplanRoadnet(roadnetEvent, GetAdamSettings(roadnetEvent.BranchId));
+                        break;
+                    case ExceptionAction.ReplanInTranscend:
+                        var transcendEvent = JsonConvert.DeserializeObject<TranscendEvent>(eventToProcess.Event);
+                        this.exceptionEventService.ReplanTranscend(transcendEvent, GetAdamSettings(transcendEvent.BranchId));
+                        break;
+                    case ExceptionAction.ReplanInTheQueue:
+                        var queueEvent = JsonConvert.DeserializeObject<QueueEvent>(eventToProcess.Event);
+                        this.exceptionEventService.ReplanQueue(queueEvent, GetAdamSettings(queueEvent.BranchId));
                         break;
                 }
             }
+        }
+
+        private AdamSettings GetAdamSettings(int branchId)
+        {
+            return AdamSettingsFactory.GetAdamSettings((Branch)branchId);
         }
     }
 }

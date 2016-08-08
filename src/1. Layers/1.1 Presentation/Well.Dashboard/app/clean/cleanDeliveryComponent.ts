@@ -14,6 +14,7 @@ import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     selector: 'ow-clean',
@@ -24,13 +25,14 @@ import {IAccount} from "../account/account";
 
 })
 export class CleanDeliveryComponent implements OnInit {
+    lastRefresh = Date.now();
+    refreshSubscription: any;
     errorMessage: string;
     cleanDeliveries: CleanDelivery[];
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "routeNumber"),
-        new DropDownItem("Drop", "dropId"),
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
@@ -41,12 +43,25 @@ export class CleanDeliveryComponent implements OnInit {
     constructor(
         private cleanDeliveryService: CleanDeliveryService,
         private accountService: AccountService,
-        private router: Router) { }
+        private router: Router,
+        private refreshService: RefreshService) { }
 
     ngOnInit(): void {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
+        this.getDeliveries();
+    }
+
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
+    }
+
+    getDeliveries() {
         this.cleanDeliveryService.getCleanDeliveries()
-            .subscribe(cleanDeliveries => this.cleanDeliveries = cleanDeliveries,
-            error => this.errorMessage = <any>error);
+            .subscribe(cleanDeliveries => {
+                    this.cleanDeliveries = cleanDeliveries;
+                    this.lastRefresh = Date.now();
+                },
+                error => this.lastRefresh = Date.now());
     }
 
     onFilterClicked(filterOption: FilterOption) {

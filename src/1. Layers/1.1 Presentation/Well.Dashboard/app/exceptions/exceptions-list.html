@@ -25,7 +25,6 @@
                         <th>Account Name</th>
                         <th>Contact</th>
                         <th>Status</th>
-                        <th>Reason</th>
                         <th>Assigned</th>
                         <th>Action</th>
                         <th>Last updated date/time</th>
@@ -42,7 +41,6 @@
                             <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.reason}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
                         <td>
                             <div class="btn-group">
@@ -60,8 +58,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="row pull-right">
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
-        </div></div>
+    </div>
+        <div class="row">
+            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+            <div class="col-md-6" *ngIf="exceptions && exceptions.length">
+                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+
     </div>
 <contact-modal></contact-modal>

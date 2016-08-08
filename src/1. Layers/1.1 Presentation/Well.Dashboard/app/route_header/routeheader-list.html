@@ -40,11 +40,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="row">
-            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh}}</span></div>
-            <div class="col-md-6">
-                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+        <div class="col-md-6" *ngIf="routes && routes.length">
+            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
         </div>
     </div>
 </div>

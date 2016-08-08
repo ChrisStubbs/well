@@ -26,7 +26,6 @@
                     <th>Account</th>
                     <th>Account Name</th>
                     <th>Contact</th>
-                    <th>Status</th>
                     <th>Last updated date/time</th>
                 </tr>
                 </thead>
@@ -38,16 +37,19 @@
                     <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
                     <td>
-                    <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)" >Info</button>
+                        <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
                     </td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.dateTime}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="row pull-right">
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+        <div class="col-md-6" *ngIf="cleanDeliveries && cleanDeliveries.length">
+            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
         </div>
     </div>
 </div>

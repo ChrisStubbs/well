@@ -1,16 +1,14 @@
-﻿import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
+﻿import { Component, OnInit}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-
-
-import {IWidgetStats} from './widgetstats'
-import {WidgetStatsService} from './widgetstats-service'
-declare var $: any;
+import {IWidgetStats} from './widgetstats';
+import {WidgetStatsService} from './widgetstats-service';
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     templateUrl: './app/home/widgetstats.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, WidgetStatsService ],
+    providers: [HTTP_PROVIDERS, GlobalSettingsService, WidgetStatsService],
     selector:'ow-widgetstats'
 })
 
@@ -18,35 +16,24 @@ export class WidgetStatsComponent implements OnInit {
 
     widgetstats: IWidgetStats;
     errorMessage: string;
+    refreshSubscription: any;
 
-    constructor(private widgetStatsService: WidgetStatsService, private changeDetectorRef: ChangeDetectorRef) { }
+    constructor(
+        private widgetStatsService: WidgetStatsService,
+        private refreshService: RefreshService) {
+    }
 
     ngOnInit() {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getWidgetStats());
         this.getWidgetStats();
-
-        this.initSignalr();
     }
 
-    initSignalr(): void {
-
-        var hub = $.connection.refreshHub;
-        hub.client.dataRefreshed = () => {
-            //console.log("Refreshing data...");
-            this.getWidgetStats();
-        };
-
-        $.connection.hub.start().done((data) => {
-            //console.log("Hub started");
-        });
-    }
-
-    handleExceptions(widgetstats): void {
-        this.widgetstats = widgetstats;
-        this.changeDetectorRef.detectChanges();
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
     }
 
     getWidgetStats() {
         this.widgetStatsService.getWidgetStats()
-            .subscribe(widgetstats => this.handleExceptions(widgetstats), error => this.errorMessage = <any>error);
+            .subscribe(widgetstats => this.widgetstats = widgetstats, error => this.errorMessage = <any>error);
     }
 }

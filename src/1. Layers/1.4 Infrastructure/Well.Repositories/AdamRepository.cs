@@ -9,9 +9,9 @@
 
     public class AdamRepository : IAdamRepository
     {
-        public AdamResponse CreditInvoice(CreditEvent credit, AdamConfiguration configuration)
+        public AdamResponse CreditInvoice(CreditEvent credit, AdamSettings adamSettings)
         {
-            using (var connection = new AdamConnection(GetConnection(configuration)))
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
                 try
                 {
@@ -37,7 +37,7 @@
             return AdamResponse.Unknown;
         }
 
-        private static string GetConnection(AdamConfiguration configuration)
+        private static string GetConnection(AdamSettings settings)
         {
             var connection = new AdamConnectionStringBuilder
             {
@@ -46,11 +46,11 @@
                 MaxPoolSize = 32,
                 ConnectTimeout = 60,
                 TransactionMode = AdamTransaction.TransactionMode.Ignore,
-                DataSource = configuration.Server,
-                Database = configuration.Rfs,
-                Port = configuration.Port,
-                UID = configuration.Username,
-                PWD = configuration.Password,
+                DataSource = settings.Server,
+                Database = settings.Rfs,
+                Port = settings.Port,
+                UID = settings.Username,
+                PWD = settings.Password,
                 OpenMode = AdamOpenMode.NonexclusiveReadWrite
             };
 

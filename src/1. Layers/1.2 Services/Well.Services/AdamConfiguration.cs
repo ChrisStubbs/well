@@ -1,11 +1,9 @@
-﻿namespace PH.Well.Adam.Events
+﻿namespace PH.Well.Services
 {
     using System.Configuration;
 
-    public struct Configuration
+    public struct AdamConfiguration
     {
-        public static string WellApi => ConfigurationManager.AppSettings["OrderWellApi"];
-
         public static string AdamUsername => ConfigurationManager.AppSettings["adamUserName"];
 
         public static string AdamPassword => ConfigurationManager.AppSettings["adamPassword"];

@@ -22,3 +22,4 @@ Post-Deployment Script Template
 :r .\Populate-StopStatus.sql
 :r .\Populate-RouteHeaderExceptions.sql
 :r .\Populate-Branch.sql
+:r .\Populate-ExceptionAction.sql

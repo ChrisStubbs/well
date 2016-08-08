@@ -4,6 +4,6 @@
 
     public interface IExceptionEventRepository
     {
-        void InsertCreditEvent(CreditEvent creditEvent);
+        void InsertCreditEvent(CreditEvent creditEvent, string username);
     }
 }

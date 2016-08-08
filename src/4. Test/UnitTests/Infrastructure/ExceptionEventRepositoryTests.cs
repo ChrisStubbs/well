@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
+    using System;
     using System.Data;
 
     using Moq;
@@ -33,6 +34,7 @@
             [Test]
             public void ShouldInsertCreditEvent()
             {
+                var username = "foo";
                 var creditEvent = new CreditEvent { BranchId = 2, InvoiceNumber = "012342.231" };
 
                 var creditEventJson = JsonConvert.SerializeObject(creditEvent);
@@ -46,9 +48,21 @@
                 this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", ExceptionAction.Credit, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
+                this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", username, DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", username, DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
                 this.dapperProxy.Setup(x => x.Execute()); 
 
-                this.repository.InsertCreditEvent(creditEvent);
+                this.repository.InsertCreditEvent(creditEvent, username);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.EventInsert), Times.Once);
 

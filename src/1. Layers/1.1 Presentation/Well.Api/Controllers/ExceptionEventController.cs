@@ -6,12 +6,12 @@
     using System.Web.Http;
     using Common.Contracts;
 
-    using PH.Well.Adam.Events;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
+    using PH.Well.Services;
     using PH.Well.Services.Contracts;
 
-    public class ExceptionEventController : ApiController
+    public class ExceptionEventController : BaseApiController
     {
         private readonly ILogger logger;
 
@@ -23,16 +23,19 @@
             this.exceptionEventService = exceptionEventService;
         }
 
+        [Route("credit")]
         [HttpPost]
         public HttpResponseMessage Credit(CreditEvent creditEvent)
         {
             try
             {
-                var config = ConfigurationFactory.GetAdamConfiguration((Branch)creditEvent.BranchId);
+                var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
 
-                var response = this.exceptionEventService.Credit(creditEvent, config);
+                var response = this.exceptionEventService.Credit(creditEvent, settings, this.UserName);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, Enum.GetName(typeof(AdamResponse), response));
+                if (response == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
             }
             catch (Exception exception)
             {

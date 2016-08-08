@@ -1,5 +1,5 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {ExceptionDelivery} from './exceptionDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
@@ -22,5 +22,16 @@ export class ExceptionDeliveryService {
             .map((response: Response) => <ExceptionDelivery>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+    }
+
+    credit(exception: ExceptionDelivery): Observable<any> {
+        let body = JSON.stringify(exception);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit',
+            body,
+            options)
+            .map(res => res.json());
     }
 }

@@ -5,6 +5,6 @@
 
     public interface IExceptionEventService
     {
-        AdamResponse Credit(CreditEvent creditEvent, AdamConfiguration adamConfiguration);
+        AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username);
     }
 }

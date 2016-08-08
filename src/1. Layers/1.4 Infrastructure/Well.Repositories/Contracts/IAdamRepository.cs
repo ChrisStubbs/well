@@ -5,6 +5,6 @@
 
     public interface IAdamRepository
     {
-        AdamResponse CreditInvoice(CreditEvent credit, AdamConfiguration configuration);
+        AdamResponse CreditInvoice(CreditEvent credit, AdamSettings adamSettings);
     }
 }

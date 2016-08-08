@@ -3,12 +3,20 @@
     using AIA.Adam.RFS;
     using AIA.ADAM.DataProvider;
 
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
 
     public class AdamRepository : IAdamRepository
     {
+        private readonly ILogger logger;
+
+        public AdamRepository(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
         public AdamResponse CreditInvoice(CreditEvent credit, AdamSettings adamSettings)
         {
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
@@ -27,6 +35,8 @@
                 }
                 catch (AdamProviderException adamException)
                 {
+                    this.logger.LogError("ADAM error occured!", adamException);
+
                     if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
                     {
                         return AdamResponse.AdamDown;

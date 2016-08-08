@@ -17,13 +17,19 @@
             this.eventRepository = eventRepository;
         }
 
+        public void Credit(CreditEvent creditEvent, AdamSettings adamSettings)
+        {
+            this.adamRepository.CreditInvoice(creditEvent, adamSettings);
+        }
+
         public AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username)
         {
             var response = this.adamRepository.CreditInvoice(creditEvent, adamSettings);
 
             if (response == AdamResponse.AdamDown)
             {
-                this.eventRepository.InsertCreditEvent(creditEvent, username);
+                this.eventRepository.CurrentUser = username;
+                this.eventRepository.InsertCreditEvent(creditEvent);
             }
 
             return response;

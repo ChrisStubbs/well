@@ -55,14 +55,16 @@
                 this.adamRepository.Setup(x => x.CreditInvoice(creditEvent, adamSettings))
                     .Returns(AdamResponse.AdamDown);
 
-                this.exceptionEventRepository.Setup(x => x.InsertCreditEvent(creditEvent, username));
+                this.exceptionEventRepository.SetupSet(x => x.CurrentUser = username);
+
+                this.exceptionEventRepository.Setup(x => x.InsertCreditEvent(creditEvent));
 
                 var response = this.service.Credit(creditEvent, adamSettings, username);
 
                 Assert.That(response, Is.EqualTo(AdamResponse.AdamDown));
 
                 this.adamRepository.Verify(x => x.CreditInvoice(creditEvent, adamSettings), Times.Once);
-                this.exceptionEventRepository.Verify(x => x.InsertCreditEvent(creditEvent, username), Times.Once);
+                this.exceptionEventRepository.Verify(x => x.InsertCreditEvent(creditEvent), Times.Once);
             }
         }
     }

@@ -63,6 +63,7 @@
     <Compile Include="Enums\RouteStatusCode.cs" />
     <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Enums\TransendSchemaType.cs" />
+    <Compile Include="ExceptionEvent.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />

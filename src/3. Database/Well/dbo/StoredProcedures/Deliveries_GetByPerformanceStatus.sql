@@ -17,7 +17,7 @@ BEGIN
 		s.DeliveryDate  as [DateTime],
 		null as Action,
 		null as Reason, 
-		null as Assigned,
+		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
 		b.Id as BranchId
 	FROM
@@ -36,6 +36,10 @@ BEGIN
 		dbo.UserBranch ub on b.Id = ub.BranchId
 	INNER JOIN
 		dbo.[User] u on u.Id = ub.UserId
+	LEFT JOIN
+		dbo.UserJob uj on uj.JobId = j.Id 
+	LEFT JOIN
+		dbo.[User] u2 on u2.Id = uj.UserId
 
 	WHERE
 		ps.Id =  @PerformanceStatusId

@@ -45,6 +45,7 @@
             catch (IOException)
             {
                 Thread.Sleep(Configuration.WaitTimeInMillisecondsForFileToBeCopied);
+
                 WaitForFile(filePath);
             }
         }

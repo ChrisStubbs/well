@@ -27,5 +27,7 @@
 
         public static Driver Driver => (Driver)Enum.Parse(typeof(Driver), ConfigurationManager.AppSettings["WebDriver"]);
 
+        public static string AdamFile => ConfigurationManager.AppSettings["adamFile"];
+
     }
 }

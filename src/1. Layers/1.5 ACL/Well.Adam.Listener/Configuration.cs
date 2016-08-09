@@ -5,7 +5,5 @@
     public struct Configuration
     {
         public static string RootFolder => ConfigurationManager.AppSettings["rootFolder"];
-
-        
     }
 }

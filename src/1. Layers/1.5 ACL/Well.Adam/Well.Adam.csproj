@@ -47,15 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IAdamRouteFileProvider.cs" />
-    <Compile Include="Contracts\IAdamImportConfiguration.cs" />
-    <Compile Include="Import.cs" />
-    <Compile Include="Infrastructure\AdamRouteFileProvider.cs" />
-    <Compile Include="Infrastructure\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <Content Include="Schemas\TransendPHEpodSchema.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

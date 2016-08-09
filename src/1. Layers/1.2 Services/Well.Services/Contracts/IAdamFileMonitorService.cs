@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Services.Contracts
 {
-    public interface IMonitorService
+    public interface IAdamFileMonitorService
     {
         void Monitor(string rootFolder);
     }

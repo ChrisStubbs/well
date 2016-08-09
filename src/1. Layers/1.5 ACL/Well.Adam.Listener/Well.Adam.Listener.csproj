@@ -87,6 +87,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Schemas\TransendPHEpodSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\TransendPHRoutesSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -103,10 +109,6 @@
     <ProjectReference Include="..\..\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Well.Adam\Well.Adam.csproj">
-      <Project>{dda686b1-7d6f-4895-89ad-4d81dcef2a02}</Project>
-      <Name>Well.Adam</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

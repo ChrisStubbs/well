@@ -1,10 +1,8 @@
-﻿namespace Well.Adam.Listener
+﻿namespace PH.Well.Adam.Listener
 {
     using System;
     using System.Windows.Forms;
 
-    using PH.Well.Adam.Contracts;
-    using PH.Well.Adam.Infrastructure;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -17,17 +15,15 @@
 
     public partial class Main : Form
     {
-        private IContainer container;
-
         public Main()
         {
             InitializeComponent();
 
-            this.container = this.InitIoc();
+            var container = InitIoc();
 
-            var monitorService = this.container.GetInstance<IMonitorService>();
+            var monitorService = container.GetInstance<IAdamFileMonitorService>();
 
-            monitorService.Monitor(PH.Well.Adam.Listener.Configuration.RootFolder);
+            monitorService.Monitor(Configuration.RootFolder);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -38,7 +34,7 @@
             base.OnLoad(e);
         }
 
-        private Container InitIoc()
+        private static Container InitIoc()
         {
             return new Container(
                 x =>
@@ -54,15 +50,10 @@
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
-                    x.For<IAdamRouteFileProvider>().Use<AdamRouteFileProvider>();
-                    x.For<IAdamImportConfiguration>().Use<PH.Well.Adam.Infrastructure.Configuration>();
-                    x.For<IMonitorService>().Use<MonitorService>();
+                    x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
                 });
         }
-
-
-
     }
 }

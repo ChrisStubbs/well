@@ -1,23 +1,16 @@
-﻿namespace Well.Adam.Listener
+﻿namespace PH.Well.Adam.Listener
 {
     using System;
     using System.Windows.Forms;
 
     partial class Main
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         private ContextMenu trayMenu;
 
         private NotifyIcon trayIcon;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -63,6 +56,7 @@
         }
 
         #endregion
+
         private void OnExit(object sender, EventArgs e)
         {
             Application.Exit();

@@ -130,8 +130,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Framework\AdamImportConfiguration.cs" />
-    <Compile Include="DatabaseSetup.cs" />
     <Compile Include="Factories\DriverFactory.cs" />
     <Compile Include="Features\Api\VersionCheck.feature.cs">
       <AutoGen>True</AutoGen>
@@ -245,10 +243,6 @@
     <ProjectReference Include="..\..\1. Layers\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam\Well.Adam.csproj">
-      <Project>{dda686b1-7d6f-4895-89ad-4d81dcef2a02}</Project>
-      <Name>Well.Adam</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{D1032947-BBA3-4D82-91FB-8E2AE054F0E3}</Project>

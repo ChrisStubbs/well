@@ -2,11 +2,13 @@
 {
     using System.IO;
 
-    using Adam;
     using Framework.Context;
 
-    using PH.Well.Adam.Contracts;
+    using PH.Well.BDD.Framework;
+    using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
+    using PH.Well.Services;
+    using PH.Well.Services.Contracts;
 
     using StructureMap;
     using TechTalk.SpecFlow;
@@ -15,31 +17,24 @@
     public class AdamImportSteps
     {
         private readonly IContainer container;
-        private readonly IAdamImportConfiguration config;
 
         public AdamImportSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
-            this.config = this.container.GetInstance<IAdamImportConfiguration>();
         }
 
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
-            var adamImport = new Import();
-            
-            //adamImport.Process(container);
+            var logger = this.container.GetInstance<ILogger>();
+            var fileService = this.container.GetInstance<IFileService>();
+            var epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
+            var epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
+            var epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
 
-            //var archiveLocation = this.config.ArchiveLocation;
-            //var originalLocation = this.config.FilePath;
+            var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
 
-            string[] fileList = Directory.GetFiles(this.config.ArchiveLocation, "*.xml*");
-
-            foreach (var file in fileList)
-            {
-                var filenameWithoutPath = file.GetFilenameWithoutPath();
-                File.Move(file, Path.Combine(this.config.FilePath, filenameWithoutPath));
-            }
+            adamImport.Process(Configuration.AdamFile, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

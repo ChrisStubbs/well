@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Well.Adam.Listener
+﻿namespace PH.Well.Adam.Listener
 {
-    static class Program
+    using System;
+    using System.Windows.Forms;
+
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.

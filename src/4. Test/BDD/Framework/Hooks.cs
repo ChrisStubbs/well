@@ -2,12 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.IO;
     using System.Security.Principal;
     using System.Threading;
-    using Adam.Contracts;
-    using Adam.Infrastructure;
     using Common;
     using Common.Contracts;
     using Common.Security;
@@ -137,9 +134,9 @@
                                                 x.For<IStopRepository>().Use<StopRepository>();
                                                 x.For<IJobRepository>().Use<JobRepository>();
                                                 x.For<IJobDetailRepository>().Use<JobDetailRepository>();
-                                                x.For<IAdamRouteFileProvider>().Use<AdamRouteFileProvider>();
-                                                x.For<IAdamImportConfiguration>().Use<AdamImportConfiguration>();
                                                 x.For<IWebClient>().Use<WebClient>();
+                                                x.For<IFileModule>().Use<FileModule>();
+                                                x.For<IFileService>().Use<FileService>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

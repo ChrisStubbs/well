@@ -28,7 +28,7 @@
         {
             var adamImport = new Import();
             
-            adamImport.Process(container);
+            //adamImport.Process(container);
 
             //var archiveLocation = this.config.ArchiveLocation;
             //var originalLocation = this.config.FilePath;

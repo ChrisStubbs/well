@@ -4,11 +4,10 @@
     using System.Linq;
     using Common.Contracts;
     using Contracts;
-    using StructureMap;
 
     public class Import
     {
-        public void Process(IContainer container)
+        /*public void Process(IContainer container)
         {
             var schemaErrors = new List<string>();
 
@@ -21,6 +20,6 @@
                 : "Adam file import completed with no errors";
 
             logger.LogDebug(adamStatusMessage);
-        }
+        }*/
     }
 }

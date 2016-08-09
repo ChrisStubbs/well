@@ -28,6 +28,8 @@
 
         private EventProcessor processor;
 
+        private string username;
+
         [SetUp]
         public void Setup()
         {
@@ -42,6 +44,8 @@
                 .Returns(this.exceptionEventService.Object);
 
             this.processor = new EventProcessor(this.container.Object);
+
+            this.username = "Event Processor";
         }
 
         public class TheProcessMethod : EventProcessorTests
@@ -53,17 +57,17 @@
 
                 var json = JsonConvert.SerializeObject(creditEvent);
 
-                var exception = new ExceptionEvent { Event = json, ExceptionActionId = (int)ExceptionAction.Credit };
+                var exception = new ExceptionEvent { Id = 501, Event = json, ExceptionActionId = (int)ExceptionAction.Credit };
 
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(x => x.Credit(It.IsAny<CreditEvent>(), It.IsAny<AdamSettings>()));
+                this.exceptionEventService.Setup(x => x.Credit(It.IsAny<CreditEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(x => x.Credit(It.IsAny<CreditEvent>(), It.IsAny<AdamSettings>()), Times.Once);
+                this.exceptionEventService.Verify(x => x.Credit(It.IsAny<CreditEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username), Times.Once);
             }
 
             [Test]
@@ -78,12 +82,12 @@
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(x => x.CreditReorder(It.IsAny<CreditReorderEvent>(), It.IsAny<AdamSettings>()));
+                this.exceptionEventService.Setup(x => x.CreditReorder(It.IsAny<CreditReorderEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(x => x.CreditReorder(It.IsAny<CreditReorderEvent>(), It.IsAny<AdamSettings>()), Times.Once);
+                this.exceptionEventService.Verify(x => x.CreditReorder(It.IsAny<CreditReorderEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username), Times.Once);
             }
 
             [Test]
@@ -98,12 +102,12 @@
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(x => x.Reject(It.IsAny<RejectEvent>(), It.IsAny<AdamSettings>()));
+                this.exceptionEventService.Setup(x => x.Reject(It.IsAny<RejectEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(x => x.Reject(It.IsAny<RejectEvent>(), It.IsAny<AdamSettings>()), Times.Once);
+                this.exceptionEventService.Verify(x => x.Reject(It.IsAny<RejectEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username), Times.Once);
             }
 
             [Test]
@@ -118,12 +122,12 @@
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(x => x.ReplanRoadnet(It.IsAny<RoadnetEvent>(), It.IsAny<AdamSettings>()));
+                this.exceptionEventService.Setup(x => x.ReplanRoadnet(It.IsAny<RoadnetEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(x => x.ReplanRoadnet(It.IsAny<RoadnetEvent>(), It.IsAny<AdamSettings>()), Times.Once);
+                this.exceptionEventService.Verify(x => x.ReplanRoadnet(It.IsAny<RoadnetEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username), Times.Once);
             }
 
             [Test]
@@ -138,12 +142,12 @@
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(x => x.ReplanTranscend(It.IsAny<TranscendEvent>(), It.IsAny<AdamSettings>()));
+                this.exceptionEventService.Setup(x => x.ReplanTranscend(It.IsAny<TranscendEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(x => x.ReplanTranscend(It.IsAny<TranscendEvent>(), It.IsAny<AdamSettings>()), Times.Once);
+                this.exceptionEventService.Verify(x => x.ReplanTranscend(It.IsAny<TranscendEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username), Times.Once);
             }
 
             [Test]
@@ -158,12 +162,12 @@
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(x => x.ReplanQueue(It.IsAny<QueueEvent>(), It.IsAny<AdamSettings>()));
+                this.exceptionEventService.Setup(x => x.ReplanQueue(It.IsAny<QueueEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(x => x.ReplanQueue(It.IsAny<QueueEvent>(), It.IsAny<AdamSettings>()), Times.Once);
+                this.exceptionEventService.Verify(x => x.ReplanQueue(It.IsAny<QueueEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username), Times.Once);
             }
         }
     }

@@ -24,6 +24,9 @@
                 x =>
                 {
                     x.For<ILogger>().Use<NLogger>();
+                    x.For<IDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<IAdamRepository>().Use<AdamRepository>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IExceptionEventService>().Use<ExceptionEventService>();
                 });

@@ -160,6 +160,8 @@
     <Build Include="dbo\Tables\ExceptionEvent.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
+    <Build Include="dbo\StoredProcedures\EventGetUnprocessed.sql" />
+    <Build Include="dbo\StoredProcedures\MarkEventAsProcessed.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

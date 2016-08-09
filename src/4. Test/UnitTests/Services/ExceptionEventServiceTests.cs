@@ -36,14 +36,14 @@
                 var creditEvent = new CreditEvent { BranchId = 1, InvoiceNumber = "322111.001" };
                 var adamSettings = new AdamSettings();
 
-                this.adamRepository.Setup(x => x.CreditInvoice(creditEvent, adamSettings))
+                this.adamRepository.Setup(x => x.Credit(creditEvent, adamSettings))
                     .Returns(AdamResponse.Success);
 
                 var response = this.service.Credit(creditEvent, adamSettings, username);
 
                 Assert.That(response, Is.EqualTo(AdamResponse.Success));
 
-                this.adamRepository.Verify(x => x.CreditInvoice(creditEvent, adamSettings), Times.Once);
+                this.adamRepository.Verify(x => x.Credit(creditEvent, adamSettings), Times.Once);
             }
 
             public void ShouldSaveTheEventForFurtherProcessingIfAdamIsDown()
@@ -52,7 +52,7 @@
                 var creditEvent = new CreditEvent { BranchId = 1, InvoiceNumber = "322111.001" };
                 var adamSettings = new AdamSettings();
 
-                this.adamRepository.Setup(x => x.CreditInvoice(creditEvent, adamSettings))
+                this.adamRepository.Setup(x => x.Credit(creditEvent, adamSettings))
                     .Returns(AdamResponse.AdamDown);
 
                 this.exceptionEventRepository.SetupSet(x => x.CurrentUser = username);
@@ -63,7 +63,7 @@
 
                 Assert.That(response, Is.EqualTo(AdamResponse.AdamDown));
 
-                this.adamRepository.Verify(x => x.CreditInvoice(creditEvent, adamSettings), Times.Once);
+                this.adamRepository.Verify(x => x.Credit(creditEvent, adamSettings), Times.Once);
                 this.exceptionEventRepository.Verify(x => x.InsertCreditEvent(creditEvent), Times.Once);
             }
         }

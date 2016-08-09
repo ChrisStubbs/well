@@ -17,7 +17,7 @@
             this.logger = logger;
         }
 
-        public AdamResponse CreditInvoice(CreditEvent credit, AdamSettings adamSettings)
+        public AdamResponse Credit(CreditEvent credit, AdamSettings adamSettings)
         {
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
@@ -45,6 +45,31 @@
             }
 
             return AdamResponse.Unknown;
+        }
+
+        public AdamResponse CreditReorder(CreditReorderEvent creditReorder, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse Reject(RejectEvent reject, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse ReplanRoadnet(RoadnetEvent roadnet, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse ReplanTranscend(TranscendEvent transcend, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AdamResponse ReplanQueue(QueueEvent queue, AdamSettings adamSettings)
+        {
+            throw new System.NotImplementedException();
         }
 
         private static string GetConnection(AdamSettings settings)

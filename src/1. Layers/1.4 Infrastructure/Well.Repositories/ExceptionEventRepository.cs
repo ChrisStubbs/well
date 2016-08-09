@@ -34,7 +34,7 @@
 
         public void MarkEventAsProcessed(int eventId)
         {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.MarkEventAsProcessed)
                 .AddParameter("EventId", eventId, DbType.Int32)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)

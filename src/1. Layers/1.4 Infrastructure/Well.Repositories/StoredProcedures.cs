@@ -59,9 +59,9 @@
         public static string UserSave = "UserSave";
 
         public static string EventInsert = "EventInsert";
-
         public static string EventSetProcessed = "EventSetProcessed";
-
         public static string EventGetUnprocessed = "EventGetUnprocessed";
+
+        public static string MarkEventAsProcessed = "MarkEventAsProcessed";
     }
 }

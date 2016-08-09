@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C839EE3-9B46-4D0B-A38B-6E653E471FBF}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9AC33DBB-74B2-4A81-8371-4D86E7565BE0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PH.Well.Services</RootNamespace>
-    <AssemblyName>PH.Well.Services</AssemblyName>
+    <RootNamespace>PH.Well.Adam.Listener</RootNamespace>
+    <AssemblyName>PH.Well.Adam.Listener</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,77 +33,77 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LbF.XmlSerialisation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\XmlSerialisation.1.0.5\lib\net45\LbF.XmlSerialisation.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.DirectoryServices.AccountManagement" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveDirectoryService.cs" />
-    <Compile Include="AdamConfiguration.cs" />
-    <Compile Include="AdamSettingsFactory.cs" />
-    <Compile Include="BranchService.cs" />
-    <Compile Include="Contracts\IActiveDirectoryService.cs" />
-    <Compile Include="Contracts\IBranchService.cs" />
-    <Compile Include="Contracts\IDeliveryService.cs" />
-    <Compile Include="Contracts\IEpodDomainImportProvider.cs" />
-    <Compile Include="Contracts\IEpodDomainImportService.cs" />
-    <Compile Include="Contracts\IEpodSchemaProvider.cs" />
-    <Compile Include="Contracts\IExceptionEventService.cs" />
-    <Compile Include="Contracts\IFileModule.cs" />
-    <Compile Include="Contracts\IFileService.cs" />
-    <Compile Include="Contracts\IFriendlyNameService.cs" />
-    <Compile Include="Contracts\IMonitorService.cs" />
-    <Compile Include="EpodDomainImportService.cs" />
-    <Compile Include="EpodImport\EpodDomainImportProvider.cs" />
-    <Compile Include="EpodImport\EpodSchemaProvider.cs" />
-    <Compile Include="EpodImport\XmlSerialisationHelper.cs" />
-    <Compile Include="ExceptionEventService.cs" />
-    <Compile Include="FileModule.cs" />
-    <Compile Include="FileService.cs" />
-    <Compile Include="MonitorService.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
       <Name>Well.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\1.3 Domain\Well.Domain\Well.Domain.csproj">
-      <Project>{94ded6ae-3fda-42c6-afd5-d7ecdb59ab7b}</Project>
-      <Name>Well.Domain</Name>
+    <ProjectReference Include="..\..\1.2 Services\Well.Services\Well.Services.csproj">
+      <Project>{8c839ee3-9b46-4d0b-a38b-6e653e471fbf}</Project>
+      <Name>Well.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Schemas\TransendPHEpodSchema.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Schemas\TransendPHRoutesSchema.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Well.Adam\Well.Adam.csproj">
+      <Project>{dda686b1-7d6f-4895-89ad-4d81dcef2a02}</Project>
+      <Name>Well.Adam</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

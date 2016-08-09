@@ -47,6 +47,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Well.Test.UI", "4. Test\Wel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.Adam.Events", "1. Layers\1.5 ACL\Well.Adam.Events\Well.Adam.Events.csproj", "{9B115560-A7E1-45A9-9213-712A0860303C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.Adam.Listener", "1. Layers\1.5 ACL\Well.Adam.Listener\Well.Adam.Listener.csproj", "{9AC33DBB-74B2-4A81-8371-4D86E7565BE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{9B115560-A7E1-45A9-9213-712A0860303C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B115560-A7E1-45A9-9213-712A0860303C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B115560-A7E1-45A9-9213-712A0860303C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AC33DBB-74B2-4A81-8371-4D86E7565BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC33DBB-74B2-4A81-8371-4D86E7565BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AC33DBB-74B2-4A81-8371-4D86E7565BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AC33DBB-74B2-4A81-8371-4D86E7565BE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,5 +136,6 @@ Global
 		{559D6545-BC06-432A-B006-7EF8C65B4BD4} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 		{C96B41F0-6770-4B0D-982C-A24B02397153} = {5BA14BDD-5F5A-4BF3-9064-6DBF0B08A3FA}
 		{9B115560-A7E1-45A9-9213-712A0860303C} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
+		{9AC33DBB-74B2-4A81-8371-4D86E7565BE0} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 	EndGlobalSection
 EndGlobal

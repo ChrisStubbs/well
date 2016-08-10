@@ -36,14 +36,7 @@
             logger.LogDebug("Calling file monitor service");
             var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
 
-            try
-            {
-                adamImport.Process(Configuration.AdamFile, false);
-            }
-            catch (Exception exception)
-            {
-                logger.LogError("Error when loading adam data", exception);
-            }
+            adamImport.Process(Configuration.AdamFile, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

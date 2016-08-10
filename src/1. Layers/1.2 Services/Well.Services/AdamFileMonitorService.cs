@@ -68,21 +68,35 @@
 
         public List<string> Process(string filePath, bool archive = true)
         {
+            this.logger.LogDebug($"file path is {filePath}");
+
             var schemaErrors = new List<string>();
 
             var filenameWithoutPath = filePath.GetFilenameWithoutPath();
 
+            this.logger.LogDebug($"File name is {filenameWithoutPath}");
+
             if (epodDomainImportService.IsFileXmlType(filenameWithoutPath))
             {
+                this.logger.LogDebug("File is valid xml");
+
                 var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
+
+                this.logger.LogDebug($"File type is {fileTypeIndentifier}");
+
                 var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
+
+                this.logger.LogDebug($"Schema name is {schemaName}");
+
                 var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
+
+                this.logger.LogDebug($"Scheam path is {schemaPath}");
+
                 var validationErrors = new List<string>();
                 var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
 
                 if (!isFileValidBySchema)
                 {
-
                     var validationError =
                         $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";
 
@@ -92,7 +106,12 @@
                 else
                 {
                     var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
+
+                    this.logger.LogDebug($"Epod type is {epodType}");
+
                     epodDomainImportProvider.ImportRouteHeader(filePath, epodType);
+
+                    this.logger.LogDebug("Imported route header");
 
                     if (archive)
                     {

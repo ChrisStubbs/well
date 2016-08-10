@@ -31,25 +31,23 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayMenu = new System.Windows.Forms.ContextMenu();
             this.SuspendLayout();
-
-
-            this.trayMenu = new ContextMenu();
-            this.trayMenu.MenuItems.Add("Exit", OnExit);
             // 
-            // notifyIcon1
+            // trayIcon
             // 
-            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.trayIcon.Text = "Order Adapter";
-            this.trayIcon.Visible = true;
             this.trayIcon.ContextMenu = this.trayMenu;
+            this.trayMenu.MenuItems.Add("Exit", OnExit);
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "Well Listener";
+            this.trayIcon.Visible = true;
             // 
-            // Form1
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 273);
-            this.Name = "OrderWell File Monitor";
+            this.Name = "Main";
             this.Text = "OrderWell File Monitor";
             this.ResumeLayout(false);
 

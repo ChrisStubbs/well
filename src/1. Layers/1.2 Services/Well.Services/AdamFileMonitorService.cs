@@ -72,7 +72,7 @@
 
         public List<string> Process(string filePath, bool archive = true)
         {
-            try
+            /*try
             {
                 var foo = File.ReadAllLines(filePath);
                 this.logger.LogDebug("File read with success");
@@ -80,7 +80,7 @@
             catch (Exception exception)
             {
                 this.logger.LogError("cant read file", exception);
-            }
+            }*/
 
             var schemaErrors = new List<string>();
 

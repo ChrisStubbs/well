@@ -70,5 +70,54 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
+
+        /*
+         * 
+         * 
+         *   [Route("save-branches-on-behalf-of-user")]
+        [HttpPost]
+        public HttpResponseMessage Post(Branch[] branches, string username, string domain)
+        {
+            try
+            {
+                if (branches.Length > 0)
+                {
+                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserName, domain);
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+                }
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error when trying to save branches for the user", exception);
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
+         
+        [HttpPost]
+        public HttpResponseMessage Post(Branch[] branches)
+        {
+            try
+            {
+                if (branches.Length > 0)
+                {
+                    this.branchService.SaveBranchesForUser(branches, this.UserName);
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+                }
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error when trying to save branches for the user", exception);
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
+         
+         
+         
+         */
+
     }
 }

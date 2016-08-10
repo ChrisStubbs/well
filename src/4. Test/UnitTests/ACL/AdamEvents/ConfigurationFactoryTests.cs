@@ -2,18 +2,18 @@
 {
     using NUnit.Framework;
 
-    using PH.Well.Adam.Events;
     using PH.Well.Domain.Enums;
+    using PH.Well.Services;
 
-    using Config = PH.Well.Adam.Events.Configuration;
+    using Config = PH.Well.Services.AdamConfiguration;
 
     [TestFixture]
-    public class ConfigurationFactoryTests
+    public class AdamSettingsFactoryTests
     {
         [Test]
         public void MedwayConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.MedwayIsDown);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.MedwayIsDown);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -25,7 +25,7 @@
         [Test]
         public void CoventryConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Coventry);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Coventry);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -37,7 +37,7 @@
         [Test]
         public void FarehamConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Fareham);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Fareham);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -49,7 +49,7 @@
         [Test]
         public void DunfermlineConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Dunfermline);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Dunfermline);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -61,7 +61,7 @@
         [Test]
         public void LeedsConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Leeds);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Leeds);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -73,7 +73,7 @@
         [Test]
         public void HemelConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Hemel);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Hemel);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -85,7 +85,7 @@
         [Test]
         public void BirtleyConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Birtley);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Birtley);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -97,7 +97,7 @@
         [Test]
         public void BelfastConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Belfast);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Belfast);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -109,7 +109,7 @@
         [Test]
         public void BrandonConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Brandon);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Brandon);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -121,7 +121,7 @@
         [Test]
         public void PlymouthConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Plymouth);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Plymouth);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -133,7 +133,7 @@
         [Test]
         public void BristolConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Bristol);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Bristol);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
@@ -145,7 +145,7 @@
         [Test]
         public void HaydockConfig()
         {
-            var config = ConfigurationFactory.GetAdamConfiguration(Branch.Haydock);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Haydock);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));

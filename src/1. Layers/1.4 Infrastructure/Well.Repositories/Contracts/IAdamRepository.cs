@@ -5,6 +5,16 @@
 
     public interface IAdamRepository
     {
-        AdamResponse CreditInvoice(CreditEvent credit, AdamConfiguration configuration);
+        AdamResponse Credit(CreditEvent credit, AdamSettings adamSettings);
+
+        AdamResponse CreditReorder(CreditReorderEvent creditReorder, AdamSettings adamSettings);
+
+        AdamResponse Reject(RejectEvent reject, AdamSettings adamSettings);
+
+        AdamResponse ReplanRoadnet(RoadnetEvent roadnet, AdamSettings adamSettings);
+
+        AdamResponse ReplanTranscend(TranscendEvent transcend, AdamSettings adamSettings);
+
+        AdamResponse ReplanQueue(QueueEvent queue, AdamSettings adamSettings);
     }
 }

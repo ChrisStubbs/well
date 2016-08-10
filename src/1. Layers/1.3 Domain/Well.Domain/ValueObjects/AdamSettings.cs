@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    public class AdamConfiguration
+    public class AdamSettings
     {
         public string Username { get; set; }
 

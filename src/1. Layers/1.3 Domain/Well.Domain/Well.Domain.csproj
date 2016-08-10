@@ -63,6 +63,7 @@
     <Compile Include="Enums\RouteStatusCode.cs" />
     <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Enums\TransendSchemaType.cs" />
+    <Compile Include="ExceptionEvent.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
@@ -75,7 +76,12 @@
     <Compile Include="RouteHeader.cs" />
     <Compile Include="Stop.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="ValueObjects\AdamConfiguration.cs" />
+    <Compile Include="ValueObjects\AdamSettings.cs" />
+    <Compile Include="ValueObjects\QueueEvent.cs" />
+    <Compile Include="ValueObjects\TranscendEvent.cs" />
+    <Compile Include="ValueObjects\RoadnetEvent.cs" />
+    <Compile Include="ValueObjects\RejectEvent.cs" />
+    <Compile Include="ValueObjects\CreditReorderEvent.cs" />
     <Compile Include="ValueObjects\CreditEvent.cs" />
     <Compile Include="ValueObjects\DeliveryDetail.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />

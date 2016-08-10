@@ -18,7 +18,8 @@ BEGIN
 		null as Action,
 		null as Reason, 
 		ISNULL(u2.Name, 'Unallocated') as Assigned,
-		a.Id as AccountId  -- this is the main P&H account that is attached to the stop, needed for contact info 
+		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
+		b.Id as BranchId
 	FROM
 		RouteHeader rh 
 	INNER JOIN 

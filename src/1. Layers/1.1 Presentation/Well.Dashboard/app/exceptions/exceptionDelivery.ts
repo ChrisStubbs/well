@@ -10,5 +10,5 @@
     assigned: string;
     dateTime: string;
     accountId: string;
-
+    branchId: number;
 }

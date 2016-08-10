@@ -35,6 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -48,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveDirectoryService.cs" />
+    <Compile Include="AdamConfiguration.cs" />
+    <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
     <Compile Include="Contracts\IBranchService.cs" />
@@ -56,12 +59,18 @@
     <Compile Include="Contracts\IEpodDomainImportService.cs" />
     <Compile Include="Contracts\IEpodSchemaProvider.cs" />
     <Compile Include="Contracts\IExceptionEventService.cs" />
+    <Compile Include="Contracts\IFileModule.cs" />
+    <Compile Include="Contracts\IFileService.cs" />
     <Compile Include="Contracts\IFriendlyNameService.cs" />
+    <Compile Include="Contracts\IAdamFileMonitorService.cs" />
     <Compile Include="EpodDomainImportService.cs" />
     <Compile Include="EpodImport\EpodDomainImportProvider.cs" />
     <Compile Include="EpodImport\EpodSchemaProvider.cs" />
     <Compile Include="EpodImport\XmlSerialisationHelper.cs" />
     <Compile Include="ExceptionEventService.cs" />
+    <Compile Include="FileModule.cs" />
+    <Compile Include="FileService.cs" />
+    <Compile Include="AdamFileMonitorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +102,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

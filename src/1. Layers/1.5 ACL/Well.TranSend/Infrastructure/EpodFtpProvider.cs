@@ -39,7 +39,6 @@
 
         public void ListFilesAndProcess(List<string> schemaErrors)
         {
-
             this.archiveLocation = config.ArchiveLocation;
             this.ftpLocation = config.FtpLocation;
             this.ftpUser = config.FtpUser;
@@ -77,7 +76,7 @@
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
 
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, validationErrors, null);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, validationErrors);
 
                     if (!isFileValidBySchema)
                     {
@@ -99,8 +98,6 @@
             responseStream.Close();
             reader.Close();
         }
-
-
 
         private bool DeleteFileOnFtpServer(Uri serverUri, string ftpUsername, string ftpPassword)
         {

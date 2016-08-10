@@ -93,7 +93,7 @@
                 this.logger.LogDebug($"Scheam path is {schemaPath}");
 
                 var validationErrors = new List<string>();
-                var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors, logger);
+                /*var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
 
                 if (!isFileValidBySchema)
                 {
@@ -104,7 +104,7 @@
                     logger.LogError(validationError);
                 }
                 else
-                {
+                {*/
                     var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
 
                     this.logger.LogDebug($"Epod type is {epodType}");
@@ -122,7 +122,7 @@
                     }
 
                     logger.LogDebug($"File {filePath} imported.");
-                }
+               // }
             }
 
             return schemaErrors;

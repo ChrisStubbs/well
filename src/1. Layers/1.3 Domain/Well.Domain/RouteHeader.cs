@@ -39,12 +39,7 @@
 
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
-        //{
-        //    set
-        //    {
-        //        StartDepot = value == string.Empty ? (int)Branches.Ndf : (int)Enum.Parse(typeof(Branches), value, true);
-        //    }
-        //}
+
 
         [XmlIgnore]
         public int StartDepot { get; set; }
@@ -184,12 +179,6 @@
 
         [XmlElement("Depot")]
         public string Depot { get; set; }
-        //{
-        //    set
-        //    {
-        //        EpodDepot = value == string.Empty ? (int)Branches.Ndf : (int)Enum.Parse(typeof(Branches), value, true);
-        //    }
-        //}
 
         [XmlArray("Stops")]
         [XmlArrayItem("Stop", typeof(Stop))]

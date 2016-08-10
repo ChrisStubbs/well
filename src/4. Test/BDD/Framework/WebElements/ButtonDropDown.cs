@@ -8,7 +8,6 @@
 
     public class ButtonDropDown : WebElement
     {
-
         public void Select(string itemToSelect)
         {
             this.Driver.WaitForAjax();
@@ -19,10 +18,8 @@
             
             var dropItem = wait.Until((d) => 
                     d.FindElement(By.CssSelector("div.dropdown.open")).FindElement(By.LinkText(itemToSelect)));
+
             dropItem.Click();
         }
-
-
-        
     }
 }

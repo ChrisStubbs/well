@@ -18,7 +18,7 @@
         {
             return
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByName)
-                    .AddParameter("Name", name, DbType.String, size: 500)
+                    .AddParameter("Name", name, DbType.String, size: 255)
                     .Query<User>()
                     .SingleOrDefault();
         }
@@ -27,7 +27,10 @@
         {
             entity.Id =
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.UserSave)
-                    .AddParameter("Name", entity.Name, DbType.String, size: 500)
+                    .AddParameter("Name", entity.Name, DbType.String, size: 255)
+                    .AddParameter("JobDescription", entity.JobDescription, DbType.String, size: 500)
+                    .AddParameter("IdentityName", entity.IdentityName, DbType.String, size: 255)
+                    .AddParameter("Domain", entity.Domain, DbType.String, size: 50)
                     .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)
                     .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                     .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)

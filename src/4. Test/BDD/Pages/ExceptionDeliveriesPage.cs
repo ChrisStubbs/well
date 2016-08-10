@@ -1,7 +1,15 @@
 ﻿namespace PH.Well.BDD.Pages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Framework.WebElements;
     using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.UI;
+
+    using PH.Well.BDD.Framework;
+    using PH.Well.BDD.Framework.Extensions;
 
     public class ExceptionDeliveriesPage : Page
     {
@@ -11,11 +19,22 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
         }
-        protected override string UrlSuffix => "Exceptions";
+        protected override string UrlSuffix => "exceptions";
 
         public Grid<ExceptionDeliveriesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
+
+        public IWebElement GetFirstCell()
+        {
+            this.Driver.WaitForAjax();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var elements = wait.Until(d => d.FindElements(By.ClassName("first-cell")));
+
+            return elements.First();
+        }
     }
 
     public enum ExceptionDeliveriesGrid

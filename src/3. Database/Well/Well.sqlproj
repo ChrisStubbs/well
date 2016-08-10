@@ -154,10 +154,17 @@
     <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
     <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForUser.sql" />
+    <Build Include="dbo\StoredProcedures\DeliveryLines_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\Delivery_GetById.sql" />
+    <Build Include="dbo\Tables\UserJob.sql" />
+    <Build Include="dbo\Tables\ExceptionEvent.sql" />
+    <Build Include="dbo\StoredProcedures\EventInsert.sql" />
+    <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
+    <Build Include="dbo\StoredProcedures\EventGetUnprocessed.sql" />
+    <Build Include="dbo\StoredProcedures\MarkEventAsProcessed.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
-    <None Include="Post-Deployement\EventServiceBroker.sql" />
     <None Include="Post-Deployement\Populate-DefaultWidgetStats.sql" />
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
   </ItemGroup>

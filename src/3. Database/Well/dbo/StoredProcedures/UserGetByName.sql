@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE  [dbo].[UserGetByName]
-	@Name VARCHAR(500)
+	@Name VARCHAR(255)
 AS
 BEGIN
 
@@ -8,12 +8,15 @@ BEGIN
 	SELECT 
 		[Id],
 		[Name],
+		[IdentityName],
+		[JobDescription],
+		[Domain],
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],
 		[DateUpdated],
 		[Version]
 	  FROM [dbo].[User]
-	  WHERE Name = @Name
+	  WHERE Name = @Name OR IdentityName = @Name
 
 END

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ExceptionAction]
 (
-	[Id] [TINYINT] IDENTITY(1,1) NOT NULL,
+	[Id] [INT] IDENTITY(1,1) NOT NULL,
 	[Description] VARCHAR(50) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,

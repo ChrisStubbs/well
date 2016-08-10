@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading;
-using PH.Well.Domain;
-using PH.Well.Repositories.Contracts;
-
-namespace PH.Well.Api.Controllers
+﻿namespace PH.Well.Api.Controllers
 {
+    using System;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
+    using PH.Well.Common.Contracts;
+    using PH.Well.Domain;
+    using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
     public class UserController : BaseApiController
@@ -16,10 +16,16 @@ namespace PH.Well.Api.Controllers
         private readonly IBranchService branchService;
         private readonly IUserRepository userRepository;
 
-        public UserController(IBranchService branchService, IUserRepository userRepository)
+        private readonly ILogger logger;
+
+        private readonly IActiveDirectoryService activeDirectoryService;
+
+        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService, IUserRepository userRepository, ILogger logger)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
+            this.logger = logger;
+            this.activeDirectoryService = activeDirectoryService;
         }
 
         [Route("user-branches")]
@@ -37,16 +43,18 @@ namespace PH.Well.Api.Controllers
         {
             try
             {
-                var user = new User {Name = Thread.CurrentPrincipal.Identity.Name};
+                var user = this.activeDirectoryService.GetUser(this.UserName);
 
-                this.userRepository.CurrentUser = user.Name;
+                this.userRepository.CurrentUser = this.UserName;
 
                 this.userRepository.Save(user);
 
                 return this.Request.CreateResponse(HttpStatusCode.Created, user);
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
+                this.logger.LogError($"Error when trying to save user {this.UserName}", exception);
+
                 return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
 
@@ -56,7 +64,11 @@ namespace PH.Well.Api.Controllers
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            var users = this.activeDirectoryService.FindUsers(name.Trim(), PH.Well.Api.Configuration.DomainsToSearch).ToList();
+
+            if (!users.Any()) users.Add(new User { Id = -1, Name = "No users found!" });
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
     }
 }

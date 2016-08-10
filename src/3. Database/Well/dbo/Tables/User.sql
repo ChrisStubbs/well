@@ -1,7 +1,10 @@
 ﻿CREATE TABLE [dbo].[User]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
-	[Name] VARCHAR(500) NOT NULL,
+	[Name] VARCHAR(255) NOT NULL,
+	[IdentityName] VARCHAR(255) NOT NULL,
+	[JobDescription] VARCHAR(500) NOT NULL,
+	[Domain] VARCHAR(50) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

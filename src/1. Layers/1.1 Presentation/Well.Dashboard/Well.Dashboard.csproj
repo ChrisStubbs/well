@@ -113,6 +113,10 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +127,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -190,33 +202,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\DbChangeNotifierStartup.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BranchController.cs" />
-    <Compile Include="Controllers\CleanController.cs" />
-    <Compile Include="Controllers\DeliveryController.cs" />
-    <Compile Include="Controllers\ExceptionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\NotificationsController.cs" />
-    <Compile Include="Controllers\PreferencesController.cs" />
-    <Compile Include="Controllers\ResolvedController.cs" />
-    <Compile Include="Controllers\RoutesController.cs" />
-    <Compile Include="DependencyResolution\ControllerConvention.cs" />
-    <Compile Include="DependencyResolution\DefaultRegistry.cs" />
-    <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
-    <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
+    <Compile Include="Controllers\RefreshController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\ExceptionsHub.cs" />
+    <Compile Include="Hubs\RefreshHub.cs" />
     <Compile Include="Models\BootstrapData.cs" />
     <Compile Include="Models\UserBranches.cs" />
     <Compile Include="Models\Version.cs" />
@@ -236,6 +234,7 @@
     <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
+    <Content Include="app\user_preferences\user-preference-modal.html" />
     <Content Include="app\user_preferences\user-preferences.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
@@ -283,15 +282,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
-    <Content Include="Scripts\angular2\angular2-polyfills.js" />
-    <Content Include="Scripts\angular2\angular2.dev.js" />
-    <Content Include="Scripts\angular2\es6-shim.js" />
-    <Content Include="Scripts\angular2\http.dev.js" />
-    <Content Include="Scripts\angular2\router.dev.js" />
-    <Content Include="Scripts\angular2\rx.js" />
-    <Content Include="Scripts\angular2\shims_for_IE.js" />
-    <Content Include="Scripts\angular2\system-polyfills.js" />
-    <Content Include="Scripts\angular2\system.src.js" />
+    <Content Include="Scripts\angular2\appBundle.js" />
+    <Content Include="Scripts\angular2\polyfillsBundle.js" />
+    <Content Include="Scripts\angular2\vendorBundle.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -302,6 +295,8 @@
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="tsconfig.json" />
+    <Content Include="webpackProd.config.js" />
+    <Content Include="webpack.config.js" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -317,7 +312,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="systemjs.config.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -333,14 +327,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="typings.json" />
-    <Content Include="Views\Routes\Index.cshtml" />
-    <Content Include="Views\Exceptions\Index.cshtml" />
-    <Content Include="Views\Clean\Index.cshtml" />
-    <Content Include="Views\Resolved\Index.cshtml" />
-    <Content Include="Views\Notifications\Index.cshtml" />
-    <Content Include="Views\Branch\Index.cshtml" />
-    <Content Include="Views\Delivery\Index.cshtml" />
-    <Content Include="Views\Preferences\Index.cshtml" />
+    <Content Include="Views\Home\AppLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -356,33 +343,27 @@
     <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\account\accountComponent.ts" />
     <TypeScriptCompile Include="app\account\accountService.ts" />
-    <TypeScriptCompile Include="app\account\main.ts" />
+    <TypeScriptCompile Include="app\appComponent.ts" />
+    <TypeScriptCompile Include="app\appRoutes.ts" />
     <TypeScriptCompile Include="app\branch\Branch.ts" />
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
     <TypeScriptCompile Include="app\branch\branchService.ts" />
-    <TypeScriptCompile Include="app\branch\main.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
-    <TypeScriptCompile Include="app\clean\main.ts" />
     <TypeScriptCompile Include="app\delivery\delivery.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryComponent.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryLine.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryService.ts" />
-    <TypeScriptCompile Include="app\delivery\main.ts" />
     <TypeScriptCompile Include="app\delivery\exceptionsFilterPipe.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
-    <TypeScriptCompile Include="app\exceptions\main.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
-    <TypeScriptCompile Include="app\home\main.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
-    <TypeScriptCompile Include="app\notifications\main.ts" />
-    <TypeScriptCompile Include="app\resolved\main.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-deliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
-    <TypeScriptCompile Include="app\route_header\main.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
@@ -391,6 +372,10 @@
     <TypeScriptCompile Include="app\shared\http-response.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
+    <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
+    <TypeScriptCompile Include="app\shared\polyfills.ts" />
+    <TypeScriptCompile Include="app\shared\refreshService.ts" />
+    <TypeScriptCompile Include="app\shared\vendor.ts" />
     <TypeScriptCompile Include="app\shared\well-modal.ts" />
     <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
     <TypeScriptCompile Include="app\shared\filterOption.ts" />
@@ -399,9 +384,9 @@
     <TypeScriptCompile Include="app\home\widgetstats-service.ts" />
     <TypeScriptCompile Include="app\home\widgetstats.ts" />
     <TypeScriptCompile Include="app\home\widgetStatsComponent.ts" />
-    <TypeScriptCompile Include="app\user_preferences\main.ts" />
     <TypeScriptCompile Include="app\user_preferences\User.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
+    <TypeScriptCompile Include="app\user_preferences\userPreferenceModalComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceService.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -411,14 +396,6 @@
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
       <Name>Well.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\1.3 Domain\Well.Domain\Well.Domain.csproj">
-      <Project>{94DED6AE-3FDA-42C6-AFD5-D7ECDB59AB7B}</Project>
-      <Name>Well.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
-      <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
-      <Name>Well.Repositories</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

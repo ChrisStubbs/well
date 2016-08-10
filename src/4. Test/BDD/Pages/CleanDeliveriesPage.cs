@@ -11,7 +11,8 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
         }
-        protected override string UrlSuffix => "Clean";
+
+        protected override string UrlSuffix => "clean";
 
         public Grid<CleanDeliveriesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }
@@ -27,7 +28,7 @@
         AccountName= 4,
         Contact= 5,
         InfoButton = 6,
-        Status = 7,
+        //Status = 7,
         LastUpdatedDateTime = 8
     }
 }

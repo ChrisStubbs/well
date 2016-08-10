@@ -12,7 +12,6 @@
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
-
         private readonly IStopRepository stopRepository;
 
         public RouteHeaderRepository(ILogger logger, IWellDapperProxy dapperProxy, IStopRepository stopRepository)
@@ -20,12 +19,11 @@
         {
             this.stopRepository = stopRepository;
         }
-
-
+        
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
             var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
-              //  .AddParameter("UserName", this.CurrentUser, DbType.String)
+              .AddParameter("UserName", this.CurrentUser, DbType.String)
               .Query<RouteHeader>();
 
             foreach (var routeHeader in routeHeaders)

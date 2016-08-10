@@ -11,7 +11,7 @@
     using Well.Services.Contracts;
     using static System.String;
 
-    public class EpodFtpProvider : IEpodFtpProvider
+    public class EpodFtpProvider : IEpodProvider
     {
         private string ftpLocation;
         private string ftpUser;
@@ -75,8 +75,9 @@
                     var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
                     var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
                     var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
+
                     var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, ref  validationErrors);
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(downloadedFile, schemaPath, validationErrors);
 
                     if (!isFileValidBySchema)
                     {
@@ -122,8 +123,6 @@
                 return false;
             }
         }
-
-
 
         private void DownLoadFileFromFtp(string routeFile, out string downloadedFilePath)
         {

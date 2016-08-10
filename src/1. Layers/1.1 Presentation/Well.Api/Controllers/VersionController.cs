@@ -20,7 +20,7 @@
         {
             var deploymentDate = File.GetLastWriteTime(Path.Combine(HostingEnvironment.MapPath("~"), "web.config"));
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, new { version = string.Format("{0} ({1})", Version, deploymentDate.ToShortDateString()) });
+            return this.Request.CreateResponse(HttpStatusCode.OK, string.Format("{0} ({1})", Version, deploymentDate.ToShortDateString()));
         }
 
         [Route("IsDebug")]

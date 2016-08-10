@@ -1,7 +1,6 @@
 ﻿/// <binding BeforeBuild='default' ProjectOpened='watch' />
 /// <vs BeforeBuild='default' />
 var gulp = require('gulp');
-var ts = require('gulp-typescript');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
@@ -11,7 +10,7 @@ var watch = require('gulp-watch');
 var config = {
     //Include all js files but exclude any min.js files
     src: ['content/*.less', '!content/toastr.less', '!content/library.less'],
-    angularSrc: ['', 'app/branch/main.ts']
+    angularSrc: []
 }
 
 gulp.task('less',
@@ -21,16 +20,11 @@ gulp.task('less',
             .pipe(gulp.dest('content/css'));
     });
 
-var tsProject = ts.createProject('tsconfig.json',
-{
-    typescript: require('typescript')
-});
-
 gulp.task('angular2',
     function () {
-        return gulp.src('./app/**/*.ts')
+        /*return gulp.src('./app/*#1#*.ts')
             .pipe(ts(tsProject))
-            .pipe(gulp.dest('Scripts/angular2'));
+            .pipe(gulp.dest('Scripts/angular2'));*/
     });
 
 gulp.task('watch',
@@ -38,4 +32,4 @@ gulp.task('watch',
         gulp.watch(config.src, ['less']); // Watch all the .less files, then run the less task
     });
 
-gulp.task('default', ['less', 'angular2'], function () { });
+gulp.task('default', ['less'], function () { });

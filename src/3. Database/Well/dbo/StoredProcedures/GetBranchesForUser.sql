@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE  [dbo].[GetBranchesForUser]
-	@Username VARCHAR(500)
+	@Name VARCHAR(255)
 AS
 BEGIN
 
@@ -9,6 +9,6 @@ BEGIN
 	FROM [dbo].[UserBranch] ub
 	JOIN [dbo].[User] u on u.Id = ub.UserId
 	JOIN [dbo].[Branch] b on b.Id = ub.BranchId
-	WHERE u.Name = @Username
+	WHERE u.Name = @Name OR u.IdentityName = @Name
 
 END

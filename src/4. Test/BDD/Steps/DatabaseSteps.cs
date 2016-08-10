@@ -1,13 +1,14 @@
-﻿using System.Threading;
-using Newtonsoft.Json;
-using PH.Well.BDD.Framework;
-using PH.Well.Common.Contracts;
-using PH.Well.Domain;
-
-namespace PH.Well.BDD.Steps
+﻿namespace PH.Well.BDD.Steps
 {
     using Domain.Enums;
     using Framework.Context;
+
+    using Newtonsoft.Json;
+
+    using PH.Well.BDD.Framework;
+    using PH.Well.Common.Contracts;
+    using PH.Well.Domain;
+
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
@@ -22,11 +23,14 @@ namespace PH.Well.BDD.Steps
 
         private readonly IWebClient webClient;
 
+        private readonly ILogger logger;
+
         public DatabaseSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
+            this.logger = this.container.GetInstance<ILogger>();
         }
 
         [Given("I have a clean database")]
@@ -105,13 +109,20 @@ namespace PH.Well.BDD.Steps
 
         public User SetUpUser()
         {
+            this.logger.LogDebug("Calling create user");
             var user = JsonConvert.DeserializeObject<User>(this.webClient.DownloadString(Configuration.WellApiUrl + "create-user-using-current-context"));
+
+            if (user == null) this.logger.LogDebug("User is null");
+
+            this.logger.LogDebug($"User created {user.Name}");
 
             return user;
         }
 
         public void SetUpUserBranch(User user, int branch)
         {
+            this.logger.LogDebug($"User created {user.Name}");
+            this.logger.LogDebug($"Branch created {branch}");
             this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{user.Name}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
         }
     }

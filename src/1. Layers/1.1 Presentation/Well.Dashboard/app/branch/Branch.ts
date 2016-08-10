@@ -1,4 +1,4 @@
-﻿export interface IBranch {
+﻿export class Branch {
     id: number;
     name: string;
     selected: boolean;

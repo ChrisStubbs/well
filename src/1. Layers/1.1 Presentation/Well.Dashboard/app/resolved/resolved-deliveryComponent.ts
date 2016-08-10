@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -8,12 +9,13 @@ import {ResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
-import {DropDownItem} from "../shared/DropDownItem";
+import {DropDownItem} from "../shared/dropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     selector: 'ow-resolved',
@@ -23,13 +25,13 @@ import {IAccount} from "../account/account";
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 export class ResolvedDeliveryComponent implements OnInit {
-    errorMessage: string;
+    lastRefresh = Date.now();
+    refreshSubscription: any;
     deliveries: ResolvedDelivery[];
     rowCount: number = 10;
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "routeNumber"),
-        new DropDownItem("Drop", "dropId"),
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
@@ -40,16 +42,32 @@ export class ResolvedDeliveryComponent implements OnInit {
     ];
     account: IAccount;
 
-    constructor(private resolvedDeliveryService: ResolvedDeliveryService, private accountService: AccountService) { }
+    constructor(
+        private resolvedDeliveryService: ResolvedDeliveryService,
+        private accountService: AccountService,
+        private router: Router,
+        private refreshService: RefreshService) { }
 
     ngOnInit() {
-
-        this.resolvedDeliveryService.getResolvedDeliveries()
-            .subscribe(deliveries => this.deliveries = deliveries, error => this.errorMessage = <any>error);
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
+        this.getDeliveries();
     }
 
-    deliverySelected(delivery: ResolvedDelivery): void {
-        window.location.href = './Resolved/Delivery/' + delivery.id;
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
+    }
+
+    getDeliveries() {
+        this.resolvedDeliveryService.getResolvedDeliveries()
+            .subscribe(deliveries => {
+                    this.deliveries = deliveries;
+                    this.lastRefresh = Date.now();
+                },
+                error => this.lastRefresh = Date.now());
+    }
+
+    deliverySelected(delivery): void {
+        this.router.navigate(['/delivery', delivery.id]);
     }
 
     onFilterClicked(filterOption: FilterOption) {
@@ -59,10 +77,11 @@ export class ResolvedDeliveryComponent implements OnInit {
     @ViewChild(ContactModal) modal = new ContactModal();
 
     openModal(accountId): void {
-
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => { this.account = account; this.modal.show(this.account); },
-            error => this.errorMessage = <any>error);
+            .subscribe(account => {
+                this.account = account;
+                this.modal.show(this.account);
+            });
     }
 
 }

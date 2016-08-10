@@ -107,8 +107,11 @@
   <ItemGroup>
     <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
       <AutoGen>True</AutoGen>
+    <Compile Include="Features\Pages\Branch.feature.cs">
+      <DependentUpon>Branch.feature</DependentUpon>
       <DesignTime>True</DesignTime>
       <DependentUpon>AdamRouteFileSchemaValidation.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Features\ACL\EpodRouteFileSchemaValidation.feature.cs">
       <AutoGen>True</AutoGen>
@@ -121,23 +124,21 @@
       <DependentUpon>CleanPage.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Pages\ExceptionPage.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Features\Pages\ResolvedPage.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ResolvedPage.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Framework\AdamImportConfiguration.cs" />
-    <Compile Include="DatabaseSetup.cs" />
-    <Compile Include="Factories\DriverFactory.cs" />
-    <Compile Include="Features\Pages\RoutesPage.feature.cs">
-      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RoutesPage.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Features\Pages\RoutesPage.feature.cs">
+      <DependentUpon>RoutesPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Factories\DriverFactory.cs" />
     <Compile Include="Features\Api\VersionCheck.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -153,6 +154,8 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\UserPrefrencesButtonDropDown.cs" />
+    <Compile Include="Framework\WebElements\AdminButtonDropDown.cs" />
     <Compile Include="Framework\WebElements\PagerContainer.cs" />
     <Compile Include="Framework\WebElements\Button.cs" />
     <Compile Include="Framework\WebElements\ButtonDropDown.cs" />
@@ -163,6 +166,9 @@
     <Compile Include="Framework\WebElements\ModalButton.cs" />
     <Compile Include="Framework\WebElements\TextBox.cs" />
     <Compile Include="Framework\WebElements\WebElement.cs" />
+    <Compile Include="Pages\DeliveryDetailsPage.cs" />
+    <Compile Include="Pages\UserPreferencesPage.cs" />
+    <Compile Include="Pages\BranchPage.cs" />
     <Compile Include="Pages\ExceptionDeliveriesPage.cs" />
     <Compile Include="Pages\CleanDeliveriesPage.cs" />
     <Compile Include="Pages\FilterControl.cs" />
@@ -173,6 +179,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AdamImportSteps.cs" />
     <Compile Include="Steps\DatabaseSteps.cs" />
+    <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
+    <Compile Include="Steps\Page\UserPreferenceSteps.cs" />
+    <Compile Include="Steps\Page\BranchSteps.cs" />
     <Compile Include="Steps\Page\ExceptionPageSteps.cs" />
     <Compile Include="Steps\Page\CleanPageSteps.cs" />
     <Compile Include="Steps\Page\ResolvedPageSteps.cs" />
@@ -194,9 +203,11 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Features\Pages\Branch.feature">
     <None Include="Features\ACL\AdamRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AdamRouteFileSchemaValidation.feature.cs</LastGenOutput>
+      <LastGenOutput>Branch.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -205,6 +216,10 @@
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Api\VersionCheck.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\ExceptionPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -217,10 +232,6 @@
     <None Include="Features\Pages\RoutesPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RoutesPage.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Api\VersionCheck.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -247,10 +258,6 @@
     <ProjectReference Include="..\..\1. Layers\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam\Well.Adam.csproj">
-      <Project>{dda686b1-7d6f-4895-89ad-4d81dcef2a02}</Project>
-      <Name>Well.Adam</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{D1032947-BBA3-4D82-91FB-8E2AE054F0E3}</Project>

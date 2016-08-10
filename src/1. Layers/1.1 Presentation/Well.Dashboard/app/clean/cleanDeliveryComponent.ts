@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -9,12 +10,11 @@ import {CleanDeliveryService} from './cleanDeliveryService';
 import {OptionFilterComponent} from '../shared/optionfilter.component';
 import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {FilterOption} from "../shared/filterOption";
-import {DropDownItem} from "../shared/DropDownItem";
+import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
-
-
+import {RefreshService} from '../shared/refreshService';
 
 @Component({
     selector: 'ow-clean',
@@ -25,13 +25,14 @@ import {IAccount} from "../account/account";
 
 })
 export class CleanDeliveryComponent implements OnInit {
+    lastRefresh = Date.now();
+    refreshSubscription: any;
     errorMessage: string;
     cleanDeliveries: CleanDelivery[];
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
         new DropDownItem("Route", "routeNumber"),
-        new DropDownItem("Drop", "dropId"),
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
@@ -39,26 +40,41 @@ export class CleanDeliveryComponent implements OnInit {
     ];
     account: IAccount;
 
-    constructor(private cleanDeliveryService: CleanDeliveryService, private accountService: AccountService) { }
+    constructor(
+        private cleanDeliveryService: CleanDeliveryService,
+        private accountService: AccountService,
+        private router: Router,
+        private refreshService: RefreshService) { }
 
     ngOnInit(): void {
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
+        this.getDeliveries();
+    }
+
+    ngOnDestroy() {
+        this.refreshSubscription.unsubscribe();
+    }
+
+    getDeliveries() {
         this.cleanDeliveryService.getCleanDeliveries()
-            .subscribe(cleanDeliveries => this.cleanDeliveries = cleanDeliveries,
-            error => this.errorMessage = <any>error);
+            .subscribe(cleanDeliveries => {
+                    this.cleanDeliveries = cleanDeliveries;
+                    this.lastRefresh = Date.now();
+                },
+                error => this.lastRefresh = Date.now());
     }
 
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery: CleanDelivery): void {
-        window.location.href = './Clean/Delivery/' + delivery.id;
+    deliverySelected(delivery): void {
+        this.router.navigate(['/delivery', delivery.id]);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();
 
     openModal(accountId): void {
-
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => { this.account = account; this.modal.show(this.account);},
             error => this.errorMessage = <any>error);

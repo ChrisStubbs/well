@@ -7,6 +7,7 @@ Feature: RoutesPage
 Scenario: A user can view Route information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | 
@@ -17,6 +18,7 @@ Scenario: A user can view Route information
 Scenario: A user can filter Route information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And I have selected branch 22
 	When I open the routes page
 	And I filter the grid with the option 'Route' and value '001'
 	Then The following routes will be displayed
@@ -34,6 +36,7 @@ Scenario: A user can filter Route information
 Scenario: A user can page through Route information
 	Given I have a clean database
 	And I have loaded the Adam route data that has 21 lines
+	And I have selected branch 22
 	When I open the routes page
 	Then '10' rows of data will be displayed
 	And I will have 3 pages of data

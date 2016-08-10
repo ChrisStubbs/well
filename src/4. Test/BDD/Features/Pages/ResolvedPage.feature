@@ -11,10 +11,10 @@ Scenario: A user can view Resolved Delivery Information
 	And  3 deliveries have been marked as Resolved
 	When I open the resolved deliveries page
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        |          |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved |        |          |
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Resolved |        |          |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned    |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        | Unallocated |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved |        | Unallocated |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Resolved |        | Unallocated |
 
 Scenario: A user can filter Resolved Delivery information
 	Given I have a clean database
@@ -24,29 +24,24 @@ Scenario: A user can filter Resolved Delivery information
 	When I open the resolved deliveries page
 	And I filter the resolved delivery grid with the option 'Route' and value '006'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Resolved |        |          |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Resolved |        |          |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved |        |          |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved |        |          |
-	When I filter the resolved delivery grid with the option 'Drop' and value '03'
-	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName        | Status   | Action | Assigned |
-	| 011   | 03   | 954107.000 | 54107.000 | WB - WAITROSE SHOP | Resolved |        |          |
-	| 011   | 03   | 954107.000 | 54107.000 | WB - WAITROSE SHOP | Resolved |        |          |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned    |
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Resolved |        | Unallocated |
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Resolved |        | Unallocated |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved |        | Unallocated |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved |        | Unallocated |
 	When I filter the resolved delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        |          |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned	 |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        | Unallocated |
 	When I filter the resolved delivery grid with the option 'Account' and value '28398.080'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName   | Status   | Action | Assigned |
-	| 011   | 05   | 928398.080 | 28398.080 | TESCO EXPRESS | Resolved |        |          |
+	| Route | Drop | InvoiceNo  | Account   | AccountName   | Status   | Action | Assigned    |
+	| 011   | 05   | 928398.080 | 28398.080 | TESCO EXPRESS | Resolved |        | Unallocated |
 	When I filter the resolved delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName | Status   | Action | Assigned |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Resolved |        |          |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Resolved |        |          |
+	| Route | Drop | InvoiceNo  | Account   | AccountName | Status   | Action | Assigned    |
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Resolved |        | Unallocated |
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Resolved |        | Unallocated |
 
 Scenario: A user can page through Resolved Delivery information
 	Given I have a clean database

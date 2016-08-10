@@ -8,7 +8,7 @@
     public class OrderJob
     {
 
-        public OrderJobDetail()
+        public OrderJob()
         {
             this.OrderJobDetails = new Collection<OrderJobDetail>();
         }

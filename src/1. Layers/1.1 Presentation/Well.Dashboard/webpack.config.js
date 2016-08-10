@@ -1,16 +1,20 @@
-﻿require('ts-loader');
+﻿/// <binding BeforeBuild='Run - Development' />
+require('ts-loader');
 var webpack = require("webpack");
 
 module.exports = {
-    entry: ["./app/branch/main.ts", "./app/clean/main.ts"],
-    devtool: "source-map",
-    output: {
-        path: "./Scripts/angular2",
-        filename: "bundle.js"
+    entry: {
+        polyfills: "./app/shared/polyfills.ts",
+        vendor: "./app/shared/vendor.ts",
+        app: ["./app/main.ts"]
     },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({minimize: true})
-    ],
+    //debug: true,
+    devtool: "cheap-module-eval-source-map",
+    output: {
+        path: "./Scripts/angular2/"
+        ,filename: "[name]Bundle.js"
+    },
+    plugins: [],
     module: {
     loaders: [
     {

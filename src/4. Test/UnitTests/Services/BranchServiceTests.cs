@@ -9,6 +9,7 @@
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
+    using PH.Well.Services.Contracts;
     using PH.Well.UnitTests.Factories;
 
     [TestFixture]
@@ -18,6 +19,8 @@
 
         private Mock<IBranchRepository> branchRepository;
 
+        private Mock<IActiveDirectoryService> activeDirectoryService;
+
         private BranchService service;
 
         [SetUp]
@@ -25,8 +28,9 @@
         {
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
+            this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
 
-            this.service = new BranchService(this.userRepository.Object, this.branchRepository.Object);
+            this.service = new BranchService(this.userRepository.Object, this.branchRepository.Object, this.activeDirectoryService.Object);
 
             this.userRepository.SetupSet(x => x.CurrentUser = "foo");
             this.branchRepository.SetupSet(x => x.CurrentUser = "foo");
@@ -44,6 +48,8 @@
 
                 this.userRepository.Setup(x => x.Save(It.IsAny<User>()));
                 this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<User>()));
+
+                this.activeDirectoryService.Setup(x => x.GetUser("foo")).Returns(new User());
 
                 this.service.SaveBranchesForUser(branches, username);
 

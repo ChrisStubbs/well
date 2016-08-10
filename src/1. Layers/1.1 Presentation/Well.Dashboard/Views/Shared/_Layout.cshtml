@@ -1,5 +1,4 @@
-﻿@using PH.Well.Dashboard.Extensions
-@model PH.Well.Dashboard.Models.BootstrapData
+﻿@model PH.Well.Dashboard.Models.BootstrapData
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,58 +20,18 @@
     <noscript>
         <div class="alert alert-warning">Javascript must be turned on for this website to work!</div>
     </noscript>
-<div class="app">
-    <div class="row-fluid">
-        <div>
-            <a href="@Url.Action("Index", "Home")" title="Home">
-                <div class="logo"></div></a>
-            <div id="headerHolder">
-                <span style="color: white; font-weight: bold">@Model.Version</span> &nbsp; <span style="color: white; font-weight: bold">@Model.UsersBranches</span>
-            </div>
-            <div id="user-details" class="pull-right">
-                <div>Logged in as @Html.EmployeeDisplayName()</div>
-                <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
-            </div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div id="nav">
-            <ul class="nav nav-pills" style="min-height: 39px;">
-                <li>@Html.ActionLink("Routes", "Index", "Routes")</li>
-                <li>@Html.ActionLink("Exceptions", "Index", "Exceptions")</li>
-                <li>@Html.ActionLink("Clean", "Index", "Clean")</li>
-                <li>@Html.ActionLink("Resolved", "Index", "Resolved")</li>
-                <li>@Html.ActionLink("Notifications", "Index", "Notifications")</li>
-                <li class="dropdown pull-right" style="margin-right: 125px;">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Branch Selection", "Index", "Branch")</li>
-                        <li>@Html.ActionLink("User Preferences", "Index", "Preferences")</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 
-<div class="container">
-    @RenderBody()
-</div>
+@RenderBody()
 
+<script src="~/Scripts/angular2/polyfillsBundle.js?ticks=@DateTime.Now.Ticks"></script>
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("~/bundles/bootstrap")
 <script src="~/signalr/hubs"></script>
 
-<!-- 1. Load libraries -->
-<!-- Polyfill(s) for older browsers -->
-<script src="~/node_modules/core-js/client/shim.min.js"></script>
-<script src="~/node_modules/zone.js/dist/zone.js"></script>
-<script src="~/node_modules/reflect-metadata/Reflect.js"></script>
-<script src="~/node_modules/systemjs/dist/system.src.js"></script>
-<!-- 2. Configure SystemJS -->
-<script src="~/systemjs.config.js"></script>
+<!-- Load Angular2 -->
+<script src="~/Scripts/angular2/vendorBundle.js?ticks=@DateTime.Now.Ticks"></script>
+<script src="~/Scripts/angular2/appBundle.js?ticks=@DateTime.Now.Ticks"></script>
 
 @RenderSection("scripts", required: false)
     

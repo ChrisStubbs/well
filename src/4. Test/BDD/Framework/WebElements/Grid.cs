@@ -28,6 +28,7 @@
             return this.rowElements.Select(row => new GridRow<T>(row)).ToList();
         }
     }
+
     public class GridRow<T> : WebElement
     {
         private readonly IWebElement row;

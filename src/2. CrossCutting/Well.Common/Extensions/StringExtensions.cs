@@ -182,18 +182,15 @@
             value = default(T);
             return false;
         }
-
-
+        
         public static string GetFilenameWithoutPath(this string filePath)
         {
             return Path.GetFileName(filePath);
         }
-
-
+        
         public static string ToDashboardDateFormat(this DateTime dateTime)
         {
             return dateTime.ToString("dd-MM-yyyy HH:mm:ss");
         }
-
     }
 }

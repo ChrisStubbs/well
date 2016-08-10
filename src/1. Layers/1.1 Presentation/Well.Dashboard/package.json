@@ -4,6 +4,8 @@
   "author": "Palmer and Harvey",
   "description": "Package for the Orderwell application",
   "scripts": {
+    "build": "webpack --config webpack.config.js --color",
+    "buildProduction": "webpack --config webpackProd.config.js --color",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings",
@@ -34,6 +36,7 @@
     "angular2-toaster": "0.3.6-rc.4"
   },
   "devDependencies": {
+    "angular2-template-loader": "^0.4.0",
     "concurrently": "^2.0.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.2",
@@ -45,7 +48,8 @@
     "gulp-watch": "^4.3.5",
     "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",
-    "typings": "^1.0.4"
+    "typings": "^1.0.4",
+    "webpack": "^1.13.0"
   },
   "repository": {}
 }

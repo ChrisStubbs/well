@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PH.Well.BDD.Steps
+﻿namespace PH.Well.BDD.Steps
 {
     using System.IO;
-    using Adam;
-    using Adam.Contracts;
+    using System;
+
     using Framework.Context;
+
+    using PH.Well.BDD.Framework;
+    using PH.Well.Common.Contracts;
+    using PH.Well.Common.Extensions;
+    using PH.Well.Services;
+    using PH.Well.Services.Contracts;
+
     using StructureMap;
     using TechTalk.SpecFlow;
     using Framework.Extensions;
@@ -20,7 +21,6 @@ namespace PH.Well.BDD.Steps
     public class AdamImportSteps
     {
         private readonly IContainer container;
-        private string adamStatusMessage;
         const string currentAdamRouteFile = "PH_ROUTES_30062016_02.xml";
         const string currentEpodRouteFile = "ePOD__20160701_10452212189454.xml";
         private const string ParentNode = "RouteHeader";
@@ -33,9 +33,17 @@ namespace PH.Well.BDD.Steps
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
-            var adamImport = new Import();
-            
+            var logger = this.container.GetInstance<ILogger>();
+            var fileService = this.container.GetInstance<IFileService>();
+            var epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
+            var epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
+            var epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
+
             adamImport.Process(container, ref adamStatusMessage);
+            logger.LogDebug("Calling file monitor service");
+            var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
+
+            adamImport.Process(Configuration.AdamFile, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

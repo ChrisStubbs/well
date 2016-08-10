@@ -93,7 +93,7 @@
                 this.logger.LogDebug($"Scheam path is {schemaPath}");
 
                 var validationErrors = new List<string>();
-                var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
+                var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors, logger);
 
                 if (!isFileValidBySchema)
                 {

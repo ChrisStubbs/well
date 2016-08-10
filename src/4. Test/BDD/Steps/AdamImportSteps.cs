@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps
 {
+    using System;
     using System.IO;
 
     using Framework.Context;
@@ -32,9 +33,17 @@
             var epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
             var epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
 
+            logger.LogDebug("Calling file monitor service");
             var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
 
-            adamImport.Process(Configuration.AdamFile, false);
+            try
+            {
+                adamImport.Process(Configuration.AdamFile, false);
+            }
+            catch (Exception exception)
+            {
+                logger.LogError("Error when loading adam data", exception);
+            }
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

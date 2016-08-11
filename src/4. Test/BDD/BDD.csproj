@@ -111,31 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionCheck.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\Branch.feature.cs">
-      <DependentUpon>Branch.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Features\Pages\CleanPage.feature.cs">
-      <DependentUpon>CleanPage.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Features\Pages\ExceptionPage.feature.cs">
-      <DependentUpon>ExceptionPage.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Features\Pages\ResolvedPage.feature.cs">
-      <DependentUpon>ResolvedPage.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Features\Pages\RoutesPage.feature.cs">
-      <DependentUpon>RoutesPage.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Context\ContextDescriptors.cs" />
     <Compile Include="Framework\Context\DriverContext.cs" />
@@ -199,26 +174,6 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Pages\Branch.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Branch.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\CleanPage.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\ExceptionPage.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ExceptionPage.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\ResolvedPage.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ResolvedPage.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\RoutesPage.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>RoutesPage.feature.cs</LastGenOutput>
-    </None>
     <None Include="packages.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -262,7 +217,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Features\Pages\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

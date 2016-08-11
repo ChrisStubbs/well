@@ -111,11 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionCheck.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\Branch.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Branch.feature</DependentUpon>
-    </Compile>
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Context\ContextDescriptors.cs" />
     <Compile Include="Framework\Context\DriverContext.cs" />
@@ -178,10 +173,6 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Pages\Branch.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Branch.feature.cs</LastGenOutput>
-    </None>
     <None Include="packages.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -225,7 +216,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Features\Pages\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

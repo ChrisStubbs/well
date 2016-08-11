@@ -11,7 +11,7 @@
     "postinstall": "webdriver-manager update --proxy http://localhost:8888"
   },
   "dependencies": {
-    "jasmine-reporters": "^2.0.0",
-    "protractor": "^3.0.0"
+    "jasmine-reporters": "^2.2.0",
+    "protractor": "^4.0.3"
   }
 }

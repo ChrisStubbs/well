@@ -67,7 +67,7 @@
         [Then("all the branches are selected")]
         public void AllBranchesSelected()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(4000);
             var checkboxes = this.branchPage.GetBranchCheckboxElements();
 
             Assert.That(checkboxes.Count, Is.EqualTo(12));

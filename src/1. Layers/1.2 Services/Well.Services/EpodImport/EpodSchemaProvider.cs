@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Schema;
+
     using Well.Services.Contracts;
 
     public class EpodSchemaProvider : IEpodSchemaProvider
@@ -16,10 +17,13 @@
             {
                 var isValid = LbF.XmlSerialisation.XmlSerialisationHelper.IsValidXml(sourceFile, schemaFile, out validationErrors);
 
-                if(!isValid)
+                if (!isValid)
+                {
                     throw new XmlSchemaException($"{sourceFile} did not pass validation against schema file");
+                }
+                
             }
-            catch 
+            catch(Exception exception)
             {
                 if (validationErrors != null && validationErrors.Any())
                 {

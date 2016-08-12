@@ -8,6 +8,7 @@
     using Common.Extensions;
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
     using Well.Services.Contracts;
 
@@ -17,6 +18,7 @@
         private readonly IStopRepository stopRepository;
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
+        private readonly IAccountRepository accountRepository;
         private readonly ILogger logger;
         public string CurrentUser { get; set; }
 
@@ -26,13 +28,14 @@
         public EpodFileType EpodType { get; set; }
 
         public EpodDomainImportService(IRouteHeaderRepository routeHeaderRepository, ILogger logger, IStopRepository stopRepository,
-                                        IJobRepository jobRepository, IJobDetailRepository jobDetailRepository)
+                                        IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.logger = logger;
             this.stopRepository = stopRepository;
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
+            this.accountRepository = accountRepository;
         }
 
 
@@ -152,6 +155,7 @@
                 if (currentRouteHeader != null)
                 {
                     ePodRouteHeader.Id = currentRouteHeader.Id;
+                    ePodRouteHeader.Depot = ePodRouteHeader.Depot.Replace(">", string.Empty);
                     currentRouteHeader.RouteStatus = ePodRouteHeader.RouteStatus;
                     currentRouteHeader.RoutePerformanceStatusId = ePodRouteHeader.RoutePerformanceStatusId;
                     currentRouteHeader.AuthByPass = currentRouteHeader.AuthByPass + ePodRouteHeader.AuthByPass;
@@ -160,9 +164,12 @@
                     currentRouteHeader.DamagesRejected = currentRouteHeader.DamagesRejected + ePodRouteHeader.DamagesRejected;
                     currentRouteHeader.DamagesAccepted = currentRouteHeader.DamagesAccepted + ePodRouteHeader.DamagesAccepted;
                     currentRouteHeader.NotRequired = currentRouteHeader.NotRequired + ePodRouteHeader.NotRequired;
-                    currentRouteHeader.EpodDepot = ePodRouteHeader.EpodDepot;
+                    currentRouteHeader.EpodDepot = string.IsNullOrWhiteSpace(ePodRouteHeader.Depot) ? (int)Branches.Ndf : (int)(Branches)Enum.Parse(typeof(Branches), ePodRouteHeader.Depot, true);
+                    currentRouteHeader.StartDepot = int.Parse(currentRouteHeader.StartDepotCode);
 
                     currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
+
+
                     AddEpodRouteHeaderStops(ePodRouteHeader);
                 }
                 else
@@ -175,12 +182,225 @@
 
         }
 
+        public void AddAdamUpdateFile(RouteUpdates orderUpdates, int routesId)
+        {
+            foreach (var orderUpdate in orderUpdates.Order)
+            {
+                var selectedAction = GetOrderUpdateAction(orderUpdate.ActionIndicator);
+
+                var orderTransportRefDetails = orderUpdate.TransportOrderRef.Split(' ');
+
+                if (selectedAction == OrderActionIndicator.InsertOnly)
+                {
+                    var newOrderDetails = GetByOrderUpdateDetails(orderUpdate);
+                    if (newOrderDetails != null)
+                        throw new Exception($"Transport details already exsist insert operation cannot be completed");
+
+                    AddStopByOrder(orderUpdate, orderTransportRefDetails, 0, true);
+                }
+
+                if (selectedAction != OrderActionIndicator.InsertOrUpdate) continue;
+                var exsitingOrderStopDetails = GetByOrderUpdateDetails(orderUpdate);
+                if (exsitingOrderStopDetails == null)
+                    throw new Exception($"No transport details found for update operation");
+
+                AddStopByOrder(orderUpdate, orderTransportRefDetails, exsitingOrderStopDetails.Id, false);
+            }
+
+        }
+
+        private void AddStopByOrder(Order order, IReadOnlyList<string> transportOrderRef, int currentStopId, bool insertOnly)
+        {
+            var currentRoute = this.routeHeaderRepository.GetRouteHeaderByRouteNumberAndDate(transportOrderRef[0], DateTime.Parse(transportOrderRef[3]));
+           
+            if (!insertOnly)
+            {
+                var currentStop = GetByOrderUpdateDetails(order);
+                currentStopId = currentStop.Id;
+            }
+
+            var newStop = new Stop
+            {
+                Id = currentStopId,
+                PlannedStopNumber = order?.PlannedStopNumber,
+                PlannedArriveTime = order?.PlannedArriveTime,
+                PlannedDepartTime = order?.PlannedDepartTime,
+                RouteHeaderCode = transportOrderRef[0],
+                RouteHeaderId = currentRoute.Id,
+                TransportOrderRef = order?.TransportOrderRef,
+                DropId = transportOrderRef[1],
+                LocationId = transportOrderRef[2],
+                DeliveryDate = DateTime.Parse(transportOrderRef[3]),
+                SpecialInstructions = order?.SpecialInstructions,
+                StartWindow = order?.StartWindow,
+                EndWindow = order?.EndWindow,
+                TextField1 = order?.TextField1,
+                TextField2 = order?.TextField2,
+                TextField3 = order?.TextField3,
+                TextField4 = order?.TextField4,
+                StopStatusCodeId = (int)StopStatus.Notdef,
+                StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,
+                ByPassReasonId = (int)ByPassReasons.Notdef
+            };
+
+            
+
+            this.stopRepository.CurrentUser = this.CurrentUser;
+            newStop = this.stopRepository.StopCreateOrUpdate(newStop);
+
+            var newStopAccountId = 0;
+
+            AddStopAccountByOrderJob(newStop.Id, order.Accounts, newStopAccountId, insertOnly);
+
+            var currentJobId = 0;
+
+            AddJobByOrderJob(newStop.Id, order.OrderJobs, DateTime.Parse(transportOrderRef[3]), currentJobId, insertOnly);
+
+
+        }
+
+        private void AddStopAccountByOrderJob(int stopId, Account stopAccount, int currentStopAccountId, bool insertOnly)
+        {
+            if (!insertOnly)
+            {
+                var currentStopAccount = this.accountRepository.GetAccountGetByAccountCode(stopAccount.Code, stopId);
+                currentStopAccountId = currentStopAccount.Id;
+            }
+
+            var newStopAccount = new Account
+            {
+                Id = currentStopAccountId,
+                Code = stopAccount.Code,
+                AccountTypeCode = stopAccount.AccountTypeCode,
+                DepotId = stopAccount.DepotId,
+                Name = stopAccount.Name,
+                Address1 = stopAccount.Address1,
+                Address2 = stopAccount.Address2,
+                PostCode = stopAccount.PostCode,
+                ContactName = stopAccount.ContactName,
+                ContactNumber = stopAccount.ContactNumber,
+                ContactNumber2 = stopAccount.ContactNumber2,
+                ContactEmailAddress = stopAccount.ContactEmailAddress,
+                StartWindow = stopAccount.StartWindow,
+                EndWindow = stopAccount.EndWindow,
+                Latitude = stopAccount.Latitude,
+                Longitude = stopAccount.Longitude,
+                IsDropAndDrive = stopAccount.IsDropAndDrive,
+                StopId = stopId
+            };
+
+            this.stopRepository.StopAccountCreateOrUpdate(newStopAccount);
+        }
+
+        private void AddJobByOrderJob(int stopId, ICollection<OrderJob> orderJobs, DateTime orderDate, int currentJobId, bool insertOnly)
+        {
+            foreach (var orderJob in orderJobs)
+            {
+                if (!insertOnly)
+                {
+                    var currentJob = this.jobRepository.JobGetByRefDetails(orderJob.JobRef1, orderJob.JobRef2, stopId);
+                    currentJobId = currentJob.Id;
+                }
+
+                var newJob = new Job
+                {
+                    Id = currentJobId,
+                    Sequence = orderJob.Sequence,
+                    JobTypeCode = orderJob.JobTypeCode,
+                    JobRef1 = orderJob.JobRef1,
+                    JobRef2 = orderJob.JobRef2,
+                    JobRef3 = orderJob.JobRef3,
+                    JobRef4 = orderJob.JobRef4,
+                    OrderDate = orderDate,
+                    Originator = string.Empty,
+                    TextField1 = string.Empty,
+                    TextField2 = string.Empty,
+                    PerformanceStatusId = (int)PerformanceStatus.Notdef,
+                    ByPassReasonId = (int)ByPassReasons.Notdef,
+                    StopId = stopId
+                };
+
+                this.jobRepository.CurrentUser = this.CurrentUser;
+                newJob = this.jobRepository.JobCreateOrUpdate(newJob);
+
+                var currentJobDetailId = 0;
+                AddJobDetailByOrderJobDetail(newJob.Id, orderJob.OrderJobDetails, currentJobDetailId, insertOnly);
+
+            }
+        }
+
+        private void AddJobDetailByOrderJobDetail(int jobId, ICollection<OrderJobDetail> orderJobDetails,
+            int currentJobDetailId, bool insertOnly)
+        {
+            foreach (var orderJobDetail in orderJobDetails)
+            {
+                if (!insertOnly)
+                {
+                    var currentJobDetail =
+                        this.jobDetailRepository.JobDetailGetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId) ;
+
+                    currentJobDetailId = currentJobDetail.Id;
+                }
+
+                var newJobDetail = new JobDetail
+                {
+                    Id = currentJobDetailId,
+                    LineNumber = orderJobDetail.LineNumber,
+                    BarCode = orderJobDetail.BarCode,
+                    OriginalDispatchQty = orderJobDetail.OrderedQty,
+                    ProdDesc = orderJobDetail.ProdDesc,
+                    OrderedQty = orderJobDetail.OrderedQty,
+                    ShortQty = 0,
+                    SkuWeight = orderJobDetail.SkuWeight,
+                    SkuCube = orderJobDetail.SkuCube,
+                    UnitMeasure = orderJobDetail.UnitMeasure,
+                    TextField1 = orderJobDetail.TextField1,
+                    TextField2 = orderJobDetail.TextField2,
+                    TextField3 = orderJobDetail.TextField3,
+                    TextField4 = orderJobDetail.TextField4,
+                    TextField5 = orderJobDetail.TextField5,
+                    SkuGoodsValue = orderJobDetail.SkuGoodsValue,
+                    JobId = jobId
+                };
+
+                this.jobDetailRepository.CurrentUser = this.CurrentUser;
+                this.jobDetailRepository.JobDetailCreateOrUpdate(newJobDetail);
+            }
+        }
+
+        private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
+        {
+            return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.InsertOrUpdate : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
+        }
+
+        private Stop GetByOrderUpdateDetails(Order order)
+        {
+
+            var orderTransportRefDetails = order?.TransportOrderRef.Split(' ');
+
+            var routeHeaderCode = orderTransportRefDetails?[0];
+            var dropId = orderTransportRefDetails?[1];
+            var locationId = orderTransportRefDetails?[2];
+            var deliveryDate = DateTime.Parse(orderTransportRefDetails?[3]);
+
+            return this.stopRepository.GetByOrderUpdateDetails(routeHeaderCode, dropId, locationId, deliveryDate);
+        }
+
         private void AddEpodRouteHeaderStops(RouteHeader routeHeader)
         {
             this.stopRepository.CurrentUser = this.CurrentUser;
 
             foreach (var ePodStop in routeHeader.Stops)
             {
+
+                var tranOrderRef = ePodStop.TransportOrderRef.Split(' ');
+
+                ePodStop.RouteHeaderCode = tranOrderRef?[0];
+                ePodStop.DropId = tranOrderRef?[1];
+                ePodStop.LocationId = tranOrderRef?[2];
+                ePodStop.DeliveryDate = DateTime.Parse(tranOrderRef?[3]);
+
+
                 var currentStop = this.stopRepository.GetByRouteNumberAndDropNumber(ePodStop.RouteHeaderCode, routeHeader.Id, ePodStop.DropId);
 
                 if (currentStop != null)
@@ -188,6 +408,7 @@
                     currentStop.StopStatusCodeId = ePodStop.StopStatusCodeId;
                     currentStop.StopPerformanceStatusCodeId = ePodStop.StopPerformanceStatusCodeId;
                     currentStop.ByPassReasonId = ePodStop.ByPassReasonId;
+                    currentStop.TransportOrderRef = ePodStop.TransportOrderRef;
                     currentStop = this.stopRepository.StopCreateOrUpdate(currentStop);
                     AddEpodStopJobs(ePodStop, currentStop.Id);
                 }
@@ -258,7 +479,24 @@
         {
             var fileType = GetEpodFileType(fileTypeIndentifier);
 
-            return StringExtensions.GetEnumDescription(fileType == EpodFileType.RouteHeader ? TransendSchemaType.RouteHeaderSchema : TransendSchemaType.RouteEpodSchema);
+            var schemaType = TransendSchemaType.RouteHeaderSchema;
+
+            switch (fileType)
+            {
+                case EpodFileType.RouteHeader:
+                    schemaType = TransendSchemaType.RouteHeaderSchema;
+                    break;
+                case EpodFileType.RouteEpod:
+                    schemaType = TransendSchemaType.RouteEpodSchema;
+                    break;
+                case EpodFileType.OrderUpdate:
+                    schemaType = TransendSchemaType.RouteUpdateSchema;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(fileType));
+            }
+
+            return StringExtensions.GetEnumDescription(schemaType);
         }
 
         public string GetFileTypeIdentifier(string filename)
@@ -293,6 +531,5 @@
 
             File.Move(filename, Path.Combine(archiveLocation, fileNameWithoutPath));
         }
-
     }
 }

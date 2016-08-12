@@ -6,6 +6,12 @@
     [Serializable()]
     public class OrderJobDetail
     {
+
+        [XmlElement("LineNumber")]
+        public int LineNumber { get; set; }
+
+        [XmlElement("Barcode")]
+        public string BarCode { get; set; }
         [XmlElement("ProdDesc")]
         public string ProdDesc { get; set; }
 

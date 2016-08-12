@@ -7,6 +7,7 @@
     using Common.Extensions;
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
     using Services.Contracts;
 
     public class EpodDomainImportProvider : IEpodDomainImportProvider
@@ -67,24 +68,34 @@
                 overrides.Add(typeof(RouteHeader), "EntityAttributeValues", attribs);
             }
 
-            var routeImportSerializer = new XmlSerializer(typeof(RouteDeliveries), overrides);
             var reader = new StreamReader(filename);
-
-            var routes = (RouteDeliveries)routeImportSerializer.Deserialize(reader);
-
-            reader.Close();
-
             epodDomainImportService.EpodType = epodType;
             epodDomainImportService.CurrentUser = "ePodDomainImport";
-            if (epodType == EpodFileType.RouteHeader)
+
+            if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
             {
-                epodDomainImportService.AddRoutesFile(routes, routesId);
+                var routeImportSerializer = new XmlSerializer(typeof(RouteDeliveries), overrides);
+                var routes = (RouteDeliveries) routeImportSerializer.Deserialize(reader);
+
+               
+                if (epodType == EpodFileType.RouteHeader)
+                {
+                    epodDomainImportService.AddRoutesFile(routes, routesId);
+                }
+                else
+                {
+                    epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+                }
             }
             else
             {
-                epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+                var adamUpdatesSerializer = new XmlSerializer(typeof(RouteUpdates), overrides);
+                var orderUpdates = (RouteUpdates)adamUpdatesSerializer.Deserialize(reader);
+                epodDomainImportService.AddAdamUpdateFile(orderUpdates, routesId);
             }
-            
+
+            reader.Close();
+
             logger.LogDebug($"File {filename} imported successfully");
 
         }

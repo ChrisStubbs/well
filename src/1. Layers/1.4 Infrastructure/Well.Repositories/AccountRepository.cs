@@ -34,6 +34,16 @@
 
         }
 
+        public Account GetAccountGetByAccountCode(string accountCode, int stopId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountGetByAccountCode)
+                    .AddParameter("Code", accountCode, DbType.String)
+                    .AddParameter("StopId", stopId, DbType.Int32)
+                    .Query<Account>()
+                    .FirstOrDefault();
+
+        }
+
 
     }
 }

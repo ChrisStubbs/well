@@ -19,11 +19,25 @@
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
-        [XmlElement("OrderDate")]
+        [XmlIgnore]
         public DateTime OrderDate { get; set; }
 
-        [XmlElement("DeliveryDate")]
+        [XmlElement("RouteDate")]
+        public string OrderDateString
+        {
+            get { return this.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { this.OrderDate = DateTime.Parse(value); }
+        }
+
+        [XmlIgnore]
         public DateTime DeliveryDate { get; set; }
+
+        [XmlElement("DeliveryDate")]
+        public string DeliveryDateString
+        {
+            get { return this.DeliveryDate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { this.DeliveryDate = DateTime.Parse(value); }
+        }
 
         [XmlElement("TransportOrderRef")]
         public string  TransportOrderRef { get; set; }
@@ -31,14 +45,17 @@
         [XmlElement("SpecialInstructions")]
         public string SpecialInstructions { get; set; }
 
+        [XmlElement("PlannedStopNumber")]
+        public string PlannedStopNumber { get; set; }
+
         [XmlElement("SummaryNotes")]
         public string SummaryNotes { get; set; }
 
         [XmlElement("PlannedArriveTime")]
-        public DateTime PlannedArriveTime { get; set; }
+        public string PlannedArriveTime { get; set; }
 
         [XmlElement("PlannedDepartTime")]
-        public DateTime PlannedDepartTime { get; set; }
+        public string PlannedDepartTime { get; set; }
 
         [XmlElement("TextField1")]
         public string TextField1 { get; set; }
@@ -67,40 +84,50 @@
         [XmlElement("BookTime")]
         public string BookTime { get; set; }
 
-        [XmlElement("SchedulingPriority")]
+        //[XmlElement("SchedulingPriority")]
+        [XmlIgnore]
         public int SchedulingPriority { get; set; }
 
-        [XmlElement("SchedulingSequence")]
+        //[XmlElement("SchedulingSequence")]
+        [XmlIgnore]
         public int SchedulingSequence { get; set; }
 
-        [XmlElement("TimeAtStop")]
+        //[XmlElement("TimeAtStop")]
+        [XmlIgnore]
         public int TimeAtStop { get; set; }
 
-        [XmlElement("WorkTime")]
+        //[XmlElement("WorkTime")]
+        [XmlIgnore]
         public int WorkTime { get; set; }
 
-        [XmlElement("LoadingTime")]
+        //[XmlElement("LoadingTime")]
+        [XmlIgnore]
         public int LoadingTime { get; set; }
 
-        [XmlElement("UnloadingTime")]
+        //[XmlElement("UnloadingTime")]
+        [XmlIgnore]
         public int UnloadingTime { get; set; }
 
-        [XmlElement("Revenue")]
+        //[XmlElement("Revenue")]
+        [XmlIgnore]
         public double Revenue { get; set; }
 
         [XmlElement("ActionIndicator")]
         public string ActionIndicator { get; set; }
 
         [XmlElement("StartWindow")]
-        public DateTime StartWindow { get; set; }
+        public string StartWindow { get; set; }
 
-        [XmlElement("StartWindow")]
-        public DateTime EndWindow { get; set; }
+        [XmlElement("EndWindow")]
+        public string EndWindow { get; set; }
 
         [XmlArray("OrderJobs")]
         [XmlArrayItem("OrderJob", typeof(OrderJob))]
 
         public Collection<OrderJob> OrderJobs { get; set; }
+
+        [XmlElement("Account")]
+        public Account Accounts { get; set; }
 
     }
 }

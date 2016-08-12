@@ -10,5 +10,8 @@
         [Description("TransendPHEpodSchema.xsd")]
         RouteEpodSchema = 2,
 
+        [Description("TransEndPHOrderUpdateSchema.xsd")]
+        RouteUpdateSchema = 3,
+
     }
 }

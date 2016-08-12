@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
       <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Features\Pages\Branch.feature.cs">
       <DependentUpon>Branch.feature</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -203,7 +204,6 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\Pages\Branch.feature">
     <None Include="Features\ACL\AdamRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AdamRouteFileSchemaValidation.feature.cs</LastGenOutput>
@@ -212,6 +212,10 @@
     <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EpodRouteFileSchemaValidation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\Branch.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Branch1.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -13,6 +13,7 @@
         Brandon = 42,
         Plymouth = 55,
         Bristol = 59,
-        Haydock = 82
+        Haydock = 82,
+        NotDefined = 99
     }
 }

@@ -40,6 +40,12 @@
             var stopPerformanceStatusId = stop.StopPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : stop.StopPerformanceStatusCodeId;
             var stopByPassReasonId = stop.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : stop.ByPassReasonId;
 
+            var transportOrderDetails = stop.TransportOrderRef.Split(' ');
+            stop.RouteHeaderCode = transportOrderDetails[0];
+            stop.DropId = transportOrderDetails[1];
+            stop.LocationId = transportOrderDetails[2];
+            stop.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
+
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate)
                 .AddParameter("Id", stop.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
@@ -115,6 +121,21 @@
 
             return stop;
         }
+
+        public Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate)
+        {
+            var stop =
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGeyByOrderUpdateDetails)
+                   .AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String)
+                   .AddParameter("DropId", dropId, DbType.String)
+                   .AddParameter("LocationId", locationId, DbType.String)
+                   .AddParameter("DeliveryDate", deliveryDate, DbType.DateTime)
+                   .Query<Stop>()
+                   .FirstOrDefault();
+
+            return stop;
+        }
+
 
     }
 }

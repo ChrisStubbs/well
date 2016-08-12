@@ -162,6 +162,10 @@
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
     <Build Include="dbo\StoredProcedures\EventGetUnprocessed.sql" />
     <Build Include="dbo\StoredProcedures\MarkEventAsProcessed.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_GeyByOrderUpdateDetails.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetByRefDetails.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_GetByBarcodeAndProdDesc.sql" />
+    <Build Include="dbo\StoredProcedures\Account_GetByAccountCode.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

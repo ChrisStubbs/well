@@ -25,6 +25,7 @@
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
+        public static string StopGeyByOrderUpdateDetails = "Stop_GeyByOrderUpdateDetails";
 
         //Jobs
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
@@ -32,6 +33,7 @@
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         
         public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
+        public static string JobGetByRefDetails = "Job_GetByRefDetails";
 
         //jobdetail
         public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";
@@ -39,10 +41,12 @@
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailGetByBarcodeLineNumberAndJobId = "JobDetail_GetByBarcodeLineNumberAndJobId";
         public static string JobDetailDamageCreateOrUpdate = "JobDetailDamage_CreateOrUpdate";
+        public static string JobDetailGetByBarcodeAndProdDesc = "JobDetail_GetByBarcodeAndProdDesc";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
         public static string AccountGetByAccountId = "Account_GetByAccountId";
+        public static string AccountGetByAccountCode = "Account_GetByAccountCode";
 
         //Deliveries
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";

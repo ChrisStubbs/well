@@ -53,10 +53,10 @@ $XmlWriter.WriteAttributeString('number', '1.0.{build.number}')
 
 	$xmlWriter.WriteStartElement('statusInfo')
     $XmlWriter.WriteAttributeString('status', $Result)
-    	$XmlWriter.WriteStartElement('text')
-		$XmlWriter.WriteAttributeString('action', 'append')
+    	#$XmlWriter.WriteStartElement('text')
+		#$XmlWriter.WriteAttributeString('action', 'append')
 		#$XmlWriter.WriteRaw("UI Total:" + $UITotals[0].Total + " Failed:" + $UITotals[0].Failed)
-		$xmlWriter.WriteEndElement()
+		#$xmlWriter.WriteEndElement()
 
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')

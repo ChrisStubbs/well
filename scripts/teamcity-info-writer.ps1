@@ -4,14 +4,14 @@ param($BuildRoot, $SpecRunLog, $ProtractorLogPath)
 #$SpecRunLog = "..\specrun.log"
 #$ProtractorLogPath = "..\ProtractorOutput.txt"
 
-Write-Host $BuildRoot
+Write-Host $BuildRoot 
 Write-Host $SpecRunLog
 
-$UITotals = Get-Content $ProtractorLogPath | Where { $_ -match "\b(?<total>[0-9]+) spec, (?<failed>[0-9]+) failures\b" } | 
+#$UITotals = Get-Content $ProtractorLogPath | Where { $_ -match "\b(?<total>[0-9]+) spec, (?<failed>[0-9]+) failures\b" } | 
 foreach { new-object PSObject –prop @{ Total=$matches['total']; Failed=$matches['failed'] }   }
 
-Write-Host "UI Total: " $UITotals[0].Total
-Write-Host "UI Failed: " $UITotals[0].Failed
+#Write-Host "UI Total: " $UITotals[0].Total
+#Write-Host "UI Failed: " $UITotals[0].Failed
 
 $BDDTotal = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Total:") }
 $BDDSucceeded = Get-Content $SpecRunLog | Where-Object { $_.StartsWith("Succeeded:") }
@@ -28,7 +28,7 @@ Write-Host "BDD $BDDSkipped"
 Write-Host "BDD $BDDFailed"
 
 $Result = "FAILURE"
-If ($BDDFailed.Contains("Failed: 0") -and $UITotals[0].Failed -eq 0)
+If ($BDDFailed.Contains("Failed: 0")) # -and $UITotals[0].Failed -eq 0)
 {
 	$Result = "SUCCESS"
 }
@@ -53,10 +53,10 @@ $XmlWriter.WriteAttributeString('number', '1.0.{build.number}')
 
 	$xmlWriter.WriteStartElement('statusInfo')
     $XmlWriter.WriteAttributeString('status', $Result)
-    	$XmlWriter.WriteStartElement('text')
-		$XmlWriter.WriteAttributeString('action', 'append')
-		$XmlWriter.WriteRaw("UI Total:" + $UITotals[0].Total + " Failed:" + $UITotals[0].Failed)
-		$xmlWriter.WriteEndElement()
+    	#$XmlWriter.WriteStartElement('text')
+		#$XmlWriter.WriteAttributeString('action', 'append')
+		#$XmlWriter.WriteRaw("UI Total:" + $UITotals[0].Total + " Failed:" + $UITotals[0].Failed)
+		#$xmlWriter.WriteEndElement()
 
 		$XmlWriter.WriteStartElement('text')
 		$XmlWriter.WriteAttributeString('action', 'append')

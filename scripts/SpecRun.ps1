@@ -11,7 +11,7 @@ function ExecuteSpecRunTests
 	$result = & $fileExe buildserverrun "$testPath\$profileName.srprofile" /log:specrun.log
 	$code = $LASTEXITCODE
 	$exitC = 1
-	if ($code -eq 0 -or $code -eq 110 -or $code -eq 120 -or $code -eq 210 -or $code -eq 430)
+	if ($code -lt 440)
 	{
 		$exitC = 0
 	}

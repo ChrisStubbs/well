@@ -39,7 +39,7 @@ $Path = "$BuildRoot\teamcity-info.xml"
 # get an XMLTextWriter to create the XML
 $XmlWriter = New-Object System.XMl.XmlTextWriter($Path,$Null)
  
-# choose a pretty formatting:
+# choose a pretty formatting:     
 $xmlWriter.Formatting = 'Indented'
 $xmlWriter.Indentation = 1
 $XmlWriter.IndentChar = "`t"

@@ -4,7 +4,7 @@ param($BuildRoot, $SpecRunLog, $ProtractorLogPath)
 #$SpecRunLog = "..\specrun.log"
 #$ProtractorLogPath = "..\ProtractorOutput.txt"
 
-Write-Host $BuildRoot 
+Write-Host $BuildRoot    
 Write-Host $SpecRunLog
 
 #$UITotals = Get-Content $ProtractorLogPath | Where { $_ -match "\b(?<total>[0-9]+) spec, (?<failed>[0-9]+) failures\b" } | 

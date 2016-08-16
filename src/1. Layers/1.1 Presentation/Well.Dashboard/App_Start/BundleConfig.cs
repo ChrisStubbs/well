@@ -25,7 +25,7 @@
             bundles.Add(new ScriptBundle("~/bundles/jsscripts").Include(
                   "~/Scripts/toastr.min.js"));
 
-            var cssBundle = new StyleBundle("~/bundles/css").Include(
+            var cssBundle = new StyleBundle("~/bundles/css/all").Include(
                 "~/Content/css/bootstrap.css",
                 "~/Content/css/bootstrap-responsive.css",
                 "~/Content/css/bootstrap-flatten.css",

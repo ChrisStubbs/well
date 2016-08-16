@@ -46,7 +46,7 @@
 
         private void WriteEventLog(string source, string logText, int eventId, EventLogEntryType entryType)
         {
-            var fullSource = $"Pmp.{source}";
+            var fullSource = $"Well.{source}";
             if (!EventLog.SourceExists(fullSource))
             {
                 EventLog.CreateEventSource(fullSource, "Application");

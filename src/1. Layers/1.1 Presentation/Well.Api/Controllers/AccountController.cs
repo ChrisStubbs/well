@@ -57,7 +57,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting account");
+                this.logger.LogError($"An error occcured when getting account", ex);
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

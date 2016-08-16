@@ -44,7 +44,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting exceptions");
+                this.logger.LogError($"An error occcured when getting exceptions", ex);
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -63,7 +63,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting clean deliveries");
+                this.logger.LogError($"An error occcured when getting clean deliveries", ex);
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -81,7 +81,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting resolved deliveries");
+                this.logger.LogError($"An error occcured when getting resolved deliveries", ex);
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -109,7 +109,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting delivery detail id: {id}");
+                this.logger.LogError($"An error occcured when getting delivery detail id: {id}", ex);
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

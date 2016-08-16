@@ -70,7 +70,7 @@
             Thread.Sleep(4000);
             var checkboxes = this.branchPage.GetBranchCheckboxElements();
 
-            Assert.That(checkboxes.Count, Is.EqualTo(12));
+            Assert.That(checkboxes.Count, Is.EqualTo(13));
 
             foreach (var box in checkboxes)
             {

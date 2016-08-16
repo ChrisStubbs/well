@@ -34,7 +34,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting widget stats");
+                this.logger.LogError($"An error occcured when getting widget stats", ex);
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

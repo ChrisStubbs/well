@@ -58,7 +58,7 @@
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
-            adamImport.Process(Configuration.AdamFile, false);
+            adamImport.Process(importFilePath, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

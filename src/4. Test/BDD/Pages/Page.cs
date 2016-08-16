@@ -24,7 +24,7 @@
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
-            wait.Until(d => d.Url.ToString(CultureInfo.InvariantCulture).Contains(url));
+            wait.Until(d => d.Url.ToLowerInvariant().Contains(url.ToLowerInvariant()));
 
             this.Driver.WaitForAjax();
         }

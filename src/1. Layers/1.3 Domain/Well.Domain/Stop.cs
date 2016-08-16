@@ -29,19 +29,7 @@
         public int RouteHeaderId { get; set; }
 
         [XmlElement("TransportOrderRef")]
-        public string TransportOrderRef
-        {
-            get { return TransportOrderRef; }
-            set
-            {
-                var transportOrderDetails = value.Split(' ');
-                this.RouteHeaderCode = transportOrderDetails[0];
-                this.DropId = transportOrderDetails[1];
-                this.LocationId = transportOrderDetails[2];
-                this.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
-
-            }
-        }
+        public string TransportOrderRef { get; set; }
 
         [XmlIgnore]
         public string RouteHeaderCode { get; set; }

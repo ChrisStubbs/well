@@ -76,7 +76,7 @@
 
         public RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
         {
-
+           
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
                 .AddParameter("Id", routeHeader.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
@@ -85,7 +85,7 @@
                 .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
                 .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
                 .AddParameter("VehicleReg", routeHeader.VehicleReg, DbType.String)
-                .AddParameter("StartDepotCode", routeHeader.StartDepotCode, DbType.String)
+                .AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32)
                 .AddParameter("PlannedRouteStartTime", routeHeader.PlannedRouteStartTime, DbType.String)
                 .AddParameter("PlannedRouteFinishTime", routeHeader.PlannedRouteFinishTime, DbType.String)
                 .AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal)
@@ -93,7 +93,7 @@
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
-                .AddParameter("RouteStatusId", routeHeader.RouteStatus = routeHeader.RouteStatus == 0 ? RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
+                .AddParameter("RouteStatusId", routeHeader.RouteStatus = (int)routeHeader.RouteStatus == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
                 .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
@@ -102,7 +102,7 @@
                 .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
                 .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
-                .AddParameter("Depot", routeHeader.Depot, DbType.String).Query<int>().FirstOrDefault();
+                .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
 
             return this.GetRouteHeaderById(id);
 

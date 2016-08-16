@@ -6,7 +6,7 @@
 	[RouteDate] DATETIME NOT NULL,
 	[DriverName] VARCHAR(50) NOT NULL,
 	[VehicleReg] VARCHAR(10) NOT NULL,
-	[StartDepotCode] VARCHAR(10) NOT NULL,
+	[StartDepotCode] INT NOT NULL,
 	[PlannedRouteStartTime] VARCHAR(10) NOT NULL,
 	[PlannedRouteFinishTime] VARCHAR(10) NOT NULL,
 	[PlannedDistance] DECIMAL(5,2) NOT NULL,
@@ -23,7 +23,7 @@
 	[DamagesRejected] INT NULL,
 	[DamagesAccepted] INT NULL,
 	[NotRequired] INT NULL,
-	[Depot] VARCHAR(10) NULL,
+	[Depot] INT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,
@@ -31,6 +31,7 @@
 	[Version] [TIMESTAMP] NOT NULL,
 	CONSTRAINT [PK_RouteHeader] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_RouteHeader_Routes] FOREIGN KEY ([RoutesId]) REFERENCES [dbo].[Routes] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_RouteHeader_RouteStatusId] FOREIGN KEY ([RouteStatusId]) REFERENCES [dbo].[Routestatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_RouteHeader_RoutePerformanceStatusId] FOREIGN KEY ([RoutePerformanceStatusId]) REFERENCES [dbo].[RoutePerformanceStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+	CONSTRAINT [FK_RouteHeader_RouteStatusId] FOREIGN KEY ([RouteStatusId]) REFERENCES [dbo].[RouteStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_RouteHeader_StartDepotCode] FOREIGN KEY ([StartDepotCode]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_RouteHeader_Depot] FOREIGN KEY ([Depot]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

@@ -1,0 +1,703 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="RouteUpdates">
+    <xs:complexType>
+      <xs:sequence>
+  <xs:element name="Orders">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Order" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CompanyID" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StartDepotCode" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="OrderDate" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='10'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:dateTime'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DeliveryDate"  minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='10'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:date'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TransportOrderRef" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="SpecialInstructions" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="PlannedStopNumber" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <xs:element name="SummaryNotes" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="PlannedArriveTime" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='5'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>                
+              </xs:element>
+              <xs:element name="PlannedDepartTime" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='5'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TextField1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="TextField2" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="TextField3" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="TextField4" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="TextField5" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="PaymentMethod" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="CreditValue" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="CreditText" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="BookTime" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="SchedulingPriority" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>                         
+              </xs:element>
+              <xs:element name="SchedulingSequence" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TimeAtStop" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="WorkTime" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LoadingTime" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UnloadingTime" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:integer'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Revenue" minOccurs="0" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='0'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:double'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ActionIndicator" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <xs:element name="StartWindow" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='5'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EndWindow" minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:simpleType>
+                  <xs:union>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                        <xs:length value='5'/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType>
+                      <xs:restriction base='xs:string'>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:union>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Account" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code"  minOccurs="1" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="DepotID" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='20'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="AccountTypeCode" minOccurs="1" maxOccurs="1" type="xs:string" nillable="true"/>
+                    <xs:element name="UpdateLocation"  minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:boolean'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="AutoCreateSubAccount" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:boolean'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="GroupAccountCode"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Name"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Address1"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Address2"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Address3"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Address4"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Address5"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="Address6"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="PostCode"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="ContactName"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="ContactNumber"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="ContactNumber2"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="ContactNumber3"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="ContactEmailAddress"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="ContactEmailAddress2"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                    <xs:element name="StartWindow"  minOccurs="0" maxOccurs="1" nillable="true">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='5'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EndWindow" minOccurs="0" maxOccurs="1" nillable="true">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='5'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Latitude" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:double'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Longitude" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:double'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Radius" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:integer'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="UseGroupLocation" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:boolean'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="IsDropAndDrive" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:boolean'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="NotLocated" minOccurs="0" maxOccurs="1">
+                      <xs:simpleType>
+                        <xs:union>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:string'>
+                              <xs:length value='0'/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                          <xs:simpleType>
+                            <xs:restriction base='xs:boolean'>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:union>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="GroupAccount">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code"  minOccurs="1" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Name"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Address1"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Address2"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Address3"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Address4"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Address5"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Address6"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="PostCode"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="ContactName"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="ContactNumber"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="ContactNumber2"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="ContactNumber3"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="ContactEmailAddress"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="ContactEmailAddress2"  minOccurs="0" maxOccurs="1" type="xs:string"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="EntityAttributes" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Code"  minOccurs="1" maxOccurs="1" type="xs:string"/>
+                                <xs:element name="Value1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                <xs:element name="Value2" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Attributes" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Value1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="EntityAttributes">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Value1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Value2" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="OrderJobs" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="OrderJob" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Sequence" minOccurs="1" maxOccurs="1">
+                            <xs:simpleType>
+                              <xs:union>
+                                <xs:simpleType>
+                                  <xs:restriction base='xs:string'>
+                                    <xs:length value='0'/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                                <xs:simpleType>
+                                  <xs:restriction base='xs:integer'>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:union>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="JobTypeCode" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="JobRef1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="JobRef2" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="JobRef3" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="JobRef4" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="EntityAttributes" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="Value1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="Value2" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="OrderJobDetails" minOccurs="1" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="OrderJobDetail" minOccurs="1" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="LineNumber" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='3'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:integer'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="Barcode" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="ToFollowQty" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:decimal'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="ProdDesc" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="ExtendedDescription" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="OrderedQty" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:decimal'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="SkuWeight" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:double'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="SkuCube" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:double'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="SerialNumber" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="UnitMeasure" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="TextField1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="TextField2" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="TextField3" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="TextField4" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="TextField5" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                      <xs:element name="SkuLoadingTime" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:double'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="SkuUnloadingTime" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:double'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="SkuGoodsValue" minOccurs="0" maxOccurs="1">
+                                        <xs:simpleType>
+                                          <xs:union>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:string'>
+                                                <xs:length value='0'/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                            <xs:simpleType>
+                                              <xs:restriction base='xs:double'>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:union>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="EntityAttributes">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                                                  <xs:element name="Value1" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                                                  <xs:element name="Value2" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

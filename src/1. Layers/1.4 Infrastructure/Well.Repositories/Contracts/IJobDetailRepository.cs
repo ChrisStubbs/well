@@ -14,5 +14,7 @@
         JobDetail GetByBarcodeLineNumberAndJobId(int lineNumber, string barcode, int jobId);
 
         void JobDetailDamageCreateOrUpdate(JobDetailDamage jobDetailDamage);
+
+        JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId);
     }
 }

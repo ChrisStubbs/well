@@ -48,6 +48,7 @@
     <Compile Include="Enums\AccountType.cs" />
     <Compile Include="Enums\AdamResponse.cs" />
     <Compile Include="Enums\Branch.cs" />
+    <Compile Include="Enums\Branches.cs" />
     <Compile Include="Enums\ByPassReasons.cs" />
     <Compile Include="Enums\ChangeInfo.cs" />
     <Compile Include="Enums\ChangeSource.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Enums\DamageReasons.cs" />
     <Compile Include="Enums\EpodFileTYpe.cs" />
     <Compile Include="Enums\ExceptionAction.cs" />
+    <Compile Include="Enums\OrderActionIndicator.cs" />
     <Compile Include="Enums\PerformanceStatus.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
     <Compile Include="Enums\JobType.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="RouteUpdates.cs" />
+    <Compile Include="ValueObjects\Order.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reason.cs" />
@@ -77,6 +81,8 @@
     <Compile Include="Stop.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ValueObjects\AdamSettings.cs" />
+    <Compile Include="ValueObjects\OrderJobDetail.cs" />
+    <Compile Include="ValueObjects\Orders.cs" />
     <Compile Include="ValueObjects\QueueEvent.cs" />
     <Compile Include="ValueObjects\TranscendEvent.cs" />
     <Compile Include="ValueObjects\RoadnetEvent.cs" />
@@ -85,6 +91,7 @@
     <Compile Include="ValueObjects\CreditEvent.cs" />
     <Compile Include="ValueObjects\DeliveryDetail.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
+    <Compile Include="ValueObjects\OrderJob.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>

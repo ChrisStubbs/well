@@ -26,6 +26,19 @@
             return job;
         }
 
+        public Job JobGetByRefDetails(string ref1, string ref2, int stopId)
+        {
+            var job =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
+                   .AddParameter("Ref1", ref1, DbType.String)
+                   .AddParameter("Ref2", ref2, DbType.String)
+                   .AddParameter("StopId", stopId, DbType.Int32)
+                   .Query<Job>()
+                   .FirstOrDefault();
+
+            return job;
+        }
+
         public Job JobCreateOrUpdate(Job job)
         {
             var jobPerformanceStatusId = job.PerformanceStatusId == 0 ? (int)PerformanceStatus.Notdef : job.PerformanceStatusId;

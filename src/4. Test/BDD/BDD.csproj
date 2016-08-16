@@ -105,16 +105,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\DriverFactory.cs" />
-    <Compile Include="Features\Api\VersionCheck.feature.cs">
+    <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VersionCheck.feature</DependentUpon>
+      <DependentUpon>AdamRouteFileSchemaValidation.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\Branch.feature.cs">
-      <DependentUpon>Branch.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Features\ACL\EpodRouteFileSchemaValidation.feature.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EpodRouteFileSchemaValidation.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Pages\Branch1.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Branch.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Pages\CleanPage.feature.cs">
       <AutoGen>True</AutoGen>
@@ -122,19 +126,25 @@
       <DependentUpon>CleanPage.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Pages\ExceptionPage.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Features\Pages\ResolvedPage.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ResolvedPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Features\Pages\RoutesPage.feature.cs">
+      <DependentUpon>RoutesPage.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Factories\DriverFactory.cs" />
+    <Compile Include="Features\Api\VersionCheck.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RoutesPage.feature</DependentUpon>
+      <DependentUpon>VersionCheck.feature</DependentUpon>
     </Compile>
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Context\ContextDescriptors.cs" />
@@ -143,6 +153,7 @@
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
+    <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
     <Compile Include="Framework\WebElements\UserPrefrencesButtonDropDown.cs" />
@@ -187,7 +198,6 @@
     </None>
     <None Include="ConfigurationSections\app-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </None>
     <None Include="ConfigurationSections\connectionstring-staging1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -195,17 +205,26 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\Api\VersionCheck.feature">
+    <None Include="Features\ACL\AdamRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
+      <LastGenOutput>AdamRouteFileSchemaValidation.feature.cs</LastGenOutput>
+      <LastGenOutput>Branch.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EpodRouteFileSchemaValidation.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Branch.feature.cs</LastGenOutput>
+      <LastGenOutput>Branch1.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Api\VersionCheck.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VersionCheck.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\ExceptionPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -258,11 +277,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="phantomjs.exe" />
+    <Content Include="Epod\ePOD__20160701_10452212189454.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Xml\PH_ROUTES_30062016_02.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="RouteFiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

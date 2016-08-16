@@ -18,7 +18,8 @@
 	@TextField4				NVARCHAR(100),
 	@StopStatusId			TINYINT= 4,
 	@StopPerformanceStatusId TINYINT= 6,
-	@ByPassReasonId			TINYINT= 13
+	@ByPassReasonId			TINYINT= 13,
+	@IsDeleted				BIT=0
 
 
 
@@ -31,11 +32,11 @@ BEGIN
 	MERGE INTO [Stop] AS Target
 	USING (VALUES
 		(@Id, @PlannedStopNumber, @PlannedArriveTime,@PlannedDepartTime,@RouteHeaderCode, @RouteHeaderId, @DropId, @LocationId, @DeliveryDate, @SpecialInstructions, @StartWindow, @EndWindow, @TextField1,
-		 @TextField2, @TextField3,@TextField4, @StopStatusId,@StopPerformanceStatusId, @ByPassReasonId,   @Username, GETDATE(), @Username, GETDATE())
+		 @TextField2, @TextField3,@TextField4, @StopStatusId,@StopPerformanceStatusId, @ByPassReasonId, @IsDeleted,   @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[SpecialInstructions],
 			   [StartWindow],[EndWindow],[TextField1],[TextField2], [TextField3], [TextField4],
-			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
 	UPDATE SET
@@ -57,6 +58,7 @@ BEGIN
 		[StopStatusId] = Source.[StopStatusId],
 		[StopPerformanceStatusId] = Source.[StopPerformanceStatusId],
 		[ByPassReasonId] = Source.[ByPassReasonId],
+		[IsDeleted] = Source.[IsDeleted],
 		[CreatedBy] = Source.[CreatedBy],
 		[DateCreated] = Source.[DateCreated],
 		[UpdatedBy] = Source.[UpdatedBy],
@@ -64,10 +66,10 @@ BEGIN
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[SpecialInstructions],
 			   [StartWindow],[EndWindow],[TextField1],[TextField2], [TextField3], [TextField4],
-			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([PlannedStopNumber],[PlannedArriveTime],[PlannedDepartTime],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[SpecialInstructions],
 			   [StartWindow],[EndWindow],[TextField1],[TextField2], [TextField3], [TextField4],
-			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;
 

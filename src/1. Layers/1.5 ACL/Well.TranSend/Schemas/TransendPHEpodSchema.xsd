@@ -189,20 +189,20 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-                    <xs:element name="Stops" maxOccurs="unbounded">
+                    <xs:element name="Stops" minOccurs="1" maxOccurs="unbounded">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element name="Stop" maxOccurs="unbounded">
+                          <xs:element name="Stop" minOccurs="1"  maxOccurs="unbounded">
                             <xs:complexType>
                               <xs:sequence>
-                                <xs:element name="StopID" type="xs:unsignedInt" />
+                                <xs:element name="StopID" type="xs:unsignedInt" minOccurs="1" maxOccurs="1"/>
                                 <xs:element name="RouteHeaderID" type="xs:unsignedShort" />
                                 <xs:element name="AccountID" type="xs:unsignedShort" />
                                 <xs:element name="ByPassReasonID" />
                                 <xs:element name="MissedWindowReasonID" />
                                 <xs:element name="PlannedStopNumber" type="xs:string" />
                                 <xs:element name="ActualStopNumber" type="xs:string" />
-                                <xs:element name="TransportOrderRef" type="xs:string" />
+                                <xs:element name="TransportOrderRef" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                 <xs:element name="PlannedArriveTime" type="xs:string" />
                                 <xs:element name="PlannedDepartTime" type="xs:string" />
                                 <xs:element name="EstimatedArriveTime" />
@@ -499,10 +499,10 @@
                                                                 <xs:complexType>
                                                                   <xs:sequence>
                                                                     <xs:element name="JobDetailDamageID" type="xs:string" />
-                                                                    <xs:element name="JobDetailID" type="xs:unsignedInt" />
+                                                                    <xs:element name="JobDetailID" type="xs:unsignedInt"  minOccurs="1" maxOccurs="1"/>
                                                                     <xs:element name="DamageReasonID" type="xs:string" />
                                                                     <xs:element name="SourceReasonID" type="xs:string" />
-                                                                    <xs:element name="Qty" type="xs:string" />
+                                                                    <xs:element name="Qty" type="xs:string"  minOccurs="1" maxOccurs="1"/>
                                                                     <xs:element name="Deleted" type="xs:string" />
                                                                     <xs:element name="CreatedDate" type="xs:string" />
                                                                     <xs:element name="UpdatedDate" type="xs:string" />
@@ -511,7 +511,7 @@
                                                                     <xs:element name="Reason" minOccurs="0" maxOccurs="unbounded">
                                                                       <xs:complexType>
                                                                         <xs:sequence>
-                                                                          <xs:element name="ReasonCode" type="xs:string" />
+                                                                          <xs:element name="ReasonCode" type="xs:string"  minOccurs="1" maxOccurs="1"/>
                                                                           <xs:element name="Description" type="xs:string" />
                                                                         </xs:sequence>
                                                                       </xs:complexType>

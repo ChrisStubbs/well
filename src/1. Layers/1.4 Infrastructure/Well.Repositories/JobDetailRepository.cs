@@ -24,6 +24,18 @@
             return jobDetail;
         }
 
+        public JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId)
+        {
+            var jobDetail =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeAndProdDesc)
+                   .AddParameter("Barcode", barcode, DbType.String)
+                   .AddParameter("JobId", jobId, DbType.Int32)
+                   .Query<JobDetail>()
+                   .FirstOrDefault();
+
+            return jobDetail;
+        }
+
         public JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail)
         {
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)

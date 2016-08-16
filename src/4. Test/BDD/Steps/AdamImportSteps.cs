@@ -2,7 +2,7 @@
 {
     using System.IO;
     using System;
-
+    using System.Collections.Generic;
     using Framework.Context;
 
     using PH.Well.BDD.Framework;
@@ -14,7 +14,9 @@
     using StructureMap;
     using TechTalk.SpecFlow;
     using Framework.Extensions;
+    using Microsoft.SqlServer.Dac.Model;
     using NUnit.Framework;
+    using Repositories.Contracts;
     using TechTalk.SpecFlow.Assist.ValueRetrievers;
 
     [Binding]
@@ -24,25 +26,38 @@
         const string currentAdamRouteFile = "PH_ROUTES_30062016_02.xml";
         const string currentEpodRouteFile = "ePOD__20160701_10452212189454.xml";
         private const string ParentNode = "RouteHeader";
+        private string adamStatusMessage;
+        private ILogger logger;
+        private IFileService fileService;
+        private IEpodSchemaProvider epodSchemaProvider;
+        private IEpodDomainImportProvider epodDomainImportProvider;
+        private IEpodDomainImportService epodDomainImportService;
+        private IAccountRepository accountRepository;
+        private AdamFileMonitorService adamImport;
 
         public AdamImportSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
+            FileMonitorSetup();
+
+        }
+
+        private void FileMonitorSetup()
+        {
+            logger = this.container.GetInstance<ILogger>();
+            fileService = this.container.GetInstance<IFileService>();
+            epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
+            epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
+            epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
+
+
+            logger.LogDebug("Calling file monitor service");
+            adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
         }
 
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
-            var logger = this.container.GetInstance<ILogger>();
-            var fileService = this.container.GetInstance<IFileService>();
-            var epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
-            var epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
-            var epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
-
-            adamImport.Process(container, ref adamStatusMessage);
-            logger.LogDebug("Calling file monitor service");
-            var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
-
             adamImport.Process(Configuration.AdamFile, false);
         }
 
@@ -75,13 +90,10 @@
         {
             var schemaErrors = new List<string>();
 
-            var adamContainer = container.GetInstance<IAdamRouteFileProvider>();
-            var configContainer = container.GetInstance<IAdamImportConfiguration>();
+            var adamContainer = container.GetInstance<IAdamFileMonitorService>();
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
 
-            configContainer.FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
-            configContainer.SearchPattern = routeFile.StartsWith("ePOD") ? "Epod_*" : configContainer.SearchPattern;
-
-            adamContainer.ListFilesAndProcess(configContainer, ref schemaErrors); 
+            schemaErrors = adamImport.Process(Path.Combine(filePath, routeFile), false);
 
             if(schemaErrors.Count > 0)
                 ScenarioContext.Current.Add("schemaErrors", schemaErrors[0]);

@@ -27,7 +27,7 @@ AS
 
   FROM [dbo].[RouteHeader] rh
   INNER JOIN
-	dbo.Branch b on rh.StartDepotCode = UPPER(b.TranscendMapping)
+	dbo.Branch b on rh.StartDepotCode = b.Id
 INNER JOIN
 	dbo.UserBranch ub on b.Id = ub.BranchId
  INNER JOIN

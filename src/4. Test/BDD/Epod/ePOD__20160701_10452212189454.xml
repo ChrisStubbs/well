@@ -61,7 +61,7 @@
       <ActualDriverLogoutTime />
       <startOdometer>0</startOdometer>
       <FinishOdometer>0</FinishOdometer>
-      <OriginalVehicleOdo>999999</OriginalVehicleOdo>
+      <OriginalVehicleOdo>1001</OriginalVehicleOdo>
       <PlannedRouteStartTime>05:30</PlannedRouteStartTime>
       <PlannedRouteFinishTime>10:10</PlannedRouteFinishTime>
       <ActualRouteLogonTime>01/07/2016 05:35:00</ActualRouteLogonTime>

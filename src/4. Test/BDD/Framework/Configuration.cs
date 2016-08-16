@@ -15,8 +15,6 @@
 
         public static int DriverTimeoutSeconds => int.Parse(ConfigurationManager.AppSettings["DriverTimeoutInSeconds"]);
 
-        public static string PathToScreenshots => ConfigurationManager.AppSettings["PathToScreenshots"];
-
         public static string WellApiUrl => ConfigurationManager.AppSettings["WellApiUrl"];
         public static string SecurityApiUrl => ConfigurationManager.AppSettings["SecurityApiUrl"];
 
@@ -26,8 +24,5 @@
         public static string ApplicationId => ConfigurationManager.AppSettings["ApplicationId"];
 
         public static Driver Driver => (Driver)Enum.Parse(typeof(Driver), ConfigurationManager.AppSettings["WebDriver"]);
-
-        public static string AdamFile => ConfigurationManager.AppSettings["adamFile"];
-
     }
 }

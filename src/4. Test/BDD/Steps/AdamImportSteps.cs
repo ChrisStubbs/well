@@ -36,7 +36,10 @@
             logger.LogDebug("Calling file monitor service");
             var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
 
-            adamImport.Process(Configuration.AdamFile, false);
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\PH_ROUTES_30062016_02.xml"));
+
+            adamImport.Process(importFilePath, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]

@@ -13,6 +13,7 @@
             this.Entity.PlannedStopNumber = "001";
             this.Entity.PlannedArriveTime = "09:00";
             this.Entity.PlannedDepartTime = "11:00";
+            this.Entity.TransportOrderRef = "0001 01 LOC001 " + DateTime.Now.ToShortDateString();
             this.Entity.RouteHeaderId = 1;
             this.Entity.RouteHeaderCode = "0001";
             this.Entity.DropId = "01";

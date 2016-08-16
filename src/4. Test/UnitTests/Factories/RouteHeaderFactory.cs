@@ -12,11 +12,13 @@
             this.Entity.RouteNumber = "2";
             this.Entity.DriverName = "Chip Marklow";
             this.Entity.RouteStatus = RouteStatusCode.Inpro;
+            this.Entity.RouteStatusCode = RouteStatusCode.Compl.ToString();
             this.Entity.CompanyID = 1;
             this.Entity.RouteDate = DateTime.Now;
             this.Entity.DriverName = "Alan Smith";
             this.Entity.VehicleReg= "EYO GR9";
-            this.Entity.StartDepotCode ="001";
+            this.Entity.StartDepotCode ="BIR";
+            this.Entity.StartDepot = 22;
             this.Entity.PlannedRouteStartTime = "09:00";
             this.Entity.PlannedRouteFinishTime= "11:00";
             this.Entity.PlannedDistance = 20.5m;
@@ -33,6 +35,7 @@
             this.Entity.DamagesAccepted = 0;
             this.Entity.NotRequired = 0;
             this.Entity.Depot = "001";
+            this.Entity.EpodDepot = 1;
         }
     }
 

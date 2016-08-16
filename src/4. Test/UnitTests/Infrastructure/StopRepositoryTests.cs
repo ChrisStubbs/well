@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using PH.Well.Common.Contracts;
@@ -74,6 +75,12 @@
             {
                 var stop = StopFactory.New.Build();
                 var user = UserFactory.New.Build();
+
+                var transportOrderDetails = stop.TransportOrderRef.Split(' ');
+                stop.RouteHeaderCode = transportOrderDetails[0];
+                stop.DropId = transportOrderDetails[1];
+                stop.LocationId = transportOrderDetails[2];
+                stop.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
 
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate))

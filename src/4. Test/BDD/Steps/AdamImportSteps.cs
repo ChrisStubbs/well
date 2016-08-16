@@ -58,6 +58,8 @@
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\PH_ROUTES_30062016_02.xml"));
             adamImport.Process(importFilePath, false);
         }
 

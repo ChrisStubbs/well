@@ -82,6 +82,11 @@
 
         public static void DeleteTestRouteFiles(string directory)
         {
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             Array.ForEach(Directory.GetFiles(directory), File.Delete);
         }
 

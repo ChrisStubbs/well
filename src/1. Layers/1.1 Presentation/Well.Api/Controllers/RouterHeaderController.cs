@@ -42,7 +42,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting routes");
+                this.logger.LogError($"An error occcured when getting routes", ex);
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }

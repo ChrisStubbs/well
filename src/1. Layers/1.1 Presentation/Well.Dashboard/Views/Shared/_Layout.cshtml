@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <base href="@Url.Content("~/")"/>
+    <base href="/Well/Dashboard/" />
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" href="~/favicon.ico"/>
     @Styles.Render("~/bundles/css/all")
@@ -23,15 +23,17 @@
 
 @RenderBody()
 
-<script src="~/Scripts/angular2/polyfillsBundle.js?ticks=@DateTime.Now.Ticks"></script>
+<script src="@string.Format("{0}/Scripts/angular2/polyfillsBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
+
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("~/bundles/bootstrap")
-<script src="~/signalr/hubs"></script>
+<script src="@string.Format("{0}/signalr/hubs", HttpRuntime.AppDomainAppVirtualPath)"></script>
 
 <!-- Load Angular2 -->
-<script src="~/Scripts/angular2/vendorBundle.js?ticks=@DateTime.Now.Ticks"></script>
-<script src="~/Scripts/angular2/appBundle.js?ticks=@DateTime.Now.Ticks"></script>
+<script src="@string.Format("{0}/Scripts/angular2/vendorBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
+<script src="@string.Format("{0}/Scripts/angular2/appBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
+
 
 @RenderSection("scripts", required: false)
     

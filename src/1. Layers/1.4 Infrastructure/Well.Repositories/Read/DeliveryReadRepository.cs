@@ -40,15 +40,13 @@ namespace PH.Well.Repositories.Read
 
         public IEnumerable<Delivery> GetExceptionDeliveries(string userName)
         {
-            var incompletes = GetDeliveriesByStatus(PerformanceStatus.Incom, userName);
-            var authorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Abypa, userName);
-            var nonAuthorisedBypassed = GetDeliveriesByStatus(PerformanceStatus.Nbypa, userName);
+            var exceptionStatuses = ExceptionStatuses.Statuses;
 
             var allExceptions = new List<Delivery>();
-
-            allExceptions.AddRange(incompletes);
-            allExceptions.AddRange(authorisedBypassed);
-            allExceptions.AddRange(nonAuthorisedBypassed); 
+            foreach (var exceptionStatus in exceptionStatuses)
+            {
+                allExceptions.AddRange(GetDeliveriesByStatus(exceptionStatus, userName));
+            }
 
             return allExceptions;
         }

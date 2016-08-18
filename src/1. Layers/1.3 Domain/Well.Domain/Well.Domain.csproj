@@ -70,6 +70,7 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="RouteUpdates.cs" />
+    <Compile Include="ValueObjects\ExceptionStatuses.cs" />
     <Compile Include="ValueObjects\Order.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

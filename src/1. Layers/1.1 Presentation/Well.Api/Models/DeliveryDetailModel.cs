@@ -16,6 +16,7 @@
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
         public string DeliveryType { get; set; } // resolved clean exception
+        public bool IsException { get; set; }
         public List<DeliveryLineModel> DeliveryLines { get; set; }
     }
 }

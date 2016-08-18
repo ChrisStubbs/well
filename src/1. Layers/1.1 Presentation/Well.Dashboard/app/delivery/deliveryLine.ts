@@ -8,6 +8,4 @@
     damagedQuantity: number;
     shortQuantity: number;
     reason: string;
-    status: string;
-    action: string;
 }

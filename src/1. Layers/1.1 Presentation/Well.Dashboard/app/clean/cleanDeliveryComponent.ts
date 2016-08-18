@@ -15,13 +15,14 @@ import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
+import {OrderBy} from "../shared/orderBy"
 
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
     directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal],
-    pipes: [OptionFilterPipe, PaginatePipe]
+    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
 
 })
 export class CleanDeliveryComponent implements OnInit {
@@ -29,6 +30,7 @@ export class CleanDeliveryComponent implements OnInit {
     refreshSubscription: any;
     errorMessage: string;
     cleanDeliveries: CleanDelivery[];
+    currentConfigSort: string;
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -49,6 +51,7 @@ export class CleanDeliveryComponent implements OnInit {
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.getDeliveries();
+        this.currentConfigSort = '-dateTime';
     }
 
     ngOnDestroy() {
@@ -62,6 +65,12 @@ export class CleanDeliveryComponent implements OnInit {
                     this.lastRefresh = Date.now();
                 },
                 error => this.lastRefresh = Date.now());
+    }
+
+    sortDirection(sortDirection): void {
+        this.getDeliveries();
+        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        
     }
 
     onFilterClicked(filterOption: FilterOption) {

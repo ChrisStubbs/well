@@ -12,19 +12,22 @@ import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 import {WellModal} from "../shared/well-modal";
 import {RefreshService} from "../shared/refreshService";
+import {OrderBy} from "../shared/orderBy"
 
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, RouteHeaderService, PaginationService],
     directives: [OptionFilterComponent, PaginationControlsCmp, WellModal],
-    pipes: [OptionFilterPipe, PaginatePipe]
+    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;
     errorMessage: string;
     routes: IRoute[];
     rowCount: number = 10;
+    currentConfigSort: string;
+
     lastRefresh = Date.now();
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -44,10 +47,18 @@ export class RouteHeaderComponent implements OnInit {
     ngOnInit() {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
+        this.currentConfigSort = '-dateTimeUpdated';
     }
 
     ngOnDestroy() {
         this.refreshSubscription.unsubscribe();
+    }
+
+    sortDirection(sortDirection): void {
+        console.log(sortDirection);
+        this.currentConfigSort = sortDirection === true ? '+dateTimeUpdated' : '-dateTimeUpdated';
+        console.log(this.currentConfigSort);
+        this.getRoutes();
     }
 
     getRoutes(): void {

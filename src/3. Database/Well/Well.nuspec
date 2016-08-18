@@ -3,12 +3,13 @@
 	<metadata>
 	<id>Well.Database</id>
 	<version>$version$</version>
-	<authors>Palmer and Harvey</authors>
+    <authors>C# Migration Team</authors>
+    <owners>Palmer and Harvey</owners>
 	<description>Package for Well Database</description>
 	</metadata>
 	<files>
 		<file src="\bin\Release\Well.dacpac" target="Content\Deploy" />
-    <file src="\bin\Release\Well.xml" target="Content\Deploy" />
+		<file src="\bin\Release\Well.xml" target="Content\Deploy" />
 		<file src="Deploy.ps1" />
 	</files>
 </package>

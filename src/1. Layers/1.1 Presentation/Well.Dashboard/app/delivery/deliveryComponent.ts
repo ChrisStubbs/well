@@ -19,7 +19,7 @@ import {DropDownItem} from "../shared/dropDownItem";
 
 export class DeliveryComponent implements OnInit {
     errorMessage: string;
-    delivery: Delivery = new Delivery();
+    delivery: Delivery = new Delivery(null);
     rowCount: number = 10;
     showAll: boolean = false;
     deliveryId: number;
@@ -44,11 +44,31 @@ export class DeliveryComponent implements OnInit {
     ngOnInit(): void {
        
         this.deliveryService.getDelivery(this.deliveryId)
-            .subscribe(delivery => { this.delivery = delivery; console.log(this.delivery) },
+            .subscribe(delivery => { this.delivery = new Delivery(delivery); console.log(this.delivery) },
             error => this.errorMessage = <any>error);
     }
 
     onShowAllClicked() {
         this.showAll = !this.showAll;
+    }
+
+    lineClicked(line): void {
+        if (line.isEdit === false) {
+            line.isEdit = true;
+        }
+    }
+
+    lineSave(event, line): void {
+        event.stopPropagation();
+        //TODO - POSTBACK save
+        line.isEdit = false;
+    }
+
+    lineCancel(event, line): void {
+        event.stopPropagation();
+        line.damagedQuantity = line.damagedQuantityOriginal;
+        line.shortQuantity = line.shortQuantityOriginal;
+        line.reason = line.reasonOriginal;
+        line.isEdit = false;
     }
 }

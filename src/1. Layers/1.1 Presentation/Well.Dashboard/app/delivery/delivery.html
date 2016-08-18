@@ -19,7 +19,7 @@
         </div>
 
     <div class="table-responsive table-container">
-        <table id="tableDelivery" class="table table-hover table-bordered" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
+        <table id="tableDelivery" class="table table-hover table-bordered editable" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
             <thead>
                 <tr>
                     <th>Line No</th>
@@ -30,23 +30,33 @@
                     <th>Del Qty</th>
                     <th>Damaged Qty</th>
                     <th>Short Qty</th>
-                    <th *ngIf="delivery.isException">Reasons</th>
-                    <th></th>
+                    <th *ngIf="delivery.isException">Reason code</th>
+                    <th class="action-row"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }">
-                    <td>{{line.lineNo}}</td>
-                    <td>{{line.productCode}}</td>
-                    <td>{{line.productDescription}}</td>
-                    <td>{{line.value}}</td>
-                    <td>{{line.invoicedQuantity}}</td>
-                    <td>{{line.deliveredQuantity}}</td>
-                    <td>{{line.damagedQuantity}}</td>
-                    <td>{{line.shortQuantity}}</td>
-                    <td *ngIf="delivery.isException">{{line.reason}}</td>
-                    <td><button type="button" class="btn btn-success btn-sm">Update</button></td>
-                </tr>
+            <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }"
+                (click)="lineClicked(line)">
+                <td>{{line.lineNo}}</td>
+                <td>{{line.productCode}}</td>
+                <td>{{line.productDescription}}</td>
+                <td>{{line.value}}</td>
+                <td>{{line.invoicedQuantity}}</td>
+                <td>{{line.deliveredQuantity}}</td>
+                <td *ngIf="line.isEdit" class="edit-row"><input type="number" [(ngModel)]="line.damagedQuantity" class="form-control input-sm" /></td>
+                <td *ngIf="line.isEdit === false">{{line.damagedQuantity}}</td>
+                <td *ngIf="line.isEdit" class="edit-row"><input type="number" [(ngModel)]="line.shortQuantity" class="form-control input-sm" /></td>
+                <td *ngIf="line.isEdit === false">{{line.shortQuantity}}</td>
+                <td *ngIf="delivery.isException && line.isEdit" class="edit-row"><input type="number" [(ngModel)]="line.reason" class="form-control input-sm" /></td>
+                <td *ngIf="delivery.isException && line.isEdit === false">{{line.reason}}</td>
+                <td class="action-row" *ngIf="line.isEdit === false">
+                    <button type="button" class="btn btn-success btn-sm">Edit</button>
+                </td>
+                <td class="action-row" *ngIf="line.isEdit">
+                    <button type="button" class="btn btn-success btn-sm" (click)="lineSave($event, line)">Save</button>
+                    <button type="button" class="btn btn-warning btn-sm" (click)="lineCancel($event, line)">Cancel</button>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

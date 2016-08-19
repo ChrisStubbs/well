@@ -38,6 +38,7 @@
 
         public JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail)
         {
+        
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
@@ -56,6 +57,8 @@
                 .AddParameter("TextField5", jobDetail.TextField5, DbType.String)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
+                .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
 
             return this.GetById(id);

@@ -14,6 +14,7 @@ import {WellModal} from "../shared/well-modal";
 import {RefreshService} from "../shared/refreshService";
 import {OrderBy} from "../shared/orderBy"
 
+
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
@@ -55,9 +56,7 @@ export class RouteHeaderComponent implements OnInit {
     }
 
     sortDirection(sortDirection): void {
-        console.log(sortDirection);
         this.currentConfigSort = sortDirection === true ? '+dateTimeUpdated' : '-dateTimeUpdated';
-        console.log(this.currentConfigSort);
         this.getRoutes();
     }
 

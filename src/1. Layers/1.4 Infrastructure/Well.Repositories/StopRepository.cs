@@ -34,6 +34,17 @@
             return stop;
         }
 
+        public Stop GetByJobId(int jobId)
+        {
+            var stop =
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJobId)
+                   .AddParameter("JobId", jobId, DbType.Int32)
+                   .Query<Stop>()
+                   .FirstOrDefault();
+
+            return stop;
+        }
+
         public Stop StopCreateOrUpdate(Stop stop)
         {
             var stopStatusId = stop.StopStatusCodeId == 0 ? (int) StopStatus.Notdef : stop.StopStatusCodeId;

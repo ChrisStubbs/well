@@ -23,3 +23,6 @@ Post-Deployment Script Template
 :r .\Populate-RouteHeaderExceptions.sql
 :r .\Populate-Branch.sql
 :r .\Populate-ExceptionAction.sql
+:r .\Populate-JobDetailStatus.sql
+:r .\Populate-HolidayExceptions.sql
+:r .\Populate-CustomerRoyalty.sql

@@ -26,6 +26,15 @@
             return job;
         }
 
+        public IEnumerable<CustomerRoyaltyException>  GetCustomerRoyaltyExceptions()
+        {
+            var customerRoyaltyException =
+                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGet)
+                    .Query<CustomerRoyaltyException>();
+
+            return customerRoyaltyException;
+        }
+
         public Job JobGetByRefDetails(string ref1, string ref2, int stopId)
         {
             var job =

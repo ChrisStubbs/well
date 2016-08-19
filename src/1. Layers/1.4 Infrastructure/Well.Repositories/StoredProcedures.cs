@@ -26,6 +26,7 @@
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
         public static string StopGeyByOrderUpdateDetails = "Stop_GeyByOrderUpdateDetails";
+        public static string StopGetByJobId = "Stop_GetByJobId";
 
         //Jobs
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
@@ -34,6 +35,7 @@
         
         public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
+        public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
 
         //jobdetail
         public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";

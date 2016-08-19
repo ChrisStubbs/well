@@ -74,6 +74,8 @@
                 dapperProxy.Setup(x => x.AddParameter("TextField5", jobDetail.TextField5, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean, null)).Returns(dapperProxy.Object);
 
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
@@ -103,6 +105,8 @@
                 dapperProxy.Verify(x => x.AddParameter("TextField5", jobDetail.TextField5, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
 

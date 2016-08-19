@@ -43,6 +43,7 @@
     <Compile Include="Account.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="Contracts\IEntity.cs" />
+    <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Attribute.cs" />
     <Compile Include="Enums\AccountType.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Enums\DamageReasons.cs" />
     <Compile Include="Enums\EpodFileTYpe.cs" />
     <Compile Include="Enums\ExceptionAction.cs" />
+    <Compile Include="Enums\JobDetailStatus.cs" />
     <Compile Include="Enums\OrderActionIndicator.cs" />
     <Compile Include="Enums\PerformanceStatus.cs" />
     <Compile Include="Enums\ReasonCategory.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Enums\TransendSchemaType.cs" />
     <Compile Include="ExceptionEvent.cs" />
+    <Compile Include="HolidayExceptions.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />

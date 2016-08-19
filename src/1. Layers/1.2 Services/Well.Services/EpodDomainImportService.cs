@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.InteropServices.WindowsRuntime;
     using Common.Contracts;
     using Common.Extensions;
     using Domain;
@@ -133,7 +134,13 @@
             foreach (var jobDetail in job.JobDetails)
             {
                 jobDetail.JobId = newJobId;
+
+                var currentStop = this.stopRepository.GetByJobId(newJobId);
+
+                jobDetail.JobDetailStatusId = (int)GetStatusForJobDetail(jobDetail, currentStop.DeliveryDate);
+
                 var newJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
+
 
                 if (this.EpodType == EpodFileType.RouteHeader)
                 {
@@ -368,10 +375,40 @@
             }
         }
 
+        private JobDetailStatus GetStatusForJobDetail(JobDetail jobDetail, DateTime currentStopDate)
+        {
+            var currentDayDifference = ((TimeSpan) (DateTime.Now - currentStopDate)).Days;
+
+            if (currentDayDifference < 1 && jobDetail.JobDetailDamages.Count > 0)
+                return JobDetailStatus.UnRes;
+
+            return JobDetailStatus.Res;
+            
+        }
+
+        public void SoftDeleteJobDetail(RouteHeader routeHeader)
+        {
+            var stops = routeHeader.Stops;
+            var royaltyExceptions = this.jobRepository.GetCustomerRoyaltyExceptions();
+
+            foreach (var stop in stops)
+            {
+                foreach (var job in stop.Jobs)
+                {
+                    var jobRoyaltyCode = job.TextField1.Substring(0, 4).TrimEnd();
+                    var hasExceptions = royaltyExceptions.Any(x => x.Royalty == int.Parse(jobRoyaltyCode));
+                }
+            }
+
+            //jobDetail.IsDeleted = true;
+            //this.jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
+        }
+
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
             return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.InsertOrUpdate : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
         }
+
 
         private Stop GetByOrderUpdateDetails(Order order)
         {

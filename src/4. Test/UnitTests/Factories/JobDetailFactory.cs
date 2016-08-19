@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PH.Well.UnitTests.Factories
+﻿namespace PH.Well.UnitTests.Factories
 {
     using Well.Domain;
-    using System;
     using System.Collections.ObjectModel;
+    using Well.Domain.Enums;
     using Attribute = Well.Domain.Attribute;
 
     public class JobDetailFactory : EntityFactory<JobDetailFactory, JobDetail>
@@ -38,7 +32,7 @@ namespace PH.Well.UnitTests.Factories
                 {
                     Id = 1,
                     Qty = 1m,
-                    ReasonId = 1
+                    Reason = DamageReasons.CAR01
 
                 }
             };

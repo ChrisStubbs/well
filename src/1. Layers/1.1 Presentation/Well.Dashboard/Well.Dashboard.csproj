@@ -31,8 +31,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -328,6 +330,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="typings.json" />
     <Content Include="Views\Home\AppLayout.cshtml" />
+    <Content Include="Well.Dashboard.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

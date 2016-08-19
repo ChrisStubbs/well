@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Well.Dashboard</id>
+    <version>$version$</version>
+    <title>Well Dashboard</title>
+    <authors>C# Migration Team</authors>
+    <owners>Palmer and Harvey</owners>
+    <description>The Well Dashboard</description>
+  </metadata>
+  <files>
+	<file src="app\**.html" target="app\" />
+	<file src="bin\" target="bin\" />
+	<file src="Content\" target="Content\" />
+	<file src="fonts\" target="fonts\" />
+	<file src="Scripts\" target="Scripts\" />
+	<file src="Views\" target="Views\" />
+	<file src="favicon.ico" />
+	<file src="Global.asax" />
+	<file src="Web.config" />
+	<file src="Web.Debug.config" />
+	<file src="Web.Release.config" />
+   </files>
+</package>

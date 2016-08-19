@@ -7,14 +7,16 @@
 
         JobDetail GetById(int id);
 
-        JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail);
+        JobDetail GetByJobLine(int jobId, int lineNumber);
 
-        void AddJobDetailAttributes(Attribute attribute);
+        void CreateOrUpdate(JobDetail jobDetail);
+
+        void CreateOrUpdateJobDetailAttributes(Attribute attribute);
 
         JobDetail GetByBarcodeLineNumberAndJobId(int lineNumber, string barcode, int jobId);
 
-        void JobDetailDamageCreateOrUpdate(JobDetailDamage jobDetailDamage);
+        void CreateOrUpdateJobDetailDamage(JobDetailDamage jobDetailDamage);
 
-        JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId);
+        JobDetail GetByBarcodeAndProdDesc(string barcode, int jobId);
     }
 }

@@ -13,8 +13,6 @@ BEGIN
 		,jdd.Qty AS DamagedQuantity
 		,jd.[ShortQty] AS ShortQuantity
 		,dr.[Description] AS Reason
-		--,jd.[JobId]
-		--,jd.[DateCreated]
 	FROM [dbo].[JobDetail] jd
 	LEFT JOIN [dbo].[JobDetailDamage] jdd on jdd.JobDetailId = jd.Id
 	LEFT JOIN [dbo].[DamageReasons] dr on dr.Id = jdd.DamageReasonsId

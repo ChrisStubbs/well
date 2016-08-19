@@ -146,8 +146,8 @@
                 {
                     foreach (var jobDetailAttribute in jobDetail.EntityAttributes)
                     {
-                        jobDetailAttribute.AttributeId = newJobDetail.Id;
-                        jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
+                        jobDetailAttribute.AttributeId = jobDetail.Id;
+                        jobDetailRepository.CreateOrUpdateJobDetailAttributes(jobDetailAttribute);
                     }
                 }
             }
@@ -344,7 +344,7 @@
                 if (!insertOnly)
                 {
                     var currentJobDetail =
-                        this.jobDetailRepository.JobDetailGetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId) ;
+                        this.jobDetailRepository.GetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId) ;
 
                     currentJobDetailId = currentJobDetail.Id;
                 }
@@ -371,7 +371,7 @@
                 };
 
                 this.jobDetailRepository.CurrentUser = this.CurrentUser;
-                this.jobDetailRepository.JobDetailCreateOrUpdate(newJobDetail);
+                this.jobDetailRepository.CreateOrUpdate(newJobDetail);
             }
         }
 
@@ -490,13 +490,12 @@
 
                 if (currentJobDetail != null)
                 {
-                    currentJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(currentJobDetail);
+                    jobDetailRepository.CreateOrUpdate(currentJobDetail);
 
                     foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                     {
                         jobDetailDamage.JobDetailId = currentJobDetail.Id;
-                        jobDetailDamage.ReasonId = string.IsNullOrEmpty(jobDetailDamage.Reason.JobDamageReasonCode) ? (int)DamageReasons.Notdef : (int)(DamageReasons)Enum.Parse(typeof(DamageReasons), jobDetailDamage.Reason.JobDamageReasonCode, true);
-                        this.jobDetailRepository.JobDetailDamageCreateOrUpdate(jobDetailDamage);
+                        this.jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);
                     }
                 }
                 else

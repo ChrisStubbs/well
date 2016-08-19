@@ -91,7 +91,7 @@
             try
             {
                 DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id);
-                IEnumerable<DeliveryLine> deliveryLines = deliveryReadRepository.GetDeliveryLinesById(id);
+                IEnumerable<DeliveryLine> deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
                 DeliveryDetailModel delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
@@ -140,7 +140,11 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
-                    Reason = line.Reason
+                    Damages = line.Damages.Select(d => new DamageModel()
+                    {
+                        Quantity = d.Quantity,
+                        ReasonCode = d.Reason.ToString()
+                    }).ToList()
                 });
             }
 

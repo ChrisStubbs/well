@@ -8,7 +8,7 @@
         IEnumerable<Delivery> GetCleanDeliveries(string userName);
         IEnumerable<Delivery> GetResolvedDeliveries(string userName);
         IEnumerable<Delivery> GetExceptionDeliveries(string userName);
-        IEnumerable<DeliveryLine> GetDeliveryLinesById(int id);
+        IEnumerable<DeliveryLine> GetDeliveryLinesByJobId(int id);
         DeliveryDetail GetDeliveryById(int id);
     }
 }

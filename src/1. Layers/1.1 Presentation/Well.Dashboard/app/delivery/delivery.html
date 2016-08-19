@@ -30,7 +30,6 @@
                     <th>Del Qty</th>
                     <th>Damaged Qty</th>
                     <th>Short Qty</th>
-                    <th *ngIf="delivery.isException">Reason code</th>
                     <th class="action-row"></th>
                 </tr>
             </thead>
@@ -47,8 +46,6 @@
                 <td *ngIf="line.isEdit === false">{{line.damagedQuantity}}</td>
                 <td *ngIf="line.isEdit" class="edit-row"><input type="number" [(ngModel)]="line.shortQuantity" class="form-control input-sm" /></td>
                 <td *ngIf="line.isEdit === false">{{line.shortQuantity}}</td>
-                <td *ngIf="delivery.isException && line.isEdit" class="edit-row"><input type="number" [(ngModel)]="line.reason" class="form-control input-sm" /></td>
-                <td *ngIf="delivery.isException && line.isEdit === false">{{line.reason}}</td>
                 <td class="action-row" *ngIf="line.isEdit === false">
                     <button type="button" class="btn btn-success btn-sm">Edit</button>
                 </td>

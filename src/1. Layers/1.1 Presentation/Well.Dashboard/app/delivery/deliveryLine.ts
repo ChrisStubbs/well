@@ -11,8 +11,6 @@
             this.damagedQuantityOriginal = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
             this.shortQuantityOriginal = line.shortQuantity;
-            this.reason = line.reason;
-            this.reasonOriginal = line.reason;
         }
     }
 
@@ -26,7 +24,5 @@
     damagedQuantityOriginal: number;
     shortQuantity: number;
     shortQuantityOriginal: number;
-    reason: string;
-    reasonOriginal: string;
     isEdit: boolean = false;
 }

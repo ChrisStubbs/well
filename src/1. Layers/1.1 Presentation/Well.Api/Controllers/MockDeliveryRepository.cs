@@ -81,7 +81,7 @@ namespace PH.Well.Api.Controllers
             return list;
         }
 
-        public IEnumerable<DeliveryLine> GetDeliveryLinesById (int id)
+        public IEnumerable<DeliveryLine> GetDeliveryLinesByJobId (int id)
         {
             return null;
         }

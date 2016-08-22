@@ -225,7 +225,7 @@
     <Compile Include="Areas\Mapper\IMapper.cs" />
     <Compile Include="Areas\Mapper\IRouteModelsMapper.cs" />
     <Compile Include="Areas\Mapper\RouteModelslMapper.cs" />
-    <Compile Include="Models\DamageUpdateModel.cs" />
+    <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />

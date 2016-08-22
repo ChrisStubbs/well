@@ -86,10 +86,10 @@
                 {
                     JobId = 1,
                     LineNumber = 2,
-                    Damages = new List<DamageUpdateModel>()
+                    Damages = new List<DamageModel>()
                     {
-                        new DamageUpdateModel() {Quantity = 1, ReasonCode = "CAR01"},
-                        new DamageUpdateModel() {Quantity = 3, ReasonCode = "CAR02"}
+                        new DamageModel() {Quantity = 1, ReasonCode = "CAR01"},
+                        new DamageModel() {Quantity = 3, ReasonCode = "CAR02"}
                     },
                     ShortQuantity = 2
                 };

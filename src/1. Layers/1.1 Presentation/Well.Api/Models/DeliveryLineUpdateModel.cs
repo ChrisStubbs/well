@@ -6,12 +6,12 @@
     {
         public DeliveryLineUpdateModel()
         {
-            Damages = new List<DamageUpdateModel>();
+            Damages = new List<DamageModel>();
         } 
 
         public int JobId { get; set; }
         public int LineNumber { get; set; }
-        public List<DamageUpdateModel> Damages { get; set; }
+        public List<DamageModel> Damages { get; set; }
         public int ShortQuantity { get; set; }
     }
 }

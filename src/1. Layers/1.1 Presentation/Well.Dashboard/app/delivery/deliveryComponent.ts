@@ -53,22 +53,12 @@ export class DeliveryComponent implements OnInit {
     }
 
     lineClicked(line): void {
-        if (line.isEdit === false) {
-            line.isEdit = true;
-        }
+
     }
 
-    lineSave(event, line): void {
-        event.stopPropagation();
+    update(line): void {
         //TODO - POSTBACK save
-        line.isEdit = false;
     }
 
-    lineCancel(event, line): void {
-        event.stopPropagation();
-        line.damagedQuantity = line.damagedQuantityOriginal;
-        line.shortQuantity = line.shortQuantityOriginal;
-        line.reason = line.reasonOriginal;
-        line.isEdit = false;
-    }
+
 }

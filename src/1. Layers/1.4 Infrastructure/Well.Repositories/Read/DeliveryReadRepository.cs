@@ -6,6 +6,7 @@ namespace PH.Well.Repositories.Read
     using System.Data;
     using Common.Contracts;
     using Contracts;
+    using Dapper;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -54,17 +55,33 @@ namespace PH.Well.Repositories.Read
         public DeliveryDetail GetDeliveryById(int id)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveryGetById)
-               .AddParameter("Id", id, DbType.Int32)
-               .Query<DeliveryDetail>()
-               .FirstOrDefault();
+                .AddParameter("Id", id, DbType.Int32)
+                .Query<DeliveryDetail>()
+                .FirstOrDefault();
         }
 
-        public IEnumerable<DeliveryLine> GetDeliveryLinesById(int id)
+        public IEnumerable<DeliveryLine> GetDeliveryLinesByJobId(int jobId)
         {
-            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveryLinesGetById)
-               .AddParameter("Id", id, DbType.Int32)
-               .Query<DeliveryLine>();
+            var deliveryLines = new List<DeliveryLine>();
+            dapperReadProxy
+                .WithStoredProcedure(StoredProcedures.DeliveryLinesGetByJobId)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .QueryMultiple(x => deliveryLines = GetLinesFromGrid(x));
+
+            return deliveryLines;
         }
 
+        public List<DeliveryLine> GetLinesFromGrid(SqlMapper.GridReader grid)
+        {
+            var deliveryLines = grid.Read<DeliveryLine>().ToList();
+            var damages = grid.Read<Damage>().ToList();
+
+            foreach (var line in deliveryLines)
+            {
+                line.Damages = damages.Where(d => d.JobDetailId == line.Id).ToList();
+            }
+
+            return deliveryLines;
+        }
     }
 }

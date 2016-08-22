@@ -53,7 +53,7 @@
         //Deliveries
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
-        public static string DeliveryLinesGetById = "DeliveryLines_GetById";
+        public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
 
         public static string BranchesGet = "BranchesGet";
 

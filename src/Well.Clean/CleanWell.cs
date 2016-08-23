@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Well.Clean
+﻿namespace Well.Clean
 {
+    using PH.Well.Common.Contracts;
+    using PH.Well.Services.Contracts;
+    using StructureMap;
+
     public class CleanWell
     {
+        public void Process(IContainer container, ref string epodStatusMessage)
+        {
+            var logger = container.GetInstance<ILogger>();
+            var epodService = container.GetInstance<IEpodDomainImportService>();
+            epodService.GetRouteHeadersForDelete(ref epodStatusMessage);
+
+            if (string.IsNullOrWhiteSpace(epodStatusMessage))
+                epodStatusMessage = "Well Clean process complete with no errors";
+
+            logger.LogDebug("Well Clean process complete with no errors");
+
+        }
     }
 }

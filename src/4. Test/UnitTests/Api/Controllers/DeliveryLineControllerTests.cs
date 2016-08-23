@@ -101,13 +101,15 @@
                     ShortQty = 0
                 });
 
-                jobDetailRepository.Setup(r => r.CreateOrUpdate(It.IsAny<JobDetail>()));
+                jobDetailRepository.Setup(r => r.JobDetailCreateOrUpdate(It.IsAny<JobDetail>())).Returns(new JobDetail());
+                jobDetailRepository.Setup(r => r.GetById(It.IsAny<int>()));
                 jobDetailRepository.Setup(r => r.CreateOrUpdateJobDetailDamage(It.IsAny<JobDetailDamage>()));
+
 
                 HttpResponseMessage response = Controller.Update(model);
 
                 jobDetailRepository.Verify(
-                    r => r.CreateOrUpdate(It.Is<JobDetail>(j => j.JobId == model.JobId &&
+                    r => r.JobDetailCreateOrUpdate(It.Is<JobDetail>(j => j.JobId == model.JobId &&
                                                                 j.LineNumber == model.LineNumber &&
                                                                 j.ShortQty == model.ShortQuantity)), Times.Once);
 

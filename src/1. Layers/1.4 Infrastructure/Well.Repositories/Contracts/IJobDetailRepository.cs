@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
+    using System.Collections.Generic;
     using Domain;
 
     public interface IJobDetailRepository : IRepository<JobDetail, int>
@@ -9,14 +10,22 @@
 
         JobDetail GetByJobLine(int jobId, int lineNumber);
 
-        void CreateOrUpdate(JobDetail jobDetail);
-
-        void CreateOrUpdateJobDetailAttributes(Attribute attribute);
-
         JobDetail GetByBarcodeLineNumberAndJobId(int lineNumber, string barcode, int jobId);
+
+        void AddJobDetailAttributes(Attribute attribute);
+
+
+        //JobDetail GetByBarcodeAndProdDesc(string barcode, int jobId);
+
+        JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId);
+
+        JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail);
 
         void CreateOrUpdateJobDetailDamage(JobDetailDamage jobDetailDamage);
 
-        JobDetail GetByBarcodeAndProdDesc(string barcode, int jobId);
+        IEnumerable<JobDetail> GetByJobId(int id);
+
+        void DeleteJobDetailById(int id);
+
     }
 }

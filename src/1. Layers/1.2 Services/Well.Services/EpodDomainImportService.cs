@@ -146,8 +146,8 @@
                 {
                     foreach (var jobDetailAttribute in jobDetail.EntityAttributes)
                     {
-                        jobDetailAttribute.AttributeId = jobDetail.Id;
-                        jobDetailRepository.CreateOrUpdateJobDetailAttributes(jobDetailAttribute);
+                        jobDetailAttribute.AttributeId = newJobDetail.Id;
+                        jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
                     }
                 }
             }
@@ -344,7 +344,7 @@
                 if (!insertOnly)
                 {
                     var currentJobDetail =
-                        this.jobDetailRepository.GetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId) ;
+                        this.jobDetailRepository.JobDetailGetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId) ;
 
                     currentJobDetailId = currentJobDetail.Id;
                 }
@@ -368,10 +368,11 @@
                     TextField5 = orderJobDetail.TextField5,
                     SkuGoodsValue = orderJobDetail.SkuGoodsValue,
                     JobId = jobId
+                
                 };
 
                 this.jobDetailRepository.CurrentUser = this.CurrentUser;
-                this.jobDetailRepository.CreateOrUpdate(newJobDetail);
+                this.jobDetailRepository.JobDetailCreateOrUpdate(newJobDetail);
             }
         }
 
@@ -386,23 +387,112 @@
             
         }
 
-        public void SoftDeleteJobDetail(RouteHeader routeHeader)
+        public void GetRouteHeadersForDelete(ref string statusmessage)
         {
-            var stops = routeHeader.Stops;
+
+            try
+            {
+                var currentRouteHeaders = this.routeHeaderRepository.GetRouteHeadersForDelete();
+
+                foreach (var routeheader in currentRouteHeaders)
+                {
+                    SoftDeleteJobDetail(routeheader);
+                }
+
+                CheckRouteFilesForDelete();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+        }
+
+        private void CheckRouteFilesForDelete()
+        {
+            var routes = this.routeHeaderRepository.GetRoutes();
+
+            foreach (var route in routes)
+            {
+                var routeheaders = routeHeaderRepository.GetRouteHeadersGetByRoutesId(route.Id);
+
+                if(!routeheaders.Any())
+                    this.routeHeaderRepository.RoutesDeleteById(route.Id);
+
+            }
+        }
+
+        private void SoftDeleteJobDetail(RouteHeader routeHeader)
+        {
+            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
+
             var royaltyExceptions = this.jobRepository.GetCustomerRoyaltyExceptions();
+
+            var customerRoyaltyExceptions = royaltyExceptions as CustomerRoyaltyException[] ?? royaltyExceptions.ToArray();
 
             foreach (var stop in stops)
             {
-                foreach (var job in stop.Jobs)
+                var stopJobs = this.jobRepository.GetByStopId(stop.Id);
+
+                foreach (var job in stopJobs)
                 {
-                    var jobRoyaltyCode = job.TextField1.Substring(0, 4).TrimEnd();
-                    var hasExceptions = royaltyExceptions.Any(x => x.Royalty == int.Parse(jobRoyaltyCode));
+                    var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
+
+                    //var jobRoyaltyCode = job.TextField1.Substring(0, 4).TrimEnd();
+                  
+                    foreach (var jobDetail in jobDetailsForJob)
+                    {
+                        if (jobDetail.IsDeleted)
+                            DeleteJobDetail(jobDetail.Id);
+                    }
+
+                    CheckJobDetailsForJob(jobDetailsForJob, job.Id);
                 }
+
+                CheckStopsForDelete(stop.Id);
             }
 
-            //jobDetail.IsDeleted = true;
-            //this.jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
+            CheckRouteheaderForDelete(routeHeader.Id);
+
         }
+
+        private void DeleteJobDetail(int id)
+        {
+            this.jobDetailRepository.DeleteJobDetailById(id);
+        }
+
+        private void CheckJobDetailsForJob(IEnumerable<JobDetail> jobDetails, int jobId)
+        {
+            var jobDetailList = jobDetails as IList<JobDetail> ?? jobDetails.ToList();
+
+            if (jobDetailList.All(x=>x.IsDeleted) || !jobDetailList.Any())
+                this.jobRepository.DeleteJobById(jobId);
+        }
+
+        private void CheckStopsForDelete(int stopId)
+        {
+            var jobs = this.jobRepository.GetByStopId(stopId);
+            
+            if(!jobs.Any())
+                this.stopRepository.DeleteStopById(stopId);
+        }
+
+        private void CheckRouteheaderForDelete(int routeHeaderId)
+        {
+            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeaderId);
+
+            if (!stops.Any())
+                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeaderId);
+        }
+
+        /// <summary>
+        /// Place holder ToDo when we figure out the rules concerning the royal exceptions
+        /// </summary>
+        /// <param name="royalException"></param>
+        /// <returns></returns>
+        //private bool CanJobBeDeletedToday(CustomerRoyaltyException royalException)
+        //{
+
+        //}
 
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
@@ -490,11 +580,16 @@
 
                 if (currentJobDetail != null)
                 {
-                    jobDetailRepository.CreateOrUpdate(currentJobDetail);
+                    currentJobDetail.JobDetailStatusId = currentJobDetail.JobDetailDamages.Any()
+                        ? (int) JobDetailStatus.UnRes
+                        : (int) JobDetailStatus.Res;
+
+                    currentJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(currentJobDetail);
 
                     foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                     {
                         jobDetailDamage.JobDetailId = currentJobDetail.Id;
+                        jobDetailDamage.Reason = jobDetailDamage.Reason ?? DamageReasons.Notdef;
                         this.jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);
                     }
                 }

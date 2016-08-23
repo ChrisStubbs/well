@@ -35,6 +35,35 @@
             return routeHeaders;
         }
 
+        public IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId)
+        {
+            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteheaderGetByRouteId)
+              .AddParameter("RouteId", routesId, DbType.Int32)
+              .Query<RouteHeader>();
+
+            return routeHeaders;
+        }
+        
+
+        public void RoutesDeleteById(int id)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.RoutesDeleteById)
+                        .AddParameter("RoutesId", id, DbType.Int32).Execute();           
+        }
+
+        public IEnumerable<Routes> GetRoutes()
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.RoutesGet)
+              .Query<Routes>();          
+        }
+
+        public IEnumerable<RouteHeader> GetRouteHeadersForDelete()
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGetForDelete)
+              .Query<RouteHeader>();
+
+        }
+
         public Routes CreateOrUpdate(Routes routes)
         {
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate)
@@ -138,7 +167,21 @@
         }
 
 
+        public void DeleteRouteHeaderById(int id)
+        {
+            DeleteAttributesByRouteHeaderId(id);
+            
 
+            dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
+                .AddParameter("RouteheaderId", id, DbType.Int32).Execute();
+        }
+
+        private void DeleteAttributesByRouteHeaderId(int routeHeaderId)
+        {
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderAttributesDeleteByRouteheaderId)
+                .AddParameter("RouteheaderId", routeHeaderId, DbType.Int32).Execute();
+        }
 
 
 

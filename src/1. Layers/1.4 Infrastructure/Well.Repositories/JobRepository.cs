@@ -26,6 +26,13 @@
             return job;
         }
 
+        public IEnumerable<Job> GetByStopId(int id)
+        {
+             return    dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
+                    .AddParameter("StopId", id, DbType.Int32)
+                    .Query<Job>();
+        }
+
         public IEnumerable<CustomerRoyaltyException>  GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =
@@ -96,6 +103,21 @@
 
             return job;
         }
+
+        public void DeleteJobById(int id)
+        {
+            DeleteJobAttributesJobById(id);
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)
+                .AddParameter("JobId", id, DbType.Int32).Execute();
+        }
+
+        private void DeleteJobAttributesJobById(int id)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById)
+                .AddParameter("JobId", id, DbType.Int32).Execute();
+        }
+        
 
     }
 }

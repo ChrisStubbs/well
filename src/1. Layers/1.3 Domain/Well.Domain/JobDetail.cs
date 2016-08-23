@@ -90,7 +90,7 @@
 
         [XmlArray("JobDetailDamages")]
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
-        public Collection<JobDetailDamage> JobDetailDamages { get; set; }
+        public Collection<JobDetailDamage>  JobDetailDamages { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(Attribute))]

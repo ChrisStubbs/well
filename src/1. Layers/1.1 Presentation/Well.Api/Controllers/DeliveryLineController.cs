@@ -63,7 +63,7 @@
                 }
                 jobDetail.JobDetailDamages = damages;
 
-                jobDetailRepository.CreateOrUpdate(jobDetail);
+                jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
                     jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);

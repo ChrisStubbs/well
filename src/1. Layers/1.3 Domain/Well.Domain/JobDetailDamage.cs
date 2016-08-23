@@ -24,6 +24,6 @@ namespace PH.Well.Domain
         public int JobDetailId { get; set; }
 
         [XmlElement("Reason")]
-        public DamageReasons Reason { get; set; }
+        public DamageReasons? Reason { get; set; }
     }
 }

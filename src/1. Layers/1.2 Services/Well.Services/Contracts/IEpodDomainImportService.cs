@@ -34,5 +34,7 @@
 
         void AddAdamUpdateFile(RouteUpdates orderUpdates, int routesId);
 
+        void GetRouteHeadersForDelete(ref string statusmessage);
+
     }
 }

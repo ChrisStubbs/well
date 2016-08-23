@@ -147,6 +147,31 @@
             return stop;
         }
 
+        public void DeleteStopById(int id)
+        {
+            DeleteAttributesByStopId(id);
+            AccountDeleteByStopId(id);
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.StopDeleteById)
+                .AddParameter("Id", id, DbType.Int32).Execute();
+        }
+
+        private void DeleteAttributesByStopId(int stopId)
+        {
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.StopAttributesDeletedByStopId)
+                .AddParameter("StopId", stopId, DbType.Int32).Execute();
+        }
+
+        private void AccountDeleteByStopId(int stopId)
+        {
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId)
+                .AddParameter("StopId", stopId, DbType.Int32).Execute();
+        }
+
+
+        
 
     }
 }

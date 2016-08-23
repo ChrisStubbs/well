@@ -155,7 +155,6 @@
     <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
     <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForUser.sql" />
-    <Build Include="dbo\StoredProcedures\DeliveryLines_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\Delivery_GetById.sql" />
     <Build Include="dbo\Tables\UserJob.sql" />
     <Build Include="dbo\Tables\ExceptionEvent.sql" />
@@ -173,6 +172,24 @@
     <Build Include="dbo\StoredProcedures\Stop_GetByJobId.sql" />
     <Build Include="dbo\Tables\CustomerRoyaltyException.sql" />
     <Build Include="dbo\StoredProcedures\HolidayException_Get.sql" />
+    <Build Include="dbo\StoredProcedures\DeliveryLines_GetByJobId.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_GetByJobId.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailArttributes_DeleteByJobDetailId.sql" />
+    <Build Include="dbo\StoredProcedures\JobArttributes_DeleteBylId.sql" />
+    <Build Include="dbo\StoredProcedures\StopAttributes_DeletedByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeaderAttributes_DeleteByRouteheaderId.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeaders_GetForDelete.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_DeleteDamageReasonsByJobDetailId.sql" />
+    <Build Include="dbo\StoredProcedures\Routeheader_GetByRouteId.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

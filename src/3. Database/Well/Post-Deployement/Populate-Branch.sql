@@ -12,7 +12,8 @@ USING	(VALUES	(3,'Coventry','cov','deployment',GETDATE(),'deployment',GETDATE())
 				(42,'Brandon','bra','deployment',GETDATE(),'deployment',GETDATE()),
 				(33,'Belfast','bel','deployment',GETDATE(),'deployment',GETDATE()),
 				(14,'Leeds','lee','deployment',GETDATE(),'deployment',GETDATE()),
-				(82,'Haydock','hay','deployment',GETDATE(),'deployment',GETDATE())
+				(82,'Haydock','hay','deployment',GETDATE(),'deployment',GETDATE()),
+				(99,'Not Defined','ndf','deployment',GETDATE(),'deployment',GETDATE())
 		)
 AS Source ([Id],[Name],[TranscendMapping],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]

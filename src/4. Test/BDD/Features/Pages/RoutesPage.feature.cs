@@ -90,10 +90,10 @@ this.ScenarioSetup(scenarioInfo);
                         "Clean",
                         "Status"});
             table1.AddRow(new string[] {
-                        "001",
-                        "HALL IAN",
-                        "2",
-                        "2",
+                        "011",
+                        "DUGDALE STEVEN",
+                        "4",
+                        "4",
                         "0",
                         "Not Defined"});
             table1.AddRow(new string[] {
@@ -104,10 +104,10 @@ this.ScenarioSetup(scenarioInfo);
                         "0",
                         "Not Defined"});
             table1.AddRow(new string[] {
-                        "011",
-                        "DUGDALE STEVEN",
-                        "4",
-                        "4",
+                        "001",
+                        "HALL IAN",
+                        "2",
+                        "2",
                         "0",
                         "Not Defined"});
 #line 12
@@ -161,10 +161,10 @@ this.ScenarioSetup(scenarioInfo);
                         "Clean",
                         "Status"});
             table3.AddRow(new string[] {
-                        "001",
-                        "HALL IAN",
-                        "2",
-                        "2",
+                        "011",
+                        "DUGDALE STEVEN",
+                        "4",
+                        "4",
                         "0",
                         "Not Defined"});
             table3.AddRow(new string[] {
@@ -175,10 +175,10 @@ this.ScenarioSetup(scenarioInfo);
                         "0",
                         "Not Defined"});
             table3.AddRow(new string[] {
-                        "011",
-                        "DUGDALE STEVEN",
-                        "4",
-                        "4",
+                        "001",
+                        "HALL IAN",
+                        "2",
+                        "2",
                         "0",
                         "Not Defined"});
 #line 28
@@ -192,31 +192,31 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanPageThroughRouteInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Route information", ((string[])(null)));
-#line 36
-this.ScenarioSetup(scenarioInfo);
 #line 37
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 38
- testRunner.And("I have loaded the Adam route data that has 21 lines", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 39
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data that has 21 lines", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 40
- testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
- testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 42
- testRunner.And("I will have 3 pages of data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 43
- testRunner.When("I click on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 44
  testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 43
+ testRunner.And("I will have 3 pages of data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 44
+ testRunner.When("I click on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 45
- testRunner.When("I click on page 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 46
- testRunner.Then("\'1\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I click on page 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 47
- testRunner.When("I click on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("\'1\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 48
+ testRunner.When("I click on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 49
  testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

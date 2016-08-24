@@ -16,7 +16,9 @@
 	@TextField4				NVARCHAR(50)=NULL,
 	@TextField5				NVARCHAR(50)=NULL,
 	@SkuGoodsValue			FLOAT,
-	@JobId					INT
+	@JobId					INT,
+	@JobDetailStatusId		INT,
+	@IsDeleted				BIT = 0
 
 AS
 BEGIN
@@ -27,10 +29,10 @@ BEGIN
 	MERGE INTO [JobDetail] AS Target
 	USING (VALUES
 		(@Id, @LineNumber, @Barcode, @OriginalDespatchQty, @ProdDesc, @OrderedQty,@ShortQty, @SkuWeight, @SkuCube, @UnitMeasure, @TextField1, @TextField2,
-		 @TextField3, @TextField4, @TextField5,@SkuGoodsValue, @JobId, @Username, GETDATE(), @Username, GETDATE())
+		 @TextField3, @TextField4, @TextField5,@SkuGoodsValue, @JobId, @JobDetailStatusId, @IsDeleted,  @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[LineNumber],[Barcode],[OriginalDespatchQty], [ProdDesc], [OrderedQty],[ShortQty], [SkuWeight], [SkuCube], [UnitMeasure],
-				[TextField1], [TextField2],[TextField3],[TextField4],[TextField5], [SkuGoodsValue], [JobId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[TextField1], [TextField2],[TextField3],[TextField4],[TextField5], [SkuGoodsValue], [JobId], [JobDetailStatusId], [IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
 	UPDATE SET
@@ -50,15 +52,17 @@ BEGIN
 		[TextField5] = Source.[TextField5],
 		[SkuGoodsValue] = Source.[SkuGoodsValue],
 		[JobId] = Source.[JobId],
+		[JobDetailStatusId] = Source.[JobDetailStatusId],
+		[IsDeleted] = Source.[IsDeleted],
 		[CreatedBy] = Source.[CreatedBy],
 		[DateCreated] = Source.[DateCreated],
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([LineNumber],[Barcode],[OriginalDespatchQty], [ProdDesc], [OrderedQty],[ShortQty], [SkuWeight], [SkuCube], [UnitMeasure],
-				[TextField1], [TextField2],[TextField3],[TextField4],[TextField5], [SkuGoodsValue], [JobId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[TextField1], [TextField2],[TextField3],[TextField4],[TextField5], [SkuGoodsValue], [JobId], [JobDetailStatusId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([LineNumber],[Barcode],[OriginalDespatchQty], [ProdDesc], [OrderedQty],[ShortQty], [SkuWeight], [SkuCube], [UnitMeasure],
-				[TextField1], [TextField2], [TextField3],[TextField4],[TextField5],[SkuGoodsValue], [JobId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[TextField1], [TextField2],[TextField3],[TextField4],[TextField5], [SkuGoodsValue], [JobId], [JobDetailStatusId], [IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;
 

@@ -6,7 +6,7 @@
 	@RouteDate				DATETIME,
 	@DriverName				NVARCHAR(50),
 	@VehicleReg				NVARCHAR(10),
-	@StartDepotCode			NVARCHAR(10),
+	@StartDepotCode			INT,
 	@PlannedRouteStartTime  NVARCHAR(10),
 	@PlannedRouteFinishTime NVARCHAR(10),
 	@PlannedDistance		DECIMAL(5,2),
@@ -23,7 +23,7 @@
 	@DamagesRejected        INT = NULL,
 	@DamagesAccepted        INT = NULL,
 	@NotRequired            INT = NULL,
-	@Depot                  VARCHAR(10) = NULL
+	@Depot                  INT = NULL
 
 	 
 AS

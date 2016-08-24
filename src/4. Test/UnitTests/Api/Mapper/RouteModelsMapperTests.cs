@@ -37,13 +37,15 @@
                     routeHeader1
                 };
 
+                var a = routeHeaders.FirstOrDefault().RouteStatus;
+
                 var routeModels = new RouteModelsMapper().Map(routeHeaders);
 
                 Assert.That(routeModels.Count, Is.EqualTo(1));
                 var model = routeModels.First();
                 Assert.That(model.Route, Is.EqualTo("2"));
                 Assert.That(model.DriverName, Is.EqualTo("Chris"));
-                Assert.That(model.RouteStatus, Is.EqualTo("Complete"));
+                Assert.That(model.RouteStatus, Is.EqualTo("In Progress"));
                 Assert.That(model.DateTimeUpdated, Is.EqualTo(routeHeader1.DateUpdated.ToDashboardDateFormat()));
                 Assert.That(model.TotalDrops, Is.EqualTo(7));
                 Assert.That(model.DeliveryExceptionCount, Is.EqualTo(6));

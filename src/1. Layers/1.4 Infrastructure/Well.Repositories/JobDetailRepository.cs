@@ -1,10 +1,13 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
+
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
 
@@ -24,8 +27,36 @@
             return jobDetail;
         }
 
+        public IEnumerable<JobDetail>  GetByJobId(int id)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId)
+                .AddParameter("JobId", id, DbType.Int32)
+                .Query<JobDetail>();
+        }
+
+
+        
+
+        public JobDetail GetByJobLine(int jobId, int lineNumber)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId)
+        {
+            var jobDetail =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeAndProdDesc)
+                   .AddParameter("Barcode", barcode, DbType.String)
+                   .AddParameter("JobId", jobId, DbType.Int32)
+                   .Query<JobDetail>()
+                   .FirstOrDefault();
+
+            return jobDetail;
+        }
+
         public JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail)
         {
+        
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
@@ -44,6 +75,8 @@
                 .AddParameter("TextField5", jobDetail.TextField5, DbType.String)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
+                .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
 
             return this.GetById(id);
@@ -73,16 +106,45 @@
             return jobDetail;
         }
 
-        public void JobDetailDamageCreateOrUpdate(JobDetailDamage jobDetailDamage)
+        public void CreateOrUpdateJobDetailDamage(JobDetailDamage jobDetailDamage)
         {
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageCreateOrUpdate)
                 .AddParameter("Id", jobDetailDamage.Id, DbType.Int32)
                 .AddParameter("JobDetailId", jobDetailDamage.JobDetailId, DbType.Int32)
                 .AddParameter("Qty", jobDetailDamage.Qty, DbType.Decimal)
-                .AddParameter("DamageReasonsId", jobDetailDamage.ReasonId, DbType.Int32)
+                .AddParameter("DamageReasonsId", (int)jobDetailDamage.Reason, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .Query<int>().FirstOrDefault();
+
+            if (jobDetailDamage.IsTransient())
+            {
+                jobDetailDamage.Id = id;
+            }
         }
+
+        public void DeleteJobDetailById(int id)
+        {
+            JobDetailArttributesDeleteByJobDetailId(id);
+            JobDetailDeleteDamageReasonsByJobDetailId(id);
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteById)
+                .AddParameter("JobDetailId", id, DbType.Int32).Execute();          
+        }
+
+        private void JobDetailArttributesDeleteByJobDetailId(int jobDetailId)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId)
+                .AddParameter("JobDetailId", jobDetailId, DbType.Int32).Execute();
+        }
+
+        private void JobDetailDeleteDamageReasonsByJobDetailId(int id)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId)
+                .AddParameter("JobDetailId", id, DbType.Int32).Execute();         
+        }
+
+
+
 
     }
 

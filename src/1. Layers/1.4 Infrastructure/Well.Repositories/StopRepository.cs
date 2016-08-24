@@ -34,11 +34,28 @@
             return stop;
         }
 
+        public Stop GetByJobId(int jobId)
+        {
+            var stop =
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJobId)
+                   .AddParameter("JobId", jobId, DbType.Int32)
+                   .Query<Stop>()
+                   .FirstOrDefault();
+
+            return stop;
+        }
+
         public Stop StopCreateOrUpdate(Stop stop)
         {
             var stopStatusId = stop.StopStatusCodeId == 0 ? (int) StopStatus.Notdef : stop.StopStatusCodeId;
             var stopPerformanceStatusId = stop.StopPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : stop.StopPerformanceStatusCodeId;
             var stopByPassReasonId = stop.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : stop.ByPassReasonId;
+
+            var transportOrderDetails = stop.TransportOrderRef.Split(' ');
+            stop.RouteHeaderCode = transportOrderDetails[0];
+            stop.DropId = transportOrderDetails[1];
+            stop.LocationId = transportOrderDetails[2];
+            stop.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
 
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate)
                 .AddParameter("Id", stop.Id, DbType.Int32)
@@ -115,6 +132,46 @@
 
             return stop;
         }
+
+        public Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate)
+        {
+            var stop =
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGeyByOrderUpdateDetails)
+                   .AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String)
+                   .AddParameter("DropId", dropId, DbType.String)
+                   .AddParameter("LocationId", locationId, DbType.String)
+                   .AddParameter("DeliveryDate", deliveryDate, DbType.DateTime)
+                   .Query<Stop>()
+                   .FirstOrDefault();
+
+            return stop;
+        }
+
+        public void DeleteStopById(int id)
+        {
+            DeleteAttributesByStopId(id);
+            AccountDeleteByStopId(id);
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.StopDeleteById)
+                .AddParameter("Id", id, DbType.Int32).Execute();
+        }
+
+        private void DeleteAttributesByStopId(int stopId)
+        {
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.StopAttributesDeletedByStopId)
+                .AddParameter("StopId", stopId, DbType.Int32).Execute();
+        }
+
+        private void AccountDeleteByStopId(int stopId)
+        {
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId)
+                .AddParameter("StopId", stopId, DbType.Int32).Execute();
+        }
+
+
+        
 
     }
 }

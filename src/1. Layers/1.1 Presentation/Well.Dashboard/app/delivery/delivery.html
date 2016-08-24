@@ -21,15 +21,6 @@
     <div class="table-responsive table-container">
         <table id="tableDelivery" class="table table-hover table-bordered" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
             <thead>
-                <!--<tr>
-                    <th colspan="100">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" [(ngModel)]="selectAll" (click)="onShowAllClicked()" /> Select All
-                            </label>
-                        </div>
-                    </th>
-                </tr>-->
                 <tr>
                     <th>Line No</th>
                     <th>Product</th>
@@ -39,25 +30,24 @@
                     <th>Del Qty</th>
                     <th>Damaged Qty</th>
                     <th>Short Qty</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | exceptionsFilter :selectAll | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="deliverySelected(delivery)">
-                    <td>{{line.lineNo}}</td>
-                    <td>{{line.productCode}}</td>
-                    <td>{{line.productDescription}}</td>
-                    <td>{{line.value}}</td>
-                    <td>{{line.invoicedQuantity}}</td>
-                    <td>{{line.deliveredQuantity}}</td>
-                    <td>{{line.damagedQuantity}}</td>
-                    <td>{{line.shortQuantity}}</td>
-                    <td>{{line.reason}}</td>
-                    <td>{{line.status}}</td>
-                    <td>{{line.action}}</td>
-                </tr>
+            <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }"
+                (click)="lineClicked(line)">
+                <td>{{line.lineNo}}</td>
+                <td>{{line.productCode}}</td>
+                <td>{{line.productDescription}}</td>
+                <td>{{line.value}}</td>
+                <td>{{line.invoicedQuantity}}</td>
+                <td>{{line.deliveredQuantity}}</td>
+                <td>{{line.damagedQuantity}}</td>
+                <td>{{line.shortQuantity}}</td>
+                <td *ngIf="line.isEdit === false">
+                    <button type="button" class="btn btn-success btn-sm">Update</button>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

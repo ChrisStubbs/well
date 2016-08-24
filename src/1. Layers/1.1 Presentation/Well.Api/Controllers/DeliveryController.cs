@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.Ajax.Utilities;
-using PH.Well.Domain.ValueObjects;
-
-namespace PH.Well.Api.Controllers
+﻿namespace PH.Well.Api.Controllers
 {
+    using System.Collections.Generic;
+    using PH.Well.Domain.ValueObjects;
     using System;
     using System.Linq;
     using System.Net;
@@ -44,7 +42,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting exceptions");
+                this.logger.LogError($"An error occcured when getting exceptions", ex);
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -63,7 +61,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting clean deliveries");
+                this.logger.LogError($"An error occcured when getting clean deliveries", ex);
                 return this.serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -74,14 +72,14 @@ namespace PH.Well.Api.Controllers
         {
             try
             {
-                var resolvedDeliveries = this.deliveryReadRepository.GetResolvedDeliveries(this.UserName).ToList();
+                IEnumerable<Delivery> resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserName).ToList();
                 return !resolvedDeliveries.Any()
                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                    : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting resolved deliveries");
+                this.logger.LogError($"An error occcured when getting resolved deliveries", ex);
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -92,24 +90,23 @@ namespace PH.Well.Api.Controllers
         {
             try
             {
-                //   var delivery = this.GetMockDeliveryDetails(id);
-
-                var deliveryDetail = this.deliveryReadRepository.GetDeliveryById(id);
-                var deliveryLines = this.deliveryReadRepository.GetDeliveryLinesById(id);
-                var delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
+                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id);
+                IEnumerable<DeliveryLine> deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
+                DeliveryDetailModel delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {
                     return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 }
                 else
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, delivery);
+                }
 
-                { return this.Request.CreateResponse(HttpStatusCode.OK, delivery); }
-            
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting delivery detail id: {id}");
+                this.logger.LogError($"An error occcured when getting delivery detail id: {id}", ex);
                 return serverErrorResponseHandler.HandleException(Request, ex);
             }
         }
@@ -127,7 +124,8 @@ namespace PH.Well.Api.Controllers
                 ContactName = detail.ContactName,
                 PhoneNumber = detail.PhoneNumber,
                 MobileNumber = detail.MobileNumber,
-                DeliveryType = detail.DeliveryType
+                DeliveryType = detail.DeliveryType,
+                IsException = detail.IsException
             };
 
             foreach (var line in lines)
@@ -142,8 +140,11 @@ namespace PH.Well.Api.Controllers
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
-                    Reason = line.Reason,
-                    Status = line.Status
+                    Damages = line.Damages.Select(d => new DamageModel()
+                    {
+                        Quantity = d.Quantity,
+                        ReasonCode = d.Reason.ToString()
+                    }).ToList()
                 });
             }
 

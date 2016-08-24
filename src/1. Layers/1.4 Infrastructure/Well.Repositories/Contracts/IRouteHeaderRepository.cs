@@ -24,5 +24,15 @@
         RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate);
 
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
+
+        void DeleteRouteHeaderById(int id);
+
+        IEnumerable<RouteHeader> GetRouteHeadersForDelete();
+
+        IEnumerable<Routes> GetRoutes();
+
+        void RoutesDeleteById(int id);
+
+        IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId);
     }
 }

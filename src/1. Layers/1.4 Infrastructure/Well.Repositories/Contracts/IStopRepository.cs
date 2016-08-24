@@ -18,5 +18,10 @@
         void StopAccountCreateOrUpdate(Account account);
 
         Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId);
+
+        Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate);
+
+        Stop GetByJobId(int jobId);
+        void DeleteStopById(int id);
     }
 }

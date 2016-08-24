@@ -102,7 +102,9 @@
   <ItemGroup>
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
+    <Compile Include="Api\Controllers\BaseControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
+    <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />

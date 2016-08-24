@@ -11,7 +11,7 @@ namespace PH.Well.Domain
     {
         public JobDetailDamage()
         {
-            this.Reason = new Reason();
+            this.Reason = DamageReasons.Notdef;
         }
 
         [XmlElement("Qty")]
@@ -21,14 +21,9 @@ namespace PH.Well.Domain
         public string JobDetailCode { get; set; }
 
         [XmlIgnore]
-        public int ReasonId { get; set; }
-
-        [XmlIgnore]
         public int JobDetailId { get; set; }
 
         [XmlElement("Reason")]
-        public Reason Reason { get; set; }
-
-
+        public DamageReasons? Reason { get; set; }
     }
 }

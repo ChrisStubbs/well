@@ -1,8 +1,8 @@
 ﻿namespace PH.Well.BDD.Steps
 {
-    using System;
     using System.IO;
-
+    using System;
+    using System.Collections.Generic;
     using Framework.Context;
 
     using PH.Well.BDD.Framework;
@@ -13,30 +13,54 @@
 
     using StructureMap;
     using TechTalk.SpecFlow;
+    using Framework.Extensions;
+    using Microsoft.SqlServer.Dac.Model;
+    using NUnit.Framework;
+    using Repositories.Contracts;
+    using TechTalk.SpecFlow.Assist.ValueRetrievers;
 
     [Binding]
     public class AdamImportSteps
     {
         private readonly IContainer container;
+        const string currentAdamRouteFile = "PH_ROUTES_30062016_02.xml";
+        const string currentEpodRouteFile = "ePOD__20160701_10452212189454.xml";
+        private const string ParentNode = "RouteHeader";
+        private string adamStatusMessage;
+        private ILogger logger;
+        private IFileService fileService;
+        private IEpodSchemaProvider epodSchemaProvider;
+        private IEpodDomainImportProvider epodDomainImportProvider;
+        private IEpodDomainImportService epodDomainImportService;
+        private IAccountRepository accountRepository;
+        private AdamFileMonitorService adamImport;
 
         public AdamImportSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
+            FileMonitorSetup();
+
+        }
+
+        private void FileMonitorSetup()
+        {
+            logger = this.container.GetInstance<ILogger>();
+            fileService = this.container.GetInstance<IFileService>();
+            epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
+            epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
+            epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
+
+
+            logger.LogDebug("Calling file monitor service");
+            adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
         }
 
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
-            var logger = this.container.GetInstance<ILogger>();
-            var fileService = this.container.GetInstance<IFileService>();
-            var epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
-            var epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
-            var epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
-
-            logger.LogDebug("Calling file monitor service");
-            var adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
-
-            adamImport.Process(Configuration.AdamFile, false);
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\PH_ROUTES_30062016_02.xml"));
+            adamImport.Process(importFilePath, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]
@@ -47,6 +71,89 @@
                 LoadAdamRouteData();
             }
         }
+
+        [Given(@"I have an invalid ADAM route file '(.*)' with a '(.*)' node at position '(.*)' with the '(.*)' node missing")]
+        public void GivenIHaveAnInvalidADAMRouteFileWithANodeAtPositionWithTheNodeMissing(string resultFile, string parentNode, int nodePosition, string nodeToRemove)
+        {
+            var fileFolder = "xml";
+            ProcessImportFile(resultFile, parentNode, nodePosition, nodeToRemove, fileFolder, currentAdamRouteFile);
+        }
+
+        [Given(@"I have an invalid Epod route file '(.*)' with a '(.*)' node at position '(.*)' with the '(.*)' node missing")]
+        public void GivenIHaveAnInvalidEPodRouteFileWithANodeAtPositionWithTheNodeMissing(string resultFile, string parentNode, int nodePosition, string nodeToRemove)
+        {
+            var fileFolder = "Epod";
+            ProcessImportFile(resultFile, parentNode, nodePosition, nodeToRemove, fileFolder, currentEpodRouteFile);
+        }
+
+
+        [When(@"I import the route file '(.*)' into the well")]
+        public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
+        {
+            var schemaErrors = new List<string>();
+
+            var adamContainer = container.GetInstance<IAdamFileMonitorService>();
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
+
+            schemaErrors = adamImport.Process(Path.Combine(filePath, routeFile), false);
+
+            if(schemaErrors.Count > 0)
+                ScenarioContext.Current.Add("schemaErrors", schemaErrors[0]);
+
+        }
+
+        [Then(@"The schema validation error should be ""(.*)""")]
+        public void ThenTheSchemaValidationErrorShouldBe(string expectedSchemaErrorMessage)
+        {
+            var actualSchemaResult = ScenarioContext.Current["schemaErrors"];
+            Assert.That(actualSchemaResult, Is.EqualTo(expectedSchemaErrorMessage));
+             
+        }
+
+        [Given(@"I have an invalid ADAM route file '(.*)' with a '(.*)' node at position '(.*)' with a '(.*)' node added with a value of '(.*)'")]
+        public void GivenIHaveAnInvalidADAMRouteFileWithANodeAtPositionWithANodeAddedWithAValueOf(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeValue)
+        {
+            var fileFolder = "xml";
+            ProcessImportFileWithNodeAdded(resultFile, parentNode, nodePosition, nodeToAdd, nodeValue,  fileFolder, currentAdamRouteFile);
+        }
+
+        [Given(@"I have an invalid Epod route file '(.*)' with a '(.*)' node at position '(.*)' with a '(.*)' node added with a value of '(.*)'")]
+        public void GivenIHaveAnInvalidEpodRouteFileWithANodeAtPositionWithANodeAddedWithAValueOf(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeValue)
+        {
+            var fileFolder = "Epod";
+            ProcessImportFileWithNodeAdded(resultFile, parentNode, nodePosition, nodeToAdd, nodeValue, fileFolder, currentEpodRouteFile);
+        }
+
+
+
+        private void ProcessImportFileWithNodeAdded(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeToAddValue,  string routeFileFolder, string currentRouteFile)
+        {
+            var sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, routeFileFolder + @"\" + currentRouteFile);
+            var importRouteFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles") + @"\" + resultFile;
+
+            RouteFileExtensions.DeleteTestRouteFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles"));
+
+            var isChildCollectionNode = parentNode != ParentNode;
+
+            RouteFileExtensions.AddElementsToRouteFile(sourceFile, parentNode, nodePosition, nodeToAdd, nodeToAddValue, importRouteFile);
+            ScenarioContext.Current.Add("currentRouteTestFile", importRouteFile);
+        }
+
+
+        private void ProcessImportFile(string resultFile, string parentNode, int nodePosition, string nodeToRemove, string routeFileFolder, string currentRouteFile)
+        {
+            var sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, routeFileFolder + @"\" + currentRouteFile);
+            var importRouteFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles") + @"\" + resultFile;
+
+            RouteFileExtensions.DeleteTestRouteFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles"));
+
+            var isChildCollectionNode = parentNode != ParentNode;
+
+            RouteFileExtensions.RemoveElementsFromRouteFile(sourceFile, parentNode, nodePosition, nodeToRemove, importRouteFile, isChildCollectionNode);
+            ScenarioContext.Current.Add("currentRouteTestFile", importRouteFile);
+        }
+
+
 
     }
 }

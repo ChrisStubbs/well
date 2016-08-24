@@ -5,13 +5,11 @@
     using System.Linq;
     using System.Xml.Schema;
 
-    using PH.Well.Common.Contracts;
-
     using Well.Services.Contracts;
 
     public class EpodSchemaProvider : IEpodSchemaProvider
     {
-        public bool IsFileValid(string sourceFile, string schemaFile, List<string> schemaErrors, ILogger logger)
+        public bool IsFileValid(string sourceFile, string schemaFile, List<string> schemaErrors)
         {
             var validationErrors = default(IList<Tuple<object, XmlSchemaException>>);
 
@@ -21,16 +19,11 @@
 
                 if (!isValid)
                 {
-                    foreach (var problem in validationErrors)
-                    {
-                        logger.LogDebug($"{problem.Item1}: \t {problem.Item2.Message}");
-                    }
-
                     throw new XmlSchemaException($"{sourceFile} did not pass validation against schema file");
                 }
                 
             }
-            catch 
+            catch(Exception exception)
             {
                 if (validationErrors != null && validationErrors.Any())
                 {

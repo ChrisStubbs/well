@@ -26,6 +26,35 @@
             return job;
         }
 
+        public IEnumerable<Job> GetByStopId(int id)
+        {
+             return    dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
+                    .AddParameter("StopId", id, DbType.Int32)
+                    .Query<Job>();
+        }
+
+        public IEnumerable<CustomerRoyaltyException>  GetCustomerRoyaltyExceptions()
+        {
+            var customerRoyaltyException =
+                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGet)
+                    .Query<CustomerRoyaltyException>();
+
+            return customerRoyaltyException;
+        }
+
+        public Job JobGetByRefDetails(string ref1, string ref2, int stopId)
+        {
+            var job =
+               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
+                   .AddParameter("Ref1", ref1, DbType.String)
+                   .AddParameter("Ref2", ref2, DbType.String)
+                   .AddParameter("StopId", stopId, DbType.Int32)
+                   .Query<Job>()
+                   .FirstOrDefault();
+
+            return job;
+        }
+
         public Job JobCreateOrUpdate(Job job)
         {
             var jobPerformanceStatusId = job.PerformanceStatusId == 0 ? (int)PerformanceStatus.Notdef : job.PerformanceStatusId;
@@ -74,6 +103,21 @@
 
             return job;
         }
+
+        public void DeleteJobById(int id)
+        {
+            DeleteJobAttributesJobById(id);
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)
+                .AddParameter("JobId", id, DbType.Int32).Execute();
+        }
+
+        private void DeleteJobAttributesJobById(int id)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById)
+                .AddParameter("JobId", id, DbType.Int32).Execute();
+        }
+        
 
     }
 }

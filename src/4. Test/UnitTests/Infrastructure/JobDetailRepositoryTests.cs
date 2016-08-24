@@ -57,6 +57,7 @@
 
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)).Returns(dapperProxy.Object);
+
                 dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
@@ -74,14 +75,19 @@
                 dapperProxy.Setup(x => x.AddParameter("TextField5", jobDetail.TextField5, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean, null)).Returns(dapperProxy.Object);
 
+                dapperProxy.Setup(x => x.AddParameter(It.IsAny<string>(), It.IsAny<object>(),It.IsAny<DbType>(), null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetById)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.JobId, DbType.Int32, null)).Returns(dapperProxy.Object);
+
+                dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<JobDetail>()).Returns(new List<JobDetail>());
+
 
                 this.repository.JobDetailCreateOrUpdate(jobDetail);
 
@@ -103,10 +109,13 @@
                 dapperProxy.Verify(x => x.AddParameter("TextField5", jobDetail.TextField5, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.Query<JobDetail>(), Times.Exactly(1));
+
+
             }
         }
 
@@ -176,19 +185,19 @@
                 dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.JobDetailDamages[0].Id, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobDetailId", jobDetail.JobDetailDamages[0].JobDetailId, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Qty", jobDetail.JobDetailDamages[0].Qty, DbType.Decimal, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DamageReasonsId", jobDetail.JobDetailDamages[0].ReasonId, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("DamageReasonsId", (int) jobDetail.JobDetailDamages[0].Reason, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
-                this.repository.JobDetailDamageCreateOrUpdate(jobDetail.JobDetailDamages[0]);
+                this.repository.CreateOrUpdateJobDetailDamage(jobDetail.JobDetailDamages[0]);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailDamageCreateOrUpdate), Times.Exactly(1));
 
                 dapperProxy.Verify(x => x.AddParameter("Id", jobDetail.JobDetailDamages[0].Id, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("JobDetailId", jobDetail.JobDetailDamages[0].JobDetailId, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("Qty", jobDetail.JobDetailDamages[0].Qty, DbType.Decimal, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("DamageReasonsId", jobDetail.JobDetailDamages[0].ReasonId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("DamageReasonsId", (int)jobDetail.JobDetailDamages[0].Reason, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));

@@ -7,4 +7,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ObjectType" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="23d64f64-0e64-477b-8dad-0fac20fd9d23" ChangeDateTime="08/01/2016 13:41:32">
+    <Property Name="ElementName" Value="[dbo].[RouteHeader].[StartDepotCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RouteHeader]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StartDepot" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4f7f3435-0628-4e89-88b7-ac4a6592d52c" ChangeDateTime="08/01/2016 13:41:44">
+    <Property Name="ElementName" Value="[dbo].[RouteHeader].[StartDepot]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RouteHeader]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StartDepotCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7dfdb0c8-d443-48b2-aaba-7842bae09e89" ChangeDateTime="08/18/2016 14:58:47">
+    <Property Name="ElementName" Value="[dbo].[CustomerRoyaltyException].[TranscendMapping]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CustomerRoyaltyException]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Customer" />
+  </Operation>
 </Operations>

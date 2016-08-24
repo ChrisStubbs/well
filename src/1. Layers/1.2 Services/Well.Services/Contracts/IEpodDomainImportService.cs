@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
 
     public interface IEpodDomainImportService
     {
@@ -30,6 +31,10 @@
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
 
         void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation);
+
+        void AddAdamUpdateFile(RouteUpdates orderUpdates, int routesId);
+
+        void GetRouteHeadersForDelete(ref string statusmessage);
 
     }
 }

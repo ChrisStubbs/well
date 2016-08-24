@@ -7,7 +7,6 @@ import 'rxjs/Rx';   // Load all features
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
-import {ExceptionsFilterPipe} from "./exceptionsFilterPipe";
 
 import {DropDownItem} from "../shared/dropDownItem";
 @Component({
@@ -15,12 +14,12 @@ import {DropDownItem} from "../shared/dropDownItem";
     templateUrl: './app/delivery/delivery.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, DeliveryService, PaginationService],
     directives: [PaginationControlsCmp],
-    pipes: [ExceptionsFilterPipe,PaginatePipe]
+    pipes: [PaginatePipe]
 })
 
 export class DeliveryComponent implements OnInit {
     errorMessage: string;
-    delivery: Delivery = new Delivery();
+    delivery: Delivery = new Delivery(null);
     rowCount: number = 10;
     showAll: boolean = false;
     deliveryId: number;
@@ -45,11 +44,21 @@ export class DeliveryComponent implements OnInit {
     ngOnInit(): void {
        
         this.deliveryService.getDelivery(this.deliveryId)
-            .subscribe(delivery => { this.delivery = delivery; console.log(this.delivery.id) },
+            .subscribe(delivery => { this.delivery = new Delivery(delivery); console.log(this.delivery) },
             error => this.errorMessage = <any>error);
     }
 
     onShowAllClicked() {
         this.showAll = !this.showAll;
     }
+
+    lineClicked(line): void {
+
+    }
+
+    update(line): void {
+        //TODO - POSTBACK save
+    }
+
+
 }

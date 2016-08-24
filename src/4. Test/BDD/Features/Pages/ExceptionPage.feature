@@ -11,10 +11,11 @@ Scenario: A user can view Exception Delivery Information
 	And  3 deliveries have been marked as exceptions
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
+
 
 Scenario: A user can filter Exception Delivery information
 	Given I have a clean database
@@ -25,10 +26,12 @@ Scenario: A user can filter Exception Delivery information
 	And I filter the exception delivery grid with the option 'Route' and value '006'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status		|
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Incomplete |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Incomplete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Incomplete |
+
+
 	When I filter the exception delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
@@ -40,8 +43,9 @@ Scenario: A user can filter Exception Delivery information
 	When I filter the exception delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName | Status     |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Incomplete |
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Incomplete |
+	
 
 
 Scenario: A user can page through Exception Delivery information
@@ -65,7 +69,12 @@ Scenario: View exception details at lower level
 	When I open the exception deliveries
 	And I click on a exception row
 	Then I am shown the exception detail
-	| LineNo | Product | Description            | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
-	| 1      | 50035   | Ind Potato Gratin 400g | 39    | 0               | 0                | 0               | 0             |
-	| 2      | 50035   | Ind Potato Gratin 400g | 39    | 0               | 0                | 0               | 0             |
+	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
+	| 1      | 4237    | Maltesers Tube 75g       | 80    | 0               | 0                | 0               | 0             |
+	| 2      | 7605    | Bass Sherbet Lemons 200g | 32    | 0               | 0                | 0               | 0             |
+	| 3      | 41957   | Bournville Std 45g       | 84    | 0               | 0                | 0               | 0             |
+	| 4      | 3319    | C.D.M Std 45g            | 125   | 0               | 0                | 0               | 0             |
+	| 5      | 9135    | Wispa Duo 51g            | 395   | 0               | 0                | 0               | 0             |
+
+
 	

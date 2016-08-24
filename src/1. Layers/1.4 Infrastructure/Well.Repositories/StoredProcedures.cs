@@ -17,6 +17,12 @@
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
         public static string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
+        public static string RouteHeaderAttributesDeleteByRouteheaderId = "RouteHeaderAttributes_DeleteByRouteheaderId";
+        public static string RouteHeaderDeleteById = "RouteHeader_DeleteById";
+        public static string RouteHeadersGetForDelete = "RouteHeaders_GetForDelete";
+        public static string RoutesGet = "Routes_Get";
+        public static string RoutesDeleteById = "Routes_DeleteById";
+        public static string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
 
 
         //Stops
@@ -25,13 +31,23 @@
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
+        public static string StopGeyByOrderUpdateDetails = "Stop_GeyByOrderUpdateDetails";
+        public static string StopGetByJobId = "Stop_GetByJobId";
+        public static string StopAttributesDeletedByStopId = "StopAttributes_DeletedByStopId";
+        public static string StopDeleteById = "Stop_DeleteById";
+        public static string AccountDeleteByStopId = "Account_DeleteByStopId";
 
         //Jobs
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
-        
+        public static string JobDeleteById = "Job_DeleteById";
+
         public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
+        public static string JobGetByRefDetails = "Job_GetByRefDetails";
+        public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
+        public static string JobGetByStopId = "Job_GetByStopId";
+        public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
 
         //jobdetail
         public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";
@@ -39,15 +55,21 @@
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailGetByBarcodeLineNumberAndJobId = "JobDetail_GetByBarcodeLineNumberAndJobId";
         public static string JobDetailDamageCreateOrUpdate = "JobDetailDamage_CreateOrUpdate";
+        public static string JobDetailGetByBarcodeAndProdDesc = "JobDetail_GetByBarcodeAndProdDesc";
+        public static string JobDetailGetByJobId = "JobDetail_GetByJobId";
+        public static string JobDetailDeleteById = "JobDetail_DeleteById";
+        public static string JobDetailArttributesDeleteByJobDetailId = "JobDetailArttributes_DeleteByJobDetailId";
+        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
         public static string AccountGetByAccountId = "Account_GetByAccountId";
+        public static string AccountGetByAccountCode = "Account_GetByAccountCode";
 
         //Deliveries
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
-        public static string DeliveryLinesGetById = "DeliveryLines_GetById";
+        public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
 
         public static string BranchesGet = "BranchesGet";
 

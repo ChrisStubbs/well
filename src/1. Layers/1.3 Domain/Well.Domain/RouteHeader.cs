@@ -38,8 +38,12 @@
         public string VehicleReg { get; set; }
 
         [XmlElement("StartDepotCode")]
-        public string StartDepotCode  { get; set; }
+        public string StartDepotCode { get; set; }
 
+
+        [XmlIgnore]
+        public int StartDepot { get; set; }
+         
         [XmlElement("PlannedRouteStartTime")]
         public string PlannedRouteStartTime { get; set; }
 
@@ -58,31 +62,18 @@
         [XmlElement("ActualStopsCompleted")]
         public int ActualStopsCompleted { get; set; }
 
+        [XmlIgnore]
         public RouteStatusCode RouteStatus { get; set; }
 
         [XmlElement("RouteStatusCode")]
-        public string RouteStatusCode
-        {
-            set
-            {
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    RouteStatusCode enumVal;
-
-                    if (Enum.TryParse(value, out enumVal))
-                    {
-                        this.RouteStatus = enumVal;
-                    }
-                }
-            }
-        }
+        public string RouteStatusCode { get; set; }
 
         public int RoutePerformanceStatusId { get; set; }
 
         [XmlElement("RoutePerformanceStatusCode")]
         public string PerformanceStatusCode
         {
-            set { RoutePerformanceStatusId = string.IsNullOrEmpty(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
+            set { RoutePerformanceStatusId = string.IsNullOrWhiteSpace(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
         [XmlIgnore]
@@ -149,7 +140,7 @@
             }
         }
 
-[XmlIgnore]
+        [XmlIgnore]
         public int DamagesAccepted { get; set; }
 
         [XmlElement("DamagesAccepted")]
@@ -177,6 +168,9 @@
 
 
         public int RoutesId { get; set; }
+
+        [XmlIgnore]
+        public int EpodDepot { get; set; }
 
         [XmlElement("Depot")]
         public string Depot { get; set; }

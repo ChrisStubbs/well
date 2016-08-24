@@ -5,16 +5,8 @@ namespace PH.Well.UnitTests.Api.Controllers
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
-    using System.Security.Principal;
-    using System.Web.Http;
-    using System.Web.Http.Controllers;
-    using System.Web.Http.Hosting;
-    using System.Web.Http.Routing;
-
     using Moq;
-
     using NUnit.Framework;
-
     using PH.Well.Api.Controllers;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -22,14 +14,12 @@ namespace PH.Well.UnitTests.Api.Controllers
     using PH.Well.UnitTests.Factories;
 
     [TestFixture]
-    public class UserControllerTests
+    public class UserControllerTests : BaseControllerTests<UserController>
     {
         private Mock<IBranchService> branchService;
         private Mock<IUserRepository> userRepository;
         private Mock<ILogger> logger;
         private Mock<IActiveDirectoryService> activeDirectoryService;
-
-        private UserController controller;
 
         [SetUp]
         public void Setup()
@@ -39,21 +29,11 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
 
-            this.controller = new UserController(this.branchService.Object, this.activeDirectoryService.Object, this.userRepository.Object, this.logger.Object);
-
-            var config = new HttpConfiguration();
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/events");
-            var route = config.Routes.MapHttpRoute("Branch", "api/{controller}/{id}");
-            var routeData = new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "Branch" } });
-
-            request.Properties.Add("transactionId", "35AAB0C8-1AD1-401A-AFF9-D31E6926A1BD");
-            controller.RequestContext = new HttpRequestContext { Url = new UrlHelper(request) };
-            controller.ControllerContext = new HttpControllerContext(config, routeData, request);
-            controller.Url = new UrlHelper(request);
-            controller.Request = request;
-            controller.Request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
-            controller.Request.Properties["MS_HttpContext"] = null;
-            controller.RequestContext.Principal = new GenericPrincipal(new GenericIdentity("foo"), new[] { "A role" });
+            this.Controller = new UserController(this.branchService.Object,
+                this.activeDirectoryService.Object,
+                this.userRepository.Object,
+                this.logger.Object);
+            SetupController();
         }
 
         public class TheUserBranchesMethod : UserControllerTests
@@ -63,7 +43,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             {
                 this.branchService.Setup(x => x.GetUserBranchesFriendlyInformation("")).Returns("med, bir");
 
-                var response = this.controller.UserBranches();
+                var response = this.Controller.UserBranches();
 
                 var result = response.Content.ReadAsStringAsync().Result;
 
@@ -81,7 +61,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 
                 this.activeDirectoryService.Setup(x => x.FindUsers("foo", "palmerharvey")).Returns(users);
 
-                var response = this.controller.Users("foo");
+                var response = this.Controller.Users("foo");
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 

@@ -251,7 +251,7 @@
                 dapperProxy.Setup(x => x.AddParameter("DriverName", routeHeader.DriverName, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("VehicleReg", routeHeader.VehicleReg, DbType.String, null)).Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("StartDepotCode", routeHeader.StartDepotCode, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PlannedRouteStartTime", routeHeader.PlannedRouteStartTime, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PlannedRouteFinishTime", routeHeader.PlannedRouteFinishTime, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal, null)).Returns(dapperProxy.Object);
@@ -268,7 +268,7 @@
                 dapperProxy.Setup(x => x.AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Depot", routeHeader.Depot, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
 
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });

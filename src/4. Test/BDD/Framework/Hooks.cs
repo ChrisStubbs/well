@@ -137,6 +137,8 @@
                                                 x.For<IWebClient>().Use<WebClient>();
                                                 x.For<IFileModule>().Use<FileModule>();
                                                 x.For<IFileService>().Use<FileService>();
+                                                x.For<IAccountRepository>().Use<AccountRepository>();
+                                                x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

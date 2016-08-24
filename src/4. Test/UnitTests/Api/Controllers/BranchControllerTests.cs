@@ -23,7 +23,7 @@
     using PH.Well.UnitTests.Factories;
 
     [TestFixture]
-    public class BranchControllerTests
+    public class BranchControllerTests : BaseControllerTests<BranchController>
     {
         private Mock<ILogger> logger;
 
@@ -35,8 +35,6 @@
 
         private Mock<IBranchModelMapper> branchModelMapper;
 
-        private BranchController controller;
-
         [SetUp]
         public void Setup()
         {
@@ -46,26 +44,12 @@
             this.branchService = new Mock<IBranchService>(MockBehavior.Strict);
             this.branchModelMapper = new Mock<IBranchModelMapper>(MockBehavior.Strict);
 
-            this.controller = new BranchController(
-                this.logger.Object,
+            this.Controller = new BranchController(this.logger.Object,
                 this.branchRepository.Object,
                 this.serverErrorResponseHandler.Object,
                 this.branchService.Object,
                 this.branchModelMapper.Object);
-
-            var config = new HttpConfiguration();
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/events");
-            var route = config.Routes.MapHttpRoute("Branch", "api/{controller}/{id}");
-            var routeData = new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "Branch" } });
-
-            request.Properties.Add("transactionId", "35AAB0C8-1AD1-401A-AFF9-D31E6926A1BD");
-            controller.RequestContext = new HttpRequestContext { Url = new UrlHelper(request) };
-            controller.ControllerContext = new HttpControllerContext(config, routeData, request);
-            controller.Url = new UrlHelper(request);
-            controller.Request = request;
-            controller.Request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
-            controller.Request.Properties["MS_HttpContext"] = null;
-            controller.RequestContext.Principal = new GenericPrincipal(new GenericIdentity("foo"), new[] { "A role" });
+            SetupController();
         }
 
         public class TheGetMethod : BranchControllerTests
@@ -82,7 +66,7 @@
                 this.branchModelMapper.Setup(x => x.Map(branches, (List<Branch>)null))
                     .Returns(new List<BranchModel> { new BranchModel { Name = BranchFactory.New.Build().Name } });
 
-                var response = this.controller.Get();
+                var response = this.Controller.Get();
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
@@ -101,7 +85,7 @@
 
                 this.branchRepository.Setup(x => x.GetAll()).Returns(branches);
 
-                var response = this.controller.Get();
+                var response = this.Controller.Get();
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
             }
@@ -117,7 +101,7 @@
                 this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception))
                     .Returns(new HttpResponseMessage());
                 
-                this.controller.Get();
+                this.Controller.Get();
 
                 this.logger.Verify(x => x.LogError("An error occcured when getting branches!", exception), Times.Once);
             }
@@ -131,7 +115,7 @@
                 var branches = new Branch[] { BranchFactory.New.Build(), BranchFactory.New.Build() };
                 this.branchService.Setup(x => x.SaveBranchesForUser(branches, ""));
 
-                var response = this.controller.Post(branches);
+                var response = this.Controller.Post(branches);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
                 Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("success"));
@@ -143,7 +127,7 @@
                 var branches = new Branch[0];
                 this.branchService.Setup(x => x.SaveBranchesForUser(branches, ""));
 
-                var response = this.controller.Post(branches);
+                var response = this.Controller.Post(branches);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
@@ -157,7 +141,7 @@
 
                 this.branchService.Setup(x => x.SaveBranchesForUser(It.IsAny<Branch[]>(), "")).Throws(exception);
                 this.logger.Setup(x => x.LogError("Error when trying to save branches for the user", exception));
-                var response = this.controller.Post(branches);
+                var response = this.Controller.Post(branches);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));

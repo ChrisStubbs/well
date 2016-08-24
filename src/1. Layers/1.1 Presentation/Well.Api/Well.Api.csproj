@@ -196,6 +196,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\DeliveryLineController.cs" />
     <Compile Include="Controllers\ExceptionEventController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
@@ -222,9 +223,12 @@
     <Compile Include="Areas\Mapper\IMapper.cs" />
     <Compile Include="Areas\Mapper\IRouteModelsMapper.cs" />
     <Compile Include="Areas\Mapper\RouteModelslMapper.cs" />
+    <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />
+    <Compile Include="Models\DeliveryLineUpdateModel.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -327,7 +331,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/Well/Api</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

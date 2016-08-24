@@ -50,6 +50,7 @@
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
+                    x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();

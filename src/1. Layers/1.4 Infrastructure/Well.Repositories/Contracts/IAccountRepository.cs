@@ -6,5 +6,6 @@
     {
         Account GetAccountByStopId(int stopId);
         Account GetAccountByAccountId(int accountId);
+        Account GetAccountGetByAccountCode(string accountCode, int stopId);
     }
 }

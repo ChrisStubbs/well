@@ -27,11 +27,11 @@
                         <th>Status</th>
                         <th>Assigned</th>
                         <th>Action</th>
-                        <th>Last updated date/time</th>
+                        <th>Last updated date/time<a style="text-decoration:none;display:inline;"><span class="glyphicon glyphicon-arrow-up sorticon" (click)="sortDirection(true)"></span></a><a style="text-decoration:none;display:inline;"><span class="glyphicon glyphicon-arrow-down" (click)="sortDirection(false)"></span></a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="grid-row" *ngFor="let delivery of exceptions | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                    <tr class="grid-row" *ngFor="let delivery of exceptions | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort">
                         <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>

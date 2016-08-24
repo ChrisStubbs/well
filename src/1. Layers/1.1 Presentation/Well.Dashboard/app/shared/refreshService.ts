@@ -14,13 +14,13 @@ export class RefreshService {
         hub.client.dataRefreshed = () => {
             this.zone.run(() => {
                 //This is inside zone.run to trigger the Angular automagical change detection shizzle! 
-                //console.log("Awoooga! Data refreshed.");
+                console.log("Awoooga! Data refreshed.");
                 this.dataRefreshed$.emit(null);
             });
         };
 
         $.connection.hub.start().done((data) => {
-            //console.log("Hub started");
+            console.log("Hub started");
         });
     }
 }

@@ -17,12 +17,14 @@ import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 import {RefreshService} from '../shared/refreshService';
 import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import {AssignModal} from "../shared/assign-Modal";
+import {IUser} from "../shared/user";
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal],
+    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal, AssignModal],
     pipes: [OptionFilterPipe, PaginatePipe]
 })
 
@@ -53,6 +55,8 @@ export class ExceptionsComponent implements OnInit {
     account: IAccount;
     lastRefresh = Date.now();
     httpResponse: HttpResponse = new HttpResponse();
+    users: IUser[];
+    delivery: ExceptionDelivery;
 
     constructor(
         private exceptionDeliveryService: ExceptionDeliveryService,
@@ -100,8 +104,27 @@ export class ExceptionsComponent implements OnInit {
             error => this.errorMessage = <any>error);
     }
 
+    
+    @ViewChild(AssignModal) assignModal = new AssignModal(this.exceptionDeliveryService,this.router, this.toasterService);
+
+    openAssignModal(delivery): void {
+
+        this.exceptionDeliveryService.getUsersForBranch(delivery.branchId)
+            .subscribe(users => {
+                this.users = users;
+                this.assignModal.show(this.users, delivery);
+            }, 
+            error => this.errorMessage = <any>error);
+    }
+
     setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
         switch (action.value) {
+            case '#':
+                // choose user
+                this.openAssignModal(delivery);
+                this.getExceptions();
+                
+                break;
             case 'credit':
                 this.exceptionDeliveryService.credit(delivery)
                     .subscribe((res: Response) => {

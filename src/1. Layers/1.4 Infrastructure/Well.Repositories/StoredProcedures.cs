@@ -55,8 +55,10 @@
         public static string SaveUserBranch = "UserBranchInsert";
         public static string GetBranchesForUser = "GetBranchesForUser";
 
+        public static string UsersGetByBranchId = "Users_GetByBranchId";
         public static string UserGetByName = "UserGetByName";
         public static string UserSave = "UserSave";
+        public static string AssignJobToUser = "UserJob_Insert";
 
         public static string EventInsert = "EventInsert";
         public static string EventSetProcessed = "EventSetProcessed";

@@ -86,6 +86,7 @@
     <Compile Include="ValueObjects\DeliveryDetail.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
+    <Compile Include="ValueObjects\UserJob.cs" />
     <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>
   <ItemGroup>

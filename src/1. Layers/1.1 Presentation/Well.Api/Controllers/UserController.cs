@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Domain.ValueObjects;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Linq;
@@ -20,7 +22,8 @@
 
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService, IUserRepository userRepository, ILogger logger)
+        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService,
+            IUserRepository userRepository, ILogger logger)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
@@ -37,6 +40,18 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, userBranches);
         }
 
+
+        [Route("users-for-branch/{branchId}")]
+        [HttpGet]
+        public HttpResponseMessage UsersForBranch(int branchId)
+        {
+            var users = this.branchService.GetUsersForBranch(branchId);
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, users);
+        }
+
+
+
         [Route("create-user-using-current-context")]
         [HttpGet]
         public HttpResponseMessage CreateUserUsingCurrentContext()
@@ -51,7 +66,7 @@
 
                 return this.Request.CreateResponse(HttpStatusCode.Created, user);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 this.logger.LogError($"Error when trying to save user {this.UserName}", exception);
 
@@ -64,14 +79,41 @@
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {
-            var users = this.activeDirectoryService.FindUsers(name.Trim(), PH.Well.Api.Configuration.DomainsToSearch).ToList();
+            var users =
+                this.activeDirectoryService.FindUsers(name.Trim(), PH.Well.Api.Configuration.DomainsToSearch).ToList();
 
-            if (!users.Any()) users.Add(new User { Id = -1, Name = "No users found!" });
+            if (!users.Any()) users.Add(new User {Id = -1, Name = "No users found!"});
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
 
-        /*
+        [Route("assign-user-to-job")]
+        [HttpPost]
+        public HttpResponseMessage Post(UserJob userJob)
+        {
+            try
+            {
+                if (userJob.UserId > 0 && userJob.JobId > 0)
+                {
+                    this.branchService.AssignUserToJob(userJob.UserId, userJob.JobId);
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
+                }
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new {notAcceptable = true});
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error when trying to assign job for the user", exception);
+                return this.Request.CreateResponse(HttpStatusCode.OK, new {failure = true});
+            }
+        }
+    }
+}
+
+
+
+
+/*
          * 
          * 
          *   [Route("save-branches-on-behalf-of-user")]
@@ -119,5 +161,5 @@
          
          */
 
-    }
-}
+   
+

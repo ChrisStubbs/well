@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services.Contracts
+﻿using System.Collections.Generic;
+
+namespace PH.Well.Services.Contracts
 {
     using PH.Well.Domain;
 
@@ -9,5 +11,9 @@
         void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string identityName, string domain);
 
         string GetUserBranchesFriendlyInformation(string username);
+
+        IEnumerable<User> GetUsersForBranch(int branchId);
+
+        void AssignUserToJob(int userId, int jobId);
     }
 }

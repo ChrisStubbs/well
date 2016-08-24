@@ -162,6 +162,7 @@
     <Build Include="dbo\StoredProcedures\UserJob_Delete.sql" />
     <Build Include="dbo\StoredProcedures\EventGetUnprocessed.sql" />
     <Build Include="dbo\StoredProcedures\MarkEventAsProcessed.sql" />
+    <Build Include="dbo\StoredProcedures\Users_GetByBranchId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

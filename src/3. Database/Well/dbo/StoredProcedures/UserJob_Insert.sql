@@ -7,6 +7,16 @@
 	@DateUpdated DATETIME
 AS
 BEGIN
-	  INSERT INTO [dbo].[UserJob] (UserId, JobId, CreatedBy, DateCreated, UpdatedBy, DateUpdated)
-	  VALUES (@UserId, @JobId, @CreatedBy, @DateCreated, @UpdatedBy, @DateUpdated)
+	  
+	  MERGE INTO [dbo].[UserJob] WITH (HOLDLOCK) AS Target
+	  USING
+	  (
+		SELECT @UserId, @JobId
+	  ) AS Source
+	  ON Source.JobId = Target.JobId
+	  WHEN MATCHED THEN
+	  UPDATE SET Target.UserId = Source.UserId, Target.UpdatedBy = @UpdatedBy, Target.DateUpdated = @DateUpdated
+	  WHEN NOT MATCHED THEN
+	  INSERT (UserId, JobId, CreatedBy, DateCreated, UpdatedBy, DateUpdated)
+	  VALUES (@UserId, @JobId, @CreatedBy, @DateCreated, @UpdatedBy, @DateUpdated);
 END

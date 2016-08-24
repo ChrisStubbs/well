@@ -1,4 +1,4 @@
-﻿import {Component} from '@angular/core';
+﻿import {Component, EventEmitter, Output} from '@angular/core';
 import {IUser} from '../shared/user';
 import {ExceptionDelivery} from '../exceptions/exceptionDelivery';
 import {Router} from '@angular/router';
@@ -20,6 +20,8 @@ export class AssignModal {
     userJob:UserJob;
     delivery: ExceptionDelivery;
     httpResponse: HttpResponse = new HttpResponse();
+    @Output() onAssigned = new EventEmitter<boolean>();
+    assigned = false;
 
     constructor(
         private exceptionDeliveryService: ExceptionDeliveryService,
@@ -48,12 +50,17 @@ export class AssignModal {
             .subscribe((res: Response) => {
                     this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                if (this.httpResponse.success) this.toasterService.pop('success', 'Delivery has been assigned!', '');
-                if (this.httpResponse.adamdown) this.toasterService.pop('error', 'Delivery unassigned', '');
+                    if (this.httpResponse.success) {
+                        this.toasterService.pop('success', 'Delivery has been assigned!', '');
+                        this.assigned = true;
+                    }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop('error', 'Delivery unassigned', '');
+                }
 
             });
 
-       this.hide();
-
-    }
+        this.hide();
+        this.onAssigned.emit(this.assigned); 
+     }
 }

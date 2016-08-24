@@ -137,8 +137,8 @@
 
                 var currentStop = this.stopRepository.GetByJobId(newJobId);
 
-                jobDetail.JobDetailStatusId = (int)GetStatusForJobDetail(jobDetail, currentStop.DeliveryDate);
-
+                jobDetail.JobDetailStatusId = (int) JobDetailStatus.UnRes;
+                
                 var newJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
 
 
@@ -376,14 +376,22 @@
             }
         }
 
+        /// <summary>
+        /// un-comment code when we have figured out the requirements for Royaly exception for now just return an unresolved status
+        /// </summary>
+        /// <param name="jobDetail"></param>
+        /// <param name="currentStopDate"></param>
+        /// <returns></returns>
         private JobDetailStatus GetStatusForJobDetail(JobDetail jobDetail, DateTime currentStopDate)
         {
+            /*
             var currentDayDifference = ((TimeSpan) (DateTime.Now - currentStopDate)).Days;
 
             if (currentDayDifference < 1 && jobDetail.JobDetailDamages.Count > 0)
                 return JobDetailStatus.UnRes;
+            */
 
-            return JobDetailStatus.Res;
+            return JobDetailStatus.UnRes;
             
         }
 

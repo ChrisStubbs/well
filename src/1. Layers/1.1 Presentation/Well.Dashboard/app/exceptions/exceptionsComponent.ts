@@ -19,8 +19,7 @@ import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
-import {OrderBy} from "../shared/orderBy"
-
+import {OrderBy} from "../shared/orderBy";
 
 @Component({
     selector: 'ow-exceptions',
@@ -98,6 +97,7 @@ export class ExceptionsComponent implements OnInit {
         console.log(this.currentConfigSort);
         this.getExceptions();
     }
+
     
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
@@ -128,13 +128,17 @@ export class ExceptionsComponent implements OnInit {
             error => this.errorMessage = <any>error);
     }
 
+    onAssigned(assigned: boolean) {
+        this.getExceptions();
+    }
+
+
     setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
         switch (action.value) {
             case '#':
                 // choose user
                 this.openAssignModal(delivery);
-                this.getExceptions();
-                
+
                 break;
             case 'credit':
                 this.exceptionDeliveryService.credit(delivery)

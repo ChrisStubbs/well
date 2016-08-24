@@ -1,8 +1,8 @@
 ﻿@ignore
 Feature: EpodRouteFileSchemaValidation
 	In order to import correctly formed Epod route files
-	As a math idiot
-	I want to be able to validate exsisting Epod route files against a pre defined schema
+	As a user
+	I want the system to be able to validate exsisting Epod route files against a pre defined schema
 
 Background:
 	 Given I have loaded the Adam route data

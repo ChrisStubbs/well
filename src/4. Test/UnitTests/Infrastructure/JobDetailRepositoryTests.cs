@@ -48,6 +48,61 @@
             }
         }
 
+      
+        public class TheGetByJobIdMethod : JobDetailRepositoryTests
+        {
+            [Test]
+            public void ShouldCallTheStoredProcedureCorrectly()
+            {
+                const int id = 1;
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Query<JobDetail>()).Returns(new List<JobDetail>());
+
+                var result = repository.GetByJobId(id);
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.Query<JobDetail>(), Times.Once());
+            }
+        }
+
+        public class TheDeleteJobDetailByIdMethod : JobDetailRepositoryTests
+        {
+            [Test]
+            public void ShouldCallTheStoredProcedureCorrectly()
+            {
+                const int id = 1;
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailDeleteById)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobDetailId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Execute());
+
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobDetailId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Execute());
+
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobDetailId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Execute());
+
+                
+                this.repository.DeleteJobDetailById(id);
+
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailDeleteById), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("JobDetailId", id, DbType.Int32, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.Execute());
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("JobDetailId", id, DbType.Int32, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.Execute());
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("JobDetailId", id, DbType.Int32, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.Execute());
+            }
+        }
+
         public class TheSaveJobDetailMethod : JobDetailRepositoryTests
         {
             [Test]

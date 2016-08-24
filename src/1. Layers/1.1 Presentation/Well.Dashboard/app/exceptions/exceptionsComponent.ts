@@ -19,19 +19,21 @@ import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
+import {OrderBy} from "../shared/orderBy";
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
     directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal, AssignModal],
-    pipes: [OptionFilterPipe, PaginatePipe]
+    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
 })
 
 export class ExceptionsComponent implements OnInit {
     refreshSubscription: any;
     errorMessage: string;
     exceptions: ExceptionDelivery[];
+    currentConfigSort: string;
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -69,6 +71,7 @@ export class ExceptionsComponent implements OnInit {
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.getExceptions();
+        this.currentConfigSort = '-dateTimeUpdated';
     }
 
     ngOnDestroy() {
@@ -87,6 +90,14 @@ export class ExceptionsComponent implements OnInit {
                     }
                 });
     }
+
+    sortDirection(sortDirection): void {
+        console.log(sortDirection);
+        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        console.log(this.currentConfigSort);
+        this.getExceptions();
+    }
+
     
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;

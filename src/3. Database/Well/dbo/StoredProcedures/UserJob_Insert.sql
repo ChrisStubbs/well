@@ -11,7 +11,7 @@ BEGIN
 	  MERGE INTO [dbo].[UserJob] WITH (HOLDLOCK) AS Target
 	  USING
 	  (
-		SELECT @UserId, @JobId
+		SELECT @UserId UserId, @JobId JobId
 	  ) AS Source
 	  ON Source.JobId = Target.JobId
 	  WHEN MATCHED THEN

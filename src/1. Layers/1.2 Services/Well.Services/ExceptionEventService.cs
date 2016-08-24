@@ -22,6 +22,8 @@
             var adamResponse = this.adamRepository.Credit(creditEvent, adamSettings);
 
             this.MarkAsDone(eventId, adamResponse, username);
+            // TODO 
+            // Send notification to well api 
         }
 
         public AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username)

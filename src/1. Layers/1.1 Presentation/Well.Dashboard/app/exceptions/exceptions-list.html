@@ -48,7 +48,7 @@
                                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
                                     <ul class="dropdown-menu" aria-labelledby="filter-option">
                                         <li><a><i>Action</i></a></li>
-                                        <li *ngFor="let action of actions"><a (click)="setSelectedAction(delivery,action)">{{action.description}}</a></li>
+                                        <li *ngFor="let action of actions"><a (click)="setSelectedAction(delivery,action)"> {{action.description}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -68,3 +68,4 @@
 
     </div>
 <contact-modal></contact-modal>
+<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>

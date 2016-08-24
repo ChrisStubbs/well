@@ -1,37 +1,39 @@
 ﻿<div class="table-container">
     <ol class="breadcrumb">
+        <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
+        <li *ngIf="delivery.isException == false"><a routerLink="/clean">Clean</a></li>
         <li class="active">{{delivery.deliveryType}} Delivery {{delivery.id}}</li>
     </ol>
 </div>
 <div class="jumbotron">
-        <div class="col-md-6">
-            <address>
-                <strong>{{delivery.accountCode}} {{delivery.contactName}}</strong><br />
-                <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br />
-                <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br />
-                <abbr *ngIf="delivery.invoiceNumber" title="Mobile">Mobile:</abbr> {{delivery.invoiceNumber}}<br />
-            </address>
-        </div>
-        <div class="col-md-6">
-            <address>
-                <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
-            </address>
-        </div>
+    <div class="col-md-6">
+        <address>
+            <strong>{{delivery.accountCode}} {{delivery.contactName}}</strong><br/>
+            <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br/>
+            <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br/>
+            <abbr *ngIf="delivery.invoiceNumber" title="Mobile">Mobile:</abbr> {{delivery.invoiceNumber}}<br/>
+        </address>
+    </div>
+    <div class="col-md-6">
+        <address>
+            <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
+        </address>
+    </div>
 
     <div class="table-responsive table-container">
         <table id="tableDelivery" class="table table-hover table-bordered" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
             <thead>
-                <tr>
-                    <th>Line No</th>
-                    <th>Product</th>
-                    <th>Description</th>
-                    <th>Value</th>
-                    <th>Inv Qty</th>
-                    <th>Del Qty</th>
-                    <th>Damaged Qty</th>
-                    <th>Short Qty</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>Line No</th>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Value</th>
+                <th>Inv Qty</th>
+                <th>Del Qty</th>
+                <th>Damaged Qty</th>
+                <th>Short Qty</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
             <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }"

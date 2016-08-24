@@ -34,24 +34,6 @@
                 "~/Content/css/site.css");
             cssBundle.Orderer = new DefinedBundlerOrderer();
             bundles.Add(cssBundle);
-
-            var angularShimsBundle = new Bundle("~/bundles/angular2Shims").Include(
-                "~/Scripts/angular2/shims_for_IE.js",
-                "~/Scripts/angular2/es6-shim.js",
-                "~/Scripts/angular2/system-polyfills.js");
-            angularShimsBundle.Orderer = new DefinedBundlerOrderer();
-            bundles.Add(angularShimsBundle);
-
-            var angularBundle = new Bundle("~/bundles/angular2").Include(
-                "~/Scripts/angular2/angular2-polyfills.js",
-                "~/Scripts/angular2/system.src.js",
-                "~/Scripts/angular2/rx.js",
-                "~/Scripts/angular2/angular2.dev.js",
-                "~/Scripts/angular2/router.dev.js",
-                "~/Scripts/angular2/http.dev.js",
-                "~/Scripts/ng2-pagination-bundle.js");
-            angularBundle.Orderer = new DefinedBundlerOrderer();
-            bundles.Add(angularBundle);
             
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
                   "~/Scripts/jquery.signalR-2.2.0.min.js"));

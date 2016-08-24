@@ -4,6 +4,19 @@
   display: none !important;
 }
 
+li a.active{
+    font-weight: bold;
+}
+
+ol.breadcrumb > li.active {
+    font-weight: bold;
+    color: #333;
+}
+
+.btn-group .btn + .btn{
+    margin-left: 5px;
+}
+
 section > div { margin-top: 20px; }
 
 table { background-color:#fff; }
@@ -239,13 +252,6 @@ form textarea.ng-valid.ng-touched
     border: 1px solid @noerror;        
 }
 
-li { 
-    cursor: pointer; 
-    cursor: hand; 
-    }
-
-li:active {color: #ffffff;}
-
 button.filter-button{
     width:87px;
     overflow: hidden;
@@ -402,7 +408,7 @@ input.period-filter{
     font-size: 12px !important;
 }
 
-.grid-row input[type=number] {
-    width: 50px;
+input[type=number].form-control {
+    width: 100px;
           }
  

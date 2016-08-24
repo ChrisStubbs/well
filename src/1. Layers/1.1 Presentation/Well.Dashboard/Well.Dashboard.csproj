@@ -228,6 +228,7 @@
     <Content Include="app\branch\branch-list.html" />
     <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\delivery\delivery.html" />
+    <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\notifications\notifications-list.html" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
@@ -359,6 +360,7 @@
     <TypeScriptCompile Include="app\delivery\deliveryComponent.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryLine.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryService.ts" />
+    <TypeScriptCompile Include="app\delivery\deliveryUpdateComponent.ts" />
     <TypeScriptCompile Include="app\delivery\exceptionsFilterPipe.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />

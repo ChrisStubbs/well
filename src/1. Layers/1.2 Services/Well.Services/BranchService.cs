@@ -15,7 +15,7 @@ namespace PH.Well.Services
         private readonly IUserRepository userRepository;
 
         private readonly IBranchRepository branchRepository;
-        
+
         private readonly IActiveDirectoryService activeDirectoryService;
 
         public BranchService(IUserRepository userRepository, IBranchRepository branchRepository, IActiveDirectoryService activeDirectoryService)
@@ -104,6 +104,16 @@ namespace PH.Well.Services
             output = output.TrimEnd(',', ' ');
 
             return output;
+        }
+
+        public IEnumerable<User> GetUsersForBranch(int branchId)
+        {
+            return this.userRepository.GetByBranchId(branchId);
+        }
+
+        public void AssignUserToJob(int userId, int jobId)
+        {
+            this.userRepository.AssignJobToUser(userId, jobId);
         }
     }
 }

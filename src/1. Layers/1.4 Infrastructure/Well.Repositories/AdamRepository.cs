@@ -35,7 +35,7 @@
                 }
                 catch (AdamProviderException adamException)
                 {
-                    this.logger.LogError("ADAM error occured!", adamException);
+                    this.logger.LogError("ADAM error occurred!", adamException);
 
                     if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
                     {

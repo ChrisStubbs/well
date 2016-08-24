@@ -1,0 +1,19 @@
+﻿<div *ngIf="IsVisible" class="modal fade show in danger" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Available users</h4>
+                <h4 *ngIf="delivery">for delivery {{delivery.id}}</h4>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li *ngFor="let user of users"><a (click)="userSelected(user.id, delivery.id)">{{user.name}}</a></li>
+                 </ul>   
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>   

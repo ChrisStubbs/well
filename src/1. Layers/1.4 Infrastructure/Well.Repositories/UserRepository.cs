@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Repositories
+﻿using System;
+using System.Collections.Generic;
+
+namespace PH.Well.Repositories
 {
     using System.Data;
     using System.Linq;
@@ -23,6 +26,14 @@
                     .SingleOrDefault();
         }
 
+        public IEnumerable<User> GetByBranchId(int branchId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGetByBranchId)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
+                    .Query<User>();
+        }
+
         protected override void SaveNew(User entity)
         {
             entity.Id =
@@ -36,6 +47,19 @@
                     .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)
                     .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                     .Query<int>().SingleOrDefault();
+        }
+
+        public void AssignJobToUser(int userId, int jobId)
+        {
+            var now = DateTime.Now;
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.AssignJobToUser)
+                    .AddParameter("UserId", userId, DbType.Int32)
+                    .AddParameter("JobId", jobId, DbType.Int32)
+                    .AddParameter("CreatedBy", "Test", DbType.String, size: 50)
+                    .AddParameter("DateCreated", now, DbType.DateTime)
+                    .AddParameter("UpdatedBy", "Test", DbType.String, size: 50)
+                    .AddParameter("DateUpdated", now, DbType.DateTime)
+                    .Query<int>();
         }
     }
 }

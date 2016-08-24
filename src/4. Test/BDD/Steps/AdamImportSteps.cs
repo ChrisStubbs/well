@@ -3,6 +3,7 @@
     using System.IO;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Framework.Context;
 
     using PH.Well.BDD.Framework;
@@ -34,6 +35,7 @@
         private IEpodDomainImportService epodDomainImportService;
         private IAccountRepository accountRepository;
         private AdamFileMonitorService adamImport;
+        private readonly string currentUser = "epodBDDUser";
 
         public AdamImportSteps()
         {
@@ -122,6 +124,64 @@
         {
             var fileFolder = "Epod";
             ProcessImportFileWithNodeAdded(resultFile, parentNode, nodePosition, nodeToAdd, nodeValue, fileFolder, currentEpodRouteFile);
+        }
+
+
+        [Given(@"I have imported a valid Epod update file named '(.*)' with (.*) clean and (.*) exceptions")]
+        public void GivenIHaveImportedAValidEpodUpdateFileNamedWithCleanAndExceptions(string epodFile, int cleanLines, int exceptionLines)
+        {
+            var schemaErrors = new List<string>();
+
+            var adamContainer = container.GetInstance<IAdamFileMonitorService>();
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
+
+            schemaErrors = adamImport.Process(Path.Combine(filePath, epodFile), false);
+
+            ScenarioContext.Current.Add("cleanLines", cleanLines);
+            ScenarioContext.Current.Add("exceptionLines", exceptionLines);
+
+        }
+
+
+        [When(@"I start the ACL Well Clean process")]
+        public void WhenIStartTheACLWellCleanProcess()
+        {
+            var epodStatusMessage = string.Empty;
+            var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
+            wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
+        }
+
+
+        [Then(@"there should be (.*) exception lines left for a Job with and Id or (.*)")]
+        public void ThenThereShouldBeExceptionLinesLeftForAJobWithAndIdOr(int exceptionLines, int jobId)
+        {
+            var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
+            var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count();
+            Assert.AreEqual(jobDetailCount, exceptionLines);
+        }
+
+        [Given(@"I resolve one of the exceptions with a JobId of (.*)")]
+        public void GivenIResolveOneOfTheExceptionsWithAJobIdOf(int jobId)
+        {
+            var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
+            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
+            jobDetailToResolve.JobDetailStatusId = 1;
+            jobDetailrepositoryContainer.CurrentUser = currentUser;
+            jobDetailrepositoryContainer.JobDetailCreateOrUpdate(jobDetailToResolve);
+        }
+
+        [Given(@"I resolve all of the exceptions with a JobId of (.*)")]
+        public void GivenIResolveAllOfTheExceptionsWithAJobIdOf(int jobId)
+        {
+            var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
+            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).Where(x => x.JobDetailStatusId == 2);
+            jobDetailrepositoryContainer.CurrentUser = currentUser;
+
+            foreach (var jobDetail in jobDetailToResolve)
+            {
+                jobDetail.JobDetailStatusId = 1;
+                jobDetailrepositoryContainer.JobDetailCreateOrUpdate(jobDetail);
+            }        
         }
 
 

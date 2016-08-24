@@ -32,8 +32,9 @@ namespace PH.Well.BDD.Features.ACL
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EpodRouteFileSchemaValidation", "\tIn order to import correctly formed Epod route files\r\n\tAs a math idiot\r\n\tI want " +
-                    "to be able to validate exsisting Epod route files against a pre defined schema", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EpodRouteFileSchemaValidation", "\tIn order to import correctly formed Epod route files\r\n\tAs a user\r\n\tI want the sy" +
+                    "stem to be able to validate exsisting Epod route files against a pre defined sch" +
+                    "ema", ProgrammingLanguage.CSharp, new string[] {
                         "ignore"});
             testRunner.OnFeatureStart(featureInfo);
         }

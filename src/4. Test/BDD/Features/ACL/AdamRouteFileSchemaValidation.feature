@@ -1,7 +1,7 @@
 ﻿Feature: AdamRouteFileSchemaValidation
 	In order to import correctly formed ADAM route files
-	As a math idiot
-	I want to be able to validate exsisting ADAM route files against a pre defined schema
+	As a user
+	I want the system to be able to validate exsisting ADAM route files against a pre defined schema
 
 Scenario: Import ADAM route file with the CompanyID node missing from the first route header node
 	Given I have an invalid ADAM route file 'PH_ROUTES_MissingCompanyNode.xml' with a 'RouteHeader' node at position '0' with the 'CompanyID' node missing

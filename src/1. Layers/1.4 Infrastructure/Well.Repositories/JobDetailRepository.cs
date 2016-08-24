@@ -76,7 +76,7 @@
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
-                .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean)
+                .AddParameter("IsDeleted", jobDetail.IsDeleted = jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
 
             return this.GetById(id);

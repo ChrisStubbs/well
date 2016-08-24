@@ -1,19 +1,17 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
-import {ActivatedRoute} from '@angular/router';
-import {GlobalSettingsService} from '../shared/globalSettings';
+﻿import {Component, OnInit, ViewChild}  from '@angular/core';
+import {HTTP_PROVIDERS} from '@angular/http';
+import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
-
 import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
-
 import {DropDownItem} from "../shared/dropDownItem";
+
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, DeliveryService, PaginationService],
-    directives: [PaginationControlsCmp],
+    providers: [HTTP_PROVIDERS, DeliveryService, PaginationService],
+    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
     pipes: [PaginatePipe]
 })
 
@@ -36,8 +34,8 @@ export class DeliveryComponent implements OnInit {
 
     constructor(
         private deliveryService: DeliveryService,
-        private globalSettingsService: GlobalSettingsService,
-        private route: ActivatedRoute) {
+        private route: ActivatedRoute,
+        private router: Router) {
         route.params.subscribe(params => { this.deliveryId = params['id'] });
     }
 
@@ -53,12 +51,6 @@ export class DeliveryComponent implements OnInit {
     }
 
     lineClicked(line): void {
-
+        this.router.navigate(['/delivery', this.delivery.id, '/line', line.lineNo]);
     }
-
-    update(line): void {
-        //TODO - POSTBACK save
-    }
-
-
 }

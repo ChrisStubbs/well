@@ -1,0 +1,90 @@
+﻿<div class="table-container">
+    <ol class="breadcrumb">
+        <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
+        <li *ngIf="delivery.isException == false"><a routerLink="/clean">Clean</a></li>
+        <li><a routerLink="/delivery/{{delivery.id}}">{{delivery.deliveryType}} Delivery {{delivery.id}}</a></li>
+        <li class="active">Update delivery line</li>
+    </ol>
+</div>
+<div class="jumbotron">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Product</label>
+                <div class="form-label">{{deliveryLine.productCode}} - {{deliveryLine.productDescription}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Short</label>
+                <input class="form-control" type="number" value="{{deliveryLine.shortQuantity}}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Damaged</label>
+                <table class="table table-striped table-bordered" id="damageTable">
+                    <thead>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Reason</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="editable">
+                        <td><input type="number" class="form-control" value=""/></td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                    CAR01 - Dented
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">CAR01 - Dented</a></li>
+                                    <li><a href="#">CAR02 - Scuffed</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" (click)="remove()">Remove</button>
+                        </td>
+                    </tr>
+                    <tr class="editable">
+                        <td><input type="number" class="form-control" value=""/></td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                    CAR01 - Dented
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">CAR01 - Dented</a></li>
+                                    <li><a href="#">CAR02 - Scuffed</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" (click)="remove()">Remove</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button id="add-damage" type="button" class="btn btn-success" (click)="addDamage()">Add damage</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-group pull-right">
+        <button id="update-delivery-line" type="button" class="btn btn-success" (click)="update()">Save</button>
+        <button id="cancel-delivery-line" type="button" class="btn btn-primary" (click)="cancel()">Cancel</button>
+    </div>
+
+</div>

@@ -74,36 +74,19 @@ namespace PH.Well.BDD.Features.ACL
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines")]
-        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLines()
+        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve all")]
+        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveAll()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all", ((string[])(null)));
 #line 10
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 11
- testRunner.When("I start the ACL Well Clean process", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
- testRunner.Then("there should be 2 exception lines left for a Job with and Id or 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve all")]
-        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveAll()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all", ((string[])(null)));
-#line 14
- this.ScenarioSetup(scenarioInfo);
-#line 6
-this.FeatureBackground();
-#line 15
  testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 16
+#line 12
  testRunner.When("I start the ACL Well Clean process", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
+#line 13
  testRunner.Then("there should be 0 exception lines left for a Job with and Id or 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

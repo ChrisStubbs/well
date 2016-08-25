@@ -112,7 +112,7 @@
                 .AddParameter("Id", jobDetailDamage.Id, DbType.Int32)
                 .AddParameter("JobDetailId", jobDetailDamage.JobDetailId, DbType.Int32)
                 .AddParameter("Qty", jobDetailDamage.Qty, DbType.Decimal)
-                .AddParameter("DamageReasonsId", (int)jobDetailDamage.Reason, DbType.Int32)
+                .AddParameter("DamageReasonsId", (int)jobDetailDamage.DamageReason, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .Query<int>().FirstOrDefault();
 

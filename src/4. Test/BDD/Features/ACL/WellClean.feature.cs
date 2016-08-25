@@ -83,11 +83,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 11
- testRunner.Given("I have imported a valid Epod update file named \'ePOD__20160701_10452212189454\' wi" +
-                    "th 2 clean and 2 exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
  testRunner.When("I start the ACL Well Clean process", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 12
  testRunner.Then("there should be 2 exception lines left for a Job with and Id or 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -98,18 +95,15 @@ this.FeatureBackground();
         public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveAll()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all", ((string[])(null)));
-#line 15
+#line 14
  this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 16
- testRunner.Given("I have imported a valid Epod update file named \'ePOD__20160701_10452212189454\' wi" +
-                    "th 2 clean and 2 exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 17
+#line 15
  testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 18
+#line 16
  testRunner.When("I start the ACL Well Clean process", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
+#line 17
  testRunner.Then("there should be 0 exception lines left for a Job with and Id or 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

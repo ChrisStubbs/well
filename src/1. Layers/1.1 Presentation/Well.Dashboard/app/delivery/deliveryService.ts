@@ -2,6 +2,7 @@
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Delivery} from './delivery';
+import {DamageReason} from './damageReason';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
@@ -20,6 +21,12 @@ export class DeliveryService {
     getDelivery(deliveryId: number): Observable<Delivery> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId)
             .map((response: Response) => <Delivery>response.json())
+            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+    }
+
+    getDamageReasons() {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'damage-reasons/')
+            .map((response: Response) => <DamageReason[]>response.json())
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
 }

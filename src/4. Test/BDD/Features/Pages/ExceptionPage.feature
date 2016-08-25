@@ -2,12 +2,16 @@
 Feature: ExceptionPage
 	As a user
 	I wish to be able to view and filter exception delivery information
-	so that I can determine which deliveries have been unsuccesful
+	so that I can determine
+	which deliveries have been unsuccesful
 
-Scenario: A user can view Exception Delivery Information
+Background: 
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
+
+Scenario: A user can view Exception Delivery Information
+	Given I have selected branch 22
 	And  3 deliveries have been marked as exceptions
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
@@ -18,9 +22,7 @@ Scenario: A user can view Exception Delivery Information
 
 
 Scenario: A user can filter Exception Delivery information
-	Given I have a clean database
-	And I have loaded the Adam route data
-	And I have selected branch 22
+	Given I have selected branch 22
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I filter the exception delivery grid with the option 'Route' and value '006'
@@ -49,9 +51,7 @@ Scenario: A user can filter Exception Delivery information
 
 
 Scenario: A user can page through Exception Delivery information
-	Given I have a clean database
-	And I have loaded the Adam route data
-	And I have selected branch 22
+	Given I have selected branch 22
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	Then '10' rows of exception delivery data will be displayed
@@ -62,9 +62,7 @@ Scenario: A user can page through Exception Delivery information
 	Then '10' rows of exception delivery data will be displayed
 
 Scenario: View exception details at lower level
-	Given I have a clean database
-	And I have loaded the Adam route data
-	And I have selected branch 22
+	Given I have selected branch 22
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I click on a exception row

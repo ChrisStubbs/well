@@ -240,7 +240,7 @@
                 dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.JobDetailDamages[0].Id, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobDetailId", jobDetail.JobDetailDamages[0].JobDetailId, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Qty", jobDetail.JobDetailDamages[0].Qty, DbType.Decimal, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DamageReasonsId", (int) jobDetail.JobDetailDamages[0].Reason, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("DamageReasonsId", (int) jobDetail.JobDetailDamages[0].DamageReason, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
@@ -252,7 +252,7 @@
                 dapperProxy.Verify(x => x.AddParameter("Id", jobDetail.JobDetailDamages[0].Id, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("JobDetailId", jobDetail.JobDetailDamages[0].JobDetailId, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("Qty", jobDetail.JobDetailDamages[0].Qty, DbType.Decimal, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("DamageReasonsId", (int)jobDetail.JobDetailDamages[0].Reason, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("DamageReasonsId", (int)jobDetail.JobDetailDamages[0].DamageReason, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));

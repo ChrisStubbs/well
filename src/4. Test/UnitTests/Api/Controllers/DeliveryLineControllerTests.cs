@@ -117,10 +117,10 @@
                     Times.Exactly(2));
 
                 jobDetailRepository.Verify(r => r.CreateOrUpdateJobDetailDamage(
-                    It.Is<JobDetailDamage>(j => j.Qty == 1 && j.Reason == DamageReasons.CAR01)), Times.Once);
+                    It.Is<JobDetailDamage>(j => j.Qty == 1 && j.DamageReason == DamageReasons.CAR01)), Times.Once);
 
                 jobDetailRepository.Verify(r => r.CreateOrUpdateJobDetailDamage(
-                    It.Is<JobDetailDamage>(j => j.Qty == 3 && j.Reason == DamageReasons.CAR02)), Times.Once);
+                    It.Is<JobDetailDamage>(j => j.Qty == 3 && j.DamageReason == DamageReasons.CAR02)), Times.Once);
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }

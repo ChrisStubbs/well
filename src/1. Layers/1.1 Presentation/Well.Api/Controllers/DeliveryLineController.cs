@@ -56,8 +56,8 @@
                 foreach (var damageUpdateModel in model.Damages)
                 {
                     var reasonCode = (DamageReasons) Enum.Parse(typeof(DamageReasons), damageUpdateModel.ReasonCode);
-                    var damage = jobDetail.JobDetailDamages.SingleOrDefault(d => d.Reason == reasonCode) ??
-                                 new JobDetailDamage() {Reason = reasonCode};
+                    var damage = jobDetail.JobDetailDamages.SingleOrDefault(d => d.DamageReason == reasonCode) ??
+                                 new JobDetailDamage() {DamageReason = reasonCode};
                     damage.Qty = damageUpdateModel.Quantity;
                     damages.Add(damage);
                 }

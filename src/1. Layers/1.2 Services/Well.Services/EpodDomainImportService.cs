@@ -150,6 +150,12 @@
                         jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
                     }
                 }
+
+                foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
+                {
+                    jobDetailDamage.JobDetailId = newJobDetail.Id;
+                    jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);
+                }
             }
         }
 
@@ -597,7 +603,7 @@
                     foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                     {
                         jobDetailDamage.JobDetailId = currentJobDetail.Id;
-                        jobDetailDamage.Reason = jobDetailDamage.Reason ?? DamageReasons.Notdef;
+                        jobDetailDamage.DamageReason = jobDetailDamage.DamageReason ?? DamageReasons.Notdef;
                         this.jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);
                     }
                 }

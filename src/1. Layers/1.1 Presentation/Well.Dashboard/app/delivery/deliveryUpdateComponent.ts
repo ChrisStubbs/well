@@ -1,6 +1,7 @@
 ﻿import {Component} from '@angular/core';
 import {Delivery} from './delivery';
 import {DeliveryLine} from './deliveryLine';
+import {DamageReason} from './damageReason';
 import {DeliveryService} from "./deliveryService";
 import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 import * as _ from 'lodash';
@@ -15,6 +16,7 @@ export class DeliveryUpdateComponent {
     lineNo: number;
     delivery: Delivery = new Delivery(null);
     deliveryLine: DeliveryLine = new DeliveryLine(null);
+    reasons: DamageReason[] = new Array<DamageReason>();
 
     constructor(private deliveryService: DeliveryService,
         private route: ActivatedRoute,
@@ -23,6 +25,12 @@ export class DeliveryUpdateComponent {
     }
 
     ngOnInit(): void {
+
+        this.deliveryService.getDamageReasons()
+            .subscribe(reasons => {
+                this.reasons = reasons;
+                console.log(reasons);
+            });
 
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(delivery => {

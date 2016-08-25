@@ -38,6 +38,7 @@
         {
             this.dapperProxy.ExecuteSql("DELETE FROM JobAttribute");
             this.dapperProxy.ExecuteSql("DELETE FROM JobDetailAttribute");
+            this.dapperProxy.ExecuteSql("DELETE FROM JobDetailDamage");
             this.dapperProxy.ExecuteSql("DELETE FROM JobDetail");
             this.dapperProxy.ExecuteSql("DELETE FROM Job");
             this.dapperProxy.ExecuteSql("DELETE FROM Account");

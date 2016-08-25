@@ -4,14 +4,16 @@ namespace PH.Well.Domain
 {
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
+    using Common.Extensions;
     using Enums;
+    using ValueObjects;
 
     [Serializable()]
     public class JobDetailDamage : Entity<int>
     {
         public JobDetailDamage()
         {
-            this.Reason = DamageReasons.Notdef;
+            
         }
 
         [XmlElement("Qty")]
@@ -24,6 +26,27 @@ namespace PH.Well.Domain
         public int JobDetailId { get; set; }
 
         [XmlElement("Reason")]
-        public DamageReasons? Reason { get; set; }
+        public Reason Reason { get; set; }
+
+        [XmlIgnore]
+        public DamageReasons? DamageReason
+        {
+            get
+            {
+                if (Reason != null)
+                {
+                    return (DamageReasons)Enum.Parse(typeof(DamageReasons), Reason.Code);
+                }
+                return null;
+            }
+            set
+            {
+                Reason = new Reason()
+                {
+                    Code = value.ToString(),
+                    Description = StringExtensions.GetEnumDescription(value)
+                };
+            }
+        }
     }
 }

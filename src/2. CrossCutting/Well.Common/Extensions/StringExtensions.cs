@@ -103,6 +103,23 @@
             return en.ToString();
         }
 
+        public static string GetEnumDescription<T>(string value)
+        {
+            MemberInfo[] memInfo = typeof(T).GetMember(value);
+
+            if (memInfo.Length > 0)
+            {
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                if (attrs.Length > 0)
+                {
+                    return ((DescriptionAttribute)attrs[0]).Description;
+                }
+            }
+
+            return value;
+        }
+
         public static IEnumerable<string> GetDescriptions<T>()
         {
             var attributes = typeof(T).GetMembers()

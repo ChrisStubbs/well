@@ -1,4 +1,6 @@
-﻿export class DeliveryLine {
+﻿import {Damage} from './damage';
+
+export class DeliveryLine {
     constructor(line: DeliveryLine) {
         if (line) {
             this.lineNo = line.lineNo;
@@ -11,6 +13,7 @@
             this.damagedQuantityOriginal = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
             this.shortQuantityOriginal = line.shortQuantity;
+            this.damages = line.damages;
         }
     }
 
@@ -25,4 +28,5 @@
     shortQuantity: number;
     shortQuantityOriginal: number;
     isEdit: boolean = false;
+    damages: Damage[] = new Array<Damage>();
 }

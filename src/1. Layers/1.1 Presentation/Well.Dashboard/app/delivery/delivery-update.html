@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>Short</label>
-                <input class="form-control" type="number" value="{{deliveryLine.shortQuantity}}"/>
+                <input class="form-control" type="number" [(ngModel)]="deliveryLine.shortQuantity"/>
             </div>
         </div>
     </div>
@@ -39,12 +39,12 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let damage of deliveryLine.damages" class="editable">
-                        <td><input type="number" class="form-control" value="{{damage.quantity}}"/></td>
+                        <td><input type="number" class="form-control" [(ngModel)]="damage.quantity"/></td>
                         <td>
                             <select class="form-control" id="damageReason"
                                     required
                                     [(ngModel)]="damage.reasonCode" name="reason">
-                                <option *ngFor="let r of reasons" [value]="r.code">{{r.code}}</option>
+                                <option *ngFor="let r of reasons" [value]="r.code">{{r.code}} - {{r.description}}</option>
                             </select>
                         </td>
                         <td>

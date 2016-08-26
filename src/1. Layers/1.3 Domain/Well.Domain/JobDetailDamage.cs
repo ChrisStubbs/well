@@ -29,7 +29,7 @@ namespace PH.Well.Domain
         public Reason Reason { get; set; }
 
         [XmlIgnore]
-        public DamageReasons? DamageReason
+        public DamageReasons DamageReason
         {
             get
             {
@@ -37,7 +37,7 @@ namespace PH.Well.Domain
                 {
                     return (DamageReasons)Enum.Parse(typeof(DamageReasons), Reason.Code);
                 }
-                return null;
+                return DamageReasons.Notdef;
             }
             set
             {

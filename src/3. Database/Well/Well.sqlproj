@@ -128,7 +128,7 @@
     <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
@@ -190,6 +190,10 @@
     <Build Include="dbo\StoredProcedures\Routeheader_GetByRouteId.sql" />
     <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_Update.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailDamage_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailDamage_Update.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailDamage_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

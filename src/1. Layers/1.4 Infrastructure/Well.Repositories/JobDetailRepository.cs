@@ -34,12 +34,9 @@
                 .Query<JobDetail>();
         }
 
-
-        
-
         public JobDetail GetByJobLine(int jobId, int lineNumber)
         {
-            throw new System.NotImplementedException();
+            return GetByJobId(jobId).SingleOrDefault(j => j.LineNumber == lineNumber);
         }
 
         public JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId)
@@ -54,17 +51,15 @@
             return jobDetail;
         }
 
-        public JobDetail JobDetailCreateOrUpdate(JobDetail jobDetail)
+        protected override void SaveNew(JobDetail jobDetail)
         {
-        
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailCreateOrUpdate)
-                .AddParameter("Id", jobDetail.Id, DbType.Int32)
+            jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("Barcode", jobDetail.BarCode, DbType.Int32)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDispatchQty, DbType.Decimal)
                 .AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String)
                 .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
+                .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("SkuWeight", jobDetail.SkuWeight, DbType.Decimal)
                 .AddParameter("SkuCube", jobDetail.SkuCube, DbType.Decimal)
                 .AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String)
@@ -76,11 +71,25 @@
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
-                .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.Boolean)
+                .AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String)
+                .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
+                .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
+                .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
                 .Query<int>().FirstOrDefault();
+        }
 
-            return this.GetById(id);
-
+        protected override void UpdateExisting(JobDetail jobDetail)
+        {
+            dapperProxy.WithStoredProcedure("JobDetail_Update")
+                .AddParameter("Id", jobDetail.Id, DbType.Int32)
+                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDispatchQty, DbType.Decimal)
+                .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
+                .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
+                .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.String)
+                .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
+                .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
+                .Execute();
         }
 
         public void AddJobDetailAttributes(Attribute attribute)
@@ -104,22 +113,6 @@
                    .FirstOrDefault();
 
             return jobDetail;
-        }
-
-        public void CreateOrUpdateJobDetailDamage(JobDetailDamage jobDetailDamage)
-        {
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageCreateOrUpdate)
-                .AddParameter("Id", jobDetailDamage.Id, DbType.Int32)
-                .AddParameter("JobDetailId", jobDetailDamage.JobDetailId, DbType.Int32)
-                .AddParameter("Qty", jobDetailDamage.Qty, DbType.Decimal)
-                .AddParameter("DamageReasonsId", (int)jobDetailDamage.DamageReason, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String)
-                .Query<int>().FirstOrDefault();
-
-            if (jobDetailDamage.IsTransient())
-            {
-                jobDetailDamage.Id = id;
-            }
         }
 
         public void DeleteJobDetailById(int id)

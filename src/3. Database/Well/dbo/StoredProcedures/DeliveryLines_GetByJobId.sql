@@ -4,6 +4,7 @@
 AS
 BEGIN
 	SELECT jd.[Id]
+		,jd.JobId
 		,jd.[LineNumber] AS [LineNo]
 	    ,jd.[Barcode] AS ProductCode
 		,jd.[ProdDesc] AS ProductDescription

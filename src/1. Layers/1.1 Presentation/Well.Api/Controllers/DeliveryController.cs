@@ -132,6 +132,7 @@
             {
                 deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
                 {
+                    JobId = line.JobId,
                     LineNo = line.LineNo,
                     ProductCode = line.ProductCode,
                     ProductDescription = line.ProductDescription,

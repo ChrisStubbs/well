@@ -11,6 +11,7 @@
         }
 
         public int Id { get; set; }
+        public int JobId { get; set; }
         public int LineNo { get; set; }
         public string ProductCode { get; set; }
         public string ProductDescription { get; set; }

@@ -5,6 +5,7 @@ import {Damage} from './damage';
 import {DamageReason} from './damageReason';
 import {DeliveryService} from "./deliveryService";
 import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import * as lodash from 'lodash';
 
 @Component({
@@ -20,6 +21,7 @@ export class DeliveryUpdateComponent {
     reasons: DamageReason[] = new Array<DamageReason>();
 
     constructor(private deliveryService: DeliveryService,
+        private toasterService: ToasterService,
         private route: ActivatedRoute,
         private router: Router) {
         route.params.subscribe(params => { this.deliveryId = parseInt(params['id'],10), this.lineNo = parseInt(params['line'],10) });
@@ -28,16 +30,12 @@ export class DeliveryUpdateComponent {
     ngOnInit(): void {
 
         this.deliveryService.getDamageReasons()
-            .subscribe(reasons => {
-                this.reasons = reasons;
-                //console.log(reasons);
-            });
+            .subscribe(reasons => { this.reasons = reasons; });
 
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(delivery => {
                 this.delivery = new Delivery(delivery);
                 this.deliveryLine = lodash.find(this.delivery.deliveryLines, { lineNo: this.lineNo });
-                console.log(this.deliveryLine);
             });
     }
 
@@ -47,13 +45,15 @@ export class DeliveryUpdateComponent {
     }
 
     removeDamage(index) {
-        console.log("Removing index: " + index);        
         lodash.remove(this.deliveryLine.damages, { index: index }); 
-        console.log(this.deliveryLine.damages);      
     }
 
     update() {
-        //TODO - POSTBACK Update
+        this.deliveryService.updateDeliveryLine(this.deliveryLine)
+            .subscribe(() => {
+                this.toasterService.pop('success', 'Delivery line updated', '');
+                this.router.navigate(['/delivery', this.delivery.id]);
+            });
     }
 
     cancel() {

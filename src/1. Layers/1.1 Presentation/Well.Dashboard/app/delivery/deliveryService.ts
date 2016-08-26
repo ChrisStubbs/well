@@ -1,5 +1,5 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Delivery} from './delivery';
 import {DamageReason} from './damageReason';
@@ -24,9 +24,20 @@ export class DeliveryService {
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
 
-    getDamageReasons() {
+    getDamageReasons(): Observable<DamageReason[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'damage-reasons/')
             .map((response: Response) => <DamageReason[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+    }
+
+    updateDeliveryLine(line): Observable<any> {
+        let body = JSON.stringify(line);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line/',
+                body,
+                options)
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
 }

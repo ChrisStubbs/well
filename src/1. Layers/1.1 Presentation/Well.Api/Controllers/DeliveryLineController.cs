@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Transactions;
     using System.Web.Http;
     using Common.Contracts;
     using Domain;
@@ -19,25 +20,29 @@
         private readonly ILogger logger;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IJobDetailRepository jobDetailRepository;
+        private readonly IJobDetailDamageRepo jobDetailDamageRepo;
 
         public DeliveryLineController(
             ILogger logger,
             IServerErrorResponseHandler serverErrorResponseHandler,
-            IJobDetailRepository jobDetailRepository)
+            IJobDetailRepository jobDetailRepository,
+            IJobDetailDamageRepo jobDetailDamageRepo)
         {
             this.logger = logger;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
+            this.jobDetailDamageRepo = jobDetailDamageRepo;
+            this.jobDetailRepository.CurrentUser = UserName;
+            this.jobDetailDamageRepo.CurrentUser = UserName;
         }
 
         [HttpPut]
         [Route("delivery-line")]
-        public HttpResponseMessage Update(DeliveryLineUpdateModel model)
+        public HttpResponseMessage Update(DeliveryLineModel model)
         {
             try
             {
-                var jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNumber);
-
+                var jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNo);
                 if (jobDetail == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
@@ -45,7 +50,7 @@
                         Message = "Unable to update delivery line",
                         Errors = new List<string>()
                         {
-                            $"No matching delivery line found for JobId: {model.JobId}, LineNumber: {model.LineNumber}."
+                            $"No matching delivery line found for JobId: {model.JobId}, LineNumber: {model.LineNo}."
                         }
                     });
                 }
@@ -56,17 +61,25 @@
                 foreach (var damageUpdateModel in model.Damages)
                 {
                     var reasonCode = (DamageReasons) Enum.Parse(typeof(DamageReasons), damageUpdateModel.ReasonCode);
-                    var damage = jobDetail.JobDetailDamages.SingleOrDefault(d => d.DamageReason == reasonCode) ??
-                                 new JobDetailDamage() {DamageReason = reasonCode};
-                    damage.Qty = damageUpdateModel.Quantity;
+                    var damage = new JobDetailDamage
+                    {
+                        DamageReason = reasonCode,
+                        JobDetailId = jobDetail.Id,
+                        Qty = damageUpdateModel.Quantity
+                    };
                     damages.Add(damage);
                 }
                 jobDetail.JobDetailDamages = damages;
 
-                jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
-                foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
+                using (var transactionScope = new TransactionScope())
                 {
-                    jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);
+                    jobDetailRepository.Update(jobDetail);
+                    jobDetailDamageRepo.Delete(jobDetail.Id);
+                    foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
+                    {
+                        jobDetailDamageRepo.Save(jobDetailDamage);
+                    }
+                    transactionScope.Complete();
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);

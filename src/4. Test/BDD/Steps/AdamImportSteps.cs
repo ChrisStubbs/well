@@ -171,7 +171,7 @@
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
             jobDetailrepositoryContainer.CurrentUser = currentUser;
-            jobDetailrepositoryContainer.JobDetailCreateOrUpdate(jobDetailToResolve);
+            jobDetailrepositoryContainer.Update(jobDetailToResolve);
         }
 
         [Given(@"I resolve all of the exceptions with a JobId of (.*)")]
@@ -184,7 +184,7 @@
             foreach (var jobDetail in jobDetailToResolve)
             {
                 jobDetail.JobDetailStatusId = 1;
-                jobDetailrepositoryContainer.JobDetailCreateOrUpdate(jobDetail);
+                jobDetailrepositoryContainer.Update(jobDetail);
             }        
         }
 

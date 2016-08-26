@@ -3,6 +3,7 @@
 export class DeliveryLine {
     constructor(line: DeliveryLine) {
         if (line) {
+            this.jobId = line.jobId;
             this.lineNo = line.lineNo;
             this.productCode = line.productCode;
             this.productDescription = line.productDescription;
@@ -24,6 +25,7 @@ export class DeliveryLine {
         }
     }
 
+    jobId: number;
     lineNo: number;
     productCode: string;
     productDescription: string;

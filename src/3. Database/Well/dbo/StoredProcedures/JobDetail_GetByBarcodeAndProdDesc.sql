@@ -19,12 +19,15 @@ AS
       ,[TextField5]
       ,[SkuGoodsValue]
       ,[JobId]
+	  ,[JobDetailStatusId]
+	  ,[IsDeleted]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
   FROM [dbo].[JobDetail]
-  WHERE [Barcode] = @Barcode
+  WHERE [Barcode] = @Barcode 
   AND JobId = @JobId
+  and IsDeleted = 0
 RETURN 0

@@ -85,9 +85,6 @@
         [XmlIgnore]
         public int JobDetailStatusId { get; set; }
 
-        [XmlIgnore]
-        public new bool IsDeleted { get; set; }
-
         [XmlArray("JobDetailDamages")]
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
         public Collection<JobDetailDamage>  JobDetailDamages { get; set; }

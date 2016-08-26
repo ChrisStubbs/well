@@ -178,10 +178,10 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>5</OriginalDespatchQty>
-                  <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
-                  <OrderedQty>5</OrderedQty>
+                  <Barcode>90002</Barcode>
+                  <OriginalDespatchQty>20</OriginalDespatchQty>
+                  <ProdDesc>Big old greasy pasties</ProdDesc>
+                  <OrderedQty>20</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
                   <UnitMeasure>6</UnitMeasure>

@@ -22,8 +22,16 @@ SELECT [Id]
 	  ,[TextField5]
       ,[SkuGoodsValue]
       ,[JobId]
+	  ,[JobDetailStatusId]
+	  ,[IsDeleted]
+      ,[CreatedBy]
+      ,[DateCreated]
+      ,[UpdatedBy]
+      ,[DateUpdated]
+      ,[Version]
   FROM [dbo].[JobDetail]
   WHERE [LineNumber] = @LineNumber
   AND [Barcode] = @Barcode
   AND [JobId] = @JobId
+  AND IsDeleted = 0
 END

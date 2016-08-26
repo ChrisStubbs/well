@@ -27,4 +27,5 @@ AS
       ,[Version]
   FROM [dbo].[JobDetail]
   WHERE [JobId] = @JobId
+  And [IsDeleted] = 0
 RETURN 0

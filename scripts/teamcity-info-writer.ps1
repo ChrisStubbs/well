@@ -27,11 +27,13 @@ Write-Host "BDD $BDDPending"
 Write-Host "BDD $BDDSkipped"
 Write-Host "BDD $BDDFailed"
 
-$Result = "FAILURE"
-If ($BDDFailed.Contains("Failed: 0")) # -and $UITotals[0].Failed -eq 0)
-{
-	$Result = "SUCCESS"
-}
+#$Result = "FAILURE"
+#If ($BDDFailed.Contains("Failed: 0")) # -and $UITotals[0].Failed -eq 0)
+#{
+#	$Result = "SUCCESS"
+#}
+#We don't need to write a failure result as the BDD step itself gives a non zero exit code if it fails.
+$Result = "SUCCESS" 
 
 # this is where the document will be saved:
 $Path = "$BuildRoot\teamcity-info.xml"

@@ -13,7 +13,14 @@ export class DeliveryLine {
             this.damagedQuantityOriginal = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
             this.shortQuantityOriginal = line.shortQuantity;
-            this.damages = line.damages;
+
+            if (line.damages) {
+                var index: number = 0;
+                for (let damage of line.damages) {
+                    this.damages.push(new Damage(index, damage.quantity, damage.reasonCode));
+                    index++;
+                }
+            }
         }
     }
 

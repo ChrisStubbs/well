@@ -455,7 +455,7 @@
                   
                     foreach (var jobDetail in jobDetailsForJob)
                     {
-                        if (jobDetail.IsDeleted)
+                        if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res)
                             DeleteJobDetail(jobDetail.Id);
                     }
 

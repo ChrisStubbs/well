@@ -2,25 +2,20 @@
 import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
+import {PaginationService } from 'ng2-pagination';
 import {IRoute} from './route';
 import {RouteHeaderService} from './routeHeaderService';
-import {OptionFilterComponent} from '../shared/optionfilter.component';
-import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {DropDownItem} from "../shared/dropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 import {WellModal} from "../shared/well-modal";
 import {RefreshService} from "../shared/refreshService";
-import {OrderBy} from "../shared/orderBy"
-
 
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, RouteHeaderService, PaginationService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, WellModal],
-    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
+    directives: [WellModal]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;

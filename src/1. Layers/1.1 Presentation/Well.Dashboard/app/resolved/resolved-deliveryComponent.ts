@@ -4,11 +4,9 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
+import {PaginationService } from 'ng2-pagination';
 import {ResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
-import {OptionFilterComponent} from '../shared/optionfilter.component';
-import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {DropDownItem} from "../shared/dropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
@@ -21,8 +19,7 @@ import {RefreshService} from '../shared/refreshService';
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal],
-    pipes: [OptionFilterPipe, PaginatePipe]
+    directives: [ContactModal]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     lastRefresh = Date.now();

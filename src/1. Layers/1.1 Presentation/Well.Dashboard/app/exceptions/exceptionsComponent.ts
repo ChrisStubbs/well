@@ -4,9 +4,7 @@ import { HTTP_PROVIDERS, Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
-import {OptionFilterComponent} from '../shared/optionfilter.component';
-import {OptionFilterPipe } from '../shared/optionFilterPipe';
+import {PaginationService } from 'ng2-pagination';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contact-modal";
@@ -19,14 +17,12 @@ import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
-import {OrderBy} from "../shared/orderBy";
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [HTTP_PROVIDERS, GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal, AssignModal],
-    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
+    directives: [ContactModal, AssignModal]
 })
 
 export class ExceptionsComponent implements OnInit {

@@ -1,6 +1,5 @@
 ﻿namespace Well.Clean.Infrastructure
 {
-    using System.ComponentModel;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -8,7 +7,6 @@
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodImport;
-    using StructureMap;
 
     public static class DependancyRegister
     {

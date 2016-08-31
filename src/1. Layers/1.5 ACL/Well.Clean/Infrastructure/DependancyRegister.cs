@@ -1,6 +1,6 @@
 ﻿namespace Well.Clean.Infrastructure
 {
-
+    using System.ComponentModel;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -12,9 +12,9 @@
 
     public static class DependancyRegister
     {
-        public static Container InitIoc()
+        public static StructureMap.Container InitIoc()
         {
-            return new Container(
+            return new StructureMap.Container(
                 x =>
                 {
                     x.For<IEpodSchemaProvider>().Use<EpodSchemaProvider>();

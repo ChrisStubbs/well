@@ -4,6 +4,7 @@
 
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
 
     public interface IJobRepository : IRepository<Job, int>
     {
@@ -15,5 +16,6 @@
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
         IEnumerable<Job> GetByStopId(int id);
         void DeleteJobById(int id);
+        IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId);
     }
 }

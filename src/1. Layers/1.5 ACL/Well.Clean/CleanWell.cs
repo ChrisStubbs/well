@@ -1,12 +1,13 @@
 ﻿namespace Well.Clean
 {
+    using System.ComponentModel;
     using PH.Well.Common.Contracts;
     using PH.Well.Services.Contracts;
     using StructureMap;
 
     public class CleanWell
     {
-        public void Process(IContainer container, ref string epodStatusMessage)
+        public void Process(StructureMap.IContainer container, ref string epodStatusMessage)
         {
             var logger = container.GetInstance<ILogger>();
             var epodService = container.GetInstance<IEpodDomainImportService>();

@@ -72,6 +72,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />
     <Compile Include="ValueObjects\Damage.cs" />
     <Compile Include="ValueObjects\ExceptionStatuses.cs" />

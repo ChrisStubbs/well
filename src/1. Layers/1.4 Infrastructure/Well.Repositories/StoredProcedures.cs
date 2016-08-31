@@ -48,6 +48,7 @@
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";
         public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
+        public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
 
         //jobdetail
         public static string JobDetailGetById = "JobDetail_GetById";

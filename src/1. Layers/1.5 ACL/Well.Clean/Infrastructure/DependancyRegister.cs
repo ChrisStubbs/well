@@ -7,12 +7,13 @@
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodImport;
+    using StructureMap;
 
     public static class DependancyRegister
     {
-        public static StructureMap.Container InitIoc()
+        public static Container InitIoc()
         {
-            return new StructureMap.Container(
+            return new Container(
                 x =>
                 {
                     x.For<IEpodSchemaProvider>().Use<EpodSchemaProvider>();

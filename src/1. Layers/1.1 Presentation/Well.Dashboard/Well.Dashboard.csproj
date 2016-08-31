@@ -348,6 +348,7 @@
     <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\account\accountComponent.ts" />
     <TypeScriptCompile Include="app\account\accountService.ts" />
+    <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\appRoutes.ts" />
     <TypeScriptCompile Include="app\branch\Branch.ts" />

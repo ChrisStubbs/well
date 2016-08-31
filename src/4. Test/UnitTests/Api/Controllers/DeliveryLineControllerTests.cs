@@ -22,6 +22,7 @@
         private Mock<ILogger> logger;
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
         private Mock<IJobDetailRepository> jobDetailRepository;
+        private Mock<IJobDetailDamageRepo> jobDetailDamageRepo;
 
         [SetUp]
         public void Setup()
@@ -29,10 +30,15 @@
             logger = new Mock<ILogger>(MockBehavior.Strict);
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
+            jobDetailDamageRepo = new Mock<IJobDetailDamageRepo>(MockBehavior.Strict);
+
+            jobDetailRepository.SetupSet(r => r.CurrentUser = It.IsAny<string>());
+            jobDetailDamageRepo.SetupSet(r => r.CurrentUser = It.IsAny<string>());
 
             Controller = new DeliveryLineController(logger.Object,
                 serverErrorResponseHandler.Object,
-                jobDetailRepository.Object);
+                jobDetailRepository.Object,
+                jobDetailDamageRepo.Object);
             SetupController();
         }
 
@@ -60,13 +66,13 @@
             [Test]
             public void GivenNoMatchingLine_ThenReturnsBadRequest()
             {
-                var model = new DeliveryLineUpdateModel()
+                var model = new DeliveryLineModel()
                 {
                     JobId = 1,
-                    LineNumber = 2
+                    LineNo = 2
                 };
 
-                jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNumber)).Returns((JobDetail) null);
+                jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNo)).Returns((JobDetail) null);
 
                 HttpResponseMessage response = Controller.Update(model);
                 var responseModel = GetResponseObject<ErrorModel>(response);
@@ -75,17 +81,17 @@
 
                 Assert.AreEqual("Unable to update delivery line", responseModel.Message);
                 Assert.AreEqual(
-                    $"No matching delivery line found for JobId: {model.JobId}, LineNumber: {model.LineNumber}.",
+                    $"No matching delivery line found for JobId: {model.JobId}, LineNumber: {model.LineNo}.",
                     responseModel.Errors[0]);
             }
 
             [Test]
             public void GivenMatchingLine_ThenUpdatesJobDetailAndReturnsOK()
             {
-                var model = new DeliveryLineUpdateModel()
+                var model = new DeliveryLineModel()
                 {
                     JobId = 1,
-                    LineNumber = 2,
+                    LineNo = 2,
                     Damages = new List<DamageModel>()
                     {
                         new DamageModel() {Quantity = 1, ReasonCode = "CAR01"},
@@ -94,33 +100,37 @@
                     ShortQuantity = 2
                 };
 
-                jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNumber)).Returns(new JobDetail()
+                jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNo)).Returns(new JobDetail()
                 {
+                    Id = 5,
                     JobId = model.JobId,
-                    LineNumber = model.LineNumber,
+                    LineNumber = model.LineNo,
                     ShortQty = 0
                 });
 
-                jobDetailRepository.Setup(r => r.JobDetailCreateOrUpdate(It.IsAny<JobDetail>())).Returns(new JobDetail());
+                jobDetailRepository.Setup(r => r.Update(It.IsAny<JobDetail>()));
                 jobDetailRepository.Setup(r => r.GetById(It.IsAny<int>()));
-                jobDetailRepository.Setup(r => r.CreateOrUpdateJobDetailDamage(It.IsAny<JobDetailDamage>()));
+                jobDetailDamageRepo.Setup(r => r.Delete(It.IsAny<int>()));
+                jobDetailDamageRepo.Setup(r => r.Save(It.IsAny<JobDetailDamage>()));
 
 
                 HttpResponseMessage response = Controller.Update(model);
 
                 jobDetailRepository.Verify(
-                    r => r.JobDetailCreateOrUpdate(It.Is<JobDetail>(j => j.JobId == model.JobId &&
-                                                                j.LineNumber == model.LineNumber &&
+                    r => r.Update(It.Is<JobDetail>(j => j.JobId == model.JobId &&
+                                                                j.LineNumber == model.LineNo &&
                                                                 j.ShortQty == model.ShortQuantity)), Times.Once);
 
-                jobDetailRepository.Verify(r => r.CreateOrUpdateJobDetailDamage(It.IsAny<JobDetailDamage>()),
+                jobDetailDamageRepo.Verify(r => r.Delete(It.Is<int>(i => i == 5)));
+
+                jobDetailDamageRepo.Verify(r => r.Save(It.IsAny<JobDetailDamage>()),
                     Times.Exactly(2));
 
-                jobDetailRepository.Verify(r => r.CreateOrUpdateJobDetailDamage(
-                    It.Is<JobDetailDamage>(j => j.Qty == 1 && j.Reason == DamageReasons.CAR01)), Times.Once);
+                jobDetailDamageRepo.Verify(r => r.Save(
+                    It.Is<JobDetailDamage>(j => j.JobDetailId == 5 && j.Qty == 1 && j.DamageReason == DamageReasons.CAR01)), Times.Once);
 
-                jobDetailRepository.Verify(r => r.CreateOrUpdateJobDetailDamage(
-                    It.Is<JobDetailDamage>(j => j.Qty == 3 && j.Reason == DamageReasons.CAR02)), Times.Once);
+                jobDetailDamageRepo.Verify(r => r.Save(
+                    It.Is<JobDetailDamage>(j => j.JobDetailId == 5 && j.Qty == 3 && j.DamageReason == DamageReasons.CAR02)), Times.Once);
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
@@ -128,9 +138,9 @@
             [Test]
             public void GivenException_ThenLogsAndHandles()
             {
-                var model = new DeliveryLineUpdateModel();
+                var model = new DeliveryLineModel();
                 var ex = new ArgumentException();
-                jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNumber)).Throws(ex);
+                jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNo)).Throws(ex);
 
                 logger.Setup(l => l.LogError(It.IsAny<string>(), It.IsAny<Exception>()));
                 serverErrorResponseHandler.Setup(

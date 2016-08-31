@@ -1,9 +1,12 @@
 ﻿import {Component} from '@angular/core';
 import {Delivery} from './delivery';
 import {DeliveryLine} from './deliveryLine';
+import {Damage} from './damage';
+import {DamageReason} from './damageReason';
 import {DeliveryService} from "./deliveryService";
 import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
-import * as _ from 'lodash';
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import * as lodash from 'lodash';
 
 @Component({
     templateUrl: './app/delivery/delivery-update.html',
@@ -15,8 +18,10 @@ export class DeliveryUpdateComponent {
     lineNo: number;
     delivery: Delivery = new Delivery(null);
     deliveryLine: DeliveryLine = new DeliveryLine(null);
+    reasons: DamageReason[] = new Array<DamageReason>();
 
     constructor(private deliveryService: DeliveryService,
+        private toasterService: ToasterService,
         private route: ActivatedRoute,
         private router: Router) {
         route.params.subscribe(params => { this.deliveryId = parseInt(params['id'],10), this.lineNo = parseInt(params['line'],10) });
@@ -24,16 +29,31 @@ export class DeliveryUpdateComponent {
 
     ngOnInit(): void {
 
+        this.deliveryService.getDamageReasons()
+            .subscribe(reasons => { this.reasons = reasons; });
+
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(delivery => {
                 this.delivery = new Delivery(delivery);
-                this.deliveryLine = _.find(this.delivery.deliveryLines, { lineNo: this.lineNo });
-                console.log(this.delivery);
+                this.deliveryLine = lodash.find(this.delivery.deliveryLines, { lineNo: this.lineNo });
             });
     }
 
+    addDamage() {
+        var index = this.deliveryLine.damages.length;
+        this.deliveryLine.damages.push(new Damage(index, 0, "Notdef"));
+    }
+
+    removeDamage(index) {
+        lodash.remove(this.deliveryLine.damages, { index: index }); 
+    }
+
     update() {
-        //TODO - POSTBACK Update
+        this.deliveryService.updateDeliveryLine(this.deliveryLine)
+            .subscribe(() => {
+                this.toasterService.pop('success', 'Delivery line updated', '');
+                this.router.navigate(['/delivery', this.delivery.id]);
+            });
     }
 
     cancel() {

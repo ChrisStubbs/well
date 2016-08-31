@@ -85,6 +85,7 @@
     <Compile Include="Stop.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ValueObjects\AdamSettings.cs" />
+    <Compile Include="ValueObjects\Reason.cs" />
     <Compile Include="ValueObjects\OrderJobDetail.cs" />
     <Compile Include="ValueObjects\Orders.cs" />
     <Compile Include="ValueObjects\QueueEvent.cs" />

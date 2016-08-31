@@ -356,6 +356,7 @@
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
+    <TypeScriptCompile Include="app\delivery\damageReason.ts" />
     <TypeScriptCompile Include="app\delivery\delivery.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryComponent.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryLine.ts" />
@@ -366,6 +367,7 @@
     <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
     <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\delivery\damage.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolved-deliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />

@@ -50,7 +50,6 @@
         public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
 
         //jobdetail
-        public static string JobDetailCreateOrUpdate = "JobDetail_CreateOrUpdate";
         public static string JobDetailGetById = "JobDetail_GetById";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailGetByBarcodeLineNumberAndJobId = "JobDetail_GetByBarcodeLineNumberAndJobId";

@@ -85,6 +85,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -288,6 +289,10 @@
     <Content Include="phantomjs.exe" />
     <Content Include="Epod\ePOD__20160701_10452212189454.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD_30062016_Update.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Xml\PH_ROUTES_30062016_02.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

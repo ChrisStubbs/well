@@ -4,6 +4,7 @@
 AS
 BEGIN
 	SELECT jd.[Id]
+		,jd.JobId
 		,jd.[LineNumber] AS [LineNo]
 	    ,jd.[Barcode] AS ProductCode
 		,jd.[ProdDesc] AS ProductDescription
@@ -11,7 +12,7 @@ BEGIN
 		,jd.[OriginalDespatchQty] AS InvoicedQuantity
 		,jd.[ShortQty] AS ShortQuantity
 	FROM [dbo].[JobDetail] jd
-	WHERE jd.JobId = @JobId
+	WHERE jd.JobId = @JobId and jd.IsDeleted = 0
 
 	SELECT jdd.[JobDetailId]
 		,jdd.[Qty] as Quantity

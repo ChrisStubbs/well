@@ -32,7 +32,7 @@
                 {
                     Id = 1,
                     Qty = 1m,
-                    Reason = DamageReasons.CAR01
+                    DamageReason = DamageReasons.CAR01
 
                 }
             };

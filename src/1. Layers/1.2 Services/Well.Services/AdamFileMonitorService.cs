@@ -14,6 +14,8 @@
 
     public class AdamFileMonitorService : IAdamFileMonitorService
     {
+        public bool SchemaValidationEnabled { get; set; }
+
         private readonly ILogger logger;
 
         private readonly IFileService fileService;
@@ -38,6 +40,7 @@
             this.epodSchemaProvider = epodSchemaProvider;
             this.epodDomainImportProvider = epodDomainImportProvider;
             this.epodDomainImportService = epodDomainImportService;
+            SchemaValidationEnabled = true;
         }
 
         public void Monitor(string rootFolder)
@@ -80,34 +83,36 @@
             {
                 var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
 
-                var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
-
-                var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
-
-                var validationErrors = new List<string>();
-                var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
-
-                if (!isFileValidBySchema)
+                if (SchemaValidationEnabled)
                 {
-                    var validationError =
-                        $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";
+                    var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
 
-                    schemaErrors.Add(validationError);
-                    logger.LogError(validationError);
-                }
-                else
-                {
-                    var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
+                    var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
 
-                    epodDomainImportProvider.ImportRouteHeader(filePath, epodType);
+                    var validationErrors = new List<string>();
+                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
 
-                    if (archive)
+                    if (!isFileValidBySchema)
                     {
-                        epodDomainImportService.CopyFileToArchive(
-                        filePath,
-                        filenameWithoutPath,
-                        this.RootFolder + "\\archive");
+                        var validationError =
+                            $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";
+
+                        schemaErrors.Add(validationError);
+                        logger.LogError(validationError);
+                        return schemaErrors;
                     }
+                }
+
+                var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
+
+                epodDomainImportProvider.ImportRouteHeader(filePath, epodType);
+
+                if (archive)
+                {
+                    epodDomainImportService.CopyFileToArchive(
+                    filePath,
+                    filenameWithoutPath,
+                    this.RootFolder + "\\archive");
                 }
             }
 

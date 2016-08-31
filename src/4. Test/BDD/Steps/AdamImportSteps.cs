@@ -34,7 +34,7 @@
         private IEpodDomainImportProvider epodDomainImportProvider;
         private IEpodDomainImportService epodDomainImportService;
         private IAccountRepository accountRepository;
-        private AdamFileMonitorService adamImport;
+        private AdamFileMonitorService adamFileMonitorService;
         private readonly string currentUser = "epodBDDUser";
 
         public AdamImportSteps()
@@ -54,7 +54,7 @@
 
 
             logger.LogDebug("Calling file monitor service");
-            adamImport = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
+            adamFileMonitorService = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
         }
 
         [Given(@"I have loaded the Adam route data")]
@@ -62,7 +62,7 @@
         {
             var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "xml\\PH_ROUTES_30062016_02.xml"));
-            adamImport.Process(importFilePath, false);
+            adamFileMonitorService.Process(importFilePath, false);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]
@@ -97,7 +97,7 @@
             var adamContainer = container.GetInstance<IAdamFileMonitorService>();
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
 
-            schemaErrors = adamImport.Process(Path.Combine(filePath, routeFile), false);
+            schemaErrors = adamFileMonitorService.Process(Path.Combine(filePath, routeFile), false);
 
             if(schemaErrors.Count > 0)
                 ScenarioContext.Current.Add("schemaErrors", schemaErrors[0]);
@@ -130,18 +130,22 @@
         [Given(@"I have imported a valid Epod update file named '(.*)' with (.*) clean and (.*) exceptions")]
         public void GivenIHaveImportedAValidEpodUpdateFileNamedWithCleanAndExceptions(string epodFile, int cleanLines, int exceptionLines)
         {
-            var schemaErrors = new List<string>();
-
-            var adamContainer = container.GetInstance<IAdamFileMonitorService>();
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
 
-            schemaErrors = adamImport.Process(Path.Combine(filePath, epodFile), false);
+            adamFileMonitorService.SchemaValidationEnabled = false;
+            adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
 
             ScenarioContext.Current.Add("cleanLines", cleanLines);
             ScenarioContext.Current.Add("exceptionLines", exceptionLines);
-
         }
 
+        [Given(@"I have imported a valid Epod update file named '(.*)'")]
+        public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
+        {
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
+            adamFileMonitorService.SchemaValidationEnabled = false;
+            adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
+        }
 
         [When(@"I start the ACL Well Clean process")]
         public void WhenIStartTheACLWellCleanProcess()
@@ -167,7 +171,7 @@
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
             jobDetailrepositoryContainer.CurrentUser = currentUser;
-            jobDetailrepositoryContainer.JobDetailCreateOrUpdate(jobDetailToResolve);
+            jobDetailrepositoryContainer.Update(jobDetailToResolve);
         }
 
         [Given(@"I resolve all of the exceptions with a JobId of (.*)")]
@@ -180,7 +184,7 @@
             foreach (var jobDetail in jobDetailToResolve)
             {
                 jobDetail.JobDetailStatusId = 1;
-                jobDetailrepositoryContainer.JobDetailCreateOrUpdate(jobDetail);
+                jobDetailrepositoryContainer.Update(jobDetail);
             }        
         }
 

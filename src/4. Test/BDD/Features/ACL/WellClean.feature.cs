@@ -83,13 +83,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 11
- testRunner.Given("I have imported a valid Epod update file named \'ePOD__20160701_10452212189454\' wi" +
-                    "th 2 clean and 2 exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
  testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 13
+#line 12
  testRunner.When("I start the ACL Well Clean process", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+#line 13
  testRunner.Then("there should be 0 exception lines left for a Job with and Id or 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

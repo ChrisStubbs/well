@@ -1,6 +1,9 @@
-﻿export class DeliveryLine {
+﻿import {Damage} from './damage';
+
+export class DeliveryLine {
     constructor(line: DeliveryLine) {
         if (line) {
+            this.jobId = line.jobId;
             this.lineNo = line.lineNo;
             this.productCode = line.productCode;
             this.productDescription = line.productDescription;
@@ -11,9 +14,18 @@
             this.damagedQuantityOriginal = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
             this.shortQuantityOriginal = line.shortQuantity;
+
+            if (line.damages) {
+                var index: number = 0;
+                for (let damage of line.damages) {
+                    this.damages.push(new Damage(index, damage.quantity, damage.reasonCode));
+                    index++;
+                }
+            }
         }
     }
 
+    jobId: number;
     lineNo: number;
     productCode: string;
     productDescription: string;
@@ -25,4 +37,5 @@
     shortQuantity: number;
     shortQuantityOriginal: number;
     isEdit: boolean = false;
+    damages: Damage[] = new Array<Damage>();
 }

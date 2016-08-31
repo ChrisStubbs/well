@@ -20,6 +20,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAccountRepository accountRepository;
+        private readonly IJobDetailDamageRepo jobDetailDamageRepo;
         private readonly ILogger logger;
         public string CurrentUser { get; set; }
 
@@ -28,8 +29,9 @@
 
         public EpodFileType EpodType { get; set; }
 
-        public EpodDomainImportService(IRouteHeaderRepository routeHeaderRepository, ILogger logger, IStopRepository stopRepository,
-                                        IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository)
+        public EpodDomainImportService(IRouteHeaderRepository routeHeaderRepository, ILogger logger,
+            IStopRepository stopRepository, IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, 
+            IAccountRepository accountRepository, IJobDetailDamageRepo jobDetailDamageRepo)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.logger = logger;
@@ -37,6 +39,7 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.accountRepository = accountRepository;
+            this.jobDetailDamageRepo = jobDetailDamageRepo;
         }
 
 
@@ -131,6 +134,7 @@
         public void AddJobJobDetail(Job job, int newJobId)
         {
             this.jobDetailRepository.CurrentUser = this.CurrentUser;
+            jobDetailDamageRepo.CurrentUser = CurrentUser;
             foreach (var jobDetail in job.JobDetails)
             {
                 jobDetail.JobId = newJobId;
@@ -139,16 +143,22 @@
 
                 jobDetail.JobDetailStatusId = (int) JobDetailStatus.UnRes;
                 
-                var newJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(jobDetail);
+                jobDetailRepository.Save(jobDetail);
 
 
                 if (this.EpodType == EpodFileType.RouteHeader)
                 {
                     foreach (var jobDetailAttribute in jobDetail.EntityAttributes)
                     {
-                        jobDetailAttribute.AttributeId = newJobDetail.Id;
+                        jobDetailAttribute.AttributeId = jobDetail.Id;
                         jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
                     }
+                }
+
+                foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
+                {
+                    jobDetailDamage.JobDetailId = jobDetail.Id;
+                    jobDetailDamageRepo.Save(jobDetailDamage);
                 }
             }
         }
@@ -344,7 +354,7 @@
                 if (!insertOnly)
                 {
                     var currentJobDetail =
-                        this.jobDetailRepository.JobDetailGetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId) ;
+                        this.jobDetailRepository.JobDetailGetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId);
 
                     currentJobDetailId = currentJobDetail.Id;
                 }
@@ -372,7 +382,15 @@
                 };
 
                 this.jobDetailRepository.CurrentUser = this.CurrentUser;
-                this.jobDetailRepository.JobDetailCreateOrUpdate(newJobDetail);
+
+                if (!insertOnly)
+                {
+                    jobDetailRepository.Update(newJobDetail);
+                }
+                else
+                {
+                    jobDetailRepository.Save(newJobDetail);
+                }
             }
         }
 
@@ -449,7 +467,7 @@
                   
                     foreach (var jobDetail in jobDetailsForJob)
                     {
-                        if (jobDetail.IsDeleted)
+                        if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res)
                             DeleteJobDetail(jobDetail.Id);
                     }
 
@@ -588,18 +606,21 @@
 
                 if (currentJobDetail != null)
                 {
-                    currentJobDetail.JobDetailStatusId = currentJobDetail.JobDetailDamages.Any()
-                        ? (int) JobDetailStatus.UnRes
-                        : (int) JobDetailStatus.Res;
-
-                    currentJobDetail = this.jobDetailRepository.JobDetailCreateOrUpdate(currentJobDetail);
-
-                    foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
+                    if (currentJobDetail.JobDetailDamages.Any() == false)  
                     {
-                        jobDetailDamage.JobDetailId = currentJobDetail.Id;
-                        jobDetailDamage.Reason = jobDetailDamage.Reason ?? DamageReasons.Notdef;
-                        this.jobDetailRepository.CreateOrUpdateJobDetailDamage(jobDetailDamage);
+                        //Only save if no previous damages to prevent any Well changes being overwritten
+                        foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
+                        {
+                            jobDetailDamage.JobDetailId = currentJobDetail.Id;
+                            jobDetailDamageRepo.Save(jobDetailDamage);
+                        }
                     }
+
+                    currentJobDetail.JobDetailStatusId = currentJobDetail.JobDetailDamages.Any()
+                        ? (int)JobDetailStatus.UnRes
+                        : (int)JobDetailStatus.Res;
+
+                    this.jobDetailRepository.Update(currentJobDetail);
                 }
                 else
                 {

@@ -1,4 +1,4 @@
-﻿import { provideRouter, RouterConfig } from '@angular/router';
+﻿import { Routes, RouterModule } from '@angular/router';
 
 import {AccountComponent} from './account/accountComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
@@ -12,7 +12,8 @@ import {UserPreferenceComponent} from './user_preferences/userPreferenceComponen
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetStatsComponent} from './home/widgetStatsComponent';
 
-const routes: RouterConfig = [
+const routes: Routes = [
+    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
@@ -28,6 +29,4 @@ const routes: RouterConfig = [
     { path: 'preferences', component: UserPreferenceComponent }
 ];
 
-export const appRouterProviders = [
-    provideRouter(routes)
-];
+export const appRouterProviders = RouterModule.forRoot(routes);

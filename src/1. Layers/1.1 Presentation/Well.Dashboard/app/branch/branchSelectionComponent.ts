@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit}  from '@angular/core';
 import { HTTP_PROVIDERS, Response } from '@angular/http';
-import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
+//import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 import {Branch} from './branch';
 import {BranchService} from './branchService';

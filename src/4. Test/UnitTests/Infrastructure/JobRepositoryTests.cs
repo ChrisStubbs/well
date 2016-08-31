@@ -12,6 +12,7 @@ namespace PH.Well.UnitTests.Infrastructure
     using Repositories;
     using Repositories.Contracts;
     using Well.Domain;
+    using Well.Domain.ValueObjects;
 
 
     [TestFixture]
@@ -51,6 +52,25 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.Query<Job>(), Times.Once());
             }
         }
+
+        public class TheGetCreditActionReasonsByIdMethod : JobRepositoryTests
+        {
+            [Test]
+            public void ShouldReturnCreditActionReasons()
+            {
+                const int id = 1;
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobGetCreditActionReasons)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("PDACreditReasonId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Query<PodActionReasons>()).Returns(new List<PodActionReasons>());
+
+                var result = repository.GetPodActionReasonsById(id);
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobGetCreditActionReasons), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("PDACreditReasonId", id, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.Query<PodActionReasons>(), Times.Once());
+            }
+        }
+
 
         public class TheSaveJobMethod : JobRepositoryTests
         {

@@ -198,6 +198,7 @@
     <Build Include="dbo\Tables\PDACreditReasons.sql" />
     <Build Include="dbo\Tables\PODCreditActions.sql" />
     <Build Include="dbo\Tables\PODCreditReasons.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetCreditActionReasons.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

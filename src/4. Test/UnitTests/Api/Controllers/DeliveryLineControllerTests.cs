@@ -38,7 +38,8 @@
             Controller = new DeliveryLineController(logger.Object,
                 serverErrorResponseHandler.Object,
                 jobDetailRepository.Object,
-                jobDetailDamageRepo.Object);
+                jobDetailDamageRepo.Object,
+                null);
             SetupController();
         }
 

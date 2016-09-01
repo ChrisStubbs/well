@@ -32,4 +32,24 @@ export class Delivery {
     deliveryType: string;
     isException: boolean;
     deliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+
+    isCleanOnInit(): boolean {
+        var clean = true;
+        for (let line of this.deliveryLines) {
+            if (line.isCleanOnInit === false) {
+                clean = false;
+            }
+        }
+        return clean;
+    };
+
+    isClean(): boolean {
+        var clean = true;
+        for (let line of this.deliveryLines) {
+            if (line.isClean() === false) {
+                clean = false;
+            }
+        }
+        return clean;
+    }
 }

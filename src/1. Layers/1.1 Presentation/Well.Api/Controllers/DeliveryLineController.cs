@@ -13,7 +13,6 @@
     using Domain.Enums;
     using Models;
     using Repositories.Contracts;
-    using WebGrease.Css.Extensions;
 
     public class DeliveryLineController : BaseApiController
     {
@@ -21,19 +20,23 @@
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepo jobDetailDamageRepo;
+        private readonly IJobRepository jobRepo;
 
         public DeliveryLineController(
             ILogger logger,
             IServerErrorResponseHandler serverErrorResponseHandler,
             IJobDetailRepository jobDetailRepository,
-            IJobDetailDamageRepo jobDetailDamageRepo)
+            IJobDetailDamageRepo jobDetailDamageRepo,
+            IJobRepository jobRepo)
         {
             this.logger = logger;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepo = jobDetailDamageRepo;
+            this.jobRepo = jobRepo;
             this.jobDetailRepository.CurrentUser = UserName;
             this.jobDetailDamageRepo.CurrentUser = UserName;
+            this.jobRepo.CurrentUser = UserName;
         }
 
         [HttpPut]
@@ -42,7 +45,10 @@
         {
             try
             {
-                var jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNo);
+                IEnumerable<JobDetail> jobDetails = jobDetailRepository.GetByJobId(model.JobId);
+                bool isCleanBeforeUpdate = jobDetails.All(jd => jd.IsClean());
+
+                JobDetail jobDetail = jobDetails.SingleOrDefault(j => j.LineNumber == model.LineNo);
                 if (jobDetail == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
@@ -79,6 +85,24 @@
                     {
                         jobDetailDamageRepo.Save(jobDetailDamage);
                     }
+
+                    bool isClean = jobDetails.All(jd => jd.IsClean());
+                    if (isCleanBeforeUpdate && isClean == false)
+                    {
+                        //Make dirty
+                        Job job = jobRepo.GetById(model.JobId);
+                        job.PerformanceStatusId = (int) PerformanceStatus.Incom;
+                        jobRepo.JobCreateOrUpdate(job);
+                    }
+
+                    if (isCleanBeforeUpdate == false && isClean)
+                    {
+                        //Resolve
+                        Job job = jobRepo.GetById(model.JobId);
+                        job.PerformanceStatusId = (int)PerformanceStatus.Resolved;
+                        jobRepo.JobCreateOrUpdate(job);
+                    }
+
                     transactionScope.Complete();
                 }
 

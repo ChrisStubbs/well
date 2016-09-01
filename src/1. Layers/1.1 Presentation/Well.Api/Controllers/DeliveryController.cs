@@ -34,7 +34,7 @@
         {
             try
             {
-               var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
+               List<Delivery> exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
 
                 return !exceptionDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)

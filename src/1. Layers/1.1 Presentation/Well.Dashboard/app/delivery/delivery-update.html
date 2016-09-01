@@ -1,7 +1,8 @@
 ﻿<div class="table-container">
     <ol class="breadcrumb">
         <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
-        <li *ngIf="delivery.isException == false"><a routerLink="/clean">Clean</a></li>
+        <li *ngIf="delivery.deliveryType == 'Complete'"><a routerLink="/clean">Clean</a></li>
+        <li *ngIf="delivery.deliveryType == 'Resolved'"><a routerLink="/resolved">Resolved</a></li>
         <li><a routerLink="/delivery/{{delivery.id}}">{{delivery.deliveryType}} Delivery {{delivery.id}}</a></li>
         <li class="active">Update delivery line</li>
     </ol>
@@ -72,3 +73,4 @@
     </div>
 
 </div>
+<confirmModal heading="Confirm changes" (confirmed)="updateConfirmed()"></confirmModal>

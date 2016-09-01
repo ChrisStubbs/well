@@ -13,8 +13,8 @@ import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetStatsComponent} from './home/widgetStatsComponent';
 
 const routes: Routes = [
-    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
-    { path: '', redirectTo: '/widgets', pathMatch: 'full' },
+    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
+    { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },

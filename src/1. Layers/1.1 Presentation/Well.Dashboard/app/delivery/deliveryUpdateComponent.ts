@@ -4,14 +4,13 @@ import {DeliveryLine} from './deliveryLine';
 import {Damage} from './damage';
 import {DamageReason} from './damageReason';
 import {DeliveryService} from "./deliveryService";
-import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import * as lodash from 'lodash';
 
 @Component({
     templateUrl: './app/delivery/delivery-update.html',
-    providers: [DeliveryService],
-    directives: [ROUTER_DIRECTIVES]
+    providers: [DeliveryService]
 })
 export class DeliveryUpdateComponent {
     deliveryId: number;

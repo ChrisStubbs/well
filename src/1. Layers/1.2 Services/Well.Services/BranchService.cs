@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services
 {
     using System;
     using System.Text;
@@ -104,16 +102,6 @@ namespace PH.Well.Services
             output = output.TrimEnd(',', ' ');
 
             return output;
-        }
-
-        public IEnumerable<User> GetUsersForBranch(int branchId)
-        {
-            return this.userRepository.GetByBranchId(branchId);
-        }
-
-        public void AssignUserToJob(int userId, int jobId)
-        {
-            this.userRepository.AssignJobToUser(userId, jobId);
         }
     }
 }

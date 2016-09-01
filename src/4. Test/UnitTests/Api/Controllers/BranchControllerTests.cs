@@ -4,11 +4,6 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
-    using System.Security.Principal;
-    using System.Web.Http;
-    using System.Web.Http.Controllers;
-    using System.Web.Http.Hosting;
-    using System.Web.Http.Routing;
 
     using PH.Well.Common.Contracts;
     using Moq;

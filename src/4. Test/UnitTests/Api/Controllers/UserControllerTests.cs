@@ -2,14 +2,19 @@
 
 namespace PH.Well.UnitTests.Api.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Security.Principal;
+    using System.Web.Http.Controllers;
+
     using Moq;
     using NUnit.Framework;
     using PH.Well.Api.Controllers;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
+    using PH.Well.Domain.ValueObjects;
     using PH.Well.Services.Contracts;
     using PH.Well.UnitTests.Factories;
 
@@ -28,6 +33,8 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
+
+            this.userRepository.SetupSet(x => x.CurrentUser = "foo");
 
             this.Controller = new UserController(this.branchService.Object,
                 this.activeDirectoryService.Object,
@@ -70,6 +77,97 @@ namespace PH.Well.UnitTests.Api.Controllers
                 response.TryGetContentValue(out returnedUsers);
 
                 Assert.That(returnedUsers.Count, Is.EqualTo(2));
+            }
+        }
+
+        public class TheAssignMethod : UserControllerTests
+        {
+            [Test]
+            public void ShouldAssignTheJobToAUser()
+            {
+                var job = new UserJob { JobId = 2, UserId = 5 };
+
+                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId));
+
+                var response = this.Controller.Assign(job);
+           
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("success"));
+
+                this.userRepository.Verify(x => x.AssignJobToUser(job.UserId, job.JobId), Times.Once);
+            }
+
+            [Test]
+            public void ShouldReturnNotAcceptableIfNoIds()
+            {
+                var job = new UserJob { JobId = 0, UserId = 0 };
+
+                var response = this.Controller.Assign(job);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
+            }
+
+            [Test]
+            public void ShouldLogErrorWhenExceptionThrown()
+            {
+                var job = new UserJob { JobId = 2, UserId = 5 };
+
+                var exception = new Exception();
+
+                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId)).Throws(exception);
+
+                this.logger.Setup(x => x.LogError("Error when trying to assign job for the user", exception));
+
+                var response = this.Controller.Assign(job);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));
+
+                this.userRepository.Verify(x => x.AssignJobToUser(job.UserId, job.JobId), Times.Once);
+                this.logger.Verify(x => x.LogError("Error when trying to assign job for the user", exception), Times.Once);
+            }
+        }
+
+        public class TheUnAssignMethod : UserControllerTests
+        {
+            [Test]
+            public void ShouldInAssignTheJobToAUser()
+            {
+                var jobId = 5;
+
+                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.Setup(x => x.UnAssignJobToUser(jobId));
+
+                var response = this.Controller.UnAssign(jobId);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("success"));
+
+                this.userRepository.Verify(x => x.UnAssignJobToUser(jobId), Times.Once);
+            }
+
+            [Test]
+            public void ShouldLogErrorWhenExceptionThrown()
+            {
+                var jobId = 5;
+
+                var exception = new Exception();
+
+                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.Setup(x => x.UnAssignJobToUser(jobId)).Throws(exception);
+
+                this.logger.Setup(x => x.LogError("Error when trying to unassign the user from the job", exception));
+
+                var response = this.Controller.UnAssign(jobId);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));
+
+                this.userRepository.Verify(x => x.UnAssignJobToUser(jobId), Times.Once);
+                this.logger.Verify(x => x.LogError("Error when trying to unassign the user from the job", exception), Times.Once);
             }
         }
     }

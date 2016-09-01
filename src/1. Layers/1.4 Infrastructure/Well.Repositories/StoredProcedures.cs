@@ -81,6 +81,7 @@
         public static string UserGetByName = "UserGetByName";
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
+        public static string UnAssignJobToUser = "UserJob_Delete";
 
         public static string EventInsert = "EventInsert";
         public static string EventSetProcessed = "EventSetProcessed";

@@ -9,9 +9,11 @@ import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {IUser} from '../shared/user';
 import {UserJob} from '../shared/userJob';
 
-
 @Injectable()
 export class ExceptionDeliveryService {
+
+    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http,
         private globalSettingsService: GlobalSettingsService,
@@ -37,24 +39,24 @@ export class ExceptionDeliveryService {
 
 
     credit(exception: ExceptionDelivery): Observable<any> {
-        let body = JSON.stringify(exception);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit',
-            body,
-            options)
+            JSON.stringify(exception),
+            this.options)
             .map(res => res.json());
     }
 
     assign(userJob: UserJob): Observable<any>{
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let body = JSON.stringify(userJob);
-        let options = new RequestOptions({ headers: headers});
-
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-job',
-            body,
-            options)
+            JSON.stringify(userJob),
+            this.options)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    unassign(jobId): Observable<any> {
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'unassign-user-from-job?jobId=' + jobId,
+            '',
+            this.options)
             .map(res => res.json())
             .catch(this.handleError);
     }

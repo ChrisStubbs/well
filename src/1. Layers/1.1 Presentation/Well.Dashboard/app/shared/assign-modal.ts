@@ -2,7 +2,7 @@
 import {IUser} from '../shared/user';
 import {ExceptionDelivery} from '../exceptions/exceptionDelivery';
 import {Router} from '@angular/router';
-import { HTTP_PROVIDERS, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {HttpResponse} from '../shared/http-response';
 import {UserJob} from '../shared/userJob';
@@ -12,7 +12,7 @@ import {ExceptionDeliveryService}  from '../exceptions/exceptionDeliveryService'
 @Component({
     selector: 'assign-modal',
     templateUrl: 'app/shared/assign-modal.html',
-    providers: [HTTP_PROVIDERS, ExceptionDeliveryService]
+    providers: [ExceptionDeliveryService]
 })
 export class AssignModal {
     public IsVisible: boolean;
@@ -62,5 +62,24 @@ export class AssignModal {
 
         this.hide();
         this.onAssigned.emit(this.assigned); 
-     }
+    }
+
+    unassign(jobId): void {
+
+        this.exceptionDeliveryService.unassign(jobId)
+            .subscribe((res: Response) => {
+                this.httpResponse = JSON.parse(JSON.stringify(res));
+
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Delivery has been unassigned!', '');
+                    this.assigned = true;
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop('error', 'Delivery still assigned', '');
+                }
+            });
+
+        this.hide();
+        this.onAssigned.emit(this.assigned);
+    }
 }

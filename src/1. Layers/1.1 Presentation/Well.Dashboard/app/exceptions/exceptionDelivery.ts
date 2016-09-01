@@ -11,4 +11,5 @@
     dateTime: string;
     accountId: string;
     branchId: number;
+    canAction: boolean;
 }

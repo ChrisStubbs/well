@@ -44,6 +44,7 @@ namespace PH.Well.Repositories.Read
             var exceptionStatuses = ExceptionStatuses.Statuses;
 
             var allExceptions = new List<Delivery>();
+
             foreach (var exceptionStatus in exceptionStatuses)
             {
                 allExceptions.AddRange(GetDeliveriesByStatus(exceptionStatus, userName));

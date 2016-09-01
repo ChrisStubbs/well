@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
@@ -17,7 +16,7 @@ import {RefreshService} from '../shared/refreshService';
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
+    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
     directives: [ContactModal]
 })
 export class CleanDeliveryComponent implements OnInit {

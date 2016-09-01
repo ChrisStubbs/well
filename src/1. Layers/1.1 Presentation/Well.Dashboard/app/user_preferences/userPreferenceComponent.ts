@@ -1,6 +1,6 @@
 ﻿import {Router} from '@angular/router';
 import { Component, OnInit, ViewChild}  from '@angular/core';
-import { HTTP_PROVIDERS, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {User} from './user';
@@ -11,7 +11,7 @@ import {UserPreferenceModal} from './userPreferenceModalComponent';
 @Component({
     selector: 'ow-user-preferences',
     templateUrl: './app/user_preferences/user-preferences.html',
-    providers: [HTTP_PROVIDERS, UserPreferenceService, GlobalSettingsService, PaginationService],
+    providers: [UserPreferenceService, GlobalSettingsService, PaginationService],
     directives: [UserPreferenceModal]
 }
 )

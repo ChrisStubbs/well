@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import {Router} from '@angular/router';
-import { HTTP_PROVIDERS, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
@@ -21,7 +21,7 @@ import {IUser} from "../shared/user";
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
+    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
     directives: [ContactModal, AssignModal]
 })
 

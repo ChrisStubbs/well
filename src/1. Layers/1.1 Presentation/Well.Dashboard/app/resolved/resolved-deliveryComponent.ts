@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
@@ -18,7 +17,7 @@ import {RefreshService} from '../shared/refreshService';
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService],
+    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService],
     directives: [ContactModal]
 })
 export class ResolvedDeliveryComponent implements OnInit {

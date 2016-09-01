@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
@@ -14,7 +13,7 @@ import {RefreshService} from "../shared/refreshService";
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, RouteHeaderService, PaginationService],
+    providers: [GlobalSettingsService, RouteHeaderService, PaginationService],
     directives: [WellModal]
 })
 export class RouteHeaderComponent implements OnInit {

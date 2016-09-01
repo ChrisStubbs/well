@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit}  from '@angular/core';
-import { HTTP_PROVIDERS, Response } from '@angular/http';
-//import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
+import { Response } from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 import {Branch} from './branch';
@@ -12,7 +11,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 @Component({
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService]
+    providers: [GlobalSettingsService]
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;

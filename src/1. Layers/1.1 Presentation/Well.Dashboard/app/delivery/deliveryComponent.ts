@@ -1,5 +1,4 @@
 ﻿import {Component, OnInit, ViewChild}  from '@angular/core';
-import {HTTP_PROVIDERS} from '@angular/http';
 import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
@@ -10,7 +9,7 @@ import {DropDownItem} from "../shared/dropDownItem";
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
-    providers: [HTTP_PROVIDERS, DeliveryService, PaginationService]
+    providers: [DeliveryService, PaginationService]
 })
 
 export class DeliveryComponent implements OnInit {

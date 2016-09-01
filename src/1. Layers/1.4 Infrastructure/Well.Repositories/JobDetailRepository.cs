@@ -53,6 +53,8 @@
 
         protected override void SaveNew(JobDetail jobDetail)
         {
+            
+
             jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
                 .AddParameter("Barcode", jobDetail.BarCode, DbType.Int32)
@@ -75,6 +77,7 @@
                 .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
+                .AddParameter("IsDeleted", jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res, DbType.DateTime)
                 .Query<int>().FirstOrDefault();
         }
 

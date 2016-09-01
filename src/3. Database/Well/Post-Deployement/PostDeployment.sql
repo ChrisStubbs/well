@@ -29,3 +29,4 @@ Post-Deployment Script Template
 :r .\Populate-PDACreditReasons.sql
 :r .\Populate-PODCreditReasons.sql
 :r .\Populate-PODCreditActions.sql
+:r .\Populate-CSFRejection.sql

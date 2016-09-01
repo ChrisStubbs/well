@@ -54,6 +54,7 @@
     <Compile Include="Enums\ChangeInfo.cs" />
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
+    <Compile Include="Enums\CsfRejection.cs" />
     <Compile Include="Enums\DamageReasons.cs" />
     <Compile Include="Enums\EpodFileTYpe.cs" />
     <Compile Include="Enums\ExceptionAction.cs" />

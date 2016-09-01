@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Job_GetCreditActionReasons]
+﻿
+CREATE PROCEDURE [dbo].[Job_GetCreditActionReasons]
 	@PDACreditReasonId INT 
 AS
 BEGIN
@@ -16,5 +17,5 @@ BEGIN
 	ON
 		pocr.Id = pca.[PODCreditReasonId]
 	WHERE
-		pca.Id = @PDACreditReasonId
+		pcr.Id = @PDACreditReasonId
 END

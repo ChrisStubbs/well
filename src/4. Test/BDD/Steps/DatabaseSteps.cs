@@ -36,10 +36,12 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
+
             this.dapperProxy.ExecuteSql("DELETE FROM JobAttribute");
             this.dapperProxy.ExecuteSql("DELETE FROM JobDetailAttribute");
             this.dapperProxy.ExecuteSql("DELETE FROM JobDetailDamage");
             this.dapperProxy.ExecuteSql("DELETE FROM JobDetail");
+            this.dapperProxy.ExecuteSql("DELETE FROM UserJob");
             this.dapperProxy.ExecuteSql("DELETE FROM Job");
             this.dapperProxy.ExecuteSql("DELETE FROM Account");
             this.dapperProxy.ExecuteSql("DELETE FROM StopAttribute");

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
+    using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
 
@@ -52,14 +51,22 @@ namespace PH.Well.Repositories
         public void AssignJobToUser(int userId, int jobId)
         {
             var now = DateTime.Now;
+
             this.dapperProxy.WithStoredProcedure(StoredProcedures.AssignJobToUser)
                     .AddParameter("UserId", userId, DbType.Int32)
                     .AddParameter("JobId", jobId, DbType.Int32)
-                    .AddParameter("CreatedBy", "Test", DbType.String, size: 50)
+                    .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                     .AddParameter("DateCreated", now, DbType.DateTime)
-                    .AddParameter("UpdatedBy", "Test", DbType.String, size: 50)
+                    .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                     .AddParameter("DateUpdated", now, DbType.DateTime)
-                    .Query<int>();
+                    .Execute();
+        }
+
+        public void UnAssignJobToUser(int jobId)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.UnAssignJobToUser)
+                    .AddParameter("JobId", jobId, DbType.Int32)
+                    .Execute();
         }
     }
 }

@@ -42,8 +42,6 @@
             return applicationVersion;
         }
 
-
-
         /// <summary>
         /// Provides the application name.
         /// </summary>

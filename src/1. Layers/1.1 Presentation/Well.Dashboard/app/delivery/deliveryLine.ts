@@ -11,9 +11,7 @@ export class DeliveryLine {
             this.invoicedQuantity = line.invoicedQuantity;
             this.deliveredQuantity = line.deliveredQuantity;
             this.damagedQuantity = line.damagedQuantity;
-            this.damagedQuantityOriginal = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
-            this.shortQuantityOriginal = line.shortQuantity;
 
             if (line.damages) {
                 var index: number = 0;
@@ -22,6 +20,8 @@ export class DeliveryLine {
                     index++;
                 }
             }
+
+            this.isCleanOnInit = this.isClean();
         }
     }
 
@@ -33,9 +33,22 @@ export class DeliveryLine {
     invoicedQuantity: number;
     deliveredQuantity: number;
     damagedQuantity: number;
-    damagedQuantityOriginal: number;
     shortQuantity: number;
-    shortQuantityOriginal: number;
-    isEdit: boolean = false;
     damages: Damage[] = new Array<Damage>();
+
+    isCleanOnInit: boolean;
+
+    isClean(): boolean {
+        if (this.shortQuantity > 0) {
+            return false;
+        }
+
+        for (let damage of this.damages) {
+            if (damage.quantity > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

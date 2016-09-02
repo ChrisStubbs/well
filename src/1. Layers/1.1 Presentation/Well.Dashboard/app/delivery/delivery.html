@@ -1,7 +1,8 @@
 ﻿<div class="table-container">
     <ol class="breadcrumb">
         <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
-        <li *ngIf="delivery.isException == false"><a routerLink="/clean">Clean</a></li>
+        <li *ngIf="delivery.deliveryType == 'Complete'"><a routerLink="/clean">Clean</a></li>
+        <li *ngIf="delivery.deliveryType == 'Resolved'"><a routerLink="/resolved">Resolved</a></li>
         <li class="active">{{delivery.deliveryType}} Delivery {{delivery.id}}</li>
     </ol>
 </div>
@@ -32,7 +33,7 @@
                 <th>Del Qty</th>
                 <th>Damaged Qty</th>
                 <th>Short Qty</th>
-                <th></th>
+                <th *ngIf="canAction"></th>
             </tr>
             </thead>
             <tbody>
@@ -46,7 +47,7 @@
                 <td>{{line.deliveredQuantity}}</td>
                 <td>{{line.damagedQuantity}}</td>
                 <td>{{line.shortQuantity}}</td>
-                <td *ngIf="line.isEdit === false">
+                <td *ngIf="!line.isEdit && canAction">
                     <button type="button" class="btn btn-success btn-sm">Update</button>
                 </td>
             </tr>

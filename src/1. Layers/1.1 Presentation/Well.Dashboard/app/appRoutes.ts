@@ -7,7 +7,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
-import {ResolvedDeliveryComponent} from './resolved/resolved-deliveryComponent';
+import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetStatsComponent} from './home/widgetStatsComponent';
@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
     { path: 'clean', component: CleanDeliveryComponent },
-    { path: 'delivery/:id', component: DeliveryComponent },
+    { path: 'delivery/:id/:canAction', component: DeliveryComponent },
     { path: 'delivery/:id/line/:line', component: DeliveryUpdateComponent },
     { path: 'exceptions', component: ExceptionsComponent },
     { path: 'notifications', component: NotificationsComponent },

@@ -58,12 +58,12 @@
             return job;
         }
 
-        public Job JobCreateOrUpdate(Job job)
+        public void JobCreateOrUpdate(Job job)
         {
             var jobPerformanceStatusId = job.PerformanceStatusId == 0 ? (int)PerformanceStatus.Notdef : job.PerformanceStatusId;
             var jobByPassReasonId = job.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : job.ByPassReasonId;
 
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
+            job.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
                 .AddParameter("Id", job.Id, DbType.Int32)
                 .AddParameter("Sequence", job.Sequence, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
@@ -79,9 +79,6 @@
                 .AddParameter("PerformanceStatusId", jobPerformanceStatusId, DbType.Int16)
                 .AddParameter("ByPassReasonId  ", jobByPassReasonId, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
-
-            return this.GetById(id);
-
         }
 
         public void AddJobAttributes(Attribute attribute)

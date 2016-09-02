@@ -18,7 +18,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
+    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService]
     directives: [ContactModal, OrderArrowComponent]
 })
 export class CleanDeliveryComponent implements OnInit {

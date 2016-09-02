@@ -64,9 +64,7 @@ export class BranchSelectionComponent implements OnInit {
     selectBranch(branch): void {
         var index = this.selectedBranches.indexOf(branch, 0);
 
-        var selected = branch.selected;
-
-        if (index > -1 && selected === false) {
+        if (index > -1 && !branch.selected) {
             this.selectedBranches.splice(index, 1);
         } else {
             this.selectedBranches.push(branch);

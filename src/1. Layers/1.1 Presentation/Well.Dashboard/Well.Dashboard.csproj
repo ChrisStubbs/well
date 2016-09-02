@@ -234,6 +234,7 @@
     <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\orderby-arrow.html" />
+    <Content Include="app\shared\confirmModal.html" />
     <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
@@ -371,7 +372,7 @@
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\delivery\damage.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
-    <TypeScriptCompile Include="app\resolved\resolved-deliveryComponent.ts" />
+    <TypeScriptCompile Include="app\resolved\resolvedDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
@@ -391,6 +392,7 @@
     <TypeScriptCompile Include="app\shared\user.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
+    <TypeScriptCompile Include="app\shared\confirmModal.ts" />
     <TypeScriptCompile Include="app\shared\well-modal.ts" />
     <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
     <TypeScriptCompile Include="app\shared\filterOption.ts" />

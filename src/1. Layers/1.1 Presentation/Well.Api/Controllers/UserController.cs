@@ -40,18 +40,15 @@ namespace PH.Well.Api.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, userBranches);
         }
 
-
         [Route("users-for-branch/{branchId}")]
         [HttpGet]
         public HttpResponseMessage UsersForBranch(int branchId)
         {
-            var users = this.branchService.GetUsersForBranch(branchId);
+            var users = this.userRepository.GetByBranchId(branchId);
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users);
         }
-
-
-
+        
         [Route("create-user-using-current-context")]
         [HttpGet]
         public HttpResponseMessage CreateUserUsingCurrentContext()
@@ -72,7 +69,6 @@ namespace PH.Well.Api.Controllers
 
                 return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
-
         }
 
         [Route("users/{name}")]
@@ -89,13 +85,15 @@ namespace PH.Well.Api.Controllers
 
         [Route("assign-user-to-job")]
         [HttpPost]
-        public HttpResponseMessage Post(UserJob userJob)
+        public HttpResponseMessage Assign(UserJob userJob)
         {
             try
             {
                 if (userJob.UserId > 0 && userJob.JobId > 0)
                 {
-                    this.branchService.AssignUserToJob(userJob.UserId, userJob.JobId);
+                    this.userRepository.CurrentUser = this.UserName;
+                    this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
+
                     return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
                 }
 
@@ -107,59 +105,23 @@ namespace PH.Well.Api.Controllers
                 return this.Request.CreateResponse(HttpStatusCode.OK, new {failure = true});
             }
         }
+
+        [Route("unassign-user-from-job")]
+        [HttpPost]
+        public HttpResponseMessage UnAssign(int jobId)
+        {
+            try
+            {
+                this.userRepository.CurrentUser = this.UserName;
+                this.userRepository.UnAssignJobToUser(jobId);
+
+                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error when trying to unassign the user from the job", exception);
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
     }
 }
-
-
-
-
-/*
-         * 
-         * 
-         *   [Route("save-branches-on-behalf-of-user")]
-        [HttpPost]
-        public HttpResponseMessage Post(Branch[] branches, string username, string domain)
-        {
-            try
-            {
-                if (branches.Length > 0)
-                {
-                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserName, domain);
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to save branches for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
-        }
-         
-        [HttpPost]
-        public HttpResponseMessage Post(Branch[] branches)
-        {
-            try
-            {
-                if (branches.Length > 0)
-                {
-                    this.branchService.SaveBranchesForUser(branches, this.UserName);
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to save branches for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
-        }
-         
-         
-         
-         */
-
-   
-

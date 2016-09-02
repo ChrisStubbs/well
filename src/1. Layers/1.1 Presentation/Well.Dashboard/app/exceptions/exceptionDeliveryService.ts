@@ -9,9 +9,11 @@ import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {IUser} from '../shared/user';
 import {UserJob} from '../shared/userJob';
 
-
 @Injectable()
 export class ExceptionDeliveryService {
+
+    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http,
         private globalSettingsService: GlobalSettingsService,
@@ -22,7 +24,7 @@ export class ExceptionDeliveryService {
     getExceptions(): Observable<ExceptionDelivery[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception')
-            .map((response: Response) => <ExceptionDelivery>response.json())
+            .map((response: Response) => <ExceptionDelivery[]>response.json())
             //.do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
@@ -30,31 +32,31 @@ export class ExceptionDeliveryService {
     getUsersForBranch(branchId): Observable<IUser[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
-            .map((response: Response) => <IUser>response.json())
+            .map((response: Response) => <IUser[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
 
 
     credit(exception: ExceptionDelivery): Observable<any> {
-        let body = JSON.stringify(exception);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit',
-            body,
-            options)
+            JSON.stringify(exception),
+            this.options)
             .map(res => res.json());
     }
 
     assign(userJob: UserJob): Observable<any>{
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let body = JSON.stringify(userJob);
-        let options = new RequestOptions({ headers: headers});
-
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-job',
-            body,
-            options)
+            JSON.stringify(userJob),
+            this.options)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    unassign(jobId): Observable<any> {
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'unassign-user-from-job?jobId=' + jobId,
+            '',
+            this.options)
             .map(res => res.json())
             .catch(this.handleError);
     }

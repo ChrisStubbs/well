@@ -19,7 +19,7 @@ export class CleanDeliveryService {
     getCleanDeliveries(): Observable<CleanDelivery[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean')
-            .map((response: Response) => <CleanDelivery>response.json())
+            .map((response: Response) => <CleanDelivery[]>response.json())
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
 
     }

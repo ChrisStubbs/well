@@ -44,8 +44,6 @@ BEGIN
 		[PerformanceStatusId] = Source.[PerformanceStatusId],
 		[ByPassReasonId] = Source.[ByPassReasonId],
 		[StopId] = Source.[StopId],
-		[CreatedBy] = Source.[CreatedBy],
-		[DateCreated] = Source.[DateCreated],
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN

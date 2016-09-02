@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Xml.Serialization;
 
     [Serializable()]
@@ -93,5 +94,13 @@
         [XmlArrayItem("Attribute", typeof(Attribute))]
         public Collection<Attribute> EntityAttributes { get; set; }
 
+        public bool IsClean()
+        {
+            if (ShortQty > 0)
+            {
+                return false;
+            }
+            return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
+        }
     }
 }

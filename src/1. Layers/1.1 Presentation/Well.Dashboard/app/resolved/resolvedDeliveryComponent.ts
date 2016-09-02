@@ -19,7 +19,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService],
+    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService]
     directives: [ContactModal, OrderArrowComponent]
 })
 export class ResolvedDeliveryComponent implements OnInit {

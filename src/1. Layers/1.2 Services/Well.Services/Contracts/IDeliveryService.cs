@@ -1,12 +1,9 @@
 ﻿namespace PH.Well.Services.Contracts
 {
-    using System.Collections.Generic;
-
-    using Domain.ValueObjects;
+    using Domain;
 
     public interface IDeliveryService
     {
-        IEnumerable<Delivery> GetCleanDeliveries();
-        IEnumerable<Delivery> GetResolvedDeliveries();
+        void UpdateDeliveryLine(JobDetail jobDetail, string username);
     }
 }

@@ -23,7 +23,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
+    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService]
     directives: [ContactModal, AssignModal, OrderArrowComponent]
 })
 
@@ -44,7 +44,6 @@ export class ExceptionsComponent implements OnInit {
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
     actions: DropDownItem[] = [
-        new DropDownItem("Assign", "#"),
         new DropDownItem("Credit", "credit"),
         new DropDownItem("Credit and Re-Order", "credit-reorder"),
         new DropDownItem("Re-plan in TranSend", "replan-transcend"),
@@ -107,7 +106,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     deliverySelected(delivery): void {
-        this.router.navigate(['/delivery', delivery.id]);
+        this.router.navigate(['/delivery', delivery.id, delivery.canAction]);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();
@@ -135,14 +134,12 @@ export class ExceptionsComponent implements OnInit {
         this.getExceptions();
     }
 
+    allocateUser(delivery: ExceptionDelivery): void {
+        this.openAssignModal(delivery);
+    }
 
     setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
         switch (action.value) {
-            case '#':
-                // choose user
-                this.openAssignModal(delivery);
-
-                break;
             case 'credit':
                 this.exceptionDeliveryService.credit(delivery)
                     .subscribe((res: Response) => {

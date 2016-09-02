@@ -1,54 +1,63 @@
 ﻿namespace PH.Well.Repositories
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
+    using Dapper;
     using Domain;
-    using Domain.Enums;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
 
-
         public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
         {}
 
-
         public JobDetail GetById(int id)
         {
-            var jobDetail =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetById)
-                   .AddParameter("Id", id, DbType.Int32)
-                   .Query<JobDetail>()
-                   .FirstOrDefault();
-
-            return jobDetail;
+            return Get(id, null, null).FirstOrDefault();
         }
 
-        public IEnumerable<JobDetail>  GetByJobId(int id)
+        public IEnumerable<JobDetail>  GetByJobId(int jobId)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId)
-                .AddParameter("JobId", id, DbType.Int32)
-                .Query<JobDetail>();
+            return Get(null, jobId, null);
         }
 
         public JobDetail GetByJobLine(int jobId, int lineNumber)
         {
-            return GetByJobId(jobId).SingleOrDefault(j => j.LineNumber == lineNumber);
+            return Get(null, jobId, lineNumber).FirstOrDefault();
         }
 
-        public JobDetail JobDetailGetByBarcodeAndProdDesc(string barcode, int jobId)
+        private IEnumerable<JobDetail> Get(int? id, int? jobId, int? lineNumber)
         {
-            var jobDetail =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeAndProdDesc)
-                   .AddParameter("Barcode", barcode, DbType.String)
-                   .AddParameter("JobId", jobId, DbType.Int32)
-                   .Query<JobDetail>()
-                   .FirstOrDefault();
+            var jobDetails = new List<JobDetail>();
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGet)
+                .AddParameter("Id", id, DbType.Int32)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("LineNumber", lineNumber, DbType.Int32)
+                .QueryMultiple<JobDetail>(g => jobDetails = GetFromGrid(g));
 
-            return jobDetail;
+            return jobDetails;
+        }
+
+        private List<JobDetail> GetFromGrid(SqlMapper.GridReader grid)
+        {
+            var jobDetails = grid.Read<JobDetail>().ToList();
+            var jobDetailDamages = grid.Read<JobDetailDamage>().ToList();
+            var jobDetailAttributes = grid.Read<Attribute>().ToList();
+
+            foreach (var jobDetail in jobDetails)
+            {
+                jobDetail.JobDetailDamages =
+                    new Collection<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id).ToList());
+
+                jobDetail.EntityAttributes =
+                    new Collection<Attribute>(jobDetailAttributes.Where(a => a.AttributeId == jobDetail.Id).ToList());
+            }
+
+            return jobDetails;
         }
 
         protected override void SaveNew(JobDetail jobDetail)
@@ -105,29 +114,16 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
-        public JobDetail GetByBarcodeLineNumberAndJobId(int lineNumber, string barcode, int jobId)
-        {
-            var jobDetail =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeLineNumberAndJobId)
-                   .AddParameter("LineNumber", lineNumber, DbType.Int32)
-                   .AddParameter("Barcode", barcode, DbType.String)
-                   .AddParameter("JobId", jobId, DbType.Int32)
-                   .Query<JobDetail>()
-                   .FirstOrDefault();
-
-            return jobDetail;
-        }
-
         public void DeleteJobDetailById(int id)
         {
-            JobDetailArttributesDeleteByJobDetailId(id);
+            JobDetailAttributesDeleteByJobDetailId(id);
             JobDetailDeleteDamageReasonsByJobDetailId(id);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteById)
                 .AddParameter("JobDetailId", id, DbType.Int32).Execute();          
         }
 
-        private void JobDetailArttributesDeleteByJobDetailId(int jobDetailId)
+        private void JobDetailAttributesDeleteByJobDetailId(int jobDetailId)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId)
                 .AddParameter("JobDetailId", jobDetailId, DbType.Int32).Execute();
@@ -138,11 +134,5 @@
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId)
                 .AddParameter("JobDetailId", id, DbType.Int32).Execute();         
         }
-
-
-
-
     }
-
-
 }

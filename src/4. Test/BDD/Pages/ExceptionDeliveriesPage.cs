@@ -17,6 +17,7 @@
             this.RoutesGrid = new Grid<ExceptionDeliveriesGrid> { Locator = By.Id("tableExceptionDeliveries"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
+            this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
         }
 
         protected override string UrlSuffix => "exceptions";
@@ -26,6 +27,8 @@
         public FilterControl Filter { get; set; }
 
         public PagerControl Pager { get; set; }
+
+        public Button EnabledButton { get; set; }
 
         public IWebElement GetFirstCell()
         {

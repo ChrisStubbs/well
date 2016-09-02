@@ -123,5 +123,13 @@
             Assert.That(element.Text, Is.EqualTo(name));
             Assert.That(element.Text, Is.Not.EqualTo("Unallocated"));
         }
+
+        [Then(@"the user can action the exception")]
+        public void UserCanActionTheException()
+        {
+            var element = this.ExceptionDeliveriesPage.EnabledButton;
+
+            Assert.IsNotNull(element);
+        }
     }
 }

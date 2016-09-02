@@ -48,6 +48,7 @@
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";
         public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
+        public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
@@ -77,6 +78,7 @@
         public static string UserGetByName = "UserGetByName";
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
+        public static string UnAssignJobToUser = "UserJob_Delete";
 
         public static string EventInsert = "EventInsert";
         public static string EventSetProcessed = "EventSetProcessed";

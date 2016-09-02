@@ -1,6 +1,5 @@
 ﻿namespace Well.Clean.Infrastructure
 {
-
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;

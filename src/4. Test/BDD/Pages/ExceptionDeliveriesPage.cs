@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.BDD.Pages
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using Framework.WebElements;
@@ -19,10 +18,13 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
         }
+
         protected override string UrlSuffix => "exceptions";
 
         public Grid<ExceptionDeliveriesGrid> RoutesGrid { get; set; }
+
         public FilterControl Filter { get; set; }
+
         public PagerControl Pager { get; set; }
 
         public IWebElement GetFirstCell()
@@ -32,6 +34,28 @@
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
             var elements = wait.Until(d => d.FindElements(By.ClassName("first-cell")));
+
+            return elements.First();
+        }
+
+        public IWebElement GetFirstAssignAnchor()
+        {
+            this.Driver.WaitForAjax();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var elements = wait.Until(d => d.FindElements(By.ClassName("assign")));
+
+            return elements.First();
+        }
+
+        public IWebElement GetFirstAssignUserFromModal()
+        {
+            this.Driver.WaitForAjax();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var elements = wait.Until(d => d.FindElements(By.ClassName("assign-user")));
 
             return elements.First();
         }

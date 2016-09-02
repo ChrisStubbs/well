@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit}  from '@angular/core';
-import { HTTP_PROVIDERS, Response } from '@angular/http';
-import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
+import { Response } from '@angular/http';
+import {ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 import {Branch} from './branch';
 import {BranchService} from './branchService';
@@ -11,7 +11,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 @Component({
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService]
+    providers: [GlobalSettingsService]
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;
@@ -64,9 +64,7 @@ export class BranchSelectionComponent implements OnInit {
     selectBranch(branch): void {
         var index = this.selectedBranches.indexOf(branch, 0);
 
-        var selected = branch.selected;
-
-        if (index > -1 && selected === false) {
+        if (index > -1 && !branch.selected) {
             this.selectedBranches.splice(index, 1);
         } else {
             this.selectedBranches.push(branch);

@@ -1,12 +1,10 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import {Router} from '@angular/router';
-import { HTTP_PROVIDERS, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
-import {OptionFilterComponent} from '../shared/optionfilter.component';
-import {OptionFilterPipe } from '../shared/optionFilterPipe';
+import {PaginationService } from 'ng2-pagination';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contact-modal";
@@ -19,14 +17,12 @@ import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
-import {OrderBy} from "../shared/orderBy";
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal, AssignModal],
-    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
+    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
+    directives: [ContactModal, AssignModal]
 })
 
 export class ExceptionsComponent implements OnInit {
@@ -46,7 +42,6 @@ export class ExceptionsComponent implements OnInit {
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
     actions: DropDownItem[] = [
-        new DropDownItem("Assign", "#"),
         new DropDownItem("Credit", "credit"),
         new DropDownItem("Credit and Re-Order", "credit-reorder"),
         new DropDownItem("Re-plan in TranSend", "replan-transcend"),
@@ -104,7 +99,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     deliverySelected(delivery): void {
-        this.router.navigate(['/delivery', delivery.id]);
+        this.router.navigate(['/delivery', delivery.id, delivery.canAction]);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();
@@ -132,14 +127,12 @@ export class ExceptionsComponent implements OnInit {
         this.getExceptions();
     }
 
+    allocateUser(delivery: ExceptionDelivery): void {
+        this.openAssignModal(delivery);
+    }
 
     setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
         switch (action.value) {
-            case '#':
-                // choose user
-                this.openAssignModal(delivery);
-
-                break;
             case 'credit':
                 this.exceptionDeliveryService.credit(delivery)
                     .subscribe((res: Response) => {

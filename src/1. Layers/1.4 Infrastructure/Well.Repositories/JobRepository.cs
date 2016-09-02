@@ -7,6 +7,7 @@
     using Contracts;
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
@@ -32,6 +33,8 @@
                     .AddParameter("StopId", id, DbType.Int32)
                     .Query<Job>();
         }
+
+        
 
         public IEnumerable<CustomerRoyaltyException>  GetCustomerRoyaltyExceptions()
         {
@@ -114,7 +117,14 @@
             dapperProxy.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById)
                 .AddParameter("JobId", id, DbType.Int32).Execute();
         }
-        
+
+        public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetCreditActionReasons)
+                   .AddParameter("PDACreditReasonId", pdaCreditReasonId, DbType.Int32)
+                   .Query<PodActionReasons>();
+        }
+
 
     }
 }

@@ -5,5 +5,7 @@
         public static string StructureMapContainer = "StructureMapContainer";
 
         public static string Url = "Url";
+
+        public static string AssignName = "AssignName";
     }
 }

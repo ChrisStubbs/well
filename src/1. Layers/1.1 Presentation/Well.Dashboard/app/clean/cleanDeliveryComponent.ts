@@ -1,29 +1,23 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
+import {PaginationService } from 'ng2-pagination';
 import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
-import {OptionFilterComponent} from '../shared/optionfilter.component';
-import {OptionFilterPipe } from '../shared/optionFilterPipe';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
-import {OrderBy} from "../shared/orderBy"
 
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [HTTP_PROVIDERS, GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
-    directives: [OptionFilterComponent, PaginationControlsCmp, ContactModal],
-    pipes: [OptionFilterPipe, PaginatePipe, OrderBy]
-
+    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
+    directives: [ContactModal]
 })
 export class CleanDeliveryComponent implements OnInit {
     lastRefresh = Date.now();

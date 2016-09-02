@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
+    using System;
+
     public class Delivery
     {
         public int Id { get; set; } 
@@ -27,5 +29,14 @@
         public string AccountId { get; set; }
 
         public int BranchId { get; set; }
+
+        public string IdentityName { get; set; }
+
+        public bool CanAction { get; private set; }
+
+        public void SetCanAction(string username)
+        {
+            this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

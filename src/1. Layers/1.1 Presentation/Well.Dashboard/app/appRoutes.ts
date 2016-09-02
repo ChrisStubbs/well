@@ -1,4 +1,4 @@
-﻿import { provideRouter, RouterConfig } from '@angular/router';
+﻿import { Routes, RouterModule } from '@angular/router';
 
 import {AccountComponent} from './account/accountComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
@@ -12,13 +12,14 @@ import {UserPreferenceComponent} from './user_preferences/userPreferenceComponen
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetStatsComponent} from './home/widgetStatsComponent';
 
-const routes: RouterConfig = [
-    { path: '', redirectTo: '/widgets', pathMatch: 'full' },
+const routes: Routes = [
+    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
+    { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
     { path: 'clean', component: CleanDeliveryComponent },
-    { path: 'delivery/:id', component: DeliveryComponent },
+    { path: 'delivery/:id/:canAction', component: DeliveryComponent },
     { path: 'delivery/:id/line/:line', component: DeliveryUpdateComponent },
     { path: 'exceptions', component: ExceptionsComponent },
     { path: 'notifications', component: NotificationsComponent },
@@ -28,6 +29,4 @@ const routes: RouterConfig = [
     { path: 'preferences', component: UserPreferenceComponent }
 ];
 
-export const appRouterProviders = [
-    provideRouter(routes)
-];
+export const appRouterProviders = RouterModule.forRoot(routes);

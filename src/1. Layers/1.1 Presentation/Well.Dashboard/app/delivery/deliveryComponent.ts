@@ -1,8 +1,7 @@
 ﻿import {Component, OnInit, ViewChild}  from '@angular/core';
-import {HTTP_PROVIDERS} from '@angular/http';
 import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
-import {PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
+import {PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
 import {DropDownItem} from "../shared/dropDownItem";
@@ -10,9 +9,7 @@ import {DropDownItem} from "../shared/dropDownItem";
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
-    providers: [HTTP_PROVIDERS, DeliveryService, PaginationService],
-    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
-    pipes: [PaginatePipe]
+    providers: [DeliveryService, PaginationService]
 })
 
 export class DeliveryComponent implements OnInit {
@@ -21,6 +18,7 @@ export class DeliveryComponent implements OnInit {
     rowCount: number = 10;
     showAll: boolean = false;
     deliveryId: number;
+    canAction: boolean;
 
     options: DropDownItem[] = [
         new DropDownItem("Exceptions", "isException"),
@@ -36,13 +34,13 @@ export class DeliveryComponent implements OnInit {
         private deliveryService: DeliveryService,
         private route: ActivatedRoute,
         private router: Router) {
-        route.params.subscribe(params => { this.deliveryId = params['id'] });
     }
 
     ngOnInit(): void {
-       
+        this.route.params.subscribe(params => { this.deliveryId = params['id'], this.canAction = params['canAction'] === 'true'; console.log(this.canAction); });
+
         this.deliveryService.getDelivery(this.deliveryId)
-            .subscribe(delivery => { this.delivery = new Delivery(delivery); console.log(this.delivery) },
+            .subscribe(delivery => this.delivery = new Delivery(delivery),
             error => this.errorMessage = <any>error);
     }
 

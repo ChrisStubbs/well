@@ -41,13 +41,15 @@
                             <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
+                        <td>
+                            <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                        </td>
                         <td>
                             <div class="btn-group">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
+                                    <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
+                                    <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
                                     <ul class="dropdown-menu" aria-labelledby="filter-option">
-                                        <li><a><i>Action</i></a></li>
                                         <li *ngFor="let action of actions"><a (click)="setSelectedAction(delivery,action)"> {{action.description}}</a></li>
                                     </ul>
                                 </div>

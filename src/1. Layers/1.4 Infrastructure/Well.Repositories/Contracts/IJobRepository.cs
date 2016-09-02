@@ -9,7 +9,7 @@
     {
         void AddJobAttributes(Attribute attribute);
         Job GetById(int id);
-        Job JobCreateOrUpdate(Job job);
+        void JobCreateOrUpdate(Job job);
         Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId);
         Job JobGetByRefDetails(string ref1, string ref2, int stopId);
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();

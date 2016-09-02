@@ -15,7 +15,6 @@
     {
         private readonly ILogger logger;
         private readonly IDeliveryReadRepository deliveryReadRepository;
-
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public DeliveryController(

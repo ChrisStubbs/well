@@ -15,6 +15,7 @@
     using Well.Api.Models;
     using Well.Domain;
     using Well.Domain.Enums;
+    using Well.Services.Contracts;
 
     [TestFixture]
     public class DeliveryLineControllerTests : BaseControllerTests<DeliveryLineController>
@@ -22,7 +23,7 @@
         private Mock<ILogger> logger;
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
         private Mock<IJobDetailRepository> jobDetailRepository;
-        private Mock<IJobDetailDamageRepo> jobDetailDamageRepo;
+        private Mock<IDeliveryService> deliveryService;
 
         [SetUp]
         public void Setup()
@@ -30,16 +31,15 @@
             logger = new Mock<ILogger>(MockBehavior.Strict);
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
-            jobDetailDamageRepo = new Mock<IJobDetailDamageRepo>(MockBehavior.Strict);
+            deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
 
             jobDetailRepository.SetupSet(r => r.CurrentUser = It.IsAny<string>());
-            jobDetailDamageRepo.SetupSet(r => r.CurrentUser = It.IsAny<string>());
 
             Controller = new DeliveryLineController(logger.Object,
                 serverErrorResponseHandler.Object,
                 jobDetailRepository.Object,
-                jobDetailDamageRepo.Object,
-                null);
+                deliveryService.Object);
+
             SetupController();
         }
 
@@ -109,29 +109,21 @@
                     ShortQty = 0
                 });
 
-                jobDetailRepository.Setup(r => r.Update(It.IsAny<JobDetail>()));
-                jobDetailRepository.Setup(r => r.GetById(It.IsAny<int>()));
-                jobDetailDamageRepo.Setup(r => r.Delete(It.IsAny<int>()));
-                jobDetailDamageRepo.Setup(r => r.Save(It.IsAny<JobDetailDamage>()));
-
+                deliveryService.Setup(r => r.UpdateDeliveryLine(It.IsAny<JobDetail>(), It.IsAny<string>()));
 
                 HttpResponseMessage response = Controller.Update(model);
 
-                jobDetailRepository.Verify(
-                    r => r.Update(It.Is<JobDetail>(j => j.JobId == model.JobId &&
-                                                                j.LineNumber == model.LineNo &&
-                                                                j.ShortQty == model.ShortQuantity)), Times.Once);
+                deliveryService.Verify(r => r.UpdateDeliveryLine(
+                    It.Is<JobDetail>(j => j.JobDetailDamages[0].Qty == model.Damages[0].Quantity &&
+                                          j.JobDetailDamages[0].DamageReason == DamageReasons.CAR01 &&
+                                          j.JobDetailDamages[1].Qty == model.Damages[1].Quantity &&
+                                          j.JobDetailDamages[1].DamageReason == DamageReasons.CAR02),
+                    It.IsAny<string>()), Times.Once);
 
-                jobDetailDamageRepo.Verify(r => r.Delete(It.Is<int>(i => i == 5)));
-
-                jobDetailDamageRepo.Verify(r => r.Save(It.IsAny<JobDetailDamage>()),
-                    Times.Exactly(2));
-
-                jobDetailDamageRepo.Verify(r => r.Save(
-                    It.Is<JobDetailDamage>(j => j.JobDetailId == 5 && j.Qty == 1 && j.DamageReason == DamageReasons.CAR01)), Times.Once);
-
-                jobDetailDamageRepo.Verify(r => r.Save(
-                    It.Is<JobDetailDamage>(j => j.JobDetailId == 5 && j.Qty == 3 && j.DamageReason == DamageReasons.CAR02)), Times.Once);
+                deliveryService.Verify(d => d.UpdateDeliveryLine(It.Is<JobDetail>(j => j.JobId == model.JobId &&
+                                                                                       j.LineNumber == model.LineNo &&
+                                                                                       j.ShortQty == model.ShortQuantity),
+                    It.IsAny<string>()), Times.Once);
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }

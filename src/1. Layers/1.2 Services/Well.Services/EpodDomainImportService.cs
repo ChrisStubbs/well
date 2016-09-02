@@ -116,18 +116,18 @@
             foreach (var job in stop.Jobs)
             {
                 job.StopId = newStopId;
-                var newJob = this.jobRepository.JobCreateOrUpdate(job);
+                jobRepository.JobCreateOrUpdate(job);
 
                 if (this.EpodType == EpodFileType.RouteHeader)
                 {
                     foreach (var jobAttribute in job.EntityAttributes)
                     {
-                        jobAttribute.AttributeId = newJob.Id;
+                        jobAttribute.AttributeId = job.Id;
                         jobRepository.AddJobAttributes(jobAttribute);
                     }
                 }
 
-                AddJobJobDetail(job, newJob.Id);
+                AddJobJobDetail(job, job.Id);
             }
         }
 
@@ -338,7 +338,7 @@
                 };
 
                 this.jobRepository.CurrentUser = this.CurrentUser;
-                newJob = this.jobRepository.JobCreateOrUpdate(newJob);
+                jobRepository.JobCreateOrUpdate(newJob);
 
                 var currentJobDetailId = 0;
                 AddJobDetailByOrderJobDetail(newJob.Id, orderJob.OrderJobDetails, currentJobDetailId, insertOnly);
@@ -353,9 +353,7 @@
             {
                 if (!insertOnly)
                 {
-                    var currentJobDetail =
-                        this.jobDetailRepository.JobDetailGetByBarcodeAndProdDesc(orderJobDetail.BarCode, jobId);
-
+                    var currentJobDetail = this.jobDetailRepository.GetByJobLine(jobId, orderJobDetail.LineNumber);
                     currentJobDetailId = currentJobDetail.Id;
                 }
 
@@ -585,7 +583,7 @@
                 {
                     currentJob.ByPassReasonId = ePodjob.ByPassReasonId;
                     currentJob.PerformanceStatusId = ePodjob.PerformanceStatusId;
-                    currentJob = this.jobRepository.JobCreateOrUpdate(currentJob);
+                    jobRepository.JobCreateOrUpdate(currentJob);
                     AddEpodJobJobDetail(ePodjob, currentJob.Id);
                 }
                 else
@@ -602,7 +600,7 @@
 
             foreach (var ePodJobDetail in job.JobDetails)
             {
-                var currentJobDetail = this.jobDetailRepository.GetByBarcodeLineNumberAndJobId(ePodJobDetail.LineNumber, ePodJobDetail.BarCode, currentJobId);
+                var currentJobDetail = this.jobDetailRepository.GetByJobLine(currentJobId, ePodJobDetail.LineNumber);
 
                 if (currentJobDetail != null)
                 {

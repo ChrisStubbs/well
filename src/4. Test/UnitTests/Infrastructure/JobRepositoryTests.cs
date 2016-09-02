@@ -86,9 +86,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("Id", job.Id, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<Job>()).Returns(new List<Job>());
-
-
                 this.repository.JobCreateOrUpdate(job);
 
                 Assert.That(user.Id, Is.EqualTo(1));
@@ -111,8 +108,6 @@ namespace PH.Well.UnitTests.Infrastructure
 
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.Query<Job>(), Times.Exactly(1));
             }
         }
 

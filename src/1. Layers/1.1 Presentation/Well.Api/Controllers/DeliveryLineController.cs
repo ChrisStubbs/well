@@ -3,37 +3,34 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Transactions;
     using System.Web.Http;
     using Common.Contracts;
     using Domain;
     using Domain.Enums;
     using Models;
     using Repositories.Contracts;
-    using WebGrease.Css.Extensions;
+    using Services.Contracts;
 
     public class DeliveryLineController : BaseApiController
     {
         private readonly ILogger logger;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IJobDetailRepository jobDetailRepository;
-        private readonly IJobDetailDamageRepo jobDetailDamageRepo;
+        private readonly IDeliveryService deliveryService;
 
         public DeliveryLineController(
             ILogger logger,
             IServerErrorResponseHandler serverErrorResponseHandler,
             IJobDetailRepository jobDetailRepository,
-            IJobDetailDamageRepo jobDetailDamageRepo)
+            IDeliveryService deliveryService)
         {
             this.logger = logger;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
-            this.jobDetailDamageRepo = jobDetailDamageRepo;
+            this.deliveryService = deliveryService;
             this.jobDetailRepository.CurrentUser = UserName;
-            this.jobDetailDamageRepo.CurrentUser = UserName;
         }
 
         [HttpPut]
@@ -42,7 +39,7 @@
         {
             try
             {
-                var jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNo);
+                JobDetail jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNo);
                 if (jobDetail == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
@@ -71,16 +68,7 @@
                 }
                 jobDetail.JobDetailDamages = damages;
 
-                using (var transactionScope = new TransactionScope())
-                {
-                    jobDetailRepository.Update(jobDetail);
-                    jobDetailDamageRepo.Delete(jobDetail.Id);
-                    foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
-                    {
-                        jobDetailDamageRepo.Save(jobDetailDamage);
-                    }
-                    transactionScope.Complete();
-                }
+                deliveryService.UpdateDeliveryLine(jobDetail, UserName);
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

@@ -128,7 +128,6 @@
     <Build Include="dbo\StoredProcedures\Job_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobAttribute_CreateOrUpdate.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
@@ -141,7 +140,6 @@
     <Build Include="dbo\StoredProcedures\RouteHeader_GetByRouteNumberAndDate.sql" />
     <Build Include="dbo\StoredProcedures\Stop_GetByRouteNumberAndDropNumber.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_GetByBarcodeLineNumberAndJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />
     <Build Include="dbo\Tables\Reason.sql" />
@@ -165,7 +163,6 @@
     <Build Include="dbo\StoredProcedures\MarkEventAsProcessed.sql" />
     <Build Include="dbo\StoredProcedures\Users_GetByBranchId.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByRefDetails.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_GetByBarcodeAndProdDesc.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByAccountCode.sql" />
     <Build Include="dbo\Tables\JobDetailStatus.sql" />
     <Build Include="dbo\Tables\HolidayExceptions.sql" />
@@ -175,7 +172,7 @@
     <Build Include="dbo\StoredProcedures\HolidayException_Get.sql" />
     <Build Include="dbo\StoredProcedures\DeliveryLines_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByStopId.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_GetByJobId.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_Get.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailArttributes_DeleteByJobDetailId.sql" />

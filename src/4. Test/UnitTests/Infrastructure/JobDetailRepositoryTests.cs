@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
+    using Dapper;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -36,16 +38,21 @@
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 const int id = 1;
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetById))
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGet))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<JobDetail>()).Returns(new List<JobDetail>());
+                dapperProxy.Setup(x => x.AddParameter("JobId", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("LineNumber", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()));
 
                 var result = repository.GetById(id);
 
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetById), Times.Once);
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGet), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<JobDetail>(), Times.Once());
+                dapperProxy.Verify(
+                    x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()),
+                    Times.Once());
+
             }
         }
 
@@ -56,16 +63,18 @@
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 const int id = 1;
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId))
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGet))
                     .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Id", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<JobDetail>()).Returns(new List<JobDetail>());
+                dapperProxy.Setup(x => x.AddParameter("LineNumber", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()));
 
                 var result = repository.GetByJobId(id);
 
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId), Times.Once);
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGet), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<JobDetail>(), Times.Once());
+                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()),Times.Once);
             }
         }
 
@@ -267,37 +276,6 @@
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
 
-            }
-        }
-
-        public class TheGetBarcodeLineNumberAndJobId : JobDetailRepositoryTests
-        {
-            [Test]
-            public void ShouldGetByBarcodeLineNumberAndJobId()
-            {
-                var jobDetail = JobDetailFactory.New.Build();
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeLineNumberAndJobId))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Barcode", jobDetail.BarCode, DbType.String, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-
-                dapperProxy.Setup(x => x.Query<JobDetail>()).Returns(new List<JobDetail>());
-
-                var result = this.repository.GetByBarcodeLineNumberAndJobId(jobDetail.LineNumber, jobDetail.BarCode,
-                    jobDetail.JobId);
-
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.JobDetailGetByBarcodeLineNumberAndJobId), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null),
-                    Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("Barcode", jobDetail.BarCode, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<JobDetail>(), Times.Once());
             }
         }
     }

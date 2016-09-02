@@ -15,7 +15,6 @@
     {
         private readonly ILogger logger;
         private readonly IDeliveryReadRepository deliveryReadRepository;
-
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public DeliveryController(
@@ -34,7 +33,7 @@
         {
             try
             {
-               var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
+               List<Delivery> exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
 
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserName));
 

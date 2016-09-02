@@ -51,12 +51,9 @@
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
 
         //jobdetail
-        public static string JobDetailGetById = "JobDetail_GetById";
+        public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
-        public static string JobDetailGetByBarcodeLineNumberAndJobId = "JobDetail_GetByBarcodeLineNumberAndJobId";
         public static string JobDetailDamageCreateOrUpdate = "JobDetailDamage_CreateOrUpdate";
-        public static string JobDetailGetByBarcodeAndProdDesc = "JobDetail_GetByBarcodeAndProdDesc";
-        public static string JobDetailGetByJobId = "JobDetail_GetByJobId";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailArttributesDeleteByJobDetailId = "JobDetailArttributes_DeleteByJobDetailId";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";

@@ -27,7 +27,7 @@
                         <th>Status</th>
                         <th>Assigned</th>
                         <th>Action</th>
-                        <th>Last updated date/time<a style="text-decoration:none;display:inline;"><span class="glyphicon glyphicon-arrow-up sorticon" (click)="sortDirection(true)"></span></a><a style="text-decoration:none;display:inline;"><span class="glyphicon glyphicon-arrow-down" (click)="sortDirection(false)"></span></a></th>
+                        <th>Last updated date/time<a style="text-decoration:none;display:inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
                     </tr>
                 </thead>
                 <tbody>

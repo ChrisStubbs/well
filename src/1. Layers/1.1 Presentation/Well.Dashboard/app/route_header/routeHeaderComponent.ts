@@ -9,12 +9,14 @@ import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
 import {WellModal} from "../shared/well-modal";
 import {RefreshService} from "../shared/refreshService";
+import {OrderArrowComponent} from '../shared/orderby-arrow';
+import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [GlobalSettingsService, RouteHeaderService, PaginationService],
-    directives: [WellModal]
+    directives: [WellModal, OrderArrowComponent]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;
@@ -42,7 +44,8 @@ export class RouteHeaderComponent implements OnInit {
     ngOnInit() {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
-        this.currentConfigSort = '-dateTimeUpdated';
+        this.currentConfigSort = '+dateTimeUpdated';
+        this.sortDirection(false);
     }
 
     ngOnDestroy() {
@@ -51,7 +54,12 @@ export class RouteHeaderComponent implements OnInit {
 
     sortDirection(sortDirection): void {
         this.currentConfigSort = sortDirection === true ? '+dateTimeUpdated' : '-dateTimeUpdated';
-        this.getRoutes();
+        var sortString = this.currentConfigSort === '+dateTimeUpdated' ? 'asc' : 'desc';
+        lodash.sortBy(this.routes, ['dateTimeUpdated'], [sortString]);
+    }
+
+    onSortDirectionChanged(isDesc: boolean) {
+        this.sortDirection(isDesc);
     }
 
     getRoutes(): void {

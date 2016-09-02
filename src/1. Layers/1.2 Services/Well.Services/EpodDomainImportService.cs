@@ -481,6 +481,8 @@
 
         }
 
+
+
         private void DeleteJobDetail(int id)
         {
             this.jobDetailRepository.DeleteJobDetailById(id);

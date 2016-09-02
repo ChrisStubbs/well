@@ -17,12 +17,14 @@ import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
+import {OrderArrowComponent} from '../shared/orderby-arrow';
+import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
-    directives: [ContactModal, AssignModal]
+    directives: [ContactModal, AssignModal, OrderArrowComponent]
 })
 
 export class ExceptionsComponent implements OnInit {
@@ -67,7 +69,8 @@ export class ExceptionsComponent implements OnInit {
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.getExceptions();
-        this.currentConfigSort = '-dateTimeUpdated';
+        this.currentConfigSort = '-dateTime';
+        this.sortDirection(false);
     }
 
     ngOnDestroy() {
@@ -88,10 +91,14 @@ export class ExceptionsComponent implements OnInit {
     }
 
     sortDirection(sortDirection): void {
-        console.log(sortDirection);
         this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
-        console.log(this.currentConfigSort);
+        var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
         this.getExceptions();
+        lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);
+    }
+
+    onSortDirectionChanged(isDesc: boolean) {
+        this.sortDirection(isDesc);
     }
 
     

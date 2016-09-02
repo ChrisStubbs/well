@@ -12,12 +12,14 @@ import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
+import {OrderArrowComponent} from '../shared/orderby-arrow';
+import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
     providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
-    directives: [ContactModal]
+    directives: [ContactModal, OrderArrowComponent]
 })
 export class CleanDeliveryComponent implements OnInit {
     lastRefresh = Date.now();
@@ -46,6 +48,7 @@ export class CleanDeliveryComponent implements OnInit {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.getDeliveries();
         this.currentConfigSort = '-dateTime';
+        this.sortDirection(false);
     }
 
     ngOnDestroy() {
@@ -61,10 +64,16 @@ export class CleanDeliveryComponent implements OnInit {
                 error => this.lastRefresh = Date.now());
     }
 
-    sortDirection(sortDirection): void {
-        this.getDeliveries();
+    sortDirection(sortDirection): void {    
         this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
-        
+        var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
+        this.getDeliveries();
+        lodash.sortBy(this.cleanDeliveries, ['dateTime'], [sortString]);   
+    }
+
+    
+    onSortDirectionChanged(isDesc: boolean) {
+        this.sortDirection(isDesc);
     }
 
     onFilterClicked(filterOption: FilterOption) {
@@ -82,4 +91,6 @@ export class CleanDeliveryComponent implements OnInit {
             .subscribe(account => { this.account = account; this.modal.show(this.account);},
             error => this.errorMessage = <any>error);
     }
+
+
 }

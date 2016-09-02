@@ -31,10 +31,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -235,6 +233,7 @@
     <Content Include="app\route_header\routeheader-list.html" />
     <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\contact-modal.html" />
+    <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
@@ -268,6 +267,8 @@
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\green-check.png" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\triangle_asc.png" />
+    <Content Include="Content\Images\triangle_desc.png" />
     <Content Include="Content\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -383,6 +384,7 @@
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
+    <TypeScriptCompile Include="app\shared\orderby-arrow.ts" />
     <TypeScriptCompile Include="app\shared\orderBy.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
     <TypeScriptCompile Include="app\shared\refreshService.ts" />

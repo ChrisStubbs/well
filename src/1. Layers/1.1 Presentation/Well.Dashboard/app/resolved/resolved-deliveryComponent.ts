@@ -13,17 +13,20 @@ import {ContactModal} from "../shared/contact-modal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
+import {OrderArrowComponent} from '../shared/orderby-arrow';
+import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService],
-    directives: [ContactModal]
+    directives: [ContactModal, OrderArrowComponent]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     lastRefresh = Date.now();
     refreshSubscription: any;
     deliveries: ResolvedDelivery[];
+    currentConfigSort: string;
     rowCount: number = 10;
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -47,6 +50,8 @@ export class ResolvedDeliveryComponent implements OnInit {
     ngOnInit() {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.getDeliveries();
+        this.currentConfigSort = '-dateTime';
+        this.sortDirection(false);
     }
 
     ngOnDestroy() {
@@ -68,6 +73,17 @@ export class ResolvedDeliveryComponent implements OnInit {
 
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
+    }
+
+    sortDirection(sortDirection): void {
+        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
+        //this.getDeliveries();
+        lodash.sortBy(this.deliveries, ['dateTime'], [sortString]);
+    }
+
+    onSortDirectionChanged(isDesc: boolean) {      
+        this.sortDirection(isDesc);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();

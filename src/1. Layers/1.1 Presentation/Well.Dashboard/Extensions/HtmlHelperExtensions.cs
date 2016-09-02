@@ -13,8 +13,6 @@
 
         private static string applicationVersion;
 
-        private static string apiVersion;
-
         /// <summary>
         /// Provides the current version of the application.
         /// </summary>

@@ -47,7 +47,7 @@
                 <td>{{line.deliveredQuantity}}</td>
                 <td>{{line.damagedQuantity}}</td>
                 <td>{{line.shortQuantity}}</td>
-                <td *ngIf="line.isEdit === false && canAction">
+                <td *ngIf="!line.isEdit && canAction">
                     <button type="button" class="btn btn-success btn-sm">Update</button>
                 </td>
             </tr>

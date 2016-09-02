@@ -1,5 +1,5 @@
 ﻿import {Component, OnInit, ViewChild}  from '@angular/core';
-import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
@@ -11,7 +11,6 @@ import {DropDownItem} from "../shared/dropDownItem";
     templateUrl: './app/delivery/delivery.html',
     providers: [DeliveryService, PaginationService]
 })
-
 export class DeliveryComponent implements OnInit {
     errorMessage: string;
     delivery: Delivery = new Delivery(null);

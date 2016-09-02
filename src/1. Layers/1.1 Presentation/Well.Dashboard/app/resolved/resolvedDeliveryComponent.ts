@@ -17,8 +17,7 @@ import {RefreshService} from '../shared/refreshService';
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService],
-    directives: [ContactModal]
+    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     lastRefresh = Date.now();

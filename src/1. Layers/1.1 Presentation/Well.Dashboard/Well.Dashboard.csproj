@@ -371,7 +371,7 @@
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\delivery\damage.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
-    <TypeScriptCompile Include="app\resolved\resolved-deliveryComponent.ts" />
+    <TypeScriptCompile Include="app\resolved\resolvedDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />

@@ -16,8 +16,7 @@ import {RefreshService} from '../shared/refreshService';
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService],
-    directives: [ContactModal]
+    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService]
 })
 export class CleanDeliveryComponent implements OnInit {
     lastRefresh = Date.now();

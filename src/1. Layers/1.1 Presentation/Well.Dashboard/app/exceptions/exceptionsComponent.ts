@@ -21,8 +21,7 @@ import {IUser} from "../shared/user";
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService],
-    directives: [ContactModal, AssignModal]
+    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService]
 })
 
 export class ExceptionsComponent implements OnInit {

@@ -7,7 +7,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
-import {ResolvedDeliveryComponent} from './resolved/resolved-deliveryComponent';
+import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetStatsComponent} from './home/widgetStatsComponent';

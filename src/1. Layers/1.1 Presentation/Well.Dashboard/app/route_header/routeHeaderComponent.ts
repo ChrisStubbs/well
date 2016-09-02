@@ -13,8 +13,7 @@ import {RefreshService} from "../shared/refreshService";
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [GlobalSettingsService, RouteHeaderService, PaginationService],
-    directives: [WellModal]
+    providers: [GlobalSettingsService, RouteHeaderService, PaginationService]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;

@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <ul class="list-group">
                     <li class="list-group-item"><a (click)="unassign(delivery.id)">Unallocated</a></li>
-                    <li class="list-group-item" *ngFor="let user of users"><a (click)="userSelected(user.id, delivery.id)">{{user.name}}</a></li>
+                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, delivery.id)">{{user.name}}</a></li>
                 </ul>   
             </div>
             <div class="modal-footer">

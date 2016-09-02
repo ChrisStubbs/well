@@ -74,5 +74,13 @@ Scenario: View exception details at lower level
 	| 4      | 3319    | C.D.M Std 45g            | 125   | 0               | 0                | 0               | 0             |
 	| 5      | 9135    | Wispa Duo 51g            | 395   | 0               | 0                | 0               | 0             |
 
+Scenario: Exception assigned to a user
+	Given I have selected branch 22
+	And All the deliveries are marked as exceptions
+	When I open the exception deliveries
+	And I select the assigned link
+	And I select a user to assign
+	Then the user is assigned to that exception
+
 
 	

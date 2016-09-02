@@ -1,8 +1,13 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
     using System.Linq;
+    using System.Threading;
+
     using NUnit.Framework;
     using Pages;
+
+    using PH.Well.BDD.Framework.Context;
+
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -63,8 +68,7 @@
         {
             this.ExceptionDeliveriesPage.Pager.Click(pageNo);
         }
-
-
+        
         [Then(@"'(.*)' rows of exception delivery data will be displayed")]
         public void ThenRowsOfExceptionDeliveryDataWillBeDisplayed(int noOfRowsExpected)
         {
@@ -84,6 +88,40 @@
             this.ExceptionDeliveriesPage.GetFirstCell().Click();
         }
 
-        
+        [When(@"I select the assigned link")]
+        public void SelectAssignLink()
+        {
+            this.ExceptionDeliveriesPage.GetFirstAssignAnchor().Click();
+        }
+
+        [When(@"I select a user to assign")]
+        public void SelectUserToAssign()
+        {
+            Thread.Sleep(2000);
+            var element = this.ExceptionDeliveriesPage.GetFirstAssignUserFromModal();
+
+            element.Click();
+
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+        }
+
+        [Then(@"the user is assigned to that exception")]
+        public void UserIsAssignedToTheCorrectException()
+        {
+            var element = this.ExceptionDeliveriesPage.GetFirstAssignAnchor();
+
+            var name = ScenarioContextWrapper.GetContextObject<string>(ContextDescriptors.AssignName);
+
+            Assert.That(element.Text, Is.EqualTo(name));
+            Assert.That(element.Text, Is.Not.EqualTo("Unallocated"));
+
+            // refresh the page to ensure name is still the same
+            this.ExceptionDeliveriesPage.Open();
+
+            element = this.ExceptionDeliveriesPage.GetFirstAssignAnchor();
+
+            Assert.That(element.Text, Is.EqualTo(name));
+            Assert.That(element.Text, Is.Not.EqualTo("Unallocated"));
+        }
     }
 }

@@ -57,11 +57,9 @@ export class AssignModal {
                 if (this.httpResponse.failure) {
                     this.toasterService.pop('error', 'Delivery unassigned', '');
                 }
-
-            });
-
-        this.hide();
-        this.onAssigned.emit(this.assigned); 
+                this.hide();
+                this.onAssigned.emit(this.assigned); 
+        });
     }
 
     unassign(jobId): void {

@@ -99,7 +99,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     deliverySelected(delivery): void {
-        this.router.navigate(['/delivery', delivery.id]);
+        this.router.navigate(['/delivery', delivery.id, delivery.canAction]);
     }
 
     @ViewChild(ContactModal) modal = new ContactModal();

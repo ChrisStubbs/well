@@ -18,6 +18,7 @@ export class DeliveryComponent implements OnInit {
     rowCount: number = 10;
     showAll: boolean = false;
     deliveryId: number;
+    canAction: boolean;
 
     options: DropDownItem[] = [
         new DropDownItem("Exceptions", "isException"),
@@ -33,13 +34,13 @@ export class DeliveryComponent implements OnInit {
         private deliveryService: DeliveryService,
         private route: ActivatedRoute,
         private router: Router) {
-        route.params.subscribe(params => { this.deliveryId = params['id'] });
     }
 
     ngOnInit(): void {
-       
+        this.route.params.subscribe(params => { this.deliveryId = params['id'], this.canAction = params['canAction'] === 'true'; console.log(this.canAction); });
+
         this.deliveryService.getDelivery(this.deliveryId)
-            .subscribe(delivery => { this.delivery = new Delivery(delivery); console.log(this.delivery) },
+            .subscribe(delivery => this.delivery = new Delivery(delivery),
             error => this.errorMessage = <any>error);
     }
 

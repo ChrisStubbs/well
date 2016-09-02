@@ -24,7 +24,7 @@ export class ExceptionDeliveryService {
     getExceptions(): Observable<ExceptionDelivery[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception')
-            .map((response: Response) => <ExceptionDelivery>response.json())
+            .map((response: Response) => <ExceptionDelivery[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }
@@ -32,7 +32,7 @@ export class ExceptionDeliveryService {
     getUsersForBranch(branchId): Observable<IUser[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
-            .map((response: Response) => <IUser>response.json())
+            .map((response: Response) => <IUser[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
     }

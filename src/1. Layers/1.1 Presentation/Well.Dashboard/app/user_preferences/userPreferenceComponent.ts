@@ -11,8 +11,7 @@ import {UserPreferenceModal} from './userPreferenceModalComponent';
 @Component({
     selector: 'ow-user-preferences',
     templateUrl: './app/user_preferences/user-preferences.html',
-    providers: [UserPreferenceService, GlobalSettingsService, PaginationService],
-    directives: [UserPreferenceModal]
+    providers: [UserPreferenceService, GlobalSettingsService, PaginationService]
 }
 )
 export class UserPreferenceComponent {

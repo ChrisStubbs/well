@@ -11,8 +11,7 @@ import * as lodash from 'lodash';
 
 @Component({
     templateUrl: './app/delivery/delivery-update.html',
-    providers: [DeliveryService],
-    directives: [ConfirmModal]
+    providers: [DeliveryService]
 })
 export class DeliveryUpdateComponent {
     deliveryId: number;

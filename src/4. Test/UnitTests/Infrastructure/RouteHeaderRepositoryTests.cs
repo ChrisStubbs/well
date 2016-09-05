@@ -51,7 +51,6 @@
             [Test]
             public void ShouldCallGetStopByRouteHedearIdOnceForEachRouteHeader()
             {
-                var name = "Test";
                 var routeHeaders = new List<RouteHeader>
                 {
                     RouteHeaderFactory.New.With(x => x.Id = 1).Build(),

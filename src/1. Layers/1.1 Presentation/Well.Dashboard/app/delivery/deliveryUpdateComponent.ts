@@ -60,7 +60,7 @@ export class DeliveryUpdateComponent {
                 "Are you sure you want to save your changes?";
             return;
         }
-        if (this.delivery.isCleanOnInit() == false && this.delivery.isClean()) {
+        if (this.delivery.isCleanOnInit() === false && this.delivery.isClean()) {
             ///Changing an Exception to a clean
             this.confirmModal.isVisible = true;
             this.confirmModal.message =

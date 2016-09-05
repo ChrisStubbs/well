@@ -208,7 +208,6 @@
     <Compile Include="Controllers\DeliveryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
-    <Compile Include="Controllers\MockDeliveryRepository.cs" />
     <Compile Include="Controllers\RouterHeaderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

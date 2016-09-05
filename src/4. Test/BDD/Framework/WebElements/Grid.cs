@@ -86,7 +86,11 @@
             }
 
             return this.row.FindElement(By.CssSelector(string.Format(LocatorTemplate, columnName))).Text;
+        }
 
+        public IWebElement GetItemInRowByClass(string className)
+        {
+            return this.row.FindElement(By.ClassName(className));
         }
 
         public string GetColumnValueByIndex(int idx)

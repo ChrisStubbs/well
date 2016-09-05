@@ -33,7 +33,7 @@
         {
             try
             {
-               List<Delivery> exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
+               var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
 
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserName));
 
@@ -73,7 +73,8 @@
         {
             try
             {
-                IEnumerable<Delivery> resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserName).ToList();
+                var resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserName).ToList();
+
                 return !resolvedDeliveries.Any()
                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                    : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
@@ -91,19 +92,18 @@
         {
             try
             {
-                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id);
-                IEnumerable<DeliveryLine> deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
-                DeliveryDetailModel delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
+                var deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserName);
+                deliveryDetail.SetCanAction(this.UserName);
+
+                var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
+                var delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {
                     return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 }
-                else
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, delivery);
-                }
 
+                return this.Request.CreateResponse(HttpStatusCode.OK, delivery);
             }
             catch (Exception ex)
             {
@@ -126,7 +126,8 @@
                 PhoneNumber = detail.PhoneNumber,
                 MobileNumber = detail.MobileNumber,
                 DeliveryType = detail.DeliveryType,
-                IsException = detail.IsException
+                IsException = detail.IsException,
+                CanAction = detail.CanAction
             };
 
             foreach (var line in lines)
@@ -152,7 +153,5 @@
 
             return deliveryDetail;
         }
-
-
     }
 }

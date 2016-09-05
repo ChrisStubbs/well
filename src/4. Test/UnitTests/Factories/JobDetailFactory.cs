@@ -13,7 +13,7 @@
             this.Entity.Id = 1;
             this.Entity.LineNumber = 1;
             this.Entity.BarCode = "00000001";
-            this.Entity.OriginalDispatchQty = 2.2m;
+            this.Entity.OriginalDespatchQty = 2;
             this.Entity.ProdDesc = "Product1";
             this.Entity.OrderedQty = 1;
             this.Entity.SkuWeight = 1.1m;

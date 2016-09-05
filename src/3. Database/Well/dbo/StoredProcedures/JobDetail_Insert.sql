@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_Insert]
 	@LineNumber				INT,
 	@Barcode				VARCHAR(60),
-	@OriginalDespatchQty	DECIMAL(7,3),
+	@OriginalDespatchQty	INT,
 	@ProdDesc				NVARCHAR(100),
-	@OrderedQty				INT=NULL,
-	@ShortQty				INT=NULL,
+	@OrderedQty				INT,
+	@ShortQty				INT,
 	@SkuWeight				DECIMAL(7,3),
 	@SkuCube				DECIMAL(7,3),
 	@UnitMeasure			NVARCHAR(20),

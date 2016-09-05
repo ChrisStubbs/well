@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_Update]
 	@Id						Int,
-	@OriginalDespatchQty	DECIMAL(7,3),
-	@OrderedQty				INT=NULL,
-	@ShortQty				INT=NULL,
+	@OriginalDespatchQty	INT,
+	@OrderedQty				INT,
+	@ShortQty				INT,
 	@JobDetailStatusId		INT,
 	@IsDeleted				Bit,
 	@UpdatedBy				VARCHAR(50),

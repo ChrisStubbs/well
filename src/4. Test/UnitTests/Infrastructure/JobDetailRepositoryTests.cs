@@ -137,7 +137,7 @@
                 dapperProxy.Setup(x => x.AddParameter("Barcode", jobDetail.BarCode, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(
-                        x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDispatchQty, DbType.Decimal, null))
+                        x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Decimal, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String, null))
                     .Returns(dapperProxy.Object);
@@ -191,7 +191,7 @@
                 dapperProxy.Verify(x => x.AddParameter("Barcode", jobDetail.BarCode, DbType.Int32, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(
-                    x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDispatchQty, DbType.Decimal, null),
+                    x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String, null),
                     Times.Exactly(1));

@@ -3,7 +3,7 @@
         <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
         <li *ngIf="delivery.deliveryType == 'Complete'"><a routerLink="/clean">Clean</a></li>
         <li *ngIf="delivery.deliveryType == 'Resolved'"><a routerLink="/resolved">Resolved</a></li>
-        <li class="active">{{delivery.deliveryType}} Delivery {{delivery.id}}</li>
+        <li class="active"><span id="delivery-type">{{delivery.deliveryType}}</span> Delivery {{delivery.id}}</li>
     </ol>
 </div>
 <div class="jumbotron">

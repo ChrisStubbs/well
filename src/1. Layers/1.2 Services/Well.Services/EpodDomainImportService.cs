@@ -349,7 +349,7 @@
         private void AddJobDetailByOrderJobDetail(int jobId, ICollection<OrderJobDetail> orderJobDetails,
             int currentJobDetailId, bool insertOnly)
         {
-            foreach (var orderJobDetail in orderJobDetails)
+            foreach (OrderJobDetail orderJobDetail in orderJobDetails)
             {
                 if (!insertOnly)
                 {
@@ -362,10 +362,8 @@
                     Id = currentJobDetailId,
                     LineNumber = orderJobDetail.LineNumber,
                     BarCode = orderJobDetail.BarCode,
-                    OriginalDispatchQty = orderJobDetail.OrderedQty,
                     ProdDesc = orderJobDetail.ProdDesc,
                     OrderedQty = orderJobDetail.OrderedQty,
-                    ShortQty = 0,
                     SkuWeight = orderJobDetail.SkuWeight,
                     SkuCube = orderJobDetail.SkuCube,
                     UnitMeasure = orderJobDetail.UnitMeasure,
@@ -376,7 +374,6 @@
                     TextField5 = orderJobDetail.TextField5,
                     SkuGoodsValue = orderJobDetail.SkuGoodsValue,
                     JobId = jobId
-                
                 };
 
                 this.jobDetailRepository.CurrentUser = this.CurrentUser;

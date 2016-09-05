@@ -14,7 +14,7 @@
     {
         public ExceptionDeliveriesPage()
         {
-            this.RoutesGrid = new Grid<ExceptionDeliveriesGrid> { Locator = By.Id("tableExceptionDeliveries"), RowLocator = By.ClassName("grid-row") };
+            this.ExceptionsGrid = new Grid<ExceptionDeliveriesGrid> { Locator = By.Id("tableExceptionDeliveries"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
@@ -22,7 +22,7 @@
 
         protected override string UrlSuffix => "exceptions";
 
-        public Grid<ExceptionDeliveriesGrid> RoutesGrid { get; set; }
+        public Grid<ExceptionDeliveriesGrid> ExceptionsGrid { get; set; }
 
         public FilterControl Filter { get; set; }
 
@@ -37,17 +37,6 @@
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
             var elements = wait.Until(d => d.FindElements(By.ClassName("first-cell")));
-
-            return elements.First();
-        }
-
-        public IWebElement GetFirstAssignAnchor()
-        {
-            this.Driver.WaitForAjax();
-
-            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-
-            var elements = wait.Until(d => d.FindElements(By.ClassName("assign")));
 
             return elements.First();
         }

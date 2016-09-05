@@ -379,7 +379,7 @@ this.FeatureBackground();
 #line 80
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 81
- testRunner.And("I select the assigned link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 82
  testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 83
@@ -404,7 +404,7 @@ this.FeatureBackground();
 #line 88
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 89
- testRunner.And("I select the assigned link", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 90
  testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 91

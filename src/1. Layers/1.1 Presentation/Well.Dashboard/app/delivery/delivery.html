@@ -33,7 +33,7 @@
                 <th>Del Qty</th>
                 <th>Damaged Qty</th>
                 <th>Short Qty</th>
-                <th *ngIf="canAction"></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                 <td>{{line.deliveredQuantity}}</td>
                 <td>{{line.damagedQuantity}}</td>
                 <td>{{line.shortQuantity}}</td>
-                <td *ngIf="!line.isEdit && canAction">
+                <td *ngIf="!line.isEdit">
                     <button type="button" class="btn btn-success btn-sm">Update</button>
                 </td>
             </tr>

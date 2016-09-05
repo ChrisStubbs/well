@@ -76,6 +76,48 @@
             var unallocated = rows[0].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Assigned);
 
             Assert.That(unallocated, Is.EqualTo("Unallocated"));
+
+            var assignAnchor = rows[0].GetItemInRowByClass("assign");
+
+            assignAnchor.Click();
+        }
+
+        [When(@"I select the exception row")]
+        public void DrillIntoTheException()
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+            rows[0].GetItemInRowByClass("first-cell").Click();
+        }
+
+        [When(@"I select an unassigned exception row")]
+        public void DrillIntoTheExceptionViaUnassignedRow()
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+            rows[1].GetItemInRowByClass("first-cell").Click();
+        }
+
+        [Then(@"All the exception detail rows can not be updated")]
+        public void TheExceptionDetailRowsCanNotBeUpdated()
+        {
+            Thread.Sleep(2000);
+
+            var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
+
+            Assert.That(updateableRows, Is.EqualTo(0));
+        }
+
+        [Then(@"All the exception detail rows can be updated")]
+        public void TheExceptionDetailRowsCanBeUpdated()
+        {
+            Thread.Sleep(2000);
+
+            var rows = this.ExceptionDeliveriesPage.ExceptionsDrillDownGrid.ReturnAllRows().ToList();
+
+            var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
+
+            Assert.That(updateableRows, Is.EqualTo(rows.Count()));
         }
 
         [When(@"I select a user to assign")]
@@ -83,29 +125,32 @@
         {
             Thread.Sleep(2000);
             var element = this.ExceptionDeliveriesPage.GetFirstAssignUserFromModal();
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-
-            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
         }
 
         [Then(@"the user is assigned to that exception")]
         public void UserIsAssignedToTheCorrectException()
         {
-            /*var element = this.ExceptionDeliveriesPage.GetFirstAssignAnchor();
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+            var assignAnchor = rows[0].GetItemInRowByClass("assign");
 
             var name = ScenarioContextWrapper.GetContextObject<string>(ContextDescriptors.AssignName);
 
-            Assert.That(element.Text, Is.EqualTo(name));
-            Assert.That(element.Text, Is.Not.EqualTo("Unallocated"));
+            Assert.That(assignAnchor.Text, Is.EqualTo(name));
+            Assert.That(assignAnchor.Text, Is.Not.EqualTo("Unallocated"));
 
             // refresh the page to ensure name is still the same
             this.ExceptionDeliveriesPage.Open();
 
-            // element = this.ExceptionDeliveriesPage.GetFirstAssignAnchor();
+            rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
 
-            Assert.That(element.Text, Is.EqualTo(name));
-            Assert.That(element.Text, Is.Not.EqualTo("Unallocated"));*/
+            assignAnchor = rows[0].GetItemInRowByClass("assign");
+
+            Assert.That(assignAnchor.Text, Is.EqualTo(name));
+            Assert.That(assignAnchor.Text, Is.Not.EqualTo("Unallocated"));
         }
 
         [Then(@"the user can action the exception")]
@@ -114,6 +159,16 @@
             var element = this.ExceptionDeliveriesPage.EnabledButton;
 
             Assert.IsNotNull(element);
+        }
+
+        [Then(@"all other actions are disabled")]
+        public void AllOtherActionsDisabled()
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+            var disabledCount = this.ExceptionDeliveriesPage.GetCountOfElements("disabled-action");
+
+            Assert.That(rows.Count() - 1, Is.EqualTo(disabledCount));
         }
     }
 }

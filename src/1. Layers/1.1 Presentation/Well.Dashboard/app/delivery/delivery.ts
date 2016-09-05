@@ -13,6 +13,7 @@ export class Delivery {
             this.mobileNumber = delivery.mobileNumber;
             this.deliveryType = delivery.deliveryType;
             this.isException = delivery.isException;
+            this.canAction = delivery.canAction;
 
             if (delivery.deliveryLines) {
                 for (let line of delivery.deliveryLines) {
@@ -31,6 +32,7 @@ export class Delivery {
     mobileNumber: string;
     deliveryType: string;
     isException: boolean;
+    canAction: boolean;
     deliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     isCleanOnInit(): boolean {

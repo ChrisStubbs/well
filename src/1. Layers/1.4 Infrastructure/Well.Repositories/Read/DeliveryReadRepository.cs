@@ -21,25 +21,25 @@ namespace PH.Well.Repositories.Read
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        public IEnumerable<Delivery> GetCleanDeliveries(string userName)
+        public IEnumerable<Delivery> GetCleanDeliveries(string username)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Compl, userName);
+            return GetDeliveriesByStatus(PerformanceStatus.Compl, username);
         }
 
-        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status, string userName)
+        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status, string username)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPerformanceStatus)
                 .AddParameter("PerformanceStatusId", status, DbType.Int32)
-                .AddParameter("UserName", userName, DbType.String)
+                .AddParameter("UserName", username, DbType.String)
                 .Query<Delivery>();
         }
 
-        public IEnumerable<Delivery> GetResolvedDeliveries(string userName)
+        public IEnumerable<Delivery> GetResolvedDeliveries(string username)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Resolved, userName);
+            return GetDeliveriesByStatus(PerformanceStatus.Resolved, username);
         }
 
-        public IEnumerable<Delivery> GetExceptionDeliveries(string userName)
+        public IEnumerable<Delivery> GetExceptionDeliveries(string username)
         {
             var exceptionStatuses = ExceptionStatuses.Statuses;
 
@@ -47,16 +47,17 @@ namespace PH.Well.Repositories.Read
 
             foreach (var exceptionStatus in exceptionStatuses)
             {
-                allExceptions.AddRange(GetDeliveriesByStatus(exceptionStatus, userName));
+                allExceptions.AddRange(GetDeliveriesByStatus(exceptionStatus, username));
             }
 
             return allExceptions;
         }
 
-        public DeliveryDetail GetDeliveryById(int id)
+        public DeliveryDetail GetDeliveryById(int id, string username)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveryGetById)
                 .AddParameter("Id", id, DbType.Int32)
+                .AddParameter("UserName", username, DbType.String)
                 .Query<DeliveryDetail>()
                 .FirstOrDefault();
         }

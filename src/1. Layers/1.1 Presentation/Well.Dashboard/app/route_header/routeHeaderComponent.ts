@@ -1,15 +1,15 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import {Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
-import {IRoute} from './route';
+import {Route} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 import {DropDownItem} from '../shared/dropDownItem';
 import Option = require('../shared/filterOption');
 import FilterOption = Option.FilterOption;
-import {WellModal} from '../shared/well-modal';
 import {RefreshService} from '../shared/refreshService';
-import {ContextMenuItem} from './contextMenuItem';
+import {DeliverySelectionModal} from './delivery-selection-modal';
 
 @Component({
     selector: 'ow-routes',
@@ -19,10 +19,9 @@ import {ContextMenuItem} from './contextMenuItem';
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;
     errorMessage: string;
-    routes: IRoute[];
+    routes: Route[];
     rowCount: number = 10;
     currentConfigSort: string;
-    isContextMenuVisible = false;
     lastRefresh = Date.now();
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -31,22 +30,19 @@ export class RouteHeaderComponent implements OnInit {
         new DropDownItem("Invoice", "invoice", true),
         new DropDownItem("Assignee", "assignee", true)
     ];
-    items: ContextMenuItem[];
-
-    private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
 
     constructor(
         private routerHeaderService: RouteHeaderService,
-        private refreshService: RefreshService) {
+        private refreshService: RefreshService,
+        private router: Router) {
     }
 
-    @ViewChild(WellModal) modal = new WellModal();
+    @ViewChild(DeliverySelectionModal) deliverySelectionModal = new DeliverySelectionModal(this.router);
 
     ngOnInit() {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
         this.currentConfigSort = '-dateTimeUpdated';
-        this.items = [{ name: 'View exceptions' },{ name: 'View clean' }];
     }
 
     ngOnDestroy() {
@@ -67,8 +63,8 @@ export class RouteHeaderComponent implements OnInit {
                 error => this.lastRefresh = Date.now());
     }
 
-    routeSelected($event: MouseEvent, route): void {
-        this.showMenu($event);
+    routeSelected(route): void {
+        this.deliverySelectionModal.show(route);
     }
 
     onFilterClicked(filterOption: FilterOption) {
@@ -79,28 +75,6 @@ export class RouteHeaderComponent implements OnInit {
         } else {
             this.filterOption = filterOption;
         }
-    }
-
-    get locationCss() {
-        return {
-            position: 'fixed',
-            border: '1px solid #ddd',
-            display: this.isContextMenuVisible ? 'block' : 'none',
-            left: this.mouseLocation.left + 'px',
-            top: this.mouseLocation.top + 'px'
-        };
-    }
-
-    showMenu(event) {
-        this.isContextMenuVisible = true;
-        this.mouseLocation = {
-            left: event.clientX,
-            top: event.clientY
-        }
-    }
-
-    closeMenu() {
-        this.isContextMenuVisible = false;
     }
 }
 

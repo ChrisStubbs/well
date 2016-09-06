@@ -28,11 +28,11 @@ import {ContactModal} from "./shared/contact-modal";
 import {OptionFilterComponent} from './shared/optionfilter.component';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderBy} from "./shared/orderBy";
-import {WellModal} from "./shared/well-modal";
+import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 
 @NgModule({
     declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderBy,
-        AssignModal, ConfirmModal, ContactModal, WellModal,
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetStatsComponent,

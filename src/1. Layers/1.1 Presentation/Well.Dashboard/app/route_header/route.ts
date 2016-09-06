@@ -1,4 +1,4 @@
-﻿export interface IRoute {
+﻿export class Route {
     route: string;
     driverName: string;
     totalDrops: number;

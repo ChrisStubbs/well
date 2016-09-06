@@ -28,7 +28,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort" (click)="routeSelected($event, route)">
+                <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort" (click)="routeSelected(route)">
                     <td>{{route.route}}</td>
                     <td>{{route.driverName}}</td>
                     <td>{{route.totalDrops}}</td>
@@ -48,14 +48,4 @@
         </div>
     </div>
 </div>
-
-<div [ngStyle]="locationCss" *ngIf="isContextMenuVisible" class="context-menu-container">
-    <ul>
-        <li *ngFor="let item of items">
-            <span>{{item.name}}</span>
-        </li>
-        <li (click)="closeMenu()">
-            <span>Close</span>
-        </li>
-    </ul>
-</div>
+<delivery-selection-modal></delivery-selection-modal>

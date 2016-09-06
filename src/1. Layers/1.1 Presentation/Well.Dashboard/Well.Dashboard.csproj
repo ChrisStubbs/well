@@ -221,11 +221,11 @@
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\notifications\notifications-list.html" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
+    <Content Include="app\route_header\delivery-selection-modal.html" />
     <Content Include="app\route_header\routeheader-list.html" />
     <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\confirmModal.html" />
-    <Content Include="app\shared\well-modal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
     <Content Include="app\home\widgetstats.html" />
     <Content Include="app\user_preferences\user-preference-modal.html" />
@@ -363,7 +363,7 @@
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
-    <TypeScriptCompile Include="app\route_header\contextMenuItem.ts" />
+    <TypeScriptCompile Include="app\route_header\delivery-selection-modal.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
@@ -381,7 +381,6 @@
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
     <TypeScriptCompile Include="app\shared\confirmModal.ts" />
-    <TypeScriptCompile Include="app\shared\well-modal.ts" />
     <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
     <TypeScriptCompile Include="app\shared\filterOption.ts" />
     <TypeScriptCompile Include="app\shared\optionFilterPipe.ts" />

@@ -20,7 +20,7 @@ import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent'
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {UserPreferenceModal} from './user_preferences/userPreferenceModalComponent';
-import {WidgetStatsComponent} from './home/widgetStatsComponent';
+import {WidgetComponent} from './home/widgetComponent';
 
 import {AssignModal} from "./shared/assign-Modal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -35,7 +35,7 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetStatsComponent,
+        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent],
     imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, appRouterProviders],
     bootstrap: [AppComponent]

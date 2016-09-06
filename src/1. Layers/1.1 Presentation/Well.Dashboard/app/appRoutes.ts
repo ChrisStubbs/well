@@ -10,7 +10,7 @@ import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
-import {WidgetStatsComponent} from './home/widgetStatsComponent';
+import {WidgetComponent} from './home/widgetComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
@@ -27,7 +27,7 @@ const routes: Routes = [
     { path: 'notifications', component: NotificationsComponent },
     { path: 'resolved', component: ResolvedDeliveryComponent },
     { path: 'routes', component: RouteHeaderComponent },
-    { path: 'widgets', component: WidgetStatsComponent },
+    { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent }
 ];
 

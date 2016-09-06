@@ -31,7 +31,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IServerErrorResponseHandler>().Use<ServerErrorResponseHandler>();
             For<IEventLogger>().Use<EventLogger>();
             For<IStopRepository>().Use<StopRepository>();
-            For<IWidgetStatsRepository>().Use<WidgetStatsRepository>();
             For<IAccountRepository>().Use<AccountRepository>();
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();

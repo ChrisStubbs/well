@@ -227,7 +227,7 @@
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\confirmModal.html" />
     <Content Include="app\shared\optionfilter.component.html" />
-    <Content Include="app\home\widgetstats.html" />
+    <Content Include="app\home\widgets.html" />
     <Content Include="app\user_preferences\user-preference-modal.html" />
     <Content Include="app\user_preferences\user-preferences.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
@@ -385,9 +385,9 @@
     <TypeScriptCompile Include="app\shared\filterOption.ts" />
     <TypeScriptCompile Include="app\shared\optionFilterPipe.ts" />
     <TypeScriptCompile Include="app\stops\stops.ts" />
-    <TypeScriptCompile Include="app\home\widgetstats-service.ts" />
-    <TypeScriptCompile Include="app\home\widgetstats.ts" />
-    <TypeScriptCompile Include="app\home\widgetStatsComponent.ts" />
+    <TypeScriptCompile Include="app\home\widgetService.ts" />
+    <TypeScriptCompile Include="app\home\widget.ts" />
+    <TypeScriptCompile Include="app\home\widgetComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\User.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceModalComponent.ts" />

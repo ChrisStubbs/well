@@ -14,9 +14,9 @@
 
         protected abstract string UrlSuffix { get; }
 
-        public void Open()
+        public void Open(string routing)
         {
-            var url = UrlContext.CurrentUrl + this.UrlSuffix;
+            var url = UrlContext.CurrentUrl + this.UrlSuffix + routing;
 
             this.Driver.Manage().Window.Maximize();
 
@@ -27,6 +27,11 @@
             wait.Until(d => d.Url.ToLowerInvariant().Contains(url.ToLowerInvariant()));
 
             this.Driver.WaitForAjax();
+        }
+
+        public void Open()
+        {
+            Open("");
         }
     }
 }

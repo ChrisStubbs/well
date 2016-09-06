@@ -13,7 +13,7 @@
             wait.Until(d => this.GetElement().Displayed);
             wait.Until(d => this.GetElement().Enabled);
 
-            this.GetElement().SendKeys(string.Empty);
+            this.GetElement().Clear();
 
             this.GetElement().SendKeys(textToPopulate);
         }

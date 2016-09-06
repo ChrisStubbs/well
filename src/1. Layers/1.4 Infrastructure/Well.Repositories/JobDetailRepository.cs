@@ -65,7 +65,7 @@
             jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
                 .AddParameter("Barcode", jobDetail.BarCode, DbType.Int32)
-                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDispatchQty, DbType.Decimal)
+                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String)
                 .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
@@ -91,7 +91,7 @@
         {
             dapperProxy.WithStoredProcedure("JobDetail_Update")
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
-                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDispatchQty, DbType.Decimal)
+                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)

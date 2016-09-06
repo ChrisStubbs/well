@@ -126,6 +126,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Branch.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\EditDeliveryLine.feature.cs">
+      <DependentUpon>EditDeliveryLine.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Features\Pages\CleanPage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -162,6 +167,7 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\SpanElement.cs" />
     <Compile Include="Framework\WebElements\UserPrefrencesButtonDropDown.cs" />
     <Compile Include="Framework\WebElements\AdminButtonDropDown.cs" />
     <Compile Include="Framework\WebElements\PagerContainer.cs" />
@@ -174,6 +180,7 @@
     <Compile Include="Framework\WebElements\ModalButton.cs" />
     <Compile Include="Framework\WebElements\TextBox.cs" />
     <Compile Include="Framework\WebElements\WebElement.cs" />
+    <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\UserPreferencesPage.cs" />
     <Compile Include="Pages\BranchPage.cs" />
@@ -187,6 +194,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AdamImportSteps.cs" />
     <Compile Include="Steps\DatabaseSteps.cs" />
+    <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
     <Compile Include="Steps\Page\UserPreferenceSteps.cs" />
     <Compile Include="Steps\Page\BranchSteps.cs" />
@@ -227,6 +235,10 @@
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Branch1.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\EditDeliveryLine.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EditDeliveryLine.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -296,6 +308,7 @@
     </Content>
     <Content Include="Xml\PH_ROUTES_30062016_02.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

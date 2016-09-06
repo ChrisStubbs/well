@@ -10,7 +10,7 @@ AS
 		SELECT	[Id]
 		FROM	[dbo].[JobDetail]
 		WHERE	[IsDeleted] = 0 and  
-				(Id = @id or @Id is null) and 
+				(Id = @Id or @Id is null) and 
 				([JobId] = @JobId or @JobId is null) and 
 				([LineNumber] = @LineNumber or @LineNumber is null)
 

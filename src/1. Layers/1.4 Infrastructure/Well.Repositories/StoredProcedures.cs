@@ -6,7 +6,6 @@
         public static string WidgetStatsGet = "WidgetStats_Get";
 
         //route header
-        public static string RouteHeaderGetCleanDeliveries = "RouteHeader_GetCleanDeliveries";       
         public static string RouteHeadersGet = "RouteHeaders_Get";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public static string RoutesCreateOrUpdate = "Routes_CreateOrUpdate";

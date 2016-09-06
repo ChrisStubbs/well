@@ -611,9 +611,14 @@
                         }
                     }
 
-                    currentJobDetail.JobDetailStatusId = currentJobDetail.JobDetailDamages.Any()
-                        ? (int)JobDetailStatus.UnRes
-                        : (int)JobDetailStatus.Res;
+                    if (currentJobDetail.ShortQty == 0)
+                    {
+                        currentJobDetail.ShortQty = ePodJobDetail.ShortQty;
+                    }
+
+                    currentJobDetail.JobDetailStatusId = currentJobDetail.IsClean()
+                        ? (int) JobDetailStatus.Res
+                        : (int) JobDetailStatus.UnRes;
 
                     this.jobDetailRepository.Update(currentJobDetail);
                 }

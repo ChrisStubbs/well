@@ -36,21 +36,33 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
+            DeleteAndReseed("JobAttribute");
+            DeleteAndReseed("JobDetailAttribute");
+            DeleteAndReseed("JobDetailDamage");
+            DeleteAndReseed("JobDetail");
+            DeleteAndReseed("UserJob");
+            DeleteAndReseed("Job");
+            DeleteAndReseed("Account");
+            DeleteAndReseed("StopAttribute");
+            DeleteAndReseed("Stop");
+            DeleteAndReseed("RouteHeaderAttribute");
+            DeleteAndReseed("RouteHeader");
+            DeleteAndReseed("Routes");
+            DeleteAndReseed("UserBranch");
+            DeleteAndReseed("[User]");
 
-            this.dapperProxy.ExecuteSql("DELETE FROM JobAttribute");
-            this.dapperProxy.ExecuteSql("DELETE FROM JobDetailAttribute");
-            this.dapperProxy.ExecuteSql("DELETE FROM JobDetailDamage");
-            this.dapperProxy.ExecuteSql("DELETE FROM JobDetail");
-            this.dapperProxy.ExecuteSql("DELETE FROM UserJob");
-            this.dapperProxy.ExecuteSql("DELETE FROM Job");
-            this.dapperProxy.ExecuteSql("DELETE FROM Account");
-            this.dapperProxy.ExecuteSql("DELETE FROM StopAttribute");
-            this.dapperProxy.ExecuteSql("DELETE FROM Stop");
-            this.dapperProxy.ExecuteSql("DELETE FROM RouteHeaderAttribute");
-            this.dapperProxy.ExecuteSql("DELETE FROM RouteHeader");
-            this.dapperProxy.ExecuteSql("DELETE FROM Routes");
-            this.dapperProxy.ExecuteSql("DELETE FROM UserBranch");
-            this.dapperProxy.ExecuteSql("DELETE FROM [User]");
+        }
+
+        private void DeleteAndReseed(string tableName)
+        {
+            var script = 
+                $@"DELETE FROM {tableName}
+
+                -- Use sys.identity_columns to see if there was a last known identity value
+                -- for the Table. If there was one, the Table is not new and needs a reset
+                IF EXISTS (SELECT * FROM sys.identity_columns WHERE OBJECT_NAME(OBJECT_ID) = '{tableName}' AND last_value IS NOT NULL) 
+                    DBCC CHECKIDENT ({tableName}, RESEED, 0);";
+            this.dapperProxy.ExecuteSql(script);
         }
 
         [Given(@"The all deliveries have been marked as clean")]

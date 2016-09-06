@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Pages
 {
+    using System.Collections.Generic;
     using Framework.WebElements;
     using OpenQA.Selenium;
 
@@ -22,10 +23,21 @@
      
         public TextBox ShortQtyTextBox;
         public readonly Button AddDamageButton;
+       
         public TextBox DamageQtyTextBox;
         public HtmlSelectElement DamageReasonSelect;
         public readonly Button SaveButton;
         public readonly Button ConfirmButton;
+
+        public List<Button> GetRemoveDamageButtons(int buttonCount)
+        {
+            var buttons = new List<Button>();
+            for (int i = buttonCount-1; i >= 0; i--)
+            {
+                buttons.Add(new Button { Locator = By.Id("remove-damage-button" + i) });
+            }
+            return buttons;
+        }
     }
 
 }

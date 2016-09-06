@@ -14,8 +14,8 @@
     {
         private DeliveryLinePage page => new DeliveryLinePage();
 
-        [When(@"I add a short quantity of '(.*)'")]
-        public void WhenIAddAShortQuantityOf(string shortQty)
+        [When(@"I enter a short quantity of '(.*)'")]
+        public void WhenIEnterAShortQuantityOf(string shortQty)
         {
             page.ShortQtyTextBox.EnterText(shortQty);
         }
@@ -26,6 +26,16 @@
             page.AddDamageButton.Click();
             page.DamageQtyTextBox.EnterText(damageQuantity);
             page.DamageReasonSelect.Select(reasonCode);
+        }
+
+        [When(@"I remove all damaages")]
+        public void WhenIRemoveAllDamaages()
+        {
+            var buttons = page.GetRemoveDamageButtons(2);
+            foreach (var button in buttons)
+            {
+                button.Click();
+            }
         }
 
         [When(@"I save the delivery line updates")]

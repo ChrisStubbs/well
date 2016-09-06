@@ -1,14 +1,15 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import {Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
-import {IRoute} from './route';
+import {Route} from './route';
 import {RouteHeaderService} from './routeHeaderService';
-import {DropDownItem} from "../shared/dropDownItem";
-import Option = require("../shared/filterOption");
+import {DropDownItem} from '../shared/dropDownItem';
+import Option = require('../shared/filterOption');
 import FilterOption = Option.FilterOption;
-import {WellModal} from "../shared/well-modal";
-import {RefreshService} from "../shared/refreshService";
+import {RefreshService} from '../shared/refreshService';
+import {DeliverySelectionModal} from './delivery-selection-modal';
 
 @Component({
     selector: 'ow-routes',
@@ -18,10 +19,9 @@ import {RefreshService} from "../shared/refreshService";
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;
     errorMessage: string;
-    routes: IRoute[];
+    routes: Route[];
     rowCount: number = 10;
     currentConfigSort: string;
-
     lastRefresh = Date.now();
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -33,10 +33,11 @@ export class RouteHeaderComponent implements OnInit {
 
     constructor(
         private routerHeaderService: RouteHeaderService,
-        private refreshService: RefreshService){
+        private refreshService: RefreshService,
+        private router: Router) {
     }
 
-    @ViewChild(WellModal) modal = new WellModal();
+    @ViewChild(DeliverySelectionModal) deliverySelectionModal = new DeliverySelectionModal(this.router);
 
     ngOnInit() {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
@@ -63,6 +64,7 @@ export class RouteHeaderComponent implements OnInit {
     }
 
     routeSelected(route): void {
+        this.deliverySelectionModal.show(route);
     }
 
     onFilterClicked(filterOption: FilterOption) {

@@ -55,6 +55,7 @@ export class DeliveryUpdateComponent {
         if (this.delivery.isCleanOnInit() && this.delivery.isClean() === false) {
             //Changing a Clean to an Exception
             this.confirmModal.isVisible = true;
+            this.confirmModal.heading = "Make delivery dirty?";
             this.confirmModal.message =
                 "You have added shorts or damages for this delivery, this will make the delivery dirty. " +
                 "Are you sure you want to save your changes?";
@@ -63,6 +64,7 @@ export class DeliveryUpdateComponent {
         if (this.delivery.isCleanOnInit() === false && this.delivery.isClean()) {
             ///Changing an Exception to a clean
             this.confirmModal.isVisible = true;
+            this.confirmModal.heading = "Resolve delivery?";
             this.confirmModal.message =
                 "You have removed all shorts and damages for this delivery, this will resolve the delivery. " +
                 "Are you sure you want to save your changes?";

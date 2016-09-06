@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -31,8 +31,9 @@ export class ExceptionsComponent implements OnInit {
     currentConfigSort: string;
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
+    routeOption = new DropDownItem("Route", "routeNumber");
     options: DropDownItem[] = [
-        new DropDownItem("Route", "routeNumber"),
+        this.routeOption,
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
@@ -53,19 +54,26 @@ export class ExceptionsComponent implements OnInit {
     httpResponse: HttpResponse = new HttpResponse();
     users: IUser[];
     delivery: ExceptionDelivery;
+    routeId: string;
+    selectedOption: DropDownItem;
+    selectedFilter: string;
 
     constructor(
         private exceptionDeliveryService: ExceptionDeliveryService,
         private accountService: AccountService,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
         private toasterService: ToasterService) {
     }
 
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
-        this.getExceptions();
         this.currentConfigSort = '-dateTimeUpdated';
+        this.activatedRoute.params.subscribe(params => {
+            this.routeId = params['routeId'];
+            this.getExceptions();    
+        });
     }
 
     ngOnDestroy() {
@@ -73,11 +81,16 @@ export class ExceptionsComponent implements OnInit {
     }
 
     getExceptions() {
-        this.exceptionDeliveryService.getExceptions()
+        this.exceptionDeliveryService.getExceptions(this.routeId)
             .subscribe(responseData => {
                 this.exceptions = responseData;
                 this.lastRefresh = Date.now();
-            },
+
+                if (this.routeId) {
+                    this.selectedOption = this.routeOption;
+                    this.selectedFilter = this.routeId;
+                }
+                },
                 error => {
                     if (error.status && error.status === 404) {
                         this.lastRefresh = Date.now();
@@ -91,7 +104,6 @@ export class ExceptionsComponent implements OnInit {
         console.log(this.currentConfigSort);
         this.getExceptions();
     }
-
     
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
@@ -108,7 +120,6 @@ export class ExceptionsComponent implements OnInit {
             .subscribe(account => { this.account = account; this.modal.show(this.account); },
             error => this.errorMessage = <any>error);
     }
-
     
     @ViewChild(AssignModal) assignModal = new AssignModal(this.exceptionDeliveryService,this.router, this.toasterService);
 

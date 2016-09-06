@@ -22,10 +22,10 @@ export class DeliverySelectionModal {
     }
 
     viewException() {
-        this.router.navigate(['/exceptions']);
+        this.router.navigate(['/exceptions', this.route.route]);
     }
 
     viewClean() {
-        this.router.navigate(['/clean']);
+        this.router.navigate(['/clean', this.route.route]);
     }
 }

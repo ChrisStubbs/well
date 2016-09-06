@@ -21,9 +21,17 @@ export class ExceptionDeliveryService {
         private toasterService: ToasterService) {
     }
 
-    getExceptions(): Observable<ExceptionDelivery[]> {
+    getExceptions(routeId): Observable<ExceptionDelivery[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception')
+        var url = '';
+
+        if (routeId) {
+            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception/' + routeId;
+        } else {
+            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception';
+        }
+
+        return this.http.get(url)
             .map((response: Response) => <ExceptionDelivery[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));

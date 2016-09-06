@@ -12,7 +12,10 @@
     <div *ngIf="exceptions && exceptions.length">
         <div class="row">
             <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+                             (filterClicked)="onFilterClicked($event)"
+                             [selectedOption]="selectedOption"
+                             [filterText]="selectedFilter">
+            </ow-optionfilter>
         </div>
         <div class="table-responsive table-container">
             <table id="tableExceptionDeliveries" class="table table-hover table-bordered">

@@ -11,8 +11,8 @@ export class OptionFilterComponent implements OnChanges {
     private defaultOption: DropDownItem = new DropDownItem("Option", "");
 
     @Input() options: DropDownItem[];
-    filterText: string;
-    selectedOption: DropDownItem = this.defaultOption;
+    @Input() filterText: string;
+    @Input() selectedOption: DropDownItem = this.defaultOption;
     @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
 
     ngOnChanges(): void {

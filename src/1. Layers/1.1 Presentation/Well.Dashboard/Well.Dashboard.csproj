@@ -363,6 +363,7 @@
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
     <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
+    <TypeScriptCompile Include="app\route_header\contextMenuItem.ts" />
     <TypeScriptCompile Include="app\route_header\route.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />

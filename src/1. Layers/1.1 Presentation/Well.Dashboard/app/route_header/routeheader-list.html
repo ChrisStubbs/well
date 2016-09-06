@@ -17,26 +17,26 @@
         <div class="table-responsive table-container">
             <table id="tableRoutes" class="table table-hover table-bordered">
                 <thead>
-                    <tr>
-                        <th>Route</th>
-                        <th>Driver</th>
-                        <th>No of Drops</th>
-                        <th>Exceptions</th>
-                        <th>Clean</th>
-                        <th>Status</th>
-                        <th>Last updated date/time<a style="text-decoration:none;display:inline;"><span class="glyphicon glyphicon-arrow-up sorticon" (click)="sortDirection(true)"></span></a><a style="text-decoration:none;display:inline;"><span class="glyphicon glyphicon-arrow-down" (click)="sortDirection(false)"></span></a></th>
-                    </tr>
+                <tr>
+                    <th>Route</th>
+                    <th>Driver</th>
+                    <th>No of Drops</th>
+                    <th>Exceptions</th>
+                    <th>Clean</th>
+                    <th>Status</th>
+                    <th>Last updated date/time<a style="text-decoration: none; display: inline;"><span class="glyphicon glyphicon-arrow-up sorticon" (click)="sortDirection(true)"></span></a><a style="text-decoration: none; display: inline;"><span class="glyphicon glyphicon-arrow-down" (click)="sortDirection(false)"></span></a></th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort" (click)="routeSelected(route)">
-                        <td>{{route.route}}</td>
-                        <td>{{route.driverName}}</td>
-                        <td>{{route.totalDrops}}</td>
-                        <td>{{route.deliveryExceptionCount}}</td>
-                        <td>{{route.deliveryCleanCount}}</td>
-                        <td>{{route.routeStatus}}</td>
-                        <td>{{route.dateTimeUpdated}}</td>
-                    </tr>
+                <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort" (click)="routeSelected($event, route)">
+                    <td>{{route.route}}</td>
+                    <td>{{route.driverName}}</td>
+                    <td>{{route.totalDrops}}</td>
+                    <td>{{route.deliveryExceptionCount}}</td>
+                    <td>{{route.deliveryCleanCount}}</td>
+                    <td>{{route.routeStatus}}</td>
+                    <td>{{route.dateTimeUpdated}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -47,4 +47,15 @@
             <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
         </div>
     </div>
+</div>
+
+<div [ngStyle]="locationCss" *ngIf="isContextMenuVisible" class="context-menu-container">
+    <ul>
+        <li *ngFor="let item of items">
+            <span>{{item.name}}</span>
+        </li>
+        <li (click)="closeMenu()">
+            <span>Close</span>
+        </li>
+    </ul>
 </div>

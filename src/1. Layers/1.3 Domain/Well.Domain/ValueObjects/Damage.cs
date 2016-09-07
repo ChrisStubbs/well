@@ -5,7 +5,9 @@
     public class Damage
     {
         public int JobDetailId { get; set; }
+
         public int Quantity { get; set; }
+
         public DamageReasons Reason { get; set; }
     }
 }

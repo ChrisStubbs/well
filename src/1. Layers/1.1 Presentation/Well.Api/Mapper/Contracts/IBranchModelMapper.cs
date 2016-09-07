@@ -1,4 +1,4 @@
-﻿namespace PH.Well.Api.Mapper
+﻿namespace PH.Well.Api.Mapper.Contracts
 {
     using System.Collections.Generic;
 

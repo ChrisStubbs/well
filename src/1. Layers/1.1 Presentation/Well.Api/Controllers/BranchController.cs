@@ -7,7 +7,7 @@
     using System.Net.Http;
     using System.Web.Http;
     using Models;
-    using PH.Well.Api.Mapper;
+    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -59,8 +59,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError("An error occcured when getting branches!", ex);
-                return this.serverErrorResponseHandler.HandleException(Request, ex);
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
             }
         }
 

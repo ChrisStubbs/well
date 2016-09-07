@@ -11,6 +11,7 @@
 
     using PH.Well.Api.Controllers;
     using PH.Well.Api.Mapper;
+    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -91,14 +92,11 @@
                 var exception = new Exception();
 
                 this.branchRepository.Setup(x => x.GetAll()).Throws(exception);
-                this.logger.Setup(x => x.LogError("An error occcured when getting branches!", exception));
 
-                this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception))
+                this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception, "An error occcured when getting branches!"))
                     .Returns(new HttpResponseMessage());
                 
                 this.Controller.Get();
-
-                this.logger.Verify(x => x.LogError("An error occcured when getting branches!", exception), Times.Once);
             }
         }
 

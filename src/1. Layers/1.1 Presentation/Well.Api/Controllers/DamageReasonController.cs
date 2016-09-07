@@ -11,14 +11,10 @@
 
     public class DamageReasonController : BaseApiController
     {
-        private readonly ILogger logger;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
-        public DamageReasonController(
-            ILogger logger,
-            IServerErrorResponseHandler serverErrorResponseHandler)
+        public DamageReasonController(IServerErrorResponseHandler serverErrorResponseHandler)
         {
-            this.logger = logger;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
@@ -37,8 +33,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogError($"An error occcured when getting damage reasons", ex);
-                return serverErrorResponseHandler.HandleException(Request, ex);
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting damage reasons");
             }
         }
 

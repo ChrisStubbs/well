@@ -14,14 +14,14 @@ import {ExceptionDelivery} from "./exceptionDelivery";
 import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 import {RefreshService} from '../shared/refreshService';
 import {HttpResponse} from '../shared/http-response';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService]
+    providers: [ExceptionDeliveryService, PaginationService, AccountService]
 })
 
 export class ExceptionsComponent implements OnInit {
@@ -32,12 +32,13 @@ export class ExceptionsComponent implements OnInit {
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
     routeOption = new DropDownItem("Route", "routeNumber");
+    assigneeOption = new DropDownItem("Assignee", "assigned");
     options: DropDownItem[] = [
         this.routeOption,
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
-        new DropDownItem("Assignee", "assigned"),
+        this.assigneeOption,
         new DropDownItem("Date", "dateTime")
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
@@ -55,6 +56,7 @@ export class ExceptionsComponent implements OnInit {
     users: IUser[];
     delivery: ExceptionDelivery;
     routeId: string;
+    assignee: string;
     selectedOption: DropDownItem;
     selectedFilter: string;
 
@@ -70,8 +72,10 @@ export class ExceptionsComponent implements OnInit {
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.currentConfigSort = '-dateTimeUpdated';
-        this.activatedRoute.params.subscribe(params => {
-            this.routeId = params['routeId'];
+
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.routeId = params['route'];
+            this.assignee = params['assignee'];
             this.getExceptions();    
         });
     }
@@ -89,6 +93,10 @@ export class ExceptionsComponent implements OnInit {
                 if (this.routeId) {
                     this.selectedOption = this.routeOption;
                     this.selectedFilter = this.routeId;
+                }
+                if (this.assignee) {
+                    this.selectedOption = this.assigneeOption;
+                    this.selectedFilter = this.assignee;
                 }
                 },
                 error => {
@@ -113,7 +121,7 @@ export class ExceptionsComponent implements OnInit {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    @ViewChild(ContactModal) modal = new ContactModal();
+    @ViewChild(ContactModal) modal : ContactModal;
 
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
@@ -121,7 +129,7 @@ export class ExceptionsComponent implements OnInit {
             error => this.errorMessage = <any>error);
     }
     
-    @ViewChild(AssignModal) assignModal = new AssignModal(this.exceptionDeliveryService,this.router, this.toasterService);
+    @ViewChild(AssignModal) assignModal : AssignModal;
 
     openAssignModal(delivery): void {
 

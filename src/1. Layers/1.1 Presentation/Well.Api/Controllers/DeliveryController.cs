@@ -32,12 +32,12 @@
             try
             {
                 var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
-
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserName));
 
                 return !exceptionDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                     : this.Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);
+
             }
             catch (Exception ex)
             {

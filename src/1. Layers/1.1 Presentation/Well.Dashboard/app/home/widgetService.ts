@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {Widget} from './widget';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class WidgetService {
@@ -12,8 +11,7 @@ export class WidgetService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
     }
 
     getWidgets(): Observable<Widget[]> {
@@ -21,6 +19,6 @@ export class WidgetService {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'widgets')
             .map((response: Response) => <Widget[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 }

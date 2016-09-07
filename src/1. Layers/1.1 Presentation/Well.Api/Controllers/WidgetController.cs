@@ -8,7 +8,7 @@
     using Common.Contracts;
     using Models;
 
-    public class WidgetController : ApiController
+    public class WidgetController : BaseApiController
     {
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
@@ -23,6 +23,7 @@
         {
             try
             {
+                
                 var widgets = new List<WidgetModel>()
                 {
                     new WidgetModel()

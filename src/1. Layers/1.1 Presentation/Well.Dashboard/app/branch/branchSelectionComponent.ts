@@ -10,8 +10,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-branch',
-    templateUrl: './app/branch/branch-list.html',
-    providers: [GlobalSettingsService]
+    templateUrl: './app/branch/branch-list.html'
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;

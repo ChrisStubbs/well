@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ToasterModule } from 'angular2-toaster/angular2-toaster';
+import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
 import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
 
 import {AppComponent} from './appComponent';
@@ -30,6 +30,12 @@ import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderBy} from "./shared/orderBy";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 
+import {BranchService} from './branch/branchService';
+import {GlobalSettingsService} from './shared/globalSettings';
+import {HttpErrorService} from './shared/httpErrorService';
+import {RefreshService} from './shared/refreshService';
+
+
 @NgModule({
     declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderBy,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
@@ -38,6 +44,7 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent],
     imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, appRouterProviders],
+    providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

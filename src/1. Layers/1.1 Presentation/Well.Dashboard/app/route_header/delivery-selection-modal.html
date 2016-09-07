@@ -7,10 +7,10 @@
         <div class="modal-body">What delivery type would you like to view for route <strong>{{route.route}}</strong></div>
         <div class="modal-footer">
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" (click)="viewException()">Exceptions</button>
+                <button type="button" class="btn btn-primary" routerLink="/exceptions" [queryParams]="{route:route.route}">Exceptions</button>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" (click)="viewClean()">Clean</button>
+                <button type="button" class="btn btn-primary" routerLink="/clean"  [queryParams]="{route:route.route}">Clean</button>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-default" (click)="hide()">Close</button>

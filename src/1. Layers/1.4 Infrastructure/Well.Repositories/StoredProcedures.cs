@@ -2,9 +2,6 @@
 {
     public struct StoredProcedures
     {
-        //widgets
-        public static string WidgetStatsGet = "WidgetStats_Get";
-
         //route header
         public static string RouteHeadersGet = "RouteHeaders_Get";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";

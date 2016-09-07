@@ -101,7 +101,6 @@
     <Compile Include="ValueObjects\OrderJob.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
     <Compile Include="ValueObjects\UserJob.cs" />
-    <Compile Include="ValueObjects\WidgetStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">

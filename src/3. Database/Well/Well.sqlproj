@@ -198,6 +198,8 @@
     <Build Include="dbo\StoredProcedures\Job_GetCreditActionReasons.sql" />
     <Build Include="dbo\Tables\CSFRejection.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_GetByJobId.sql" />
+    <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -1,25 +1,26 @@
 ﻿namespace PH.Well.Common
 {
     using System;
-    using System.Diagnostics.Tracing;
     using System.Net;
     using System.Net.Http;
-    using System.Web.Http;
     using System.Text;
     using Contracts;
 
     public class ServerErrorResponseHandler : IServerErrorResponseHandler
     {
+        private readonly ILogger logger;
         private readonly IEventLogger eventLogWriter;
 
-        public ServerErrorResponseHandler(IEventLogger eventLogWriter)
+        public ServerErrorResponseHandler(IEventLogger eventLogWriter, ILogger logger)
         {
             this.eventLogWriter = eventLogWriter;
+            this.logger = logger;
         }
 
-        public HttpResponseMessage HandleException(HttpRequestMessage httpRequestMessage, Exception exception)
+        public HttpResponseMessage HandleException(HttpRequestMessage httpRequestMessage, Exception exception, string loggerInformation)
         {
-            eventLogWriter.TryWriteToEventLog(EventSource.WellApi, exception);
+            this.logger.LogError(loggerInformation, exception);
+            this.eventLogWriter.TryWriteToEventLog(EventSource.WellApi, exception);
 
             var catchAllErrorResponse = httpRequestMessage.CreateErrorResponse(HttpStatusCode.InternalServerError, this.GetMessage(exception));
 

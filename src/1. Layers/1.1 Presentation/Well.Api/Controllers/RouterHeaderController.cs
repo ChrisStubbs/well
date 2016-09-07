@@ -6,22 +6,21 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Mapper;
+
+    using PH.Well.Api.Mapper.Contracts;
+
     using Repositories.Contracts;
 
     public class RouteController : BaseApiController
     {
-        private readonly ILogger logger;
-
         private readonly IRouteHeaderRepository routeRepository;
-
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IRouteModelsMapper routeModelsMapper;
 
-        public RouteController(ILogger logger, IRouteHeaderRepository routeRepository,
-            IServerErrorResponseHandler serverErrorResponseHandler, IRouteModelsMapper routeModelsMapper)
+        public RouteController(IRouteHeaderRepository routeRepository,
+                IServerErrorResponseHandler serverErrorResponseHandler, 
+                IRouteModelsMapper routeModelsMapper)
         {
-            this.logger = logger;
             this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.routeModelsMapper = routeModelsMapper;
@@ -42,8 +41,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting routes", ex);
-                return serverErrorResponseHandler.HandleException(Request, ex);
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting routes");
             }
         }
     }

@@ -20,7 +20,6 @@
     [TestFixture]
     public class DeliveryLineControllerTests : BaseControllerTests<DeliveryLineController>
     {
-        private Mock<ILogger> logger;
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IDeliveryService> deliveryService;
@@ -28,14 +27,13 @@
         [SetUp]
         public void Setup()
         {
-            logger = new Mock<ILogger>(MockBehavior.Strict);
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
 
             jobDetailRepository.SetupSet(r => r.CurrentUser = It.IsAny<string>());
 
-            Controller = new DeliveryLineController(logger.Object,
+            Controller = new DeliveryLineController(
                 serverErrorResponseHandler.Object,
                 jobDetailRepository.Object,
                 deliveryService.Object);
@@ -135,20 +133,18 @@
                 var ex = new ArgumentException();
                 jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNo)).Throws(ex);
 
-                logger.Setup(l => l.LogError(It.IsAny<string>(), It.IsAny<Exception>()));
-                serverErrorResponseHandler.Setup(
-                    s => s.HandleException(It.IsAny<HttpRequestMessage>(), It.IsAny<Exception>()))
-                    .Returns(new HttpResponseMessage());
+                this.serverErrorResponseHandler.Setup(
+                    x =>
+                        x.HandleException(
+                            It.IsAny<HttpRequestMessage>(),
+                            ex,
+                            "An error occured when updating DeliveryLine")).Returns(It.IsAny<HttpResponseMessage>());
 
                 //ACT
                 Controller.Update(model);
 
-                logger.Verify(l => l.LogError(
-                    It.Is<string>(s => s == "An error occcured when updating DeliveryLine"),
-                    It.Is<Exception>(e => e == ex)));
-
                 serverErrorResponseHandler.Verify(
-                    s => s.HandleException(It.IsAny<HttpRequestMessage>(), It.Is<Exception>(e => e == ex)));
+                    s => s.HandleException(It.IsAny<HttpRequestMessage>(), It.Is<Exception>(e => e == ex), "An error occured when updating DeliveryLine"));
             }
         }
     }

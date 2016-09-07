@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
     using PH.Well.Domain;
 

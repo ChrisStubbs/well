@@ -5,6 +5,6 @@
 
     public interface IServerErrorResponseHandler
     {
-        HttpResponseMessage HandleException(HttpRequestMessage httpRequestMessage, Exception exception);
+        HttpResponseMessage HandleException(HttpRequestMessage httpRequestMessage, Exception exception, string loggerInformation);
     }
 }

@@ -10,14 +10,10 @@
 
     public class WidgetController : BaseApiController
     {
-
-        private readonly ILogger logger;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
-        public WidgetController(ILogger logger, 
-            IServerErrorResponseHandler serverErrorResponseHandler)
+        public WidgetController(IServerErrorResponseHandler serverErrorResponseHandler)
         {
-            this.logger = logger;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
@@ -75,8 +71,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting widgets", ex);
-                return serverErrorResponseHandler.HandleException(Request, ex);
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting widgets");
             }
         }
 

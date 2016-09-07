@@ -1,6 +1,8 @@
 namespace PH.Well.Api.DependencyResolution
 {
     using Mapper;
+
+    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -48,6 +50,7 @@ namespace PH.Well.Api.DependencyResolution
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();
             For<IBranchModelMapper>().Use<BranchModelMapper>();
+            For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
         }
     }
 }

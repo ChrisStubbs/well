@@ -403,14 +403,11 @@
 
         public void GetRouteHeadersForDelete(ref string statusmessage)
         {
-
             try
             {
                 var currentRouteHeaders = this.routeHeaderRepository.GetRouteHeadersForDelete();
-
                 foreach (var routeheader in currentRouteHeaders)
-                {
-                    
+                {              
                     SoftDeleteJobDetail(routeheader);
                 }
 
@@ -447,7 +444,7 @@
 
                 foreach (var job in stopJobs)
                 {
-                    var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
+                    var jobDetailsForJob = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
 
                     var jobRoyaltyCode = GetCustomerRoyaltyCode(job.TextField1);
                     var noOutstandingJobRoyalty = DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
@@ -459,7 +456,7 @@
                             DeleteJobDetail(jobDetail.Id, JobDetailDeleteType);
                     }
 
-                    CheckJobDetailsForJob(jobDetailsForJob, job);
+                    CheckJobDetailsForJob(job);
                 }
 
                 CheckStopsForDelete(stop);
@@ -494,9 +491,10 @@
                 return true;
 
             var exceptionDays = royalException.ExceptionDays;
-            var currentDays = DateTimeSpan.CompareDates(WellClearDate, jobCreatedDate).Days;
+            var currentDays = (WellClearDate - jobCreatedDate).TotalDays;
+
             var exceptionDaysPassed = currentDays > exceptionDays;
-            return exceptionDaysPassed && IsWeekendOrPublicHoliday();
+            return exceptionDaysPassed && !IsWeekendOrPublicHoliday();
 
         }
 
@@ -505,13 +503,13 @@
             if (DateTime.Now.DayOfWeek == DayOfWeek.Friday || DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
                 return true;
 
-            return routeHeaderRepository.HolidayExceptionGet().Any(x=>x.ExceptionDate == WellClearDate);           
+            return routeHeaderRepository.HolidayExceptionGet().Any(x => x.ExceptionDate == WellClearDate);
         }
 
         private WellDeleteType DeleteType(DateTime compareDate)
         {
             var dateSpan = DateTimeSpan.CompareDates(compareDate, WellClearDate);
-            return dateSpan.Months < 3 ? WellDeleteType.SoftDelete : WellDeleteType.HardDelete;
+            return dateSpan.Months < WellClearMonths ? WellDeleteType.SoftDelete : WellDeleteType.HardDelete;
         }
 
 
@@ -520,9 +518,9 @@
             this.jobDetailRepository.DeleteJobDetailById(id, deleteType);
         }
 
-        private void CheckJobDetailsForJob(IEnumerable<JobDetail> jobDetails, Job job)
+        private void CheckJobDetailsForJob(Job job)
         {
-            var jobDetailList = jobDetails as IList<JobDetail> ?? jobDetails.ToList();
+            var jobDetailList = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
 
             this.JobDeleteType = DeleteType(job.DateCreated);
 

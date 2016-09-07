@@ -61,6 +61,14 @@
             return jobDetails;
         }
 
+        public IEnumerable<JobDetail> GetJobDetailByJobId(int jobId)
+        {
+
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .Query<JobDetail>();
+        }
+
         protected override void SaveNew(JobDetail jobDetail)
         {
             

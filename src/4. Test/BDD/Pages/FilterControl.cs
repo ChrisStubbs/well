@@ -5,32 +5,45 @@
 
     public class FilterControl
     {
-        private readonly ButtonDropDown optionDropDown;
-        private readonly TextBox filterText;
-        private readonly Button applyFilter;
-        private readonly Button clearFilter;
+        public ButtonDropDown OptionDropDown { get; set; }
+
+        public TextBox FilterText { get; set; }
+
+        public Button ApplyFilter { get; set; }
+
+        public Button ClearFilter { get; set; }
 
         public FilterControl()
         {
-            this.optionDropDown = new ButtonDropDown { Locator = By.Id("filter-option") };
-            this.filterText = new TextBox { Locator = By.Id("filter-text") };
-            this.applyFilter = new Button { Locator = By.Id("filter-apply") };
-            this.clearFilter = new Button { Locator = By.Id("filter-clear") };
+            this.OptionDropDown = new ButtonDropDown { Locator = By.Id("filter-option") };
+            this.FilterText = new TextBox { Locator = By.Id("filter-text") };
+            this.ApplyFilter = new Button { Locator = By.Id("filter-apply") };
+            this.ClearFilter = new Button { Locator = By.Id("filter-clear") };
         }
 
         public void Apply(string filterOption, string filterValue)
         {
             Clear();
-            this.optionDropDown.Select(filterOption);
-            this.filterText.EnterText(filterValue);
-            this.applyFilter.Click();
+            this.OptionDropDown.Select(filterOption);
+            this.FilterText.EnterText(filterValue);
+            this.ApplyFilter.Click();
         }
 
         public void Clear()
         {
-            this.clearFilter.Click();
+            this.ClearFilter.Click();
         }
 
+        public string GetFilterText()
+        {
+            var attribute = this.FilterText.GetElement().GetAttribute("ng-reflect-model");
 
+            return attribute;
+        }
+
+        public string GetSelectedOptionText()
+        {
+            return this.OptionDropDown.GetElement().Text;
+        }
     }
 }

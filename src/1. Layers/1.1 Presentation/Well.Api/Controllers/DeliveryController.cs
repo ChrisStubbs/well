@@ -44,9 +44,7 @@
                 return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting exceptions");
             }
         }
-
-       
-
+        
         [HttpGet]
         [Route("deliveries/clean")]
         public HttpResponseMessage GetCleanDeliveries()

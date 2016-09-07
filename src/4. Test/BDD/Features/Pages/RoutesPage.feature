@@ -47,3 +47,25 @@ Scenario: A user can page through Route information
 	Then '1' rows of data will be displayed
 	When I click on page 1
 	Then '10' rows of data will be displayed
+
+Scenario: A user can drill into a Route to view exceptions
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And All the deliveries are marked as exceptions
+	And I have selected branch 22
+	When I open the routes page
+	And I select the first row of the route
+	And I choose to view that routes exceptions
+	Then I can see that routes exceptions
+	And the filter should be preset to route and route number
+
+Scenario: A user can drill into a Route to view clean deliveries
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And All the deliveries are marked as clean
+	And I have selected branch 22
+	When I open the routes page
+	And I select the first row of the route
+	And I choose to view that routes clean deliveries
+	Then I can see that routes clean deliveries
+	And the filter should be preset to route and route number

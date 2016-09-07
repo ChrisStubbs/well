@@ -7,5 +7,7 @@
         public static string Url = "Url";
 
         public static string AssignName = "AssignName";
+
+        public static string RouteNumber = "RouteNumber";
     }
 }

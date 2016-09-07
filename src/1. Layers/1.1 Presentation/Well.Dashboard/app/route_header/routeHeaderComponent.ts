@@ -16,7 +16,6 @@ import * as lodash from 'lodash';
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [GlobalSettingsService, RouteHeaderService, PaginationService]
-    directives: [WellModal, OrderArrowComponent]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;

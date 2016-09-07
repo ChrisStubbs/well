@@ -19,7 +19,7 @@ import * as lodash from 'lodash';
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
     providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService]
-    directives: [ContactModal, OrderArrowComponent]
+
 })
 export class CleanDeliveryComponent implements OnInit {
     lastRefresh = Date.now();

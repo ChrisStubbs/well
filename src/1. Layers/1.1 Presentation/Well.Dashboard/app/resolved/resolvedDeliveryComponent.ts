@@ -20,7 +20,7 @@ import * as lodash from 'lodash';
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService]
-    directives: [ContactModal, OrderArrowComponent]
+
 })
 export class ResolvedDeliveryComponent implements OnInit {
     lastRefresh = Date.now();

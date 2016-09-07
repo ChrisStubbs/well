@@ -44,7 +44,6 @@ INSERT INTO [dbo].[JobDetail]
            ,[SkuGoodsValue]
            ,[JobId]
            ,[JobDetailStatusId]
-           ,[IsDeleted]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
@@ -68,7 +67,6 @@ INSERT INTO [dbo].[JobDetail]
            ,@SkuGoodsValue
            ,@JobId
            ,@JobDetailStatusId
-           ,0
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy

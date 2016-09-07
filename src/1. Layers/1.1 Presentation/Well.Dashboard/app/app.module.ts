@@ -29,6 +29,8 @@ import {OptionFilterComponent} from './shared/optionfilter.component';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderBy} from "./shared/orderBy";
 import {WellModal} from "./shared/well-modal";
+import {OrderArrowComponent} from './shared/orderby-arrow';
+import AppRoutes = require("./appRoutes");
 
 @NgModule({
     declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderBy,
@@ -36,8 +38,8 @@ import {WellModal} from "./shared/well-modal";
         UserPreferenceModal, DeliveryUpdateComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetStatsComponent,
-        AppComponent],
-    imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, appRouterProviders],
+        AppComponent, OrderArrowComponent],
+    imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, AppRoutes.appRouterProviders],
     bootstrap: [AppComponent]
 })
 export class AppModule {

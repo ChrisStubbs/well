@@ -3,6 +3,7 @@
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[JobDetailId] INT NOT NULL,
 	[Qty] DECIMAL(7,3) NOT NULL,
+	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[DamageReasonsId] TINYINT NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

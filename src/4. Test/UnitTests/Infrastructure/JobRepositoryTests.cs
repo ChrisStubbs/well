@@ -12,6 +12,7 @@ namespace PH.Well.UnitTests.Infrastructure
     using Repositories;
     using Repositories.Contracts;
     using Well.Domain;
+    using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
 
 
@@ -185,6 +186,47 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("PicklistId", picklistId, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("StopId", stopId, DbType.Int32, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<Job>(), Times.Once());
+            }
+        }
+
+        public class TheDeleteJobByIdMethod : JobRepositoryTests
+        {
+            [Test]
+            public void ShouldCallTheStoredProcedureCorrectly()
+            {
+                var deleteType = WellDeleteType.SoftDelete;
+                var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
+
+                const int id = 1;
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDeleteById))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Execute());
+
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Execute());
+
+                this.repository.DeleteJobById(id, deleteType);
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDeleteById), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.Execute());
+
+                dapperProxy.Verify(
+                    x => x.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
+                dapperProxy.Verify(x => x.Execute());
+
             }
         }
 

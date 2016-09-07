@@ -24,7 +24,7 @@ import * as lodash from 'lodash';
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [GlobalSettingsService, ExceptionDeliveryService, PaginationService, AccountService]
-    directives: [ContactModal, AssignModal, OrderArrowComponent]
+
 })
 
 export class ExceptionsComponent implements OnInit {

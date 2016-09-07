@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Services.Contracts
 {
+    using System;
     using System.Collections.Generic;
     using Domain;
     using Domain.Enums;
@@ -11,7 +12,8 @@
         Routes CreateOrUpdate(Routes routes);
 
         string CurrentUser { get; set; }
-
+        DateTime WellClearDate { get; set; }
+        int WellClearMonths { get; set; }
         EpodFileType EpodType { get; set; }
 
         void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);

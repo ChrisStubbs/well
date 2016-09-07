@@ -21,7 +21,12 @@ SELECT [Id],
       [TextField4],
 	  [StopStatusId],
 	  [StopPerformanceStatusId],
-	  [ByPassReasonId]
+	  [ByPassReasonId],
+	  [IsDeleted],
+      [CreatedBy],
+      [DateCreated],
+      [UpdatedBy],
+      [DateUpdated]
   FROM [dbo].[Stop]
   WHERE [Id] = @Id
 END

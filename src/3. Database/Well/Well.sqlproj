@@ -197,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
-    <None Include="Post-Deployement\Populate-DefaultWidgetStats.sql" />
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
     <None Include="Post-Deployement\Populate-HolidayExceptions.sql" />
     <None Include="Post-Deployement\Populate-CustomerRoyalty.sql" />

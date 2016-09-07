@@ -127,7 +127,6 @@
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
-    <Compile Include="Factories\WidgetStatsFactory.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
     <Compile Include="Infrastructure\BranchRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeliveryReadRepositoryTests.cs" />

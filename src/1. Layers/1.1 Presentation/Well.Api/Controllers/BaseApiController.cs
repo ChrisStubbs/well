@@ -5,6 +5,6 @@
 
     public class BaseApiController : ApiController
     {
-        public string UserName => Thread.CurrentPrincipal.Identity.Name;
+        public string UserIdentityName => Thread.CurrentPrincipal.Identity.Name;
     }
 }

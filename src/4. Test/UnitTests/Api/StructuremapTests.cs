@@ -29,7 +29,7 @@
 
         private static List<Type> GetSubClasses<T>()
         {
-            var mvcAssembly = typeof(VersionController).Assembly;
+            var mvcAssembly = typeof(GlobalSettingsController).Assembly;
             return mvcAssembly.GetTypes().Where(type => type.IsSubclassOf(typeof(T))).ToList();
         }
     }

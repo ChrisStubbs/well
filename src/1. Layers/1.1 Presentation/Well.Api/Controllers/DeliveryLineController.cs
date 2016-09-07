@@ -30,7 +30,7 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
             this.deliveryService = deliveryService;
-            this.jobDetailRepository.CurrentUser = UserName;
+            this.jobDetailRepository.CurrentUser = UserIdentityName;
         }
 
         [HttpPut]
@@ -68,7 +68,7 @@
                 }
                 jobDetail.JobDetailDamages = damages;
 
-                deliveryService.UpdateDeliveryLine(jobDetail, UserName);
+                deliveryService.UpdateDeliveryLine(jobDetail, UserIdentityName);
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

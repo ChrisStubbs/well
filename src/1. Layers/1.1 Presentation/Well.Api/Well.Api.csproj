@@ -207,11 +207,11 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\DeliveryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\GlobalSettingsController.cs" />
     <Compile Include="Controllers\WidgetController.cs" />
     <Compile Include="Controllers\RouterHeaderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
@@ -233,6 +233,7 @@
     <Compile Include="Models\DeliveryLineUpdateModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
+    <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -337,7 +338,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>57054</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/Well/Api</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

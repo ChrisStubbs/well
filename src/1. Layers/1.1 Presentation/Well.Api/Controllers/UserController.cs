@@ -35,7 +35,7 @@ namespace PH.Well.Api.Controllers
         [HttpGet]
         public HttpResponseMessage UserBranches()
         {
-            var userBranches = this.branchService.GetUserBranchesFriendlyInformation(this.UserName);
+            var userBranches = this.branchService.GetUserBranchesFriendlyInformation(this.UserIdentityName);
 
             return this.Request.CreateResponse(HttpStatusCode.OK, userBranches);
         }
@@ -55,9 +55,9 @@ namespace PH.Well.Api.Controllers
         {
             try
             {
-                var user = this.activeDirectoryService.GetUser(this.UserName);
+                var user = this.activeDirectoryService.GetUser(this.UserIdentityName);
 
-                this.userRepository.CurrentUser = this.UserName;
+                this.userRepository.CurrentUser = this.UserIdentityName;
 
                 this.userRepository.Save(user);
 
@@ -65,7 +65,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception exception)
             {
-                this.logger.LogError($"Error when trying to save user {this.UserName}", exception);
+                this.logger.LogError($"Error when trying to save user {this.UserIdentityName}", exception);
 
                 return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -91,7 +91,7 @@ namespace PH.Well.Api.Controllers
             {
                 if (userJob.UserId > 0 && userJob.JobId > 0)
                 {
-                    this.userRepository.CurrentUser = this.UserName;
+                    this.userRepository.CurrentUser = this.UserIdentityName;
                     this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
 
                     return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
@@ -112,7 +112,7 @@ namespace PH.Well.Api.Controllers
         {
             try
             {
-                this.userRepository.CurrentUser = this.UserName;
+                this.userRepository.CurrentUser = this.UserIdentityName;
                 this.userRepository.UnAssignJobToUser(jobId);
 
                 return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });

@@ -48,7 +48,7 @@
 
                 if (branches.Any())
                 {
-                    var userBranches = this.branchRespository.GetBranchesForUser(string.IsNullOrWhiteSpace(username) ? this.UserName : username.Replace('-', ' '));
+                    var userBranches = this.branchRespository.GetBranchesForUser(string.IsNullOrWhiteSpace(username) ? this.UserIdentityName : username.Replace('-', ' '));
 
                     IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
 
@@ -71,7 +71,7 @@
             {
                 if (branches.Length > 0)
                 {
-                    this.branchService.SaveBranchesForUser(branches, this.UserName);
+                    this.branchService.SaveBranchesForUser(branches, this.UserIdentityName);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 
@@ -92,7 +92,7 @@
             {
                 if (branches.Length > 0)
                 {
-                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserName, domain);
+                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserIdentityName, domain);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 

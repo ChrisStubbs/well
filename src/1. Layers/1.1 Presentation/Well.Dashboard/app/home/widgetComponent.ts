@@ -18,6 +18,7 @@ export class WidgetComponent implements OnInit {
     refreshSubscription: any;
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private widgetService: WidgetService,
         private refreshService: RefreshService,
         private router: Router) {
@@ -45,7 +46,7 @@ export class WidgetComponent implements OnInit {
             case 'Assigned':
             {
                 navigationExtras = {
-                    queryParams: { 'assigned': 'michael hook' } //TODO - Name must be dynamic
+                    queryParams: { 'assignee': this.globalSettingsService.globalSettings.userName }
                 };
                 break;
             }

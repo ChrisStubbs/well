@@ -44,7 +44,7 @@
                 var username = "foo";
                 var branches = new Branch[] { BranchFactory.New.Build() };
 
-                this.userRepository.Setup(x => x.GetByName(username)).Returns((User)null);
+                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns((User)null);
 
                 this.userRepository.Setup(x => x.Save(It.IsAny<User>()));
                 this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<User>()));
@@ -53,7 +53,7 @@
 
                 this.service.SaveBranchesForUser(branches, username);
 
-                this.userRepository.Verify(x => x.GetByName(username), Times.Once);
+                this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
 
                 this.userRepository.Verify(x => x.Save(It.IsAny<User>()), Times.Once);
                 this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, It.IsAny<User>()), Times.Once);
@@ -66,14 +66,14 @@
                 var branches = new Branch[] { BranchFactory.New.Build() };
                 var user = UserFactory.New.Build();
 
-                this.userRepository.Setup(x => x.GetByName(username)).Returns(user);
+                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
 
                 this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, user));
                 this.branchRepository.Setup(x => x.DeleteUserBranches(user));
 
                 this.service.SaveBranchesForUser(branches, username);
 
-                this.userRepository.Verify(x => x.GetByName(username), Times.Once);
+                this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, user), Times.Once);
                 this.branchRepository.Verify(x => x.DeleteUserBranches(user), Times.Once);
             }

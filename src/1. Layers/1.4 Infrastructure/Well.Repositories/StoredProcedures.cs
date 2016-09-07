@@ -71,7 +71,7 @@
         public static string GetBranchesForUser = "GetBranchesForUser";
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
-        public static string UserGetByName = "UserGetByName";
+        public static string UserGetByIdentity = "UserGetByIdentity";
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
         public static string UnAssignJobToUser = "UserJob_Delete";

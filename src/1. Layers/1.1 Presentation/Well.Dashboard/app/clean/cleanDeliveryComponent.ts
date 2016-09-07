@@ -60,12 +60,13 @@ export class CleanDeliveryComponent implements OnInit {
     }
 
     getDeliveries() {
-        this.cleanDeliveryService.getCleanDeliveries(this.routeId)
+        this.cleanDeliveryService.getCleanDeliveries()
             .subscribe(cleanDeliveries => {
                     this.cleanDeliveries = cleanDeliveries;
                     this.lastRefresh = Date.now();
 
                     if (this.routeId) {
+                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
                         this.selectedOption = this.routeOption;
                         this.selectedFilter = this.routeId;
                     }

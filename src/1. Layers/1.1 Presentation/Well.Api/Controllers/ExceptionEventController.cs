@@ -31,7 +31,7 @@
             {
                 var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
 
-                var response = this.exceptionEventService.Credit(creditEvent, settings, this.UserName);
+                var response = this.exceptionEventService.Credit(creditEvent, settings, this.UserIdentityName);
 
                 if (response == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
 

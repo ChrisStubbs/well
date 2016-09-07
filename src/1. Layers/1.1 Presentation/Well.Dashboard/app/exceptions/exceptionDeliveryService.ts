@@ -19,15 +19,9 @@ export class ExceptionDeliveryService {
         private httpErrorService: HttpErrorService) {
     }
 
-    getExceptions(routeId): Observable<ExceptionDelivery[]> {
+    getExceptions(): Observable<ExceptionDelivery[]> {
 
-        var url = '';
-
-        if (routeId) {
-            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception/' + routeId;
-        } else {
-            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception';
-        }
+        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/exception';
 
         return this.http.get(url)
             .map((response: Response) => <ExceptionDelivery[]>response.json())

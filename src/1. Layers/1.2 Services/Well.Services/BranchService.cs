@@ -28,7 +28,7 @@
             this.branchRepository.CurrentUser = username;
             this.userRepository.CurrentUser = username;
 
-            var user = this.userRepository.GetByName(username);
+            var user = this.userRepository.GetByIdentity(username);
 
             if (user == null)
             {
@@ -61,7 +61,7 @@
 
             username = username.Replace('-', ' ');
 
-            var user = this.userRepository.GetByName(username);
+            var user = this.userRepository.GetByIdentity(username);
 
             if (user == null)
             {

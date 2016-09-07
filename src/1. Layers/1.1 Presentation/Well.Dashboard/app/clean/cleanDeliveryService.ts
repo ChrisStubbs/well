@@ -14,19 +14,12 @@ export class CleanDeliveryService {
         private httpErrorService: HttpErrorService) {
     }
 
-    getCleanDeliveries(routeId): Observable<CleanDelivery[]> {
+    getCleanDeliveries(): Observable<CleanDelivery[]> {
 
-        var url = '';
-
-        if (routeId) {
-            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean/' + routeId;
-        } else {
-            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean';
-        }
+        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean';
 
         return this.http.get(url)
             .map((response: Response) => <CleanDelivery[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
-
     }
 }

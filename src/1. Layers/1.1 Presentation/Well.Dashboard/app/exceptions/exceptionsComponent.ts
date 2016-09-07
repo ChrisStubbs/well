@@ -85,16 +85,18 @@ export class ExceptionsComponent implements OnInit {
     }
 
     getExceptions() {
-        this.exceptionDeliveryService.getExceptions(this.routeId)
+        this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData => {
                 this.exceptions = responseData;
                 this.lastRefresh = Date.now();
 
                 if (this.routeId) {
+                    this.filterOption = new FilterOption(this.routeOption, this.routeId);
                     this.selectedOption = this.routeOption;
                     this.selectedFilter = this.routeId;
                 }
                 if (this.assignee) {
+                    this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
                     this.selectedOption = this.assigneeOption;
                     this.selectedFilter = this.assignee;
                 }

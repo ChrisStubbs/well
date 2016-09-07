@@ -12,7 +12,7 @@ export class AppComponent {
     branches: string = "";
 
     constructor(private globalSettingsService: GlobalSettingsService, private branchService: BranchService) {
-        this.globalSettingsService.getVersion().subscribe(version => this.version = version);
+        this.globalSettingsService.getSettings().subscribe(settings => this.version = settings.version);
         this.fetchBranches();
         this.branchService.userBranchesChanged$.subscribe(b => this.fetchBranches());
     }

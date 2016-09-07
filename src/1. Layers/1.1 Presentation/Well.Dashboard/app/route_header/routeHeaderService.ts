@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {Route} from './route';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class RouteHeaderService {
@@ -12,8 +11,7 @@ export class RouteHeaderService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
     }
 
     getRouteHeaders(searchField: string = '', searchTerm: string = ''): Observable<Route[]> {
@@ -27,6 +25,6 @@ export class RouteHeaderService {
         return this.http.get(url)
             .map((response: Response) => <Route[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 }

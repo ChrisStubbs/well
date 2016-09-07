@@ -5,7 +5,6 @@ import {Branch} from './branch';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class BranchService {
@@ -14,15 +13,14 @@ export class BranchService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
     }
 
     getBranches(username): Observable<Branch[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     saveBranches(branches: Branch[], username, domain): Observable<any> {

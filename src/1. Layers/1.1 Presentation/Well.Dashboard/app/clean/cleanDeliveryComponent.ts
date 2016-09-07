@@ -16,7 +16,7 @@ import {RefreshService} from '../shared/refreshService';
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService]
+    providers: [CleanDeliveryService, PaginationService, AccountService]
 })
 export class CleanDeliveryComponent implements OnInit {
     lastRefresh = Date.now();
@@ -49,8 +49,8 @@ export class CleanDeliveryComponent implements OnInit {
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.currentConfigSort = '-dateTime';
-        this.activatedRoute.params.subscribe(params => {
-            this.routeId = params['routeId'];
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.routeId = params['route'];
             this.getDeliveries();
         });
     }
@@ -87,7 +87,7 @@ export class CleanDeliveryComponent implements OnInit {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    @ViewChild(ContactModal) modal = new ContactModal();
+    @ViewChild(ContactModal) modal : ContactModal;
 
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)

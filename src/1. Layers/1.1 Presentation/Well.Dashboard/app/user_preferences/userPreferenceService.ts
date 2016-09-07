@@ -5,7 +5,6 @@ import {User} from './user';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class UserPreferenceService {
@@ -13,14 +12,13 @@ export class UserPreferenceService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) { }
+        private httpErrorService: HttpErrorService) { }
 
     getUsers(name: string): Observable<User[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users/' + name)
             .map((response: Response) => <User[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
 
     }
 }

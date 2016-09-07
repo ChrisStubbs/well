@@ -14,7 +14,7 @@ import {DeliverySelectionModal} from './delivery-selection-modal';
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [GlobalSettingsService, RouteHeaderService, PaginationService]
+    providers: [RouteHeaderService, PaginationService]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;
@@ -37,7 +37,7 @@ export class RouteHeaderComponent implements OnInit {
         private router: Router) {
     }
 
-    @ViewChild(DeliverySelectionModal) deliverySelectionModal = new DeliverySelectionModal(this.router);
+    @ViewChild(DeliverySelectionModal) deliverySelectionModal : DeliverySelectionModal;
 
     ngOnInit() {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());

@@ -1,5 +1,4 @@
-﻿import {Router} from '@angular/router';
-import {Component} from '@angular/core';
+﻿import {Component} from '@angular/core';
 import {Route} from './route';
 
 @Component({
@@ -10,7 +9,7 @@ export class DeliverySelectionModal {
     isVisible = false;
     route: Route;
 
-    constructor(private router: Router) { }
+    constructor() { }
 
     show(route) {
         this.route = route;
@@ -19,13 +18,5 @@ export class DeliverySelectionModal {
 
     hide() {
         this.isVisible = false;
-    }
-
-    viewException() {
-        this.router.navigate(['/exceptions', this.route.route]);
-    }
-
-    viewClean() {
-        this.router.navigate(['/clean', this.route.route]);
     }
 }

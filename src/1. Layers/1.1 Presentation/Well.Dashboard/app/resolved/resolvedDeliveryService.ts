@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {ResolvedDelivery} from './resolvedDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class ResolvedDeliveryService {
@@ -12,14 +11,13 @@ export class ResolvedDeliveryService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
     }
 
     getResolvedDeliveries(): Observable<ResolvedDelivery[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/resolved')
             .map((response: Response) => <ResolvedDelivery[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 }

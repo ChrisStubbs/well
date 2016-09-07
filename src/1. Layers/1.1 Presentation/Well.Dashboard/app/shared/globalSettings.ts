@@ -2,7 +2,6 @@
 import {Http, Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 export interface IGlobalSettings {
     apiUrl: string;
@@ -14,8 +13,7 @@ export class GlobalSettingsService {
 
     constructor(
         private _http: Http,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
         var configuredApiUrl = "#{OrderWellApi}"; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings =
         {
@@ -26,12 +24,12 @@ export class GlobalSettingsService {
     public getVersion(): Observable<string> {
         return this._http.get(this.globalSettings.apiUrl + 'version')
             .map((response: Response) => <string>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     public getBranches(): Observable<string> {
         return this._http.get(this.globalSettings.apiUrl + 'user-branches')
             .map((response: Response) => <string>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 }

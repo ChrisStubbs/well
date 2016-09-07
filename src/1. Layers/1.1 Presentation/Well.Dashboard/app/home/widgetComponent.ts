@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit}  from '@angular/core';
+import {NavigationExtras, Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {Widget} from './widget';
@@ -7,7 +8,7 @@ import {RefreshService} from '../shared/refreshService';
 
 @Component({
     templateUrl: './app/home/widgets.html',
-    providers: [GlobalSettingsService, WidgetService]
+    providers: [WidgetService]
 })
 
 export class WidgetComponent implements OnInit {
@@ -18,7 +19,8 @@ export class WidgetComponent implements OnInit {
 
     constructor(
         private widgetService: WidgetService,
-        private refreshService: RefreshService) {
+        private refreshService: RefreshService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -33,5 +35,22 @@ export class WidgetComponent implements OnInit {
     getWidgets() {
         this.widgetService.getWidgets()
             .subscribe(widgets => this.widgets = widgets, error => this.errorMessage = <any>error);
+    }
+
+    widgetLinkClicked(widgetLink: string, widgetName: string) {
+
+        let navigationExtras: NavigationExtras;
+        let link: string = '';
+        switch(widgetName) {
+            case 'Assigned':
+            {
+                navigationExtras = {
+                    queryParams: { 'assigned': 'michael hook' } //TODO - Name must be dynamic
+                };
+                break;
+            }
+        }
+
+        this.router.navigate([widgetLink], navigationExtras);
     }
 }

@@ -17,7 +17,7 @@ import {RefreshService} from '../shared/refreshService';
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService]
+    providers: [ResolvedDeliveryService, PaginationService, AccountService]
 })
 export class ResolvedDeliveryComponent implements OnInit {
     lastRefresh = Date.now();
@@ -69,7 +69,7 @@ export class ResolvedDeliveryComponent implements OnInit {
         this.filterOption = filterOption;
     }
 
-    @ViewChild(ContactModal) modal = new ContactModal();
+    @ViewChild(ContactModal) modal : ContactModal;
 
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)

@@ -5,7 +5,6 @@ import {ExceptionDelivery} from './exceptionDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {IUser} from '../shared/user';
 import {UserJob} from '../shared/userJob';
 
@@ -17,8 +16,7 @@ export class ExceptionDeliveryService {
 
     constructor(private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
     }
 
     getExceptions(routeId): Observable<ExceptionDelivery[]> {
@@ -34,7 +32,7 @@ export class ExceptionDeliveryService {
         return this.http.get(url)
             .map((response: Response) => <ExceptionDelivery[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     getUsersForBranch(branchId): Observable<IUser[]> {
@@ -42,7 +40,7 @@ export class ExceptionDeliveryService {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
             .map((response: Response) => <IUser[]>response.json())
             .do(data => console.log("All: " + JSON.stringify(data)))
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
 

@@ -1,15 +1,11 @@
 ﻿import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {BranchService} from './branch/branchService';
-import {RefreshService} from './shared/refreshService';
-import {HttpErrorService} from './shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import 'rxjs/Rx';   // Load all features
 
 @Component({
     selector: 'ow-app',
-    templateUrl: 'home/applayout',
-    providers: [GlobalSettingsService, BranchService, RefreshService, ToasterService, HttpErrorService]
+    templateUrl: 'home/applayout'
 })
 export class AppComponent {
     version: string = "";

@@ -6,7 +6,6 @@ import {DamageReason} from './damageReason';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class DeliveryService {
@@ -14,20 +13,19 @@ export class DeliveryService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private toasterService: ToasterService) {
+        private httpErrorService: HttpErrorService) {
     }
 
     getDelivery(deliveryId: number): Observable<Delivery> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId)
             .map((response: Response) => <Delivery>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     getDamageReasons(): Observable<DamageReason[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'damage-reasons/')
             .map((response: Response) => <DamageReason[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     updateDeliveryLine(line): Observable<any> {
@@ -38,6 +36,6 @@ export class DeliveryService {
         return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line/',
                 body,
                 options)
-            .catch(e => this.httpErrorService.handleError(e, this.toasterService));
+            .catch(e => this.httpErrorService.handleError(e));
     }
 }

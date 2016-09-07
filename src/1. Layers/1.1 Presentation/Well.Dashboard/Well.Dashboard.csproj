@@ -374,7 +374,7 @@
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
-    <TypeScriptCompile Include="app\shared\orderBy.ts" />
+    <TypeScriptCompile Include="app\shared\orderByDatePipe.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
     <TypeScriptCompile Include="app\shared\refreshService.ts" />
     <TypeScriptCompile Include="app\shared\user.ts" />

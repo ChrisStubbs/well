@@ -48,7 +48,7 @@ export class CleanDeliveryComponent implements OnInit {
 
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.currentConfigSort = '-dateTime';
+        this.currentConfigSort = '-deliveryDate';
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
             this.getDeliveries();
@@ -76,7 +76,7 @@ export class CleanDeliveryComponent implements OnInit {
 
     sortDirection(sortDirection): void {
         this.getDeliveries();
-        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
         
     }
 

@@ -71,7 +71,7 @@ export class ExceptionsComponent implements OnInit {
 
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
-        this.currentConfigSort = '-dateTimeUpdated';
+        this.currentConfigSort = '-deliveryDate';
 
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
@@ -110,7 +110,7 @@ export class ExceptionsComponent implements OnInit {
 
     sortDirection(sortDirection): void {
         console.log(sortDirection);
-        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
         console.log(this.currentConfigSort);
         this.getExceptions();
     }

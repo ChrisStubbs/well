@@ -5,5 +5,5 @@
     deliveryExceptionCount: number;
     deliveryCleanCount: number;
     routeStatus: string;
-    dateTimeUpdated: string;
+    dateTimeUpdated: Date;
 }

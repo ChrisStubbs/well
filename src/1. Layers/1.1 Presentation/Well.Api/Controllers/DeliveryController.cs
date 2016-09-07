@@ -61,7 +61,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting clean deliveries for route {routeId}");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting clean deliveries");
             }
         }
 

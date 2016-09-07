@@ -11,8 +11,8 @@ export class OptionFilterComponent implements OnChanges {
     private defaultOption: DropDownItem = new DropDownItem("Option", "");
 
     @Input() options: DropDownItem[];
-    @Input() filterText: string;
-    @Input() selectedOption: DropDownItem = this.defaultOption;
+    filterText: string;
+    selectedOption: DropDownItem = this.defaultOption;
     @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
 
     ngOnChanges(): void {
@@ -31,5 +31,15 @@ export class OptionFilterComponent implements OnChanges {
 
     setSelectedOption(option: DropDownItem): void {
         this.selectedOption = option;
+    }
+
+    @Input()
+    set setKnownOption(option: DropDownItem) {
+        if (option) this.setSelectedOption(option);
+    }
+
+    @Input()
+    set setKnownFilter(filter: string) {
+        if (filter) this.filterText = filter;
     }
 }

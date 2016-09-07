@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import {GlobalSettingsService} from '../shared/globalSettings';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginationService } from 'ng2-pagination';
@@ -26,25 +26,33 @@ export class CleanDeliveryComponent implements OnInit {
     currentConfigSort: string;
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
+    routeOption = new DropDownItem("Route", "routeNumber");
     options: DropDownItem[] = [
-        new DropDownItem("Route", "routeNumber"),
+        this.routeOption,
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
         new DropDownItem("Date", "dateTime")
     ];
     account: IAccount;
+    routeId: string;
+    selectedOption: DropDownItem;
+    selectedFilter: string;
 
     constructor(
         private cleanDeliveryService: CleanDeliveryService,
         private accountService: AccountService,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService) { }
 
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.getDeliveries();
         this.currentConfigSort = '-dateTime';
+        this.activatedRoute.params.subscribe(params => {
+            this.routeId = params['routeId'];
+            this.getDeliveries();
+        });
     }
 
     ngOnDestroy() {
@@ -52,10 +60,15 @@ export class CleanDeliveryComponent implements OnInit {
     }
 
     getDeliveries() {
-        this.cleanDeliveryService.getCleanDeliveries()
+        this.cleanDeliveryService.getCleanDeliveries(this.routeId)
             .subscribe(cleanDeliveries => {
                     this.cleanDeliveries = cleanDeliveries;
                     this.lastRefresh = Date.now();
+
+                    if (this.routeId) {
+                        this.selectedOption = this.routeOption;
+                        this.selectedFilter = this.routeId;
+                    }
                 },
                 error => this.lastRefresh = Date.now());
     }

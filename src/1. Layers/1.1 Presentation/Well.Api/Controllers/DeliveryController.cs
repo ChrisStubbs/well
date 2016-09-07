@@ -28,12 +28,12 @@
         }
 
         [HttpGet]
-        [Route("deliveries/exception", Name = "GetExceptions")]
+        [Route("deliveries/exception")]
         public HttpResponseMessage GetExceptions()
         {
             try
             {
-               var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
+                 var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
 
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserName));
 
@@ -49,12 +49,52 @@
         }
 
         [HttpGet]
-        [Route("deliveries/clean", Name = "GetCleanDeliveries")]
+        [Route("deliveries/exception/{routeId}")]
+        public HttpResponseMessage GetExceptions(string routeId)
+        {
+            try
+            {
+               var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).Where(x => x.RouteNumber == routeId).ToList();
+
+                exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserName));
+
+                return !exceptionDeliveries.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting exceptions", ex);
+                return this.serverErrorResponseHandler.HandleException(Request, ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("deliveries/clean")]
         public HttpResponseMessage GetCleanDeliveries()
         {
             try
             {
                 var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserName).ToList();
+
+                return !cleanDeliveries.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, cleanDeliveries);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"An error occcured when getting clean deliveries", ex);
+                return this.serverErrorResponseHandler.HandleException(Request, ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("deliveries/clean/{routeId}")]
+        public HttpResponseMessage GetCleanDeliveries(string routeId)
+        {
+            try
+            {
+                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserName).Where(x => x.RouteNumber == routeId).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)

@@ -16,9 +16,17 @@ export class CleanDeliveryService {
         private toasterService: ToasterService) {
     }
 
-    getCleanDeliveries(): Observable<CleanDelivery[]> {
+    getCleanDeliveries(routeId): Observable<CleanDelivery[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean')
+        var url = '';
+
+        if (routeId) {
+            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean/' + routeId;
+        } else {
+            url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean';
+        }
+
+        return this.http.get(url)
             .map((response: Response) => <CleanDelivery[]>response.json())
             .catch(e => this.httpErrorService.handleError(e, this.toasterService));
 

@@ -1,6 +1,4 @@
-﻿
-
-<div class="table-container">
+﻿<div class="table-container">
     <ol class="breadcrumb">
         <li class="active">Clean Deliveries</li>
     </ol>
@@ -13,7 +11,10 @@
     <div *ngIf="cleanDeliveries && cleanDeliveries.length">
         <div class="row">
             <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+                             (filterClicked)="onFilterClicked($event)"
+                             [setKnownOption]="selectedOption"
+                             [setKnownFilter]="selectedFilter">
+            </ow-optionfilter>
         </div>
 
         <div class="table-responsive table-container">

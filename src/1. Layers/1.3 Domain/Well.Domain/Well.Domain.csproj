@@ -44,7 +44,7 @@
     <Compile Include="Branch.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Enums\WellDeleteType.cs" />
-    <Compile Include="ValueObjects\CustomerRoyaltyException.cs" />
+    <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Attribute.cs" />
     <Compile Include="Enums\AccountType.cs" />

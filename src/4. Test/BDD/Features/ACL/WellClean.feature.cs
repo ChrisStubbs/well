@@ -65,29 +65,105 @@ namespace PH.Well.BDD.Features.ACL
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve all for s" +
+            "oft delete")]
+        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveAllForSoftDelete()
         {
-#line 6
-#line 7
-  testRunner.Given("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all for s" +
+                    "oft delete", ((string[])(null)));
+#line 8
+this.ScenarioSetup(scenarioInfo);
+#line 9
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 10
+ testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 11
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.Then("there should be 0 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
+            this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve all")]
-        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveAll()
+        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve one for s" +
+            "oft delete")]
+        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveOneForSoftDelete()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all", ((string[])(null)));
-#line 10
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve one for s" +
+                    "oft delete", ((string[])(null)));
+#line 14
 this.ScenarioSetup(scenarioInfo);
-#line 6
-this.FeatureBackground();
-#line 11
+#line 15
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 17
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("there should be 1 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve all for h" +
+            "ard delete")]
+        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveAllForHardDelete()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all for h" +
+                    "ard delete", ((string[])(null)));
+#line 20
+this.ScenarioSetup(scenarioInfo);
+#line 21
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 22
  testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 12
- testRunner.When("I start the ACL Well Clean process", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
- testRunner.Then("there should be 0 exception lines left for a Job with and Id or 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 23
+ testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.Then("there should be 0 lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import epod file one job with 2 clean and 2 exception lines and resolve one for h" +
+            "ard delete")]
+        public virtual void ImportEpodFileOneJobWith2CleanAnd2ExceptionLinesAndResolveOneForHardDelete()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve one for h" +
+                    "ard delete", ((string[])(null)));
+#line 26
+this.ScenarioSetup(scenarioInfo);
+#line 27
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 28
+ testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 29
+ testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 30
+ testRunner.Then("there should be 1 lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Import epod file one job with current exception royalty for soft delete")]
+        public virtual void ImportEpodFileOneJobWithCurrentExceptionRoyaltyForSoftDelete()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with current exception royalty for soft delete", ((string[])(null)));
+#line 32
+this.ScenarioSetup(scenarioInfo);
+#line 33
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 34
+ testRunner.And("I have an exception royalty of 5 days for royalty 1871", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 35
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 36
+ testRunner.Then("there should be 2 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -1,6 +1,6 @@
-﻿namespace PH.Well.Domain.ValueObjects
+﻿namespace PH.Well.Domain
 {
-    public class CustomerRoyaltyException
+    public class CustomerRoyaltyException : Entity<int>
     {
         public int RoyaltyId { get; set; }
 

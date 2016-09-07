@@ -50,6 +50,9 @@
         public static string JobGetByStopId = "Job_GetByStopId";
         public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
+        public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
+        public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
+        public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";

@@ -139,6 +139,15 @@
             ScenarioContext.Current.Add("exceptionLines", exceptionLines);
         }
 
+        [Given(@"I have a database with Adam/Epod data")]
+        public void GivenIHaveADatabaseWithAdamEpodData()
+        {
+            Hooks.SetupDatabase();
+            LoadAdamRouteData();
+
+        }
+
+
         [Given(@"I have imported a valid Epod update file named '(.*)'")]
         public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
         {
@@ -147,28 +156,63 @@
             adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
         }
 
-        [When(@"I start the ACL Well Clean process")]
+        [When(@"I start the ACL Well Clean process for a soft delete")]
         public void WhenIStartTheACLWellCleanProcess()
         {
             var epodStatusMessage = string.Empty;
             var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
+            wellCleanContainer.CurrentUser = this.currentUser;
+            wellCleanContainer.WellClearMonths = 3;
+            wellCleanContainer.WellClearDate = DateTime.Now;
             wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
         }
 
+        [When(@"I start the ACL Well Clean process for a date (.*) months from today")]
+        public void WhenIStartTheACLWellCleanProcessForADateMonthsFromToday(int additionalMonths)
+        {
+            var epodStatusMessage = string.Empty;
+            var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
+            wellCleanContainer.CurrentUser = this.currentUser;
+            wellCleanContainer.WellClearMonths = 3;
+            wellCleanContainer.WellClearDate = DateTime.Now.AddMonths(additionalMonths);
+            wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
+        }
 
-        [Then(@"there should be (.*) exception lines left for a Job with and Id or (.*)")]
+        [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
+        public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(int exceptionDays, int royaltyCode)
+        {
+            var jobRepository = container.GetInstance<IJobRepository>();
+            var customerRoyalty = jobRepository.GetCustomerRoyaltyExceptionsByRoyalty(royaltyCode);
+            customerRoyalty.ExceptionDays = exceptionDays;
+            jobRepository.CurrentUser = this.currentUser;
+            jobRepository.UpdateCustomerRoyaltyException(customerRoyalty);
+        }
+
+
+
+        [Then(@"there should be (.*) exception lines left for a Job with an Id of (.*)")]
         public void ThenThereShouldBeExceptionLinesLeftForAJobWithAndIdOr(int exceptionLines, int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count();
+            var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count(x => !x.IsDeleted);
             Assert.AreEqual(jobDetailCount, exceptionLines);
         }
+
+        [Then(@"there should be (.*) lines left for a Job with an Id of (.*)")]
+        public void ThenThereShouldBeLinesLeftForAJobWithAnIdOf(int exceptionLines, int jobId)
+        {
+            var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
+            var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count();
+            Assert.AreEqual(jobDetailCount, exceptionLines);
+        }
+
+
 
         [Given(@"I resolve one of the exceptions with a JobId of (.*)")]
         public void GivenIResolveOneOfTheExceptionsWithAJobIdOf(int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
+            var jobDetailToResolve = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
             jobDetailrepositoryContainer.CurrentUser = currentUser;
             jobDetailrepositoryContainer.Update(jobDetailToResolve);

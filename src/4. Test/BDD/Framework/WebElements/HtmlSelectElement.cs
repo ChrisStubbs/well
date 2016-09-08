@@ -12,7 +12,7 @@
         public void Select(string itemToSelect)
         {
             this.GetElement();
-            this.Driver.WaitForAngular2();
+            this.Driver.WaitForJavascript();
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             var option = wait.Until(d => Element.FindElements(By.TagName("option")).First(x => x.Text == itemToSelect));
             option.Click();
@@ -22,7 +22,7 @@
         {
             this.GetElement();
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-            this.Driver.WaitForAngular2();
+            this.Driver.WaitForJavascript();
             var options = wait.Until(d => Element.FindElements(By.TagName("option")));
             foreach (var option in options)
             {

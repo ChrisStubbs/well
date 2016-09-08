@@ -31,6 +31,18 @@
             driver.SwitchTo().Window(windows.Last());
         }
 
+        public static void WaitForJavascript(this IWebDriver driver)
+        {
+            if (Configuration.UseWaitForAngular2)
+            {
+                driver.WaitForAngular2();
+            }
+            else
+            {
+                driver.WaitForJQuery();
+            }
+        }
+
         public static void WaitForJQuery(this IWebDriver driver)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));

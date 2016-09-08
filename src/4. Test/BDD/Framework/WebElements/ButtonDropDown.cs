@@ -10,7 +10,7 @@
     {
         public void Select(string itemToSelect)
         {
-            this.Driver.WaitForAngular2();
+            this.Driver.WaitForJavascript();
             this.GetElement();
             this.Element.FindElement(By.ClassName("caret")).Click();
 

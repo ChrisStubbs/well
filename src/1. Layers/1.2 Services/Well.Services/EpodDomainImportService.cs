@@ -718,6 +718,10 @@
 
         public void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation)
         {
+
+            if (string.IsNullOrWhiteSpace(archiveLocation))
+                return;
+
             var archiveSubFolder = CreateArchiveSubFolder(fileNameWithoutPath);
             var finalArchivePath = Path.Combine(archiveLocation, archiveSubFolder);
 

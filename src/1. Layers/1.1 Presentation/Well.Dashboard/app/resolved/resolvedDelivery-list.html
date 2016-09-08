@@ -42,7 +42,7 @@
                     <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.action}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'medium'}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
                 </tr>
                 </tbody>
             </table>

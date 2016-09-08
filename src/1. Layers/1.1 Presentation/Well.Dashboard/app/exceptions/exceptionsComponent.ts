@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+﻿import { Component, OnInit, ViewChild }  from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
@@ -39,7 +39,7 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
         this.assigneeOption,
-        new DropDownItem("Date", "dateTime")
+        new DropDownItem("Date", "deliveryDate")
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
     actions: DropDownItem[] = [

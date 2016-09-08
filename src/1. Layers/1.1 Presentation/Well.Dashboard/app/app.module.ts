@@ -27,7 +27,7 @@ import {ConfirmModal} from "./shared/confirmModal";
 import {ContactModal} from "./shared/contact-modal";
 import {OptionFilterComponent} from './shared/optionfilter.component';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
-import {OrderBy} from "./shared/orderBy";
+import {OrderByDatePipe} from "./shared/orderByDatePipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderby-arrow';
 import AppRoutes = require("./appRoutes");
@@ -39,7 +39,7 @@ import {RefreshService} from './shared/refreshService';
 
 
 @NgModule({
-    declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderBy,
+    declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,

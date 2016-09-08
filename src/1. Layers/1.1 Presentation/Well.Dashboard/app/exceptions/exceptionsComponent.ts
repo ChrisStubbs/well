@@ -112,7 +112,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     sortDirection(sortDirection): void {
-        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
         var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
         this.getExceptions();
         lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);

@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort">
+                <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
                     <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
@@ -40,7 +40,7 @@
                     <td>
                         <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
                     </td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.dateTime}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'medium' }}</td>
                 </tr>
                 </tbody>
             </table>

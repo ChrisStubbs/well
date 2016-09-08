@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Api.Models
 {
+    using System;
+
     public class RouteModel
     {
         public string Route { get; set; }
@@ -14,6 +16,6 @@
 
         public string RouteStatus { get; set; }
 
-        public string DateTimeUpdated { get; set; }
+        public DateTime DateTimeUpdated { get; set; }
     }
 }

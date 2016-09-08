@@ -8,7 +8,7 @@
     jobStatus: string;
     action: string;
     assigned: string;
-    dateTime: string;
+    deliveryDate: Date;
     accountId: string;
     branchId: number;
     canAction: boolean;

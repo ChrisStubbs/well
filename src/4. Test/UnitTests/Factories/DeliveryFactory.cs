@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
+    using System;
     using PH.Well.Domain.ValueObjects;
     
     public class DeliveryFactory : EntityFactory<DeliveryFactory, Delivery>
@@ -12,7 +13,7 @@
             this.Entity.AccountName = "Mars Industries";
             this.Entity.InvoiceNumber = "54333";
             this.Entity.JobStatus = "On time";
-            this.Entity.DateTime = "Now";
+            this.Entity.DeliveryDate = DateTime.Now;
             this.Entity.Reason = "";
             this.Entity.Action = "";
             this.Entity.Assigned = "Jill Prior";

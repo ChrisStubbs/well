@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices.WindowsRuntime;
@@ -236,7 +237,8 @@
 
         private void AddStopByOrder(Order order, IReadOnlyList<string> transportOrderRef, int currentStopId, bool insertOnly)
         {
-            var currentRoute = this.routeHeaderRepository.GetRouteHeaderByRouteNumberAndDate(transportOrderRef[0], DateTime.Parse(transportOrderRef[3]));
+            var currentRoute = this.routeHeaderRepository.GetRouteHeaderByRouteNumberAndDate(transportOrderRef[0],
+                DateTime.ParseExact(transportOrderRef[3], "dd/MM/yyyy", new DateTimeFormatInfo()));
            
             if (!insertOnly)
             {

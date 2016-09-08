@@ -23,10 +23,28 @@
     [Binding]
     public class Hooks
     {
-        [BeforeScenario(@"SomeUserRole")]
-        public static void SetBuycoUrl()
+        [BeforeScenario(@"RoleBranchManager")]
+        public static void SetBranchManagerRole()
         {
-            //SetUserRoles(new List<string> { "SomeUserRole" });
+            SetUserRoles(new List<string> { "BranchManager" });
+        }
+
+        [BeforeScenario(@"RoleCustomerServiceManager")]
+        public static void SetServiceManager()
+        {
+            SetUserRoles(new List<string> { "CustomerServiceManager" });
+        }
+
+        [BeforeScenario(@"RoleCustomerServiceUser")]
+        public static void SetCustomerServiceUser()
+        {
+            SetUserRoles(new List<string> { "CustomerServiceUser" });
+        }
+
+        [BeforeScenario(@"RoleSuperUser")]
+        public static void SetSuperUser()
+        {
+            SetUserRoles(new List<string> { "SuperUser" });
         }
 
         [BeforeScenario(@"WebDriverFeature")]

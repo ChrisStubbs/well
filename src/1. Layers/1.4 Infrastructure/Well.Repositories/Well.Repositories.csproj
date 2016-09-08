@@ -77,7 +77,6 @@
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="Contracts\IStopRepository.cs" />
-    <Compile Include="Contracts\IWidgetStatsRepository.cs" />
     <Compile Include="Contracts\IJobRepository.cs" />
     <Compile Include="Contracts\IJobDetailRepository.cs" />
     <Compile Include="Contracts\IDapperReadProxy.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="UserRepository.cs" />
     <Compile Include="WellDapperProxy.cs" />
     <Compile Include="WellDbConfiguration.cs" />
-    <Compile Include="WidgetStatsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

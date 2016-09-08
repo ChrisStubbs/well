@@ -142,8 +142,6 @@
             public void ShouldSaveStopAttributes()
             {
                 var stopAttribute = StopAttributeFactory.New.Build();
-                var user = UserFactory.New.Build();
-                var routeHeaderId = 1;
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopAttributeCreateOrUpdate)).Returns(dapperProxy.Object);
 

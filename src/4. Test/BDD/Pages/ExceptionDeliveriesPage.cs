@@ -14,7 +14,8 @@
     {
         public ExceptionDeliveriesPage()
         {
-            this.RoutesGrid = new Grid<ExceptionDeliveriesGrid> { Locator = By.Id("tableExceptionDeliveries"), RowLocator = By.ClassName("grid-row") };
+            this.ExceptionsGrid = new Grid<ExceptionDeliveriesGrid> { Locator = By.Id("tableExceptionDeliveries"), RowLocator = By.ClassName("grid-row") };
+            this.ExceptionsDrillDownGrid = new Grid<ExceptionDrilldownGrid> { Locator = By.Id("tableDelivery"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
@@ -22,7 +23,9 @@
 
         protected override string UrlSuffix => "exceptions";
 
-        public Grid<ExceptionDeliveriesGrid> RoutesGrid { get; set; }
+        public Grid<ExceptionDeliveriesGrid> ExceptionsGrid { get; set; }
+
+        public Grid<ExceptionDrilldownGrid> ExceptionsDrillDownGrid { get; set; }
 
         public FilterControl Filter { get; set; }
 
@@ -41,17 +44,6 @@
             return elements.First();
         }
 
-        public IWebElement GetFirstAssignAnchor()
-        {
-            this.Driver.WaitForAjax();
-
-            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-
-            var elements = wait.Until(d => d.FindElements(By.ClassName("assign")));
-
-            return elements.First();
-        }
-
         public IWebElement GetFirstAssignUserFromModal()
         {
             this.Driver.WaitForAjax();
@@ -61,6 +53,17 @@
             var elements = wait.Until(d => d.FindElements(By.ClassName("assign-user")));
 
             return elements.First();
+        }
+
+        public int GetCountOfElements(string className)
+        {
+            this.Driver.WaitForAjax();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var elements = wait.Until(d => d.FindElements(By.ClassName(className)));
+
+            return elements.Count();
         }
     }
 
@@ -78,5 +81,18 @@
         Assigned = 9,
         Action = 10,
         LastUpdatedDateTime = 11
+    }
+
+    public enum ExceptionDrilldownGrid
+    {
+        LineNumber = 0,
+        Product = 1,
+        Description = 2,
+        Value = 3,
+        InvoiceQuantity = 4,
+        DeliveredQuantity = 5,
+        DamagedQuantity = 6,
+        ShortQuantity = 7,
+        Update = 8
     }
 }

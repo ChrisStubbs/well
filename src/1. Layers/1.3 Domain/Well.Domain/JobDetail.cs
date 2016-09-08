@@ -20,17 +20,18 @@
 
         [XmlElement("Barcode")]
         public string BarCode { get; set; }
-
+        
         [XmlIgnore]
-        public decimal OriginalDispatchQty { get; set; }
+        public int OriginalDespatchQty { get; set; }
 
-
+        //Workaround for nullable int element
         [XmlElement("OriginalDespatchQty")]
-        public string OriginalDispatchQtyString
+        public string OriginalDespatchQtyString
         {
+            get { return OriginalDespatchQty.ToString(); }
             set
             {
-                this.OriginalDispatchQty = value == string.Empty ? 0m : Convert.ToDecimal(value);
+                this.OriginalDespatchQty = value == string.Empty ? 0 : int.Parse(value);
             }
         }
 
@@ -43,9 +44,11 @@
         [XmlIgnore]
         public int ShortQty { get; set; }
 
+        //Workaround for nullable int element
         [XmlElement("ShortQty")]
         public string ShortQtyString
         {
+            get { return ShortQty.ToString(); }
             set
             {
                 ShortQty = value == string.Empty ? 0 : int.Parse(value);

@@ -357,7 +357,7 @@
         private void AddJobDetailByOrderJobDetail(int jobId, ICollection<OrderJobDetail> orderJobDetails,
             int currentJobDetailId, bool insertOnly)
         {
-            foreach (var orderJobDetail in orderJobDetails)
+            foreach (OrderJobDetail orderJobDetail in orderJobDetails)
             {
                 if (!insertOnly)
                 {
@@ -370,10 +370,8 @@
                     Id = currentJobDetailId,
                     LineNumber = orderJobDetail.LineNumber,
                     BarCode = orderJobDetail.BarCode,
-                    OriginalDispatchQty = orderJobDetail.OrderedQty,
                     ProdDesc = orderJobDetail.ProdDesc,
                     OrderedQty = orderJobDetail.OrderedQty,
-                    ShortQty = 0,
                     SkuWeight = orderJobDetail.SkuWeight,
                     SkuCube = orderJobDetail.SkuCube,
                     UnitMeasure = orderJobDetail.UnitMeasure,
@@ -384,7 +382,6 @@
                     TextField5 = orderJobDetail.TextField5,
                     SkuGoodsValue = orderJobDetail.SkuGoodsValue,
                     JobId = jobId
-                
                 };
 
                 this.jobDetailRepository.CurrentUser = this.CurrentUser;
@@ -646,9 +643,14 @@
                         }
                     }
 
-                    currentJobDetail.JobDetailStatusId = currentJobDetail.JobDetailDamages.Any()
-                        ? (int)JobDetailStatus.UnRes
-                        : (int)JobDetailStatus.Res;
+                    if (currentJobDetail.ShortQty == 0)
+                    {
+                        currentJobDetail.ShortQty = ePodJobDetail.ShortQty;
+                    }
+
+                    currentJobDetail.JobDetailStatusId = currentJobDetail.IsClean()
+                        ? (int) JobDetailStatus.Res
+                        : (int) JobDetailStatus.UnRes;
 
                     this.jobDetailRepository.Update(currentJobDetail);
                 }

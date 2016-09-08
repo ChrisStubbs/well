@@ -1,60 +1,57 @@
 ﻿namespace PH.Well.Api.Controllers
 {
-    using System.Collections.Generic;
-    using PH.Well.Domain.ValueObjects;
     using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Models;
+    using PH.Well.Api.Mapper.Contracts;
     using Repositories.Contracts;
 
     public class DeliveryController : BaseApiController
     {
-        private readonly ILogger logger;
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
+        private readonly IDeliveryToDetailMapper deliveryToDetailMapper;
 
         public DeliveryController(
-            ILogger logger,
             IDeliveryReadRepository deliveryReadRepository,
-            IServerErrorResponseHandler serverErrorResponseHandler)
+            IServerErrorResponseHandler serverErrorResponseHandler,
+            IDeliveryToDetailMapper deliveryToDetailMapper)
         {
-            this.logger = logger;
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
+            this.deliveryToDetailMapper = deliveryToDetailMapper;
         }
 
         [HttpGet]
-        [Route("deliveries/exception", Name = "GetExceptions")]
+        [Route("deliveries/exception")]
         public HttpResponseMessage GetExceptions()
         {
             try
             {
-               List<Delivery> exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserName).ToList();
-
-                exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserName));
+                var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
+                exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
                 return !exceptionDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                     : this.Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);
+
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting exceptions", ex);
-                return this.serverErrorResponseHandler.HandleException(Request, ex);
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting exceptions");
             }
         }
-
+        
         [HttpGet]
-        [Route("deliveries/clean", Name = "GetCleanDeliveries")]
+        [Route("deliveries/clean")]
         public HttpResponseMessage GetCleanDeliveries()
         {
             try
             {
-                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserName).ToList();
+                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
@@ -62,97 +59,51 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting clean deliveries", ex);
-                return this.serverErrorResponseHandler.HandleException(Request, ex);
+                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting clean deliveries");
             }
         }
 
         [HttpGet]
-        [Route("deliveries/resolved", Name = "GetResolvedDeliveries")]
+        [Route("deliveries/resolved")]
         public HttpResponseMessage GetResolvedDeliveries()
         {
             try
             {
-                IEnumerable<Delivery> resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserName).ToList();
+                var resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserIdentityName).ToList();
+
                 return !resolvedDeliveries.Any()
                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                    : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting resolved deliveries", ex);
-                return serverErrorResponseHandler.HandleException(Request, ex);
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting resolved deliveries");
             }
         }
 
         [HttpGet]
-        [Route("deliveries/{id:int}", Name = "GetDelivery")]
+        [Route("deliveries/{id:int}")]
         public HttpResponseMessage GetDelivery(int id)
         {
             try
             {
-                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id);
-                IEnumerable<DeliveryLine> deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
-                DeliveryDetailModel delivery = CreateDeliveryDetails(deliveryLines, deliveryDetail);
+                var deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
+                deliveryDetail.SetCanAction(this.UserIdentityName);
+
+                var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
+                var delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {
                     return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 }
-                else
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, delivery);
-                }
 
+                return this.Request.CreateResponse(HttpStatusCode.OK, delivery);
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"An error occcured when getting delivery detail id: {id}", ex);
-                return serverErrorResponseHandler.HandleException(Request, ex);
+                return serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting delivery detail id: {id}");
             }
         }
-
-
-        private DeliveryDetailModel CreateDeliveryDetails(IEnumerable<DeliveryLine> lines, DeliveryDetail detail )
-        {
-            var deliveryDetail = new DeliveryDetailModel
-            {
-                Id = detail.Id,
-                AccountCode = detail.AccountCode,
-                AccountName = detail.AccountName,
-                AccountAddress = detail.AccountAddress,
-                InvoiceNumber = detail.InvoiceNumber,
-                ContactName = detail.ContactName,
-                PhoneNumber = detail.PhoneNumber,
-                MobileNumber = detail.MobileNumber,
-                DeliveryType = detail.DeliveryType,
-                IsException = detail.IsException
-            };
-
-            foreach (var line in lines)
-            {
-                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
-                {
-                    JobId = line.JobId,
-                    LineNo = line.LineNo,
-                    ProductCode = line.ProductCode,
-                    ProductDescription = line.ProductDescription,
-                    Value = line.Value.ToString(),
-                    InvoicedQuantity = line.InvoicedQuantity,
-                    DeliveredQuantity = line.DeliveredQuantity,
-                    DamagedQuantity = line.DamagedQuantity,
-                    ShortQuantity = line.ShortQuantity,
-                    Damages = line.Damages.Select(d => new DamageModel()
-                    {
-                        Quantity = d.Quantity,
-                        ReasonCode = d.Reason.ToString()
-                    }).ToList()
-                });
-            }
-
-            return deliveryDetail;
-        }
-
-
     }
 }

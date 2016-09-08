@@ -6,14 +6,16 @@ import {ToasterService} from 'angular2-toaster/angular2-toaster';
 @Injectable()
 export class HttpErrorService {
 
+    constructor(private toasterService: ToasterService) {  }
+
     //Passing the toasterService through the constructor didn't work so passed as parameter instead, might work in future Angular2 version!
-    handleError(error: Response, toasterService: ToasterService) {
+    handleError(error: Response) {
         console.log(error);
         if (error.status && error.status === 404) {
             //No popup required.
         } else {
             var message = error.json() ? error.json().message : (error.status ? error.status : 'Server error');
-            toasterService.pop('error', message, '');
+            this.toasterService.pop('error', message, '');
         }
         return Observable.throw(error);
     }

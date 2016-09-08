@@ -978,7 +978,7 @@
                   <DeliveredQty>1</DeliveredQty>
                   <SkuWeight>0.5</SkuWeight>
                   <skuCube />
-                  <ShortQty />
+                  <ShortQty>3</ShortQty>
                   <ManualEntry />
                   <SerialNumber />
                   <Deleted>False</Deleted>

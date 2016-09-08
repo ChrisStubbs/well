@@ -11,7 +11,7 @@ import {UserPreferenceModal} from './userPreferenceModalComponent';
 @Component({
     selector: 'ow-user-preferences',
     templateUrl: './app/user_preferences/user-preferences.html',
-    providers: [UserPreferenceService, GlobalSettingsService, PaginationService]
+    providers: [UserPreferenceService, PaginationService]
 }
 )
 export class UserPreferenceComponent {
@@ -22,7 +22,7 @@ export class UserPreferenceComponent {
     constructor(private userPreferenceService: UserPreferenceService, private router: Router) {
     }
 
-    @ViewChild(UserPreferenceModal) modal = new UserPreferenceModal(this.router);
+    @ViewChild(UserPreferenceModal) modal : UserPreferenceModal;
 
     find(): void {
         this.userPreferenceService.getUsers(this.userText)

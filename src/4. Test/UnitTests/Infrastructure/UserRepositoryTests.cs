@@ -34,28 +34,28 @@
             this.repository.CurrentUser = "Some user";
         }
 
-        public class TheGetByNameMethod : UserRepositoryTests
+        public class TheGetByIdentityMethod : UserRepositoryTests
         {
             [Test]
-            public void ShouldGetTheUserByName()
+            public void ShouldGetTheUserByIdentity()
             {
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserGetByName))
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserGetByIdentity))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Name", "Leeroy", DbType.String, 255))
+                this.dapperProxy.Setup(x => x.AddParameter("Identity", "Leeroy", DbType.String, 255))
                     .Returns(this.dapperProxy.Object);
 
                 var users = new List<User> { UserFactory.New.Build() };
 
                 this.dapperProxy.Setup(x => x.Query<User>()).Returns(users);
 
-                var result = this.repository.GetByName("Leeroy");
+                var result = this.repository.GetByIdentity("Leeroy");
 
                 Assert.That(result.Name, Is.EqualTo(users.First().Name));
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserGetByName), Times.Once);
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserGetByIdentity), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("Name", "Leeroy", DbType.String, 255), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("Identity", "Leeroy", DbType.String, 255), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Query<User>(), Times.Once);
             }

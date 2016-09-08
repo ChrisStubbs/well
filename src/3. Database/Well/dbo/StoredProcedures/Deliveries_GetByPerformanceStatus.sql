@@ -26,7 +26,7 @@ BEGIN
 	INNER JOIN 
 		[Stop] s on rh.Id = s.RouteHeaderId
 	INNER JOIN 
-		Job j on s.id = j.StopId	
+		Job j on s.Id = j.StopId	
 	INNER JOIN 
 		dbo.Account a on s.Id = a.StopId
 	INNER JOIN

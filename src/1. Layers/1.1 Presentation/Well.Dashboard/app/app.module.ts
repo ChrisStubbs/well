@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ToasterModule } from 'angular2-toaster/angular2-toaster';
+import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
 import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
 
 import {AppComponent} from './appComponent';
@@ -20,7 +20,7 @@ import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent'
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {UserPreferenceModal} from './user_preferences/userPreferenceModalComponent';
-import {WidgetStatsComponent} from './home/widgetStatsComponent';
+import {WidgetComponent} from './home/widgetComponent';
 
 import {AssignModal} from "./shared/assign-Modal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -28,18 +28,25 @@ import {ContactModal} from "./shared/contact-modal";
 import {OptionFilterComponent} from './shared/optionfilter.component';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderBy} from "./shared/orderBy";
-import {WellModal} from "./shared/well-modal";
+import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderby-arrow';
 import AppRoutes = require("./appRoutes");
 
+import {BranchService} from './branch/branchService';
+import {GlobalSettingsService} from './shared/globalSettings';
+import {HttpErrorService} from './shared/httpErrorService';
+import {RefreshService} from './shared/refreshService';
+
+
 @NgModule({
     declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderBy,
-        AssignModal, ConfirmModal, ContactModal, WellModal,
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetStatsComponent,
+        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent],
     imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, AppRoutes.appRouterProviders],
+    providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

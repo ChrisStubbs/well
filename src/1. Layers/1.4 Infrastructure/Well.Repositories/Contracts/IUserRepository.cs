@@ -6,7 +6,7 @@
 
     public interface IUserRepository : IRepository<User, int>
     {
-        User GetByName(string name);
+        User GetByIdentity(string identity);
 
         IEnumerable<User> GetByBranchId(int branchId);
 

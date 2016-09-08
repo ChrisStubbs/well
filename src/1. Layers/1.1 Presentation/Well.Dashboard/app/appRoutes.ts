@@ -10,7 +10,7 @@ import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
-import {WidgetStatsComponent} from './home/widgetStatsComponent';
+import {WidgetComponent} from './home/widgetComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
@@ -19,13 +19,13 @@ const routes: Routes = [
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
     { path: 'clean', component: CleanDeliveryComponent },
-    { path: 'delivery/:id/:canAction', component: DeliveryComponent },
-    { path: 'delivery/:id/line/:line', component: DeliveryUpdateComponent },
+    { path: 'delivery/:id', component: DeliveryComponent },
+    { path: 'delivery/:id/:line', component: DeliveryUpdateComponent },
     { path: 'exceptions', component: ExceptionsComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'resolved', component: ResolvedDeliveryComponent },
     { path: 'routes', component: RouteHeaderComponent },
-    { path: 'widgets', component: WidgetStatsComponent },
+    { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent }
 ];
 

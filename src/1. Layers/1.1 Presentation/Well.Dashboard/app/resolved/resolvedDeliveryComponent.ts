@@ -19,7 +19,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [GlobalSettingsService, ResolvedDeliveryService, PaginationService, AccountService]
+    providers: [ResolvedDeliveryService, PaginationService, AccountService]
 
 })
 export class ResolvedDeliveryComponent implements OnInit {
@@ -86,7 +86,7 @@ export class ResolvedDeliveryComponent implements OnInit {
         this.sortDirection(isDesc);
     }
 
-    @ViewChild(ContactModal) modal = new ContactModal();
+    @ViewChild(ContactModal) modal : ContactModal;
 
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)

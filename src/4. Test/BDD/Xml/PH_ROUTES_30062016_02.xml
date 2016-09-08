@@ -157,7 +157,7 @@
                 <JobDetail>
                   <LineNumber>1</LineNumber>
                   <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>5</OriginalDespatchQty>
+                  <OriginalDespatchQty>20</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
@@ -1017,7 +1017,7 @@
                 <JobDetail>
                   <LineNumber>1</LineNumber>
                   <Barcode>4237</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty />
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>6.86</SkuWeight>
@@ -1033,7 +1033,7 @@
                 <JobDetail>
                   <LineNumber>2</LineNumber>
                   <Barcode>7605</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Bass Sherbet Lemons 200g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>2.88</SkuWeight>
@@ -1049,7 +1049,7 @@
                 <JobDetail>
                   <LineNumber>3</LineNumber>
                   <Barcode>41957</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Bournville Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
@@ -1065,7 +1065,7 @@
                 <JobDetail>
                   <LineNumber>4</LineNumber>
                   <Barcode>3319</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>C.D.M Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
@@ -1081,7 +1081,7 @@
                 <JobDetail>
                   <LineNumber>5</LineNumber>
                   <Barcode>9135</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Wispa Duo 51g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>10.10</SkuWeight>
@@ -1558,7 +1558,7 @@
                 <JobDetail>
                   <LineNumber>1</LineNumber>
                   <Barcode>10637</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>0.50</SkuWeight>
@@ -1574,7 +1574,7 @@
                 <JobDetail>
                   <LineNumber>2</LineNumber>
                   <Barcode>12274</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>B&amp;H Dual</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.40</SkuWeight>
@@ -1590,7 +1590,7 @@
                 <JobDetail>
                   <LineNumber>3</LineNumber>
                   <Barcode>12476</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Marlboro Gold KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.80</SkuWeight>
@@ -1606,7 +1606,7 @@
                 <JobDetail>
                   <LineNumber>4</LineNumber>
                   <Barcode>10574</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Mayfair KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.44</SkuWeight>
@@ -1730,7 +1730,7 @@
                 <JobDetail>
                   <LineNumber>1</LineNumber>
                   <Barcode>4237</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>6.86</SkuWeight>
@@ -1746,7 +1746,7 @@
                 <JobDetail>
                   <LineNumber>2</LineNumber>
                   <Barcode>7605</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Bass Sherbet Lemons 200g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>2.88</SkuWeight>
@@ -1762,7 +1762,7 @@
                 <JobDetail>
                   <LineNumber>3</LineNumber>
                   <Barcode>41957</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Bournville Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
@@ -1778,7 +1778,7 @@
                 <JobDetail>
                   <LineNumber>4</LineNumber>
                   <Barcode>3319</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>C.D.M Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
@@ -1794,7 +1794,7 @@
                 <JobDetail>
                   <LineNumber>5</LineNumber>
                   <Barcode>9135</Barcode>
-                  <OriginalDespatchQty></OriginalDespatchQty>
+                  <OriginalDespatchQty/>
                   <ProdDesc>Wispa Duo 51g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>10.10</SkuWeight>

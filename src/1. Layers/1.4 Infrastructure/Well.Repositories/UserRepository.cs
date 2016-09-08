@@ -16,11 +16,11 @@
         {
         }
 
-        public User GetByName(string name)
+        public User GetByIdentity(string identity)
         {
             return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByName)
-                    .AddParameter("Name", name, DbType.String, size: 255)
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByIdentity)
+                    .AddParameter("Identity", identity, DbType.String, size: 255)
                     .Query<User>()
                     .SingleOrDefault();
         }

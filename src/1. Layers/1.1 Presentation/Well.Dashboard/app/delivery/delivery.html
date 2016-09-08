@@ -3,7 +3,7 @@
         <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
         <li *ngIf="delivery.deliveryType == 'Complete'"><a routerLink="/clean">Clean</a></li>
         <li *ngIf="delivery.deliveryType == 'Resolved'"><a routerLink="/resolved">Resolved</a></li>
-        <li class="active">{{delivery.deliveryType}} Delivery {{delivery.id}}</li>
+        <li class="active"><span id="delivery-type">{{delivery.deliveryType}}</span> Delivery {{delivery.id}}</li>
     </ol>
 </div>
 <div class="jumbotron">
@@ -33,7 +33,7 @@
                 <th>Del Qty</th>
                 <th>Damaged Qty</th>
                 <th>Short Qty</th>
-                <th *ngIf="canAction"></th>
+                <th *ngIf="delivery.canAction"></th>
             </tr>
             </thead>
             <tbody>
@@ -47,8 +47,8 @@
                 <td>{{line.deliveredQuantity}}</td>
                 <td>{{line.damagedQuantity}}</td>
                 <td>{{line.shortQuantity}}</td>
-                <td *ngIf="!line.isEdit && canAction">
-                    <button type="button" class="btn btn-success btn-sm">Update</button>
+                <td *ngIf="!line.isEdit && delivery.canAction">
+                    <button type="button" class="btn btn-success btn-sm update-enabled">Update</button>
                 </td>
             </tr>
             </tbody>

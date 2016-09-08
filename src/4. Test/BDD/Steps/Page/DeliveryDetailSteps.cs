@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading;
+    using Framework.WebElements;
     using NUnit.Framework;
 
     using PH.Well.BDD.Pages;
@@ -12,6 +14,20 @@
     public class DeliveryDetailSteps
     {
         private DeliveryDetailsPage page => new DeliveryDetailsPage();
+    
+        [Given(@"I open delivery '(.*)'")]
+        public void WhenIOpenTheCleanDeliveries(int deliveryId)
+        {
+            string routing = "/" + deliveryId;
+            page.Open(routing);
+        }
+
+        [Given(@"I click on the first delivery line")]
+        public void ClickExceptionDetail()
+        {
+            IEnumerable<GridRow<DeliveryDetailsGrid>> rows = this.page.Grid.ReturnAllRows();
+            rows.First().Click();
+        }
 
         [Then(@"I am shown the exception detail")]
         public void ShownExceptionDetail(Table table)
@@ -31,6 +47,25 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.DamagedQuantity), Is.EqualTo(table.Rows[i]["DamagedQuantity"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.ShortQuantity), Is.EqualTo(table.Rows[i]["ShortQuantity"]));
             }
+        }
+
+        [Then(@"the line '(.*)' Short Qty is '(.*)' and Damaged Qty is '(.*)' Del Qty is '(.*)'")]
+        public void ThenTheLineShortQtyIsAndDamagedQtyIsDelQtyIs(int line, string shortQty, string damagedQty, string deliveredQty)
+        {
+            var pageRows = this.page.Grid.ReturnAllRows().ToList();
+
+            var row = line - 1;
+            Assert.AreEqual(shortQty, pageRows[row].GetColumnValueByIndex((int) DeliveryDetailsGrid.ShortQuantity));
+            Assert.AreEqual(damagedQty, pageRows[row].GetColumnValueByIndex((int) DeliveryDetailsGrid.DamagedQuantity));
+            Assert.AreEqual(deliveredQty,
+                pageRows[row].GetColumnValueByIndex((int) DeliveryDetailsGrid.DeliveryQuantity));
+
+        }
+
+        [Then(@"the delivery status is '(.*)'")]
+        public void ThenTheDeliveryStatusIs(string status)
+        {
+            Assert.AreEqual(status, page.DeliveryTypeSpan.Content);
         }
     }
 }

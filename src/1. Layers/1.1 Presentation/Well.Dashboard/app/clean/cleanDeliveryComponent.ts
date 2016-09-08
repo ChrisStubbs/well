@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import {GlobalSettingsService} from '../shared/globalSettings';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
 import {PaginationService } from 'ng2-pagination';
@@ -18,7 +18,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [GlobalSettingsService, CleanDeliveryService, PaginationService, AccountService]
+    providers: [CleanDeliveryService, PaginationService, AccountService]
 
 })
 export class CleanDeliveryComponent implements OnInit {
@@ -29,26 +29,34 @@ export class CleanDeliveryComponent implements OnInit {
     currentConfigSort: string;
     rowCount: number = 10;
     filterOption: FilterOption = new FilterOption();
+    routeOption = new DropDownItem("Route", "routeNumber");
     options: DropDownItem[] = [
-        new DropDownItem("Route", "routeNumber"),
+        this.routeOption,
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
         new DropDownItem("Date", "dateTime")
     ];
     account: IAccount;
+    routeId: string;
+    selectedOption: DropDownItem;
+    selectedFilter: string;
 
     constructor(
         private cleanDeliveryService: CleanDeliveryService,
         private accountService: AccountService,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService) { }
 
     ngOnInit(): void {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.getDeliveries();
         this.currentConfigSort = '-dateTime';
         this.sortDirection(false);
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.routeId = params['route'];
+            this.getDeliveries();
+        });
     }
 
     ngOnDestroy() {
@@ -60,6 +68,12 @@ export class CleanDeliveryComponent implements OnInit {
             .subscribe(cleanDeliveries => {
                     this.cleanDeliveries = cleanDeliveries;
                     this.lastRefresh = Date.now();
+
+                    if (this.routeId) {
+                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
+                        this.selectedOption = this.routeOption;
+                        this.selectedFilter = this.routeId;
+                    }
                 },
                 error => this.lastRefresh = Date.now());
     }
@@ -84,7 +98,7 @@ export class CleanDeliveryComponent implements OnInit {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    @ViewChild(ContactModal) modal = new ContactModal();
+    @ViewChild(ContactModal) modal : ContactModal;
 
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)

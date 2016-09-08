@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE  [dbo].[UserGetByName]
-	@Name VARCHAR(255)
+﻿CREATE PROCEDURE  [dbo].[UserGetByIdentity]
+	@Identity VARCHAR(255)
 AS
 BEGIN
 
@@ -17,6 +17,6 @@ BEGIN
 		[DateUpdated],
 		[Version]
 	  FROM [dbo].[User]
-	  WHERE Name = @Name OR IdentityName = @Name
+	  WHERE IdentityName = @Identity
 
 END

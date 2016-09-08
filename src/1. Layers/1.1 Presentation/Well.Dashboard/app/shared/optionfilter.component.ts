@@ -32,4 +32,14 @@ export class OptionFilterComponent implements OnChanges {
     setSelectedOption(option: DropDownItem): void {
         this.selectedOption = option;
     }
+
+    @Input()
+    set setKnownOption(option: DropDownItem) {
+        if (option) this.setSelectedOption(option);
+    }
+
+    @Input()
+    set setKnownFilter(filter: string) {
+        if (filter) this.filterText = filter;
+    }
 }

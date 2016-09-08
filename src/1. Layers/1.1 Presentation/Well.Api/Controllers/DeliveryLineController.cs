@@ -15,22 +15,19 @@
 
     public class DeliveryLineController : BaseApiController
     {
-        private readonly ILogger logger;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IDeliveryService deliveryService;
 
         public DeliveryLineController(
-            ILogger logger,
             IServerErrorResponseHandler serverErrorResponseHandler,
             IJobDetailRepository jobDetailRepository,
             IDeliveryService deliveryService)
         {
-            this.logger = logger;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
             this.deliveryService = deliveryService;
-            this.jobDetailRepository.CurrentUser = UserName;
+            this.jobDetailRepository.CurrentUser = UserIdentityName;
         }
 
         [HttpPut]
@@ -39,7 +36,8 @@
         {
             try
             {
-                JobDetail jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNo);
+                var jobDetail = jobDetailRepository.GetByJobLine(model.JobId, model.LineNo);
+
                 if (jobDetail == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
@@ -68,14 +66,13 @@
                 }
                 jobDetail.JobDetailDamages = damages;
 
-                deliveryService.UpdateDeliveryLine(jobDetail, UserName);
+                deliveryService.UpdateDeliveryLine(jobDetail, UserIdentityName);
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
-                logger.LogError($"An error occcured when updating DeliveryLine", ex);
-                return serverErrorResponseHandler.HandleException(Request, ex);
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when updating DeliveryLine");
             }
         }
 

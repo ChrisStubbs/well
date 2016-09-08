@@ -12,7 +12,10 @@
     <div *ngIf="exceptions && exceptions.length">
         <div class="row">
             <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+                             (filterClicked)="onFilterClicked($event)"
+                             [setKnownOption]="selectedOption"
+                             [setKnownFilter]="selectedFilter">
+            </ow-optionfilter>
         </div>
         <div class="table-responsive table-container">
             <table id="tableExceptionDeliveries" class="table table-hover table-bordered">
@@ -48,7 +51,7 @@
                             <div class="btn-group">
                                 <div class="dropdown">
                                     <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm dropdown-toggle enabled-action" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
-                                    <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
+                                    <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm dropdown-toggle disabled-action" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
                                     <ul class="dropdown-menu" aria-labelledby="filter-option">
                                         <li *ngFor="let action of actions"><a (click)="setSelectedAction(delivery,action)"> {{action.description}}</a></li>
                                     </ul>

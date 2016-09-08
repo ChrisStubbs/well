@@ -5,10 +5,14 @@
 
     public interface IDeliveryReadRepository
     {
-        IEnumerable<Delivery> GetCleanDeliveries(string userName);
-        IEnumerable<Delivery> GetResolvedDeliveries(string userName);
-        IEnumerable<Delivery> GetExceptionDeliveries(string userName);
+        IEnumerable<Delivery> GetCleanDeliveries(string username);
+
+        IEnumerable<Delivery> GetResolvedDeliveries(string username);
+
+        IEnumerable<Delivery> GetExceptionDeliveries(string username);
+
         IEnumerable<DeliveryLine> GetDeliveryLinesByJobId(int id);
-        DeliveryDetail GetDeliveryById(int id);
+
+        DeliveryDetail GetDeliveryById(int id, string username);
     }
 }

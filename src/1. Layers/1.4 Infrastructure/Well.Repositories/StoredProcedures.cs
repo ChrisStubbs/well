@@ -2,11 +2,7 @@
 {
     public struct StoredProcedures
     {
-        //widgets
-        public static string WidgetStatsGet = "WidgetStats_Get";
-
         //route header
-        public static string RouteHeaderGetCleanDeliveries = "RouteHeader_GetCleanDeliveries";       
         public static string RouteHeadersGet = "RouteHeaders_Get";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public static string RoutesCreateOrUpdate = "Routes_CreateOrUpdate";
@@ -80,7 +76,7 @@
         public static string GetBranchesForUser = "GetBranchesForUser";
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
-        public static string UserGetByName = "UserGetByName";
+        public static string UserGetByIdentity = "UserGetByIdentity";
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
         public static string UnAssignJobToUser = "UserJob_Delete";

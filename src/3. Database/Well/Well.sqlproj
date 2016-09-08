@@ -107,13 +107,10 @@
     <Build Include="dbo\Tables\JobDetailAttribute.sql" />
     <Build Include="dbo\Tables\JobDetailDamage.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
-    <Build Include="dbo\StoredProcedures\WidgetStats_Get.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_GetCleanDeliveries.sql" />
     <Build Include="dbo\Tables\ExceptionAction.sql" />
     <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeaders_Get.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
-    <Build Include="dbo\Tables\WidgetStats.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
@@ -149,7 +146,7 @@
     <Build Include="dbo\StoredProcedures\BranchesGet.sql" />
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserBranch.sql" />
-    <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
+    <Build Include="dbo\StoredProcedures\UserGetByIdentity.sql" />
     <Build Include="dbo\StoredProcedures\UserSave.sql" />
     <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
     <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
@@ -204,7 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
-    <None Include="Post-Deployement\Populate-DefaultWidgetStats.sql" />
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
     <None Include="Post-Deployement\Populate-HolidayExceptions.sql" />
     <None Include="Post-Deployement\Populate-CustomerRoyalty.sql" />

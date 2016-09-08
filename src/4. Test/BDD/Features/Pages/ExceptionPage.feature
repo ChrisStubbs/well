@@ -17,9 +17,8 @@ Scenario: A user can view Exception Delivery Information
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
-
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |	
 
 Scenario: A user can filter Exception Delivery information
 	Given I have selected branch 22
@@ -27,12 +26,11 @@ Scenario: A user can filter Exception Delivery information
 	When I open the exception deliveries
 	And I filter the exception delivery grid with the option 'Route' and value '006'
 	Then the following exception deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status		|
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Incomplete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
 	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Incomplete |
-
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Incomplete |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
 
 	When I filter the exception delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following exception deliveries will be displayed
@@ -45,9 +43,8 @@ Scenario: A user can filter Exception Delivery information
 	When I filter the exception delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName | Status     |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
 	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Incomplete |
-	
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
 
 
 Scenario: A user can page through Exception Delivery information
@@ -65,7 +62,7 @@ Scenario: View exception details at lower level
 	Given I have selected branch 22
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
-	And I click on a exception row
+	And I click on exception row 4
 	Then I am shown the exception detail
 	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
 	| 1      | 4237    | Maltesers Tube 75g       | 80    | 0               | 0                | 0               | 0             |

@@ -7,8 +7,7 @@ import {WidgetService} from './widgetService';
 import {RefreshService} from '../shared/refreshService';
 
 @Component({
-    templateUrl: './app/home/widgets.html',
-    providers: [WidgetService]
+    templateUrl: './app/home/widgets.html'
 })
 
 export class WidgetComponent implements OnInit {

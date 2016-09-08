@@ -1,0 +1,23 @@
+﻿<div id="widgets" class="widget-container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <base-chart class="chart"
+                            [datasets]="lineChartData"
+                            [labels]="lineChartLabels"
+                            [options]="lineChartOptions"
+                            [colors]="lineChartColors"
+                            [legend]="lineChartLegend"
+                            [chartType]="lineChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></base-chart>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <button (click)="randomize()">Randomize!</button>
+        </div>
+    </div>
+</div>
+

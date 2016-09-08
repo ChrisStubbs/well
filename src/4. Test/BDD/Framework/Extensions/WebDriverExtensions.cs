@@ -44,20 +44,21 @@
         {
             var jsExecutor = driver as IJavaScriptExecutor;
             int count = 10;
+            Exception exception = null;
             while (count > 0)
             {
-                bool isReady = TryWaitForAngular2(jsExecutor);
-                if (isReady)
+                exception = TryWaitForAngular2(jsExecutor);
+                if (exception == null)
                 {
                     return;
                 }
                 Thread.Sleep(1000);
                 count--;
             }
-            throw new WebDriverTimeoutException("WebDriver timed out while waiting for Angular2");
+            throw new WebDriverTimeoutException("WebDriver timed out while waiting for Angular2", exception);
         }
 
-        public static bool TryWaitForAngular2(IJavaScriptExecutor jsExecutor)
+        public static Exception TryWaitForAngular2(IJavaScriptExecutor jsExecutor)
         {
             string WaitForAllAngular2 = 
                 @"  var callback = arguments[0];
@@ -75,11 +76,11 @@
             try
             {
                 jsExecutor.ExecuteAsyncScript(WaitForAllAngular2);
-                return true;
+                return null;
             }
-            catch
+            catch(Exception ex)
             {
-                return false;
+                return ex;
             }
         }
 

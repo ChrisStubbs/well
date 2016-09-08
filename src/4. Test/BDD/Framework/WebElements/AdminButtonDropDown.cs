@@ -10,7 +10,7 @@
     {
         public void Select()
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForAngular2();
             this.GetElement();
             this.Element.FindElement(By.Id("admin-dropdown-anchor")).Click();
 

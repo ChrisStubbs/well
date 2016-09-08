@@ -14,7 +14,7 @@
 
         public IEnumerable<IWebElement> RowElements()
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForAngular2();
 
             this.rowElements = this.GetElement().FindElements(this.RowLocator);
 

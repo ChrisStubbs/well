@@ -26,7 +26,7 @@
 
             wait.Until(d => d.Url.ToLowerInvariant().Contains(url.ToLowerInvariant()));
 
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForAngular2();
         }
 
         public void Open()

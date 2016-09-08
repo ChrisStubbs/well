@@ -37,7 +37,7 @@
 
         public List<IWebElement> GetBranchCheckboxElements()
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForAngular2();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 

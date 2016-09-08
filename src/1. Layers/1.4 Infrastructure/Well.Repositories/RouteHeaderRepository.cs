@@ -43,7 +43,12 @@
 
             return routeHeaders;
         }
-        
+
+        public IEnumerable<HolidayExceptions> HolidayExceptionGet()
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet)
+              .Query<HolidayExceptions>();
+        }
 
         public void RoutesDeleteById(int id)
         {
@@ -166,21 +171,37 @@
                 .Query<RouteAttributeException>();
         }
 
-
-        public void DeleteRouteHeaderById(int id)
+        public void RoutesDeleteById(int id, WellDeleteType deleteType)
         {
-            DeleteAttributesByRouteHeaderId(id);
+            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;;
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.RoutesDeleteById)
+                .AddParameter("RoutesId", id, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
+        }
+
+
+        public void DeleteRouteHeaderById(int id, WellDeleteType deleteType)
+        {
+            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
+
+            DeleteAttributesByRouteHeaderId(id, isSoftDelete);
             
 
             dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
-                .AddParameter("RouteheaderId", id, DbType.Int32).Execute();
+                .AddParameter("RouteheaderId", id, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
-        private void DeleteAttributesByRouteHeaderId(int routeHeaderId)
+        private void DeleteAttributesByRouteHeaderId(int routeHeaderId, bool isSoftDelete)
         {
 
             dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderAttributesDeleteByRouteheaderId)
-                .AddParameter("RouteheaderId", routeHeaderId, DbType.Int32).Execute();
+                .AddParameter("RouteheaderId", routeHeaderId, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
 

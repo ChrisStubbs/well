@@ -19,7 +19,8 @@
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
-	@DateUpdated			Datetime
+	@DateUpdated			Datetime,
+	@IsDeleted				BIT = 0
 
 AS
 BEGIN
@@ -43,11 +44,11 @@ INSERT INTO [dbo].[JobDetail]
            ,[SkuGoodsValue]
            ,[JobId]
            ,[JobDetailStatusId]
-           ,[IsDeleted]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
-           ,[DateUpdated])
+           ,[DateUpdated]
+		   ,[IsDeleted])
      VALUES
            (@LineNumber
            ,@Barcode
@@ -66,11 +67,11 @@ INSERT INTO [dbo].[JobDetail]
            ,@SkuGoodsValue
            ,@JobId
            ,@JobDetailStatusId
-           ,0
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy
-           ,@DateUpdated)
+           ,@DateUpdated
+		   ,@IsDeleted)
 		   
 SELECT CAST(SCOPE_IDENTITY() as int);
 END

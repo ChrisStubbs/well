@@ -17,6 +17,7 @@
 	[Latitude] FLOAT NOT NULL,
 	[Longitude] FLOAT NOT NULL,
 	[IsDropAndDrive] BIT NULL,
+	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[StopId] INT NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[CustomerRoyalException_Get]
+﻿CREATE PROCEDURE [dbo].[CustomerRoyalException_GetByRoyalty]
+	@RoyaltyId int
 AS
 BEGIN
 SELECT
@@ -12,4 +13,5 @@ SELECT
       ,[DateUpdated]
       ,[Version]
   FROM [dbo].[CustomerRoyaltyException]
+  WHERE [RoyaltyId] = @RoyaltyId
 END

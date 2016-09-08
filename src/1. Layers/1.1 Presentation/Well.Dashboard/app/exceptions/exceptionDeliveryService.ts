@@ -25,7 +25,7 @@ export class ExceptionDeliveryService {
 
         return this.http.get(url)
             .map((response: Response) => <ExceptionDelivery[]>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
+            //.do(data => console.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 

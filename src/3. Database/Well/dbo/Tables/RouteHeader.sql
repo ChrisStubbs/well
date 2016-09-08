@@ -24,6 +24,7 @@
 	[DamagesAccepted] INT NULL,
 	[NotRequired] INT NULL,
 	[Depot] INT NULL,
+	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

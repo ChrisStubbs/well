@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Domain;
+    using Domain.Enums;
     using Attribute = Domain.Attribute;
 
     public  interface IStopRepository : IRepository<Stop, int>
@@ -22,6 +23,6 @@
         Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate);
 
         Stop GetByJobId(int jobId);
-        void DeleteStopById(int id);
+        void DeleteStopById(int id, WellDeleteType deleteType);
     }
 }

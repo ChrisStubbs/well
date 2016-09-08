@@ -24,11 +24,19 @@
         private readonly IJobDetailDamageRepo jobDetailDamageRepo;
         private readonly ILogger logger;
         public string CurrentUser { get; set; }
+        public DateTime WellClearDate { get; set; }
+        public int WellClearMonths { get; set; }
 
         private readonly string assemblyName = "PH.Well.Services";
         private readonly string correctExtension = ".xml";
 
         public EpodFileType EpodType { get; set; }
+        private WellDeleteType JobDetailDeleteType { get; set; }
+        private WellDeleteType JobDeleteType { get; set; }
+        private WellDeleteType StopDeleteType { get; set; }
+        private WellDeleteType RouteHeaderDeleteType { get; set; }
+
+        
 
         public EpodDomainImportService(IRouteHeaderRepository routeHeaderRepository, ILogger logger,
             IStopRepository stopRepository, IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, 
@@ -391,34 +399,14 @@
             }
         }
 
-        /// <summary>
-        /// un-comment code when we have figured out the requirements for Royaly exception for now just return an unresolved status
-        /// </summary>
-        /// <param name="jobDetail"></param>
-        /// <param name="currentStopDate"></param>
-        /// <returns></returns>
-        private JobDetailStatus GetStatusForJobDetail(JobDetail jobDetail, DateTime currentStopDate)
-        {
-            /*
-            var currentDayDifference = ((TimeSpan) (DateTime.Now - currentStopDate)).Days;
-
-            if (currentDayDifference < 1 && jobDetail.JobDetailDamages.Count > 0)
-                return JobDetailStatus.UnRes;
-            */
-
-            return JobDetailStatus.UnRes;
-            
-        }
 
         public void GetRouteHeadersForDelete(ref string statusmessage)
         {
-
             try
             {
                 var currentRouteHeaders = this.routeHeaderRepository.GetRouteHeadersForDelete();
-
                 foreach (var routeheader in currentRouteHeaders)
-                {
+                {              
                     SoftDeleteJobDetail(routeheader);
                 }
 
@@ -437,9 +425,10 @@
             foreach (var route in routes)
             {
                 var routeheaders = routeHeaderRepository.GetRouteHeadersGetByRoutesId(route.Id);
+                this.RouteHeaderDeleteType = DeleteType(route.ImportDate);
 
-                if(!routeheaders.Any())
-                    this.routeHeaderRepository.RoutesDeleteById(route.Id);
+                if (!routeheaders.Any() || routeheaders.All(x=>x.IsDeleted))
+                    this.routeHeaderRepository.RoutesDeleteById(route.Id, RouteHeaderDeleteType);
 
             }
         }
@@ -448,74 +437,116 @@
         {
             var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
 
-            var royaltyExceptions = this.jobRepository.GetCustomerRoyaltyExceptions();
-
-            var customerRoyaltyExceptions = royaltyExceptions as CustomerRoyaltyException[] ?? royaltyExceptions.ToArray();
-
             foreach (var stop in stops)
             {
                 var stopJobs = this.jobRepository.GetByStopId(stop.Id);
 
                 foreach (var job in stopJobs)
                 {
-                    var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
+                    var jobDetailsForJob = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
 
-                    //var jobRoyaltyCode = job.TextField1.Substring(0, 4).TrimEnd();
-                  
+                    var jobRoyaltyCode = GetCustomerRoyaltyCode(job.TextField1);
+                    var noOutstandingJobRoyalty = DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
+                    JobDetailDeleteType = DeleteType(job.DateCreated);
+
                     foreach (var jobDetail in jobDetailsForJob)
                     {
-                        if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res)
-                            DeleteJobDetail(jobDetail.Id);
+                        if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res && noOutstandingJobRoyalty)
+                            DeleteJobDetail(jobDetail.Id, JobDetailDeleteType);
                     }
 
-                    CheckJobDetailsForJob(jobDetailsForJob, job.Id);
+                    CheckJobDetailsForJob(job);
                 }
 
-                CheckStopsForDelete(stop.Id);
+                CheckStopsForDelete(stop);
             }
 
-            CheckRouteheaderForDelete(routeHeader.Id);
+            CheckRouteheaderForDelete(routeHeader);
 
         }
 
-        private void DeleteJobDetail(int id)
+        private string GetCustomerRoyaltyCode(string jobTextField)
         {
-            this.jobDetailRepository.DeleteJobDetailById(id);
+            if (string.IsNullOrWhiteSpace(jobTextField))
+                return string.Empty;
+
+            var royaltyArray = jobTextField.Split(' ');
+            return royaltyArray[0];
+
         }
 
-        private void CheckJobDetailsForJob(IEnumerable<JobDetail> jobDetails, int jobId)
+        private bool DoesJobHaveCustomerRoyalty(string royalyCode, DateTime jobCreatedDate)
         {
-            var jobDetailList = jobDetails as IList<JobDetail> ?? jobDetails.ToList();
+            if (string.IsNullOrWhiteSpace(royalyCode))
+                return true;
+
+            var royaltyExceptions = this.jobRepository.GetCustomerRoyaltyExceptions().FirstOrDefault(x => x.RoyaltyId == int.Parse(royalyCode));
+            return CanJobBeDeletedToday(jobCreatedDate, royaltyExceptions);
+        }
+
+        private bool CanJobBeDeletedToday(DateTime jobCreatedDate, CustomerRoyaltyException royalException)
+        {
+            if (royalException == null)
+                return true;
+
+            var exceptionDays = royalException.ExceptionDays;
+            var currentDays = (WellClearDate - jobCreatedDate).TotalDays;
+
+            var exceptionDaysPassed = currentDays > exceptionDays;
+            return exceptionDaysPassed && !IsWeekendOrPublicHoliday();
+
+        }
+
+        private bool IsWeekendOrPublicHoliday()
+        {
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday || DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+                return true;
+
+            return routeHeaderRepository.HolidayExceptionGet().Any(x => x.ExceptionDate == WellClearDate);
+        }
+
+        private WellDeleteType DeleteType(DateTime compareDate)
+        {
+            var dateSpan = DateTimeSpan.CompareDates(compareDate, WellClearDate);
+            return dateSpan.Months < WellClearMonths ? WellDeleteType.SoftDelete : WellDeleteType.HardDelete;
+        }
+
+
+        private void DeleteJobDetail(int id, WellDeleteType deleteType)
+        {
+            this.jobDetailRepository.DeleteJobDetailById(id, deleteType);
+        }
+
+        private void CheckJobDetailsForJob(Job job)
+        {
+            var jobDetailList = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
+
+            this.JobDeleteType = DeleteType(job.DateCreated);
 
             if (jobDetailList.All(x=>x.IsDeleted) || !jobDetailList.Any())
-                this.jobRepository.DeleteJobById(jobId);
+                this.jobRepository.DeleteJobById(job.Id, JobDeleteType);
         }
 
-        private void CheckStopsForDelete(int stopId)
+        private void CheckStopsForDelete(Stop stop)
         {
-            var jobs = this.jobRepository.GetByStopId(stopId);
-            
-            if(!jobs.Any())
-                this.stopRepository.DeleteStopById(stopId);
+            var jobs = this.jobRepository.GetByStopId(stop.Id);
+
+            this.StopDeleteType = DeleteType(stop.DateCreated);
+
+            if (!jobs.Any() || jobs.All(x=>x.IsDeleted))
+                this.stopRepository.DeleteStopById(stop.Id, StopDeleteType);
         }
 
-        private void CheckRouteheaderForDelete(int routeHeaderId)
+        private void CheckRouteheaderForDelete(RouteHeader routeHeader)
         {
-            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeaderId);
+            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
 
-            if (!stops.Any())
-                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeaderId);
+            this.RouteHeaderDeleteType = DeleteType(routeHeader.DateCreated);
+
+            if (!stops.Any() || stops.All(x=>x.IsDeleted))
+                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.Id, RouteHeaderDeleteType);
         }
 
-        /// <summary>
-        /// Place holder ToDo when we figure out the rules concerning the royal exceptions
-        /// </summary>
-        /// <param name="royalException"></param>
-        /// <returns></returns>
-        //private bool CanJobBeDeletedToday(CustomerRoyaltyException royalException)
-        //{
-
-        //}
 
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
@@ -609,6 +640,7 @@
                         foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                         {
                             jobDetailDamage.JobDetailId = currentJobDetail.Id;
+                            jobDetailDamageRepo.CurrentUser = this.CurrentUser;
                             jobDetailDamageRepo.Save(jobDetailDamage);
                         }
                     }
@@ -686,12 +718,40 @@
 
         public void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation)
         {
-            if (File.Exists(Path.Combine(archiveLocation, fileNameWithoutPath)))
+
+            if (string.IsNullOrWhiteSpace(archiveLocation))
+                return;
+
+            var archiveSubFolder = CreateArchiveSubFolder(fileNameWithoutPath);
+            var finalArchivePath = Path.Combine(archiveLocation, archiveSubFolder);
+
+            CreateArchiveDirectory(finalArchivePath);
+
+            if (File.Exists(Path.Combine(finalArchivePath, fileNameWithoutPath)))
             {
-                File.Delete(Path.Combine(archiveLocation, fileNameWithoutPath));
+                File.Delete(Path.Combine(finalArchivePath, fileNameWithoutPath));
             }
 
-            File.Move(filename, Path.Combine(archiveLocation, fileNameWithoutPath));
+            File.Move(filename, Path.Combine(finalArchivePath, fileNameWithoutPath));
         }
+
+        private string CreateArchiveSubFolder(string fileNameWithoutPath)
+        {
+            var fileTypeIdent = GetFileTypeIdentifier(fileNameWithoutPath);
+            var fileType = GetEpodFileType(fileTypeIdent);
+
+            return StringExtensions.GetEnumDescription(fileType) + DateTime.Now.ToString("yyyyMMdd");
+
+        }
+
+        private void CreateArchiveDirectory(string directory)
+        {
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
+
+
     }
 }

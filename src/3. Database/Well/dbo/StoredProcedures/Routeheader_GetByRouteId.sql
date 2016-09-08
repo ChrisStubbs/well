@@ -25,6 +25,7 @@ AS
       ,[DamagesAccepted]
       ,[NotRequired]
       ,[Depot]
+	  ,[IsDeleted]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

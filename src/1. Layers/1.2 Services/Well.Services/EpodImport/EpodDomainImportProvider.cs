@@ -71,6 +71,8 @@
             var reader = new StreamReader(filename);
             epodDomainImportService.EpodType = epodType;
             epodDomainImportService.CurrentUser = "ePodDomainImport";
+            var filnameWithoutPath = filename.GetFilenameWithoutPath();
+            var archiveLocation = System.Configuration.ConfigurationManager.AppSettings["archiveLocation"];
 
             if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
             {
@@ -84,7 +86,7 @@
                 }
                 else
                 {
-                    epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+                    epodDomainImportService.AddRoutesEpodFile(routes, routesId);           
                 }
             }
             else
@@ -94,10 +96,20 @@
                 epodDomainImportService.AddAdamUpdateFile(orderUpdates, routesId);
             }
 
+
+
             reader.Close();
+
+            if (epodType == EpodFileType.RouteEpod || epodType == EpodFileType.OrderUpdate)
+                epodDomainImportService.CopyFileToArchive(filename, filnameWithoutPath, archiveLocation);
+
+
 
             logger.LogDebug($"File {filename} imported successfully");
 
         }
+
+
+
     }
 }

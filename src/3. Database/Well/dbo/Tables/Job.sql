@@ -13,6 +13,7 @@
 	[TextField2] VARCHAR(50) NULL,
 	[PerformanceStatusId] TINYINT NULL,
 	[ByPassReasonId] TINYINT NULL,
+	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[StopId] INT NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

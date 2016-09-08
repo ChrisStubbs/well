@@ -1,12 +1,11 @@
 ﻿namespace PH.Well.Domain
 {
-    using System;
-    using System.Diagnostics.Contracts;
-
-    public class CustomerRoyaltyException :Entity<int>
+    public class CustomerRoyaltyException : Entity<int>
     {
-        public short Royalty { get; set; }
+        public int RoyaltyId { get; set; }
 
         public string Customer { get; set; }
+
+        public int ExceptionDays { get; set; }
     }
 }

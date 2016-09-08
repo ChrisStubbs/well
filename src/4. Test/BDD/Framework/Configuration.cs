@@ -24,5 +24,7 @@
         public static string ApplicationId => ConfigurationManager.AppSettings["ApplicationId"];
 
         public static Driver Driver => (Driver)Enum.Parse(typeof(Driver), ConfigurationManager.AppSettings["WebDriver"]);
+
+        public static bool UseWaitForAngular2 => bool.Parse(ConfigurationManager.AppSettings["UseWaitForAngular2"]);
     }
 }

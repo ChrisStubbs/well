@@ -62,10 +62,11 @@
             Assert.That(ExceptionDeliveriesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
         }
 
-        [When(@"I click on a exception row")]
+        [When(@"I click on exception row 4")]
         public void ClickExceptionDetail()
         {
-            this.ExceptionDeliveriesPage.GetFirstCell().Click();
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            rows[3].GetItemInRowByClass("first-cell").Click();
         }
 
         [When(@"I select the assigned link on the first row")]

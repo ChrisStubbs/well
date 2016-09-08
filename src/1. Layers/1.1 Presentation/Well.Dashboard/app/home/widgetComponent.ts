@@ -42,14 +42,21 @@ export class WidgetComponent implements OnInit {
 
         let navigationExtras: NavigationExtras;
         let link: string = '';
-        switch(widgetName) {
-            case 'Assigned':
-            {
-                navigationExtras = {
-                    queryParams: { 'assignee': this.globalSettingsService.globalSettings.userName }
-                };
-                break;
-            }
+        switch (widgetName) {
+        case 'Assigned':
+        {
+            navigationExtras = {
+                queryParams: { 'assignee': this.globalSettingsService.globalSettings.userName }
+            };
+            break;
+        }
+        case 'Outstanding':
+        {
+            navigationExtras = {
+                queryParams: { 'outstanding': true }
+            };
+            break;
+        }
         }
 
         this.router.navigate([widgetLink], navigationExtras);

@@ -24,7 +24,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>07:03</PlannedArriveTime>
           <PlannedDepartTime>08:03</PlannedDepartTime>
-          <TransportOrderRef>001 01 49214.152 07/09/2016</TransportOrderRef>
+          <TransportOrderRef>001 01 49214.152 08/10/2016</TransportOrderRef>
           <SpecialInstructions>Access at rear only</SpecialInstructions>
           <StartWindow>07:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -338,7 +338,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>08:32</PlannedArriveTime>
           <PlannedDepartTime>09:29</PlannedDepartTime>
-          <TransportOrderRef>001 02 02874.033 07/09/2016</TransportOrderRef>
+          <TransportOrderRef>001 02 02874.033 03/10/2016</TransportOrderRef>
           <SpecialInstructions>Please do not be late</SpecialInstructions>
           <StartWindow>08:00</StartWindow>
           <EndWindow>10:00</EndWindow>

@@ -20,8 +20,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -225,7 +227,7 @@
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\confirmModal.html" />
-    <Content Include="app\shared\optionfilter.component.html" />
+    <Content Include="app\shared\optionFilter.html" />
     <Content Include="app\home\widgets.html" />
     <Content Include="app\user_preferences\user-preference-modal.html" />
     <Content Include="app\user_preferences\user-preferences.html" />
@@ -339,7 +341,7 @@
     <TypeScriptCompile Include="app\account\account.ts" />
     <TypeScriptCompile Include="app\account\accountComponent.ts" />
     <TypeScriptCompile Include="app\account\accountService.ts" />
-    <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\appModule.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\appRoutes.ts" />
     <TypeScriptCompile Include="app\branch\Branch.ts" />
@@ -375,16 +377,16 @@
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
+    <TypeScriptCompile Include="app\shared\outstandingPipe.ts" />
     <TypeScriptCompile Include="app\shared\orderby-arrow.ts" />
     <TypeScriptCompile Include="app\shared\orderByDatePipe.ts" />
-    <TypeScriptCompile Include="app\shared\orderBy.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
     <TypeScriptCompile Include="app\shared\refreshService.ts" />
     <TypeScriptCompile Include="app\shared\user.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
     <TypeScriptCompile Include="app\shared\confirmModal.ts" />
-    <TypeScriptCompile Include="app\shared\optionfilter.component.ts" />
+    <TypeScriptCompile Include="app\shared\optionFilterComponent.ts" />
     <TypeScriptCompile Include="app\shared\filterOption.ts" />
     <TypeScriptCompile Include="app\shared\optionFilterPipe.ts" />
     <TypeScriptCompile Include="app\stops\stops.ts" />

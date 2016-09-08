@@ -47,6 +47,24 @@ Scenario: A user can filter Exception Delivery information
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
 
 
+Scenario: A user can view Exception Delivery Information and sort on updated date
+	Given I have selected branch 22
+	And  3 deliveries have been marked as exceptions
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | LastUpdatedDateTime     |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |	
+	When I click on the orderby Triangle image in the exceptions deliveries grid
+	Then The following exceptions ordered by date will be displayed in 'desc' order
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | LastUpdatedDateTime     |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
+
+
+
 Scenario: A user can page through Exception Delivery information
 	Given I have selected branch 22
 	And  All the deliveries are marked as exceptions

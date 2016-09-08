@@ -162,6 +162,7 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\Image.cs" />
     <Compile Include="Framework\WebElements\SpanElement.cs" />
     <Compile Include="Framework\WebElements\UserPrefrencesButtonDropDown.cs" />
     <Compile Include="Framework\WebElements\AdminButtonDropDown.cs" />

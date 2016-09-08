@@ -22,6 +22,32 @@
             this.CleanDeliveriesPage.Filter.Apply(option, value);
         }
 
+        [When(@"I click on the orderby Triangle image in the clean deliveries grid")]
+        public void WhenIClickOnTheOrderbyTriangleImageInTheCleanDeliveries()
+        {
+            this.CleanDeliveriesPage.OrderByButton.Click();
+        }
+
+
+        [Then(@"The following clean deliveries ordered by date will be displayed in '(.*)' order")]
+        public void ThenTheFollowingCleanDeliveriesOrderedByDateWillBeDisplayedInOrder(string direction, Table table)
+        {
+             var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+
+            pageRows.Reverse(0, pageRows.Count);
+
+            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
+                // Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
+            }
+        }
+
 
         [Then(@"the following clean deliveries will be displayed")]
         public void ThenTheFollowingCleanDeliveriesWillBeDisplayed(Table table)
@@ -38,6 +64,9 @@
                // Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
             }
         }
+
+
+
 
         [When(@"I click on clean delivery page (.*)")]
         public void WhenIClickOnCleanDeliveryPage(int pageNo)

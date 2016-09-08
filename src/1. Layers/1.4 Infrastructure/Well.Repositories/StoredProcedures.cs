@@ -19,6 +19,7 @@
         public static string RoutesGet = "Routes_Get";
         public static string RoutesDeleteById = "Routes_DeleteById";
         public static string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
+        public static string HolidayExceptionGet = "HolidayException_Get";
 
 
         //Stops
@@ -45,6 +46,9 @@
         public static string JobGetByStopId = "Job_GetByStopId";
         public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
+        public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
+        public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
+        public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
@@ -53,6 +57,7 @@
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailArttributesDeleteByJobDetailId = "JobDetailArttributes_DeleteByJobDetailId";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
+        public static string JobDetailGetByJobId = "JobDetail_GetByJobId";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";

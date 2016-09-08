@@ -1,7 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[CustomerRoyalException_Get]
 AS
 BEGIN
-SELECT[RoyaltyId]
+SELECT
+	   [Id]
+	  ,[RoyaltyId]
       ,[Customer]
       ,[ExceptionDays]
       ,[CreatedBy]

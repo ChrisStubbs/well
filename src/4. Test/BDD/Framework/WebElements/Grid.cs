@@ -14,7 +14,7 @@
 
         public IEnumerable<IWebElement> RowElements()
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForJavascript();
 
             this.rowElements = this.GetElement().FindElements(this.RowLocator);
 

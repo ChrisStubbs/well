@@ -14,9 +14,7 @@ BEGIN
 		j.JobRef1 as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
 		ps.Description as JobStatus,
-		s.DeliveryDate  as [DateTime],
-		null as Action,
-		null as Reason, 
+		s.DeliveryDate,
 		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
 		b.Id as BranchId,

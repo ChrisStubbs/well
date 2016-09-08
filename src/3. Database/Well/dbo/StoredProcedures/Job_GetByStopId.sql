@@ -14,6 +14,7 @@ AS
       ,[TextField2]
       ,[PerformanceStatusId]
       ,[ByPassReasonId]
+	  ,[IsDeleted]
       ,[StopId]
       ,[CreatedBy]
       ,[DateCreated]

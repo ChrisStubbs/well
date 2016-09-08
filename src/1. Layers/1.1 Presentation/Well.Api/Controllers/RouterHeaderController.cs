@@ -6,7 +6,7 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-
+    using Domain;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Security;
 
@@ -35,7 +35,7 @@
         {
             try
             {
-                var routeHeaders = this.routeRepository.GetRouteHeaders().ToArray();
+                RouteHeader[] routeHeaders = this.routeRepository.GetRouteHeaders().ToArray();
                 if (!routeHeaders.Any()) return this.Request.CreateResponse(HttpStatusCode.NotFound);
                 var routes = routeModelsMapper.Map(routeHeaders);
 

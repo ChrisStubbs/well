@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Globalization;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
@@ -55,7 +56,7 @@
             stop.RouteHeaderCode = transportOrderDetails[0];
             stop.DropId = transportOrderDetails[1];
             stop.LocationId = transportOrderDetails[2];
-            stop.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
+            stop.DeliveryDate = DateTime.ParseExact(transportOrderDetails[3], "dd/MM/yyyy", new DateTimeFormatInfo());
 
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate)
                 .AddParameter("Id", stop.Id, DbType.Int32)
@@ -147,31 +148,40 @@
             return stop;
         }
 
-        public void DeleteStopById(int id)
+        public void DeleteStopById(int id, WellDeleteType deleteType)
         {
-            DeleteAttributesByStopId(id);
-            AccountDeleteByStopId(id);
+            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
+
+            DeleteAttributesByStopId(id, isSoftDelete);
+            AccountDeleteByStopId(id, isSoftDelete);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.StopDeleteById)
-                .AddParameter("Id", id, DbType.Int32).Execute();
+                .AddParameter("Id", id, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
-        private void DeleteAttributesByStopId(int stopId)
+        private void DeleteAttributesByStopId(int stopId, bool isSoftDelete)
         {
 
             dapperProxy.WithStoredProcedure(StoredProcedures.StopAttributesDeletedByStopId)
-                .AddParameter("StopId", stopId, DbType.Int32).Execute();
+                .AddParameter("StopId", stopId, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
-        private void AccountDeleteByStopId(int stopId)
+        private void AccountDeleteByStopId(int stopId, bool isSoftDelete)
         {
 
             dapperProxy.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId)
-                .AddParameter("StopId", stopId, DbType.Int32).Execute();
+                .AddParameter("StopId", stopId, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
 
-        
+
+
 
     }
 }

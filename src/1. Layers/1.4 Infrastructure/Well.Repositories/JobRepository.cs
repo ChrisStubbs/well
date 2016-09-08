@@ -34,8 +34,6 @@
                     .Query<Job>();
         }
 
-        
-
         public IEnumerable<CustomerRoyaltyException>  GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =
@@ -43,6 +41,38 @@
                     .Query<CustomerRoyaltyException>();
 
             return customerRoyaltyException;
+        }
+
+        public CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty)
+        {
+            var customerRoyaltyException =
+                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGetByRoyalty)
+                .AddParameter("RoyaltyId", royalty, DbType.String)
+                    .Query<CustomerRoyaltyException>();
+
+            return customerRoyaltyException.FirstOrDefault();
+        }
+
+
+        
+
+        public void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionInsert)
+               .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
+               .AddParameter("Customer", royaltyException.Customer, DbType.String)
+               .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
+               .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
+        }
+
+        public void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionUpdate)
+                .AddParameter("Id", royaltyException.Id, DbType.Int32)
+               .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
+               .AddParameter("Customer", royaltyException.Customer, DbType.String)
+               .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
+                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
         public Job JobGetByRefDetails(string ref1, string ref2, int stopId)
@@ -104,18 +134,24 @@
             return job;
         }
 
-        public void DeleteJobById(int id)
+        public void DeleteJobById(int id, WellDeleteType deleteType)
         {
-            DeleteJobAttributesJobById(id);
+            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
+
+            DeleteJobAttributesJobById(id, isSoftDelete);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)
-                .AddParameter("JobId", id, DbType.Int32).Execute();
+                .AddParameter("JobId", id, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
-        private void DeleteJobAttributesJobById(int id)
+        private void DeleteJobAttributesJobById(int id, bool isSoftDelete)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById)
-                .AddParameter("JobId", id, DbType.Int32).Execute();
+                .AddParameter("JobId", id, DbType.Int32)
+                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
+                .Execute();
         }
 
         public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)
@@ -124,6 +160,8 @@
                    .AddParameter("PDACreditReasonId", pdaCreditReasonId, DbType.Int32)
                    .Query<PodActionReasons>();
         }
+
+
 
 
     }

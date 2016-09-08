@@ -94,22 +94,22 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table1.AddRow(new string[] {
                         "001",
-                        "02",
-                        "92874.033",
-                        "2874.033",
-                        "RVS SHOP"});
-            table1.AddRow(new string[] {
-                        "001",
-                        "01",
-                        "92874.033",
-                        "2874.033",
-                        "CSG - must be CF van"});
-            table1.AddRow(new string[] {
-                        "001",
                         "01",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van"});
+            table1.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "92874.033",
+                        "2874.033",
+                        "CSG - must be CF van"});
+            table1.AddRow(new string[] {
+                        "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP"});
 #line 15
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table1, "Then ");
 #line hidden
@@ -144,16 +144,10 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table2.AddRow(new string[] {
                         "006",
-                        "02",
-                        "954107.000",
-                        "54107.000",
-                        "WB - SHELL FORECOURT"});
-            table2.AddRow(new string[] {
-                        "006",
-                        "02",
-                        "954107.000",
-                        "54107.000",
-                        "WB - SHELL FORECOURT"});
+                        "01",
+                        "943362.048",
+                        "43362.048",
+                        "WB - SHOP"});
             table2.AddRow(new string[] {
                         "006",
                         "01",
@@ -162,13 +156,19 @@ this.ScenarioSetup(scenarioInfo);
                         "WB - SHOP"});
             table2.AddRow(new string[] {
                         "006",
-                        "01",
-                        "943362.048",
-                        "43362.048",
-                        "WB - SHOP"});
+                        "02",
+                        "954107.000",
+                        "54107.000",
+                        "WB - SHELL FORECOURT"});
+            table2.AddRow(new string[] {
+                        "006",
+                        "02",
+                        "954107.000",
+                        "54107.000",
+                        "WB - SHELL FORECOURT"});
 #line 29
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table2, "Then ");
-#line 38
+#line 37
  testRunner.When("I filter the clean delivery grid with the option \'Invoice No\' and value \'949214.1" +
                     "52\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -184,9 +184,9 @@ this.ScenarioSetup(scenarioInfo);
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van"});
-#line 39
+#line 38
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table3, "Then ");
-#line 42
+#line 41
  testRunner.When("I filter the clean delivery grid with the option \'Account\' and value \'28398.080\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -201,9 +201,9 @@ this.ScenarioSetup(scenarioInfo);
                         "928398.080",
                         "28398.080",
                         "TESCO EXPRESS"});
-#line 43
+#line 42
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table4, "Then ");
-#line 46
+#line 45
  testRunner.When("I filter the clean delivery grid with the option \'Account Name\' and value \'WB - S" +
                     "HOP\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -216,16 +216,16 @@ this.ScenarioSetup(scenarioInfo);
             table5.AddRow(new string[] {
                         "006",
                         "01",
-                        "92874.033",
-                        "2874.033",
+                        "943362.048",
+                        "43362.048",
                         "WB - SHOP"});
             table5.AddRow(new string[] {
                         "006",
                         "01",
-                        "943362.048",
-                        "43362.048",
+                        "92874.033",
+                        "2874.033",
                         "WB - SHOP"});
-#line 47
+#line 46
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table5, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -236,27 +236,28 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanPageThroughCleanDeliveryInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Clean Delivery information", ((string[])(null)));
-#line 52
+#line 51
+#line 50
 this.ScenarioSetup(scenarioInfo);
-#line 53
+#line 51
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 54
+#line 52
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 55
+#line 53
  testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 56
+#line 54
  testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 57
+#line 55
  testRunner.When("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 58
+#line 56
  testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 59
+#line 57
  testRunner.And("I will have 2 pages of clean delivery data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 60
+#line 58
  testRunner.When("I click on clean delivery page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 61
+#line 59
  testRunner.Then("\'7\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 62
+#line 60
  testRunner.When("I click on clean delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 63
  testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

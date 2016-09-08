@@ -26,7 +26,7 @@
                     <th>Status</th>
                     <th>Action</th>
                     <th>Assigned</th>
-                    <th>Date/Time</th>
+                    <th>Date/Time<a style="text-decoration:none;display:inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +42,7 @@
                     <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.action}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.dateTime}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'medium'}}</td>
                 </tr>
                 </tbody>
             </table>

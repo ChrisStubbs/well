@@ -26,7 +26,7 @@
         {
             try
             {
-                this.Driver.WaitForAjax();
+                this.Driver.WaitForJavascript();
 
                 var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 

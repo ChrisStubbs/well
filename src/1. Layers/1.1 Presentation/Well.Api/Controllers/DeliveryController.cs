@@ -1,11 +1,13 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
+    using Domain.ValueObjects;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Security;
 
@@ -54,7 +56,7 @@
         {
             try
             {
-                var cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
+                List<Delivery> cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)

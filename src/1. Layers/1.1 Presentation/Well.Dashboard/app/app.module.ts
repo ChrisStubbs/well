@@ -27,8 +27,10 @@ import {ConfirmModal} from "./shared/confirmModal";
 import {ContactModal} from "./shared/contact-modal";
 import {OptionFilterComponent} from './shared/optionfilter.component';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
-import {OrderBy} from "./shared/orderBy";
+import {OrderByDatePipe} from "./shared/orderByDatePipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
+import {OrderArrowComponent} from './shared/orderby-arrow';
+import AppRoutes = require("./appRoutes");
 
 import {BranchService} from './branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
@@ -37,13 +39,13 @@ import {RefreshService} from './shared/refreshService';
 
 
 @NgModule({
-    declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderBy,
+    declarations: [OptionFilterComponent, OptionFilterPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent],
-    imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, appRouterProviders],
+        AppComponent, OrderArrowComponent],
+    imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, AppRoutes.appRouterProviders],
     providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService],
     bootstrap: [AppComponent]
 })

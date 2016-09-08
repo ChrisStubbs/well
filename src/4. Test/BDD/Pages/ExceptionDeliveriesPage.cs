@@ -38,7 +38,7 @@
 
         public IWebElement GetFirstCell()
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForJavascript();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
@@ -49,7 +49,7 @@
 
         public IWebElement GetFirstAssignUserFromModal()
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForJavascript();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
@@ -60,7 +60,7 @@
 
         public int GetCountOfElements(string className)
         {
-            this.Driver.WaitForAjax();
+            this.Driver.WaitForJavascript();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 

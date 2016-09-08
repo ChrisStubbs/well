@@ -13,10 +13,10 @@ Scenario: A user can view Clean Delivery Information
 	And  3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | 
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | 
+	| Route | Drop | InvoiceNo  | Account   | AccountName          |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | 
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             |
 
 
 Scenario: A user can filter Clean Delivery information
@@ -28,12 +28,10 @@ Scenario: A user can filter Clean Delivery information
 	And I filter the clean delivery grid with the option 'Route' and value '006'
 	Then the following clean deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            |
 	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            |
-
-	
+	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT |
+	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT |	
 
 	When I filter the clean delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following clean deliveries will be displayed
@@ -45,9 +43,9 @@ Scenario: A user can filter Clean Delivery information
 	| 011   | 05   | 928398.080 | 28398.080 | TESCO EXPRESS | 
 	When I filter the clean delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following clean deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName | 
+	| Route | Drop | InvoiceNo  | Account   | AccountName |
+	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   |  
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | 
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | 
 
 Scenario: A user can page through Clean Delivery information
 	Given I have a clean database

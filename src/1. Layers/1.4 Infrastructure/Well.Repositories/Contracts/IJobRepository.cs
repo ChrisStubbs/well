@@ -15,7 +15,10 @@
         Job JobGetByRefDetails(string ref1, string ref2, int stopId);
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
         IEnumerable<Job> GetByStopId(int id);
-        void DeleteJobById(int id);
+        void DeleteJobById(int id, WellDeleteType deleteType);
         IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId);
+        void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
+        void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
+        CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
     }
 }

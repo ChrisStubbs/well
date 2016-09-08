@@ -18,7 +18,7 @@
 
         public string JobStatus { get; set; }
 
-        public string DateTime { get; set; }
+        public DateTime DeliveryDate { get; set; }
 
         public string Reason { get; set; }
 

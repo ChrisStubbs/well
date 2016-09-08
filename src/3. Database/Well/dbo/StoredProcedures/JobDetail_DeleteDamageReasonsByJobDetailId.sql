@@ -1,5 +1,19 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_DeleteDamageReasonsByJobDetailId]
-	@JobDetailId int 
+	@JobDetailId int,
+	@IsSoftDelete bit
 AS
-	DELETE FROM JobDetailDamage WHERE JobDetailId = @JobDetailId
+
+	IF @IsSoftDelete = 1
+	BEGIN
+		UPDATE JobDetailDamage 
+		SET IsDeleted = 1
+		WHERE JobDetailId = @JobDetailId
+	END
+	ELSE
+	BEGIN
+		DELETE FROM JobDetailDamage WHERE JobDetailId = @JobDetailId
+	END
+
+
+	
 RETURN 0

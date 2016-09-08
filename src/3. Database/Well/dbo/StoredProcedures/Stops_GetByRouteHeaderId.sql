@@ -19,6 +19,8 @@ SELECT
       ,[TextField2]
       ,[TextField3]
       ,[TextField4]
+	  ,[DateCreated]
+	  ,[IsDeleted]
 FROM 
 	  [dbo].[Stop]
 WHERE 

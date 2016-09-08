@@ -24,18 +24,18 @@
                     <th>Exceptions</th>
                     <th>Clean</th>
                     <th>Status</th>
-                    <th>Last updated date/time<a style="text-decoration: none; display: inline;"><span class="glyphicon glyphicon-arrow-up sorticon" (click)="sortDirection(true)"></span></a><a style="text-decoration: none; display: inline;"><span class="glyphicon glyphicon-arrow-down" (click)="sortDirection(false)"></span></a></th>
+                        <th>Last updated date/time<a style="text-decoration:none;display:inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p } | orderBy : currentConfigSort" (click)="routeSelected(route)">
+                <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p } " (click)="routeSelected(route)">
                     <td>{{route.route}}</td>
                     <td>{{route.driverName}}</td>
                     <td>{{route.totalDrops}}</td>
                     <td>{{route.deliveryExceptionCount}}</td>
                     <td>{{route.deliveryCleanCount}}</td>
                     <td>{{route.routeStatus}}</td>
-                    <td>{{route.dateTimeUpdated}}</td>
+                    <td>{{route.dateTimeUpdated | date: 'medium'}}</td>
                 </tr>
                 </tbody>
             </table>

@@ -53,7 +53,7 @@ export class WidgetComponent implements OnInit {
         case 'Outstanding':
         {
             navigationExtras = {
-                queryParams: { 'date': this.globalSettingsService.globalSettings.userName }
+                queryParams: { 'outstanding': true }
             };
             break;
         }

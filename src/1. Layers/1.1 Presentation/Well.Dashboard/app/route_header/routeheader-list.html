@@ -11,8 +11,10 @@
     </div>
     <div *ngIf='routes && routes.length'>
         <div class="row">
-            <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            </div>
         </div>
         <div class="table-responsive table-container">
             <table id="tableRoutes" class="table table-hover table-bordered">

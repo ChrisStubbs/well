@@ -10,11 +10,13 @@
     </div>
     <div *ngIf="cleanDeliveries && cleanDeliveries.length">
         <div class="row">
-            <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"
-                             [setKnownOption]="selectedOption"
-                             [setKnownFilter]="selectedFilter">
-            </ow-optionfilter>
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"
+                                 [setKnownOption]="selectedOption"
+                                 [setKnownFilter]="selectedFilter">
+                </ow-optionfilter>
+            </div>
         </div>
 
         <div class="table-responsive table-container">

@@ -4,7 +4,7 @@ import {DropDownItem} from "./dropDownItem";
 
 @Component({
     selector: "ow-optionfilter",
-    templateUrl: "app/shared/optionfilter.component.html"
+    templateUrl: "app/shared/optionFilter.html"
 })
 export class OptionFilterComponent implements OnChanges {
 
@@ -12,6 +12,7 @@ export class OptionFilterComponent implements OnChanges {
 
     @Input() options: DropDownItem[];
     filterText: string;
+    inputPlaceholder: string = "";
     selectedOption: DropDownItem = this.defaultOption;
     @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
 
@@ -31,6 +32,11 @@ export class OptionFilterComponent implements OnChanges {
 
     setSelectedOption(option: DropDownItem): void {
         this.selectedOption = option;
+        if (option.description == "Date") {
+            this.inputPlaceholder = "dd/mm/yyyy";
+        } else {
+            this.inputPlaceholder = "";
+        }
     }
 
     @Input()

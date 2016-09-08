@@ -10,8 +10,10 @@
     </div>
     <div *ngIf='deliveries && deliveries.length'>
         <div class="row">
-            <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            </div>
         </div>
         <div class="table-responsive table-container">
             <table id="tableResolvedDeliveries" class="table table-hover table-bordered">

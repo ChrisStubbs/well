@@ -1,4 +1,5 @@
 ﻿@WebDriverFeature
+@RoleSuperUser
 Feature: CleanPage
 	As a user
 	I wish to be able to view and filter clean delivery information

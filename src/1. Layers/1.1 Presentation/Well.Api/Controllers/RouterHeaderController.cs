@@ -8,9 +8,11 @@
     using Common.Contracts;
     using Domain;
     using PH.Well.Api.Mapper.Contracts;
+    using PH.Well.Common.Security;
 
     using Repositories.Contracts;
 
+    [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
     public class RouteController : BaseApiController
     {
         private readonly IRouteHeaderRepository routeRepository;

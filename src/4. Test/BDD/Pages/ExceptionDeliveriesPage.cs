@@ -19,6 +19,7 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
+            this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
         }
 
         protected override string UrlSuffix => "exceptions";
@@ -32,6 +33,8 @@
         public PagerControl Pager { get; set; }
 
         public Button EnabledButton { get; set; }
+
+        public Heading DeliveryUpdateDrillDown { get; set; }
 
         public IWebElement GetFirstCell()
         {

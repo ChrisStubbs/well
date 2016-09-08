@@ -1,6 +1,4 @@
-﻿using PH.Well.Domain.ValueObjects;
-
-namespace PH.Well.Api.Controllers
+﻿namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Linq;
@@ -10,9 +8,10 @@ namespace PH.Well.Api.Controllers
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
+    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
-
+    
     public class UserController : BaseApiController
     {
         private readonly IBranchService branchService;

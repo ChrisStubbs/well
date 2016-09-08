@@ -62,7 +62,7 @@
             Assert.That(ExceptionDeliveriesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
         }
 
-        [When(@"I click on exception row 4")]
+        [When(@"I click on exception row")]
         public void ClickExceptionDetail()
         {
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
@@ -116,9 +116,13 @@
 
             var rows = this.ExceptionDeliveriesPage.ExceptionsDrillDownGrid.ReturnAllRows().ToList();
 
-            var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
+            rows[0].Click();
 
-            Assert.That(updateableRows, Is.EqualTo(rows.Count()));
+            Thread.Sleep(2000);
+
+            var updateable = this.ExceptionDeliveriesPage.DeliveryUpdateDrillDown;
+
+            Assert.IsNotNull(updateable);
         }
 
         [When(@"I select a user to assign")]

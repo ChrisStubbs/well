@@ -9,6 +9,7 @@
     using Models;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Contracts;
+    using PH.Well.Common.Security;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
@@ -83,6 +84,7 @@
             }
         }
 
+        [Authorize(Roles = SecurityPermissions.UserBranchPreferences)]
         [Route("save-branches-on-behalf-of-user")]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches, string username, string domain)

@@ -1,4 +1,5 @@
 ﻿@WebDriverFeature
+@RoleSuperUser
 Feature: Edit delivery line
 	As a customer service agent
 	I wish to be able to edit short qtys and damages on deliveries 

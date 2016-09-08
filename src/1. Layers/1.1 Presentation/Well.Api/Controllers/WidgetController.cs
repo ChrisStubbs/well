@@ -9,6 +9,8 @@
     using Common.Contracts;
     using Models;
 
+    using PH.Well.Common.Security;
+
     public class WidgetController : BaseApiController
     {
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
@@ -18,13 +20,13 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
+        [Authorize(Roles = SecurityPermissions.LandingPage)]
         [Route("widgets")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
             try
             {
-                
                 var widgets = new List<WidgetModel>()
                 {
                     new WidgetModel()

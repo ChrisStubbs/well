@@ -1,4 +1,5 @@
 ﻿@WebDriverFeature
+@RoleSuperUser
 Feature: Branch
 	In order to view the branch deliveries
 	As a well user

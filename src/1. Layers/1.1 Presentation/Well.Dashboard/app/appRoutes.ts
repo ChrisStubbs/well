@@ -11,10 +11,12 @@ import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetComponent} from './home/widgetComponent';
+import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
+    { path: 'unauthorised', component: UnauthorisedComponent },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },

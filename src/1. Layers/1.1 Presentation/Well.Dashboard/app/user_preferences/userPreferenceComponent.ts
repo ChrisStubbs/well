@@ -7,6 +7,8 @@ import {User} from './user';
 import {UserPreferenceService} from './userPreferenceService';
 import {PaginationService } from 'ng2-pagination';
 import {UserPreferenceModal} from './userPreferenceModalComponent';
+import {SecurityService} from '../shared/security/security-service';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({
     selector: 'ow-user-preferences',
@@ -19,7 +21,11 @@ export class UserPreferenceComponent {
     users: Array<User> = [];
     rowCount = 10;
 
-    constructor(private userPreferenceService: UserPreferenceService, private router: Router) {
+    constructor(private globalSettingsService: GlobalSettingsService,
+        private userPreferenceService: UserPreferenceService,
+        private router: Router,
+        private securityService: SecurityService) {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.userBranchPreferences);
     }
 
     @ViewChild(UserPreferenceModal) modal : UserPreferenceModal;

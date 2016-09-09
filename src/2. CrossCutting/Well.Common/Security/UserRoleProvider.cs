@@ -4,7 +4,9 @@
     using System.Linq;
     using NLog;
 
-    public class UserRoleProvider : System.Web.Security.RoleProvider
+    using PH.Well.Common.Contracts;
+
+    public class UserRoleProvider : System.Web.Security.RoleProvider, IUserRoleProvider
     {
         private const string CacheKey = "ph.orderwell";
 

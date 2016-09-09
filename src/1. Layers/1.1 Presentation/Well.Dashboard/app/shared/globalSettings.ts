@@ -3,40 +3,38 @@ import {Http, Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
 
-export interface IGlobalSettings {
+export class GlobalSettings {
     apiUrl: string;
     version: string;
     userName: string;
     identityName: string;
+    permissions: string[];
 }
 
 @Injectable()
 export class GlobalSettingsService {
-    globalSettings: IGlobalSettings;
+    globalSettings: GlobalSettings;
 
-    constructor(
-        private _http: Http,
-        private httpErrorService: HttpErrorService) {
+    constructor(private _http: Http, private httpErrorService: HttpErrorService) {
         var configuredApiUrl = "#{OrderWellApi}"; //This variable can be replaced by Octopus during deployment :)
-        this.globalSettings =
-        {
-            apiUrl: (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/",
-            version: "",
-            userName: "",
-            identityName: ""
-        };
+        this.globalSettings = new GlobalSettings();
+        this.globalSettings.apiUrl = (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/";
+        this.globalSettings.version = "";
+        this.globalSettings.userName = "";
+        this.globalSettings.identityName = "";
     }
 
-    public getSettings(): Observable<IGlobalSettings> {
+    public getSettings(): Observable<GlobalSettings> {
         return this._http.get(this.globalSettings.apiUrl + 'global-settings')
-            .map((response: Response) => this.mapSettings(<IGlobalSettings>response.json()))
+            .map((response: Response) => this.mapSettings(<GlobalSettings>response.json()))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    private mapSettings(settings: IGlobalSettings): IGlobalSettings {
+    private mapSettings(settings: GlobalSettings): GlobalSettings {
         this.globalSettings.version = settings.version;
         this.globalSettings.userName = settings.userName;
         this.globalSettings.identityName = settings.identityName;
+        this.globalSettings.permissions = settings.permissions;
         return this.globalSettings;
     }
 

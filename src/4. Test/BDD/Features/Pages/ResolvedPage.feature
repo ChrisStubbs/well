@@ -1,4 +1,5 @@
 ﻿@WebDriverFeature
+@RoleSuperUser
 Feature: Resolved Delivery Page
 	As a user
 	I wish to be able to view and filter resolved delivery information

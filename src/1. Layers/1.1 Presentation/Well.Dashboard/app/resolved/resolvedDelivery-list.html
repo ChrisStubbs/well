@@ -10,8 +10,10 @@
     </div>
     <div *ngIf='deliveries && deliveries.length'>
         <div class="row">
-            <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            </div>
         </div>
         <div class="table-responsive table-container">
             <table id="tableResolvedDeliveries" class="table table-hover table-bordered">
@@ -42,7 +44,7 @@
                     <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.action}}</td>
                     <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'medium'}}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
                 </tr>
                 </tbody>
             </table>

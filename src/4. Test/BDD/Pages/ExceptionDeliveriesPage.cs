@@ -19,6 +19,7 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
+            this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
         }
 
@@ -35,6 +36,7 @@
         public Button EnabledButton { get; set; }
 
         public Image OrderByButton { get; set; }
+        public Heading DeliveryUpdateDrillDown { get; set; }
 
         public IWebElement GetFirstCell()
         {

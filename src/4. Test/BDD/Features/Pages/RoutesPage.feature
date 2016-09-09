@@ -1,4 +1,5 @@
 ﻿@WebDriverFeature
+@RoleSuperUser
 Feature: RoutesPage
 	As a User
 	I wish to be able to view and filter route information

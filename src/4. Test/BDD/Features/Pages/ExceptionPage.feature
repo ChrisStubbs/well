@@ -1,4 +1,5 @@
 ﻿@WebDriverFeature
+@RoleSuperUser
 Feature: ExceptionPage
 	As a user
 	I wish to be able to view and filter exception delivery information

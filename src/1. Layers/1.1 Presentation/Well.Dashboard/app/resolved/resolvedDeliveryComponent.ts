@@ -37,7 +37,7 @@ export class ResolvedDeliveryComponent implements OnInit {
         new DropDownItem("Status", "jobStatus"),
         new DropDownItem("Action", "action"),
         new DropDownItem("Assigned", "assigned"),
-        new DropDownItem("Date", "dateTime")
+        new DropDownItem("Date", "deliveryDate")
     ];
     account: IAccount;
 

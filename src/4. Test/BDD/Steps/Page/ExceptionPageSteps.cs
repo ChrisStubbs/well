@@ -143,9 +143,13 @@
 
             var rows = this.ExceptionDeliveriesPage.ExceptionsDrillDownGrid.ReturnAllRows().ToList();
 
-            var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
+            rows[0].Click();
 
-            Assert.That(updateableRows, Is.EqualTo(rows.Count()));
+            Thread.Sleep(2000);
+
+            var updateable = this.ExceptionDeliveriesPage.DeliveryUpdateDrillDown;
+
+            Assert.IsNotNull(updateable);
         }
 
         [When(@"I select a user to assign")]

@@ -10,11 +10,13 @@
     </div>
     <div *ngIf="cleanDeliveries && cleanDeliveries.length">
         <div class="row">
-            <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"
-                             [setKnownOption]="selectedOption"
-                             [setKnownFilter]="selectedFilter">
-            </ow-optionfilter>
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"
+                                 [setKnownOption]="selectedOption"
+                                 [setKnownFilter]="selectedFilter">
+                </ow-optionfilter>
+            </div>
         </div>
 
         <div class="table-responsive table-container">
@@ -40,7 +42,7 @@
                     <td>
                         <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
                     </td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'medium' }}</td>
+                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
                 </tr>
                 </tbody>
             </table>

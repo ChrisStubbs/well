@@ -9,15 +9,27 @@
         <div class="alert alert-info"><strong>No exceptions!</strong>
         </div>
     </div>
-    <div *ngIf="exceptions && exceptions.length">
+    <div *ngIf="exceptions">
         <div class="row">
-            <ow-optionfilter [options]="options"
-                             (filterClicked)="onFilterClicked($event)"
-                             [setKnownOption]="selectedOption"
-                             [setKnownFilter]="selectedFilter">
-            </ow-optionfilter>
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"
+                                 [setKnownOption]="selectedOption"
+                                 [setKnownFilter]="selectedFilter">
+                </ow-optionfilter>
+            </div>
+            <div class="col-md-4">
+                <span class="pull-right">
+                        <label class="radio-inline">
+                            <input name="outstandingToggle" id="outstandingToggle1" type="radio" checked="{{outstandingFilter ? '' : 'checked'}}" value="All" (click)="onOutstandingClicked(false)">All
+                        </label>
+                        <label class="radio-inline">
+                            <input name="outstandingToggle" id="outstandingToggle2" type="radio" checked="{{outstandingFilter ? 'checked' : ''}}" value="Outstanding" (click)="onOutstandingClicked(true)">Outstanding
+                        </label>
+                    </span>
+            </div>
         </div>
-        <div class="table-responsive table-container">
+        <div class="table-responsive table-container" *ngIf="exceptions && exceptions.length > 0">
             <table id="tableExceptionDeliveries" class="table table-hover table-bordered">
                 <thead>
                     <tr>
@@ -30,11 +42,11 @@
                         <th>Status</th>
                         <th>Assigned</th>
                         <th>Action</th>
-                        <th>Last updated date/time<a style="text-decoration:none;display:inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                        <th>Delivery Date <a style="text-decoration:none;display:inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="grid-row" *ngFor="let delivery of exceptions | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                    <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
                         <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
@@ -58,7 +70,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'medium' }}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
                     </tr>
                 </tbody>
             </table>

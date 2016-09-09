@@ -9,8 +9,11 @@
     using Common.Contracts;
     using Domain.ValueObjects;
     using PH.Well.Api.Mapper.Contracts;
+    using PH.Well.Common.Security;
+
     using Repositories.Contracts;
 
+    [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
     public class DeliveryController : BaseApiController
     {
         private readonly IDeliveryReadRepository deliveryReadRepository;

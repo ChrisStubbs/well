@@ -1,15 +1,12 @@
 ﻿namespace PH.Well.Common.Security
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using NLog;
 
     public class UserRoleProvider : System.Web.Security.RoleProvider
     {
-        private const string CacheKey = "ph.overriderdiscount.roles";
+        private const string CacheKey = "ph.orderwell";
 
         private readonly HttpContextCache cache;
 

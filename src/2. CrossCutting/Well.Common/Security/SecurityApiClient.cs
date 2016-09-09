@@ -17,6 +17,8 @@
         public SecurityApiClient()
         {
             this.apiClient = new WebClient();
+
+            this.apiClient.Headers.Add("Content-Type", "application/json;charset=utf-8");
         }
 
         public class Role

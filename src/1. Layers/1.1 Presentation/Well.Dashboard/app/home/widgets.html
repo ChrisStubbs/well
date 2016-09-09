@@ -11,7 +11,7 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                <h4><a class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.link,widget.name)">{{widget.count}} {{widget.linkText}}</a></h4>
+                                <h4><a class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.name)">{{widget.count}} {{widget.linkText}}</a></h4>
                                 <p>
                                     {{widget.description}}
                                 </p>
@@ -20,11 +20,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        
         <div id="graph-column" class="col-md-8">
-            <ow-widget-graph></ow-widget-graph>
+            <ow-widget-graph (barClicked)="graphBarClicked($event)" ></ow-widget-graph>
         </div>
     </div>
 </div>

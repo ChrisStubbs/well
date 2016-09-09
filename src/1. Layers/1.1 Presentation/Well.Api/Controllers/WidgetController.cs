@@ -10,14 +10,18 @@
     using Models;
 
     using PH.Well.Common.Security;
+    using Repositories.Contracts;
 
     public class WidgetController : BaseApiController
     {
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
+        private readonly IUserStatsRepository userStatsRepository;
 
-        public WidgetController(IServerErrorResponseHandler serverErrorResponseHandler)
+        public WidgetController(IServerErrorResponseHandler serverErrorResponseHandler,
+            IUserStatsRepository userStatsRepository)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
+            this.userStatsRepository = userStatsRepository;
         }
 
         [Authorize(Roles = SecurityPermissions.LandingPage)]
@@ -27,12 +31,14 @@
         {
             try
             {
+                var userStats = userStatsRepository.GetByUser(UserIdentityName);
+
                 var widgets = new List<WidgetModel>()
                 {
                     new WidgetModel()
                     {
                         Name = "Exceptions",
-                        Count = 5,
+                        Count = userStats.ExceptionCount,
                         Description = "Deliveries with short or damaged quantities",
                         SortOrder = 1,
                         Link = "/exceptions",
@@ -42,7 +48,7 @@
                     new WidgetModel()
                     {
                         Name = "Assigned",
-                        Count = 3,
+                        Count = userStats.AssignedCount,
                         Description = "Deliveries assigned to you for actioning",
                         SortOrder = 2,
                         Link = "/exceptions",
@@ -52,7 +58,7 @@
                     new WidgetModel()
                     {
                         Name = "Outstanding",
-                        Count = 10,
+                        Count = userStats.OutstandingCount,
                         Description = "Exceptions raised over 24 hours ago",
                         SortOrder = 3,
                         Link = "/exceptions",
@@ -62,7 +68,7 @@
                     new WidgetModel()
                     {
                         Name = "Notifications",
-                        Count = 0,
+                        Count = userStats.NotificationsCount,
                         Description = "Unarchived notifications",
                         Link = "/notifications",
                         LinkText = "notifications",

@@ -74,6 +74,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\DateTimeSpan.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />

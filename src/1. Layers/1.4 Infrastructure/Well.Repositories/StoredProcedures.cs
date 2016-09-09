@@ -86,5 +86,6 @@
         public static string EventGetUnprocessed = "EventGetUnprocessed";
 
         public static string MarkEventAsProcessed = "MarkEventAsProcessed";
+        public static string UserStatsGet = "UserStatsGet";
     }
 }

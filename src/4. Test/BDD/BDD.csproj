@@ -121,7 +121,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WellClean.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\Branch1.feature.cs">
+    <Compile Include="Features\Pages\Branch.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Branch.feature</DependentUpon>
@@ -216,7 +216,6 @@
     <None Include="Features\ACL\AdamRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AdamRouteFileSchemaValidation.feature.cs</LastGenOutput>
-      <LastGenOutput>Branch.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -228,7 +227,7 @@
     </None>
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Branch1.feature.cs</LastGenOutput>
+      <LastGenOutput>Branch.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\EditDeliveryLine.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

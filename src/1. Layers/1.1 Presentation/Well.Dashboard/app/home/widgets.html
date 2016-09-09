@@ -1,20 +1,31 @@
 ﻿<div id="widgets" class="widget-container">
-    <div class="jumbotron">
-        <div class="row">
-            <div *ngFor="let widget of widgets" class="col-md-4">
-                <div class="panel {{widget.showWarning ? 'panel-danger' : 'panel-primary'}}">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span *ngIf="widget.showWarning === false" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <span *ngIf="widget.showWarning" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{widget.name}}
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4><a class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.link,widget.name)">{{widget.count}} {{widget.linkText}}</a></h4>
-                        <p>
-                            {{widget.description}}
-                        </p>
+    <div class="row">
+        <div id="widgets-column" class="col-md-4">
+            <div class="jumbotron">
+                <div class="row">
+                    <div *ngFor="let widget of widgets">
+                        <div class="panel {{widget.showWarning ? 'panel-danger' : 'panel-primary'}}">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <span *ngIf="widget.showWarning === false" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <span *ngIf="widget.showWarning" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{widget.name}}
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <h4><a class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.name)">{{widget.count}} {{widget.linkText}}</a></h4>
+                                <p>
+                                    {{widget.description}}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="graph-column" class="col-md-8">
+            <ow-widget-graph (barClicked)="graphBarClicked($event)" ></ow-widget-graph>
+        </div>
     </div>
 </div>
+
+
+

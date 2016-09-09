@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
 import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
+import {ChartsModule} from 'ng2-charts/ng2-charts';
 
 import {AppComponent} from './appComponent';
 import {appRouterProviders} from './appRoutes';
@@ -22,6 +23,7 @@ import {UserPreferenceComponent} from './user_preferences/userPreferenceComponen
 import {UserPreferenceModal} from './user_preferences/userPreferenceModalComponent';
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
+import {WidgetGraphComponent} from './home/widgetGraphComponent';
 
 import {AssignModal} from "./shared/assign-Modal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -39,16 +41,18 @@ import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
 import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/security-service';
+import {WidgetService} from './home/widgetService';
+
 
 @NgModule({
     declarations: [OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
-        UserPreferenceModal, DeliveryUpdateComponent,
+        UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent],
-    imports: [ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, AppRoutes.appRouterProviders],
-    providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService, SecurityService],
+    imports: [ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, AppRoutes.appRouterProviders],
+    providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService, WidgetService, SecurityService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

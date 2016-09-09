@@ -14,12 +14,18 @@ export class WidgetGraphComponent {
 
     public barChartOptions: any = {
         scaleShowVerticalLines: false,
-        responsive: true
+        responsive: true,
+        tooltips: {
+            custom: (e) => {
+                this.chartStyle = (e.body && e.body.length > 0) ? 'chart-hover' : 'chart';
+            }
+        }
     };
     public barChartLabels: string[] = [];
     public barChartData: any[] = [{data: []}];
     public barChartColors: Array<any> = [{ backgroundColor: [] }];
     public updateDate: Date;
+    public chartStyle: string = "chart";
 
     init(labels: string[], data: any[], warningLevels: boolean[], updateDate: Date) :void {
         this.barChartLabels = labels;
@@ -33,7 +39,6 @@ export class WidgetGraphComponent {
         if (e.active.length > 0) {
             let index: number = e.active[0]._index;
             let name: string = this.barChartLabels[index];
-            console.log(name);
             this.barClicked.emit(name);
         }
     }

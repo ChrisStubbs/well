@@ -14,6 +14,8 @@ import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
 import {OrderArrowComponent} from '../shared/orderby-arrow';
+import {SecurityService} from '../shared/security/security-service';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 
 @Component({
@@ -42,12 +44,15 @@ export class ResolvedDeliveryComponent implements OnInit {
     account: IAccount;
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private resolvedDeliveryService: ResolvedDeliveryService,
         private accountService: AccountService,
         private router: Router,
-        private refreshService: RefreshService) { }
+        private refreshService: RefreshService,
+        private securityService: SecurityService) { }
 
     ngOnInit() {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.getDeliveries();
         this.currentConfigSort = '-dateTime';

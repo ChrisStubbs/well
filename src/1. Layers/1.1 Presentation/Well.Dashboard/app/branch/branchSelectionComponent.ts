@@ -7,6 +7,8 @@ import {BranchService} from './branchService';
 import {HttpResponse} from '../shared/http-response';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {SecurityService} from '../shared/security/security-service';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({
     selector: 'ow-branch',
@@ -25,6 +27,7 @@ export class BranchSelectionComponent implements OnInit {
     constructor(private branchService: BranchService,
         private toasterService: ToasterService,
         private globalSettingsService: GlobalSettingsService,
+        private securityService: SecurityService,
         private route: ActivatedRoute) {
         route.params.subscribe(params => {
             this.username = params['name'] === undefined ? '' : params['name']; this.domain = params['domain'];
@@ -32,6 +35,7 @@ export class BranchSelectionComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.branchSelection);
         this.branchService.getBranches(this.username)
             .subscribe(branches => {
                 this.branches = branches;

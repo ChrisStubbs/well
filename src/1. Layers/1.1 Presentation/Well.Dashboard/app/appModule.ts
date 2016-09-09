@@ -22,6 +22,7 @@ import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {UserPreferenceModal} from './user_preferences/userPreferenceModalComponent';
 import {WidgetComponent} from './home/widgetComponent';
+import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
 
 import {AssignModal} from "./shared/assign-Modal";
@@ -39,8 +40,8 @@ import {BranchService} from './branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
 import {RefreshService} from './shared/refreshService';
+import {SecurityService} from './shared/security/security-service';
 import {WidgetService} from './home/widgetService';
-
 
 
 @NgModule({
@@ -49,9 +50,9 @@ import {WidgetService} from './home/widgetService';
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
         AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent, NotificationsComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, OrderArrowComponent],
+        AppComponent, OrderArrowComponent, UnauthorisedComponent],
     imports: [ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, AppRoutes.appRouterProviders],
-    providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService, WidgetService],
+    providers: [GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService, WidgetService, SecurityService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

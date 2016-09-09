@@ -5,7 +5,9 @@ import 'rxjs/Rx';   // Load all features
 import {Widget} from './widget';
 import {WidgetService} from './widgetService';
 import {RefreshService} from '../shared/refreshService';
+import {SecurityService} from '../shared/security/security-service';
 import {WidgetGraphComponent} from './widgetGraphComponent';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({
     templateUrl: './app/home/widgets.html'
@@ -22,10 +24,12 @@ export class WidgetComponent implements OnInit {
         private globalSettingsService: GlobalSettingsService,
         private widgetService: WidgetService,
         private refreshService: RefreshService,
+        private securityService: SecurityService,
         private router: Router) {
     }
 
     ngOnInit() {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.landingPage);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getWidgets());
         this.getWidgets();
     }

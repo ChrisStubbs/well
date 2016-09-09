@@ -1,10 +1,13 @@
 ﻿import {Component, OnInit, ViewChild}  from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
 import {DropDownItem} from "../shared/dropDownItem";
+import {SecurityService} from '../shared/security/security-service';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({
     selector: 'ow-delivery',
@@ -29,12 +32,15 @@ export class DeliveryComponent implements OnInit {
     ];
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private deliveryService: DeliveryService,
         private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router,
+        private securityService: SecurityService) {
     }
 
     ngOnInit(): void {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.route.params.subscribe(params => { this.deliveryId = params['id'] });
 
         this.deliveryService.getDelivery(this.deliveryId)

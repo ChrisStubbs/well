@@ -230,6 +230,7 @@
     <Content Include="app\shared\confirmModal.html" />
     <Content Include="app\shared\optionFilter.html" />
     <Content Include="app\home\widgets.html" />
+    <Content Include="app\unauthorised\unauthorised.html" />
     <Content Include="app\user_preferences\user-preference-modal.html" />
     <Content Include="app\user_preferences\user-preferences.html" />
     <Content Include="Content\css\additionalPeriodExceptions.css" />
@@ -385,6 +386,7 @@
     <TypeScriptCompile Include="app\shared\orderByDatePipe.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
     <TypeScriptCompile Include="app\shared\refreshService.ts" />
+    <TypeScriptCompile Include="app\shared\security\security-service.ts" />
     <TypeScriptCompile Include="app\shared\user.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
@@ -396,6 +398,7 @@
     <TypeScriptCompile Include="app\home\widgetService.ts" />
     <TypeScriptCompile Include="app\home\widget.ts" />
     <TypeScriptCompile Include="app\home\widgetComponent.ts" />
+    <TypeScriptCompile Include="app\unauthorised\unauthorisedComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\User.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceModalComponent.ts" />

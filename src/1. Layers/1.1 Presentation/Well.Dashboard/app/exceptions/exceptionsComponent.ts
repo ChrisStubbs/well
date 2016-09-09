@@ -18,6 +18,8 @@ import {AssignModal} from "../shared/assign-Modal";
 import {IUser} from "../shared/user";
 import {OrderArrowComponent} from '../shared/orderby-arrow';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import {SecurityService} from '../shared/security/security-service';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 
 @Component({
@@ -65,15 +67,18 @@ export class ExceptionsComponent implements OnInit {
     outstandingFilter: boolean = false;
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private exceptionDeliveryService: ExceptionDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
-        private toasterService: ToasterService) {
+        private toasterService: ToasterService,
+        private securityService: SecurityService) {
     }
 
     ngOnInit(): void {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.currentConfigSort = '-dateTime';
         this.sortDirection(false);

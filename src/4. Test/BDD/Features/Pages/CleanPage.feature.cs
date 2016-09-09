@@ -168,7 +168,7 @@ this.ScenarioSetup(scenarioInfo);
                         "WB - SHELL FORECOURT"});
 #line 29
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table2, "Then ");
-#line 37
+#line 36
  testRunner.When("I filter the clean delivery grid with the option \'Invoice No\' and value \'949214.1" +
                     "52\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -184,9 +184,9 @@ this.ScenarioSetup(scenarioInfo);
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van"});
-#line 38
+#line 37
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table3, "Then ");
-#line 41
+#line 40
  testRunner.When("I filter the clean delivery grid with the option \'Account\' and value \'28398.080\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -201,9 +201,9 @@ this.ScenarioSetup(scenarioInfo);
                         "928398.080",
                         "28398.080",
                         "TESCO EXPRESS"});
-#line 42
+#line 41
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table4, "Then ");
-#line 45
+#line 44
  testRunner.When("I filter the clean delivery grid with the option \'Account Name\' and value \'WB - S" +
                     "HOP\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -225,7 +225,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92874.033",
                         "2874.033",
                         "WB - SHOP"});
-#line 46
+#line 45
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table5, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -236,7 +236,6 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanPageThroughCleanDeliveryInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Clean Delivery information", ((string[])(null)));
-#line 51
 #line 50
 this.ScenarioSetup(scenarioInfo);
 #line 51
@@ -259,7 +258,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("\'7\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 60
  testRunner.When("I click on clean delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 63
+#line 61
  testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

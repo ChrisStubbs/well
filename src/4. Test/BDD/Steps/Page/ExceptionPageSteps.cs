@@ -15,6 +15,7 @@
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
 
+        [Given(@"I open the exception deliveries")]
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
@@ -69,6 +70,7 @@
             rows[3].GetItemInRowByClass("first-cell").Click();
         }
 
+        [Given(@"I select the assigned link on the first row")]
         [When(@"I select the assigned link on the first row")]
         public void SelectAssignLink()
         {
@@ -125,6 +127,7 @@
             Assert.IsNotNull(updateable);
         }
 
+        [Given(@"I select a user to assign")]
         [When(@"I select a user to assign")]
         public void SelectUserToAssign()
         {

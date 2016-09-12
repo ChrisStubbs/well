@@ -195,7 +195,7 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count(x => !x.IsDeleted);
-            Assert.AreEqual(jobDetailCount, exceptionLines);
+            Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
         [Then(@"there should be (.*) lines left for a Job with an Id of (.*)")]
@@ -203,7 +203,7 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count();
-            Assert.AreEqual(jobDetailCount, exceptionLines);
+            Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
 

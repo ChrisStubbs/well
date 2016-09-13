@@ -31,4 +31,9 @@ const routes: Routes = [
     { path: 'preferences', component: UserPreferenceComponent }
 ];
 
-export const appRouterProviders = RouterModule.forRoot(routes);
+export const appRoutingProviders: any[] = [
+
+];
+
+export const routing = RouterModule.forRoot(routes);
+//export const appRouterProviders = RouterModule.forRoot(routes);

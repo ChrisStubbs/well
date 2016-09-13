@@ -8,12 +8,12 @@ import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
-import {ContactModal} from "../shared/contact-modal";
+import {ContactModal} from "../shared/contactModal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
-import {OrderArrowComponent} from '../shared/orderby-arrow';
-import {SecurityService} from '../shared/security/security-service';
+import {OrderArrowComponent} from '../shared/orderbyArrow';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 

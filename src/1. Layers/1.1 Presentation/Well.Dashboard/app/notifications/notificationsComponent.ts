@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit}  from '@angular/core';
 import {GlobalSettingsService} from '../shared/globalSettings';
-import {SecurityService} from '../shared/security/security-service';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import 'rxjs/Rx';   // Load all features
 

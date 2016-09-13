@@ -5,7 +5,7 @@ import 'rxjs/Rx';   // Load all features
 import {Widget} from './widget';
 import {WidgetService} from './widgetService';
 import {RefreshService} from '../shared/refreshService';
-import {SecurityService} from '../shared/security/security-service';
+import {SecurityService} from '../shared/security/securityService';
 import {WidgetGraphComponent} from './widgetGraphComponent';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 

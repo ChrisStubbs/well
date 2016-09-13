@@ -7,7 +7,7 @@ import {User} from './user';
 import {UserPreferenceService} from './userPreferenceService';
 import {PaginationService } from 'ng2-pagination';
 import {UserPreferenceModal} from './userPreferenceModalComponent';
-import {SecurityService} from '../shared/security/security-service';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({

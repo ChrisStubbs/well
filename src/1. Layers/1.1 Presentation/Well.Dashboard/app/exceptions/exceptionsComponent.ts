@@ -7,18 +7,18 @@ import 'rxjs/Rx';   // Load all features
 import {PaginationService } from 'ng2-pagination';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
-import {ContactModal} from "../shared/contact-modal";
+import {ContactModal} from "../shared/contactModal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {ExceptionDelivery} from "./exceptionDelivery";
 import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 import {RefreshService} from '../shared/refreshService';
-import {HttpResponse} from '../shared/http-response';
-import {AssignModal} from "../shared/assign-Modal";
+import {HttpResponse} from '../shared/httpResponse';
+import {AssignModal} from "../shared/assignModal";
 import {IUser} from "../shared/user";
-import {OrderArrowComponent} from '../shared/orderby-arrow';
+import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
-import {SecurityService} from '../shared/security/security-service';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 

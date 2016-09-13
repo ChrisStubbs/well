@@ -4,7 +4,7 @@ import {ExceptionDelivery} from '../exceptions/exceptionDelivery';
 import {Router} from '@angular/router';
 import {Response} from '@angular/http';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
-import {HttpResponse} from '../shared/http-response';
+import {HttpResponse} from '../shared/httpResponse';
 import {UserJob} from '../shared/userJob';
 import {ExceptionDeliveryService}  from '../exceptions/exceptionDeliveryService';
 

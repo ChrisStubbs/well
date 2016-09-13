@@ -4,10 +4,10 @@ import {ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 import {Branch} from './branch';
 import {BranchService} from './branchService';
-import {HttpResponse} from '../shared/http-response';
+import {HttpResponse} from '../shared/httpResponse';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {GlobalSettingsService} from '../shared/globalSettings';
-import {SecurityService} from '../shared/security/security-service';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({

@@ -10,8 +10,8 @@ import Option = require('../shared/filterOption');
 import FilterOption = Option.FilterOption;
 import {RefreshService} from '../shared/refreshService';
 import {DeliverySelectionModal} from './delivery-selection-modal';
-import {OrderArrowComponent} from '../shared/orderby-arrow';
-import {SecurityService} from '../shared/security/security-service';
+import {OrderArrowComponent} from '../shared/orderbyArrow';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 

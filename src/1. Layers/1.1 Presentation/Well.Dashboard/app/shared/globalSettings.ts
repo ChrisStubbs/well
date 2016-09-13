@@ -24,10 +24,15 @@ export class GlobalSettingsService {
         this.globalSettings.identityName = "";
     }
 
-    public getSettings(): Observable<GlobalSettings> {
+    public getSettings(): Promise<GlobalSettings> {
         return this._http.get(this.globalSettings.apiUrl + 'global-settings')
-            .map((response: Response) => this.mapSettings(<GlobalSettings>response.json()))
-            .catch(e => this.httpErrorService.handleError(e));
+            .map((response: Response) => {
+                this.mapSettings(<GlobalSettings>response.json());
+                //console.log("Settings: " + JSON.stringify(this.globalSettings));
+                return this.globalSettings;
+            })
+            .catch(e => this.httpErrorService.handleError(e))
+            .toPromise();
     }
 
     private mapSettings(settings: GlobalSettings): GlobalSettings {

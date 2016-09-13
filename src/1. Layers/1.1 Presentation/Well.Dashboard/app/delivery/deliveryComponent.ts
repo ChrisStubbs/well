@@ -6,7 +6,7 @@ import {PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
 import {DropDownItem} from "../shared/dropDownItem";
-import {SecurityService} from '../shared/security/security-service';
+import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({

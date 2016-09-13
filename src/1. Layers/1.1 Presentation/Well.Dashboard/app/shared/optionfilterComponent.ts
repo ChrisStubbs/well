@@ -17,7 +17,7 @@ export class OptionFilterComponent implements OnChanges {
     @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
 
     ngOnChanges(): void {
-        console.log("onchange");
+        //console.log("onchange");
     }
 
     clearFilterText(): void {

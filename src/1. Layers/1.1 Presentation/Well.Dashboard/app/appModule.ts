@@ -11,6 +11,7 @@ import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
 
 import {AccountComponent} from './account/accountComponent';
+import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
@@ -36,6 +37,7 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import AppRoutes = require("./appRoutes");
 
+import {AccountService} from './account/accountService';
 import {BranchService} from './branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
@@ -50,7 +52,7 @@ import {WidgetService} from './home/widgetService';
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
-        AccountComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
+        AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent
@@ -59,8 +61,8 @@ import {WidgetService} from './home/widgetService';
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, routing
     ],
     providers: [
-        GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService, WidgetService, SecurityService,
-        LogService, appRoutingProviders,
+        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, BranchService, RefreshService,
+        WidgetService, SecurityService, LogService, appRoutingProviders,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.getSettings(),

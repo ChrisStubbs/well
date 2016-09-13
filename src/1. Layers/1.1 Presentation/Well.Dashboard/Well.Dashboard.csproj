@@ -377,6 +377,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
     <TypeScriptCompile Include="app\shared\assignModal.ts" />
     <TypeScriptCompile Include="app\shared\contactModal.ts" />
+    <TypeScriptCompile Include="app\shared\logService.ts" />
     <TypeScriptCompile Include="app\shared\httpResponse.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />

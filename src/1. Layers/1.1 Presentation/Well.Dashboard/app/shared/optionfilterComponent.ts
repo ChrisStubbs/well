@@ -6,7 +6,7 @@ import {DropDownItem} from "./dropDownItem";
     selector: "ow-optionfilter",
     templateUrl: "app/shared/optionFilter.html"
 })
-export class OptionFilterComponent implements OnChanges {
+export class OptionFilterComponent {
 
     private defaultOption: DropDownItem = new DropDownItem("Option", "");
 
@@ -15,10 +15,6 @@ export class OptionFilterComponent implements OnChanges {
     inputPlaceholder: string = "";
     selectedOption: DropDownItem = this.defaultOption;
     @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
-
-    ngOnChanges(): void {
-        //console.log("onchange");
-    }
 
     clearFilterText(): void {
         this.filterText = '';

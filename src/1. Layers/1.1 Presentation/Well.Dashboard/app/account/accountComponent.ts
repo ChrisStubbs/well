@@ -24,10 +24,4 @@ export class AccountComponent implements OnInit {
             .subscribe(account => this.account = account,
                 error => this.errorMessage = <any>error);
     }
-
-    //openModal(accountId: number): void {
-    //    console.log(accountId);
-    //}
-
-
 }

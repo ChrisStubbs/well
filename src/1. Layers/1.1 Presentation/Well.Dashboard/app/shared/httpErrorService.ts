@@ -2,20 +2,28 @@
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import {LogService} from './logService';
 
 @Injectable()
 export class HttpErrorService {
 
-    constructor(private toasterService: ToasterService) {  }
+    constructor(private toasterService: ToasterService,
+        private logService: LogService) {
+    }
 
-    //Passing the toasterService through the constructor didn't work so passed as parameter instead, might work in future Angular2 version!
     handleError(error: Response) {
-        console.log(error);
         if (error.status && error.status === 404) {
             //No popup required.
         } else {
-            var message = error.json() ? error.json().message : (error.status ? error.status : 'Server error');
-            this.toasterService.pop('error', message, '');
+            try {
+                let message: string = error.json()
+                    ? JSON.stringify(error.json())
+                    : (error.status ? error.status.toString() : 'Server error');
+                this.logService.log("HTTP Error: " + message);
+                this.toasterService.pop('error', message, '');
+            } catch (ex) {
+                return Observable.throw(error);
+            }
         }
         return Observable.throw(error);
     }

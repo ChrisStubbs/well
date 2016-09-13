@@ -39,6 +39,7 @@ import AppRoutes = require("./appRoutes");
 import {BranchService} from './branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
+import {LogService} from './shared/logService';
 import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
@@ -59,7 +60,7 @@ import {WidgetService} from './home/widgetService';
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, BranchService, RefreshService, WidgetService, SecurityService,
-        appRoutingProviders,
+        LogService, appRoutingProviders,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.getSettings(),

@@ -2,6 +2,7 @@
 import {Http, Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
+import {LogService} from './logService';
 
 export class GlobalSettings {
     apiUrl: string;
@@ -15,7 +16,9 @@ export class GlobalSettings {
 export class GlobalSettingsService {
     globalSettings: GlobalSettings;
 
-    constructor(private _http: Http, private httpErrorService: HttpErrorService) {
+    constructor(private _http: Http,
+        private httpErrorService: HttpErrorService,
+        private logService: LogService) {
         var configuredApiUrl = "#{OrderWellApi}"; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
         this.globalSettings.apiUrl = (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/";
@@ -28,7 +31,7 @@ export class GlobalSettingsService {
         return this._http.get(this.globalSettings.apiUrl + 'global-settings')
             .map((response: Response) => {
                 this.mapSettings(<GlobalSettings>response.json());
-                //console.log("Settings: " + JSON.stringify(this.globalSettings));
+                this.logService.log("Settings: " + JSON.stringify(this.globalSettings));
                 return this.globalSettings;
             })
             .catch(e => this.httpErrorService.handleError(e))

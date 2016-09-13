@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Xml.Serialization;
     using Common.Extensions;
     using Enums;
@@ -112,5 +113,8 @@
         [XmlArray("Jobs")]
         [XmlArrayItem("Job", typeof(Job))]
         public Collection<Job> Jobs { get; set; }
+
+        public int CleanJobs => Jobs.Count(j => j.IsClean);
+        public int ExceptionJobs => Jobs.Count(j => j.IsException);
     }
 }

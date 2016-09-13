@@ -13,13 +13,17 @@
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
         private readonly IStopRepository stopRepository;
+        private readonly IJobRepository jobRepository;
 
-        public RouteHeaderRepository(ILogger logger, IWellDapperProxy dapperProxy, IStopRepository stopRepository)
-            : base(logger, dapperProxy)
+        public RouteHeaderRepository(ILogger logger,
+            IWellDapperProxy dapperProxy,
+            IStopRepository stopRepository,
+            IJobRepository jobRepository) : base(logger, dapperProxy)
         {
             this.stopRepository = stopRepository;
+            this.jobRepository = jobRepository;
         }
-        
+
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
             var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
@@ -29,9 +33,13 @@
             foreach (var routeHeader in routeHeaders)
             {
                 var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id).ToList();
+                foreach (var stop in stops)
+                {
+                    stop.Jobs = new Collection<Job>(jobRepository.GetByStopId(stop.Id).ToList());
+                }
                 routeHeader.Stops = new Collection<Stop>(stops);
             }
-
+        
             return routeHeaders;
         }
 

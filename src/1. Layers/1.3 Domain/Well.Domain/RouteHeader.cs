@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Xml.Serialization;
     using Enums;
 
@@ -181,5 +182,9 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(Attribute))]
         public Collection<Attribute> EntityAttributes { get; set; }
+
+        public int CleanJobs => Stops.Sum(s => s.CleanJobs);
+        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobs);
+
     }
 }

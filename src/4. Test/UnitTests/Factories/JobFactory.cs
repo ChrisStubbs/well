@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using Well.Domain;
+    using Well.Domain.Enums;
     using Attribute = Well.Domain.Attribute;
 
     public class JobFactory : EntityFactory<JobFactory, Job>
@@ -20,8 +21,8 @@
             this.Entity.Originator = "OR1";
             this.Entity.TextField1 = "Text1";
             this.Entity.TextField2 = "Text2";
-            this.Entity.PerformanceStatusId = 1;
-            this.Entity.ByPassReasonId = 13;
+            this.Entity.PerformanceStatus = PerformanceStatus.Narri;
+            this.Entity.ByPassReason = ByPassReasons.Notdef;
             this.Entity.StopId = 1;
             this.Entity.EntityAttributes = new Collection<Attribute>
             {

@@ -16,8 +16,8 @@ SELECT [Id]
       ,[Originator]
       ,[TextField1]
       ,[TextField2]
-	  ,[PerformanceStatusId] 
-	  ,[ByPassReasonId] 
+	  ,[PerformanceStatusId] as PerformanceStatus
+	  ,[ByPassReasonId] as ByPassReason
       ,[StopId]
   FROM dbo.[Job]
   WHERE [JobRef1] = @AccountId

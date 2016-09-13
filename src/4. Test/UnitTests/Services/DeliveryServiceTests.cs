@@ -66,7 +66,7 @@
                           jd.ShortQty == jobDetail.ShortQty)));
 
                 jobRepo.Verify(j => j.JobCreateOrUpdate(
-                    It.Is<Job>(job => job.PerformanceStatusId == (int) PerformanceStatus.Incom)));
+                    It.Is<Job>(job => job.PerformanceStatus == PerformanceStatus.Incom)));
             }
 
             [Test]
@@ -107,7 +107,7 @@
                     d => d.Save(It.Is<JobDetailDamage>(jdd => jdd.Qty == jobDetail.JobDetailDamages[0].Qty)));
 
                 jobRepo.Verify(j => j.JobCreateOrUpdate(It.Is<Job>(
-                    job => job.PerformanceStatusId == (int) PerformanceStatus.Incom)));
+                    job => job.PerformanceStatus == PerformanceStatus.Incom)));
             }
 
             [Test]
@@ -149,7 +149,7 @@
                           jd.ShortQty == jobDetail.ShortQty)));
 
                 jobRepo.Verify(j => j.JobCreateOrUpdate(
-                    It.Is<Job>(job => job.PerformanceStatusId == (int)PerformanceStatus.Resolved)));
+                    It.Is<Job>(job => job.PerformanceStatus == PerformanceStatus.Resolved)));
             }
         }
 

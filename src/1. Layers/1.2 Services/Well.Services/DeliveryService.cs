@@ -51,7 +51,7 @@
                 {
                     //Make dirty
                     Job job = jobRepo.GetById(jobDetail.JobId);
-                    job.PerformanceStatusId = (int)PerformanceStatus.Incom;
+                    job.PerformanceStatus = PerformanceStatus.Incom;
                     jobRepo.JobCreateOrUpdate(job);
                 }
 
@@ -59,7 +59,7 @@
                 {
                     //Resolve
                     Job job = jobRepo.GetById(jobDetail.JobId);
-                    job.PerformanceStatusId = (int)PerformanceStatus.Resolved;
+                    job.PerformanceStatus = PerformanceStatus.Resolved;
                     jobRepo.JobCreateOrUpdate(job);
                 }
 

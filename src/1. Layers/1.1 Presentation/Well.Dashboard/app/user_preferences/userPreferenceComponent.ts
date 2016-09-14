@@ -5,7 +5,6 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {User} from './user';
 import {UserPreferenceService} from './userPreferenceService';
-import {PaginationService } from 'ng2-pagination';
 import {UserPreferenceModal} from './userPreferenceModalComponent';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
@@ -13,7 +12,7 @@ import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 @Component({
     selector: 'ow-user-preferences',
     templateUrl: './app/user_preferences/user-preferences.html',
-    providers: [UserPreferenceService, PaginationService]
+    providers: [UserPreferenceService]
 }
 )
 export class UserPreferenceComponent {

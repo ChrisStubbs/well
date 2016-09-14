@@ -2,9 +2,9 @@
 import {Router, ActivatedRoute} from '@angular/router';
 import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {LogService} from '../shared/logService';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginationService } from 'ng2-pagination';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contactModal";
@@ -25,8 +25,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [ExceptionDeliveryService, PaginationService, AccountService]
-
+    providers: [ExceptionDeliveryService]
 })
 
 export class ExceptionsComponent implements OnInit {
@@ -65,6 +64,11 @@ export class ExceptionsComponent implements OnInit {
     selectedOption: DropDownItem;
     selectedFilter: string;
     outstandingFilter: boolean = false;
+    @ViewChild(AssignModal)
+    private assignModal: AssignModal;
+
+    @ViewChild(ContactModal)
+    private contactModal: ContactModal;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -74,7 +78,8 @@ export class ExceptionsComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
         private toasterService: ToasterService,
-        private securityService: SecurityService) {
+        private securityService: SecurityService,
+        private logService: LogService) {
     }
 
     ngOnInit(): void {
@@ -141,15 +146,14 @@ export class ExceptionsComponent implements OnInit {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    @ViewChild(ContactModal) modal : ContactModal;
-
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => { this.account = account; this.modal.show(this.account); },
-            error => this.errorMessage = <any>error);
+            .subscribe(account => {
+                    this.account = account;
+                    this.contactModal.show(this.account);
+                },
+                error => this.errorMessage = <any>error);
     }
-    
-    @ViewChild(AssignModal) assignModal : AssignModal;
 
     openAssignModal(delivery): void {
 

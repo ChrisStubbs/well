@@ -2,7 +2,6 @@
 import {Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {PaginationService } from 'ng2-pagination';
 import {Route} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 import {DropDownItem} from '../shared/dropDownItem';
@@ -18,7 +17,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [RouteHeaderService, PaginationService]
+    providers: [RouteHeaderService]
 })
 export class RouteHeaderComponent implements OnInit {
     refreshSubscription: any;

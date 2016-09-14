@@ -2,7 +2,6 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {PaginationService } from 'ng2-pagination';
 import {Delivery} from "./delivery";
 import {DeliveryService} from "./deliveryService";
 import {DropDownItem} from "../shared/dropDownItem";
@@ -12,7 +11,7 @@ import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
-    providers: [DeliveryService, PaginationService]
+    providers: [DeliveryService]
 })
 export class DeliveryComponent implements OnInit {
     errorMessage: string;

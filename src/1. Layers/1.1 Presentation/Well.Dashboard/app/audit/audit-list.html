@@ -1,1 +1,69 @@
-﻿Audits go here!
+﻿<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Audits</li>
+    </ol>
+</div>
+<div class="jumbotron">
+    <div>
+        <div class="alert alert-info">
+            <strong>No audits have been recorded yet.</strong>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-md-8">
+                <ow-optionfilter [options]="options"
+                                 (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+            </div>
+        </div>
+        <div class="table-responsive table-container">
+            <table id="tableAudits" class="table table-hover table-striped audits">
+                <thead>
+                    <tr>
+                        <th>Entry</th>
+                        <th>Type</th>
+                        <th>Invoice No</th>
+                        <th>Account</th>
+                        <th>Delivery Date</th>
+                        <th>Audit Date</th>
+                        <th>Audit By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr class="grid-row">
+                    <td class="entry">Credit</td>
+                    <td>Action</td>
+                    <td>92874.033</td>
+                    <td>2874.033</td>
+                    <td>03/10/2016</td>
+                    <td>13/09/2016</td>
+                    <td>Michael Hook</td>
+                </tr>
+                <tr class="grid-row">
+                    <td>Credit and Re-Order</td>
+                    <td>Action</td>
+                    <td>92874.033</td>
+                    <td>2874.033</td>
+                    <td>03/10/2016</td>
+                    <td>13/09/2016</td>
+                    <td>Michael Hook</td>
+                </tr>
+                    <tr class="grid-row">
+                        <td>Short Qty changed from 0 to 2, Damages changed from 1 - CAR01, 2 - CAR02 to 2 - CAR01 for Product 50035 - Ind Potato Gratin 400g</td>
+                        <td>Delivery line update</td>
+                        <td>92874.033</td>
+                        <td>2874.033</td>
+                        <td>03/10/2016</td>
+                        <td>13/09/2016</td>
+                        <td>Michael Hook</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

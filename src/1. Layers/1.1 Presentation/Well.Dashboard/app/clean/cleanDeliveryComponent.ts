@@ -3,7 +3,6 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginationService } from 'ng2-pagination';
 import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
 import {FilterOption} from "../shared/filterOption";
@@ -20,7 +19,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [CleanDeliveryService, PaginationService, AccountService]
+    providers: [CleanDeliveryService]
 
 })
 export class CleanDeliveryComponent implements OnInit {

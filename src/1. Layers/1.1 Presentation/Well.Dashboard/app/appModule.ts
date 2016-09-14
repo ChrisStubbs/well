@@ -28,7 +28,7 @@ import {WidgetGraphComponent} from './home/widgetGraphComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
-import {ContactModal} from "./shared/contactmodal";
+import {ContactModal} from "./shared/contactModal";
 import {OptionFilterComponent} from './shared/optionFilterComponent';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from "./shared/orderByDatePipe";
@@ -42,6 +42,7 @@ import {BranchService} from './branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
 import {LogService} from './shared/logService';
+import {PaginationService } from 'ng2-pagination';
 import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
@@ -61,8 +62,8 @@ import {WidgetService} from './home/widgetService';
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, routing
     ],
     providers: [
-        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, BranchService, RefreshService,
-        WidgetService, SecurityService, LogService, appRoutingProviders,
+        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, BranchService, PaginationService,
+        RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.getSettings(),

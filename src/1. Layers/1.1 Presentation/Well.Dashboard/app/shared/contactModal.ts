@@ -6,11 +6,10 @@ import {IAccount} from "../account/account";
     templateUrl: 'app/shared/contact-modal.html'
 })
 export class ContactModal  {
-    public IsVisible: boolean;
-    account: IAccount;
+    private IsVisible: boolean = false;
+    private account: IAccount;
     
     show(account: IAccount) {
-
         this.account = account;
         this.IsVisible = true;
     }

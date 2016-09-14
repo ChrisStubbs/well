@@ -3,7 +3,6 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginationService } from 'ng2-pagination';
 import {ResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {DropDownItem} from "../shared/dropDownItem";
@@ -21,7 +20,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
-    providers: [ResolvedDeliveryService, PaginationService, AccountService]
+    providers: [ResolvedDeliveryService]
 
 })
 export class ResolvedDeliveryComponent implements OnInit {

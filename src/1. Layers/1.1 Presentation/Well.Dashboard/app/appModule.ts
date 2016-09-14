@@ -38,6 +38,7 @@ import {OrderArrowComponent} from './shared/orderbyArrow';
 import AppRoutes = require("./appRoutes");
 
 import {AccountService} from './account/accountService';
+import {AuditService} from './audit/auditService';
 import {BranchService} from './branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
@@ -62,7 +63,7 @@ import {WidgetService} from './home/widgetService';
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, routing
     ],
     providers: [
-        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, BranchService, PaginationService,
+        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders,
     {
         provide: APP_INITIALIZER,

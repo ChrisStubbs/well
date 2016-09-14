@@ -200,6 +200,8 @@
     <Build Include="dbo\StoredProcedures\CustomerRoyalException_GetByRoyalty.sql" />
     <Build Include="dbo\StoredProcedures\UserStatsGet.sql" />
     <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
+    <Build Include="dbo\StoredProcedures\Audit_Get.sql" />
+    <Build Include="dbo\Tables\Audit.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

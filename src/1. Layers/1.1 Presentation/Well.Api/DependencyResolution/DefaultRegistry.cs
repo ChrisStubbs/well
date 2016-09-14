@@ -49,6 +49,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryService>().Use<DeliveryService>();
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
+            For<IAuditRepository>().Use<AuditRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

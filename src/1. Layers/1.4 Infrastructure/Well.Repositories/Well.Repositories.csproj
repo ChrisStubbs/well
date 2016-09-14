@@ -53,12 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditRepository.cs" />
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AdamRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IAdamRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />

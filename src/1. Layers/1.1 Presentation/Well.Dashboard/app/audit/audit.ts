@@ -1,5 +1,5 @@
 ﻿export class Audit {
-    public entry: string;
+    entry: string;
     type: string;
     invoiceNumber: string;
     accountCode: string;

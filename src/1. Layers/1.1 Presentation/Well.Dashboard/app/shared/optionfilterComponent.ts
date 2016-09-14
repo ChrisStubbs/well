@@ -28,7 +28,7 @@ export class OptionFilterComponent {
 
     setSelectedOption(option: DropDownItem): void {
         this.selectedOption = option;
-        if (option.description == "Date") {
+        if (option.description == "Date" || option.description == "Delivery Date") {
             this.inputPlaceholder = "dd/mm/yyyy";
         } else {
             this.inputPlaceholder = "";

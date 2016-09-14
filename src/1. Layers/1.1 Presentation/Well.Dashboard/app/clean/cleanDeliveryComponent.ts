@@ -36,7 +36,7 @@ export class CleanDeliveryComponent implements OnInit {
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
-        new DropDownItem("Date", "deliveryDate")
+        new DropDownItem("Date", "deliveryDate", false, "date")
     ];
     account: IAccount;
     routeId: string;

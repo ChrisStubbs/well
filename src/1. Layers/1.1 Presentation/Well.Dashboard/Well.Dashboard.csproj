@@ -349,6 +349,7 @@
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\appRoutes.ts" />
     <TypeScriptCompile Include="app\audit\auditComponent.ts" />
+    <TypeScriptCompile Include="app\audit\audit.ts" />
     <TypeScriptCompile Include="app\branch\Branch.ts" />
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
     <TypeScriptCompile Include="app\branch\branchService.ts" />

@@ -43,7 +43,7 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
         this.assigneeOption,
-        new DropDownItem("Date", "deliveryDate")
+        new DropDownItem("Date", "deliveryDate", false, "date")
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
     actions: DropDownItem[] = [

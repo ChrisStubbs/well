@@ -63,11 +63,25 @@
             Assert.That(ExceptionDeliveriesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
         }
 
-        [When(@"I click on exception row 4")]
-        public void ClickExceptionDetail()
+        [Then(@"I can the following account info details")]
+        public void ThenICanTheFollowingAccountInfoDetails(Table table)
+        {
+            var modal = ExceptionDeliveriesPage.AccountModal;
+            AccountModalSteps.CompareModal(table, modal);
+        }
+
+        [When(@"I click on exception row (.*)")]
+        public void ClickExceptionDetail(int row)
         {
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            rows[3].GetItemInRowByClass("first-cell").Click();
+            rows[row-1].GetItemInRowByClass("first-cell").Click();
+        }
+
+        [When(@"I view the account info modal for exception row (.*)")]
+        public void ViewAccountModal(int row)
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            rows[row-1].GetItemInRowByClass("contact-info").Click();
         }
 
         [Given(@"I select the assigned link on the first row")]

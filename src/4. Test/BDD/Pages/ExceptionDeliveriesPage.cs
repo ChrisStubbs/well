@@ -20,6 +20,8 @@
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
+
+            AccountModal = new AccountModalComponent();
         }
 
         protected override string UrlSuffix => "exceptions";
@@ -35,6 +37,9 @@
         public Button EnabledButton { get; set; }
 
         public Heading DeliveryUpdateDrillDown { get; set; }
+
+        public AccountModalComponent AccountModal { get; set; }
+
 
         public IWebElement GetFirstCell()
         {

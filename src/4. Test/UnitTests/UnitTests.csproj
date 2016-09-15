@@ -119,6 +119,7 @@
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
+    <Compile Include="Domain\JobDetailTests.cs" />
     <Compile Include="Domain\RouteHeaderTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />

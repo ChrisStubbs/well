@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
 import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
+import {TabsModule} from 'ng2-tabs';
 
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
@@ -50,7 +51,6 @@ import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 
-
 @NgModule({
     declarations: [
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
@@ -62,7 +62,7 @@ import {WidgetService} from './home/widgetService';
         AppComponent, OrderArrowComponent, UnauthorisedComponent
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, routing
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,

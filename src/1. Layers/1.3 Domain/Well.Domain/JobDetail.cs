@@ -109,7 +109,7 @@
             return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
         }
 
-        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, string accountName, DateTime deliveryDate)
+        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime deliveryDate)
         {
             var auditBuilder = new StringBuilder();
 
@@ -145,7 +145,6 @@
                 Entry = auditBuilder.ToString(),
                 Type = AuditType.DeliveryLineUpdate,
                 AccountCode = accountCode,
-                AccountName = accountName,
                 InvoiceNumber = invoiceNumber,
                 DeliveryDate = deliveryDate
             };

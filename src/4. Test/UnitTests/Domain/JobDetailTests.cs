@@ -31,7 +31,7 @@
                 string accountCode = "987654";
                 string accountName = "BOB BING BANG";
                 DateTime deliveryDate = DateTime.Now;
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, invoiceNumber, accountCode, accountName, deliveryDate);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, invoiceNumber, accountCode, deliveryDate);
 
                 string expectedEntry =
                     $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
@@ -40,7 +40,6 @@
                 Assert.AreEqual(AuditType.DeliveryLineUpdate, audit.Type);
                 Assert.AreEqual(invoiceNumber, audit.InvoiceNumber);
                 Assert.AreEqual(accountCode, audit.AccountCode);
-                Assert.AreEqual(accountName, audit.AccountName);
                 Assert.AreEqual(deliveryDate, audit.DeliveryDate);
             }
 
@@ -59,7 +58,7 @@
                         })
                 };
 
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", "", DateTime.Now);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
                 string expectedEntry =
                     $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
@@ -89,7 +88,7 @@
                         })
                 };
 
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", "", DateTime.Now);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
                 string expectedEntry = $"Damages changed from {originalJobDetail.JobDetailDamages[0].GetDamageString()} " +
                                        $"to {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
@@ -102,7 +101,7 @@
                 var jobDetail = new JobDetail(){ShortQty = 0};
                 var originalJobDetail = new JobDetail() { ShortQty = 0 };
 
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", "", DateTime.Now);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
                 Assert.AreEqual(false, audit.HasEntry);
             }

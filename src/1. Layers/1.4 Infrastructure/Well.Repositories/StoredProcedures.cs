@@ -3,6 +3,7 @@
     public struct StoredProcedures
     {
         public static string AuditGet = "Audit_Get";
+        public static string AuditInsert = "Audit_Insert";
 
         //route header
         public static string RouteHeadersGet = "RouteHeaders_Get";

@@ -202,6 +202,7 @@
     <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
     <Build Include="dbo\StoredProcedures\Audit_Get.sql" />
     <Build Include="dbo\Tables\Audit.sql" />
+    <Build Include="dbo\StoredProcedures\Audit_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

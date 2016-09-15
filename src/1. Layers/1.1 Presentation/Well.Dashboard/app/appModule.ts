@@ -25,6 +25,7 @@ import {UserPreferenceModal} from './user_preferences/userPreferenceModalCompone
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
+import {BranchPreferenceComponent} from './shared/branch/branchPreferenceComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -39,7 +40,7 @@ import AppRoutes = require("./appRoutes");
 
 import {AccountService} from './account/accountService';
 import {AuditService} from './audit/auditService';
-import {BranchService} from './branch/branchService';
+import {BranchService} from './shared/branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
 import {LogService} from './shared/logService';
@@ -55,7 +56,7 @@ import {WidgetService} from './home/widgetService';
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent,
+        NotificationsComponent, BranchPreferenceComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent
     ],

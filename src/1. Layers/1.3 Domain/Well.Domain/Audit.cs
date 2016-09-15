@@ -11,5 +11,7 @@
         public string AccountCode { get; set; }
         public string AccountName { get; set; }
         public DateTime DeliveryDate { get; set; }
+
+        public bool HasEntry => !string.IsNullOrWhiteSpace(this.Entry);
     }
 }

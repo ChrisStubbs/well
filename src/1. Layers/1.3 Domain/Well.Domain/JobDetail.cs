@@ -4,7 +4,10 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Text;
     using System.Xml.Serialization;
+    using Common.Extensions;
+    using Enums;
 
     [Serializable()]
     public class JobDetail : Entity<int>
@@ -104,6 +107,50 @@
                 return false;
             }
             return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
+        }
+
+        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, string accountName, DateTime deliveryDate)
+        {
+            var auditBuilder = new StringBuilder();
+
+            auditBuilder.AppendConditional(originalJobDetail.ShortQty != ShortQty,
+                $"Short Qty changed from {originalJobDetail.ShortQty} to {ShortQty}. ");
+
+            var originalDamages = originalJobDetail.JobDetailDamages;
+            var damages = JobDetailDamages;
+
+            var damagesChanged = originalDamages.Count != damages.Count ||
+                                 originalDamages.OrderBy(o => o.DamageReason).SequenceEqual(damages.OrderBy(d => d.DamageReason)) == false;
+
+            if (damagesChanged && originalDamages.Count == 0)
+            {
+                auditBuilder.AppendConditional(true,
+                    $"Damages added {string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
+            }
+            else if (damagesChanged && damages.Count == 0)
+            {
+                auditBuilder.AppendConditional(true,
+                    $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}. ");
+            }
+            else if (damagesChanged)
+            {
+                auditBuilder.AppendConditional(true,
+                    $"Damages changed from " +
+                    $"{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))} to " +
+                    $"{string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
+            }
+
+            var audit = new Audit
+            {
+                Entry = auditBuilder.ToString(),
+                Type = AuditType.DeliveryLineUpdate,
+                AccountCode = accountCode,
+                AccountName = accountName,
+                InvoiceNumber = invoiceNumber,
+                DeliveryDate = deliveryDate
+            };
+
+            return audit;
         }
     }
 }

@@ -13,6 +13,7 @@ import {UserPreferenceComponent} from './user_preferences/userPreferenceComponen
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
+import {BranchPreferenceComponent} from './shared/branch/branchPreferenceComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
@@ -30,7 +31,8 @@ const routes: Routes = [
     { path: 'resolved', component: ResolvedDeliveryComponent },
     { path: 'routes', component: RouteHeaderComponent },
     { path: 'widgets', component: WidgetComponent },
-    { path: 'preferences', component: UserPreferenceComponent }
+    { path: 'preferences', component: UserPreferenceComponent },
+    { path: 'branch-preference', component: BranchPreferenceComponent }
 ];
 
 export const appRoutingProviders: any[] = [

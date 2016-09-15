@@ -2,9 +2,9 @@
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch';
-import {GlobalSettingsService} from '../shared/globalSettings';
+import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
-import {HttpErrorService} from '../shared/httpErrorService';
+import {HttpErrorService} from '../httpErrorService';
 
 @Injectable()
 export class BranchService {

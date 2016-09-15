@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
 import {GlobalSettingsService} from './shared/globalSettings';
-import {BranchService} from './branch/branchService';
+import {BranchService} from './shared/branch/branchService';
 import {SecurityService} from './shared/security/securityService'
 import 'rxjs/Rx';   // Load all features
 

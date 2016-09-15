@@ -1,4 +1,4 @@
-﻿import {Injectable, Inject} from "@angular/core";
+﻿import {Injectable, Inject, Compiler} from "@angular/core";
 import {Http, Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
@@ -18,13 +18,19 @@ export class GlobalSettingsService {
 
     constructor(private _http: Http,
         private httpErrorService: HttpErrorService,
-        private logService: LogService) {
+        private logService: LogService,
+        private compiler: Compiler) {
         var configuredApiUrl = "#{OrderWellApi}"; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
         this.globalSettings.apiUrl = (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/";
         this.globalSettings.version = "";
         this.globalSettings.userName = "";
         this.globalSettings.identityName = "";
+    }
+
+    public initApp(): Promise<GlobalSettings> {
+        this.compiler.clearCache();  //Ensure templates are not cached
+        return this.getSettings();
     }
 
     public getSettings(): Promise<GlobalSettings> {

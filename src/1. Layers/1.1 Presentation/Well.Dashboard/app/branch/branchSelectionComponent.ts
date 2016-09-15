@@ -9,7 +9,7 @@ import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import {BranchPreferenceComponent} from '../shared/branch/branchPreferenceComponent';
+import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
 
 @Component({
     selector: 'ow-branch',
@@ -34,7 +34,7 @@ export class BranchSelectionComponent implements OnInit {
         });
     }
 
-    @ViewChild(BranchPreferenceComponent) branch: BranchPreferenceComponent;
+    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
 
     save(): void {
         this.branchService.saveBranches(this.branch.selectedBranches, this.username, this.domain)

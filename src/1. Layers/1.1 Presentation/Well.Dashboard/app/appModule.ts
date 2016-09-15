@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
 import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
+import {TabsModule} from 'ng2-tabs';
 
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
@@ -25,7 +26,8 @@ import {UserPreferenceModal} from './user_preferences/userPreferenceModalCompone
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
-import {BranchPreferenceComponent} from './shared/branch/branchPreferenceComponent';
+import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
+import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -49,19 +51,18 @@ import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 
-
 @NgModule({
     declarations: [
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
-        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent, BranchPreferenceComponent,
+        NotificationsComponent, BranchCheckboxComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, routing
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,

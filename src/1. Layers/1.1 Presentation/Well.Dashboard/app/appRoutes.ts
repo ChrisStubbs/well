@@ -1,5 +1,4 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
-
 import {AccountComponent} from './account/accountComponent';
 import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
@@ -13,7 +12,7 @@ import {UserPreferenceComponent} from './user_preferences/userPreferenceComponen
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
-import {BranchPreferenceComponent} from './shared/branch/branchPreferenceComponent';
+import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
@@ -32,7 +31,7 @@ const routes: Routes = [
     { path: 'routes', component: RouteHeaderComponent },
     { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent },
-    { path: 'branch-preference', component: BranchPreferenceComponent }
+    { path: 'branch-role', component: BranchRoleComponent }
 ];
 
 export const appRoutingProviders: any[] = [

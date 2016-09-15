@@ -48,6 +48,38 @@
             }
         }
 
+        public class TheGetAllValidBranchesMethod : BranchRepositoryTests
+        {
+            [Test]
+            public void ShouldOnlyReturnRealBranches()
+            {
+                var validBranch1 = BranchFactory.New.With(x => x.Id = (int)Well.Domain.Enums.Branch.Belfast).Build();
+                var validBranch2 = BranchFactory.New.With(x => x.Id = (int)Well.Domain.Enums.Branch.Hemel).Build();
+                var invalidBranch = BranchFactory.New.With(x => x.Id = (int)Well.Domain.Enums.Branch.NotDefined).Build();
+
+                var branches = new List<Branch> { validBranch1, validBranch2, invalidBranch };
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.BranchesGet))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<Branch>()).Returns(branches);
+
+                var result = this.repository.GetAllValidBranches().ToList();
+
+                Assert.That(result.Count(), Is.EqualTo(2));
+
+                var result1 = result[0];
+                var result2 = result[1];
+
+                Assert.That(result1.Id, Is.Not.EqualTo((int)Well.Domain.Enums.Branch.NotDefined));
+                Assert.That(result2.Id, Is.Not.EqualTo((int)Well.Domain.Enums.Branch.NotDefined));
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.BranchesGet), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
+            }
+        }
+
         public class TheDeleteUserBranchesMethod : BranchRepositoryTests
         {
             [Test]

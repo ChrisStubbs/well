@@ -6,7 +6,7 @@ import {BranchService} from './branchService';
     selector: 'ow-branch-select',
     templateUrl: './app/shared/branch/branch-select.html'
 })
-export class BranchPreferenceComponent implements OnInit{
+export class BranchCheckboxComponent implements OnInit{
     branches: Branch[];
     selectedBranches: Array<Branch> = [];
     selectAllCheckbox: boolean = false;    

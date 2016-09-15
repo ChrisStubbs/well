@@ -55,7 +55,7 @@
             {
                 var branches = new List<Branch> { BranchFactory.New.Build() };
 
-                this.branchRepository.Setup(x => x.GetAll()).Returns(branches);
+                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(branches);
 
                 this.branchRepository.Setup(x => x.GetBranchesForUser("")).Returns((List<Branch>)null);
 
@@ -79,7 +79,7 @@
             {
                 var branches = new List<Branch>();
 
-                this.branchRepository.Setup(x => x.GetAll()).Returns(branches);
+                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(branches);
 
                 var response = this.Controller.Get();
 
@@ -91,7 +91,7 @@
             {
                 var exception = new Exception();
 
-                this.branchRepository.Setup(x => x.GetAll()).Throws(exception);
+                this.branchRepository.Setup(x => x.GetAllValidBranches()).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception, "An error occcured when getting branches!"))
                     .Returns(new HttpResponseMessage());

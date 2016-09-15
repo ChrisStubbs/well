@@ -45,7 +45,7 @@
         {
             try
             {
-                var branches = this.branchRespository.GetAll();
+                var branches = this.branchRespository.GetAllValidBranches();
 
                 if (branches.Any())
                 {

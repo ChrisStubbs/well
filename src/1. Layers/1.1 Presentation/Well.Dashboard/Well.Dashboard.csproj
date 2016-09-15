@@ -215,6 +215,7 @@
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
     <Content Include="app\audit\audit-list.html" />
+    <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
     <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\delivery\delivery.html" />
@@ -352,7 +353,7 @@
     <TypeScriptCompile Include="app\audit\auditComponent.ts" />
     <TypeScriptCompile Include="app\audit\audit.ts" />
     <TypeScriptCompile Include="app\audit\auditService.ts" />
-    <TypeScriptCompile Include="app\branch-parameters\branchParameterComponent.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchRoleComponent.ts" />
     <TypeScriptCompile Include="app\shared\branch\branch.ts" />
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
     <TypeScriptCompile Include="app\shared\branch\branchService.ts" />
@@ -382,7 +383,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
     <TypeScriptCompile Include="app\shared\assignModal.ts" />
-    <TypeScriptCompile Include="app\shared\branch\branchPreferenceComponent.ts" />
+    <TypeScriptCompile Include="app\shared\branch\branchCheckboxComponent.ts" />
     <TypeScriptCompile Include="app\shared\contactModal.ts" />
     <TypeScriptCompile Include="app\shared\logService.ts" />
     <TypeScriptCompile Include="app\shared\httpResponse.ts" />

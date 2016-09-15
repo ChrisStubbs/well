@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.IO;
+    using System.Linq;
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -19,6 +20,13 @@
         public IEnumerable<Branch> GetAll()
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).Query<Branch>();
+        }
+
+        public IEnumerable<Branch> GetAllValidBranches()
+        {
+            var branches = this.dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).Query<Branch>().ToList();
+
+            return branches.Where(x => x.Id != (int)Domain.Enums.Branch.NotDefined);
         }
 
         public void DeleteUserBranches(User user)

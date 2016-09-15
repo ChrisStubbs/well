@@ -1,0 +1,31 @@
+﻿<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Branch To Role Parameters</li>
+    </ol>
+</div>
+<div class="jumbotron">
+    <div class="panel panel-default" style="width: 250px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">Roles</h3></div>
+        <div class="panel-body">
+            <div class="checkbox" *ngFor="let role of roles">
+                <label>
+                    <input id="{{role}}" class="role-checkboxes" type="checkbox" />{{role}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="width: 250px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">Branches</h3></div>
+        <div class="panel-body">
+            <ow-branch-select></ow-branch-select>
+        </div>
+    </div>
+    
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary" (click)="save()" id="save">Save</button>
+    </div>
+</div>
+
+

@@ -25,7 +25,8 @@ import {UserPreferenceModal} from './user_preferences/userPreferenceModalCompone
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
-import {BranchPreferenceComponent} from './shared/branch/branchPreferenceComponent';
+import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
+import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -53,10 +54,10 @@ import {WidgetService} from './home/widgetService';
 @NgModule({
     declarations: [
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
-        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal,
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent, BranchPreferenceComponent,
+        NotificationsComponent, BranchCheckboxComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent
     ],

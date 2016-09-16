@@ -11,9 +11,10 @@ export class HttpErrorService {
         private logService: LogService) {
     }
 
-    handleError(error: Response) {
+    handleError(error: Response) : Observable<any> {
         if (error.status && error.status === 404) {
-            //No popup required.
+            //Not an error, just no data. No popup required.
+            return Observable.empty();
         } else {
             try {
                 let message: string = error.json()

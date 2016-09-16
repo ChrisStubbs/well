@@ -50,7 +50,7 @@
             DeleteAndReseed("Routes");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
-
+            DeleteAndReseed("Audit");
         }
 
         private void DeleteAndReseed(string tableName)

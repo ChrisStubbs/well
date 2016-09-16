@@ -60,6 +60,7 @@
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\ISeasonalDateRepository.cs" />
     <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IAdamRepository.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Read\DeliveryReadRepository.cs" />
     <Compile Include="Contracts\IDeliveryReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
+    <Compile Include="SeasonalDateRepository.cs" />
     <Compile Include="StopRepository.cs" />
     <Compile Include="StoredProcedures.cs" />
     <Compile Include="UserStatsRepository.cs" />

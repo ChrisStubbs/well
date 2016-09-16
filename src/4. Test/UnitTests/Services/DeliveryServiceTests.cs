@@ -16,6 +16,8 @@
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IJobDetailDamageRepo> jobDetailDamageRepo;
         private Mock<IJobRepository> jobRepo;
+        private Mock<IAuditRepository> auditRepo;
+        private Mock<IStopRepository> stopRepo;
 
         [SetUp]
         public void Setup()
@@ -23,16 +25,21 @@
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             jobDetailDamageRepo = new Mock<IJobDetailDamageRepo>(MockBehavior.Strict);
             jobRepo = new Mock<IJobRepository>(MockBehavior.Strict);
+            auditRepo = new Mock<IAuditRepository>(MockBehavior.Strict);
+            stopRepo = new Mock<IStopRepository>(MockBehavior.Strict);
 
-
-            service = new DeliveryService(
+           service = new DeliveryService(
                 jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
-                jobRepo.Object);
+                jobRepo.Object,
+                auditRepo.Object,
+                stopRepo.Object);
 
             jobDetailRepository.SetupSet(x => x.CurrentUser = "user");
             jobDetailDamageRepo.SetupSet(x => x.CurrentUser = "user");
             jobRepo.SetupSet(x => x.CurrentUser = "user");
+            auditRepo.SetupSet(a => a.CurrentUser = "user");
+            stopRepo.SetupSet(a => a.CurrentUser = "user");
         }
 
         public class UpdateDeliveryLineTests : DeliveryServiceTests
@@ -59,6 +66,12 @@
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
                 jobRepo.Setup(j => j.JobCreateOrUpdate(It.IsAny<Job>()));
 
+                jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
+                    .Returns(new JobDetail());
+                stopRepo.Setup(r => r.GetByJobId(jobDetail.JobId)).Returns(new Stop());
+                auditRepo.Setup(a => a.Save(It.IsAny<Audit>()));
+
+                //ACT
                 service.UpdateDeliveryLine(jobDetail, "user");
 
                 jobDetailRepository.Verify(j => j.Update(It.Is<JobDetail>(
@@ -67,6 +80,8 @@
 
                 jobRepo.Verify(j => j.JobCreateOrUpdate(
                     It.Is<Job>(job => job.PerformanceStatus == PerformanceStatus.Incom)));
+
+                auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
             }
 
             [Test]
@@ -96,6 +111,11 @@
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
                 jobRepo.Setup(j => j.JobCreateOrUpdate(It.IsAny<Job>()));
 
+                jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
+                   .Returns(new JobDetail());
+                stopRepo.Setup(r => r.GetByJobId(jobDetail.JobId)).Returns(new Stop());
+                auditRepo.Setup(a => a.Save(It.IsAny<Audit>()));
+
                 //ACT
                 service.UpdateDeliveryLine(jobDetail, "user");
 
@@ -108,6 +128,8 @@
 
                 jobRepo.Verify(j => j.JobCreateOrUpdate(It.Is<Job>(
                     job => job.PerformanceStatus == PerformanceStatus.Incom)));
+
+                auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
             }
 
             [Test]
@@ -142,6 +164,12 @@
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
                 jobRepo.Setup(j => j.JobCreateOrUpdate(It.IsAny<Job>()));
 
+                jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
+                   .Returns(new JobDetail() {ShortQty = 3});
+                stopRepo.Setup(r => r.GetByJobId(jobDetail.JobId)).Returns(new Stop());
+                auditRepo.Setup(a => a.Save(It.IsAny<Audit>()));
+
+                //ACT
                 service.UpdateDeliveryLine(jobDetail, "user");
 
                 jobDetailRepository.Verify(j => j.Update(It.Is<JobDetail>(
@@ -150,6 +178,8 @@
 
                 jobRepo.Verify(j => j.JobCreateOrUpdate(
                     It.Is<Job>(job => job.PerformanceStatus == PerformanceStatus.Resolved)));
+
+                auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
             }
         }
 

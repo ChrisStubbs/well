@@ -109,7 +109,7 @@
             return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
         }
 
-        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, string accountName, DateTime deliveryDate)
+        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime deliveryDate)
         {
             var auditBuilder = new StringBuilder();
 
@@ -124,28 +124,31 @@
 
             if (damagesChanged && originalDamages.Count == 0)
             {
-                auditBuilder.AppendConditional(true,
-                    $"Damages added {string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
+                auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
             }
             else if (damagesChanged && damages.Count == 0)
             {
-                auditBuilder.AppendConditional(true,
+                auditBuilder.Append(
                     $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}. ");
             }
             else if (damagesChanged)
             {
-                auditBuilder.AppendConditional(true,
-                    $"Damages changed from " +
+                auditBuilder.Append($"Damages changed from " +
                     $"{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))} to " +
                     $"{string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
             }
 
+            string entry = string.Empty;
+            if (auditBuilder.Length > 0)
+            {
+                entry = $"Product: {BarCode} - {ProdDesc}. {auditBuilder}"; 
+            }
+
             var audit = new Audit
             {
-                Entry = auditBuilder.ToString(),
+                Entry = entry,
                 Type = AuditType.DeliveryLineUpdate,
                 AccountCode = accountCode,
-                AccountName = accountName,
                 InvoiceNumber = invoiceNumber,
                 DeliveryDate = deliveryDate
             };

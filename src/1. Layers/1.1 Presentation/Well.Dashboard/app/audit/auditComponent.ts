@@ -31,4 +31,9 @@ export class AuditComponent implements OnInit {
     ngOnInit(): void {
         this.auditService.getAudits().subscribe(a => this.audits = a);
     }
+
+    accountDisplayName(audit: Audit): string {
+        return audit.accountName ? audit.accountCode + " - " + audit.accountName : audit.accountCode;
+    }
 }
+

@@ -34,7 +34,7 @@
                     <td class="entry">{{audit.entry}}</td>
                     <td>{{audit.type}}</td>
                     <td>{{audit.invoiceNumber}}</td>
-                    <td>{{audit.accountCode}} - {{audit.accountName}}</td>
+                    <td>{{accountDisplayName(audit)}}</td>
                     <td>{{audit.deliveryDate | date:'dd/MM/y'}}</td>
                     <td>{{audit.auditDate | date:'dd/MM/y'}}</td>
                     <td>{{audit.auditBy}}</td>

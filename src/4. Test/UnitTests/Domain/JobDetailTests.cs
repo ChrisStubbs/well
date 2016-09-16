@@ -17,6 +17,8 @@
             {
                 var jobDetail = new JobDetail()
                 {
+                    BarCode = "12345",
+                    ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 1,
                     JobDetailDamages =
                         new Collection<JobDetailDamage>(new List<JobDetailDamage>()
@@ -31,16 +33,15 @@
                 string accountCode = "987654";
                 string accountName = "BOB BING BANG";
                 DateTime deliveryDate = DateTime.Now;
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, invoiceNumber, accountCode, accountName, deliveryDate);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, invoiceNumber, accountCode, deliveryDate);
 
-                string expectedEntry =
-                    $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
-                    $"Damages added {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                string expectedEntry = $"Product: {jobDetail.BarCode} - {jobDetail.ProdDesc}. " +
+                                       $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
+                                       $"Damages added {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
                 Assert.AreEqual(expectedEntry, audit.Entry);
                 Assert.AreEqual(AuditType.DeliveryLineUpdate, audit.Type);
                 Assert.AreEqual(invoiceNumber, audit.InvoiceNumber);
                 Assert.AreEqual(accountCode, audit.AccountCode);
-                Assert.AreEqual(accountName, audit.AccountName);
                 Assert.AreEqual(deliveryDate, audit.DeliveryDate);
             }
 
@@ -49,6 +50,8 @@
             {
                 var jobDetail = new JobDetail()
                 {
+                    BarCode = "12345",
+                    ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 0
                 };
                 var originalJobDetail = new JobDetail() { ShortQty = 1,
@@ -59,11 +62,12 @@
                         })
                 };
 
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", "", DateTime.Now);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
-                string expectedEntry =
-                    $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
-                    $"Damages removed, old damages {originalJobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                string expectedEntry = $"Product: {jobDetail.BarCode} - {jobDetail.ProdDesc}. " +
+                                       $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
+                                       $"Damages removed, old damages {originalJobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                    
                 Assert.AreEqual(expectedEntry, audit.Entry);
             }
 
@@ -72,6 +76,8 @@
             {
                 var jobDetail = new JobDetail()
                 {
+                    BarCode = "12345",
+                    ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 0,
                     JobDetailDamages =
                         new Collection<JobDetailDamage>(new List<JobDetailDamage>()
@@ -89,10 +95,12 @@
                         })
                 };
 
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", "", DateTime.Now);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
-                string expectedEntry = $"Damages changed from {originalJobDetail.JobDetailDamages[0].GetDamageString()} " +
+                string expectedEntry = $"Product: {jobDetail.BarCode} - {jobDetail.ProdDesc}. " +
+                                       $"Damages changed from {originalJobDetail.JobDetailDamages[0].GetDamageString()} " +
                                        $"to {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                                       
                 Assert.AreEqual(expectedEntry, audit.Entry);
             }
 
@@ -102,7 +110,7 @@
                 var jobDetail = new JobDetail(){ShortQty = 0};
                 var originalJobDetail = new JobDetail() { ShortQty = 0 };
 
-                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", "", DateTime.Now);
+                var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
                 Assert.AreEqual(false, audit.HasEntry);
             }

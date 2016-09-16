@@ -73,7 +73,7 @@ import {WidgetService} from './home/widgetService';
         RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders,
     {
         provide: APP_INITIALIZER,
-        useFactory: (settingsService: GlobalSettingsService) => () => settingsService.getSettings(),
+        useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),
         deps: [GlobalSettingsService],
         multi: true
     },

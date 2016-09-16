@@ -11,35 +11,48 @@
 
     public class DeliveryService : IDeliveryService
     {
-        private readonly IJobDetailRepository jobDetailRepository;
+        private readonly IJobDetailRepository jobDetailRepo;
         private readonly IJobDetailDamageRepo jobDetailDamageRepo;
         private readonly IJobRepository jobRepo;
+        private readonly IAuditRepository auditRepo;
+        private readonly IStopRepository stopRepo;
 
-        public DeliveryService(IJobDetailRepository jobDetailRepository,
+        public DeliveryService(IJobDetailRepository jobDetailRepo,
             IJobDetailDamageRepo jobDetailDamageRepo,
-            IJobRepository jobRepo)
+            IJobRepository jobRepo,
+            IAuditRepository auditRepo,
+            IStopRepository stopRepo)
         {
-            this.jobDetailRepository = jobDetailRepository;
+            this.jobDetailRepo = jobDetailRepo;
             this.jobDetailDamageRepo = jobDetailDamageRepo;
             this.jobRepo = jobRepo;
+            this.auditRepo = auditRepo;
+            this.stopRepo = stopRepo;
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
         {
-            jobDetailRepository.CurrentUser = username;
+            jobDetailRepo.CurrentUser = username;
             jobDetailDamageRepo.CurrentUser = username;
             jobRepo.CurrentUser = username;
+            auditRepo.CurrentUser = username;
+            stopRepo.CurrentUser = username;
 
-            IEnumerable<JobDetail> jobDetails = jobDetailRepository.GetByJobId(jobDetailUpdates.JobId);
+            IEnumerable<JobDetail> jobDetails = jobDetailRepo.GetByJobId(jobDetailUpdates.JobId);
             bool isCleanBeforeUpdate = jobDetails.All(jd => jd.IsClean());
 
             var jobDetail = jobDetails.Single(j => j.JobId == jobDetailUpdates.JobId && j.LineNumber == jobDetailUpdates.LineNumber);
             jobDetail.ShortQty = jobDetailUpdates.ShortQty;
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
 
+            Job job = jobRepo.GetById(jobDetail.JobId);
+            JobDetail originalJobDetail = jobDetailRepo.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
+            Stop stop = stopRepo.GetByJobId(jobDetailUpdates.JobId);
+            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.JobRef3, job.JobRef1, stop.DeliveryDate);
+
             using (var transactionScope = new TransactionScope())
             {
-                jobDetailRepository.Update(jobDetail);
+                jobDetailRepo.Update(jobDetail);
                 jobDetailDamageRepo.Delete(jobDetail.Id);
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
@@ -50,7 +63,6 @@
                 if (isCleanBeforeUpdate && isClean == false)
                 {
                     //Make dirty
-                    Job job = jobRepo.GetById(jobDetail.JobId);
                     job.PerformanceStatus = PerformanceStatus.Incom;
                     jobRepo.JobCreateOrUpdate(job);
                 }
@@ -58,9 +70,13 @@
                 if (isCleanBeforeUpdate == false && isClean)
                 {
                     //Resolve
-                    Job job = jobRepo.GetById(jobDetail.JobId);
                     job.PerformanceStatus = PerformanceStatus.Resolved;
                     jobRepo.JobCreateOrUpdate(job);
+                }
+
+                if (audit.HasEntry)
+                {
+                    auditRepo.Save(audit);
                 }
 
                 transactionScope.Complete();

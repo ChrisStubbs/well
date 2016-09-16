@@ -5,7 +5,6 @@
 	[Type] int  NOT NULL,
 	[InvoiceNumber] varchar(255)  NOT NULL,
 	[AccountCode] VARCHAR(255) NOT NULL,
-	[AccountName] VARCHAR(255) NOT NULL,
 	[DeliveryDate] DateTime NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

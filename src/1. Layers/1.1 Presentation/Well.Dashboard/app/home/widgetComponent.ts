@@ -14,9 +14,7 @@ import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 })
 
 export class WidgetComponent implements OnInit {
-
     widgets: Widget[] = new Array<Widget>();
-    errorMessage: string;
     refreshSubscription: any;
     @ViewChild(WidgetGraphComponent) widgetGraph: WidgetGraphComponent;
 
@@ -42,12 +40,11 @@ export class WidgetComponent implements OnInit {
         this.widgetService.getWidgets()
             .subscribe(widgets => {
                 this.widgets = widgets;
-
-                let graphlabels: string[] = widgets.map(widget => { return widget.name; } );
+                let graphlabels: string[] = widgets.map(widget => { return widget.name; });
                 let graphData: any[] = widgets.map(widget => { return widget.count; });
                 let graphWarnings = widgets.map(widget => { return widget.showWarning; });
                 this.widgetGraph.init(graphlabels, graphData, graphWarnings, new Date());
-            }, error => this.errorMessage = <any>error);
+            });
     }
 
     widgetLinkClicked(widgetName: string) {

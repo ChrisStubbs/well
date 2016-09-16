@@ -38,6 +38,7 @@ import {OrderByDatePipe} from "./shared/orderByDatePipe";
 import {OutstandingPipe} from "./shared/outstandingPipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderbyArrow';
+import {SpinnerComponent} from './shared/spinnerComponent'; 
 import AppRoutes = require("./appRoutes");
 
 import {AccountService} from './account/accountService';
@@ -52,7 +53,7 @@ import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 
 @NgModule({
-    declarations: [
+    declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,

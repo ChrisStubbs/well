@@ -29,6 +29,7 @@ import * as lodash from 'lodash';
 })
 
 export class ExceptionsComponent implements OnInit {
+    isLoading: boolean = true;
     refreshSubscription: any;
     errorMessage: string;
     exceptions: ExceptionDelivery[];
@@ -102,24 +103,26 @@ export class ExceptionsComponent implements OnInit {
     getExceptions() {
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData => {
-                this.exceptions = responseData;
-                this.lastRefresh = Date.now();
+                    this.exceptions = responseData;
+                    this.lastRefresh = Date.now();
 
-                if (this.routeId) {
-                    this.filterOption = new FilterOption(this.routeOption, this.routeId);
-                    this.selectedOption = this.routeOption;
-                    this.selectedFilter = this.routeId;
-                }
-                if (this.assignee) {
-                    this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
-                    this.selectedOption = this.assigneeOption;
-                    this.selectedFilter = this.assignee;
-                }
+                    if (this.routeId) {
+                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
+                        this.selectedOption = this.routeOption;
+                        this.selectedFilter = this.routeId;
+                    }
+                    if (this.assignee) {
+                        this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
+                        this.selectedOption = this.assigneeOption;
+                        this.selectedFilter = this.assignee;
+                    }
+                    this.isLoading = false;
                 },
                 error => {
                     if (error.status && error.status === 404) {
                         this.lastRefresh = Date.now();
                     }
+                    this.isLoading = false;
                 });
     }
 

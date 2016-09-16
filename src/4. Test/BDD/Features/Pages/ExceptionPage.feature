@@ -3,8 +3,7 @@
 Feature: ExceptionPage
 	As a user
 	I wish to be able to view and filter exception delivery information
-	so that I can determine
-	which deliveries have been unsuccesful
+	so that I can determine	which deliveries have been unsuccesful
 
 Background: 
 	Given I have a clean database

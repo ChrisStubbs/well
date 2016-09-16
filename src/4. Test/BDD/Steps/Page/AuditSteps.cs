@@ -21,6 +21,25 @@
             page.Open();
         }
 
+        [When(@"I click on audit page (.*)")]
+        public void WhenIClickOnExceptionDeliveryPage(int pageNo)
+        {
+            this.page.Pager.Click(pageNo);
+        }
+
+        [When(@"I filter the audits grid with the option '(.*)' and value '(.*)'")]
+        public void WhenIFilterTheExceptionDeliveryGridWithTheOptionAndValue(string option, string value)
+        {
+            this.page.Filter.Apply(option, value);
+        }
+
+        [Then(@"'(.*)' rows of audit data will be displayed")]
+        public void ThenRowsOfExceptionDeliveryDataWillBeDisplayed(int noOfRowsExpected)
+        {
+            var pageRows = this.page.Grid.ReturnAllRows().ToList();
+            Assert.AreEqual(pageRows.Count, noOfRowsExpected);
+        }
+
         [Then(@"the following audit entries are shown")]
         public void ThenTheFollowingAuditIsCreated(Table table)
         {

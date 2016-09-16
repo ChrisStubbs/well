@@ -121,6 +121,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WellClean.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\Audits.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Audits.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\Branch.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -235,6 +240,10 @@
     <None Include="Features\ACL\WellClean.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>WellClean.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\Audits.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Audits.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

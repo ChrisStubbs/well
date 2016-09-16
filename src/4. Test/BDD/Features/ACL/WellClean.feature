@@ -1,4 +1,5 @@
-﻿Feature: WellClean
+﻿@Ignore
+Feature: WellClean
 	To prevent system performance from degrading over time 
 	As a Well Application
 	I will regularly purge clean and resolved deliveries from the Well

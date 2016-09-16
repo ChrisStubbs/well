@@ -50,6 +50,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
             For<IAuditRepository>().Use<AuditRepository>();
+            For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

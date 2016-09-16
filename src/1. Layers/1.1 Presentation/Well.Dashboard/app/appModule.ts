@@ -39,6 +39,10 @@ import {OutstandingPipe} from "./shared/outstandingPipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SpinnerComponent} from './shared/spinnerComponent'; 
+import {SeasonalDatesComponent} from './seasonal_dates/seasonalDatesComponent';
+import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
+import {CreditThresholdComponent} from './credit_threshold/creditThresholdComponent';
+import {CreditThresholdViewComponent} from './credit_threshold/creditThresholdViewComponent';
 import AppRoutes = require("./appRoutes");
 
 import {AccountService} from './account/accountService';
@@ -55,10 +59,10 @@ import {WidgetService} from './home/widgetService';
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
-        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent,
-        UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
+        UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesComponent, SeasonalDatesViewComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent, BranchCheckboxComponent,
+        NotificationsComponent, BranchCheckboxComponent, CreditThresholdComponent, CreditThresholdViewComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent
     ],

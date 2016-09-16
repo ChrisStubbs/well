@@ -13,7 +13,7 @@
         [Test]
         public void MedwayConfig()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.MedwayIsDown);
+            var config = AdamSettingsFactory.GetAdamSettings(Branch.Medway);
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));

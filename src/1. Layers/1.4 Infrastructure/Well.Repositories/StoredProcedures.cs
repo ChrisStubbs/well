@@ -24,7 +24,6 @@
         public static string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
         public static string HolidayExceptionGet = "HolidayException_Get";
 
-
         //Stops
         public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         public static string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
@@ -91,5 +90,7 @@
 
         public static string MarkEventAsProcessed = "MarkEventAsProcessed";
         public static string UserStatsGet = "UserStatsGet";
+
+        public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
     }
 }

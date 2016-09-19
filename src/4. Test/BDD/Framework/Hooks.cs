@@ -158,6 +158,7 @@
                                                 x.For<IFileService>().Use<FileService>();
                                                 x.For<IAccountRepository>().Use<AccountRepository>();
                                                 x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
+                                                x.For<IAuditRepository>().Use<AuditRepository>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

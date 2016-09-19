@@ -121,6 +121,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WellClean.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\Audits.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Audits.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\Branch.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -181,6 +186,7 @@
     <Compile Include="Framework\WebElements\TextBox.cs" />
     <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="Pages\AccountModalComponent.cs" />
+    <Compile Include="Pages\AuditPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\WidgetsPage.cs" />
@@ -197,6 +203,7 @@
     <Compile Include="Steps\AdamImportSteps.cs" />
     <Compile Include="Steps\DatabaseSteps.cs" />
     <Compile Include="Steps\Page\AccountModalSteps.cs" />
+    <Compile Include="Steps\Page\AuditSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
     <Compile Include="Steps\Page\WidgetSteps.cs" />
@@ -233,6 +240,10 @@
     <None Include="Features\ACL\WellClean.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>WellClean.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\Audits.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Audits.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

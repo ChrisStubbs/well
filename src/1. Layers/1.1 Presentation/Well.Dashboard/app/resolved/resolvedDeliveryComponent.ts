@@ -24,6 +24,7 @@ import * as lodash from 'lodash';
 
 })
 export class ResolvedDeliveryComponent implements OnInit {
+    isLoading: boolean = true;
     lastRefresh = Date.now();
     refreshSubscription: any;
     deliveries: ResolvedDelivery[];
@@ -67,8 +68,12 @@ export class ResolvedDeliveryComponent implements OnInit {
             .subscribe(deliveries => {
                     this.deliveries = deliveries;
                     this.lastRefresh = Date.now();
+                    this.isLoading = false;
                 },
-                error => this.lastRefresh = Date.now());
+                error => {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     deliverySelected(delivery): void {

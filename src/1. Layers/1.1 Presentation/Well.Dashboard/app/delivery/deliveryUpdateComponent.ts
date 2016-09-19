@@ -16,8 +16,8 @@ import * as lodash from 'lodash';
 export class DeliveryUpdateComponent {
     deliveryId: number;
     lineNo: number;
-    delivery: Delivery = new Delivery(null);
-    deliveryLine: DeliveryLine = new DeliveryLine(null);
+    delivery: Delivery = new Delivery(undefined);
+    deliveryLine: DeliveryLine = new DeliveryLine(undefined);
     reasons: DamageReason[] = new Array<DamageReason>();
     confirmMessage: string;
     confirmModalIsVisible: boolean = false;

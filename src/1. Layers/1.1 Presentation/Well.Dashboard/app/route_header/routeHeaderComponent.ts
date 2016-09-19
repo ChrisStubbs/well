@@ -20,6 +20,7 @@ import * as lodash from 'lodash';
     providers: [RouteHeaderService]
 })
 export class RouteHeaderComponent implements OnInit {
+    isLoading: boolean = true;
     refreshSubscription: any;
     errorMessage: string;
     routes: Route[];
@@ -71,8 +72,12 @@ export class RouteHeaderComponent implements OnInit {
             .subscribe(routes => {
                     this.routes = routes;
                     this.lastRefresh = Date.now();
+                    this.isLoading = false;
                 },
-                error => this.lastRefresh = Date.now());
+                error => {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     routeSelected(route): void {

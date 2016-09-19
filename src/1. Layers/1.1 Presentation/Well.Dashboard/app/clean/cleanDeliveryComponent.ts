@@ -23,6 +23,7 @@ import * as lodash from 'lodash';
 
 })
 export class CleanDeliveryComponent implements OnInit {
+    isLoading: boolean = true;
     lastRefresh = Date.now();
     refreshSubscription: any;
     errorMessage: string;
@@ -78,8 +79,12 @@ export class CleanDeliveryComponent implements OnInit {
                         this.selectedOption = this.routeOption;
                         this.selectedFilter = this.routeId;
                     }
+                    this.isLoading = false;
                 },
-                error => this.lastRefresh = Date.now());
+                error => {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     sortDirection(sortDirection): void {    

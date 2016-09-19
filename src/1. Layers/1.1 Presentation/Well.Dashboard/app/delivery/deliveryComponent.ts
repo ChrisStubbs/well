@@ -15,7 +15,7 @@ import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 })
 export class DeliveryComponent implements OnInit {
     errorMessage: string;
-    delivery: Delivery = new Delivery(null);
+    delivery: Delivery = new Delivery(undefined);
     rowCount: number = 10;
     showAll: boolean = false;
     deliveryId: number;

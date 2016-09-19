@@ -8,8 +8,8 @@ import {FilterOption} from '../shared/filterOption';
     templateUrl: './app/audit/audit-list.html'
 })
 export class AuditComponent implements OnInit {
-
-    private audits: Audit[] = [];
+    isLoading: boolean = true;
+    audits: Audit[] = [];
 
     pageSize: number = 10;
 
@@ -29,7 +29,11 @@ export class AuditComponent implements OnInit {
     constructor(private auditService: AuditService) {}
 
     ngOnInit(): void {
-        this.auditService.getAudits().subscribe(a => this.audits = a);
+        this.auditService.getAudits()
+            .subscribe(a => {
+                this.audits = a;
+                this.isLoading = false;
+            });
     }
 
     accountDisplayName(audit: Audit): string {

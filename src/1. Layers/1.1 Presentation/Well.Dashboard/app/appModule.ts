@@ -38,6 +38,7 @@ import {OutstandingPipe} from "./shared/outstandingPipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
+import {SpinnerComponent} from './shared/spinnerComponent'; 
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
@@ -58,7 +59,7 @@ import {WidgetService} from './home/widgetService';
 import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 
 @NgModule({
-    declarations: [
+    declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,

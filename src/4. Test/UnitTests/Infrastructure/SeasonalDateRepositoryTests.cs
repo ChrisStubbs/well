@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
 
     using Moq;
@@ -50,6 +51,31 @@
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.SeasonalDatesGetAll), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Query<SeasonalDate>(), Times.Once);
+            }
+        }
+
+        public class TheDeleteMethod : SeasonalDateRepositoryTests
+        {
+            [Test]
+            public void ShouldHardDeleteTheSeasonalDate()
+            {
+                var id = 12;
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.SeasonalDatesDelete))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.Delete(id);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.SeasonalDatesDelete), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
         }
     }

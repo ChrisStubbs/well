@@ -7,5 +7,7 @@
     public interface ISeasonalDateRepository : IRepository<SeasonalDate, int>
     {
         IEnumerable<SeasonalDate> GetAll();
+
+        void Delete(int id);
     }
 }

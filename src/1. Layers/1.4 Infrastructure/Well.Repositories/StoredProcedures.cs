@@ -92,5 +92,6 @@
         public static string UserStatsGet = "UserStatsGet";
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
+        public static string SeasonalDatesDelete = "SeasonalDatesDelete";
     }
 }

@@ -7,7 +7,6 @@ import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster
 import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
 import {TabsModule} from 'ng2-tabs';
-
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
 
@@ -38,7 +37,9 @@ import {OrderByDatePipe} from "./shared/orderByDatePipe";
 import {OutstandingPipe} from "./shared/outstandingPipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {OrderArrowComponent} from './shared/orderbyArrow';
-import {SeasonalDatesComponent} from './seasonal_dates/seasonalDatesComponent';
+import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
+import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
+import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
 import {CreditThresholdComponent} from './credit_threshold/creditThresholdComponent';
 import {CreditThresholdViewComponent} from './credit_threshold/creditThresholdViewComponent';
@@ -54,12 +55,14 @@ import {PaginationService } from 'ng2-pagination';
 import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
+import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 
 @NgModule({
     declarations: [
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
-        UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesComponent, SeasonalDatesViewComponent,
+        UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
+        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdComponent, CreditThresholdViewComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
@@ -70,7 +73,7 @@ import {WidgetService} from './home/widgetService';
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
-        RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders,
+        SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

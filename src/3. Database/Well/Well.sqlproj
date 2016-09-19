@@ -204,6 +204,9 @@
     <Build Include="dbo\Tables\Audit.sql" />
     <Build Include="dbo\Tables\SeasonalDate.sql" />
     <Build Include="dbo\StoredProcedures\Audit_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesGetAll.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesDelete.sql" />
+    <Build Include="dbo\Tables\SeasonalDateToBranch.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

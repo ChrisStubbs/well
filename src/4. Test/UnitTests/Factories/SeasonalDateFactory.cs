@@ -12,7 +12,6 @@
             this.Entity.Description = "Halloween";
             this.Entity.From = DateTime.Now.AddDays(-10);
             this.Entity.To = DateTime.Now.AddDays(10);
-            this.Entity.BranchId = (int)PH.Well.Domain.Enums.Branch.Medway;
         }
     }
 }

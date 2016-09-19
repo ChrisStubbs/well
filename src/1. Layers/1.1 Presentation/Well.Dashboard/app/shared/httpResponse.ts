@@ -3,4 +3,5 @@
     failure: boolean;
     notAcceptable: boolean;
     adamdown: boolean;
+    message: string;
 }

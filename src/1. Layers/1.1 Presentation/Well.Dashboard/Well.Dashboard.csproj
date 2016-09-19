@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="Hubs\RefreshHub.cs" />
     <Compile Include="Models\BootstrapData.cs" />
+    <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\UserBranches.cs" />
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
@@ -228,8 +229,10 @@
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\delivery-selection-modal.html" />
     <Content Include="app\route_header\routeheader-list.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-add-modal.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-remove-modal.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-view.html" />
-    <Content Include="app\seasonal_dates\seasonal-dates.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-edit-modal.html" />
     <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\branch\branch-select.html" />
     <Content Include="app\shared\contact-modal.html" />
@@ -360,7 +363,11 @@
     <TypeScriptCompile Include="app\branch-role\branchRoleComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdViewComponent.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesRemoveModalComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDateService.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesViewComponent.ts" />
     <TypeScriptCompile Include="app\shared\branch\branch.ts" />
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
@@ -428,6 +435,10 @@
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
       <Name>Well.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1.3 Domain\Well.Domain\Well.Domain.csproj">
+      <Project>{94DED6AE-3FDA-42C6-AFD5-D7ECDB59AB7B}</Project>
+      <Name>Well.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

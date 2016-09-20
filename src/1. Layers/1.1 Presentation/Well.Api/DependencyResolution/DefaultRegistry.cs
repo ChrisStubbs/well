@@ -47,6 +47,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobDetailRepository>().Use<JobDetailRepository>();
             For<IJobDetailDamageRepo>().Use<JobDetailDamageRepo>();
             For<IDeliveryService>().Use<DeliveryService>();
+            For<INotificationRepository>().Use<NotificationRepository>();
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
             For<IAuditRepository>().Use<AuditRepository>();

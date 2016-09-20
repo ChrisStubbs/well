@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.IO;
     using System.Linq;
 
     using PH.Well.Common.Contracts;
@@ -55,6 +54,14 @@
             return
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForUser)
                     .AddParameter("Name", username, DbType.String, size: 255)
+                    .Query<Branch>();
+        }
+
+        public IEnumerable<Branch> GetBranchesForSeasonalDate(int seasonalDateId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForSeasonalDate)
+                    .AddParameter("SeasonalDateId", seasonalDateId, DbType.Int32)
                     .Query<Branch>();
         }
     }

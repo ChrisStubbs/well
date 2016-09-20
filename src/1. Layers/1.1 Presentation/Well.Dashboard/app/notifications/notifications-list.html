@@ -4,7 +4,38 @@
     </ol>
 </div>
 <div class="jumbotron">
+
     <div class="content">
+        <div class="row">
+            <div class="notification" *ngFor="let notification of notifications | paginate: { itemsPerPage: rowCount, currentPage: p }" >
+                <div ngClass="{{getStyle(notification)}}">
+                    <span class="pull-right notification-archive">
+                        <a class="btn btn-primary" (click)="archive(notification)">Archive</a>
+                    </span>
+                    <h4>{{getHeading(notification)}}</h4>
+                    <p>
+                        <b>Account:</b> {{notification.depotId}}/{{notification.jobRef1}}<br>
+                        <b>PickList Reference:</b> {{notification.jobRef2}}<br>
+                        <b>Invoice Number:</b> {{notification.jobRef3}}<br><br>
+                        <b>Contact:</b> {{notification.contactName}}<br>
+                    </p>
+                    <p class="text-info">
+                        {{notification.reason}}
+
+                    </p>
+                </div>
+                
+            </div>
+           
+    </div>
+
+    <div class="row">
+        <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+        <div class="col-md-6">
+            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+    <!-- <div class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="btn-group">
@@ -137,7 +168,7 @@
         </div>
 
 
-    </div>
+    </div>-->
 
 
 

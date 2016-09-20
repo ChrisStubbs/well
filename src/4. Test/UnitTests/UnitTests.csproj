@@ -117,6 +117,7 @@
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryDetailModelMapperTests.cs" />
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />
+    <Compile Include="Api\Mapper\SeasonalDateMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />

@@ -17,6 +17,11 @@ Scenario: A user can view Resolved Delivery Information
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved |        | Unallocated |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Resolved |        | Unallocated |
 
+	When I view the account info modal for resolved row 2
+	Then I can the following account info details - resolved
+	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
+	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |
+
 Scenario: A user can filter Resolved Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data

@@ -8,13 +8,15 @@ Feature: RoutesPage
 Scenario: A user can view Route information
 	Given I have a clean database
 	And I have loaded the Adam route data
+	And  All the deliveries are marked as clean
+	And  3 deliveries have been marked as exceptions
 	And I have selected branch 22
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | 
-	| 011   | DUGDALE STEVEN | 4         | 4          | 0     | Not Defined |
-	| 006   | RENTON MARK    | 2         | 2          | 0     | Not Defined |
-	| 001   | HALL IAN       | 2         | 2          | 0     | Not Defined |
+	| 011   | DUGDALE STEVEN | 4         | 0          | 9     | Not Defined |
+	| 006   | RENTON MARK    | 2         | 0          | 4     | Not Defined |
+	| 001   | HALL IAN       | 2         | 3          | 1     | Not Defined |
 
 Scenario: A user can filter Route information
 	Given I have a clean database
@@ -24,13 +26,13 @@ Scenario: A user can filter Route information
 	And I filter the grid with the option 'Route' and value '001'
 	Then The following routes will be displayed
 	| Route | Driver   | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | HALL IAN | 2         | 2          | 0     | Not Defined |
+	| 001   | HALL IAN | 2         | 0          | 0     | Not Defined |
 	When I clear the filter 
 	Then The following routes will be displayed
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 011   | DUGDALE STEVEN | 4         | 4          | 0     | Not Defined |
-	| 006   | RENTON MARK    | 2         | 2          | 0     | Not Defined |
-	| 001   | HALL IAN       | 2         | 2          | 0     | Not Defined |
+	| 011   | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined |
+	| 006   | RENTON MARK    | 2         | 0          | 0     | Not Defined |
+	| 001   | HALL IAN       | 2         | 0          | 0     | Not Defined |
 
 Scenario: A user can view Route information and sort on updated date
 	Given I have a clean database

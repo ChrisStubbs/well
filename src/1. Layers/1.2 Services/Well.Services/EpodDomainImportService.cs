@@ -292,8 +292,8 @@
                     InvoiceNumber = orderJob.InvoiceNumber,
                     CustomerRef = orderJob.CustomerRef,
                     OrderDate = orderDate,
-                    PerformanceStatusId = (int)PerformanceStatus.Notdef,
-                    ByPassReasonId = (int)ByPassReasons.Notdef,
+                    PerformanceStatus = PerformanceStatus.Notdef,
+                    ByPassReason = ByPassReasons.Notdef,
                     StopId = stopId
                 };
 
@@ -558,8 +558,8 @@
 
                 if (currentJob != null)
                 {
-                    currentJob.ByPassReasonId = ePodjob.ByPassReasonId;
-                    currentJob.PerformanceStatusId = ePodjob.PerformanceStatusId;
+                    currentJob.ByPassReason = ePodjob.ByPassReason;
+                    currentJob.PerformanceStatus = ePodjob.PerformanceStatus;
                     currentJob.InvoiceNumber = ePodjob.InvoiceNumber;
                     jobRepository.JobCreateOrUpdate(currentJob);
                     AddEpodJobJobDetail(ePodjob, currentJob.Id);

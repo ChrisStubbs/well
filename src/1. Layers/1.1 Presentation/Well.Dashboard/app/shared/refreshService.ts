@@ -1,11 +1,13 @@
 ﻿import {Injectable, EventEmitter, NgZone} from '@angular/core';
+import {LogService} from './logService';
 declare var $: any;
 
 @Injectable()
 export class RefreshService {
     public dataRefreshed$ = new EventEmitter();
 
-    constructor(private zone: NgZone) {
+    constructor(private zone: NgZone,
+        private logService: LogService) {
         this.initSignalr();
     }
 
@@ -14,8 +16,8 @@ export class RefreshService {
         hub.client.dataRefreshed = () => {
             this.zone.run(() => {
                 //This is inside zone.run to trigger the Angular automagical change detection shizzle! 
-                console.log("Awoooga! Data refreshed.");
-                this.dataRefreshed$.emit(null);
+                this.logService.log("Awoooga! Data refreshed.");
+                this.dataRefreshed$.emit(undefined);
             });
         };
 

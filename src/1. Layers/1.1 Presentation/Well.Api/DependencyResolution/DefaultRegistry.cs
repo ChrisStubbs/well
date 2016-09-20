@@ -5,6 +5,7 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
+    using PH.Well.Common.Security;
     using PH.Well.Repositories;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
@@ -46,6 +47,10 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobDetailRepository>().Use<JobDetailRepository>();
             For<IJobDetailDamageRepo>().Use<JobDetailDamageRepo>();
             For<IDeliveryService>().Use<DeliveryService>();
+            For<IUserRoleProvider>().Use<UserRoleProvider>();
+            For<IUserStatsRepository>().Use<UserStatsRepository>();
+            For<IAuditRepository>().Use<AuditRepository>();
+            For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

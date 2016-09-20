@@ -7,9 +7,7 @@ import { AccountService } from './accountService';
 
 @Component({
     selector: 'ow-contact-details',
-    //template: `<button type="button" class="btn btn-default"(click) = "openModal(delivery.accountId)">lee</button>`,
     template: `<button type="button" class="btn btn-default"(click) = "openModal()">Contact</button>`,
-    providers: [AccountService]
 })
 
 export class AccountComponent implements OnInit {
@@ -24,10 +22,4 @@ export class AccountComponent implements OnInit {
             .subscribe(account => this.account = account,
                 error => this.errorMessage = <any>error);
     }
-
-    //openModal(accountId: number): void {
-    //    console.log(accountId);
-    //}
-
-
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using Well.Domain;
+    using Well.Domain.Enums;
 
     public class JobFactory : EntityFactory<JobFactory, Job>
     {
@@ -32,8 +33,8 @@
             this.Entity.GrnRefusedReason = null;
             this.Entity.GrnRefusedDesc = null;
             this.Entity.ComdtyType = "1";
-            this.Entity.PerformanceStatusId = 1;
-            this.Entity.ByPassReasonId = 13;
+            this.Entity.PerformanceStatus = PerformanceStatus.Narri;
+            this.Entity.ByPassReason = ByPassReasons.Notdef;
             this.Entity.StopId = 1;
         }
     }

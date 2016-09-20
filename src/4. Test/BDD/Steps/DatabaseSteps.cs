@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.BDD.Steps
 {
     using System.Linq;
+    using System;
+    using System.Collections.Generic;
     using Domain.Enums;
     using Framework.Context;
 
@@ -19,12 +21,10 @@
     public class DatabaseSteps
     {
         private readonly IContainer container;
-
         private readonly IWellDapperProxy dapperProxy;
-
         private readonly IWebClient webClient;
-
         private readonly ILogger logger;
+        private IAuditRepository auditRepo;
 
         public DatabaseSteps()
         {
@@ -32,6 +32,7 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
+            auditRepo = container.GetInstance<IAuditRepository>();
         }
 
         [Given("I have a clean database")]
@@ -51,7 +52,7 @@
             DeleteAndReseed("Routes");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
-
+            DeleteAndReseed("Audit");
         }
 
         private void DeleteAndReseed(string tableName)
@@ -64,12 +65,6 @@
                 IF EXISTS (SELECT * FROM sys.identity_columns WHERE OBJECT_NAME(OBJECT_ID) = '{tableName}' AND last_value IS NOT NULL) 
                     DBCC CHECKIDENT ({tableName}, RESEED, 0);";
             this.dapperProxy.ExecuteSql(script);
-        }
-
-        [Given(@"The all deliveries have been marked as clean")]
-        public void GivenTheAllDeliveriesHaveBeenMarkedAsClean()
-        {
-
         }
 
         [Given(@"(.*) deliveries have been marked as clean")]
@@ -106,6 +101,52 @@
         public void GivenAllTheDeliveriesAreMarkedAsExceptions()
         {
             SetDeliveryStatus(PerformanceStatus.Incom, 10000);
+        }
+
+        [Given(@"25 audit entries have been made")]
+        public void InsertAudits()
+        {
+            auditRepo.CurrentUser = "BDD.User";
+            for (int i = 0; i < 25; i++)
+            {
+                var audit = new Audit()
+                {
+                    Entry = "Audit 123",
+                    AccountCode = "123456",
+                    InvoiceNumber = "987654",
+                    DeliveryDate = new DateTime(2016, 1, 20)
+                };
+                auditRepo.Save(audit);
+            }
+        }
+
+        [Given(@"5 audit entries have been made")]
+        public void Insert5Audits()
+        {
+            auditRepo.CurrentUser = "BDD.User";
+           
+                var audit = new Audit()
+                {
+                    Entry = "Audit 123",
+                    Type = AuditType.DeliveryLineUpdate,
+                    AccountCode = "123456",
+                    InvoiceNumber = "987654",
+                    DeliveryDate = new DateTime(2016, 1, 20)
+                };
+            auditRepo.Save(audit);
+            auditRepo.Save(audit);
+
+            var audit2 = new Audit()
+            {
+                Entry = "Audit 456",
+                Type = AuditType.DeliveryLineUpdate,
+                AccountCode = "88888",
+                InvoiceNumber = "55555",
+                DeliveryDate = new DateTime(2016, 5, 15)
+            };
+            auditRepo.Save(audit2);
+            auditRepo.Save(audit2);
+            auditRepo.Save(audit2);
         }
 
         [When(@"valid invoice numbers are assigned to jobs")]

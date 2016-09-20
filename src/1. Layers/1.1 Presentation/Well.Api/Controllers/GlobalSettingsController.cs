@@ -7,16 +7,22 @@
     using System.Web.Hosting;
     using System.Web.Http;
     using Models;
+
+    using PH.Well.Common.Contracts;
     using PH.Well.Repositories.Contracts;
 
     public class GlobalSettingsController : BaseApiController
     {
         private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         private readonly IUserRepository userRepository;
 
-        public GlobalSettingsController(IUserRepository userRepository)
+        private readonly IUserRoleProvider userRoleProvider;
+
+        public GlobalSettingsController(IUserRepository userRepository, IUserRoleProvider userRoleProvider)
         {
             this.userRepository = userRepository;
+            this.userRoleProvider = userRoleProvider;
         }
 
         [Route("global-settings")]
@@ -29,7 +35,8 @@
             {
                 Version = version,
                 IdentityName = UserIdentityName,
-                UserName = userRepository.GetByIdentity(this.UserIdentityName)?.Name
+                UserName = userRepository.GetByIdentity(this.UserIdentityName)?.Name,
+                Permissions = this.userRoleProvider.GetRolesForUser(this.UserIdentityName)
             };
 
             return this.Request.CreateResponse(HttpStatusCode.OK, settings);

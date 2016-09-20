@@ -2,32 +2,34 @@
 import {Router, ActivatedRoute} from '@angular/router';
 import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {LogService} from '../shared/logService';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginationService } from 'ng2-pagination';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
-import {ContactModal} from "../shared/contact-modal";
+import {ContactModal} from "../shared/contactModal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {ExceptionDelivery} from "./exceptionDelivery";
 import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 import {RefreshService} from '../shared/refreshService';
-import {HttpResponse} from '../shared/http-response';
-import {AssignModal} from "../shared/assign-Modal";
+import {HttpResponse} from '../shared/httpResponse';
+import {AssignModal} from "../shared/assignModal";
 import {IUser} from "../shared/user";
-import {OrderArrowComponent} from '../shared/orderby-arrow';
+import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import {SecurityService} from '../shared/security/securityService';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [ExceptionDeliveryService, PaginationService, AccountService]
-
+    providers: [ExceptionDeliveryService]
 })
 
 export class ExceptionsComponent implements OnInit {
+    isLoading: boolean = true;
     refreshSubscription: any;
     errorMessage: string;
     exceptions: ExceptionDelivery[];
@@ -42,7 +44,7 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
         this.assigneeOption,
-        new DropDownItem("Date", "deliveryDate")
+        new DropDownItem("Date", "deliveryDate", false, "date")
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
     actions: DropDownItem[] = [
@@ -63,17 +65,26 @@ export class ExceptionsComponent implements OnInit {
     selectedOption: DropDownItem;
     selectedFilter: string;
     outstandingFilter: boolean = false;
+    @ViewChild(AssignModal)
+    private assignModal: AssignModal;
+
+    @ViewChild(ContactModal)
+    private contactModal: ContactModal;
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private exceptionDeliveryService: ExceptionDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
-        private toasterService: ToasterService) {
+        private toasterService: ToasterService,
+        private securityService: SecurityService,
+        private logService: LogService) {
     }
 
     ngOnInit(): void {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.currentConfigSort = '-dateTime';
         this.sortDirection(false);
@@ -92,24 +103,26 @@ export class ExceptionsComponent implements OnInit {
     getExceptions() {
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData => {
-                this.exceptions = responseData;
-                this.lastRefresh = Date.now();
+                    this.exceptions = responseData;
+                    this.lastRefresh = Date.now();
 
-                if (this.routeId) {
-                    this.filterOption = new FilterOption(this.routeOption, this.routeId);
-                    this.selectedOption = this.routeOption;
-                    this.selectedFilter = this.routeId;
-                }
-                if (this.assignee) {
-                    this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
-                    this.selectedOption = this.assigneeOption;
-                    this.selectedFilter = this.assignee;
-                }
+                    if (this.routeId) {
+                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
+                        this.selectedOption = this.routeOption;
+                        this.selectedFilter = this.routeId;
+                    }
+                    if (this.assignee) {
+                        this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
+                        this.selectedOption = this.assigneeOption;
+                        this.selectedFilter = this.assignee;
+                    }
+                    this.isLoading = false;
                 },
                 error => {
                     if (error.status && error.status === 404) {
                         this.lastRefresh = Date.now();
                     }
+                    this.isLoading = false;
                 });
     }
 
@@ -136,15 +149,14 @@ export class ExceptionsComponent implements OnInit {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    @ViewChild(ContactModal) modal : ContactModal;
-
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => { this.account = account; this.modal.show(this.account); },
-            error => this.errorMessage = <any>error);
+            .subscribe(account => {
+                    this.account = account;
+                    this.contactModal.show(this.account);
+                },
+                error => this.errorMessage = <any>error);
     }
-    
-    @ViewChild(AssignModal) assignModal : AssignModal;
 
     openAssignModal(delivery): void {
 

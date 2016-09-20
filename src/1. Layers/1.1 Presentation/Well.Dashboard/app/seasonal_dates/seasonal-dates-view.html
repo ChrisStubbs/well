@@ -1,0 +1,28 @@
+﻿<div class="table-responsive table-container">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Description</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Branches</th>
+            <th style="text-align: right;"><button type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="seasonalDates && seasonalDates.length === 0">
+            <td colspan="5">No Seasonal dates!</td>
+        </tr>
+        <tr class="grid-row" *ngFor="let x of seasonalDates">
+            <td (click)="selectSeason(x)">{{x.description}}</td>
+            <td (click)="selectSeason(x)">{{x.fromFormatted}}</td>
+            <td (click)="selectSeason(x)">{{x.toFormatted}}</td>
+            <td (click)="selectSeason(x)">{{x.branchName}}</td>
+            <td style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<ow-seasonal-edit-modal></ow-seasonal-edit-modal>
+<ow-seasonal-add-modal></ow-seasonal-add-modal>
+<ow-seasonal-remove-modal (onRemoved)="onRemoved($event)"></ow-seasonal-remove-modal>

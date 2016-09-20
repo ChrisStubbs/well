@@ -3,8 +3,7 @@
 Feature: ExceptionPage
 	As a user
 	I wish to be able to view and filter exception delivery information
-	so that I can determine
-	which deliveries have been unsuccesful
+	so that I can determine	which deliveries have been unsuccesful
 
 Background: 
 	Given I have a clean database
@@ -19,7 +18,12 @@ Scenario: A user can view Exception Delivery Information
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |	
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+
+	When I view the account info modal for exception row 2
+	Then I can the following account info details
+	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
+	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |
 
 Scenario: A user can filter Exception Delivery information
 	Given I have selected branch 22

@@ -1,6 +1,6 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
-
 import {AccountComponent} from './account/accountComponent';
+import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
@@ -11,10 +11,14 @@ import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetComponent} from './home/widgetComponent';
+import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
+import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
+    { path: 'unauthorised', component: UnauthorisedComponent },
+    { path: 'audits', component: AuditComponent },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
@@ -26,7 +30,13 @@ const routes: Routes = [
     { path: 'resolved', component: ResolvedDeliveryComponent },
     { path: 'routes', component: RouteHeaderComponent },
     { path: 'widgets', component: WidgetComponent },
-    { path: 'preferences', component: UserPreferenceComponent }
+    { path: 'preferences', component: UserPreferenceComponent },
+    { path: 'branch-role', component: BranchRoleComponent }
 ];
 
-export const appRouterProviders = RouterModule.forRoot(routes);
+export const appRoutingProviders: any[] = [
+
+];
+
+export const routing = RouterModule.forRoot(routes);
+//export const appRouterProviders = RouterModule.forRoot(routes);

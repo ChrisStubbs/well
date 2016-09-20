@@ -107,6 +107,24 @@ this.FeatureBackground();
  testRunner.Then("the line \'1\' Short Qty is \'5\' and Damaged Qty is \'2\' Del Qty is \'13\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 22
  testRunner.And("the delivery status is \'Incomplete\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
+ testRunner.When("I open the audits page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Entry",
+                        "Type",
+                        "InvoiceNo",
+                        "Account",
+                        "DeliveryDate"});
+            table1.AddRow(new string[] {
+                        "Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages a" +
+                            "dded CAR01 - 2.",
+                        "DeliveryLineUpdate",
+                        "949214.152",
+                        "49214.152 - CSG - must be CF van",
+                        "08/10/2016"});
+#line 25
+ testRunner.Then("the following audit entries are shown", ((string)(null)), table1, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -116,30 +134,48 @@ this.FeatureBackground();
         public virtual void RemoveShortQtyAndDamagesFromExceptionDelivery()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove short qty and damages from exception delivery", ((string[])(null)));
-#line 24
+#line 30
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 25
- testRunner.Given("I have imported a valid Epod update file named \'ePOD_30062016_Update.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 26
- testRunner.And("1 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 27
- testRunner.And("I open delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 28
- testRunner.And("I click on the first delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 29
- testRunner.When("I enter a short quantity of \'0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 30
- testRunner.And("I remove all damaages", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
- testRunner.And("I save the delivery line updates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have imported a valid Epod update file named \'ePOD_30062016_Update.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 32
- testRunner.And("I confirm the delivery line update", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("1 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 33
- testRunner.Then("the line \'1\' Short Qty is \'0\' and Damaged Qty is \'0\' Del Qty is \'20\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I open delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 34
+ testRunner.And("I click on the first delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 35
+ testRunner.When("I enter a short quantity of \'0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 36
+ testRunner.And("I remove all damaages", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
+ testRunner.And("I save the delivery line updates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 38
+ testRunner.And("I confirm the delivery line update", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
+ testRunner.Then("the line \'1\' Short Qty is \'0\' and Damaged Qty is \'0\' Del Qty is \'20\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 40
  testRunner.And("the delivery status is \'Resolved\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 42
+ testRunner.When("I open the audits page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Entry",
+                        "Type",
+                        "InvoiceNo",
+                        "Account",
+                        "DeliveryDate"});
+            table2.AddRow(new string[] {
+                        "Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 3 to 0. Damages r" +
+                            "emoved, old damages Notdef - 1.000, Notdef - 1.000.",
+                        "DeliveryLineUpdate",
+                        "949214.152",
+                        "49214.152 - CSG - must be CF van",
+                        "01/07/2016"});
+#line 43
+ testRunner.Then("the following audit entries are shown", ((string)(null)), table2, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

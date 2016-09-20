@@ -17,13 +17,12 @@
 
             foreach (var routeHeader in source)
             {
-                var model = new RouteModel
-                {
+                var model = new RouteModel{
                     Route = routeHeader.RouteNumber,
                     DriverName = routeHeader.DriverName,
                     TotalDrops = routeHeader.Stops.Count,
-                    DeliveryCleanCount = routeHeader.Stops.Count(x=> x.StopPerformanceStatusCodeId == (int)PerformanceStatus.Compl),
-                    DeliveryExceptionCount = routeHeader.Stops.Count(x => x.StopPerformanceStatusCodeId != (int)PerformanceStatus.Compl),
+                    DeliveryCleanCount = routeHeader.CleanJobs,
+                    DeliveryExceptionCount = routeHeader.ExceptionJobs,
                     RouteStatus =   StringExtensions.GetEnumDescription(routeHeader.RouteStatus),
                     DateTimeUpdated = routeHeader.DateUpdated
                 };

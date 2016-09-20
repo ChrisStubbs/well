@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {IUser} from '../shared/user';
 import {UserJob} from '../shared/userJob';
+import {LogService} from '../shared/logService';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -16,7 +17,8 @@ export class ExceptionDeliveryService {
 
     constructor(private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService) {
+        private httpErrorService: HttpErrorService,
+        private logService: LogService) {
     }
 
     getExceptions(): Observable<ExceptionDelivery[]> {
@@ -25,7 +27,7 @@ export class ExceptionDeliveryService {
 
         return this.http.get(url)
             .map((response: Response) => <ExceptionDelivery[]>response.json())
-            //.do(data => console.log("All: " + JSON.stringify(data)))
+            .do(data => this.logService.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -33,7 +35,7 @@ export class ExceptionDeliveryService {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
             .map((response: Response) => <IUser[]>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
+            .do(data => this.logService.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 

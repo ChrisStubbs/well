@@ -3,25 +3,27 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
 
-import {PaginationService } from 'ng2-pagination';
 import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
-import {ContactModal} from "../shared/contact-modal";
+import {ContactModal} from "../shared/contactModal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
 import {RefreshService} from '../shared/refreshService';
-import {OrderArrowComponent} from '../shared/orderby-arrow';
+import {OrderArrowComponent} from '../shared/orderbyArrow';
+import {SecurityService} from '../shared/security/securityService';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-clean',
     templateUrl: './app/clean/cleanDelivery-list.html',
-    providers: [CleanDeliveryService, PaginationService, AccountService]
+    providers: [CleanDeliveryService]
 
 })
 export class CleanDeliveryComponent implements OnInit {
+    isLoading: boolean = true;
     lastRefresh = Date.now();
     refreshSubscription: any;
     errorMessage: string;
@@ -35,7 +37,7 @@ export class CleanDeliveryComponent implements OnInit {
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
-        new DropDownItem("Date", "deliveryDate")
+        new DropDownItem("Date", "deliveryDate", false, "date")
     ];
     account: IAccount;
     routeId: string;
@@ -43,13 +45,16 @@ export class CleanDeliveryComponent implements OnInit {
     selectedFilter: string;
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private cleanDeliveryService: CleanDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private refreshService: RefreshService) { }
+        private refreshService: RefreshService,
+        private securityService: SecurityService) { }
 
     ngOnInit(): void {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.currentConfigSort = '-deliveryDate';
         this.sortDirection(false);
@@ -74,8 +79,12 @@ export class CleanDeliveryComponent implements OnInit {
                         this.selectedOption = this.routeOption;
                         this.selectedFilter = this.routeId;
                     }
+                    this.isLoading = false;
                 },
-                error => this.lastRefresh = Date.now());
+                error => {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     sortDirection(sortDirection): void {    

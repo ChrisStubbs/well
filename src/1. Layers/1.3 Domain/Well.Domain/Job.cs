@@ -5,6 +5,7 @@
     using System.Xml.Serialization;
     using Common.Extensions;
     using Enums;
+    using ValueObjects;
 
     [Serializable()]
     public class Job:Entity<int>
@@ -92,42 +93,32 @@
 
 
         [XmlIgnore]
-        public int PerformanceStatusId { get; set; }
+        public PerformanceStatus PerformanceStatus { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
         public string JobPerformanceStatusCode
         {
-            get { return JobPerformanceStatusCode; }
+            get { return PerformanceStatus.ToString(); }
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    PerformanceStatusId = (int)PerformanceStatus.Notdef;
-                }
-                else
-                {
-                    PerformanceStatusId = (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
-                }             
+                PerformanceStatus = string.IsNullOrEmpty(value)
+                    ? PerformanceStatus.Notdef
+                    : (PerformanceStatus) Enum.Parse(typeof(PerformanceStatus), value, true);
             }
         }
 
         [XmlIgnore]
-        public int ByPassReasonId { get; set; }
+        public ByPassReasons ByPassReason { get; set; }
 
         [XmlElement("Reason_Description")]
         public string JobByPassReason
         {
-            get { return JobByPassReason; }
+            get { return StringExtensions.GetEnumDescription(ByPassReason); }
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    ByPassReasonId = (int) ByPassReasons.Notdef;
-                }
-                else
-                {
-                    ByPassReasonId = (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value);
-                }            
+                ByPassReason = string.IsNullOrEmpty(value)
+                    ? ByPassReasons.Notdef
+                    : StringExtensions.GetValueFromDescription<ByPassReasons>(value);
             }
         }
 
@@ -138,5 +129,8 @@
         [XmlArrayItem("JobDetail", typeof(JobDetail))]
         public Collection<JobDetail> JobDetails { get; set; }
 
+        public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
+        public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;
+        public bool IsResolved => PerformanceStatus == PerformanceStatus.Resolved;
     }
 }

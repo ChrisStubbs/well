@@ -22,6 +22,8 @@
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             this.NoExceptionsDiv = new Div { Locator = By.Id("no-exceptions") };
+
+            AccountModal = new AccountModalComponent();
         }
 
         protected override string UrlSuffix => "exceptions";
@@ -38,6 +40,9 @@
 
         public Image OrderByButton { get; set; }
         public Heading DeliveryUpdateDrillDown { get; set; }
+
+        public AccountModalComponent AccountModal { get; set; }
+
 
         public Div NoExceptionsDiv { get; set; }
 

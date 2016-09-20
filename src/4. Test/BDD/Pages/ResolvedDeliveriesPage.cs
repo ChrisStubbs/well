@@ -11,6 +11,7 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
+            AccountModal = new AccountModalComponent();
         }
         protected override string UrlSuffix => "resolved";
 
@@ -18,6 +19,7 @@
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
         public Image OrderByButton { get; set; }
+        public AccountModalComponent AccountModal { get; set; }
     }
 
     public enum ResolvedDeliveriesGrid

@@ -8,7 +8,7 @@ namespace PH.Well.Domain
     using ValueObjects;
 
     [Serializable()]
-    public class JobDetailDamage : Entity<int>
+    public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
     {
         public JobDetailDamage()
         {
@@ -73,6 +73,20 @@ namespace PH.Well.Domain
                     Description = StringExtensions.GetEnumDescription(value)
                 };
             }
+        }
+
+        public string GetDamageString()
+        {
+            return $"{DamageReason.ToString()} - {Qty}";
+        }
+
+        public bool Equals(JobDetailDamage other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return other.DamageReason == DamageReason && other.Qty == Qty;
         }
     }
 }

@@ -124,6 +124,29 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
 #line 14
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table1, "Then ");
+#line 20
+ testRunner.When("I view the account info modal for resolved row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Account name",
+                        "Street",
+                        "Town",
+                        "Postcode",
+                        "Contact name",
+                        "Phone",
+                        "Alt Phone",
+                        "Email"});
+            table2.AddRow(new string[] {
+                        "CSG - must be CF van",
+                        "112-114 Barrow Road",
+                        "SILEBY",
+                        "LE12 7LP",
+                        "CSG Contact 1",
+                        "01509815739",
+                        "01234987654",
+                        "contact@csg.com"});
+#line 21
+ testRunner.Then("I can the following account info details - resolved", ((string)(null)), table2, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -133,71 +156,20 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanFilterResolvedDeliveryInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can filter Resolved Delivery information", ((string[])(null)));
-#line 20
-this.ScenarioSetup(scenarioInfo);
-#line 21
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 22
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 23
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 24
- testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 25
- testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 26
- testRunner.And("I filter the resolved delivery grid with the option \'Route\' and value \'006\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Route",
-                        "Drop",
-                        "InvoiceNo",
-                        "Account",
-                        "AccountName",
-                        "Status",
-                        "Action",
-                        "Assigned"});
-            table2.AddRow(new string[] {
-                        "006",
-                        "01",
-                        "943362.048",
-                        "43362.048",
-                        "WB - SHOP",
-                        "Resolved",
-                        "",
-                        "Unallocated"});
-            table2.AddRow(new string[] {
-                        "006",
-                        "01",
-                        "92874.033",
-                        "2874.033",
-                        "WB - SHOP",
-                        "Resolved",
-                        "",
-                        "Unallocated"});
-            table2.AddRow(new string[] {
-                        "006",
-                        "02",
-                        "954107.000",
-                        "54107.000",
-                        "WB - SHELL FORECOURT",
-                        "Resolved",
-                        "",
-                        "Unallocated"});
-            table2.AddRow(new string[] {
-                        "006",
-                        "02",
-                        "954107.000",
-                        "54107.000",
-                        "WB - SHELL FORECOURT",
-                        "Resolved",
-                        "",
-                        "Unallocated"});
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 27
- testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table2, "Then ");
-#line 33
- testRunner.When("I filter the resolved delivery grid with the option \'Invoice No\' and value \'94921" +
-                    "4.152\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 28
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 29
+ testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 30
+ testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.And("I filter the resolved delivery grid with the option \'Route\' and value \'006\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -209,19 +181,46 @@ this.ScenarioSetup(scenarioInfo);
                         "Action",
                         "Assigned"});
             table3.AddRow(new string[] {
-                        "001",
+                        "006",
                         "01",
-                        "949214.152",
-                        "49214.152",
-                        "CSG - must be CF van",
+                        "943362.048",
+                        "43362.048",
+                        "WB - SHOP",
                         "Resolved",
                         "",
                         "Unallocated"});
-#line 34
+            table3.AddRow(new string[] {
+                        "006",
+                        "01",
+                        "92874.033",
+                        "2874.033",
+                        "WB - SHOP",
+                        "Resolved",
+                        "",
+                        "Unallocated"});
+            table3.AddRow(new string[] {
+                        "006",
+                        "02",
+                        "954107.000",
+                        "54107.000",
+                        "WB - SHELL FORECOURT",
+                        "Resolved",
+                        "",
+                        "Unallocated"});
+            table3.AddRow(new string[] {
+                        "006",
+                        "02",
+                        "954107.000",
+                        "54107.000",
+                        "WB - SHELL FORECOURT",
+                        "Resolved",
+                        "",
+                        "Unallocated"});
+#line 32
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table3, "Then ");
-#line 37
- testRunner.When("I filter the resolved delivery grid with the option \'Account\' and value \'28398.08" +
-                    "0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 38
+ testRunner.When("I filter the resolved delivery grid with the option \'Invoice No\' and value \'94921" +
+                    "4.152\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -233,19 +232,19 @@ this.ScenarioSetup(scenarioInfo);
                         "Action",
                         "Assigned"});
             table4.AddRow(new string[] {
-                        "011",
-                        "05",
-                        "928398.080",
-                        "28398.080",
-                        "TESCO EXPRESS",
+                        "001",
+                        "01",
+                        "949214.152",
+                        "49214.152",
+                        "CSG - must be CF van",
                         "Resolved",
                         "",
                         "Unallocated"});
-#line 38
+#line 39
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table4, "Then ");
-#line 41
- testRunner.When("I filter the resolved delivery grid with the option \'Account Name\' and value \'WB " +
-                    "- SHOP\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 42
+ testRunner.When("I filter the resolved delivery grid with the option \'Account\' and value \'28398.08" +
+                    "0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -257,6 +256,30 @@ this.ScenarioSetup(scenarioInfo);
                         "Action",
                         "Assigned"});
             table5.AddRow(new string[] {
+                        "011",
+                        "05",
+                        "928398.080",
+                        "28398.080",
+                        "TESCO EXPRESS",
+                        "Resolved",
+                        "",
+                        "Unallocated"});
+#line 43
+ testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table5, "Then ");
+#line 46
+ testRunner.When("I filter the resolved delivery grid with the option \'Account Name\' and value \'WB " +
+                    "- SHOP\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "Action",
+                        "Assigned"});
+            table6.AddRow(new string[] {
                         "006",
                         "01",
                         "943362.048",
@@ -265,7 +288,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "",
                         "Unallocated"});
-            table5.AddRow(new string[] {
+            table6.AddRow(new string[] {
                         "006",
                         "01",
                         "92874.033",
@@ -274,8 +297,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "",
                         "Unallocated"});
-#line 42
- testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table5, "Then ");
+#line 47
+ testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table6, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -284,15 +307,21 @@ this.ScenarioSetup(scenarioInfo);
         [NUnit.Framework.DescriptionAttribute("A user can view Resolved Delivery Information and sort on updated date")]
         public virtual void AUserCanViewResolvedDeliveryInformationAndSortOnUpdatedDate()
         {
+<<<<<<< HEAD
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Resolved Delivery Information and sort on updated date", ((string[])(null)));
 #line 47
+=======
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Resolved Delivery information", ((string[])(null)));
+#line 52
+>>>>>>> d1b5b3c20f857705cc066e6786485bb4ea3706a0
 this.ScenarioSetup(scenarioInfo);
-#line 48
+#line 53
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 49
+#line 54
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 50
+#line 55
  testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+<<<<<<< HEAD
 #line 51
  testRunner.And("3 deliveries have been marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 52
@@ -418,6 +447,23 @@ this.ScenarioSetup(scenarioInfo);
 #line 75
  testRunner.When("I click on resolved delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 76
+=======
+#line 56
+ testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 57
+ testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 58
+ testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 59
+ testRunner.And("I will have 2 pages of resolved delivery data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 60
+ testRunner.When("I click on resolved delivery page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 61
+ testRunner.Then("\'7\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 62
+ testRunner.When("I click on resolved delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 63
+>>>>>>> d1b5b3c20f857705cc066e6786485bb4ea3706a0
  testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

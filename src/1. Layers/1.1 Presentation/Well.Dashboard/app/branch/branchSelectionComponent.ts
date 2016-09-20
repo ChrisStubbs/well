@@ -1,12 +1,15 @@
-﻿import { Component, OnInit}  from '@angular/core';
+﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { Response } from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features
-import {Branch} from './branch';
-import {BranchService} from './branchService';
-import {HttpResponse} from '../shared/http-response';
+import {Branch} from '../shared/branch/branch';
+import {BranchService} from '../shared/branch/branchService';
+import {HttpResponse} from '../shared/httpResponse';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {GlobalSettingsService} from '../shared/globalSettings';
+import {SecurityService} from '../shared/security/securityService';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
+import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
 
 @Component({
     selector: 'ow-branch',
@@ -14,10 +17,6 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 })
 export class BranchSelectionComponent implements OnInit {
     errorMessage: string;
-    branches: Branch[];
-    usersBranchIds: number[];
-    selectedBranches: Array<Branch> = [];
-    selectAllCheckbox: boolean = false;
     httpResponse: HttpResponse = new HttpResponse();
     username: string;
     domain: string;
@@ -25,59 +24,20 @@ export class BranchSelectionComponent implements OnInit {
     constructor(private branchService: BranchService,
         private toasterService: ToasterService,
         private globalSettingsService: GlobalSettingsService,
-        private route: ActivatedRoute) {
-        route.params.subscribe(params => {
+        private securityService: SecurityService,
+        private route: ActivatedRoute) { }
+
+    ngOnInit(): void {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.branchSelection);
+        this.route.params.subscribe(params => {
             this.username = params['name'] === undefined ? '' : params['name']; this.domain = params['domain'];
         });
     }
 
-    ngOnInit(): void {
-        this.branchService.getBranches(this.username)
-            .subscribe(branches => {
-                this.branches = branches;
-                this.branches.forEach(branch => { if(branch.selected) this.selectedBranches.push(branch) });
-
-                if (this.branches.every(x => x.selected)){ this.selectAllCheckbox = true;}
-            },
-            error => this.errorMessage = <any>error);
-    }
-
-    selectAll(selectAllCheckbox): void {
-        var selected = !selectAllCheckbox;
-
-        this.branches.forEach(branch => {
-            var index = this.selectedBranches.indexOf(branch, 0);
-            if (index > -1) {
-                this.selectedBranches.splice(index, 1);
-            }
-            branch.selected = selected;
-
-            if (selected) {
-                this.selectedBranches.push(branch);
-            } else {
-                this.selectedBranches = [];
-            }
-        });
-    }
-
-    selectBranch(branch): void {
-        var index = this.selectedBranches.indexOf(branch, 0);
-
-        if (index > -1 && !branch.selected) {
-            this.selectedBranches.splice(index, 1);
-        } else {
-            this.selectedBranches.push(branch);
-        }
-
-        if (this.selectedBranches.length > 1 && this.selectedBranches.length === this.branches.length) {
-            this.selectAllCheckbox = true;
-        } else {
-            this.selectAllCheckbox = false;
-        }
-    }
+    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
 
     save(): void {
-        this.branchService.saveBranches(this.selectedBranches, this.username, this.domain)
+        this.branchService.saveBranches(this.branch.selectedBranches, this.username, this.domain)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 

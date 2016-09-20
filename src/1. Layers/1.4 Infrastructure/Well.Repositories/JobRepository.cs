@@ -90,9 +90,6 @@
 
         public void JobCreateOrUpdate(Job job)
         {
-            var jobPerformanceStatusId = job.PerformanceStatusId == 0 ? (int)PerformanceStatus.Notdef : job.PerformanceStatusId;
-            var jobByPassReasonId = job.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : job.ByPassReasonId;
-
             job.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
                 .AddParameter("Id", job.Id, DbType.Int32)
                 .AddParameter("Sequence", job.Sequence, DbType.Int32)

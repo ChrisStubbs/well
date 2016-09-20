@@ -44,8 +44,8 @@
             <PostCode>LE12 7LP</PostCode>
             <ContactName>CSG Contact 1</ContactName>
             <ContactNumber>01509815739</ContactNumber>
-            <ContactNumber2 />
-            <ContactEmailAddress />
+            <ContactNumber2>01234987654</ContactNumber2>
+            <ContactEmailAddress>contact@csg.com</ContactEmailAddress>
             <StartWindow>07:00</StartWindow>
             <EndWindow>10:00</EndWindow>
             <Latitude>52.73288</Latitude>

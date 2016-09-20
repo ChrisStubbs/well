@@ -23,18 +23,18 @@
             this.activeDirectoryService = activeDirectoryService;
         }
 
-        public void SaveBranchesForUser(Branch[] branches, string username)
+        public void SaveBranchesForUser(Branch[] branches, string identityName)
         {
-            this.branchRepository.CurrentUser = username;
-            this.userRepository.CurrentUser = username;
+            this.branchRepository.CurrentUser = identityName;
+            this.userRepository.CurrentUser = identityName;
 
-            var user = this.userRepository.GetByIdentity(username);
+            var user = this.userRepository.GetByIdentity(identityName);
 
             if (user == null)
             {
-                var newUser = this.activeDirectoryService.GetUser(username);
+                var newUser = this.activeDirectoryService.GetUser(identityName);
 
-                if (newUser == null) throw new ApplicationException($"User not found in active directory {username}");
+                if (newUser == null) throw new ApplicationException($"User not found in active directory {identityName}");
 
                 using (var transactionScope = new TransactionScope())
                 {
@@ -61,7 +61,7 @@
 
             username = username.Replace('-', ' ');
 
-            var user = this.userRepository.GetByIdentity(username);
+            var user = this.userRepository.GetByName(username);
 
             if (user == null)
             {

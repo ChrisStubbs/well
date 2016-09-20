@@ -18,6 +18,7 @@
         private IJobRepository jobRepository;
         private readonly IContainer container;
 
+        [Given(@"I open the exception deliveries")]
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
@@ -102,13 +103,28 @@
             Assert.That(ExceptionDeliveriesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
         }
 
-        [When(@"I click on exception row 4")]
-        public void ClickExceptionDetail()
+        [Then(@"I can the following account info details")]
+        public void ThenICanTheFollowingAccountInfoDetails(Table table)
         {
-            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            rows[3].GetItemInRowByClass("first-cell").Click();
+            var modal = ExceptionDeliveriesPage.AccountModal;
+            AccountModalSteps.CompareModal(table, modal);
         }
 
+        [When(@"I click on exception row (.*)")]
+        public void ClickExceptionDetail(int row)
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            rows[row-1].GetItemInRowByClass("first-cell").Click();
+        }
+
+        [When(@"I view the account info modal for exception row (.*)")]
+        public void ViewAccountModal(int row)
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            rows[row-1].GetItemInRowByClass("contact-info").Click();
+        }
+
+        [Given(@"I select the assigned link on the first row")]
         [When(@"I select the assigned link on the first row")]
         public void SelectAssignLink()
         {
@@ -165,6 +181,7 @@
             Assert.IsNotNull(updateable);
         }
 
+        [Given(@"I select a user to assign")]
         [When(@"I select a user to assign")]
         public void SelectUserToAssign()
         {

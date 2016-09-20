@@ -29,6 +29,7 @@
 @Scripts.Render("~/bundles/signalr")
 @Scripts.Render("~/bundles/bootstrap")
 <script src="@string.Format("{0}/signalr/hubs", HttpRuntime.AppDomainAppVirtualPath)"></script>
+<script src="@string.Format("{0}/Scripts/Chart.min.js", HttpRuntime.AppDomainAppVirtualPath)"></script>
 
 <!-- Load Angular2 -->
 <script src="@string.Format("{0}/Scripts/angular2/vendorBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>

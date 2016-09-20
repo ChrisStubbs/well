@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="Audit.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Enums\CommodityType.cs" />
+    <Compile Include="Enums\AuditType.cs" />
     <Compile Include="Enums\JobDetailDamageSource.cs" />
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
@@ -78,6 +80,8 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\DamageSource.cs" />
+    <Compile Include="SeasonalDate.cs" />
+    <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\DateTimeSpan.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />

@@ -98,7 +98,7 @@
             return this.row.FindElements(By.XPath(".//*"))[idx].Text;
         }
         
-        public void Click()
+        public override void Click()
         {
             this.Driver.ExecuteJavaScript(string.Format("window.scrollTo(0, {0});", this.row.Location.Y));
             this.row.Click();

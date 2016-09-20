@@ -1,0 +1,27 @@
+﻿<div *ngIf="isVisible" class="modal fade show in danger" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit {{seasonalDate.description}} dates for {{seasonalDate.branchName}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="form-control" placeholder="Description" value="{{seasonalDate.description}}"/>
+                </div>
+                <div class="form-group">
+                    <label>From</label>
+                    <input type="text" class="form-control" placeholder="From" value="{{seasonalDate.fromFormatted}}"/>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="text" class="form-control" placeholder="To" value="{{seasonalDate.toFormatted}}"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group"><button type="button" class="btn btn-primary">Save</button></div>
+                <div class="btn-group"><button type="button" class="btn btn-default" (click)="hide()">Close</button></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,8 +25,8 @@ AS
 	  ,[AllowReOrd] 
 	  ,[SandwchOrd] 
 	  ,[ComdtyType] 
-      ,[PerformanceStatusId]
-      ,[ByPassReasonId]
+	  ,[PerformanceStatusId] as PerformanceStatus
+	  ,[ByPassReasonId] as ByPassReason
 	  ,[IsDeleted]
       ,[StopId]
       ,[CreatedBy]

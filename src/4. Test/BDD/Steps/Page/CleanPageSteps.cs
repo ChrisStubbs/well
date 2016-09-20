@@ -88,5 +88,20 @@
             Assert.That(CleanDeliveriesPage.Pager.NoOfPages(), Is.EqualTo(noOfPages));
         }
 
+        [When(@"I view the account info modal for clean row (.*)")]
+        public void WhenIViewTheAccountInfoModalForResolvedRow(int row)
+        {
+            var rows = CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            rows[row - 1].GetItemInRowByClass("contact-info").Click();
+        }
+
+
+        [Then(@"I can the following account info details - clean")]
+        public void ThenICanTheFollowingAccountInfoDetails(Table table)
+        {
+            var modal = CleanDeliveriesPage.AccountModal;
+            AccountModalSteps.CompareModal(table, modal);
+        }
+
     }
 }

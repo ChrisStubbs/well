@@ -93,5 +93,7 @@
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";
+        public static string SeasonalDatesSave = "SeasonalDatesSave";
+        public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
     }
 }

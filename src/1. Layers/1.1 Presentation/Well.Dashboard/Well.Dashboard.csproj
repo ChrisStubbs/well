@@ -207,8 +207,6 @@
     </Compile>
     <Compile Include="Hubs\RefreshHub.cs" />
     <Compile Include="Models\BootstrapData.cs" />
-    <Compile Include="Models\SeasonalDateModel.cs" />
-    <Compile Include="Models\UserBranches.cs" />
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

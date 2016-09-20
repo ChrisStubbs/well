@@ -160,6 +160,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Validators\" />
     <Folder Include="Views\Branch\" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +200,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\ISeasonalDateValidator.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\RouteModel.cs" />
+    <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,6 +6,7 @@
     using System.Net.Http;
     using System.Web.Http;
 
+    using PH.Well.Api.Models;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -50,8 +51,10 @@
 
         [Route("seasonal-date")]
         [HttpPost]
-        public HttpResponseMessage Post(SeasonalDate seasonalDate)
+        public HttpResponseMessage Post(SeasonalDateModel model)
         {
+            // TODO Validate
+
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
     }

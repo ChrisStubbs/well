@@ -1,4 +1,4 @@
-﻿namespace PH.Well.Dashboard.Models
+﻿namespace PH.Well.Api.Models
 {
     using System.Collections.ObjectModel;
 

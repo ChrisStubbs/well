@@ -1,15 +1,17 @@
-﻿import { Component, OnInit}  from '@angular/core';
-import {GlobalSettingsService} from '../shared/globalSettings';
+﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import { GlobalSettingsService} from '../shared/globalSettings';
 import { Response } from '@angular/http';
-import {HttpResponse} from '../shared/http-response';
-import {SecurityService} from '../shared/security/securityService';
-import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import { HttpResponse } from '../shared/httpResponse';
+import { SecurityService} from '../shared/security/securityService';
+import { UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
+import { ToasterService} from 'angular2-toaster/angular2-toaster';
 import 'rxjs/Rx';   // Load all features
+import * as lodash from 'lodash';
 
-import {Notification} from './notification';
-import {PaginationService } from 'ng2-pagination';
-import {NotificationsService} from './notificationsService';
+import { Notification} from './notification';
+import { PaginationService } from 'ng2-pagination';
+import { NotificationsService} from './notificationsService';
+import { NotificationModalComponent} from './notificationModalComponent'
 
 
 @Component({
@@ -17,6 +19,7 @@ import {NotificationsService} from './notificationsService';
     templateUrl: './app/notifications/notifications-list.html',
     providers: [PaginationService, NotificationsService]
 })
+
 export class NotificationsComponent implements OnInit {
     notifications: Notification[] = new Array<Notification>();
     lastRefresh = Date.now();
@@ -26,15 +29,20 @@ export class NotificationsComponent implements OnInit {
 
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
+        private securityService: SecurityService,
         private notificationsService: NotificationsService,
         private toasterService: ToasterService) {
     }
 
+    ngOnInit() {
 
-    constructor(private globalSettingsService: GlobalSettingsService, private securityService: SecurityService) {}
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.getNotifications();
-        
+
     }
+
+    @ViewChild(NotificationModalComponent) archiveModal: NotificationModalComponent;
 
     getNotifications(): void {
         this.notificationsService.getNotifications()
@@ -45,20 +53,11 @@ export class NotificationsComponent implements OnInit {
                 },
                 error => this.lastRefresh = Date.now());
     }
-        ngOnInit() {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
-}
-    archive(notification): void {
 
-        this.notification = notification;
-        this.notificationsService.archiveNotification(this.notification.id)
-            .subscribe((res: Response) => {
-                this.httpResponse = JSON.parse(JSON.stringify(res));
-                    if (this.httpResponse.success) this.toasterService.pop('success', 'Notification has been archived!', '');
-                    if (this.httpResponse.failure) this.toasterService.pop('error', 'Notification could not be archived at this time!', 'Please try again later!');
-                    if (this.httpResponse.notAcceptable) this.toasterService.pop('warning', 'Notification id is incorrect, contact support!', '');
-            });
+    
 
+    archive(notification: Notification): void {
+        this.archiveModal.show(notification);
     }
 
     getStyle(notification): string {
@@ -84,5 +83,10 @@ export class NotificationsComponent implements OnInit {
 
         }
     }
+
+    onArchived(notification: Notification) {
+        lodash.remove(this.notifications, notification);
+    }
+
 
 }

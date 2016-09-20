@@ -94,13 +94,15 @@
         //Notifications
         public static string SaveNotification = "Notification_Save";
         public static string GetNotifications = "Notifications_Get";
+        public static string ArchiveNotification = "Notification_Archive";
+
         public static string UserStatsGet = "UserStatsGet";
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
         public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";
         public static string SeasonalDatesSave = "SeasonalDatesSave";
-        public static string ArchiveNotification = "Notification_Archive";
+        
         public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
     }
 }

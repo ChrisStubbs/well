@@ -44,6 +44,7 @@ import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesR
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
 import {CreditThresholdComponent} from './credit_threshold/creditThresholdComponent';
 import {CreditThresholdViewComponent} from './credit_threshold/creditThresholdViewComponent';
+import {NotificationModalComponent} from './notifications/notificationModalComponent';
 import AppRoutes = require("./appRoutes");
 
 import {AccountService} from './account/accountService';
@@ -67,7 +68,7 @@ import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdComponent, CreditThresholdViewComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, OrderArrowComponent, UnauthorisedComponent
+        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing

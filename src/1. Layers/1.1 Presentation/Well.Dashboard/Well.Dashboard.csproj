@@ -223,6 +223,7 @@
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\home\widgetGraph.html" />
+    <Content Include="app\notifications\notification-archive-modal.html" />
     <Content Include="app\notifications\notifications-list.html" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\delivery-selection-modal.html" />
@@ -355,6 +356,7 @@
     <TypeScriptCompile Include="app\branch-role\branchRoleComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdViewComponent.ts" />
+    <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesEditModalComponent.ts" />

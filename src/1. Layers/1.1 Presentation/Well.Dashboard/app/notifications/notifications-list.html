@@ -7,7 +7,7 @@
 
     <div class="content">
         <div class="row">
-            <div class="notification" *ngFor="let notification of notifications | paginate: { itemsPerPage: rowCount, currentPage: p }" >
+            <div class="notification" *ngFor="let notification of notifications | paginate: { itemsPerPage: rowCount, currentPage: p }">
                 <div ngClass="{{getStyle(notification)}}">
                     <span class="pull-right notification-archive">
                         <a class="btn btn-primary" (click)="archive(notification)">Archive</a>
@@ -24,152 +24,18 @@
 
                     </p>
                 </div>
-                
-            </div>
-           
-    </div>
 
-    <div class="row">
-        <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
-        <div class="col-md-6">
-            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+            </div>
+
         </div>
-    </div>
-    <!-- <div class="content">
+
         <div class="row">
-            <div class="col-md-12">
-                <div class="btn-group">
-                    <div class="dropdown">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                            Option
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#"><i>Option</i></a></li>
-                            <li><a href="#">Delivery status</a></li>
-                            <li><a href="#">Account</a></li>
-                            <li><a href="#">Invoice</a></li>
-                            <li><a href="#">Status</a></li>
-                            <li><a href="#">Assignee</a></li>
-                            <li><a href="#">Route</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <input id="filterSearch" type="text" class="form-control input-sm">
-                </div>
-                <div class="btn-group">
-                    <button id="resolvedFilter" type="submit" class="btn btn-success btn-sm"> Filter</button>
-                </div>
-                <div class="btn-group">
-                    <button id="clearFilter" type="button" class="btn btn-primary btn-sm"> Clear</button>
-                </div>
-
-                <span class="pull-right">
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked">Current
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">Archived
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">All
-                    </label>
-                </span>
+            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+            <div class="col-md-6">
+                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
             </div>
         </div>
-
-        <div class="bs-callout bs-callout-danger">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="float-right date">23rd June 2016 14:12</p>
-                    <h4>Crediting failed for Huge Store</h4>
-                    <p>
-                        Product: <a href="/OrderWell/Delivery">19152 - Blu Cart Ref C/Tob12mg3s</a>.
-                    </p>
-                    <p class="text-info">
-                        Unable to credit, customer account suspended.
-                    </p>
-                    <span class="archive-button">
-                        <a class="btn btn-primary">Archive</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bs-callout bs-callout-success">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="float-right date">23rd June 2016 11:12</p>
-                    <h4>Uplift completed for Another Shop</h4>
-                    <p>
-                        Product: <a href="/OrderWell/Delivery">19152 - Blu Cart Ref C/Tob12mg3s</a>.
-                    </p>
-                    <p class="text-info">
-                        Uplift completed, what a relief. How uplifting to have an uplift completed.
-                    </p>
-                    <span class="archive-button">
-                        <a class="btn btn-primary">Archive</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bs-callout bs-callout-warning">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="float-right date">23rd June 2016 10:45</p>
-                    <h4>Cash on delivery partially paid for Old and Valued customer</h4>
-                    <p>
-                        Product: <a href="/OrderWell/Delivery">19152 - Blu Cart Ref C/Tob12mg3s</a>.
-                    </p>
-                    <p class="text-info">
-                        A partial payment but definately not all of the payment. Partial but not full, you could say we have some of the payment but not all of it. In fact a bit of the payment is still outstanding.
-                    </p>
-                    <span class="archive-button">
-                        <a class="btn btn-primary">Archive</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bs-callout bs-callout-danger">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="float-right date">22rd June 2016 18:12</p>
-                    <h4>Crediting failed for Bruno's Bargains</h4>
-                    <p>
-                        Product: <a href="/OrderWell/Delivery">98765 - Strongbow cider pack of 12</a>.
-                    </p>
-                    <p class="text-info">
-                        Unable to credit, customer account suspended. Unable to credit, customer account suspended. Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.Unable to credit, customer account suspended.
-                    </p>
-                    <span class="archive-button">
-                        <a class="btn btn-primary">Archive</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn-toolbar" role="toolbar" style="margin: 0;">
-            <div class="btn-group">
-                <div id="time"></div>
-            </div>
-
-
-            <div class="btn-group pull-right">
-                <ul class="pagination" style="margin: 0;">
-                    <li><a href="#">«</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">»</a></li>
-                </ul>
-            </div>
-        </div>
-
-
-    </div>-->
-
-
-
+    </div>
 </div>
+<ow-notifications-modal (onArchived)="onArchived($event)"></ow-notifications-modal>
+

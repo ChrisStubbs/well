@@ -14,11 +14,9 @@ export class OptionFilterPipe implements PipeTransform {
             return value;
         }
 
-        if (filterOption.dropDownItem.description == 'Date') {
+        if (filterOption.dropDownItem.type == 'date') {
             return value.filter((delivery: any) => this.filterDate(delivery, filterOption));
-
         } else {
-
             return value.filter((delivery: any) => this.filterString(delivery, filterOption));
         }
     }

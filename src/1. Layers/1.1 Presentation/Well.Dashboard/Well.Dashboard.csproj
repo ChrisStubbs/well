@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="Hubs\RefreshHub.cs" />
     <Compile Include="Models\BootstrapData.cs" />
+    <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\UserBranches.cs" />
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
@@ -214,8 +215,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
+    <Content Include="app\audit\audit-list.html" />
+    <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
     <Content Include="app\clean\cleanDelivery-list.html" />
+    <Content Include="app\credit_threshold\credit-threshold-view.html" />
+    <Content Include="app\credit_threshold\credit-threshold.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-list.html" />
@@ -224,30 +229,30 @@
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\delivery-selection-modal.html" />
     <Content Include="app\route_header\routeheader-list.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-add-modal.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-remove-modal.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-view.html" />
+    <Content Include="app\seasonal_dates\seasonal-dates-edit-modal.html" />
     <Content Include="app\shared\assign-modal.html" />
+    <Content Include="app\shared\branch\branch-select.html" />
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\confirmModal.html" />
     <Content Include="app\shared\optionFilter.html" />
     <Content Include="app\home\widgets.html" />
+    <Content Include="app\shared\spinner.html" />
+    <Content Include="app\unauthorised\unauthorised.html" />
     <Content Include="app\user_preferences\user-preference-modal.html" />
     <Content Include="app\user_preferences\user-preferences.html" />
-    <Content Include="Content\css\additionalPeriodExceptions.css" />
+    <Content Include="Content\css\6-chasing-dots.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.flatten.css" />
     <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\checklists.css" />
-    <Content Include="Content\css\editSupplierClaims.css" />
     <Content Include="Content\css\imports.css" />
     <Content Include="Content\css\jquery-ui.min.css" />
-    <Content Include="Content\css\Periods.css" />
-    <Content Include="Content\css\productTypes.css" />
-    <Content Include="Content\css\promotions.css" />
     <Content Include="Content\css\Site.css" />
-    <Content Include="Content\css\supplierClaims.css" />
-    <Content Include="Content\css\supplierInvoiceOptions.css" />
     <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\actions.png">
@@ -346,9 +351,21 @@
     <TypeScriptCompile Include="app\appModule.ts" />
     <TypeScriptCompile Include="app\appComponent.ts" />
     <TypeScriptCompile Include="app\appRoutes.ts" />
-    <TypeScriptCompile Include="app\branch\Branch.ts" />
+    <TypeScriptCompile Include="app\audit\auditComponent.ts" />
+    <TypeScriptCompile Include="app\audit\audit.ts" />
+    <TypeScriptCompile Include="app\audit\auditService.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchRoleComponent.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThresholdComponent.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThresholdViewComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesRemoveModalComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDateService.ts" />
+    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesViewComponent.ts" />
+    <TypeScriptCompile Include="app\shared\branch\branch.ts" />
     <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
-    <TypeScriptCompile Include="app\branch\branchService.ts" />
+    <TypeScriptCompile Include="app\shared\branch\branchService.ts" />
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
@@ -358,7 +375,6 @@
     <TypeScriptCompile Include="app\delivery\deliveryLine.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryService.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryUpdateComponent.ts" />
-    <TypeScriptCompile Include="app\delivery\exceptionsFilterPipe.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
@@ -376,17 +392,21 @@
     <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
-    <TypeScriptCompile Include="app\shared\assign-modal.ts" />
-    <TypeScriptCompile Include="app\shared\contact-modal.ts" />
-    <TypeScriptCompile Include="app\shared\http-response.ts" />
+    <TypeScriptCompile Include="app\shared\assignModal.ts" />
+    <TypeScriptCompile Include="app\shared\branch\branchCheckboxComponent.ts" />
+    <TypeScriptCompile Include="app\shared\contactModal.ts" />
+    <TypeScriptCompile Include="app\shared\logService.ts" />
+    <TypeScriptCompile Include="app\shared\httpResponse.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
     <TypeScriptCompile Include="app\shared\globalSettings.ts" />
     <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
     <TypeScriptCompile Include="app\shared\outstandingPipe.ts" />
-    <TypeScriptCompile Include="app\shared\orderby-arrow.ts" />
+    <TypeScriptCompile Include="app\shared\orderbyArrow.ts" />
     <TypeScriptCompile Include="app\shared\orderByDatePipe.ts" />
     <TypeScriptCompile Include="app\shared\polyfills.ts" />
     <TypeScriptCompile Include="app\shared\refreshService.ts" />
+    <TypeScriptCompile Include="app\shared\security\securityService.ts" />
+    <TypeScriptCompile Include="app\shared\spinnerComponent.ts" />
     <TypeScriptCompile Include="app\shared\user.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
@@ -398,6 +418,7 @@
     <TypeScriptCompile Include="app\home\widgetService.ts" />
     <TypeScriptCompile Include="app\home\widget.ts" />
     <TypeScriptCompile Include="app\home\widgetComponent.ts" />
+    <TypeScriptCompile Include="app\unauthorised\unauthorisedComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\User.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
     <TypeScriptCompile Include="app\user_preferences\userPreferenceModalComponent.ts" />
@@ -410,6 +431,10 @@
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
       <Name>Well.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1.3 Domain\Well.Domain\Well.Domain.csproj">
+      <Project>{94DED6AE-3FDA-42C6-AFD5-D7ECDB59AB7B}</Project>
+      <Name>Well.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

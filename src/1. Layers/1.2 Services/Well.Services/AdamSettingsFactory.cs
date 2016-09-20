@@ -18,7 +18,7 @@
 
             switch (branch)
             {
-                case Branch.MedwayIsDown:
+                case Branch.Medway:
                     settings.Rfs = AdamConfiguration.AdamRfsMedway;
                     settings.Port = AdamConfiguration.AdamPortMedway;
                     break;

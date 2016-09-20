@@ -8,6 +8,8 @@
     {
         IEnumerable<Branch> GetAll();
 
+        IEnumerable<Branch> GetAllValidBranches();
+
         void DeleteUserBranches(User user);
 
         void SaveBranchesForUser(IEnumerable<Branch> branches, User user);

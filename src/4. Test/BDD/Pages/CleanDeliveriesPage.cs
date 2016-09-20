@@ -10,6 +10,8 @@
             this.RoutesGrid = new Grid<CleanDeliveriesGrid> { Locator = By.Id("tableCleanDeliveries"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
+
+            AccountModal = new AccountModalComponent();
         }
 
         protected override string UrlSuffix => "clean";
@@ -17,6 +19,8 @@
         public Grid<CleanDeliveriesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
+
+        public AccountModalComponent AccountModal { get; set; }
     }
 
     public enum CleanDeliveriesGrid

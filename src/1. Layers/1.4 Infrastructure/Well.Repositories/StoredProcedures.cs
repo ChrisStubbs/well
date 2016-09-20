@@ -2,6 +2,9 @@
 {
     public struct StoredProcedures
     {
+        public static string AuditGet = "Audit_Get";
+        public static string AuditInsert = "Audit_Insert";
+
         //route header
         public static string RouteHeadersGet = "RouteHeaders_Get";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
@@ -20,7 +23,6 @@
         public static string RoutesDeleteById = "Routes_DeleteById";
         public static string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
         public static string HolidayExceptionGet = "HolidayException_Get";
-
 
         //Stops
         public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
@@ -77,6 +79,7 @@
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
         public static string UserGetByIdentity = "UserGetByIdentity";
+        public static string UserGetByName = "UserGetByName";
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
         public static string UnAssignJobToUser = "UserJob_Delete";
@@ -90,6 +93,10 @@
         //Notifications
         public static string SaveNotification = "Notification_Save";
         public static string GetNotifications = "Notifications_Get";
+        public static string UserStatsGet = "UserStatsGet";
+
+        public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
+        public static string SeasonalDatesDelete = "SeasonalDatesDelete";
         public static string ArchiveNotification = "Notification_Archive";
     }
 }

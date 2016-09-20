@@ -5,13 +5,14 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {User} from './user';
 import {UserPreferenceService} from './userPreferenceService';
-import {PaginationService } from 'ng2-pagination';
 import {UserPreferenceModal} from './userPreferenceModalComponent';
+import {SecurityService} from '../shared/security/securityService';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({
     selector: 'ow-user-preferences',
     templateUrl: './app/user_preferences/user-preferences.html',
-    providers: [UserPreferenceService, PaginationService]
+    providers: [UserPreferenceService]
 }
 )
 export class UserPreferenceComponent {
@@ -19,7 +20,11 @@ export class UserPreferenceComponent {
     users: Array<User> = [];
     rowCount = 10;
 
-    constructor(private userPreferenceService: UserPreferenceService, private router: Router) {
+    constructor(private globalSettingsService: GlobalSettingsService,
+        private userPreferenceService: UserPreferenceService,
+        private router: Router,
+        private securityService: SecurityService) {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.userBranchPreferences);
     }
 
     @ViewChild(UserPreferenceModal) modal : UserPreferenceModal;

@@ -67,11 +67,13 @@
     <Compile Include="Contracts\IEventLogger.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
+    <Compile Include="Contracts\IUserRoleProvider.cs" />
     <Compile Include="Contracts\IWebClient.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />

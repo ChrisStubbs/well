@@ -13,7 +13,6 @@
     [TestFixture]
     public class AccountRepositoryTests
     {
-
         private Mock<ILogger> logger;
 
         private Mock<IWellDapperProxy> dapperProxy;

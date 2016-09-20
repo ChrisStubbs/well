@@ -27,14 +27,19 @@
                 <li><a routerLink="/clean" routerLinkActive="active">Clean</a></li>
                 <li><a routerLink="/resolved" routerLinkActive="active">Resolved</a></li>
                 <li><a routerLink="/notifications" routerLinkActive="active">Notifications</a></li>
+                <li><a routerLink="/audits" routerLinkActive="active">Audits</a></li>
                 <li class="dropdown pull-right" style="margin-right: 125px;" id="admin-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="admin-dropdown-anchor">
                         Admin <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a id="branch-selection" routerLink="/branch" routerLinkActive="active">Branch Selection</a></li>
-                        <li><a id="user-preference-selection" routerLink="/preferences" 
-                               routerLinkActive="active">User Preferences</a></li>
+                        <li><a id="branch-selection" routerLink="/branch" routerLinkActive="active">Your Branch Selection</a></li>
+                        <li><a id="user-preference-selection" routerLink="/preferences"
+                               routerLinkActive="active">User Branch Preferences</a></li>
+                        <li>
+                            <a id="branch-preference" routerLink="/branch-role"
+                               routerLinkActive="active">Branch Role Parameters</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

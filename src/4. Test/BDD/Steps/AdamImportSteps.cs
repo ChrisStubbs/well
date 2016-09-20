@@ -27,13 +27,11 @@
         const string currentAdamRouteFile = "PH_ROUTES_30062016_02.xml";
         const string currentEpodRouteFile = "ePOD__20160701_10452212189454.xml";
         private const string ParentNode = "RouteHeader";
-        private string adamStatusMessage;
         private ILogger logger;
         private IFileService fileService;
         private IEpodSchemaProvider epodSchemaProvider;
         private IEpodDomainImportProvider epodDomainImportProvider;
         private IEpodDomainImportService epodDomainImportService;
-        private IAccountRepository accountRepository;
         private AdamFileMonitorService adamFileMonitorService;
         private readonly string currentUser = "epodBDDUser";
 
@@ -195,7 +193,7 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count(x => !x.IsDeleted);
-            Assert.AreEqual(jobDetailCount, exceptionLines);
+            Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
         [Then(@"there should be (.*) lines left for a Job with an Id of (.*)")]
@@ -203,7 +201,7 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count();
-            Assert.AreEqual(jobDetailCount, exceptionLines);
+            Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
 

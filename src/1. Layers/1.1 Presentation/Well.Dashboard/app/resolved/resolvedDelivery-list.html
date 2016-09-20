@@ -4,56 +4,59 @@
     </ol>
 </div>
 <div class="jumbotron">
-    <div *ngIf="!deliveries">
-        <div class="alert alert-info"><strong>No resolved deliveries!</strong>
-        </div>
-    </div>
-    <div *ngIf='deliveries && deliveries.length'>
-        <div class="row">
-            <div class="col-md-8">
-                <ow-optionfilter [options]="options"
-                                 (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+    <ow-spinner [isRunning]="isLoading"></ow-spinner>
+    <div *ngIf="!isLoading">
+        <div *ngIf="!deliveries">
+            <div class="alert alert-info"><strong>No resolved deliveries!</strong>
             </div>
         </div>
-        <div class="table-responsive table-container">
-            <table id="tableResolvedDeliveries" class="table table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th>Route</th>
-                    <th>Drop</th>
-                    <th>Invoice No</th>
-                    <th>Account</th>
-                    <th>Account Name</th>
-                    <th>Contact</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                    <th>Assigned</th>
-                    <th>Date/Time<a style="text-decoration:none;display:inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
-                    <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-info" (click)="openModal(delivery.accountId)">Info</button>
-                    </td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.action}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
-                    <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
-                </tr>
-                </tbody>
-            </table>
+        <div *ngIf='deliveries && deliveries.length'>
+            <div class="row">
+                <div class="col-md-8">
+                    <ow-optionfilter [options]="options"
+                                     (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+                </div>
+            </div>
+            <div class="table-responsive table-container">
+                <table id="tableResolvedDeliveries" class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Route</th>
+                        <th>Drop</th>
+                        <th>Invoice No</th>
+                        <th>Account</th>
+                        <th>Account Name</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <th>Assigned</th>
+                        <th>Date/Time<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                        <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
+                        </td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.action}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.assigned}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
-        <div class="col-md-6" *ngIf="deliveries && deliveries.length">
-            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+        <div class="row">
+            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+            <div class="col-md-6" *ngIf="deliveries && deliveries.length">
+                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+            </div>
         </div>
     </div>
 </div>

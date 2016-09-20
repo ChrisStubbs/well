@@ -2,7 +2,6 @@
 import {Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {PaginationService } from 'ng2-pagination';
 import {Route} from './route';
 import {RouteHeaderService} from './routeHeaderService';
 import {DropDownItem} from '../shared/dropDownItem';
@@ -10,15 +9,18 @@ import Option = require('../shared/filterOption');
 import FilterOption = Option.FilterOption;
 import {RefreshService} from '../shared/refreshService';
 import {DeliverySelectionModal} from './delivery-selection-modal';
-import {OrderArrowComponent} from '../shared/orderby-arrow';
+import {OrderArrowComponent} from '../shared/orderbyArrow';
+import {SecurityService} from '../shared/security/securityService';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
-    providers: [RouteHeaderService, PaginationService]
+    providers: [RouteHeaderService]
 })
 export class RouteHeaderComponent implements OnInit {
+    isLoading: boolean = true;
     refreshSubscription: any;
     errorMessage: string;
     routes: Route[];
@@ -34,14 +36,17 @@ export class RouteHeaderComponent implements OnInit {
     ];
 
     constructor(
+        private globalSettingsService: GlobalSettingsService,
         private routerHeaderService: RouteHeaderService,
         private refreshService: RefreshService,
-        private router: Router) {
+        private router: Router,
+        private securityService: SecurityService) {
     }
 
     @ViewChild(DeliverySelectionModal) deliverySelectionModal : DeliverySelectionModal;
 
     ngOnInit() {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
         this.currentConfigSort = '+dateTimeUpdated';
@@ -67,8 +72,12 @@ export class RouteHeaderComponent implements OnInit {
             .subscribe(routes => {
                     this.routes = routes;
                     this.lastRefresh = Date.now();
+                    this.isLoading = false;
                 },
-                error => this.lastRefresh = Date.now());
+                error => {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     routeSelected(route): void {

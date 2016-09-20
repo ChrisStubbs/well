@@ -18,11 +18,18 @@
 
         public User GetByIdentity(string identity)
         {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByIdentity)
-                    .AddParameter("Identity", identity, DbType.String, size: 255)
-                    .Query<User>()
-                    .SingleOrDefault();
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByIdentity)
+                .AddParameter("Identity", identity, DbType.String, size: 255)
+                .Query<User>()
+                .SingleOrDefault();
+        }
+
+        public User GetByName(string name)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByName)
+                .AddParameter("Name", name, DbType.String, size: 255)
+                .Query<User>()
+                .SingleOrDefault();
         }
 
         public IEnumerable<User> GetByBranchId(int branchId)

@@ -2,7 +2,7 @@
 {
     public enum Branch
     {
-        MedwayIsDown = 2,
+        Medway = 2,
         Coventry = 3,
         Fareham = 5,
         Dunfermline = 9,

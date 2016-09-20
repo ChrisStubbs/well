@@ -40,6 +40,21 @@
             }
         }
 
+        [When(@"I view the account info modal for resolved row (.*)")]
+        public void WhenIViewTheAccountInfoModalForResolvedRow(int row)
+        {
+            var rows = ResolvedDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            rows[row - 1].GetItemInRowByClass("contact-info").Click();
+        }
+
+
+        [Then(@"I can the following account info details - resolved")]
+        public void ThenICanTheFollowingAccountInfoDetails(Table table)
+        {
+            var modal = ResolvedDeliveriesPage.AccountModal;
+            AccountModalSteps.CompareModal(table, modal);
+        }
+
         [When(@"I click on resolved delivery page (.*)")]
         public void WhenIClickOnDeliveryPage(int pageNo)
         {

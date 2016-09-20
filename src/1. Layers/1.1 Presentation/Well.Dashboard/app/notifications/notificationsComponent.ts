@@ -2,6 +2,8 @@
 import {GlobalSettingsService} from '../shared/globalSettings';
 import { Response } from '@angular/http';
 import {HttpResponse} from '../shared/http-response';
+import {SecurityService} from '../shared/security/securityService';
+import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import 'rxjs/Rx';   // Load all features
 
@@ -29,7 +31,7 @@ export class NotificationsComponent implements OnInit {
     }
 
 
-    ngOnInit() {
+    constructor(private globalSettingsService: GlobalSettingsService, private securityService: SecurityService) {}
         this.getNotifications();
         
     }
@@ -43,7 +45,9 @@ export class NotificationsComponent implements OnInit {
                 },
                 error => this.lastRefresh = Date.now());
     }
-
+        ngOnInit() {
+        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
+}
     archive(notification): void {
 
         this.notification = notification;

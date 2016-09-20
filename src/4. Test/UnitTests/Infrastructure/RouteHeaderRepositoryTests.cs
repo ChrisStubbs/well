@@ -19,18 +19,21 @@
         private Mock<ILogger> logger;
         private Mock<IWellDapperProxy> dapperProxy;
         private Mock<IStopRepository> stopRepository;
+        private Mock<IJobRepository> jobRepository;
         private RouteHeaderRepository repository;
         private string UserName = "TestUser";
 
         [SetUp]
         public void Setup()
         {
-            this.logger = new Mock<ILogger>(MockBehavior.Strict);
-            this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
-            this.stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
-            
-            this.repository = new RouteHeaderRepository(this.logger.Object, this.dapperProxy.Object, stopRepository.Object);
-            this.repository.CurrentUser = UserName;
+            logger = new Mock<ILogger>(MockBehavior.Strict);
+            dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
+            stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
+            jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+
+            repository = new RouteHeaderRepository(this.logger.Object, this.dapperProxy.Object,
+                stopRepository.Object, jobRepository.Object);
+            repository.CurrentUser = UserName;
         }
 
         public class TheGetRouteHeadersMethod : RouteHeaderRepositoryTests
@@ -58,17 +61,22 @@
                     RouteHeaderFactory.New.With(x => x.Id = 2).Build()
                 };
 
-                var stops1 = new List<Stop> {new Stop(), new Stop()};
-                var stops2 = new List<Stop> { new Stop(), new Stop() };
+                var stops1 = new List<Stop> {new Stop() {Id = 9}, new Stop() { Id = 8 } };
+                var stops2 = new List<Stop> { new Stop() { Id = 9 }, new Stop() { Id = 8 } };
 
                 dapperProxy.Setup(x => x.WithStoredProcedure("RouteHeaders_Get")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("UserName", UserName, DbType.String, null)). Returns(this.dapperProxy.Object);
                 
                 dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(routeHeaders);
+
                 stopRepository.Setup(x => x.GetStopByRouteHeaderId(1)).Returns(stops1);
                 stopRepository.Setup(x => x.GetStopByRouteHeaderId(2)).Returns(stops2);
 
+                jobRepository.Setup(j => j.GetByStopId(8)).Returns(new List<Job>() {new Job()});
+                jobRepository.Setup(j => j.GetByStopId(9)).Returns(new List<Job>() {new Job()});
+
                 var results = repository.GetRouteHeaders();
+
                 stopRepository.Verify(x => x.GetStopByRouteHeaderId(1), Times.Once);
                 stopRepository.Verify(x => x.GetStopByRouteHeaderId(2), Times.Once);
 

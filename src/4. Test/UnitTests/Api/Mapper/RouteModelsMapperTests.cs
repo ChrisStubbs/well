@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Factories;
     using NUnit.Framework;
@@ -24,13 +25,13 @@
                     With(x => x.RouteStatusCode = RouteStatusCode.Compl.ToString()).
                     With(x => x.DateUpdated = DateTime.Now).Build();
 
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Compl).Build());
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Abypa).Build());
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Incom).Build());
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Narri).Build());
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Nbypa).Build());
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Ndone).Build());
-                routeHeader1.Stops.Add(StopFactory.New.With(x => x.StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Incom}})).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Incom}})).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Incom}})).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Incom}})).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Incom}})).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Incom}})).Build());
+                routeHeader1.Stops.Add(StopFactory.New.With(x => x.Jobs = new Collection<Job>(new List<Job>() { new Job() {PerformanceStatus = PerformanceStatus.Compl}})).Build());
 
                 var routeHeaders = new List<RouteHeader>
                 {

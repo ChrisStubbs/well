@@ -3,6 +3,7 @@
 	@JobDetailId			INT,
 	@Qty					decimal(7,3),
 	@DamageReasonsId		tinyint,
+	@DamageSourceId			tinyint,
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			Datetime
 
@@ -14,6 +15,7 @@ BEGIN
 		SET [JobDetailId] = @JobDetailId
 			,[Qty] = @Qty
 			,[DamageReasonsId] = @DamageReasonsId
+			,[DamageSourceId] = @DamageSourceId
 			,[UpdatedBy] = @UpdatedBy
 			,[DateUpdated] = @DateUpdated
 		WHERE Id = @Id		   

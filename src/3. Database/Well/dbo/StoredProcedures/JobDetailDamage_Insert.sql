@@ -2,6 +2,7 @@
 	@JobDetailId			INT,
 	@Qty					decimal(7,3),
 	@DamageReasonsId		tinyint,
+	@DamageSourceId			tinyint,
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
@@ -15,6 +16,7 @@ BEGIN
            ([JobDetailId]
            ,[Qty]
            ,[DamageReasonsId]
+		   ,[DamageSourceId]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
@@ -23,6 +25,7 @@ BEGIN
            (@JobDetailId
            ,@Qty
            ,@DamageReasonsId
+		   ,@DamageSourceId
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy

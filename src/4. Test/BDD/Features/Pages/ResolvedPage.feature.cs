@@ -293,9 +293,10 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 50
  testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
- testRunner.And("3 deliveries have been marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 51
- testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("3 deliveries have been marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 52
+ testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -337,10 +338,9 @@ this.ScenarioSetup(scenarioInfo);
                         "",
                         "Unallocated",
                         "Sep 7, 2016, 1:31:17 PM"});
-#line 52
- testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 53
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table6, "Then ");
-#line 57
+#line 58
  testRunner.When("I click on the orderby Triangle image in the resolved deliveries grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -383,7 +383,7 @@ this.ScenarioSetup(scenarioInfo);
                         "",
                         "Unallocated",
                         "Sep 7, 2016, 1:27:17 PM"});
-#line 58
+#line 59
  testRunner.Then("The following resolved deliveries ordered by date will be displayed in \'desc\' ord" +
                     "er", ((string)(null)), table7, "Then ");
 #line hidden
@@ -395,19 +395,18 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanPageThroughResolvedDeliveryInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Resolved Delivery information", ((string[])(null)));
-#line 64
-this.ScenarioSetup(scenarioInfo);
 #line 65
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 66
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 67
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 68
- testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 69
- testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 70
+ testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 71
  testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 72
@@ -418,7 +417,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("\'7\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 75
  testRunner.When("I click on resolved delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 58
+#line 76
  testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -12,7 +12,8 @@ USING	(VALUES	(1,'AD-HOC','Ad Hoc Collection','deployment',GETDATE(),'deployment
 				(9,'RE DEL','Re Delivery','deployment',GETDATE(),'deployment',GETDATE()),
 				(10,'SC','Service Call','deployment',GETDATE(),'deployment',GETDATE()),
 				(11,'SD','Showroom Delivery','deployment',GETDATE(),'deployment',GETDATE()),
-				(12,'SR','Service Return','deployment',GETDATE(),'deployment',GETDATE())
+				(12,'SR','Service Return','deployment',GETDATE(),'deployment',GETDATE()),
+				(13,'DEL-AMB','Ambient Delivery','deployment',GETDATE(),'deployment',GETDATE())
 		)
 AS Source ([Id],[Code],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]

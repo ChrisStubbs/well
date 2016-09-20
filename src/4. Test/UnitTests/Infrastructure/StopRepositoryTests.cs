@@ -90,20 +90,16 @@
                 dapperProxy.Setup(x => x.AddParameter("Id", stop.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PlannedStopNumber", stop.PlannedStopNumber, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("PlannedArriveTime", stop.PlannedArriveTime, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("PlannedDepartTime", stop.PlannedDepartTime, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RouteHeaderCode", stop.RouteHeaderCode, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RouteHeaderId", stop.RouteHeaderId, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DropId", stop.DropId, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("LocationId", stop.LocationId, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DeliveryDate", stop.DeliveryDate, DbType.DateTime, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("SpecialInstructions", stop.SpecialInstructions, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("StartWindow", stop.StartWindow, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("EndWindow", stop.EndWindow, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField1", stop.TextField1, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField2", stop.TextField2, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField3", stop.TextField3, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField4", stop.TextField4, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ShellActionIndicator", stop.ShellActionIndicator, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("CustomerShopReference", stop.CustomerShopReference, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AllowOvers", stop.AllowOvers == "True", DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("CustUnatt", stop.CustUnatt == "True", DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("PHUnatt", stop.PHUnatt == "True", DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopStatusId", stop.StopStatusCodeId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopPerformanceStatusId", stop.StopPerformanceStatusCodeId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId", stop.ByPassReasonId, DbType.Int16, null)).Returns(dapperProxy.Object);
@@ -136,43 +132,12 @@
             }
         }
 
-        public class TheSaveStopAttributeMethod : StopRepositoryTests
-        {
-            [Test]
-            public void ShouldSaveStopAttributes()
-            {
-                var stopAttribute = StopAttributeFactory.New.Build();
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopAttributeCreateOrUpdate)).Returns(dapperProxy.Object);
-
-                dapperProxy.Setup(x => x.AddParameter("Id", stopAttribute.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Code", stopAttribute.Code, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Value", stopAttribute.Value1, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("StopId", stopAttribute.AttributeId, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
-
-                this.repository.AddStopAttributes(stopAttribute);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopAttributeCreateOrUpdate), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.AddParameter("Code", stopAttribute.Code, DbType.String, null), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-
-            }
-        }
-
         public class TheSaveStopAccountMethod : StopRepositoryTests
         {
             [Test]
             public void ShouldSaveStopAccountss()
             {
                 var stopAccount = StopFactory.New.Build();
-                var dropAndDrive = stopAccount.Accounts.IsDropAndDrive == "True";
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopAccountCreateOrUpdate)).Returns(dapperProxy.Object);
 
@@ -189,11 +154,6 @@
                 dapperProxy.Setup(x => x.AddParameter("ContactNumber", stopAccount.Accounts.ContactNumber, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ContactNumber2", stopAccount.Accounts.ContactNumber2, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ContactEmailAddress", stopAccount.Accounts.ContactEmailAddress, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("StartWindow", stopAccount.Accounts.StartWindow, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("EndWindow", stopAccount.Accounts.EndWindow, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Latitude", stopAccount.Accounts.Latitude, DbType.Double, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Longitude", stopAccount.Accounts.Longitude, DbType.Double, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsDropAndDrive", dropAndDrive, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopId", stopAccount.Accounts.StopId, DbType.Int32, null)).Returns(dapperProxy.Object);             
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });

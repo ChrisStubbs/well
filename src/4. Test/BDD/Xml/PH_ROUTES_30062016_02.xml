@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RouteDeliveries>
-   <Routes>
+  <Routes>
     <RouteHeader>
       <CompanyID>3</CompanyID>
       <RouteNumber>001</RouteNumber>
@@ -24,14 +24,17 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>07:03</PlannedArriveTime>
           <PlannedDepartTime>08:03</PlannedDepartTime>
-          <TransportOrderRef>001 01 49214.152 08/10/2016</TransportOrderRef>
+          <TransportOrderRef>001 01 49214.152 01/07/2016</TransportOrderRef>
           <SpecialInstructions>Access at rear only</SpecialInstructions>
           <StartWindow>07:00</StartWindow>
           <EndWindow>10:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
-          <TextField3>N</TextField3>
-          <TextField4>03/49214.152</TextField4>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>03/49214.152</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>49214.152</Code>
             <AccountTypeCode>SHELL</AccountTypeCode>
@@ -47,26 +50,39 @@
             <EndWindow>10:00</EndWindow>
             <Latitude>52.73288</Latitude>
             <Longitude>-1.113036</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <EntityAttributes>
-              <Attribute>
-                <Code>ACC001</Code>
-                <Value1>True</Value1>
-              </Attribute>
+            <Attribute>
+              <Code>ACC001</Code>
+              <Value1>True</Value1>
+            </Attribute>
           </EntityAttributes>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <JobRef1>49214.152</JobRef1>
-              <JobRef2>4294343</JobRef2>
-              <JobRef3 />
-              <JobRef4>946941</JobRef4>
+              <PHAccount>49214.152</PHAccount>
+              <PickListRef>4294343</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>946941</CustomerRef>
               <OrderDate>31/05/2016</OrderDate>
-              <Originator>622</Originator>
-              <TextField1>1871</TextField1>
-              <TextField2>RG384 PROJECT SILVERSTONE</TextField2>
+              <RoyaltyCode>1871</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -156,18 +172,20 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>20</OriginalDespatchQty>
+                  <PHProductCode>50035</PHProductCode>
+                  <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
                   <UnitMeasure>6</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>6</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>6</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
                   <EntityAttributes>
                     <Attribute>
@@ -178,18 +196,20 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>90002</Barcode>
-                  <OriginalDespatchQty>20</OriginalDespatchQty>
-                  <ProdDesc>Big old greasy pasties</ProdDesc>
-                  <OrderedQty>20</OrderedQty>
+                  <PHProductCode>50035</PHProductCode>
+                  <OriginalDespatchQty>5</OriginalDespatchQty>
+                  <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
+                  <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
                   <UnitMeasure>6</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>6</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>6</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
                   <EntityAttributes>
                     <Attribute>
@@ -203,14 +223,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef1>2874.033</JobRef1>
-              <JobRef2>2545470</JobRef2>
-              <JobRef3 />
-              <JobRef4>22428</JobRef4>
+              <PHAccount>2874.033</PHAccount>
+              <PickListRef>2545470</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>22428</CustomerRef>
               <OrderDate>31/05/2016</OrderDate>
-              <Originator>491</Originator>
-              <TextField1>770</TextField1>
-              <TextField2>RG074 (WRVS)</TextField2>
+              <RoyaltyCode>770</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -266,7 +298,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -300,34 +333,38 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>36524</Barcode>
+                  <PHProductCode>36524</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>0.75</SkuWeight>
                   <SkuCube>7.42</SkuCube>
                   <UnitMeasure>22</UnitMeasure>
-                  <TextField1>6</TextField1>
-                  <TextField2>22</TextField2>
-                  <TextField3 />
+                  <PHProductType>6</PHProductType>
+                  <PackSize>22</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>22.41</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>36533</Barcode>
+                  <PHProductCode>36533</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Maltesers Box 102g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>120</SkuWeight>
                   <SkuCube>10.65</SkuCube>
                   <UnitMeasure>17</UnitMeasure>
-                  <TextField1>6</TextField1>
-                  <TextField2>16</TextField2>
-                  <TextField3 />
+                  <PHProductType>6</PHProductType>
+                  <PackSize>16</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>22.41</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -338,14 +375,17 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>08:32</PlannedArriveTime>
           <PlannedDepartTime>09:29</PlannedDepartTime>
-          <TransportOrderRef>001 02 02874.033 03/10/2016</TransportOrderRef>
+          <TransportOrderRef>001 02 02874.033 01/07/2016</TransportOrderRef>
           <SpecialInstructions>Please do not be late</SpecialInstructions>
           <StartWindow>08:00</StartWindow>
           <EndWindow>10:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
-          <TextField3>N</TextField3>
-          <TextField4>03/02874.033</TextField4>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>03/02874.033</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>02874.033</Code>
             <AccountTypeCode>MMRG</AccountTypeCode>
@@ -361,20 +401,33 @@
             <EndWindow>10:00</EndWindow>
             <Latitude>52.62983</Latitude>
             <Longitude>-1.08295</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef1>2874.033</JobRef1>
-              <JobRef2>2545470</JobRef2>
-              <JobRef3 />
-              <JobRef4>22428</JobRef4>
+              <PHAccount>2874.033</PHAccount>
+              <PickListRef>2545470</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>22428</CustomerRef>
               <OrderDate>31/05/2016</OrderDate>
-              <Originator>491</Originator>
-              <TextField1>770</TextField1>
-              <TextField2>RG074 (WRVS)</TextField2>
+              <RoyaltyCode>770</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -430,7 +483,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -472,18 +526,20 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>50035</Barcode>
+                  <PHProductCode>50035</PHProductCode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
                   <UnitMeasure>6</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>6</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>6</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
                   <EntityAttributes>
                     <Attribute>
@@ -494,18 +550,20 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>50035</Barcode>
+                  <PHProductCode>50035</PHProductCode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
                   <UnitMeasure>6</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>6</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>6</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
                   <EntityAttributes>
                     <Attribute>
@@ -519,14 +577,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <JobRef1>2874.033</JobRef1>
-              <JobRef2>2545419</JobRef2>
-              <JobRef3 />
-              <JobRef4>RETAIL</JobRef4>
+              <PHAccount>2874.033</PHAccount>
+              <PickListRef>2545419</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>RETAIL</CustomerRef>
               <OrderDate>31/05/2016</OrderDate>
-              <Originator>315</Originator>
-              <TextField1>770</TextField1>
-              <TextField2>RG074 (WRVS)</TextField2>
+              <RoyaltyCode>770</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -582,7 +652,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -616,82 +687,92 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>6987</Barcode>
+                  <PHProductCode>6987</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Choc Teacakes Tunnock</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>0.90</SkuWeight>
                   <SkuCube>4.25</SkuCube>
                   <UnitMeasure>36</UnitMeasure>
-                  <TextField1>8</TextField1>
-                  <TextField2>36</TextField2>
-                  <TextField3 />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>36</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>19.23</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>49179</Barcode>
+                  <PHProductCode>49179</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Ginger Nuts 250g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>1.20</SkuWeight>
                   <SkuCube>18.44</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>10</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>10</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>21633</Barcode>
+                  <PHProductCode>21633</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Kiddies Super Mix 220gPM</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>8.45</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>3.60</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <Barcode>4244</Barcode>
+                  <PHProductCode>4244</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Milkybar Btns Giant PM</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>0.96</SkuWeight>
                   <SkuCube>6.50</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>6</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>6</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>5.60</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
-                  <Barcode>7621</Barcode>
+                  <PHProductCode>7621</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Fruit Past Tube 52.5g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>4.80</SkuWeight>
                   <SkuCube>1.00</SkuCube>
                   <UnitMeasure>48</UnitMeasure>
-                  <TextField1>6</TextField1>
-                  <TextField2>48</TextField2>
-                  <TextField3 />
+                  <PHProductType>6</PHProductType>
+                  <PackSize>48</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>8.40</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -717,14 +798,17 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>06:04</PlannedArriveTime>
           <PlannedDepartTime>07:34</PlannedDepartTime>
-          <TransportOrderRef>006 01 43362.048 01/09/2016</TransportOrderRef>
+          <TransportOrderRef>006 01 43362.048 01/07/2016</TransportOrderRef>
           <SpecialInstructions>Use Albert Road entrance</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>10:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
-          <TextField3>N</TextField3>
-          <TextField4>03/43362.048</TextField4>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>03/43362.048</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>43362.048</Code>
             <AccountTypeCode>SHELL</AccountTypeCode>
@@ -741,20 +825,33 @@
             <EndWindow>10:00</EndWindow>
             <Latitude>52.36384</Latitude>
             <Longitude>-1.94833</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <JobRef1>43362.048</JobRef1>
-              <JobRef2>1156028</JobRef2>
-              <JobRef3 />
-              <JobRef4>610578</JobRef4>
+              <PHAccount>43362.048</PHAccount>
+              <PickListRef>1156028</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>610578</CustomerRef>
               <OrderDate>30/05/2016</OrderDate>
-              <Originator>189</Originator>
-              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
-              <TextField2>RG060 (Welcome Break)</TextField2>
+              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -810,7 +907,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -844,66 +942,74 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>10637</Barcode>
+                  <PHProductCode>10637</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>0.50</SkuWeight>
                   <SkuCube>0.25</SkuCube>
                   <UnitMeasure>10</UnitMeasure>
-                  <TextField1>5</TextField1>
-                  <TextField2>10</TextField2>
-                  <TextField3 />
+                  <PHProductType>5</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>24.72</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>12274</Barcode>
+                  <PHProductCode>12274</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>B&amp;H Dual</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.40</SkuWeight>
                   <SkuCube>7.20</SkuCube>
                   <UnitMeasure>20</UnitMeasure>
-                  <TextField1>1</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>100.10</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>12476</Barcode>
+                  <PHProductCode>12476</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Marlboro Gold KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.80</SkuWeight>
                   <SkuCube>7.62</SkuCube>
                   <UnitMeasure>20</UnitMeasure>
-                  <TextField1>1</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>120.20</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <Barcode>10574</Barcode>
+                  <PHProductCode>10574</PHProductCode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Mayfair KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.44</SkuWeight>
                   <SkuCube>6.60</SkuCube>
                   <UnitMeasure>19</UnitMeasure>
-                  <TextField1>1</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -911,14 +1017,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef1>2874.033</JobRef1>
-              <JobRef2>2544765</JobRef2>
-              <JobRef3 />
-              <JobRef4>609769</JobRef4>
+              <PHAccount>2874.033</PHAccount>
+              <PickListRef>2544765</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>609769</CustomerRef>
               <OrderDate>30/05/2016</OrderDate>
-              <Originator>491</Originator>
-              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
-              <TextField2>RG060 (Welcome Break)</TextField2>
+              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -974,7 +1092,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1016,82 +1135,97 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>4237</Barcode>
-                  <OriginalDespatchQty />
+                  <PHProductCode>4237</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>6.86</SkuWeight>
                   <SkuCube>12.25</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>8</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>80.00</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>7605</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>7605</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Bass Sherbet Lemons 200g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>2.88</SkuWeight>
                   <SkuCube>8.88</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>8</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>32.80</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>41957</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>41957</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Bournville Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
                   <SkuCube>6.66</SkuCube>
                   <UnitMeasure>36</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>36</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>36</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <Barcode>3319</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>3319</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>C.D.M Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
                   <SkuCube>6.66</SkuCube>
                   <UnitMeasure>48</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>48</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>48</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>125.35</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
-                  <Barcode>9135</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>9135</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Wispa Duo 51g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>10.10</SkuWeight>
                   <SkuCube>4.44</SkuCube>
                   <UnitMeasure>32</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>32</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>32</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>395.40</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -1102,14 +1236,17 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>07:38</PlannedArriveTime>
           <PlannedDepartTime>07:48</PlannedDepartTime>
-          <TransportOrderRef>006 02 54107.000 01/09/2016</TransportOrderRef>
+          <TransportOrderRef>006 02 54107.000 01/07/2016</TransportOrderRef>
           <SpecialInstructions>Enter via the lorry park</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>18:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
-          <TextField3>Y</TextField3>
-          <TextField4>03/54107.000</TextField4>
+          <ShellActionIndicator>Y</ShellActionIndicator>
+          <CustomerShopReference>03/54107.000</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>54107.000</Code>
             <AccountTypeCode>CUST</AccountTypeCode>
@@ -1126,20 +1263,33 @@
             <EndWindow>18:00</EndWindow>
             <Latitude>52.36400</Latitude>
             <Longitude>-1.94656</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <JobRef1>54107.000</JobRef1>
-              <JobRef2>4295479</JobRef2>
-              <JobRef3 />
-              <JobRef4>6526502</JobRef4>
+              <PHAccount>54107.000</PHAccount>
+              <PickListRef>4295479</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>6526502</CustomerRef>
               <OrderDate>29/05/2016</OrderDate>
-              <Originator>143</Originator>
-              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
-              <TextField2>RG118 (SHELL 2001)</TextField2>
+              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -1195,7 +1345,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1229,34 +1380,38 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>96986</Barcode>
+                  <PHProductCode>96986</PHProductCode>
                   <OriginalDespatchQty>6</OriginalDespatchQty>
                   <ProdDesc>Deli2Go 3Chse&amp;Spring On</ProdDesc>
                   <OrderedQty>6</OrderedQty>
                   <SkuWeight>5.00</SkuWeight>
                   <SkuCube>4.00</SkuCube>
                   <UnitMeasure>1</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>1</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>1</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>7.32</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>97040</Barcode>
+                  <PHProductCode>97040</PHProductCode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Chicken Mayo</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>4.00</SkuWeight>
                   <SkuCube>4.00</SkuCube>
                   <UnitMeasure>5</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>5</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>5</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>6.20</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -1264,14 +1419,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
-              <JobRef1>54107.000</JobRef1>
-              <JobRef2>4294985</JobRef2>
-              <JobRef3 />
-              <JobRef4>6524936</JobRef4>
+              <PHAccount>54107.000</PHAccount>
+              <PickListRef>4294985</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>6524936</CustomerRef>
               <OrderDate>28/05/2016</OrderDate>
-              <Originator>121</Originator>
-              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
-              <TextField2>RG118 (SHELL 2001)</TextField2>
+              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -1327,7 +1494,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1361,50 +1529,56 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>56330</Barcode>
+                  <PHProductCode>56330</PHProductCode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Moms Crak HotDog</ProdDesc>
                   <OrderedQty>2</OrderedQty>
                   <SkuWeight>1.11</SkuWeight>
                   <SkuCube>2.50</SkuCube>
                   <UnitMeasure>208</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>208</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>208</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>176.70</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>90181</Barcode>
+                  <PHProductCode>90181</PHProductCode>
                   <OriginalDespatchQty>4</OriginalDespatchQty>
                   <ProdDesc>Deli2Go B/Fast Sausage</ProdDesc>
                   <OrderedQty>4</OrderedQty>
                   <SkuWeight>3.80</SkuWeight>
                   <SkuCube>2.58</SkuCube>
                   <UnitMeasure>50</UnitMeasure>
-                  <TextField1>16</TextField1>
-                  <TextField2>50</TextField2>
-                  <TextField3 />
+                  <PHProductType>16</PHProductType>
+                  <PackSize>50</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>96474</Barcode>
+                  <PHProductCode>96474</PHProductCode>
                   <OriginalDespatchQty>7</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Brunch Saus Roll</ProdDesc>
                   <OrderedQty>7</OrderedQty>
                   <SkuWeight>5.60</SkuWeight>
                   <SkuCube>11.20</SkuCube>
                   <UnitMeasure>80</UnitMeasure>
-                  <TextField1>16</TextField1>
-                  <TextField2>80</TextField2>
-                  <TextField3 />
+                  <PHProductType>16</PHProductType>
+                  <PackSize>80</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>462.60</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -1424,7 +1598,7 @@
       <PlannedRouteFinishTime>14:27</PlannedRouteFinishTime>
       <PlannedDistance>156</PlannedDistance>
       <PlannedTravelTime>11:57</PlannedTravelTime>
-      <PlannedStops>5</PlannedStops>      
+      <PlannedStops>5</PlannedStops>
       <Stops>
         <Stop>
           <PlannedStopNumber>01</PlannedStopNumber>
@@ -1436,8 +1610,11 @@
           <EndWindow>07:20</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
-          <TextField3>N</TextField3>
-          <TextField4>03/28363.082</TextField4>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>03/28363.082</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>28363.082</Code>
             <AccountTypeCode>SHELL</AccountTypeCode>
@@ -1454,20 +1631,33 @@
             <EndWindow>18:00</EndWindow>
             <Latitude>52.30353</Latitude>
             <Longitude>-4.147708</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <JobRef1>43362.048</JobRef1>
-              <JobRef2>1156028</JobRef2>
-              <JobRef3 />
-              <JobRef4>610578</JobRef4>
+              <PHAccount>43362.048</PHAccount>
+              <PickListRef>1156028</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>610578</CustomerRef>
               <OrderDate>30/05/2016</OrderDate>
-              <Originator>189</Originator>
-              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
-              <TextField2>RG060 (Welcome Break)</TextField2>
+              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -1523,7 +1713,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1557,66 +1748,78 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>10637</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>10637</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>0.50</SkuWeight>
                   <SkuCube>0.25</SkuCube>
                   <UnitMeasure>10</UnitMeasure>
-                  <TextField1>5</TextField1>
-                  <TextField2>10</TextField2>
-                  <TextField3 />
+                  <PHProductType>5</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>24.72</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>12274</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>12274</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>B&amp;H Dual</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.40</SkuWeight>
                   <SkuCube>7.20</SkuCube>
                   <UnitMeasure>20</UnitMeasure>
-                  <TextField1>1</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>100.10</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>12476</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>12476</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Marlboro Gold KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.80</SkuWeight>
                   <SkuCube>7.62</SkuCube>
                   <UnitMeasure>20</UnitMeasure>
-                  <TextField1>1</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>120.20</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <Barcode>10574</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>10574</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Mayfair KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
                   <SkuWeight>2.44</SkuWeight>
                   <SkuCube>6.60</SkuCube>
                   <UnitMeasure>19</UnitMeasure>
-                  <TextField1>1</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -1624,14 +1827,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef1>2874.033</JobRef1>
-              <JobRef2>2544765</JobRef2>
-              <JobRef3 />
-              <JobRef4>609769</JobRef4>
+              <PHAccount>2874.033</PHAccount>
+              <PickListRef>2544765</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>609769</CustomerRef>
               <OrderDate>30/05/2016</OrderDate>
-              <Originator>491</Originator>
-              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
-              <TextField2>RG060 (Welcome Break)</TextField2>
+              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -1687,7 +1902,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1729,82 +1945,97 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>4237</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>4237</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>6.86</SkuWeight>
                   <SkuCube>12.25</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>8</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>80.00</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>7605</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>7605</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Bass Sherbet Lemons 200g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>2.88</SkuWeight>
                   <SkuCube>8.88</SkuCube>
                   <UnitMeasure>12</UnitMeasure>
-                  <TextField1>8</TextField1>
-                  <TextField2>12</TextField2>
-                  <TextField3 />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>12</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>32.80</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>41957</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>41957</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Bournville Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
                   <SkuCube>6.66</SkuCube>
                   <UnitMeasure>36</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>36</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>36</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <Barcode>3319</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>3319</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>C.D.M Std 45g</ProdDesc>
                   <OrderedQty>50</OrderedQty>
                   <SkuWeight>22.50</SkuWeight>
                   <SkuCube>6.66</SkuCube>
                   <UnitMeasure>48</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>48</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>48</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>125.35</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
-                  <Barcode>9135</Barcode>
-                  <OriginalDespatchQty/>
+                  <PHProductCode>9135</PHProductCode>
+                  <OriginalDespatchQty>
+                  </OriginalDespatchQty>
                   <ProdDesc>Wispa Duo 51g</ProdDesc>
                   <OrderedQty>20</OrderedQty>
                   <SkuWeight>10.10</SkuWeight>
                   <SkuCube>4.44</SkuCube>
                   <UnitMeasure>32</UnitMeasure>
-                  <TextField1>7</TextField1>
-                  <TextField2>32</TextField2>
-                  <TextField3 />
+                  <PHProductType>7</PHProductType>
+                  <PackSize>32</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>395.40</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -1821,8 +2052,11 @@
           <EndWindow>18:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
-          <TextField3>Y</TextField3>
-          <TextField4>03/28363.411</TextField4>
+          <ShellActionIndicator>Y</ShellActionIndicator>
+          <CustomerShopReference>03/28363.411</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>28363.411</Code>
             <AccountTypeCode>CUST</AccountTypeCode>
@@ -1839,20 +2073,33 @@
             <EndWindow>18:00</EndWindow>
             <Latitude>52.70536</Latitude>
             <Longitude>-2.48593</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <JobRef1>54107.000</JobRef1>
-              <JobRef2>4295479</JobRef2>
-              <JobRef3 />
-              <JobRef4>6526502</JobRef4>
+              <PHAccount>54107.000</PHAccount>
+              <PickListRef>4295479</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>6526502</CustomerRef>
               <OrderDate>29/05/2016</OrderDate>
-              <Originator>143</Originator>
-              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
-              <TextField2>RG118 (SHELL 2001)</TextField2>
+              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -1908,7 +2155,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1942,34 +2190,38 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>96986</Barcode>
+                  <PHProductCode>96986</PHProductCode>
                   <OriginalDespatchQty>6</OriginalDespatchQty>
                   <ProdDesc>Deli2Go 3Chse&amp;Spring On</ProdDesc>
                   <OrderedQty>6</OrderedQty>
                   <SkuWeight>5.00</SkuWeight>
                   <SkuCube>4.00</SkuCube>
                   <UnitMeasure>1</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>1</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>1</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>7.32</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>97040</Barcode>
+                  <PHProductCode>97040</PHProductCode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Chicken Mayo</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>4.00</SkuWeight>
                   <SkuCube>4.00</SkuCube>
                   <UnitMeasure>5</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>5</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>5</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>6.20</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -1977,14 +2229,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
-              <JobRef1>54107.000</JobRef1>
-              <JobRef2>4294985</JobRef2>
-              <JobRef3 />
-              <JobRef4>6524936</JobRef4>
+              <PHAccount>54107.000</PHAccount>
+              <PickListRef>4294985</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>6524936</CustomerRef>
               <OrderDate>28/05/2016</OrderDate>
-              <Originator>121</Originator>
-              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
-              <TextField2>RG118 (SHELL 2001)</TextField2>
+              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -2040,7 +2304,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2074,50 +2339,56 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>56330</Barcode>
+                  <PHProductCode>56330</PHProductCode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Moms Crak HotDog</ProdDesc>
                   <OrderedQty>2</OrderedQty>
                   <SkuWeight>1.11</SkuWeight>
                   <SkuCube>2.50</SkuCube>
                   <UnitMeasure>208</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>208</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>208</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>176.70</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>90181</Barcode>
+                  <PHProductCode>90181</PHProductCode>
                   <OriginalDespatchQty>4</OriginalDespatchQty>
                   <ProdDesc>Deli2Go B/Fast Sausage</ProdDesc>
                   <OrderedQty>4</OrderedQty>
                   <SkuWeight>3.80</SkuWeight>
                   <SkuCube>2.58</SkuCube>
                   <UnitMeasure>50</UnitMeasure>
-                  <TextField1>16</TextField1>
-                  <TextField2>50</TextField2>
-                  <TextField3 />
+                  <PHProductType>16</PHProductType>
+                  <PackSize>50</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>96474</Barcode>
+                  <PHProductCode>96474</PHProductCode>
                   <OriginalDespatchQty>7</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Brunch Saus Roll</ProdDesc>
                   <OrderedQty>7</OrderedQty>
                   <SkuWeight>5.60</SkuWeight>
                   <SkuCube>11.20</SkuCube>
                   <UnitMeasure>80</UnitMeasure>
-                  <TextField1>16</TextField1>
-                  <TextField2>80</TextField2>
-                  <TextField3 />
+                  <PHProductType>16</PHProductType>
+                  <PackSize>80</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>462.60</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -2129,13 +2400,17 @@
           <PlannedArriveTime>11:19</PlannedArriveTime>
           <PlannedDepartTime>11:43</PlannedDepartTime>
           <TransportOrderRef>011 03 43362.030 01/07/2016</TransportOrderRef>
-          <SpecialInstructions></SpecialInstructions>
+          <SpecialInstructions>
+          </SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>18:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
-          <TextField3>Y</TextField3>
-          <TextField4>03/43362.030</TextField4>
+          <ShellActionIndicator>Y</ShellActionIndicator>
+          <CustomerShopReference>03/43362.030</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>43362.080</Code>
             <AccountTypeCode>CUST</AccountTypeCode>
@@ -2146,26 +2421,41 @@
             <PostCode>TF11 8TG</PostCode>
             <ContactName>Billy Smith</ContactName>
             <ContactNumber>01248729919</ContactNumber>
-            <ContactNumber2></ContactNumber2>
-            <ContactEmailAddress></ContactEmailAddress>
+            <ContactNumber2>
+            </ContactNumber2>
+            <ContactEmailAddress>
+            </ContactEmailAddress>
             <StartWindow>07:00</StartWindow>
             <EndWindow>18:00</EndWindow>
             <Latitude>52.67774</Latitude>
             <Longitude>-2.40465</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <JobRef1>54107.000</JobRef1>
-              <JobRef2>4295479</JobRef2>
-              <JobRef3 />
-              <JobRef4>6526502</JobRef4>
+              <PHAccount>54107.000</PHAccount>
+              <PickListRef>4295479</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>6526502</CustomerRef>
               <OrderDate>29/05/2016</OrderDate>
-              <Originator>143</Originator>
-              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
-              <TextField2>RG118 (SHELL 2001)</TextField2>
+              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -2221,7 +2511,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2255,34 +2546,38 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>96986</Barcode>
+                  <PHProductCode>96986</PHProductCode>
                   <OriginalDespatchQty>6</OriginalDespatchQty>
                   <ProdDesc>Deli2Go 3Chse&amp;Spring On</ProdDesc>
                   <OrderedQty>6</OrderedQty>
                   <SkuWeight>5.00</SkuWeight>
                   <SkuCube>4.00</SkuCube>
                   <UnitMeasure>1</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>1</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>1</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>7.32</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>97040</Barcode>
+                  <PHProductCode>97040</PHProductCode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Chicken Mayo</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>4.00</SkuWeight>
                   <SkuCube>4.00</SkuCube>
                   <UnitMeasure>5</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>5</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>5</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>6.20</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -2290,14 +2585,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
-              <JobRef1>54107.000</JobRef1>
-              <JobRef2>4294985</JobRef2>
-              <JobRef3 />
-              <JobRef4>6524936</JobRef4>
+              <PHAccount>54107.000</PHAccount>
+              <PickListRef>4294985</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>6524936</CustomerRef>
               <OrderDate>28/05/2016</OrderDate>
-              <Originator>121</Originator>
-              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
-              <TextField2>RG118 (SHELL 2001)</TextField2>
+              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -2353,7 +2660,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2387,50 +2695,56 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>56330</Barcode>
+                  <PHProductCode>56330</PHProductCode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Moms Crak HotDog</ProdDesc>
                   <OrderedQty>2</OrderedQty>
                   <SkuWeight>1.11</SkuWeight>
                   <SkuCube>2.50</SkuCube>
                   <UnitMeasure>208</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>208</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>208</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>176.70</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>90181</Barcode>
+                  <PHProductCode>90181</PHProductCode>
                   <OriginalDespatchQty>4</OriginalDespatchQty>
                   <ProdDesc>Deli2Go B/Fast Sausage</ProdDesc>
                   <OrderedQty>4</OrderedQty>
                   <SkuWeight>3.80</SkuWeight>
                   <SkuCube>2.58</SkuCube>
                   <UnitMeasure>50</UnitMeasure>
-                  <TextField1>16</TextField1>
-                  <TextField2>50</TextField2>
-                  <TextField3 />
+                  <PHProductType>16</PHProductType>
+                  <PackSize>50</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>96474</Barcode>
+                  <PHProductCode>96474</PHProductCode>
                   <OriginalDespatchQty>7</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Brunch Saus Roll</ProdDesc>
                   <OrderedQty>7</OrderedQty>
                   <SkuWeight>5.60</SkuWeight>
                   <SkuCube>11.20</SkuCube>
                   <UnitMeasure>80</UnitMeasure>
-                  <TextField1>16</TextField1>
-                  <TextField2>80</TextField2>
-                  <TextField3 />
+                  <PHProductType>16</PHProductType>
+                  <PackSize>80</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>462.60</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -2447,8 +2761,11 @@
           <EndWindow>14:00</EndWindow>
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
-          <TextField3>Y</TextField3>
-          <TextField4>03/28363.082</TextField4>
+          <ShellActionIndicator>Y</ShellActionIndicator>
+          <CustomerShopReference>03/28363.082</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
           <Account>
             <Code>28363.085</Code>
             <AccountTypeCode>CUST</AccountTypeCode>
@@ -2465,20 +2782,33 @@
             <EndWindow>14:00</EndWindow>
             <Latitude>52.62322</Latitude>
             <Longitude>-1.69812</Longitude>
-            <IsDropAndDrive></IsDropAndDrive>
+            <IsDropAndDrive>
+            </IsDropAndDrive>
           </Account>
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <JobRef1>28363.085</JobRef1>
-              <JobRef2>1156561</JobRef2>
-              <JobRef3 />
-              <JobRef4>518232247</JobRef4>
+              <PHAccount>28363.085</PHAccount>
+              <PickListRef>1156561</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>518232247</CustomerRef>
               <OrderDate>20/05/2016</OrderDate>
-              <Originator>622</Originator>
-              <TextField1>222 TESCO STORES LTD</TextField1>
-              <TextField2>RG050 (Tesco)</TextField2>
+              <RoyaltyCode>222 TESCO STORES LTD</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -2534,7 +2864,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2576,34 +2907,38 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>13372</Barcode>
+                  <PHProductCode>13372</PHProductCode>
                   <OriginalDespatchQty>150</OriginalDespatchQty>
                   <ProdDesc>B&amp;H Gold</ProdDesc>
                   <OrderedQty>150</OrderedQty>
                   <SkuWeight>15.25</SkuWeight>
                   <SkuCube>6.50</SkuCube>
                   <UnitMeasure>20</UnitMeasure>
-                  <TextField1>2</TextField1>
-                  <TextField2>20</TextField2>
-                  <TextField3 />
+                  <PHProductType>2</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>1325.70</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>10574</Barcode>
+                  <PHProductCode>10574</PHProductCode>
                   <OriginalDespatchQty>41</OriginalDespatchQty>
                   <ProdDesc>Mayfair KS</ProdDesc>
                   <OrderedQty>41</OrderedQty>
                   <SkuWeight>12.60</SkuWeight>
                   <SkuCube>3.60</SkuCube>
                   <UnitMeasure>19</UnitMeasure>
-                  <TextField1>4</TextField1>
-                  <TextField2>19</TextField2>
-                  <TextField3 />
+                  <PHProductType>4</PHProductType>
+                  <PackSize>19</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>132.60</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -2611,14 +2946,26 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef1>28398.080</JobRef1>
-              <JobRef2>2545853</JobRef2>
-              <JobRef3 />
-              <JobRef4>PO-611585</JobRef4>
+              <PHAccount>28398.080</PHAccount>
+              <PickListRef>2545853</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>PO-611585</CustomerRef>
               <OrderDate>28/05/2016</OrderDate>
-              <Originator>121</Originator>
-              <TextField1>1478 (WELCOME BREAK-TESCO)</TextField1>
-              <TextField2>RG059 (TESCO EXPRESS)</TextField2>
+              <RoyaltyCode>1478 (WELCOME BREAK-TESCO)</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -2674,7 +3021,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2708,50 +3056,56 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>23248</Barcode>
+                  <PHProductCode>23248</PHProductCode>
                   <OriginalDespatchQty>30</OriginalDespatchQty>
                   <ProdDesc>Bounty Trio Milk K/S 85g</ProdDesc>
                   <OrderedQty>30</OrderedQty>
                   <SkuWeight>15.00</SkuWeight>
                   <SkuCube>12.50</SkuCube>
                   <UnitMeasure>21</UnitMeasure>
-                  <TextField1>8</TextField1>
-                  <TextField2>21</TextField2>
-                  <TextField3 />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>21</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>420.00</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>26353</Barcode>
+                  <PHProductCode>26353</PHProductCode>
                   <OriginalDespatchQty>40</OriginalDespatchQty>
                   <ProdDesc>Double Decker 54.5g</ProdDesc>
                   <OrderedQty>40</OrderedQty>
                   <SkuWeight>18.00</SkuWeight>
                   <SkuCube>24.00</SkuCube>
                   <UnitMeasure>48</UnitMeasure>
-                  <TextField1>9</TextField1>
-                  <TextField2>48</TextField2>
-                  <TextField3 />
+                  <PHProductType>9</PHProductType>
+                  <PackSize>48</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>128.00</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <Barcode>7454</Barcode>
+                  <PHProductCode>7454</PHProductCode>
                   <OriginalDespatchQty>30</OriginalDespatchQty>
                   <ProdDesc>Galaxy Milk Kingsize 75g</ProdDesc>
                   <OrderedQty>30</OrderedQty>
                   <SkuWeight>18.00</SkuWeight>
                   <SkuCube>26.00</SkuCube>
                   <UnitMeasure>24</UnitMeasure>
-                  <TextField1>10</TextField1>
-                  <TextField2>24</TextField2>
-                  <TextField3 />
+                  <PHProductType>10</PHProductType>
+                  <PackSize>24</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>562.60</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>
@@ -2759,14 +3113,26 @@
             <Job>
               <Sequence>3</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <JobRef1>4836.348</JobRef1>
-              <JobRef2>4295517</JobRef2>
-              <JobRef3 />
-              <JobRef4>672819A</JobRef4>
+              <PHAccount>4836.348</PHAccount>
+              <PickListRef>4295517</PickListRef>
+              <InvoiceNumber>
+              </InvoiceNumber>
+              <CustomerRef>672819A</CustomerRef>
               <OrderDate>31/05/2016</OrderDate>
-              <Originator>672</Originator>
-              <TextField1>1478 (WELCOME BREAK-TESCO)</TextField1>
-              <TextField2>RG059 (TESCO EXPRESS)</TextField2>
+              <RoyaltyCode>1478 (WELCOME BREAK-TESCO)</RoyaltyCode>
+              <RoyaltyCodeDesc>
+              </RoyaltyCodeDesc>
+              <OrdOuters>1</OrdOuters>
+              <InvOuters>1</InvOuters>
+              <ColOuters>1</ColOuters>
+              <ColBoxes>1</ColBoxes>
+              <ReCallPrd>true</ReCallPrd>
+              <AllowSgCrd>true</AllowSgCrd>
+              <AllowSOCrd>true</AllowSOCrd>
+              <COD>true</COD>
+              <SandwchOrd>false</SandwchOrd>
+              <ComdtyType>A</ComdtyType>
+              <AllowReOrd>true</AllowReOrd>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -2822,7 +3188,8 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>
+                  </Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2856,34 +3223,38 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>50932</Barcode>
+                  <PHProductCode>50932</PHProductCode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Trop Orig Orange 300ml</ProdDesc>
                   <OrderedQty>2</OrderedQty>
                   <SkuWeight>0.60</SkuWeight>
                   <SkuCube>0.88</SkuCube>
                   <UnitMeasure>8</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>8</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>8</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>22.60</SkuGoodsValue>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <Barcode>96365</Barcode>
+                  <PHProductCode>96365</PHProductCode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Tesco Maple Pecan Plait</ProdDesc>
                   <OrderedQty>2</OrderedQty>
                   <SkuWeight>0.72</SkuWeight>
                   <SkuCube>1.2</SkuCube>
                   <UnitMeasure>48</UnitMeasure>
-                  <TextField1>15</TextField1>
-                  <TextField2>48</TextField2>
-                  <TextField3 />
+                  <PHProductType>15</PHProductType>
+                  <PackSize>48</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
                   <TextField4 />
-                  <TextField5 />
+                  <SSCCBarcode>
+                  </SSCCBarcode>
                   <SkuGoodsValue>32.60</SkuGoodsValue>
                 </JobDetail>
               </JobDetails>

@@ -5,6 +5,7 @@
 	[Qty] DECIMAL(7,3) NOT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[DamageReasonsId] TINYINT NOT NULL,
+	[DamageSourceId] TINYINT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

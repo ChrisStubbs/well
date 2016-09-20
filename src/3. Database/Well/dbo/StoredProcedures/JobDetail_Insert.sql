@@ -1,18 +1,16 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_Insert]
 	@LineNumber				INT,
-	@Barcode				VARCHAR(60),
 	@OriginalDespatchQty	INT,
 	@ProdDesc				NVARCHAR(100),
 	@OrderedQty				INT,
 	@ShortQty				INT,
-	@SkuWeight				DECIMAL(7,3),
-	@SkuCube				DECIMAL(7,3),
 	@UnitMeasure			NVARCHAR(20),
-	@TextField1				NVARCHAR(50),
-	@TextField2				NVARCHAR(50),
-	@TextField3				NVARCHAR(50)=NULL,
-	@TextField4				NVARCHAR(50)=NULL,
-	@TextField5				NVARCHAR(50)=NULL,
+	@PHProductCode			NVARCHAR(50),
+	@PHProductType			VARCHAR(50) NULL,
+	@PackSize				NVARCHAR(50),
+	@SingleOrOuter			NVARCHAR(50)=NULL,
+	@SSCCBarcode			NVARCHAR(50)=NULL,
+	@SubOuterDamageTotal	INT=NULL,
 	@SkuGoodsValue			FLOAT,
 	@JobId					INT,
 	@JobDetailStatusId		INT,
@@ -28,19 +26,17 @@ BEGIN
 
 INSERT INTO [dbo].[JobDetail]
            ([LineNumber]
-           ,[Barcode]
-           ,[OriginalDespatchQty]
-           ,[ProdDesc]
-           ,[OrderedQty]
+		   ,[OriginalDespatchQty]
+		   ,[ProdDesc]
+		   ,[OrderedQty]
            ,[ShortQty]
-           ,[SkuWeight]
-           ,[SkuCube]
            ,[UnitMeasure]
-           ,[TextField1]
-           ,[TextField2]
-           ,[TextField3]
-           ,[TextField4]
-           ,[TextField5]
+           ,[PHProductCode]
+           ,[PHProductType]
+           ,[PackSize]
+           ,[SingleOrOuter]
+           ,[SSCCBarcode]
+		   ,[SubOuterDamageTotal]
            ,[SkuGoodsValue]
            ,[JobId]
            ,[JobDetailStatusId]
@@ -51,19 +47,17 @@ INSERT INTO [dbo].[JobDetail]
 		   ,[IsDeleted])
      VALUES
            (@LineNumber
-           ,@Barcode
-           ,@OriginalDespatchQty
-           ,@ProdDesc
+		   ,@OriginalDespatchQty
+		   ,@ProdDesc
            ,@OrderedQty
            ,@ShortQty
-           ,@SkuWeight
-           ,@SkuCube
            ,@UnitMeasure
-           ,@TextField1
-           ,@TextField2
-           ,@TextField3
-           ,@TextField4
-           ,@TextField5
+           ,@PHProductCode     
+		   ,@PHProductType
+		   ,@PackSize			
+		   ,@SingleOrOuter			
+		   ,@SSCCBarcode			
+		   ,@SubOuterDamageTotal	
            ,@SkuGoodsValue
            ,@JobId
            ,@JobDetailStatusId

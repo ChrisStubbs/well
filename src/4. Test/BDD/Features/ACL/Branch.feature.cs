@@ -31,8 +31,9 @@ namespace PH.Well.BDD.Features.ACL
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "AdamRouteFileSchemaValidation", "\tIn order to import correctly formed ADAM route files\r\n\tAs a math idiot\r\n\tI want " +
-                    "to be able to validate exsisting ADAM route files against a pre defined schema", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "AdamRouteFileSchemaValidation", "\tIn order to import correctly formed ADAM route files\r\n\tAs a user\r\n\tI want the sy" +
+                    "stem to be able to validate exsisting ADAM route files against a pre defined sch" +
+                    "ema", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -136,11 +137,11 @@ this.ScenarioSetup(scenarioInfo);
 this.ScenarioSetup(scenarioInfo);
 #line 22
  testRunner.Given("I have an invalid ADAM route file \'PH_ROUTES_MissingJobRef1FromJobNode.xml\' with " +
-                    "a \'Job\' node at position \'0\' with the \'JobRef1\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+                    "a \'Job\' node at position \'0\' with the \'PHAccount\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 23
  testRunner.When("I import the route file \'PH_ROUTES_MissingJobRef1FromJobNode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
- testRunner.Then(@"The schema validation error should be ""file PH_ROUTES_MissingJobRef1FromJobNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'JobRef2'. List of possible elements expected: 'JobRef1'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(@"The schema validation error should be ""file PH_ROUTES_MissingJobRef1FromJobNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'PickListRef'. List of possible elements expected: 'PHAccount'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -156,12 +157,12 @@ this.ScenarioSetup(scenarioInfo);
 this.ScenarioSetup(scenarioInfo);
 #line 27
  testRunner.Given("I have an invalid ADAM route file \'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml\'" +
-                    " with a \'JobDetail\' node at position \'0\' with the \'Barcode\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+                    " with a \'JobDetail\' node at position \'0\' with the \'PHProductCode\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 28
  testRunner.When("I import the route file \'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml\' into the " +
                     "well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
- testRunner.Then(@"The schema validation error should be ""file PH_ROUTES_MissingBarcodeFromJobDetailNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'Barcode'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(@"The schema validation error should be ""file PH_ROUTES_MissingBarcodeFromJobDetailNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'PHProductCode'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -224,14 +225,14 @@ this.ScenarioSetup(scenarioInfo);
 this.ScenarioSetup(scenarioInfo);
 #line 42
  testRunner.Given("I have an invalid ADAM route file \'PH_ROUTES_30062016_02_AddedJobRef.xml\' with a " +
-                    "\'Job\' node at position \'0\' with a \'JobRef1\' node added with a value of \'49214.15" +
-                    "2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+                    "\'Job\' node at position \'0\' with a \'PHAccount\' node added with a value of \'49214." +
+                    "152\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 43
  testRunner.When("I import the route file \'PH_ROUTES_30062016_02_AddedJobRef.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 44
  testRunner.Then("The schema validation error should be \"file PH_ROUTES_30062016_02_AddedJobRef.xml" +
                     " failed schema validation with the following: System.Xml.XsdValidatingReader:\tTh" +
-                    "e element \'Job\' has invalid child element \'JobRef1\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                    "e element \'Job\' has invalid child element \'PHAccount\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

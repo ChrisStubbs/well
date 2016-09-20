@@ -7,13 +7,16 @@
     using Pages;
 
     using PH.Well.BDD.Framework.Context;
-
+    using Repositories.Contracts;
+    using StructureMap;
     using TechTalk.SpecFlow;
 
     [Binding]
     public class ExceptionPageSteps
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
+        private IJobRepository jobRepository;
+        private readonly IContainer container;
 
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
@@ -37,6 +40,16 @@
             }
         }
 
+
+        [Then(@"there are (.*) exception deliveries will be displayed")]
+        public void ThenThereAreExceptionDeliveriesWillBeDisplayed(int currentExceptions)
+        {
+            var hasNoCurrentExceptions = currentExceptions > 0 ? false : true;
+            var displayed = this.ExceptionDeliveriesPage.IsElementPresent("no-exceptions");
+            Assert.That(displayed, Is.EqualTo(hasNoCurrentExceptions));
+        }
+
+    
         [When(@"I click on the orderby Triangle image in the exceptions deliveries grid")]
         public void WhenIClickOnTheOrderbyTriangleImageInTheExceptionsDeliveriesGrid()
         {

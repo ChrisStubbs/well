@@ -15,29 +15,27 @@ AS
 				([LineNumber] = @LineNumber or @LineNumber is null)
 
 	SELECT  jd.[Id]
-      ,[LineNumber]
-      ,[Barcode]
-      ,[OriginalDespatchQty]
-      ,[ProdDesc]
-      ,[OrderedQty]
-      ,[ShortQty]
-      ,[SkuWeight]
-      ,[SkuCube]
-      ,[UnitMeasure]
-      ,[TextField1]
-      ,[TextField2]
-      ,[TextField3]
-      ,[TextField4]
-      ,[TextField5]
-      ,[SkuGoodsValue]
-      ,[JobId]
-      ,[JobDetailStatusId]
-      ,[IsDeleted]
-      ,[CreatedBy]
-      ,[DateCreated]
-      ,[UpdatedBy]
-      ,[DateUpdated]
-      ,[Version]
+            ,jd.[LineNumber]
+		   ,jd.[OriginalDespatchQty]
+		   ,jd.[ProdDesc]
+		   ,jd.[OrderedQty]
+           ,jd.[ShortQty]
+           ,jd.[UnitMeasure]
+           ,jd.[PHProductCode]
+           ,jd.[PHProductType]
+           ,jd.[PackSize]
+           ,jd.[SingleOrOuter]
+           ,jd.[SSCCBarcode]
+		   ,jd.[SubOuterDamageTotal]
+           ,jd.[SkuGoodsValue]
+           ,jd.[JobId]
+           ,jd.[JobDetailStatusId]
+           ,jd.[CreatedBy]
+           ,jd.[DateCreated]
+           ,jd.[UpdatedBy]
+           ,jd.[DateUpdated]
+		   ,jd.[IsDeleted]
+           ,jd.[Version]
   FROM [dbo].[JobDetail] jd
   INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jd.Id
 
@@ -52,17 +50,6 @@ AS
       ,[Version]
   FROM [dbo].[JobDetailDamage] jdd
   INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jdd.JobDetailId
-
-  SELECT jda.[Id]
-      ,[Code]
-      ,[Value]
-      ,jda.[JobDetailId] as AttributeId
-      ,[CreatedBy]
-      ,[DateCreated]
-      ,[UpdatedBy]
-      ,[DateUpdated]
-      ,[Version]
-  FROM [dbo].[JobDetailAttribute] jda
-  INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jda.JobDetailId	
+	
    
 RETURN 0

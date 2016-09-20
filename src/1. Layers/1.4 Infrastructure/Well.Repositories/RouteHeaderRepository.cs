@@ -118,12 +118,7 @@
                 .AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String)
                 .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
                 .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
-                .AddParameter("VehicleReg", routeHeader.VehicleReg, DbType.String)
                 .AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32)
-                .AddParameter("PlannedRouteStartTime", routeHeader.PlannedRouteStartTime, DbType.String)
-                .AddParameter("PlannedRouteFinishTime", routeHeader.PlannedRouteFinishTime, DbType.String)
-                .AddParameter("PlannedDistance", routeHeader.PlannedDistance, DbType.Decimal)
-                .AddParameter("PlannedTravelTime", routeHeader.PlannedTravelTime, DbType.String)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16)
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
@@ -140,16 +135,6 @@
 
             return this.GetRouteHeaderById(id);
 
-        }
-
-        public void AddRouteHeaderAttributes(Domain.Attribute attribute)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderAttributeCreateOrUpdate)
-                .AddParameter("Id", attribute.Id, DbType.Int32)
-                .AddParameter("Code", attribute.Code, DbType.String)
-                .AddParameter("Value", attribute.Value1, DbType.String)
-                .AddParameter("RouteHeaderId", attribute.AttributeId, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
         public RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate)

@@ -125,9 +125,7 @@
     <Compile Include="Factories\DeliveryDetailFactory.cs" />
     <Compile Include="Factories\JobDetailFactory.cs" />
     <Compile Include="Factories\JobFactory.cs" />
-    <Compile Include="Factories\RouteHeaderAttributeFactory.cs" />
     <Compile Include="Factories\RoutesFactory.cs" />
-    <Compile Include="Factories\StopAttributeFactory.cs" />
     <Compile Include="Factories\DeliveryLineFactory.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />

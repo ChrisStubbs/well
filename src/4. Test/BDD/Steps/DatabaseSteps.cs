@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps
 {
+    using System.Linq;
     using Domain.Enums;
     using Framework.Context;
 
@@ -107,6 +108,13 @@
             SetDeliveryStatus(PerformanceStatus.Incom, 10000);
         }
 
+        [When(@"valid invoice numbers are assigned to jobs")]
+        public void WhenValidInvoiceNumbersAreAssignedToJobs()
+        {
+            AssignInviceNumbers(JobDetailStatus.Res);
+        }
+
+
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
@@ -114,6 +122,11 @@
                                      "    JobRef3 =  '9' + JobRef1  ");
         }
 
+        public void AssignInviceNumbers(JobDetailStatus jobDetailStatus)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail " +
+                                     $"SET JobDetailStatusId = {(int)jobDetailStatus}");
+        }
 
         [Given(@"I have selected branch (.*)")]
         public void GivenIHaveSelectedBranch(int branch)

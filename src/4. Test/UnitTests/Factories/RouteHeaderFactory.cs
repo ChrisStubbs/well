@@ -16,13 +16,8 @@
             this.Entity.CompanyID = 1;
             this.Entity.RouteDate = DateTime.Now;
             this.Entity.DriverName = "Alan Smith";
-            this.Entity.VehicleReg= "EYO GR9";
             this.Entity.StartDepotCode ="BIR";
             this.Entity.StartDepot = 22;
-            this.Entity.PlannedRouteStartTime = "09:00";
-            this.Entity.PlannedRouteFinishTime= "11:00";
-            this.Entity.PlannedDistance = 20.5m;
-            this.Entity.PlannedTravelTime= "02:00";
             this.Entity.PlannedStops= 10;
             this.Entity.PlannedStops = 10;
             this.Entity.RoutesId = 1;

@@ -125,3 +125,19 @@ Scenario: UnAssigned user to an exception drills to details and can not update
 	And I select a user to assign
 	And I select an unassigned exception row
 	Then All the exception detail rows can not be updated
+
+Scenario: A user cannot view Exception Delivery Information without a valid invoice number
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And I have imported a valid Epod update file named 'ePOD__MissingInvoiceNumbers.xml'
+	And I have selected branch 22
+	When I open the exception deliveries
+	Then there are 0 exception deliveries will be displayed
+	Given  3 deliveries have been marked as exceptions
+	When valid invoice numbers are assigned to jobs
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |

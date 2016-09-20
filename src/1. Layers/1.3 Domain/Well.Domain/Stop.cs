@@ -12,18 +12,11 @@
         public Stop()
         {
             this.Accounts = new Account();
-            this.EntityAttributes = new Collection<Attribute>();
             this.Jobs = new Collection<Job>();
         }
 
         [XmlElement("PlannedStopNumber")]
         public string PlannedStopNumber { get; set; }
-
-        [XmlElement("PlannedArriveTime")]
-        public string PlannedArriveTime { get; set; }
-
-        [XmlElement("PlannedDepartTime")]
-        public string PlannedDepartTime { get; set; }
 
         [XmlIgnore]
         public int RouteHeaderId { get; set; }
@@ -43,26 +36,20 @@
         [XmlIgnore]
         public DateTime DeliveryDate { get; set; }
 
-        [XmlElement("SpecialInstructions")]
-        public string SpecialInstructions { get; set; }
+        [XmlElement("ShellActionIndicator")]
+        public string ShellActionIndicator { get; set; }
 
-        [XmlElement("StartWindow")]
-        public string StartWindow { get; set; }
+        [XmlElement("CustomerShopReference")]
+        public string CustomerShopReference { get; set; }
 
-        [XmlElement("EndWindow")]
-        public string EndWindow { get; set; }
+        [XmlElement("AllowOvers")]
+        public string AllowOvers { get; set; }
 
-        [XmlElement("TextField1")]
-        public string TextField1 { get; set; }
+        [XmlElement("CustUnatt")]
+        public string CustUnatt { get; set; }
 
-        [XmlElement("TextField2")]
-        public string TextField2 { get; set; }
-
-        [XmlElement("TextField3")]
-        public string TextField3 { get; set; }
-
-        [XmlElement("TextField4")]
-        public string TextField4 { get; set; }
+        [XmlElement("PHUnatt")]
+        public string PHUnatt { get; set; }
 
         [XmlIgnore]
         public int StopStatusCodeId { get; set; }
@@ -101,13 +88,8 @@
             }
         }
 
-
         [XmlElement("Account")]
         public Account Accounts { get; set; }
-
-        [XmlArray("EntityAttributes")]
-        [XmlArrayItem("Attribute", typeof(Attribute))]
-        public Collection<Attribute> EntityAttributes { get; set; }
 
         [XmlArray("Jobs")]
         [XmlArrayItem("Job", typeof(Job))]

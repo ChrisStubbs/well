@@ -19,6 +19,7 @@ namespace PH.Well.BDD.Features.ACL
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("WellClean")]
+    [NUnit.Framework.IgnoreAttribute("Ignored feature")]
     public partial class WellCleanFeature
     {
         
@@ -33,7 +34,8 @@ namespace PH.Well.BDD.Features.ACL
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "WellClean", "\tIn order to import keep the most up to date data within the well\r\n\tAs a user\r\n\tI" +
                     " want the system to be able to purge the well daily of any records that have bee" +
-                    "n resolved", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "n resolved", ProgrammingLanguage.CSharp, new string[] {
+                        "Ignore"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -72,15 +74,15 @@ namespace PH.Well.BDD.Features.ACL
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all for s" +
                     "oft delete", ((string[])(null)));
-#line 8
-this.ScenarioSetup(scenarioInfo);
 #line 9
- testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 10
- testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
  testRunner.Then("there should be 0 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -93,15 +95,15 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve one for s" +
                     "oft delete", ((string[])(null)));
-#line 14
-this.ScenarioSetup(scenarioInfo);
 #line 15
- testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 16
- testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 17
- testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 18
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
  testRunner.Then("there should be 1 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -114,15 +116,15 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve all for h" +
                     "ard delete", ((string[])(null)));
-#line 20
-this.ScenarioSetup(scenarioInfo);
 #line 21
- testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 22
- testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 23
- testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 24
+ testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 25
  testRunner.Then("there should be 0 lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -135,15 +137,15 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with 2 clean and 2 exception lines and resolve one for h" +
                     "ard delete", ((string[])(null)));
-#line 26
-this.ScenarioSetup(scenarioInfo);
 #line 27
- testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 28
- testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 29
- testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 30
+ testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
  testRunner.Then("there should be 1 lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -154,15 +156,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ImportEpodFileOneJobWithCurrentExceptionRoyaltyForSoftDelete()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import epod file one job with current exception royalty for soft delete", ((string[])(null)));
-#line 32
-this.ScenarioSetup(scenarioInfo);
 #line 33
- testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 34
- testRunner.And("I have an exception royalty of 5 days for royalty 1871", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 35
- testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have an exception royalty of 5 days for royalty 1871", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 36
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 37
  testRunner.Then("there should be 2 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

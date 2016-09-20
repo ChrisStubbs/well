@@ -11,7 +11,6 @@
     {
         public Job()
         {
-            this.EntityAttributes = new Collection<Attribute>();
             this.JobDetails = new Collection<JobDetail>();
         }
 
@@ -21,17 +20,17 @@
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
-        [XmlElement("JobRef1")]
-        public string JobRef1 { get; set; }
+        [XmlElement("PHAccount")]
+        public string PhAccount { get; set; }
 
-        [XmlElement("JobRef2")]
-        public string JobRef2 { get; set; }
+        [XmlElement("PickListRef")]
+        public string PickListRef { get; set; }
 
-        [XmlElement("JobRef3")]
-        public string JobRef3 { get; set; }
+        [XmlElement("InvoiceNumber")]
+        public string InvoiceNumber { get; set; }
 
-        [XmlElement("JobRef4")]
-        public string JobRef4 { get; set; }
+        [XmlElement("CustomerRef")]
+        public string CustomerRef { get; set; }
 
         [XmlIgnore]
         public DateTime OrderDate { get; set; }
@@ -43,14 +42,54 @@
             set { this.OrderDate = DateTime.ParseExact(value,"dd/mm/yyyy",null); }
         }
 
-        [XmlElement("Originator")]
-        public string Originator { get; set; }
+        [XmlElement("RoyaltyCode")]
+        public string RoyaltyCode { get; set; }
 
-        [XmlElement("TextField1")]
-        public string TextField1 { get; set; }
+        [XmlElement("RoyaltyCodeDesc")]
+        public string RoyaltyCodeDesc { get; set; }
 
-        [XmlElement("TextField2")]
-        public string TextField2 { get; set; }
+        [XmlElement("OrdOuters")]
+        public int OrdOuters { get; set; }
+
+        [XmlElement("InvOuters")]
+        public int InvOuters { get; set; }
+
+        [XmlElement("ColOuters")]
+        public int ColOuters { get; set; }
+
+        [XmlElement("ColBoxes")]
+        public int ColBoxes { get; set; }
+
+        [XmlElement("ReCallPrd")]
+        public bool ReCallPrd { get; set; }
+
+        [XmlElement("AllowSgCrd")]
+        public bool AllowSgCrd { get; set; }
+
+        [XmlElement("AllowSOCrd")]
+        public bool AllowSoCrd { get; set; }
+
+        [XmlElement("COD")]
+        public bool Cod { get; set; }
+
+        [XmlElement("SandwchOrd")]
+        public bool SandwchOrd { get; set; }
+
+        [XmlElement("ComdtyType")]
+        public string ComdtyType { get; set; }
+
+        [XmlElement("AllowReOrd")]
+        public bool AllowReOrd { get; set; }
+
+        [XmlElement("GrnNumber")]
+        public string GrnNumber { get; set; }
+
+        [XmlElement("GrnRefusedReason")]
+        public string GrnRefusedReason { get; set; }
+
+        [XmlElement("GrnRefusedDesc")]
+        public string GrnRefusedDesc { get; set; }
+
 
         [XmlIgnore]
         public int PerformanceStatusId { get; set; }
@@ -98,10 +137,6 @@
         [XmlArray("JobDetails")]
         [XmlArrayItem("JobDetail", typeof(JobDetail))]
         public Collection<JobDetail> JobDetails { get; set; }
-
-        [XmlArray("EntityAttributes")]
-        [XmlArrayItem("Attribute", typeof(Attribute))]
-        public Collection<Attribute> EntityAttributes { get; set; }
 
     }
 }

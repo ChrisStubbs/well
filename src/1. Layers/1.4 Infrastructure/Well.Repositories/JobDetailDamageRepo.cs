@@ -18,6 +18,7 @@
                 .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
                 .AddParameter("Qty", entity.Qty, DbType.Decimal)
                 .AddParameter("DamageReasonsId", (int) entity.DamageReason, DbType.Int16)
+                .AddParameter("DamageSourceId", (int)entity.JobDetailDamageSource, DbType.Int16)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
@@ -32,6 +33,7 @@
                 .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
                 .AddParameter("Qty", entity.Qty, DbType.Decimal)
                 .AddParameter("DamageReasonsId", (int) entity.DamageReason, DbType.Int16)
+                .AddParameter("DamageSourceId", (int)entity.JobDetailDamageSource, DbType.Int16)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                 .Execute();

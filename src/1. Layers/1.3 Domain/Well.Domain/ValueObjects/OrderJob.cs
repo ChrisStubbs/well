@@ -19,17 +19,17 @@
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
-        [XmlElement("JobRef1")]
-        public string JobRef1 { get; set; }
+        [XmlElement("PHAccount")]
+        public string PhAccount { get; set; }
 
-        [XmlElement("JobRef2")]
-        public string JobRef2 { get; set; }
+        [XmlElement("PickListRef")]
+        public string PickListRef { get; set; }
 
-        [XmlElement("JobRef3")]
-        public string JobRef3 { get; set; }
+        [XmlElement("InvoiceNumber")]
+        public string InvoiceNumber { get; set; }
 
-        [XmlElement("JobRef4")]
-        public string JobRef4 { get; set; }
+        [XmlElement("CustomerRef")]
+        public string CustomerRef { get; set; }
 
         [XmlArray("OrderJobDetails")]
         [XmlArrayItem("OrderJobDetail", typeof(OrderJobDetail))]

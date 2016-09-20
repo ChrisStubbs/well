@@ -47,15 +47,11 @@
         {
             var jobDetails = grid.Read<JobDetail>().ToList();
             var jobDetailDamages = grid.Read<JobDetailDamage>().ToList();
-            var jobDetailAttributes = grid.Read<Attribute>().ToList();
 
             foreach (var jobDetail in jobDetails)
             {
                 jobDetail.JobDetailDamages =
                     new Collection<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id).ToList());
-
-                jobDetail.EntityAttributes =
-                    new Collection<Attribute>(jobDetailAttributes.Where(a => a.AttributeId == jobDetail.Id).ToList());
             }
 
             return jobDetails;
@@ -75,19 +71,17 @@
 
             jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
-                .AddParameter("Barcode", jobDetail.BarCode, DbType.Int32)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String)
                 .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
-                .AddParameter("SkuWeight", jobDetail.SkuWeight, DbType.Decimal)
-                .AddParameter("SkuCube", jobDetail.SkuCube, DbType.Decimal)
                 .AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String)
-                .AddParameter("TextField1", jobDetail.TextField1, DbType.String)
-                .AddParameter("TextField2", jobDetail.TextField2, DbType.String)
-                .AddParameter("TextField3", jobDetail.TextField3, DbType.String)
-                .AddParameter("TextField4", jobDetail.TextField4, DbType.String)
-                .AddParameter("TextField5", jobDetail.TextField5, DbType.String)
+                .AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.Int32)           
+                .AddParameter("PHProductType", jobDetail.PhProductType, DbType.String)
+                .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
+                .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
+                .AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String)
+                .AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
@@ -113,35 +107,17 @@
                 .Execute();
         }
 
-        public void AddJobDetailAttributes(Attribute attribute)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailAttributeCreateOrUpdate)
-                .AddParameter("Id", attribute.Id, DbType.Int32)
-                .AddParameter("Code", attribute.Code, DbType.String)
-                .AddParameter("Value", attribute.Value1, DbType.String)
-                .AddParameter("JobDetailId", attribute.AttributeId, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
-        }
 
         public void DeleteJobDetailById(int id, WellDeleteType deleteType)
         {
             var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
 
-            JobDetailAttributesDeleteByJobDetailId(id, isSoftDelete);
             JobDetailDeleteDamageReasonsByJobDetailId(id, isSoftDelete);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteById)
                 .AddParameter("JobDetailId", id, DbType.Int32)
                 .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();          
-        }
-
-        private void JobDetailAttributesDeleteByJobDetailId(int jobDetailId, bool isSoftDelete)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId)
-                .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
-                .Execute();
         }
 
         private void JobDetailDeleteDamageReasonsByJobDetailId(int jobDetailId, bool isSoftDelete)

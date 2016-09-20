@@ -10,8 +10,8 @@ BEGIN
 		j.Id,
 		rh.RouteNumber, 
 		s.DropId,
-		j.JobRef3 as InvoiceNumber, 
-		j.JobRef1 as AccountCode, --this is the P&H account code that is on the invoice
+		j.InvoiceNumber, 
+		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
 		ps.Description as JobStatus,
 		s.DeliveryDate,
@@ -44,6 +44,9 @@ BEGIN
 		ps.Id =  @PerformanceStatusId
 	AND 
 		u.IdentityName = @UserName
+	AND 
+		j.InvoiceNumber IS NOT NULL
+
 
 
 END

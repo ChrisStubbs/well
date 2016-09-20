@@ -12,11 +12,6 @@
 	@ContactNumber			NVARCHAR(15),
 	@ContactNumber2			NVARCHAR(15),
 	@ContactEmailAddress	NVARCHAR(50),
-	@StartWindow			NVARCHAR(15),
-	@EndWindow				NVARCHAR(15),
-	@Latitude				FLOAT,
-	@Longitude				FLOAT,
-	@IsDropAndDrive			BIT,
 	@StopId					INT
 
 AS
@@ -28,10 +23,10 @@ BEGIN
 	MERGE INTO [Account] AS Target
 	USING (VALUES
 		(@Id, @Code, @AccountTypeCode,@DepotId,  @Name, @Address1, @Address2, @PostCode, @ContactName, @ContactNumber, @ContactNumber2, @ContactEmailAddress,
-		 @StartWindow, @EndWindow, @Latitude, @Longitude, @IsDropAndDrive, @StopId, @Username, GETDATE(), @Username, GETDATE())
+		 @StopId, @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[Code],[AccountTypeCode],[DepotId],[Name], [Address1], [Address2], [PostCode], [ContactName], [ContactNumber],
-				[ContactNumber2], [ContactEmailAddress], [StartWindow], [EndWindow], [Latitude], [Longitude], [IsDropAndDrive], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[ContactNumber2], [ContactEmailAddress], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
 	UPDATE SET
@@ -46,11 +41,6 @@ BEGIN
 		[ContactNumber] = Source.[ContactNumber],
 		[ContactNumber2] = Source.[ContactNumber2],
 		[ContactEmailAddress] = Source.[ContactEmailAddress],
-		[StartWindow] = Source.[StartWindow],
-		[EndWindow] = Source.[EndWindow],
-		[Latitude] = Source.[Latitude],
-		[Longitude] = Source.[Longitude],
-		[IsDropAndDrive] = Source.[IsDropAndDrive],
 		[StopId] = Source.[StopId],
 		[CreatedBy] = Source.[CreatedBy],
 		[DateCreated] = Source.[DateCreated],
@@ -58,9 +48,9 @@ BEGIN
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([Code],[AccountTypeCode],[DepotId],[Name], [Address1], [Address2], [PostCode], [ContactName], [ContactNumber],
-				[ContactNumber2], [ContactEmailAddress], [StartWindow], [EndWindow], [Latitude], [Longitude], [IsDropAndDrive], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[ContactNumber2], [ContactEmailAddress], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([Code],[AccountTypeCode],[DepotId],[Name], [Address1], [Address2], [PostCode], [ContactName], [ContactNumber],
-				[ContactNumber2], [ContactEmailAddress], [StartWindow], [EndWindow], [Latitude], [Longitude], [IsDropAndDrive], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+				[ContactNumber2], [ContactEmailAddress], [StopId], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;
 

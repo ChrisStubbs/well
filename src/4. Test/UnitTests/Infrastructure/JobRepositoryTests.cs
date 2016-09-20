@@ -87,14 +87,27 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("Sequence", job.Sequence, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobTypeCode", job.JobTypeCode, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobRef1", job.JobRef1, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobRef2", job.JobRef2, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobRef3", job.JobRef3, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobRef4", job.JobRef4, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("PHAccount", job.PhAccount, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("PickListRef", job.PickListRef, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("InvoiceNumber", string.IsNullOrWhiteSpace(job.InvoiceNumber) ? null : job.InvoiceNumber, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("CustomerRef", job.CustomerRef, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("OrderDate", job.OrderDate, DbType.DateTime, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Originator", job.Originator, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField1", job.TextField1, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField2", job.TextField2, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("RoyaltyCode", job.RoyaltyCode, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("RoyaltyCodeDesc", job.RoyaltyCodeDesc, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("OrdOuters", job.OrdOuters, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("InvOuters", job.InvOuters, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ColOuters", job.ColOuters, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ColBoxes", job.ColBoxes, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ReCallPrd", job.ReCallPrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AllowSgCrd", job.AllowSgCrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AllowSOCrd", job.AllowSoCrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("COD", job.Cod, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("GrnNumber", job.GrnNumber, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("GrnRefusedReason", job.GrnRefusedReason, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("GrnRefusedDesc", job.GrnRefusedDesc, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ComdtyType", job.ComdtyType, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", job.PerformanceStatusId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId  ", job.ByPassReasonId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopId", job.StopId, DbType.Int32, null)).Returns(dapperProxy.Object);
@@ -115,14 +128,27 @@ namespace PH.Well.UnitTests.Infrastructure
 
                 dapperProxy.Verify(x => x.AddParameter("Sequence", job.Sequence, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("JobRef1", job.JobRef1, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("JobRef2", job.JobRef2, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("JobRef3", job.JobRef3, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("JobRef4", job.JobRef4, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("PHAccount", job.PhAccount, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("PickListRef", job.PickListRef, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("InvoiceNumber", string.IsNullOrWhiteSpace(job.InvoiceNumber) ? null : job.InvoiceNumber, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("CustomerRef", job.CustomerRef, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("OrderDate", job.OrderDate, DbType.DateTime, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("Originator", job.Originator, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField1", job.TextField1, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField2", job.TextField2, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("RoyaltyCode", job.RoyaltyCode, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("RoyaltyCodeDesc", job.RoyaltyCodeDesc, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("OrdOuters", job.OrdOuters, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("InvOuters", job.InvOuters, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ColOuters", job.ColOuters, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ColBoxes", job.ColBoxes, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ReCallPrd", job.ReCallPrd, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("AllowSgCrd", job.AllowSgCrd, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("AllowSOCrd", job.AllowSoCrd, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("COD", job.Cod, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("GrnNumber", job.GrnNumber, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("GrnRefusedReason", job.GrnRefusedReason, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("GrnRefusedDesc", job.GrnRefusedDesc, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ComdtyType", job.ComdtyType, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("PerformanceStatusId", job.PerformanceStatusId, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ByPassReasonId  ", job.ByPassReasonId, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("StopId", job.StopId, DbType.Int32, null), Times.Exactly(1));
@@ -132,36 +158,6 @@ namespace PH.Well.UnitTests.Infrastructure
             }
         }
 
-        public class TheSaveJobAttributeMethod : JobRepositoryTests
-        {
-            [Test]
-            public void ShouldSaveJobAttribute()
-            {
-                var job = JobFactory.New.Build();
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobAttributeCreateOrUpdate)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Id", job.EntityAttributes[0].Id, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Code", job.EntityAttributes[0].Code, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Value", job.EntityAttributes[0].Value1, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobId", job.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
-
-                this.repository.AddJobAttributes(job.EntityAttributes[0]);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobAttributeCreateOrUpdate), Times.Exactly(1));
-
-                dapperProxy.Verify(x => x.AddParameter("Id", job.EntityAttributes[0].Id, DbType.Int32, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("Code", job.EntityAttributes[0].Code, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("Value", job.EntityAttributes[0].Value1, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("JobId", job.Id, DbType.Int32, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-
-            }
-        }
 
         public class TheGetByAccountPicklistAndStopId : JobRepositoryTests
         {
@@ -206,23 +202,9 @@ namespace PH.Well.UnitTests.Infrastructure
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Execute());
-
                 this.repository.DeleteJobById(id, deleteType);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDeleteById), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.Execute());
-
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());

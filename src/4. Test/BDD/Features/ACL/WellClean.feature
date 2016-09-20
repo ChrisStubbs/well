@@ -1,4 +1,5 @@
-﻿Feature: WellClean
+﻿@Ignore
+Feature: WellClean
 	In order to import keep the most up to date data within the well
 	As a user
 	I want the system to be able to purge the well daily of any records that have been resolved

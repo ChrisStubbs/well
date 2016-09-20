@@ -19,14 +19,14 @@ Scenario: Import ADAM route file with the Code missing from the Account node chi
 	Then The schema validation error should be "file PH_ROUTES_MissingCodeFromAccountNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Account' has invalid child element 'AccountTypeCode'. List of possible elements expected: 'Code'."
 
 Scenario: Import ADAM route file with the JobRef1 missing from the Job node child of the first Jobs node
-	Given I have an invalid ADAM route file 'PH_ROUTES_MissingJobRef1FromJobNode.xml' with a 'Job' node at position '0' with the 'JobRef1' node missing
+	Given I have an invalid ADAM route file 'PH_ROUTES_MissingJobRef1FromJobNode.xml' with a 'Job' node at position '0' with the 'PHAccount' node missing
 	When I import the route file 'PH_ROUTES_MissingJobRef1FromJobNode.xml' into the well
-	Then The schema validation error should be "file PH_ROUTES_MissingJobRef1FromJobNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'JobRef2'. List of possible elements expected: 'JobRef1'."
+	Then The schema validation error should be "file PH_ROUTES_MissingJobRef1FromJobNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'PickListRef'. List of possible elements expected: 'PHAccount'."
 
 Scenario: Import ADAM route file with the Barcode missing from the JobDetail node child of the first JobDetails node
-	Given I have an invalid ADAM route file 'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml' with a 'JobDetail' node at position '0' with the 'Barcode' node missing
+	Given I have an invalid ADAM route file 'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml' with a 'JobDetail' node at position '0' with the 'PHProductCode' node missing
 	When I import the route file 'PH_ROUTES_MissingBarcodeFromJobDetailNode.xml' into the well
-	Then The schema validation error should be "file PH_ROUTES_MissingBarcodeFromJobDetailNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'Barcode'."
+	Then The schema validation error should be "file PH_ROUTES_MissingBarcodeFromJobDetailNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'PHProductCode'."
 
 Scenario: Import ADAM route file with the additional CompanyName node added to the first first route header node
 	Given I have an invalid ADAM route file 'PH_ROUTES_AdditionalCompanyNameNode.xml' with a 'RouteHeader' node at position '0' with a 'CompanyName2' node added with a value of 'NewCompanyName'
@@ -39,6 +39,6 @@ Scenario: Import ADAM route file with a duplicate TransportOrderRef node added t
 	Then The schema validation error should be "file PH_ROUTES_30062016_02_AddedTransportRef.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Stop' has invalid child element 'TransportOrderRef'."
 
 Scenario: Import ADAM route file with a duplicate JobRef1 node added to the first first job node
-	Given I have an invalid ADAM route file 'PH_ROUTES_30062016_02_AddedJobRef.xml' with a 'Job' node at position '0' with a 'JobRef1' node added with a value of '49214.152'
+	Given I have an invalid ADAM route file 'PH_ROUTES_30062016_02_AddedJobRef.xml' with a 'Job' node at position '0' with a 'PHAccount' node added with a value of '49214.152'
 	When I import the route file 'PH_ROUTES_30062016_02_AddedJobRef.xml' into the well
-	Then The schema validation error should be "file PH_ROUTES_30062016_02_AddedJobRef.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'JobRef1'."
+	Then The schema validation error should be "file PH_ROUTES_30062016_02_AddedJobRef.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Job' has invalid child element 'PHAccount'."

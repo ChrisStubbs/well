@@ -106,7 +106,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
+    <Compile Include="Features\ACL\Branch.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AdamRouteFileSchemaValidation.feature</DependentUpon>
@@ -162,6 +162,7 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\Div.cs" />
     <Compile Include="Framework\WebElements\Image.cs" />
     <Compile Include="Framework\WebElements\SpanElement.cs" />
     <Compile Include="Framework\WebElements\UserPrefrencesButtonDropDown.cs" />
@@ -285,6 +286,9 @@
   <ItemGroup>
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="IEDriverServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -199,6 +199,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
     <Compile Include="Controllers\DamageReasonController.cs" />
     <Compile Include="Controllers\DeliveryLineController.cs" />

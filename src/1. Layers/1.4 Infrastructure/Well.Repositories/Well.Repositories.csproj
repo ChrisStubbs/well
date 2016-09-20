@@ -66,6 +66,7 @@
     <Compile Include="Contracts\IDbConfiguration.cs" />
     <Compile Include="Contracts\IExceptionEventRepository.cs" />
     <Compile Include="Contracts\IJobDetailDamageRepo.cs" />
+    <Compile Include="Contracts\INotificationRepository.cs" />
     <Compile Include="Contracts\IPreferenceRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Contracts\IRouteHeaderRepository.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="JobDetailDamageRepo.cs" />
+    <Compile Include="NotificationRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="Contracts\IStopRepository.cs" />

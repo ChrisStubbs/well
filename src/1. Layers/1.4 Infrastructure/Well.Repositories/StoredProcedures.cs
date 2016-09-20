@@ -86,5 +86,10 @@
         public static string EventGetUnprocessed = "EventGetUnprocessed";
 
         public static string MarkEventAsProcessed = "MarkEventAsProcessed";
+
+        //Notifications
+        public static string SaveNotification = "Notification_Save";
+        public static string GetNotifications = "Notifications_Get";
+        public static string ArchiveNotification = "Notification_Archive";
     }
 }

@@ -43,6 +43,8 @@
     <Compile Include="Account.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="Contracts\IEntity.cs" />
+    <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Notification.cs" />
     <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="ValueObjects\CreditFail.cs" />
     <Compile Include="ValueObjects\DateTimeSpan.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />

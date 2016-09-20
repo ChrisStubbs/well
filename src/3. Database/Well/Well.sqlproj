@@ -198,6 +198,10 @@
     <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Insert.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Update.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyalException_GetByRoyalty.sql" />
+    <Build Include="dbo\Tables\Notification.sql" />
+    <Build Include="dbo\StoredProcedures\Notification_Save.sql" />
+    <Build Include="dbo\StoredProcedures\Notifications_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Notification_Archive.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

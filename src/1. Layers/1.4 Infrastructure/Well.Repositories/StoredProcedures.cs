@@ -76,6 +76,7 @@
         public static string DeleteUserBranches = "DeleteUserBranches";
         public static string SaveUserBranch = "UserBranchInsert";
         public static string GetBranchesForUser = "GetBranchesForUser";
+        public static string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
         public static string UserGetByIdentity = "UserGetByIdentity";
@@ -98,7 +99,10 @@
         public static string UserStatsGet = "UserStatsGet";
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
+        public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";
+        public static string SeasonalDatesSave = "SeasonalDatesSave";
         
+        public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
     }
 }

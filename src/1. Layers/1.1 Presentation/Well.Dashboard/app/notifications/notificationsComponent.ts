@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
 import { GlobalSettingsService} from '../shared/globalSettings';
 import { Response } from '@angular/http';
-import { HttpResponse } from '../shared/httpResponse';
+import {HttpResponse} from '../shared/httpResponse';
 import { SecurityService} from '../shared/security/securityService';
 import { UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import { ToasterService} from 'angular2-toaster/angular2-toaster';
@@ -27,21 +27,14 @@ export class NotificationsComponent implements OnInit {
     httpResponse: HttpResponse = new HttpResponse();
     rowCount: number = 3;
 
-
-    constructor(
+    constructor(private notificationsService: NotificationsService,
+        private toasterService: ToasterService,
         private globalSettingsService: GlobalSettingsService,
-        private securityService: SecurityService,
-        private notificationsService: NotificationsService,
-        private toasterService: ToasterService) {
-    }
-
+        private securityService: SecurityService) { }
     ngOnInit() {
-
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
-        this.getNotifications();
-
-    }
-
+}
+        
     @ViewChild(NotificationModalComponent) archiveModal: NotificationModalComponent;
 
     getNotifications(): void {
@@ -53,6 +46,9 @@ export class NotificationsComponent implements OnInit {
                 },
                 error => this.lastRefresh = Date.now());
     }
+
+
+
 
     
 

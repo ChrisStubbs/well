@@ -1,5 +1,5 @@
-﻿import {Component, ViewChild} from '@angular/core';
-import { Response } from '@angular/http';
+﻿import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
+import {Response} from '@angular/http';
 import {SeasonalDate} from './seasonalDate';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
@@ -14,6 +14,7 @@ export class SeasonalDatesAddModalComponent {
     isVisible: boolean = false;
     seasonalDate: SeasonalDate = new SeasonalDate();
     httpResponse: HttpResponse = new HttpResponse();
+    @Output() onSave = new EventEmitter<SeasonalDate>();
 
     constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
 
@@ -25,6 +26,11 @@ export class SeasonalDatesAddModalComponent {
 
     hide() {
         this.isVisible = false;
+        this.clear();
+    }
+
+    clear() {
+        this.seasonalDate = new SeasonalDate();
     }
 
     save() {
@@ -37,6 +43,8 @@ export class SeasonalDatesAddModalComponent {
                 if (this.httpResponse.success) {
                     this.toasterService.pop('success', 'Seasonal date has been saved!', '');
                     this.isVisible = false;
+                    this.clear();
+                    this.onSave.emit(this.seasonalDate);
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop('error', 'Seasonal date could not be saved at this time!', 'Please try again later!');

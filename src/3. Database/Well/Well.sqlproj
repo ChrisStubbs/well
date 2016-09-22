@@ -211,6 +211,10 @@
     <Build Include="dbo\StoredProcedures\SeasonalDatesGetAll.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesDelete.sql" />
     <Build Include="dbo\Tables\SeasonalDateToBranch.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesSave.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesToBranchSave.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesBranchesGet.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForSeasonalDate.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

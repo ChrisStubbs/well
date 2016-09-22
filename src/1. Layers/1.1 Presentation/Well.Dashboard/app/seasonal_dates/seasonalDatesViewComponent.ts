@@ -16,8 +16,7 @@ export class SeasonalDatesViewComponent implements OnInit{
     constructor(private seasonalDateService: SeasonalDateService) { }
 
     ngOnInit(): void {
-        this.seasonalDateService.getSeasonalDates()
-            .subscribe(x => this.seasonalDates = x);
+        this.loadSeasonalDates();
     }
 
     @ViewChild(SeasonalDatesEditModalComponent) editModal: SeasonalDatesEditModalComponent;
@@ -26,6 +25,10 @@ export class SeasonalDatesViewComponent implements OnInit{
 
     selectSeason(season: SeasonalDate): void {
         this.editModal.show(season);
+    }
+
+    loadSeasonalDates(): void {
+        this.seasonalDateService.getSeasonalDates().subscribe(x => this.seasonalDates = x);
     }
 
     add() {

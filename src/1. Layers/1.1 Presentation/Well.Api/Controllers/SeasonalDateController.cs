@@ -1,11 +1,14 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
+    using PH.Well.Api.Mapper.Contracts;
+    using PH.Well.Api.Models;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -16,10 +19,15 @@
 
         private readonly ILogger logger;
 
-        public SeasonalDateController(ISeasonalDateRepository seasonalDateRepository, ILogger logger)
+        private readonly ISeasonalDateMapper mapper;
+
+        public SeasonalDateController(ISeasonalDateRepository seasonalDateRepository, ILogger logger, ISeasonalDateMapper mapper)
         {
             this.seasonalDateRepository = seasonalDateRepository;
             this.logger = logger;
+            this.mapper = mapper;
+
+            this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
         }
 
         [HttpGet]
@@ -27,7 +35,16 @@
         {
             var seasonalDates = this.seasonalDateRepository.GetAll().OrderBy(x => x.From).ToList();
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, seasonalDates);
+            var model = new List<SeasonalDateModel>();
+
+            foreach (var seasonalDate in seasonalDates)
+            {
+                var mappedModel = this.mapper.Map(seasonalDate);
+
+                model.Add(mappedModel);
+            }
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
         [Route("seasonal-date/{id:int}")]
@@ -50,9 +67,25 @@
 
         [Route("seasonal-date")]
         [HttpPost]
-        public HttpResponseMessage Post(SeasonalDate seasonalDate)
+        public HttpResponseMessage Post(SeasonalDateModel model)
         {
-            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+            try
+            {
+                // TODO Validate
+                // if validation fails pass back 
+                // return this.Request.CreateResponse(HttpStatusCode.OK, new { warning = true, message = 'validation messages' });
+                var seasonalDate = this.mapper.Map(model);
+
+                this.seasonalDateRepository.Save(seasonalDate);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError($"Error when trying to save seasonal date {model.Description}", exception);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+            }
         }
     }
 }

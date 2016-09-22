@@ -1,5 +1,10 @@
-﻿import {Component} from '@angular/core';
+﻿import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
+import {Response} from '@angular/http';
 import {SeasonalDate} from './seasonalDate';
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
+import {SeasonalDateService} from './seasonalDateService';
+import {HttpResponse} from '../shared/httpResponse';
 
 @Component({
     selector: 'ow-seasonal-edit-modal',
@@ -8,7 +13,13 @@ import {SeasonalDate} from './seasonalDate';
 export class SeasonalDatesEditModalComponent {
     isVisible: boolean = false;
     seasonalDate: SeasonalDate;
+    httpResponse: HttpResponse = new HttpResponse();
+    @Output() onUpdate = new EventEmitter<SeasonalDate>();
 
+    constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
+
+    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    
     show(seasonalDate: SeasonalDate) {
         this.seasonalDate = seasonalDate;
         this.isVisible = true;
@@ -16,5 +27,27 @@ export class SeasonalDatesEditModalComponent {
 
     hide() {
         this.isVisible = false;
+    }
+
+    update() {
+        this.seasonalDate.branches = this.branch.selectedBranches;
+
+        this.seasonalDateService.saveSeasonalDate(this.seasonalDate)
+            .subscribe((res: Response) => {
+                this.httpResponse = JSON.parse(JSON.stringify(res));
+
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Seasonal date has been updated!', '');
+                    this.isVisible = false;
+                    this.onUpdate.emit(this.seasonalDate);
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop('error', 'Seasonal date could not be updated at this time!', 'Please try again later!');
+                    this.isVisible = false;
+                }
+                if (this.httpResponse.notAcceptable) {
+                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                }
+            });
     }
 }

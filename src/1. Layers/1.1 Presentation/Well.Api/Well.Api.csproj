@@ -203,6 +203,7 @@
     <Compile Include="Contracts\ISeasonalDateValidator.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
+    <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
     <Compile Include="Controllers\DamageReasonController.cs" />
@@ -231,7 +232,9 @@
     <Compile Include="Mapper\Contracts\IBranchModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IMapper.cs" />
     <Compile Include="Mapper\Contracts\IRouteModelsMapper.cs" />
+    <Compile Include="Mapper\Contracts\ICreditThresholdMapper.cs" />
     <Compile Include="Mapper\Contracts\ISeasonalDateMapper.cs" />
+    <Compile Include="Mapper\CreditThresholdMapper.cs" />
     <Compile Include="Mapper\RouteModelslMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
@@ -245,6 +248,7 @@
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\RouteModel.cs" />
+    <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

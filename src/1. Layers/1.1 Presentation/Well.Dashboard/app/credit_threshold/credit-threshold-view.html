@@ -1,1 +1,26 @@
-﻿<h4>credit view</h4>
+﻿<div class="table-responsive table-container">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Role</th>
+            <th>Credit Threshold</th>
+            <th>Branches</th>
+            <th style="text-align: right;"><button type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="credits && credits.length === 0">
+            <td colspan="4">No Credit Thresholds!</td>
+        </tr>
+        <tr class="grid-row" *ngFor="let x of credits">
+            <td (click)="selectCredit(x)">{{x.role}}</td>
+            <td (click)="selectCredit(x)">{{x.threshold}}</td>
+            <td (click)="selectCredit(x)">{{x.branchName}}</td>
+            <td style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<ow-credit-threshold-add-modal (onCreditThresholdSave)="loadCreditThreshold($event)"></ow-credit-threshold-add-modal>
+<ow-credit-threshold-edit-modal (onCreditThresholdUpdate)="loadCreditThreshold($event)"></ow-credit-threshold-edit-modal>
+<ow-credit-threshold-remove-modal (onCreditThresholdRemoved)="onRemoved($event)"></ow-credit-threshold-remove-modal>

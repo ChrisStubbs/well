@@ -226,6 +226,10 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForCreditThreshold.sql" />
     <Build Include="dbo\StoredProcedures\ThresholdLevelSave.sql" />
+    <Build Include="dbo\Tables\CleanPreference.sql" />
+    <Build Include="dbo\Tables\CleanPreferenceToBranch.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferencesGetAll.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferencesBranchesGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

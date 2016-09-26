@@ -29,6 +29,7 @@ import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
+import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -63,6 +64,7 @@ import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 import {CreditThresholdService} from './credit_threshold/creditThresholdService';
+import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -72,7 +74,7 @@ import {CreditThresholdService} from './credit_threshold/creditThresholdService'
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],
@@ -82,6 +84,7 @@ import {CreditThresholdService} from './credit_threshold/creditThresholdService'
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
+        CleanPreferenceService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

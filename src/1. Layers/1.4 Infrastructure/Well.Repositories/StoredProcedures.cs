@@ -112,5 +112,8 @@
         public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
 
         public static string ThresholdLevelSave = "ThresholdLevelSave";
+
+        public static string CleanPreferencesGetAll = "CleanPreferencesGetAll";
+        public static string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
     }
 }

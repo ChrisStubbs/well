@@ -68,7 +68,9 @@
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
+    <Compile Include="CleanPreferenceRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
     <Compile Include="Contracts\IAuditRepository.cs" />

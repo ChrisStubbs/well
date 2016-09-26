@@ -1,4 +1,5 @@
 ﻿import {Damage} from './damage';
+import {DeliveryLineAction} from './deliveryLineAction';
 
 export class DeliveryLine {
     constructor(line: DeliveryLine) {
@@ -35,6 +36,7 @@ export class DeliveryLine {
     damagedQuantity: number;
     shortQuantity: number;
     damages: Damage[] = new Array<Damage>();
+    actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
 
     isCleanOnInit: boolean;
 

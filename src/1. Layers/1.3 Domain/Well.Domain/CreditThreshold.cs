@@ -11,9 +11,9 @@
             this.Branches = new Collection<Branch>();
         }
 
-        public UserRole UserRole => (UserRole)this.UserRoleId;
+        public ThresholdLevel ThresholdLevel => (ThresholdLevel)this.ThresholdLevelId;
 
-        public int UserRoleId { get; set; }
+        public int ThresholdLevelId { get; set; }
 
         public int Threshold { get; set; }
 

@@ -33,7 +33,8 @@ export class NotificationsComponent implements OnInit {
         private securityService: SecurityService) { }
     ngOnInit() {
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
-}
+        this.getNotifications();
+    }
         
     @ViewChild(NotificationModalComponent) archiveModal: NotificationModalComponent;
 

@@ -29,4 +29,15 @@ export class CreditThresholdService {
             this.options)
             .map(res => res.json());
     }
+
+    saveThresholdLevel(threshold: string, username: string): Observable<any> {
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl +
+                'threshold-level?threshold=' +
+                threshold +
+                '&username=' +
+                username,
+                null,
+                this.options)
+            .map(res => res.json());
+    }
 }

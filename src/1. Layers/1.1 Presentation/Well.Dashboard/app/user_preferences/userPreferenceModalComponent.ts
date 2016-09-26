@@ -9,12 +9,14 @@ import {User} from './user';
 export class UserPreferenceModal {
     isVisible = false;
     user: User;
+    isThreshold: boolean;
 
     constructor(private router: Router) {}
 
-    show(user) {
+    show(user, isThreshold) {
         this.user = user;
         this.isVisible = true;
+        this.isThreshold = isThreshold;
     }
 
     hide() {
@@ -23,5 +25,9 @@ export class UserPreferenceModal {
 
     setBranches(user) {
         this.router.navigate(['/branch', user.name, user.domain]);
+    }
+
+    setThresholdLevels(user) {
+        this.router.navigate(['/user-threshold-level', user.name]);
     }
 }

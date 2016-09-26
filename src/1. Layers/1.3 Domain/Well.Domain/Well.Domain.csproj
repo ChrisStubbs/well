@@ -47,7 +47,7 @@
     <Compile Include="CreditThreshold.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
-    <Compile Include="Enums\UserRole.cs" />
+    <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Notification.cs" />

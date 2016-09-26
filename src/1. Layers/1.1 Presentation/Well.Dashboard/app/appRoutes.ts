@@ -13,6 +13,8 @@ import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
+import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
+import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
@@ -31,7 +33,9 @@ const routes: Routes = [
     { path: 'routes', component: RouteHeaderComponent },
     { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent },
-    { path: 'branch-role', component: BranchRoleComponent }
+    { path: 'branch-role', component: BranchRoleComponent },
+    { path: 'user-threshold', component: UserThresholdComponent },
+    { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent }
 ];
 
 export const appRoutingProviders: any[] = [

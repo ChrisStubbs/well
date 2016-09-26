@@ -1,5 +1,5 @@
 ﻿Create PROCEDURE [dbo].[CreditThresholdSave]
-	@UserRoleId INT,
+	@ThresholdLevelId INT,
 	@Threshold INT,
 	@DateCreated DATETIME,
 	@DateUpdated DATETIME,
@@ -10,14 +10,14 @@ BEGIN
 	SET NOCOUNT ON;
 
     INSERT INTO [dbo].[CreditThreshold]
-           ([UserRoleId]
+           ([ThresholdLevelId]
 		   ,[Threshold]
 		   ,[CreatedDate]
            ,[LastUpdatedDate]
            ,[CreatedBy]
            ,[LastUpdatedBy])
      VALUES
-           (@UserRoleId
+           (@ThresholdLevelId
 		   ,@Threshold
 		   ,@DateCreated
            ,@DateUpdated

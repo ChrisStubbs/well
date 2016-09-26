@@ -82,6 +82,7 @@
         InvoiceNo = 2,
         Account = 3,
         AccountName= 4,
+        Cod = 5,
         Contact= 6,
         InfoButton = 7,
         Status = 8,

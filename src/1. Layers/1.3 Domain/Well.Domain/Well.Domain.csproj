@@ -85,6 +85,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="ValueObjects\CreditLines.cs" />
     <Compile Include="ValueObjects\DamageSource.cs" />
     <Compile Include="ValueObjects\CreditFail.cs" />
     <Compile Include="SeasonalDate.cs" />

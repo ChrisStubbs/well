@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[JobDetail]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[LineNumber] INT NOT NULL,
-	[PHProductCode] VARCHAR(60) NOT NULL,
+	[PHProductCode] VARCHAR(60) NULL,
 	[OriginalDespatchQty] DECIMAL(8,3)  NOT NULL,
 	[DeliveredQty] DECIMAL(8,3)  NULL,
 	[ProdDesc] VARCHAR(100) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[SSCCBarcode] VARCHAR(50) NULL,
 	[SubOuterDamageTotal] INT NULL,
 	[SkuGoodsValue] FLOAT NOT NULL,
-	[NetPrice] FLOAT NOT NULL,
+	[NetPrice] FLOAT NULL,
 	[JobId] INT NOT NULL,
 	[JobDetailStatusId] INT NOT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,

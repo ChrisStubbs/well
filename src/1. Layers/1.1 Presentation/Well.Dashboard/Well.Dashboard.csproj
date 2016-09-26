@@ -219,6 +219,9 @@
     <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\credit_threshold\credit-threshold-view.html" />
     <Content Include="app\credit_threshold\credit-threshold.html" />
+    <Content Include="app\credit_threshold\credit-threshold-remove-modal.html" />
+    <Content Include="app\credit_threshold\credit-threshold-add-modal.html" />
+    <Content Include="app\credit_threshold\credit-threshold-edit-modal.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-list.html" />
@@ -356,6 +359,11 @@
     <TypeScriptCompile Include="app\branch-role\branchRoleComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdViewComponent.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThreshold.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThresholdService.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
+    <TypeScriptCompile Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
     <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />

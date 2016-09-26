@@ -44,8 +44,12 @@
     <Compile Include="Audit.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="Contracts\IEntity.cs" />
+    <Compile Include="CreditThreshold.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
+    <Compile Include="Enums\UserRole.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />

@@ -52,11 +52,14 @@ namespace PH.Well.Api.DependencyResolution
             For<IUserStatsRepository>().Use<UserStatsRepository>();
             For<IAuditRepository>().Use<AuditRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+            For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
+            For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
+            For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
         }
     }
 }

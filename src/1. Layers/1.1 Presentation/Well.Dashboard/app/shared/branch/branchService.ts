@@ -30,6 +30,13 @@ export class BranchService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
+    getBranchesWithCreditThreshold(creditThresholdId): Observable<Branch[]> {
+
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch-credit-threshold?creditThresholdId=' + creditThresholdId)
+            .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
     saveBranches(branches: Branch[], username, domain): Observable<any> {
         let body = JSON.stringify(branches);
         let headers = new Headers({ 'Content-Type': 'application/json' });

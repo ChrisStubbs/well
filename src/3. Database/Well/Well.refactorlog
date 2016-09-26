@@ -28,4 +28,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Customer" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="250a7020-a198-4018-b0a0-80d40b9b4ccd" ChangeDateTime="09/14/2016 15:52:48">
+    <Property Name="ElementName" Value="[dbo].[Job].[JobRef1]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Job]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PHAccount" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d78a0d6c-d8e7-4343-9b89-e2c0e4889de3" ChangeDateTime="09/14/2016 15:52:55">
+    <Property Name="ElementName" Value="[dbo].[Job].[JobRef2]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Job]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PickListRef" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a09822a8-2298-457c-adbb-d5424a37060d" ChangeDateTime="09/14/2016 15:53:07">
+    <Property Name="ElementName" Value="[dbo].[Job].[JobRef3]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Job]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvoiceNumber" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="51dc14cb-852b-450d-ac73-044205c0329e" ChangeDateTime="09/14/2016 15:53:15">
+    <Property Name="ElementName" Value="[dbo].[Job].[JobRef4]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Job]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CustomerRef" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0c4d56ac-2dc3-47c6-8914-ec4dfa4ab3e1" ChangeDateTime="09/14/2016 15:53:34">
+    <Property Name="ElementName" Value="[dbo].[Job].[TextField1]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Job]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RoyaltyCode" />
+  </Operation>
 </Operations>

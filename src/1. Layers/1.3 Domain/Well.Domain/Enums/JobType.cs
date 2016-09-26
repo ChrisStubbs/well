@@ -4,20 +4,20 @@
 
     public enum JobType
     {
-        [Description("Ad Hoc Collection")]
-        Adhoc = 1,
+        [Description("DEL-TOB")]
+        DelTob = 1,
 
-        [Description("Collection")]
-        Col = 2,
+        [Description("DEL-AMB")]
+        DelAmb = 2,
 
-        [Description("Store Delivery Collection")]
-        Dcol = 3,
+        [Description("DEL-ALC")]
+        DelAlc = 3,
 
-        [Description("Delivery")]
-        Del = 4,
+        [Description("DEL-CF")]
+        DelFc = 4,
 
-        [Description("House Move Collection")]
-        Hmc = 5,
+        [Description("DEL-DOC")]
+        DelDoc = 5,
 
         [Description("House Move Delivery")]
         Hmd = 6,

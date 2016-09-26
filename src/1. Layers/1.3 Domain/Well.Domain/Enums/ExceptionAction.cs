@@ -8,7 +8,7 @@
 
         ReplanInRoadnet = 3,
 
-        ReplanInTranscend = 4,
+        ReplanInTranSend = 4,
 
         ReplanInTheQueue = 5,
 

@@ -137,7 +137,7 @@
 
                 var json = JsonConvert.SerializeObject(transcendEvent);
 
-                var exception = new ExceptionEvent { Event = json, ExceptionActionId = (int)ExceptionAction.ReplanInTranscend };
+                var exception = new ExceptionEvent { Event = json, ExceptionActionId = (int)ExceptionAction.ReplanInTranSend };
 
                 var events = new List<ExceptionEvent> { exception };
 

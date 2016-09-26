@@ -42,32 +42,14 @@
         [XmlElement("TransportOrderRef")]
         public string  TransportOrderRef { get; set; }
 
-        [XmlElement("SpecialInstructions")]
-        public string SpecialInstructions { get; set; }
-
         [XmlElement("PlannedStopNumber")]
         public string PlannedStopNumber { get; set; }
 
-        [XmlElement("SummaryNotes")]
-        public string SummaryNotes { get; set; }
+        [XmlElement("ShellActionIndicator")]
+        public string ShellActionIndicator { get; set; }
 
-        [XmlElement("PlannedArriveTime")]
-        public string PlannedArriveTime { get; set; }
-
-        [XmlElement("PlannedDepartTime")]
-        public string PlannedDepartTime { get; set; }
-
-        [XmlElement("TextField1")]
-        public string TextField1 { get; set; }
-
-        [XmlElement("TextField2")]
-        public string TextField2 { get; set; }
-
-        [XmlElement("TextField3")]
-        public string TextField3 { get; set; }
-
-        [XmlElement("TextField4")]
-        public string TextField4 { get; set; }
+        [XmlElement("CustomerShopReference")]
+        public string CustomerShopReference { get; set; }
 
         [XmlElement("TextField5")]
         public string TextField5 { get; set; }
@@ -83,43 +65,8 @@
 
         [XmlElement("BookTime")]
         public string BookTime { get; set; }
-
-        //[XmlElement("SchedulingPriority")]
-        [XmlIgnore]
-        public int SchedulingPriority { get; set; }
-
-        //[XmlElement("SchedulingSequence")]
-        [XmlIgnore]
-        public int SchedulingSequence { get; set; }
-
-        //[XmlElement("TimeAtStop")]
-        [XmlIgnore]
-        public int TimeAtStop { get; set; }
-
-        //[XmlElement("WorkTime")]
-        [XmlIgnore]
-        public int WorkTime { get; set; }
-
-        //[XmlElement("LoadingTime")]
-        [XmlIgnore]
-        public int LoadingTime { get; set; }
-
-        //[XmlElement("UnloadingTime")]
-        [XmlIgnore]
-        public int UnloadingTime { get; set; }
-
-        //[XmlElement("Revenue")]
-        [XmlIgnore]
-        public double Revenue { get; set; }
-
         [XmlElement("ActionIndicator")]
         public string ActionIndicator { get; set; }
-
-        [XmlElement("StartWindow")]
-        public string StartWindow { get; set; }
-
-        [XmlElement("EndWindow")]
-        public string EndWindow { get; set; }
 
         [XmlArray("OrderJobs")]
         [XmlArrayItem("OrderJob", typeof(OrderJob))]

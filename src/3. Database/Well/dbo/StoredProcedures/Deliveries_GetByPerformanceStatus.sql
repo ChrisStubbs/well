@@ -10,8 +10,8 @@ BEGIN
 		j.Id,
 		rh.RouteNumber, 
 		s.DropId,
-		j.JobRef3 as InvoiceNumber, 
-		j.JobRef1 as AccountCode, --this is the P&H account code that is on the invoice
+		j.InvoiceNumber, 
+		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
 		ps.Description as JobStatus,
 		s.DeliveryDate,
@@ -19,7 +19,7 @@ BEGIN
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
 		b.Id as BranchId,
 		u2.IdentityName,
-		ja.Value as CashOnDelivery
+		j.COD as CashOnDelivery
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -40,13 +40,15 @@ BEGIN
 		dbo.UserJob uj on uj.JobId = j.Id 
 	LEFT JOIN
 		dbo.[User] u2 on u2.Id = uj.UserId
-	LEFT JOIN 
-		dbo.JobAttribute ja on ja.JobId = j.Id AND ja.Code = 'COD' 
-
 	WHERE
 		ps.Id =  @PerformanceStatusId
 	AND 
 		u.IdentityName = @UserName
+	AND 
+		j.InvoiceNumber IS NOT NULL
+	AND 
+		j.COD IS NOT NULL
+
 
 
 END

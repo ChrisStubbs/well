@@ -49,6 +49,24 @@ Scenario: A user can filter Resolved Delivery information
 	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Resolved |        | Unallocated |
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Resolved |        | Unallocated |
 
+Scenario: A user can view Resolved Delivery Information and sort on updated date
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And I have selected branch 22
+	And  3 deliveries have been marked as Resolved
+	When I open the resolved deliveries page
+	Then the following resolved deliveries will be displayed
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned    | LastUpdatedDateTime     |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        | Unallocated | Sep 7, 2016, 1:27:17 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved |        | Unallocated | Sep 7, 2016, 1:29:17 PM |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Resolved |        | Unallocated | Sep 7, 2016, 1:31:17 PM |
+	When I click on the orderby Triangle image in the resolved deliveries grid
+	Then The following resolved deliveries ordered by date will be displayed in 'desc' order
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned    | LastUpdatedDateTime     |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Resolved |        | Unallocated | Sep 7, 2016, 1:31:17 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved |        | Unallocated | Sep 7, 2016, 1:29:17 PM |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        | Unallocated | Sep 7, 2016, 1:27:17 PM |
+
 Scenario: A user can page through Resolved Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data

@@ -5,22 +5,41 @@
 
 AS
 BEGIN
-SELECT [Id]
+	SELECT TOP 1000 [Id]
       ,[Sequence]
       ,[JobTypeCode]
-      ,[JobRef1]
-      ,[JobRef2]
-      ,[JobRef3]
-      ,[JobRef4]
+      ,[PHAccount]
+      ,[PickListRef]
+      ,[InvoiceNumber]
+      ,[CustomerRef]
       ,[OrderDate]
-      ,[Originator]
-      ,[TextField1]
-      ,[TextField2]
-	  ,[PerformanceStatusId] as PerformanceStatus
-	  ,[ByPassReasonId] as ByPassReason
+	  ,[RoyaltyCode]
+	  ,[RoyaltyCodeDesc] 
+	  ,[OrdOuters] 
+	  ,[InvOuters] 
+	  ,[ColOuters] 
+	  ,[ColBoxes] 
+	  ,[ReCallPrd] 
+	  ,[AllowSgCrd] 
+	  ,[AllowSOCrd] 
+	  ,[COD] 
+	  ,[GrnNumber] 
+	  ,[GrnRefusedReason] 
+	  ,[GrnRefusedDesc] 
+	  ,[AllowReOrd] 
+	  ,[SandwchOrd] 
+	  ,[ComdtyType] 
+      ,[PerformanceStatusId]
+      ,[ByPassReasonId]
+	  ,[IsDeleted]
       ,[StopId]
-  FROM dbo.[Job]
-  WHERE [JobRef1] = @AccountId
-  AND [JobRef2] = @PicklistId
+      ,[CreatedBy]
+      ,[DateCreated]
+      ,[UpdatedBy]
+      ,[DateUpdated]
+      ,[Version]
+  FROM [dbo].[Job]
+  WHERE [PHAccount] = @AccountId
+  AND [PickListRef] = @PicklistId
   AND [StopId] = @StopId
 END

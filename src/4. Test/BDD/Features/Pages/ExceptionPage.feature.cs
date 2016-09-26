@@ -105,13 +105,6 @@ this.FeatureBackground();
                         "Status"});
             table1.AddRow(new string[] {
                         "001",
-                        "02",
-                        "92874.033",
-                        "2874.033",
-                        "RVS SHOP",
-                        "Incomplete"});
-            table1.AddRow(new string[] {
-                        "001",
                         "01",
                         "949214.152",
                         "49214.152",
@@ -123,6 +116,13 @@ this.FeatureBackground();
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
+                        "Incomplete"});
+            table1.AddRow(new string[] {
+                        "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP",
                         "Incomplete"});
 #line 17
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table1, "Then ");
@@ -280,10 +280,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can page through Exception Delivery information")]
-        public virtual void AUserCanPageThroughExceptionDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information and sort on updated date")]
+        public virtual void AUserCanViewExceptionDeliveryInformationAndSortOnUpdatedDate()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Exception Delivery information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information and sort on updated date", ((string[])(null)));
 #line 55
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -291,20 +291,111 @@ this.FeatureBackground();
 #line 56
  testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 57
- testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("3 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 58
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "LastUpdatedDateTime"});
+            table7.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "949214.152",
+                        "49214.152",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "Sep 7, 2016, 1:28:16 PM"});
+            table7.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "92874.033",
+                        "2874.033",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "Sep 7, 2016, 1:30:17 PM"});
+            table7.AddRow(new string[] {
+                        "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP",
+                        "Incomplete",
+                        "Sep 7, 2016, 1:27:17 PM"});
 #line 59
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table7, "Then ");
+#line 65
+ testRunner.When("I click on the orderby Triangle image in the exceptions deliveries grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "LastUpdatedDateTime"});
+            table8.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "949214.152",
+                        "49214.152",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "Sep 7, 2016, 1:28:16 PM"});
+            table8.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "92874.033",
+                        "2874.033",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "Sep 7, 2016, 1:30:17 PM"});
+            table8.AddRow(new string[] {
+                        "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP",
+                        "Incomplete",
+                        "Sep 7, 2016, 1:27:17 PM"});
+#line 66
+ testRunner.Then("The following exceptions ordered by date will be displayed in \'desc\' order", ((string)(null)), table8, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user can page through Exception Delivery information")]
+        public virtual void AUserCanPageThroughExceptionDeliveryInformation()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Exception Delivery information", ((string[])(null)));
+#line 77
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 78
+ testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 79
+ testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 80
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 81
  testRunner.Then("\'10\' rows of exception delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 60
+#line 82
  testRunner.And("I will have 2 pages of exception delivery data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 61
+#line 83
  testRunner.When("I click on exception delivery page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 62
+#line 84
  testRunner.Then("\'7\' rows of exception delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 63
+#line 85
  testRunner.When("I click on exception delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 64
+#line 86
  testRunner.Then("\'10\' rows of exception delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -315,20 +406,20 @@ this.FeatureBackground();
         public virtual void ViewExceptionDetailsAtLowerLevel()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details at lower level", ((string[])(null)));
-#line 66
+#line 88
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 67
+#line 89
  testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 68
+#line 90
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 69
+#line 91
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 70
+#line 92
  testRunner.And("I click on exception row 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "LineNo",
                         "Product",
                         "Description",
@@ -337,53 +428,53 @@ this.FeatureBackground();
                         "DeliveryQuantity",
                         "DamagedQuantity",
                         "ShortQuantity"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "1",
-                        "4237",
-                        "Maltesers Tube 75g",
-                        "80",
-                        "0",
-                        "0",
+                        "6987",
+                        "Choc Teacakes Tunnock",
+                        "19",
+                        "1",
+                        "1",
                         "0",
                         "0"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "2",
-                        "7605",
-                        "Bass Sherbet Lemons 200g",
-                        "32",
-                        "0",
-                        "0",
-                        "0",
-                        "0"});
-            table7.AddRow(new string[] {
-                        "3",
-                        "41957",
-                        "Bournville Std 45g",
-                        "84",
-                        "0",
-                        "0",
-                        "0",
-                        "0"});
-            table7.AddRow(new string[] {
+                        "49179",
+                        "Ginger Nuts 250g",
                         "4",
-                        "3319",
-                        "C.D.M Std 45g",
-                        "125",
-                        "0",
-                        "0",
+                        "1",
+                        "1",
                         "0",
                         "0"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
+                        "3",
+                        "21633",
+                        "Kiddies Super Mix 220gPM",
+                        "3",
+                        "1",
+                        "1",
+                        "0",
+                        "0"});
+            table9.AddRow(new string[] {
+                        "4",
+                        "4244",
+                        "Milkybar Btns Giant PM",
                         "5",
-                        "9135",
-                        "Wispa Duo 51g",
-                        "395",
-                        "0",
-                        "0",
+                        "1",
+                        "1",
                         "0",
                         "0"});
-#line 71
- testRunner.Then("I am shown the exception detail", ((string)(null)), table7, "Then ");
+            table9.AddRow(new string[] {
+                        "5",
+                        "7621",
+                        "Fruit Past Tube 52.5g",
+                        "8",
+                        "1",
+                        "1",
+                        "0",
+                        "0"});
+#line 93
+ testRunner.Then("I am shown the exception detail", ((string)(null)), table9, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -393,21 +484,21 @@ this.FeatureBackground();
         public virtual void ExceptionAssignedToAUser()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Exception assigned to a user", ((string[])(null)));
-#line 79
+#line 101
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 80
+#line 102
  testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 81
+#line 103
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 82
+#line 104
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 83
+#line 105
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 84
+#line 106
  testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 85
+#line 107
  testRunner.Then("the user is assigned to that exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -418,25 +509,25 @@ this.FeatureBackground();
         public virtual void AssignedUserToAnExceptionCanActionIt()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Assigned user to an exception can action it", ((string[])(null)));
-#line 87
+#line 109
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 88
+#line 110
  testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 89
+#line 111
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 90
+#line 112
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 91
+#line 113
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 92
+#line 114
  testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 93
+#line 115
  testRunner.Then("the user is assigned to that exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 94
+#line 116
  testRunner.And("the user can action the exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 95
+#line 117
  testRunner.And("all other actions are disabled", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -447,23 +538,23 @@ this.FeatureBackground();
         public virtual void AssignedUserToAnExceptionDrillsToDetailsAndCanUpdate()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Assigned user to an exception drills to details and can update", ((string[])(null)));
-#line 97
+#line 119
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 98
+#line 120
  testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 99
+#line 121
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 100
+#line 122
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 101
+#line 123
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 102
+#line 124
  testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 103
+#line 125
  testRunner.And("I select the exception row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 104
+#line 126
  testRunner.Then("All the exception detail rows can be updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -474,24 +565,86 @@ this.FeatureBackground();
         public virtual void UnAssignedUserToAnExceptionDrillsToDetailsAndCanNotUpdate()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("UnAssigned user to an exception drills to details and can not update", ((string[])(null)));
-#line 106
+#line 128
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 107
+#line 129
  testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 108
+#line 130
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 109
+#line 131
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 110
+#line 132
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 111
+#line 133
  testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 112
+#line 134
  testRunner.And("I select an unassigned exception row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 113
+#line 135
  testRunner.Then("All the exception detail rows can not be updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user cannot view Exception Delivery Information without a valid invoice number")]
+        public virtual void AUserCannotViewExceptionDeliveryInformationWithoutAValidInvoiceNumber()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user cannot view Exception Delivery Information without a valid invoice number", ((string[])(null)));
+#line 137
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 138
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 139
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 140
+ testRunner.And("I have imported a valid Epod update file named \'ePOD__MissingInvoiceNumbers.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 141
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 142
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 143
+ testRunner.Then("there are 0 exception deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 144
+ testRunner.Given("3 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 145
+ testRunner.When("valid invoice numbers are assigned to jobs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 146
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status"});
+            table10.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "949214.152",
+                        "49214.152",
+                        "CSG - must be CF van",
+                        "Incomplete"});
+            table10.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "92874.033",
+                        "2874.033",
+                        "CSG - must be CF van",
+                        "Incomplete"});
+            table10.AddRow(new string[] {
+                        "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP",
+                        "Incomplete"});
+#line 147
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table10, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

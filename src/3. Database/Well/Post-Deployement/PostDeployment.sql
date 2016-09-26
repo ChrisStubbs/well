@@ -29,4 +29,7 @@ Post-Deployment Script Template
 :r .\Populate-PODCreditReasons.sql
 :r .\Populate-PODCreditActions.sql
 :r .\Populate-CSFRejection.sql
+:r .\Populate-GrnRefused.sql
 :r .\Populate-ThresholdLevels.sql
+:r .\Populate-CommodityType.sql
+:r .\Populate_DamageSource.sql

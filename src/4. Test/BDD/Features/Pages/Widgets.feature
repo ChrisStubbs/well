@@ -15,4 +15,4 @@ Scenario: User stats are shown on widgets
 	And I select the assigned link on the first row
 	And I select a user to assign
 	When I view the widgets page
-	Then there are 3 exceptions, 1 assigned, 2 outstanding and 0 notifications
+	Then there are 3 exceptions, 1 assigned, 3 outstanding and 0 notifications

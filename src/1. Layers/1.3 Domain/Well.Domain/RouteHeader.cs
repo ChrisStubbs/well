@@ -13,7 +13,6 @@
         public RouteHeader()
         {
             this.Stops = new Collection<Stop>();
-            this.EntityAttributes = new Collection<Attribute>();
         }
 
         [XmlElement("CompanyID")]
@@ -35,9 +34,6 @@
         [XmlElement("DriverName")]
         public string DriverName { get; set; }
 
-        [XmlElement("VehicleReg")]
-        public string VehicleReg { get; set; }
-
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
@@ -45,18 +41,6 @@
         [XmlIgnore]
         public int StartDepot { get; set; }
          
-        [XmlElement("PlannedRouteStartTime")]
-        public string PlannedRouteStartTime { get; set; }
-
-        [XmlElement("PlannedRouteFinishTime")]
-        public string PlannedRouteFinishTime { get; set; }
-
-        [XmlElement("PlannedDistance")]
-        public decimal PlannedDistance { get; set; }
-
-        [XmlElement("PlannedTravelTime")]
-        public string PlannedTravelTime { get; set; }
-
         [XmlElement("PlannedStops")]
         public int PlannedStops { get; set; }
 
@@ -179,9 +163,6 @@
         [XmlArrayItem("Stop", typeof(Stop))]
         public Collection<Stop> Stops { get; set; }
 
-        [XmlArray("EntityAttributes")]
-        [XmlArrayItem("Attribute", typeof(Attribute))]
-        public Collection<Attribute> EntityAttributes { get; set; }
 
         public int CleanJobs => Stops.Sum(s => s.CleanJobs);
         public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobs);

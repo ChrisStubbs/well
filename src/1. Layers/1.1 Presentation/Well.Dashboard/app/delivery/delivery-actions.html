@@ -1,0 +1,47 @@
+﻿
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Actions</label>
+            <table *ngIf="deliveryLine.actions.length > 0" class="table table-striped" id="actionTable">
+                <thead>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let action of deliveryLine.actions; let i = index" class="editable">
+                        <td><input id="action-qty-input{{i}}" type="number" class="form-control" [(ngModel)]="action.quantity" /></td>
+                        <td>
+                            <select id="action-select{{i}}" class="form-control" required name="action" [(ngModel)]="action.id">
+                                <option *ngFor="let a of actions" [value]="a.id">{{a.description}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button id="remove-action-button{{i}}" type="button" class="btn btn-primary"
+                                    (click)="removeAction(action.index)">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p *ngIf="deliveryLine.actions.length == 0">No actioned items</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button id="add-action-button" type="button" class="btn btn-success" (click)="addAction()">Add action</button>
+        </div>
+    </div>
+</div>
+
+<div class="btn-group pull-right">
+    <button id="save-button" type="button" class="btn btn-success" (click)="update()">Save</button>
+    <button id="cancel-button" type="button" class="btn btn-primary" (click)="cancel()">Cancel</button>
+</div>

@@ -97,14 +97,10 @@
     <Build Include="dbo\Tables\BranchApprovalTime.sql" />
     <Build Include="dbo\Tables\Routes.sql" />
     <Build Include="dbo\Tables\RouteHeader.sql" />
-    <Build Include="dbo\Tables\RouteHeaderAttribute.sql" />
     <Build Include="dbo\Tables\Stop.sql" />
     <Build Include="dbo\Tables\Account.sql" />
-    <Build Include="dbo\Tables\AccountAttribute.sql" />
     <Build Include="dbo\Tables\Job.sql" />
-    <Build Include="dbo\Tables\JobAttribute.sql" />
     <Build Include="dbo\Tables\JobDetail.sql" />
-    <Build Include="dbo\Tables\JobDetailAttribute.sql" />
     <Build Include="dbo\Tables\JobDetailDamage.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
     <Build Include="dbo\Tables\ExceptionAction.sql" />
@@ -116,17 +112,12 @@
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeaderAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Stops_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\StopAttribute_CreateOrUpdate.sql" />
-    <Build Include="dbo\Tables\StopAttribute.sql" />
     <Build Include="dbo\StoredProcedures\StopAccount_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\JobAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailAttribute_CreateOrUpdate.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <Build Include="dbo\Tables\PerformanceStatus.sql" />
@@ -172,11 +163,7 @@
     <Build Include="dbo\StoredProcedures\JobDetail_Get.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailArttributes_DeleteByJobDetailId.sql" />
-    <Build Include="dbo\StoredProcedures\JobArttributes_DeleteBylId.sql" />
-    <Build Include="dbo\StoredProcedures\StopAttributes_DeletedByStopId.sql" />
     <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeaderAttributes_DeleteByRouteheaderId.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeaders_GetForDelete.sql" />
     <Build Include="dbo\StoredProcedures\Routes_Get.sql" />
@@ -198,6 +185,10 @@
     <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Insert.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Update.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyalException_GetByRoyalty.sql" />
+    <Build Include="dbo\Tables\GrnRefused.sql" />
+    <Build Include="dbo\Tables\CommodityType.sql" />
+    <Build Include="dbo\Tables\ProductType.sql" />
+    <Build Include="dbo\Tables\DamageSource.sql" />
     <Build Include="dbo\Tables\Notification.sql" />
     <Build Include="dbo\StoredProcedures\Notification_Save.sql" />
     <Build Include="dbo\StoredProcedures\Notifications_Get.sql" />
@@ -239,6 +230,10 @@
     <None Include="Post-Deployement\Populate-PODCreditActions.sql" />
     <None Include="Post-Deployement\Populate-PODCreditReasons.sql" />
     <None Include="Post-Deployement\Populate-CSFRejection.sql" />
+    <None Include="Post-Deployement\Populate-GrnRefused.sql" />
+    <None Include="Post-Deployement\Populate-CommodityType.sql" />
+    <None Include="Post-Deployement\Populate-ProductType.sql" />
+    <None Include="Post-Deployement\Populate_DamageSource.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

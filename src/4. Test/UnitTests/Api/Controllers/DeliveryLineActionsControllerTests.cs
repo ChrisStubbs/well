@@ -59,7 +59,7 @@
 
                 var routeAttribute = GetAttributes<RouteAttribute>(controllerMethod).FirstOrDefault();
                 Assert.IsNotNull(routeAttribute);
-                Assert.AreEqual("delivery-line-action", routeAttribute.Template);
+                Assert.AreEqual("delivery-line-actions", routeAttribute.Template);
             }
         }
     }

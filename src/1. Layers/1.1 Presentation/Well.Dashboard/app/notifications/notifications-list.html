@@ -6,6 +6,11 @@
 <div class="jumbotron">
 
     <div class="content">
+        <div *ngIf="!notifications">
+            <div class="alert alert-info">
+                <strong>No notifications!</strong>
+            </div>
+        </div>
         <div class="row">
             <div class="notification" *ngFor="let notification of notifications | paginate: { itemsPerPage: rowCount, currentPage: p }">
                 <div ngClass="{{getStyle(notification)}}">

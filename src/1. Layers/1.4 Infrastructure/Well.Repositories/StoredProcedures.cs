@@ -110,5 +110,7 @@
         public static string CreditThresholdDelete = "CreditThresholdDelete";
         public static string CreditThresholdSave = "CreditThresholdSave";
         public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
+
+        public static string ThresholdLevelSave = "ThresholdLevelSave";
     }
 }

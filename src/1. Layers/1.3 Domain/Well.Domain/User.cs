@@ -11,5 +11,7 @@
         public string JobDescription { get; set; }
 
         public string Domain { get; set; }
+
+        public int ThresholdLevelId { get; set; }
     }
 }

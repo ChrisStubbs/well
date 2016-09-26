@@ -215,8 +215,8 @@
     <Build Include="dbo\StoredProcedures\SeasonalDatesToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForSeasonalDate.sql" />
-    <Build Include="dbo\Tables\UserRole.sql" />
-    <None Include="Post-Deployement\Populate-UserRoles.sql" />
+    <Build Include="dbo\Tables\ThresholdLevel.sql" />
+    <None Include="Post-Deployement\Populate-ThresholdLevels.sql" />
     <Build Include="dbo\Tables\CreditThreshold.sql" />
     <Build Include="dbo\Tables\CreditThresholdToBranch.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdGetAll.sql" />
@@ -225,6 +225,7 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdSave.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForCreditThreshold.sql" />
+    <Build Include="dbo\StoredProcedures\ThresholdLevelSave.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

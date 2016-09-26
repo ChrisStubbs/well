@@ -160,7 +160,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Validators\" />
     <Folder Include="Views\Branch\" />
   </ItemGroup>
   <ItemGroup>
@@ -200,11 +199,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Contracts\ISeasonalDateValidator.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
+    <Compile Include="Controllers\ThresholdLevelController.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
     <Compile Include="Controllers\DamageReasonController.cs" />
     <Compile Include="Controllers\DeliveryLineController.cs" />
@@ -252,6 +251,8 @@
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\Contracts\ISeasonalDateValidator.cs" />
+    <Compile Include="Validators\SeasonalDateValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

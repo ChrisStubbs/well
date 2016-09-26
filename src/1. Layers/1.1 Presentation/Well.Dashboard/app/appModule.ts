@@ -29,6 +29,8 @@ import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
 import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
+import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
+import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -44,7 +46,6 @@ import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
-import {CreditThresholdComponent} from './credit_threshold/creditThresholdComponent';
 import {CreditThresholdViewComponent} from './credit_threshold/creditThresholdViewComponent';
 import {CreditThresholdRemoveModalComponent} from './credit_threshold/creditThresholdRemoveModalComponent';
 import {CreditThresholdAddModalComponent} from './credit_threshold/creditThresholdAddModalComponent';
@@ -73,10 +74,10 @@ import {CreditThresholdService} from './credit_threshold/creditThresholdService'
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
         DeliveryIssuesComponent, DeliveryActionsComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent, BranchCheckboxComponent, CreditThresholdComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
+        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent
+        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing

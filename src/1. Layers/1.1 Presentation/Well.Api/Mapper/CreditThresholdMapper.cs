@@ -16,7 +16,7 @@
             {
                 Id = model.Id,
                 Threshold = model.Threshold,
-                UserRoleId = (int)EnumExtensions.GetValueFromDescription<UserRole>(model.Role)
+                ThresholdLevelId = (int)EnumExtensions.GetValueFromDescription<ThresholdLevel>(model.ThresholdLevel)
             };
 
             model.Branches.ForEach(x => creditThreshold.Branches.Add(x));
@@ -29,7 +29,7 @@
             var model = new CreditThresholdModel
             {
                 Id = creditThreshold.Id,
-                Role = EnumExtensions.GetDescription(creditThreshold.UserRole),
+                ThresholdLevel = EnumExtensions.GetDescription(creditThreshold.ThresholdLevel),
                 Threshold = creditThreshold.Threshold
             };
 

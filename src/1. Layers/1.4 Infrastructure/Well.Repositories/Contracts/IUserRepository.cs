@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using PH.Well.Domain;
+    using PH.Well.Domain.Enums;
 
     public interface IUserRepository : IRepository<User, int>
     {
@@ -14,5 +15,7 @@
         void AssignJobToUser(int userId, int jobId);
 
         void UnAssignJobToUser(int jobId);
+
+        void SetThresholdLevel(User user, ThresholdLevel thresholdLevel);
     }
 }

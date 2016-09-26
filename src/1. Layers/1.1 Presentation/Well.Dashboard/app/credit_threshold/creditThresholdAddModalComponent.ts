@@ -22,7 +22,7 @@ export class CreditThresholdAddModalComponent {
 
     show() {
         this.isVisible = true;
-        this.creditThreshold.role = 'Role';
+        this.creditThreshold.thresholdLevel = 'Level';
     }
 
     hide() {
@@ -57,7 +57,7 @@ export class CreditThresholdAddModalComponent {
             });
     }
 
-    setSelectedRole(role) {
-        this.creditThreshold.role = role;
+    setSelectedLevel(level) {
+        this.creditThreshold.thresholdLevel = level;
     }
 }

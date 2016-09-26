@@ -2,7 +2,7 @@
 AS
 BEGIN
 SELECT
-	[Id], [UserRoleId], [Threshold], [CreatedBy], [CreatedDate], [LastUpdatedBy], [LastUpdatedDate]
+	[Id], [ThresholdLevelId], [Threshold], [CreatedBy], [CreatedDate], [LastUpdatedBy], [LastUpdatedDate]
 FROM
 	 [dbo].[CreditThreshold] 
 		   

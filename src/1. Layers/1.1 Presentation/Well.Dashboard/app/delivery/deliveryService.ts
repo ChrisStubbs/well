@@ -1,8 +1,8 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {Delivery} from './delivery';
-import {DamageReason} from './damageReason';
+import {Delivery} from './model/delivery';
+import {DamageReason} from './model/damageReason';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';

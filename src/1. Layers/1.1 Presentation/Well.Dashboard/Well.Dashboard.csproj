@@ -222,8 +222,12 @@
     <Content Include="app\credit_threshold\credit-threshold-remove-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-add-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-edit-modal.html" />
+    <Content Include="app\delivery\delivery-actions.html" />
+    <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
+    <TypeScriptCompile Include="app\delivery\deliveryActionsComponent.ts" />
+    <TypeScriptCompile Include="app\delivery\deliveryIssuesComponent.ts" />
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\home\widgetGraph.html" />
     <Content Include="app\notifications\notification-archive-modal.html" />
@@ -364,6 +368,8 @@
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\delivery\model\action.ts" />
+    <TypeScriptCompile Include="app\delivery\model\deliveryLineAction.ts" />
     <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
@@ -377,10 +383,10 @@
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
-    <TypeScriptCompile Include="app\delivery\damageReason.ts" />
-    <TypeScriptCompile Include="app\delivery\delivery.ts" />
+    <TypeScriptCompile Include="app\delivery\model\damageReason.ts" />
+    <TypeScriptCompile Include="app\delivery\model\delivery.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryComponent.ts" />
-    <TypeScriptCompile Include="app\delivery\deliveryLine.ts" />
+    <TypeScriptCompile Include="app\delivery\model\deliveryLine.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryService.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryUpdateComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
@@ -388,7 +394,7 @@
     <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
     <TypeScriptCompile Include="app\home\widgetGraphComponent.ts" />
     <TypeScriptCompile Include="app\main.ts" />
-    <TypeScriptCompile Include="app\delivery\damage.ts" />
+    <TypeScriptCompile Include="app\delivery\model\damage.ts" />
     <TypeScriptCompile Include="app\notifications\notification.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
     <TypeScriptCompile Include="app\notifications\notificationsService.ts" />

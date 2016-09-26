@@ -46,7 +46,7 @@
                         var roadnetEvent = JsonConvert.DeserializeObject<RoadnetEvent>(eventToProcess.Event);
                         this.exceptionEventService.ReplanRoadnet(roadnetEvent, eventToProcess.Id, GetAdamSettings(roadnetEvent.BranchId), username);
                         break;
-                    case ExceptionAction.ReplanInTranscend:
+                    case ExceptionAction.ReplanInTranSend:
                         var transcendEvent = JsonConvert.DeserializeObject<TranscendEvent>(eventToProcess.Event);
                         this.exceptionEventService.ReplanTranscend(transcendEvent, eventToProcess.Id, GetAdamSettings(transcendEvent.BranchId), username);
                         break;

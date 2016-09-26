@@ -177,10 +177,7 @@
 
         public void DeleteRouteHeaderById(int id, WellDeleteType deleteType)
         {
-            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
-            DeleteAttributesByRouteHeaderId(id, isSoftDelete);
-            
+            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;     
 
             dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
                 .AddParameter("RouteheaderId", id, DbType.Int32)
@@ -188,14 +185,6 @@
                 .Execute();
         }
 
-        private void DeleteAttributesByRouteHeaderId(int routeHeaderId, bool isSoftDelete)
-        {
-
-            dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderAttributesDeleteByRouteheaderId)
-                .AddParameter("RouteheaderId", routeHeaderId, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
-                .Execute();
-        }
 
 
 

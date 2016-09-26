@@ -320,13 +320,7 @@
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderAttributesDeleteByRouteheaderId))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Execute());
+
 
                 this.repository.DeleteRouteHeaderById(id, deleteType);
 
@@ -336,11 +330,6 @@
                 dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
 
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.RouteHeaderAttributesDeleteByRouteheaderId), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.Execute());
             }
         }
 

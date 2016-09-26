@@ -8,9 +8,9 @@ BEGIN
 		  ,n.[JobId]
 		  ,n.[Type]
 		  ,n.[Reason]
-		  ,j.JobRef1
-		  ,j.JobRef2
-		  ,j.JobRef3
+		  ,j.PHAccount
+		  ,j.PickListRef
+		  ,j.InvoiceNumber
 		  ,a.ContactName
 		  ,a.DepotId
 		--  ,jt.[Description]

@@ -216,13 +216,7 @@
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopAttributesDeletedByStopId))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("StopId", id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Execute());
+
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId))
                     .Returns(this.dapperProxy.Object);
@@ -241,11 +235,6 @@
                 dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
 
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.StopAttributesDeletedByStopId), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("StopId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.Execute());
 
                 dapperProxy.Verify(
                     x => x.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId), Times.Once);

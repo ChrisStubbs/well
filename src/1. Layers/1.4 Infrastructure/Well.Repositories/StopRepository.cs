@@ -132,7 +132,6 @@
         {
             var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
 
-            DeleteAttributesByStopId(id, isSoftDelete);
             AccountDeleteByStopId(id, isSoftDelete);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.StopDeleteById)
@@ -140,16 +139,6 @@
                 .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();
         }
-
-        private void DeleteAttributesByStopId(int stopId, bool isSoftDelete)
-        {
-
-            dapperProxy.WithStoredProcedure(StoredProcedures.StopAttributesDeletedByStopId)
-                .AddParameter("StopId", stopId, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
-                .Execute();
-        }
-
         private void AccountDeleteByStopId(int stopId, bool isSoftDelete)
         {
 

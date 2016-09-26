@@ -17,7 +17,7 @@
             {
                 var jobDetail = new JobDetail()
                 {
-                    BarCode = "12345",
+                    PhProductCode = "12345",
                     ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 1,
                     JobDetailDamages =
@@ -35,7 +35,7 @@
                 DateTime deliveryDate = DateTime.Now;
                 var audit = jobDetail.CreateAuditEntry(originalJobDetail, invoiceNumber, accountCode, deliveryDate);
 
-                string expectedEntry = $"Product: {jobDetail.BarCode} - {jobDetail.ProdDesc}. " +
+                string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
                                        $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
                                        $"Damages added {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
                 Assert.AreEqual(expectedEntry, audit.Entry);
@@ -50,7 +50,7 @@
             {
                 var jobDetail = new JobDetail()
                 {
-                    BarCode = "12345",
+                    PhProductCode = "12345",
                     ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 0
                 };
@@ -64,7 +64,7 @@
 
                 var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
-                string expectedEntry = $"Product: {jobDetail.BarCode} - {jobDetail.ProdDesc}. " +
+                string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
                                        $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
                                        $"Damages removed, old damages {originalJobDetail.JobDetailDamages[0].GetDamageString()}. ";
                     
@@ -76,7 +76,7 @@
             {
                 var jobDetail = new JobDetail()
                 {
-                    BarCode = "12345",
+                    PhProductCode = "12345",
                     ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 0,
                     JobDetailDamages =
@@ -97,7 +97,7 @@
 
                 var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
-                string expectedEntry = $"Product: {jobDetail.BarCode} - {jobDetail.ProdDesc}. " +
+                string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
                                        $"Damages changed from {originalJobDetail.JobDetailDamages[0].GetDamageString()} " +
                                        $"to {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
                                        

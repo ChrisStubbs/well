@@ -107,6 +107,7 @@
                                             <xs:element name="PerformanceStatusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="PerformanceStatusDescription" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="OrderDate" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="Originator" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="JobTypeCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="Reason_ReasonCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="JobDetails">
@@ -132,7 +133,7 @@
                                                         <xs:element name="SSCCBarcode" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="SubOuterDamageTotal" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="SkuGoodsValue" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
-                                                        <xs:element name="JobDetailDamages">
+                                                        <xs:element name="JobDetailDamages" minOccurs="0">
                                                           <xs:complexType>
                                                             <xs:sequence minOccurs="0" maxOccurs="unbounded">
                                                               <xs:element name="JobDetailDamage" minOccurs="0" maxOccurs="1">

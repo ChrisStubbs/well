@@ -107,6 +107,7 @@
             foreach (var job in stop.Jobs)
             {
                 job.StopId = newStopId;
+                job.JobTypeCode = job.JobTypeCode.Replace("&", "");
                 jobRepository.JobCreateOrUpdate(job);
 
                 AddJobJobDetail(job, job.Id);
@@ -286,7 +287,7 @@
                 {
                     Id = currentJobId,
                     Sequence = orderJob.Sequence,
-                    JobTypeCode = orderJob.JobTypeCode,
+                    JobTypeCode = orderJob.JobTypeCode.Replace("&",""),
                     PhAccount = orderJob.PhAccount,
                     PickListRef = orderJob.PickListRef,
                     InvoiceNumber = orderJob.InvoiceNumber,

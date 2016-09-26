@@ -94,7 +94,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 17
  testRunner.When("I view the widgets page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
- testRunner.Then("there are 3 exceptions, 1 assigned, 2 outstanding and 0 notifications", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("there are 3 exceptions, 1 assigned, 3 outstanding and 0 notifications", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

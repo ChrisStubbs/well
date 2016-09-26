@@ -77,6 +77,9 @@
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }
 
+        [XmlElement("NetPrice")]
+        public double NetPrice { get; set; }
+
         [XmlElement("SubOuterDamageTotal")]
         public int SubOuterDamageTotal { get; set; }
 
@@ -131,7 +134,7 @@
             string entry = string.Empty;
             if (auditBuilder.Length > 0)
             {
-                entry = $"Product: {BarCode} - {ProdDesc}. {auditBuilder}"; 
+                entry = $"Product: {PhProductCode} - {ProdDesc}. {auditBuilder}"; 
             }
 
             var audit = new Audit

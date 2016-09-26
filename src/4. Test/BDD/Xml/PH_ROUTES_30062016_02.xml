@@ -4,7 +4,7 @@
     <RouteHeader>
       <CompanyID>3</CompanyID>
       <RouteNumber>001</RouteNumber>
-      <RouteDate>01/07/2016</RouteDate>
+      <RouteDate>01-07-2016</RouteDate>
       <DriverName>HALL IAN</DriverName>
       <VehicleReg>DE12NNO</VehicleReg>
       <StartDepotCode>BIR</StartDepotCode>
@@ -24,7 +24,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>07:03</PlannedArriveTime>
           <PlannedDepartTime>08:03</PlannedDepartTime>
-          <TransportOrderRef>001 01 49214.152 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>001 01 49214.152 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Access at rear only</SpecialInstructions>
           <StartWindow>07:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -68,7 +68,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>946941</CustomerRef>
-              <OrderDate>31/05/2016</OrderDate>
+              <OrderDate>31-05-2016</OrderDate>
               <RoyaltyCode>1871</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -173,7 +173,7 @@
                 <JobDetail>
                   <LineNumber>1</LineNumber>
                   <PHProductCode>50035</PHProductCode>
-                  <OriginalDespatchQty>5</OriginalDespatchQty>
+                  <OriginalDespatchQty>20</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
@@ -187,6 +187,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
+                  <NetPrice>1.99</NetPrice>
                   <EntityAttributes>
                     <Attribute>
                       <Code>JD002</Code>
@@ -211,6 +212,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
+                  <NetPrice>7.99</NetPrice>
                   <EntityAttributes>
                     <Attribute>
                       <Code>JD002</Code>
@@ -228,7 +230,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>22428</CustomerRef>
-              <OrderDate>31/05/2016</OrderDate>
+              <OrderDate>31-05-2016</OrderDate>
               <RoyaltyCode>770</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -348,6 +350,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>22.41</SkuGoodsValue>
+                  <NetPrice>22.41</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -366,6 +369,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>22.41</SkuGoodsValue>
+                  <NetPrice>22.41</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -375,7 +379,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>08:32</PlannedArriveTime>
           <PlannedDepartTime>09:29</PlannedDepartTime>
-          <TransportOrderRef>001 02 02874.033 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>001 02 02874.033 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Please do not be late</SpecialInstructions>
           <StartWindow>08:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -413,7 +417,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>22428</CustomerRef>
-              <OrderDate>31/05/2016</OrderDate>
+              <OrderDate>31-05-2016</OrderDate>
               <RoyaltyCode>770</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -541,6 +545,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
+                  <NetPrice>7.99</NetPrice>
                   <EntityAttributes>
                     <Attribute>
                       <Code>JD002</Code>
@@ -565,6 +570,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>39.95</SkuGoodsValue>
+                  <NetPrice>7.99</NetPrice>
                   <EntityAttributes>
                     <Attribute>
                       <Code>JD002</Code>
@@ -582,7 +588,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>RETAIL</CustomerRef>
-              <OrderDate>31/05/2016</OrderDate>
+              <OrderDate>31-05-2016</OrderDate>
               <RoyaltyCode>770</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -702,6 +708,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>19.23</SkuGoodsValue>
+                  <NetPrice>19.23</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -720,6 +727,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
+                  <NetPrice>4.88</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -738,6 +746,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>3.60</SkuGoodsValue>
+                  <NetPrice>3.60</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
@@ -756,6 +765,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>5.60</SkuGoodsValue>
+                  <NetPrice>5.60</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
@@ -774,6 +784,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>8.40</SkuGoodsValue>
+                  <NetPrice>8.40</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -784,7 +795,7 @@
     <RouteHeader>
       <CompanyID>3</CompanyID>
       <RouteNumber>006</RouteNumber>
-      <RouteDate>01/07/2016</RouteDate>
+      <RouteDate>01-07-2016</RouteDate>
       <DriverName>RENTON MARK</DriverName>
       <VehicleReg>GN08ETD</VehicleReg>
       <StartDepotCode>BIR</StartDepotCode>
@@ -798,7 +809,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>06:04</PlannedArriveTime>
           <PlannedDepartTime>07:34</PlannedDepartTime>
-          <TransportOrderRef>006 01 43362.048 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>006 01 43362.048 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Use Albert Road entrance</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -837,7 +848,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>610578</CustomerRef>
-              <OrderDate>30/05/2016</OrderDate>
+              <OrderDate>30-05-2016</OrderDate>
               <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -957,6 +968,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>24.72</SkuGoodsValue>
+                  <NetPrice>24.72</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -975,6 +987,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>100.10</SkuGoodsValue>
+                  <NetPrice>100.10</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -993,6 +1006,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>120.20</SkuGoodsValue>
+                  <NetPrice>120.20</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
@@ -1011,6 +1025,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
+                  <NetPrice>84.00</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -1022,7 +1037,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>609769</CustomerRef>
-              <OrderDate>30/05/2016</OrderDate>
+              <OrderDate>30-05-2016</OrderDate>
               <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -1151,6 +1166,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>80.00</SkuGoodsValue>
+                  <NetPrice>16.00</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -1170,6 +1186,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>32.80</SkuGoodsValue>
+                  <NetPrice>1.64</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -1189,6 +1206,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
+                  <NetPrice>1.68</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
@@ -1208,6 +1226,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>125.35</SkuGoodsValue>
+                  <NetPrice>2.50</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
@@ -1227,6 +1246,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>395.40</SkuGoodsValue>
+                  <NetPrice>19.75</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -1236,7 +1256,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>07:38</PlannedArriveTime>
           <PlannedDepartTime>07:48</PlannedDepartTime>
-          <TransportOrderRef>006 02 54107.000 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>006 02 54107.000 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Enter via the lorry park</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>18:00</EndWindow>
@@ -1275,7 +1295,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>6526502</CustomerRef>
-              <OrderDate>29/05/2016</OrderDate>
+              <OrderDate>29-05-2016</OrderDate>
               <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -1395,6 +1415,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>7.32</SkuGoodsValue>
+                  <NetPrice>1.22</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -1413,6 +1434,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>6.20</SkuGoodsValue>
+                  <NetPrice>1.24</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -1424,7 +1446,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>6524936</CustomerRef>
-              <OrderDate>28/05/2016</OrderDate>
+              <OrderDate>28-05-2016</OrderDate>
               <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -1544,6 +1566,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>176.70</SkuGoodsValue>
+                  <NetPrice>88.35</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -1562,6 +1585,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
+                  <NetPrice>1.22</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -1580,6 +1604,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>462.60</SkuGoodsValue>
+                  <NetPrice>66.08</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -1590,7 +1615,7 @@
     <RouteHeader>
       <CompanyID>3</CompanyID>
       <RouteNumber>011</RouteNumber>
-      <RouteDate>01/07/2016</RouteDate>
+      <RouteDate>01-07-2016</RouteDate>
       <DriverName>DUGDALE STEVEN</DriverName>
       <VehicleReg>HV13UCS</VehicleReg>
       <StartDepotCode>BIR</StartDepotCode>
@@ -1604,7 +1629,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>06:09</PlannedArriveTime>
           <PlannedDepartTime>07:20</PlannedDepartTime>
-          <TransportOrderRef>011 01 28363.082 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>011 01 28363.082 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Help yourself to coffee</SpecialInstructions>
           <StartWindow>06:09</StartWindow>
           <EndWindow>07:20</EndWindow>
@@ -1643,7 +1668,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>610578</CustomerRef>
-              <OrderDate>30/05/2016</OrderDate>
+              <OrderDate>30-05-2016</OrderDate>
               <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -1764,6 +1789,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>24.72</SkuGoodsValue>
+                  <NetPrice>24.72</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -1783,6 +1809,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>100.10</SkuGoodsValue>
+                  <NetPrice>100.10</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -1802,6 +1829,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>120.20</SkuGoodsValue>
+                  <NetPrice>120.20</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
@@ -1821,6 +1849,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
+                  <NetPrice>84.00</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -1832,7 +1861,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>609769</CustomerRef>
-              <OrderDate>30/05/2016</OrderDate>
+              <OrderDate>30-05-2016</OrderDate>
               <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -1961,6 +1990,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>80.00</SkuGoodsValue>
+                  <NetPrice>16.00</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -1980,6 +2010,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>32.80</SkuGoodsValue>
+                  <NetPrice>1.64</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -1999,6 +2030,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>84.00</SkuGoodsValue>
+                  <NetPrice>1.68</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
@@ -2018,6 +2050,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>125.35</SkuGoodsValue>
+                  <NetPrice>2.50</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
@@ -2037,6 +2070,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>395.40</SkuGoodsValue>
+                  <NetPrice>19.77</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -2046,7 +2080,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>11:07</PlannedArriveTime>
           <PlannedDepartTime>11:18</PlannedDepartTime>
-          <TransportOrderRef>011 02 28363.411 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>011 02 28363.411 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Help yourself</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>18:00</EndWindow>
@@ -2085,7 +2119,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>6526502</CustomerRef>
-              <OrderDate>29/05/2016</OrderDate>
+              <OrderDate>29-05-2016</OrderDate>
               <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -2205,6 +2239,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>7.32</SkuGoodsValue>
+                  <NetPrice>1.22</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -2223,6 +2258,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>6.20</SkuGoodsValue>
+                  <NetPrice>1.24</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -2234,7 +2270,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>6524936</CustomerRef>
-              <OrderDate>28/05/2016</OrderDate>
+              <OrderDate>28-05-2016</OrderDate>
               <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -2354,6 +2390,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>176.70</SkuGoodsValue>
+                  <NetPrice>88.35</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -2372,6 +2409,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
+                  <NetPrice>1.22</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -2390,6 +2428,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>462.60</SkuGoodsValue>
+                  <NetPrice>66.08</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -2399,7 +2438,7 @@
           <PlannedStopNumber>03</PlannedStopNumber>
           <PlannedArriveTime>11:19</PlannedArriveTime>
           <PlannedDepartTime>11:43</PlannedDepartTime>
-          <TransportOrderRef>011 03 43362.030 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>011 03 43362.030 01-07-2016</TransportOrderRef>
           <SpecialInstructions>
           </SpecialInstructions>
           <StartWindow>06:00</StartWindow>
@@ -2441,7 +2480,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>6526502</CustomerRef>
-              <OrderDate>29/05/2016</OrderDate>
+              <OrderDate>29-05-2016</OrderDate>
               <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -2561,6 +2600,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>7.32</SkuGoodsValue>
+                  <NetPrice>1.22</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -2579,6 +2619,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>6.20</SkuGoodsValue>
+                  <NetPrice>1.24</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -2590,7 +2631,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>6524936</CustomerRef>
-              <OrderDate>28/05/2016</OrderDate>
+              <OrderDate>28-05-2016</OrderDate>
               <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -2710,6 +2751,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>176.70</SkuGoodsValue>
+                  <NetPrice>88.35</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -2728,6 +2770,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>4.88</SkuGoodsValue>
+                  <NetPrice>1.22</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -2746,6 +2789,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>462.60</SkuGoodsValue>
+                  <NetPrice>66.08</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -2755,7 +2799,7 @@
           <PlannedStopNumber>05</PlannedStopNumber>
           <PlannedArriveTime>13:15</PlannedArriveTime>
           <PlannedDepartTime>13:55</PlannedDepartTime>
-          <TransportOrderRef>011 05 28363.085 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>011 05 28363.085 01-07-2016</TransportOrderRef>
           <SpecialInstructions>Need to leave before 14:00</SpecialInstructions>
           <StartWindow>10:30</StartWindow>
           <EndWindow>14:00</EndWindow>
@@ -2794,7 +2838,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>518232247</CustomerRef>
-              <OrderDate>20/05/2016</OrderDate>
+              <OrderDate>20-05-2016</OrderDate>
               <RoyaltyCode>222 TESCO STORES LTD</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -2922,6 +2966,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>1325.70</SkuGoodsValue>
+                  <NetPrice>8.80</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -2940,6 +2985,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>132.60</SkuGoodsValue>
+                  <NetPrice>3.23</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -2951,7 +2997,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>PO-611585</CustomerRef>
-              <OrderDate>28/05/2016</OrderDate>
+              <OrderDate>28-05-2016</OrderDate>
               <RoyaltyCode>1478 (WELCOME BREAK-TESCO)</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -3071,6 +3117,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>420.00</SkuGoodsValue>
+                  <NetPrice>14.00</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -3089,6 +3136,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>128.00</SkuGoodsValue>
+                  <NetPrice>3.20</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
@@ -3107,6 +3155,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>562.60</SkuGoodsValue>
+                  <NetPrice>18.75</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>
@@ -3118,7 +3167,7 @@
               <InvoiceNumber>
               </InvoiceNumber>
               <CustomerRef>672819A</CustomerRef>
-              <OrderDate>31/05/2016</OrderDate>
+              <OrderDate>31-05-2016</OrderDate>
               <RoyaltyCode>1478 (WELCOME BREAK-TESCO)</RoyaltyCode>
               <RoyaltyCodeDesc>
               </RoyaltyCodeDesc>
@@ -3238,6 +3287,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>22.60</SkuGoodsValue>
+                  <NetPrice>11.30</NetPrice>
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
@@ -3256,6 +3306,7 @@
                   <SSCCBarcode>
                   </SSCCBarcode>
                   <SkuGoodsValue>32.60</SkuGoodsValue>
+                  <NetPrice>16.03</NetPrice>
                 </JobDetail>
               </JobDetails>
             </Job>

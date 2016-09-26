@@ -41,21 +41,21 @@ Scenario: A user can view Route information and sort on updated date
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 011   | DUGDALE STEVEN | 4         | 4          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 006   | RENTON MARK    | 2         | 2          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 001   | HALL IAN       | 2         | 2          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
+	| 011   | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| 006   | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| 001   | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'desc' order
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 001   | HALL IAN       | 2         | 2          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
-	| 006   | RENTON MARK    | 2         | 2          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 011   | DUGDALE STEVEN | 4         | 4          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| 001   | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
+	| 006   | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| 011   | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'asc' order
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 011   | DUGDALE STEVEN | 4         | 4          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 006   | RENTON MARK    | 2         | 2          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 001   | HALL IAN       | 2         | 2          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
+	| 011   | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| 006   | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| 001   | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
 
 #TODO Add more filter scenarios when the additional filters have been implemented
 

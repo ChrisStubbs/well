@@ -80,7 +80,7 @@
                 var routes = (RouteDeliveries) routeImportSerializer.Deserialize(reader);
 
                
-                if (epodType == EpodFileType.RouteHeader)
+                 if (epodType == EpodFileType.RouteHeader)
                 {
                     epodDomainImportService.AddRoutesFile(routes, routesId);
                 }

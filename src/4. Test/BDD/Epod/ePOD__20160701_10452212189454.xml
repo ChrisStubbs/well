@@ -33,7 +33,7 @@
       <RouteHeaderID>683</RouteHeaderID>
       <CompanyID>3</CompanyID>
       <RouteNumber>006</RouteNumber>
-      <RouteDate>01/07/2016</RouteDate>
+      <RouteDate>01-07-2016</RouteDate>
       <PlannedStops>2</PlannedStops>
       <ActualStopsCompleted>1</ActualStopsCompleted>
       <RouteStatusCode>INPRO</RouteStatusCode>
@@ -54,7 +54,7 @@
           <RouteHeaderID>683</RouteHeaderID>
           <ByPassReasonID />
           <PlannedStopNumber>01</PlannedStopNumber>
-          <TransportOrderRef>006 01 43362.048 01/07/2016</TransportOrderRef>
+          <TransportOrderRef>006 01 43362.048 01-07-2016</TransportOrderRef>
           <StopStatusCode>DEPAR</StopStatusCode>
           <StopStatusDescription>Departed</StopStatusDescription>
           <PerformanceStatusCode>COMPL</PerformanceStatusCode>
@@ -79,7 +79,7 @@
               <GrnRefusedDesc>Invalid</GrnRefusedDesc>
               <PerformanceStatusCode>COMPL</PerformanceStatusCode>
               <PerformanceStatusDescription>Complete</PerformanceStatusDescription>
-              <OrderDate>30/05/2016</OrderDate>
+              <OrderDate>30-05-2016</OrderDate>
               <JobTypeCode>DEL-TOB</JobTypeCode>
               <Reason_ReasonCode>F</Reason_ReasonCode>
               <JobDetails>

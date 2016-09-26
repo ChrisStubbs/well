@@ -34,7 +34,7 @@ namespace PH.Well.BDD.Features.ACL
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "WellClean", "\tTo prevent system performance from degrading over time \r\n\tAs a Well Application\r" +
                     "\n\tI will regularly purge clean and resolved deliveries from the Well", ProgrammingLanguage.CSharp, new string[] {
-                        "Ignore"});                       
+                        "Ignore"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -71,15 +71,15 @@ namespace PH.Well.BDD.Features.ACL
         public virtual void AllResolvedDeliveriesAreSOFTDeleted()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("All resolved deliveries are SOFT deleted", ((string[])(null)));
-#line 9
+#line 8
 this.ScenarioSetup(scenarioInfo);
-#line 10
+#line 9
  testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
+#line 10
  testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 12
+#line 11
  testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 12
  testRunner.Then("there should be 0 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -110,15 +110,14 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("All resolved deliveries are HARD deleted after 4 months", ((string[])(null)));
 #line 22
-#line 23
 this.ScenarioSetup(scenarioInfo);
-#line 24
+#line 23
  testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 25
+#line 24
  testRunner.And("I resolve all of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 26
- testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 25
+ testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
  testRunner.Then("there should be 0 lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -130,15 +129,14 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delivery exceptions over 3 months old are not HARD deleted", ((string[])(null)));
 #line 28
-#line 29
 this.ScenarioSetup(scenarioInfo);
-#line 30
+#line 29
  testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 31
+#line 30
  testRunner.And("I resolve one of the exceptions with a JobId of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 32
- testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 31
+ testRunner.When("I start the ACL Well Clean process for a date 4 months from today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 32
  testRunner.Then("there should be 1 lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -152,15 +150,14 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Resolved Deliveries created within with royalty exception time are not soft delet" +
                     "ed", ((string[])(null)));
 #line 34
-#line 35
 this.ScenarioSetup(scenarioInfo);
-#line 36
+#line 35
  testRunner.Given("I have a database with Adam/Epod data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 37
+#line 36
  testRunner.And("I have an exception royalty of 5 days for royalty 1871", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 38
- testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 37
+ testRunner.When("I start the ACL Well Clean process for a soft delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 38
  testRunner.Then("there should be 2 exception lines left for a Job with an Id of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

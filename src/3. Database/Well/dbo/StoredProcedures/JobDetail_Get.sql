@@ -28,6 +28,7 @@ AS
            ,jd.[SSCCBarcode]
 		   ,jd.[SubOuterDamageTotal]
            ,jd.[SkuGoodsValue]
+		   ,jd.[NetPrice]
            ,jd.[JobId]
            ,jd.[JobDetailStatusId]
            ,jd.[CreatedBy]

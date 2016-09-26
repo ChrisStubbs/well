@@ -83,6 +83,7 @@
                 .AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String)
                 .AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
+                .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
                 .AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String)

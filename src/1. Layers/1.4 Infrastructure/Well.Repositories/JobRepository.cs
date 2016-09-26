@@ -116,8 +116,8 @@
                 .AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean)
                 .AddParameter("ComdtyType", job.ComdtyType, DbType.String)
-                .AddParameter("PerformanceStatusId", jobPerformanceStatusId, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", jobByPassReasonId, DbType.Int16)
+                .AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
         }
 

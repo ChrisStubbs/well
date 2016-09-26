@@ -28,7 +28,7 @@
                 logger.LogDebug(epodStatusMessage);
             }
 
-            //webClient.DownloadString(configuration.DashboardRefreshEndpoint);
+            webClient.DownloadString(configuration.DashboardRefreshEndpoint);
         }
     }
 }

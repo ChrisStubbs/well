@@ -106,7 +106,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\ACL\Branch.feature.cs">
+    <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AdamRouteFileSchemaValidation.feature</DependentUpon>

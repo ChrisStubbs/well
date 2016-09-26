@@ -38,16 +38,12 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
-            DeleteAndReseed("JobAttribute");
-            DeleteAndReseed("JobDetailAttribute");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetail");
             DeleteAndReseed("UserJob");
             DeleteAndReseed("Job");
             DeleteAndReseed("Account");
-            DeleteAndReseed("StopAttribute");
             DeleteAndReseed("Stop");
-            DeleteAndReseed("RouteHeaderAttribute");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
             DeleteAndReseed("UserBranch");
@@ -160,7 +156,7 @@
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
                                      $"SET PerformanceStatusId = {(int)status}, " +
-                                     "    JobRef3 =  '9' + JobRef1  ");
+                                     "    InvoiceNumber =  '9' + PHAccount  ");
         }
 
         public void AssignInviceNumbers(JobDetailStatus jobDetailStatus)

@@ -40,7 +40,7 @@
         public string JobDateString
         {
             get { return this.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.OrderDate = DateTime.ParseExact(value,"dd/mm/yyyy",null); }
+            set { this.OrderDate = DateTime.ParseExact(value,"dd-mm-yyyy",null); }
         }
 
         [XmlElement("RoyaltyCode")]

@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[SSCCBarcode] VARCHAR(50) NULL,
 	[SubOuterDamageTotal] INT NULL,
 	[SkuGoodsValue] FLOAT NOT NULL,
+	[NetPrice] FLOAT NOT NULL,
 	[JobId] INT NOT NULL,
 	[JobDetailStatusId] INT NOT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,

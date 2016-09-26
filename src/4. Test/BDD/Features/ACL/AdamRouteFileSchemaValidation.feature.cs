@@ -121,7 +121,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 18
  testRunner.When("I import the route file \'PH_ROUTES_MissingCodeFromAccountNode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19
- testRunner.Then(@"The schema validation error should be ""file PH_ROUTES_MissingCodeFromAccountNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Account' has invalid child element 'AccountTypeCode'. List of possible elements expected: 'Code'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The schema validation error should be \"file PH_ROUTES_MissingCodeFromAccountNode." +
+                    "xml failed schema validation with the following: System.Xml.XsdValidatingReader:" +
+                    "\tThe element \'Account\' has incomplete content. List of possible elements expecte" +
+                    "d: \'Code\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

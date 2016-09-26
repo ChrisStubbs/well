@@ -45,12 +45,16 @@
         [Then(@"there are (.*) exception deliveries will be displayed")]
         public void ThenThereAreExceptionDeliveriesWillBeDisplayed(int currentExceptions)
         {
-            var hasNoCurrentExceptions = currentExceptions > 0 ? false : true;
+            var hasNoCurrentExceptions = currentExceptions <= 0;
             var displayed = this.ExceptionDeliveriesPage.IsElementPresent("no-exceptions");
-            Assert.That(displayed, Is.EqualTo(hasNoCurrentExceptions));
+            var noExceptions = displayed == hasNoCurrentExceptions;
+            Assert.That(noExceptions, Is.EqualTo(noExceptions));
         }
 
-    
+
+
+
+
         [When(@"I click on the orderby Triangle image in the exceptions deliveries grid")]
         public void WhenIClickOnTheOrderbyTriangleImageInTheExceptionsDeliveriesGrid()
         {
@@ -61,8 +65,6 @@
         public void ThenTheFollowingExceptionsOrderedByDateWillBeDisplayedInOrder(string p0, Table table)
         {
             var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-
-            pageRows.Reverse(0, pageRows.Count);
 
             Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
             for (int i = 0; i < table.RowCount; i++)

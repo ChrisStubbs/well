@@ -12,6 +12,7 @@
 	@SSCCBarcode			NVARCHAR(50)=NULL,
 	@SubOuterDamageTotal	INT=NULL,
 	@SkuGoodsValue			FLOAT,
+	@NetPrice			FLOAT,
 	@JobId					INT,
 	@JobDetailStatusId		INT,
 	@CreatedBy				VARCHAR(50),
@@ -38,6 +39,7 @@ INSERT INTO [dbo].[JobDetail]
            ,[SSCCBarcode]
 		   ,[SubOuterDamageTotal]
            ,[SkuGoodsValue]
+		   ,[NetPrice]
            ,[JobId]
            ,[JobDetailStatusId]
            ,[CreatedBy]
@@ -59,6 +61,7 @@ INSERT INTO [dbo].[JobDetail]
 		   ,@SSCCBarcode			
 		   ,@SubOuterDamageTotal	
            ,@SkuGoodsValue
+		   ,@NetPrice
            ,@JobId
            ,@JobDetailStatusId
            ,@CreatedBy

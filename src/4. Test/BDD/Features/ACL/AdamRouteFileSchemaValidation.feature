@@ -16,7 +16,7 @@ Scenario: Import ADAM route file with the PlannedStopNumber missing from the fir
 Scenario: Import ADAM route file with the Code missing from the Account node child of the first stop node
 	Given I have an invalid ADAM route file 'PH_ROUTES_MissingCodeFromAccountNode.xml' with a 'Account' node at position '0' with the 'Code' node missing
 	When I import the route file 'PH_ROUTES_MissingCodeFromAccountNode.xml' into the well
-	Then The schema validation error should be "file PH_ROUTES_MissingCodeFromAccountNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Account' has invalid child element 'AccountTypeCode'. List of possible elements expected: 'Code'."
+	Then The schema validation error should be "file PH_ROUTES_MissingCodeFromAccountNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Account' has incomplete content. List of possible elements expected: 'Code'."
 
 Scenario: Import ADAM route file with the JobRef1 missing from the Job node child of the first Jobs node
 	Given I have an invalid ADAM route file 'PH_ROUTES_MissingJobRef1FromJobNode.xml' with a 'Job' node at position '0' with the 'PHAccount' node missing

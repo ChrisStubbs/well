@@ -307,13 +307,8 @@ this.ScenarioSetup(scenarioInfo);
         [NUnit.Framework.DescriptionAttribute("A user can view Resolved Delivery Information and sort on updated date")]
         public virtual void AUserCanViewResolvedDeliveryInformationAndSortOnUpdatedDate()
         {
-<<<<<<< HEAD
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Resolved Delivery Information and sort on updated date", ((string[])(null)));
-#line 47
-=======
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Resolved Delivery information", ((string[])(null)));
 #line 52
->>>>>>> d1b5b3c20f857705cc066e6786485bb4ea3706a0
 this.ScenarioSetup(scenarioInfo);
 #line 53
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
@@ -321,56 +316,10 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 55
  testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-<<<<<<< HEAD
-#line 51
+#line 56
  testRunner.And("3 deliveries have been marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 52
+#line 57
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Route",
-                        "Drop",
-                        "InvoiceNo",
-                        "Account",
-                        "AccountName",
-                        "Status",
-                        "Action",
-                        "Assigned",
-                        "LastUpdatedDateTime"});
-            table6.AddRow(new string[] {
-                        "001",
-                        "01",
-                        "949214.152",
-                        "49214.152",
-                        "CSG - must be CF van",
-                        "Resolved",
-                        "",
-                        "Unallocated",
-                        "Sep 7, 2016, 1:27:17 PM"});
-            table6.AddRow(new string[] {
-                        "001",
-                        "01",
-                        "92874.033",
-                        "2874.033",
-                        "CSG - must be CF van",
-                        "Resolved",
-                        "",
-                        "Unallocated",
-                        "Sep 7, 2016, 1:29:17 PM"});
-            table6.AddRow(new string[] {
-                        "001",
-                        "02",
-                        "92874.033",
-                        "2874.033",
-                        "RVS SHOP",
-                        "Resolved",
-                        "",
-                        "Unallocated",
-                        "Sep 7, 2016, 1:31:17 PM"});
-#line 53
- testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table6, "Then ");
-#line 58
- testRunner.When("I click on the orderby Triangle image in the resolved deliveries grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -384,14 +333,14 @@ this.ScenarioSetup(scenarioInfo);
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
                         "001",
-                        "02",
-                        "92874.033",
-                        "2874.033",
-                        "RVS SHOP",
+                        "01",
+                        "949214.152",
+                        "49214.152",
+                        "CSG - must be CF van",
                         "Resolved",
                         "",
                         "Unallocated",
-                        "Sep 7, 2016, 1:31:17 PM"});
+                        "Sep 7, 2016, 1:27:17 PM"});
             table7.AddRow(new string[] {
                         "001",
                         "01",
@@ -404,6 +353,51 @@ this.ScenarioSetup(scenarioInfo);
                         "Sep 7, 2016, 1:29:17 PM"});
             table7.AddRow(new string[] {
                         "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP",
+                        "Resolved",
+                        "",
+                        "Unallocated",
+                        "Sep 7, 2016, 1:31:17 PM"});
+#line 58
+ testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table7, "Then ");
+#line 63
+ testRunner.When("I click on the orderby Triangle image in the resolved deliveries grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "Action",
+                        "Assigned",
+                        "LastUpdatedDateTime"});
+            table8.AddRow(new string[] {
+                        "001",
+                        "02",
+                        "92874.033",
+                        "2874.033",
+                        "RVS SHOP",
+                        "Resolved",
+                        "",
+                        "Unallocated",
+                        "Sep 7, 2016, 1:31:17 PM"});
+            table8.AddRow(new string[] {
+                        "001",
+                        "01",
+                        "92874.033",
+                        "2874.033",
+                        "CSG - must be CF van",
+                        "Resolved",
+                        "",
+                        "Unallocated",
+                        "Sep 7, 2016, 1:29:17 PM"});
+            table8.AddRow(new string[] {
+                        "001",
                         "01",
                         "949214.152",
                         "49214.152",
@@ -412,9 +406,9 @@ this.ScenarioSetup(scenarioInfo);
                         "",
                         "Unallocated",
                         "Sep 7, 2016, 1:27:17 PM"});
-#line 59
+#line 64
  testRunner.Then("The following resolved deliveries ordered by date will be displayed in \'desc\' ord" +
-                    "er", ((string)(null)), table7, "Then ");
+                    "er", ((string)(null)), table8, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -424,46 +418,29 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanPageThroughResolvedDeliveryInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Resolved Delivery information", ((string[])(null)));
-#line 65
-this.ScenarioSetup(scenarioInfo);
-#line 66
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 67
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 68
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 69
- testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 70
- testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 71
- testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 72
- testRunner.And("I will have 2 pages of resolved delivery data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 73
- testRunner.When("I click on resolved delivery page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 74
- testRunner.Then("\'7\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 75
- testRunner.When("I click on resolved delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 76
-=======
-#line 56
  testRunner.And("All the deliveries are marked as Resolved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 57
+#line 75
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 58
+#line 76
  testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 59
+#line 77
  testRunner.And("I will have 2 pages of resolved delivery data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 60
+#line 78
  testRunner.When("I click on resolved delivery page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 61
+#line 79
  testRunner.Then("\'7\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 62
+#line 80
  testRunner.When("I click on resolved delivery page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 63
->>>>>>> d1b5b3c20f857705cc066e6786485bb4ea3706a0
+#line 81
  testRunner.Then("\'10\' rows of resolved delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

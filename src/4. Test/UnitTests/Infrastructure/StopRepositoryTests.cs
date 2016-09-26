@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Globalization;
     using PH.Well.Common.Contracts;
     using Domain;
     using Factories;
@@ -82,6 +83,7 @@
                 stop.DropId = transportOrderDetails[1];
                 stop.LocationId = transportOrderDetails[2];
                 stop.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
+
 
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate))

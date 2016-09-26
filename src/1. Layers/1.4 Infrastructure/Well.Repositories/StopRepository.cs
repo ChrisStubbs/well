@@ -55,7 +55,7 @@
             stop.RouteHeaderCode = transportOrderDetails[0];
             stop.DropId = transportOrderDetails[1];
             stop.LocationId = transportOrderDetails[2];
-            stop.DeliveryDate = DateTime.ParseExact(transportOrderDetails[3], "dd/MM/yyyy", new DateTimeFormatInfo());
+            stop.DeliveryDate = DateTime.ParseExact(transportOrderDetails[3], "dd-MM-yyyy", new DateTimeFormatInfo());
 
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate)
                 .AddParameter("Id", stop.Id, DbType.Int32)

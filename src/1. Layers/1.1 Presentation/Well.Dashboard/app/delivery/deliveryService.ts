@@ -1,10 +1,12 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+import {Action} from './model/action';
 import {Delivery} from './model/delivery';
 import {DamageReason} from './model/damageReason';
 import {GlobalSettingsService} from '../shared/globalSettings';
-import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
 
 @Injectable()
@@ -25,6 +27,12 @@ export class DeliveryService {
     getDamageReasons(): Observable<DamageReason[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'damage-reasons/')
             .map((response: Response) => <DamageReason[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    getActions(): Observable<Action[]> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'exception-actions/')
+            .map((response: Response) => <Action[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

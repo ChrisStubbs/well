@@ -82,13 +82,14 @@
         InvoiceNo = 2,
         Account = 3,
         AccountName= 4,
-        Contact= 5,
-        InfoButton = 6,
-        Status = 7,
-        Reason = 8,
-        Assigned = 9,
-        Action = 10,
-        LastUpdatedDateTime = 11
+        Cod = 5,
+        Contact= 6,
+        InfoButton = 7,
+        Status = 8,
+        Reason = 9,
+        Assigned = 10,
+        Action = 11,
+        LastUpdatedDateTime = 12
     }
 
     public enum ExceptionDrilldownGrid

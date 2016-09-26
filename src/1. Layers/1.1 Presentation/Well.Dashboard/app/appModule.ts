@@ -27,6 +27,8 @@ import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
 import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
+import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
+import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -42,8 +44,11 @@ import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
-import {CreditThresholdComponent} from './credit_threshold/creditThresholdComponent';
 import {CreditThresholdViewComponent} from './credit_threshold/creditThresholdViewComponent';
+import {CreditThresholdRemoveModalComponent} from './credit_threshold/creditThresholdRemoveModalComponent';
+import {CreditThresholdAddModalComponent} from './credit_threshold/creditThresholdAddModalComponent';
+import {CreditThresholdEditModalComponent} from './credit_threshold/creditThresholdEditModalComponent';
+import {NotificationModalComponent} from './notifications/notificationModalComponent';
 import AppRoutes = require("./appRoutes");
 
 import {AccountService} from './account/accountService';
@@ -57,6 +62,7 @@ import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
+import {CreditThresholdService} from './credit_threshold/creditThresholdService';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -65,16 +71,17 @@ import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent, BranchCheckboxComponent, CreditThresholdComponent, CreditThresholdViewComponent,
+        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, OrderArrowComponent, UnauthorisedComponent
+        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
-        SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders,
+        SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

@@ -45,10 +45,16 @@
     <Compile Include="Branch.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Enums\CommodityType.cs" />
+    <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
     <Compile Include="Enums\JobDetailDamageSource.cs" />
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
+    <Compile Include="Enums\ThresholdLevel.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Notification.cs" />
     <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />
@@ -80,6 +86,7 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\DamageSource.cs" />
+    <Compile Include="ValueObjects\CreditFail.cs" />
     <Compile Include="SeasonalDate.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\DateTimeSpan.cs" />

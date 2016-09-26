@@ -41,6 +41,7 @@
                             <th>Invoice No</th>
                             <th>Account</th>
                             <th>Account Name</th>
+                            <th>COD</th>
                             <th>Contact</th>
                             <th>Status</th>
                             <th>Assigned</th>
@@ -55,6 +56,7 @@
                             <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.cashOnDelivery}}</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                             </td>

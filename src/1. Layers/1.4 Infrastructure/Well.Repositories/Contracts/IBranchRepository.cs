@@ -15,5 +15,9 @@
         void SaveBranchesForUser(IEnumerable<Branch> branches, User user);
 
         IEnumerable<Branch> GetBranchesForUser(string username);
+
+        IEnumerable<Branch> GetBranchesForSeasonalDate(int seasonalDateId);
+
+        IEnumerable<Branch> GetBranchesForCreditThreshold(int creditThresholdId);
     }
 }

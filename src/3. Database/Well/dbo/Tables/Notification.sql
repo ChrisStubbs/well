@@ -1,0 +1,15 @@
+﻿CREATE TABLE [dbo].[Notification]
+(
+	[Id] INT NOT NULL IDENTITY(1,1),
+	[JobId] INT NOT NULL,
+	[Type] TINYINT NOT NULL,
+	[Reason] VARCHAR(255) NULL,
+	[IsArchived] BIT NOT NULL DEFAULT 0,
+	[CreatedBy] VARCHAR(50) NOT NULL,
+	[CreatedDate] DATETIME NOT NULL,
+	[LastUpdatedBy] VARCHAR(50) NOT NULL,
+	[LastUpdatedDate] DATETIME NOT NULL,
+	[Version] [TIMESTAMP] NOT NULL,
+    CONSTRAINT [PK_Notification] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT [FK_Notification_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+)

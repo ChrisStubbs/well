@@ -4,7 +4,7 @@ export class SeasonalDate {
     id: number;
     branchName: string;
     description: string;
-    from: string;
-    to: string;
+    fromDate: string;
+    toDate: string;
     branches: Branch[]
 }

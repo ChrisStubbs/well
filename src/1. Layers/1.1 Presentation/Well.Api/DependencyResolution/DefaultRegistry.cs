@@ -47,15 +47,19 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobDetailRepository>().Use<JobDetailRepository>();
             For<IJobDetailDamageRepo>().Use<JobDetailDamageRepo>();
             For<IDeliveryService>().Use<DeliveryService>();
+            For<INotificationRepository>().Use<NotificationRepository>();
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
             For<IAuditRepository>().Use<AuditRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+            For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
+            For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
+            For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
         }
     }
 }

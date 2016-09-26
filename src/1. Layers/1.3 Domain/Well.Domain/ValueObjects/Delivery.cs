@@ -32,6 +32,8 @@
 
         public string IdentityName { get; set; }
 
+        public string CashOnDelivery { get; set; }
+
         public bool CanAction { get; private set; }
 
         public void SetCanAction(string username)

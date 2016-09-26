@@ -11,17 +11,39 @@ export class BranchCheckboxComponent implements OnInit{
     selectedBranches: Array<Branch> = [];
     selectAllCheckbox: boolean = false;    
     @Input() username: string;
+    @Input() seasonalDateId: number;
+    @Input() creditThresholdId: number;
 
     constructor(private branchService: BranchService) {}
 
     ngOnInit(): void {
-        this.branchService.getBranches(this.username)
-            .subscribe(branches => {
-                this.branches = branches;
-                this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+        if (this.creditThresholdId) {
+            this.branchService.getBranchesWithCreditThreshold(this.creditThresholdId)
+                .subscribe(branches => {
+                    this.branches = branches;
+                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
 
-                if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
-            });
+                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                });
+
+        } else if (this.seasonalDateId) {
+            this.branchService.getBranchesWithSeasonalDate(this.seasonalDateId)
+                .subscribe(branches => {
+                    this.branches = branches;
+                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+
+                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                });
+            
+        } else {
+            this.branchService.getBranches(this.username)
+                .subscribe(branches => {
+                    this.branches = branches;
+                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+
+                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                });
+        }
     }
 
     selectAll(selectAllCheckbox): void {

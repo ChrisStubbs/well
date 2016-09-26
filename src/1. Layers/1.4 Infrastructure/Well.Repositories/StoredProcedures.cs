@@ -76,6 +76,8 @@
         public static string DeleteUserBranches = "DeleteUserBranches";
         public static string SaveUserBranch = "UserBranchInsert";
         public static string GetBranchesForUser = "GetBranchesForUser";
+        public static string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
+        public static string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
         public static string UserGetByIdentity = "UserGetByIdentity";
@@ -89,9 +91,26 @@
         public static string EventGetUnprocessed = "EventGetUnprocessed";
 
         public static string MarkEventAsProcessed = "MarkEventAsProcessed";
+
+        //Notifications
+        public static string SaveNotification = "Notification_Save";
+        public static string GetNotifications = "Notifications_Get";
+        public static string ArchiveNotification = "Notification_Archive";
+
         public static string UserStatsGet = "UserStatsGet";
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
+        public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";
+        public static string SeasonalDatesSave = "SeasonalDatesSave";
+        public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
+
+        public static string CreditThresholdGetAll = "CreditThresholdGetAll";
+        public static string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
+        public static string CreditThresholdDelete = "CreditThresholdDelete";
+        public static string CreditThresholdSave = "CreditThresholdSave";
+        public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
+
+        public static string ThresholdLevelSave = "ThresholdLevelSave";
     }
 }

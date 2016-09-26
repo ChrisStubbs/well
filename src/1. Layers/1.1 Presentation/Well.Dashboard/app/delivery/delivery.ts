@@ -12,6 +12,7 @@ export class Delivery {
             this.phoneNumber = delivery.phoneNumber;
             this.mobileNumber = delivery.mobileNumber;
             this.deliveryType = delivery.deliveryType;
+            this.cashOnDelivery = delivery.cashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
 
@@ -31,6 +32,7 @@ export class Delivery {
     phoneNumber: string;
     mobileNumber: string;
     deliveryType: string;
+    cashOnDelivery: string;
     isException: boolean;
     canAction: boolean;
     deliveryLines: DeliveryLine[] = new Array<DeliveryLine>();

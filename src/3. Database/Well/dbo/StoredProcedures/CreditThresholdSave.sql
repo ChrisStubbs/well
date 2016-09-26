@@ -1,0 +1,28 @@
+﻿Create PROCEDURE [dbo].[CreditThresholdSave]
+	@ThresholdLevelId INT,
+	@Threshold INT,
+	@DateCreated DATETIME,
+	@DateUpdated DATETIME,
+	@CreatedBy VARCHAR(50),
+	@UpdatedBy VARCHAR(50)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+    INSERT INTO [dbo].[CreditThreshold]
+           ([ThresholdLevelId]
+		   ,[Threshold]
+		   ,[CreatedDate]
+           ,[LastUpdatedDate]
+           ,[CreatedBy]
+           ,[LastUpdatedBy])
+     VALUES
+           (@ThresholdLevelId
+		   ,@Threshold
+		   ,@DateCreated
+           ,@DateUpdated
+           ,@CreatedBy
+           ,@UpdatedBy);
+
+	SELECT CAST(SCOPE_IDENTITY() as int);
+END

@@ -189,6 +189,10 @@
     <Build Include="dbo\Tables\CommodityType.sql" />
     <Build Include="dbo\Tables\ProductType.sql" />
     <Build Include="dbo\Tables\DamageSource.sql" />
+    <Build Include="dbo\Tables\Notification.sql" />
+    <Build Include="dbo\StoredProcedures\Notification_Save.sql" />
+    <Build Include="dbo\StoredProcedures\Notifications_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Notification_Archive.sql" />
     <Build Include="dbo\StoredProcedures\UserStatsGet.sql" />
     <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
     <Build Include="dbo\StoredProcedures\Audit_Get.sql" />
@@ -198,6 +202,21 @@
     <Build Include="dbo\StoredProcedures\SeasonalDatesGetAll.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesDelete.sql" />
     <Build Include="dbo\Tables\SeasonalDateToBranch.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesSave.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesToBranchSave.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesBranchesGet.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForSeasonalDate.sql" />
+    <Build Include="dbo\Tables\ThresholdLevel.sql" />
+    <None Include="Post-Deployement\Populate-ThresholdLevels.sql" />
+    <Build Include="dbo\Tables\CreditThreshold.sql" />
+    <Build Include="dbo\Tables\CreditThresholdToBranch.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdGetAll.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdBranchesGet.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdDelete.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdSave.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdToBranchSave.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForCreditThreshold.sql" />
+    <Build Include="dbo\StoredProcedures\ThresholdLevelSave.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

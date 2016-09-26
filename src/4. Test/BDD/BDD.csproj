@@ -146,6 +146,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Features\Pages\NotificationsPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotificationsPage.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\ResolvedPage.feature.cs">
       <DependentUpon>ResolvedPage.feature</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -191,6 +196,7 @@
     <Compile Include="Pages\AuditPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
+    <Compile Include="Pages\NotificationPage.cs" />
     <Compile Include="Pages\WidgetsPage.cs" />
     <Compile Include="Pages\UserPreferencesPage.cs" />
     <Compile Include="Pages\BranchPage.cs" />
@@ -208,6 +214,7 @@
     <Compile Include="Steps\Page\AuditSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
+    <Compile Include="Steps\Page\NotificationPageSteps.cs" />
     <Compile Include="Steps\Page\WidgetSteps.cs" />
     <Compile Include="Steps\Page\UserPreferenceSteps.cs" />
     <Compile Include="Steps\Page\BranchSteps.cs" />
@@ -262,6 +269,10 @@
     <None Include="Features\Pages\ExceptionPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ExceptionPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\NotificationsPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NotificationsPage.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\ResolvedPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

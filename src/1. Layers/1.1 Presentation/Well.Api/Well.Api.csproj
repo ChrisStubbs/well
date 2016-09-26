@@ -200,6 +200,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\DeliveryLineActionController.cs" />
+    <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ExceptionActionController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />

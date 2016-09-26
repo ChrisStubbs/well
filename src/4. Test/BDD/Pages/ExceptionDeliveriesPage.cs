@@ -20,6 +20,8 @@
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
+            this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
+            this.NoExceptionsDiv = new Div { Locator = By.Id("no-exceptions") };
 
             AccountModal = new AccountModalComponent();
         }
@@ -36,9 +38,13 @@
 
         public Button EnabledButton { get; set; }
 
+        public Image OrderByButton { get; set; }
         public Heading DeliveryUpdateDrillDown { get; set; }
 
         public AccountModalComponent AccountModal { get; set; }
+
+
+        public Div NoExceptionsDiv { get; set; }
 
 
         public IWebElement GetFirstCell()
@@ -72,6 +78,19 @@
             var elements = wait.Until(d => d.FindElements(By.ClassName(className)));
 
             return elements.Count();
+        }
+
+        public bool IsElementPresent(string elementName)
+        {
+            try
+            {
+                this.Driver.FindElement(By.Id(elementName));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 

@@ -6,7 +6,7 @@ BEGIN
 	SELECT jd.[Id]
 		,jd.JobId
 		,jd.[LineNumber] AS [LineNo]
-	    ,jd.[Barcode] AS ProductCode
+	    ,jd.[PHProductCode] AS ProductCode
 		,jd.[ProdDesc] AS ProductDescription
 		,jd.[SkuGoodsValue] AS [Value]
 		,jd.[OriginalDespatchQty] AS InvoicedQuantity

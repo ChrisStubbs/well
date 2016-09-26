@@ -1,21 +1,35 @@
 ﻿CREATE PROCEDURE [dbo].[Job_GetByRefDetails]
-	@Ref1 NVARCHAR(40),
-	@Ref2 NVARCHAR(40),
+	@PHAccount NVARCHAR(40),
+	@PickListRef NVARCHAR(40),
 	@StopId INT
 AS
 	SELECT TOP 1000 [Id]
       ,[Sequence]
       ,[JobTypeCode]
-      ,[JobRef1]
-      ,[JobRef2]
-      ,[JobRef3]
-      ,[JobRef4]
+      ,[PHAccount]
+      ,[PickListRef]
+      ,[InvoiceNumber]
+      ,[CustomerRef]
       ,[OrderDate]
-      ,[Originator]
-      ,[TextField1]
-      ,[TextField2]
+	  ,[RoyaltyCode]
+	  ,[RoyaltyCodeDesc] 
+	  ,[OrdOuters] 
+	  ,[InvOuters] 
+	  ,[ColOuters] 
+	  ,[ColBoxes] 
+	  ,[ReCallPrd] 
+	  ,[AllowSgCrd] 
+	  ,[AllowSOCrd] 
+	  ,[COD] 
+	  ,[GrnNumber] 
+	  ,[GrnRefusedReason] 
+	  ,[GrnRefusedDesc] 
+	  ,[AllowReOrd] 
+	  ,[SandwchOrd] 
+	  ,[ComdtyType] 
 	  ,[PerformanceStatusId] as PerformanceStatus
 	  ,[ByPassReasonId] as ByPassReason
+	  ,[IsDeleted]
       ,[StopId]
       ,[CreatedBy]
       ,[DateCreated]
@@ -23,7 +37,7 @@ AS
       ,[DateUpdated]
       ,[Version]
   FROM [dbo].[Job]
-  WHERE [JobRef1] = @Ref1
-  AND [JobRef2] = @Ref2
+  WHERE [PHAccount] = @PHAccount
+  AND [PickListRef] = @PickListRef
   AND [StopId] = @StopId
 RETURN 0

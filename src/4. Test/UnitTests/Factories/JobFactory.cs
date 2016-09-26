@@ -4,7 +4,6 @@
     using System.Collections.ObjectModel;
     using Well.Domain;
     using Well.Domain.Enums;
-    using Attribute = Well.Domain.Attribute;
 
     public class JobFactory : EntityFactory<JobFactory, Job>
     {
@@ -13,28 +12,30 @@
             this.Entity.Id = 1;
             this.Entity.Sequence = 1;
             this.Entity.JobTypeCode = "001";
-            this.Entity.JobRef1 = "J001";
-            this.Entity.JobRef1 = "J002";
-            this.Entity.JobRef1 = "J0032";
-            this.Entity.JobRef1 = "J004";
+            this.Entity.PhAccount = "J001";
+            this.Entity.PickListRef = "J002";
+            this.Entity.InvoiceNumber = "J0032";
+            this.Entity.CustomerRef = "J004";
             this.Entity.OrderDate = DateTime.Now;
-            this.Entity.Originator = "OR1";
-            this.Entity.TextField1 = "Text1";
-            this.Entity.TextField2 = "Text2";
+            this.Entity.RoyaltyCode = "Royal1";
+            this.Entity.RoyaltyCodeDesc = "RoyalDesc";
+            this.Entity.OrdOuters = 1;
+            this.Entity.InvOuters = 1;
+            this.Entity.ColOuters = 1;
+            this.Entity.ColBoxes = 1;
+            this.Entity.ReCallPrd = false;
+            this.Entity.AllowSoCrd = false;
+            this.Entity.AllowSoCrd = false;
+            this.Entity.Cod = false;
+            this.Entity.AllowReOrd = false;
+            this.Entity.SandwchOrd = false;
+            this.Entity.GrnNumber = null;
+            this.Entity.GrnRefusedReason = null;
+            this.Entity.GrnRefusedDesc = null;
+            this.Entity.ComdtyType = "1";
             this.Entity.PerformanceStatus = PerformanceStatus.Narri;
             this.Entity.ByPassReason = ByPassReasons.Notdef;
             this.Entity.StopId = 1;
-            this.Entity.EntityAttributes = new Collection<Attribute>
-            {
-                new Attribute
-                {
-                    Id = 1,
-                    AttributeId =  1,
-                    Code = "001",
-                    Value1 = "Value1"
-                }
-            };
-
         }
     }
 }

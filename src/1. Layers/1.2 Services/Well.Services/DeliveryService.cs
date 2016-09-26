@@ -48,7 +48,7 @@
             Job job = jobRepo.GetById(jobDetail.JobId);
             JobDetail originalJobDetail = jobDetailRepo.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
             Stop stop = stopRepo.GetByJobId(jobDetailUpdates.JobId);
-            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.JobRef3, job.JobRef1, stop.DeliveryDate);
+            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount, stop.DeliveryDate);
 
             using (var transactionScope = new TransactionScope())
             {

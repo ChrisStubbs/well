@@ -53,6 +53,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IAuditRepository>().Use<AuditRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+            For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

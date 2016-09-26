@@ -7,13 +7,16 @@
     using Pages;
 
     using PH.Well.BDD.Framework.Context;
-
+    using Repositories.Contracts;
+    using StructureMap;
     using TechTalk.SpecFlow;
 
     [Binding]
     public class ExceptionPageSteps
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
+        private IJobRepository jobRepository;
+        private readonly IContainer container;
 
         [Given(@"I open the exception deliveries")]
         [When(@"I open the exception deliveries")]
@@ -37,7 +40,46 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
             }
         }
-        
+
+
+        [Then(@"there are (.*) exception deliveries will be displayed")]
+        public void ThenThereAreExceptionDeliveriesWillBeDisplayed(int currentExceptions)
+        {
+            var hasNoCurrentExceptions = currentExceptions <= 0;
+            var displayed = this.ExceptionDeliveriesPage.IsElementPresent("no-exceptions");
+            var noExceptions = displayed == hasNoCurrentExceptions;
+            Assert.That(noExceptions, Is.EqualTo(noExceptions));
+        }
+
+
+
+
+
+        [When(@"I click on the orderby Triangle image in the exceptions deliveries grid")]
+        public void WhenIClickOnTheOrderbyTriangleImageInTheExceptionsDeliveriesGrid()
+        {
+            this.ExceptionDeliveriesPage.OrderByButton.Click();
+        }
+
+        [Then(@"The following exceptions ordered by date will be displayed in '(.*)' order")]
+        public void ThenTheFollowingExceptionsOrderedByDateWillBeDisplayedInOrder(string p0, Table table)
+        {
+            var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
+            }
+        }
+
+
+
         [When(@"I filter the exception delivery grid with the option '(.*)' and value '(.*)'")]
         public void WhenIFilterTheExceptionDeliveryGridWithTheOptionAndValue(string option, string value)
         {

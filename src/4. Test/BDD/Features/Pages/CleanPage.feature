@@ -52,6 +52,24 @@ Scenario: A user can filter Clean Delivery information
 	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   |  
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | 
 
+Scenario: A user can view Clean Delivery Information and sort on updated date
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And I have selected branch 22
+	And  3 deliveries have been marked as clean
+	When I open the clean deliveries 
+	Then the following clean deliveries will be displayed
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | LastUpdatedDateTime     |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Sep 7, 2016, 1:27:17 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Sep 7, 2016, 1:27:16 PM |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Sep 7, 2016, 1:27:15 PM |
+	When I click on the orderby Triangle image in the clean deliveries grid
+	Then The following clean deliveries ordered by date will be displayed in 'desc' order
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | LastUpdatedDateTime     |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Sep 7, 2016, 1:27:15 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Sep 7, 2016, 1:27:16 PM |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Sep 7, 2016, 1:27:17 PM |
+
 Scenario: A user can page through Clean Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data

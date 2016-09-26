@@ -14,15 +14,14 @@
     {
         public JobDetail()
         {
-           this.EntityAttributes = new Collection<Attribute>();
            this.JobDetailDamages = new Collection<JobDetailDamage>();
         }
 
         [XmlElement("LineNumber")]
         public int LineNumber { get; set; }
 
-        [XmlElement("Barcode")]
-        public string BarCode { get; set; }
+        [XmlElement("PHProductCode")]
+        public string PhProductCode { get; set; }
         
         [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
@@ -59,32 +58,30 @@
         }
 
 
-        [XmlElement("SkuWeight")]
-        public decimal SkuWeight { get; set; }
-
-        [XmlElement("SkuCube")]
-        public decimal SkuCube { get; set; }
 
         [XmlElement("UnitMeasure")]
         public string UnitMeasure { get; set; }
 
-        [XmlElement("TextField1")]
-        public string TextField1 { get; set; }
+        [XmlElement("PHProductType")]
+        public string PhProductType { get; set; }
 
-        [XmlElement("TextField2")]
-        public string TextField2 { get; set; }
+        [XmlElement("PackSize")]
+        public string PackSize { get; set; }
 
-        [XmlElement("TextField3")]
-        public string TextField3 { get; set; }
+        [XmlElement("SingleOrOuter")]
+        public string SingleOrOuter { get; set; }
 
-        [XmlElement("TextField4")]
-        public string TextField4 { get; set; }
-
-        [XmlElement("TextField5")]
-        public string TextField5 { get; set; }
+        [XmlElement("SSCCBarcode")]
+        public string SsccBarcode { get; set; }
 
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }
+
+        [XmlElement("NetPrice")]
+        public double NetPrice { get; set; }
+
+        [XmlElement("SubOuterDamageTotal")]
+        public int SubOuterDamageTotal { get; set; }
 
         [XmlIgnore]
         public int JobId { get; set; }
@@ -95,10 +92,6 @@
         [XmlArray("JobDetailDamages")]
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
         public Collection<JobDetailDamage>  JobDetailDamages { get; set; }
-
-        [XmlArray("EntityAttributes")]
-        [XmlArrayItem("Attribute", typeof(Attribute))]
-        public Collection<Attribute> EntityAttributes { get; set; }
 
         public bool IsClean()
         {
@@ -141,7 +134,7 @@
             string entry = string.Empty;
             if (auditBuilder.Length > 0)
             {
-                entry = $"Product: {BarCode} - {ProdDesc}. {auditBuilder}"; 
+                entry = $"Product: {PhProductCode} - {ProdDesc}. {auditBuilder}"; 
             }
 
             var audit = new Audit

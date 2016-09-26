@@ -80,16 +80,7 @@
 
 
                 var newRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(routeHeader);
-
-                if (this.EpodType == EpodFileType.RouteHeader)
-                {
-                    foreach (var attribute in routeHeader.EntityAttributes)
-                    {
-                        attribute.AttributeId = newRouteHeader.Id;
-                        this.routeHeaderRepository.AddRouteHeaderAttributes(attribute);
-                    }
-                }
-               
+          
                 AddRouteHeaderStops(routeHeader, newRouteHeader.Id);
             }
 
@@ -105,15 +96,6 @@
 
                 stop.Accounts.StopId = newStop.Id;
                 stopRepository.StopAccountCreateOrUpdate(stop.Accounts);
-
-                if (this.EpodType == EpodFileType.RouteHeader)
-                {
-                    foreach (var stopAttribute in stop.EntityAttributes)
-                    {
-                        stopAttribute.AttributeId = newStop.Id;
-                        this.stopRepository.AddStopAttributes(stopAttribute);
-                    }
-                }
                 
                 AddStopJobs(stop, newStop.Id);
             }
@@ -125,16 +107,8 @@
             foreach (var job in stop.Jobs)
             {
                 job.StopId = newStopId;
+                job.JobTypeCode = job.JobTypeCode.Replace("&", "");
                 jobRepository.JobCreateOrUpdate(job);
-
-                if (this.EpodType == EpodFileType.RouteHeader)
-                {
-                    foreach (var jobAttribute in job.EntityAttributes)
-                    {
-                        jobAttribute.AttributeId = job.Id;
-                        jobRepository.AddJobAttributes(jobAttribute);
-                    }
-                }
 
                 AddJobJobDetail(job, job.Id);
             }
@@ -153,16 +127,6 @@
                 jobDetail.JobDetailStatusId = (int) JobDetailStatus.UnRes;
                 
                 jobDetailRepository.Save(jobDetail);
-
-
-                if (this.EpodType == EpodFileType.RouteHeader)
-                {
-                    foreach (var jobDetailAttribute in jobDetail.EntityAttributes)
-                    {
-                        jobDetailAttribute.AttributeId = jobDetail.Id;
-                        jobDetailRepository.AddJobDetailAttributes(jobDetailAttribute);
-                    }
-                }
 
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
@@ -192,8 +156,9 @@
                     currentRouteHeader.NotRequired = currentRouteHeader.NotRequired + ePodRouteHeader.NotRequired;
                     currentRouteHeader.EpodDepot = string.IsNullOrWhiteSpace(ePodRouteHeader.Depot) ? (int)Branches.Ndf : (int)(Branches)Enum.Parse(typeof(Branches), ePodRouteHeader.Depot, true);
                     currentRouteHeader.StartDepot = int.Parse(currentRouteHeader.StartDepotCode);
+                    currentRouteHeader.ActualStopsCompleted = ePodRouteHeader.ActualStopsCompleted;
 
-                    currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
+                   currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
 
 
                     AddEpodRouteHeaderStops(ePodRouteHeader);
@@ -233,6 +198,7 @@
                 AddStopByOrder(orderUpdate, orderTransportRefDetails, exsitingOrderStopDetails.Id, false);
             }
 
+
         }
 
         private void AddStopByOrder(Order order, IReadOnlyList<string> transportOrderRef, int currentStopId, bool insertOnly)
@@ -250,21 +216,14 @@
             {
                 Id = currentStopId,
                 PlannedStopNumber = order?.PlannedStopNumber,
-                PlannedArriveTime = order?.PlannedArriveTime,
-                PlannedDepartTime = order?.PlannedDepartTime,
                 RouteHeaderCode = transportOrderRef[0],
                 RouteHeaderId = currentRoute.Id,
                 TransportOrderRef = order?.TransportOrderRef,
                 DropId = transportOrderRef[1],
                 LocationId = transportOrderRef[2],
                 DeliveryDate = DateTime.Parse(transportOrderRef[3]),
-                SpecialInstructions = order?.SpecialInstructions,
-                StartWindow = order?.StartWindow,
-                EndWindow = order?.EndWindow,
-                TextField1 = order?.TextField1,
-                TextField2 = order?.TextField2,
-                TextField3 = order?.TextField3,
-                TextField4 = order?.TextField4,
+                ShellActionIndicator = order?.ShellActionIndicator,
+                CustomerShopReference = order?.CustomerShopReference,
                 StopStatusCodeId = (int)StopStatus.Notdef,
                 StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,
                 ByPassReasonId = (int)ByPassReasons.Notdef
@@ -308,11 +267,6 @@
                 ContactNumber = stopAccount.ContactNumber,
                 ContactNumber2 = stopAccount.ContactNumber2,
                 ContactEmailAddress = stopAccount.ContactEmailAddress,
-                StartWindow = stopAccount.StartWindow,
-                EndWindow = stopAccount.EndWindow,
-                Latitude = stopAccount.Latitude,
-                Longitude = stopAccount.Longitude,
-                IsDropAndDrive = stopAccount.IsDropAndDrive,
                 StopId = stopId
             };
 
@@ -325,7 +279,7 @@
             {
                 if (!insertOnly)
                 {
-                    var currentJob = this.jobRepository.JobGetByRefDetails(orderJob.JobRef1, orderJob.JobRef2, stopId);
+                    var currentJob = this.jobRepository.JobGetByRefDetails(orderJob.PhAccount, orderJob.PickListRef, stopId);
                     currentJobId = currentJob.Id;
                 }
 
@@ -333,15 +287,12 @@
                 {
                     Id = currentJobId,
                     Sequence = orderJob.Sequence,
-                    JobTypeCode = orderJob.JobTypeCode,
-                    JobRef1 = orderJob.JobRef1,
-                    JobRef2 = orderJob.JobRef2,
-                    JobRef3 = orderJob.JobRef3,
-                    JobRef4 = orderJob.JobRef4,
+                    JobTypeCode = orderJob.JobTypeCode.Replace("&",""),
+                    PhAccount = orderJob.PhAccount,
+                    PickListRef = orderJob.PickListRef,
+                    InvoiceNumber = orderJob.InvoiceNumber,
+                    CustomerRef = orderJob.CustomerRef,
                     OrderDate = orderDate,
-                    Originator = string.Empty,
-                    TextField1 = string.Empty,
-                    TextField2 = string.Empty,
                     PerformanceStatus = PerformanceStatus.Notdef,
                     ByPassReason = ByPassReasons.Notdef,
                     StopId = stopId
@@ -371,17 +322,14 @@
                 {
                     Id = currentJobDetailId,
                     LineNumber = orderJobDetail.LineNumber,
-                    BarCode = orderJobDetail.BarCode,
+                    PhProductCode = orderJobDetail.PhProductCode,
                     ProdDesc = orderJobDetail.ProdDesc,
                     OrderedQty = orderJobDetail.OrderedQty,
-                    SkuWeight = orderJobDetail.SkuWeight,
-                    SkuCube = orderJobDetail.SkuCube,
                     UnitMeasure = orderJobDetail.UnitMeasure,
-                    TextField1 = orderJobDetail.TextField1,
-                    TextField2 = orderJobDetail.TextField2,
-                    TextField3 = orderJobDetail.TextField3,
-                    TextField4 = orderJobDetail.TextField4,
-                    TextField5 = orderJobDetail.TextField5,
+                    PhProductType = orderJobDetail.PhProductType,
+                    PackSize = orderJobDetail.PackSize,
+                    SingleOrOuter = orderJobDetail.SingleOrOuter,
+                    SsccBarcode = orderJobDetail.SsccBarcode,
                     SkuGoodsValue = orderJobDetail.SkuGoodsValue,
                     JobId = jobId
                 };
@@ -445,7 +393,7 @@
                 {
                     var jobDetailsForJob = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
 
-                    var jobRoyaltyCode = GetCustomerRoyaltyCode(job.TextField1);
+                    var jobRoyaltyCode = GetCustomerRoyaltyCode(job.RoyaltyCode);
                     var noOutstandingJobRoyalty = DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
                     JobDetailDeleteType = DeleteType(job.DateCreated);
 
@@ -607,19 +555,20 @@
 
             foreach (var ePodjob in stop.Jobs)
             {
-                var currentJob = this.jobRepository.GetByAccountPicklistAndStopId(ePodjob.JobRef1, ePodjob.JobRef2, currentStopId);
+                var currentJob = this.jobRepository.GetByAccountPicklistAndStopId(ePodjob.PhAccount, ePodjob.PickListRef, currentStopId);
 
                 if (currentJob != null)
                 {
                     currentJob.ByPassReason = ePodjob.ByPassReason;
                     currentJob.PerformanceStatus = ePodjob.PerformanceStatus;
+                    currentJob.InvoiceNumber = ePodjob.InvoiceNumber;
                     jobRepository.JobCreateOrUpdate(currentJob);
                     AddEpodJobJobDetail(ePodjob, currentJob.Id);
                 }
                 else
                 {
-                    logger.LogError($"No data found for Epod job account: {ePodjob.JobRef1} on date: {stop.DeliveryDate}");
-                    throw new Exception($"No data found for Epod job account: {ePodjob.JobRef1} on date: {stop.DeliveryDate}");
+                    logger.LogError($"No data found for Epod job account: {ePodjob.PhAccount} on date: {stop.DeliveryDate}");
+                    throw new Exception($"No data found for Epod job account: {ePodjob.PhAccount} on date: {stop.DeliveryDate}");
                 }
             }
         }
@@ -654,14 +603,24 @@
                         ? (int) JobDetailStatus.Res
                         : (int) JobDetailStatus.UnRes;
 
+                    currentJobDetail.JobDetailStatusId = !JobHasAnInvoiceNumber(currentJobId)
+                        ? (int) JobDetailStatus.AwtInvNum
+                        : currentJobDetail.JobDetailStatusId;
+
                     this.jobDetailRepository.Update(currentJobDetail);
                 }
                 else
                 {
-                    logger.LogError($"No job detail data found for Epod job account: {job.JobRef1} barcode: {ePodJobDetail.BarCode}");
-                    throw new Exception($"No job detail data found for Epod job account: {job.JobRef1} barcode: {ePodJobDetail.BarCode}");
+                    logger.LogError($"No job detail data found for Epod job account: {job.PhAccount} barcode: {ePodJobDetail.PhProductCode}");
+                    throw new Exception($"No job detail data found for Epod job account: {job.PhAccount} barcode: {ePodJobDetail.PhProductCode}");
                 }
             }
+        }
+
+
+        private bool JobHasAnInvoiceNumber(int currentJobId)
+        {
+            return !string.IsNullOrWhiteSpace(jobRepository.GetById(currentJobId).InvoiceNumber);
         }
 
         public bool IsFileXmlType(string fileName)

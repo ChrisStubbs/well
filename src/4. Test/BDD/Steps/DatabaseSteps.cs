@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps
 {
+    using System.Linq;
     using System;
     using System.Collections.Generic;
     using Domain.Enums;
@@ -37,16 +38,12 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
-            DeleteAndReseed("JobAttribute");
-            DeleteAndReseed("JobDetailAttribute");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetail");
             DeleteAndReseed("UserJob");
             DeleteAndReseed("Job");
             DeleteAndReseed("Account");
-            DeleteAndReseed("StopAttribute");
             DeleteAndReseed("Stop");
-            DeleteAndReseed("RouteHeaderAttribute");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
             DeleteAndReseed("UserBranch");
@@ -148,13 +145,25 @@
             auditRepo.Save(audit2);
         }
 
+        [When(@"valid invoice numbers are assigned to jobs")]
+        public void WhenValidInvoiceNumbersAreAssignedToJobs()
+        {
+            AssignInviceNumbers(JobDetailStatus.Res);
+        }
+
+
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
                                      $"SET PerformanceStatusId = {(int)status}, " +
-                                     "    JobRef3 =  '9' + JobRef1  ");
+                                     "    InvoiceNumber =  '9' + PHAccount  ");
         }
 
+        public void AssignInviceNumbers(JobDetailStatus jobDetailStatus)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail " +
+                                     $"SET JobDetailStatusId = {(int)jobDetailStatus}");
+        }
 
         [Given(@"I have selected branch (.*)")]
         public void GivenIHaveSelectedBranch(int branch)

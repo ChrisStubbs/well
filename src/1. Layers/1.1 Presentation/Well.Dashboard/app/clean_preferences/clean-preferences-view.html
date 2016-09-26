@@ -1,0 +1,21 @@
+﻿<div class="table-responsive table-container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Days</th>
+                <th>Branches</th>
+                <th style="text-align: right;"><button type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="cleanPreference && cleanPreferences.length === 0">
+                <td colspan="5">No Clean Preferences!</td>
+            </tr>
+            <tr class="grid-row" *ngFor="let x of cleanPreferences">
+                <td (click)="selectCleanPreference(x)">{{x.days}}</td>
+                <td (click)="selectCleanPreference(x)">{{x.branchName}}</td>
+                <td style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

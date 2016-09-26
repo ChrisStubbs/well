@@ -92,7 +92,7 @@
                     var validationErrors = new List<string>();
                     var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
 
-                    if (!isFileValidBySchema)
+                    if (!isFileValidBySchema && validationErrors.Count > 0)
                     {
                         var validationError =
                             $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";

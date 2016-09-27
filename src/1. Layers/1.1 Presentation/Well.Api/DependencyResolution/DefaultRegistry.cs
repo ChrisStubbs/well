@@ -61,6 +61,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
             For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
             For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
+            For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
         }
     }
 }

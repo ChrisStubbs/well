@@ -24,6 +24,7 @@
         private readonly IWebClient webClient;
         private readonly ILogger logger;
         private IAuditRepository auditRepo;
+        private INotificationRepository notificationRepository;
 
         public DatabaseSteps()
         {
@@ -32,6 +33,7 @@
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
             auditRepo = container.GetInstance<IAuditRepository>();
+            notificationRepository = container.GetInstance<INotificationRepository>();
         }
 
         [Given("I have a clean database")]
@@ -180,6 +182,26 @@
             this.logger.LogDebug($"User created {user.Name}");
             this.logger.LogDebug($"Branch created {branch}");
             this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{user.Name}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+        }
+
+
+        [Given(@"10 notifications have been made")]
+        public void InsertNotifications()
+        {
+            notificationRepository.CurrentUser = "BDD.User";
+            for (int i = 0; i < 10; i++)
+            {
+                var notification = new Notification
+                {
+                    JobId = 1,
+                    Reason = "Credit failed ADAM validation",
+                    Type = (int)NotificationType.Credit,
+                    Source = "BDD"
+                };
+
+                notificationRepository.SaveNotification(notification);
+
+            }
         }
     }
 }

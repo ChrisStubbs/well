@@ -17,18 +17,21 @@
         private readonly IJobRepository jobRepo;
         private readonly IAuditRepository auditRepo;
         private readonly IStopRepository stopRepo;
+        private readonly IJobDetailActionRepo jobDetailActionRepo;
 
         public DeliveryService(IJobDetailRepository jobDetailRepo,
             IJobDetailDamageRepo jobDetailDamageRepo,
             IJobRepository jobRepo,
             IAuditRepository auditRepo,
-            IStopRepository stopRepo)
+            IStopRepository stopRepo,
+            IJobDetailActionRepo jobDetailActionRepo)
         {
             this.jobDetailRepo = jobDetailRepo;
             this.jobDetailDamageRepo = jobDetailDamageRepo;
             this.jobRepo = jobRepo;
             this.auditRepo = auditRepo;
             this.stopRepo = stopRepo;
+            this.jobDetailActionRepo = jobDetailActionRepo;
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
@@ -88,10 +91,33 @@
 
         public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
         {
-            //Delete existing draft actions
-            //Save draft actions
-            //Audit changes
-            throw new NotImplementedException();
+            jobDetailActionRepo.CurrentUser = username;
+            auditRepo.CurrentUser = username;
+
+            Job job = jobRepo.GetById(jobDetailUpdates.JobId);
+            JobDetail originalJobDetail = jobDetailRepo.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
+            Stop stop = stopRepo.GetByJobId(jobDetailUpdates.JobId);
+            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
+                stop.DeliveryDate);
+
+            using (var transactionScope = new TransactionScope())
+            {
+                jobDetailActionRepo.DeleteDrafts(jobDetailUpdates.Id);
+
+                //Save draft actions
+                foreach (var action in jobDetailUpdates.Actions.Where(a => a.Status == ActionStatus.Draft))
+                {
+                    jobDetailActionRepo.Save(action);
+                }
+
+                //Audit changes
+                if (audit.HasEntry)
+                {
+                    auditRepo.Save(audit);
+                }
+
+                transactionScope.Complete();
+            }
         }
     }
 }

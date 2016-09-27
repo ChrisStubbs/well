@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
@@ -14,7 +13,8 @@
     {
         public JobDetail()
         {
-           this.JobDetailDamages = new Collection<JobDetailDamage>();
+            JobDetailDamages = new Collection<JobDetailDamage>();
+            Actions = new Collection<JobDetailAction>();
         }
 
         [XmlElement("LineNumber")]
@@ -112,7 +112,29 @@
             auditBuilder.AppendConditional(originalJobDetail.ShortQty != ShortQty,
                 $"Short Qty changed from {originalJobDetail.ShortQty} to {ShortQty}. ");
 
-            var originalDamages = originalJobDetail.JobDetailDamages;
+            AuditDamages(auditBuilder, originalJobDetail.JobDetailDamages);
+            AuditActions(auditBuilder, originalJobDetail.Actions);
+
+            string entry = string.Empty;
+            if (auditBuilder.Length > 0)
+            {
+                entry = $"Product: {PhProductCode} - {ProdDesc}. {auditBuilder}"; 
+            }
+
+            var audit = new Audit
+            {
+                Entry = entry,
+                Type = AuditType.DeliveryLineUpdate,
+                AccountCode = accountCode,
+                InvoiceNumber = invoiceNumber,
+                DeliveryDate = deliveryDate
+            };
+
+            return audit;
+        }
+
+        private void AuditDamages(StringBuilder auditBuilder, Collection<JobDetailDamage> originalDamages)
+        {
             var damages = JobDetailDamages;
 
             var damagesChanged = originalDamages.Count != damages.Count ||
@@ -133,23 +155,28 @@
                     $"{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))} to " +
                     $"{string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
             }
+        }
 
-            string entry = string.Empty;
-            if (auditBuilder.Length > 0)
+        private void AuditActions(StringBuilder auditBuilder, Collection<JobDetailAction> originalActions)
+        {
+            var isChanged = originalActions.Count != Actions.Count ||
+                                 originalActions.OrderBy(o => o.Action).SequenceEqual(Actions.OrderBy(d => d.Action)) == false;
+
+            if (isChanged && originalActions.Count == 0)
             {
-                entry = $"Product: {PhProductCode} - {ProdDesc}. {auditBuilder}"; 
+                auditBuilder.Append($"Actions added {string.Join(", ", Actions.Select(d => d.GetString()))}. ");
             }
-
-            var audit = new Audit
+            else if (isChanged && Actions.Count == 0)
             {
-                Entry = entry,
-                Type = AuditType.DeliveryLineUpdate,
-                AccountCode = accountCode,
-                InvoiceNumber = invoiceNumber,
-                DeliveryDate = deliveryDate
-            };
-
-            return audit;
+                auditBuilder.Append(
+                    $"Actions removed, old actions {string.Join(", ", originalActions.Select(d => d.GetString()))}. ");
+            }
+            else if (isChanged)
+            {
+                auditBuilder.Append($"Damages changed from " +
+                    $"{string.Join(", ", originalActions.Select(d => d.GetString()))} to " +
+                    $"{string.Join(", ", Actions.Select(d => d.GetString()))}. ");
+            }
         }
     }
 }

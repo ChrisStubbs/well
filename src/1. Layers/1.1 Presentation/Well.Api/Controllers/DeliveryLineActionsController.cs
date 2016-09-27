@@ -60,6 +60,7 @@
                 IEnumerable<JobDetailAction> nonDraftActions = jobDetail.Actions.Where(a => a.Status != ActionStatus.Draft);
                 var draftActions = model.DraftActions.Select(a => new JobDetailAction()
                 {
+                    JobDetailId = model.JobDetailId,
                     Quantity = a.Quantity,
                     Action = a.Action,
                     Status = a.Status

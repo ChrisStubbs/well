@@ -75,12 +75,12 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
-        public Job JobGetByRefDetails(string ref1, string ref2, int stopId)
+        public Job JobGetByRefDetails(string phAccount, string pickListRef, int stopId)
         {
             var job =
                dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
-                   .AddParameter("Ref1", ref1, DbType.String)
-                   .AddParameter("Ref2", ref2, DbType.String)
+                   .AddParameter("PHAccount", phAccount, DbType.String)
+                   .AddParameter("PickListRef", pickListRef, DbType.String)
                    .AddParameter("StopId", stopId, DbType.Int32)
                    .Query<Job>()
                    .FirstOrDefault();
@@ -95,28 +95,32 @@
                 .AddParameter("Sequence", job.Sequence, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("JobTypeCode", job.JobTypeCode, DbType.String)
-                .AddParameter("JobRef1", job.JobRef1, DbType.String)
-                .AddParameter("JobRef2", job.JobRef2, DbType.String)
-                .AddParameter("JobRef3", job.JobRef3, DbType.String)
-                .AddParameter("JobRef4", job.JobRef4, DbType.String)
+                .AddParameter("PHAccount", job.PhAccount, DbType.String)
+                .AddParameter("PickListRef", job.PickListRef, DbType.String)
+                .AddParameter("InvoiceNumber", string.IsNullOrWhiteSpace(job.InvoiceNumber) ? null : job.InvoiceNumber, DbType.String)
+                .AddParameter("CustomerRef", job.CustomerRef, DbType.String)
                 .AddParameter("OrderDate", job.OrderDate, DbType.DateTime)
-                .AddParameter("Originator", job.Originator, DbType.String)
-                .AddParameter("TextField1", job.TextField1, DbType.String)
-                .AddParameter("TextField2", job.TextField2, DbType.String)
-                .AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", (int) job.ByPassReason, DbType.Int16)
+                .AddParameter("RoyaltyCode", job.RoyaltyCode, DbType.String)
+                .AddParameter("RoyaltyCodeDesc", job.RoyaltyCodeDesc, DbType.String)
+                .AddParameter("OrdOuters", job.OrdOuters, DbType.Int16)
+                .AddParameter("InvOuters", job.InvOuters, DbType.Int16)
+                .AddParameter("ColOuters", job.ColOuters, DbType.Int16)
+                .AddParameter("ColBoxes", job.ColBoxes, DbType.Int16)
+                .AddParameter("ReCallPrd", job.ReCallPrd, DbType.Boolean)
+                .AddParameter("AllowSgCrd", job.AllowSgCrd, DbType.Boolean)
+                .AddParameter("AllowSOCrd", job.AllowSoCrd, DbType.Boolean)
+                .AddParameter("COD", job.Cod, DbType.Boolean)
+                .AddParameter("GrnNumber", job.GrnNumber, DbType.String)
+                .AddParameter("GrnRefusedReason", job.GrnRefusedReason, DbType.String)
+                .AddParameter("GrnRefusedDesc", job.GrnRefusedDesc, DbType.String)
+                .AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean)
+                .AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean)
+                .AddParameter("ComdtyType", job.ComdtyType, DbType.String)
+                .AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
         }
 
-        public void AddJobAttributes(Attribute attribute)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobAttributeCreateOrUpdate)
-                .AddParameter("Id", attribute.Id, DbType.Int32)
-                .AddParameter("Code", attribute.Code, DbType.String)
-                .AddParameter("Value", attribute.Value1, DbType.String)
-                .AddParameter("JobId", attribute.AttributeId, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
-        }
 
         public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
         {
@@ -135,21 +139,12 @@
         {
             var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
 
-            DeleteJobAttributesJobById(id, isSoftDelete);
-
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)
                 .AddParameter("JobId", id, DbType.Int32)
                 .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();
         }
 
-        private void DeleteJobAttributesJobById(int id, bool isSoftDelete)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.JobArttributesDeleteById)
-                .AddParameter("JobId", id, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
-                .Execute();
-        }
 
         public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)
         {

@@ -13,7 +13,7 @@
 
         public int Id { get; set; }
 
-        public string Role { get; set; }
+        public string ThresholdLevel { get; set; }
 
         public int Threshold { get; set; }
 

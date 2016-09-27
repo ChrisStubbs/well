@@ -3,7 +3,7 @@
 export class CreditThreshold {
     id: number;
     branchName: string;
-    role: string;
+    thresholdLevel: string;
     threshold: number;
     branches: Branch[]
 }

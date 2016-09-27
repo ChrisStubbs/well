@@ -1,5 +1,5 @@
 ﻿import {Router} from '@angular/router';
-import { Component, OnInit, ViewChild}  from '@angular/core';
+import { Component, OnInit, ViewChild, Input}  from '@angular/core';
 import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -19,6 +19,8 @@ export class UserPreferenceComponent {
     userText: string;
     users: Array<User> = [];
     rowCount = 10;
+    @Input() header: string = 'User Preferences';
+    @Input() isThreshold: boolean;
 
     constructor(private globalSettingsService: GlobalSettingsService,
         private userPreferenceService: UserPreferenceService,
@@ -35,6 +37,6 @@ export class UserPreferenceComponent {
     }
 
     userSelected(user): void {
-        this.modal.show(user);
+        this.modal.show(user, this.isThreshold);
     }
 }

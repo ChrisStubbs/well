@@ -4,15 +4,12 @@
     using System.Collections.Generic;
     using Domain;
     using Domain.Enums;
-    using Attribute = Domain.Attribute;
 
     public  interface IStopRepository : IRepository<Stop, int>
     {
         IEnumerable<Stop> GetStopByRouteHeaderId(int routeHeaderId);
 
         Stop StopCreateOrUpdate(Stop stop);
-        
-        void AddStopAttributes(Attribute attribute);
 
         Stop GetById(int id);
 

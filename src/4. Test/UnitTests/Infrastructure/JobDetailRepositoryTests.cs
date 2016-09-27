@@ -96,13 +96,6 @@
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobDetailId", id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Execute());
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId))
                     .Returns(this.dapperProxy.Object);
@@ -117,12 +110,6 @@
 
 
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailDeleteById), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("JobDetailId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.Execute());
-
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.JobDetailArttributesDeleteByJobDetailId), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("JobDetailId", id, DbType.Int32, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
@@ -146,8 +133,8 @@
                 dapperProxy.Setup(x => x.WithStoredProcedure(sprocName)).Returns(dapperProxy.Object);
 
                 dapperProxy.Setup(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Barcode", jobDetail.BarCode, DbType.Int32, null))
+                    .Returns(dapperProxy.Object);   
+                dapperProxy.Setup(x => x.AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(
                         x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Decimal, null))
@@ -158,21 +145,17 @@
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("SkuWeight", jobDetail.SkuWeight, DbType.Decimal, null))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("SkuCube", jobDetail.SkuCube, DbType.Decimal, null))
-                    .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField1", jobDetail.TextField1, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("PHProductType", jobDetail.PhProductType, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField2", jobDetail.TextField2, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("PackSize", jobDetail.PackSize, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField3", jobDetail.TextField3, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField4", jobDetail.TextField4, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TextField5", jobDetail.TextField5, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double, null))
                     .Returns(dapperProxy.Object);
@@ -201,7 +184,7 @@
 
                 dapperProxy.Verify(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("Barcode", jobDetail.BarCode, DbType.Int32, null),
+                dapperProxy.Verify(x => x.AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.Int32, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(
                     x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null),
@@ -212,21 +195,17 @@
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("SkuWeight", jobDetail.SkuWeight, DbType.Decimal, null),
-                    Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("SkuCube", jobDetail.SkuCube, DbType.Decimal, null),
-                    Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField1", jobDetail.TextField1, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("PHProductType", jobDetail.PhProductType, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField2", jobDetail.TextField2, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("PackSize", jobDetail.PackSize, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField3", jobDetail.TextField3, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField4", jobDetail.TextField4, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TextField5", jobDetail.TextField5, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double, null),
                     Times.Exactly(1));
@@ -244,51 +223,6 @@
                     Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-            }
-        }
-
-        public class TheSaveJobAttributeMethod : JobDetailRepositoryTests
-        {
-            [Test]
-            public void ShouldSaveJobAttribute()
-            {
-                var jobDetail = JobDetailFactory.New.Build();
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailAttributeCreateOrUpdate))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.EntityAttributes[0].Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Code", jobDetail.EntityAttributes[0].Code, DbType.String, null))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(
-                        x => x.AddParameter("Value", jobDetail.EntityAttributes[0].Value1, DbType.String, null))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("JobDetailId", jobDetail.Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null))
-                    .Returns(dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] {1});
-
-                this.repository.AddJobDetailAttributes(jobDetail.EntityAttributes[0]);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailAttributeCreateOrUpdate),
-                    Times.Exactly(1));
-
-                dapperProxy.Verify(x => x.AddParameter("Id", jobDetail.EntityAttributes[0].Id, DbType.Int32, null),
-                    Times.Exactly(1));
-                dapperProxy.Verify(
-                    x => x.AddParameter("Code", jobDetail.EntityAttributes[0].Code, DbType.String, null),
-                    Times.Exactly(1));
-                dapperProxy.Verify(
-                    x => x.AddParameter("Value", jobDetail.EntityAttributes[0].Value1, DbType.String, null),
-                    Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("JobDetailId", jobDetail.Id, DbType.Int32, null),
-                    Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-
             }
         }
     }

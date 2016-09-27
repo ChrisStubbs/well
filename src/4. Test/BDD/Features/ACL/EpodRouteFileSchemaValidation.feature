@@ -1,5 +1,4 @@
-﻿@ignore
-Feature: EpodRouteFileSchemaValidation
+﻿Feature: EpodRouteFileSchemaValidation
 	In order to import correctly formed Epod route files
 	As a user
 	I want the system to be able to validate exsisting Epod route files against a pre defined schema
@@ -9,14 +8,14 @@ Background:
 
 
 Scenario: Import Epod route file with the JobDetailID child node missing from the first JobDetailDamage node
-	Given I have an invalid Epod route file 'ePOD_MissingJobDetailIdNode.xml' with a 'JobDetailDamage' node at position '0' with the 'JobDetailID' node missing
+	Given I have an invalid Epod route file 'ePOD_MissingJobDetailIdNode.xml' with a 'JobDetail' node at position '0' with the 'UnitMeasure' node missing
 	When I import the route file 'ePOD_MissingJobDetailIdNode.xml' into the well
-	Then The schema validation error should be "file ePOD_MissingJobDetailIdNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetailDamage' has invalid child element 'DamageReasonID'. List of possible elements expected: 'JobDetailID'."
+	Then The schema validation error should be "file ePOD_MissingJobDetailIdNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'UnitMeasure'."
 
 Scenario: Import Epod route file with the Qty child node missing from the first JobDetailDamage node
 	Given I have an invalid Epod route file 'ePOD_MissingQtyNode.xml' with a 'JobDetailDamage' node at position '0' with the 'Qty' node missing
 	When I import the route file 'ePOD_MissingQtyNode.xml' into the well
-	Then The schema validation error should be "file ePOD_MissingQtyNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetailDamage' has invalid child element 'Deleted'. List of possible elements expected: 'Qty'."
+	Then The schema validation error should be "file ePOD_MissingQtyNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetailDamage' has invalid child element 'Reason'. List of possible elements expected: 'Qty'."
 
 Scenario: Import Epod route file with the ReasonCode child node missing from the first Reason node
 	Given I have an invalid Epod route file 'ePOD_MissingReasonCodeNode.xml' with a 'Reason' node at position '0' with the 'ReasonCode' node missing

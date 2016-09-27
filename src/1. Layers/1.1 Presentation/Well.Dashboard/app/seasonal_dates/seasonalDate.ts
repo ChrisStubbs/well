@@ -6,5 +6,5 @@ export class SeasonalDate {
     description: string;
     fromDate: string;
     toDate: string;
-    branches: Branch[]
+    branches: Branch[];
 }

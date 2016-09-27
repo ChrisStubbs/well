@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<RouteDeliveries>
+  <Header>
+    <SimNumber />
+    <TransmissionMethod />
+    <DestinationFolder />
+    <SubmissionNo />
+    <RetryInterval />
+    <Timeout />
+    <Stamp>3</Stamp>
+    <Fallback>
+      <TransmissionMethod />
+      <DestinationFolder />
+      <RetryInterval />
+      <Timeout />
+      <Stamp>3</Stamp>
+    </Fallback>
+    <Reasons />
+    <Date>
+      <Day>1</Day>
+      <Month>7</Month>
+      <Year>2016</Year>
+      <Time>10:45:22</Time>
+    </Date>
+    <PDAVersionNumber />
+    <Authorised>False</Authorised>
+    <DeviceTypeCode />
+    <DeviceCode />
+    <IsWasteLicenced>False</IsWasteLicenced>
+  </Header>
+  <Routes>
+    <RouteHeader>
+      <RouteHeaderID>683</RouteHeaderID>
+      <CompanyID>3</CompanyID>
+      <RouteNumber>006</RouteNumber>
+      <RouteDate>01-07-2016</RouteDate>
+      <PlannedStops>2</PlannedStops>
+      <ActualStopsCompleted>1</ActualStopsCompleted>
+      <RouteStatusCode>INPRO</RouteStatusCode>
+      <RouteStatusDescription>In Progress</RouteStatusDescription>
+      <PerformanceStatusCode>EARLY</PerformanceStatusCode>
+      <PerformanceStatusDescription>Early</PerformanceStatusDescription>
+      <AuthByPass>1</AuthByPass>
+      <NonAuthByPass />
+      <ShortDeliveries />
+      <DamagesRejected>1</DamagesRejected>
+      <DamagesAccepted>1</DamagesAccepted>
+      <NotRequired />
+      <DriverName>RENTON MARK</DriverName>
+      <Depot>BIR</Depot>
+      <Stops>
+        <Stop>
+          <StopID>88638</StopID>
+          <RouteHeaderID>683</RouteHeaderID>
+          <ByPassReasonID />
+          <PlannedStopNumber>01</PlannedStopNumber>
+          <TransportOrderRef>006 01 43362.048 01-07-2016</TransportOrderRef>
+          <StopStatusCode>DEPAR</StopStatusCode>
+          <StopStatusDescription>Departed</StopStatusDescription>
+          <PerformanceStatusCode>COMPL</PerformanceStatusCode>
+          <PerformanceStatusDescription>Complete</PerformanceStatusDescription>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>03/43362.048</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
+          <Jobs>
+            <Job>
+              <JobID>110679</JobID>
+              <StopID>88638</StopID>
+              <ByPassReasonID />
+              <Sequence>1</Sequence>
+              <PHAccount>43362.048</PHAccount>
+              <PickListRef>1156028</PickListRef>
+              <InvoiceNumber></InvoiceNumber>
+              <CustomerRef>610578</CustomerRef>
+              <GrnNumber>1234567896541236547896</GrnNumber>
+              <GrnRefusedReason>Inv</GrnRefusedReason>
+              <GrnRefusedDesc>Invalid</GrnRefusedDesc>
+              <PerformanceStatusCode>COMPL</PerformanceStatusCode>
+              <PerformanceStatusDescription>Complete</PerformanceStatusDescription>
+              <OrderDate>30-05-2016</OrderDate>
+              <JobTypeCode>DEL-TOB</JobTypeCode>
+              <Reason_ReasonCode>F</Reason_ReasonCode>
+              <JobDetails>
+                <JobDetail>
+                  <JobDetailID>195269</JobDetailID>
+                  <JobID>110679</JobID>
+                  <PHProductCode>10637</PHProductCode>
+                  <UnitMeasure>10</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>1</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty>1</DeliveredQty>
+                  <ShortQty />
+                  <PHProductType>5</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal>100</SubOuterDamageTotal>
+                  <SkuGoodsValue>24.72</SkuGoodsValue>
+                  <JobDetailDamages>
+                    <JobDetailDamage>
+                      <Qty>1</Qty>
+                      <Reason>
+                        <ReasonCode>CAR01</ReasonCode>
+                        <Description>Dented</Description>
+                      </Reason>
+                      <Source>
+                        <ReasonCode>PSTDIS001</ReasonCode>
+                        <Description>The Warehouse</Description>
+                      </Source>
+                    </JobDetailDamage>
+                  </JobDetailDamages>
+                </JobDetail>
+                <JobDetail>
+                  <JobDetailID>195270</JobDetailID>
+                  <JobID>110679</JobID>
+                  <PHProductCode>12274</PHProductCode>
+                  <UnitMeasure>20</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>2</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>B&amp;H Dual</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty>1</DeliveredQty>
+                  <ShortQty />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal>100</SubOuterDamageTotal>
+                  <SkuGoodsValue>100.1</SkuGoodsValue>
+                  <JobDetailDamages />
+                </JobDetail>
+                <JobDetail>
+                  <JobDetailID>195271</JobDetailID>
+                  <JobID>110679</JobID>
+                  <PHProductCode>12476</PHProductCode>
+                  <UnitMeasure>20</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>3</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>Marlboro Gold KS</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty />
+                  <ShortQty />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal>100</SubOuterDamageTotal>
+                  <SkuGoodsValue>120.2</SkuGoodsValue>
+                  <JobDetailDamages />
+                </JobDetail>
+                <JobDetail>
+                  <JobDetailID>195272</JobDetailID>
+                  <JobID>110679</JobID>
+                  <PHProductCode>10574</PHProductCode>
+                  <UnitMeasure>19</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>4</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>Mayfair KS</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty />
+                  <ShortQty />
+                  <PHProductType>1</PHProductType>
+                  <PackSize>20</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal>100</SubOuterDamageTotal>
+                  <SkuGoodsValue>84</SkuGoodsValue>
+                  <JobDetailDamages>
+                    <JobDetailDamage>
+                      <Qty>1</Qty>
+                      <Reason>
+                        <ReasonCode>CAR01</ReasonCode>
+                        <Description>Dented</Description>
+                      </Reason>
+                      <Source>
+                        <ReasonCode>PSTDIS001</ReasonCode>
+                        <Description>The Warehouse</Description>
+                      </Source>
+                    </JobDetailDamage>
+                  </JobDetailDamages>
+                </JobDetail>
+              </JobDetails>
+            </Job>
+          </Jobs>
+        </Stop>
+      </Stops>
+    </RouteHeader>
+  </Routes>
+</RouteDeliveries>

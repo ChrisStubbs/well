@@ -29,7 +29,7 @@
                 if (!entity.IsTransient()) this.Delete(entity.Id);
 
                 entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
-                    .AddParameter("UserRoleId", entity.UserRoleId, DbType.Int32)
+                    .AddParameter("ThresholdLevelId", entity.ThresholdLevelId, DbType.Int32)
                     .AddParameter("Threshold", entity.Threshold, DbType.Int32)
                     .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                     .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)

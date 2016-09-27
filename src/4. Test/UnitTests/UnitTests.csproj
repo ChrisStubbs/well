@@ -110,8 +110,10 @@
     <Compile Include="Api\Controllers\AuditControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
+    <Compile Include="Api\Controllers\DeliveryLineActionsControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
+    <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
@@ -125,15 +127,14 @@
     <Compile Include="Domain\RouteHeaderTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
+    <Compile Include="Factories\CleanPreferenceFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
     <Compile Include="Factories\DamageFactory.cs" />
     <Compile Include="Factories\DeliveryFactory.cs" />
     <Compile Include="Factories\DeliveryDetailFactory.cs" />
     <Compile Include="Factories\JobDetailFactory.cs" />
     <Compile Include="Factories\JobFactory.cs" />
-    <Compile Include="Factories\RouteHeaderAttributeFactory.cs" />
     <Compile Include="Factories\RoutesFactory.cs" />
-    <Compile Include="Factories\StopAttributeFactory.cs" />
     <Compile Include="Factories\DeliveryLineFactory.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Factories\StopFactory.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
     <Compile Include="Infrastructure\BranchRepositoryTests.cs" />
+    <Compile Include="Infrastructure\CleanPreferenceRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeliveryReadRepositoryTests.cs" />
     <Compile Include="Infrastructure\ExceptionEventRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />

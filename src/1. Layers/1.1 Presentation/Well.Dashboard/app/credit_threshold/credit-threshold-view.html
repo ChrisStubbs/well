@@ -2,7 +2,7 @@
     <table class="table table-hover table-striped">
         <thead>
         <tr>
-            <th>Role</th>
+            <th>Level</th>
             <th>Credit Threshold</th>
             <th>Branches</th>
             <th style="text-align: right;"><button type="button" class="btn btn-primary" (click)="add()">Add</button></th>
@@ -13,7 +13,7 @@
             <td colspan="4">No Credit Thresholds!</td>
         </tr>
         <tr class="grid-row" *ngFor="let x of credits">
-            <td (click)="selectCredit(x)">{{x.role}}</td>
+            <td (click)="selectCredit(x)">{{x.thresholdLevel}}</td>
             <td (click)="selectCredit(x)">{{x.threshold}}</td>
             <td (click)="selectCredit(x)">{{x.branchName}}</td>
             <td style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>

@@ -15,10 +15,10 @@ Scenario: A user can view Exception Delivery Information
 	And  3 deliveries have been marked as exceptions
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |	
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
 
 	When I view the account info modal for exception row 2
 	Then I can the following account info details
@@ -52,6 +52,28 @@ Scenario: A user can filter Exception Delivery information
 	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
 
 
+Scenario: A user can view Exception Delivery Information and sort on updated date
+	Given I have selected branch 22
+	And  3 deliveries have been marked as exceptions
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | LastUpdatedDateTime     |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
+
+	When I click on the orderby Triangle image in the exceptions deliveries grid
+	Then The following exceptions ordered by date will be displayed in 'desc' order
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | LastUpdatedDateTime     |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
+	| 001   | 02  | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
+	
+	
+	
+
+
+
 Scenario: A user can page through Exception Delivery information
 	Given I have selected branch 22
 	And  All the deliveries are marked as exceptions
@@ -70,11 +92,11 @@ Scenario: View exception details at lower level
 	And I click on exception row 4
 	Then I am shown the exception detail
 	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
-	| 1      | 4237    | Maltesers Tube 75g       | 80    | 0               | 0                | 0               | 0             |
-	| 2      | 7605    | Bass Sherbet Lemons 200g | 32    | 0               | 0                | 0               | 0             |
-	| 3      | 41957   | Bournville Std 45g       | 84    | 0               | 0                | 0               | 0             |
-	| 4      | 3319    | C.D.M Std 45g            | 125   | 0               | 0                | 0               | 0             |
-	| 5      | 9135    | Wispa Duo 51g            | 395   | 0               | 0                | 0               | 0             |
+	| 1      | 6987    | Choc Teacakes Tunnock    | 19    | 1               | 1                | 0               | 0             |
+	| 2      | 49179   | Ginger Nuts 250g         | 4     | 1               | 1                | 0               | 0             |
+	| 3      | 21633   | Kiddies Super Mix 220gPM | 3     | 1               | 1                | 0               | 0             |
+	| 4      | 4244    | Milkybar Btns Giant PM   | 5     | 1               | 1                | 0               | 0             |
+	| 5      | 7621    | Fruit Past Tube 52.5g    | 8     | 1               | 1                | 0               | 0             |
 
 Scenario: Exception assigned to a user
 	Given I have selected branch 22
@@ -111,3 +133,19 @@ Scenario: UnAssigned user to an exception drills to details and can not update
 	And I select a user to assign
 	And I select an unassigned exception row
 	Then All the exception detail rows can not be updated
+
+Scenario: A user cannot view Exception Delivery Information without a valid invoice number
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And I have imported a valid Epod update file named 'ePOD__MissingInvoiceNumbers.xml'
+	And I have selected branch 22
+	When I open the exception deliveries
+	Then there are 0 exception deliveries will be displayed
+	Given  3 deliveries have been marked as exceptions
+	When valid invoice numbers are assigned to jobs
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
+	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
+	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |

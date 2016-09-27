@@ -2,7 +2,6 @@
 
 namespace PH.Well.Domain
 {
-    using System.Collections.ObjectModel;
     using System.Xml.Serialization;
     using Common.Extensions;
     using Enums;
@@ -28,6 +27,9 @@ namespace PH.Well.Domain
         [XmlElement("Reason")]
         public Reason Reason { get; set; }
 
+        [XmlElement("Source")]
+        public DamageSource Source { get; set; }
+
         [XmlIgnore]
         public DamageReasons DamageReason
         {
@@ -42,6 +44,30 @@ namespace PH.Well.Domain
             set
             {
                 Reason = new Reason()
+                {
+                    Code = value.ToString(),
+                    Description = StringExtensions.GetEnumDescription(value)
+                };
+            }
+        }
+
+        [XmlIgnore]
+        public JobDetailDamageSource JobDetailDamageSource
+        {
+            get
+            {
+                if (Source != null)
+                {
+                    var damageReason =  (JobDetailDamageSource)Enum.Parse(typeof(JobDetailDamageSource), Source.Code);
+
+                                  return damageReason;
+
+                }
+                return JobDetailDamageSource.NotDef;
+            }
+            set
+            {
+                Source = new DamageSource()
                 {
                     Code = value.ToString(),
                     Description = StringExtensions.GetEnumDescription(value)

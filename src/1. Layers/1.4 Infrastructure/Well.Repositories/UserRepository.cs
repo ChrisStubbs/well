@@ -7,6 +7,7 @@
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
+    using PH.Well.Domain.Enums;
     using PH.Well.Repositories.Contracts;
 
     public class UserRepository : DapperRepository<User, int>, IUserRepository
@@ -38,6 +39,14 @@
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGetByBranchId)
                     .AddParameter("BranchId", branchId, DbType.Int32)
                     .Query<User>();
+        }
+
+        public void SetThresholdLevel(User user, ThresholdLevel thresholdLevel)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.ThresholdLevelSave)
+                .AddParameter("ThresholdLevelId", (int)thresholdLevel, DbType.Int32)
+                .AddParameter("UserId", user.Id, DbType.Int32)
+                .Execute();
         }
 
         protected override void SaveNew(User entity)

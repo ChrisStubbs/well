@@ -8,6 +8,7 @@
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
+    using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
@@ -55,6 +56,10 @@
             try
             {
                 var user = this.activeDirectoryService.GetUser(this.UserIdentityName);
+
+                // this method is used via the BDD for setting up test users so we are just defaulting 
+                // the threshold level to max for now
+                user.ThresholdLevelId = (int)ThresholdLevel.Level1;
 
                 this.userRepository.CurrentUser = this.UserIdentityName;
 

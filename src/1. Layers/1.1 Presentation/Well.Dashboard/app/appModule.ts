@@ -16,6 +16,8 @@ import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
+import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
+import {DeliveryActionsComponent} from './delivery/deliveryActionsComponent';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
@@ -27,6 +29,9 @@ import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {WidgetGraphComponent} from './home/widgetGraphComponent';
 import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
+import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
+import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
+import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -42,7 +47,6 @@ import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
-import {CreditThresholdComponent} from './credit_threshold/creditThresholdComponent';
 import {CreditThresholdViewComponent} from './credit_threshold/creditThresholdViewComponent';
 import {CreditThresholdRemoveModalComponent} from './credit_threshold/creditThresholdRemoveModalComponent';
 import {CreditThresholdAddModalComponent} from './credit_threshold/creditThresholdAddModalComponent';
@@ -62,6 +66,7 @@ import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 import {CreditThresholdService} from './credit_threshold/creditThresholdService';
+import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -69,11 +74,12 @@ import {CreditThresholdService} from './credit_threshold/creditThresholdService'
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
+        DeliveryIssuesComponent, DeliveryActionsComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
-        NotificationsComponent, BranchCheckboxComponent, CreditThresholdComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent,
+        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent
+        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing
@@ -81,6 +87,7 @@ import {CreditThresholdService} from './credit_threshold/creditThresholdService'
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
+        CleanPreferenceService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

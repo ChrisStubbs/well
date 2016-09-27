@@ -12,5 +12,8 @@
 
         [Description("On Hold")]
         OnHld = 3,
+
+        [Description("Awaiting Invoice Number")]
+        AwtInvNum = 4,
     }
 }

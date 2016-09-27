@@ -19,7 +19,6 @@ namespace PH.Well.BDD.Features.ACL
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("EpodRouteFileSchemaValidation")]
-    [NUnit.Framework.IgnoreAttribute("Ignored feature")]
     public partial class EpodRouteFileSchemaValidationFeature
     {
         
@@ -34,8 +33,7 @@ namespace PH.Well.BDD.Features.ACL
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EpodRouteFileSchemaValidation", "\tIn order to import correctly formed Epod route files\r\n\tAs a user\r\n\tI want the sy" +
                     "stem to be able to validate exsisting Epod route files against a pre defined sch" +
-                    "ema", ProgrammingLanguage.CSharp, new string[] {
-                        "ignore"});
+                    "ema", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -69,8 +67,8 @@ namespace PH.Well.BDD.Features.ACL
         
         public virtual void FeatureBackground()
         {
+#line 6
 #line 7
-#line 8
   testRunner.Given("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
@@ -82,17 +80,17 @@ namespace PH.Well.BDD.Features.ACL
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Epod route file with the JobDetailID child node missing from the first Job" +
                     "DetailDamage node", ((string[])(null)));
-#line 11
+#line 10
 this.ScenarioSetup(scenarioInfo);
-#line 7
+#line 6
 this.FeatureBackground();
-#line 12
+#line 11
  testRunner.Given("I have an invalid Epod route file \'ePOD_MissingJobDetailIdNode.xml\' with a \'JobDe" +
-                    "tailDamage\' node at position \'0\' with the \'JobDetailID\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 13
+                    "tail\' node at position \'0\' with the \'UnitMeasure\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
  testRunner.When("I import the route file \'ePOD_MissingJobDetailIdNode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
- testRunner.Then(@"The schema validation error should be ""file ePOD_MissingJobDetailIdNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetailDamage' has invalid child element 'DamageReasonID'. List of possible elements expected: 'JobDetailID'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.Then(@"The schema validation error should be ""file ePOD_MissingJobDetailIdNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'JobDetail' has invalid child element 'OriginalDespatchQty'. List of possible elements expected: 'UnitMeasure'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -104,20 +102,20 @@ this.FeatureBackground();
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Epod route file with the Qty child node missing from the first JobDetailDa" +
                     "mage node", ((string[])(null)));
-#line 16
+#line 15
 this.ScenarioSetup(scenarioInfo);
-#line 7
+#line 6
 this.FeatureBackground();
-#line 17
+#line 16
  testRunner.Given("I have an invalid Epod route file \'ePOD_MissingQtyNode.xml\' with a \'JobDetailDama" +
                     "ge\' node at position \'0\' with the \'Qty\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
+#line 17
  testRunner.When("I import the route file \'ePOD_MissingQtyNode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
+#line 18
  testRunner.Then("The schema validation error should be \"file ePOD_MissingQtyNode.xml failed schema" +
                     " validation with the following: System.Xml.XsdValidatingReader:\tThe element \'Job" +
-                    "DetailDamage\' has invalid child element \'Deleted\'. List of possible elements exp" +
-                    "ected: \'Qty\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                    "DetailDamage\' has invalid child element \'Reason\'. List of possible elements expe" +
+                    "cted: \'Qty\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -129,16 +127,16 @@ this.FeatureBackground();
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Epod route file with the ReasonCode child node missing from the first Reas" +
                     "on node", ((string[])(null)));
-#line 21
+#line 20
 this.ScenarioSetup(scenarioInfo);
-#line 7
+#line 6
 this.FeatureBackground();
-#line 22
+#line 21
  testRunner.Given("I have an invalid Epod route file \'ePOD_MissingReasonCodeNode.xml\' with a \'Reason" +
                     "\' node at position \'0\' with the \'ReasonCode\' node missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 23
+#line 22
  testRunner.When("I import the route file \'ePOD_MissingReasonCodeNode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 24
+#line 23
  testRunner.Then(@"The schema validation error should be ""file ePOD_MissingReasonCodeNode.xml failed schema validation with the following: System.Xml.XsdValidatingReader:	The element 'Reason' has invalid child element 'Description'. List of possible elements expected: 'ReasonCode'.""", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -151,17 +149,17 @@ this.FeatureBackground();
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Epod route file with a duplicate ReasonCode node added to the first first " +
                     "JobDamageDetail node", ((string[])(null)));
-#line 26
+#line 25
 this.ScenarioSetup(scenarioInfo);
-#line 7
+#line 6
 this.FeatureBackground();
-#line 27
+#line 26
  testRunner.Given("I have an invalid Epod route file \'ePOD__AdditionalDamageReasonCode.xml\' with a \'" +
                     "Reason\' node at position \'0\' with a \'ReasonCode\' node added with a value of \'CAR" +
                     "01\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 28
+#line 27
  testRunner.When("I import the route file \'ePOD__AdditionalDamageReasonCode.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 29
+#line 28
  testRunner.Then("The schema validation error should be \"file ePOD__AdditionalDamageReasonCode.xml " +
                     "failed schema validation with the following: System.Xml.XsdValidatingReader:\tThe" +
                     " element \'Reason\' has invalid child element \'ReasonCode\'.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

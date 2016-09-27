@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using Domain;
     using Domain.Enums;
-    using Attribute = Domain.Attribute;
 
     public interface IRouteHeaderRepository: IRepository<RouteHeader, int>
     {
@@ -19,8 +18,6 @@
         RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader);
 
         RouteHeader GetRouteHeaderById(int id);
-
-        void AddRouteHeaderAttributes(Attribute attribute);
 
         RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate);
 

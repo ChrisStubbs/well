@@ -12,11 +12,9 @@
         public static string RoutesGetById = "Routes_GetById";
         public static string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
         public static string RouteHeaderGetById = "RouteHeader_GetById";
-        public static string RouteHeaderAttributeCreateOrUpdate = "RouteHeaderAttribute_CreateOrUpdate";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
         public static string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
-        public static string RouteHeaderAttributesDeleteByRouteheaderId = "RouteHeaderAttributes_DeleteByRouteheaderId";
         public static string RouteHeaderDeleteById = "RouteHeader_DeleteById";
         public static string RouteHeadersGetForDelete = "RouteHeaders_GetForDelete";
         public static string RoutesGet = "Routes_Get";
@@ -32,7 +30,6 @@
         public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
         public static string StopGeyByOrderUpdateDetails = "Stop_GeyByOrderUpdateDetails";
         public static string StopGetByJobId = "Stop_GetByJobId";
-        public static string StopAttributesDeletedByStopId = "StopAttributes_DeletedByStopId";
         public static string StopDeleteById = "Stop_DeleteById";
         public static string AccountDeleteByStopId = "Account_DeleteByStopId";
 
@@ -46,7 +43,6 @@
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";
-        public static string JobArttributesDeleteById = "JobArttributes_DeleteBylId";
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
@@ -55,9 +51,7 @@
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
-        public static string JobDetailDamageCreateOrUpdate = "JobDetailDamage_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
-        public static string JobDetailArttributesDeleteByJobDetailId = "JobDetailArttributes_DeleteByJobDetailId";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
         public static string JobDetailGetByJobId = "JobDetail_GetByJobId";
 
@@ -110,5 +104,10 @@
         public static string CreditThresholdDelete = "CreditThresholdDelete";
         public static string CreditThresholdSave = "CreditThresholdSave";
         public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
+
+        public static string ThresholdLevelSave = "ThresholdLevelSave";
+
+        public static string CleanPreferencesGetAll = "CleanPreferencesGetAll";
+        public static string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
     }
 }

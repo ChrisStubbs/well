@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using System.Threading;
-
+    using Domain;
     using NUnit.Framework;
     using Pages;
 
@@ -41,7 +41,14 @@
         {
             this.routesPage.Pager.Click(pageNo);
         }
-        
+
+        [When(@"I click on the orderby Triangle image")]
+        public void WhenIClickOnTheOrderByArrowImage()
+        {
+           this.routesPage.OrderByButton.Click();
+        }
+
+
         [Then(@"The following routes will be displayed")]
         public void ThenTheFollowingRoutesWillBeDisplayed(Table table)
         {
@@ -57,6 +64,32 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
             }
         }
+
+        [Then(@"The following routes ordered by date will be displayed in '(.*)' order")]
+        public void ThenTheFollowingRoutesOrderedByDateWillBeDisplayedInOrder(string direction, Table table)
+        {
+            var pageRows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
+
+            pageRows.Reverse(0, pageRows.Count);
+
+            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Route),
+                    Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Driver),
+                    Is.EqualTo(table.Rows[i]["Driver"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.NoOfDrops),
+                    Is.EqualTo(table.Rows[i]["NoOfDrops"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Exceptions),
+                    Is.EqualTo(table.Rows[i]["Exceptions"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Clean),
+                    Is.EqualTo(table.Rows[i]["Clean"]));
+
+            }
+        }
+
+
 
         [Then(@"'(.*)' rows of data will be displayed")]
         public void CheckNoOfRows(int noOfRowsExpected)

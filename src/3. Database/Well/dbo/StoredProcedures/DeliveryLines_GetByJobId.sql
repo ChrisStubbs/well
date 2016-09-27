@@ -3,7 +3,7 @@
 
 AS
 BEGIN
-	SELECT jd.[Id]
+	SELECT jd.[Id] as JobDetailId
 		,jd.JobId
 		,jd.[LineNumber] AS [LineNo]
 	    ,jd.[PHProductCode] AS ProductCode

@@ -57,6 +57,7 @@
             var modelLine1 = model.DeliveryLines[0];
             var modelLine2 = model.DeliveryLines[1];
 
+            Assert.That(modelLine1.JobDetailId, Is.EqualTo(line1.JobDetailId));
             Assert.That(modelLine1.JobId, Is.EqualTo(line1.JobId));
             Assert.That(modelLine1.LineNo, Is.EqualTo(line1.LineNo));
             Assert.That(modelLine1.ProductCode, Is.EqualTo(line1.ProductCode));

@@ -4,6 +4,7 @@ import {DeliveryLineAction} from './deliveryLineAction';
 export class DeliveryLine {
     constructor(line: DeliveryLine) {
         if (line) {
+            this.jobDetailId = line.jobDetailId;
             this.jobId = line.jobId;
             this.lineNo = line.lineNo;
             this.productCode = line.productCode;
@@ -34,6 +35,7 @@ export class DeliveryLine {
         }
     }
 
+    jobDetailId: number;
     jobId: number;
     lineNo: number;
     productCode: string;

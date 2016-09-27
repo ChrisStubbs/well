@@ -6,7 +6,7 @@
     {
         public DeliveryLineFactory()
         {
-            this.Entity.Id = 1;
+            this.Entity.JobDetailId = 1;
             this.Entity.JobId = 1001;
             this.Entity.LineNo = 1;
             this.Entity.ProductCode = "2001";

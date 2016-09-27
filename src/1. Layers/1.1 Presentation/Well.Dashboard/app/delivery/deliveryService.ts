@@ -53,4 +53,15 @@ export class DeliveryService {
                 options)
             .catch(e => this.httpErrorService.handleError(e));
     }
+
+    updateDeliveryLineActions(request): Observable<any> {
+        let body = JSON.stringify(request);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line-actions/',
+                body,
+                options)
+            .catch(e => this.httpErrorService.handleError(e));
+    }
 }

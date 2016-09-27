@@ -81,8 +81,8 @@
 
             foreach (var line in deliveryLines)
             {
-                line.Damages = damages.Where(d => d.JobDetailId == line.Id).ToList();
-                line.Actions = actions.Where(a => a.JobDetailId == line.Id).ToList();
+                line.Damages = damages.Where(d => d.JobDetailId == line.JobDetailId).ToList();
+                line.Actions = actions.Where(a => a.JobDetailId == line.JobDetailId).ToList();
             }
 
             return deliveryLines;

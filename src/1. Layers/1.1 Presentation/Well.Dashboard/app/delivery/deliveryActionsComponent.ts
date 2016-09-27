@@ -29,7 +29,7 @@ export class DeliveryActionsComponent {
 
     addAction() {
         var index = this.deliveryLine.actions.length;
-        this.deliveryLine.actions.push(new DeliveryLineAction(index, 0, 1, undefined, undefined));
+        this.deliveryLine.actions.push(new DeliveryLineAction(index, 0, 1, 1, "Draft"));
     }
 
     removeAction(index) {
@@ -37,13 +37,16 @@ export class DeliveryActionsComponent {
     }
 
     update() {
-        /*
-        this.deliveryService.updateDeliveryLine(this.deliveryLine)
+        var request = {
+            jobDetailId: this.deliveryLine.jobDetailId,
+            draftActions: lodash.filter(this.deliveryLine.actions, { status: 1})
+        }
+        
+        this.deliveryService.updateDeliveryLineActions(request)
             .subscribe(() => {
-                this.toasterService.pop('success', 'Delivery line updated', '');
+                this.toasterService.pop('success', 'Delivery line actions updated', '');
                 this.router.navigate(['/delivery', this.deliveryId]);
             });
-        */
     }
 
     cancel() {

@@ -66,7 +66,7 @@ export class DeliveryIssuesComponent {
     updateConfirmed() {
         this.deliveryService.updateDeliveryLine(this.deliveryLine)
             .subscribe(() => {
-                this.toasterService.pop('success', 'Delivery line updated', '');
+                this.toasterService.pop('success', 'Delivery line issues updated', '');
                 this.router.navigate(['/delivery', this.delivery.id]);
             });
     }

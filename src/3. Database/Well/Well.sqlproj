@@ -224,6 +224,9 @@
     <None Include="Post-Deployement\Populate-ActionStatus.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Tables\JobDetailAction.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceSave.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceToBranchSave.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

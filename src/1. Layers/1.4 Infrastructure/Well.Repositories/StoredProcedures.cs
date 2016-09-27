@@ -109,5 +109,8 @@
 
         public static string CleanPreferencesGetAll = "CleanPreferencesGetAll";
         public static string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
+        public static string CleanPreferenceSave = "CleanPreferenceSave";
+        public static string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
+        public static string CleanPreferenceDelete = "CleanPreferenceDelete";
     }
 }

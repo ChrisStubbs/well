@@ -32,6 +32,8 @@ import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
 import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceComponent';
+import {CleanPreferenceAddModalComponent} from './clean_preferences/cleanPreferenceAddModalComponent';
+import {CleanPreferenceRemoveModalComponent} from './clean_preferences/cleanPreferenceRemoveModalComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -74,10 +76,10 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        DeliveryIssuesComponent, DeliveryActionsComponent,
+        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],

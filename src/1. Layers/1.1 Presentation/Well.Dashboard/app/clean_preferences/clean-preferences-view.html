@@ -8,8 +8,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngIf="cleanPreference && cleanPreferences.length === 0">
-                <td colspan="5">No Clean Preferences!</td>
+            <tr *ngIf="cleanPreferences && cleanPreferences.length === 0">
+                <td colspan="3">No Clean Preferences!</td>
             </tr>
             <tr class="grid-row" *ngFor="let x of cleanPreferences">
                 <td (click)="selectCleanPreference(x)">{{x.days}}</td>

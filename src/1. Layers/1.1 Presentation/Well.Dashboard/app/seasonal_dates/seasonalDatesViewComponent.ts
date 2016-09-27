@@ -28,7 +28,9 @@ export class SeasonalDatesViewComponent implements OnInit{
     }
 
     loadSeasonalDates(): void {
-        this.seasonalDateService.getSeasonalDates().subscribe(x => this.seasonalDates = x);
+        this.seasonalDateService.getSeasonalDates().subscribe(x => { this.seasonalDates = x;
+            console.log(this.seasonalDates);
+        });
     }
 
     add() {

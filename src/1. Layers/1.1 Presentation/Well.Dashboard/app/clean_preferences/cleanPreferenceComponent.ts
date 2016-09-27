@@ -13,10 +13,10 @@ export class CleanPreferenceComponent implements OnInit{
     constructor(private cleanPreferenceService: CleanPreferenceService) {}
 
     ngOnInit(): void {
-       this.loadCleanPreferences();
+        this.loadCleanPreferences();
     }
 
     loadCleanPreferences(): void {
-        this.cleanPreferenceService.getCleanPreference().subscribe(x => this.cleanPreferences = x);
+        this.cleanPreferenceService.getCleanPreference().subscribe(x => { this.cleanPreferences = x; console.log(this.cleanPreferences); });
     }
 }

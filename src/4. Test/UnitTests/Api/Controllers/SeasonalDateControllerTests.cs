@@ -11,6 +11,7 @@
 
     using PH.Well.Api.Controllers;
     using PH.Well.Api.Mapper.Contracts;
+    using PH.Well.Api.Models;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -40,13 +41,15 @@
             [Test]
             public void ShouldReturnAllSeasonalDates()
             {
-                // TODO
-                /*var seasonal1 = SeasonalDateFactory.New.With(x => x.From = DateTime.Now.AddDays(-1)).Build();
+                var seasonal1 = SeasonalDateFactory.New.With(x => x.From = DateTime.Now.AddDays(-1)).Build();
                 var seasonal2 = SeasonalDateFactory.New.With(x => x.From = DateTime.Now).Build();
 
                 var seasonalDates = new List<SeasonalDate> { seasonal1, seasonal2 };
 
                 this.seasonalDateRepository.Setup(x => x.GetAll()).Returns(seasonalDates);
+
+                this.mapper.Setup(x => x.Map(seasonal1)).Returns(new SeasonalDateModel());
+                this.mapper.Setup(x => x.Map(seasonal2)).Returns(new SeasonalDateModel());
 
                 var result = this.Controller.Get();
 
@@ -54,11 +57,11 @@
                     result.StatusCode,
                     Is.EqualTo(HttpStatusCode.OK));
 
-                var contentResult = new List<SeasonalDate>();
+                var contentResult = new List<SeasonalDateModel>();
 
                 result.TryGetContentValue(out contentResult);
 
-                Assert.That(contentResult.Count, Is.EqualTo(2));*/
+                Assert.That(contentResult.Count, Is.EqualTo(2));
             }
         }
 

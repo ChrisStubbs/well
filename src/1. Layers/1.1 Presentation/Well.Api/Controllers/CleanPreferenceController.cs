@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -25,7 +26,7 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var cleans = this.cleanPreferenceRepository.GetAll();
+            var cleans = this.cleanPreferenceRepository.GetAll().ToList();
 
             var model = new List<CleanPreferenceModel>();
 

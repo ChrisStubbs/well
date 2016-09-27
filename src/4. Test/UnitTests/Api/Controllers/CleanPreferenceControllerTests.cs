@@ -11,6 +11,7 @@
     using PH.Well.Api.Controllers;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
+    using PH.Well.Api.Validators.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -25,19 +26,23 @@
 
         private Mock<ILogger> logger;
 
+        private Mock<ICleanPreferenceValidator> cleanPreferenceValidator;
+
         [SetUp]
         public void Setup()
         {
             this.cleanPreferenceRepository = new Mock<ICleanPreferenceRepository>(MockBehavior.Strict);
             this.cleanPreferenceMapper = new Mock<ICleanPreferenceMapper>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.cleanPreferenceValidator = new Mock<ICleanPreferenceValidator>(MockBehavior.Strict);
 
             this.cleanPreferenceRepository.SetupSet(x => x.CurrentUser = "");
 
             this.Controller = new CleanPreferenceController(
                 this.cleanPreferenceRepository.Object, 
                 this.cleanPreferenceMapper.Object, 
-                this.logger.Object);
+                this.logger.Object,
+                this.cleanPreferenceValidator.Object);
 
             this.SetupController();
         }

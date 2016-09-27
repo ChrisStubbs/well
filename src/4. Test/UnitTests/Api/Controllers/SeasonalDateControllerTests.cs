@@ -12,6 +12,7 @@
     using PH.Well.Api.Controllers;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
+    using PH.Well.Api.Validators.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -23,6 +24,7 @@
         private Mock<ILogger> logger;
         private Mock<ISeasonalDateRepository> seasonalDateRepository;
         private Mock<ISeasonalDateMapper> mapper;
+        private Mock<ISeasonalDateValidator> validator;
 
         [SetUp]
         public void Setup()
@@ -30,8 +32,13 @@
             this.seasonalDateRepository = new Mock<ISeasonalDateRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.mapper = new Mock<ISeasonalDateMapper>(MockBehavior.Strict);
+            this.validator = new Mock<ISeasonalDateValidator>(MockBehavior.Strict);
             this.seasonalDateRepository.SetupSet(x => x.CurrentUser = "");
-            this.Controller = new SeasonalDateController(this.seasonalDateRepository.Object, this.logger.Object, this.mapper.Object);
+            this.Controller = new SeasonalDateController(
+                this.seasonalDateRepository.Object, 
+                this.logger.Object, 
+                this.mapper.Object,
+                this.validator.Object);
 
             this.SetupController();
         }

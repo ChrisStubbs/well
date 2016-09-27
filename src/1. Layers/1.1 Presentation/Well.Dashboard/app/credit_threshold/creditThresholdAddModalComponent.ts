@@ -14,6 +14,7 @@ export class CreditThresholdAddModalComponent {
     isVisible: boolean = false;
     creditThreshold: CreditThreshold = new CreditThreshold();
     httpResponse: HttpResponse = new HttpResponse();
+    errors: string[];
     @Output() onCreditThresholdSave = new EventEmitter<CreditThreshold>();
 
     constructor(private creditThresholdService: CreditThresholdService, private toasterService: ToasterService) { }
@@ -52,7 +53,7 @@ export class CreditThresholdAddModalComponent {
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                    this.errors = this.httpResponse.errors;
                 }
             });
     }

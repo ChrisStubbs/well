@@ -4,10 +4,10 @@
 
     using PH.Well.Api.Models;
 
-    public interface ISeasonalDateValidator
+    public interface ICreditThresholdValidator
     {
         List<string> Errors { get; set; }
 
-        bool IsValid(SeasonalDateModel model);
+        bool IsValid(CreditThresholdModel model);
     }
 }

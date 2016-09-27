@@ -72,5 +72,13 @@
                     .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
                     .Query<Branch>();
         }
+
+        public IEnumerable<Branch> GetBranchesForCleanPreference(int cleanPreferenceId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForCleanPreference)
+                    .AddParameter("CleanPreferenceId", cleanPreferenceId, DbType.Int32)
+                    .Query<Branch>();
+        }
     }
 }

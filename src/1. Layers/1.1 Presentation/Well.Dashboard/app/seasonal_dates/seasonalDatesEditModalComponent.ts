@@ -14,6 +14,7 @@ export class SeasonalDatesEditModalComponent {
     isVisible: boolean = false;
     seasonalDate: SeasonalDate;
     httpResponse: HttpResponse = new HttpResponse();
+    errors: string[];
     @Output() onUpdate = new EventEmitter<SeasonalDate>();
 
     constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
@@ -23,6 +24,7 @@ export class SeasonalDatesEditModalComponent {
     show(seasonalDate: SeasonalDate) {
         this.seasonalDate = seasonalDate;
         this.isVisible = true;
+        this.errors = [];
     }
 
     hide() {
@@ -46,7 +48,7 @@ export class SeasonalDatesEditModalComponent {
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                    this.errors = this.httpResponse.errors;
                 }
             });
     }

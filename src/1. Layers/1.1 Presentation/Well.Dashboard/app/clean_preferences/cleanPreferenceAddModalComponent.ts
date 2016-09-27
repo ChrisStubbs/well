@@ -14,6 +14,7 @@ export class CleanPreferenceAddModalComponent {
     isVisible: boolean = false;
     cleanPreference: CleanPreference = new CleanPreference();
     httpResponse: HttpResponse = new HttpResponse();
+    errors: string[];
     @Output() onCleanPreferenceSave = new EventEmitter<CleanPreference>();
 
     constructor(private cleanPreferenceService: CleanPreferenceService, private toasterService: ToasterService) { }
@@ -51,7 +52,7 @@ export class CleanPreferenceAddModalComponent {
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                    this.errors = this.httpResponse.errors;
                 }
             });
     }

@@ -227,6 +227,7 @@
     <Build Include="dbo\StoredProcedures\CleanPreferenceToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceDelete.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailAction_Delete.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForCleanPreference.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailAction_Insert.sql" />
   </ItemGroup>
   <ItemGroup>

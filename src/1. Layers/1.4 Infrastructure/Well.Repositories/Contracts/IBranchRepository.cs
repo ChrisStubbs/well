@@ -19,5 +19,7 @@
         IEnumerable<Branch> GetBranchesForSeasonalDate(int seasonalDateId);
 
         IEnumerable<Branch> GetBranchesForCreditThreshold(int creditThresholdId);
+
+        IEnumerable<Branch> GetBranchesForCleanPreference(int cleanPreferenceId);
     }
 }

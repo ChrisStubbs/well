@@ -8,6 +8,7 @@
     using System.Web.Http;
     using Common.Contracts;
     using Domain.ValueObjects;
+    using Models;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Security;
 
@@ -92,11 +93,11 @@
         {
             try
             {
-                var deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
+                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
                 deliveryDetail.SetCanAction(this.UserIdentityName);
 
                 var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
-                var delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
+                DeliveryDetailModel delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {

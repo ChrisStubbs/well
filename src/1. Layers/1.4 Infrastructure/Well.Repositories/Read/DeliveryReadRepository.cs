@@ -1,12 +1,12 @@
-﻿using System.Linq;
-
-namespace PH.Well.Repositories.Read
+﻿namespace PH.Well.Repositories.Read
 {
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
     using Common.Contracts;
     using Contracts;
     using Dapper;
+    using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -77,10 +77,12 @@ namespace PH.Well.Repositories.Read
         {
             var deliveryLines = grid.Read<DeliveryLine>().ToList();
             var damages = grid.Read<Damage>().ToList();
+            var actions = grid.Read<JobDetailAction>().ToList();
 
             foreach (var line in deliveryLines)
             {
                 line.Damages = damages.Where(d => d.JobDetailId == line.Id).ToList();
+                line.Actions = actions.Where(a => a.JobDetailId == line.Id).ToList();
             }
 
             return deliveryLines;

@@ -247,6 +247,7 @@
     <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
+    <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\DeliveryLineActionsModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />

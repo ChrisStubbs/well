@@ -8,6 +8,7 @@
                     <tr>
                         <th>Quantity</th>
                         <th>Action</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -15,9 +16,12 @@
                     <tr *ngFor="let action of deliveryLine.actions; let i = index" class="editable">
                         <td><input id="action-qty-input{{i}}" type="number" class="form-control" [(ngModel)]="action.quantity" /></td>
                         <td>
-                            <select id="action-select{{i}}" class="form-control" required name="action" [(ngModel)]="action.id">
+                            <select id="action-select{{i}}" class="form-control" required name="action" [(ngModel)]="action.action">
                                 <option *ngFor="let a of actions" [value]="a.id">{{a.description}}</option>
                             </select>
+                        </td>
+                        <td>
+                            <span class="form-control-static" *ngIf="action.status">{{action.statusDescription}}</span>
                         </td>
                         <td>
                             <button id="remove-action-button{{i}}" type="button" class="btn btn-primary"

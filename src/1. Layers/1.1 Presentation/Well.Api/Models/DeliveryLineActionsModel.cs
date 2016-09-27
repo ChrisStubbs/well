@@ -6,6 +6,6 @@
     public class DeliveryLineActionsModel
     {
         public int DeliveryLineId { get; set; }
-        public List<ExceptionAction> Actions { get; set; }
+        public List<ActionModel> Actions { get; set; }
     }
 }

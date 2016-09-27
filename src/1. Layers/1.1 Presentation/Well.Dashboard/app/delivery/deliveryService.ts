@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import {Action} from './model/action';
+import {ActionStatus} from './model/actionStatus';
 import {Delivery} from './model/delivery';
 import {DamageReason} from './model/damageReason';
 import {GlobalSettingsService} from '../shared/globalSettings';
@@ -33,6 +34,12 @@ export class DeliveryService {
     getActions(): Observable<Action[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'exception-actions/')
             .map((response: Response) => <Action[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    getActionStatuses(): Observable<ActionStatus[]> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'action-statuses/')
+            .map((response: Response) => <ActionStatus[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

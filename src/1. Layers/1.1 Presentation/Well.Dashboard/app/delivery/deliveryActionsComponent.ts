@@ -1,5 +1,6 @@
 ﻿import {Component, ViewChild} from '@angular/core';
 import {Action} from './model/action';
+import {ActionStatus} from './model/actionStatus';
 import {Delivery} from './model/delivery';
 import {DeliveryLine} from './model/deliveryLine';
 import {DeliveryLineAction} from './model/deliveryLineAction';
@@ -28,7 +29,7 @@ export class DeliveryActionsComponent {
 
     addAction() {
         var index = this.deliveryLine.actions.length;
-        this.deliveryLine.actions.push(new DeliveryLineAction(index, 0, new Action()));
+        this.deliveryLine.actions.push(new DeliveryLineAction(index, 0, 1, undefined, undefined));
     }
 
     removeAction(index) {

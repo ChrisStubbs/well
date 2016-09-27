@@ -20,5 +20,7 @@
         public int DamagedQuantity { get; set; }
 
         public List<DamageModel> Damages { get; set; }
+
+        public List<ActionModel> Actions { get; set; }
     }
 }

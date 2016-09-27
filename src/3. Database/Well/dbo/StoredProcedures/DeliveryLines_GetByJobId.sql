@@ -21,4 +21,18 @@ BEGIN
 	inner join [dbo].[JobDetail] jd on jdd.JobDetailId = jd.Id	
 	WHERE jd.JobId = @JobId
 
+	SELECT a.Id
+		,a.[JobDetailId]
+		,a.[Quantity]
+		,a.ActionId as [Action]
+		,a.StatusId as [Status]
+		,a.[CreatedBy]
+		,a.[DateCreated]
+		,a.[UpdatedBy]
+		,a.[DateUpdated]
+		,a.[Version]
+	From [dbo].[JobDetailAction] a
+	inner join [dbo].[JobDetail] jd on a.JobDetailId = jd.Id	
+	WHERE jd.JobId = @JobId
+
 END

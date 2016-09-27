@@ -26,7 +26,7 @@
                 CanAction = detail.CanAction
             };
 
-            foreach (var line in lines)
+            foreach (DeliveryLine line in lines)
             {
                 deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
                 {
@@ -43,6 +43,12 @@
                     {
                         Quantity = d.Quantity,
                         ReasonCode = d.Reason.ToString()
+                    }).ToList(),
+                    Actions = line.Actions.Select(a => new ActionModel()
+                    {
+                        Quantity = a.Quantity,
+                        Action = a.Action,
+                        Status = a.Status
                     }).ToList()
                 });
             }

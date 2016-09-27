@@ -22,6 +22,14 @@ export class DeliveryLine {
                 }
             }
 
+            if (line.actions) {
+                var index: number = 0;
+                for (let a of line.actions) {
+                    this.actions.push(new DeliveryLineAction(index, a.quantity, a.action, a.status, a.statusDescription));
+                    index++;
+                }
+            }
+
             this.isCleanOnInit = this.isClean();
         }
     }

@@ -372,6 +372,7 @@
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
     <TypeScriptCompile Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\delivery\model\actionStatus.ts" />
     <TypeScriptCompile Include="app\delivery\model\action.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryLineAction.ts" />
     <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />

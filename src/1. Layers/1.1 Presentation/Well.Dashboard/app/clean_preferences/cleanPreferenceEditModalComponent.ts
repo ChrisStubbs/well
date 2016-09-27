@@ -1,28 +1,28 @@
 ﻿import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
 import {Response} from '@angular/http';
-import {CreditThreshold} from './creditThreshold';
+import {CleanPreference} from './cleanPreference';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
-import {CreditThresholdService} from './creditThresholdService';
+import {CleanPreferenceService} from './cleanPreferenceService';
 import {HttpResponse} from '../shared/httpResponse';
 
 @Component({
-    selector: 'ow-credit-threshold-edit-modal',
-    templateUrl: './app/credit_threshold/credit-threshold-edit-modal.html'
+    selector: 'ow-clean-preference-edit-modal',
+    templateUrl: './app/clean_preferences/clean-preference-edit-modal.html'
 })
-export class CreditThresholdEditModalComponent {
+export class CleanPreferenceEditModalComponent {
     isVisible: boolean = false;
-    creditThreshold: CreditThreshold;
+    cleanPreference: CleanPreference;
     httpResponse: HttpResponse = new HttpResponse();
     errors: string[];
-    @Output() onCreditThresholdUpdate = new EventEmitter<CreditThreshold>();
+    @Output() onCleanPreferenceUpdate = new EventEmitter<CleanPreference>();
 
-    constructor(private creditThresholdService: CreditThresholdService, private toasterService: ToasterService) { }
+    constructor(private cleanPreferenceService: CleanPreferenceService, private toasterService: ToasterService) { }
 
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
     
-    show(creditThreshold: CreditThreshold) {
-        this.creditThreshold = creditThreshold;
+    show(cleanPreference: CleanPreference) {
+        this.cleanPreference = cleanPreference;
         this.isVisible = true;
     }
 
@@ -31,19 +31,19 @@ export class CreditThresholdEditModalComponent {
     }
 
     update() {
-        this.creditThreshold.branches = this.branch.selectedBranches;
+        this.cleanPreference.branches = this.branch.selectedBranches;
 
-        this.creditThresholdService.saveCreditThreshold(this.creditThreshold)
+        this.cleanPreferenceService.saveCleanPreference(this.cleanPreference)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Credit threshold has been updated!', '');
+                    this.toasterService.pop('success', 'Clean preference has been updated!', '');
                     this.isVisible = false;
-                    this.onCreditThresholdUpdate.emit(this.creditThreshold);
+                    this.onCleanPreferenceUpdate.emit(this.cleanPreference);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Credit threshold could not be updated at this time!', 'Please try again later!');
+                    this.toasterService.pop('error', 'Clean preference could not be updated at this time!', 'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

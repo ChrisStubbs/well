@@ -32,7 +32,7 @@
             var cleanPreference = new CleanPreference
             {
                 Id = model.Id,
-                Days = model.Days
+                Days = model.Days.Value 
             };
 
             model.Branches.ForEach(x => cleanPreference.Branches.Add(x));

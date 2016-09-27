@@ -220,6 +220,7 @@
     <Content Include="app\clean_preferences\clean-preferences-add-modal.html" />
     <Content Include="app\clean_preferences\clean-preferences-view.html" />
     <Content Include="app\clean_preferences\clean-preference-remove-modal.html" />
+    <Content Include="app\clean_preferences\clean-preference-edit-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-view.html" />
     <Content Include="app\credit_threshold\credit-threshold-remove-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-add-modal.html" />
@@ -230,6 +231,7 @@
     <Content Include="app\delivery\delivery-update.html" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
+    <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryActionsComponent.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryIssuesComponent.ts" />
     <Content Include="app\exceptions\exceptions-list.html" />

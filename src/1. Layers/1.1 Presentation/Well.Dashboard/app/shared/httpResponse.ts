@@ -4,4 +4,5 @@
     notAcceptable: boolean;
     adamdown: boolean;
     message: string;
+    errors: string[];
 }

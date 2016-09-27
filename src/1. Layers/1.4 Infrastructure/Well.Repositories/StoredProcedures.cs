@@ -72,6 +72,7 @@
         public static string GetBranchesForUser = "GetBranchesForUser";
         public static string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public static string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
+        public static string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
         public static string UserGetByIdentity = "UserGetByIdentity";

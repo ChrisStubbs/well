@@ -15,7 +15,7 @@
 
         public string ThresholdLevel { get; set; }
 
-        public int Threshold { get; set; }
+        public int? Threshold { get; set; }
 
         public string BranchName { get; set; }
 

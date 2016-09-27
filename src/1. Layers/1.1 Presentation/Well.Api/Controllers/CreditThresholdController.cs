@@ -8,6 +8,7 @@
 
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
+    using PH.Well.Api.Validators.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -20,11 +21,18 @@
 
         private readonly ICreditThresholdMapper mapper;
 
-        public CreditThresholdController(ICreditThresholdRepository creditThresholdRepository, ILogger logger, ICreditThresholdMapper mapper)
+        private readonly ICreditThresholdValidator validator;
+
+        public CreditThresholdController(
+            ICreditThresholdRepository creditThresholdRepository, 
+            ILogger logger, 
+            ICreditThresholdMapper mapper,
+            ICreditThresholdValidator validator)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
             this.mapper = mapper;
+            this.validator = validator;
 
             this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
@@ -71,9 +79,10 @@
         {
             try
             {
-                // TODO Validate
-                // if validation fails pass back 
-                // return this.Request.CreateResponse(HttpStatusCode.OK, new { warning = true, message = 'validation messages' });
+                if (!this.validator.IsValid(model))
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
+                } 
                 
                 var creditThreshold = this.mapper.Map(model);
 

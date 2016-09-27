@@ -5,6 +5,11 @@
                 <h4 class="modal-title">Add seasonal date range</h4>
             </div>
             <div class="modal-body">
+                <div *ngIf="errors && errors.length > 0">
+                    <div class="alert alert-danger" *ngFor="let error of errors" style="max-width: 400px;">
+                        <strong>{{error}}</strong>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-1">&nbsp;</div>
                     <div class="col-md-7">
@@ -25,7 +30,7 @@
                         <ow-branch-select></ow-branch-select>
                     </div>
                 </div>
-                
+
             </div>
             <div class="modal-footer">
                 <div class="btn-group"><button type="button" class="btn btn-primary" (click)="save()">Save</button></div>

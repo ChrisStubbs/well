@@ -3,6 +3,7 @@ import {CleanPreferenceService} from './cleanPreferenceService';
 import {CleanPreference} from './cleanPreference';
 import {CleanPreferenceAddModalComponent} from './cleanPreferenceAddModalComponent';
 import {CleanPreferenceRemoveModalComponent} from './cleanPreferenceRemoveModalComponent';
+import {CleanPreferenceEditModalComponent} from './cleanPreferenceEditModalComponent';
 import * as lodash from 'lodash';
 
 @Component({
@@ -21,9 +22,14 @@ export class CleanPreferenceComponent implements OnInit{
 
     @ViewChild(CleanPreferenceAddModalComponent) addModal: CleanPreferenceAddModalComponent;
     @ViewChild(CleanPreferenceRemoveModalComponent) removeModal: CleanPreferenceRemoveModalComponent;
+    @ViewChild(CleanPreferenceEditModalComponent) editModal: CleanPreferenceEditModalComponent;
 
     loadCleanPreferences(): void {
         this.cleanPreferenceService.getCleanPreference().subscribe(x => this.cleanPreferences = x);
+    }
+
+    selectCleanPreference(clean: CleanPreference) {
+        this.editModal.show(clean);
     }
 
     add() {

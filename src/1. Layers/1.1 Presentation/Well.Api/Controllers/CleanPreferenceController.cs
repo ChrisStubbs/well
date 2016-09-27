@@ -9,6 +9,7 @@
 
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
+    using PH.Well.Api.Validators.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories.Contracts;
 
@@ -20,14 +21,18 @@
 
         private readonly ILogger logger;
 
+        private readonly ICleanPreferenceValidator validator;
+
         public CleanPreferenceController(
             ICleanPreferenceRepository cleanPreferenceRepository,
             ICleanPreferenceMapper mapper, 
-            ILogger logger)
+            ILogger logger,
+            ICleanPreferenceValidator validator)
         {
             this.cleanPreferenceRepository = cleanPreferenceRepository;
             this.mapper = mapper;
             this.logger = logger;
+            this.validator = validator;
             this.cleanPreferenceRepository.CurrentUser = this.UserIdentityName;
         }
 
@@ -55,9 +60,11 @@
         {
             try
             {
-                // TODO Validate
-                // if validation fails pass back 
-                // return this.Request.CreateResponse(HttpStatusCode.OK, new { warning = true, message = 'validation messages' });
+                if (!this.validator.IsValid(model))
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
+                }
+                
                 var cleanPreference = this.mapper.Map(model);
 
                 this.cleanPreferenceRepository.Save(cleanPreference);

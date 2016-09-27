@@ -15,15 +15,7 @@ import * as lodash from 'lodash';
 export class DeliveryActionsComponent {
     deliveryId: number;
     deliveryLine: DeliveryLine = new DeliveryLine(undefined);
-    //TODO - Populate from backend action list 
-    actions: Action[] = [
-        { id: 1, description: "Credit" },
-        { id: 2, description: "Credit And Reorder" },
-        { id: 3, description: "Replan In Roadnet" },
-        { id: 4, description: "Replan In TranSend" },
-        { id: 5, description: "Replan In The Queue" },
-        { id: 6, description: "Reject" },
-    ];
+    actions: Action[] = new Array<Action>();
 
     constructor(private deliveryService: DeliveryService,
         private toasterService: ToasterService,
@@ -31,7 +23,7 @@ export class DeliveryActionsComponent {
     }
 
     ngOnInit(): void {
-
+        this.deliveryService.getActions().subscribe(actions => { this.actions = actions; });
     }
 
     addAction() {

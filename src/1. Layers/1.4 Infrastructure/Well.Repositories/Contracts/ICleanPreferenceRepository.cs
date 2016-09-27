@@ -7,5 +7,7 @@
     public interface ICleanPreferenceRepository : IRepository<CleanPreference, int>
     {
         IEnumerable<CleanPreference> GetAll();
+
+        void Delete(int id);
     }
 }

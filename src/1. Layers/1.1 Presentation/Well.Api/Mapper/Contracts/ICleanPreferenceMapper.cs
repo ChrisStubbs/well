@@ -6,5 +6,7 @@
     public interface ICleanPreferenceMapper
     {
         CleanPreferenceModel Map(CleanPreference cleanPreference);
+
+        CleanPreference Map(CleanPreferenceModel model);
     }
 }

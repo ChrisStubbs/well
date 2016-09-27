@@ -53,7 +53,6 @@
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
-        public static string JobDetailGetByJobId = "JobDetail_GetByJobId";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";

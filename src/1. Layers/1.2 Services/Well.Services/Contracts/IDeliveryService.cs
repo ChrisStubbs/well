@@ -5,5 +5,6 @@
     public interface IDeliveryService
     {
         void UpdateDeliveryLine(JobDetail jobDetail, string username);
+        void UpdateDraftActions(JobDetail jobDetailUpdates, string username);
     }
 }

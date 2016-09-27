@@ -93,6 +93,9 @@
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
         public Collection<JobDetailDamage>  JobDetailDamages { get; set; }
 
+        [XmlIgnore]
+        public Collection<JobDetailAction> Actions { get; set; }
+
         public bool IsClean()
         {
             if (ShortQty > 0)

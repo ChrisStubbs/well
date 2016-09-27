@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
@@ -41,14 +42,16 @@
             IEnumerable<JobDetail> jobDetails = jobDetailRepo.GetByJobId(jobDetailUpdates.JobId);
             bool isCleanBeforeUpdate = jobDetails.All(jd => jd.IsClean());
 
-            var jobDetail = jobDetails.Single(j => j.JobId == jobDetailUpdates.JobId && j.LineNumber == jobDetailUpdates.LineNumber);
+            var jobDetail =
+                jobDetails.Single(j => j.JobId == jobDetailUpdates.JobId && j.LineNumber == jobDetailUpdates.LineNumber);
             jobDetail.ShortQty = jobDetailUpdates.ShortQty;
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
 
             Job job = jobRepo.GetById(jobDetail.JobId);
             JobDetail originalJobDetail = jobDetailRepo.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
             Stop stop = stopRepo.GetByJobId(jobDetailUpdates.JobId);
-            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount, stop.DeliveryDate);
+            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
+                stop.DeliveryDate);
 
             using (var transactionScope = new TransactionScope())
             {
@@ -81,6 +84,14 @@
 
                 transactionScope.Complete();
             }
+        }
+
+        public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
+        {
+            //Delete existing draft actions
+            //Save draft actions
+            //Audit changes
+            throw new NotImplementedException();
         }
     }
 }

@@ -47,28 +47,21 @@
         {
             var jobDetails = grid.Read<JobDetail>().ToList();
             var jobDetailDamages = grid.Read<JobDetailDamage>().ToList();
+            var actions = grid.Read<JobDetailAction>().ToList();
 
             foreach (var jobDetail in jobDetails)
             {
                 jobDetail.JobDetailDamages =
                     new Collection<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id).ToList());
+                jobDetail.Actions =
+                    new Collection<JobDetailAction>(actions.Where(a => a.JobDetailId == jobDetail.Id).ToList());
             }
 
             return jobDetails;
         }
 
-        public IEnumerable<JobDetail> GetJobDetailByJobId(int jobId)
-        {
-
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId)
-                .AddParameter("JobId", jobId, DbType.Int32)
-                .Query<JobDetail>();
-        }
-
         protected override void SaveNew(JobDetail jobDetail)
         {
-            
-
             jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)

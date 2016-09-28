@@ -37,7 +37,8 @@
         {
             try
             {
-                var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
+                var exceptionDeliveries =
+                    this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
                 return !exceptionDeliveries.Any()
@@ -47,17 +48,19 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting exceptions");
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting exceptions");
             }
         }
-        
+
         [HttpGet]
         [Route("deliveries/clean")]
         public HttpResponseMessage GetCleanDeliveries()
         {
             try
             {
-                List<Delivery> cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
+                List<Delivery> cleanDeliveries =
+                    this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
@@ -65,7 +68,8 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting clean deliveries");
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    $"An error occured when getting clean deliveries");
             }
         }
 
@@ -78,12 +82,13 @@
                 var resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserIdentityName).ToList();
 
                 return !resolvedDeliveries.Any()
-                   ? this.Request.CreateResponse(HttpStatusCode.NotFound)
-                   : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting resolved deliveries");
+                return serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting resolved deliveries");
             }
         }
 
@@ -108,8 +113,16 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting delivery detail id: {id}");
+                return serverErrorResponseHandler.HandleException(Request, ex,
+                    $"An error occured when getting delivery detail id: {id}");
             }
+        }
+
+        [HttpPost]
+        [Route("deliveries/{id:int}/submit-actions")]
+        public HttpResponseMessage SubmitActions(int id)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

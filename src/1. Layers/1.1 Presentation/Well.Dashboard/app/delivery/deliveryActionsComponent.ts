@@ -29,7 +29,7 @@ export class DeliveryActionsComponent {
 
     addAction() {
         var index = this.deliveryLine.actions.length;
-        this.deliveryLine.actions.push(new DeliveryLineAction(index, 0, 1, 1, "Draft"));
+        this.deliveryLine.actions.push(new DeliveryLineAction(index, 0, 1, "Credit", 1, "Draft"));
     }
 
     removeAction(index) {

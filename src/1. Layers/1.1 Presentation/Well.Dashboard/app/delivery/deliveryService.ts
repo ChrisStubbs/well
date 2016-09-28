@@ -64,4 +64,10 @@ export class DeliveryService {
                 options)
             .catch(e => this.httpErrorService.handleError(e));
     }
+
+    submitActions(deliveryId): Observable<any> {
+        let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId + '/submit-actions';
+        return this.http.post(url, "", options).catch(e => this.httpErrorService.handleError(e));
+    }
 }

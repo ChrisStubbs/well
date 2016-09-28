@@ -6,7 +6,15 @@
                 <button type="button" class="close" (click)="hide()">&times;</button>
                 <h4 class="modal-title text-danger">{{heading}}</h4>
             </div>
-            <div [innerHTML]="messageHtml" class="modal-body">
+            <div class="modal-body">
+                <p>Please confirm submission of the following actions</p>
+                <div *ngFor="let line of submitLines">
+                    <p><strong>{{line.productCode}} - {{line.productDescription}}</strong></p>
+                    <ul *ngFor="let action of line.actions">
+                        <li *ngIf="action.quantity == 1">{{action.actionDescription}} {{action.quantity}} item</li>
+                        <li *ngIf="action.quantity > 1">{{action.actionDescription}} {{action.quantity}} items</li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
                 <button id="confirm-modal-button" type="button" class="btn btn-success" (click)="confirm()">Confirm</button>

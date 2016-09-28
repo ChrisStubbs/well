@@ -39,6 +39,7 @@
         public void RemoveTestData()
         {
             DeleteAndReseed("JobDetailDamage");
+            DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
             DeleteAndReseed("UserJob");
             DeleteAndReseed("Job");

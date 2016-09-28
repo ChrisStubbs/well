@@ -5,6 +5,8 @@
 
     public class DeliveryDetailsPage : Page
     {
+        private readonly Div _tabSetDiv;
+
         public DeliveryDetailsPage()
         {
             this.Grid = new Grid<DeliveryDetailsGrid> { Locator = By.Id("tableDelivery"), RowLocator = By.ClassName("grid-row") };

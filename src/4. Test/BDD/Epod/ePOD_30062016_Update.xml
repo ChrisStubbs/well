@@ -77,8 +77,8 @@
               <GrnNumber>1234567896541236547896</GrnNumber>
               <GrnRefusedReason>Inv</GrnRefusedReason>
               <GrnRefusedDesc>Invalid</GrnRefusedDesc>
-              <PerformanceStatusCode>COMPL</PerformanceStatusCode>
-              <PerformanceStatusDescription>Complete</PerformanceStatusDescription>
+              <PerformanceStatusCode>INCOM</PerformanceStatusCode>
+              <PerformanceStatusDescription>Incomplete</PerformanceStatusDescription>
               <OrderDate>30-05-2016</OrderDate>
               <JobType_Code>DEL-TOB</JobType_Code>
               <Reason_ReasonCode>F</Reason_ReasonCode>

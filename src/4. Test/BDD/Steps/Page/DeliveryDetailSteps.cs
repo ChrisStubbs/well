@@ -29,6 +29,9 @@
             rows.First().Click();
         }
 
+        
+
+
         [Then(@"I am shown the exception detail")]
         public void ShownExceptionDetail(Table table)
         {

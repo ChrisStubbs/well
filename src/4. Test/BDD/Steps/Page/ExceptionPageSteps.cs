@@ -22,7 +22,18 @@
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
+            
             ExceptionDeliveriesPage.Open();
+        }
+
+        [Given(@"an exception with 20 invoiced items is assigned to me")]
+        public void GivenAnExceptionWithInvoicedItemsIsAssignedToMe()
+        {
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22);
+            WhenIOpenTheExceptionDeliveries();
+            SelectAssignLink();
+            SelectUserToAssign();
         }
 
         [Then(@"the following exception deliveries will be displayed")]

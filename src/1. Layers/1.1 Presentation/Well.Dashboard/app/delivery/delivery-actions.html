@@ -21,7 +21,7 @@
                             </select>
                         </td>
                         <td>
-                            <span class="form-control-static" *ngIf="action.status">{{action.statusDescription}}</span>
+                            <span id="action-status{{i}}" class="form-control-static" *ngIf="action.status">{{action.statusDescription}}</span>
                         </td>
                         <td>
                             <button id="remove-action-button{{i}}" type="button" class="btn btn-primary"

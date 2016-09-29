@@ -391,7 +391,7 @@
 
                 foreach (var job in stopJobs)
                 {
-                    var jobDetailsForJob = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
+                    var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
 
                     var jobRoyaltyCode = GetCustomerRoyaltyCode(job.RoyaltyCode);
                     var noOutstandingJobRoyalty = DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
@@ -467,7 +467,7 @@
 
         private void CheckJobDetailsForJob(Job job)
         {
-            var jobDetailList = this.jobDetailRepository.GetJobDetailByJobId(job.Id);
+            var jobDetailList = this.jobDetailRepository.GetByJobId(job.Id);
 
             this.JobDeleteType = DeleteType(job.DateCreated);
 

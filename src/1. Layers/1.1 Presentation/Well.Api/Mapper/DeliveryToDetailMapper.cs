@@ -26,10 +26,11 @@
                 CanAction = detail.CanAction
             };
 
-            foreach (var line in lines)
+            foreach (DeliveryLine line in lines)
             {
                 deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
                 {
+                    JobDetailId = line.JobDetailId,
                     JobId = line.JobId,
                     LineNo = line.LineNo,
                     ProductCode = line.ProductCode,
@@ -43,6 +44,12 @@
                     {
                         Quantity = d.Quantity,
                         ReasonCode = d.Reason.ToString()
+                    }).ToList(),
+                    Actions = line.Actions.Select(a => new ActionModel()
+                    {
+                        Quantity = a.Quantity,
+                        Action = a.Action,
+                        Status = a.Status
                     }).ToList()
                 });
             }

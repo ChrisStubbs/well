@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
@@ -14,7 +13,8 @@
     {
         public JobDetail()
         {
-           this.JobDetailDamages = new Collection<JobDetailDamage>();
+            JobDetailDamages = new Collection<JobDetailDamage>();
+            Actions = new Collection<JobDetailAction>();
         }
 
         [XmlElement("LineNumber")]
@@ -93,6 +93,9 @@
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
         public Collection<JobDetailDamage>  JobDetailDamages { get; set; }
 
+        [XmlIgnore]
+        public Collection<JobDetailAction> Actions { get; set; }
+
         public bool IsClean()
         {
             if (ShortQty > 0)
@@ -109,27 +112,8 @@
             auditBuilder.AppendConditional(originalJobDetail.ShortQty != ShortQty,
                 $"Short Qty changed from {originalJobDetail.ShortQty} to {ShortQty}. ");
 
-            var originalDamages = originalJobDetail.JobDetailDamages;
-            var damages = JobDetailDamages;
-
-            var damagesChanged = originalDamages.Count != damages.Count ||
-                                 originalDamages.OrderBy(o => o.DamageReason).SequenceEqual(damages.OrderBy(d => d.DamageReason)) == false;
-
-            if (damagesChanged && originalDamages.Count == 0)
-            {
-                auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
-            }
-            else if (damagesChanged && damages.Count == 0)
-            {
-                auditBuilder.Append(
-                    $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}. ");
-            }
-            else if (damagesChanged)
-            {
-                auditBuilder.Append($"Damages changed from " +
-                    $"{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))} to " +
-                    $"{string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
-            }
+            AuditDamages(auditBuilder, originalJobDetail.JobDetailDamages);
+            AuditActions(auditBuilder, originalJobDetail.Actions);
 
             string entry = string.Empty;
             if (auditBuilder.Length > 0)
@@ -147,6 +131,52 @@
             };
 
             return audit;
+        }
+
+        private void AuditDamages(StringBuilder auditBuilder, Collection<JobDetailDamage> originalDamages)
+        {
+            var damages = JobDetailDamages;
+
+            var damagesChanged = originalDamages.Count != damages.Count ||
+                                 originalDamages.OrderBy(o => o.DamageReason).SequenceEqual(damages.OrderBy(d => d.DamageReason)) == false;
+
+            if (damagesChanged && originalDamages.Count == 0)
+            {
+                auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
+            }
+            else if (damagesChanged && damages.Count == 0)
+            {
+                auditBuilder.Append(
+                    $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}. ");
+            }
+            else if (damagesChanged)
+            {
+                auditBuilder.Append($"Damages changed from " +
+                    $"'{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}' to " +
+                    $"'{string.Join(", ", damages.Select(d => d.GetDamageString()))}'. ");
+            }
+        }
+
+        private void AuditActions(StringBuilder auditBuilder, Collection<JobDetailAction> originalActions)
+        {
+            var isChanged = originalActions.Count != Actions.Count ||
+                                 originalActions.OrderBy(o => o.Action).SequenceEqual(Actions.OrderBy(d => d.Action)) == false;
+
+            if (isChanged && originalActions.Count == 0)
+            {
+                auditBuilder.Append($"Actions added {string.Join(", ", Actions.Select(d => d.GetString()))}. ");
+            }
+            else if (isChanged && Actions.Count == 0)
+            {
+                auditBuilder.Append(
+                    $"Actions removed, old actions {string.Join(", ", originalActions.Select(d => d.GetString()))}. ");
+            }
+            else if (isChanged)
+            {
+                auditBuilder.Append($"Actions changed from " +
+                    $"'{string.Join(", ", originalActions.Select(d => d.GetString()))}' to " +
+                    $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
+            }
         }
     }
 }

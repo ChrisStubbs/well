@@ -10,6 +10,5 @@
         IEnumerable<JobDetail> GetByJobId(int jobId);
         JobDetail GetByJobLine(int jobId, int lineNumber);
         void DeleteJobDetailById(int id, WellDeleteType deleteType);
-        IEnumerable<JobDetail> GetJobDetailByJobId(int jobId);
     }
 }

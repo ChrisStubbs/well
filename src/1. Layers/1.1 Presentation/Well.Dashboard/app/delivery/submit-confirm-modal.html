@@ -1,0 +1,25 @@
+﻿<div *ngIf="isVisible" class="modal fade show in danger confirm-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="hide()">&times;</button>
+                <h4 class="modal-title text-danger">{{heading}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>Please confirm submission of the following actions</p>
+                <div *ngFor="let line of submitLines">
+                    <p><strong>{{line.productCode}} - {{line.productDescription}}</strong></p>
+                    <ul *ngFor="let action of line.actions">
+                        <li *ngIf="action.quantity == 1">{{action.actionDescription}} {{action.quantity}} item</li>
+                        <li *ngIf="action.quantity > 1">{{action.actionDescription}} {{action.quantity}} items</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm-modal-button" type="button" class="btn btn-success" (click)="confirm()">Confirm</button>
+                <button id="cancel-modal-button" type="button" class="btn btn-primary" (click)="hide()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@
     public abstract class WebElement
     {
         protected ILogger Logger;
+        
 
         protected WebElement()
         {
@@ -19,7 +20,7 @@
         }
 
         public IWebDriver Driver => DriverContext.CurrentDriver;
-        public IWebElement Element { get; set; }
+        
         public By Locator { get; set; }
 
         public virtual IWebElement GetElement()
@@ -30,12 +31,12 @@
 
                 var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
-                this.Element = wait.Until(d => d.FindElement(this.Locator));
+                var element = wait.Until(d => d.FindElement(this.Locator));
 
-                this.Driver.ExecuteJavaScript($"window.scrollTo(0, {this.Element.Location.Y});");
+                this.Driver.ExecuteJavaScript($"window.scrollTo(0, {element.Location.Y});");
 
-                Logger.LogDebug($"Found Element Locator: {Locator} Text: {Element.Text} Enable: {Element.Enabled} Displayed: {Element.Displayed}"  );
-                return this.Element;
+                Logger.LogDebug($"Found Element Locator: {Locator} Text: {element.Text} Enable: {element.Enabled} Displayed: {element.Displayed}"  );
+                return element;
             }
             catch (NoSuchElementException ex)
             {

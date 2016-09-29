@@ -93,6 +93,12 @@
             return this.row.FindElement(By.ClassName(className));
         }
 
+        public IWebElement GetItemInRowById(string id)
+        {
+            var elements = row.FindElements(By.Id(id));
+            return elements != null && elements.Count > 0 ? elements[0] : null;
+        }
+
         public string GetColumnValueByIndex(int idx)
         {
             return this.row.FindElements(By.XPath(".//*"))[idx].Text;

@@ -10,8 +10,10 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 :r .\Populate-AccountType.sql
+:r .\Populate-ActionStatus.sql
 :r .\Populate-ByPassReasons.sql
 :r .\Populate-DamageReasons.sql
+:r .\Populate-DamageSource.sql
 :r .\Populate-PerformanceStatus.sql
 :r .\Populate-JobType.sql
 :r .\Populate-ReasonCategory.sql
@@ -32,4 +34,3 @@ Post-Deployment Script Template
 :r .\Populate-GrnRefused.sql
 :r .\Populate-ThresholdLevels.sql
 :r .\Populate-CommodityType.sql
-:r .\Populate_DamageSource.sql

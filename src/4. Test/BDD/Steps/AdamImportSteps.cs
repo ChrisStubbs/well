@@ -192,7 +192,7 @@
         public void ThenThereShouldBeExceptionLinesLeftForAJobWithAndIdOr(int exceptionLines, int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count(x => !x.IsDeleted);
+            var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count(x => !x.IsDeleted);
             Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
@@ -200,7 +200,7 @@
         public void ThenThereShouldBeLinesLeftForAJobWithAnIdOf(int exceptionLines, int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count();
+            var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count();
             Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
@@ -210,7 +210,7 @@
         public void GivenIResolveOneOfTheExceptionsWithAJobIdOf(int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailToResolve = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
+            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
             jobDetailrepositoryContainer.CurrentUser = currentUser;
             jobDetailrepositoryContainer.Update(jobDetailToResolve);

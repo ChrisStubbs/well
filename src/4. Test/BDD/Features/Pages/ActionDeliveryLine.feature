@@ -29,3 +29,8 @@ Scenario: Add Actions to delivery line
 	| 1        | Replan In Roadnet   | Draft  |
 	| 1        | Replan In The Queue | Draft  |
 	| 1        | Reject              | Draft  |
+
+Scenario: Submitted actions can not be changed
+	Given an exception with a submitted action is assigned to me
+	When I view the Actions for line '1' of Delivery '1' 
+	Then I can not edit any action

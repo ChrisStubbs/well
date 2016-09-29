@@ -16,7 +16,7 @@
         private DeliveryDetailsPage page => new DeliveryDetailsPage();
     
         [Given(@"I open delivery '(.*)'")]
-        public void WhenIOpenTheCleanDeliveries(int deliveryId)
+        public void WhenIOpenDelivery(int deliveryId)
         {
             string routing = "/" + deliveryId;
             page.Open(routing);
@@ -29,8 +29,11 @@
             rows.First().Click();
         }
 
-        
-
+        public void ClickSubmitActions()
+        {
+            page.SubmitActionButton.Click();
+            page.ConfirmModalButton.Click();
+        }
 
         [Then(@"I am shown the exception detail")]
         public void ShownExceptionDetail(Table table)

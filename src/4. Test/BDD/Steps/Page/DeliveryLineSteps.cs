@@ -26,6 +26,20 @@
             page.ActionsTab.Click();
         }
 
+        [Given(@"an exception with a submitted action is assigned to me")]
+        public void GivenAnExceptionWithSubmittedActionIsAssignedToMe()
+        {
+            var exceptionPageSteps = new ExceptionPageSteps();
+            exceptionPageSteps.GivenAnExceptionWithInvoicedItemsIsAssignedToMe();
+            GivenIViewTheActionsForLineOfDelivery(1, 1);
+            WhenIAddTheActionToItem("Credit", "1");
+            WhenISaveTheDeliveryLineUpdates();
+            var deliveryPageSteps = new DeliveryDetailSteps();
+            deliveryPageSteps.WhenIOpenDelivery(1);
+            deliveryPageSteps.ClickSubmitActions();
+        }
+
+
         [When(@"I add the '(.*)' action to (.*) item")]
         public void WhenIAddTheActionToItem(string action, string quantity)
         {
@@ -91,5 +105,17 @@
             }
         }
 
+        [Then(@"I can not edit any action")]
+        public void ThenICanNotEditAnyAction()
+        {
+            var pageRows = page.ActionGrid.ReturnAllRows().ToList();
+
+            for (int i = 0; i < pageRows.Count; i++)
+            {
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"action-qty-input{i}").GetAttribute("disabled"));
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"action-select{i}").GetAttribute("disabled"));
+                Assert.IsNull(pageRows[i].GetItemInRowById($"remove-action-button{i}"));
+            }
+        }
     }
 }

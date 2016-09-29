@@ -95,7 +95,8 @@
 
         public IWebElement GetItemInRowById(string id)
         {
-            return this.row.FindElement(By.Id(id));
+            var elements = row.FindElements(By.Id(id));
+            return elements != null && elements.Count > 0 ? elements[0] : null;
         }
 
         public string GetColumnValueByIndex(int idx)

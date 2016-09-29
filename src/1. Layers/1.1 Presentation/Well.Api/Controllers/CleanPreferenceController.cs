@@ -40,7 +40,7 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var cleans = this.cleanPreferenceRepository.GetAll().ToList();
+            var cleans = this.cleanPreferenceRepository.GetAll().OrderBy(x => x.Days).ToList();
 
             var model = new List<CleanPreferenceModel>();
 
@@ -54,13 +54,13 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
-        [Route("clean-preference")]
+        [Route("clean-preference/{isUpdate:bool}")]
         [HttpPost]
-        public HttpResponseMessage Post(CleanPreferenceModel model)
+        public HttpResponseMessage Post(CleanPreferenceModel model, bool isUpdate)
         {
             try
             {
-                if (!this.validator.IsValid(model))
+                if (!this.validator.IsValid(model, isUpdate))
                 {
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
                 }
@@ -75,7 +75,7 @@
             {
                 this.logger.LogError("Error when trying to save clean preference", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
 
@@ -93,7 +93,7 @@
             {
                 this.logger.LogError($"Error when trying to delete clean preference (id):{id}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
     }

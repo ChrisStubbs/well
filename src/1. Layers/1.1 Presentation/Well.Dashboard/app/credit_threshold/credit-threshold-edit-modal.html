@@ -6,8 +6,8 @@
             </div>
             <div class="modal-body">
                 <div *ngIf="errors && errors.length > 0">
-                    <div class="alert alert-danger" *ngFor="let error of errors" style="max-width: 400px;">
-                        <strong>{{error}}</strong>
+                    <div class="alert alert-danger" style="max-width: 400px;">
+                        <div *ngFor="let error of errors"><strong>{{error}}</strong></div>
                     </div>
                 </div>
                 <div class="row">
@@ -17,9 +17,6 @@
                             <label>Threshold</label>
                             <input type="text" class="form-control" placeholder="Threshold" [(ngModel)]="creditThreshold.threshold"/>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <ow-branch-select [creditThresholdId]="creditThreshold.id"></ow-branch-select>
                     </div>
                 </div>
             </div>

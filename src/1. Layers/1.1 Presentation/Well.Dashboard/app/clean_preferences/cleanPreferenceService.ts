@@ -21,10 +21,10 @@ export class CleanPreferenceService {
             this.options).map(res => res.json());
     }
 
-    saveCleanPreference(cleanPreference: CleanPreference): Observable<any> {
+    saveCleanPreference(cleanPreference: CleanPreference, isUpdate: boolean): Observable<any> {
         let body = JSON.stringify(cleanPreference);
 
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'clean-preference',
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'clean-preference/' + isUpdate,
             body,
             this.options)
             .map(res => res.json());

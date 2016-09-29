@@ -22,18 +22,22 @@ export class SeasonalDatesEditModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
     
     show(seasonalDate: SeasonalDate) {
+        this.clear();
         this.seasonalDate = seasonalDate;
         this.isVisible = true;
-        this.errors = [];
     }
 
     hide() {
         this.isVisible = false;
+        this.clear();
+    }
+
+    clear() {
+        this.seasonalDate = new SeasonalDate();
+        this.errors = [];
     }
 
     update() {
-        this.seasonalDate.branches = this.branch.selectedBranches;
-
         this.seasonalDateService.saveSeasonalDate(this.seasonalDate)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));

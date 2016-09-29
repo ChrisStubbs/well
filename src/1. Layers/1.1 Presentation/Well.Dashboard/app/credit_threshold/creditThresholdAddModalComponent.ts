@@ -22,6 +22,7 @@ export class CreditThresholdAddModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
 
     show() {
+        this.clear();
         this.isVisible = true;
         this.creditThreshold.thresholdLevel = 'Level';
     }
@@ -33,12 +34,13 @@ export class CreditThresholdAddModalComponent {
 
     clear() {
         this.creditThreshold = new CreditThreshold();
+        this.errors = [];
     }
 
     save() {
         this.creditThreshold.branches = this.branch.selectedBranches;
 
-        this.creditThresholdService.saveCreditThreshold(this.creditThreshold)
+        this.creditThresholdService.saveCreditThreshold(this.creditThreshold, false)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 

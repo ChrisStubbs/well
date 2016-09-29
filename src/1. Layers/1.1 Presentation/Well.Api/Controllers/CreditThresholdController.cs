@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -41,7 +42,7 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var creditThresholds = this.creditThresholdRepository.GetAll();
+            var creditThresholds = this.creditThresholdRepository.GetAll().OrderBy(x => x.ThresholdLevelId).ToList();
 
             var model = new List<CreditThresholdModel>();
 
@@ -69,17 +70,17 @@
             {
                 this.logger.LogError($"Error when trying to delete credit threshold (id):{id}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
 
-        [Route("credit-threshold")]
+        [Route("credit-threshold/{isUpdate:bool}")]
         [HttpPost]
-        public HttpResponseMessage Post(CreditThresholdModel model)
+        public HttpResponseMessage Post(CreditThresholdModel model, bool isUpdate)
         {
             try
             {
-                if (!this.validator.IsValid(model))
+                if (!this.validator.IsValid(model, isUpdate))
                 {
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
                 } 
@@ -94,7 +95,7 @@
             {
                 this.logger.LogError("Error when trying to save credit threshold date", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
     }

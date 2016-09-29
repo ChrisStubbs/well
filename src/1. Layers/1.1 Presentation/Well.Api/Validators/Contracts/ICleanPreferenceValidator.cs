@@ -8,6 +8,6 @@
     {
         List<string> Errors { get; set; }
 
-        bool IsValid(CleanPreferenceModel model);
+        bool IsValid(CleanPreferenceModel model, bool isUpdate);
     }
 }

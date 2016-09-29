@@ -26,6 +26,13 @@
             ExceptionDeliveriesPage.Open();
         }
 
+        [Given(@"an exception with 20 invoiced items")]
+        public void GivenAnExceptionWithInvoicedItems()
+        {
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22);
+        }
+
         [Given(@"an exception with 20 invoiced items is assigned to me")]
         public void GivenAnExceptionWithInvoicedItemsIsAssignedToMe()
         {
@@ -34,6 +41,17 @@
             WhenIOpenTheExceptionDeliveries();
             SelectAssignLink();
             SelectUserToAssign();
+        }
+
+        [Given(@"an exception with 20 invoiced items is assigned to identity: '(.*)', name: '(.*)'")]
+        public void GivenAnExceptionWithInvoicedItems(string userIdentity, string name)
+        {
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22, userIdentity);
+            dbSteps.GivenIHaveSelectedBranch(22);
+            WhenIOpenTheExceptionDeliveries();
+            SelectAssignLink();
+            SelectUserToAssign(name);
         }
 
         [Then(@"the following exception deliveries will be displayed")]
@@ -200,6 +218,15 @@
         {
             Thread.Sleep(2000);
             var element = this.ExceptionDeliveriesPage.GetFirstAssignUserFromModal();
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+
+            element.Click();
+        }
+
+        public void SelectUserToAssign(string username)
+        {
+            Thread.Sleep(2000);
+            var element = this.ExceptionDeliveriesPage.GetUserFromModal(username);
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();

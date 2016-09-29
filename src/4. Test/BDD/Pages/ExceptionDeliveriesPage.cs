@@ -69,6 +69,17 @@
             return elements.First();
         }
 
+        public IWebElement GetUserFromModal(string username)
+        {
+            this.Driver.WaitForJavascript();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var elements = wait.Until(d => d.FindElements(By.ClassName("assign-user")));
+
+            return elements.SingleOrDefault(e => e.Text == username);
+        }
+
         public int GetCountOfElements(string className)
         {
             this.Driver.WaitForJavascript();

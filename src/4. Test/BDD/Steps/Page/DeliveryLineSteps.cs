@@ -26,6 +26,7 @@
             page.ActionsTab.Click();
         }
 
+
         [Given(@"an exception with a submitted action is assigned to me")]
         public void GivenAnExceptionWithSubmittedActionIsAssignedToMe()
         {
@@ -114,8 +115,15 @@
             {
                 Assert.AreEqual("true", pageRows[i].GetItemInRowById($"action-qty-input{i}").GetAttribute("disabled"));
                 Assert.AreEqual("true", pageRows[i].GetItemInRowById($"action-select{i}").GetAttribute("disabled"));
-                Assert.IsNull(pageRows[i].GetItemInRowById($"remove-action-button{i}"));
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"remove-action-button{i}").GetAttribute("disabled"));
             }
         }
+
+        [Then(@"I can not add any action to the delivery")]
+        public void ThenICanNotAddAnyActionToTheDelivery()
+        {
+            Assert.AreEqual("true", page.AddActionButton.GetElement().GetAttribute("disabled"));
+        }
+
     }
 }

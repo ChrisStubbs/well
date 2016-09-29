@@ -34,3 +34,14 @@ Scenario: Submitted actions can not be changed
 	Given an exception with a submitted action is assigned to me
 	When I view the Actions for line '1' of Delivery '1' 
 	Then I can not edit any action
+
+Scenario: Can not add actions when Delivery assigned to another user
+	Given an exception with 20 invoiced items is assigned to identity: 'palmerharvey\Bruno.Dobson', name: 'Bruno Dobson'
+	When I view the Actions for line '1' of Delivery '1'
+	Then I can not add any action to the delivery
+
+Scenario: Can not add actions when Delivery unassigned
+	Given an exception with 20 invoiced items
+	When I view the Actions for line '1' of Delivery '1'
+	Then I can not add any action to the delivery
+

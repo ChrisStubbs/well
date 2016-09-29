@@ -15,14 +15,12 @@
                 <tbody>
                     <tr *ngFor="let action of deliveryLine.actions; let i = index" class="editable">
                         <td>
-                            <input *ngIf="action.status == 1" id="action-qty-input{{i}}" type="number" class="form-control" [(ngModel)]="action.quantity" />
-                            <input *ngIf="action.status == 2" disabled="disabled" id="action-qty-input{{i}}" type="number" class="form-control" [(ngModel)]="action.quantity"/>
+                            <input id="action-qty-input{{i}}" [disabled]="action.status == 1 ? false : true" type="number" 
+                                   class="form-control" [(ngModel)]="action.quantity" />
                         </td>
                         <td>
-                            <select *ngIf="action.status == 1" id="action-select{{i}}" class="form-control" required name="action" [(ngModel)]="action.action">
-                                <option *ngFor="let a of actions" [value]="a.id">{{a.description}}</option>
-                            </select>
-                            <select *ngIf="action.status == 2" disabled="disabled" id="action-select{{i}}" class="form-control" required name="action" [(ngModel)]="action.action">
+                            <select id="action-select{{i}}" [disabled]="action.status == 1 ? false : true" 
+                                    class="form-control" required name="action" [(ngModel)]="action.action">
                                 <option *ngFor="let a of actions" [value]="a.id">{{a.description}}</option>
                             </select>
                         </td>
@@ -30,8 +28,8 @@
                             <span id="action-status{{i}}" class="form-control-static" *ngIf="action.status">{{action.statusDescription}}</span>
                         </td>
                         <td>
-                            <button *ngIf="action.status == 1" id="remove-action-button{{i}}" type="button" class="btn btn-primary"
-                                    (click)="removeAction(action.index)">Remove</button>
+                            <button id="remove-action-button{{i}}" [disabled]="action.status == 1 ? false : true" type="button" 
+                                    class="btn btn-primary" (click)="removeAction(action.index)">Remove</button>
                         </td>
                     </tr>
                 </tbody>
@@ -44,12 +42,12 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <button id="add-action-button" type="button" class="btn btn-success" (click)="addAction()">Add action</button>
+            <button [disabled]="canAction ? false : true" id="add-action-button" type="button" class="btn btn-success" (click)="addAction()">Add action</button>
         </div>
     </div>
 </div>
 
 <div class="btn-group pull-right">
-    <button id="save-button" type="button" class="btn btn-success" (click)="update()">Save</button>
+    <button [disabled]="canAction ? false : true" id="save-button" type="button" class="btn btn-success" (click)="update()">Save</button>
     <button id="cancel-button" type="button" class="btn btn-primary" (click)="cancel()">Cancel</button>
 </div>

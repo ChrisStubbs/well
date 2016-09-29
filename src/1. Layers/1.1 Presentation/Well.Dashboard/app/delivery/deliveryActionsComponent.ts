@@ -15,6 +15,7 @@ import * as lodash from 'lodash';
 })
 export class DeliveryActionsComponent {
     deliveryId: number;
+    canAction: boolean = false;
     deliveryLine: DeliveryLine = new DeliveryLine(undefined);
     actions: Action[] = new Array<Action>();
 

@@ -162,6 +162,45 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can not add actions when Delivery assigned to another user")]
+        public virtual void CanNotAddActionsWhenDeliveryAssignedToAnotherUser()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can not add actions when Delivery assigned to another user", ((string[])(null)));
+#line 38
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 39
+ testRunner.Given("an exception with 20 invoiced items is assigned to identity: \'palmerharvey\\Bruno." +
+                    "Dobson\', name: \'Bruno Dobson\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 40
+ testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 41
+ testRunner.Then("I can not add any action to the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can not add actions when Delivery unassigned")]
+        public virtual void CanNotAddActionsWhenDeliveryUnassigned()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can not add actions when Delivery unassigned", ((string[])(null)));
+#line 43
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 44
+ testRunner.Given("an exception with 20 invoiced items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 45
+ testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 46
+ testRunner.Then("I can not add any action to the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

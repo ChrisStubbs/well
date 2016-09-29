@@ -56,7 +56,7 @@
 
             if (!anyDateError && fromDate.Date > toDate.Date)
             {
-                this.Errors.Add("From date can not be greater than To date!");
+                this.Errors.Add("From date can not be greater than to date!");
             }
 
             if (model.Branches.Count == 0)

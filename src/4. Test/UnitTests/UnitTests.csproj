@@ -123,6 +123,9 @@
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />
     <Compile Include="Api\Mapper\SeasonalDateMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
+    <Compile Include="Api\Validators\CleanPreferenceValidatorTests.cs" />
+    <Compile Include="Api\Validators\CreditThresholdValidatorTests.cs" />
+    <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
     <Compile Include="Domain\JobDetailTests.cs" />

@@ -5,8 +5,6 @@
 
     using PH.Well.Api.Models;
     using PH.Well.Api.Validators.Contracts;
-    using PH.Well.Domain.Enums;
-    using PH.Well.Domain.Extensions;
     using PH.Well.Repositories.Contracts;
 
     public class CleanPreferenceValidator : ICleanPreferenceValidator
@@ -21,14 +19,23 @@
 
         public List<string> Errors { get; set; }
 
-        public bool IsValid(CleanPreferenceModel model)
+        public bool IsValid(CleanPreferenceModel model, bool isUpdate)
         {
             if (!model.Days.HasValue)
             {
                 this.Errors.Add("Days is required!");
             }
+            else if (model.Days < 1 || model.Days > 100)
+            {
+                this.Errors.Add("Days range is 1 to 100!");
+            }
 
-            this.ValidateAgainstExistingCleans(model);
+            if (!model.Branches.Any() && !isUpdate)
+            {
+                this.Errors.Add("Branch is required!");
+            }
+
+            if (!isUpdate) this.ValidateAgainstExistingCleans(model);
 
             return !this.Errors.Any();
         }
@@ -37,14 +44,25 @@
         {
             var existingCleans = this.cleanPreferenceRepository.GetAll();
 
+            var branchAlreadyHasACleanPreference = false;
+
             foreach (var clean in existingCleans)
             {
-                var existingBranches = clean.Branches.Except(model.Branches);
-
-                if (existingBranches.Any())
+                foreach (var branch in clean.Branches)
                 {
-                    this.Errors.Add("Clean preference has branches already assigned!");
+                    var modelBranch = model.Branches.FirstOrDefault(x => x.Id == branch.Id);
+
+                    if (modelBranch != null)
+                    {
+                        branchAlreadyHasACleanPreference = true;
+                        break;
+                    }
                 }
+            }
+
+            if (branchAlreadyHasACleanPreference)
+            {
+                this.Errors.Add("Branch already has a clean preference assigned!");
             }
         }
     }

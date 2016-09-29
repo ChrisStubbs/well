@@ -22,18 +22,23 @@ export class CreditThresholdEditModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
     
     show(creditThreshold: CreditThreshold) {
+        this.clear();
         this.creditThreshold = creditThreshold;
         this.isVisible = true;
     }
 
     hide() {
         this.isVisible = false;
+        this.clear();
+    }
+
+    clear() {
+        this.creditThreshold = new CreditThreshold();
+        this.errors = [];
     }
 
     update() {
-        this.creditThreshold.branches = this.branch.selectedBranches;
-
-        this.creditThresholdService.saveCreditThreshold(this.creditThreshold)
+        this.creditThresholdService.saveCreditThreshold(this.creditThreshold, true)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 

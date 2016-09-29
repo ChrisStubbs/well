@@ -22,6 +22,7 @@ export class CleanPreferenceAddModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
 
     show() {
+        this.clear();
         this.isVisible = true;
     }
 
@@ -32,12 +33,13 @@ export class CleanPreferenceAddModalComponent {
 
     clear() {
         this.cleanPreference = new CleanPreference();
+        this.errors = [];
     }
 
     save() {
         this.cleanPreference.branches = this.branch.selectedBranches;
 
-        this.cleanPreferenceService.saveCleanPreference(this.cleanPreference)
+        this.cleanPreferenceService.saveCleanPreference(this.cleanPreference, false)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 

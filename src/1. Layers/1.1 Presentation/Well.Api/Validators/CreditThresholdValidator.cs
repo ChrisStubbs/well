@@ -9,8 +9,6 @@
     using PH.Well.Domain.Extensions;
     using PH.Well.Repositories.Contracts;
 
-    using WebGrease.Css.Extensions;
-
     public class CreditThresholdValidator : ICreditThresholdValidator
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;
@@ -23,24 +21,30 @@
 
         public List<string> Errors { get; set; }
 
-        public bool IsValid(CreditThresholdModel model)
+        public bool IsValid(CreditThresholdModel model, bool isUpdate)
         {
-            if (model.ThresholdLevel == "Level")
+            if (model.ThresholdLevel == "Level" && !isUpdate)
             {
                 this.Errors.Add("Threshold level is required!");
+            }
+            else if (!isUpdate)
+            {
+                this.ValidateAgainstExistingThresholds(model);
             }
 
             if (!model.Threshold.HasValue)
             {
-                this.Errors.Add("Threshold amount is required and should be a number only!");
+                this.Errors.Add("Threshold is required!");
             }
-
-            if (model.Branches.Count == 0)
+            else if (model.Threshold < 1 || model.Threshold > 1000000)
             {
-                this.Errors.Add("Select a branch!");
+                this.Errors.Add("Threshold range is 1 to 1000000");
             }
 
-            this.ValidateAgainstExistingThresholds(model);
+            if (!model.Branches.Any())
+            {
+                this.Errors.Add("Branch is required!");
+            }
 
             return !this.Errors.Any();
         }
@@ -53,14 +57,25 @@
 
             var thresholdsToCheck = existingThresholds.Where(x => x.ThresholdLevelId == thresholdId);
 
+            var branchAlreadyHasAThreshold = false;
+
             foreach (var threshold in thresholdsToCheck)
             {
-                var existingBranches = threshold.Branches.Except(model.Branches);
-
-                if (existingBranches.Any())
+                foreach (var branch in threshold.Branches)
                 {
-                    this.Errors.Add("Threshold has branches already assigned!");
-                    continue;
+                    var modelBranch = model.Branches.FirstOrDefault(x => x.Id == branch.Id);
+
+                    if (modelBranch != null)
+                    {
+                        branchAlreadyHasAThreshold = true;
+                        break;
+                    }
+                }
+
+                if (branchAlreadyHasAThreshold)
+                {
+                    this.Errors.Add("Branches already have a threshold assigned!");
+                    break;
                 }
             }
         }

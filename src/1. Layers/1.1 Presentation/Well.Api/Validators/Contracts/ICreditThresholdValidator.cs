@@ -8,6 +8,6 @@
     {
         List<string> Errors { get; set; }
 
-        bool IsValid(CreditThresholdModel model);
+        bool IsValid(CreditThresholdModel model, bool isUpdate);
     }
 }

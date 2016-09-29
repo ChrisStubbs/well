@@ -22,18 +22,23 @@ export class CleanPreferenceEditModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
     
     show(cleanPreference: CleanPreference) {
+        this.clear();
         this.cleanPreference = cleanPreference;
         this.isVisible = true;
     }
 
     hide() {
         this.isVisible = false;
+        this.clear();
+    }
+
+    clear() {
+        this.cleanPreference = new CleanPreference();
+        this.errors = [];
     }
 
     update() {
-        this.cleanPreference.branches = this.branch.selectedBranches;
-
-        this.cleanPreferenceService.saveCleanPreference(this.cleanPreference)
+        this.cleanPreferenceService.saveCleanPreference(this.cleanPreference, true)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 

@@ -69,7 +69,7 @@
             {
                 this.logger.LogError($"Error when trying to delete seasonal date (id):{id}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
 
@@ -94,7 +94,7 @@
             {
                 this.logger.LogError($"Error when trying to save seasonal date {model.Description}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
     }

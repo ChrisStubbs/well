@@ -119,5 +119,38 @@
                 transactionScope.Complete();
             }
         }
+
+        public void SubmitActions(int jobId, string username)
+        {
+            jobDetailActionRepo.CurrentUser = username;
+            auditRepo.CurrentUser = username;
+
+            Job job = jobRepo.GetById(jobId);
+            Stop stop = stopRepo.GetByJobId(jobId);
+
+            var jobDetailsList = jobDetailRepo.GetByJobId(jobId);
+
+            using (var transactionScope = new TransactionScope())
+            {
+                foreach (var jobDetails in jobDetailsList)
+                {
+                    JobDetail originalJobDetail = jobDetailRepo.GetById(jobDetails.Id);
+
+                    foreach (var draftAction in jobDetails.Actions.Where(a => a.Status == ActionStatus.Draft))
+                    {
+                        draftAction.Status = ActionStatus.Submitted;
+                        jobDetailActionRepo.Update(draftAction);
+                    }
+                    
+                    Audit audit = jobDetails.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
+                        stop.DeliveryDate);
+                    if (audit.HasEntry)
+                    {
+                        auditRepo.Save(audit);
+                    }
+                }
+                transactionScope.Complete();
+            }
+        }
     }
 }

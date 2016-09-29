@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using Moq;
     using NUnit.Framework;
     using Repositories.Contracts;
@@ -262,6 +263,144 @@
                 CommonArrangeAndAct();
 
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry == true)));
+                auditRepo.VerifySet(a => a.CurrentUser = "user");
+            }
+        }
+
+        public class WhenSubmittingActions : DeliveryServiceTests
+        {
+            private List<JobDetail> GetOrigJobDetails()
+            {
+                return new List<JobDetail>()
+                {
+                    new JobDetail()
+                    {
+                        Id = 1, PhProductCode = "123", ProdDesc = "Cheesy Chips",
+                        Actions =
+                            new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            {
+                                new JobDetailAction()
+                                {
+                                    JobDetailId = 1,
+                                    Action = ExceptionAction.Credit,
+                                    Quantity = 1,
+                                    Status = ActionStatus.Draft
+                                },
+                                new JobDetailAction()
+                                {
+                                    JobDetailId = 1,
+                                    Action = ExceptionAction.CreditAndReorder,
+                                    Quantity = 2,
+                                    Status = ActionStatus.Submitted
+                                }
+                            })
+                    },
+                    new JobDetail()
+                    {
+                        Id = 2, PhProductCode = "456", ProdDesc = "Dirty Burger",
+                        Actions =
+                            new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            {
+                                new JobDetailAction()
+                                {
+                                    JobDetailId = 2,
+                                    Action = ExceptionAction.ReplanInRoadnet,
+                                    Quantity = 3,
+                                    Status = ActionStatus.Draft
+                                }
+                            })
+                    }
+                };
+            }
+
+            private void CommonArrangeAct()
+            {
+                int deliveryId = 1;
+
+                jobDetailRepository.Setup(r => r.GetByJobId(deliveryId)).Returns(GetOrigJobDetails());
+
+                jobDetailActionRepo.Setup(r => r.Update(It.IsAny<JobDetailAction>()));
+
+                jobRepo.Setup(jr => jr.GetById(It.IsAny<int>())).Returns(new Job());
+                jobDetailRepository.Setup(jdr => jdr.GetById(1)).Returns(GetOrigJobDetails()[0]);
+                jobDetailRepository.Setup(jdr => jdr.GetById(2)).Returns(GetOrigJobDetails()[1]);
+                stopRepo.Setup(s => s.GetByJobId(It.IsAny<int>())).Returns(new Stop());
+                auditRepo.Setup(r => r.Save(It.IsAny<Audit>()));
+
+                //ACT
+                service.SubmitActions(deliveryId, "user");
+            }
+
+            [Test]
+            public void ThenAllDraftActionsSetToSubmitted()
+            {
+                CommonArrangeAct();
+
+                jobDetailActionRepo.VerifySet(r => r.CurrentUser = "user");
+
+                jobDetailActionRepo.Verify(r => r.Update(It.Is<JobDetailAction>(a => a.JobDetailId == 1 &&
+                                                                                     a.Action == ExceptionAction.Credit &&
+                                                                                     a.Quantity == 1 &&
+                                                                                     a.Status == ActionStatus.Submitted)),Times.Once);
+
+                jobDetailActionRepo.Verify(r => r.Update(It.Is<JobDetailAction>(a => a.JobDetailId == 2 &&
+                                                                                     a.Action ==
+                                                                                     ExceptionAction.ReplanInRoadnet &&
+                                                                                     a.Quantity == 3 &&
+                                                                                     a.Status == ActionStatus.Submitted)),Times.Once);
+
+            }
+
+            [Test]
+            public void ThenAuditsCreatedAndSaved()
+            {
+                CommonArrangeAct();
+
+                var submittedJobDetails = new List<JobDetail>()
+                {
+                    new JobDetail()
+                    {
+                        Actions = new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            {
+                                new JobDetailAction()
+                                {
+                                    JobDetailId = 1, Action = ExceptionAction.Credit, Quantity = 1, Status = ActionStatus.Submitted
+                                },
+                                new JobDetailAction()
+                                {
+                                    JobDetailId = 1, Action = ExceptionAction.CreditAndReorder, Quantity = 2,Status = ActionStatus.Submitted
+                                }
+                            })
+                    },
+                    new JobDetail()
+                    {
+                        Actions =
+                            new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            {
+                                new JobDetailAction()
+                                {
+                                    JobDetailId = 2,
+                                    Action = ExceptionAction.ReplanInRoadnet,
+                                    Quantity = 3,
+                                    Status = ActionStatus.Submitted
+                                }
+                            })
+                    }
+                };
+
+                var jobDetails = GetOrigJobDetails();
+                string entry1 = $"Product: {jobDetails[0].PhProductCode} - {jobDetails[0].ProdDesc}. " +
+                    "Actions changed from " +
+                                $"'{string.Join(", ", jobDetails[0].Actions.Select(d => d.GetString()))}' to " +
+                                $"'{string.Join(", ", submittedJobDetails[0].Actions.Select(d => d.GetString()))}'. ";
+                auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.Entry == entry1)),Times.Once);
+
+                string entry2 = $"Product: {jobDetails[1].PhProductCode} - {jobDetails[1].ProdDesc}. " +
+                    "Actions changed from " +
+                 $"'{string.Join(", ", jobDetails[1].Actions.Select(d => d.GetString()))}' to " +
+                 $"'{string.Join(", ", submittedJobDetails[1].Actions.Select(d => d.GetString()))}'. ";
+                auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.Entry == entry2)), Times.Once);
+
                 auditRepo.VerifySet(a => a.CurrentUser = "user");
             }
         }

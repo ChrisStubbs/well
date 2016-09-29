@@ -152,8 +152,8 @@
             else if (damagesChanged)
             {
                 auditBuilder.Append($"Damages changed from " +
-                    $"{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))} to " +
-                    $"{string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
+                    $"'{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}' to " +
+                    $"'{string.Join(", ", damages.Select(d => d.GetDamageString()))}'. ");
             }
         }
 
@@ -173,9 +173,9 @@
             }
             else if (isChanged)
             {
-                auditBuilder.Append($"Damages changed from " +
-                    $"{string.Join(", ", originalActions.Select(d => d.GetString()))} to " +
-                    $"{string.Join(", ", Actions.Select(d => d.GetString()))}. ");
+                auditBuilder.Append($"Actions changed from " +
+                    $"'{string.Join(", ", originalActions.Select(d => d.GetString()))}' to " +
+                    $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
             }
         }
     }

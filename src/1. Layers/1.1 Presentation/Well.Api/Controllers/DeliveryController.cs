@@ -13,6 +13,7 @@
     using PH.Well.Common.Security;
 
     using Repositories.Contracts;
+    using Services.Contracts;
 
     [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
     public class DeliveryController : BaseApiController
@@ -20,15 +21,24 @@
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IDeliveryToDetailMapper deliveryToDetailMapper;
+        private readonly IJobRepository jobRepository;
+        private readonly ILogger logger;
+        private readonly IDeliveryService deliveryService;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
             IServerErrorResponseHandler serverErrorResponseHandler,
-            IDeliveryToDetailMapper deliveryToDetailMapper)
+            IDeliveryToDetailMapper deliveryToDetailMapper,
+            IJobRepository jobRepository,
+            ILogger logger,
+            IDeliveryService deliveryService)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.deliveryToDetailMapper = deliveryToDetailMapper;
+            this.jobRepository = jobRepository;
+            this.logger = logger;
+            this.deliveryService = deliveryService;
         }
 
         [HttpGet]
@@ -122,6 +132,20 @@
         [Route("deliveries/{id:int}/submit-actions")]
         public HttpResponseMessage SubmitActions(int id)
         {
+            var job = jobRepository.GetById(id);
+            if (job == null)
+            {
+                logger.LogError($"Unable to submit delivery actions. No matching delivery found for Id: {id}.");
+                var errorModel = new ErrorModel
+                {
+                    Message = "Unable to submit delivery actions",
+                    Errors = new List<string>() { $"No matching delivery found for Id: {id}." }
+                };
+                return Request.CreateResponse(HttpStatusCode.BadRequest, errorModel);
+            }
+
+            deliveryService.SubmitActions(id, UserIdentityName);
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

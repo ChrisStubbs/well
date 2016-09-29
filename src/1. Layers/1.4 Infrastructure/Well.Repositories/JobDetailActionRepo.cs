@@ -32,5 +32,18 @@
                 .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                 .Query<int>().FirstOrDefault();
         }
+
+        protected override void UpdateExisting(JobDetailAction entity)
+        {
+            dapperProxy.WithStoredProcedure("JobDetailAction_Update")
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
+                .AddParameter("Quantity", entity.Quantity, DbType.Int32)
+                .AddParameter("ActionId", entity.Action, DbType.Int32)
+                .AddParameter("StatusId", entity.Status, DbType.Int32)
+                .AddParameter("UpdatedBy", entity.CreatedBy, DbType.String)
+                .AddParameter("DateUpdated", entity.DateCreated, DbType.DateTime)
+                .Execute();
+        }
     }
 }

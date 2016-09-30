@@ -26,6 +26,16 @@
             page.ActionsTab.Click();
         }
 
+        [Given(@"an exception with a submitted action")]
+        public void GivenAnExceptionWithASubmittedAction()
+        {
+            GivenAnExceptionWithSubmittedActionIsAssignedToMe();
+            var exceptionPageSteps = new ExceptionPageSteps();
+            exceptionPageSteps.WhenIOpenTheExceptionDeliveries();
+            exceptionPageSteps.SelectAssignLink();
+            exceptionPageSteps.SelectUserToAssign("Unallocated");
+        }
+
 
         [Given(@"an exception with a submitted action is assigned to me")]
         public void GivenAnExceptionWithSubmittedActionIsAssignedToMe()
@@ -38,6 +48,20 @@
             var deliveryPageSteps = new DeliveryDetailSteps();
             deliveryPageSteps.WhenIOpenDelivery(1);
             deliveryPageSteps.ClickSubmitActions();
+        }
+
+        [Given(@"an exception with a submitted action is assigned to identity: '(.*)', name: '(.*)'")]
+        public void GivenAnExceptionWithASubmittedActionIsAssignedToIdentityName(string userIdentity, string name)
+        {
+            GivenAnExceptionWithSubmittedActionIsAssignedToMe();
+
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22, userIdentity);
+
+            var exceptionPageSteps = new ExceptionPageSteps();
+            exceptionPageSteps.WhenIOpenTheExceptionDeliveries();
+            exceptionPageSteps.SelectAssignLink();
+            exceptionPageSteps.SelectUserToAssign(name);
         }
 
 
@@ -124,6 +148,13 @@
         {
             Assert.AreEqual("true", page.AddActionButton.GetElement().GetAttribute("disabled"));
         }
+
+        [Then(@"an error is returned '(.*)'")]
+        public void ThenAnErrorIsReturned(string error)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
     }
 }

@@ -90,7 +90,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 15
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
- testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I assign the delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 17
  testRunner.When("I view the widgets page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18

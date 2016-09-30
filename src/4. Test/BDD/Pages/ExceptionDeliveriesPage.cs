@@ -22,6 +22,7 @@
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             this.NoExceptionsDiv = new Div { Locator = By.Id("no-exceptions") };
+            CurrentUserName = new SpanElement() {Locator = By.Id("current-user-name") };
 
             AccountModal = new AccountModalComponent();
         }
@@ -46,6 +47,8 @@
 
         public Div NoExceptionsDiv { get; set; }
 
+        public SpanElement CurrentUserName { get; set; } 
+
 
         public IWebElement GetFirstCell()
         {
@@ -58,15 +61,10 @@
             return elements.First();
         }
 
-        public IWebElement GetFirstAssignUserFromModal()
+        public IWebElement GetLoggedInAssignUserFromModal()
         {
-            this.Driver.WaitForJavascript();
-
-            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-
-            var elements = wait.Until(d => d.FindElements(By.ClassName("assign-user")));
-
-            return elements.First();
+            var loggedInUserName = CurrentUserName.Content;
+            return GetUserFromModal(loggedInUserName);
         }
 
         public IWebElement GetUserFromModal(string username)

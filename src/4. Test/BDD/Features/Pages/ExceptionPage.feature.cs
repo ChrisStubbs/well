@@ -497,7 +497,7 @@ this.FeatureBackground();
 #line 105
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 106
- testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I assign the delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 107
  testRunner.Then("the user is assigned to that exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -522,7 +522,7 @@ this.FeatureBackground();
 #line 113
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 114
- testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I assign the delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 115
  testRunner.Then("the user is assigned to that exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 116
@@ -551,7 +551,7 @@ this.FeatureBackground();
 #line 123
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 124
- testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I assign the delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 125
  testRunner.And("I select the exception row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 126
@@ -578,7 +578,7 @@ this.FeatureBackground();
 #line 132
  testRunner.And("I select the assigned link on the first row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 133
- testRunner.And("I select a user to assign", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I assign the delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 134
  testRunner.And("I select an unassigned exception row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 135

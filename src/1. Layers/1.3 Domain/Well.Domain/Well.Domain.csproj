@@ -54,11 +54,11 @@
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
     <Compile Include="Enums\ThresholdLevel.cs" />
+    <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
     <Compile Include="Notification.cs" />
-    <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Enums\AccountType.cs" />

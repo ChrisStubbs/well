@@ -18,13 +18,13 @@
         public void NavigateToBranches()
         {
             this.branchPage.Open();
-            this.branchPage.AdminDropDown.Select();
+            this.branchPage.AdminDropDown.SelectBranchSelection();
         }
         
         [When("select branches selection")]
         public void ClickBranchsSelection()
         {
-            this.branchPage.AdminDropDown.Select();
+            this.branchPage.AdminDropDown.SelectBranchSelection();
         }
 
         [When("I select all the branches")]

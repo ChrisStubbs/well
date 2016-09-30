@@ -126,6 +126,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActionDeliveryLine.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\AdminParameters.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdminParameters.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\Audits.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -200,6 +205,7 @@
     <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="Pages\AccountModalComponent.cs" />
     <Compile Include="Pages\AuditPage.cs" />
+    <Compile Include="Pages\BranchParametersPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\NotificationPage.cs" />
@@ -218,6 +224,7 @@
     <Compile Include="Steps\DatabaseSteps.cs" />
     <Compile Include="Steps\Page\AccountModalSteps.cs" />
     <Compile Include="Steps\Page\AuditSteps.cs" />
+    <Compile Include="Steps\Page\BranchParametersSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
     <Compile Include="Steps\Page\NotificationPageSteps.cs" />
@@ -259,6 +266,10 @@
     <None Include="Features\Pages\ActionDeliveryLine.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ActionDeliveryLine.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\AdminParameters.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdminParameters.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Audits.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

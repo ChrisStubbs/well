@@ -40,7 +40,7 @@
             dbSteps.GivenIHaveSelectedBranch(22);
             WhenIOpenTheExceptionDeliveries();
             SelectAssignLink();
-            SelectUserToAssign();
+            AssignToMe();
         }
 
         [Then(@"the following exception deliveries will be displayed")]
@@ -197,13 +197,14 @@
 
         [Given(@"I assign the delivery to myself")]
         [When(@"I assign the delivery to myself")]
-        public void SelectUserToAssign()
+        public void AssignToMe()
         {
             Thread.Sleep(2000);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
+            Thread.Sleep(2000);
         }
 
         public void SelectUserToAssign(string username)
@@ -213,6 +214,7 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
+            Thread.Sleep(2000);
         }
 
         [Then(@"the user is assigned to that exception")]

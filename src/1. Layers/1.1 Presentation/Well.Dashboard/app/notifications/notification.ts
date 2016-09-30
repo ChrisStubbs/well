@@ -3,9 +3,9 @@
     jobId: number;
     type: number;
     reason: number;
-    jobRef1: string;
-    jobRef2: string;
-    jobRef3: string;
+    phAccount: string;
+    picklistRef: string;
+    invoiceNumber: string;
     contactName: string;
     depotId: number;
 

@@ -25,6 +25,7 @@
         private readonly IWebClient webClient;
         private readonly ILogger logger;
         private IAuditRepository auditRepo;
+        private INotificationRepository notificationRepository;
 
         public DatabaseSteps()
         {
@@ -33,6 +34,7 @@
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
             auditRepo = container.GetInstance<IAuditRepository>();
+            notificationRepository = container.GetInstance<INotificationRepository>();
         }
 
         [Given("I have a clean database")]
@@ -170,7 +172,14 @@
         public void GivenIHaveSelectedBranch(int branch)
         {
             var user = SetUpUser();
-            SetUpUserBranch(user, branch);
+            SetUpUserBranch(user.Name, branch);
+        }
+
+        [Given(@"I have selected branch (.*) for user identity: (.*)")]
+        public void GivenIHaveSelectedBranch(int branch, string userIdentity)
+        {
+            var user = SetUpUser(userIdentity);
+            SetUpUserBranch(user.Name, branch);
         }
 
         public User SetUpUser()
@@ -185,11 +194,43 @@
             return user;
         }
 
-        public void SetUpUserBranch(User user, int branch)
+        public User SetUpUser(string userIdentity)
         {
+            this.logger.LogDebug("Calling create user");
+            var user = JsonConvert.DeserializeObject<User>(this.webClient.UploadString(Configuration.WellApiUrl + $"create-user?userIdentity={userIdentity}", "POST", ""));
+
+            if (user == null) this.logger.LogDebug("User is null");
+
             this.logger.LogDebug($"User created {user.Name}");
+
+            return user;
+        }
+
+        public void SetUpUserBranch(string userName, int branch)
+        {
+            this.logger.LogDebug($"User created {userName}");
             this.logger.LogDebug($"Branch created {branch}");
-            this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{user.Name}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+            this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{userName}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+        }
+
+
+        [Given(@"10 notifications have been made")]
+        public void InsertNotifications()
+        {
+            notificationRepository.CurrentUser = "BDD.User";
+            for (int i = 0; i < 10; i++)
+            {
+                var notification = new Notification
+                {
+                    JobId = i + 1,
+                    Reason = "Credit failed ADAM validation",
+                    Type = (int)NotificationType.Credit,
+                    Source = "BDD"
+                };
+
+                notificationRepository.SaveNotification(notification);
+
+            }
         }
     }
 }

@@ -12,11 +12,11 @@
 
         public bool IsArchived { get; set; }
 
-        public string JobRef1 { get; set; } 
+        public string PhAccount { get; set; } 
 
-        public string JobRef2 { get; set; }
+        public string PicklistRef { get; set; }
 
-        public string JobRef3 { get; set; }
+        public string InvoiceNumber { get; set; }
 
         public string ContactName { get; set; }
 

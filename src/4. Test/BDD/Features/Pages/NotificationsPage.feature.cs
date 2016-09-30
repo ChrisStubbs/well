@@ -86,9 +86,65 @@ this.ScenarioSetup(scenarioInfo);
 #line 13
  testRunner.When("I navigate to the notifications page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14
- testRunner.Then("I will have 3 pages of notification data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I will have 4 pages of notification data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 15
- testRunner.And("\'3\' rows of notification data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I click on notification page 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.Then("\'1\' rows of notification data will be displayed on page 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Heading",
+                        "Account",
+                        "PicklistReference",
+                        "InvoiceNumber",
+                        "Contact",
+                        "Reason"});
+            table1.AddRow(new string[] {
+                        "Credit failed",
+                        "0/2874.033",
+                        "2544765",
+                        "",
+                        "Rhys Williams",
+                        "Credit failed ADAM validation"});
+#line 17
+ testRunner.And("the following notifications with a rowcount of \'1\' will be displayed on page 4", ((string)(null)), table1, "And ");
+#line 20
+ testRunner.When("I click on notification page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Heading",
+                        "Account",
+                        "PicklistReference",
+                        "InvoiceNumber",
+                        "Contact",
+                        "Reason"});
+            table2.AddRow(new string[] {
+                        "Credit failed",
+                        "0/49214.152",
+                        "4294343",
+                        "",
+                        "CSG Contact 1",
+                        "Credit failed ADAM validation"});
+            table2.AddRow(new string[] {
+                        "Credit failed",
+                        "0/2874.033",
+                        "2545470",
+                        "",
+                        "CSG Contact 1",
+                        "Credit failed ADAM validation"});
+            table2.AddRow(new string[] {
+                        "Credit failed",
+                        "0/2874.033",
+                        "2545470",
+                        "",
+                        "GEN HOSPITAL",
+                        "Credit failed ADAM validation"});
+#line 21
+ testRunner.Then("the following notifications with a rowcount of \'3\' will be displayed on page 1", ((string)(null)), table2, "Then ");
+#line 26
+ testRunner.When("I click on notification page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 27
+ testRunner.Then("\'3\' rows of notification data will be displayed on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

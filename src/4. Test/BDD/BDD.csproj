@@ -193,6 +193,7 @@
     <Compile Include="Framework\WebElements\TextBox.cs" />
     <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="Pages\AccountModalComponent.cs" />
+    <Compile Include="Pages\ArchiveModalComponent.cs" />
     <Compile Include="Pages\AuditPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Steps\AdamImportSteps.cs" />
     <Compile Include="Steps\DatabaseSteps.cs" />
     <Compile Include="Steps\Page\AccountModalSteps.cs" />
+    <Compile Include="Steps\Page\ArchiveModalSteps.cs" />
     <Compile Include="Steps\Page\AuditSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />

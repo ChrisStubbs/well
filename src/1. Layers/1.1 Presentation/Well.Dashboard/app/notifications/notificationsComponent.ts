@@ -48,11 +48,6 @@ export class NotificationsComponent implements OnInit {
                 error => this.lastRefresh = Date.now());
     }
 
-
-
-
-    
-
     archive(notification: Notification): void {
         this.archiveModal.show(notification);
     }

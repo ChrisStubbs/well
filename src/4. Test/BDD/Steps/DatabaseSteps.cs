@@ -202,7 +202,7 @@
             {
                 var notification = new Notification
                 {
-                    JobId = 1,
+                    JobId = i + 1,
                     Reason = "Credit failed ADAM validation",
                     Type = (int)NotificationType.Credit,
                     Source = "BDD"

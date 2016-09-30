@@ -40,7 +40,6 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
-            DeleteAndReseed("Notification");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");

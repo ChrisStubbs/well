@@ -40,6 +40,7 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
+            DeleteAndReseed("Notification");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
@@ -214,11 +215,11 @@
         }
 
 
-        [Given(@"10 notifications have been made")]
-        public void InsertNotifications()
+        [Given(@"(.*) notifications have been made")]
+        public void InsertNotifications(int notifications)
         {
             notificationRepository.CurrentUser = "BDD.User";
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < notifications; i++)
             {
                 var notification = new Notification
                 {

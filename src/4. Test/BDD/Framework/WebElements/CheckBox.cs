@@ -8,8 +8,7 @@
     {
         public void Check()
         {
-            this.GetElement();
-            this.Element.Click();
+            GetElement().Click();
         }
 
         public void UnCheck()
@@ -17,9 +16,9 @@
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             wait.Until(d => this.GetElement().Displayed);
 
-            if (this.Element.Selected)
+            if (GetElement().Selected)
             {
-                this.Check();
+                Check();
             }
         }
     }

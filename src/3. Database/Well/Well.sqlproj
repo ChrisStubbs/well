@@ -181,7 +181,6 @@
     <Build Include="dbo\Tables\PODCreditReasons.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetCreditActionReasons.sql" />
     <Build Include="dbo\Tables\CSFRejection.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Insert.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyaltyException_Update.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyalException_GetByRoyalty.sql" />
@@ -221,6 +220,16 @@
     <Build Include="dbo\Tables\CleanPreferenceToBranch.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferencesGetAll.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferencesBranchesGet.sql" />
+    <None Include="Post-Deployement\Populate-ActionStatus.sql" />
+    <Build Include="dbo\Tables\ActionStatus.sql" />
+    <Build Include="dbo\Tables\JobDetailAction.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceSave.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceToBranchSave.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceDelete.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailAction_Delete.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchesForCleanPreference.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailAction_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailAction_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
@@ -233,7 +242,7 @@
     <None Include="Post-Deployement\Populate-GrnRefused.sql" />
     <None Include="Post-Deployement\Populate-CommodityType.sql" />
     <None Include="Post-Deployement\Populate-ProductType.sql" />
-    <None Include="Post-Deployement\Populate_DamageSource.sql" />
+    <None Include="Post-Deployement\Populate-DamageSource.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

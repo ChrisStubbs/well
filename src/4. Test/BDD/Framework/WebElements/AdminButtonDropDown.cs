@@ -11,8 +11,7 @@
         public void Select()
         {
             this.Driver.WaitForJavascript();
-            this.GetElement();
-            this.Element.FindElement(By.Id("admin-dropdown-anchor")).Click();
+            this.GetElement().FindElement(By.Id("admin-dropdown-anchor")).Click();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             

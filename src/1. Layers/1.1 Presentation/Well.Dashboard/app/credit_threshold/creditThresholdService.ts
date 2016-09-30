@@ -21,10 +21,10 @@ export class CreditThresholdService {
             this.options).map(res => res.json());
     }
 
-    saveCreditThreshold(creditThreshold: CreditThreshold): Observable<any> {
+    saveCreditThreshold(creditThreshold: CreditThreshold, isUpdate: boolean): Observable<any> {
         let body = JSON.stringify(creditThreshold);
 
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold',
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/' + isUpdate,
             body,
             this.options)
             .map(res => res.json());

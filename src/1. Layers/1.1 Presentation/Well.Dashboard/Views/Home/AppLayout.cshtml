@@ -14,7 +14,7 @@
                 <span style="color: white; font-weight: bold">{{version}}</span> &nbsp; <span style="color: white; font-weight: bold">{{branches}}</span>
             </div>
             <div id="user-details" class="pull-right">
-                <div>Logged in as @Html.EmployeeDisplayName()</div>
+                <div>Logged in as <span id="current-user-name">@Html.EmployeeDisplayName()</span></div>
                 <img id="avatar" src="@Html.EmployeeAvatar()" alt="@Html.EmployeeDisplayName()" height="41" width="41" />
             </div>
         </div>

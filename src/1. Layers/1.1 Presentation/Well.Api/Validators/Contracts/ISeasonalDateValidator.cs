@@ -6,8 +6,8 @@
 
     public interface ISeasonalDateValidator
     {
-        Dictionary<string, string> Errors { get; set; }
+        List<string> Errors { get; set; }
 
-        bool Isvalid(SeasonalDateModel model);
+        bool IsValid(SeasonalDateModel model);
     }
 }

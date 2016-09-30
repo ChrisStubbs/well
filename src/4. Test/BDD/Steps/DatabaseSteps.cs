@@ -41,6 +41,7 @@
         public void RemoveTestData()
         {
             DeleteAndReseed("JobDetailDamage");
+            DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
             DeleteAndReseed("UserJob");
             DeleteAndReseed("Job");
@@ -171,7 +172,14 @@
         public void GivenIHaveSelectedBranch(int branch)
         {
             var user = SetUpUser();
-            SetUpUserBranch(user, branch);
+            SetUpUserBranch(user.Name, branch);
+        }
+
+        [Given(@"I have selected branch (.*) for user identity: (.*)")]
+        public void GivenIHaveSelectedBranch(int branch, string userIdentity)
+        {
+            var user = SetUpUser(userIdentity);
+            SetUpUserBranch(user.Name, branch);
         }
 
         public User SetUpUser()
@@ -186,11 +194,23 @@
             return user;
         }
 
-        public void SetUpUserBranch(User user, int branch)
+        public User SetUpUser(string userIdentity)
         {
+            this.logger.LogDebug("Calling create user");
+            var user = JsonConvert.DeserializeObject<User>(this.webClient.UploadString(Configuration.WellApiUrl + $"create-user?userIdentity={userIdentity}", "POST", ""));
+
+            if (user == null) this.logger.LogDebug("User is null");
+
             this.logger.LogDebug($"User created {user.Name}");
+
+            return user;
+        }
+
+        public void SetUpUserBranch(string userName, int branch)
+        {
+            this.logger.LogDebug($"User created {userName}");
             this.logger.LogDebug($"Branch created {branch}");
-            this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{user.Name}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+            this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{userName}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
         }
 
 

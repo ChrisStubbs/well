@@ -7,6 +7,8 @@
     using PH.Well.Api.Mapper;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.UnitTests.Factories;
+    using Well.Domain;
+    using Well.Domain.Enums;
 
     [TestFixture]
     public class DeliveryDetailModelMapperTests
@@ -26,6 +28,15 @@
 
             var line1 = DeliveryLineFactory.New.Build();
             var line2 = DeliveryLineFactory.New.With(x => x.LineNo = 2).Build();
+            line1.Actions = new List<JobDetailAction>()
+            {
+                new JobDetailAction()
+                {
+                    Quantity = 3,
+                    Action = ExceptionAction.CreditAndReorder,
+                    Status = ActionStatus.Submitted
+                }
+            };
 
             var lines = new List<DeliveryLine> { line1, line2 };
 
@@ -46,6 +57,7 @@
             var modelLine1 = model.DeliveryLines[0];
             var modelLine2 = model.DeliveryLines[1];
 
+            Assert.That(modelLine1.JobDetailId, Is.EqualTo(line1.JobDetailId));
             Assert.That(modelLine1.JobId, Is.EqualTo(line1.JobId));
             Assert.That(modelLine1.LineNo, Is.EqualTo(line1.LineNo));
             Assert.That(modelLine1.ProductCode, Is.EqualTo(line1.ProductCode));
@@ -55,6 +67,12 @@
             Assert.That(modelLine1.DeliveredQuantity, Is.EqualTo(line1.DeliveredQuantity));
             Assert.That(modelLine1.DamagedQuantity, Is.EqualTo(line1.DamagedQuantity));
             Assert.That(modelLine1.ShortQuantity, Is.EqualTo(line1.ShortQuantity));
+
+            var action = model.DeliveryLines[0].Actions[0];
+            Assert.AreEqual(action.Quantity, line1.Actions[0].Quantity);
+            Assert.AreEqual(action.Status, line1.Actions[0].Status);
+            Assert.AreEqual(action.StatusDescription, line1.Actions[0].Status.ToString());
+            Assert.AreEqual(action.Action, line1.Actions[0].Action);
 
             Assert.That(modelLine2.JobId, Is.EqualTo(line2.JobId));
             Assert.That(modelLine2.LineNo, Is.EqualTo(line2.LineNo));

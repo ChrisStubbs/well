@@ -39,6 +39,7 @@ export class DeliveryUpdateComponent {
         this.deliveryIssues.deliveryLine = this.deliveryLine;
         this.deliveryActions.deliveryId = this.delivery.id;
         this.deliveryActions.deliveryLine = this.deliveryLine;
+        this.deliveryActions.canAction = this.delivery.canAction;
     }
 
 }

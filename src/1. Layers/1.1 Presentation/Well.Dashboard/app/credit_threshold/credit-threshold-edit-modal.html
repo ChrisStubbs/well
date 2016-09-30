@@ -5,16 +5,18 @@
                 <h4 class="modal-title">Edit credit threshold for {{creditThreshold.thresholdLevel}} {{creditThreshold.branchName}}</h4>
             </div>
             <div class="modal-body">
+                <div *ngIf="errors && errors.length > 0">
+                    <div class="alert alert-danger" style="max-width: 400px;">
+                        <div *ngFor="let error of errors"><strong>{{error}}</strong></div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-1">&nbsp;</div>
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Threshold</label>
-                            <input type="text" class="form-control" placeholder="Threshold" [(ngModel)]="creditThreshold.threshold" />
+                            <input type="text" class="form-control" placeholder="Threshold" [(ngModel)]="creditThreshold.threshold"/>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <ow-branch-select [creditThresholdId]="creditThreshold.id"></ow-branch-select>
                     </div>
                 </div>
             </div>

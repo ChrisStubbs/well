@@ -18,6 +18,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
 import {DeliveryActionsComponent} from './delivery/deliveryActionsComponent';
+import {SubmitConfirmModal} from './delivery/submitConfirmModal';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
@@ -32,6 +33,9 @@ import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
 import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceComponent';
+import {CleanPreferenceAddModalComponent} from './clean_preferences/cleanPreferenceAddModalComponent';
+import {CleanPreferenceRemoveModalComponent} from './clean_preferences/cleanPreferenceRemoveModalComponent';
+import {CleanPreferenceEditModalComponent} from './clean_preferences/cleanPreferenceEditModalComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -73,12 +77,12 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
-        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        DeliveryIssuesComponent, DeliveryActionsComponent,
+        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
+        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
+        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],
     imports: [

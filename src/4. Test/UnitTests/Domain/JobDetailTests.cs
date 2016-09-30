@@ -98,8 +98,8 @@
                 var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
                 string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
-                                       $"Damages changed from {originalJobDetail.JobDetailDamages[0].GetDamageString()} " +
-                                       $"to {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                                       $"Damages changed from '{originalJobDetail.JobDetailDamages[0].GetDamageString()}' " +
+                                       $"to '{jobDetail.JobDetailDamages[0].GetDamageString()}'. ";
                                        
                 Assert.AreEqual(expectedEntry, audit.Entry);
             }

@@ -7,7 +7,7 @@
 export class ConfirmModal {
     @Input() isVisible: boolean = false;
     @Input() heading: string;
-    @Input() message: string;
+    @Input() messageHtml: string;
     @Output() confirmed = new EventEmitter();
 
     show() {

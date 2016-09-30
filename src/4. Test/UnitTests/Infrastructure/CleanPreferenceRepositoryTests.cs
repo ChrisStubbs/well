@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -68,6 +69,101 @@
                 this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
 
                 Assert.That(cleans.Count(), Is.EqualTo(1));
+            }
+        }
+
+        public class TheDeleteMethod : CleanPreferenceRepositoryTests
+        {
+            [Test]
+            public void ShouldHardDeleteTheCleanPreference()
+            {
+                var id = 12;
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceDelete))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.Delete(id);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceDelete), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+            }
+        }
+
+        public class TheSaveMethod : CleanPreferenceRepositoryTests
+        {
+            [Test]
+            public void ShouldSaveTheCleanPreferenceAndItsBranchAssociations()
+            {
+                var branch1 = new BranchFactory().Build();
+                var branch2 = new BranchFactory().Build();
+                var cleanPreference = CleanPreferenceFactory.New.With(x => x.Id = 0).WithBranch(branch1).WithBranch(branch2).Build();
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceSave))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                    x => x.AddParameter("Days", cleanPreference.Days, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                    x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                    x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                    x => x.AddParameter("CreatedBy", this.repository.CurrentUser, DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                    x => x.AddParameter("UpdatedBy", this.repository.CurrentUser, DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new[] { 1 });
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceToBranchSave))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("BranchId", branch1.Id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("CleanPreferenceId", 1, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.Save(cleanPreference);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceSave), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Days", cleanPreference.Days, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<int>(), Times.Once);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceToBranchSave), Times.Exactly(2));
+
+                this.dapperProxy.Verify(x => x.AddParameter("BranchId", branch1.Id, DbType.Int32, null), Times.Exactly(2));
+
+                this.dapperProxy.Verify(x => x.AddParameter("CleanPreferenceId", 1, DbType.Int32, null), Times.Exactly(2));
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Exactly(2));
             }
         }
     }

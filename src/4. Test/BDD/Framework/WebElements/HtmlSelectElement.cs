@@ -11,19 +11,19 @@
     {
         public void Select(string itemToSelect)
         {
-            this.GetElement();
+            var element = this.GetElement();
             this.Driver.WaitForJavascript();
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-            var option = wait.Until(d => Element.FindElements(By.TagName("option")).First(x => x.Text == itemToSelect));
+            var option = wait.Until(d => element.FindElements(By.TagName("option")).First(x => x.Text == itemToSelect));
             option.Click();
         }
 
         public void SelectAll()
         {
-            this.GetElement();
+            var element = this.GetElement();
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             this.Driver.WaitForJavascript();
-            var options = wait.Until(d => Element.FindElements(By.TagName("option")));
+            var options = wait.Until(d => element.FindElements(By.TagName("option")));
             foreach (var option in options)
             {
                 option.Click();  

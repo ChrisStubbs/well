@@ -5,24 +5,26 @@
                 <h4 class="modal-title">Edit {{seasonalDate.description}} dates for {{seasonalDate.branchName}}</h4>
             </div>
             <div class="modal-body">
+                <div *ngIf="errors && errors.length > 0">
+                    <div class="alert alert-danger" style="max-width: 400px;">
+                        <div *ngFor="let error of errors"><strong>{{error}}</strong></div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-1">&nbsp;</div>
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Description</label>
-                            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="seasonalDate.description" />
+                            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="seasonalDate.description"/>
                         </div>
                         <div class="form-group">
                             <label>From</label>
-                            <input type="text" class="form-control" placeholder="dd/mm/yyyy" [(ngModel)]="seasonalDate.fromDate" />
+                            <input type="text" class="form-control" placeholder="dd/mm/yyyy" [(ngModel)]="seasonalDate.fromDate"/>
                         </div>
                         <div class="form-group">
                             <label>To</label>
-                            <input type="text" class="form-control" placeholder="dd/mm/yyyy" [(ngModel)]="seasonalDate.toDate" />
+                            <input type="text" class="form-control" placeholder="dd/mm/yyyy" [(ngModel)]="seasonalDate.toDate"/>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <ow-branch-select [seasonalDateId]="seasonalDate.id"></ow-branch-select>
                     </div>
                 </div>
             </div>

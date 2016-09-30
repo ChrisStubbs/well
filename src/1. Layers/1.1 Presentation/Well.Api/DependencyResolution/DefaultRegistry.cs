@@ -54,6 +54,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
             For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
+            For<IJobDetailActionRepo>().Use<JobDetailActionRepo>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();
@@ -61,6 +62,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
             For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
             For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
+            For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
         }
     }
 }

@@ -15,7 +15,7 @@
             var creditThreshold = new CreditThreshold
             {
                 Id = model.Id,
-                Threshold = model.Threshold,
+                Threshold = model.Threshold.Value,
                 ThresholdLevelId = (int)EnumExtensions.GetValueFromDescription<ThresholdLevel>(model.ThresholdLevel)
             };
 

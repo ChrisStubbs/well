@@ -121,6 +121,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WellClean.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\ActionDeliveryLine.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActionDeliveryLine.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\Audits.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -177,6 +182,7 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\List.cs" />
     <Compile Include="Framework\WebElements\Div.cs" />
     <Compile Include="Framework\WebElements\Image.cs" />
     <Compile Include="Framework\WebElements\SpanElement.cs" />
@@ -251,6 +257,10 @@
     <None Include="Features\ACL\WellClean.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>WellClean.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\ActionDeliveryLine.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ActionDeliveryLine.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Audits.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

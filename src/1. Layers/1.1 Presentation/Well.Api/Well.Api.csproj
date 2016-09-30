@@ -207,6 +207,7 @@
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
+    <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
     <Compile Include="Controllers\DamageReasonController.cs" />
     <Compile Include="Controllers\DeliveryLineController.cs" />
@@ -236,14 +237,17 @@
     <Compile Include="Mapper\Contracts\IRouteModelsMapper.cs" />
     <Compile Include="Mapper\Contracts\ICreditThresholdMapper.cs" />
     <Compile Include="Mapper\Contracts\ISeasonalDateMapper.cs" />
+    <Compile Include="Mapper\CleanPreferenceMapper.cs" />
     <Compile Include="Mapper\CreditThresholdMapper.cs" />
     <Compile Include="Mapper\RouteModelslMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
+    <Compile Include="Models\CleanPreferenceModel.cs" />
     <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
+    <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\DeliveryLineActionsModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
@@ -254,7 +258,11 @@
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\CleanPreferenceValidator.cs" />
+    <Compile Include="Validators\Contracts\ICleanPreferenceValidator.cs" />
+    <Compile Include="Validators\Contracts\ICreditThresholdValidator.cs" />
     <Compile Include="Validators\Contracts\ISeasonalDateValidator.cs" />
+    <Compile Include="Validators\CreditThresholdValidator.cs" />
     <Compile Include="Validators\SeasonalDateValidator.cs" />
   </ItemGroup>
   <ItemGroup>

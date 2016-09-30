@@ -13,12 +13,22 @@ export class BranchCheckboxComponent implements OnInit{
     @Input() username: string;
     @Input() seasonalDateId: number;
     @Input() creditThresholdId: number;
+    @Input() cleanPreferenceId: number;
 
     constructor(private branchService: BranchService) {}
 
     ngOnInit(): void {
         if (this.creditThresholdId) {
             this.branchService.getBranchesWithCreditThreshold(this.creditThresholdId)
+                .subscribe(branches => {
+                    this.branches = branches;
+                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+
+                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                });
+
+        } else if (this.cleanPreferenceId) {
+            this.branchService.getBranchesWithCleanPreference(this.cleanPreferenceId)
                 .subscribe(branches => {
                     this.branches = branches;
                     this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });

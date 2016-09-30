@@ -9,6 +9,7 @@
             Damages = new List<DamageModel>();
         }
 
+        public int JobDetailId { get; set; }
         public int JobId { get; set; }
         public int LineNo { get; set; }
         public string ProductCode { get; set; }
@@ -20,5 +21,7 @@
         public int DamagedQuantity { get; set; }
 
         public List<DamageModel> Damages { get; set; }
+
+        public List<ActionModel> Actions { get; set; }
     }
 }

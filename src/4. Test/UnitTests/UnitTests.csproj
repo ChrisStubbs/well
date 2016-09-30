@@ -109,6 +109,7 @@
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />
     <Compile Include="Api\Controllers\AuditControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
+    <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineActionsControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
@@ -117,10 +118,14 @@
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
+    <Compile Include="Api\Mapper\CleanPreferenceMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryDetailModelMapperTests.cs" />
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />
     <Compile Include="Api\Mapper\SeasonalDateMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
+    <Compile Include="Api\Validators\CleanPreferenceValidatorTests.cs" />
+    <Compile Include="Api\Validators\CreditThresholdValidatorTests.cs" />
+    <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
     <Compile Include="Domain\JobDetailTests.cs" />

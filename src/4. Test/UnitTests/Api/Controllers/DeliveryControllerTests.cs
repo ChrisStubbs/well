@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
-
+    using System.Reflection;
+    using System.Web.Http;
     using Moq;
 
     using NUnit.Framework;
@@ -16,27 +18,36 @@
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.UnitTests.Factories;
+    using Well.Domain;
+    using Well.Services.Contracts;
 
     [TestFixture]
     public class DeliveryControllerTests : BaseControllerTests<DeliveryController>
     {
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
-
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
-
         private Mock<IDeliveryToDetailMapper> deliveryToDetailMapper;
+        private Mock<IJobRepository> jobRepository;
+        private Mock<ILogger> logger;
+        private Mock<IDeliveryService> deliveryService;
 
         [SetUp]
         public void Setup()
         {
-            this.deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
-            this.serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
-            this.deliveryToDetailMapper = new Mock<IDeliveryToDetailMapper>(MockBehavior.Strict);
+            deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
+            serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
+            deliveryToDetailMapper = new Mock<IDeliveryToDetailMapper>(MockBehavior.Strict);
+            jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            logger = new Mock<ILogger>(MockBehavior.Strict);
+            deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
 
             this.Controller = new DeliveryController(
-                this.deliveryReadRepository.Object, 
+                this.deliveryReadRepository.Object,
                 this.serverErrorResponseHandler.Object,
-                this.deliveryToDetailMapper.Object);
+                this.deliveryToDetailMapper.Object,
+                jobRepository.Object,
+                logger.Object,
+                deliveryService.Object);
 
             this.SetupController();
         }
@@ -275,6 +286,70 @@
                             It.IsAny<HttpRequestMessage>(),
                             exception,
                             "An error occured when getting delivery detail id: 4"), Times.Once);
+            }
+        }
+
+        public class TheSubmitActionsMethod : DeliveryControllerTests
+        {
+            [Test]
+            public void HasPostAttribute()
+            {
+                MethodInfo controllerMethod = GetMethod(c => c.SubmitActions(1));
+
+                var routeAttribute = GetAttributes<HttpPostAttribute>(controllerMethod).FirstOrDefault();
+                Assert.IsNotNull(routeAttribute);
+            }
+
+            [Test]
+            public void HasCorrectRouteAttribute()
+            {
+                MethodInfo controllerMethod = GetMethod(c => c.SubmitActions(1));
+
+                var routeAttribute = GetAttributes<RouteAttribute>(controllerMethod).FirstOrDefault();
+                Assert.IsNotNull(routeAttribute);
+                Assert.AreEqual("deliveries/{id:int}/submit-actions", routeAttribute.Template);
+            }
+
+            [Test]
+            public void GivenNoMatchingJob_ThenReturnsBadRequest()
+            {
+                int deliveryId = 1;
+
+                jobRepository.Setup(r => r.GetById(deliveryId)).Returns((Job) null);
+
+                logger.Setup(l => l.LogError(It.IsAny<string>()));
+
+                HttpResponseMessage response = Controller.SubmitActions(deliveryId);
+                var responseModel = GetResponseObject<ErrorModel>(response);
+
+                Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+
+                Assert.AreEqual("Unable to submit delivery actions", responseModel.Message);
+                Assert.AreEqual($"No matching delivery found for Id: {deliveryId}.",
+                    responseModel.Errors[0]);
+
+                var expectedString =
+                    $"Unable to submit delivery actions. No matching delivery found for Id: {deliveryId}.";
+                logger.Verify(l => l.LogError(It.Is<string>(s => s == expectedString)));
+            }
+
+            [Test]
+            public void GivenMatchingJob_ThenSubmitActionsAndReturnOK()
+            {
+                int deliveryId = 1;
+
+                jobRepository.Setup(r => r.GetById(deliveryId)).Returns(new Job());
+
+                logger.Setup(l => l.LogError(It.IsAny<string>()));
+
+                deliveryService.Setup(d => d.SubmitActions(deliveryId, ""));
+
+                //ACT
+                HttpResponseMessage response = Controller.SubmitActions(deliveryId);
+
+                deliveryService.Verify(d => d.SubmitActions(deliveryId, ""), Times.Once);
+
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
         }
     }

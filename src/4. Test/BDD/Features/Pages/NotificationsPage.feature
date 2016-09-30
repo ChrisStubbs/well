@@ -25,10 +25,10 @@ Scenario: A user can page through notifications
 	| Credit failed | 0/2874.033  | 2545470           |               | GEN HOSPITAL  | Credit failed ADAM validation |
 	When I click on notification page 2
 	Then '3' rows of notification data will be displayed on page 2
-	#When I archive the notification 1 from rowcount 3 on page 2
-	#Then I can see the following notification detail
-	#| ModalTitle											            |
-	#| Are you sure you want to archive the notification for 43362.048   | 
+	When I archive the notification 1 from rowcount 3 on page 2
+	Then I can see the following notification detail
+	| ModalTitle											           |
+	| Are you sure you want to archive the notification for 2874.033   | 
 	#When I click 'Yes' on the archive modal
 	#Then the following notifications with a rowcount of '3' will be displayed on page 2 
 	#| Heading       | Account     | PicklistReference | InvoiceNumber | Contact       | Reason                        |

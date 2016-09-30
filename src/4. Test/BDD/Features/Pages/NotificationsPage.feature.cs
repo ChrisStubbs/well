@@ -145,6 +145,15 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I click on notification page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 27
  testRunner.Then("\'3\' rows of notification data will be displayed on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
+ testRunner.When("I archive the notification 1 from rowcount 3 on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ModalTitle"});
+            table3.AddRow(new string[] {
+                        "Are you sure you want to archive the notification for 2874.033"});
+#line 29
+ testRunner.Then("I can see the following notification detail", ((string)(null)), table3, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

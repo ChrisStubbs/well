@@ -12,8 +12,9 @@
             ShortQtyTextBox = new TextBox { Locator = By.Id("short-qty-input") };
 
             AddDamageButton = new Button { Locator = By.Id("add-damage-button") };
-            DamageQtyTextBox = new TextBox { Locator = By.Id("damage-qty-input0") };
-            DamageReasonSelect = new HtmlSelectElement() { Locator = By.Id("reason-select0") };
+            FirstDamageQtyTextBox = new TextBox { Locator = By.Id("damage-qty-input0") };
+            FirstDamageReasonSelect = new HtmlSelectElement() { Locator = By.Id("reason-select0") };
+            DamagesGrid = new Grid<DamagesGridCols> {Locator = By.Id("damageTable"), RowLocator = By.ClassName("editable") };
 
             SaveButton = new Button { Locator = By.Id("save-button") };
             ConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
@@ -28,8 +29,8 @@
         public TextBox ShortQtyTextBox;
         public readonly Button AddDamageButton;
        
-        public TextBox DamageQtyTextBox;
-        public HtmlSelectElement DamageReasonSelect;
+        public TextBox FirstDamageQtyTextBox;
+        public HtmlSelectElement FirstDamageReasonSelect;
         public readonly Button SaveButton;
         public readonly Button ConfirmButton;
 
@@ -55,6 +56,8 @@
             return buttons;
         }
 
+        public Grid<DamagesGridCols> DamagesGrid { get; set; }
+
         public Grid<ActionGridCols> ActionGrid { get; set; }
 
         public TextBox NewActionQuantityTextBox
@@ -73,6 +76,13 @@
                 var rows = ActionGrid.ReturnAllRows().Count();
                 return new HtmlSelectElement() { Locator = By.Id($"action-select{rows - 1}") };
             }
+        }
+
+        public enum DamagesGridCols
+        {
+            Quantity = 0,
+            Reason = 1,
+            Remove = 2
         }
 
         public enum ActionGridCols

@@ -39,9 +39,19 @@
             var dbSteps = new DatabaseSteps();
             dbSteps.GivenIHaveSelectedBranch(22);
             WhenIOpenTheExceptionDeliveries();
-            SelectAssignLink();
             AssignToMe();
         }
+
+        [Given(@"the exception is assigned to identity: '(.*)', name: '(.*)'")]
+        public void GivenTheExceptionIsAssignedToIdentityName(string userIdentity, string userName)
+        {
+            
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22, userIdentity);
+            WhenIOpenTheExceptionDeliveries();
+            SelectUserToAssign(userName);
+        }
+
 
         [Then(@"the following exception deliveries will be displayed")]
         public void ThenTheFollowingExceptionDeliveriesWillBeDisplayed(Table table)
@@ -68,10 +78,6 @@
             var noExceptions = displayed == hasNoCurrentExceptions;
             Assert.That(noExceptions, Is.EqualTo(noExceptions));
         }
-
-
-
-
 
         [When(@"I click on the orderby Triangle image in the exceptions deliveries grid")]
         public void WhenIClickOnTheOrderbyTriangleImageInTheExceptionsDeliveriesGrid()
@@ -144,10 +150,9 @@
             rows[row-1].GetItemInRowByClass("contact-info").Click();
         }
 
-        [Given(@"I select the assigned link on the first row")]
-        [When(@"I select the assigned link on the first row")]
         public void SelectAssignLink()
         {
+            WhenIOpenTheExceptionDeliveries();
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var assignAnchor = rows[0].GetItemInRowByClass("assign");
             assignAnchor.Click();
@@ -199,7 +204,9 @@
         [When(@"I assign the delivery to myself")]
         public void AssignToMe()
         {
-            Thread.Sleep(2000);
+            SelectAssignLink();
+
+            Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
@@ -209,7 +216,9 @@
 
         public void SelectUserToAssign(string username)
         {
-            Thread.Sleep(2000);
+            SelectAssignLink();
+
+            Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.GetUserFromModal(username);
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 

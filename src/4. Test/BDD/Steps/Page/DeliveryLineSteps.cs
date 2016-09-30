@@ -26,16 +26,21 @@
             page.ActionsTab.Click();
         }
 
+        [When(@"I view the Issues for line '(.*)' of Delivery '(.*)'")]
+        public void GivenIViewTheIssuesForLineOfDelivery(int line, int delivery)
+        {
+            string routing = "/" + delivery + "/" + line;
+            page.Open(routing);
+        }
+
         [Given(@"an exception with a submitted action")]
         public void GivenAnExceptionWithASubmittedAction()
         {
             GivenAnExceptionWithSubmittedActionIsAssignedToMe();
             var exceptionPageSteps = new ExceptionPageSteps();
             exceptionPageSteps.WhenIOpenTheExceptionDeliveries();
-            exceptionPageSteps.SelectAssignLink();
             exceptionPageSteps.SelectUserToAssign("Unallocated");
         }
-
 
         [Given(@"an exception with a submitted action is assigned to me")]
         public void GivenAnExceptionWithSubmittedActionIsAssignedToMe()
@@ -60,7 +65,6 @@
 
             var exceptionPageSteps = new ExceptionPageSteps();
             exceptionPageSteps.WhenIOpenTheExceptionDeliveries();
-            exceptionPageSteps.SelectAssignLink();
             exceptionPageSteps.SelectUserToAssign(name);
         }
 
@@ -83,8 +87,8 @@
         public void WhenIAddADamageQtyAndReason(string damageQuantity, string reasonCode)
         {
             page.AddDamageButton.Click();
-            page.DamageQtyTextBox.EnterText(damageQuantity);
-            page.DamageReasonSelect.Select(reasonCode);
+            page.FirstDamageQtyTextBox.EnterText(damageQuantity);
+            page.FirstDamageReasonSelect.Select(reasonCode);
         }
 
         [When(@"I remove all damaages")]
@@ -141,6 +145,23 @@
                 Assert.AreEqual("true", pageRows[i].GetItemInRowById($"action-select{i}").GetAttribute("disabled"));
                 Assert.AreEqual("true", pageRows[i].GetItemInRowById($"remove-action-button{i}").GetAttribute("disabled"));
             }
+        }
+
+        [Then(@"I cannot add or edit any shorts or damages")]
+        public void ThenICannotEditAnyShortsOrDamages()
+        {
+            Assert.AreEqual("true", page.ShortQtyTextBox.GetElement().GetAttribute("disabled"));
+
+            var pageRows = page.DamagesGrid.ReturnAllRows().ToList();
+
+            for (int i = 0; i < pageRows.Count; i++)
+            {
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"damage-qty-input{i}").GetAttribute("disabled"));
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"reason-select{i}").GetAttribute("disabled"));
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"remove-damage-button{i}").GetAttribute("disabled"));
+            }
+
+            Assert.AreEqual("true", page.AddDamageButton.GetElement().GetAttribute("disabled"));
         }
 
         [Then(@"I can not add any action to the delivery")]

@@ -44,6 +44,7 @@
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
             DeleteAndReseed("UserJob");
+            DeleteAndReseed("Notification");
             DeleteAndReseed("Job");
             DeleteAndReseed("Account");
             DeleteAndReseed("Stop");

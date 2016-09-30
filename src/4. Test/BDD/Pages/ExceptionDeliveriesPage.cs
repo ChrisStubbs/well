@@ -75,7 +75,7 @@
 
             var elements = wait.Until(d => d.FindElements(By.ClassName("assign-user")));
 
-            return elements.SingleOrDefault(e => e.Text == username);
+            return elements.SingleOrDefault(e => string.Equals(e.Text,username,StringComparison.InvariantCultureIgnoreCase));
         }
 
         public int GetCountOfElements(string className)

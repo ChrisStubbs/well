@@ -44,6 +44,7 @@
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
             DeleteAndReseed("UserJob");
+            DeleteAndReseed("Notification");
             DeleteAndReseed("Job");
             DeleteAndReseed("Account");
             DeleteAndReseed("Stop");
@@ -220,11 +221,11 @@
         }
 
 
-        [Given(@"10 notifications have been made")]
-        public void InsertNotifications()
+        [Given(@"(.*) notifications have been made")]
+        public void InsertNotifications(int notifications)
         {
             notificationRepository.CurrentUser = "BDD.User";
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < notifications; i++)
             {
                 var notification = new Notification
                 {

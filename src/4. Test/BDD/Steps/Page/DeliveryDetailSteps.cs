@@ -23,6 +23,7 @@
         }
 
         [Given(@"I click on the first delivery line")]
+        [When(@"I click on the first delivery line")]
         public void ClickExceptionDetail()
         {
             IEnumerable<GridRow<DeliveryDetailsGrid>> rows = this.page.Grid.ReturnAllRows();

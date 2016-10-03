@@ -4,7 +4,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>Short</label>
-                <input id="short-qty-input" class="form-control" type="number" [(ngModel)]="deliveryLine.shortQuantity" />
+                <input id="short-qty-input" class="form-control" [disabled]="delivery.canAction ? false : true" type="number" 
+                       [(ngModel)]="deliveryLine.shortQuantity" />
             </div>
         </div>
     </div>
@@ -23,14 +24,17 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let damage of deliveryLine.damages; let i = index" class="editable">
-                        <td><input id="damage-qty-input{{i}}" type="number" class="form-control" [(ngModel)]="damage.quantity" /></td>
+                        <td><input id="damage-qty-input{{i}}" [disabled]="delivery.canAction ? false : true" type="number" 
+                                   class="form-control" [(ngModel)]="damage.quantity" /></td>
                         <td>
-                            <select id="reason-select{{i}}" class="form-control" required [(ngModel)]="damage.reasonCode" name="reason">
+                            <select id="reason-select{{i}}" [disabled]="delivery.canAction ? false : true" class="form-control" 
+                                    required [(ngModel)]="damage.reasonCode" name="reason">
                                 <option *ngFor="let r of reasons" [value]="r.code">{{r.code}} - {{r.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <button id="remove-damage-button{{i}}" type="button" class="btn btn-primary" (click)="removeDamage(damage.index)">Remove</button>
+                            <button id="remove-damage-button{{i}}" [disabled]="delivery.canAction ? false : true" 
+                                    type="button" class="btn btn-primary" (click)="removeDamage(damage.index)">Remove</button>
                         </td>
                     </tr>
                     </tbody>
@@ -43,13 +47,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <button id="add-damage-button" type="button" class="btn btn-success" (click)="addDamage()">Add damage</button>
+                <button id="add-damage-button" [disabled]="delivery.canAction ? false : true" type="button" 
+                        class="btn btn-success" (click)="addDamage()">Add damage</button>
             </div>
         </div>
     </div>
 
     <div class="btn-group pull-right">
-        <button id="save-button" type="button" class="btn btn-success" (click)="update()">Save</button>
+        <button id="save-button" [disabled]="delivery.canAction ? false : true" type="button" class="btn btn-success" (click)="update()">Save</button>
         <button id="cancel-button" type="button" class="btn btn-primary" (click)="cancel()">Cancel</button>
     </div>
     

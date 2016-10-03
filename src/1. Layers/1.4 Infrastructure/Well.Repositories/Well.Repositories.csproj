@@ -72,6 +72,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\IDeliveryToRemoveRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepo.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
     <Compile Include="Contracts\IAuditRepository.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Contracts\IWellDapperProxy.cs" />
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
+    <Compile Include="DeliveryToRemoveRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="JobDetailActionRepo.cs" />
     <Compile Include="JobDetailDamageRepo.cs" />

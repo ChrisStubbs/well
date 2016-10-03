@@ -54,7 +54,6 @@
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
     <Compile Include="Enums\ThresholdLevel.cs" />
-    <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="ValueObjects\DamageSource.cs" />
     <Compile Include="ValueObjects\CreditFail.cs" />
     <Compile Include="SeasonalDate.cs" />
+    <Compile Include="ValueObjects\DeliveryToRemove.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\DateTimeSpan.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />

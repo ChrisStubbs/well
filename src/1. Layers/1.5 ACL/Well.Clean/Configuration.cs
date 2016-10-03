@@ -1,4 +1,4 @@
-﻿namespace PH.Well.Clean.Infrastructure
+﻿namespace PH.Well.Clean
 {
     using System.Configuration;
 

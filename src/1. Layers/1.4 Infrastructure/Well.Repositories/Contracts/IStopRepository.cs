@@ -3,9 +3,8 @@
     using System;
     using System.Collections.Generic;
     using Domain;
-    using Domain.Enums;
 
-    public  interface IStopRepository : IRepository<Stop, int>
+    public interface IStopRepository : IRepository<Stop, int>
     {
         IEnumerable<Stop> GetStopByRouteHeaderId(int routeHeaderId);
 
@@ -20,6 +19,7 @@
         Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate);
 
         Stop GetByJobId(int jobId);
-        void DeleteStopById(int id, WellDeleteType deleteType);
+
+        void DeleteStopById(int id);
     }
 }

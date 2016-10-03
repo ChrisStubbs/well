@@ -8,7 +8,8 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
-    using Domain.Enums;
+
+    using PH.Well.Domain.Enums;
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
@@ -56,12 +57,6 @@
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet)
               .Query<HolidayExceptions>();
-        }
-
-        public void RoutesDeleteById(int id)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.RoutesDeleteById)
-                        .AddParameter("RoutesId", id, DbType.Int32).Execute();           
         }
 
         public IEnumerable<Routes> GetRoutes()
@@ -164,30 +159,18 @@
                 .Query<RouteAttributeException>();
         }
 
-        public void RoutesDeleteById(int id, WellDeleteType deleteType)
+        public void RoutesDeleteById(int id)
         {
-            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;;
-
             dapperProxy.WithStoredProcedure(StoredProcedures.RoutesDeleteById)
                 .AddParameter("RoutesId", id, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();
         }
 
-
-        public void DeleteRouteHeaderById(int id, WellDeleteType deleteType)
+        public void DeleteRouteHeaderById(int id)
         {
-            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;     
-
             dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
                 .AddParameter("RouteheaderId", id, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();
         }
-
-
-
-
-
     }
 }

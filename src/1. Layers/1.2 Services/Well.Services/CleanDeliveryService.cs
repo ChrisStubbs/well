@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Transactions;
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -22,13 +23,6 @@
 
         private readonly IJobDetailRepository jobDetailRepository;
 
-        private WellDeleteType JobDetailDeleteType { get; set; }
-        private WellDeleteType JobDeleteType { get; set; }
-        private WellDeleteType StopDeleteType { get; set; }
-        private WellDeleteType RouteHeaderDeleteType { get; set; }
-        public DateTime WellClearDate { get; set; }
-        public int WellClearMonths { get; set; }
-
         public CleanDeliveryService(
             ILogger logger, 
             IRouteHeaderRepository routeHeaderRepository,
@@ -43,17 +37,20 @@
             this.jobDetailRepository = jobDetailRepository;
         }
 
-        public void GetRouteHeadersForDelete()
+        public void DeleteCleans()
         {
+            // TODO load full object graph to enalbe using a transaction scope
+
             try
             {
                 var currentRouteHeaders = this.routeHeaderRepository.GetRouteHeadersForDelete();
+
                 foreach (var routeheader in currentRouteHeaders)
                 {
-                    SoftDeleteJobDetail(routeheader);
+                    this.DeleteJobDetail(routeheader);
                 }
 
-                CheckRouteFilesForDelete();
+                this.DeleteOrphanedRoutes();
             }
             catch (Exception ex)
             {
@@ -61,36 +58,36 @@
             }
         }
 
-        private void SoftDeleteJobDetail(RouteHeader routeHeader)
+        private void DeleteJobDetail(RouteHeader routeHeader)
         {
             var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
 
-            foreach (var stop in stops)
-            {
-                var stopJobs = this.jobRepository.GetByStopId(stop.Id);
-
-                foreach (var job in stopJobs)
+                foreach (var stop in stops)
                 {
-                    var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
+                    var stopJobs = this.jobRepository.GetByStopId(stop.Id);
 
-                    var jobRoyaltyCode = GetCustomerRoyaltyCode(job.RoyaltyCode);
-                    var noOutstandingJobRoyalty = DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
-                    JobDetailDeleteType = DeleteType(job.DateCreated);
-
-                    foreach (var jobDetail in jobDetailsForJob)
+                    foreach (var job in stopJobs)
                     {
-                        if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res && noOutstandingJobRoyalty)
-                            DeleteJobDetail(jobDetail.Id, JobDetailDeleteType);
+                        var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
+
+                        var jobRoyaltyCode = GetCustomerRoyaltyCode(job.RoyaltyCode);
+                        var noOutstandingJobRoyalty = false; // TODO DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
+
+                        foreach (var jobDetail in jobDetailsForJob)
+                        {
+                            if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res)
+                            {
+                                this.jobDetailRepository.DeleteJobDetailById(jobDetail.Id);
+                            }
+                        }
+
+                        this.DeleteOrphanedJobs(job);
                     }
 
-                    CheckJobDetailsForJob(job);
+                    this.DeleteOrphanedStops(stop);
                 }
 
-                CheckStopsForDelete(stop);
-            }
-
-            CheckRouteheaderForDelete(routeHeader);
-
+                this.DeleteOrphanedRouteHeaders(routeHeader);
         }
 
         private string GetCustomerRoyaltyCode(string jobTextField)
@@ -102,89 +99,50 @@
             return royaltyArray[0];
         }
 
-        private bool DoesJobHaveCustomerRoyalty(string royalyCode, DateTime jobCreatedDate)
+        // TODO
+        /*private bool DoesJobHaveCustomerRoyalty(string royalyCode, DateTime jobCreatedDate)
         {
             if (string.IsNullOrWhiteSpace(royalyCode))
                 return true;
 
             var royaltyExceptions = this.jobRepository.GetCustomerRoyaltyExceptions().FirstOrDefault(x => x.RoyaltyId == int.Parse(royalyCode));
             return CanJobBeDeletedToday(jobCreatedDate, royaltyExceptions);
-        }
+        }*/
 
-        private bool CanJobBeDeletedToday(DateTime jobCreatedDate, CustomerRoyaltyException royalException)
+        private void DeleteOrphanedJobs(Job job)
         {
-            if (royalException == null)
-                return true;
+            var jobDetailList = this.jobDetailRepository.GetByJobId(job.Id).Where(x => !x.IsDeleted);
 
-            var exceptionDays = royalException.ExceptionDays;
-            var currentDays = (WellClearDate - jobCreatedDate).TotalDays;
-
-            var exceptionDaysPassed = currentDays > exceptionDays;
-            return exceptionDaysPassed && !IsWeekendOrPublicHoliday();
-
+            if (!jobDetailList.Any())
+                this.jobRepository.DeleteJobById(job.Id);
         }
 
-        private bool IsWeekendOrPublicHoliday()
+        private void DeleteOrphanedStops(Stop stop)
         {
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday || DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
-                return true;
+            var jobs = this.jobRepository.GetByStopId(stop.Id).Where(x => !x.IsDeleted);
 
-            return routeHeaderRepository.HolidayExceptionGet().Any(x => x.ExceptionDate == WellClearDate);
+            if (!jobs.Any())
+                this.stopRepository.DeleteStopById(stop.Id);
         }
 
-        private WellDeleteType DeleteType(DateTime compareDate)
+        private void DeleteOrphanedRouteHeaders(RouteHeader routeHeader)
         {
-            var dateSpan = DateTimeSpan.CompareDates(compareDate, WellClearDate);
-            return dateSpan.Months < WellClearMonths ? WellDeleteType.SoftDelete : WellDeleteType.HardDelete;
+            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id).Where(x => !x.IsDeleted);
+
+            if (!stops.Any())
+                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.Id);
         }
 
-
-        private void DeleteJobDetail(int id, WellDeleteType deleteType)
-        {
-            this.jobDetailRepository.DeleteJobDetailById(id, deleteType);
-        }
-
-        private void CheckJobDetailsForJob(Job job)
-        {
-            var jobDetailList = this.jobDetailRepository.GetByJobId(job.Id);
-
-            this.JobDeleteType = DeleteType(job.DateCreated);
-
-            if (jobDetailList.All(x => x.IsDeleted) || !jobDetailList.Any())
-                this.jobRepository.DeleteJobById(job.Id, JobDeleteType);
-        }
-
-        private void CheckStopsForDelete(Stop stop)
-        {
-            var jobs = this.jobRepository.GetByStopId(stop.Id);
-
-            this.StopDeleteType = DeleteType(stop.DateCreated);
-
-            if (!jobs.Any() || jobs.All(x => x.IsDeleted))
-                this.stopRepository.DeleteStopById(stop.Id, StopDeleteType);
-        }
-
-        private void CheckRouteheaderForDelete(RouteHeader routeHeader)
-        {
-            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
-
-            this.RouteHeaderDeleteType = DeleteType(routeHeader.DateCreated);
-
-            if (!stops.Any() || stops.All(x => x.IsDeleted))
-                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.Id, RouteHeaderDeleteType);
-        }
-
-        private void CheckRouteFilesForDelete()
+        private void DeleteOrphanedRoutes()
         {
             var routes = this.routeHeaderRepository.GetRoutes();
 
             foreach (var route in routes)
             {
-                var routeheaders = routeHeaderRepository.GetRouteHeadersGetByRoutesId(route.Id);
-                this.RouteHeaderDeleteType = DeleteType(route.ImportDate);
+                var routeheaders = routeHeaderRepository.GetRouteHeadersGetByRoutesId(route.Id).Where(x => !x.IsDeleted);
 
-                if (!routeheaders.Any() || routeheaders.All(x => x.IsDeleted))
-                    this.routeHeaderRepository.RoutesDeleteById(route.Id, RouteHeaderDeleteType);
+                if (!routeheaders.Any())
+                    this.routeHeaderRepository.RoutesDeleteById(route.Id);
 
             }
         }

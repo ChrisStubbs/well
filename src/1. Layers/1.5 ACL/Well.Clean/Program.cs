@@ -1,7 +1,5 @@
 ﻿namespace PH.Well.Clean
 {
-    using global::Well.Clean;
-
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -40,6 +38,8 @@
                     x.For<IJobDetailDamageRepo>().Use<JobDetailDamageRepo>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
+                    x.For<ICleanDeliveryService>().Use<CleanDeliveryService>();
+                    x.For<IDeliveryToRemoveRepository>().Use<DeliveryToRemoveRepository>();
                 });
         }
     }

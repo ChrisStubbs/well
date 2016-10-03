@@ -307,27 +307,19 @@
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                var deleteType = WellDeleteType.SoftDelete;
-                var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
                 const int id = 1;
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
-
-
-
-                this.repository.DeleteRouteHeaderById(id, deleteType);
+                
+                this.repository.DeleteRouteHeaderById(id);
 
                 dapperProxy.Verify(
                     x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
 
             }
@@ -338,25 +330,19 @@
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                var deleteType = WellDeleteType.SoftDelete;
-                var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
                 const int id = 1;
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RoutesDeleteById))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RoutesId", id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-                this.repository.RoutesDeleteById(id, deleteType);
+                this.repository.RoutesDeleteById(id);
 
                 dapperProxy.Verify(
                     x => x.WithStoredProcedure(StoredProcedures.RoutesDeleteById), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("RoutesId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
             }
         }

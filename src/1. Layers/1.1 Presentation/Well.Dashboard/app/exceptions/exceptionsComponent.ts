@@ -160,16 +160,12 @@ export class ExceptionsComponent implements OnInit {
                 error => this.errorMessage = <any>error);
     }
 
-    openAssignModal(delivery): void {
+    allocateUser(delivery: ExceptionDelivery): void {
         this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
     }
 
     onAssigned(assigned: boolean) {
         this.getExceptions();
-    }
-
-    allocateUser(delivery: ExceptionDelivery): void {
-        this.openAssignModal(delivery);
     }
 
     setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {

@@ -187,6 +187,7 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\CreditThresholdButtonDropDown.cs" />
     <Compile Include="Framework\WebElements\List.cs" />
     <Compile Include="Framework\WebElements\Div.cs" />
     <Compile Include="Framework\WebElements\Image.cs" />
@@ -206,7 +207,8 @@
     <Compile Include="Pages\AccountModalComponent.cs" />
     <Compile Include="Pages\ArchiveModalComponent.cs" />
     <Compile Include="Pages\AuditPage.cs" />
-    <Compile Include="Pages\BranchParametersPage.cs" />
+    <Compile Include="Pages\CreditThresholdPage.cs" />
+    <Compile Include="Pages\SeasonalDatesPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\NotificationPage.cs" />

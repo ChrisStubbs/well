@@ -63,7 +63,7 @@
 
         public IWebElement GetLoggedInAssignUserFromModal()
         {
-            var loggedInUserName = CurrentUserName.Content;
+            var loggedInUserName = CurrentUserName.Text;
             return GetUserFromModal(loggedInUserName);
         }
 

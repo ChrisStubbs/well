@@ -53,6 +53,12 @@
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
             DeleteAndReseed("Audit");
+            DeleteAndReseed("SeasonalDateToBranch");
+            DeleteAndReseed("SeasonalDate");
+            DeleteAndReseed("CleanPreferenceToBranch");
+            DeleteAndReseed("CleanPreference");
+            DeleteAndReseed("CreditThresholdToBranch");
+            DeleteAndReseed("CreditThreshold");
         }
 
         private void DeleteAndReseed(string tableName)

@@ -154,28 +154,6 @@
             adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
         }
 
-        [When(@"I start the ACL Well Clean process for a soft delete")]
-        public void WhenIStartTheACLWellCleanProcess()
-        {
-            var epodStatusMessage = string.Empty;
-            var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
-            wellCleanContainer.CurrentUser = this.currentUser;
-            wellCleanContainer.WellClearMonths = 3;
-            wellCleanContainer.WellClearDate = DateTime.Now;
-            wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
-        }
-
-        [When(@"I start the ACL Well Clean process for a date (.*) months from today")]
-        public void WhenIStartTheACLWellCleanProcessForADateMonthsFromToday(int additionalMonths)
-        {
-            var epodStatusMessage = string.Empty;
-            var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
-            wellCleanContainer.CurrentUser = this.currentUser;
-            wellCleanContainer.WellClearMonths = 3;
-            wellCleanContainer.WellClearDate = DateTime.Now.AddMonths(additionalMonths);
-            wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
-        }
-
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
         public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(int exceptionDays, int royaltyCode)
         {

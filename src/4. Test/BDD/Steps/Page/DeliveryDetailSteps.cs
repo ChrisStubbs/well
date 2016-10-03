@@ -72,7 +72,7 @@
         [Then(@"the delivery status is '(.*)'")]
         public void ThenTheDeliveryStatusIs(string status)
         {
-            Assert.AreEqual(status, page.DeliveryTypeSpan.Content);
+            Assert.AreEqual(status, page.DeliveryTypeSpan.Text);
         }
     }
 }

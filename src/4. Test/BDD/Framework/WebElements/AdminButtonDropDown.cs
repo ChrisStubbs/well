@@ -8,7 +8,7 @@
 
     public class AdminButtonDropDown : WebElement
     {
-        public void Select()
+        public void SelectBranchSelection()
         {
             this.Driver.WaitForJavascript();
             this.GetElement().FindElement(By.Id("admin-dropdown-anchor")).Click();
@@ -16,6 +16,18 @@
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             
             var dropItem = wait.Until((d) => d.FindElement(By.Id("branch-selection")));
+
+            dropItem.Click();
+        }
+
+        public void SelectBranchParameters()
+        {
+            this.Driver.WaitForJavascript();
+            this.GetElement().FindElement(By.Id("admin-dropdown-anchor")).Click();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var dropItem = wait.Until((d) => d.FindElement(By.Id("branch-preference")));
 
             dropItem.Click();
         }

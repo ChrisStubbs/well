@@ -206,6 +206,7 @@
     <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="Pages\AccountModalComponent.cs" />
     <Compile Include="Pages\ArchiveModalComponent.cs" />
+    <Compile Include="Pages\AssignModal.cs" />
     <Compile Include="Pages\AuditPage.cs" />
     <Compile Include="Pages\CreditThresholdPage.cs" />
     <Compile Include="Pages\SeasonalDatesPage.cs" />

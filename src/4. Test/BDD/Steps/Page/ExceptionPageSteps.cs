@@ -219,7 +219,7 @@
             SelectAssignLink();
 
             Thread.Sleep(1000);
-            var element = this.ExceptionDeliveriesPage.GetUserFromModal(username);
+            var element = this.ExceptionDeliveriesPage.AssignModal.GetUserFromModal(username);
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();

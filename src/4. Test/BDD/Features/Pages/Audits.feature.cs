@@ -18,10 +18,10 @@ namespace PH.Well.BDD.Features.Pages
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("View audits")]
+    [NUnit.Framework.DescriptionAttribute("Audit viewing")]
     [NUnit.Framework.CategoryAttribute("WebDriverFeature")]
     [NUnit.Framework.CategoryAttribute("RoleSuperUser")]
-    public partial class ViewAuditsFeature
+    public partial class AuditViewingFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -33,7 +33,7 @@ namespace PH.Well.BDD.Features.Pages
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "View audits", "\tAs a user\r\n\tI wish to be able to view and filter audits\r\n\tso that I can see what" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Audit viewing", "\tAs a user\r\n\tI wish to be able to view and filter audits\r\n\tso that I can see what" +
                     " activities users have performed in The Well", ProgrammingLanguage.CSharp, new string[] {
                         "WebDriverFeature",
                         "RoleSuperUser"});
@@ -175,7 +175,7 @@ this.FeatureBackground();
 #line 30
  testRunner.Then("the following audit entries are shown", ((string)(null)), table2, "Then ");
 #line 36
- testRunner.When("I filter the audits grid with the option \'Account Code\' and value \'88888\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I filter the audits grid with the option \'Account\' and value \'88888\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "Entry",

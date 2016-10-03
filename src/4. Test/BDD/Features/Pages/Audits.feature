@@ -1,6 +1,6 @@
 ﻿@WebDriverFeature
 @RoleSuperUser
-Feature: View audits
+Feature: Audit viewing
 	As a user
 	I wish to be able to view and filter audits
 	so that I can see what activities users have performed in The Well
@@ -33,7 +33,7 @@ Scenario: Audit filtering
 	| Audit 123 | DeliveryLineUpdate | 987654    | 123456  | 20/01/2016   |
 
 		
-	When I filter the audits grid with the option 'Account Code' and value '88888'
+	When I filter the audits grid with the option 'Account' and value '88888'
 	Then the following audit entries are shown
 	| Entry     | Type               | InvoiceNo | Account | DeliveryDate |
 	| Audit 456 | DeliveryLineUpdate | 55555     | 88888   | 15/05/2016   |

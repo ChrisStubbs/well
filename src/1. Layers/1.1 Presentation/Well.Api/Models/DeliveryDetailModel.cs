@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.Api.Models
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using Domain.Enums;
 
     public class DeliveryDetailModel
     {
@@ -30,6 +32,8 @@
         public bool IsException { get; set; }
 
         public bool CanAction { get; set; }
+
+        public bool CanSubmit { get {return CanAction && DeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }
 
         public List<DeliveryLineModel> DeliveryLines { get; set; }
     }

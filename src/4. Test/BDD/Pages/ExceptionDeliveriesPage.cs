@@ -25,6 +25,7 @@
             CurrentUserName = new SpanElement() {Locator = By.Id("current-user-name") };
 
             AccountModal = new AccountModalComponent();
+            AssignModal = new AssignModal(Driver);
         }
 
         protected override string UrlSuffix => "exceptions";
@@ -49,6 +50,8 @@
 
         public SpanElement CurrentUserName { get; set; } 
 
+        public AssignModal AssignModal { get; set; }
+
 
         public IWebElement GetFirstCell()
         {
@@ -63,19 +66,7 @@
 
         public IWebElement GetLoggedInAssignUserFromModal()
         {
-            var loggedInUserName = CurrentUserName.Text;
-            return GetUserFromModal(loggedInUserName);
-        }
-
-        public IWebElement GetUserFromModal(string username)
-        {
-            this.Driver.WaitForJavascript();
-
-            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-
-            var elements = wait.Until(d => d.FindElements(By.ClassName("assign-user")));
-
-            return elements.SingleOrDefault(e => string.Equals(e.Text,username,StringComparison.InvariantCultureIgnoreCase));
+            return AssignModal.GetUserFromModal(CurrentUserName.Text);
         }
 
         public int GetCountOfElements(string className)

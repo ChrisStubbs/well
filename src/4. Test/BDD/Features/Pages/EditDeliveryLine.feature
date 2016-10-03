@@ -11,9 +11,8 @@ Background:
 	And I have selected branch 22
 
 Scenario: Add short qty and damages to clean delivery
-	Given 1 deliveries have been marked as clean
-	##TODO - Implement this once the clean page includes the assign links!
-	##And I assign the clean delivery to myself
+	Given 1 deliveries have been marked as clean	
+	And I assign the clean delivery to myself
 	And I open delivery '1'
 	And I click on the first delivery line
 	When I enter a short quantity of '5'

@@ -5,6 +5,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import {LogService} from '../shared/logService';
 import 'rxjs/Rx';   // Load all features
 
+import {BranchService} from "../shared/branch/branchService";
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contactModal";
@@ -80,7 +81,8 @@ export class ExceptionsComponent implements OnInit {
         private refreshService: RefreshService,
         private toasterService: ToasterService,
         private securityService: SecurityService,
-        private logService: LogService) {
+        private logService: LogService,
+        private branchService: BranchService ) {
     }
 
     ngOnInit(): void {
@@ -159,13 +161,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     openAssignModal(delivery): void {
-
-        this.exceptionDeliveryService.getUsersForBranch(delivery.branchId)
-            .subscribe(users => {
-                this.users = users;
-                this.assignModal.show(this.users, delivery);
-            }, 
-            error => this.errorMessage = <any>error);
+        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
     }
 
     onAssigned(assigned: boolean) {

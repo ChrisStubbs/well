@@ -23,7 +23,8 @@
         </div>
         <div class="col-md-2">
             <div class="btn-group pull-right">
-                <button class="btn btn-success" id="submit-button" type="button" (click)="submitActions()">Submit Actions</button>
+                <button class="btn btn-success" id="submit-button" [disabled]="delivery.canSubmit ? false : true" 
+                        type="button" (click)="submitActions()">Submit Actions</button>
             </div>
         </div>
     </div>

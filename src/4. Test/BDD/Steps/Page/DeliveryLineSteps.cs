@@ -42,6 +42,18 @@
             exceptionPageSteps.SelectUserToAssign("Unallocated");
         }
 
+        [Given(@"an exception with a draft action")]
+        public void GivenAnExceptionWithDraftAction()
+        {
+            var exceptionPageSteps = new ExceptionPageSteps();
+            exceptionPageSteps.GivenAnExceptionWithInvoicedItemsIsAssignedToMe();
+            GivenIViewTheActionsForLineOfDelivery(1, 1);
+            WhenIAddTheActionToItem("Credit", "1");
+            WhenISaveTheDeliveryLineUpdates();
+            exceptionPageSteps.WhenIOpenTheExceptionDeliveries();
+            exceptionPageSteps.SelectUserToAssign("Unallocated");
+        }
+
         [Given(@"an exception with a submitted action is assigned to me")]
         public void GivenAnExceptionWithSubmittedActionIsAssignedToMe()
         {

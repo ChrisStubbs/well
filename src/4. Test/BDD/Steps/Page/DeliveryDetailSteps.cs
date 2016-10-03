@@ -16,6 +16,7 @@
         private DeliveryDetailsPage page => new DeliveryDetailsPage();
     
         [Given(@"I open delivery '(.*)'")]
+        [When(@"I open delivery '(.*)'")]
         public void WhenIOpenDelivery(int deliveryId)
         {
             string routing = "/" + deliveryId;
@@ -34,6 +35,12 @@
         {
             page.SubmitActionButton.Click();
             page.ConfirmModalButton.Click();
+        }
+
+        [Then(@"I can not submit the delivery")]
+        public void ThenICanNotSubmitTheDelivery()
+        {
+            Assert.AreEqual("true", page.SubmitActionButton.GetElement().GetAttribute("disabled"));
         }
 
         [Then(@"I am shown the exception detail")]

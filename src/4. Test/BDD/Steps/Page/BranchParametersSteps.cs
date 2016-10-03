@@ -12,6 +12,7 @@
         private SeasonalDatesPage page => new SeasonalDatesPage();
         private CreditThresholdPage creditThresholdPage => new CreditThresholdPage();
         private BranchPage branchPage => new BranchPage();
+        private CleanPreferencePage cleanPage => new CleanPreferencePage();
 
         [Given("I navigate to the branch parameters page")]
         [Then("I navigate to the branch parameters page")]
@@ -39,10 +40,24 @@
             this.creditThresholdPage.Threshold.EnterText(table.Rows[0]["Threshold"]);
         }
 
+        [When("I add a clean parameter")]
+        public void AddCleanParameter(Table table)
+        {
+            this.cleanPage.ClickCleanDeliveriesTab();
+            this.cleanPage.Add.Click();
+            this.cleanPage.Days.EnterText(table.Rows[0]["Days"]);
+        }
+
         [When("I select the credit threshold tab")]
         public void SelectCreditThresholdTab()
         {
             this.creditThresholdPage.ClickThresholdTab();
+        }
+
+        [When("I select the clean parameter tab")]
+        public void SelectCleanParameterTab()
+        {
+            this.cleanPage.ClickCleanDeliveriesTab();
         }
 
         [When("I edit a seasonal date")]
@@ -67,8 +82,19 @@
             this.creditThresholdPage.Threshold.EnterText(table.Rows[0]["Threshold"]);
         }
 
+        [When("I edit a clean parameter")]
+        public void EditCleanParameter(Table table)
+        {
+            var grid = this.cleanPage.GetGridById(1);
+
+            grid[0].Days.Click();
+
+            this.cleanPage.Days.EnterText(table.Rows[0]["Days"]);
+        }
+
         [When("all branches are selected for the seasonal date")]
         [When("all branches are selected for the credit threshold")]
+        [When("all branches are selected for the clean parameter")]
         public void AllBranchesForSeasonalDate()
         {
             this.branchPage.SelectAllBranchesCheckbox.Check();
@@ -86,6 +112,13 @@
         public void SaveCreditThreshold()
         {
             this.creditThresholdPage.SaveButton.Click();
+        }
+
+        [When("I save the clean parameter")]
+        [When("I update the clean parameter")]
+        public void SaveCleanParameter()
+        {
+            this.cleanPage.Save.Click();
         }
 
         [Then("the seasonal date is saved")]
@@ -115,6 +148,18 @@
             }
         }
 
+        [Then("the clean parameter is saved")]
+        public void CleanParameterSaved(Table table)
+        {
+            var grid = this.cleanPage.GetGridById(1);
+
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(grid[i].Days.Text, Is.EqualTo(table.Rows[i]["Days"]));
+                Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+            }
+        }
+
         [Then("the seasonal date is updated with id '(.*)'")]
         public void SeasonalDateUpdate(int id, Table table)
         {
@@ -138,6 +183,18 @@
             {
                 Assert.That(grid[i].Level.Text, Is.EqualTo(table.Rows[i]["Level"]));
                 Assert.That(grid[i].ThresholdAmount.Text, Is.EqualTo(table.Rows[i]["Threshold"]));
+                Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+            }
+        }
+
+        [Then("the clean parameter is updated with id '(.*)'")]
+        public void CleanParameterUpdate(int id, Table table)
+        {
+            var grid = this.cleanPage.GetGridById(id);
+
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(grid[i].Days.Text, Is.EqualTo(table.Rows[i]["Days"]));
                 Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
             }
         }
@@ -172,6 +229,22 @@
         public void CreditThresholdHasGoneFromGrid()
         {
             Assert.That(this.creditThresholdPage.NoResults.Text, Is.EqualTo("No Credit Thresholds!"));
+        }
+
+        [When("I remove the clean parameter")]
+        public void RemoveCleanParameter()
+        {
+            var grid = this.cleanPage.GetGridById(1);
+
+            grid[0].Remove.Click();
+
+            this.cleanPage.Remove.Click();
+        }
+
+        [Then("it is removed from the clean parameter grid")]
+        public void CleanParameterHasGoneFromGrid()
+        {
+            Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
         }
     }
 }

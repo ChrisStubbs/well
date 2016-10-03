@@ -400,6 +400,146 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Clean parameter add new")]
+        public virtual void CleanParameterAddNew()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clean parameter add new", ((string[])(null)));
+#line 109
+this.ScenarioSetup(scenarioInfo);
+#line 110
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 111
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days"});
+            table19.AddRow(new string[] {
+                        "1"});
+#line 112
+ testRunner.When("I add a clean parameter", ((string)(null)), table19, "When ");
+#line 115
+ testRunner.And("all branches are selected for the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 116
+ testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days",
+                        "Branches"});
+            table20.AddRow(new string[] {
+                        "1",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 117
+ testRunner.Then("the clean parameter is saved", ((string)(null)), table20, "Then ");
+#line 120
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 121
+ testRunner.When("I select the clean parameter tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days",
+                        "Branches"});
+            table21.AddRow(new string[] {
+                        "1",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 122
+ testRunner.Then("the clean parameter is saved", ((string)(null)), table21, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Clean parameters remove")]
+        public virtual void CleanParametersRemove()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clean parameters remove", ((string[])(null)));
+#line 126
+this.ScenarioSetup(scenarioInfo);
+#line 127
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 128
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days"});
+            table22.AddRow(new string[] {
+                        "1"});
+#line 129
+ testRunner.When("I add a clean parameter", ((string)(null)), table22, "When ");
+#line 132
+ testRunner.And("all branches are selected for the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 133
+ testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days",
+                        "Branches"});
+            table23.AddRow(new string[] {
+                        "1",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 134
+ testRunner.Then("the clean parameter is saved", ((string)(null)), table23, "Then ");
+#line 137
+ testRunner.When("I remove the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 138
+ testRunner.Then("it is removed from the clean parameter grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Clean parameters edit")]
+        public virtual void CleanParametersEdit()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clean parameters edit", ((string[])(null)));
+#line 140
+this.ScenarioSetup(scenarioInfo);
+#line 141
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 142
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days"});
+            table24.AddRow(new string[] {
+                        "1"});
+#line 143
+ testRunner.When("I add a clean parameter", ((string)(null)), table24, "When ");
+#line 146
+ testRunner.And("all branches are selected for the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 147
+ testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days",
+                        "Branches"});
+            table25.AddRow(new string[] {
+                        "1",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 148
+ testRunner.Then("the clean parameter is saved", ((string)(null)), table25, "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days"});
+            table26.AddRow(new string[] {
+                        "2"});
+#line 151
+ testRunner.When("I edit a clean parameter", ((string)(null)), table26, "When ");
+#line 154
+ testRunner.And("I update the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days",
+                        "Branches"});
+            table27.AddRow(new string[] {
+                        "2",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 155
+ testRunner.Then("the clean parameter is updated with id \'2\'", ((string)(null)), table27, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

@@ -105,3 +105,53 @@ Scenario: Credit threshold edit
 	Then the credit threshold is updated with id '2'
 	| Level  | Threshold | Branches                                                   |
 	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
+Scenario: Clean parameter add new
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a clean parameter
+	| Days |
+	| 1    |
+	And all branches are selected for the clean parameter
+	And I save the clean parameter
+	Then the clean parameter is saved
+	| Days | Branches                                                   |
+	| 1    | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	And I navigate to the branch parameters page
+	When I select the clean parameter tab
+	Then the clean parameter is saved
+	| Days | Branches                                                   |
+	| 1    | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
+Scenario: Clean parameters remove
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a clean parameter
+	| Days |
+	| 1    |
+	And all branches are selected for the clean parameter
+	And I save the clean parameter
+	Then the clean parameter is saved
+	| Days | Branches                                                   |
+	| 1    | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I remove the clean parameter
+	Then it is removed from the clean parameter grid
+
+Scenario: Clean parameters edit
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a clean parameter
+	| Days |
+	| 1    |
+	And all branches are selected for the clean parameter
+	And I save the clean parameter
+	Then the clean parameter is saved
+	| Days | Branches                                                   |
+	| 1    | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I edit a clean parameter
+	| Days |
+	| 2    |
+	And I update the clean parameter
+	Then the clean parameter is updated with id '2'
+	| Days | Branches                                                   |
+	| 2    | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |

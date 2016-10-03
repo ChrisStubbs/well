@@ -208,6 +208,7 @@
     <Compile Include="Pages\ArchiveModalComponent.cs" />
     <Compile Include="Pages\AssignModal.cs" />
     <Compile Include="Pages\AuditPage.cs" />
+    <Compile Include="Pages\CleanPreferencePage.cs" />
     <Compile Include="Pages\CreditThresholdPage.cs" />
     <Compile Include="Pages\SeasonalDatesPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />

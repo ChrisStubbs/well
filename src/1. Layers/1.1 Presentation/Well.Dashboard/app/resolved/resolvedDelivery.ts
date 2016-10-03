@@ -9,4 +9,7 @@
     action: string;
     assigned: string;
     deliveryDate: Date;
+    accountId: string;
+    branchId: number;
+    canAction: boolean;
 }

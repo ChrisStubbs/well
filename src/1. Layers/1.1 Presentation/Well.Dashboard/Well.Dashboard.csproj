@@ -437,6 +437,7 @@
     <TypeScriptCompile Include="app\shared\spinnerComponent.ts" />
     <TypeScriptCompile Include="app\shared\user.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
+    <TypeScriptCompile Include="app\shared\userService.ts" />
     <TypeScriptCompile Include="app\shared\vendor.ts" />
     <TypeScriptCompile Include="app\shared\confirmModal.ts" />
     <TypeScriptCompile Include="app\shared\optionFilterComponent.ts" />

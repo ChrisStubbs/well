@@ -23,38 +23,80 @@
 
         private readonly IJobDetailRepository jobDetailRepository;
 
+        private readonly IRouteToRemoveRepository routeToRemoveRepository;
+
         public CleanDeliveryService(
             ILogger logger, 
             IRouteHeaderRepository routeHeaderRepository,
             IStopRepository stopRepository,
             IJobRepository jobRepository,
-            IJobDetailRepository jobDetailRepository)
+            IJobDetailRepository jobDetailRepository,
+            IRouteToRemoveRepository routeToRemoveRepository)
         {
             this.logger = logger;
             this.routeHeaderRepository = routeHeaderRepository;
             this.stopRepository = stopRepository;
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
+            this.routeToRemoveRepository = routeToRemoveRepository;
         }
 
         public void DeleteCleans()
         {
-            // TODO load full object graph to enalbe using a transaction scope
+            var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
-            try
+            foreach (var id in routeIds)
             {
-                var currentRouteHeaders = this.routeHeaderRepository.GetRouteHeadersForDelete();
+                var route = this.routeToRemoveRepository.GetRouteToRemove(id);
 
-                foreach (var routeheader in currentRouteHeaders)
+                foreach (var routeHeader in route.RouteHeaders)
                 {
-                    this.DeleteJobDetail(routeheader);
+                    foreach (var stop in routeHeader.Stops)
+                    {
+                        foreach (var job in stop.Jobs)
+                        {
+                            foreach (var detail in job.JobDetails)
+                            {
+                                detail.SetToDelete();
+                            }
+
+                            job.SetToDelete();
+                        }
+
+                        stop.SetToDelete();
+                    }
+
+                    routeHeader.SetToDelete();
                 }
 
-                this.DeleteOrphanedRoutes();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
+                route.SetToDelete();
+
+                using (var transaction = new TransactionScope())
+                {
+                    foreach (var routeHeader in route.RouteHeaders)
+                    {
+                        foreach (var stop in routeHeader.Stops)
+                        {
+                            foreach (var job in stop.Jobs)
+                            {
+                                foreach (var detail in job.JobDetails)
+                                {
+                                    if (detail.IsDeleted) this.jobDetailRepository.DeleteJobDetailById(detail.JobDetailId);
+                                }
+
+                                if (job.IsDeleted) this.jobRepository.DeleteJobById(job.JobId);
+                            }
+
+                            if (stop.IsDeleted) this.stopRepository.DeleteStopById(stop.StopId);
+                        }
+
+                        if (routeHeader.IsDeleted) this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
+                    }
+
+                    if (route.IsDeleted) this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
+
+                    transaction.Complete();
+                }
             }
         }
 

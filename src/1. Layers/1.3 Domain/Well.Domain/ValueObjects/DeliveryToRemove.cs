@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using PH.Well.Domain.Enums;
 
@@ -8,19 +9,29 @@
     {
         public RouteToRemove()
         {
-            this.RouteHeaders = new Collection<RouteHeaderToRemove>();   
+            this.RouteHeaders = new List<RouteHeaderToRemove>();   
         }
 
         public int RouteId { get; set; }
 
-        public Collection<RouteHeaderToRemove> RouteHeaders { get; set; }
+        public List<RouteHeaderToRemove> RouteHeaders { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public void SetToDelete()
+        {
+            if (this.RouteHeaders.All(x => x.IsDeleted))
+            {
+                this.IsDeleted = true;
+            }
+        }
     }
 
     public class RouteHeaderToRemove
     {
         public RouteHeaderToRemove()
         {
-            this.Stops = new Collection<StopToRemove>();
+            this.Stops = new List<StopToRemove>();
         }
 
         public int RouteHeaderId { get; set; }
@@ -29,50 +40,75 @@
 
         public int BranchId { get; set; }
 
-        public Collection<StopToRemove> Stops { get; set; }
+        public List<StopToRemove> Stops { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public void SetToDelete()
+        {
+            if (this.Stops.All(x => x.IsDeleted))
+            {
+                this.IsDeleted = true;
+            }
+        }
     }
 
     public class StopToRemove
     {
         public StopToRemove()
         {
-            this.Jobs = new Collection<JobToRemove>();
+            this.Jobs = new List<JobToRemove>();
         }
 
         public int StopId { get; set; }
 
         public int RouteHeaderId { get; set; }
 
-        public Collection<JobToRemove> Jobs { get; set; }
+        public List<JobToRemove> Jobs { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public void SetToDelete()
+        {
+            if (this.Jobs.All(x => x.IsDeleted))
+            {
+                this.IsDeleted = true;
+            }
+        }
     }
 
     public class JobToRemove
     {
         public JobToRemove()
         {
-            this.JobDetails = new Collection<JobDetailToRemove>();
+            this.JobDetails = new List<JobDetailToRemove>();
         }
 
         public int JobId { get; set; }
 
         public int StopId { get; set; }
 
-        public Collection<JobDetailToRemove> JobDetails { get; set; }
-    }
+        public List<JobDetailToRemove> JobDetails { get; set; }
 
-    public class JobDamageToRemove
-    {
-        public int JobDamageId { get; set; }
+        public bool IsDeleted { get; set; }
 
-        public int JobDetailId { get; set; }
+        public void SetToDelete()
+        {
+            if (this.JobDetails.All(x => x.IsDeleted))
+            {
+                this.IsDeleted = true;
+            }
+        }
     }
 
     public class JobDetailToRemove
     {
         public JobDetailToRemove()
         {
-            this.JobDamages = new Collection<JobDamageToRemove>();
+            this.JobDamages = new List<JobDamageToRemove>();
         }
+
+        public int JobId { get; set; }
 
         public int JobDetailId { get; set; }
 
@@ -80,6 +116,30 @@
 
         public int JobDetailStatusId { get; set; }
 
-        public Collection<JobDamageToRemove> JobDamages { get; set; }
+        public List<JobDamageToRemove> JobDamages { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public void SetToDelete()
+        {
+            if (this.JobDetailStatus == JobDetailStatus.Res)
+            {
+                this.IsDeleted = true;
+
+                foreach (var damage in this.JobDamages)
+                {
+                    damage.IsDeleted = true;
+                }
+            }
+        }
+    }
+
+    public class JobDamageToRemove
+    {
+        public int JobDamageId { get; set; }
+
+        public int JobDetailId { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

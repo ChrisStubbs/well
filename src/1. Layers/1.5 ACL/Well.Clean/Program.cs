@@ -40,6 +40,8 @@
                     x.For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
                     x.For<ICleanDeliveryService>().Use<CleanDeliveryService>();
                     x.For<IDeliveryToRemoveRepository>().Use<DeliveryToRemoveRepository>();
+                    x.For<IRouteToRemoveRepository>().Use<RouteToRemoveRepository>();
+                    x.For<IDapperProxy>().Use<WellDapperProxy>();
                 });
         }
     }

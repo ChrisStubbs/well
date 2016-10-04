@@ -154,6 +154,7 @@
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
+    <Compile Include="Infrastructure\RouteToRemoveRepositoryTests.cs" />
     <Compile Include="Infrastructure\SeasonalDateRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserRepositoryTests.cs" />

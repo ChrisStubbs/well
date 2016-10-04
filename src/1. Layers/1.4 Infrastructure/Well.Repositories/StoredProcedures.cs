@@ -112,5 +112,8 @@
         public static string CleanPreferenceSave = "CleanPreferenceSave";
         public static string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
         public static string CleanPreferenceDelete = "CleanPreferenceDelete";
+
+        public static string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
+        public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
     }
 }

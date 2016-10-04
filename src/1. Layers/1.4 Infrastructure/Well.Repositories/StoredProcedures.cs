@@ -97,6 +97,7 @@
         public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";
         public static string SeasonalDatesSave = "SeasonalDatesSave";
+        public static string SeasonalDatesByBranchGet = "SeasonalDatesByBranchGet";
         public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
 
         public static string CreditThresholdGetAll = "CreditThresholdGetAll";
@@ -115,5 +116,7 @@
 
         public static string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
+
+        public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
     }
 }

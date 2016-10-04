@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
 
@@ -25,13 +26,19 @@
 
         private readonly IRouteToRemoveRepository routeToRemoveRepository;
 
+        private readonly ICleanPreferenceRepository cleanPreferenceRepository;
+
+        private readonly ISeasonalDateRepository seasonalDateRepository;
+
         public CleanDeliveryService(
-            ILogger logger, 
+            ILogger logger,
             IRouteHeaderRepository routeHeaderRepository,
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
-            IRouteToRemoveRepository routeToRemoveRepository)
+            IRouteToRemoveRepository routeToRemoveRepository,
+            ICleanPreferenceRepository cleanPreferenceRepository,
+            ISeasonalDateRepository seasonalDateRepository)
         {
             this.logger = logger;
             this.routeHeaderRepository = routeHeaderRepository;
@@ -39,10 +46,16 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.routeToRemoveRepository = routeToRemoveRepository;
+            this.cleanPreferenceRepository = cleanPreferenceRepository;
+            this.seasonalDateRepository = seasonalDateRepository;
         }
 
         public void DeleteCleans()
         {
+            // TODO Check royalty exceptions
+            // TODO add seasonal branch date check
+            // TODO default to 1 day if no clean preference in place
+
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
             foreach (var id in routeIds)
@@ -55,9 +68,14 @@
                     {
                         foreach (var job in stop.Jobs)
                         {
+                            var royaltyException = this.GetCustomerRoyaltyException(job.RoyaltyCode);
+                            var cleanPreference =
+                                this.cleanPreferenceRepository.GetByBranchId(routeHeader.BranchId);
+                            var seasonalDates = this.seasonalDateRepository.GetByBranchId(routeHeader.BranchId);
+
                             foreach (var detail in job.JobDetails)
                             {
-                                detail.SetToDelete();
+                                if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateCreated)) detail.SetToDelete();
                             }
 
                             job.SetToDelete();
@@ -98,6 +116,27 @@
                     transaction.Complete();
                 }
             }
+        }
+
+        private bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateCreated)
+        {
+            return false;
+        }
+
+        private CustomerRoyaltyException GetCustomerRoyaltyException(string royaltyCode)
+        {
+            var royaltyParts = royaltyCode.Split(' ');
+
+            int tryParseCode = 0;
+
+            if (int.TryParse(royaltyParts[0], out tryParseCode))
+            {
+                var royaltyException = this.jobRepository.GetCustomerRoyaltyExceptions().FirstOrDefault(x => x.RoyaltyId == tryParseCode);
+
+                return royaltyException;
+            }
+
+            return null;
         }
 
         private void DeleteJobDetail(RouteHeader routeHeader)

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -88,6 +89,8 @@
 
         public int StopId { get; set; }
 
+        public string RoyaltyCode { get; set; }
+
         public List<JobDetailToRemove> JobDetails { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -119,6 +122,8 @@
         public List<JobDamageToRemove> JobDamages { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public DateTime DateCreated { get; set; }
 
         public void SetToDelete()
         {

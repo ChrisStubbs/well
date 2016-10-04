@@ -69,5 +69,13 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.SeasonalDatesDelete)
                 .AddParameter("Id", id, DbType.Int32).Execute();
         }
+
+        public IEnumerable<SeasonalDate> GetByBranchId(int branchId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.SeasonalDatesByBranchGet)
+                    .AddParameter("branchId", branchId, DbType.Int32)
+                    .Query<SeasonalDate>();
+        }
     }
 }

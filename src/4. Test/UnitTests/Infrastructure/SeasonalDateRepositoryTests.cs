@@ -176,5 +176,30 @@
                 this.dapperProxy.Verify(x => x.Execute(), Times.Exactly(2));
             }
         }
+
+        public class TheGetByBranchIdMethod : SeasonalDateRepositoryTests
+        {
+            [Test]
+            public void ShouldReturnSeasonalDatesByBranchId()
+            {
+                var branchId = 4;
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.SeasonalDatesByBranchGet))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("branchId", branchId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<SeasonalDate>()).Returns(new List<SeasonalDate>());
+
+                this.repository.GetByBranchId(branchId);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.SeasonalDatesByBranchGet), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("branchId", branchId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<SeasonalDate>(), Times.Once);
+            }
+        }
     }
 }

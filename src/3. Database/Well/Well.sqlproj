@@ -232,6 +232,8 @@
     <Build Include="dbo\StoredProcedures\JobDetailAction_Update.sql" />
     <Build Include="dbo\StoredProcedures\RouteIdsToRemoveGet.sql" />
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
+    <Build Include="dbo\StoredProcedures\CleanPreferenceByBranchGet.sql" />
+    <Build Include="dbo\StoredProcedures\SeasonalDatesByBranchGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

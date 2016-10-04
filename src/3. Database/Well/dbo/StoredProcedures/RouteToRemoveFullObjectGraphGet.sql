@@ -18,17 +18,19 @@ INSERT @stops
 select s.Id, r.RouteHeaderId from [stop] s join @routeHeaders r on r.RouteHeaderId = s.RouteHeaderId where s.IsDeleted = 0
 
 DECLARE @jobs TABLE ( [JobId] INT NOT NULL,
-					  [StopId] INT NOT NULL )
+					  [StopId] INT NOT NULL,
+					  [RoyaltyCode] VARCHAR(60) NULL )
 
 INSERT @jobs
-select j.Id, s.StopId from job j join @stops s on s.StopId = j.StopId where j.IsDeleted = 0
+select j.Id, s.StopId, j.RoyaltyCode from job j join @stops s on s.StopId = j.StopId where j.IsDeleted = 0
 
 DECLARE @jobDetails TABLE ( [JobDetailId] INT NOT NULL,
 							[JobId] INT NOT NULL,
-							[JobDetailStatusId] INT NOT NULL )
+							[JobDetailStatusId] INT NOT NULL,
+							[DateCreated] DATETIME NOT NULL)
 
 INSERT @jobDetails 
-select jd.Id, j.JobId, jd.JobDetailStatusId from JobDetail jd join @jobs j on j.JobId = jd.JobId where jd.IsDeleted = 0
+select jd.Id, j.JobId, jd.JobDetailStatusId, jd.DateCreated from JobDetail jd join @jobs j on j.JobId = jd.JobId where jd.IsDeleted = 0
 
 DECLARE @jobDamages TABLE ( [JobDamageId] INT NOT NULL,
 							[JobDetailId] INT NOT NULL )

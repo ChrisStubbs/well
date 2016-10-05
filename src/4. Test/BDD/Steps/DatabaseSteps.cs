@@ -214,16 +214,27 @@
             this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{userName}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
         }
 
+        [Given(@"(.*) deliveries have been assigned starting with job (.*)")]
+        public void AssignDeliveries(int deliveries, int jobId)
+        {
+            for (int i = 0; i < deliveries; i++)
+            {
+                this.dapperProxy.ExecuteSql($"INSERT INTO UserJob (UserId, JobId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT TOP 1 Id FROM [User]), {jobId + i}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+            }
+        }
 
-        [Given(@"(.*) notifications have been made")]
-        public void InsertNotifications(int notifications)
+
+
+
+        [Given(@"(.*) notifications have been made starting with job (.*)")]
+        public void InsertNotifications(int notifications, int jobId)
         {
             notificationRepository.CurrentUser = "BDD.User";
             for (int i = 0; i < notifications; i++)
             {
                 var notification = new Notification
                 {
-                    JobId = i + 1,
+                    JobId = jobId + i,
                     Reason = "Credit failed ADAM validation",
                     Type = (int)NotificationType.Credit,
                     Source = "BDD"

@@ -70,7 +70,7 @@
                         Name = "Notifications",
                         Count = userStats.NotificationsCount,
                         Description = "Unarchived notifications",
-                        Link = "/notifications",
+                        Link = "/notification",
                         LinkText = "notifications",
                         SortOrder = 4,
                         WarningLevel = 10
@@ -80,7 +80,7 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting widgets");
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting widgets");
             }
         }
 

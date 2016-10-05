@@ -40,6 +40,7 @@
                     x.For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
                     x.For<ICleanDeliveryService>().Use<CleanDeliveryService>();
                     x.For<IRouteToRemoveRepository>().Use<RouteToRemoveRepository>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                 });
         }

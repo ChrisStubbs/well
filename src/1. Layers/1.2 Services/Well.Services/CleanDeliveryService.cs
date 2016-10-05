@@ -7,27 +7,18 @@
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
-    using PH.Well.Domain.Enums;
-    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
     public class CleanDeliveryService : ICleanDeliveryService
     {
         private readonly ILogger logger;
-
         private readonly IRouteHeaderRepository routeHeaderRepository;
-
         private readonly IStopRepository stopRepository;
-
         private readonly IJobRepository jobRepository;
-
         private readonly IJobDetailRepository jobDetailRepository;
-
         private readonly IRouteToRemoveRepository routeToRemoveRepository;
-
         private readonly ICleanPreferenceRepository cleanPreferenceRepository;
-
         private readonly ISeasonalDateRepository seasonalDateRepository;
 
         public CleanDeliveryService(
@@ -52,10 +43,6 @@
 
         public void DeleteCleans()
         {
-            // TODO Check royalty exceptions
-            // TODO add seasonal branch date check
-            // TODO default to 1 day if no clean preference in place
-
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
             foreach (var id in routeIds)
@@ -89,41 +76,75 @@
 
                 route.SetToDelete();
 
-                using (var transaction = new TransactionScope())
+                try
                 {
-                    foreach (var routeHeader in route.RouteHeaders)
+                    using (var transaction = new TransactionScope())
                     {
-                        foreach (var stop in routeHeader.Stops)
+                        foreach (var routeHeader in route.RouteHeaders)
                         {
-                            foreach (var job in stop.Jobs)
+                            foreach (var stop in routeHeader.Stops)
                             {
-                                foreach (var detail in job.JobDetails)
+                                foreach (var job in stop.Jobs)
                                 {
-                                    if (detail.IsDeleted) this.jobDetailRepository.DeleteJobDetailById(detail.JobDetailId);
+                                    foreach (var detail in job.JobDetails)
+                                    {
+                                        if (detail.IsDeleted) this.jobDetailRepository.DeleteJobDetailById(detail.JobDetailId);
+                                    }
+
+                                    if (job.IsDeleted) this.jobRepository.DeleteJobById(job.JobId);
                                 }
 
-                                if (job.IsDeleted) this.jobRepository.DeleteJobById(job.JobId);
+                                if (stop.IsDeleted) this.stopRepository.DeleteStopById(stop.StopId);
                             }
 
-                            if (stop.IsDeleted) this.stopRepository.DeleteStopById(stop.StopId);
+                            if (routeHeader.IsDeleted) this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
                         }
 
-                        if (routeHeader.IsDeleted) this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
+                        if (route.IsDeleted) this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
+
+                        transaction.Complete();
                     }
-
-                    if (route.IsDeleted) this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
-
-                    transaction.Complete();
+                }
+                catch (Exception exception)
+                {
+                    this.logger.LogError("Error when trying to delete clean route!", exception);
                 }
             }
         }
 
-        private bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateCreated)
+        public bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateCreated)
         {
+            var now = DateTime.Now.Date;
+
+            foreach (var seasonal in seasonalDates)
+            {
+                if (now >= seasonal.From.Date && now <= seasonal.To.Date) return false;
+            }
+
+            if (royaltyException != null && royaltyException.ExceptionDays > 0)
+            {
+                var dateCanBeRemoved = dateCreated.AddDays(royaltyException.ExceptionDays);
+
+                if (dateCanBeRemoved.Date <= now) return true;
+            }
+
+            if (cleanPreference != null && cleanPreference.Days > 0)
+            {
+                var dateCanBeRemoved = dateCreated.AddDays(cleanPreference.Days);
+
+                if (dateCanBeRemoved.Date <= now) return true;
+            }
+            else
+            {
+                var dateCanBeRemoved = dateCreated.AddDays(1);
+
+                if (dateCanBeRemoved.Date <= now) return true;
+            }
+
             return false;
         }
 
-        private CustomerRoyaltyException GetCustomerRoyaltyException(string royaltyCode)
+        public CustomerRoyaltyException GetCustomerRoyaltyException(string royaltyCode)
         {
             var royaltyParts = royaltyCode.Split(' ');
 
@@ -137,95 +158,6 @@
             }
 
             return null;
-        }
-
-        private void DeleteJobDetail(RouteHeader routeHeader)
-        {
-            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
-
-                foreach (var stop in stops)
-                {
-                    var stopJobs = this.jobRepository.GetByStopId(stop.Id);
-
-                    foreach (var job in stopJobs)
-                    {
-                        var jobDetailsForJob = this.jobDetailRepository.GetByJobId(job.Id);
-
-                        var jobRoyaltyCode = GetCustomerRoyaltyCode(job.RoyaltyCode);
-                        var noOutstandingJobRoyalty = false; // TODO DoesJobHaveCustomerRoyalty(jobRoyaltyCode, job.DateCreated);
-
-                        foreach (var jobDetail in jobDetailsForJob)
-                        {
-                            if (jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res)
-                            {
-                                this.jobDetailRepository.DeleteJobDetailById(jobDetail.Id);
-                            }
-                        }
-
-                        this.DeleteOrphanedJobs(job);
-                    }
-
-                    this.DeleteOrphanedStops(stop);
-                }
-
-                this.DeleteOrphanedRouteHeaders(routeHeader);
-        }
-
-        private string GetCustomerRoyaltyCode(string jobTextField)
-        {
-            if (string.IsNullOrWhiteSpace(jobTextField))
-                return string.Empty;
-
-            var royaltyArray = jobTextField.Split(' ');
-            return royaltyArray[0];
-        }
-
-        // TODO
-        /*private bool DoesJobHaveCustomerRoyalty(string royalyCode, DateTime jobCreatedDate)
-        {
-            if (string.IsNullOrWhiteSpace(royalyCode))
-                return true;
-
-            var royaltyExceptions = this.jobRepository.GetCustomerRoyaltyExceptions().FirstOrDefault(x => x.RoyaltyId == int.Parse(royalyCode));
-            return CanJobBeDeletedToday(jobCreatedDate, royaltyExceptions);
-        }*/
-
-        private void DeleteOrphanedJobs(Job job)
-        {
-            var jobDetailList = this.jobDetailRepository.GetByJobId(job.Id).Where(x => !x.IsDeleted);
-
-            if (!jobDetailList.Any())
-                this.jobRepository.DeleteJobById(job.Id);
-        }
-
-        private void DeleteOrphanedStops(Stop stop)
-        {
-            var jobs = this.jobRepository.GetByStopId(stop.Id).Where(x => !x.IsDeleted);
-
-            if (!jobs.Any())
-                this.stopRepository.DeleteStopById(stop.Id);
-        }
-
-        private void DeleteOrphanedRouteHeaders(RouteHeader routeHeader)
-        {
-            var stops = this.stopRepository.GetStopByRouteHeaderId(routeHeader.Id).Where(x => !x.IsDeleted);
-
-            if (!stops.Any())
-                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.Id);
-        }
-
-        private void DeleteOrphanedRoutes()
-        {
-            var routes = this.routeHeaderRepository.GetRoutes();
-
-            foreach (var route in routes)
-            {
-                var routeheaders = routeHeaderRepository.GetRouteHeadersGetByRoutesId(route.Id).Where(x => !x.IsDeleted);
-
-                if (!routeheaders.Any())
-                    this.routeHeaderRepository.RoutesDeleteById(route.Id);
-
-            }
         }
     }
 }

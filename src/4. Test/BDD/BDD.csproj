@@ -116,11 +116,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EpodRouteFileSchemaValidation.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\ACL\WellClean.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WellClean.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Pages\ActionDeliveryLine.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -264,10 +259,6 @@
     <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EpodRouteFileSchemaValidation.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\ACL\WellClean.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>WellClean.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\ActionDeliveryLine.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

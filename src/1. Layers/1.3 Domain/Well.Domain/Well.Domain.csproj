@@ -93,7 +93,6 @@
     <Compile Include="SeasonalDate.cs" />
     <Compile Include="ValueObjects\DeliveryToRemove.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
-    <Compile Include="ValueObjects\DateTimeSpan.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />
     <Compile Include="ValueObjects\Damage.cs" />

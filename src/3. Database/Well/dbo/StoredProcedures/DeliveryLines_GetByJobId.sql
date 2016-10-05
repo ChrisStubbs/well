@@ -19,7 +19,7 @@ BEGIN
 		,jdd.[DamageReasonsId] as Reason
 	From [dbo].[JobDetailDamage] jdd
 	inner join [dbo].[JobDetail] jd on jdd.JobDetailId = jd.Id	
-	WHERE jd.JobId = @JobId
+	WHERE jd.JobId = @JobId AND jd.IsDeleted = 0
 
 	SELECT a.Id
 		,a.[JobDetailId]
@@ -33,6 +33,6 @@ BEGIN
 		,a.[Version]
 	From [dbo].[JobDetailAction] a
 	inner join [dbo].[JobDetail] jd on a.JobDetailId = jd.Id	
-	WHERE jd.JobId = @JobId
+	WHERE jd.JobId = @JobId AND jd.IsDeleted = 0
 
 END

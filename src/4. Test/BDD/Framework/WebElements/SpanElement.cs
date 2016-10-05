@@ -2,6 +2,6 @@
 {
     public class SpanElement : WebElement
     {
-        public string Content => this.GetElement().Text;
+        public string Text => this.GetElement().Text;
     }
 }

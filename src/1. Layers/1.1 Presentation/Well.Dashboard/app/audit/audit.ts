@@ -2,8 +2,7 @@
     entry: string;
     type: string;
     invoiceNumber: string;
-    accountCode: string;
-    accountName: string;
+    account: string;
     deliveryDate: Date;
     auditDate: Date;
     auditBy: string;

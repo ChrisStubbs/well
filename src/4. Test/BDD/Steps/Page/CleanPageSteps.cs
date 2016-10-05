@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
     using System.Linq;
+    using System.Threading;
+    using Framework.Context;
     using NUnit.Framework;
     using Pages;
     using TechTalk.SpecFlow;
@@ -26,6 +28,27 @@
         public void WhenIClickOnTheOrderbyTriangleImageInTheCleanDeliveries()
         {
             this.CleanDeliveriesPage.OrderByButton.Click();
+        }
+
+        public void SelectAssignLink()
+        {
+            WhenIOpenTheCleanDeliveries();
+            var rows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            var assignAnchor = rows[0].GetItemInRowByClass("assign");
+            assignAnchor.Click();
+        }
+
+        [Given(@"I assign the clean delivery to myself")]
+        public void AssignToMe()
+        {
+            SelectAssignLink();
+
+            Thread.Sleep(1000);
+            var element = this.CleanDeliveriesPage.GetLoggedInAssignUserFromModal();
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+
+            element.Click();
+            Thread.Sleep(2000);
         }
 
 

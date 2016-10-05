@@ -15,6 +15,7 @@ export class Delivery {
             this.cashOnDelivery = delivery.cashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
+            this.canSubmit = delivery.canSubmit;
 
             if (delivery.deliveryLines) {
                 for (let line of delivery.deliveryLines) {
@@ -35,6 +36,7 @@ export class Delivery {
     cashOnDelivery: string;
     isException: boolean;
     canAction: boolean;
+    canSubmit: boolean;
     deliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     isCleanOnInit(): boolean {

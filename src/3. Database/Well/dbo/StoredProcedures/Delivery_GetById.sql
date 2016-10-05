@@ -29,3 +29,9 @@ LEFT JOIN
 	dbo.[User] u2 on u2.Id = uj.UserId
 WHERE 
 	j.Id = @Id
+AND
+	j.IsDeleted = 0
+AND
+	s.IsDeleted = 0
+AND
+	rh.IsDeleted = 0

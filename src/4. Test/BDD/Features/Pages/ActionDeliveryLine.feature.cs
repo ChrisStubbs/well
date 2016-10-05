@@ -159,6 +159,10 @@ this.FeatureBackground();
  testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 36
  testRunner.Then("I can not edit any action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 37
+ testRunner.When("I open delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 38
+ testRunner.Then("I can not submit the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -168,18 +172,18 @@ this.FeatureBackground();
         public virtual void CanNotAddOrEditActionsWhenDeliveryAssignedToAnotherUser()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can not add or edit actions when Delivery assigned to another user", ((string[])(null)));
-#line 38
+#line 40
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 39
+#line 41
  testRunner.Given("an exception with a submitted action is assigned to identity: \'palmerharvey\\Bruno" +
                     ".Dobson\', name: \'Bruno Dobson\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 40
- testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 41
- testRunner.Then("I can not add any action to the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 42
+ testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 43
+ testRunner.Then("I can not add any action to the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 44
  testRunner.And("I can not edit any action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -190,18 +194,37 @@ this.FeatureBackground();
         public virtual void CanNotAddOrEditActionsWhenDeliveryUnassigned()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can not add or edit actions when Delivery unassigned", ((string[])(null)));
-#line 44
+#line 46
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 45
- testRunner.Given("an exception with a submitted action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 46
- testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 47
- testRunner.Then("I can not add any action to the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("an exception with a submitted action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 48
+ testRunner.When("I view the Actions for line \'1\' of Delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 49
+ testRunner.Then("I can not add any action to the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 50
  testRunner.And("I can not edit any action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can not submit delivery unless it is assigned to me")]
+        public virtual void CanNotSubmitDeliveryUnlessItIsAssignedToMe()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can not submit delivery unless it is assigned to me", ((string[])(null)));
+#line 52
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 53
+ testRunner.Given("an exception with a draft action", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 54
+ testRunner.When("I open delivery \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 55
+ testRunner.Then("I can not submit the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

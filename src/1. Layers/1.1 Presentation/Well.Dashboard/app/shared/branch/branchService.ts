@@ -2,9 +2,11 @@
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch';
+import {IUser} from '../user';
 import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../httpErrorService';
+import {LogService} from '../logService';
 
 @Injectable()
 export class BranchService {
@@ -13,7 +15,8 @@ export class BranchService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService) {
+        private httpErrorService: HttpErrorService,
+        private logService: LogService) {
     }
 
     getBranches(username): Observable<Branch[]> {

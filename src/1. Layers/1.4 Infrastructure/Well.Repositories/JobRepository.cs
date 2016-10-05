@@ -15,7 +15,6 @@
         {
         }
 
-
         public Job GetById(int id)
         {
             var job =
@@ -135,16 +134,12 @@
             return job;
         }
 
-        public void DeleteJobById(int id, WellDeleteType deleteType)
+        public void DeleteJobById(int id)
         {
-            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)
                 .AddParameter("JobId", id, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();
         }
-
 
         public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)
         {
@@ -152,9 +147,5 @@
                    .AddParameter("PDACreditReasonId", pdaCreditReasonId, DbType.Int32)
                    .Query<PodActionReasons>();
         }
-
-
-
-
     }
 }

@@ -58,7 +58,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
     <Compile Include="Notification.cs" />
-    <Compile Include="Enums\WellDeleteType.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Enums\AccountType.cs" />
@@ -92,8 +91,8 @@
     <Compile Include="ValueObjects\DamageSource.cs" />
     <Compile Include="ValueObjects\CreditFail.cs" />
     <Compile Include="SeasonalDate.cs" />
+    <Compile Include="ValueObjects\DeliveryToRemove.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
-    <Compile Include="ValueObjects\DateTimeSpan.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />
     <Compile Include="ValueObjects\Damage.cs" />

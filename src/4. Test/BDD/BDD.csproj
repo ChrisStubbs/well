@@ -116,15 +116,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EpodRouteFileSchemaValidation.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\ACL\WellClean.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WellClean.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Pages\ActionDeliveryLine.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ActionDeliveryLine.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Pages\AdminParameters.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdminParameters.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Pages\Audits.feature.cs">
       <AutoGen>True</AutoGen>
@@ -182,6 +182,7 @@
     <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
+    <Compile Include="Framework\WebElements\CreditThresholdButtonDropDown.cs" />
     <Compile Include="Framework\WebElements\List.cs" />
     <Compile Include="Framework\WebElements\Div.cs" />
     <Compile Include="Framework\WebElements\Image.cs" />
@@ -200,7 +201,11 @@
     <Compile Include="Framework\WebElements\WebElement.cs" />
     <Compile Include="Pages\AccountModalComponent.cs" />
     <Compile Include="Pages\ArchiveModalComponent.cs" />
+    <Compile Include="Pages\AssignModal.cs" />
     <Compile Include="Pages\AuditPage.cs" />
+    <Compile Include="Pages\CleanPreferencePage.cs" />
+    <Compile Include="Pages\CreditThresholdPage.cs" />
+    <Compile Include="Pages\SeasonalDatesPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\NotificationPage.cs" />
@@ -220,6 +225,7 @@
     <Compile Include="Steps\Page\AccountModalSteps.cs" />
     <Compile Include="Steps\Page\ArchiveModalSteps.cs" />
     <Compile Include="Steps\Page\AuditSteps.cs" />
+    <Compile Include="Steps\Page\BranchParametersSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
     <Compile Include="Steps\Page\NotificationPageSteps.cs" />
@@ -254,13 +260,13 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EpodRouteFileSchemaValidation.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\ACL\WellClean.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>WellClean.feature.cs</LastGenOutput>
-    </None>
     <None Include="Features\Pages\ActionDeliveryLine.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ActionDeliveryLine.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\AdminParameters.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdminParameters.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Audits.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

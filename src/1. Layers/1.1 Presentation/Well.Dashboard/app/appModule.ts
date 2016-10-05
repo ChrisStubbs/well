@@ -71,6 +71,7 @@ import {WidgetService} from './home/widgetService';
 import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 import {CreditThresholdService} from './credit_threshold/creditThresholdService';
 import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService';
+import {UserService} from './shared/userService';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -91,13 +92,13 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService,
+        CleanPreferenceService, UserService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),
         deps: [GlobalSettingsService],
         multi: true
-    },
+    }
         ],
     bootstrap: [AppComponent]
 })

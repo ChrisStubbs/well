@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.BDD.Pages
 {
     using System;
-    using System.Globalization;
+
     using Framework;
     using Framework.Context;
     using Framework.Extensions;
@@ -25,13 +25,13 @@
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
 
             wait.Until(d => d.Url.ToLowerInvariant().Contains(url.ToLowerInvariant()));
-
+            
             this.Driver.WaitForJavascript();
         }
 
         public void Open()
         {
-            Open("");
+            Open(string.Empty);
         }
     }
 }

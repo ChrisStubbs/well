@@ -166,5 +166,30 @@
                 this.dapperProxy.Verify(x => x.Execute(), Times.Exactly(2));
             }
         }
+
+        public class TheGetByBranchIdMethod : CleanPreferenceRepositoryTests
+        {
+            [Test]
+            public void ShouldGetCleanPreferenceByBranchId()
+            {
+                var branchId = 3;
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceByBranchGet))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("branchId", branchId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<CleanPreference>()).Returns(new List<CleanPreference>());
+
+                this.repository.GetByBranchId(branchId);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.CleanPreferenceByBranchGet), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("branchId", branchId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<CleanPreference>(), Times.Once);
+            }
+        }
     }
 }

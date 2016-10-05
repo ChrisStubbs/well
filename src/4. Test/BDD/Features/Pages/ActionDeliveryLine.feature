@@ -34,6 +34,8 @@ Scenario: Submitted actions can not be changed
 	Given an exception with a submitted action is assigned to me
 	When I view the Actions for line '1' of Delivery '1' 
 	Then I can not edit any action
+	When I open delivery '1'
+	Then I can not submit the delivery
 
 Scenario: Can not add or edit actions when Delivery assigned to another user
 	Given an exception with a submitted action is assigned to identity: 'palmerharvey\Bruno.Dobson', name: 'Bruno Dobson'
@@ -46,3 +48,8 @@ Scenario: Can not add or edit actions when Delivery unassigned
 	When I view the Actions for line '1' of Delivery '1'
 	Then I can not add any action to the delivery
 	And I can not edit any action
+
+Scenario: Can not submit delivery unless it is assigned to me
+	Given an exception with a draft action
+	When I open delivery '1'
+	Then I can not submit the delivery

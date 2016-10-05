@@ -12,8 +12,6 @@
         Routes CreateOrUpdate(Routes routes);
 
         string CurrentUser { get; set; }
-        DateTime WellClearDate { get; set; }
-        int WellClearMonths { get; set; }
         EpodFileType EpodType { get; set; }
 
         void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
@@ -35,8 +33,5 @@
         void CopyFileToArchive(string filename, string fileNameWithoutPath, string archiveLocation);
 
         void AddAdamUpdateFile(RouteUpdates orderUpdates, int routesId);
-
-        void GetRouteHeadersForDelete(ref string statusmessage);
-
     }
 }

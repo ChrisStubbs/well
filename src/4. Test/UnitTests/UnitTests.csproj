@@ -154,12 +154,14 @@
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
+    <Compile Include="Infrastructure\RouteToRemoveRepositoryTests.cs" />
     <Compile Include="Infrastructure\SeasonalDateRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
+    <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />
   </ItemGroup>

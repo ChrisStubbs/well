@@ -19,10 +19,10 @@
         public void ThenThereAreExceptionsAssignedOutstandingAndNotifications(string exceptions, string assigned,
             string outstanding, string notifications)
         {
-            Assert.AreEqual(exceptions, widgetsPage.ExceptionsSpan.Content);
-            Assert.AreEqual(assigned, widgetsPage.AssignedSpan.Content);
-            Assert.AreEqual(outstanding, widgetsPage.OutstandingSpan.Content);
-            Assert.AreEqual(notifications, widgetsPage.NotificationsSpan.Content);
+            Assert.AreEqual(exceptions, widgetsPage.ExceptionsSpan.Text);
+            Assert.AreEqual(assigned, widgetsPage.AssignedSpan.Text);
+            Assert.AreEqual(outstanding, widgetsPage.OutstandingSpan.Text);
+            Assert.AreEqual(notifications, widgetsPage.NotificationsSpan.Text);
         }
     }
 }

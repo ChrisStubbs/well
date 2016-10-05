@@ -57,7 +57,7 @@
                 this.GetElement().Click();
                 return true;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 return false;
             }

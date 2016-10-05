@@ -5,6 +5,7 @@ import 'rxjs/Rx';   // Load all features
 
 import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
+import {AssignModal} from "../shared/assignModal";
 import {FilterOption} from "../shared/filterOption";
 import {DropDownItem} from "../shared/dropDownItem";
 import {ContactModal} from "../shared/contactModal";
@@ -43,6 +44,9 @@ export class CleanDeliveryComponent implements OnInit {
     routeId: string;
     selectedOption: DropDownItem;
     selectedFilter: string;
+
+    @ViewChild(AssignModal) assignModal: AssignModal;
+    @ViewChild(ContactModal) contactModal : ContactModal;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -107,13 +111,17 @@ export class CleanDeliveryComponent implements OnInit {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    @ViewChild(ContactModal) modal : ContactModal;
-
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => { this.account = account; this.modal.show(this.account);},
+            .subscribe(account => { this.account = account; this.contactModal.show(this.account);},
             error => this.errorMessage = <any>error);
     }
 
+    allocateUser(delivery: CleanDelivery): void {
+        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+    }
 
+    onAssigned(assigned: boolean) {
+        this.getDeliveries();
+    }
 }

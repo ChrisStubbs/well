@@ -8,6 +8,8 @@
     {
         IEnumerable<CleanPreference> GetAll();
 
+        CleanPreference GetByBranchId(int branchId);
+
         void Delete(int id);
     }
 }

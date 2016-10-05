@@ -52,8 +52,10 @@
     <Compile Include="AdamConfiguration.cs" />
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
     <Compile Include="Contracts\IBranchService.cs" />
+    <Compile Include="Contracts\ICleanDeliveryService.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
     <Compile Include="Contracts\IEpodDomainImportProvider.cs" />
     <Compile Include="Contracts\IEpodDomainImportService.cs" />

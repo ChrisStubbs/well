@@ -34,6 +34,14 @@
             return cleanPreferences;
         }
 
+        public CleanPreference GetByBranchId(int branchId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.CleanPreferenceByBranchGet)
+                .AddParameter("branchId", branchId, DbType.Int32)
+                .Query<CleanPreference>()
+                .FirstOrDefault();
+        }
+
         protected override void SaveNew(CleanPreference entity)
         {
             using (

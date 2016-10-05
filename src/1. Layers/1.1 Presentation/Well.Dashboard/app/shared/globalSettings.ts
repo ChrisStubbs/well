@@ -1,5 +1,5 @@
 ﻿import {Injectable, Inject, Compiler} from "@angular/core";
-import {Http, Response} from '@angular/http'
+import {Http, Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {LogService} from './logService';
@@ -15,8 +15,9 @@ export class GlobalSettings {
 @Injectable()
 export class GlobalSettingsService {
     globalSettings: GlobalSettings;
+    jsonOptions: RequestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 
-    constructor(private _http: Http,
+    constructor(private http: Http,
         private httpErrorService: HttpErrorService,
         private logService: LogService,
         private compiler: Compiler) {
@@ -34,7 +35,7 @@ export class GlobalSettingsService {
     }
 
     public getSettings(): Promise<GlobalSettings> {
-        return this._http.get(this.globalSettings.apiUrl + 'global-settings')
+        return this.http.get(this.globalSettings.apiUrl + 'global-settings')
             .map((response: Response) => {
                 this.mapSettings(<GlobalSettings>response.json());
                 this.logService.log("Settings: " + JSON.stringify(this.globalSettings));
@@ -53,7 +54,7 @@ export class GlobalSettingsService {
     }
 
     public getBranches(): Observable<string> {
-        return this._http.get(this.globalSettings.apiUrl + 'user-branches')
+        return this.http.get(this.globalSettings.apiUrl + 'user-branches')
             .map((response: Response) => <string>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

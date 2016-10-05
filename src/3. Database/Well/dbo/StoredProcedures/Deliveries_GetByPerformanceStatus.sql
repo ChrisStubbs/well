@@ -6,7 +6,7 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-		SELECT
+	SELECT
 		j.Id,
 		rh.RouteNumber, 
 		s.DropId,
@@ -48,6 +48,13 @@ BEGIN
 		j.InvoiceNumber IS NOT NULL
 	AND 
 		j.COD IS NOT NULL
+	AND 
+		rh.IsDeleted = 0
+	AND
+		s.IsDeleted = 0
+	AND 
+		j.IsDeleted = 0
+
 
 
 

@@ -64,8 +64,17 @@ export class WidgetComponent implements OnInit {
                 queryParams: { 'outstanding': true }
             };
             break;
+            }
+        case 'Notifications':
+            {
+                navigationExtras = {
+                    queryParams: { 'notifications': true }
+                };
+                break;
+            }
         }
-        }
+
+
         let link: string = this.widgets.filter(widget => { return widget.name === widgetName; })[0].link;
         this.router.navigate([link], navigationExtras);
     }

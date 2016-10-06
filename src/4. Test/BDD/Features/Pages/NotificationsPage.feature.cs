@@ -73,23 +73,25 @@ namespace PH.Well.BDD.Features.Pages
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through notifications", new string[] {
                         "mytag"});
-#line 8
-this.ScenarioSetup(scenarioInfo);
 #line 9
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 10
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.And("10 notifications have been made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
- testRunner.When("I navigate to the notifications page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("10 deliveries have been assigned starting with job 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
- testRunner.Then("I will have 4 pages of notification data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("10 notifications have been made starting with job 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 15
- testRunner.When("I click on notification page 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I navigate to the notifications page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
+ testRunner.Then("I will have 4 pages of notification data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.When("I click on notification page 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
  testRunner.Then("\'1\' rows of notification data will be displayed on page 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -101,14 +103,14 @@ this.ScenarioSetup(scenarioInfo);
                         "Reason"});
             table1.AddRow(new string[] {
                         "Credit failed",
-                        "0/2874.033",
-                        "2544765",
+                        "0/54107.000",
+                        "4295479",
                         "",
-                        "Rhys Williams",
+                        "Tom Harris",
                         "Credit failed ADAM validation"});
-#line 17
+#line 19
  testRunner.And("the following notifications with a rowcount of \'1\' will be displayed on page 4", ((string)(null)), table1, "And ");
-#line 20
+#line 22
  testRunner.When("I click on notification page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -118,13 +120,6 @@ this.ScenarioSetup(scenarioInfo);
                         "InvoiceNumber",
                         "Contact",
                         "Reason"});
-            table2.AddRow(new string[] {
-                        "Credit failed",
-                        "0/49214.152",
-                        "4294343",
-                        "",
-                        "CSG Contact 1",
-                        "Credit failed ADAM validation"});
             table2.AddRow(new string[] {
                         "Credit failed",
                         "0/2874.033",
@@ -139,11 +134,18 @@ this.ScenarioSetup(scenarioInfo);
                         "",
                         "GEN HOSPITAL",
                         "Credit failed ADAM validation"});
-#line 21
+            table2.AddRow(new string[] {
+                        "Credit failed",
+                        "0/2874.033",
+                        "2545419",
+                        "",
+                        "GEN HOSPITAL",
+                        "Credit failed ADAM validation"});
+#line 23
  testRunner.Then("the following notifications with a rowcount of \'3\' will be displayed on page 1", ((string)(null)), table2, "Then ");
-#line 26
+#line 28
  testRunner.When("I click on notification page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 27
+#line 29
  testRunner.Then("\'3\' rows of notification data will be displayed on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -154,32 +156,34 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanArchiveANotification()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can archive a notification", ((string[])(null)));
-#line 31
-this.ScenarioSetup(scenarioInfo);
 #line 32
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 33
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 34
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 35
- testRunner.And("1 notifications have been made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 36
- testRunner.When("I navigate to the notifications page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("1 deliveries have been assigned starting with job 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 37
- testRunner.Then("I will have 1 pages of notification data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("1 notifications have been made starting with job 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 38
+ testRunner.When("I navigate to the notifications page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 39
+ testRunner.Then("I will have 1 pages of notification data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 40
  testRunner.When("I archive the notification 1 from rowcount 1 on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "ModalTitle"});
             table3.AddRow(new string[] {
                         "Are you sure you want to archive the notification for 49214.152"});
-#line 39
+#line 41
  testRunner.Then("I can see the following notification detail", ((string)(null)), table3, "Then ");
-#line 42
+#line 44
  testRunner.When("I click \'Yes\' on the archive modal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 43
+#line 45
  testRunner.Then("\'0\' rows of notification data will be displayed on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

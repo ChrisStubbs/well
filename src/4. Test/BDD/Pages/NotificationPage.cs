@@ -59,6 +59,7 @@
             public const string InvoiceId = "notification-invoice-";
             public const string ContactId = "notification-contact-";
             public const string AccountId = "notification-account-";
+            public const string UserId = "notification-user-";
 
             public NotificationInformation(int id)
             {
@@ -68,6 +69,7 @@
                 this.Invoice = new NotificationElement { Locator = By.Id(InvoiceId + id) };
                 this.Contact = new NotificationElement { Locator = By.Id(ContactId + id) };
                 this.Archive = new Button { Locator = By.Id(ArchiveId + id) };
+                this.User = new NotificationElement { Locator = By.Id(UserId + id) };
             }
 
             public NotificationElement Header { get; set; }
@@ -76,6 +78,7 @@
             public NotificationElement Invoice { get; set; }
             public NotificationElement Contact { get; set; }
             public Button Archive { get; set; }
+            public NotificationElement User { get; set; }
 
             public class NotificationElement : WebElement
             {

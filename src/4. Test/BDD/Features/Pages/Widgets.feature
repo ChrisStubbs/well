@@ -13,5 +13,6 @@ Scenario: User stats are shown on widgets
 	And  3 deliveries have been marked as exceptions
 	And I open the exception deliveries
 	And I assign the delivery to myself
+	And 1 notifications have been made starting with job 1
 	When I view the widgets page
-	Then there are 3 exceptions, 1 assigned, 3 outstanding and 0 notifications
+	Then there are 3 exceptions, 1 assigned, 3 outstanding and 1 notifications

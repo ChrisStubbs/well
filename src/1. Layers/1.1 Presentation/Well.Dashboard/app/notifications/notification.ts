@@ -8,6 +8,7 @@
     invoiceNumber: string;
     contactName: string;
     depotId: number;
+    userName: string;
 
    
 }

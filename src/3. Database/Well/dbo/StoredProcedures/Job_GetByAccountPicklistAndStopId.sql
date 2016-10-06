@@ -29,6 +29,7 @@ BEGIN
 	  ,[AllowReOrd] 
 	  ,[SandwchOrd] 
 	  ,[ComdtyType] 
+	  ,[TotalCreditValueForThreshold]
       ,[PerformanceStatusId]
       ,[ByPassReasonId]
 	  ,[IsDeleted]

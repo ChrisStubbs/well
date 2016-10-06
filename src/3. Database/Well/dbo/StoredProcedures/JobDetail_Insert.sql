@@ -3,6 +3,7 @@
 	@OriginalDespatchQty	INT,
 	@ProdDesc				NVARCHAR(100),
 	@OrderedQty				INT,
+	@DeliveredQty				DECIMAL(8,3) ,
 	@ShortQty				INT,
 	@UnitMeasure			NVARCHAR(20),
 	@PHProductCode			NVARCHAR(50),
@@ -30,6 +31,7 @@ INSERT INTO [dbo].[JobDetail]
 		   ,[OriginalDespatchQty]
 		   ,[ProdDesc]
 		   ,[OrderedQty]
+		   ,[DeliveredQty]
            ,[ShortQty]
            ,[UnitMeasure]
            ,[PHProductCode]
@@ -52,6 +54,7 @@ INSERT INTO [dbo].[JobDetail]
 		   ,@OriginalDespatchQty
 		   ,@ProdDesc
            ,@OrderedQty
+		   ,@DeliveredQty
            ,@ShortQty
            ,@UnitMeasure
            ,@PHProductCode     

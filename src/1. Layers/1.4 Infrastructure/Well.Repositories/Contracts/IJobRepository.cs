@@ -28,5 +28,6 @@
         void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
 
         CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
+        void CreditLines(IEnumerable<int> ids);
     }
 }

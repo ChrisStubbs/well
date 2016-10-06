@@ -36,6 +36,8 @@
 
         public bool CanAction { get; private set; }
 
+        public decimal TotalCreditValueForThreshold { get; set; }
+
         public void SetCanAction(string username)
         {
             this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);

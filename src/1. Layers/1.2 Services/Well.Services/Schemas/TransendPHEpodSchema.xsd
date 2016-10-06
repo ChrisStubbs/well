@@ -125,7 +125,7 @@
                                                         <xs:element name="LineStatus" type="xs:unsignedByte" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="ProdDesc" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                                         <xs:element name="OrderedQty" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="DeliveredQty" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="DeliveredQty" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="ShortQty" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="PHProductType" type="xs:unsignedByte" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="PackSize" type="xs:unsignedByte" minOccurs="0" maxOccurs="1"/>

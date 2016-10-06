@@ -62,6 +62,7 @@
     <Folder Include="dbo\StoredProcedures" />
     <Folder Include="dbo\Tables" />
     <Folder Include="Post-Deployement" />
+    <Folder Include="dbo\Types" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deploy.ps1">
@@ -220,6 +221,14 @@
     <Build Include="dbo\Tables\CleanPreferenceToBranch.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferencesGetAll.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferencesBranchesGet.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
+    <Build Include="dbo\Types\IntTableType.sql" />
+    <Build Include="dbo\StoredProcedures\Job_CreditLines.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_CreditLines.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
+    <Build Include="dbo\Types\IntTableType.sql" />
+    <Build Include="dbo\StoredProcedures\Job_CreditLines.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_CreditLines.sql" />
     <None Include="Post-Deployement\Populate-ActionStatus.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Tables\JobDetailAction.sql" />

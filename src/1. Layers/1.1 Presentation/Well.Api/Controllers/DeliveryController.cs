@@ -2,11 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
+    using Domain;
+    using Domain.Enums;
     using Domain.ValueObjects;
     using Models;
     using PH.Well.Api.Mapper.Contracts;
@@ -124,24 +127,38 @@
             catch (Exception ex)
             {
                 return serverErrorResponseHandler.HandleException(Request, ex,
-                    $"An error occured when getting delivery detail id: {id}");
             }
         }
 
         [HttpPost]
-        [Route("deliveries/{id:int}/submit-actions")]
-        public HttpResponseMessage SubmitActions(int id)
+        [Route("deliveries-creditlines/{creditlines}")]
+        public HttpResponseMessage CreditLines(IEnumerable<int> creditLines)
         {
-            var job = jobRepository.GetById(id);
-            if (job == null)
-            {
-                logger.LogError($"Unable to submit delivery actions. No matching delivery found for Id: {id}.");
-                var errorModel = new ErrorModel
+            try
+            { 
+                if (creditLines == null)
                 {
-                    Message = "Unable to submit delivery actions",
-                    Errors = new List<string>() { $"No matching delivery found for Id: {id}." }
-                };
-                return Request.CreateResponse(HttpStatusCode.BadRequest, errorModel);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
+                    {
+                        Message = "No I'ds given for updated credited job lines",
+                        Errors = new List<string>()
+                        {
+                            $"No Id's given for updated credited job lines."
+                        }
+                    });
+                }
+
+                this.jobRepository.CreditLines(creditLines);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when crediting Job lines");
+            }
+            catch (Exception ex)
+            {
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when crediting Job lines");
             }
 
             deliveryService.SubmitActions(id, UserIdentityName);

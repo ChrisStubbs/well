@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
@@ -12,6 +14,14 @@
     {
         public JobDetailDamageRepo(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
         {
+        }
+
+        public IEnumerable<JobDetailDamage> GetJobDamagesByJobDetailId(int jobDetailId)
+        {
+
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageGetByJobDetailId)
+                .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
+                .Query<JobDetailDamage>().ToList();
         }
 
         protected override void SaveNew(JobDetailDamage entity)

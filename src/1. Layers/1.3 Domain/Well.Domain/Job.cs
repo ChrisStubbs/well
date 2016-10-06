@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Xml.Serialization;
     using Common.Extensions;
     using Enums;
@@ -120,6 +122,11 @@
                     ? ByPassReasons.Notdef
                     : StringExtensions.GetValueFromDescription<ByPassReasons>(value);
             }
+        }
+
+        public decimal TotalCreditValueForThreshold()
+        {
+            return JobDetails.Sum(d => d.CreditValueForThreshold());
         }
 
         [XmlIgnore]

@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Domain
+﻿
+
+
+namespace PH.Well.Domain
 {
     using System;
     using System.Collections.Generic;
@@ -43,6 +46,13 @@
         [XmlElement("OrderedQty")]
         public int OrderedQty { get; set; }
 
+
+        [XmlElement("DeliveredQty")]
+        public string DeliveredQty { get; set; }
+
+
+
+       
         [XmlIgnore]
         public int ShortQty { get; set; }
 
@@ -89,9 +99,17 @@
         [XmlIgnore]
         public int JobDetailStatusId { get; set; }
 
+       
+        public decimal CreditValueForThreshold()
+        {
+            var sumQty = this.JobDetailDamages.Sum(d => d.Qty);
+            var c = (this.ShortQty + sumQty) * Convert.ToDecimal(NetPrice);
+            return c;
+        }
+
         [XmlArray("JobDetailDamages")]
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
-        public Collection<JobDetailDamage>  JobDetailDamages { get; set; }
+        public Collection<JobDetailDamage> JobDetailDamages { get; set; }
 
         public bool IsClean()
         {

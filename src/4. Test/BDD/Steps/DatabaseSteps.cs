@@ -1,12 +1,14 @@
 ﻿namespace PH.Well.BDD.Steps
 {
-    using System.Linq;
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
+
     using Domain.Enums;
     using Framework.Context;
 
     using Newtonsoft.Json;
+
+    using NUnit.Framework;
 
     using PH.Well.BDD.Framework;
     using PH.Well.Common.Contracts;
@@ -15,8 +17,7 @@
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
-
-
+    
     [Binding]
     public class DatabaseSteps
     {
@@ -77,12 +78,21 @@
         public void MarkDeliveriesAsClean(int noOfDeliveries)
         {
             SetDeliveryStatus(PerformanceStatus.Compl, noOfDeliveries);
+            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
             SetDeliveryStatus(PerformanceStatus.Compl, 10000);
+        }
+
+        [Given(@"The clean deliveries are (.*) days old")]
+        public void CleanDeliveriesAreThisOld(int daysOld)
+        {
+            var cleanDate = DateTime.Now.AddDays(daysOld);
+
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET DateCreated = '{cleanDate}'");
         }
 
         [Given(@"All the deliveries are marked as Resolved")]
@@ -218,6 +228,14 @@
             this.logger.LogDebug($"User created {userName}");
             this.logger.LogDebug($"Branch created {branch}");
             this.dapperProxy.ExecuteSql($"INSERT INTO UserBranch (UserId, BranchId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT Id FROM [User] WHERE Name = '{userName}'), {branch}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
+        }
+
+        [Then(@"the clean deliveries are removed from the well")]
+        public void CleanDeliveriesSoftDeleted()
+        {
+            var result = this.dapperProxy.SqlQuery<int>("select count(1) from JobDetail where isDeleted = 0").Single();
+
+            Assert.That(result, Is.EqualTo(0));
         }
 
 

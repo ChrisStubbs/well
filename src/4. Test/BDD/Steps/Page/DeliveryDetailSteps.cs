@@ -16,17 +16,31 @@
         private DeliveryDetailsPage page => new DeliveryDetailsPage();
     
         [Given(@"I open delivery '(.*)'")]
-        public void WhenIOpenTheCleanDeliveries(int deliveryId)
+        [When(@"I open delivery '(.*)'")]
+        public void WhenIOpenDelivery(int deliveryId)
         {
             string routing = "/" + deliveryId;
             page.Open(routing);
         }
 
         [Given(@"I click on the first delivery line")]
+        [When(@"I click on the first delivery line")]
         public void ClickExceptionDetail()
         {
             IEnumerable<GridRow<DeliveryDetailsGrid>> rows = this.page.Grid.ReturnAllRows();
             rows.First().Click();
+        }
+
+        public void ClickSubmitActions()
+        {
+            page.SubmitActionButton.Click();
+            page.ConfirmModalButton.Click();
+        }
+
+        [Then(@"I can not submit the delivery")]
+        public void ThenICanNotSubmitTheDelivery()
+        {
+            Assert.AreEqual("true", page.SubmitActionButton.GetElement().GetAttribute("disabled"));
         }
 
         [Then(@"I am shown the exception detail")]
@@ -65,7 +79,7 @@
         [Then(@"the delivery status is '(.*)'")]
         public void ThenTheDeliveryStatusIs(string status)
         {
-            Assert.AreEqual(status, page.DeliveryTypeSpan.Content);
+            Assert.AreEqual(status, page.DeliveryTypeSpan.Text);
         }
     }
 }

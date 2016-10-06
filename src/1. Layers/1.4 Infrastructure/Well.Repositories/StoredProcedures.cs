@@ -53,7 +53,6 @@
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
-        public static string JobDetailGetByJobId = "JobDetail_GetByJobId";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
@@ -72,6 +71,7 @@
         public static string GetBranchesForUser = "GetBranchesForUser";
         public static string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public static string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
+        public static string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
 
         public static string UsersGetByBranchId = "Users_GetByBranchId";
         public static string UserGetByIdentity = "UserGetByIdentity";
@@ -97,6 +97,7 @@
         public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";
         public static string SeasonalDatesSave = "SeasonalDatesSave";
+        public static string SeasonalDatesByBranchGet = "SeasonalDatesByBranchGet";
         public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
 
         public static string CreditThresholdGetAll = "CreditThresholdGetAll";
@@ -106,5 +107,16 @@
         public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
 
         public static string ThresholdLevelSave = "ThresholdLevelSave";
+
+        public static string CleanPreferencesGetAll = "CleanPreferencesGetAll";
+        public static string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
+        public static string CleanPreferenceSave = "CleanPreferenceSave";
+        public static string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
+        public static string CleanPreferenceDelete = "CleanPreferenceDelete";
+
+        public static string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
+        public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
+
+        public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
     }
 }

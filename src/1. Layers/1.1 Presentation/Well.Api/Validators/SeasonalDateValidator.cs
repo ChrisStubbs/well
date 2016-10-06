@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using PH.Well.Api.Models;
     using PH.Well.Api.Validators.Contracts;
@@ -10,33 +11,60 @@
     {
         public SeasonalDateValidator()
         {
-            this.Errors = new Dictionary<string, string>();
+            this.Errors = new List<string>();
         }
 
-        public Dictionary<string, string> Errors { get; set; }
+        public List<string> Errors { get; set; }
 
-        public bool Isvalid(SeasonalDateModel model)
+        public bool IsValid(SeasonalDateModel model)
         {
-            DateTime fromDate;
-
-            if (!DateTime.TryParse(model.FromDate, out fromDate))
+            if (string.IsNullOrWhiteSpace(model.Description))
             {
-                this.Errors.Add("FromDate", "From date is not a valid date!");
+                this.Errors.Add("Description is required!");
+            }
+            else if (model.Description.Length > 255)
+            {
+                this.Errors.Add("Description is over the max capacity of 255 characters!");
             }
 
-            DateTime toDate;
+            bool anyDateError = false;
+            DateTime fromDate = new DateTime();
 
-            if (!DateTime.TryParse(model.ToDate, out toDate))
+            if (string.IsNullOrWhiteSpace(model.FromDate))
             {
-                this.Errors.Add("ToDate", "To date is not a valid date!");
+                this.Errors.Add("From date is required!");
+                anyDateError = true;
+            }
+            else if (!DateTime.TryParse(model.FromDate, out fromDate))
+            {
+                this.Errors.Add("From date is not a valid date!");
+                anyDateError = true;
             }
 
-            if (model.Description.Length > 255)
+            DateTime toDate = new DateTime();
+
+            if (string.IsNullOrWhiteSpace(model.ToDate))
             {
-                this.Errors.Add("Description", "Is over the max capacity of 255 characters!");
+                this.Errors.Add("To date is required!");
+                anyDateError = true;
+            }
+            else if (!DateTime.TryParse(model.ToDate, out toDate))
+            {
+                this.Errors.Add("To date is not a valid date!");
+                anyDateError = true;
             }
 
-            return this.Errors.Count == 0;
+            if (!anyDateError && fromDate.Date > toDate.Date)
+            {
+                this.Errors.Add("From date can not be greater than to date!");
+            }
+
+            if (model.Branches.Count == 0)
+            {
+                this.Errors.Add("Select a branch!");
+            }
+
+            return !this.Errors.Any();
         }
     }
 }

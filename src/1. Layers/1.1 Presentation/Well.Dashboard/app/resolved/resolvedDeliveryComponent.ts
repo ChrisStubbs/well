@@ -8,6 +8,7 @@ import {ResolvedDeliveryService} from './ResolvedDeliveryService';
 import {DropDownItem} from "../shared/dropDownItem";
 import Option = require("../shared/filterOption");
 import FilterOption = Option.FilterOption;
+import {AssignModal} from "../shared/assignModal";
 import {ContactModal} from "../shared/contactModal";
 import {AccountService} from "../account/accountService";
 import {IAccount} from "../account/account";
@@ -42,6 +43,9 @@ export class ResolvedDeliveryComponent implements OnInit {
         new DropDownItem("Date", "deliveryDate", false, "date")
     ];
     account: IAccount;
+
+    @ViewChild(ContactModal) contactModal : ContactModal;
+    @ViewChild(AssignModal) assignModal: AssignModal;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -95,14 +99,20 @@ export class ResolvedDeliveryComponent implements OnInit {
         this.sortDirection(isDesc);
     }
 
-    @ViewChild(ContactModal) modal : ContactModal;
-
     openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => {
                 this.account = account;
-                this.modal.show(this.account);
+                this.contactModal.show(this.account);
             });
+    }
+
+    allocateUser(delivery: ResolvedDelivery): void {
+        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+    }
+
+    onAssigned(assigned: boolean) {
+        this.getDeliveries();
     }
 
 }

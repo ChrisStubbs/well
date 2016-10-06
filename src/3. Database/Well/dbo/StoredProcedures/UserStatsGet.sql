@@ -41,7 +41,11 @@ INSERT INTO @StatsTable
 		And s.DeliveryDate < DATEADD(DAY,-1,GETDATE())
 		and u.IdentityName = @UserIdentity
 	),
-	0
+	(
+		SELECT Count(n.Id) AS NotificationsCount
+			FROM [Notification] n
+			WHERE IsArchived = 0
+	)
 	)
 
 	select * from @StatsTable   

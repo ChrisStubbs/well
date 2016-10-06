@@ -68,8 +68,12 @@
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
+    <Compile Include="CleanPreferenceRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\IJobDetailActionRepo.cs" />
+    <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
     <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
+    <Compile Include="JobDetailActionRepo.cs" />
     <Compile Include="JobDetailDamageRepo.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
@@ -104,6 +109,7 @@
     <Compile Include="Read\DeliveryReadRepository.cs" />
     <Compile Include="Contracts\IDeliveryReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
+    <Compile Include="RouteToRemoveRepository.cs" />
     <Compile Include="SeasonalDateRepository.cs" />
     <Compile Include="StopRepository.cs" />
     <Compile Include="StoredProcedures.cs" />

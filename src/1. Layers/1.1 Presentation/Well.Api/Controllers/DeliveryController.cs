@@ -8,10 +8,12 @@
     using System.Web.Http;
     using Common.Contracts;
     using Domain.ValueObjects;
+    using Models;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Security;
 
     using Repositories.Contracts;
+    using Services.Contracts;
 
     [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
     public class DeliveryController : BaseApiController
@@ -19,15 +21,24 @@
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IDeliveryToDetailMapper deliveryToDetailMapper;
+        private readonly IJobRepository jobRepository;
+        private readonly ILogger logger;
+        private readonly IDeliveryService deliveryService;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
             IServerErrorResponseHandler serverErrorResponseHandler,
-            IDeliveryToDetailMapper deliveryToDetailMapper)
+            IDeliveryToDetailMapper deliveryToDetailMapper,
+            IJobRepository jobRepository,
+            ILogger logger,
+            IDeliveryService deliveryService)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.deliveryToDetailMapper = deliveryToDetailMapper;
+            this.jobRepository = jobRepository;
+            this.logger = logger;
+            this.deliveryService = deliveryService;
         }
 
         [HttpGet]
@@ -36,7 +47,8 @@
         {
             try
             {
-                var exceptionDeliveries = this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
+                var exceptionDeliveries =
+                    this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
                 return !exceptionDeliveries.Any()
@@ -46,17 +58,19 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting exceptions");
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting exceptions");
             }
         }
-        
+
         [HttpGet]
         [Route("deliveries/clean")]
         public HttpResponseMessage GetCleanDeliveries()
         {
             try
             {
-                List<Delivery> cleanDeliveries = this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
+                List<Delivery> cleanDeliveries =
+                    this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
@@ -64,7 +78,8 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting clean deliveries");
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    $"An error occured when getting clean deliveries");
             }
         }
 
@@ -77,12 +92,13 @@
                 var resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserIdentityName).ToList();
 
                 return !resolvedDeliveries.Any()
-                   ? this.Request.CreateResponse(HttpStatusCode.NotFound)
-                   : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, resolvedDeliveries);
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting resolved deliveries");
+                return serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting resolved deliveries");
             }
         }
 
@@ -92,11 +108,11 @@
         {
             try
             {
-                var deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
+                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
                 deliveryDetail.SetCanAction(this.UserIdentityName);
 
                 var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
-                var delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
+                DeliveryDetailModel delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {
@@ -107,8 +123,30 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting delivery detail id: {id}");
+                return serverErrorResponseHandler.HandleException(Request, ex,
+                    $"An error occured when getting delivery detail id: {id}");
             }
+        }
+
+        [HttpPost]
+        [Route("deliveries/{id:int}/submit-actions")]
+        public HttpResponseMessage SubmitActions(int id)
+        {
+            var job = jobRepository.GetById(id);
+            if (job == null)
+            {
+                logger.LogError($"Unable to submit delivery actions. No matching delivery found for Id: {id}.");
+                var errorModel = new ErrorModel
+                {
+                    Message = "Unable to submit delivery actions",
+                    Errors = new List<string>() { $"No matching delivery found for Id: {id}." }
+                };
+                return Request.CreateResponse(HttpStatusCode.BadRequest, errorModel);
+            }
+
+            deliveryService.SubmitActions(id, UserIdentityName);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

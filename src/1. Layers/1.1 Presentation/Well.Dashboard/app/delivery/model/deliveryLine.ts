@@ -4,6 +4,7 @@ import {DeliveryLineAction} from './deliveryLineAction';
 export class DeliveryLine {
     constructor(line: DeliveryLine) {
         if (line) {
+            this.jobDetailId = line.jobDetailId;
             this.jobId = line.jobId;
             this.lineNo = line.lineNo;
             this.productCode = line.productCode;
@@ -22,10 +23,19 @@ export class DeliveryLine {
                 }
             }
 
+            if (line.actions) {
+                var index: number = 0;
+                for (let a of line.actions) {
+                    this.actions.push(new DeliveryLineAction(index, a.quantity, a.action, a.actionDescription, a.status, a.statusDescription));
+                    index++;
+                }
+            }
+
             this.isCleanOnInit = this.isClean();
         }
     }
 
+    jobDetailId: number;
     jobId: number;
     lineNo: number;
     productCode: string;

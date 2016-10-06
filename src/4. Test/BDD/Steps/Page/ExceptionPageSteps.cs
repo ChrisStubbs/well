@@ -22,8 +22,36 @@
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
+            
             ExceptionDeliveriesPage.Open();
         }
+
+        [Given(@"an exception with 20 invoiced items")]
+        public void GivenAnExceptionWithInvoicedItems()
+        {
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22);
+        }
+
+        [Given(@"an exception with 20 invoiced items is assigned to me")]
+        public void GivenAnExceptionWithInvoicedItemsIsAssignedToMe()
+        {
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22);
+            WhenIOpenTheExceptionDeliveries();
+            AssignToMe();
+        }
+
+        [Given(@"the exception is assigned to identity: '(.*)', name: '(.*)'")]
+        public void GivenTheExceptionIsAssignedToIdentityName(string userIdentity, string userName)
+        {
+            
+            var dbSteps = new DatabaseSteps();
+            dbSteps.GivenIHaveSelectedBranch(22, userIdentity);
+            WhenIOpenTheExceptionDeliveries();
+            SelectUserToAssign(userName);
+        }
+
 
         [Then(@"the following exception deliveries will be displayed")]
         public void ThenTheFollowingExceptionDeliveriesWillBeDisplayed(Table table)
@@ -50,10 +78,6 @@
             var noExceptions = displayed == hasNoCurrentExceptions;
             Assert.That(noExceptions, Is.EqualTo(noExceptions));
         }
-
-
-
-
 
         [When(@"I click on the orderby Triangle image in the exceptions deliveries grid")]
         public void WhenIClickOnTheOrderbyTriangleImageInTheExceptionsDeliveriesGrid()
@@ -126,18 +150,11 @@
             rows[row-1].GetItemInRowByClass("contact-info").Click();
         }
 
-        [Given(@"I select the assigned link on the first row")]
-        [When(@"I select the assigned link on the first row")]
         public void SelectAssignLink()
         {
+            WhenIOpenTheExceptionDeliveries();
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-
-            var unallocated = rows[0].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Assigned);
-
-            Assert.That(unallocated, Is.EqualTo("Unallocated"));
-
             var assignAnchor = rows[0].GetItemInRowByClass("assign");
-
             assignAnchor.Click();
         }
 
@@ -183,15 +200,30 @@
             Assert.IsNotNull(updateable);
         }
 
-        [Given(@"I select a user to assign")]
-        [When(@"I select a user to assign")]
-        public void SelectUserToAssign()
+        [Given(@"I assign the delivery to myself")]
+        [When(@"I assign the delivery to myself")]
+        public void AssignToMe()
         {
-            Thread.Sleep(2000);
-            var element = this.ExceptionDeliveriesPage.GetFirstAssignUserFromModal();
+            SelectAssignLink();
+
+            Thread.Sleep(1000);
+            var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
+            Thread.Sleep(2000);
+        }
+
+        public void SelectUserToAssign(string username)
+        {
+            SelectAssignLink();
+
+            Thread.Sleep(1000);
+            var element = this.ExceptionDeliveriesPage.AssignModal.GetUserFromModal(username);
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+
+            element.Click();
+            Thread.Sleep(2000);
         }
 
         [Then(@"the user is assigned to that exception")]

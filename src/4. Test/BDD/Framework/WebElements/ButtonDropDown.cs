@@ -11,8 +11,7 @@
         public void Select(string itemToSelect)
         {
             this.Driver.WaitForJavascript();
-            this.GetElement();
-            this.Element.FindElement(By.ClassName("caret")).Click();
+            this.GetElement().FindElement(By.ClassName("caret")).Click();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             

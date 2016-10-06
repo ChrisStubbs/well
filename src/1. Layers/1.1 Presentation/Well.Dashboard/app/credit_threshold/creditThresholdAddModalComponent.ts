@@ -14,6 +14,7 @@ export class CreditThresholdAddModalComponent {
     isVisible: boolean = false;
     creditThreshold: CreditThreshold = new CreditThreshold();
     httpResponse: HttpResponse = new HttpResponse();
+    errors: string[];
     @Output() onCreditThresholdSave = new EventEmitter<CreditThreshold>();
 
     constructor(private creditThresholdService: CreditThresholdService, private toasterService: ToasterService) { }
@@ -21,6 +22,7 @@ export class CreditThresholdAddModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
 
     show() {
+        this.clear();
         this.isVisible = true;
         this.creditThreshold.thresholdLevel = 'Level';
     }
@@ -32,12 +34,13 @@ export class CreditThresholdAddModalComponent {
 
     clear() {
         this.creditThreshold = new CreditThreshold();
+        this.errors = [];
     }
 
     save() {
         this.creditThreshold.branches = this.branch.selectedBranches;
 
-        this.creditThresholdService.saveCreditThreshold(this.creditThreshold)
+        this.creditThresholdService.saveCreditThreshold(this.creditThreshold, false)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
@@ -52,7 +55,7 @@ export class CreditThresholdAddModalComponent {
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                    this.errors = this.httpResponse.errors;
                 }
             });
     }

@@ -7,27 +7,32 @@
 
     <div class="content">
         <div *ngIf="!notifications">
-            <div class="alert alert-info">
+            <div id="no-notifications" class="alert alert-info">
                 <strong>No notifications!</strong>
             </div>
         </div>
-        <div class="row">
-            <div class="notification" *ngFor="let notification of notifications | paginate: { itemsPerPage: rowCount, currentPage: p }">
+        <div class="row" id="notification">
+            <div class="grid-row"  *ngFor="let notification of notifications | paginate: { itemsPerPage: rowCount, currentPage: p }">
                 <div ngClass="{{getStyle(notification)}}">
+                    
                     <span class="pull-right notification-archive">
-                        <a class="btn btn-primary" (click)="archive(notification)">Archive</a>
+                        <a class="btn btn-primary archive-action" id="notification-archive-{{notification.id}}" (click)="archive(notification)">Archive</a>
                     </span>
-                    <h4>{{getHeading(notification)}}</h4>
+                    
+                    <h4 id="notification-header-{{notification.id}}">{{getHeading(notification)}}</h4>
+                    
                     <p>
-                        <b>Account:</b> {{notification.depotId}}/{{notification.jobRef1}}<br>
-                        <b>PickList Reference:</b> {{notification.jobRef2}}<br>
-                        <b>Invoice Number:</b> {{notification.jobRef3}}<br><br>
-                        <b>Contact:</b> {{notification.contactName}}<br>
+                        <b>Account:</b> <span id="notification-account-{{notification.id}}">{{notification.depotId}}/{{notification.phAccount}}</span><br>
+                        <b>PickList Reference:</b> <span id="notification-pick-{{notification.id}}">{{notification.picklistRef}}</span><br>
+                        <b>Invoice Number:</b> <span id="notification-invoice-{{notification.id}}">{{notification.invoiceNumber}}</span><br><br>
+                        <b>Contact:</b> <span id="notification-contact-{{notification.id}}">{{notification.contactName}}</span><br>
+                        <b>Allocated to:</b> <span id="notification-user-{{notification.id}}">{{notification.userName}}</span><br>
                     </p>
-                    <p class="text-info">
+                    
+                    <p id="notification-reason-{{notification.id}}">
                         {{notification.reason}}
-
                     </p>
+                   
                 </div>
 
             </div>

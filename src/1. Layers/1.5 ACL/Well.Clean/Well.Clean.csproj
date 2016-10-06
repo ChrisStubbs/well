@@ -7,8 +7,8 @@
     <ProjectGuid>{55273256-3C5F-416E-834A-3AC264F7819C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Well.Clean</RootNamespace>
-    <AssemblyName>Well.Clean</AssemblyName>
+    <RootNamespace>PH.Well.Clean</RootNamespace>
+    <AssemblyName>PH.Well.Clean</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -53,8 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CleanWell.cs" />
-    <Compile Include="Infrastructure\Configuration.cs" />
-    <Compile Include="Infrastructure\DependancyRegister.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

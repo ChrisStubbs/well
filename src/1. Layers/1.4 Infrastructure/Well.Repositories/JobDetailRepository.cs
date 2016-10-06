@@ -12,9 +12,8 @@
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
-
-        public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
-        {}
+        public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy) : 
+            base(logger, dapperProxy) {}
 
         public JobDetail GetById(int id)
         {
@@ -47,28 +46,21 @@
         {
             var jobDetails = grid.Read<JobDetail>().ToList();
             var jobDetailDamages = grid.Read<JobDetailDamage>().ToList();
+            var actions = grid.Read<JobDetailAction>().ToList();
 
             foreach (var jobDetail in jobDetails)
             {
                 jobDetail.JobDetailDamages =
                     new Collection<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id).ToList());
+                jobDetail.Actions =
+                    new Collection<JobDetailAction>(actions.Where(a => a.JobDetailId == jobDetail.Id).ToList());
             }
 
             return jobDetails;
         }
 
-        public IEnumerable<JobDetail> GetJobDetailByJobId(int jobId)
-        {
-
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGetByJobId)
-                .AddParameter("JobId", jobId, DbType.Int32)
-                .Query<JobDetail>();
-        }
-
         protected override void SaveNew(JobDetail jobDetail)
         {
-            
-
             jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
@@ -109,23 +101,19 @@
         }
 
 
-        public void DeleteJobDetailById(int id, WellDeleteType deleteType)
+        public void DeleteJobDetailById(int id)
         {
-            var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
-            JobDetailDeleteDamageReasonsByJobDetailId(id, isSoftDelete);
+            this.JobDetailDeleteDamageReasonsByJobDetailId(id);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteById)
                 .AddParameter("JobDetailId", id, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();          
         }
 
-        private void JobDetailDeleteDamageReasonsByJobDetailId(int jobDetailId, bool isSoftDelete)
+        private void JobDetailDeleteDamageReasonsByJobDetailId(int jobDetailId)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId)
                  .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
-                .AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean)
                 .Execute();
         }
     }

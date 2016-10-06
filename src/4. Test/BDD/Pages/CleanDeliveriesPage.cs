@@ -11,7 +11,10 @@
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
+            CurrentUserName = new SpanElement() { Locator = By.Id("current-user-name") };
+
             AccountModal = new AccountModalComponent();
+            AssignModal = new AssignModal(Driver);
         }
 
         protected override string UrlSuffix => "clean";
@@ -22,6 +25,13 @@
 
         public Image OrderByButton { get; set; }
         public AccountModalComponent AccountModal { get; set; }
+        public AssignModal AssignModal { get; set; }
+        public SpanElement CurrentUserName { get; set; }
+
+        public IWebElement GetLoggedInAssignUserFromModal()
+        {
+            return AssignModal.GetUserFromModal(CurrentUserName.Text);
+        }
     }
 
     public enum CleanDeliveriesGrid
@@ -32,8 +42,7 @@
         Account = 3,
         AccountName= 4,
         Contact= 5,
-        InfoButton = 6,
-        //Status = 7,
-        LastUpdatedDateTime = 8
+        Assigned = 6,
+        LastUpdatedDateTime = 7
     }
 }

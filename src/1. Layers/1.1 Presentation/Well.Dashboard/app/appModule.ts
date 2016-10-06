@@ -18,6 +18,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
 import {DeliveryActionsComponent} from './delivery/deliveryActionsComponent';
+import {SubmitConfirmModal} from './delivery/submitConfirmModal';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
@@ -31,6 +32,10 @@ import {BranchCheckboxComponent} from './shared/branch/branchCheckboxComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelComponent';
+import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceComponent';
+import {CleanPreferenceAddModalComponent} from './clean_preferences/cleanPreferenceAddModalComponent';
+import {CleanPreferenceRemoveModalComponent} from './clean_preferences/cleanPreferenceRemoveModalComponent';
+import {CleanPreferenceEditModalComponent} from './clean_preferences/cleanPreferenceEditModalComponent';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -65,18 +70,20 @@ import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
 import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 import {CreditThresholdService} from './credit_threshold/creditThresholdService';
+import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService';
+import {UserService} from './shared/userService';
 
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
-        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        DeliveryIssuesComponent, DeliveryActionsComponent,
+        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
+        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
+        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
     ],
     imports: [
@@ -85,12 +92,13 @@ import {CreditThresholdService} from './credit_threshold/creditThresholdService'
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
+        CleanPreferenceService, UserService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),
         deps: [GlobalSettingsService],
         multi: true
-    },
+    }
         ],
     bootstrap: [AppComponent]
 })

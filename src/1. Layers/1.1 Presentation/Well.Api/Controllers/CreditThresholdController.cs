@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
+    using PH.Well.Api.Validators.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -20,11 +22,18 @@
 
         private readonly ICreditThresholdMapper mapper;
 
-        public CreditThresholdController(ICreditThresholdRepository creditThresholdRepository, ILogger logger, ICreditThresholdMapper mapper)
+        private readonly ICreditThresholdValidator validator;
+
+        public CreditThresholdController(
+            ICreditThresholdRepository creditThresholdRepository, 
+            ILogger logger, 
+            ICreditThresholdMapper mapper,
+            ICreditThresholdValidator validator)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
             this.mapper = mapper;
+            this.validator = validator;
 
             this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
@@ -33,7 +42,7 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var creditThresholds = this.creditThresholdRepository.GetAll();
+            var creditThresholds = this.creditThresholdRepository.GetAll().OrderBy(x => x.ThresholdLevelId).ToList();
 
             var model = new List<CreditThresholdModel>();
 
@@ -61,19 +70,20 @@
             {
                 this.logger.LogError($"Error when trying to delete credit threshold (id):{id}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
 
-        [Route("credit-threshold")]
+        [Route("credit-threshold/{isUpdate:bool}")]
         [HttpPost]
-        public HttpResponseMessage Post(CreditThresholdModel model)
+        public HttpResponseMessage Post(CreditThresholdModel model, bool isUpdate)
         {
             try
             {
-                // TODO Validate
-                // if validation fails pass back 
-                // return this.Request.CreateResponse(HttpStatusCode.OK, new { warning = true, message = 'validation messages' });
+                if (!this.validator.IsValid(model, isUpdate))
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
+                } 
                 
                 var creditThreshold = this.mapper.Map(model);
 
@@ -85,7 +95,7 @@
             {
                 this.logger.LogError("Error when trying to save credit threshold date", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
     }

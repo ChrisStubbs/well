@@ -14,6 +14,7 @@ export class SeasonalDatesEditModalComponent {
     isVisible: boolean = false;
     seasonalDate: SeasonalDate;
     httpResponse: HttpResponse = new HttpResponse();
+    errors: string[];
     @Output() onUpdate = new EventEmitter<SeasonalDate>();
 
     constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
@@ -21,17 +22,22 @@ export class SeasonalDatesEditModalComponent {
     @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
     
     show(seasonalDate: SeasonalDate) {
+        this.clear();
         this.seasonalDate = seasonalDate;
         this.isVisible = true;
     }
 
     hide() {
         this.isVisible = false;
+        this.clear();
+    }
+
+    clear() {
+        this.seasonalDate = new SeasonalDate();
+        this.errors = [];
     }
 
     update() {
-        this.seasonalDate.branches = this.branch.selectedBranches;
-
         this.seasonalDateService.saveSeasonalDate(this.seasonalDate)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -46,7 +52,7 @@ export class SeasonalDatesEditModalComponent {
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                    this.errors = this.httpResponse.errors;
                 }
             });
     }

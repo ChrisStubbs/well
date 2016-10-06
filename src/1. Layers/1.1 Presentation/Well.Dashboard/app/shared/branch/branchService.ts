@@ -2,9 +2,11 @@
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch';
+import {IUser} from '../user';
 import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../httpErrorService';
+import {LogService} from '../logService';
 
 @Injectable()
 export class BranchService {
@@ -13,7 +15,8 @@ export class BranchService {
     constructor(
         private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService) {
+        private httpErrorService: HttpErrorService,
+        private logService: LogService) {
     }
 
     getBranches(username): Observable<Branch[]> {
@@ -33,6 +36,13 @@ export class BranchService {
     getBranchesWithCreditThreshold(creditThresholdId): Observable<Branch[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch-credit-threshold?creditThresholdId=' + creditThresholdId)
+            .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    getBranchesWithCleanPreference(cleanPreferenceId): Observable<Branch[]> {
+
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch-clean-preference?cleanPreferenceId=' + cleanPreferenceId)
             .map((response: Response) => <Branch[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

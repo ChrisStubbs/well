@@ -154,28 +154,6 @@
             adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
         }
 
-        [When(@"I start the ACL Well Clean process for a soft delete")]
-        public void WhenIStartTheACLWellCleanProcess()
-        {
-            var epodStatusMessage = string.Empty;
-            var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
-            wellCleanContainer.CurrentUser = this.currentUser;
-            wellCleanContainer.WellClearMonths = 3;
-            wellCleanContainer.WellClearDate = DateTime.Now;
-            wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
-        }
-
-        [When(@"I start the ACL Well Clean process for a date (.*) months from today")]
-        public void WhenIStartTheACLWellCleanProcessForADateMonthsFromToday(int additionalMonths)
-        {
-            var epodStatusMessage = string.Empty;
-            var wellCleanContainer = container.GetInstance<IEpodDomainImportService>();
-            wellCleanContainer.CurrentUser = this.currentUser;
-            wellCleanContainer.WellClearMonths = 3;
-            wellCleanContainer.WellClearDate = DateTime.Now.AddMonths(additionalMonths);
-            wellCleanContainer.GetRouteHeadersForDelete(ref epodStatusMessage);
-        }
-
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
         public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(int exceptionDays, int royaltyCode)
         {
@@ -192,7 +170,7 @@
         public void ThenThereShouldBeExceptionLinesLeftForAJobWithAndIdOr(int exceptionLines, int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count(x => !x.IsDeleted);
+            var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count(x => !x.IsDeleted);
             Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
@@ -200,7 +178,7 @@
         public void ThenThereShouldBeLinesLeftForAJobWithAnIdOf(int exceptionLines, int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailCount = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).Count();
+            var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count();
             Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
@@ -210,7 +188,7 @@
         public void GivenIResolveOneOfTheExceptionsWithAJobIdOf(int jobId)
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailToResolve = jobDetailrepositoryContainer.GetJobDetailByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
+            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
             jobDetailrepositoryContainer.CurrentUser = currentUser;
             jobDetailrepositoryContainer.Update(jobDetailToResolve);

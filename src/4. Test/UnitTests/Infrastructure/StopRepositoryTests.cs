@@ -204,42 +204,28 @@
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                var deleteType = WellDeleteType.SoftDelete;
-                var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
                 const int id = 1;
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopDeleteById))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
-
-
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopId", id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-
-                this.repository.DeleteStopById(id, deleteType);
-
+                this.repository.DeleteStopById(id);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopDeleteById), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
-
 
                 dapperProxy.Verify(
                     x => x.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("StopId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
             }
         }

@@ -15,8 +15,7 @@ export class AuditComponent implements OnInit {
 
     filterOptions: DropDownItem[] = [
         new DropDownItem("Invoice No", "invoiceNumber"),
-        new DropDownItem("Account Code", "accountCode"),
-        new DropDownItem("Account Name", "accountName"),
+        new DropDownItem("Account", "account"),
         new DropDownItem("Delivery Date", "deliveryDate", false, "date")
     ];
 
@@ -34,10 +33,6 @@ export class AuditComponent implements OnInit {
                 this.audits = a;
                 this.isLoading = false;
             });
-    }
-
-    accountDisplayName(audit: Audit): string {
-        return audit.accountName ? audit.accountCode + " - " + audit.accountName : audit.accountCode;
     }
 }
 

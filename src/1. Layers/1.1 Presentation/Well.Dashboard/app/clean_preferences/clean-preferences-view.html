@@ -1,0 +1,25 @@
+﻿<div class="table-responsive table-container">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Days</th>
+            <th>Branches</th>
+            <th style="text-align: right;"><button id="add-clean" type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="cleanPreferences && cleanPreferences.length === 0">
+            <td id="clean-no-results" colspan="3">No Clean Preferences!</td>
+        </tr>
+        <tr class="grid-row" *ngFor="let x of cleanPreferences">
+            <td id="clean-days-{{x.id}}" (click)="selectCleanPreference(x)">{{x.days}}</td>
+            <td id="clean-branches-{{x.id}}" (click)="selectCleanPreference(x)">{{x.branchName}}</td>
+            <td id="clean-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<ow-clean-preference-add-modal (onCleanPreferenceSave)="loadCleanPreferences($event)"></ow-clean-preference-add-modal>
+<ow-clean-preference-edit-modal (onCleanPreferenceUpdate)="loadCleanPreferences($event)"></ow-clean-preference-edit-modal>
+<ow-clean-preference-remove-modal (onCleanPreferenceRemoved)="onRemoved($event)"></ow-clean-preference-remove-modal>

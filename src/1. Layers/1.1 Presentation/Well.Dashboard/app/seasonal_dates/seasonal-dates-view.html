@@ -6,19 +6,19 @@
             <th>From</th>
             <th>To</th>
             <th>Branches</th>
-            <th style="text-align: right;"><button type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+            <th style="text-align: right;"><button id="add-seasonal-date" type="button" class="btn btn-primary" (click)="add()">Add</button></th>
         </tr>
         </thead>
         <tbody>
         <tr *ngIf="seasonalDates && seasonalDates.length === 0">
-            <td colspan="5">No Seasonal Dates!</td>
+            <td id="seasonal-no-results" colspan="5">No Seasonal Dates!</td>
         </tr>
         <tr class="grid-row" *ngFor="let x of seasonalDates">
-            <td (click)="selectSeason(x)">{{x.description}}</td>
-            <td (click)="selectSeason(x)">{{x.fromDate}}</td>
-            <td (click)="selectSeason(x)">{{x.toDate}}</td>
-            <td (click)="selectSeason(x)">{{x.branchName}}</td>
-            <td style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+            <td (click)="selectSeason(x)" id="seasonal-description-{{x.id}}">{{x.description}}</td>
+            <td (click)="selectSeason(x)" id="seasonal-from-date-{{x.id}}">{{x.fromDate}}</td>
+            <td (click)="selectSeason(x)" id="seasonal-to-date-{{x.id}}">{{x.toDate}}</td>
+            <td (click)="selectSeason(x)" id="seasonal-branches-{{x.id}}">{{x.branchName}}</td>
+            <td id="seasonal-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
         </tr>
         </tbody>
     </table>

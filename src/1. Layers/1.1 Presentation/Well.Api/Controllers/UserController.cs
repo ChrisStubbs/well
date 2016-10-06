@@ -53,15 +53,22 @@
         [HttpGet]
         public HttpResponseMessage CreateUserUsingCurrentContext()
         {
+            return CreateUser(UserIdentityName);
+        }
+
+        [Route("create-user")]
+        [HttpPost]
+        public HttpResponseMessage CreateUser(string userIdentity)
+        {
             try
             {
-                var user = this.activeDirectoryService.GetUser(this.UserIdentityName);
+                var user = this.activeDirectoryService.GetUser(userIdentity);
 
                 // this method is used via the BDD for setting up test users so we are just defaulting 
                 // the threshold level to max for now
                 user.ThresholdLevelId = (int)ThresholdLevel.Level1;
 
-                this.userRepository.CurrentUser = this.UserIdentityName;
+                this.userRepository.CurrentUser = userIdentity;
 
                 this.userRepository.Save(user);
 
@@ -69,7 +76,7 @@
             }
             catch (Exception exception)
             {
-                this.logger.LogError($"Error when trying to save user {this.UserIdentityName}", exception);
+                this.logger.LogError($"Error when trying to save user {userIdentity}", exception);
 
                 return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }

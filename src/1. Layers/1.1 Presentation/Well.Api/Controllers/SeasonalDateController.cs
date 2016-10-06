@@ -9,6 +9,7 @@
 
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
+    using PH.Well.Api.Validators.Contracts;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -21,11 +22,18 @@
 
         private readonly ISeasonalDateMapper mapper;
 
-        public SeasonalDateController(ISeasonalDateRepository seasonalDateRepository, ILogger logger, ISeasonalDateMapper mapper)
+        private readonly ISeasonalDateValidator validator;
+
+        public SeasonalDateController(
+            ISeasonalDateRepository seasonalDateRepository, 
+            ILogger logger, 
+            ISeasonalDateMapper mapper,
+            ISeasonalDateValidator validator)
         {
             this.seasonalDateRepository = seasonalDateRepository;
             this.logger = logger;
             this.mapper = mapper;
+            this.validator = validator;
 
             this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
         }
@@ -61,7 +69,7 @@
             {
                 this.logger.LogError($"Error when trying to delete seasonal date (id):{id}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
 
@@ -71,9 +79,11 @@
         {
             try
             {
-                // TODO Validate
-                // if validation fails pass back 
-                // return this.Request.CreateResponse(HttpStatusCode.OK, new { warning = true, message = 'validation messages' });
+                if (!this.validator.IsValid(model))
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
+                }
+
                 var seasonalDate = this.mapper.Map(model);
 
                 this.seasonalDateRepository.Save(seasonalDate);
@@ -84,7 +94,7 @@
             {
                 this.logger.LogError($"Error when trying to save seasonal date {model.Description}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { error = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
     }

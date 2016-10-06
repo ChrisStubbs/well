@@ -7,21 +7,28 @@
     </ol>
 </div>
 <div class="jumbotron">
-    <div class="col-md-6">
-        <address>
-            <strong>{{delivery.accountCode}} {{delivery.contactName}}</strong><br/>
-            <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br/>
-            <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br/>
-            <abbr *ngIf="delivery.invoiceNumber" title="Invoice">Invoice:</abbr> {{delivery.invoiceNumber}}<br/>
-        </address>
+    <div class="row">
+        <div class="col-md-5">
+            <address>
+                <strong>{{delivery.accountCode}} {{delivery.contactName}}</strong><br />
+                <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br />
+                <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br />
+                <abbr *ngIf="delivery.invoiceNumber" title="Invoice">Invoice:</abbr> {{delivery.invoiceNumber}}<br />
+            </address>
+        </div>
+        <div class="col-md-5">
+            <address>
+                <strong>{{delivery.accountName}}</strong><br />{{delivery.accountAddress}}
+            </address>
+        </div>
+        <div class="col-md-2">
+            <div class="btn-group pull-right">
+                <button class="btn btn-success" id="submit-button" [disabled]="delivery.canSubmit ? false : true" 
+                        type="button" (click)="submitActions()">Submit Actions</button>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6">
-        <address>
-            <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
-        </address>
-    </div>
-
-    <div class="table-responsive table-container">
+    <div class="row table-responsive table-container">
         <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.deliveryLines && delivery.deliveryLines.length">
             <thead>
             <tr>
@@ -54,3 +61,5 @@
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
+
+<submitConfirmModal heading="Confirm action submission" (confirmed)="submitActionsConfirmed()"></submitConfirmModal>

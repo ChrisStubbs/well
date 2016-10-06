@@ -190,25 +190,18 @@ namespace PH.Well.UnitTests.Infrastructure
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                var deleteType = WellDeleteType.SoftDelete;
-                var isSoftDelete = deleteType == WellDeleteType.SoftDelete;
-
                 const int id = 1;
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDeleteById))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null))
-                    .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
-                this.repository.DeleteJobById(id, deleteType);
+                this.repository.DeleteJobById(id);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDeleteById), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.AddParameter("IsSoftDelete", isSoftDelete, DbType.Boolean, null), Times.AtLeastOnce);
                 dapperProxy.Verify(x => x.Execute());
-
             }
         }
 

@@ -9,5 +9,7 @@
         IEnumerable<SeasonalDate> GetAll();
 
         void Delete(int id);
+
+        IEnumerable<SeasonalDate> GetByBranchId(int branchId);
     }
 }

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using Domain;
-    using Domain.Enums;
 
     public interface IRouteHeaderRepository: IRepository<RouteHeader, int>
     {
@@ -23,16 +22,14 @@
 
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
 
-        void RoutesDeleteById(int id, WellDeleteType deleteType);
+        void RoutesDeleteById(int id);
 
         IEnumerable<RouteHeader> GetRouteHeadersForDelete();
 
         IEnumerable<Routes> GetRoutes();
 
-        void DeleteRouteHeaderById(int id, WellDeleteType deleteType);
+        void DeleteRouteHeaderById(int id);
 
         IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId);
-
-        IEnumerable<HolidayExceptions> HolidayExceptionGet();
     }
 }

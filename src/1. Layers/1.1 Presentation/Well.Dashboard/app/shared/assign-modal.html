@@ -1,14 +1,14 @@
-﻿<div *ngIf="IsVisible" class="modal fade show in danger assign-modal" role="dialog">
+﻿<div *ngIf="isVisible" class="modal fade show in danger assign-modal" role="dialog">
     <div class="modal-dialog">
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Available users <span *ngIf="delivery">for account {{delivery.accountCode}}</span></h4>
+                <h4 class="modal-title">Available users for account {{accountCode}}</h4>
             </div>
             <div class="modal-body">
                 <ul class="list-group">
-                    <li class="list-group-item"><a (click)="unassign(delivery.id)">Unallocated</a></li>
-                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, delivery.id)">{{user.name}}</a></li>
+                    <li class="list-group-item"><a class="assign-user" (click)="unassign(deliveryId)">Unallocated</a></li>
+                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, deliveryId)">{{user.name}}</a></li>
                 </ul>   
             </div>
             <div class="modal-footer">

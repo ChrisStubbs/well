@@ -70,7 +70,7 @@
                         Name = "Notifications",
                         Count = userStats.NotificationsCount,
                         Description = "Unarchived notifications",
-                        Link = "/notification",
+                        Link = "/notifications",
                         LinkText = "notifications",
                         SortOrder = 4,
                         WarningLevel = 10

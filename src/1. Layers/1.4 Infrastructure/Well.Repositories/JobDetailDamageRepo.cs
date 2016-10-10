@@ -18,7 +18,6 @@
 
         public IEnumerable<JobDetailDamage> GetJobDamagesByJobDetailId(int jobDetailId)
         {
-
             return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageGetByJobDetailId)
                 .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
                 .Query<JobDetailDamage>().ToList();

@@ -39,6 +39,7 @@ import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPref
 import { PendingCreditComponent } from './pending_credit/pendingCreditComponent';
 import { PendingCreditService } from './pending_credit/pendingCreditService';
 import { PendingCreditDetailModal } from './pending_credit/pendingCreditDetailModal';
+import { PendingCreditConfirmationModal } from './pending_credit/pendingCreditConfirmationModal';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -79,7 +80,7 @@ import {UserService} from './shared/userService';
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
-        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
         DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,

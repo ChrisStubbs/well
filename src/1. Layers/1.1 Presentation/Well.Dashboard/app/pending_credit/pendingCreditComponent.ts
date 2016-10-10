@@ -4,6 +4,7 @@ import { PendingCreditService } from './pendingCreditService';
 import { AccountService } from "../account/accountService";
 import { ContactModal } from '../shared/contactModal';
 import { PendingCreditDetailModal } from './pendingCreditDetailModal';
+import {PendingCreditConfirmationModal} from './pendingCreditConfirmationModal';
 
 @Component({
     selector: 'ow-pending-credit',
@@ -17,6 +18,9 @@ export class PendingCreditComponent implements OnInit{
 
     @ViewChild(PendingCreditDetailModal)
     private detailModal: PendingCreditDetailModal;
+
+    @ViewChild(PendingCreditConfirmationModal)
+    private confirmModal: PendingCreditConfirmationModal;
 
     constructor(private pendingCreditService: PendingCreditService,
                 private accountService: AccountService) { }
@@ -34,6 +38,7 @@ export class PendingCreditComponent implements OnInit{
 
     setAction(pendingCredit: PendingCredit, action: string) {
         pendingCredit.action = action;
+        this.confirmModal.show();
     }
 
     viewDetail(pendingCredit: PendingCredit) {

@@ -52,9 +52,9 @@
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
-        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
+        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  
         public static string JobDetailActionsGet = "JobDetailActionsGet";
-
+        public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
 
 
         //Account

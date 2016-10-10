@@ -19,7 +19,7 @@
         private Mock<IJobRepository> jobRepo;
         private Mock<IAuditRepository> auditRepo;
         private Mock<IStopRepository> stopRepo;
-        private Mock<IJobDetailActionRepo> jobDetailActionRepo;
+        private Mock<IJobDetailActionRepository> jobDetailActionRepo;
 
         [SetUp]
         public void Setup()
@@ -29,7 +29,7 @@
             jobRepo = new Mock<IJobRepository>(MockBehavior.Strict);
             auditRepo = new Mock<IAuditRepository>(MockBehavior.Strict);
             stopRepo = new Mock<IStopRepository>(MockBehavior.Strict);
-            jobDetailActionRepo = new Mock<IJobDetailActionRepo>(MockBehavior.Strict);
+            jobDetailActionRepo = new Mock<IJobDetailActionRepository>(MockBehavior.Strict);
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,

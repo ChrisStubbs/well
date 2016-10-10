@@ -21,5 +21,14 @@
                 .Query<UserStats>()
                 .SingleOrDefault();
         }
+
+        public int GetPendingCreditCountByUser(string userIdentity)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditCountByUserGet)
+                    .AddParameter("identityName", userIdentity, DbType.String)
+                    .Query<int>()
+                    .SingleOrDefault();
+        }
     }
 }

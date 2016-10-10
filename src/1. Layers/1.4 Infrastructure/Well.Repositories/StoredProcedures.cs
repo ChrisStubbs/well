@@ -53,6 +53,7 @@
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
+        public static string JobDetailActionsGet = "JobDetailActionsGet";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
@@ -63,6 +64,7 @@
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
         public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
+        public static string PendingCreditDeliveriesGet = "PendingCreditDeliveriesGet";
 
         public static string BranchesGet = "BranchesGet";
 
@@ -92,6 +94,7 @@
         public static string ArchiveNotification = "Notification_Archive";
 
         public static string UserStatsGet = "UserStatsGet";
+        public static string PendingCreditCountByUserGet = "PendingCreditCountByUserGet";
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
         public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";

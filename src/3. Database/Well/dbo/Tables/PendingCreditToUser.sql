@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[PendingCreditToUser]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL,
+	[UserId] INT NOT NULL,
+	[InvoiceNumber] VARCHAR(40) NOT NULL,
+	[IsDeleted] BIT NOT NULL DEFAULT 0,
+	[CreatedBy] VARCHAR(50) NOT NULL,
+	[DateCreated] DATETIME NOT NULL,
+	[UpdatedBy] VARCHAR(50) NOT NULL,
+	[DateUpdated] DATETIME NOT NULL,
+	[Version] [TIMESTAMP] NOT NULL,
+	CONSTRAINT [PK_PendingCreditToUser] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT [FK_PendingCredit_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+)

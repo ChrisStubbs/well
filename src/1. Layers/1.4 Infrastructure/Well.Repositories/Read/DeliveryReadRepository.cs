@@ -39,6 +39,14 @@
             return GetDeliveriesByStatus(PerformanceStatus.Resolved, username);
         }
 
+        public IEnumerable<Delivery> GetPendingCreditDeliveries(string username)
+        {
+            return
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.PendingCreditDeliveriesGet)
+                    .AddParameter("UserName", username, DbType.String)
+                    .Query<Delivery>();
+        }
+
         public IEnumerable<Delivery> GetExceptionDeliveries(string username)
         {
             var exceptionStatuses = ExceptionStatuses.Statuses;
@@ -86,6 +94,14 @@
             }
 
             return deliveryLines;
+        }
+
+        public IEnumerable<PendingCreditDetail> GetPendingCreditDetail(int jobId)
+        {
+            return
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.JobDetailActionsGet)
+                    .AddParameter("jobId", jobId, DbType.Int32)
+                    .Query<PendingCreditDetail>();
         }
     }
 }

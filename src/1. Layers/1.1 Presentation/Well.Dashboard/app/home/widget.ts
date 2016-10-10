@@ -6,4 +6,5 @@
     count: number;
     sortOrder: number;
     showWarning: boolean;
+    showOnGraph: boolean;
 }

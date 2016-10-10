@@ -98,8 +98,7 @@ namespace PH.Well.Domain
 
         [XmlIgnore]
         public int JobDetailStatusId { get; set; }
-
-       
+        
         public decimal CreditValueForThreshold()
         {
             var sumQty = this.JobDetailDamages.Sum(d => d.Qty);

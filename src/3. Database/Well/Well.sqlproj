@@ -234,6 +234,10 @@
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceByBranchGet.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesByBranchGet.sql" />
+    <Build Include="dbo\StoredProcedures\PendingCreditCountByUserGet.sql" />
+    <Build Include="dbo\Tables\PendingCreditToUser.sql" />
+    <Build Include="dbo\StoredProcedures\PendingCreditDeliveriesGet.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailActionsGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

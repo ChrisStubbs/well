@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace PH.Well.Api.Models
+﻿namespace PH.Well.Api.Models
 {
     public class WidgetModel
     {
@@ -14,6 +9,7 @@ namespace PH.Well.Api.Models
         public int Count { get; set; }
         public int WarningLevel { get; set; }
         public int SortOrder { get; set; }
+        public bool ShowOnGraph { get; set; }
         public bool ShowWarning => Count >= WarningLevel;
     }
 }

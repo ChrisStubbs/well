@@ -55,6 +55,8 @@
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
         public static string JobDetailActionsGet = "JobDetailActionsGet";
 
+
+
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
         public static string AccountGetByAccountId = "Account_GetByAccountId";

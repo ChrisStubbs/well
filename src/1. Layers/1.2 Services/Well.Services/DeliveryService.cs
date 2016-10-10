@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Transactions;
     using System.Xml.Linq;
@@ -153,6 +154,28 @@
             }
         }
 
+        public void CreditLines(IEnumerable<int> creditLines)
+        {
+            var idsTable = GetIntsTable(creditLines);
+
+            this.jobRepo.CreditLines(idsTable);
+            this.jobDetailRepo.CreditLines(idsTable);
+
+        }
+
+        private DataTable GetIntsTable(IEnumerable<int> ints)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Value");
+            foreach (var i in ints)
+            {
+                DataRow row = dt.NewRow();
+                row["Value"] = i;
+                dt.Rows.Add(row);
+            }
+
+            return dt;
+        }
 
     }
 }

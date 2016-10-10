@@ -47,6 +47,7 @@ BEGIN
 		u.IdentityName = @UserName
 	AND 
 		j.InvoiceNumber IS NOT NULL
+	AND
 		rh.IsDeleted = 0
 	AND
 		s.IsDeleted = 0

@@ -108,6 +108,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ComdtyType", job.ComdtyType, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopId", job.StopId, DbType.Int32, null)).Returns(dapperProxy.Object);
@@ -149,6 +150,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ComdtyType", job.ComdtyType, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("StopId", job.StopId, DbType.Int32, null), Times.Exactly(1));

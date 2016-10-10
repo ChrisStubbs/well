@@ -151,27 +151,14 @@
                    .AddParameter("PDACreditReasonId", pdaCreditReasonId, DbType.Int32)
                    .Query<PodActionReasons>();
         }
-        public void CreditLines(IEnumerable<int> ids)
+        public void CreditLines(DataTable idsTable)
         {
-            var idsTable = GetIntsTable(ids);
             dapperProxy.WithStoredProcedure("Job_CreditLines")
                 .AddParameter("Ids", idsTable, DbType.Object)
                 .Execute();
         }
 
 
-        private DataTable GetIntsTable(IEnumerable<int> ints)
-        {
-            var dt = new DataTable();
-            dt.Columns.Add("Value");
-            foreach (var i in ints)
-            {
-                DataRow row = dt.NewRow();
-                row["Value"] = i;
-                dt.Rows.Add(row);
-            }
-
-            return dt;
-        }
+       
     }
 }

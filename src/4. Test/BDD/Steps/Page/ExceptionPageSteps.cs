@@ -2,12 +2,14 @@
 {
     using System.Linq;
     using System.Threading;
-
+    using Framework.WebElements;
     using NUnit.Framework;
+    using OpenQA.Selenium;
     using Pages;
 
     using PH.Well.BDD.Framework.Context;
     using Repositories.Contracts;
+    using Services.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
 
@@ -150,11 +152,11 @@
             rows[row-1].GetItemInRowByClass("contact-info").Click();
         }
 
-        public void SelectAssignLink()
+        public void SelectAssignLink(int row)
         {
             WhenIOpenTheExceptionDeliveries();
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            var assignAnchor = rows[0].GetItemInRowByClass("assign");
+            var assignAnchor = rows[row].GetItemInRowByClass("assign");
             assignAnchor.Click();
         }
 
@@ -204,7 +206,8 @@
         [When(@"I assign the delivery to myself")]
         public void AssignToMe()
         {
-            SelectAssignLink();
+            var firstRow = 0;
+            SelectAssignLink(firstRow);
 
             Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
@@ -214,9 +217,42 @@
             Thread.Sleep(2000);
         }
 
+        [When(@"I assign the delivery on row (.*) to myself")]
+        public void WhenIAssignTheDeliveryOnRowToMyself(int row)
+        {
+            var selectedRow = row - 1;
+            SelectAssignLink(selectedRow);
+
+            Thread.Sleep(1000);
+            var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+
+            element.Click();
+            Thread.Sleep(2000);
+        }
+
+        [When(@"I assign the delivery on rows (.*) and (.*) to myself")]
+        public void WhenIAssignTheDeliveryOnRowsAndToMyself(int firstRow, int secondRow)
+        {
+            var selectedRow = firstRow - 1;
+            SelectAssignLink(selectedRow);
+
+            selectedRow = secondRow - 1;
+            SelectAssignLink(selectedRow);
+
+            Thread.Sleep(1000);
+            var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+
+            element.Click();
+            Thread.Sleep(2000);
+        }
+
+
         public void SelectUserToAssign(string username)
         {
-            SelectAssignLink();
+            var firstRow = 0;
+            SelectAssignLink(firstRow);
 
             Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.AssignModal.GetUserFromModal(username);
@@ -266,5 +302,63 @@
 
             Assert.That(rows.Count() - 1, Is.EqualTo(disabledCount));
         }
+
+        [Then(@"the '(.*)' and '(.*)' button is not visible")]
+        public void ThenTheAndButtonIsNotVisible(string creditButton, string selectAllButton)
+        {
+            Assert.That(this.ExceptionDeliveriesPage.IsElementPresent(creditButton), Is.EqualTo(false));
+            Assert.That(this.ExceptionDeliveriesPage.IsElementPresent(selectAllButton), Is.EqualTo(false));
+        }
+
+        [When(@"click the first credit checkbox")]
+        public void WhenClickTheFirstCreditCheckbox()
+        {
+             var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
+             firstCheckbox.Click();
+             
+        }
+
+        [When(@"I click the '(.*)' button")]
+        public void WhenIClickTheButton(string buttonName)
+        {
+            if (buttonName == "credit")
+            {
+                var creditButton = this.ExceptionDeliveriesPage.CreditButton.GetElement().FindElement(By.Id(buttonName));
+                creditButton.Click();
+            }
+            else
+            {
+                var selectAllButton = this.ExceptionDeliveriesPage.SelectAllButton.GetElement().FindElement(By.Id(buttonName));
+                selectAllButton.Click();
+            }
+           
+        }
+
+        [Then(@"the '(.*)' and '(.*)' button are visible")]
+        public void ThenTheAndButtonAreVisible(string creditButton, string selectAllButton)
+        {
+            Assert.That(this.ExceptionDeliveriesPage.IsElementPresent(creditButton), Is.EqualTo(true));
+            Assert.That(this.ExceptionDeliveriesPage.IsElementPresent(selectAllButton), Is.EqualTo(true));
+        }
+
+        [Then(@"the first (.*) checkboxes are checked")]
+        public void ThenTheFirstCheckboxesAreChecked(int numberofCheckboxes)
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+            for (var i = 0; i < numberofCheckboxes-1; i++)
+            {
+                var creditCheckbox = rows[i].GetItemInRowByClass("exceptionCheckbox");                
+                Assert.That(creditCheckbox.Selected, Is.EqualTo(true));
+            }
+        }
+
+        [When(@"click the confirm button on the modal popup")]
+        public void WhenClickTheConfirmButtonOnTheModalPopup()
+        {
+            this.ExceptionDeliveriesPage.CreditModalComponent.ConfirmButton.Click();
+        }
+
+
     }
 }

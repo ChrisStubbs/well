@@ -407,7 +407,7 @@
 
                     var damages = new List<JobDetailDamage>();
 
-                    var jobDetails = this.jobDetailRepository.GetJobDetailByJobId(currentJob.Id).ToList();
+                    var jobDetails = this.jobDetailRepository.GetByJobId(currentJob.Id).ToList();
 
                     foreach (var jobDetail in jobDetails)
                     {

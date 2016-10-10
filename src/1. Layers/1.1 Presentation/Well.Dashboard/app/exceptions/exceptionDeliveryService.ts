@@ -51,14 +51,9 @@ export class ExceptionDeliveryService {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'deliveries-creditlines/{creditlines}',
             JSON.stringify(creditlines),
             this.options)
-            .map(res => res.json());
-    }
-
-    creditLines(creditlines: any[]): Observable<any> {
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'deliveries-creditlines/{creditlines}',
-            JSON.stringify(creditlines),
-            this.options)
-            .map(res => res.json());
+            .map(res => res.json())
+            .do (data => this.logService.log("All: " + JSON.stringify(data)))
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     private handleError(error: Response) {

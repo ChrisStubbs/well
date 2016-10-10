@@ -31,12 +31,6 @@
         private Mock<ILogger> logger;
         private Mock<IDeliveryService> deliveryService;
 
-        private Mock<IJobRepository> jobRepository;
-
-
-        private Mock<IJobRepository> jobRepository;
-
-
         [SetUp]
         public void Setup()
         {
@@ -44,7 +38,6 @@
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             deliveryToDetailMapper = new Mock<IDeliveryToDetailMapper>(MockBehavior.Strict);
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
-            this.jobRepository = new Mock<IJobRepository>();
             logger = new Mock<ILogger>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
 
@@ -52,9 +45,9 @@
                 this.deliveryReadRepository.Object,
                 this.serverErrorResponseHandler.Object,
                 this.deliveryToDetailMapper.Object,
-                jobRepository.Object,
                 logger.Object,
-                deliveryService.Object);
+                deliveryService.Object,
+                jobRepository.Object);
 
             this.SetupController();
         }

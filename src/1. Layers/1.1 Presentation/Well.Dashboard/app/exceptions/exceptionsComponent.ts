@@ -241,7 +241,7 @@ export class ExceptionsComponent implements OnInit {
     creditExceptions() {     
         this.confirmModal.isVisible = true;
         this.confirmModal.heading = this.creditTitle + " exceptions?";
-        this.confirmModal.message =
+        this.confirmModal.messageHtml =
             "You are about to " + this.creditTitle + " " + this.deliveryCredits.length + " exceptions " +
             "Are you sure you want to save your changes?";
         return;
@@ -249,9 +249,18 @@ export class ExceptionsComponent implements OnInit {
 
     creditConfirmed() {
         this.exceptionDeliveryService.creditLines(this.deliveryCredits)
-            .subscribe(() => {
-                this.toasterService.pop('success', 'Delivery line(s) credited', '');
-                this.router.navigate(['/delivery', this.delivery.id]);
+            .subscribe((res: Response) => {
+
+                this.httpResponse = JSON.parse(JSON.stringify(res));
+
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', this.deliveryCredits.length + ' Delivery line(s) credited', '');
+                    this.getExceptions();
+                    this.deliveryCredits = [];
+                } else {
+                    this.toasterService.pop('error', 'Error crediting exceptions!', 'An error occured please contact support.');
+                }
+
             });
     }
 
@@ -280,9 +289,6 @@ export class ExceptionsComponent implements OnInit {
         
     }
 
-    openConfirmModal(delivery): void {
-        
-    }
 
     onAssigned(assigned: boolean) {
         this.getExceptions();

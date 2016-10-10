@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="gridCheckbox"><input type="checkbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)"  [checked]="isChecked(delivery.id)" (click)="onCheck(delivery.id)" value="{{delivery.id}}" id="gridChk + {{delivery.id}}"></td>
+                        <td class="gridCheckbox"><input type="checkbox" class="exceptionCheckbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)"  [checked]="isChecked(delivery.id)" (click)="onCheck(delivery.id)" value="{{delivery.id}}" id="{{delivery.id}}"></td>
                         <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td> 
                     </tr>
                     </tbody>
@@ -88,8 +88,8 @@
         <div class="row credit">
             <div class="col-md-12" *ngIf="exceptions && exceptions.length  && deliveryCredits.length > 0">
                 <span class="pull-right">
-                    <button class="btn btn-success btn-sm" (click)="checkExceptionsForCredit()" ng id="credit" type="button">{{creditTitle}}</button>
-                    <button class="btn btn-primary btn-sm" (click)="selectAllCredits()" ng id="selectAll" type="button">Select All</button>
+                    <button class="btn btn-success btn-sm" (click)="checkExceptionsForCredit()" id="credit" type="button">{{creditTitle}}</button>
+                    <button class="btn btn-primary btn-sm" (click)="selectAllCredits()" id="selectAll" type="button">Select All</button>
                 </span>
             </div>         
         </div>

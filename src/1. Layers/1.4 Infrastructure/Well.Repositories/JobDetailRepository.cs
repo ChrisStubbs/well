@@ -120,5 +120,12 @@
                  .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
                 .Execute();
         }
+
+        public void CreditLines(DataTable idsTable)
+        {
+            dapperProxy.WithStoredProcedure("JobDetail_CreditLines")
+                .AddParameter("Ids", idsTable, DbType.Object)
+                .Execute();
+        }
     }
 }

@@ -2,14 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Domain;
-    using Domain.Enums;
     using Domain.ValueObjects;
     using Models;
     using PH.Well.Api.Mapper.Contracts;
@@ -24,24 +21,24 @@
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IDeliveryToDetailMapper deliveryToDetailMapper;
-        private readonly IJobRepository jobRepository;
         private readonly ILogger logger;
         private readonly IDeliveryService deliveryService;
+        private readonly IJobRepository jobRepository;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
             IServerErrorResponseHandler serverErrorResponseHandler,
             IDeliveryToDetailMapper deliveryToDetailMapper,
-            IJobRepository jobRepository,
             ILogger logger,
-            IDeliveryService deliveryService)
+            IDeliveryService deliveryService,
+            IJobRepository jobRepository)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.deliveryToDetailMapper = deliveryToDetailMapper;
-            this.jobRepository = jobRepository;
             this.logger = logger;
             this.deliveryService = deliveryService;
+            this.jobRepository = jobRepository;
         }
 
         [HttpGet]
@@ -127,7 +124,29 @@
             catch (Exception ex)
             {
                 return serverErrorResponseHandler.HandleException(Request, ex,
+                    $"An error occured when getting delivery detail id: {id}");
             }
+        }
+
+        [HttpPost]
+        [Route("deliveries/{id:int}/submit-actions")]
+        public HttpResponseMessage SubmitActions(int id)
+        {
+            var job = jobRepository.GetById(id);
+            if (job == null)
+            {
+                logger.LogError($"Unable to submit delivery actions. No matching delivery found for Id: {id}.");
+                var errorModel = new ErrorModel
+                {
+                    Message = "Unable to submit delivery actions",
+                    Errors = new List<string>() { $"No matching delivery found for Id: {id}." }
+                };
+                return Request.CreateResponse(HttpStatusCode.BadRequest, errorModel);
+            }
+
+            deliveryService.SubmitActions(id, UserIdentityName);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpPost]
@@ -135,7 +154,7 @@
         public HttpResponseMessage CreditLines(IEnumerable<int> creditLines)
         {
             try
-            { 
+            {
                 if (creditLines == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
@@ -148,22 +167,17 @@
                     });
                 }
 
-                this.jobRepository.CreditLines(creditLines);
+                this.deliveryService.CreditLines(creditLines);
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+                
             }
             catch (Exception ex)
             {
                 return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when crediting Job lines");
             }
-            catch (Exception ex)
-            {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when crediting Job lines");
-            }
-
-            deliveryService.SubmitActions(id, UserIdentityName);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+
     }
 }

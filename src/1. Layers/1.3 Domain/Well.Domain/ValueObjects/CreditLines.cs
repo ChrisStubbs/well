@@ -8,5 +8,6 @@ namespace PH.Well.Domain.ValueObjects
 {
     public class CreditLines
     {
+        public IEnumerable<int> CreditLineIds { get; set; }
     }
 }

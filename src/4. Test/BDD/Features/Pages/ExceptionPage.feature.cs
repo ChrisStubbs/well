@@ -580,31 +580,91 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user cannot view Exception Delivery Information without a valid invoice number")]
-        public virtual void AUserCannotViewExceptionDeliveryInformationWithoutAValidInvoiceNumber()
+        [NUnit.Framework.DescriptionAttribute("Credit check boxes are not enabled till exceptions are assigned")]
+        public virtual void CreditCheckBoxesAreNotEnabledTillExceptionsAreAssigned()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user cannot view Exception Delivery Information without a valid invoice number", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Credit check boxes are not enabled till exceptions are assigned", ((string[])(null)));
 #line 133
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line 134
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 135
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 136
- testRunner.And("I have imported a valid Epod update file named \'ePOD__MissingInvoiceNumbers.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 137
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 138
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 137
+ testRunner.Then("the \'credit\' and \'selectAll\' button is not visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 138
+ testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 139
- testRunner.Then("there are 0 exception deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("click the first credit checkbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 140
- testRunner.Given("3 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 141
- testRunner.When("valid invoice numbers are assigned to jobs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("the \'credit\' and \'selectAll\' button are visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Select all button will check all allowcated job lines")]
+        public virtual void SelectAllButtonWillCheckAllAllowcatedJobLines()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Select all button will check all allowcated job lines", ((string[])(null)));
 #line 142
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 143
+ testRunner.Given("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 144
+ testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 145
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 146
+ testRunner.Then("the \'credit\' and \'selectAll\' button is not visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 147
+ testRunner.When("I assign the delivery on row 1 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 148
+ testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 149
+ testRunner.And("click the first credit checkbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 150
+ testRunner.Then("the \'credit\' and \'selectAll\' button are visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 151
+ testRunner.When("I click the \'selectAll\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 152
+ testRunner.Then("the first 2 checkboxes are checked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user cannot view Exception Delivery Information without a valid invoice number")]
+        public virtual void AUserCannotViewExceptionDeliveryInformationWithoutAValidInvoiceNumber()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user cannot view Exception Delivery Information without a valid invoice number", ((string[])(null)));
+#line 156
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 157
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 158
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 159
+ testRunner.And("I have imported a valid Epod update file named \'ePOD__MissingInvoiceNumbers.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 160
+ testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 161
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 162
+ testRunner.Then("there are 0 exception deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 163
+ testRunner.Given("3 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 164
+ testRunner.When("valid invoice numbers are assigned to jobs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 165
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
@@ -635,7 +695,7 @@ this.FeatureBackground();
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete"});
-#line 143
+#line 166
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table10, "Then ");
 #line hidden
             this.ScenarioCleanup();

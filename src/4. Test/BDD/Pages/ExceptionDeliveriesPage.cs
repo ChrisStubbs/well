@@ -22,10 +22,15 @@
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             this.NoExceptionsDiv = new Div { Locator = By.Id("no-exceptions") };
+            this.CreditCheckBox = new CheckBox {Locator = By.Id("1")};
             CurrentUserName = new SpanElement() {Locator = By.Id("current-user-name") };
+            this.CreditButton = new Button { Locator = By.Id("credit") };
+            this.SelectAllButton = new Button { Locator = By.Id("selectAll") };
+            this.ModalConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
 
             AccountModal = new AccountModalComponent();
             AssignModal = new AssignModal(Driver);
+            CreditModalComponent = new CreditModalComponent();
         }
 
         protected override string UrlSuffix => "exceptions";
@@ -40,18 +45,26 @@
 
         public Button EnabledButton { get; set; }
 
+        public CreditModalComponent CreditModalComponent { get; set; }
+
+        public CheckBox CreditCheckBox { get; set; }
+
+        public Button CreditButton { get; set; }
+
+        public Button SelectAllButton { get; set; }
+
         public Image OrderByButton { get; set; }
         public Heading DeliveryUpdateDrillDown { get; set; }
 
         public AccountModalComponent AccountModal { get; set; }
 
+        public readonly Button ModalConfirmButton;
 
         public Div NoExceptionsDiv { get; set; }
 
         public SpanElement CurrentUserName { get; set; } 
 
         public AssignModal AssignModal { get; set; }
-
 
         public IWebElement GetFirstCell()
         {
@@ -92,6 +105,8 @@
                 return false;
             }
         }
+
+
     }
 
     public enum ExceptionDeliveriesGrid

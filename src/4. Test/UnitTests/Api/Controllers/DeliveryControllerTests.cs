@@ -45,9 +45,9 @@
                 this.deliveryReadRepository.Object,
                 this.serverErrorResponseHandler.Object,
                 this.deliveryToDetailMapper.Object,
-                jobRepository.Object,
                 logger.Object,
-                deliveryService.Object);
+                deliveryService.Object,
+                jobRepository.Object);
 
             this.SetupController();
         }

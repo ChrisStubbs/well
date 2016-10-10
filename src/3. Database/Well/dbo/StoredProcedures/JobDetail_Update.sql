@@ -2,6 +2,7 @@
 	@Id						Int,
 	@OriginalDespatchQty	INT,
 	@OrderedQty				INT,
+	@DeliveredQty			DECIMAL(8,3) ,
 	@ShortQty				INT,
 	@JobDetailStatusId		INT,
 	@IsDeleted				Bit,
@@ -16,6 +17,7 @@ UPDATE [dbo].[JobDetail]
    SET 
       [OriginalDespatchQty] = @OriginalDespatchQty  
       ,[OrderedQty] = @OrderedQty
+	  ,[DeliveredQty] = @DeliveredQty
       ,[ShortQty] = @ShortQty    
       ,[JobDetailStatusId] = @JobDetailStatusId
       ,[IsDeleted] = @IsDeleted

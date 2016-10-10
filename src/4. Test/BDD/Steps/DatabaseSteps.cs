@@ -238,6 +238,17 @@
             Assert.That(result, Is.EqualTo(0));
         }
 
+
+        [Then(@"the first (.*) rows are credited and no longer on the exceptions grid")]
+        public void ThenTheFirstRowsAreCreditedAndNoLongerOnTheExceptionsGrid(int rows)
+        {
+            var result = this.dapperProxy.SqlQuery<int>("select count(1) from job where PerformanceStatusId = 8").Single();
+
+            Assert.That(result, Is.EqualTo(rows));
+        }
+
+
+
         [Given(@"(.*) deliveries have been assigned starting with job (.*)")]
         public void AssignDeliveries(int deliveries, int jobId)
         {

@@ -89,6 +89,9 @@
 
         public void JobCreateOrUpdate(Job job)
         {
+
+            var credit = job.TotalCreditValueForThreshold();
+
             job.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
                 .AddParameter("Id", job.Id, DbType.Int32)
                 .AddParameter("Sequence", job.Sequence, DbType.Int32)
@@ -115,6 +118,7 @@
                 .AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean)
                 .AddParameter("ComdtyType", job.ComdtyType, DbType.String)
+                .AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal)
                 .AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16)
                 .AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
@@ -147,5 +151,14 @@
                    .AddParameter("PDACreditReasonId", pdaCreditReasonId, DbType.Int32)
                    .Query<PodActionReasons>();
         }
+        public void CreditLines(DataTable idsTable)
+        {
+            dapperProxy.WithStoredProcedure("Job_CreditLines")
+                .AddParameter("Ids", idsTable, DbType.Object)
+                .Execute();
+        }
+
+
+       
     }
 }

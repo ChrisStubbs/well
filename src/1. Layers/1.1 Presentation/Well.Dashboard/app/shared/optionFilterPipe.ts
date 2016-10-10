@@ -1,6 +1,7 @@
 ﻿import { PipeTransform, Pipe } from '@angular/core';
 import {FilterOption} from "./filterOption";
 import * as moment from 'moment/moment';
+import * as lodash from 'lodash';
 
 @Pipe({
     name: 'optionFilter'
@@ -16,6 +17,8 @@ export class OptionFilterPipe implements PipeTransform {
 
         if (filterOption.dropDownItem.type == 'date') {
             return value.filter((delivery: any) => this.filterDate(delivery, filterOption));
+        } else if (filterOption.dropDownItem.type == 'numberLessThanOrEqual') {
+            return value.filter((delivery: any) => this.filterNumberLessThanOrEqual(delivery, filterOption));
         } else {
             return value.filter((delivery: any) => this.filterString(delivery, filterOption));
         }
@@ -24,9 +27,18 @@ export class OptionFilterPipe implements PipeTransform {
     filterString(list: any, filterOption: FilterOption) {
         if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
             var propertyValue = list[filterOption.dropDownItem.value].toString().toLocaleLowerCase();
-            return propertyValue.indexOf(filterOption.filterText.toLocaleLowerCase()) !== -1
+            return propertyValue.indexOf(filterOption.filterText.toLocaleLowerCase()) !== -1;
         }
         return true;
+    }
+
+    filterNumberLessThanOrEqual(list: any, filterOption: FilterOption) {
+        if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
+            var propertyValue = list[filterOption.dropDownItem.value].toString().toLocaleLowerCase();
+            var threshold = parseInt(filterOption.filterText);
+            return propertyValue <= threshold;
+        }
+        return true;        
     }
 
     filterDate(list: any, filterOption: FilterOption) {

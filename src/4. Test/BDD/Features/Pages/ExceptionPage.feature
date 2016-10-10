@@ -130,6 +130,29 @@ Scenario: UnAssigned user to an exception drills to details and can not update
 	And I select an unassigned exception row
 	Then All the exception detail rows can not be updated
 
+Scenario: Credit check boxes are not enabled till exceptions are assigned
+	Given I have selected branch 22
+	And All the deliveries are marked as exceptions
+	When I open the exception deliveries
+	Then the 'credit' and 'selectAll' button is not visible
+	When I assign the delivery on row 2 to myself
+	And click the first credit checkbox
+	Then the 'credit' and 'selectAll' button are visible
+
+Scenario: Select all button will check all allowcated job lines
+	Given I have selected branch 22
+	And All the deliveries are marked as exceptions
+	When I open the exception deliveries
+	Then the 'credit' and 'selectAll' button is not visible
+	When I assign the delivery on row 1 to myself
+	When I assign the delivery on row 2 to myself
+	And click the first credit checkbox
+	Then the 'credit' and 'selectAll' button are visible
+	When I click the 'selectAll' button
+	Then the first 2 checkboxes are checked
+
+
+
 Scenario: A user cannot view Exception Delivery Information without a valid invoice number
 	Given I have a clean database
 	And I have loaded the Adam route data
@@ -145,3 +168,6 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
+
+
+

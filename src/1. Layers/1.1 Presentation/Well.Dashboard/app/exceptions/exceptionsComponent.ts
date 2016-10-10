@@ -16,12 +16,14 @@ import {ExceptionDeliveryService} from "./exceptionDeliveryService";
 import {RefreshService} from '../shared/refreshService';
 import {HttpResponse} from '../shared/httpResponse';
 import {AssignModal} from "../shared/assignModal";
+import {ConfirmModal} from "../shared/confirmModal";
 import {IUser} from "../shared/user";
 import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
+import * as jquery from 'jquery';
 
 @Component({
     selector: 'ow-exceptions',
@@ -45,7 +47,8 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
         this.assigneeOption,
-        new DropDownItem("Date", "deliveryDate", false, "date")
+        new DropDownItem("Date", "deliveryDate", false, "date"),
+        new DropDownItem("Credit Threshold", "totalCreditValueForThreshold", false, "numberLessThanOrEqual")
     ];
     defaultAction: DropDownItem = new DropDownItem("Action");
     actions: DropDownItem[] = [
@@ -66,9 +69,15 @@ export class ExceptionsComponent implements OnInit {
     selectedOption: DropDownItem;
     selectedFilter: string;
     outstandingFilter: boolean = false;
+    deliveryCredits:any[];
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
-
+    value: string;
+    creditTitle:string;
+    confirmMessage: string;
+    confirmModalIsVisible: boolean = false;
+    selectGridBox: boolean = false;
+    @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal)
     private contactModal: ContactModal;
 
@@ -94,6 +103,7 @@ export class ExceptionsComponent implements OnInit {
             this.routeId = params['route'];
             this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
+            this.deliveryCredits = [];
             this.getExceptions();    
         });
     }
@@ -118,6 +128,7 @@ export class ExceptionsComponent implements OnInit {
                         this.selectedOption = this.assigneeOption;
                         this.selectedFilter = this.assignee;
                     }
+
                     this.isLoading = false;
                 },
                 error => {
@@ -141,10 +152,120 @@ export class ExceptionsComponent implements OnInit {
     
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
+        this.deliveryCredits = [];
     }
 
     onOutstandingClicked(showOutstandingOnly: boolean) {
         this.outstandingFilter = showOutstandingOnly;
+    }
+
+    isChecked(exceptionid) {
+        var creditListIndex = this.deliveryCredits.indexOf(exceptionid);
+
+        if (creditListIndex === -1) {
+            return '';
+        } else {
+            return'checked';
+        }
+    }
+
+    onCheck(exceptionid) {
+        var creditListIndex = this.deliveryCredits.indexOf(exceptionid);
+
+        if (creditListIndex === -1) {
+            this.addToCreditList(exceptionid, creditListIndex);
+        } else {
+            this.removeFromCreditList(exceptionid, creditListIndex);
+        }
+        this.creditTitle = this.deliveryCredits.length > 1 ? "Bulk Credit" : "Credit";
+    }
+
+    selectAllCredits() {
+
+        this.deliveryCredits = [];
+        
+        if (this.filterOption.dropDownItem.description === 'Credit Threshold' &&
+            this.exceptions.length > 0 &&
+            !isNaN(parseFloat(this.filterOption.filterText))) {
+
+            var currentThreshold = parseFloat(this.filterOption.filterText);
+            
+            lodash.forEach(this.exceptions,
+                value => {
+                    if (value.totalCreditValueForThreshold <= currentThreshold && value.assigned !== 'Unallocated') {
+                        this.deliveryCredits.push(value.id);
+                    }
+                });
+        } else {
+
+            lodash.forEach(this.exceptions,
+                value => {
+                    if (value.assigned !== 'Unallocated') {
+                        this.deliveryCredits.push(value.id);
+                    }
+                });
+        }
+
+        console.log(this.deliveryCredits);
+    }
+
+
+    addToCreditList(exceptionId, index) {
+        if (index === -1) {
+            this.deliveryCredits.push(exceptionId);
+      }
+    }
+
+    isGridCheckBoxDisabled(exceptionid) {
+        var exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
+        if (exceptionDelivery.assigned !== 'Unallocated') {
+            return '';
+        }
+        return 'disabled';
+    }
+
+    removeFromCreditList(exceptionId, index) {
+        if (index !== -1) {
+            this.deliveryCredits.splice(index, 1);
+        }
+    }
+
+    checkExceptionsForCredit() {
+        if (this.deliveryCredits !== []) {
+            this.creditExceptions();
+        } else {
+            this.toasterService.pop('error', 'No Delivery line(s) selected for credit. Please select at least one Delivery line.', '');
+        }
+    }
+
+    creditExceptions() {     
+        this.confirmModal.isVisible = true;
+        this.confirmModal.heading = this.creditTitle + " exceptions?";
+        this.confirmModal.messageHtml =
+            "You are about to " + this.creditTitle + " " + this.deliveryCredits.length + " exceptions " +
+            "Are you sure you want to save your changes?";
+        return;
+    }
+
+    creditConfirmed() {
+        this.exceptionDeliveryService.creditLines(this.deliveryCredits)
+            .subscribe((res: Response) => {
+
+                this.httpResponse = JSON.parse(JSON.stringify(res));
+
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', this.deliveryCredits.length + ' Delivery line(s) credited', '');
+                    this.getExceptions();
+                    this.deliveryCredits = [];
+                } else {
+                    this.toasterService.pop('error', 'Error crediting exceptions!', 'An error occured please contact support.');
+                }
+
+            });
+    }
+
+    cancel() {
+        this.router.navigate(['/delivery', this.delivery.id]);
     }
 
     deliverySelected(delivery): void {
@@ -163,6 +284,11 @@ export class ExceptionsComponent implements OnInit {
     allocateUser(delivery: ExceptionDelivery): void {
         this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
     }
+
+    openConfirmModal(delivery): void {
+        
+    }
+
 
     onAssigned(assigned: boolean) {
         this.getExceptions();

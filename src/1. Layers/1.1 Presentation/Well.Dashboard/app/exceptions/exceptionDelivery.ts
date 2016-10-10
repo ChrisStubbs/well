@@ -12,4 +12,5 @@
     accountId: string;
     branchId: number;
     canAction: boolean;
+    totalCreditValueForThreshold :number;
 }

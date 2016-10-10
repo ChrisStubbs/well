@@ -150,23 +150,7 @@ Scenario: Select all button will check all allowcated job lines
 	Then the 'credit' and 'selectAll' button are visible
 	When I click the 'selectAll' button
 	Then the first 2 checkboxes are checked
-#
-#Scenario: Credit two job lines
-#	Given I have selected branch 22
-#	And All the deliveries are marked as exceptions
-#	When I open the exception deliveries
-#	Then the 'credit' and 'selectAll' button is not visible
-#	When I assign the delivery on row 1 to myself
-#	When I assign the delivery on row 2 to myself
-#	And click the first credit checkbox
-#	Then the 'credit' and 'selectAll' button are visible
-#	When I click the 'selectAll' button
-#	Then the first 2 checkboxes are checked
-#	When I click the 'credit' button
-#	And click the confirm button on the modal popup
-#	Then the first 2 rows are credited and no longer on the exceptions grid
 
-	
 
 
 Scenario: A user cannot view Exception Delivery Information without a valid invoice number

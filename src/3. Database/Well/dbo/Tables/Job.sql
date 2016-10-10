@@ -8,7 +8,7 @@
 	[InvoiceNumber] VARCHAR(40) NULL,
 	[CustomerRef] VARCHAR(40) NULL,
 	[OrderDate] DATETIME NOT NULL,
-	[RoyaltyCode] VARCHAR(4) NULL,
+	[RoyaltyCode] VARCHAR(60) NULL,
 	[RoyaltyCodeDesc] VARCHAR(50) NULL,
 	[OrdOuters] BIT NULL DEFAULT 0,
 	[InvOuters] BIT NULL DEFAULT 0,

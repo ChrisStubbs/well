@@ -302,6 +302,7 @@ export class ExceptionsComponent implements OnInit {
                         this.httpResponse = JSON.parse(JSON.stringify(res));
 
                         if (this.httpResponse.success) this.toasterService.pop('success', 'Exception has been credited!', '');
+                        if (this.httpResponse.notAcceptable) this.toasterService.pop('error', this.httpResponse.message, '');
                         if (this.httpResponse.adamdown) this.toasterService.pop('error', 'ADAM is currently offline!', 'You will receive a notification once the credit has taken place!');
                     });
                 break;

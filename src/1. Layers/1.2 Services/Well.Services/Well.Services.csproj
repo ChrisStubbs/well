@@ -76,6 +76,7 @@
     <Compile Include="FileService.cs" />
     <Compile Include="AdamFileMonitorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserThresholdNotFoundException.cs" />
     <Compile Include="UserNotFoundException.cs" />
     <Compile Include="UserThresholdService.cs" />
   </ItemGroup>

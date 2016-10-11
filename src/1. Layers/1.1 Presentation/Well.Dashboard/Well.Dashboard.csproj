@@ -388,7 +388,6 @@
     <TypeScriptCompile Include="app\delivery\model\action.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryLineAction.ts" />
     <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />
-    <TypeScriptCompile Include="app\pending_credit\pendingCredit.ts" />
     <TypeScriptCompile Include="app\pending_credit\pendingCreditComponent.ts" />
     <TypeScriptCompile Include="app\pending_credit\pendingCreditConfirmationModal.ts" />
     <TypeScriptCompile Include="app\pending_credit\pendingCreditDetail.ts" />

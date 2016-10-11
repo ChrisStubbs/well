@@ -30,7 +30,7 @@
 
             var threshold = this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.Id == user.ThresholdLevelId);
 
-            if (threshold == null) throw new ApplicationException($"Threshold not found with id ({user.ThresholdLevelId})");
+            if (threshold == null) throw new UserThresholdNotFoundException($"Threshold not found with id ({user.ThresholdLevelId})");
 
             if (creditValue <= threshold.Threshold) return true;
             

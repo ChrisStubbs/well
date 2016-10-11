@@ -36,7 +36,9 @@ namespace PH.Well.Api.Controllers
         {
             try
             {
-                var canCredit = this.userThresholdService.CanUserCredit(this.UserIdentityName, creditEvent.TotalCreditValueForThreshold);
+                var canCredit = this.userThresholdService.CanUserCredit(
+                    this.UserIdentityName,
+                    creditEvent.TotalCreditValueForThreshold);
 
                 if (canCredit)
                 {
@@ -48,8 +50,15 @@ namespace PH.Well.Api.Controllers
 
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+                else
+                {
+                    this.userThresholdService.AssignPendingCredit(creditEvent, this.UserIdentityName);
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t higher enough to credit this! It has been passed on for authorisation!'" });
+                }
+            }
+            catch (UserThresholdNotFoundException)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "No threshold exists!" });
             }
             catch (Exception exception)
             {

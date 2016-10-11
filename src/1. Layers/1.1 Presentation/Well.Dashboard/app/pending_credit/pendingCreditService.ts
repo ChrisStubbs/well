@@ -2,7 +2,7 @@
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { PendingCredit } from './pendingCredit';
+import { ExceptionDelivery } from '../exceptions/exceptionDelivery';
 import { PendingCreditDetail } from './pendingCreditDetail';
 
 @Injectable()
@@ -12,9 +12,9 @@ export class PendingCreditService {
 
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getPendingCredits(): Observable<PendingCredit[]> {
+    getPendingCredits(): Observable<ExceptionDelivery[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'pending-credits')
-            .map((res: Response) => <PendingCredit[]>res.json());
+            .map((res: Response) => <ExceptionDelivery[]>res.json());
     }
 
     getPendingCreditDetail(jobId: number): Observable<PendingCreditDetail[]> {

@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
-import {PendingCredit} from './pendingCredit';
+import {ExceptionDelivery} from '../exceptions/exceptionDelivery';
 import { PendingCreditService } from './pendingCreditService';
 import { AccountService } from "../account/accountService";
 import { ContactModal } from '../shared/contactModal';
@@ -12,7 +12,7 @@ import {PendingCreditConfirmationModal} from './pendingCreditConfirmationModal';
 })
 export class PendingCreditComponent implements OnInit{
     rowCount: number = 10;
-    pendingCredits: PendingCredit[];
+    pendingCredits: ExceptionDelivery[];
     @ViewChild(ContactModal)
     private contactModal: ContactModal;
 
@@ -36,12 +36,12 @@ export class PendingCreditComponent implements OnInit{
             });
     }
 
-    setAction(pendingCredit: PendingCredit, action: string) {
+    setAction(pendingCredit: ExceptionDelivery, action: string) {
         pendingCredit.action = action;
-        this.confirmModal.show();
+        this.confirmModal.show(pendingCredit);
     }
 
-    viewDetail(pendingCredit: PendingCredit) {
+    viewDetail(pendingCredit: ExceptionDelivery) {
         this.detailModal.show(pendingCredit);
     }
 }

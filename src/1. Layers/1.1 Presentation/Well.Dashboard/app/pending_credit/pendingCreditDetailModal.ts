@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { PendingCredit } from './pendingCredit';
+import { ExceptionDelivery } from '../exceptions/exceptionDelivery';
 import { PendingCreditDetail } from './pendingCreditDetail';
 import { PendingCreditService } from './pendingCreditService';
 
@@ -9,12 +9,12 @@ import { PendingCreditService } from './pendingCreditService';
 })
 export class PendingCreditDetailModal {
     isVisible: boolean;
-    pendingCredit: PendingCredit;
+    pendingCredit: ExceptionDelivery;
     details: PendingCreditDetail[];
 
     constructor(private pendingCreditService: PendingCreditService) {}
 
-    show(pendingCredit: PendingCredit) {
+    show(pendingCredit: ExceptionDelivery) {
         this.pendingCredit = pendingCredit;
         this.pendingCreditService.getPendingCreditDetail(pendingCredit.id)
             .subscribe(x => { this.details = x; this.isVisible = true;

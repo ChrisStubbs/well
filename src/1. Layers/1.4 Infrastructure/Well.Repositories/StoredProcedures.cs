@@ -83,6 +83,7 @@
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
         public static string UnAssignJobToUser = "UserJob_Delete";
+        public static string UserByCreditThresholdGet = "UserByCreditThresholdGet";
 
         public static string EventInsert = "EventInsert";
         public static string EventSetProcessed = "EventSetProcessed";
@@ -124,5 +125,6 @@
         public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
 
         public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
+        public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
     }
 }

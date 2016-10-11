@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     using Moq;
@@ -9,6 +10,7 @@
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
+    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories;
     using PH.Well.Repositories.Contracts;
 
@@ -219,6 +221,66 @@
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.CreditThresholdDelete), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("Id", 101, DbType.Int32, null), Times.Once);
+            }
+        }
+
+        public class TheGetByBranchMethod : CreditThresholdRepositoryTests
+        {
+            [Test]
+            public void ShouldGetBranchSpecificThresholds()
+            {
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.CreditThresholdByBranch))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("branchId", 4, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<CreditThreshold>()).Returns(new List<CreditThreshold>());
+
+                this.repository.GetByBranch(4);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.CreditThresholdByBranch), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("branchId", 4, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<CreditThreshold>(), Times.Once);
+            }
+        }
+
+        public class TheAssignPendingCreditToUserMethod : CreditThresholdRepositoryTests
+        {
+            [Test]
+            public void ShouldAssignPendingCreditToUser()
+            {
+                var user = new User { Id = 67 };
+
+                var creditEvent = new CreditEvent { InvoiceNumber = "foo" };
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("userId", user.Id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("invoiceNumber", creditEvent.InvoiceNumber, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("originator", "foo", DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.AssignPendingCreditToUser(user, creditEvent, "foo");
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("userId", user.Id, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("invoiceNumber", creditEvent.InvoiceNumber, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("originator", "foo", DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
         }
     }

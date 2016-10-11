@@ -7,6 +7,8 @@
     using NUnit.Framework;
 
     using PH.Well.Domain;
+    using PH.Well.Domain.Enums;
+    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
 
@@ -73,6 +75,30 @@
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);
+            }
+        }
+
+        public class TheAssignPendingCreditMethod : UserThresholdServiceTests
+        {
+            public void ShouldAssignLevel2ThresholdToUser()
+            {
+                var creditEvent = new CreditEvent { BranchId = 22, TotalCreditValueForThreshold = 100 };
+                var user = new User();
+
+                var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Threshold = 100 };
+
+                this.creditThresholdRepository.Setup(x => x.GetByBranch(creditEvent.BranchId)).Returns(new List<CreditThreshold> { level2Threshold });
+
+                this.userRepository.Setup(x => x.GetUserByCreditThreshold(level2Threshold)).Returns(user);
+
+                this.creditThresholdRepository.Setup(x => x.AssignPendingCreditToUser(user, creditEvent, "foo"));
+
+                this.service.AssignPendingCredit(creditEvent, "");
+            }
+
+            public void ShouldAssignLevel1ThresholdToUser()
+            {
+                var level1Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level1 };
             }
         }
     }

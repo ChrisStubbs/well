@@ -250,6 +250,8 @@
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
+    <Build Include="dbo\StoredProcedures\UserByCreditThresholdGet.sql" />
+    <Build Include="dbo\StoredProcedures\AssignPendingCreditToUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -9,5 +9,7 @@
         IEnumerable<CreditThreshold> GetAll();
 
         void Delete(int id);
+
+        IEnumerable<CreditThreshold> GetByBranch(int branchId);
     }
 }

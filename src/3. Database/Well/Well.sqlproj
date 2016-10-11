@@ -247,6 +247,9 @@
     <Build Include="dbo\Tables\PendingCreditToUser.sql" />
     <Build Include="dbo\StoredProcedures\PendingCreditDeliveriesGet.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailActionsGet.sql" />
+    <Build Include="dbo\StoredProcedures\EventInsert.sql" />
+    <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

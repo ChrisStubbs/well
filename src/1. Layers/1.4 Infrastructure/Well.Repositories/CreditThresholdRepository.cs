@@ -69,5 +69,12 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdDelete)
                 .AddParameter("Id", id, DbType.Int32).Execute();
         }
+
+        public IEnumerable<CreditThreshold> GetByBranch(int branchId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdByBranch)
+                .AddParameter("branchId", branchId, DbType.Int32)
+                .Query<CreditThreshold>();
+        }
     }
 }

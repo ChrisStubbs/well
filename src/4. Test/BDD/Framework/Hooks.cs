@@ -152,7 +152,7 @@
                                                 x.For<IStopRepository>().Use<StopRepository>();
                                                 x.For<IJobRepository>().Use<JobRepository>();
                                                 x.For<IJobDetailRepository>().Use<JobDetailRepository>();
-                                                x.For<IJobDetailDamageRepo>().Use<JobDetailDamageRepo>();
+                                                x.For<IJobDetailDamageRepo>().Use<JobDetailDamageRepository>();
                                                 x.For<IWebClient>().Use<WebClient>();
                                                 x.For<IFileModule>().Use<FileModule>();
                                                 x.For<IFileService>().Use<FileService>();

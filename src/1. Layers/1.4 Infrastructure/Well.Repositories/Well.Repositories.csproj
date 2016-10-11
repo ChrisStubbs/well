@@ -94,7 +94,7 @@
     <Compile Include="CreditThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
-    <Compile Include="JobDetailDamageRepo.cs" />
+    <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />

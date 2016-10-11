@@ -108,6 +108,7 @@
         public static string CreditThresholdGetAll = "CreditThresholdGetAll";
         public static string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
         public static string CreditThresholdDelete = "CreditThresholdDelete";
+        public static string CreditThresholdByBranch = "CreditThresholdByBranch";
         public static string CreditThresholdSave = "CreditThresholdSave";
         public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
 

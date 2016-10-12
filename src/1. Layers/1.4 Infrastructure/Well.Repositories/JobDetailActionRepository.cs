@@ -7,9 +7,9 @@
     using Domain;
     using Domain.Enums;
 
-    public class JobDetailActionRepo : DapperRepository<JobDetailAction, int>, IJobDetailActionRepo
+    public class JobDetailActionRepository : DapperRepository<JobDetailAction, int>, IJobDetailActionRepository
     {
-        public JobDetailActionRepo(ILogger logger, IDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public JobDetailActionRepository(ILogger logger, IDapperProxy dapperProxy) : base(logger, dapperProxy)
         {
         }
 

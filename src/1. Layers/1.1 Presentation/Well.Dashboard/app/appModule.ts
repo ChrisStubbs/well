@@ -35,7 +35,11 @@ import {UserThresholdLevelComponent} from './user_threshold/userThresholdLevelCo
 import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceComponent';
 import {CleanPreferenceAddModalComponent} from './clean_preferences/cleanPreferenceAddModalComponent';
 import {CleanPreferenceRemoveModalComponent} from './clean_preferences/cleanPreferenceRemoveModalComponent';
-import {CleanPreferenceEditModalComponent} from './clean_preferences/cleanPreferenceEditModalComponent';
+import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
+import { PendingCreditComponent } from './pending_credit/pendingCreditComponent';
+import { PendingCreditService } from './pending_credit/pendingCreditService';
+import { PendingCreditDetailModal } from './pending_credit/pendingCreditDetailModal';
+import { PendingCreditConfirmationModal } from './pending_credit/pendingCreditConfirmationModal';
 
 import {AssignModal} from "./shared/assignModal";
 import {ConfirmModal} from "./shared/confirmModal";
@@ -77,14 +81,14 @@ import {UserService} from './shared/userService';
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
-        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
-        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent,
+        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
+        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, PendingCreditComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         CodComponent
     ],
@@ -94,7 +98,7 @@ import {UserService} from './shared/userService';
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService,
+        CleanPreferenceService, UserService, PendingCreditService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

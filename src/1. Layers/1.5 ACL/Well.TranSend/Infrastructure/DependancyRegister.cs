@@ -30,7 +30,7 @@ namespace PH.Well.TranSend.Infrastructure
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
-                    x.For<IJobDetailDamageRepo>().Use<JobDetailDamageRepo>();
+                    x.For<IJobDetailDamageRepo>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<IEpodImportConfiguration>().Use<Configuration>();
                     x.For<IWebClient>().Use<WebClient>();

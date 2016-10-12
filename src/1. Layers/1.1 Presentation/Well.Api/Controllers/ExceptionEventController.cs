@@ -18,69 +18,52 @@ namespace PH.Well.Api.Controllers
     public class ExceptionEventController : BaseApiController
     {
         private readonly ILogger logger;
-
         private readonly IExceptionEventService exceptionEventService;
+        private readonly IUserThresholdService userThresholdService;
 
-        private readonly INotificationRepository notificationRepository;
-
-        public ExceptionEventController(ILogger logger, IExceptionEventService exceptionEventService, INotificationRepository notificationRepository)
+        public ExceptionEventController(ILogger logger, 
+            IExceptionEventService exceptionEventService,
+            IUserThresholdService userThresholdService)
         {
             this.logger = logger;
             this.exceptionEventService = exceptionEventService;
-            this.notificationRepository = notificationRepository;
+            this.userThresholdService = userThresholdService;
         }
 
-        // commented out to allow notifications to be generated for demo
-        //[Route("credit")]
-        //[HttpPost]
-        //public HttpResponseMessage Credit(CreditEvent creditEvent)
-        //{
-        //    try
-        //    {
-        //        var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
-
-        //        var response = this.exceptionEventService.Credit(creditEvent, settings, this.UserIdentityName);
-
-        //        if (response == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
-
-        //        return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        this.logger.LogError("Error on credit event", exception);
-        //        return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-        //    }
-        //}
-
-        // credit action pointed to credit fail endpoint to generate notifications for demo
         [Route("credit")]
         [HttpPost]
-        public HttpResponseMessage Post(CreditFail credit)
+        public HttpResponseMessage Credit(CreditEvent creditEvent)
         {
-            credit.JobId = credit.Id;
-            credit.Reason = "Failed ADAM validation";
             try
             {
-                if (credit.JobId > 0)
+                var canCredit = this.userThresholdService.CanUserCredit(
+                    this.UserIdentityName,
+                    creditEvent.TotalCreditValueForThreshold);
+
+                if (canCredit)
                 {
-                    var notification = new Notification
-                    {
-                        JobId = credit.JobId,
-                        Reason = credit.Reason,
-                        Type = (int)NotificationType.Credit,
-                        Source = "ADAMCSS"
-                    };
+                    var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
 
-                    this.notificationRepository.SaveNotification(notification);
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+                    var response = this.exceptionEventService.Credit(creditEvent, settings, this.UserIdentityName);
+
+                    if (response == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
+
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+                else
+                {
+                    this.userThresholdService.AssignPendingCredit(creditEvent, this.UserIdentityName);
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t higher enough to credit this! It has been passed on for authorisation!'" });
+                }
+            }
+            catch (UserThresholdNotFoundException)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "No threshold exists!" });
             }
             catch (Exception exception)
             {
-                this.logger.LogError("Error when trying to save credit failure notification ", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+                this.logger.LogError("Error on credit event", exception);
+                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
     }

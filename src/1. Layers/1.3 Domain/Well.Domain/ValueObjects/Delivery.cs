@@ -20,6 +20,8 @@
 
         public DateTime DeliveryDate { get; set; }
 
+        public string FormattedDeliveryDate => this.DeliveryDate.ToShortDateString();
+
         public string Reason { get; set; }
 
         public string Action { get; set; }
@@ -35,6 +37,22 @@
         public string CashOnDelivery { get; set; }
 
         public bool CanAction { get; private set; }
+
+        public string TotalCredit { get; set; }
+
+        public string PendingCreditCreatedBy { get; set; }
+
+        public string FormattedPendingCreditCreatedBy {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this.PendingCreditCreatedBy) && this.PendingCreditCreatedBy.Contains("\\"))
+                {
+                    return this.PendingCreditCreatedBy.Split('\\')[1];
+                }
+
+                return this.PendingCreditCreatedBy;
+            }
+        }
 
         public decimal TotalCreditValueForThreshold { get; set; }
 

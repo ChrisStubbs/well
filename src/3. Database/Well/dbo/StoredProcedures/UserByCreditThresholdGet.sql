@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE  [dbo].[UserGetByIdentity]
-	@Identity VARCHAR(255)
+﻿CREATE PROCEDURE  [dbo].[UserByCreditThresholdGet]
+	@creditThresholdId INT
 AS
 BEGIN
 
@@ -18,6 +18,6 @@ BEGIN
 		[DateUpdated],
 		[Version]
 	  FROM [dbo].[User]
-	  WHERE IdentityName = @Identity
+	  WHERE ThresholdLevelId = @creditThresholdId
 
 END

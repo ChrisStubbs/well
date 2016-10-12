@@ -93,7 +93,6 @@ this.ScenarioSetup(scenarioInfo);
                         "Account",
                         "AccountName",
                         "Status",
-                        "Action",
                         "Assigned"});
             table1.AddRow(new string[] {
                         "001",
@@ -102,7 +101,6 @@ this.ScenarioSetup(scenarioInfo);
                         "49214.152",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated"});
             table1.AddRow(new string[] {
                         "001",
@@ -111,7 +109,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated"});
             table1.AddRow(new string[] {
                         "001",
@@ -120,7 +117,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "RVS SHOP",
                         "Resolved",
-                        "",
                         "Unallocated"});
 #line 14
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table1, "Then ");
@@ -178,7 +174,6 @@ this.ScenarioSetup(scenarioInfo);
                         "Account",
                         "AccountName",
                         "Status",
-                        "Action",
                         "Assigned"});
             table3.AddRow(new string[] {
                         "006",
@@ -187,7 +182,6 @@ this.ScenarioSetup(scenarioInfo);
                         "43362.048",
                         "WB - SHOP",
                         "Resolved",
-                        "",
                         "Unallocated"});
             table3.AddRow(new string[] {
                         "006",
@@ -196,7 +190,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "WB - SHOP",
                         "Resolved",
-                        "",
                         "Unallocated"});
             table3.AddRow(new string[] {
                         "006",
@@ -205,7 +198,6 @@ this.ScenarioSetup(scenarioInfo);
                         "54107.000",
                         "WB - SHELL FORECOURT",
                         "Resolved",
-                        "",
                         "Unallocated"});
             table3.AddRow(new string[] {
                         "006",
@@ -214,7 +206,6 @@ this.ScenarioSetup(scenarioInfo);
                         "54107.000",
                         "WB - SHELL FORECOURT",
                         "Resolved",
-                        "",
                         "Unallocated"});
 #line 32
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table3, "Then ");
@@ -328,7 +319,6 @@ this.ScenarioSetup(scenarioInfo);
                         "Account",
                         "AccountName",
                         "Status",
-                        "Action",
                         "Assigned",
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
@@ -338,7 +328,6 @@ this.ScenarioSetup(scenarioInfo);
                         "49214.152",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated",
                         "Sep 7, 2016, 1:27:17 PM"});
             table7.AddRow(new string[] {
@@ -348,7 +337,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated",
                         "Sep 7, 2016, 1:29:17 PM"});
             table7.AddRow(new string[] {
@@ -358,7 +346,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "RVS SHOP",
                         "Resolved",
-                        "",
                         "Unallocated",
                         "Sep 7, 2016, 1:31:17 PM"});
 #line 58
@@ -373,7 +360,6 @@ this.ScenarioSetup(scenarioInfo);
                         "Account",
                         "AccountName",
                         "Status",
-                        "Action",
                         "Assigned",
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
@@ -383,7 +369,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "RVS SHOP",
                         "Resolved",
-                        "",
                         "Unallocated",
                         "Sep 7, 2016, 1:31:17 PM"});
             table8.AddRow(new string[] {
@@ -393,7 +378,6 @@ this.ScenarioSetup(scenarioInfo);
                         "2874.033",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated",
                         "Sep 7, 2016, 1:29:17 PM"});
             table8.AddRow(new string[] {
@@ -403,7 +387,6 @@ this.ScenarioSetup(scenarioInfo);
                         "49214.152",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated",
                         "Sep 7, 2016, 1:27:17 PM"});
 #line 64

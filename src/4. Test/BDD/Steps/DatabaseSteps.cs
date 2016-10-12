@@ -81,6 +81,34 @@
             this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
+        [Given(@"the first delivery is not a cash on delivery customer")]
+        public void GivenTheFirstDeliveryIsNotACashOnDeliveryCustomer()
+        {
+            this.dapperProxy.ExecuteSql("update top(1) job set cod = 1 where PerformanceStatusId = 6");
+        }
+
+        [Given(@"the first '(.*)' delivery is not a cash on delivery customer")]
+        public void GivenTheFirstDeliveryIsNotACashOnDeliveryCustomer(string deliveryType)
+        {
+            var status = 0;
+
+            switch (deliveryType)
+            {
+                case "clean":
+                    status = 6;
+                    break;
+                case "exception":
+                    status = 5;
+                    break;
+                default:
+                    status = 8;
+                    break;
+            }
+
+            this.dapperProxy.ExecuteSql($"update top(1) job set cod = 1 where PerformanceStatusId = {status}");
+        }
+
+
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {

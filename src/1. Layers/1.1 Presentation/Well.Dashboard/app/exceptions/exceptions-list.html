@@ -58,7 +58,7 @@
                         <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.cashOnDelivery}}</td>
+                        <td (click)="deliverySelected(delivery)"><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
                         <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>

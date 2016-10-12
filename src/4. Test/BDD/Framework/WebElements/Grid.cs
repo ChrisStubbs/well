@@ -102,6 +102,7 @@
         public string GetColumnValueByIndex(int idx)
         {
             return this.row.FindElements(By.XPath(".//*"))[idx].Text;
+
         }
         
         public override void Click()

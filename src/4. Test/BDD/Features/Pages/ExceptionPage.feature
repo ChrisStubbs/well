@@ -169,5 +169,12 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
 
+Scenario: A user can view Exception Delivery Information with cash on delivery icons displayed
+	Given I have selected branch 22
+	And All the deliveries are marked as exceptions
+    And the first 'exception' delivery is not a cash on delivery customer
+	When I open the exception deliveries
+	Then the exception cod delivery icon is not displayed in row 1
+
 
 

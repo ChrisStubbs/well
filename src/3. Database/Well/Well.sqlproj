@@ -252,6 +252,8 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
     <Build Include="dbo\StoredProcedures\UserByCreditThresholdGet.sql" />
     <Build Include="dbo\StoredProcedures\AssignPendingCreditToUser.sql" />
+    <Build Include="dbo\StoredProcedures\ResolveJobAndJobDetails.sql" />
+    <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

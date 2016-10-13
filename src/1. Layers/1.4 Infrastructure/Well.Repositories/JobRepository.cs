@@ -151,14 +151,19 @@
                    .AddParameter("PDACreditReasonId", pdaCreditReasonId, DbType.Int32)
                    .Query<PodActionReasons>();
         }
+
         public void CreditLines(DataTable idsTable)
         {
-            dapperProxy.WithStoredProcedure("Job_CreditLines")
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditJob)
                 .AddParameter("Ids", idsTable, DbType.Object)
                 .Execute();
         }
 
-
-       
+        public void ResolveJobAndJobDetails(int jobId)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.ResolveJobAndJobDetails)
+                .AddParameter("jobId", jobId, DbType.Int32)
+                .Execute();                
+        }
     }
 }

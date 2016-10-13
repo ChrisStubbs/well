@@ -16,7 +16,7 @@ BEGIN
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
 		b.Id as BranchId,
 		j.COD as CashOnDelivery,
-		'£foo' as TotalCredit,
+		j.TotalCreditValueForThreshold as TotalCredit,
 		pc.CreatedBy as PendingCreditCreatedBy
 	FROM
 		RouteHeader rh 
@@ -48,5 +48,7 @@ BEGIN
 		s.IsDeleted = 0
 	AND 
 		j.IsDeleted = 0
+	AND
+		pc.IsDeleted = 0
 
 END

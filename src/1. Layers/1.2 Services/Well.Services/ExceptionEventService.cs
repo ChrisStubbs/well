@@ -11,10 +11,15 @@
 
         private readonly IExceptionEventRepository eventRepository;
 
-        public ExceptionEventService(IAdamRepository adamRepository, IExceptionEventRepository eventRepository)
+        private readonly IJobRepository jobRepository;
+
+        public ExceptionEventService(IAdamRepository adamRepository, 
+            IExceptionEventRepository eventRepository,
+            IJobRepository jobRepository)
         {
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
+            this.jobRepository = jobRepository;
         }
 
         public void Credit(CreditEvent creditEvent, int eventId, AdamSettings adamSettings, string username)
@@ -22,8 +27,6 @@
             var adamResponse = this.adamRepository.Credit(creditEvent, adamSettings);
 
             this.MarkAsDone(eventId, adamResponse, username);
-            // TODO 
-            // Send notification to well api 
         }
 
         public AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username)
@@ -35,7 +38,10 @@
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEvent(creditEvent);
             }
-
+            else
+            {
+                this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+            }
             return response;
         }
 

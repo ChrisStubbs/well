@@ -16,6 +16,8 @@
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
+        private Mock<IJobRepository> jobRepository;
+
         private ExceptionEventService service;
 
         [SetUp]
@@ -23,8 +25,9 @@
         {
             this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
+            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
 
-            this.service = new ExceptionEventService(this.adamRepository.Object, this.exceptionEventRepository.Object);
+            this.service = new ExceptionEventService(this.adamRepository.Object, this.exceptionEventRepository.Object, this.jobRepository.Object);
         }
 
         public class TheCreditMethod : ExceptionEventServiceTests

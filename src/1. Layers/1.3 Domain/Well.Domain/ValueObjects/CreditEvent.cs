@@ -11,6 +11,8 @@
 
         public string InvoiceNumber { get; set; }
 
-        public int TotalCreditValueForThreshold { get; set; }
+        public decimal TotalCreditValueForThreshold { get; set; }
+
+        public string Action { get; set; }
     }
 }

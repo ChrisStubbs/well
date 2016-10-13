@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
-import {ExceptionDelivery} from '../exceptions/exceptionDelivery';
+import { ExceptionDelivery } from '../exceptions/exceptionDelivery';
+import { ExceptionDeliveryService } from "../exceptions/exceptionDeliveryService";
 import { PendingCreditService } from './pendingCreditService';
 import { AccountService } from "../account/accountService";
 import { ContactModal } from '../shared/contactModal';
@@ -43,5 +44,10 @@ export class PendingCreditComponent implements OnInit{
 
     viewDetail(pendingCredit: ExceptionDelivery) {
         this.detailModal.show(pendingCredit);
+    }
+
+    onAccepted() {
+
+        this.pendingCreditService.getPendingCredits().subscribe(x => this.pendingCredits = x);
     }
 }

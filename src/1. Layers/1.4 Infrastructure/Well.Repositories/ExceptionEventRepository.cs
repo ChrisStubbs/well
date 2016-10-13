@@ -45,5 +45,12 @@
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventGetUnprocessed).Query<ExceptionEvent>();
         }
+
+        public void RemovedPendingCredit(string invoiceNumber)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.RemovePendingCredit)
+                .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
+                .Execute();
+        }
     }
 }

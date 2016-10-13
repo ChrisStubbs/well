@@ -22,13 +22,13 @@
             this.userRepository = userRepository;
         }
 
-        public bool CanUserCredit(string username, int creditValue)
+        public bool CanUserCredit(string username, decimal creditValue)
         {
             var user = this.userRepository.GetByIdentity(username);
 
             if (user == null) throw new ApplicationException($"User not found ({username})");
 
-            var threshold = this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.Id == user.ThresholdLevelId);
+            var threshold = this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
 
             if (threshold == null) throw new UserThresholdNotFoundException($"Threshold not found with id ({user.ThresholdLevelId})");
 

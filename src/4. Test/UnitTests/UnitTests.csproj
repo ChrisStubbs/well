@@ -113,6 +113,7 @@
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineActionsControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
+    <Compile Include="Api\Controllers\ExceptionEventControllerTests.cs" />
     <Compile Include="Api\Controllers\PendingCreditControllerTests.cs" />
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
     <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />

@@ -1,4 +1,4 @@
-﻿Create PROCEDURE [dbo].[AssignPendingToCreditToUser]
+﻿Create PROCEDURE [dbo].[AssignPendingCreditToUser]
 	@userId INT,
 	@invoiceNumber VARCHAR(50),
 	@originator VARCHAR(50)

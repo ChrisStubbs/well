@@ -4,7 +4,7 @@
 
     public interface IUserThresholdService
     {
-        bool CanUserCredit(string username, int creditValue);
+        bool CanUserCredit(string username, decimal creditValue);
 
         void AssignPendingCredit(CreditEvent creditEvent, string originator);
     }

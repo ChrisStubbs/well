@@ -12,6 +12,6 @@ BEGIN
 	join
 		[User] u on u.Id = p.userId
 	where
-		u.IdentityName = @identityName
+		u.IdentityName = @identityName AND p.IsDeleted = 0
 
 END

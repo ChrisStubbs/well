@@ -126,5 +126,8 @@
 
         public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
         public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
+        public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";
+        public static string CreditJob = "Job_CreditLines";
+        public static string RemovePendingCredit = "RemovePendingCredit";
     }
 }

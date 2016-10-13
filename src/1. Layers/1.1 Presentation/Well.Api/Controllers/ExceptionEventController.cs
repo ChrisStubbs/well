@@ -1,8 +1,4 @@
-﻿using PH.Well.Domain;
-using PH.Well.Repositories;
-using PH.Well.Repositories.Contracts;
-
-namespace PH.Well.Api.Controllers
+﻿namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Net;
@@ -12,6 +8,7 @@ namespace PH.Well.Api.Controllers
 
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
+    using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
 
@@ -20,14 +17,17 @@ namespace PH.Well.Api.Controllers
         private readonly ILogger logger;
         private readonly IExceptionEventService exceptionEventService;
         private readonly IUserThresholdService userThresholdService;
+        private readonly IExceptionEventRepository exceptionEventRepository;
 
         public ExceptionEventController(ILogger logger, 
             IExceptionEventService exceptionEventService,
-            IUserThresholdService userThresholdService)
+            IUserThresholdService userThresholdService,
+            IExceptionEventRepository exceptionEventRepository)
         {
             this.logger = logger;
             this.exceptionEventService = exceptionEventService;
             this.userThresholdService = userThresholdService;
+            this.exceptionEventRepository = exceptionEventRepository;
         }
 
         [Route("credit")]
@@ -48,13 +48,13 @@ namespace PH.Well.Api.Controllers
 
                     if (response == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
 
+                    this.exceptionEventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
+
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }
-                else
-                {
-                    this.userThresholdService.AssignPendingCredit(creditEvent, this.UserIdentityName);
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t higher enough to credit this! It has been passed on for authorisation!'" });
-                }
+
+                this.userThresholdService.AssignPendingCredit(creditEvent, this.UserIdentityName);
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t higher enough to credit this! It has been passed on for authorisation!'" });
             }
             catch (UserThresholdNotFoundException)
             {

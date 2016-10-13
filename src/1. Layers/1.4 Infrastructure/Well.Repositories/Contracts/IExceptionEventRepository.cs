@@ -12,5 +12,7 @@
         void MarkEventAsProcessed(int eventId);
 
         IEnumerable<ExceptionEvent> GetAllUnprocessed();
+
+        void RemovedPendingCredit(string invoiceNumber);
     }
 }

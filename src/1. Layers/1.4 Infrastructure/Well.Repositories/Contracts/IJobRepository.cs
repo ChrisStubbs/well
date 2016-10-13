@@ -28,6 +28,9 @@
         void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
 
         CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
+
         void CreditLines(DataTable idsTable);
+
+        void ResolveJobAndJobDetails(int jobId);
     }
 }

@@ -49,6 +49,7 @@ import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from "./shared/orderByDatePipe";
 import {OutstandingPipe} from "./shared/outstandingPipe";
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
+import {CodComponent} from './shared/codComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
 import {SpinnerComponent} from './shared/spinnerComponent'; 
@@ -89,7 +90,8 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, PendingCreditComponent,
-        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
+        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
+        CodComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing

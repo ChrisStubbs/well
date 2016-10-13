@@ -19,6 +19,7 @@ import {AssignModal} from "../shared/assignModal";
 import {ConfirmModal} from "../shared/confirmModal";
 import {IUser} from "../shared/user";
 import {OrderArrowComponent} from '../shared/orderbyArrow';
+import {CodComponent} from '../shared/codComponent';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
@@ -288,7 +289,6 @@ export class ExceptionsComponent implements OnInit {
     openConfirmModal(delivery): void {
         
     }
-
 
     onAssigned(assigned: boolean) {
         this.getExceptions();

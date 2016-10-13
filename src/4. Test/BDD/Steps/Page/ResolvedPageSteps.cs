@@ -44,7 +44,6 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Action), Is.EqualTo(table.Rows[i]["Action"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Assigned), Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }
@@ -64,7 +63,6 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Action), Is.EqualTo(table.Rows[i]["Action"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Assigned), Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }

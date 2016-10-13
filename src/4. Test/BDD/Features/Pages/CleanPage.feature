@@ -82,3 +82,13 @@ Scenario: A user can page through Clean Delivery information
 	Then '7' rows of clean delivery data will be displayed
 	When I click on clean delivery page 1
 	Then '10' rows of clean delivery data will be displayed
+
+Scenario: A user can view Clean Delivery Information with cash on delivery icons displayed
+	Given I have a clean database
+	And I have loaded the Adam route data
+	And I have selected branch 22
+	And  3 deliveries have been marked as clean
+	And the first 'clean' delivery is not a cash on delivery customer
+	When I open the clean deliveries 
+	Then the cod delivery icon is not displayed in row 1
+	

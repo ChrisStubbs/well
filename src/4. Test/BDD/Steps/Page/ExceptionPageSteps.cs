@@ -358,6 +358,16 @@
             this.ExceptionDeliveriesPage.CreditModalComponent.ConfirmButton.Click();
         }
 
+        [Then(@"the exception cod delivery icon is not displayed in row (.*)")]
+        public void ThenTheExceptionCodDeliveryIconIsNotDisplayedInRow(int firstRow)
+        {
+            var row = firstRow - 1;
+            var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(5);
+            Assert.That(cashOnDeliveryIcon, Is.Empty);
+        }
+
+
 
     }
 }

@@ -36,11 +36,13 @@
             public void ShouldCreditTheInvoice()
             {
                 var username = "foo";
-                var creditEvent = new CreditEvent { BranchId = 1, InvoiceNumber = "322111.001" };
+                var creditEvent = new CreditEvent { BranchId = 1, InvoiceNumber = "322111.001", Id = 101 };
                 var adamSettings = new AdamSettings();
 
                 this.adamRepository.Setup(x => x.Credit(creditEvent, adamSettings))
                     .Returns(AdamResponse.Success);
+
+                this.jobRepository.Setup(x => x.ResolveJobAndJobDetails(creditEvent.Id));
 
                 var response = this.service.Credit(creditEvent, adamSettings, username);
 

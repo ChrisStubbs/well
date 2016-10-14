@@ -77,9 +77,6 @@ export class NotificationsComponent implements OnInit {
     }
 
     onArchived(notification: Notification) {
-        //count notifications if the modulus remainder is equal to one before we remove the archive notification
-        //the we are removing the last notification on a pagination set to avoid the pagination bug
-        //re-load the page.
         var preEventNotifications = this.notifications.length;
         var isLastNotificationOnPage = preEventNotifications % this.rowCount === 1;
         lodash.remove(this.notifications, notification);

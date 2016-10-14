@@ -161,17 +161,17 @@ export class ExceptionsComponent implements OnInit {
     }
 
     isChecked(exceptionid) {
-        var creditListIndex = this.deliveryCredits.indexOf(exceptionid);
+        var creditListIndex = this.getCreditListIndex(exceptionid);
 
         if (creditListIndex === -1) {
             return '';
         } else {
-            return'checked';
+            return'checked'; 
         }
     }
 
     onCheck(exceptionid) {
-        var creditListIndex = this.deliveryCredits.indexOf(exceptionid);
+        var creditListIndex = this.getCreditListIndex(exceptionid);
 
         if (creditListIndex === -1) {
             this.addToCreditList(exceptionid, creditListIndex);
@@ -179,6 +179,10 @@ export class ExceptionsComponent implements OnInit {
             this.removeFromCreditList(exceptionid, creditListIndex);
         }
         this.creditTitle = this.deliveryCredits.length > 1 ? "Bulk Credit" : "Credit";
+    }
+
+    getCreditListIndex(exceptionid) {
+        return this.deliveryCredits.indexOf(exceptionid);
     }
 
     selectAllCredits() {
@@ -206,8 +210,6 @@ export class ExceptionsComponent implements OnInit {
                     }
                 });
         }
-
-        console.log(this.deliveryCredits);
     }
 
 
@@ -293,8 +295,14 @@ export class ExceptionsComponent implements OnInit {
         
     }
 
-    onAssigned(assigned: boolean) {
-        this.getExceptions();
+    onAssigned($event) {
+
+        var creditListIndex = this.getCreditListIndex($event.exceptionId);
+
+        if (creditListIndex !== -1) {
+            this.removeFromCreditList($event.exceptionId, creditListIndex);
+        } 
+       this.getExceptions();
     }
 
     paginationCount() {

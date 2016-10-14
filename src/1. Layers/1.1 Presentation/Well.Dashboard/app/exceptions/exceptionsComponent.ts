@@ -249,6 +249,9 @@ export class ExceptionsComponent implements OnInit {
     }
 
     creditConfirmed() {
+
+        this.paginationCount();
+        
         this.exceptionDeliveryService.creditLines(this.deliveryCredits)
             .subscribe((res: Response) => {
 
@@ -292,6 +295,15 @@ export class ExceptionsComponent implements OnInit {
 
     onAssigned(assigned: boolean) {
         this.getExceptions();
+    }
+
+    paginationCount() {
+        var isLastExceptionOnPage = this.exceptions.length % this.rowCount === 1;
+
+        if (isLastExceptionOnPage) {
+            location.reload();
+        }       
+
     }
 
     setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {

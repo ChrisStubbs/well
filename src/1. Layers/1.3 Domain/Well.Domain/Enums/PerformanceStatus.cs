@@ -26,6 +26,9 @@
         Notdef = 7,
 
         [Description("Resolved")]
-        Resolved = 8
+        Resolved = 8,
+
+        [Description("Pending Authorisation")]
+        PendingAuthorisation = 9
     }
 }

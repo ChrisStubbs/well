@@ -18,11 +18,13 @@ import {HttpResponse} from '../shared/httpResponse';
 import {AssignModal} from "../shared/assignModal";
 import {ConfirmModal} from "../shared/confirmModal";
 import {IUser} from "../shared/user";
+import {CreditItem} from "../shared/creditItem";
 import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {CodComponent} from '../shared/codComponent';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
+import {IThreshold} from '../shared/threshold';
 import * as lodash from 'lodash';
 import * as jquery from 'jquery';
 
@@ -70,7 +72,9 @@ export class ExceptionsComponent implements OnInit {
     selectedOption: DropDownItem;
     selectedFilter: string;
     outstandingFilter: boolean = false;
-    deliveryCredits:any[];
+    deliveryCredits: any[];
+    approvalCredits: any[];
+    creditList:CreditItem[];
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
     value: string;
@@ -80,6 +84,7 @@ export class ExceptionsComponent implements OnInit {
     selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal)
+    thresholdLimit: IThreshold;
     private contactModal: ContactModal;
 
     constructor(
@@ -105,7 +110,11 @@ export class ExceptionsComponent implements OnInit {
             this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.deliveryCredits = [];
-            this.getExceptions();    
+            this.approvalCredits = [];
+            this.getExceptions();
+            this.getThresholdLimit();
+            this.creditList = Array<CreditItem>();
+
         });
     }
 
@@ -140,6 +149,14 @@ export class ExceptionsComponent implements OnInit {
                 });
     }
 
+    getThresholdLimit() {
+
+        this.exceptionDeliveryService.getUserCreditThreshold(this.globalSettingsService.globalSettings.userName)
+            .subscribe(responseData => {
+                this.thresholdLimit = responseData;
+            });
+    }
+
     sortDirection(sortDirection): void {
         this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
         var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
@@ -153,15 +170,21 @@ export class ExceptionsComponent implements OnInit {
     
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
-        this.deliveryCredits = [];
+        this.creditList = [];
     }
 
     onOutstandingClicked(showOutstandingOnly: boolean) {
         this.outstandingFilter = showOutstandingOnly;
     }
 
+    isAboveThresholdLimit(amount) {
+        return parseFloat(amount) > parseFloat(this.thresholdLimit[0]);
+    }
+
     isChecked(exceptionid) {
         var creditListIndex = this.getCreditListIndex(exceptionid);
+
+        console.log(exceptionid + '  ' + creditListIndex);
 
         if (creditListIndex === -1) {
             return '';
@@ -170,35 +193,45 @@ export class ExceptionsComponent implements OnInit {
         }
     }
 
-    onCheck(exceptionid) {
+    creditListlength() {
+        console.log(this.creditList.length);
+        return this.creditList.length;
+    }
+
+    onCheck(exceptionid, thresholdValue) {
         var creditListIndex = this.getCreditListIndex(exceptionid);
 
         if (creditListIndex === -1) {
-            this.addToCreditList(exceptionid, creditListIndex);
+            this.addToCreditList(exceptionid, creditListIndex, thresholdValue);
         } else {
-            this.removeFromCreditList(exceptionid, creditListIndex);
+            this.removeFromCreditList(exceptionid, creditListIndex, thresholdValue);
         }
-        this.creditTitle = this.deliveryCredits.length > 1 ? "Bulk Credit" : "Credit";
+        this.creditTitle = this.creditList.length > 1 ? "Bulk Credit" : "Credit";
+
+        
     }
 
     getCreditListIndex(exceptionid) {
-        return this.deliveryCredits.indexOf(exceptionid);
+        return lodash.findIndex(this.creditList, { creditId: exceptionid});
     }
 
     selectAllCredits() {
 
-        this.deliveryCredits = [];
-        
+        this.creditList = [];
+        var creditListIndex = -1;
+
         if (this.filterOption.dropDownItem.description === 'Credit Threshold' &&
             this.exceptions.length > 0 &&
             !isNaN(parseFloat(this.filterOption.filterText))) {
 
             var currentThreshold = parseFloat(this.filterOption.filterText);
             
+            
             lodash.forEach(this.exceptions,
                 value => {
                     if (value.totalCreditValueForThreshold <= currentThreshold && value.assigned !== 'Unallocated') {
-                        this.deliveryCredits.push(value.id);
+                        creditListIndex = this.getCreditListIndex(value.id);
+                        this.addToCreditList(value.id, creditListIndex, value.totalCreditValueForThreshold);
                     }
                 });
         } else {
@@ -206,17 +239,31 @@ export class ExceptionsComponent implements OnInit {
             lodash.forEach(this.exceptions,
                 value => {
                     if (value.assigned !== 'Unallocated') {
-                        this.deliveryCredits.push(value.id);
+                        creditListIndex = this.getCreditListIndex(value.id);
+                        this.addToCreditList(value.id, creditListIndex, value.totalCreditValueForThreshold);
                     }
                 });
         }
     }
 
 
-    addToCreditList(exceptionId, index) {
+    addToCreditList(exceptionId, index, thresholdAmount) {
+
+        var isAboveThesholdLimit = this.isAboveThresholdLimit(thresholdAmount);
+        var creditItem = new CreditItem();
+
         if (index === -1) {
-            this.deliveryCredits.push(exceptionId);
-      }
+            creditItem.creditId = exceptionId;
+            creditItem.isPending = isAboveThesholdLimit;
+            this.creditList.push(creditItem);
+        }       
+    }
+
+    removeFromCreditList(exceptionId, index, thresholdAmount) {
+
+        if (index !== -1) {
+            this.creditList.splice(index, 1);
+        }
     }
 
     isGridCheckBoxDisabled(exceptionid) {
@@ -227,25 +274,28 @@ export class ExceptionsComponent implements OnInit {
         return 'disabled';
     }
 
-    removeFromCreditList(exceptionId, index) {
-        if (index !== -1) {
-            this.deliveryCredits.splice(index, 1);
-        }
-    }
 
     checkExceptionsForCredit() {
-        if (this.deliveryCredits !== []) {
+        if (this.creditList !== []) {
             this.creditExceptions();
         } else {
             this.toasterService.pop('error', 'No Delivery line(s) selected for credit. Please select at least one Delivery line.', '');
         }
     }
 
-    creditExceptions() {     
+    creditExceptions() {
+
+        var pendingLength = lodash.filter(this.creditList, o => { if (o.isPending === true) return o }).length;
+        var creditLength = lodash.filter(this.creditList, o => { if (o.isPending === false) return o }).length;
+
+        var approvalConfirm = pendingLength > 0
+            ? " and " + pendingLength + " pending exceptions "
+            : "";
+
         this.confirmModal.isVisible = true;
         this.confirmModal.heading = this.creditTitle + " exceptions?";
         this.confirmModal.messageHtml =
-            "You are about to " + this.creditTitle + " " + this.deliveryCredits.length + " exceptions " +
+            "You are about to " + this.creditTitle + " " + creditLength + " exceptions " + approvalConfirm +
             "Are you sure you want to save your changes?";
         return;
     }
@@ -254,21 +304,24 @@ export class ExceptionsComponent implements OnInit {
 
         this.paginationCount();
         
-        this.exceptionDeliveryService.creditLines(this.deliveryCredits)
+        this.exceptionDeliveryService.creditLines(this.creditList)
             .subscribe((res: Response) => {
 
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', this.deliveryCredits.length + ' Delivery line(s) credited', '');
+                    this.toasterService.pop('success', this.creditList.length + ' Delivery line(s) credited', '');
+
                     this.getExceptions();
-                    this.deliveryCredits = [];
+                    this.creditList = [];
                 } else {
                     this.toasterService.pop('error', 'Error crediting exceptions!', 'An error occured please contact support.');
                 }
 
             });
+
     }
+
 
     cancel() {
         this.router.navigate(['/delivery', this.delivery.id]);
@@ -299,8 +352,10 @@ export class ExceptionsComponent implements OnInit {
 
         var creditListIndex = this.getCreditListIndex($event.exceptionId);
 
+        var exceptionDelivery = lodash.find(this.exceptions, ['id', $event.exceptionId]);
+
         if (creditListIndex !== -1) {
-            this.removeFromCreditList($event.exceptionId, creditListIndex);
+            this.removeFromCreditList($event.exceptionId, creditListIndex, exceptionDelivery.totalCreditValueForThreshold);
         } 
        this.getExceptions();
     }

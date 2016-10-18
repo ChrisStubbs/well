@@ -50,5 +50,7 @@ BEGIN
 		j.IsDeleted = 0
 	AND
 		pc.IsDeleted = 0
+	AND 
+		j.PerformanceStatusId = 9
 
 END

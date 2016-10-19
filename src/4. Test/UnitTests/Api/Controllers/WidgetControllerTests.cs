@@ -82,6 +82,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                     OutstandingCount = 8
                 };
                 userStatsRepository.Setup(r => r.GetByUser(userIdentity)).Returns(stats);
+                this.userStatsRepository.Setup(r => r.GetPendingCreditCountByUser(userIdentity)).Returns(56);
 
                 var result = Controller.Get();
 
@@ -92,6 +93,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.AreEqual(stats.NotificationsCount, response.SingleOrDefault(r => r.Name == "Notifications").Count);
                 Assert.AreEqual(stats.OutstandingCount, response.SingleOrDefault(r => r.Name == "Outstanding").Count);
 
+                this.userStatsRepository.Verify(r => r.GetPendingCreditCountByUser(userIdentity), Times.Once);
             }
         }
     }

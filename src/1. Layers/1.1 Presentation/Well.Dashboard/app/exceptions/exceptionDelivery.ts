@@ -12,4 +12,9 @@
     accountId: string;
     branchId: number;
     canAction: boolean;
+    totalCreditValueForThreshold: number;
+    formattedDeliveryDate: string;
+    formattedPendingCreditCreatedBy: string;
+    cashOnDelivery: string;
+    totalCredit: string;
 }

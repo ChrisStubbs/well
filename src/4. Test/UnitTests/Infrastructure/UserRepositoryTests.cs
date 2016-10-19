@@ -230,5 +230,30 @@
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
         }
+
+        public class TheGetUserByCreditThresholdMethod : UserRepositoryTests
+        {
+            [Test]
+            public void ShouldGetUserByCreditThreshold()
+            {
+                var creditThreshold = new CreditThreshold { Id = 4 };
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserByCreditThresholdGet))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("creditThresholdId", creditThreshold.Id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<User>()).Returns(new List<User>());
+
+                this.repository.GetUserByCreditThreshold(creditThreshold);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserByCreditThresholdGet), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("creditThresholdId", creditThreshold.Id, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<User>(), Times.Once);
+            }
+        }
     }
 }

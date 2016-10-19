@@ -402,8 +402,29 @@
                     currentJob.ByPassReason = ePodjob.ByPassReason;
                     currentJob.PerformanceStatus = ePodjob.PerformanceStatus;
                     currentJob.InvoiceNumber = ePodjob.InvoiceNumber;
-                    jobRepository.JobCreateOrUpdate(currentJob);
                     AddEpodJobJobDetail(ePodjob, currentJob.Id);
+
+
+                    var damages = new List<JobDetailDamage>();
+
+                    var jobDetails = this.jobDetailRepository.GetByJobId(currentJob.Id).ToList();
+
+                    foreach (var jobDetail in jobDetails)
+                    {
+                        damages.AddRange(jobDetailDamageRepo.GetJobDamagesByJobDetailId(jobDetail.Id));
+
+                        foreach (var damage in damages)
+                        {
+                            jobDetail.JobDetailDamages.Add(damage);
+                        }
+
+                        damages.Clear();
+
+                        currentJob.JobDetails.Add(jobDetail);
+                        
+                    }
+
+                    jobRepository.JobCreateOrUpdate(currentJob);
                 }
                 else
                 {
@@ -412,6 +433,9 @@
                 }
             }
         }
+
+
+
 
         private void AddEpodJobJobDetail(Job job, int currentJobId)
         {

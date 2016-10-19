@@ -1,7 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetailDamage_GetByJobDetailId]
 	@JobDetailId int
 AS
-
 SELECT [Id]
       ,[JobDetailId]
       ,[Qty]
@@ -12,7 +11,6 @@ SELECT [Id]
       ,[DateCreated]
       ,[UpdatedBy]
       ,[DateUpdated]
-      ,[Version]
   FROM [Well].[dbo].[JobDetailDamage]
   WHERE [JobDetailId] = @JobDetailId
 RETURN 0

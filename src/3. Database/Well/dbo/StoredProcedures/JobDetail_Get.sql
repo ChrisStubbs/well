@@ -19,6 +19,7 @@ AS
 		   ,jd.[OriginalDespatchQty]
 		   ,jd.[ProdDesc]
 		   ,jd.[OrderedQty]
+		   ,jd.DeliveredQty
            ,jd.[ShortQty]
            ,jd.[UnitMeasure]
            ,jd.[PHProductCode]

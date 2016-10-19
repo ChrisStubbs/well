@@ -52,7 +52,10 @@
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
-        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
+        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  
+        public static string JobDetailActionsGet = "JobDetailActionsGet";
+        public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
+
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
@@ -63,6 +66,7 @@
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
         public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
+        public static string PendingCreditDeliveriesGet = "PendingCreditDeliveriesGet";
 
         public static string BranchesGet = "BranchesGet";
 
@@ -79,6 +83,7 @@
         public static string UserSave = "UserSave";
         public static string AssignJobToUser = "UserJob_Insert";
         public static string UnAssignJobToUser = "UserJob_Delete";
+        public static string UserByCreditThresholdGet = "UserByCreditThresholdGet";
 
         public static string EventInsert = "EventInsert";
         public static string EventSetProcessed = "EventSetProcessed";
@@ -92,6 +97,7 @@
         public static string ArchiveNotification = "Notification_Archive";
 
         public static string UserStatsGet = "UserStatsGet";
+        public static string PendingCreditCountByUserGet = "PendingCreditCountByUserGet";
 
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
         public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
@@ -103,6 +109,7 @@
         public static string CreditThresholdGetAll = "CreditThresholdGetAll";
         public static string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
         public static string CreditThresholdDelete = "CreditThresholdDelete";
+        public static string CreditThresholdByBranch = "CreditThresholdByBranch";
         public static string CreditThresholdSave = "CreditThresholdSave";
         public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
 
@@ -122,6 +129,10 @@
         public static string WidgetWarningSave = "WidgetWarning_Save";
         public static string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
         public static string WidgetWarningGetAll = "WidgetWarning_GetAll";
+        public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
+        public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";
+        public static string CreditJob = "Job_CreditLines";
+        public static string RemovePendingCredit = "RemovePendingCredit";
         public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
         public static string WidgetWarningDelete= "WidgetWarningDelete";
     }

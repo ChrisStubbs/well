@@ -1,0 +1,64 @@
+﻿<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Your credits pending authorisation</li>
+    </ol>
+</div>
+<div class="jumbotron">
+    <div class="table-responsive table-container">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Route</th>
+                <th>Drop</th>
+                <th>Invoice No</th>
+                <th>Account</th>
+                <th>Account Name</th>
+                <th>COD</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Delivery Date</th>
+                <th>Total Credit</th>
+                <th>Created By</th>
+                <th>Action</th>
+            </tr>
+            <tr *ngIf="pendingCredits && pendingCredits.length === 0">
+                <td colspan="7">No Credits Pending Your Authorisation!</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="grid-row" *ngFor="let credit of pendingCredits | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                <td class="first-cell" (click)="viewDetail(credit)">{{credit.routeNumber}}</td>
+                <td (click)="viewDetail(credit)">{{credit.dropId}}</td>
+                <td (click)="viewDetail(credit)">{{credit.invoiceNumber}}</td>
+                <td (click)="viewDetail(credit)">{{credit.accountCode}}</td>
+                <td (click)="viewDetail(credit)">{{credit.accountName}}</td>
+                <td (click)="viewDetail(credit)">{{credit.cashOnDelivery}}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openContactModal(credit.accountId)">Info</button>
+                </td>
+                <td (click)="viewDetail(credit)">{{credit.jobStatus}}</td>
+                <td (click)="viewDetail(credit)">{{credit.formattedDeliveryDate}}</td>
+                <td (click)="viewDetail(credit)">{{credit.totalCredit}}</td>
+                <td (click)="viewDetail(credit)">{{credit.formattedPendingCreditCreatedBy}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-sm dropdown-toggle enabled-action" type="button" data-toggle="dropdown" aria-haspopup="true">{{credit.action === undefined ? 'Action' : credit.action}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" aria-labelledby="filter-option">
+                            <li><a (click)="setAction(credit, 'Accept')">Accept</a></li>
+                            <li><a (click)="setAction(credit, 'Reject')">Reject</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-12" *ngIf="pendingCredits && pendingCredits.length">
+            <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+<contact-modal></contact-modal>
+<ow-pending-credit-detail-modal></ow-pending-credit-detail-modal>
+<ow-pending-credit-confirmation (onAccepted)="onAccepted($event)"></ow-pending-credit-confirmation>

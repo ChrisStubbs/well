@@ -15,7 +15,7 @@
 
         public int ThresholdLevelId { get; set; }
 
-        public int Threshold { get; set; }
+        public decimal Threshold { get; set; }
 
         public Collection<Branch> Branches { get; set; }
     }

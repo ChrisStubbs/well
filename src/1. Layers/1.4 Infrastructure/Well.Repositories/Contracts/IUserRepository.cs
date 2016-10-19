@@ -17,5 +17,7 @@
         void UnAssignJobToUser(int jobId);
 
         void SetThresholdLevel(User user, ThresholdLevel thresholdLevel);
+
+        User GetUserByCreditThreshold(CreditThreshold creditThreshold);
     }
 }

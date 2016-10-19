@@ -31,11 +31,29 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
+    getUsersForBranch(branchId): Observable<IUser[]> {
+
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
+            .map((response: Response) => <IUser[]>response.json())
+            .do(data => this.logService.log("All: " + JSON.stringify(data)))
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+
     credit(exception: ExceptionDelivery): Observable<any> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit',
             JSON.stringify(exception),
             this.options)
             .map(res => res.json());
+    }
+
+    creditLines(creditlines: any[]): Observable<any> {
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'deliveries-creditlines/{creditlines}',
+            JSON.stringify(creditlines),
+            this.options)
+            .map(res => res.json())
+            .do (data => this.logService.log("All: " + JSON.stringify(data)))
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     private handleError(error: Response) {

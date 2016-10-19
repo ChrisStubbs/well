@@ -7,7 +7,7 @@
     {
         public ResolvedDeliveriesPage()
         {
-            this.RoutesGrid = new Grid<CleanDeliveriesGrid> { Locator = By.Id("tableResolvedDeliveries"), RowLocator = By.ClassName("grid-row") };
+            this.RoutesGrid = new Grid<ResolvedDeliveriesGrid> { Locator = By.Id("tableResolvedDeliveries"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
@@ -15,7 +15,7 @@
         }
         protected override string UrlSuffix => "resolved";
 
-        public Grid<CleanDeliveriesGrid> RoutesGrid { get; set; }
+        public Grid<ResolvedDeliveriesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
         public Image OrderByButton { get; set; }
@@ -29,11 +29,9 @@
         InvoiceNo = 2,
         Account = 3,
         AccountName= 4,
-        Contact= 5,
-        InfoButton = 6,
-        Status = 7,
-        Action = 8,
-        Assigned = 9,
-        LastUpdatedDateTime = 10
+        InfoButton = 8,
+        Status = 10,
+        Assigned = 11,
+        LastUpdatedDateTime = 13
     }
 }

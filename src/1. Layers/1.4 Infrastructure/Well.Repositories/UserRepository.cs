@@ -84,5 +84,14 @@
                     .AddParameter("JobId", jobId, DbType.Int32)
                     .Execute();
         }
+
+        public User GetUserByCreditThreshold(CreditThreshold creditThreshold)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserByCreditThresholdGet)
+                    .AddParameter("creditThresholdId", creditThreshold.Id, DbType.Int32)
+                    .Query<User>()
+                    .FirstOrDefault();
+        }
     }
 }

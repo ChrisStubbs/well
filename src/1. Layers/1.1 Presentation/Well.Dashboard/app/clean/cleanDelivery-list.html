@@ -31,6 +31,7 @@
                         <th>Invoice No</th>
                         <th>Account</th>
                         <th>Account Name</th>
+                        <th>COD</th>
                         <th>Contact</th>
                         <th>Assigned</th>
                         <th>Last updated date/time<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
@@ -43,6 +44,7 @@
                         <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                        <td><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
                         <td>
                             <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>

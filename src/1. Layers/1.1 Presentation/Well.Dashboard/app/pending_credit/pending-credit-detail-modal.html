@@ -1,0 +1,46 @@
+﻿<div *ngIf="isVisible" class="modal fade show in danger" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Line details for invoice {{pendingCredit.invoiceNumber}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive table-container">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Line No</th>
+                                <th>Product</th>
+                                <th>Description</th>
+                                <th>Value</th>
+                                <th>Inv Qty</th>
+                                <th>Del Qty</th>
+                                <th>Damaged Qty</th>
+                                <th>Short Qty</th>
+                                <th>Action</th>
+                                <th>Actioned Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let detail of details">
+                                <td>{{detail.lineNumber}}</td>
+                                <td>{{detail.productCode}}</td>
+                                <td>{{detail.productDescription}}</td>
+                                <td>{{detail.value}}</td>
+                                <td>{{detail.invoicedQuantity}}</td>
+                                <td>{{detail.deliveredQuantity}}</td>
+                                <td>{{detail.damagedQuantity}}</td>
+                                <td>{{detail.shortQuantity}}</td>
+                                <td>{{detail.action}}</td>
+                                <td>{{detail.actionQuantity}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group"><button type="button" class="btn btn-default" (click)="hide()">Close</button></div>
+            </div>
+        </div>
+    </div>
+</div>

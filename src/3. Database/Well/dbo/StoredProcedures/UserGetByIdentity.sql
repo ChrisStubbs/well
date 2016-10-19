@@ -11,6 +11,7 @@ BEGIN
 		[IdentityName],
 		[JobDescription],
 		[Domain],
+		[ThresholdLevelId],
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],

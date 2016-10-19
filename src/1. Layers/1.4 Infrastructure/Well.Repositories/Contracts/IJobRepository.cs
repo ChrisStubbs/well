@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
-
+    using System.Data;
     using Domain;
     using Domain.ValueObjects;
 
@@ -28,5 +28,9 @@
         void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
 
         CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
+
+        void CreditLines(DataTable idsTable);
+
+        void ResolveJobAndJobDetails(int jobId);
     }
 }

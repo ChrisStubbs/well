@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Transactions;
     using System.Xml.Linq;
@@ -17,21 +18,21 @@
         private readonly IJobRepository jobRepo;
         private readonly IAuditRepository auditRepo;
         private readonly IStopRepository stopRepo;
-        private readonly IJobDetailActionRepo jobDetailActionRepo;
+        private readonly IJobDetailActionRepository jobDetailActionRepository;
 
         public DeliveryService(IJobDetailRepository jobDetailRepo,
             IJobDetailDamageRepo jobDetailDamageRepo,
             IJobRepository jobRepo,
             IAuditRepository auditRepo,
             IStopRepository stopRepo,
-            IJobDetailActionRepo jobDetailActionRepo)
+            IJobDetailActionRepository jobDetailActionRepository)
         {
             this.jobDetailRepo = jobDetailRepo;
             this.jobDetailDamageRepo = jobDetailDamageRepo;
             this.jobRepo = jobRepo;
             this.auditRepo = auditRepo;
             this.stopRepo = stopRepo;
-            this.jobDetailActionRepo = jobDetailActionRepo;
+            this.jobDetailActionRepository = jobDetailActionRepository;
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
@@ -91,7 +92,7 @@
 
         public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
         {
-            jobDetailActionRepo.CurrentUser = username;
+            this.jobDetailActionRepository.CurrentUser = username;
             auditRepo.CurrentUser = username;
 
             Job job = jobRepo.GetById(jobDetailUpdates.JobId);
@@ -102,12 +103,12 @@
 
             using (var transactionScope = new TransactionScope())
             {
-                jobDetailActionRepo.DeleteDrafts(jobDetailUpdates.Id);
+                this.jobDetailActionRepository.DeleteDrafts(jobDetailUpdates.Id);
 
                 //Save draft actions
                 foreach (var action in jobDetailUpdates.Actions.Where(a => a.Status == ActionStatus.Draft))
                 {
-                    jobDetailActionRepo.Save(action);
+                    this.jobDetailActionRepository.Save(action);
                 }
 
                 //Audit changes
@@ -122,7 +123,7 @@
 
         public void SubmitActions(int jobId, string username)
         {
-            jobDetailActionRepo.CurrentUser = username;
+            this.jobDetailActionRepository.CurrentUser = username;
             auditRepo.CurrentUser = username;
 
             Job job = jobRepo.GetById(jobId);
@@ -139,7 +140,7 @@
                     foreach (var draftAction in jobDetails.Actions.Where(a => a.Status == ActionStatus.Draft))
                     {
                         draftAction.Status = ActionStatus.Submitted;
-                        jobDetailActionRepo.Update(draftAction);
+                        this.jobDetailActionRepository.Update(draftAction);
                     }
                     
                     Audit audit = jobDetails.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
@@ -152,5 +153,29 @@
                 transactionScope.Complete();
             }
         }
+
+        public void CreditLines(IEnumerable<int> creditLines)
+        {
+            var idsTable = GetIntsTable(creditLines);
+
+            this.jobRepo.CreditLines(idsTable);
+            this.jobDetailRepo.CreditLines(idsTable);
+
+        }
+
+        private DataTable GetIntsTable(IEnumerable<int> ints)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Value");
+            foreach (var i in ints)
+            {
+                DataRow row = dt.NewRow();
+                row["Value"] = i;
+                dt.Rows.Add(row);
+            }
+
+            return dt;
+        }
+
     }
 }

@@ -21,24 +21,24 @@
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IDeliveryToDetailMapper deliveryToDetailMapper;
-        private readonly IJobRepository jobRepository;
         private readonly ILogger logger;
         private readonly IDeliveryService deliveryService;
+        private readonly IJobRepository jobRepository;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
             IServerErrorResponseHandler serverErrorResponseHandler,
             IDeliveryToDetailMapper deliveryToDetailMapper,
-            IJobRepository jobRepository,
             ILogger logger,
-            IDeliveryService deliveryService)
+            IDeliveryService deliveryService,
+            IJobRepository jobRepository)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.deliveryToDetailMapper = deliveryToDetailMapper;
-            this.jobRepository = jobRepository;
             this.logger = logger;
             this.deliveryService = deliveryService;
+            this.jobRepository = jobRepository;
         }
 
         [HttpGet]
@@ -148,5 +148,36 @@
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        [HttpPost]
+        [Route("deliveries-creditlines/{creditlines}")]
+        public HttpResponseMessage CreditLines(IEnumerable<int> creditLines)
+        {
+            try
+            {
+                if (creditLines == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
+                    {
+                        Message = "No I'ds given for updated credited job lines",
+                        Errors = new List<string>()
+                        {
+                            $"No Id's given for updated credited job lines."
+                        }
+                    });
+                }
+
+                this.deliveryService.CreditLines(creditLines);
+
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+                
+            }
+            catch (Exception ex)
+            {
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when crediting Job lines");
+            }
+        }
+
+
     }
 }

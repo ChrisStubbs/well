@@ -24,6 +24,7 @@
 	[AllowReOrd] BIT NULL DEFAULT 0,
 	[SandwchOrd] BIT NULL DEFAULT 0,
 	[ComdtyType] NVARCHAR(1) NULL,
+	[TotalCreditValueForThreshold] DECIMAL(8,2) NULL,
 	[PerformanceStatusId] TINYINT NULL,
 	[ByPassReasonId] TINYINT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,

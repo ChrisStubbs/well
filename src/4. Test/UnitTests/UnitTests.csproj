@@ -113,6 +113,8 @@
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineActionsControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
+    <Compile Include="Api\Controllers\ExceptionEventControllerTests.cs" />
+    <Compile Include="Api\Controllers\PendingCreditControllerTests.cs" />
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
     <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
     <Compile Include="Infrastructure\BranchRepositoryTests.cs" />
     <Compile Include="Infrastructure\CleanPreferenceRepositoryTests.cs" />
+    <Compile Include="Infrastructure\CreditThresholdRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeliveryReadRepositoryTests.cs" />
     <Compile Include="Infrastructure\ExceptionEventRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
@@ -158,12 +161,14 @@
     <Compile Include="Infrastructure\SeasonalDateRepositoryTests.cs" />
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserRepositoryTests.cs" />
+    <Compile Include="Infrastructure\UserStatsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />
+    <Compile Include="Services\UserThresholdServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

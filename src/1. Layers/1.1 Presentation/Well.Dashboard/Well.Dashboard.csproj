@@ -241,6 +241,9 @@
     <Content Include="app\home\widgetGraph.html" />
     <Content Include="app\notifications\notification-archive-modal.html" />
     <Content Include="app\notifications\notifications-list.html" />
+    <Content Include="app\pending_credit\pending-credit-confirmation.html" />
+    <Content Include="app\pending_credit\pending-credit-detail-modal.html" />
+    <Content Include="app\pending_credit\pending-credit.html" />
     <Content Include="app\resolved\resolveddelivery-list.html" />
     <Content Include="app\route_header\delivery-selection-modal.html" />
     <Content Include="app\route_header\routeheader-list.html" />
@@ -250,6 +253,7 @@
     <Content Include="app\seasonal_dates\seasonal-dates-edit-modal.html" />
     <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\branch\branch-select.html" />
+    <Content Include="app\shared\cashOnDelivery.html" />
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\confirmModal.html" />
@@ -395,6 +399,11 @@
     <TypeScriptCompile Include="app\delivery\model\action.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryLineAction.ts" />
     <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />
+    <TypeScriptCompile Include="app\pending_credit\pendingCreditComponent.ts" />
+    <TypeScriptCompile Include="app\pending_credit\pendingCreditConfirmationModal.ts" />
+    <TypeScriptCompile Include="app\pending_credit\pendingCreditDetail.ts" />
+    <TypeScriptCompile Include="app\pending_credit\pendingCreditDetailModal.ts" />
+    <TypeScriptCompile Include="app\pending_credit\pendingCreditService.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
     <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesEditModalComponent.ts" />
@@ -432,6 +441,7 @@
     <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
     <TypeScriptCompile Include="app\shared\assignModal.ts" />
     <TypeScriptCompile Include="app\shared\branch\branchCheckboxComponent.ts" />
+    <TypeScriptCompile Include="app\shared\codComponent.ts" />
     <TypeScriptCompile Include="app\shared\contactModal.ts" />
     <TypeScriptCompile Include="app\shared\logService.ts" />
     <TypeScriptCompile Include="app\shared\httpResponse.ts" />

@@ -12,6 +12,7 @@
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             CurrentUserName = new SpanElement() { Locator = By.Id("current-user-name") };
+            CashOnDelivery = new SpanElement() { Locator = By.Id("isCod") };
 
             AccountModal = new AccountModalComponent();
             AssignModal = new AssignModal(Driver);
@@ -28,9 +29,24 @@
         public AssignModal AssignModal { get; set; }
         public SpanElement CurrentUserName { get; set; }
 
+        public SpanElement CashOnDelivery { get; set; }
+
         public IWebElement GetLoggedInAssignUserFromModal()
         {
             return AssignModal.GetUserFromModal(CurrentUserName.Text);
+        }
+
+        public bool IsElementPresent(string elementName)
+        {
+            try
+            {
+                this.Driver.FindElement(By.Id(elementName));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 
@@ -40,9 +56,10 @@
         Drop = 1,
         InvoiceNo = 2,
         Account = 3,
-        AccountName= 4,
-        Contact= 5,
-        Assigned = 6,
+        AccountName = 4,
+        CashOnDelivery = 5,
+        Contact= 6,
+        Assigned = 7,
         LastUpdatedDateTime = 7
     }
 }

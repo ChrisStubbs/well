@@ -77,7 +77,14 @@ export class NotificationsComponent implements OnInit {
     }
 
     onArchived(notification: Notification) {
+        var preEventNotifications = this.notifications.length;
+        var isLastNotificationOnPage = preEventNotifications % this.rowCount === 1;
         lodash.remove(this.notifications, notification);
+
+        if (isLastNotificationOnPage)
+        {
+            location.reload();
+        }       
     }
 
 

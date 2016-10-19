@@ -19,7 +19,8 @@ BEGIN
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
 		b.Id as BranchId,
 		u2.IdentityName,
-		j.COD as CashOnDelivery
+		j.COD as CashOnDelivery,
+		j.TotalCreditValueForThreshold
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -46,9 +47,7 @@ BEGIN
 		u.IdentityName = @UserName
 	AND 
 		j.InvoiceNumber IS NOT NULL
-	AND 
-		j.COD IS NOT NULL
-	AND 
+	AND
 		rh.IsDeleted = 0
 	AND
 		s.IsDeleted = 0

@@ -8,6 +8,7 @@
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
+    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
 
     using WebGrease.Css.Extensions;
@@ -68,6 +69,22 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdDelete)
                 .AddParameter("Id", id, DbType.Int32).Execute();
+        }
+
+        public IEnumerable<CreditThreshold> GetByBranch(int branchId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdByBranch)
+                .AddParameter("branchId", branchId, DbType.Int32)
+                .Query<CreditThreshold>();
+        }
+
+        public void AssignPendingCreditToUser(User user, CreditEvent creditEvent, string originator)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser)
+                .AddParameter("userId", user.Id, DbType.Int32)
+                .AddParameter("invoiceNumber", creditEvent.InvoiceNumber, DbType.String)
+                .AddParameter("originator", originator, DbType.String)
+                .Execute();
         }
     }
 }

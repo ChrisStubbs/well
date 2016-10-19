@@ -15,6 +15,7 @@ import {RefreshService} from '../shared/refreshService';
 import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
+import {CodComponent} from '../shared/codComponent';
 import * as lodash from 'lodash';
 
 @Component({

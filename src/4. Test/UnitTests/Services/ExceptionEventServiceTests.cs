@@ -16,6 +16,8 @@
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
+        private Mock<IJobRepository> jobRepository;
+
         private ExceptionEventService service;
 
         [SetUp]
@@ -23,8 +25,9 @@
         {
             this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
+            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
 
-            this.service = new ExceptionEventService(this.adamRepository.Object, this.exceptionEventRepository.Object);
+            this.service = new ExceptionEventService(this.adamRepository.Object, this.exceptionEventRepository.Object, this.jobRepository.Object);
         }
 
         public class TheCreditMethod : ExceptionEventServiceTests
@@ -33,11 +36,13 @@
             public void ShouldCreditTheInvoice()
             {
                 var username = "foo";
-                var creditEvent = new CreditEvent { BranchId = 1, InvoiceNumber = "322111.001" };
+                var creditEvent = new CreditEvent { BranchId = 1, InvoiceNumber = "322111.001", Id = 101 };
                 var adamSettings = new AdamSettings();
 
                 this.adamRepository.Setup(x => x.Credit(creditEvent, adamSettings))
                     .Returns(AdamResponse.Success);
+
+                this.jobRepository.Setup(x => x.ResolveJobAndJobDetails(creditEvent.Id));
 
                 var response = this.service.Credit(creditEvent, adamSettings, username);
 

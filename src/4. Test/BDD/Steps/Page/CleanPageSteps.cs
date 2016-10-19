@@ -67,7 +67,6 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-                // Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
             }
         }
 
@@ -84,12 +83,33 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-               // Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
             }
         }
 
+        [Then(@"the following clean with cash on delivery deliveries will be displayed")]
+        public void ThenTheFollowingCleanWithCashOnDeliveryDeliveriesWillBeDisplayed(Table table)
+        {
+            var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.CashOnDelivery), Is.EqualTo(table.Rows[i]["Status"]));
+            }
+        }
 
-
+        [Then(@"the cod delivery icon is not displayed in row (.*)")]
+        public void ThenTheCodDeliveryIconIsNotDisplayedInRow(int firstRow)
+        {
+            var row = firstRow - 1;
+            var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(5);
+            Assert.That(cashOnDeliveryIcon, Is.Empty);
+        }
 
         [When(@"I click on clean delivery page (.*)")]
         public void WhenIClickOnCleanDeliveryPage(int pageNo)

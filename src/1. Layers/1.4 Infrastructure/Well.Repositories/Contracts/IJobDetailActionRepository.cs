@@ -2,7 +2,7 @@
 {
     using Domain;
 
-    public interface IJobDetailActionRepo : IRepository<JobDetailAction, int>
+    public interface IJobDetailActionRepository : IRepository<JobDetailAction, int>
     {
         void DeleteDrafts(int jobDetailId);
     }

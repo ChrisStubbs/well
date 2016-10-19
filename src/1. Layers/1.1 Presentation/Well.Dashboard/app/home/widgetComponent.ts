@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+﻿import {Component, OnInit, ViewChild}  from '@angular/core';
 import {NavigationExtras, Router} from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
@@ -7,7 +7,8 @@ import {WidgetService} from './widgetService';
 import {RefreshService} from '../shared/refreshService';
 import {SecurityService} from '../shared/security/securityService';
 import {WidgetGraphComponent} from './widgetGraphComponent';
-import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
+import { UnauthorisedComponent } from '../unauthorised/unauthorisedComponent';
+import * as lodash from 'lodash';
 
 @Component({
     templateUrl: './app/home/widgets.html'
@@ -39,10 +40,13 @@ export class WidgetComponent implements OnInit {
     getWidgets() {
         this.widgetService.getWidgets()
             .subscribe(widgets => {
+                let graphWidgets = lodash.filter(widgets, function(widget) {
+                    return widget.showOnGraph === true;
+                });
                 this.widgets = widgets;
-                let graphlabels: string[] = widgets.map(widget => { return widget.name; });
-                let graphData: any[] = widgets.map(widget => { return widget.count; });
-                let graphWarnings = widgets.map(widget => { return widget.showWarning; });
+                let graphlabels: string[] = graphWidgets.map(widget => { return widget.name; });
+                let graphData: any[] = graphWidgets.map(widget => { return widget.count; });
+                let graphWarnings = graphWidgets.map(widget => { return widget.showWarning; });
                 this.widgetGraph.init(graphlabels, graphData, graphWarnings, new Date());
             });
     }

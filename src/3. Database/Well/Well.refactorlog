@@ -63,4 +63,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="RoyaltyCode" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="17dbad91-573c-4308-94d0-db9eb1d96719" ChangeDateTime="10/10/2016 10:50:13">
+    <Property Name="ElementName" Value="[dbo].[WidgetBranch].[Threshold]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WidgetBranch]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WarningLevel" />
+  </Operation>
 </Operations>

@@ -261,6 +261,10 @@
     <Content Include="app\user_preferences\user-preferences.html" />
     <Content Include="app\user_threshold\user-threshold-level.html" />
     <Content Include="app\user_threshold\user-threshold.html" />
+    <Content Include="app\widget_warnings\widget-warning-add-modal.html" />
+    <Content Include="app\widget_warnings\widget-warning-edit-modal.html" />
+    <Content Include="app\widget_warnings\widget-warning-remove-modal.html" />
+    <Content Include="app\widget_warnings\widget-warnings-view.html" />
     <Content Include="Content\css\6-chasing-dots.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap-responsive.min.css" />
@@ -350,6 +354,12 @@
     <Content Include="typings.json" />
     <Content Include="Views\Home\AppLayout.cshtml" />
     <Content Include="Well.Dashboard.nuspec" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarning.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningAddModalComponent.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\WidgetWarningEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningRemoveModalComponent.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningService.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningsViewComponent.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

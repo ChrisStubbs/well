@@ -118,5 +118,11 @@
         public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
 
         public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
+
+        public static string WidgetWarningSave = "WidgetWarning_Save";
+        public static string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
+        public static string WidgetWarningGetAll = "WidgetWarning_GetAll";
+        public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
+        public static string WidgetWarningDelete= "WidgetWarningDelete";
     }
 }

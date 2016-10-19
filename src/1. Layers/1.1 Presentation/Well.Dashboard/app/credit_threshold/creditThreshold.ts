@@ -5,5 +5,5 @@ export class CreditThreshold {
     branchName: string;
     thresholdLevel: string;
     threshold: number;
-    branches: Branch[]
+    branches: Branch[];
 }

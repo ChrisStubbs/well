@@ -234,6 +234,15 @@
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceByBranchGet.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesByBranchGet.sql" />
+    <Build Include="dbo\Tables\Widget.sql" />
+    <Build Include="dbo\Tables\WidgetToBranch.sql" />
+    <Build Include="dbo\StoredProcedures\WidgetWarning_Save.sql" />
+    <Build Include="dbo\StoredProcedures\WidgetWarning_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\WidgetWarningBranchesGet.sql" />
+    <Build Include="dbo\StoredProcedures\WidgetWarningToBranchSave.sql" />
+    <Build Include="dbo\StoredProcedures\WidgetWarningDelete.sql" />
+    <Build Include="dbo\Tables\WidgetType.sql" />
+    <None Include="Post-Deployement\Populate-WidgetType.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

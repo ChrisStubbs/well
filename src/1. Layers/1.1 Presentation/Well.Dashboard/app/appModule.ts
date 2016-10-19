@@ -57,6 +57,10 @@ import {CreditThresholdAddModalComponent} from './credit_threshold/creditThresho
 import {CreditThresholdEditModalComponent} from './credit_threshold/creditThresholdEditModalComponent';
 import {NotificationModalComponent} from './notifications/notificationModalComponent';
 import AppRoutes = require("./appRoutes");
+import {WidgetWarningsViewComponent} from './widget_warnings/widgetWarningsViewComponent';
+import {WidgetWarningAddModalComponent} from './widget_warnings/widgetWarningAddModalComponent';
+import {WidgetWarningRemoveModalComponent} from './widget_warnings/widgetWarningRemoveModalComponent';
+import {WidgetWarningEditModalComponent} from './widget_warnings/widgetWarningEditModalComponent';
 
 import {AccountService} from './account/accountService';
 import {AuditService} from './audit/auditService';
@@ -72,6 +76,7 @@ import {SeasonalDateService} from './seasonal_dates/seasonalDateService';
 import {CreditThresholdService} from './credit_threshold/creditThresholdService';
 import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService';
 import {UserService} from './shared/userService';
+import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -84,7 +89,8 @@ import {UserService} from './shared/userService';
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
-        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent
+        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
+        WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing
@@ -92,7 +98,7 @@ import {UserService} from './shared/userService';
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService,
+        CleanPreferenceService, UserService, WidgetWarningService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

@@ -21,21 +21,29 @@ namespace PH.Well.UnitTests.Api.Controllers
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Services.Contracts;
     using PH.Well.UnitTests.Factories;
+    using Well.Api.Mapper.Contracts;
     using Well.Api.Models;
+    using Well.Api.Validators.Contracts;
 
     [TestFixture]
     public class WidgetControllerTests : BaseControllerTests<WidgetController>
     {
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
         private Mock<IUserStatsRepository> userStatsRepository;
+        private Mock<ILogger> logger;
+        private Mock<IWidgetRepository> widgetRepository;
+        private Mock<IWidgetWarningMapper> mapper;
+        private Mock<IWidgetWarningValidator> validator;
 
         [SetUp]
         public void Setup()
         {
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             userStatsRepository = new Mock<IUserStatsRepository>(MockBehavior.Strict);
+            logger = new Mock<ILogger>(MockBehavior.Strict);
+            widgetRepository = new Mock<IWidgetRepository>(MockBehavior.Strict);
 
-            this.Controller = new WidgetController(serverErrorResponseHandler.Object, userStatsRepository.Object);
+            this.Controller = new WidgetController(serverErrorResponseHandler.Object, userStatsRepository.Object, logger.Object, widgetRepository.Object, mapper.Object, validator.Object);
             SetupController();
         }
 

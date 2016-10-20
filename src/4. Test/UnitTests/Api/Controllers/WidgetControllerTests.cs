@@ -45,7 +45,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             mapper = new Mock<IWidgetWarningMapper>(MockBehavior.Strict);
             validator = new Mock<IWidgetWarningValidator>(MockBehavior.Strict);
 
-            this.widgetRepository.SetupSet(x => x.CurrentUser = "foo");
+            this.widgetRepository.SetupSet(x => x.CurrentUser = "");
 
             this.Controller = new WidgetController(serverErrorResponseHandler.Object, userStatsRepository.Object, logger.Object, widgetRepository.Object, mapper.Object, validator.Object);
             SetupController();

@@ -63,6 +63,7 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="Post-Deployement" />
     <Folder Include="dbo\Types" />
+    <Folder Include="dbo\Functions" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deploy.ps1">
@@ -263,6 +264,11 @@
     <Build Include="dbo\StoredProcedures\AssignPendingCreditToUser.sql" />
     <Build Include="dbo\StoredProcedures\ResolveJobAndJobDetails.sql" />
     <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
+    <Build Include="dbo\Functions\WidgetType_Exceptions.sql" />
+    <Build Include="dbo\Functions\WidgetType_Outstanding.sql" />
+    <Build Include="dbo\Functions\WidgetType_Assigned.sql" />
+    <Build Include="dbo\Functions\WidgetType_Notifications.sql" />
+    <Build Include="dbo\StoredProcedures\WidgetWarningLevelsByUserGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

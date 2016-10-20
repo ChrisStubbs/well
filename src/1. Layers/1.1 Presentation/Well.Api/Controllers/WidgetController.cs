@@ -52,8 +52,7 @@
             {
                 var userStats = userStatsRepository.GetByUser(UserIdentityName);
                 var pendingCreditCount = this.userStatsRepository.GetPendingCreditCountByUser(UserIdentityName);
-
-                // get the warning level here
+                var warningLevels = this.userStatsRepository.GetWidgetWarningLevels(UserIdentityName);
 
                 var widgets = new List<WidgetModel>()
                 {
@@ -61,7 +60,7 @@
                     {
                         Name = "Pending Authorisation",
                         Count = pendingCreditCount,
-                        Description = "Credit's awaiting your authorisation",
+                        Description = "Credits awaiting your authorisation",
                         SortOrder = 1,
                         Link = "/pending-credit",
                         LinkText = "pending credits",
@@ -76,7 +75,7 @@
                         SortOrder = 2,
                         Link = "/exceptions",
                         LinkText = "deliveries with exceptions",
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.ExceptionWarningLevel ?? 10,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -87,7 +86,7 @@
                         SortOrder = 3,
                         Link = "/exceptions",
                         LinkText = "exceptions assigned to you",
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.AssignedWarningLevel ?? 10,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -98,7 +97,7 @@
                         SortOrder = 4,
                         Link = "/exceptions",
                         LinkText = "outstanding exceptions",
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.OutstandingWarningLevel ?? 10,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -109,7 +108,7 @@
                         Link = "/notifications",
                         LinkText = "notifications",
                         SortOrder = 5,
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.NotificationsWarningLevel ?? 10,
                         ShowOnGraph = true
                     }
                 };

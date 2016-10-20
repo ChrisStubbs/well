@@ -129,11 +129,15 @@
         public static string WidgetWarningSave = "WidgetWarning_Save";
         public static string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
         public static string WidgetWarningGetAll = "WidgetWarning_GetAll";
+        public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
+        public static string WidgetWarningDelete = "WidgetWarningDelete";
+        public static string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
+
+
         public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
         public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";
         public static string CreditJob = "Job_CreditLines";
         public static string RemovePendingCredit = "RemovePendingCredit";
-        public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
-        public static string WidgetWarningDelete= "WidgetWarningDelete";
+
     }
 }

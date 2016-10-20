@@ -7,5 +7,7 @@
         UserStats GetByUser(string userIdentity);
 
         int GetPendingCreditCountByUser(string userIdentity);
+
+        WidgetWarningLevels GetWidgetWarningLevels(string userIdentity);
     }
 }

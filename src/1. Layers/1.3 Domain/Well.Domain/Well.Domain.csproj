@@ -123,6 +123,7 @@
     <Compile Include="ValueObjects\OrderJob.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
     <Compile Include="ValueObjects\UserJob.cs" />
+    <Compile Include="ValueObjects\WidgetWarningLevels.cs" />
     <Compile Include="WidgetWarning.cs" />
   </ItemGroup>
   <ItemGroup>

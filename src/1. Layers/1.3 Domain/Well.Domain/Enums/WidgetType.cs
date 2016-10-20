@@ -6,9 +6,9 @@
     {
         [Description("Exceptions")]
         Exceptions = 1,
-        [Description("Outstanding")]
-        Outstanding = 2,
         [Description("Assigned")]
+        Outstanding = 2,
+        [Description("Outstanding")]
         Assigned = 3,
         [Description("Notifications")]
         Notifications = 4

@@ -30,5 +30,13 @@
                     .Query<int>()
                     .SingleOrDefault();
         }
+
+        public WidgetWarningLevels GetWidgetWarningLevels(string userIdentity)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.WidgetWarningLevelsByUserGet)
+               .AddParameter("UserIdentity", userIdentity, DbType.String)
+               .Query<WidgetWarningLevels>()
+               .SingleOrDefault();
+        }
     }
 }

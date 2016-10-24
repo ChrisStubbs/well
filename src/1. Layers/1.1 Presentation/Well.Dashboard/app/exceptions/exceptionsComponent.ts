@@ -24,7 +24,7 @@ import {CodComponent} from '../shared/codComponent';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import {IThreshold} from '../shared/threshold';
+import {Threshold} from '../shared/threshold';
 import * as lodash from 'lodash';
 import * as jquery from 'jquery';
 
@@ -72,9 +72,8 @@ export class ExceptionsComponent implements OnInit {
     selectedOption: DropDownItem;
     selectedFilter: string;
     outstandingFilter: boolean = false;
-    deliveryCredits: any[];
-    approvalCredits: any[];
-    creditList:CreditItem[];
+    creditList: CreditItem[];
+    threshold:number;
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
     value: string;
@@ -84,7 +83,7 @@ export class ExceptionsComponent implements OnInit {
     selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal)
-    thresholdLimit: IThreshold;
+    thresholdLimit: Threshold;
     private contactModal: ContactModal;
 
     constructor(
@@ -109,11 +108,10 @@ export class ExceptionsComponent implements OnInit {
             this.routeId = params['route'];
             this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
-            this.deliveryCredits = [];
-            this.approvalCredits = [];
             this.getExceptions();
             this.getThresholdLimit();
             this.creditList = Array<CreditItem>();
+       
 
         });
     }
@@ -153,7 +151,8 @@ export class ExceptionsComponent implements OnInit {
 
         this.exceptionDeliveryService.getUserCreditThreshold(this.globalSettingsService.globalSettings.userName)
             .subscribe(responseData => {
-                this.thresholdLimit = responseData;
+                this.threshold = responseData[0];
+               
             });
     }
 
@@ -178,13 +177,12 @@ export class ExceptionsComponent implements OnInit {
     }
 
     isAboveThresholdLimit(amount) {
-        return parseFloat(amount) > parseFloat(this.thresholdLimit[0]);
+        return parseFloat(amount) > this.threshold;
     }
 
     isChecked(exceptionid) {
         var creditListIndex = this.getCreditListIndex(exceptionid);
 
-        console.log(exceptionid + '  ' + creditListIndex);
 
         if (creditListIndex === -1) {
             return '';
@@ -194,7 +192,6 @@ export class ExceptionsComponent implements OnInit {
     }
 
     creditListlength() {
-        console.log(this.creditList.length);
         return this.creditList.length;
     }
 

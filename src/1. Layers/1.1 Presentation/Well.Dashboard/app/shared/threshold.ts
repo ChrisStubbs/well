@@ -1,3 +1,3 @@
-﻿export interface IThreshold {
+﻿export class Threshold {
     thresholdAmount: number;
 }

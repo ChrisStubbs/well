@@ -8,7 +8,7 @@ import {HttpErrorService} from '../shared/httpErrorService';
 import {IUser} from '../shared/user';
 import {UserJob} from '../shared/userJob';
 import {LogService} from '../shared/logService';
-import {IThreshold} from '../shared/threshold';
+import {Threshold} from '../shared/threshold';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -58,12 +58,12 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getUserCreditThreshold(user): Observable<IThreshold> {
+    getUserCreditThreshold(user): Observable<any> {
 
         var url = this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/getByUser';
 
         return this.http.get(url)
-            .map((response: Response) => <IThreshold>response.json())
+            .map((response: Response) => <any>response.json())
             .do(data => this.logService.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }

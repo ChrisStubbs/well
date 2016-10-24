@@ -85,8 +85,19 @@ namespace PH.Well.UnitTests.Api.Controllers
                     NotificationsCount = 7,
                     OutstandingCount = 8
                 };
+
                 userStatsRepository.Setup(r => r.GetByUser(userIdentity)).Returns(stats);
                 this.userStatsRepository.Setup(r => r.GetPendingCreditCountByUser(userIdentity)).Returns(56);
+
+                var warnings = new WidgetWarningLevels()
+                {
+                    ExceptionWarningLevel = 2,
+                    OutstandingWarningLevel = 2,
+                    AssignedWarningLevel = 2,
+                    NotificationsWarningLevel = 2
+                };
+
+                this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(warnings);
 
                 var result = Controller.Get();
 
@@ -98,6 +109,11 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.AreEqual(stats.OutstandingCount, response.SingleOrDefault(r => r.Name == "Outstanding").Count);
 
                 this.userStatsRepository.Verify(r => r.GetPendingCreditCountByUser(userIdentity), Times.Once);
+
+                Assert.AreEqual(warnings.ExceptionWarningLevel, response.Single(r => r.Name == "Exceptions").WarningLevel);
+                Assert.AreEqual(warnings.AssignedWarningLevel, response.Single(r => r.Name == "Assigned").WarningLevel);
+                Assert.AreEqual(warnings.NotificationsWarningLevel, response.SingleOrDefault(r => r.Name == "Notifications").WarningLevel);
+                Assert.AreEqual(warnings.OutstandingWarningLevel, response.SingleOrDefault(r => r.Name == "Outstanding").WarningLevel);
             }
         }
     }

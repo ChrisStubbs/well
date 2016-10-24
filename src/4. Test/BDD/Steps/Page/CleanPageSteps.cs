@@ -1,4 +1,10 @@
-﻿namespace PH.Well.BDD.Steps.Page
+﻿using System;
+using System.Reflection;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+using PH.Well.BDD.Framework;
+
+namespace PH.Well.BDD.Steps.Page
 {
     using System.Linq;
     using System.Threading;
@@ -124,6 +130,20 @@
             var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
             Assert.That(pageRows.Count, Is.EqualTo(noOfRowsExpected));
         }
+
+        [Then(@"At least '(.*)' rows of clean delivery data will be displayed")]
+        public void ThenAtLeastRowsOfCleanDeliveryDataWillBeDisplayed(int noOfRowsExpected)
+        {
+            var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            Assert.That(pageRows.Count, Is.GreaterThanOrEqualTo(noOfRowsExpected));
+        }
+
+        [Then(@"No clean deliveries will be displayed")]
+        public void ThenNoCleanDeliveriesWillBeDisplayed()
+        {
+            Assert.That(CleanDeliveriesPage.IsElementPresent("noDeliveries"));
+        }
+
 
         [Then(@"I will have (.*) pages of clean delivery data")]
         public void CheckNoOfPages(int noOfPages)

@@ -184,7 +184,7 @@
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
-    <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
+    <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
     <Compile Include="Framework\WebElements\CreditThresholdButtonDropDown.cs" />

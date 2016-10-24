@@ -5,7 +5,7 @@
     using PH.Well.BDD.Pages;
 
     using TechTalk.SpecFlow;
-
+    
     [Binding]
     public class BranchParametersSteps
     {
@@ -16,6 +16,7 @@
 
         [Given("I navigate to the branch parameters page")]
         [Then("I navigate to the branch parameters page")]
+        [When("I navigate to the branch parameters page")]
         public void NavigateToBranchParameters()
         {
             this.page.Open();
@@ -99,6 +100,13 @@
         {
             this.branchPage.SelectAllBranchesCheckbox.Check();
         }
+
+        [When(@"Medway is selected for the clean parameter")]
+        public void OneBranchCleanParameter()
+        {
+            this.branchPage.Medway.Check();
+        }
+
 
         [When("I save the seasonal date")]
         [When("I update the seasonal date")]
@@ -246,5 +254,14 @@
         {
             Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
         }
+
+        [When("the well clean has run")]
+        public void RunWellClean()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
+
     }
-}
+}  

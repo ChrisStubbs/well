@@ -1,8 +1,6 @@
-﻿namespace PH.Well.BDD.Framework.Extensions
+﻿namespace PH.Well.BDD.XmlFileHelper
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.IO;
     using System.Xml;
 

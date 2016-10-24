@@ -1,4 +1,6 @@
-﻿namespace PH.Well.BDD.Steps
+﻿using PH.Well.BDD.XmlFileHelper;
+
+namespace PH.Well.BDD.Steps
 {
     using System.IO;
     using System;

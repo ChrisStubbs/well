@@ -43,6 +43,7 @@
         }
 
         [When("I select branch (.*)")]
+        [When("I deselect branch (.*)")]
         public void SelectBranch(string branch)
         {
             this.branchPage.GetCheckBox(branch).Click();

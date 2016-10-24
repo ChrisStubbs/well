@@ -113,6 +113,7 @@
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
             SetDeliveryStatus(PerformanceStatus.Compl, 10000);
+            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
         [Given(@"The clean deliveries are (.*) days old")]
@@ -120,8 +121,17 @@
         {
             var cleanDate = DateTime.Now.AddDays(daysOld);
 
-            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET DateCreated = '{cleanDate}'");
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET DateUpdated = '{cleanDate}'");
         }
+
+        [Given(@"Clean deliveries are updated to (.*) days old")]
+        public void CleanDeliveriesAreUpdated(int daysOld)
+        {
+            var cleanDate = DateTime.Now.AddDays(daysOld);
+
+            this.dapperProxy.ExecuteSql($"UPDATE Stop SET DeliveryDate = '{cleanDate}'");
+        }
+
 
         [Given(@"All the deliveries are marked as Resolved")]
         public void GivenAllTheDeliveriesAreMarkedAsResolved()
@@ -220,6 +230,15 @@
             SetUpUserBranch(user.Name, branch);
         }
 
+        [Given(@"I have selected branches '(.*)' and '(.*)'")]
+        public void GivenIHaveSelectedBranchesAnd(int branch1, int branch2)
+        {
+            var user = SetUpUser();
+            SetUpUserBranch(user.Name, branch1);
+            SetUpUserBranch(user.Name, branch2);
+        }
+
+
         [Given(@"I have selected branch (.*) for user identity: (.*)")]
         public void GivenIHaveSelectedBranch(int branch, string userIdentity)
         {
@@ -267,6 +286,7 @@
         }
 
 
+
         [Then(@"the first (.*) rows are credited and no longer on the exceptions grid")]
         public void ThenTheFirstRowsAreCreditedAndNoLongerOnTheExceptionsGrid(int rows)
         {
@@ -306,6 +326,12 @@
                 notificationRepository.SaveNotification(notification);
 
             }
+        }
+
+        [Given(@"'(.*)' clean deliveries are updated to branch '(.*)'")]
+        public void GivenCleanDeliveriesAreUpdateTo(int noOfDeliveries, int location)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP({noOfDeliveries}) RouteHeader SET StartDepotCode = '{location}'");
         }
     }
 }

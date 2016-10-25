@@ -220,4 +220,4 @@ Scenario: Clean parameters applied one branch
 	And I deselect branch Medway
 	And I save my branches
 	And I open the clean deliveries
-	Then No clean deliveries will be displayed
+	Then No clean deliveries will be displayed 

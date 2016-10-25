@@ -17,6 +17,7 @@
     public class ExceptionPageSteps
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
+        private UserCreditThresholdPage UserCreditThresholdPage => new UserCreditThresholdPage();
         private IJobRepository jobRepository;
         private readonly IContainer container;
 
@@ -366,6 +367,42 @@
             var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(5);
             Assert.That(cashOnDeliveryIcon, Is.Empty);
         }
+
+        [Then(@"the user credit threshold page is opened")]
+        public void ThenTheUserCreditThresholdPageIsOpened()
+        {
+            UserCreditThresholdPage.Open("/user-threshold-level/Gary.Williams");
+        }
+
+
+        [When(@"I select Level1 from the dropdown list")]
+        public void WhenISelectLevelFromTheDropdownList()
+        {
+            this.UserCreditThresholdPage.dropdown.SelectLevel1();
+        }
+
+        [When(@"I click the Save button")]
+        public void WhenIClickTheSaveButton()
+        {
+            this.UserCreditThresholdPage.SaveButton.Click();
+        }
+
+        [Then(@"the Credit Confirm modal is displayed")]
+        public void ThenTheCreditConfirmModalIsDisplayed(Table table)
+        {
+            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            CreditModalSteps.CompareModal(table, modal);
+        }
+
+        [When(@"I click the save button on the modal")]
+        public void WhenIClickTheSaveButtonOnTheModal()
+        {
+            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            modal.ConfirmButton.Click();
+            Thread.Sleep(2000);
+        }
+
+
 
 
 

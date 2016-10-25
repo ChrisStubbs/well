@@ -151,7 +151,7 @@
 
         [HttpPost]
         [Route("deliveries-creditlines/{creditlines}")]
-        public HttpResponseMessage CreditLines(IEnumerable<int> creditLines)
+        public HttpResponseMessage CreditLines(IEnumerable<CreditLines> creditLines)
         {
             try
             {
@@ -167,7 +167,7 @@
                     });
                 }
 
-                this.deliveryService.CreditLines(creditLines);
+                this.deliveryService.CreditLines(creditLines, this.UserIdentityName);
 
                 return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 

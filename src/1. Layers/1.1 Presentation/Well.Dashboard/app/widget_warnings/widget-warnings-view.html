@@ -1,0 +1,28 @@
+﻿<div class="table-responsive table-container">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Description</th>
+            <th>Widget</th>
+            <th>Warning Level</th>
+            <th>Branches</th>
+            <th style="text-align: right;"><button id="add-widget-warning" type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="widgetWarnings && widgetWarnings.length === 0">
+            <td id="widgetWarnings-no-results" colspan="5">No Widget Warnings!</td>
+        </tr>
+        <tr class="grid-row" *ngFor="let x of widgetWarnings">
+            <td (click)="selectWarning(x)" id="warning-description-{{x.id}}">{{x.widgetName}}</td>
+            <td (click)="selectWarning(x)" id="warning-type-{{x.id}}">{{x.type}}</td>
+            <td (click)="selectWarning(x)" id="warning-level-{{x.id}}">{{x.warningLevel}}</td>
+            <td (click)="selectWarning(x)" id="warning-branch-{{x.id}}">{{x.branchName}}</td>
+            <td id="warning-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<ow-widget-warning-add-modal (onWidgetWarningSave)="loadWidgetWarnings($event)"></ow-widget-warning-add-modal>
+<ow-widget-warning-edit-modal (onWidgetWarningUpdate)="loadWidgetWarnings($event)"></ow-widget-warning-edit-modal>
+<ow-widget-warning-remove-modal (onWidgetWarningRemoved)="onWidgetWarningRemoved($event)"></ow-widget-warning-remove-modal>

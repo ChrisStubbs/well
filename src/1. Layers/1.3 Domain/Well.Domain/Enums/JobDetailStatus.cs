@@ -15,5 +15,8 @@
 
         [Description("Awaiting Invoice Number")]
         AwtInvNum = 4,
+
+        [Description("Pending Authorisation")]
+        PendingAuthorisation = 5
     }
 }

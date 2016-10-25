@@ -51,6 +51,7 @@
             DeleteAndReseed("Stop");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
+            DeleteAndReseed("PendingCreditToUser");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
             DeleteAndReseed("Audit");
@@ -333,6 +334,46 @@
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP({noOfDeliveries}) RouteHeader SET StartDepotCode = '{location}'");
         }
+
+
+        [Then(@"a threshold level of (.*) has a value of (.*)")]
+        public void ThenAThresholdLevelOfHasAValueOf(int thresholdLevel, decimal thresholdValue)
+        {
+            var sql = $"SELECT Threshold FROM [dbo].[CreditThreshold] WHERE ThresholdLevelId = {thresholdLevel}";
+            var value = this.dapperProxy.SqlQuery<decimal>(sql).FirstOrDefault();
+            Assert.That(value, Is.EqualTo(thresholdValue));
+        }
+
+        [Then(@"I have a threshold level of (.*)")]
+        public void ThenIHaveAThresholdLevelOf(int thresholdLevel)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE [dbo].[User] SET ThresholdLevelId= {thresholdLevel}");
+        }
+
+
+        [Then(@"I have (.*) resolved deliveries")]
+        public void ThenIHaveResolvedDeliveries(int resolvedDeliveries)
+        {
+            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 8";
+            var value = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
+            Assert.That(value, Is.EqualTo(resolvedDeliveries));
+        }
+
+        [Then(@"I have (.*) pending and (.*) resolved delivery")]
+        public void ThenIHavePendingAndResolvedDelivery(int pendingDelivery, int resolvedDelivery)
+        {
+            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 9";
+            var pendingValue = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
+
+            sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 8";
+            var resolvedValue = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
+
+            Assert.That(pendingValue, Is.EqualTo(pendingDelivery));
+            Assert.That(resolvedValue, Is.EqualTo(resolvedDelivery));
+        }
+
+
+
     }
 }
 

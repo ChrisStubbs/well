@@ -6,6 +6,7 @@ import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent'
 import {SeasonalDatesViewComponent} from '../seasonal_dates/seasonalDatesViewComponent';
 import {CreditThresholdViewComponent} from '../credit_threshold/creditThresholdViewComponent';
 import {CleanPreferenceComponent} from '../clean_preferences/cleanPreferenceComponent';
+import {WidgetWarningsViewComponent} from '../widget_warnings/widgetWarningsViewComponent';
 
 @Component({
     selector: 'ow-branch-role',

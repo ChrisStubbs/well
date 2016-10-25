@@ -48,6 +48,6 @@ INSERT INTO @StatsTable
 	)
 	)
 
-	select * from @StatsTable   
+	SELECT * FROM @StatsTable   
 
 END

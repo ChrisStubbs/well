@@ -8,6 +8,7 @@ namespace PH.Well.Domain.ValueObjects
 {
     public class CreditLines
     {
-        public IEnumerable<int> CreditLineIds { get; set; }
+        public int CreditId { get; set; }
+        public bool IsPending { get; set; }
     }
 }

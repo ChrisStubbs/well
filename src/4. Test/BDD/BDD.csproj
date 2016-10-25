@@ -215,6 +215,7 @@
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\NotificationPage.cs" />
+    <Compile Include="Pages\UserCreditThresholdPage.cs" />
     <Compile Include="Pages\WidgetsPage.cs" />
     <Compile Include="Pages\UserPreferencesPage.cs" />
     <Compile Include="Pages\BranchPage.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Steps\Page\ArchiveModalSteps.cs" />
     <Compile Include="Steps\Page\AuditSteps.cs" />
     <Compile Include="Steps\Page\BranchParametersSteps.cs" />
+    <Compile Include="Steps\Page\CreditModalSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
     <Compile Include="Steps\Page\NotificationPageSteps.cs" />

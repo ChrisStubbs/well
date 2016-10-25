@@ -24,16 +24,20 @@
 
         private readonly ICreditThresholdValidator validator;
 
+        private readonly IUserRepository userRepository;
+
         public CreditThresholdController(
             ICreditThresholdRepository creditThresholdRepository, 
             ILogger logger, 
             ICreditThresholdMapper mapper,
-            ICreditThresholdValidator validator)
+            ICreditThresholdValidator validator,
+            IUserRepository userRepository)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
             this.mapper = mapper;
             this.validator = validator;
+            this.userRepository = userRepository;
 
             this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
@@ -94,6 +98,24 @@
             catch (Exception exception)
             {
                 this.logger.LogError("Error when trying to save credit threshold date", exception);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
+
+        [Route("credit-threshold/getByUser")]
+        [HttpGet]
+        public HttpResponseMessage GetByUser()
+        {
+            try
+            {
+                var threshold = this.userRepository.GetCreditThresholds(this.UserIdentityName);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, threshold);
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError($"Error when trying to get credit threshold for:{this.UserIdentityName}", exception);
 
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }

@@ -19,5 +19,7 @@
         void SetThresholdLevel(User user, ThresholdLevel thresholdLevel);
 
         User GetUserByCreditThreshold(CreditThreshold creditThreshold);
+
+        IEnumerable<decimal> GetCreditThresholds(string user);
     }
 }

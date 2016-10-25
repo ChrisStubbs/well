@@ -176,5 +176,48 @@ Scenario: A user can view Exception Delivery Information with cash on delivery i
 	When I open the exception deliveries
 	Then the exception cod delivery icon is not displayed in row 1
 
+Scenario: Credit deliveries with a credit threshold
+	Given I have a clean database
+	When I navigate to the branches page
+	And I select all the branches
+	And I save my branches
+    And select branches selection
+    Then all the branches are selected
+	Given I have loaded the Adam route data
+	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
+	Given I navigate to the branch parameters page
+	When I add a credit threshold
+	| Level  | Threshold |
+	| Level1 | 10        |
+	And all branches are selected for the credit threshold
+	And I save the credit threshold
+	Then the credit threshold is saved
+	| Level   | Threshold | Branches                                                   |
+	| Level 1 | 10        | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I navigate to the user preferences page
+	When I search for user Williams
+	Then the user Gary Williams is returned in the search results
+	When I select the row for Gary Williams
+	And I select Yes on the popup user preference modal
+	Then the user credit threshold page is opened
+	When I select Level1 from the dropdown list
+	And I click the Save button
+	Then a threshold level of 1 has a value of 10.00
+	And I have a threshold level of 1
+	Given All the deliveries are marked as exceptions
+	When I open the exception deliveries
+	Then the 'credit' and 'selectAll' button is not visible
+	When I assign the delivery on row 1 to myself
+	When I assign the delivery on row 2 to myself
+	And click the first credit checkbox
+	Then the 'credit' and 'selectAll' button are visible
+	When I click the 'selectAll' button
+	Then the first 2 checkboxes are checked
+	When I click the 'credit' button
+	Then the Credit Confirm modal is displayed
+	| ModalTitle         | ModalMessage                                                                                                   |
+	| Credit exceptions? | You are about to Credit 1 exceptions and 1 pending exceptions Are you sure you want to save your changes? |
+	When I click the save button on the modal
+	Then I have 1 pending and 1 resolved delivery
 
 

@@ -8,6 +8,7 @@ import {HttpErrorService} from '../shared/httpErrorService';
 import {IUser} from '../shared/user';
 import {UserJob} from '../shared/userJob';
 import {LogService} from '../shared/logService';
+import {Threshold} from '../shared/threshold';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -27,7 +28,7 @@ export class ExceptionDeliveryService {
 
         return this.http.get(url)
             .map((response: Response) => <ExceptionDelivery[]>response.json())
-            .do(data => this.logService.log("All: " + JSON.stringify(data)))
+            //.do(data => this.logService.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -48,11 +49,22 @@ export class ExceptionDeliveryService {
     }
 
     creditLines(creditlines: any[]): Observable<any> {
+        
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'deliveries-creditlines/{creditlines}',
             JSON.stringify(creditlines),
             this.options)
             .map(res => res.json())
             .do (data => this.logService.log("All: " + JSON.stringify(data)))
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    getUserCreditThreshold(user): Observable<any> {
+
+        var url = this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/getByUser';
+
+        return this.http.get(url)
+            .map((response: Response) => <any>response.json())
+            .do(data => this.logService.log("All: " + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 

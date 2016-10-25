@@ -1,4 +1,6 @@
-﻿namespace PH.Well.BDD.Steps.Page
+﻿using System;
+
+namespace PH.Well.BDD.Steps.Page
 {
     using NUnit.Framework;
 
@@ -26,10 +28,12 @@
         [When("I add a seasonal date")]
         public void AddSeasonalDate(Table table)
         {
+            var fromDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["FromDate"]));
+            var toDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["ToDate"]));
             this.page.AddButton.Click();
             this.page.Description.EnterText(table.Rows[0]["Description"]);
-            this.page.FromDate.EnterText(table.Rows[0]["FromDate"]);
-            this.page.ToDate.EnterText(table.Rows[0]["ToDate"]);
+            this.page.FromDate.EnterText(fromDate.ToString("dd/MM/yyyy"));
+            this.page.ToDate.EnterText(toDate.ToString("dd/MM/yyyy"));
         }
 
         [When("I add a credit threshold")]
@@ -61,6 +65,14 @@
             this.cleanPage.ClickCleanDeliveriesTab();
         }
 
+        [When(@"I select the seasonal dates tab")]
+        public void WhenISelectTheSeasonalDatesTab()
+        {
+            this.cleanPage.ClickSeasonalDatesTab();
+        }
+
+
+
         [When("I edit a seasonal date")]
         public void EditSeasonalDate(Table table)
         {
@@ -71,6 +83,7 @@
             this.page.Description.EnterText(table.Rows[0]["Description"]);
             this.page.FromDate.EnterText(table.Rows[0]["FromDate"]);
             this.page.ToDate.EnterText(table.Rows[0]["ToDate"]);
+
         }
 
         [When("I edit a credit threshold")]
@@ -102,6 +115,7 @@
         }
 
         [When(@"Medway is selected for the clean parameter")]
+        [When(@"Medway is selected for the seasonal date")]
         public void OneBranchCleanParameter()
         {
             this.branchPage.Medway.Check();
@@ -136,10 +150,13 @@
 
             for (int i = 0; i < table.RowCount; i++)
             {
+                var fromDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["FromDate"]));
+                var toDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["ToDate"]));
                 Assert.That(grid[i].Description.Text, Is.EqualTo(table.Rows[i]["Description"]));
-                Assert.That(grid[i].FromDate.Text, Is.EqualTo(table.Rows[i]["FromDate"]));
-                Assert.That(grid[i].ToDate.Text, Is.EqualTo(table.Rows[i]["ToDate"]));
+                Assert.That(grid[i].FromDate.Text, Is.EqualTo(fromDate.ToString("dd/MM/yyyy")));
+                Assert.That(grid[i].ToDate.Text, Is.EqualTo(toDate.ToString("dd/MM/yyyy")));
                 Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+
             }
         }
 
@@ -254,13 +271,6 @@
         {
             Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
         }
-
-        [When("the well clean has run")]
-        public void RunWellClean()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
 
 
     }

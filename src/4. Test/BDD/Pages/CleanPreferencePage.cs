@@ -38,6 +38,14 @@
             thresholdButton.Click();
         }
 
+        public void ClickSeasonalDatesTab()
+        {
+            var btnElements = this.Driver.FindElements(By.ClassName("btn"));
+
+            var thresholdButton = btnElements.Where(x => x.Text == "Seasonal Dates").FirstOrDefault();
+            thresholdButton.Click();
+        }
+
         public List<Grid> GetGridById(int id)
         {
             var grid = new List<Grid>();

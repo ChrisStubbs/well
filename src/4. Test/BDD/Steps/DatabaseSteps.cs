@@ -117,7 +117,7 @@
             this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
-        [Given(@"The clean deliveries are (.*) days old")]
+        [Given(@"The clean deliveries are '(.*)' days old")]
         public void CleanDeliveriesAreThisOld(int daysOld)
         {
             var cleanDate = DateTime.Now.AddDays(daysOld);
@@ -224,7 +224,7 @@
                                      $"SET JobDetailStatusId = {(int)jobDetailStatus}");
         }
 
-        [Given(@"I have selected branch (.*)")]
+        [Given(@"I have selected branch '(.*)'")]
         public void GivenIHaveSelectedBranch(int branch)
         {
             var user = SetUpUser();

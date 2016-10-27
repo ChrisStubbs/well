@@ -13,6 +13,8 @@
 
         public readonly Button Save;
 
+        public readonly Button Close;
+
         public readonly Button Remove;
 
         public readonly Button Add;
@@ -23,6 +25,7 @@
         {
             this.Days = new TextBox { Locator = By.Id("clean-days") };
             this.Save = new Button { Locator = By.Id("clean-save") };
+            this.Close = new Button {Locator = By.Id("clean-close")};
             this.Remove = new Button { Locator = By.Id("clean-remove") };
             this.Add = new Button { Locator = By.Id("add-clean") };
             this.NoResults = new SpanElement { Locator = By.Id("clean-no-results") };
@@ -44,6 +47,14 @@
 
             var thresholdButton = btnElements.Where(x => x.Text == "Seasonal Dates").FirstOrDefault();
             thresholdButton.Click();
+        }
+
+        public List<string> GetErrors()
+        {
+            
+            var elements = this.Driver.FindElements(By.ClassName("clean-error"));
+
+            return elements.Select(element => element.Text).ToList();
         }
 
         public List<Grid> GetGridById(int id)

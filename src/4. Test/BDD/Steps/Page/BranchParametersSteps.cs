@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using PH.Well.BDD.Framework.Extensions;
 
 namespace PH.Well.BDD.Steps.Page
 {
@@ -36,6 +38,14 @@ namespace PH.Well.BDD.Steps.Page
             this.page.ToDate.EnterText(toDate.ToString("dd/MM/yyyy"));
         }
 
+        [When("I change the seasonal date")]
+        public void ChangeSeasonalDate(Table table)
+        {
+            this.page.Description.EnterText(table.Rows[0]["Description"]);
+            this.page.FromDate.EnterText(table.Rows[0]["FromDate"]);
+            this.page.ToDate.EnterText(table.Rows[0]["ToDate"]);
+        }
+
         [When("I add a credit threshold")]
         public void AddCreditThreshold(Table table)
         {
@@ -52,6 +62,13 @@ namespace PH.Well.BDD.Steps.Page
             this.cleanPage.Add.Click();
             this.cleanPage.Days.EnterText(table.Rows[0]["Days"]);
         }
+
+        [When(@"I update clean parameter values")]
+        public void WhenIUpdateCleanParameterValues(Table table)
+        {
+            this.cleanPage.Days.EnterText(table.Rows[0]["Days"]);
+        }
+
 
         [When("I select the credit threshold tab")]
         public void SelectCreditThresholdTab()
@@ -80,9 +97,11 @@ namespace PH.Well.BDD.Steps.Page
 
             grid[0].Description.Click();
 
+            var fromDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["FromDate"]));
+            var toDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["ToDate"]));
             this.page.Description.EnterText(table.Rows[0]["Description"]);
-            this.page.FromDate.EnterText(table.Rows[0]["FromDate"]);
-            this.page.ToDate.EnterText(table.Rows[0]["ToDate"]);
+            this.page.FromDate.EnterText(fromDate.ToString("dd/MM/yyyy"));
+            this.page.ToDate.EnterText(toDate.ToString("dd/MM/yyyy"));
 
         }
 
@@ -114,11 +133,11 @@ namespace PH.Well.BDD.Steps.Page
             this.branchPage.SelectAllBranchesCheckbox.Check();
         }
 
-        [When(@"Medway is selected for the clean parameter")]
-        [When(@"Medway is selected for the seasonal date")]
-        public void OneBranchCleanParameter()
+        [When(@"'(.*)' is selected for the clean parameter")]
+        [When(@"'(.*)' is selected for the seasonal date")]
+        public void OneBranchCleanParameter(string branch)
         {
-            this.branchPage.Medway.Check();
+            this.branchPage.GetCheckBox(branch).Click();
         }
 
 
@@ -128,6 +147,13 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.page.SaveButton.Click();
         }
+
+        [When(@"the seasonal dates page is closed")]
+        public void SeasonalDatesPageIsClosed()
+        {
+            this.page.CloseButton.Click();
+        }
+
 
         [When("I save the credit threshold")]
         [When("I update the credit threshold")]
@@ -142,6 +168,13 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.cleanPage.Save.Click();
         }
+
+        [When(@"I click the Close button")]
+        public void WhenIClickTheCloseButton()
+        {
+            this.cleanPage.Close.Click();
+        }
+
 
         [Then("the seasonal date is saved")]
         public void SeasonalDateSaved(Table table)
@@ -190,11 +223,14 @@ namespace PH.Well.BDD.Steps.Page
         {
             var grid = this.page.GetGridById(id);
 
+
             for (int i = 0; i < table.RowCount; i++)
             {
+                var fromDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["FromDate"]));
+                var toDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["ToDate"]));
                 Assert.That(grid[i].Description.Text, Is.EqualTo(table.Rows[i]["Description"]));
-                Assert.That(grid[i].FromDate.Text, Is.EqualTo(table.Rows[i]["FromDate"]));
-                Assert.That(grid[i].ToDate.Text, Is.EqualTo(table.Rows[i]["ToDate"]));
+                Assert.That(grid[i].FromDate.Text, Is.EqualTo(fromDate.ToString("dd/MM/yyyy")));
+                Assert.That(grid[i].ToDate.Text, Is.EqualTo(toDate.ToString("dd/MM/yyyy")));
                 Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
             }
         }
@@ -235,6 +271,7 @@ namespace PH.Well.BDD.Steps.Page
         }
 
         [Then("it is removed from the seasonal date grid")]
+        [Then ("the seasonal dates are not saved")]
         public void SeasonalDateHasGoneFromGrid()
         {
             Assert.That(this.page.NoResults.Text, Is.EqualTo("No Seasonal Dates!"));
@@ -267,11 +304,49 @@ namespace PH.Well.BDD.Steps.Page
         }
 
         [Then("it is removed from the clean parameter grid")]
+        [Then ("the clean parameter is not saved")]
         public void CleanParameterHasGoneFromGrid()
         {
             Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
         }
 
+        [When(@"I open the seasonal date input")]
+        public void OpenTheSeasonalDateInput()
+        {
+            this.page.AddButton.Click();
+        }
+
+        [When(@"I click the add parameter button")]
+        public void WhenIClickTheAddButton()
+        {
+            this.cleanPage.Add.Click();
+        }
+
+
+        [Then(@"warnings appear on the clean input page")]
+        public void ThenWarningsAppearOnTheCleanInputPage(Table table)
+        {
+           
+            var errors = this.cleanPage.GetErrors();
+
+            foreach (var row in table.Rows)
+            {
+                Assert.That(errors.Contains(row["Error"]));
+            }
+        }
+
+        [Then(@"warnings appear in the seasonal input page")]
+        public void ThenWarningsAppearInTheSeasonalInputPage(Table table)
+        {
+            var errors = this.page.GetErrors();
+
+            foreach (var row in table.Rows)
+            {
+                Assert.That(errors.Contains(row["Error"]));
+            }
+            errors.Clear();
+
+        }
 
     }
 }  

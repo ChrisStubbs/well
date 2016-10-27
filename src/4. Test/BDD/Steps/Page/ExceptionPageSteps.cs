@@ -387,6 +387,7 @@
             this.UserCreditThresholdPage.SaveButton.Click();
         }
 
+
         [Then(@"the Credit Confirm modal is displayed")]
         public void ThenTheCreditConfirmModalIsDisplayed(Table table)
         {

@@ -6,6 +6,7 @@ Feature: Admininistration Parameters
 	I want to be able to set seasonal dates so that clean deliveries take these dates into account when getting cleared from the well
 	And I want to be able to set credit threshold per branch
 	And I want to be able to set the time clean deliveries are cleaned from the well
+	And I want to be able to set widget warning levels per branch
 
 Scenario: Seasonal dates add new
 	Given I have a clean database
@@ -155,3 +156,58 @@ Scenario: Clean parameters edit
 	Then the clean parameter is updated with id '2'
 	| Days | Branches                                                   |
 	| 2    | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
+Scenario: Widget warning parameter add new
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	And I navigate to the branch parameters page
+	When I select the widget warning tab
+	Then the widget warning parameter is saved
+	| Level | Widget     | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
+Scenario: Widget warning parameter remove
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I remove the widget warning parameter
+	Then it is removed from the widget warning grid
+
+Scenario: Widget warning parameter edit
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I edit a widget warning parameter
+	| Level | Widget	 | Branches													 |
+	| 2     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	And I update the widget warning parameter
+	Then the widget warning parameter is updated with id '2'
+	| Level | Branches                                                   |
+	| 2     | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
+
+
+
+

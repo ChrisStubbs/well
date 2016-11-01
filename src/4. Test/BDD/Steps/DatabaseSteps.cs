@@ -60,6 +60,8 @@
             DeleteAndReseed("CleanPreference");
             DeleteAndReseed("CreditThresholdToBranch");
             DeleteAndReseed("CreditThreshold");
+            DeleteAndReseed("WidgetToBranch");
+            DeleteAndReseed("Widget");
         }
 
         private void DeleteAndReseed(string tableName)

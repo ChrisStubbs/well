@@ -13,6 +13,7 @@
         private CreditThresholdPage creditThresholdPage => new CreditThresholdPage();
         private BranchPage branchPage => new BranchPage();
         private CleanPreferencePage cleanPage => new CleanPreferencePage();
+        private WidgetWarningPage widgetWarningPage => new WidgetWarningPage();
 
         [Given("I navigate to the branch parameters page")]
         [Then("I navigate to the branch parameters page")]
@@ -95,6 +96,7 @@
         [When("all branches are selected for the seasonal date")]
         [When("all branches are selected for the credit threshold")]
         [When("all branches are selected for the clean parameter")]
+        [When("all branches are selected for the widget warning parameter")]
         public void AllBranchesForSeasonalDate()
         {
             this.branchPage.SelectAllBranchesCheckbox.Check();
@@ -245,6 +247,82 @@
         public void CleanParameterHasGoneFromGrid()
         {
             Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
+        }
+
+        [When("I add a widget warning parameter")]
+        public void AddWidgetWarningParameter(Table table)
+        {
+            this.widgetWarningPage.ClickWidgetWarningTab();
+            this.widgetWarningPage.Add.Click();
+            this.widgetWarningPage.Level.EnterText(table.Rows[0]["Level"]);
+            this.widgetWarningPage.Description.EnterText(table.Rows[0]["Description"]);
+            this.widgetWarningPage.WidgetButtonDropDown.SelectWidgetWarningException();
+        }
+
+        [When("I select the widget warning tab")]
+        public void SelectWidgetWarningTab()
+        {
+            this.widgetWarningPage.ClickWidgetWarningTab();
+        }
+
+        [When("I save the widget warning parameter")]
+        [When("I update the widget warning parameter")]
+        public void SaveWidgetWarning()
+        {
+            this.widgetWarningPage.Save.Click();
+        }
+
+
+        [Then("the widget warning parameter is saved")]
+        public void WidgetWarningParameterSaved(Table table)
+        {
+            var grid = this.widgetWarningPage.GetGridById(1);
+
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(grid[i].Level.Text, Is.EqualTo(table.Rows[i]["Level"]));
+                Assert.That(grid[i].WidgetType.Text, Is.EqualTo(table.Rows[i]["Widget"]) );
+                Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+            }
+        }
+
+        
+        [When("I remove the widget warning parameter")]
+        public void RemoveWidgetWarningParameter()
+        {
+            var grid = this.widgetWarningPage.GetGridById(1);
+
+            grid[0].Remove.Click();
+
+            this.widgetWarningPage.Remove.Click();
+        }
+
+        [Then("it is removed from the widget warning grid")]
+        public void WidgetWarningParameterHasGoneFromGrid()
+        {
+            Assert.That(this.widgetWarningPage.NoResults.Text, Is.EqualTo("No Widget Warnings!"));
+        }
+
+        [When("I edit a widget warning parameter")]
+        public void EditWidgetWarningParameter(Table table)
+        {
+            var grid = this.widgetWarningPage.GetGridById(1);
+
+            grid[0].Level.Click();
+
+            this.widgetWarningPage.Level.EnterText(table.Rows[0]["Level"]);
+        }
+
+        [Then("the widget warning parameter is updated with id '(.*)'")]
+        public void WidgetWarningParameterUpdate(int id, Table table)
+        {
+            var grid = this.widgetWarningPage.GetGridById(id);
+
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(grid[i].Level.Text, Is.EqualTo(table.Rows[i]["Level"]));
+                Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+            }
         }
     }
 }

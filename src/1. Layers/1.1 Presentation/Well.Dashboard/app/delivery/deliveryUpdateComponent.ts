@@ -34,7 +34,12 @@ export class DeliveryUpdateComponent {
 
     initDelivery(delivery: Delivery) {
         this.delivery = delivery;
-        this.deliveryLine = lodash.find(this.delivery.deliveryLines, { lineNo: this.lineNo });;
+
+        var line = lodash.find(this.delivery.exceptionDeliveryLines, { lineNo: this.lineNo });
+
+        if (!line) line = lodash.find(this.delivery.cleanDeliveryLines, { lineNo: this.lineNo });
+
+        this.deliveryLine = line;
         this.deliveryIssues.delivery = this.delivery;
         this.deliveryIssues.deliveryLine = this.deliveryLine;
         this.deliveryActions.deliveryId = this.delivery.id;

@@ -13,37 +13,37 @@
 
     public class DeliveryService : IDeliveryService
     {
-        private readonly IJobDetailRepository jobDetailRepo;
-        private readonly IJobDetailDamageRepo jobDetailDamageRepo;
-        private readonly IJobRepository jobRepo;
-        private readonly IAuditRepository auditRepo;
-        private readonly IStopRepository stopRepo;
+        private readonly IJobDetailRepository jobDetailRepository;
+        private readonly IJobDetailDamageRepository jobDetailDamageRepository;
+        private readonly IJobRepository jobRepository;
+        private readonly IAuditRepository auditRepository;
+        private readonly IStopRepository stopRepository;
         private readonly IJobDetailActionRepository jobDetailActionRepository;
 
-        public DeliveryService(IJobDetailRepository jobDetailRepo,
-            IJobDetailDamageRepo jobDetailDamageRepo,
-            IJobRepository jobRepo,
-            IAuditRepository auditRepo,
-            IStopRepository stopRepo,
+        public DeliveryService(IJobDetailRepository jobDetailRepository,
+            IJobDetailDamageRepository jobDetailDamageRepository,
+            IJobRepository jobRepository,
+            IAuditRepository auditRepository,
+            IStopRepository stopRepository,
             IJobDetailActionRepository jobDetailActionRepository)
         {
-            this.jobDetailRepo = jobDetailRepo;
-            this.jobDetailDamageRepo = jobDetailDamageRepo;
-            this.jobRepo = jobRepo;
-            this.auditRepo = auditRepo;
-            this.stopRepo = stopRepo;
+            this.jobDetailRepository = jobDetailRepository;
+            this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.jobRepository = jobRepository;
+            this.auditRepository = auditRepository;
+            this.stopRepository = stopRepository;
             this.jobDetailActionRepository = jobDetailActionRepository;
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
         {
-            jobDetailRepo.CurrentUser = username;
-            jobDetailDamageRepo.CurrentUser = username;
-            jobRepo.CurrentUser = username;
-            auditRepo.CurrentUser = username;
-            stopRepo.CurrentUser = username;
+            this.jobDetailRepository.CurrentUser = username;
+            this.jobDetailDamageRepository.CurrentUser = username;
+            this.jobRepository.CurrentUser = username;
+            this.auditRepository.CurrentUser = username;
+            this.stopRepository.CurrentUser = username;
 
-            IEnumerable<JobDetail> jobDetails = jobDetailRepo.GetByJobId(jobDetailUpdates.JobId);
+            IEnumerable<JobDetail> jobDetails = this.jobDetailRepository.GetByJobId(jobDetailUpdates.JobId);
             bool isCleanBeforeUpdate = jobDetails.All(jd => jd.IsClean());
 
             var jobDetail =
@@ -51,19 +51,19 @@
             jobDetail.ShortQty = jobDetailUpdates.ShortQty;
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
 
-            Job job = jobRepo.GetById(jobDetail.JobId);
-            JobDetail originalJobDetail = jobDetailRepo.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
-            Stop stop = stopRepo.GetByJobId(jobDetailUpdates.JobId);
+            Job job = this.jobRepository.GetById(jobDetail.JobId);
+            JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
+            Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
                 stop.DeliveryDate);
 
             using (var transactionScope = new TransactionScope())
             {
-                jobDetailRepo.Update(jobDetail);
-                jobDetailDamageRepo.Delete(jobDetail.Id);
+                this.jobDetailRepository.Update(jobDetail);
+                this.jobDetailDamageRepository.Delete(jobDetail.Id);
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
-                    jobDetailDamageRepo.Save(jobDetailDamage);
+                    this.jobDetailDamageRepository.Save(jobDetailDamage);
                 }
 
                 bool isClean = jobDetails.All(jd => jd.IsClean());
@@ -71,19 +71,19 @@
                 {
                     //Make dirty
                     job.PerformanceStatus = PerformanceStatus.Incom;
-                    jobRepo.JobCreateOrUpdate(job);
+                    this.jobRepository.JobCreateOrUpdate(job);
                 }
 
                 if (isCleanBeforeUpdate == false && isClean)
                 {
                     //Resolve
                     job.PerformanceStatus = PerformanceStatus.Resolved;
-                    jobRepo.JobCreateOrUpdate(job);
+                    this.jobRepository.JobCreateOrUpdate(job);
                 }
 
                 if (audit.HasEntry)
                 {
-                    auditRepo.Save(audit);
+                    this.auditRepository.Save(audit);
                 }
 
                 transactionScope.Complete();
@@ -93,11 +93,11 @@
         public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
         {
             this.jobDetailActionRepository.CurrentUser = username;
-            auditRepo.CurrentUser = username;
+            this.auditRepository.CurrentUser = username;
 
-            Job job = jobRepo.GetById(jobDetailUpdates.JobId);
-            JobDetail originalJobDetail = jobDetailRepo.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
-            Stop stop = stopRepo.GetByJobId(jobDetailUpdates.JobId);
+            Job job = this.jobRepository.GetById(jobDetailUpdates.JobId);
+            JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
+            Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
                 stop.DeliveryDate);
 
@@ -114,7 +114,7 @@
                 //Audit changes
                 if (audit.HasEntry)
                 {
-                    auditRepo.Save(audit);
+                    this.auditRepository.Save(audit);
                 }
 
                 transactionScope.Complete();
@@ -124,18 +124,18 @@
         public void SubmitActions(int jobId, string username)
         {
             this.jobDetailActionRepository.CurrentUser = username;
-            auditRepo.CurrentUser = username;
+            this.auditRepository.CurrentUser = username;
 
-            Job job = jobRepo.GetById(jobId);
-            Stop stop = stopRepo.GetByJobId(jobId);
+            Job job = this.jobRepository.GetById(jobId);
+            Stop stop = this.stopRepository.GetByJobId(jobId);
 
-            var jobDetailsList = jobDetailRepo.GetByJobId(jobId);
+            var jobDetailsList = this.jobDetailRepository.GetByJobId(jobId);
 
             using (var transactionScope = new TransactionScope())
             {
                 foreach (var jobDetails in jobDetailsList)
                 {
-                    JobDetail originalJobDetail = jobDetailRepo.GetById(jobDetails.Id);
+                    JobDetail originalJobDetail = this.jobDetailRepository.GetById(jobDetails.Id);
 
                     foreach (var draftAction in jobDetails.Actions.Where(a => a.Status == ActionStatus.Draft))
                     {
@@ -147,7 +147,7 @@
                         stop.DeliveryDate);
                     if (audit.HasEntry)
                     {
-                        auditRepo.Save(audit);
+                        this.auditRepository.Save(audit);
                     }
                 }
                 transactionScope.Complete();
@@ -158,8 +158,8 @@
         {
             var idsTable = GetIntsTable(creditLines);
 
-            this.jobRepo.CreditLines(idsTable);
-            this.jobDetailRepo.CreditLines(idsTable);
+            this.jobRepository.CreditLines(idsTable);
+            this.jobDetailRepository.CreditLines(idsTable);
 
         }
 

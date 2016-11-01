@@ -10,7 +10,7 @@
     using Domain.Enums;
     using Domain.ValueObjects;
 
-    public class JobDetailDamageRepository : DapperRepository<JobDetailDamage, int>, IJobDetailDamageRepo
+    public class JobDetailDamageRepository : DapperRepository<JobDetailDamage, int>, IJobDetailDamageRepository
     {
         public JobDetailDamageRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
         {

@@ -24,7 +24,7 @@
         [When("I search for user (.*)")]
         public void SearchForUser(string user)
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             this.userPreferencesPage.FindBox.EnterText(user);
             this.userPreferencesPage.FindButton.Click();
         }

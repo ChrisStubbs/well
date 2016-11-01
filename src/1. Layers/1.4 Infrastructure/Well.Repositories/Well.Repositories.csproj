@@ -82,7 +82,7 @@
     <Compile Include="Contracts\IDapperProxy.cs" />
     <Compile Include="Contracts\IDbConfiguration.cs" />
     <Compile Include="Contracts\IExceptionEventRepository.cs" />
-    <Compile Include="Contracts\IJobDetailDamageRepo.cs" />
+    <Compile Include="Contracts\IJobDetailDamageRepository.cs" />
     <Compile Include="Contracts\INotificationRepository.cs" />
     <Compile Include="Contracts\IPreferenceRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />

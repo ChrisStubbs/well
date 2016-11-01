@@ -119,14 +119,14 @@
         [When(@"I choose to view that routes exceptions")]
         public void SelectExceptionButton()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             this.routesPage.ExceptionButton.Click();
         }
 
         [When(@"I choose to view that routes clean deliveries")]
         public void SelectCleanButton()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             this.routesPage.CleanButton.Click();
         }
 

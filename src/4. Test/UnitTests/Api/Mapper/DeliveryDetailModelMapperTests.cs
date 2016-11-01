@@ -54,8 +54,8 @@
             Assert.That(model.IsException, Is.EqualTo(deliveryDetail.IsException));
             Assert.That(model.CanAction, Is.EqualTo(deliveryDetail.CanAction));
 
-            var modelLine1 = model.DeliveryLines[0];
-            var modelLine2 = model.DeliveryLines[1];
+            var modelLine1 = model.ExceptionDeliveryLines[0];
+            var modelLine2 = model.ExceptionDeliveryLines[1];
 
             Assert.That(modelLine1.JobDetailId, Is.EqualTo(line1.JobDetailId));
             Assert.That(modelLine1.JobId, Is.EqualTo(line1.JobId));
@@ -68,7 +68,7 @@
             Assert.That(modelLine1.DamagedQuantity, Is.EqualTo(line1.DamagedQuantity));
             Assert.That(modelLine1.ShortQuantity, Is.EqualTo(line1.ShortQuantity));
 
-            var action = model.DeliveryLines[0].Actions[0];
+            var action = model.ExceptionDeliveryLines[0].Actions[0];
             Assert.AreEqual(action.Quantity, line1.Actions[0].Quantity);
             Assert.AreEqual(action.Status, line1.Actions[0].Status);
             Assert.AreEqual(action.StatusDescription, line1.Actions[0].Status.ToString());

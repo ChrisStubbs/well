@@ -31,7 +31,7 @@
         [Then("I select all the branches")]
         public void SelectAllBranches()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             this.branchPage.SelectAllBranchesCheckbox.Check();
         }
 
@@ -67,7 +67,7 @@
         [Then("all the branches are selected")]
         public void AllBranchesSelected()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             var checkboxes = this.branchPage.GetBranchCheckboxElements();
 
             Assert.That(checkboxes.Count, Is.EqualTo(12));

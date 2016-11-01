@@ -434,45 +434,45 @@ this.FeatureBackground();
                         "Choc Teacakes Tunnock",
                         "19",
                         "1",
-                        "1",
+                        "-1",
                         "0",
-                        "0"});
+                        "2"});
             table9.AddRow(new string[] {
                         "2",
                         "49179",
                         "Ginger Nuts 250g",
                         "4",
                         "1",
-                        "1",
+                        "-1",
                         "0",
-                        "0"});
+                        "2"});
             table9.AddRow(new string[] {
                         "3",
                         "21633",
                         "Kiddies Super Mix 220gPM",
                         "3",
                         "1",
-                        "1",
+                        "-1",
                         "0",
-                        "0"});
+                        "2"});
             table9.AddRow(new string[] {
                         "4",
                         "4244",
                         "Milkybar Btns Giant PM",
                         "5",
                         "1",
-                        "1",
+                        "-1",
                         "0",
-                        "0"});
+                        "2"});
             table9.AddRow(new string[] {
                         "5",
                         "7621",
                         "Fruit Past Tube 52.5g",
                         "8",
                         "1",
-                        "1",
+                        "-1",
                         "0",
-                        "0"});
+                        "2"});
 #line 93
  testRunner.Then("I am shown the exception detail", ((string)(null)), table9, "Then ");
 #line hidden

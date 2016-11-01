@@ -354,6 +354,10 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD_one_exception.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

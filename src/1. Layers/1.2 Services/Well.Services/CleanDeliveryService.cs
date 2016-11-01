@@ -62,7 +62,7 @@
 
                             foreach (var detail in job.JobDetails)
                             {
-                                if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateCreated)) detail.SetToDelete();
+                                if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateUpdated)) detail.SetToDelete();
                             }
 
                             job.SetToDelete();
@@ -112,7 +112,7 @@
             }
         }
 
-        public bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateCreated)
+        public bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateUpdated)
         {
             var now = DateTime.Now.Date;
 
@@ -123,20 +123,20 @@
 
             if (royaltyException != null && royaltyException.ExceptionDays > 0)
             {
-                var dateCanBeRemoved = dateCreated.AddDays(royaltyException.ExceptionDays);
+                var dateCanBeRemoved = dateUpdated.AddDays(royaltyException.ExceptionDays);
 
                 if (dateCanBeRemoved.Date <= now) return true;
             }
 
             if (cleanPreference != null && cleanPreference.Days > 0)
             {
-                var dateCanBeRemoved = dateCreated.AddDays(cleanPreference.Days);
+                var dateCanBeRemoved = dateUpdated.AddDays(cleanPreference.Days);
 
                 if (dateCanBeRemoved.Date <= now) return true;
             }
             else
             {
-                var dateCanBeRemoved = dateCreated.AddDays(1);
+                var dateCanBeRemoved = dateUpdated.AddDays(1);
 
                 if (dateCanBeRemoved.Date <= now) return true;
             }

@@ -47,6 +47,7 @@
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
+        public static string PendingCreditsInsert = "PendingCredits_Insert";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
@@ -125,9 +126,21 @@
         public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
 
         public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
+
+        public static string WidgetWarningSave = "WidgetWarning_Save";
+        public static string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
+        public static string WidgetWarningGetAll = "WidgetWarning_GetAll";
+        public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
+        public static string WidgetWarningDelete = "WidgetWarningDelete";
+        public static string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
+
+
         public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
         public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";
         public static string CreditJob = "Job_CreditLines";
         public static string RemovePendingCredit = "RemovePendingCredit";
+
+        //User
+        public static string UserGetCreditThreshold = "User_GetCreditThreshold";
     }
 }

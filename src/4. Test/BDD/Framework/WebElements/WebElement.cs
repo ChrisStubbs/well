@@ -36,7 +36,7 @@
                 this.Driver.ExecuteJavaScript($"window.scrollTo(0, {element.Location.Y});");
 
                 Logger.LogDebug($"Found Element Locator: {Locator} Text: {element.Text} Enable: {element.Enabled} Displayed: {element.Displayed}"  );
-                return element;
+               return element;
             }
             catch (NoSuchElementException ex)
             {

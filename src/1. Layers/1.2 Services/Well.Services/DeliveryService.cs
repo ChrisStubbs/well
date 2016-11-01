@@ -9,6 +9,7 @@
     using Contracts;
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
 
     public class DeliveryService : IDeliveryService
@@ -19,13 +20,15 @@
         private readonly IAuditRepository auditRepository;
         private readonly IStopRepository stopRepository;
         private readonly IJobDetailActionRepository jobDetailActionRepository;
+        private readonly IUserRepository userRepository;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
             IJobRepository jobRepository,
             IAuditRepository auditRepository,
             IStopRepository stopRepository,
-            IJobDetailActionRepository jobDetailActionRepository)
+            IJobDetailActionRepository jobDetailActionRepository,
+            IUserRepository userRepository)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -33,6 +36,7 @@
             this.auditRepository = auditRepository;
             this.stopRepository = stopRepository;
             this.jobDetailActionRepository = jobDetailActionRepository;
+            this.userRepository = userRepository;
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
@@ -154,23 +158,28 @@
             }
         }
 
-        public void CreditLines(IEnumerable<int> creditLines)
+        public void CreditLines(IEnumerable<CreditLines> creditLines, string username)
         {
-            var idsTable = GetIntsTable(creditLines);
+            var creditLinesTable = GetPendingCreditsTable(creditLines);
 
-            this.jobRepository.CreditLines(idsTable);
-            this.jobDetailRepository.CreditLines(idsTable);
-
+            this.jobRepository.CreditLines(creditLinesTable);
+            this.jobDetailRepository.CreditLines(creditLinesTable);
+           var userId = this.userRepository.GetByIdentity(username).Id;
+           this.jobRepo.JobPendingCredits(creditLinesTable, userId);
         }
 
-        private DataTable GetIntsTable(IEnumerable<int> ints)
+        private DataTable GetPendingCreditsTable(IEnumerable<CreditLines> creditLines)
         {
             var dt = new DataTable();
-            dt.Columns.Add("Value");
-            foreach (var i in ints)
+            dt.Columns.Add("CreditId");
+            dt.Columns["CreditId"].DataType = typeof(int);
+            dt.Columns.Add("IsPending");
+            dt.Columns["IsPending"].DataType = typeof(bool);
+            foreach (var i in creditLines)
             {
                 DataRow row = dt.NewRow();
-                row["Value"] = i;
+                row["CreditId"] = i.CreditId;
+                row["IsPending"] = i.IsPending;
                 dt.Rows.Add(row);
             }
 

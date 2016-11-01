@@ -8,7 +8,7 @@
     <!--<ow-spinner [isRunning]="isLoading"></ow-spinner>-->
     <div class="content" *ngIf="!isLoading">
         <div *ngIf="!cleanDeliveries">
-            <div class="alert alert-info"><strong>No clean deliveries!</strong>
+            <div id="noDeliveries" class="alert alert-info"><strong>No clean deliveries!</strong>
             </div>
         </div>
         <div *ngIf="cleanDeliveries && cleanDeliveries.length">

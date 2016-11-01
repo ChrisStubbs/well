@@ -29,8 +29,10 @@
 
         CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
 
-        void CreditLines(DataTable idsTable);
-
         void ResolveJobAndJobDetails(int jobId);
+
+        void CreditLines(DataTable creditLinesTable);
+
+        void JobPendingCredits(DataTable creditLinesTable, int userId);
     }
 }

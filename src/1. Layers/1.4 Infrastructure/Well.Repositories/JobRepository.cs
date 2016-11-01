@@ -152,10 +152,18 @@
                    .Query<PodActionReasons>();
         }
 
-        public void CreditLines(DataTable idsTable)
+        public void CreditLines(DataTable creditLinesTable)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CreditJob)
-                .AddParameter("Ids", idsTable, DbType.Object)
+                .AddParameter("CreditLines", creditLinesTable, DbType.Object)
+                .Execute();
+        }
+
+        public void JobPendingCredits(DataTable creditLinesTable, int userId)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditsInsert)
+                .AddParameter("CreditLines", creditLinesTable, DbType.Object)
+                .AddParameter("UserId", userId, DbType.Int32)
                 .Execute();
         }
 

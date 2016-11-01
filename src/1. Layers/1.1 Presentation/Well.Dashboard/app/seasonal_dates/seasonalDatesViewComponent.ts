@@ -42,4 +42,5 @@ export class SeasonalDatesViewComponent implements OnInit{
     onRemoved(seasonalDate: SeasonalDate) {
         lodash.remove(this.seasonalDates, seasonalDate);
     }
+
 }

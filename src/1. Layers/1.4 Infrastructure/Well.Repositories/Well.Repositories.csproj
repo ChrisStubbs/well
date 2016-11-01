@@ -91,6 +91,7 @@
     <Compile Include="Contracts\IUserRepository.cs" />
     <Compile Include="Contracts\IWellDapperProxy.cs" />
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
+    <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="UserRepository.cs" />
     <Compile Include="WellDapperProxy.cs" />
     <Compile Include="WellDbConfiguration.cs" />
+    <Compile Include="WidgetRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

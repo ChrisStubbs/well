@@ -19,7 +19,7 @@ export class AssignModal {
     deliveryId: number;
     accountCode: string;
     httpResponse: HttpResponse = new HttpResponse();
-    @Output() onAssigned = new EventEmitter<boolean>();
+    @Output() onAssigned = new EventEmitter();
     assigned = false;
 
     constructor(private userService: UserService,
@@ -79,6 +79,7 @@ export class AssignModal {
             });
 
         this.hide();
-        this.onAssigned.emit(this.assigned);
+        //this.onAssigned.emit(this.assigned);
+        this.onAssigned.emit({ event: event, isAssigned: this.assigned, exceptionId: jobId});
     }
 }

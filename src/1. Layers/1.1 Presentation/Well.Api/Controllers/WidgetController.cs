@@ -2,26 +2,45 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
+    using Domain;
+    using Mapper.Contracts;
     using Models;
 
     using PH.Well.Common.Security;
     using Repositories.Contracts;
+    using Validators.Contracts;
 
     public class WidgetController : BaseApiController
     {
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IUserStatsRepository userStatsRepository;
+        private readonly ILogger logger;
+        private readonly IWidgetRepository widgetRepository;
+        private readonly IWidgetWarningMapper mapper;
+        private readonly IWidgetWarningValidator validator;
 
         public WidgetController(IServerErrorResponseHandler serverErrorResponseHandler,
-            IUserStatsRepository userStatsRepository)
+            IUserStatsRepository userStatsRepository,
+            ILogger logger,
+            IWidgetRepository widgetRepository,
+            IWidgetWarningMapper mapper,
+            IWidgetWarningValidator validator
+            )
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.userStatsRepository = userStatsRepository;
+            this.logger = logger;
+            this.widgetRepository = widgetRepository;
+            this.mapper = mapper;
+            this.validator = validator;
+
+            this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Authorize(Roles = SecurityPermissions.LandingPage)]
@@ -33,6 +52,7 @@
             {
                 var userStats = userStatsRepository.GetByUser(UserIdentityName);
                 var pendingCreditCount = this.userStatsRepository.GetPendingCreditCountByUser(UserIdentityName);
+                var warningLevels = this.userStatsRepository.GetWidgetWarningLevels(UserIdentityName);
 
                 var widgets = new List<WidgetModel>()
                 {
@@ -40,7 +60,7 @@
                     {
                         Name = "Pending Authorisation",
                         Count = pendingCreditCount,
-                        Description = "Credit's awaiting your authorisation",
+                        Description = "Credits awaiting your authorisation",
                         SortOrder = 1,
                         Link = "/pending-credit",
                         LinkText = "pending credits",
@@ -55,7 +75,7 @@
                         SortOrder = 2,
                         Link = "/exceptions",
                         LinkText = "deliveries with exceptions",
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.ExceptionWarningLevel ?? 10,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -66,7 +86,7 @@
                         SortOrder = 3,
                         Link = "/exceptions",
                         LinkText = "exceptions assigned to you",
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.AssignedWarningLevel ?? 10,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -77,7 +97,7 @@
                         SortOrder = 4,
                         Link = "/exceptions",
                         LinkText = "outstanding exceptions",
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.OutstandingWarningLevel ?? 10,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -88,7 +108,7 @@
                         Link = "/notifications",
                         LinkText = "notifications",
                         SortOrder = 5,
-                        WarningLevel = 10,
+                        WarningLevel = warningLevels.NotificationsWarningLevel ?? 10,
                         ShowOnGraph = true
                     }
                 };
@@ -99,5 +119,76 @@
                 return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting widgets");
             }
         }
+        [Route("widgetsWarnings")]
+        [HttpGet]
+        public HttpResponseMessage GetWarnings()
+        {
+            try
+            {
+                var widgetWarnings = this.widgetRepository.GetAll().OrderBy(x => x.WarningLevel).ToList();
+                var model = new List<WidgetWarningModel>();
+
+                foreach (var warning in widgetWarnings)
+                {
+                    var mappedModel = this.mapper.Map(warning);
+
+                    model.Add(mappedModel);
+                }
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, model);
+
+            }
+            catch (Exception ex)
+            {
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occurred when getting widget warnings");
+            }
+        }
+
+        [Route("widgetWarning/{isUpdate:bool}")]
+        [HttpPost]
+        public HttpResponseMessage Post(WidgetWarningModel model, bool isUpdate)
+        {
+            try
+            {
+                if (!this.validator.IsValid(model, isUpdate))
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK,
+                        new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
+                }
+
+                var widgetWarning = this.mapper.Map(model);
+
+                this.widgetRepository.Save(widgetWarning);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new {success = true});
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError("Error when trying to save widget warning", exception);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new {failure = true});
+            }
+        }
+
+
+        [Route("widgetWarning/{id:int}")]
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+                this.widgetRepository.Delete(id);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError($"Error when trying to delete widget warning(id):{id}", exception);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
     }
 }
+

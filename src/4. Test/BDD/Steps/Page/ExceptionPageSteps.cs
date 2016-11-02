@@ -375,11 +375,11 @@
         }
 
 
-        [When(@"I select Level1 from the dropdown list")]
-        public void WhenISelectLevelFromTheDropdownList()
-        {
-            this.UserCreditThresholdPage.dropdown.SelectLevel1();
-        }
+//        [When(@"I select Level1 from the dropdown list")]
+//        public void WhenISelectLevelFromTheDropdownList()
+//        {
+//            this.UserCreditThresholdPage.dropdown.SelectLevel1();
+//        }
 
         [When(@"I click the Save button")]
         public void WhenIClickTheSaveButton()

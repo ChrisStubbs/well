@@ -187,8 +187,8 @@ Scenario: Credit deliveries with a credit threshold
 	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
 	Given I navigate to the branch parameters page
 	When I add a credit threshold
-	| Level  | Threshold |
-	| Level1 | 10        |
+	| Level | Threshold |
+	| 1     | 10        |
 	And all branches are selected for the credit threshold
 	And I save the credit threshold
 	Then the credit threshold is saved
@@ -199,6 +199,7 @@ Scenario: Credit deliveries with a credit threshold
 	Then the user Gary Williams is returned in the search results
 	When I select the row for Gary Williams
 	And I select Yes on the popup user preference modal
+	#missing steps to add branches...
 	Then the user credit threshold page is opened
 	When I select Level1 from the dropdown list
 	And I click the Save button

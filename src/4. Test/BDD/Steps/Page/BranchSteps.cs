@@ -37,6 +37,7 @@
 
         [When("I save my branches")]
         [Then("I save my branches")]
+        [When("I save the branch selection")]
         public void SaveBranches()
         {
             this.branchPage.SaveButton.Click();
@@ -66,6 +67,7 @@
         }
 
         [Then("all the branches are selected")]
+        [Then("all the branches are saved")]
         public void AllBranchesSelected()
         {
             Thread.Sleep(2000);

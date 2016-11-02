@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using PH.Well.BDD.Framework.Extensions;
+using PH.Well.Domain.Enums;
 
 namespace PH.Well.BDD.Steps.Page
 {
@@ -9,7 +10,9 @@ namespace PH.Well.BDD.Steps.Page
     using PH.Well.BDD.Pages;
 
     using TechTalk.SpecFlow;
-    
+    using System.Threading;
+
+
     [Binding]
     public class BranchParametersSteps
     {
@@ -26,6 +29,14 @@ namespace PH.Well.BDD.Steps.Page
             this.page.Open();
             this.page.AdminDropDown.SelectBranchParameters();
         }
+
+        [When("I navigate to the user threshold levels page")]
+        public void NavigateToUserThreshold()
+        {
+            this.creditThresholdPage.AdminDropDown.SelectUserThreshold();
+
+        }
+
 
         [When("I add a seasonal date")]
         public void AddSeasonalDate(Table table)
@@ -49,9 +60,11 @@ namespace PH.Well.BDD.Steps.Page
         [When("I add a credit threshold")]
         public void AddCreditThreshold(Table table)
         {
-            this.creditThresholdPage.ClickThresholdTab();
             this.creditThresholdPage.AddButton.Click();
-            this.creditThresholdPage.dropdown.SelectLevel1();
+
+            var thresholdLevel = (ThresholdLevel)int.Parse(table.Rows[0]["Level"]);
+
+            this.creditThresholdPage.dropdown.SelectThresholdLevel(thresholdLevel);
             this.creditThresholdPage.Threshold.EnterText(table.Rows[0]["Threshold"]);
         }
 
@@ -75,6 +88,7 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.creditThresholdPage.ClickThresholdTab();
         }
+
 
         [When("I select the clean parameter tab")]
         public void SelectCleanParameterTab()
@@ -196,7 +210,9 @@ namespace PH.Well.BDD.Steps.Page
         [Then("the credit threshold is saved")]
         public void CreditThresholdSaved(Table table)
         {
-            var grid = this.creditThresholdPage.GetGridById(1);
+            Thread.Sleep(1000);
+
+            var grid = this.creditThresholdPage.GetGrid(table.RowCount);
 
             for (int i = 0; i < table.RowCount; i++)
             {

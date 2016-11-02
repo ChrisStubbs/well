@@ -31,5 +31,18 @@
 
             dropItem.Click();
         }
+
+        public void SelectUserThreshold()
+        {
+            this.Driver.WaitForJavascript();
+            this.GetElement().FindElement(By.Id("admin-dropdown-anchor")).Click();
+
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+
+            var dropItem = wait.Until((d) => d.FindElement(By.Id("user-threshold")));
+
+            dropItem.Click();
+        }
+
     }
 }

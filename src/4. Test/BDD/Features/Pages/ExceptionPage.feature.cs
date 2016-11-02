@@ -758,7 +758,7 @@ this.FeatureBackground();
                         "Level",
                         "Threshold"});
             table11.AddRow(new string[] {
-                        "Level1",
+                        "1",
                         "10"});
 #line 189
  testRunner.When("I add a credit threshold", ((string)(null)), table11, "When ");
@@ -787,35 +787,35 @@ this.FeatureBackground();
  testRunner.When("I select the row for Gary Williams", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 201
  testRunner.And("I select Yes on the popup user preference modal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 202
- testRunner.Then("the user credit threshold page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 203
- testRunner.When("I select Level1 from the dropdown list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("the user credit threshold page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 204
- testRunner.And("I click the Save button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I select Level1 from the dropdown list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 205
- testRunner.Then("a threshold level of 1 has a value of 10.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I click the Save button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 206
- testRunner.And("I have a threshold level of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("a threshold level of 1 has a value of 10.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 207
- testRunner.Given("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.And("I have a threshold level of 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 208
- testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 209
- testRunner.Then("the \'credit\' and \'selectAll\' button is not visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 210
- testRunner.When("I assign the delivery on row 1 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("the \'credit\' and \'selectAll\' button is not visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 211
- testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I assign the delivery on row 1 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 212
- testRunner.And("click the first credit checkbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 213
- testRunner.Then("the \'credit\' and \'selectAll\' button are visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("click the first credit checkbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 214
- testRunner.When("I click the \'selectAll\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("the \'credit\' and \'selectAll\' button are visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 215
- testRunner.Then("the first 2 checkboxes are checked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I click the \'selectAll\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 216
+ testRunner.Then("the first 2 checkboxes are checked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 217
  testRunner.When("I click the \'credit\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
@@ -825,11 +825,11 @@ this.FeatureBackground();
                         "Credit exceptions?",
                         "You are about to Credit 1 exceptions and 1 pending exceptions Are you sure you wa" +
                             "nt to save your changes?"});
-#line 217
+#line 218
  testRunner.Then("the Credit Confirm modal is displayed", ((string)(null)), table13, "Then ");
-#line 220
- testRunner.When("I click the save button on the modal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 221
+ testRunner.When("I click the save button on the modal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 222
  testRunner.Then("I have 1 pending and 1 resolved delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

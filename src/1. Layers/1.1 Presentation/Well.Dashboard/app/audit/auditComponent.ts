@@ -28,11 +28,11 @@ export class AuditComponent implements OnInit {
     constructor(private auditService: AuditService) {}
 
     ngOnInit(): void {
-        this.auditService.getAudits()
-            .subscribe(a => {
-                this.audits = a;
-                this.isLoading = false;
-            });
+            this.auditService.getAudits()
+                .subscribe(a => {
+                    this.audits = a;
+                    this.isLoading = false;
+                });
     }
 }
 

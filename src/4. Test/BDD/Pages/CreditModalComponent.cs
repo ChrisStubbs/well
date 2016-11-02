@@ -11,6 +11,7 @@ namespace PH.Well.BDD.Pages
         public CreditModalComponent()
         {
             ModalTitle = new Heading() { Locator = By.ClassName("modal-title") };
+            ModalBody = new Div() { Locator = By.ClassName("modal-body") };
             ConfirmButton = new Button() { Locator = By.Id("confirm-modal-button") };
             CancelButton = new Button() { Locator = By.Id("cancel-modal-button") };
         }
@@ -18,5 +19,6 @@ namespace PH.Well.BDD.Pages
         public Heading ModalTitle { get; set; }
         public Button ConfirmButton { get; set; }
         public Button CancelButton { get; set; }
+        public Div ModalBody { get; set; }
     }
 }

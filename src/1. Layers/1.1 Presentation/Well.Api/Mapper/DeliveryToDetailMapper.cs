@@ -26,9 +26,37 @@
                 CanAction = detail.CanAction
             };
 
-            foreach (DeliveryLine line in lines)
+            foreach (DeliveryLine line in lines.Where(x => x.IsClean))
             {
-                deliveryDetail.DeliveryLines.Add(new DeliveryLineModel
+                deliveryDetail.CleanDeliveryLines.Add(new DeliveryLineModel
+                {
+                    JobDetailId = line.JobDetailId,
+                    JobId = line.JobId,
+                    LineNo = line.LineNo,
+                    ProductCode = line.ProductCode,
+                    ProductDescription = line.ProductDescription,
+                    Value = line.Value.ToString(),
+                    InvoicedQuantity = line.InvoicedQuantity,
+                    DeliveredQuantity = line.DeliveredQuantity,
+                    DamagedQuantity = line.DamagedQuantity,
+                    ShortQuantity = line.ShortQuantity,
+                    Damages = line.Damages.Select(d => new DamageModel()
+                    {
+                        Quantity = d.Quantity,
+                        ReasonCode = d.Reason.ToString()
+                    }).ToList(),
+                    Actions = line.Actions.Select(a => new ActionModel()
+                    {
+                        Quantity = a.Quantity,
+                        Action = a.Action,
+                        Status = a.Status
+                    }).ToList()
+                });
+            }
+
+            foreach (DeliveryLine line in lines.Where(x => !x.IsClean))
+            {
+                deliveryDetail.ExceptionDeliveryLines.Add(new DeliveryLineModel
                 {
                     JobDetailId = line.JobDetailId,
                     JobId = line.JobId,

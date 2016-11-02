@@ -1,11 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[Job_CreditLines]
-	@Ids dbo.IntTableType	READONLY
+	@CreditLines dbo.CreditTableType READONLY
 AS
 BEGIN
 	SET NOCOUNT ON;
+
 	Update J 
-		SET j.PerformanceStatusId = 8
+		SET j.PerformanceStatusId = (CASE WHEN creditLines.IsPending = 1 THEN 9 ELSE 8 END)
 		FROM  Job AS J
-		INNER JOIN @ids ids
-		ON ids.Value = j.id		
+		INNER JOIN @CreditLines creditLines
+		ON creditLines.CreditId = j.id		
 END

@@ -1,4 +1,7 @@
-﻿namespace PH.Well.BDD.Pages
+﻿using System.Linq;
+using Microsoft.SqlServer.Management.Smo.Agent;
+
+namespace PH.Well.BDD.Pages
 {
     using System.Collections.Generic;
 
@@ -13,6 +16,8 @@
 
         public readonly Button SaveButton;
 
+        public readonly Button CloseButton;
+
         public readonly TextBox Description;
 
         public readonly TextBox FromDate;
@@ -25,14 +30,15 @@
 
         public SeasonalDatesPage()
         {
-            this.AdminDropDown = new AdminButtonDropDown { Locator = By.Id("admin-dropdown") };
-            this.AddButton = new Button { Locator = By.Id("add-seasonal-date") };
-            this.Description = new TextBox { Locator = By.Id("seasonal-date-description") };
-            this.FromDate = new TextBox { Locator = By.Id("seasonal-date-from-date") };
-            this.ToDate = new TextBox { Locator = By.Id("seasonal-date-to-date") };
-            this.SaveButton = new Button { Locator = By.Id("seasonal-date-save") };
-            this.RemoveConfirmButton = new Button { Locator = By.Id("seasonal-remove-confirm") };
-            this.NoResults = new SpanElement { Locator = By.Id("seasonal-no-results") };
+            this.AdminDropDown = new AdminButtonDropDown {Locator = By.Id("admin-dropdown")};
+            this.AddButton = new Button {Locator = By.Id("add-seasonal-date")};
+            this.Description = new TextBox {Locator = By.Id("seasonal-date-description")};
+            this.FromDate = new TextBox {Locator = By.Id("seasonal-date-from-date")};
+            this.ToDate = new TextBox {Locator = By.Id("seasonal-date-to-date")};
+            this.SaveButton = new Button {Locator = By.Id("seasonal-date-save")};
+            this.CloseButton = new Button {Locator = By.Id("seasonal-date-close")};
+            this.RemoveConfirmButton = new Button {Locator = By.Id("seasonal-remove-confirm")};
+            this.NoResults = new SpanElement {Locator = By.Id("seasonal-no-results")};
         }
 
         protected override string UrlSuffix { get; }
@@ -56,6 +62,14 @@
             }
 
             return grid;
+        }
+
+        public List<string> GetErrors()
+        {
+
+            var elements = this.Driver.FindElements(By.ClassName("seasonal-error"));
+
+            return elements.Select(element => element.Text).ToList();
         }
 
         public class SeasonalDateGrid
@@ -84,6 +98,8 @@
             public SpanElement Branches { get; set; }
 
             public Button Remove { get; set; }
+
+
         }
     }
 }

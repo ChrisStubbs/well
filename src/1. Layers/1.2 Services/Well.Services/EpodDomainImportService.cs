@@ -20,7 +20,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAccountRepository accountRepository;
-        private readonly IJobDetailDamageRepo jobDetailDamageRepo;
+        private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly ILogger logger;
         public string CurrentUser { get; set; }
         
@@ -31,7 +31,7 @@
         
         public EpodDomainImportService(IRouteHeaderRepository routeHeaderRepository, ILogger logger,
             IStopRepository stopRepository, IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, 
-            IAccountRepository accountRepository, IJobDetailDamageRepo jobDetailDamageRepo)
+            IAccountRepository accountRepository, IJobDetailDamageRepository jobDetailDamageRepository)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.logger = logger;
@@ -39,7 +39,7 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.accountRepository = accountRepository;
-            this.jobDetailDamageRepo = jobDetailDamageRepo;
+            this.jobDetailDamageRepository = jobDetailDamageRepository;
         }
         
         public Routes GetByFileName(string filename)
@@ -107,7 +107,7 @@
         public void AddJobJobDetail(Job job, int newJobId)
         {
             this.jobDetailRepository.CurrentUser = this.CurrentUser;
-            jobDetailDamageRepo.CurrentUser = CurrentUser;
+            this.jobDetailDamageRepository.CurrentUser = CurrentUser;
             foreach (var jobDetail in job.JobDetails)
             {
                 jobDetail.JobId = newJobId;
@@ -121,7 +121,7 @@
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
                     jobDetailDamage.JobDetailId = jobDetail.Id;
-                    jobDetailDamageRepo.Save(jobDetailDamage);
+                    this.jobDetailDamageRepository.Save(jobDetailDamage);
                 }
             }
         }
@@ -411,7 +411,7 @@
 
                     foreach (var jobDetail in jobDetails)
                     {
-                        damages.AddRange(jobDetailDamageRepo.GetJobDamagesByJobDetailId(jobDetail.Id));
+                        damages.AddRange(this.jobDetailDamageRepository.GetJobDamagesByJobDetailId(jobDetail.Id));
 
                         foreach (var damage in damages)
                         {
@@ -453,8 +453,8 @@
                         foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                         {
                             jobDetailDamage.JobDetailId = currentJobDetail.Id;
-                            jobDetailDamageRepo.CurrentUser = this.CurrentUser;
-                            jobDetailDamageRepo.Save(jobDetailDamage);
+                            this.jobDetailDamageRepository.CurrentUser = this.CurrentUser;
+                            this.jobDetailDamageRepository.Save(jobDetailDamage);
                         }
                     }
 

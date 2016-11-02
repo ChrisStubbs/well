@@ -17,9 +17,15 @@ export class Delivery {
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit;
 
-            if (delivery.deliveryLines) {
-                for (let line of delivery.deliveryLines) {
-                    this.deliveryLines.push(new DeliveryLine(line));
+            if (delivery.exceptionDeliveryLines) {
+                for (let line of delivery.exceptionDeliveryLines) {
+                    this.exceptionDeliveryLines.push(new DeliveryLine(line));
+                }
+            }
+
+            if (delivery.cleanDeliveryLines) {
+                for (let line of delivery.cleanDeliveryLines) {
+                    this.cleanDeliveryLines.push(new DeliveryLine(line));
                 }
             }
         }
@@ -37,25 +43,42 @@ export class Delivery {
     isException: boolean;
     canAction: boolean;
     canSubmit: boolean;
-    deliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+    exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+    cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     isCleanOnInit(): boolean {
         var clean = true;
-        for (let line of this.deliveryLines) {
+
+        for (let line of this.exceptionDeliveryLines) {
             if (line.isCleanOnInit === false) {
                 clean = false;
             }
         }
+
+        for (let line of this.cleanDeliveryLines) {
+            if (line.isCleanOnInit === false) {
+                clean = false;
+            }
+        }
+
         return clean;
     };
 
     isClean(): boolean {
         var clean = true;
-        for (let line of this.deliveryLines) {
+
+        for (let line of this.exceptionDeliveryLines) {
             if (line.isClean() === false) {
                 clean = false;
             }
         }
+
+        for (let line of this.cleanDeliveryLines) {
+            if (line.isClean() === false) {
+                clean = false;
+            }
+        }
+
         return clean;
     }
 }

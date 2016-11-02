@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.BDD.Pages
 {
+    using System.Linq;
+
     using Framework.WebElements;
     using OpenQA.Selenium;
 
@@ -26,6 +28,22 @@
         public SpanElement DeliveryTypeSpan { get; set; }
         public Button SubmitActionButton { get; set; }
         public Button ConfirmModalButton { get; set; }
+
+        public void ClickCleanTab()
+        {
+            var btnElements = this.Driver.FindElements(By.ClassName("btn"));
+
+            var button = btnElements.Where(x => x.Text == "Clean").FirstOrDefault();
+            button.Click();
+        }
+
+        public void ClickExceptionsTab()
+        {
+            var btnElements = this.Driver.FindElements(By.ClassName("btn"));
+
+            var button = btnElements.Where(x => x.Text == "Exceptions").FirstOrDefault();
+            button.Click();
+        }
     }
 
     public enum DeliveryDetailsGrid

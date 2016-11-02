@@ -26,5 +26,7 @@
 
         public int DamagedQuantity => Damages.Sum(d => d.Quantity);
         public int DeliveredQuantity => InvoicedQuantity - ShortQuantity - DamagedQuantity;
+
+        public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
     }
 }

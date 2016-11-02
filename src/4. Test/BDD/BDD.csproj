@@ -184,7 +184,7 @@
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
-    <Compile Include="Framework\Extensions\RouteFileExtensions.cs" />
+    <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
     <Compile Include="Framework\WebElements\CreditThresholdButtonDropDown.cs" />
@@ -216,6 +216,7 @@
     <Compile Include="Pages\DeliveryLinePage.cs" />
     <Compile Include="Pages\DeliveryDetailsPage.cs" />
     <Compile Include="Pages\NotificationPage.cs" />
+    <Compile Include="Pages\UserCreditThresholdPage.cs" />
     <Compile Include="Pages\WidgetsPage.cs" />
     <Compile Include="Pages\UserPreferencesPage.cs" />
     <Compile Include="Pages\BranchPage.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Steps\Page\ArchiveModalSteps.cs" />
     <Compile Include="Steps\Page\AuditSteps.cs" />
     <Compile Include="Steps\Page\BranchParametersSteps.cs" />
+    <Compile Include="Steps\Page\CreditModalSteps.cs" />
     <Compile Include="Steps\Page\DeliveryLineSteps.cs" />
     <Compile Include="Steps\Page\DeliveryDetailSteps.cs" />
     <Compile Include="Steps\Page\NotificationPageSteps.cs" />
@@ -354,6 +356,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD_one_exception.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">

@@ -121,10 +121,10 @@
                 .Execute();
         }
 
-        public void CreditLines(DataTable idsTable)
+        public void CreditLines(DataTable creditLinesTable)
         {
             dapperProxy.WithStoredProcedure("JobDetail_CreditLines")
-                .AddParameter("Ids", idsTable, DbType.Object)
+                .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .Execute();
         }
     }

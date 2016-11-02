@@ -51,6 +51,7 @@
             DeleteAndReseed("Stop");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
+            DeleteAndReseed("PendingCreditToUser");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
             DeleteAndReseed("Audit");
@@ -60,6 +61,8 @@
             DeleteAndReseed("CleanPreference");
             DeleteAndReseed("CreditThresholdToBranch");
             DeleteAndReseed("CreditThreshold");
+            DeleteAndReseed("WidgetToBranch");
+            DeleteAndReseed("Widget");
         }
 
         private void DeleteAndReseed(string tableName)
@@ -113,15 +116,25 @@
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
             SetDeliveryStatus(PerformanceStatus.Compl, 10000);
+            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
-        [Given(@"The clean deliveries are (.*) days old")]
+        [Given(@"The clean deliveries are '(.*)' days old")]
         public void CleanDeliveriesAreThisOld(int daysOld)
         {
             var cleanDate = DateTime.Now.AddDays(daysOld);
 
-            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET DateCreated = '{cleanDate}'");
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET DateUpdated = '{cleanDate}'");
         }
+
+        [Given(@"Clean deliveries are updated to (.*) days old")]
+        public void CleanDeliveriesAreUpdated(int daysOld)
+        {
+            var cleanDate = DateTime.Now.AddDays(daysOld);
+
+            this.dapperProxy.ExecuteSql($"UPDATE Stop SET DeliveryDate = '{cleanDate}'");
+        }
+
 
         [Given(@"All the deliveries are marked as Resolved")]
         public void GivenAllTheDeliveriesAreMarkedAsResolved()
@@ -145,6 +158,7 @@
         public void GivenAllTheDeliveriesAreMarkedAsExceptions()
         {
             SetDeliveryStatus(PerformanceStatus.Incom, 10000);
+            this.MakeJobDetailsShort();
         }
 
         [Given(@"25 audit entries have been made")]
@@ -196,9 +210,13 @@
         [When(@"valid invoice numbers are assigned to jobs")]
         public void WhenValidInvoiceNumbersAreAssignedToJobs()
         {
-            AssignInviceNumbers(JobDetailStatus.Res);
+            this.AssignInvoiceNumbers(JobDetailStatus.Res);
         }
 
+        public void MakeJobDetailsShort()
+        {
+            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 2");
+        }
 
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
@@ -207,7 +225,7 @@
                                      "    InvoiceNumber =  '9' + PHAccount  ");
         }
 
-        public void AssignInviceNumbers(JobDetailStatus jobDetailStatus)
+        public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)
         {
             this.dapperProxy.ExecuteSql($"UPDATE JobDetail " +
                                      $"SET JobDetailStatusId = {(int)jobDetailStatus}");
@@ -219,6 +237,15 @@
             var user = SetUpUser();
             SetUpUserBranch(user.Name, branch);
         }
+
+        [Given(@"I have selected branches '(.*)' and '(.*)'")]
+        public void GivenIHaveSelectedBranchesAnd(int branch1, int branch2)
+        {
+            var user = SetUpUser();
+            SetUpUserBranch(user.Name, branch1);
+            SetUpUserBranch(user.Name, branch2);
+        }
+
 
         [Given(@"I have selected branch (.*) for user identity: (.*)")]
         public void GivenIHaveSelectedBranch(int branch, string userIdentity)
@@ -267,6 +294,7 @@
         }
 
 
+
         [Then(@"the first (.*) rows are credited and no longer on the exceptions grid")]
         public void ThenTheFirstRowsAreCreditedAndNoLongerOnTheExceptionsGrid(int rows)
         {
@@ -307,6 +335,52 @@
 
             }
         }
+
+        [Given(@"'(.*)' clean deliveries are updated to branch '(.*)'")]
+        public void GivenCleanDeliveriesAreUpdateTo(int noOfDeliveries, int location)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP({noOfDeliveries}) RouteHeader SET StartDepotCode = '{location}'");
+        }
+
+
+        [Then(@"a threshold level of (.*) has a value of (.*)")]
+        public void ThenAThresholdLevelOfHasAValueOf(int thresholdLevel, decimal thresholdValue)
+        {
+            var sql = $"SELECT Threshold FROM [dbo].[CreditThreshold] WHERE ThresholdLevelId = {thresholdLevel}";
+            var value = this.dapperProxy.SqlQuery<decimal>(sql).FirstOrDefault();
+            Assert.That(value, Is.EqualTo(thresholdValue));
+        }
+
+        [Then(@"I have a threshold level of (.*)")]
+        public void ThenIHaveAThresholdLevelOf(int thresholdLevel)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE [dbo].[User] SET ThresholdLevelId= {thresholdLevel}");
+        }
+
+
+        [Then(@"I have (.*) resolved deliveries")]
+        public void ThenIHaveResolvedDeliveries(int resolvedDeliveries)
+        {
+            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 8";
+            var value = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
+            Assert.That(value, Is.EqualTo(resolvedDeliveries));
+        }
+
+        [Then(@"I have (.*) pending and (.*) resolved delivery")]
+        public void ThenIHavePendingAndResolvedDelivery(int pendingDelivery, int resolvedDelivery)
+        {
+            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 9";
+            var pendingValue = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
+
+            sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 8";
+            var resolvedValue = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
+
+            Assert.That(pendingValue, Is.EqualTo(pendingDelivery));
+            Assert.That(resolvedValue, Is.EqualTo(resolvedDelivery));
+        }
+
+
+
     }
 }
 

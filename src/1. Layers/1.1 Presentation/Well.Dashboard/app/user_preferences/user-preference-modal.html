@@ -12,8 +12,8 @@
             </div>
             <div class="modal-footer">
                 <button *ngIf="!isThreshold" id="modal-yes" type="button" class="btn btn-success" (click)="setBranches(user)">Yes</button>
-                <button *ngIf="isThreshold" type="button" class="btn btn-success" (click)="setThresholdLevels(user)">Yes</button>
-                <button type="button" class="btn btn-primary" (click)="hide()">No</button>
+                <button *ngIf="isThreshold" id="preference-modal-yes" type="button" class="btn btn-success" (click)="setThresholdLevels(user)">Yes</button>
+                <button type="button" id="preference-modal-no" class="btn btn-primary" (click)="hide()">No</button>
             </div>
         </div>
     </div>

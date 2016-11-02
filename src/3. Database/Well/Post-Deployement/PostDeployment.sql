@@ -34,3 +34,4 @@ Post-Deployment Script Template
 :r .\Populate-GrnRefused.sql
 :r .\Populate-ThresholdLevels.sql
 :r .\Populate-CommodityType.sql
+:r .\Populate-WidgetType.sql

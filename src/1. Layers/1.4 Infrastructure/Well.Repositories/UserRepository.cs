@@ -41,6 +41,14 @@
                     .Query<User>();
         }
 
+        public IEnumerable<decimal> GetCreditThresholds(string user)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetCreditThreshold)
+                    .AddParameter("Username", user, DbType.String)
+                    .Query<decimal>();
+        }
+
         public void SetThresholdLevel(User user, ThresholdLevel thresholdLevel)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.ThresholdLevelSave)

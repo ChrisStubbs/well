@@ -13,11 +13,11 @@ Scenario: A user sets all branches to themselves
     And select branches selection
     Then all the branches are selected
 
-Scenario: A user sets medway and birtley as her branches
+Scenario: A user sets medway and birtley as their branches
 	Given I have a clean database
 	When I navigate to the branches page
-	And I select branch Birtley
-	And I select branch Medway
+	And I select branch '22'
+	And I select branch '2'
 	And I save my branches
 	And select branches selection
 	Then branch is selected Birtley

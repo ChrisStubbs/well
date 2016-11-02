@@ -20,10 +20,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -265,6 +263,10 @@
     <Content Include="app\user_preferences\user-preferences.html" />
     <Content Include="app\user_threshold\user-threshold-level.html" />
     <Content Include="app\user_threshold\user-threshold.html" />
+    <Content Include="app\widget_warnings\widget-warning-add-modal.html" />
+    <Content Include="app\widget_warnings\widget-warning-edit-modal.html" />
+    <Content Include="app\widget_warnings\widget-warning-remove-modal.html" />
+    <Content Include="app\widget_warnings\widget-warnings-view.html" />
     <Content Include="Content\css\6-chasing-dots.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap-responsive.min.css" />
@@ -313,9 +315,15 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
     <Content Include=".typingsrc" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="Scripts\Chart.min.js" />
@@ -354,6 +362,12 @@
     <Content Include="typings.json" />
     <Content Include="Views\Home\AppLayout.cshtml" />
     <Content Include="Well.Dashboard.nuspec" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarning.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningAddModalComponent.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\WidgetWarningEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningRemoveModalComponent.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningService.ts" />
+    <TypeScriptCompile Include="app\widget_warnings\widgetWarningsViewComponent.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -439,6 +453,7 @@
     <TypeScriptCompile Include="app\shared\branch\branchCheckboxComponent.ts" />
     <TypeScriptCompile Include="app\shared\codComponent.ts" />
     <TypeScriptCompile Include="app\shared\contactModal.ts" />
+    <TypeScriptCompile Include="app\shared\creditItem.ts" />
     <TypeScriptCompile Include="app\shared\logService.ts" />
     <TypeScriptCompile Include="app\shared\httpResponse.ts" />
     <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
@@ -451,6 +466,7 @@
     <TypeScriptCompile Include="app\shared\refreshService.ts" />
     <TypeScriptCompile Include="app\shared\security\securityService.ts" />
     <TypeScriptCompile Include="app\shared\spinnerComponent.ts" />
+    <TypeScriptCompile Include="app\shared\threshold.ts" />
     <TypeScriptCompile Include="app\shared\user.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\shared\userService.ts" />

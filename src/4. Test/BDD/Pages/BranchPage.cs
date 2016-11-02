@@ -19,11 +19,14 @@
 
         public readonly Button SaveButton;
 
+        public readonly CheckBox Medway;
+
         public BranchPage()
         {
             this.AdminDropDown = new AdminButtonDropDown { Locator = By.Id("admin-dropdown") };
             this.SelectAllBranchesCheckbox = new CheckBox { Locator = By.Id("select-all-branches") };
             this.SaveButton = new Button { Locator = By.Id("save") };
+            this.Medway = new CheckBox { Locator = By.Id("Medway") };
         }
 
         protected override string UrlSuffix { get; }

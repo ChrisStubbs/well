@@ -15,12 +15,24 @@
     {
         private DeliveryDetailsPage page => new DeliveryDetailsPage();
     
-        [Given(@"I open delivery '(.*)'")]
-        [When(@"I open delivery '(.*)'")]
-        public void WhenIOpenDelivery(int deliveryId)
+        [Given(@"I open the clean delivery '(.*)'")]
+        [When(@"I open the clean delivery '(.*)'")]
+        public void WhenIOpenTheCleanDelivery(int deliveryId)
         {
             string routing = "/" + deliveryId;
             page.Open(routing);
+
+            page.ClickCleanTab();
+        }
+
+        [Given(@"I open the exception delivery '(.*)'")]
+        [When(@"I open the exception delivery '(.*)'")]
+        public void WhenIOpenTheExceptionDelivery(int deliveryId)
+        {
+            string routing = "/" + deliveryId;
+            page.Open(routing);
+
+            page.ClickExceptionsTab();
         }
 
         [Given(@"I click on the first delivery line")]
@@ -61,6 +73,13 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.DamagedQuantity), Is.EqualTo(table.Rows[i]["DamagedQuantity"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.ShortQuantity), Is.EqualTo(table.Rows[i]["ShortQuantity"]));
             }
+        }
+
+        [When(@"I open the clean tab")]
+        public void OpenCleanTab()
+        {
+            Thread.Sleep(1000);
+            page.ClickCleanTab();
         }
 
         [Then(@"the line '(.*)' Short Qty is '(.*)' and Damaged Qty is '(.*)' Del Qty is '(.*)'")]

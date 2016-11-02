@@ -2,14 +2,12 @@
 {
     using System.Linq;
     using System.Threading;
-    using Framework.WebElements;
     using NUnit.Framework;
     using OpenQA.Selenium;
     using Pages;
 
     using PH.Well.BDD.Framework.Context;
     using Repositories.Contracts;
-    using Services.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
 
@@ -17,6 +15,7 @@
     public class ExceptionPageSteps
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
+        private UserCreditThresholdPage UserCreditThresholdPage => new UserCreditThresholdPage();
         private IJobRepository jobRepository;
         private readonly IContainer container;
 
@@ -24,7 +23,6 @@
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
-            
             ExceptionDeliveriesPage.Open();
         }
 
@@ -153,7 +151,6 @@
 
         public void SelectAssignLink(int row)
         {
-            WhenIOpenTheExceptionDeliveries();
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var assignAnchor = rows[row].GetItemInRowByClass("assign");
             assignAnchor.Click();
@@ -178,7 +175,7 @@
         [Then(@"All the exception detail rows can not be updated")]
         public void TheExceptionDetailRowsCanNotBeUpdated()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
 
@@ -188,13 +185,11 @@
         [Then(@"All the exception detail rows can be updated")]
         public void TheExceptionDetailRowsCanBeUpdated()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             var rows = this.ExceptionDeliveriesPage.ExceptionsDrillDownGrid.ReturnAllRows().ToList();
 
             rows[0].Click();
-
-            Thread.Sleep(2000);
 
             var updateable = this.ExceptionDeliveriesPage.DeliveryUpdateDrillDown;
 
@@ -213,7 +208,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
         [When(@"I assign the delivery on row (.*) to myself")]
@@ -227,7 +221,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
         [When(@"I assign the delivery on rows (.*) and (.*) to myself")]
@@ -244,7 +237,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
 
@@ -258,7 +250,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
         [Then(@"the user is assigned to that exception")]
@@ -314,7 +305,6 @@
         {
              var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
              firstCheckbox.Click();
-             
         }
 
         [When(@"I click the '(.*)' button")]
@@ -367,6 +357,40 @@
             Assert.That(cashOnDeliveryIcon, Is.Empty);
         }
 
+        [Then(@"the user credit threshold page is opened")]
+        public void ThenTheUserCreditThresholdPageIsOpened()
+        {
+            UserCreditThresholdPage.Open("/user-threshold-level/Gary.Williams");
+        }
+
+
+//        [When(@"I select Level1 from the dropdown list")]
+//        public void WhenISelectLevelFromTheDropdownList()
+//        {
+//            this.UserCreditThresholdPage.dropdown.SelectLevel1();
+//        }
+
+        [When(@"I click the Save button")]
+        public void WhenIClickTheSaveButton()
+        {
+            this.UserCreditThresholdPage.SaveButton.Click();
+        }
+
+
+        [Then(@"the Credit Confirm modal is displayed")]
+        public void ThenTheCreditConfirmModalIsDisplayed(Table table)
+        {
+            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            CreditModalSteps.CompareModal(table, modal);
+        }
+
+        [When(@"I click the save button on the modal")]
+        public void WhenIClickTheSaveButtonOnTheModal()
+        {
+            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            modal.ConfirmButton.Click();
+            Thread.Sleep(2000);
+        }
 
 
     }

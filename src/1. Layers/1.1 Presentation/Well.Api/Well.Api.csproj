@@ -239,10 +239,12 @@
     <Compile Include="Mapper\Contracts\ICreditThresholdMapper.cs" />
     <Compile Include="Mapper\Contracts\ISeasonalDateMapper.cs" />
     <Compile Include="Mapper\CleanPreferenceMapper.cs" />
+    <Compile Include="Mapper\Contracts\IWidgetWarningMapper.cs" />
     <Compile Include="Mapper\CreditThresholdMapper.cs" />
     <Compile Include="Mapper\RouteModelslMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
+    <Compile Include="Mapper\WidgetWarningMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\CleanPreferenceModel.cs" />
     <Compile Include="Models\DamageModel.cs" />
@@ -258,13 +260,16 @@
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
+    <Compile Include="Models\WidgetWarningModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\CleanPreferenceValidator.cs" />
     <Compile Include="Validators\Contracts\ICleanPreferenceValidator.cs" />
     <Compile Include="Validators\Contracts\ICreditThresholdValidator.cs" />
     <Compile Include="Validators\Contracts\ISeasonalDateValidator.cs" />
+    <Compile Include="Validators\Contracts\IWidgetWarningValidator.cs" />
     <Compile Include="Validators\CreditThresholdValidator.cs" />
     <Compile Include="Validators\SeasonalDateValidator.cs" />
+    <Compile Include="Validators\WidgetWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

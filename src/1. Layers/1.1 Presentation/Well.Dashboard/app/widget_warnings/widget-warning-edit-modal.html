@@ -1,0 +1,29 @@
+﻿<div *ngIf="isVisible" class="modal fade show in danger" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit widget warning for {{widgetWarning.widgetName}} at {{widgetWarning.branchName}}</h4>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="errors && errors.length > 0">
+                    <div class="alert alert-danger" style="max-width: 400px;">
+                        <div *ngFor="let error of errors"><strong>{{error}}</strong></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">&nbsp;</div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label>Warning Level</label>
+                            <input id="warning-level" type="text" class="form-control" placeholder="Widget" [(ngModel)]="widgetWarning.warningLevel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group"><button id="widget-save" type="button" class="btn btn-primary" (click)="update()">Update</button></div>
+                <div class="btn-group"><button type="button" class="btn btn-default" (click)="hide()">Close</button></div>
+            </div>
+        </div>
+    </div>
+</div>

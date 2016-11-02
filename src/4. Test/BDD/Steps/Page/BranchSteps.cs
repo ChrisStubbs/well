@@ -31,18 +31,20 @@
         [Then("I select all the branches")]
         public void SelectAllBranches()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             this.branchPage.SelectAllBranchesCheckbox.Check();
         }
 
         [When("I save my branches")]
         [Then("I save my branches")]
+        [When("I save the branch selection")]
         public void SaveBranches()
         {
             this.branchPage.SaveButton.Click();
         }
 
-        [When("I select branch (.*)")]
+        [When("I select branch '(.*)'")]
+        [When("I deselect branch '(.*)'")]
         public void SelectBranch(string branch)
         {
             this.branchPage.GetCheckBox(branch).Click();
@@ -65,9 +67,10 @@
         }
 
         [Then("all the branches are selected")]
+        [Then("all the branches are saved")]
         public void AllBranchesSelected()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             var checkboxes = this.branchPage.GetBranchCheckboxElements();
 
             Assert.That(checkboxes.Count, Is.EqualTo(12));

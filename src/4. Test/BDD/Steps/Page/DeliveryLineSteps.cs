@@ -63,7 +63,7 @@
             WhenIAddTheActionToItem("Credit", "1");
             WhenISaveTheDeliveryLineUpdates();
             var deliveryPageSteps = new DeliveryDetailSteps();
-            deliveryPageSteps.WhenIOpenDelivery(1);
+            deliveryPageSteps.WhenIOpenTheExceptionDelivery(1);
             deliveryPageSteps.ClickSubmitActions();
         }
 
@@ -103,8 +103,8 @@
             page.FirstDamageReasonSelect.Select(reasonCode);
         }
 
-        [When(@"I remove all damaages")]
-        public void WhenIRemoveAllDamaages()
+        [When(@"I remove all damages")]
+        public void WhenIRemoveAllDamages()
         {
             var buttons = page.GetRemoveDamageButtons(2);
             foreach (var button in buttons)
@@ -117,7 +117,7 @@
         public void WhenISaveTheDeliveryLineUpdates()
         {
             page.SaveButton.Click();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
         }
 
         [When(@"I confirm the delivery line update")]
@@ -187,7 +187,5 @@
         {
             ScenarioContext.Current.Pending();
         }
-
-
     }
 }

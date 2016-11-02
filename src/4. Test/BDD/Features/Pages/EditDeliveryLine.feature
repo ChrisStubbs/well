@@ -12,8 +12,9 @@ Background:
 
 Scenario: Add short qty and damages to clean delivery
 	Given 1 deliveries have been marked as clean	
+	And I open the clean deliveries
 	And I assign the clean delivery to myself
-	And I open delivery '1'
+	And I open the clean delivery '1'
 	And I click on the first delivery line
 	When I enter a short quantity of '5'
 	And I add a damage qty of '2' and reason 'CAR01 - Dented'
@@ -28,15 +29,17 @@ Scenario: Add short qty and damages to clean delivery
 
 
 Scenario: Remove short qty and damages from exception delivery
-	Given I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
+	Given I have imported a valid Epod update file named 'ePOD_one_exception.xml'
 	And 1 deliveries have been marked as exceptions
+	And I open the exception deliveries
 	And I assign the delivery to myself
-	And I open delivery '1'
+	And I open the exception delivery '1'
 	And I click on the first delivery line
 	When I enter a short quantity of '0'
-	And I remove all damaages
+	And I remove all damages
 	And I save the delivery line updates
 	And I confirm the delivery line update
+	And I open the clean tab
 	Then the line '1' Short Qty is '0' and Damaged Qty is '0' Del Qty is '20'
 	And the delivery status is 'Resolved'
 	When I open the audits page

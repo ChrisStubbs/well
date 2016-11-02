@@ -14,6 +14,6 @@
 
         void DeleteJobDetailById(int id);
 
-        void CreditLines(DataTable idsTable);
+        void CreditLines(DataTable creditLinesTable);
     }
 }

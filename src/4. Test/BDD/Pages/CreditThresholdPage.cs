@@ -1,4 +1,6 @@
-﻿namespace PH.Well.BDD.Pages
+﻿using System.Security.Policy;
+
+namespace PH.Well.BDD.Pages
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -21,6 +23,10 @@
 
         public SpanElement NoResults;
 
+        public SpanElement Username;
+
+        public readonly AdminButtonDropDown AdminDropDown;
+
         public CreditThresholdPage()
         {
             this.AddButton = new Button { Locator = By.Id("add-credit-threshold") };
@@ -28,6 +34,9 @@
             this.Threshold = new TextBox { Locator = By.Id("threshold") };
             this.RemoveConfirmButton = new Button { Locator = By.Id("threshold-remove-confirm") };
             this.NoResults = new SpanElement { Locator = By.Id("threshold-no-results") };
+            this.Username = new SpanElement {Locator = By.Id("current-user-name")};
+            this.AdminDropDown = new AdminButtonDropDown { Locator = By.Id("admin-dropdown") };
+
         }
 
         protected override string UrlSuffix { get; }
@@ -48,6 +57,19 @@
 
             return grid;
         }
+
+        public List<CreditThresholdGrid> GetGrid(int rows)
+        {
+            var grid = new List<CreditThresholdGrid>();
+
+            for (int i = 1; i <= rows; i++)
+            {
+                grid.Add(new CreditThresholdGrid(i));
+            }
+
+            return grid;
+        }
+
 
         public class CreditThresholdGrid
         {

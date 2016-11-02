@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<RouteDeliveries>
+  <Header>
+    <SimNumber />
+    <TransmissionMethod />
+    <DestinationFolder />
+    <SubmissionNo />
+    <RetryInterval />
+    <Timeout />
+    <Stamp>3</Stamp>
+    <Fallback>
+      <TransmissionMethod />
+      <DestinationFolder />
+      <RetryInterval />
+      <Timeout />
+      <Stamp>3</Stamp>
+    </Fallback>
+    <Reasons />
+    <Date>
+      <Day>1</Day>
+      <Month>7</Month>
+      <Year>2016</Year>
+      <Time>10:45:22</Time>
+    </Date>
+    <PDAVersionNumber />
+    <Authorised>False</Authorised>
+    <DeviceTypeCode />
+    <DeviceCode />
+    <IsWasteLicenced>False</IsWasteLicenced>
+  </Header>
+  <Routes>
+    <RouteHeader>
+      <RouteHeaderID>683</RouteHeaderID>
+      <CompanyID>3</CompanyID>
+      <RouteNumber>001</RouteNumber>
+      <RouteDate>01-07-2016</RouteDate>
+      <PlannedStops>2</PlannedStops>
+      <ActualStopsCompleted>1</ActualStopsCompleted>
+      <RouteStatusCode>INPRO</RouteStatusCode>
+      <RouteStatusDescription>In Progress</RouteStatusDescription>
+      <PerformanceStatusCode>EARLY</PerformanceStatusCode>
+      <PerformanceStatusDescription>Early</PerformanceStatusDescription>
+      <AuthByPass>1</AuthByPass>
+      <NonAuthByPass />
+      <ShortDeliveries />
+      <DamagesRejected>1</DamagesRejected>
+      <DamagesAccepted>1</DamagesAccepted>
+      <NotRequired />
+      <DriverName>RENTON MARK</DriverName>
+      <Depot>BIR</Depot>
+      <Stops>
+        <Stop>
+          <StopID>1</StopID>
+          <RouteHeaderID>1</RouteHeaderID>
+          <ByPassReasonID />
+          <PlannedStopNumber>01</PlannedStopNumber>
+          <TransportOrderRef>001 01 43362.048 01-07-2016</TransportOrderRef>
+          <StopStatusCode>DEPAR</StopStatusCode>
+          <StopStatusDescription>Departed</StopStatusDescription>
+          <PerformanceStatusCode>COMPL</PerformanceStatusCode>
+          <PerformanceStatusDescription>Complete</PerformanceStatusDescription>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>03/43362.048</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
+          <Jobs>
+            <Job>
+              <JobID>110679</JobID>
+              <StopID>88638</StopID>
+              <ByPassReasonID />
+              <Sequence>1</Sequence>
+              <PHAccount>49214.152</PHAccount>
+              <PickListRef>4294343</PickListRef>
+              <InvoiceNumber>12345678</InvoiceNumber>
+              <CustomerRef>946941</CustomerRef>
+              <GrnNumber>1234567896541236547896</GrnNumber>
+              <GrnRefusedReason>Inv</GrnRefusedReason>
+              <GrnRefusedDesc>Invalid</GrnRefusedDesc>
+              <PerformanceStatusCode>INCOM</PerformanceStatusCode>
+              <PerformanceStatusDescription>Incomplete</PerformanceStatusDescription>
+              <OrderDate>30-05-2016</OrderDate>
+              <JobType_Code>DEL-TOB</JobType_Code>
+              <Reason_ReasonCode>F</Reason_ReasonCode>
+              <JobDetails>
+                <JobDetail>
+                  <JobDetailID>195269</JobDetailID>
+                  <JobID>110679</JobID>
+                  <PHProductCode>50035</PHProductCode>
+                  <UnitMeasure>10</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>1</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty>1</DeliveredQty>
+                  <ShortQty>3</ShortQty>
+                  <PHProductType>5</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal>100</SubOuterDamageTotal>
+                  <SkuGoodsValue>24.72</SkuGoodsValue>
+                  <JobDetailDamages>
+                    <JobDetailDamage>
+                      <Qty>1</Qty>
+                      <Reason>
+                        <ReasonCode>CAR01</ReasonCode>
+                        <Description>Dented</Description>
+                      </Reason>
+                      <Source>
+                        <ReasonCode>PSTDIS001</ReasonCode>
+                        <Description>The Warehouse</Description>
+                      </Source>
+                    </JobDetailDamage>
+                    <JobDetailDamage>
+                      <Qty>1</Qty>
+                      <Reason>
+                        <ReasonCode>DAR08</ReasonCode>
+                        <Description>Wrong Colour / Product</Description>
+                      </Reason>
+                      <Source>
+                        <ReasonCode>PSTDIS001</ReasonCode>
+                        <Description>The Warehouse</Description>
+                      </Source>
+                    </JobDetailDamage>
+                  </JobDetailDamages>
+                </JobDetail>
+              </JobDetails>
+            </Job>
+          </Jobs>
+        </Stop>
+      </Stops>
+    </RouteHeader>
+  </Routes>
+</RouteDeliveries>

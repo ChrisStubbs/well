@@ -6,6 +6,7 @@
     using Moq;
     using NUnit.Framework;
     using Repositories.Contracts;
+    using Well.Common.Security;
     using Well.Domain;
     using Well.Domain.Enums;
     using Well.Services;
@@ -15,28 +16,31 @@
     {
         private DeliveryService service;
         private Mock<IJobDetailRepository> jobDetailRepository;
-        private Mock<IJobDetailDamageRepo> jobDetailDamageRepo;
+        private Mock<IJobDetailDamageRepository> jobDetailDamageRepo;
         private Mock<IJobRepository> jobRepo;
         private Mock<IAuditRepository> auditRepo;
         private Mock<IStopRepository> stopRepo;
         private Mock<IJobDetailActionRepository> jobDetailActionRepo;
+        private Mock<IUserRepository> userRepo;
 
         [SetUp]
         public void Setup()
         {
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
-            jobDetailDamageRepo = new Mock<IJobDetailDamageRepo>(MockBehavior.Strict);
+            jobDetailDamageRepo = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             jobRepo = new Mock<IJobRepository>(MockBehavior.Strict);
             auditRepo = new Mock<IAuditRepository>(MockBehavior.Strict);
             stopRepo = new Mock<IStopRepository>(MockBehavior.Strict);
             jobDetailActionRepo = new Mock<IJobDetailActionRepository>(MockBehavior.Strict);
+            userRepo = new Mock<IUserRepository>(MockBehavior.Strict);
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
                 jobRepo.Object,
                 auditRepo.Object,
                 stopRepo.Object,
-                jobDetailActionRepo.Object);
+                jobDetailActionRepo.Object,
+                userRepo.Object);
 
             jobDetailRepository.SetupSet(x => x.CurrentUser = "user");
             jobDetailDamageRepo.SetupSet(x => x.CurrentUser = "user");

@@ -61,6 +61,8 @@
             DeleteAndReseed("CleanPreference");
             DeleteAndReseed("CreditThresholdToBranch");
             DeleteAndReseed("CreditThreshold");
+            DeleteAndReseed("WidgetToBranch");
+            DeleteAndReseed("Widget");
         }
 
         private void DeleteAndReseed(string tableName)
@@ -156,6 +158,7 @@
         public void GivenAllTheDeliveriesAreMarkedAsExceptions()
         {
             SetDeliveryStatus(PerformanceStatus.Incom, 10000);
+            this.MakeJobDetailsShort();
         }
 
         [Given(@"25 audit entries have been made")]
@@ -207,9 +210,13 @@
         [When(@"valid invoice numbers are assigned to jobs")]
         public void WhenValidInvoiceNumbersAreAssignedToJobs()
         {
-            AssignInviceNumbers(JobDetailStatus.Res);
+            this.AssignInvoiceNumbers(JobDetailStatus.Res);
         }
 
+        public void MakeJobDetailsShort()
+        {
+            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 2");
+        }
 
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
@@ -218,7 +225,7 @@
                                      "    InvoiceNumber =  '9' + PHAccount  ");
         }
 
-        public void AssignInviceNumbers(JobDetailStatus jobDetailStatus)
+        public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)
         {
             this.dapperProxy.ExecuteSql($"UPDATE JobDetail " +
                                      $"SET JobDetailStatusId = {(int)jobDetailStatus}");

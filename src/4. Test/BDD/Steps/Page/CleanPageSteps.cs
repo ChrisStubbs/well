@@ -18,6 +18,7 @@ namespace PH.Well.BDD.Steps.Page
     {
         private CleanDeliveriesPage CleanDeliveriesPage => new CleanDeliveriesPage();
 
+        [Given(@"I open the clean deliveries")]
         [When(@"I open the clean deliveries")]
         public void WhenIOpenTheCleanDeliveries()
         {
@@ -38,7 +39,6 @@ namespace PH.Well.BDD.Steps.Page
 
         public void SelectAssignLink()
         {
-            WhenIOpenTheCleanDeliveries();
             var rows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
             var assignAnchor = rows[0].GetItemInRowByClass("assign");
             assignAnchor.Click();
@@ -54,7 +54,6 @@ namespace PH.Well.BDD.Steps.Page
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
 

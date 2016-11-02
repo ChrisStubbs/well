@@ -35,7 +35,7 @@
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
-                    x.For<IJobDetailDamageRepo>().Use<JobDetailDamageRepository>();
+                    x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
                     x.For<ICleanDeliveryService>().Use<CleanDeliveryService>();

@@ -1,5 +1,6 @@
 ﻿import {Component, OnInit, ViewChild}  from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {TabsModule} from 'ng2-tabs';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {Delivery} from "./model/delivery";
@@ -63,15 +64,21 @@ export class DeliveryComponent implements OnInit {
 
     submitActions(): void {
         let submitLines: SubmitLine[] = new Array<SubmitLine>();
-        for (let line of this.delivery.deliveryLines) {
+
+        this.addSubmissionLines(submitLines, this.delivery.exceptionDeliveryLines);
+        this.addSubmissionLines(submitLines, this.delivery.cleanDeliveryLines);
+
+        this.submitConfirmModal.submitLines = submitLines;
+        this.submitConfirmModal.show();
+    }
+
+    addSubmissionLines(submitLines, deliveryLines) {
+        for (let line of this.delivery.exceptionDeliveryLines) {
             var draftActions = lodash.filter(line.actions, { status: 1 });
             if (draftActions && draftActions.length > 0) {
                 submitLines.push(new SubmitLine(line.productCode, line.productDescription, draftActions));
             }
         }
-
-        this.submitConfirmModal.submitLines = submitLines;
-        this.submitConfirmModal.show();
     }
 
     submitActionsConfirmed(): void {

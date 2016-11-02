@@ -8,7 +8,8 @@
     {
         public DeliveryDetailModel()
         {
-            this.DeliveryLines = new List<DeliveryLineModel>();
+            this.ExceptionDeliveryLines = new List<DeliveryLineModel>();
+            this.CleanDeliveryLines = new List<DeliveryLineModel>();
         }
 
         public int Id { get; set; }
@@ -27,14 +28,16 @@
 
         public string MobileNumber { get; set; }
 
-        public string DeliveryType { get; set; } // resolved clean exception
+        public string DeliveryType { get; set; } 
 
         public bool IsException { get; set; }
 
         public bool CanAction { get; set; }
 
-        public bool CanSubmit { get {return CanAction && DeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }
+        public bool CanSubmit { get {return CanAction && ExceptionDeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }
 
-        public List<DeliveryLineModel> DeliveryLines { get; set; }
+        public List<DeliveryLineModel> ExceptionDeliveryLines { get; set; }
+
+        public List<DeliveryLineModel> CleanDeliveryLines { get; set; }
     }
 }

@@ -2,14 +2,12 @@
 {
     using System.Linq;
     using System.Threading;
-    using Framework.WebElements;
     using NUnit.Framework;
     using OpenQA.Selenium;
     using Pages;
 
     using PH.Well.BDD.Framework.Context;
     using Repositories.Contracts;
-    using Services.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
 
@@ -25,7 +23,6 @@
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
-            
             ExceptionDeliveriesPage.Open();
         }
 
@@ -154,7 +151,6 @@
 
         public void SelectAssignLink(int row)
         {
-            WhenIOpenTheExceptionDeliveries();
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var assignAnchor = rows[row].GetItemInRowByClass("assign");
             assignAnchor.Click();
@@ -179,7 +175,7 @@
         [Then(@"All the exception detail rows can not be updated")]
         public void TheExceptionDetailRowsCanNotBeUpdated()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
 
@@ -189,13 +185,11 @@
         [Then(@"All the exception detail rows can be updated")]
         public void TheExceptionDetailRowsCanBeUpdated()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             var rows = this.ExceptionDeliveriesPage.ExceptionsDrillDownGrid.ReturnAllRows().ToList();
 
             rows[0].Click();
-
-            Thread.Sleep(2000);
 
             var updateable = this.ExceptionDeliveriesPage.DeliveryUpdateDrillDown;
 
@@ -214,7 +208,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
         [When(@"I assign the delivery on row (.*) to myself")]
@@ -228,7 +221,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
         [When(@"I assign the delivery on rows (.*) and (.*) to myself")]
@@ -245,7 +237,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
 
@@ -259,7 +250,6 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-            Thread.Sleep(2000);
         }
 
         [Then(@"the user is assigned to that exception")]
@@ -315,7 +305,6 @@
         {
              var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
              firstCheckbox.Click();
-             
         }
 
         [When(@"I click the '(.*)' button")]
@@ -402,9 +391,6 @@
             modal.ConfirmButton.Click();
             Thread.Sleep(2000);
         }
-
-
-
 
 
     }

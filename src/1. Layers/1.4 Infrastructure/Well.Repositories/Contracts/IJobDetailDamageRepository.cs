@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Domain;
 
-    public interface IJobDetailDamageRepo : IRepository<JobDetailDamage, int>
+    public interface IJobDetailDamageRepository : IRepository<JobDetailDamage, int>
     {
         void Delete(int jobDetailId);
 

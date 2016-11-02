@@ -43,6 +43,7 @@
             </tr>
             </thead>
             <tbody>
+                    <!--TODO add IPagination thingy with id to each paginator within the component-->
             <tr class="grid-row" *ngFor="let line of delivery.deliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }"
                 (click)="lineClicked(line)">
                 <td>{{line.lineNo}}</td>

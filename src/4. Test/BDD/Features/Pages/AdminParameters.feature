@@ -133,43 +133,13 @@ Scenario: Seasonal dates negative inputs
 	Then the seasonal dates are not saved
 
 
-Scenario: Credit threshold add new
+Scenario: Credit threshold Add, Edit, and Remove
 	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a credit threshold
+	When I navigate to the branch parameters page
+	And I select the credit threshold tab
+	And I add a credit threshold
 	| Level  | Threshold |
-	| Level1 | 1000      |
-	And all branches are selected for the credit threshold
-	And I save the credit threshold
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-	And I navigate to the branch parameters page
-	When I select the credit threshold tab
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-
-Scenario: Credit threshold remove
-	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a credit threshold
-	| Level  | Threshold |
-	| Level1 | 1000      |
-	And all branches are selected for the seasonal date
-	And I save the credit threshold
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-	When I remove the credit threshold
-	Then it is removed from the credit threshold grid
-
-Scenario: Credit threshold edit
-	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a credit threshold
-	| Level  | Threshold |
-	| Level1 | 1000      |
+	| 1      | 1000      |
 	And all branches are selected for the seasonal date
 	And I save the credit threshold
 	Then the credit threshold is saved
@@ -182,6 +152,59 @@ Scenario: Credit threshold edit
 	Then the credit threshold is updated with id '2'
 	| Level   | Threshold | Branches                                                   |
 	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay | 
+	When I remove the credit threshold
+	Then it is removed from the credit threshold grid
+
+Scenario:  Credit threshold negative inputs
+	Given I have a clean database
+	When I navigate to the branch parameters page
+	And I select the credit threshold tab
+	And I open the credit threshold input
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                        |
+	| Threshold level is required! |
+	| Threshold is required!       |
+	| Branch is required!          |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | aaa       |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                        |
+	| Threshold is required!       |
+	| Branch is required!          |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | -1        |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                             |
+	| Threshold range is 1 to 1000000   |
+	| Branch is required!               |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | 0         |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                              |
+	| Threshold range is 1 to 1000000    |
+	| Branch is required!                |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | 10000001  |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                              |
+	| Threshold range is 1 to 1000000    |
+	| Branch is required!                |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | 10        |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                              |
+	| Branch is required!                |
 
 Scenario: Credit threshold applied all levels
 	Given I have a clean database

@@ -69,6 +69,14 @@ namespace PH.Well.BDD.Pages
 
             return grid;
         }
+        public List<string> GetErrors()
+        {
+
+            var elements = this.Driver.FindElements(By.ClassName("credit-error"));
+
+            return elements.Select(element => element.Text).ToList();
+        }
+
 
 
         public class CreditThresholdGrid

@@ -66,6 +66,8 @@
             return grid;
         }
 
+
+
         public class Grid
         {
             private const string DaysId = "clean-days-";
@@ -81,11 +83,14 @@
                 this.Remove = new Button { Locator = By.Id(RemoveId + id) };
             }
 
+
             public SpanElement Days { get; set; }
 
             public SpanElement Branches { get; set; }
 
             public Button Remove { get; set; }
+
+
         }
     }
 }

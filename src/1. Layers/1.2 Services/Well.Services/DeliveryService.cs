@@ -165,7 +165,7 @@
             this.jobRepository.CreditLines(creditLinesTable);
             this.jobDetailRepository.CreditLines(creditLinesTable);
            var userId = this.userRepository.GetByIdentity(username).Id;
-           this.jobRepo.JobPendingCredits(creditLinesTable, userId);
+           this.jobRepository.JobPendingCredits(creditLinesTable, userId);
         }
 
         private DataTable GetPendingCreditsTable(IEnumerable<CreditLines> creditLines)

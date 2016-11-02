@@ -128,7 +128,7 @@ Scenario: Credit threshold edit
 	| 2000      |
 	And I update the credit threshold
 	Then the credit threshold is updated with id '2'
-	| Level  | Threshold | Branches                                                   |
+	| Level  | Threshold | Branches                                                    |
 	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
 
 

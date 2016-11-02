@@ -9,7 +9,7 @@ Feature: CleanPage
 Scenario: A user can view Clean Delivery Information
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And  3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the following clean deliveries will be displayed
@@ -17,7 +17,6 @@ Scenario: A user can view Clean Delivery Information
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             |
-
 	When I view the account info modal for clean row 2
 	Then I can the following account info details - clean
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
@@ -27,7 +26,7 @@ Scenario: A user can view Clean Delivery Information
 Scenario: A user can filter Clean Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And  All the deliveries are marked as clean
 	When I open the clean deliveries
 	And I filter the clean delivery grid with the option 'Route' and value '006'
@@ -55,7 +54,7 @@ Scenario: A user can filter Clean Delivery information
 Scenario: A user can view Clean Delivery Information and sort on updated date
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And  3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the following clean deliveries will be displayed
@@ -73,7 +72,7 @@ Scenario: A user can view Clean Delivery Information and sort on updated date
 Scenario: A user can page through Clean Delivery information
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And  All the deliveries are marked as clean
 	When I open the clean deliveries
 	Then '10' rows of clean delivery data will be displayed
@@ -86,7 +85,7 @@ Scenario: A user can page through Clean Delivery information
 Scenario: A user can view Clean Delivery Information with cash on delivery icons displayed
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And  3 deliveries have been marked as clean
 	And the first 'clean' delivery is not a cash on delivery customer
 	When I open the clean deliveries 

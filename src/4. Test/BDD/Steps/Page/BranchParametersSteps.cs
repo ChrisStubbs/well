@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using PH.Well.BDD.Framework.Extensions;
+using PH.Well.Domain.Enums;
 
 namespace PH.Well.BDD.Steps.Page
 {
@@ -9,7 +10,9 @@ namespace PH.Well.BDD.Steps.Page
     using PH.Well.BDD.Pages;
 
     using TechTalk.SpecFlow;
-    
+    using System.Threading;
+
+
     [Binding]
     public class BranchParametersSteps
     {
@@ -17,6 +20,7 @@ namespace PH.Well.BDD.Steps.Page
         private CreditThresholdPage creditThresholdPage => new CreditThresholdPage();
         private BranchPage branchPage => new BranchPage();
         private CleanPreferencePage cleanPage => new CleanPreferencePage();
+        private WidgetWarningPage widgetWarningPage => new WidgetWarningPage();
 
         [Given("I navigate to the branch parameters page")]
         [Then("I navigate to the branch parameters page")]
@@ -26,6 +30,14 @@ namespace PH.Well.BDD.Steps.Page
             this.page.Open();
             this.page.AdminDropDown.SelectBranchParameters();
         }
+
+        [When("I navigate to the user threshold levels page")]
+        public void NavigateToUserThreshold()
+        {
+            this.creditThresholdPage.AdminDropDown.SelectUserThreshold();
+
+        }
+
 
         [When("I add a seasonal date")]
         public void AddSeasonalDate(Table table)
@@ -49,9 +61,11 @@ namespace PH.Well.BDD.Steps.Page
         [When("I add a credit threshold")]
         public void AddCreditThreshold(Table table)
         {
-            this.creditThresholdPage.ClickThresholdTab();
             this.creditThresholdPage.AddButton.Click();
-            this.creditThresholdPage.dropdown.SelectLevel1();
+
+            var thresholdLevel = (ThresholdLevel)int.Parse(table.Rows[0]["Level"]);
+
+            this.creditThresholdPage.dropdown.SelectThresholdLevel(thresholdLevel);
             this.creditThresholdPage.Threshold.EnterText(table.Rows[0]["Threshold"]);
         }
 
@@ -75,6 +89,7 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.creditThresholdPage.ClickThresholdTab();
         }
+
 
         [When("I select the clean parameter tab")]
         public void SelectCleanParameterTab()
@@ -128,6 +143,7 @@ namespace PH.Well.BDD.Steps.Page
         [When("all branches are selected for the seasonal date")]
         [When("all branches are selected for the credit threshold")]
         [When("all branches are selected for the clean parameter")]
+        [When("all branches are selected for the widget warning parameter")]
         public void AllBranchesForSeasonalDate()
         {
             this.branchPage.SelectAllBranchesCheckbox.Check();
@@ -196,7 +212,9 @@ namespace PH.Well.BDD.Steps.Page
         [Then("the credit threshold is saved")]
         public void CreditThresholdSaved(Table table)
         {
-            var grid = this.creditThresholdPage.GetGridById(1);
+            Thread.Sleep(1000);
+
+            var grid = this.creditThresholdPage.GetGrid(table.RowCount);
 
             for (int i = 0; i < table.RowCount; i++)
             {
@@ -308,6 +326,82 @@ namespace PH.Well.BDD.Steps.Page
         public void CleanParameterHasGoneFromGrid()
         {
             Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
+        }
+
+        [When("I add a widget warning parameter")]
+        public void AddWidgetWarningParameter(Table table)
+        {
+            this.widgetWarningPage.ClickWidgetWarningTab();
+            this.widgetWarningPage.Add.Click();
+            this.widgetWarningPage.Level.EnterText(table.Rows[0]["Level"]);
+            this.widgetWarningPage.Description.EnterText(table.Rows[0]["Description"]);
+            this.widgetWarningPage.WidgetButtonDropDown.SelectWidgetWarningException();
+        }
+
+        [When("I select the widget warning tab")]
+        public void SelectWidgetWarningTab()
+        {
+            this.widgetWarningPage.ClickWidgetWarningTab();
+        }
+
+        [When("I save the widget warning parameter")]
+        [When("I update the widget warning parameter")]
+        public void SaveWidgetWarning()
+        {
+            this.widgetWarningPage.Save.Click();
+        }
+
+
+        [Then("the widget warning parameter is saved")]
+        public void WidgetWarningParameterSaved(Table table)
+        {
+            var grid = this.widgetWarningPage.GetGridById(1);
+
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(grid[i].Level.Text, Is.EqualTo(table.Rows[i]["Level"]));
+                Assert.That(grid[i].WidgetType.Text, Is.EqualTo(table.Rows[i]["Widget"]) );
+                Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+            }
+        }
+
+        
+        [When("I remove the widget warning parameter")]
+        public void RemoveWidgetWarningParameter()
+        {
+            var grid = this.widgetWarningPage.GetGridById(1);
+
+            grid[0].Remove.Click();
+
+            this.widgetWarningPage.Remove.Click();
+        }
+
+        [Then("it is removed from the widget warning grid")]
+        public void WidgetWarningParameterHasGoneFromGrid()
+        {
+            Assert.That(this.widgetWarningPage.NoResults.Text, Is.EqualTo("No Widget Warnings!"));
+        }
+
+        [When("I edit a widget warning parameter")]
+        public void EditWidgetWarningParameter(Table table)
+        {
+            var grid = this.widgetWarningPage.GetGridById(1);
+
+            grid[0].Level.Click();
+
+            this.widgetWarningPage.Level.EnterText(table.Rows[0]["Level"]);
+        }
+
+        [Then("the widget warning parameter is updated with id '(.*)'")]
+        public void WidgetWarningParameterUpdate(int id, Table table)
+        {
+            var grid = this.widgetWarningPage.GetGridById(id);
+
+            for (int i = 0; i < table.RowCount; i++)
+            {
+                Assert.That(grid[i].Level.Text, Is.EqualTo(table.Rows[i]["Level"]));
+                Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
+            }
         }
 
         [When(@"I open the seasonal date input")]

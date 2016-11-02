@@ -61,6 +61,8 @@
             DeleteAndReseed("CleanPreference");
             DeleteAndReseed("CreditThresholdToBranch");
             DeleteAndReseed("CreditThreshold");
+            DeleteAndReseed("WidgetToBranch");
+            DeleteAndReseed("Widget");
         }
 
         private void DeleteAndReseed(string tableName)
@@ -229,7 +231,7 @@
                                      $"SET JobDetailStatusId = {(int)jobDetailStatus}");
         }
 
-        [Given(@"I have selected branch '(.*)'")]
+        [Given(@"I have selected branch (.*)")]
         public void GivenIHaveSelectedBranch(int branch)
         {
             var user = SetUpUser();

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.BDD.Framework.WebElements
+﻿using PH.Well.Domain.Enums;
+
+namespace PH.Well.BDD.Framework.WebElements
 {
     using System;
     using OpenQA.Selenium;
@@ -8,7 +10,7 @@
 
     public class CreditThresholdButtonDropDown : WebElement
     {
-        public void SelectLevel1()
+        public void SelectThresholdLevel(ThresholdLevel level)
         {
             this.Driver.WaitForJavascript();
 
@@ -18,7 +20,7 @@
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
             
-            var dropItem = wait.Until((d) => d.FindElement(By.Id("credit-threshold-level1")));
+            var dropItem = wait.Until((d) => d.FindElement(By.Id($"credit-threshold-level{(int)level}")));
 
             dropItem.Click();
         }

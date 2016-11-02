@@ -6,12 +6,13 @@ Feature: Admininistration Parameters
 	I want to be able to set seasonal dates so that clean deliveries take these dates into account when getting cleared from the well
 	And I want to be able to set credit threshold per branch
 	And I want to be able to set the time clean deliveries are cleaned from the well
+	And I want to be able to set widget warning levels per branch
 
 Scenario: Seasonal dates applied all branches
 #Add, edit
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch '22'
+	And I have selected branch 22
 	And All the deliveries are marked as clean 
 	And The clean deliveries are '-2' days old 
 	And I navigate to the branch parameters page 
@@ -79,6 +80,58 @@ Scenario: Seasonal dates applied one branch
 	And I open the clean deliveries
 	Then No clean deliveries will be displayed
 
+Scenario: Seasonal dates negative inputs
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I open the seasonal date input
+	And I save the seasonal date
+	Then warnings appear in the seasonal input page
+	| Error					   |
+	| Description is required! |
+	| From date is required!   |
+	| To date is required!     |
+	| Select a branch!         |
+	When I change the seasonal date
+    | Description | FromDate | ToDate |
+    |   test      | aaa		 | aaa    |
+	And I save the seasonal date
+	Then warnings appear in the seasonal input page
+	| Error					         |
+	| From date is not a valid date! |
+	| To date is not a valid date!   |
+	| Select a branch!               |
+	When I change the seasonal date
+    | Description | FromDate | ToDate   |
+    |   test      | 01012016 | 01012016 |
+	And I save the seasonal date
+	Then warnings appear in the seasonal input page
+	| Error					         |
+	| From date is not a valid date! |
+	| To date is not a valid date!   |
+	| Select a branch!               |
+	When I change the seasonal date
+    | Description | FromDate   | ToDate     |
+    |   test      | 2016/01/31 | 2016/31/01 |
+	And I save the seasonal date
+	Then warnings appear in the seasonal input page
+	| Error					         |
+	| To date is not a valid date!   |
+	| Select a branch!               |
+	When I change the seasonal date
+    | Description | FromDate   | ToDate   |
+    |   test      | 29/02/2016 | -1       |
+	And I save the seasonal date
+	Then warnings appear in the seasonal input page
+	| Error					         |
+	| To date is not a valid date!   |
+	| Select a branch!               |
+	When I change the seasonal date
+    | Description | FromDate   | ToDate     |
+    |   test      | 29/02/2016 | 30/03/2016 |
+	And all branches are selected for the seasonal date
+	And the seasonal dates page is closed
+	Then the seasonal dates are not saved
+
 
 Scenario: Credit threshold add new
 	Given I have a clean database
@@ -127,15 +180,80 @@ Scenario: Credit threshold edit
 	| 2000      |
 	And I update the credit threshold
 	Then the credit threshold is updated with id '2'
-	| Level  | Threshold | Branches                                                   |
-	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	| Level   | Threshold | Branches                                                   |
+	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay | 
+
+Scenario: Credit threshold applied all levels
+	Given I have a clean database
+	#And there are deliveries with execeptions
+	#need 3 deliveries with different credit levels
+	When I navigate to the branch parameters page
+	And I select the credit threshold tab
+	And I add a credit threshold
+	| Level | Threshold |
+	| 1     | 1000      |
+	And all branches are selected for the credit threshold
+	And I save the credit threshold
+	Then the credit threshold is saved
+	| Level   | Threshold | Branches                                                   |
+	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I add a credit threshold
+	| Level | Threshold |
+	| 2     | 100       |
+	And all branches are selected for the credit threshold
+	And I save the credit threshold
+	Then the credit threshold is saved
+	| Level   | Threshold | Branches                                                   |
+	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	| Level 2 | 100       | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I add a credit threshold
+	| Level | Threshold |
+	| 3     | 10      |
+	And all branches are selected for the credit threshold
+	And I save the credit threshold
+	Then the credit threshold is saved
+	| Level   | Threshold | Branches                                                   |
+	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	| Level 2 | 100       | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	| Level 3 | 10        | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I navigate to the branches page
+	And I select all the branches
+	And I save the branch selection
+	Then all the branches are saved
+	When I navigate to the user threshold levels page
+	And I search for the current user
+	And I select the current user from the results
+	And I select Level '1' from the dropdown list
+	And save the user threshold level
+	Then the threshold level is saved
+	When I open the exception deliveries
+	#Then Only the execption within the threshold tolerance will be actionable
+	#When I navigate to user threshold levels
+	#And I search for the current user
+	#And I select the current user from the results
+	#And I select Level2 from the dropdown list
+	#And save the user threshold level
+	#Then the threshold level is saved
+	#When I open the exception deliveries
+	#Then Only the execption within the threshold tolerance will be actionable
+	#When I navigate to user threshold levels
+	#And I search for the current user
+	#And I select the current user from the results
+	#And I select Level3 from the dropdown list
+	#And save the user threshold level
+	#Then the threshold level is saved
+	#When I open the exception deliveries
+	#Then Only the execption within the threshold tolerance will be actionable
+
+
+
 
 
 Scenario: Clean parameters applied all branches
 #Add, edit
  	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch '22'
+	And I have selected branch 22
 	And All the deliveries are marked as clean 
 	And The clean deliveries are '-2' days old 
 	When I open the clean deliveries
@@ -265,57 +383,58 @@ Scenario: Clean parameter negative inputs
 	Then the clean parameter is not saved
 
 
-Scenario: Seasonal dates negative inputs
+
+	
+	Scenario: Widget warning parameter add new
 	Given I have a clean database
 	And I navigate to the branch parameters page
-	When I open the seasonal date input
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					   |
-	| Description is required! |
-	| From date is required!   |
-	| To date is required!     |
-	| Select a branch!         |
-	When I change the seasonal date
-    | Description | FromDate | ToDate |
-    |   test      | aaa		 | aaa    |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| From date is not a valid date! |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate | ToDate   |
-    |   test      | 01012016 | 01012016 |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| From date is not a valid date! |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate   | ToDate     |
-    |   test      | 2016/01/31 | 2016/31/01 |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate   | ToDate   |
-    |   test      | 29/02/2016 | -1       |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate   | ToDate     |
-    |   test      | 29/02/2016 | 30/03/2016 |
-	And all branches are selected for the seasonal date
-	And the seasonal dates page is closed
-	Then the seasonal dates are not saved
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	And I navigate to the branch parameters page
+	When I select the widget warning tab
+	Then the widget warning parameter is saved
+	| Level | Widget     | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
+Scenario: Widget warning parameter remove
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I remove the widget warning parameter
+	Then it is removed from the widget warning grid
+
+Scenario: Widget warning parameter edit
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I edit a widget warning parameter
+	| Level | Widget	 | Branches													 |
+	| 2     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	And I update the widget warning parameter
+	Then the widget warning parameter is updated with id '2'
+	| Level | Branches                                                   |
+	| 2     | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+
 
 
 

@@ -77,11 +77,11 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
  testRunner.And("3 deliveries have been marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
- testRunner.And("The clean deliveries are -1 days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The clean deliveries are \'-1\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
  testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13

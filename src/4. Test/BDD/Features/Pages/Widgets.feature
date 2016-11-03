@@ -9,7 +9,7 @@ Scenario: User stats are shown on widgets
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
-	And I have selected branch 22
+	And I have selected branch '22'
 	And  3 deliveries have been marked as exceptions
 	And I open the exception deliveries
 	And I assign the delivery to myself

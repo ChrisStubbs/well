@@ -84,7 +84,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 12
  testRunner.And("3 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
  testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -134,7 +134,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 23
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 24
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 25
  testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 26
@@ -205,7 +205,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 39
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 40
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
  testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -333,7 +333,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 64
  testRunner.And("I have loaded the Adam route data that has 21 lines", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 65
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 66
  testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 67
@@ -370,7 +370,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 79
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 80
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 81
  testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 82
@@ -399,7 +399,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 90
  testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 91
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 92
  testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 93

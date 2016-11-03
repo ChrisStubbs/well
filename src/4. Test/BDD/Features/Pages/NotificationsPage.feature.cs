@@ -80,7 +80,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 11
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
  testRunner.And("10 deliveries have been assigned starting with job 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
@@ -163,7 +163,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 34
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 35
- testRunner.And("I have selected branch 22", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 36
  testRunner.And("1 deliveries have been assigned starting with job 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 37

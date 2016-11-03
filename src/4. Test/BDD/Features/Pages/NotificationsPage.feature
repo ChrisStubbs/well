@@ -9,7 +9,7 @@ Feature: NotificationsPage
 Scenario: A user can page through notifications
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And 10 deliveries have been assigned starting with job 2
 	And 10 notifications have been made starting with job 2
 	When I navigate to the notifications page
@@ -32,7 +32,7 @@ Scenario: A user can page through notifications
 Scenario: A user can archive a notification
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22 
+	And I have selected branch '22' 
 	And 1 deliveries have been assigned starting with job 1
 	Given 1 notifications have been made starting with job 1
 	When I navigate to the notifications page

@@ -12,7 +12,7 @@ Scenario: Seasonal dates applied all branches
 #Add, edit
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And All the deliveries are marked as clean 
 	And The clean deliveries are '-2' days old 
 	And I navigate to the branch parameters page 
@@ -208,7 +208,9 @@ Scenario:  Credit threshold negative inputs
 
 Scenario: Credit threshold applied all levels
 	Given I have a clean database
-	#And there are deliveries with execeptions
+	And I have loaded the Adam route data
+	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
+	And  3 deliveries have been marked as exceptions
 	#need 3 deliveries with different credit levels
 	When I navigate to the branch parameters page
 	And I select the credit threshold tab
@@ -246,10 +248,12 @@ Scenario: Credit threshold applied all levels
 	When I navigate to the user threshold levels page
 	And I search for the current user
 	And I select the current user from the results
-	And I select Level '1' from the dropdown list
+	And I select Level '2' from the dropdown list
 	And save the user threshold level
-	Then the threshold level is saved
+	Then the threshold level is saved   
 	When I open the exception deliveries
+	When I assign the delivery on row 1 to myself
+
 	#Then Only the execption within the threshold tolerance will be actionable
 	#When I navigate to user threshold levels
 	#And I search for the current user
@@ -269,14 +273,11 @@ Scenario: Credit threshold applied all levels
 	#Then Only the execption within the threshold tolerance will be actionable
 
 
-
-
-
 Scenario: Clean parameters applied all branches
 #Add, edit
  	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And All the deliveries are marked as clean 
 	And The clean deliveries are '-2' days old 
 	When I open the clean deliveries
@@ -404,8 +405,6 @@ Scenario: Clean parameter negative inputs
 	When I select all the branches
 	And I click the Close button
 	Then the clean parameter is not saved
-
-
 
 	
 	Scenario: Widget warning parameter add new

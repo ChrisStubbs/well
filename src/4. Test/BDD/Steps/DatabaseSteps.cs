@@ -231,7 +231,7 @@
                                      $"SET JobDetailStatusId = {(int)jobDetailStatus}");
         }
 
-        [Given(@"I have selected branch (.*)")]
+        [Given(@"I have selected branch '(.*)'")]
         public void GivenIHaveSelectedBranch(int branch)
         {
             var user = SetUpUser();

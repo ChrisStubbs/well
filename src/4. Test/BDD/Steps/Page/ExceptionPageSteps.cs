@@ -303,6 +303,7 @@
         [When(@"click the first credit checkbox")]
         public void WhenClickTheFirstCreditCheckbox()
         {
+            Thread.Sleep(1000);
              var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
              firstCheckbox.Click();
         }

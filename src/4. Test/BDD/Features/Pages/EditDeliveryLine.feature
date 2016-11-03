@@ -8,7 +8,7 @@ Feature: Edit delivery line
 Background: 
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 
 Scenario: Add short qty and damages to clean delivery
 	Given 1 deliveries have been marked as clean	

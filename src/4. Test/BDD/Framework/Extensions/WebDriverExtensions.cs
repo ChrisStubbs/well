@@ -33,14 +33,18 @@
 
         public static void WaitForJavascript(this IWebDriver driver)
         {
-            if (Configuration.UseWaitForAngular2)
+            var element =
+                (new WebDriverWait(driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds))).Until(
+                    ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("page-loaded")));
+            
+            /*if (Configuration.UseWaitForAngular2)
             {
                 driver.WaitForAngular2();
             }
             else
             {
                 driver.WaitForJQuery();
-            }
+            }*/
         }
 
         public static void WaitForJQuery(this IWebDriver driver)

@@ -28,6 +28,7 @@ namespace PH.Well.BDD.Steps.Page
         public void NavigateToBranchParameters()
         {
             this.page.Open();
+            Thread.Sleep(1000);
             this.page.AdminDropDown.SelectBranchParameters();
         }
 
@@ -432,12 +433,11 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.cleanPage.Add.Click();
         }
-
-
+        
         [Then(@"warnings appear on the clean input page")]
         public void ThenWarningsAppearOnTheCleanInputPage(Table table)
         {
-           
+            Thread.Sleep(100);
             var errors = this.cleanPage.GetErrors();
 
             foreach (var row in table.Rows)

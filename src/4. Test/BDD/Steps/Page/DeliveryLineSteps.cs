@@ -23,6 +23,9 @@
         {
             string routing = "/" + delivery + "/" + line;
             page.Open(routing);
+
+            Thread.Sleep(1000);
+
             page.ActionsTab.Click();
         }
 

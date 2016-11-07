@@ -19,9 +19,7 @@ Scenario: A user can view Exception Delivery Information
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
-
 	When I view the account info modal for exception row 2 
-	#info button not working
 	Then I can the following account info details
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
 	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |

@@ -206,7 +206,6 @@ Scenario:  Credit threshold negative inputs
 	| Error                              |
 	| Branch is required!                |
 
-@Ignore
 Scenario: Credit threshold applied all levels
 	Given I have a clean database
 	And I have loaded the Adam route data

@@ -10,7 +10,7 @@ Scenario: A user can view Route information
 	And I have loaded the Adam route data
 	And  All the deliveries are marked as clean
 	And  3 deliveries have been marked as exceptions
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | 
@@ -21,7 +21,7 @@ Scenario: A user can view Route information
 Scenario: A user can filter Route information
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the routes page
 	And I filter the grid with the option 'Route' and value '001'
 	Then The following routes will be displayed
@@ -37,7 +37,7 @@ Scenario: A user can filter Route information
 Scenario: A user can view Route information and sort on updated date
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
@@ -62,7 +62,7 @@ Scenario: A user can view Route information and sort on updated date
 Scenario: A user can page through Route information
 	Given I have a clean database
 	And I have loaded the Adam route data that has 21 lines
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the routes page
 	Then '10' rows of data will be displayed
 	And I will have 3 pages of data
@@ -77,7 +77,7 @@ Scenario: A user can drill into a Route to view exceptions
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And All the deliveries are marked as exceptions
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the routes page
 	And I select the first row of the route
 	And I choose to view that routes exceptions
@@ -88,7 +88,7 @@ Scenario: A user can drill into a Route to view clean deliveries
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And All the deliveries are marked as clean
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the routes page
 	And I select the first row of the route
 	And I choose to view that routes clean deliveries

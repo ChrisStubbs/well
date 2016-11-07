@@ -23,6 +23,9 @@
         {
             string routing = "/" + delivery + "/" + line;
             page.Open(routing);
+
+            Thread.Sleep(1000);
+
             page.ActionsTab.Click();
         }
 
@@ -32,6 +35,14 @@
             string routing = "/" + delivery + "/" + line;
             page.Open(routing);
         }
+
+        [When(@"I open delivery '(.*)'")]
+        public void WhenIOpenDelivery(int delivery)
+        {
+            string routing = "/" + delivery ;
+            page.Open(routing);
+        }
+
 
         [Given(@"an exception with a submitted action")]
         public void GivenAnExceptionWithASubmittedAction()

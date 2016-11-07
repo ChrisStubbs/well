@@ -26,7 +26,6 @@ import {SecurityService} from '../shared/security/securityService';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import {Threshold} from '../shared/threshold';
 import * as lodash from 'lodash';
-import * as jquery from 'jquery';
 
 @Component({
     selector: 'ow-exceptions',
@@ -82,9 +81,8 @@ export class ExceptionsComponent implements OnInit {
     confirmModalIsVisible: boolean = false;
     selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
-    @ViewChild(ContactModal)
+    @ViewChild(ContactModal) private contactModal: ContactModal;
     thresholdLimit: Threshold;
-    private contactModal: ContactModal;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -111,8 +109,6 @@ export class ExceptionsComponent implements OnInit {
             this.getExceptions();
             this.getThresholdLimit();
             this.creditList = Array<CreditItem>();
-       
-
         });
     }
 
@@ -182,8 +178,7 @@ export class ExceptionsComponent implements OnInit {
 
     isChecked(exceptionid) {
         var creditListIndex = this.getCreditListIndex(exceptionid);
-
-
+        
         if (creditListIndex === -1) {
             return '';
         } else {
@@ -204,8 +199,6 @@ export class ExceptionsComponent implements OnInit {
             this.removeFromCreditList(exceptionid, creditListIndex, thresholdValue);
         }
         this.creditTitle = this.creditList.length > 1 ? "Bulk Credit" : "Credit";
-
-        
     }
 
     getCreditListIndex(exceptionid) {
@@ -271,7 +264,6 @@ export class ExceptionsComponent implements OnInit {
         return 'disabled';
     }
 
-
     checkExceptionsForCredit() {
         if (this.creditList !== []) {
             this.creditExceptions();
@@ -316,9 +308,7 @@ export class ExceptionsComponent implements OnInit {
                 }
 
             });
-
     }
-
 
     cancel() {
         this.router.navigate(['/delivery', this.delivery.id]);

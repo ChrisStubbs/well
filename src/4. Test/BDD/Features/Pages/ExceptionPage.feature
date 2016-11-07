@@ -11,7 +11,7 @@ Background:
 	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
 
 Scenario: A user can view Exception Delivery Information
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And  3 deliveries have been marked as exceptions
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
@@ -19,14 +19,13 @@ Scenario: A user can view Exception Delivery Information
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
-
-	When I view the account info modal for exception row 2
+	When I view the account info modal for exception row 2 
 	Then I can the following account info details
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
 	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |
 
 Scenario: A user can filter Exception Delivery information
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I filter the exception delivery grid with the option 'Route' and value '006'
@@ -53,7 +52,7 @@ Scenario: A user can filter Exception Delivery information
 
 
 Scenario: A user can view Exception Delivery Information and sort on updated date
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And  3 deliveries have been marked as exceptions
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
@@ -68,14 +67,10 @@ Scenario: A user can view Exception Delivery Information and sort on updated dat
 	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
 	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
 	| 001   | 02  | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
-	
-	
-	
-
 
 
 Scenario: A user can page through Exception Delivery information
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	Then '10' rows of exception delivery data will be displayed
@@ -86,7 +81,7 @@ Scenario: A user can page through Exception Delivery information
 	Then '10' rows of exception delivery data will be displayed
 
 Scenario: View exception details at lower level
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I click on exception row 4
@@ -99,14 +94,14 @@ Scenario: View exception details at lower level
 	| 5      | 7621    | Fruit Past Tube 52.5g    | 8     | 1               | -1                | 0               | 2             |
 
 Scenario: Exception assigned to a user
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I assign the delivery to myself
 	Then the user is assigned to that exception
 
 Scenario: Assigned user to an exception can action it
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I assign the delivery to myself
@@ -115,7 +110,7 @@ Scenario: Assigned user to an exception can action it
 	And all other actions are disabled
 
 Scenario: Assigned user to an exception drills to details and can update
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I assign the delivery to myself
@@ -123,7 +118,7 @@ Scenario: Assigned user to an exception drills to details and can update
 	Then All the exception detail rows can be updated
 
 Scenario: UnAssigned user to an exception drills to details and can not update
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	And I assign the delivery to myself
@@ -131,7 +126,7 @@ Scenario: UnAssigned user to an exception drills to details and can not update
 	Then All the exception detail rows can not be updated
 
 Scenario: Credit check boxes are not enabled till exceptions are assigned
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	Then the 'credit' and 'selectAll' button is not visible
@@ -140,7 +135,7 @@ Scenario: Credit check boxes are not enabled till exceptions are assigned
 	Then the 'credit' and 'selectAll' button are visible
 
 Scenario: Select all button will check all allowcated job lines
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
 	Then the 'credit' and 'selectAll' button is not visible
@@ -157,7 +152,7 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And I have imported a valid Epod update file named 'ePOD__MissingInvoiceNumbers.xml'
-	And I have selected branch 22
+	And I have selected branch '22'
 	When I open the exception deliveries
 	Then there are 0 exception deliveries will be displayed
 	Given  3 deliveries have been marked as exceptions
@@ -170,55 +165,12 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
 
 Scenario: A user can view Exception Delivery Information with cash on delivery icons displayed
-	Given I have selected branch 22
+	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
     And the first 'exception' delivery is not a cash on delivery customer
 	When I open the exception deliveries
 	Then the exception cod delivery icon is not displayed in row 1
 
-Scenario: Credit deliveries with a credit threshold
-	Given I have a clean database
-	When I navigate to the branches page
-	And I select all the branches
-	And I save my branches
-    And select branches selection
-    Then all the branches are selected
-	Given I have loaded the Adam route data
-	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
-	Given I navigate to the branch parameters page
-	When I add a credit threshold
-	| Level | Threshold |
-	| 1     | 10        |
-	And all branches are selected for the credit threshold
-	And I save the credit threshold
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 10        | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-	When I navigate to the user preferences page
-	When I search for user Williams
-	Then the user Gary Williams is returned in the search results
-	When I select the row for Gary Williams
-	And I select Yes on the popup user preference modal
-	#missing steps to add branches...
-	Then the user credit threshold page is opened
-	When I select Level1 from the dropdown list
-	And I click the Save button
-	Then a threshold level of 1 has a value of 10.00
-	And I have a threshold level of 1
-	Given All the deliveries are marked as exceptions
-	When I open the exception deliveries
-	Then the 'credit' and 'selectAll' button is not visible
-	When I assign the delivery on row 1 to myself
-	When I assign the delivery on row 2 to myself
-	And click the first credit checkbox
-	Then the 'credit' and 'selectAll' button are visible
-	When I click the 'selectAll' button
-	Then the first 2 checkboxes are checked
-	When I click the 'credit' button
-	Then the Credit Confirm modal is displayed
-	| ModalTitle         | ModalMessage                                                                                                   |
-	| Credit exceptions? | You are about to Credit 1 exceptions and 1 pending exceptions Are you sure you want to save your changes? |
-	When I click the save button on the modal
-	Then I have 1 pending and 1 resolved delivery
+
 
 

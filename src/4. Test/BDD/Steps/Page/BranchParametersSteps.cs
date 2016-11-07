@@ -28,6 +28,7 @@ namespace PH.Well.BDD.Steps.Page
         public void NavigateToBranchParameters()
         {
             this.page.Open();
+            Thread.Sleep(1000);
             this.page.AdminDropDown.SelectBranchParameters();
         }
 
@@ -68,6 +69,23 @@ namespace PH.Well.BDD.Steps.Page
             this.creditThresholdPage.dropdown.SelectThresholdLevel(thresholdLevel);
             this.creditThresholdPage.Threshold.EnterText(table.Rows[0]["Threshold"]);
         }
+
+        [When(@"I open the credit threshold input")]
+        public void WhenIOpenTheCreditThresholdInput()
+        {
+            this.creditThresholdPage.AddButton.Click();
+        }
+
+
+        [When(@"I change the credit threshold")]
+        public void WhenIChangeTheCreditThreshold(Table table)
+        {
+            var thresholdLevel = (ThresholdLevel)int.Parse(table.Rows[0]["Level"]);
+
+            this.creditThresholdPage.dropdown.SelectThresholdLevel(thresholdLevel);
+            this.creditThresholdPage.Threshold.EnterText(table.Rows[0]["Threshold"]);
+        }
+
 
         [When("I add a clean parameter")]
         public void AddCleanParameter(Table table)
@@ -298,7 +316,7 @@ namespace PH.Well.BDD.Steps.Page
         [When("I remove the credit threshold")]
         public void RemoveCreditThreshold()
         {
-            var grid = this.creditThresholdPage.GetGridById(1);
+            var grid = this.creditThresholdPage.GetGridById(2);
 
             grid[0].Remove.Click();
 
@@ -415,12 +433,11 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.cleanPage.Add.Click();
         }
-
-
+        
         [Then(@"warnings appear on the clean input page")]
         public void ThenWarningsAppearOnTheCleanInputPage(Table table)
         {
-           
+            Thread.Sleep(100);
             var errors = this.cleanPage.GetErrors();
 
             foreach (var row in table.Rows)
@@ -441,6 +458,19 @@ namespace PH.Well.BDD.Steps.Page
             errors.Clear();
 
         }
+
+        [Then(@"warnings appear on the credit threshold page")]
+        public void ThenWarningsAppearOnTheCreditThresholdPage(Table table)
+        {
+            var errors = this.creditThresholdPage.GetErrors();
+
+            foreach (var row in table.Rows)
+            {
+                Assert.That(errors.Contains(row["Error"]));
+            }
+            errors.Clear();
+        }
+
 
     }
 }  

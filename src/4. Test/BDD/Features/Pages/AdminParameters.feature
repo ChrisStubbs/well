@@ -12,7 +12,7 @@ Scenario: Seasonal dates applied all branches
 #Add, edit
 	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And All the deliveries are marked as clean 
 	And The clean deliveries are '-2' days old 
 	And I navigate to the branch parameters page 
@@ -133,43 +133,13 @@ Scenario: Seasonal dates negative inputs
 	Then the seasonal dates are not saved
 
 
-Scenario: Credit threshold add new
+Scenario: Credit threshold Add, Edit, and Remove
 	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a credit threshold
+	When I navigate to the branch parameters page
+	And I select the credit threshold tab
+	And I add a credit threshold
 	| Level  | Threshold |
-	| Level1 | 1000      |
-	And all branches are selected for the credit threshold
-	And I save the credit threshold
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-	And I navigate to the branch parameters page
-	When I select the credit threshold tab
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-
-Scenario: Credit threshold remove
-	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a credit threshold
-	| Level  | Threshold |
-	| Level1 | 1000      |
-	And all branches are selected for the seasonal date
-	And I save the credit threshold
-	Then the credit threshold is saved
-	| Level   | Threshold | Branches                                                   |
-	| Level 1 | 1000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-	When I remove the credit threshold
-	Then it is removed from the credit threshold grid
-
-Scenario: Credit threshold edit
-	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a credit threshold
-	| Level  | Threshold |
-	| Level1 | 1000      |
+	| 1      | 1000      |
 	And all branches are selected for the seasonal date
 	And I save the credit threshold
 	Then the credit threshold is saved
@@ -182,11 +152,66 @@ Scenario: Credit threshold edit
 	Then the credit threshold is updated with id '2'
 	| Level   | Threshold | Branches                                                   |
 	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay | 
+	When I remove the credit threshold
+	Then it is removed from the credit threshold grid
+
+Scenario:  Credit threshold negative inputs
+	Given I have a clean database
+	When I navigate to the branch parameters page
+	And I select the credit threshold tab
+	And I open the credit threshold input
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                        |
+	| Threshold level is required! |
+	| Threshold is required!       |
+	| Branch is required!          |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | aaa       |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                        |
+	| Threshold is required!       |
+	| Branch is required!          |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | -1        |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                             |
+	| Threshold range is 1 to 1000000   |
+	| Branch is required!               |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | 0         |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                              |
+	| Threshold range is 1 to 1000000    |
+	| Branch is required!                |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | 10000001  |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                              |
+	| Threshold range is 1 to 1000000    |
+	| Branch is required!                |
+	When I change the credit threshold
+    | Level | Threshold |
+    | 1     | 10        |
+	And I save the credit threshold
+	Then warnings appear on the credit threshold page
+	| Error                              |
+	| Branch is required!                |
 
 @Ignore
 Scenario: Credit threshold applied all levels
 	Given I have a clean database
-	#And there are deliveries with execeptions
+	And I have loaded the Adam route data
+	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
+	And  3 deliveries have been marked as exceptions
 	#need 3 deliveries with different credit levels
 	When I navigate to the branch parameters page
 	And I select the credit threshold tab
@@ -224,10 +249,12 @@ Scenario: Credit threshold applied all levels
 	When I navigate to the user threshold levels page
 	And I search for the current user
 	And I select the current user from the results
-	And I select Level '1' from the dropdown list
+	And I select Level '2' from the dropdown list
 	And save the user threshold level
-	Then the threshold level is saved
+	Then the threshold level is saved   
 	When I open the exception deliveries
+	When I assign the delivery on row 1 to myself
+
 	#Then Only the execption within the threshold tolerance will be actionable
 	#When I navigate to user threshold levels
 	#And I search for the current user
@@ -247,14 +274,11 @@ Scenario: Credit threshold applied all levels
 	#Then Only the execption within the threshold tolerance will be actionable
 
 
-
-
-
 Scenario: Clean parameters applied all branches
 #Add, edit
  	Given I have a clean database
 	And I have loaded the Adam route data
-	And I have selected branch 22
+	And I have selected branch '22'
 	And All the deliveries are marked as clean 
 	And The clean deliveries are '-2' days old 
 	When I open the clean deliveries
@@ -382,8 +406,6 @@ Scenario: Clean parameter negative inputs
 	When I select all the branches
 	And I click the Close button
 	Then the clean parameter is not saved
-
-
 
 	
 	Scenario: Widget warning parameter add new

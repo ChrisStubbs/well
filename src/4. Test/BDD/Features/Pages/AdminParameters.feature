@@ -1,6 +1,6 @@
 ﻿@WebDriverFeature
 @RoleSuperUser
-Feature: Admininistration Parameters
+Feature: Administration Parameters
 	In order to parameterise the well
 	As a user
 	I want to be able to set seasonal dates so that clean deliveries take these dates into account when getting cleared from the well
@@ -183,6 +183,7 @@ Scenario: Credit threshold edit
 	| Level   | Threshold | Branches                                                   |
 	| Level 1 | 2000      | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay | 
 
+@Ignore
 Scenario: Credit threshold applied all levels
 	Given I have a clean database
 	#And there are deliveries with execeptions

@@ -151,6 +151,7 @@
 
         public void SelectAssignLink(int row)
         {
+            Thread.Sleep(100);
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var assignAnchor = rows[row].GetItemInRowByClass("assign");
             assignAnchor.Click();

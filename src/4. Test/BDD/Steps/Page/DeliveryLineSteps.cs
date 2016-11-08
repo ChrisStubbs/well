@@ -1,15 +1,11 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using Domain.Enums;
     using Domain.Extensions;
-    using Framework.WebElements;
     using NUnit.Framework;
-    using OpenQA.Selenium;
     using PH.Well.BDD.Pages;
-
     using TechTalk.SpecFlow;
 
     [Binding]

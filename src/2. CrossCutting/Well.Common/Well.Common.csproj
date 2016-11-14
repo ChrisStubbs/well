@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IEventLogger.cs" />
+    <Compile Include="Contracts\IFtpClient.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
     <Compile Include="Contracts\IUserRoleProvider.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Extensions\HttpWebRequestExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FtpClient.cs" />
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />
     <Compile Include="HttpWebRequestExtensions.cs" />

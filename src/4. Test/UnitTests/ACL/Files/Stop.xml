@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- href="PH-ROUTE.xsl"?                       -->
+<!--  XML document "$XML/PHROUTE-03-XMLPREP.txt -->
+<!--  created 08-11-2016 15.55 -->
+<!-- Document Root Element is "RouteDeliveries" -->
+<RouteDeliveries>
+	<Routes>
+		<RouteHeader>
+			<CompanyID>3</CompanyID>
+			<StartDepotCode>COV</StartDepotCode>
+			<FinishDepotCode>COV</FinishDepotCode>
+			<RouteDate>10-10-2016</RouteDate>
+			<RouteNumber>001</RouteNumber>
+			<PlannedRouteStartTime>05:45</PlannedRouteStartTime>
+			<PlannedRouteFinishTime>08:28</PlannedRouteFinishTime>
+			<PlannedDistance>17.6</PlannedDistance>
+			<ExternalReference>COVENTRY001CA - WARWICK UNI - r20161010</ExternalReference>
+			<PlannedTravelTime>00:46</PlannedTravelTime>
+			<PlannedStops>2</PlannedStops>
+			<EntityAttributes>
+				<Attribute>
+					<Code>ROUTEOWNER</Code>
+					<Value1>COV</Value1>
+				</Attribute>
+			</EntityAttributes>
+			<Stops>
+				<Stop>
+					<PlannedStopNumber>1</PlannedStopNumber>
+					<PlannedArriveTime>06:00</PlannedArriveTime>
+					<PlannedDepartTime>06:30</PlannedDepartTime>
+					<TransportOrderRef>001 1 49203.084 10-10-2016</TransportOrderRef>
+					<StartWindow>06:00</StartWindow>
+					<EndWindow>06:30</EndWindow>
+					<TextField2>WASTE TBA</TextField2>
+					<TextField3>N</TextField3>
+					<TextField4>2501</TextField4>
+					<EntityAttributes>
+						<Attribute>
+							<Code>CUSLATEREP</Code>
+							<Value1>N</Value1>
+						</Attribute>
+						<Attribute>
+							<Code>ALLOWOVERS</Code>
+							<Value1>N</Value1>
+						</Attribute>
+						<Attribute>
+							<Code>CUSTUNATT</Code>
+							<Value1>N</Value1>
+						</Attribute>
+						<Attribute>
+							<Code>PHUNATT</Code>
+							<Value1>N</Value1>
+						</Attribute>
+					</EntityAttributes>
+					<Account>
+						<Code>49203.084</Code>
+						<AccountTypeCode>SILVER</AccountTypeCode>
+						<Name>CSG - COSTCUTTER</Name>
+						<Address1>126/127 FAR GOSFORD ST</Address1>
+						<Address2>COVENTRY</Address2>
+						<PostCode>CV1 5EA </PostCode>
+						<ContactName>Costcutter</ContactName>
+						<ContactNumber>02476225798</ContactNumber>
+						<StartWindow>06:00</StartWindow>
+						<EndWindow>06:30</EndWindow>
+						<Latitude>52.40778</Latitude>
+						<Longitude>-1.49575</Longitude>
+					</Account>
+			</Stop>
+			</Stops>
+</RouteHeader>
+</Routes>
+</RouteDeliveries>

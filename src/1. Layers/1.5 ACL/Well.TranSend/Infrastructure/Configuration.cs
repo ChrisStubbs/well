@@ -1,32 +1,25 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
     using System.Configuration;
-    using Contracts;
 
-    public class Configuration : IEpodImportConfiguration
+    public struct Configuration
     {
+        public static string WellConnection => ConfigurationManager.ConnectionStrings["Well"].ConnectionString;
 
-        public Configuration()
-        {
-            FilePath = ConfigurationManager.AppSettings["downloadFilePath"];
-            ArchiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
-            SearchPattern = "*.xml*";
-            FtpLocation = ConfigurationManager.AppSettings["transendFTPLocation"];
-            FtpUser = ConfigurationManager.AppSettings["transendUser"];
-            FtpPass = ConfigurationManager.AppSettings["transendPass"];
-            NetworkUser = ConfigurationManager.AppSettings["localUser"];
-            NetworkUserPass = ConfigurationManager.AppSettings["localUserPass"];
-            DashboardRefreshEndpoint = ConfigurationManager.AppSettings["dashboardRefreshEndpoint"];
-        }
+        public static string FilePath => ConfigurationManager.AppSettings["downloadFilePath"];
 
-        public string FilePath { get; set; }
-        public string SearchPattern { get; set; }
-        public string ArchiveLocation { get; set; }
-        public string FtpLocation { get; set; }
-        public string FtpUser { get; set; }
-        public string FtpPass{ get; set; }
-        public string NetworkUser { get; set; }
-        public string NetworkUserPass { get; set; }
-        public string DashboardRefreshEndpoint { get; set; }
+        public static string SearchPattern => "*.xml*";
+
+        public static string ArchiveLocation => ConfigurationManager.AppSettings["archiveLocation"];
+
+        public static string FtpLocation => ConfigurationManager.AppSettings["transendFTPLocation"];
+
+        public static string FtpUsername => ConfigurationManager.AppSettings["transendUser"];
+
+        public static string FtpPassword => ConfigurationManager.AppSettings["transendPass"];
+
+        public static string DashboardRefreshEndpoint => ConfigurationManager.AppSettings["dashboardRefreshEndpoint"];
+
+        public static string DownloadFilePath => ConfigurationManager.AppSettings["downloadFilePath"];
     }
 }

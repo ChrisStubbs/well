@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Xml.Serialization;
@@ -10,7 +9,7 @@
     using ValueObjects;
 
     [Serializable()]
-    public class Job:Entity<int>
+    public class Job : Entity<int>
     {
         public Job()
         {
@@ -23,16 +22,16 @@
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
-        [XmlElement("PHAccount")]
+        [XmlElement("JobRef1")]
         public string PhAccount { get; set; }
 
         [XmlElement("PickListRef")]
         public string PickListRef { get; set; }
 
-        [XmlElement("InvoiceNumber")]
+        [XmlElement("JobRef3")]
         public string InvoiceNumber { get; set; }
 
-        [XmlElement("CustomerRef")]
+        [XmlElement("JobRef4")]
         public string CustomerRef { get; set; }
 
         [XmlIgnore]
@@ -45,44 +44,151 @@
             set { this.OrderDate = DateTime.ParseExact(value,"dd-mm-yyyy",null); }
         }
 
-        [XmlElement("RoyaltyCode")]
+        [XmlElement("TextField1")]
         public string RoyaltyCode { get; set; }
 
-        [XmlElement("RoyaltyCodeDesc")]
+        [XmlElement("TextField2")]
         public string RoyaltyCodeDesc { get; set; }
 
-        [XmlElement("OrdOuters")]
-        public int OrdOuters { get; set; }
+        /// <summary>
+        /// Total ordered outers
+        /// </summary>
+        public string OrdOuters
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ORDOUTERS");
 
-        [XmlElement("InvOuters")]
-        public int InvOuters { get; set; }
+                return attribute?.Value;
+            }
+        }
 
-        [XmlElement("ColOuters")]
-        public int ColOuters { get; set; }
+        /// <summary>
+        /// Total invoiced outers
+        /// </summary>
+        public string InvOuters
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "INVOUTERS");
 
-        [XmlElement("ColBoxes")]
-        public int ColBoxes { get; set; }
+                return attribute?.Value;
+            }
+        }
 
-        [XmlElement("ReCallPrd")]
-        public bool ReCallPrd { get; set; }
+        /// <summary>
+        /// Total outers for uplift
+        /// </summary>
+        public string ColOuters
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "COLOUTERS");
 
-        [XmlElement("AllowSgCrd")]
-        public bool AllowSgCrd { get; set; }
+                return attribute?.Value;
+            }
+        }
 
-        [XmlElement("AllowSOCrd")]
-        public bool AllowSoCrd { get; set; }
+        /// <summary>
+        /// Total boxes for uplift collection
+        /// </summary>
+        public string ColBoxes
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "COLBOXES");
 
-        [XmlElement("COD")]
-        public bool Cod { get; set; }
+                return attribute?.Value;
+            }
+        }
 
-        [XmlElement("SandwchOrd")]
-        public bool SandwchOrd { get; set; }
+        public string ReCallPrd
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ReCallPrd");
 
-        [XmlElement("ComdtyType")]
-        public string ComdtyType { get; set; }
+                return attribute?.Value;
+            }
+        }
 
-        [XmlElement("AllowReOrd")]
-        public bool AllowReOrd { get; set; }
+        /// <summary>
+        /// Single credit allowed
+        /// </summary>
+        public string AllowSgCrd
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowSgCrd");
+
+                return attribute?.Value;
+            }
+        }
+
+        /// <summary>
+        /// Sub outer credit allowed
+        /// </summary>
+        public string AllowSoCrd
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowSoCrd");
+
+                return attribute?.Value;
+            }
+        }
+
+        /// <summary>
+        /// Cash on delivery
+        /// </summary>
+        public string Cod
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "COD");
+
+                return attribute?.Value;
+            }
+        }
+
+        /// <summary>
+        /// Sandwich order
+        /// </summary>
+        public string SandwchOrd
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "SandwchOrd");
+
+                return attribute?.Value;
+            }
+        }
+
+        /// <summary>
+        /// Commodity type
+        /// </summary>
+        public string ComdtyType
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ComdtyType");
+
+                return attribute?.Value;
+            }
+        }
+
+        /// <summary>
+        /// ReOrder allowed
+        /// </summary>
+        public string AllowReOrd
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowReOrd");
+
+                return attribute?.Value;
+            }
+        }
 
         [XmlElement("GrnNumber")]
         public string GrnNumber { get; set; }
@@ -135,6 +241,10 @@
         [XmlArray("JobDetails")]
         [XmlArrayItem("JobDetail", typeof(JobDetail))]
         public Collection<JobDetail> JobDetails { get; set; }
+
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(EntityAttribute))]
+        public Collection<EntityAttribute> EntityAttributes { get; set; }
 
         public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
         public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;

@@ -121,6 +121,7 @@
                 if (now >= seasonal.From.Date && now <= seasonal.To.Date) return false;
             }
 
+            // TODO This royalty exception needs BDD
             if (royaltyException != null && royaltyException.ExceptionDays > 0)
             {
                 var dateCanBeRemoved = dateUpdated.AddDays(royaltyException.ExceptionDays);

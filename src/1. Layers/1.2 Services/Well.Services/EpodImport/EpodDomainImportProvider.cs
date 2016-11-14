@@ -1,24 +1,29 @@
 ﻿namespace PH.Well.Services.EpodImport
 {
     using System;
+    using System.Configuration;
     using System.IO;
     using System.Xml.Serialization;
     using Common.Contracts;
     using Common.Extensions;
     using Domain;
     using Domain.Enums;
-    using Domain.ValueObjects;
+
+    using PH.Well.Repositories.Contracts;
+
     using Services.Contracts;
 
     public class EpodDomainImportProvider : IEpodDomainImportProvider
     {
         private readonly IEpodDomainImportService epodDomainImportService;
         private readonly ILogger logger;
+        private readonly IRouteHeaderRepository routeHeaderRepository;
 
-        public EpodDomainImportProvider(IEpodDomainImportService eopEpodDomainImportService, ILogger logger)
+        public EpodDomainImportProvider(IEpodDomainImportService eopEpodDomainImportService, ILogger logger, IRouteHeaderRepository routeHeaderRepository)
         {
             this.epodDomainImportService = eopEpodDomainImportService;
             this.logger = logger;
+            this.routeHeaderRepository = routeHeaderRepository;
         }
 
         public void ImportRouteHeader(string filename, EpodFileType fileType)
@@ -29,7 +34,7 @@
 
             if (fileType == EpodFileType.RouteHeader)
             {
-                currentRouteImportFile = epodDomainImportService.GetByFileName(filenameWithoutPath);
+                currentRouteImportFile = this.routeHeaderRepository.GetByFilename(filenameWithoutPath);
             }
 
             if (currentRouteImportFile != null && fileType == EpodFileType.RouteHeader)
@@ -39,10 +44,9 @@
             }
             else
             {
-                epodDomainImportService.CurrentUser = "ePodDomainImport";
-                var routes = epodDomainImportService.CreateOrUpdate(new Routes { FileName = filenameWithoutPath });
+                this.routeHeaderRepository.CurrentUser = "ePodDomainImport";
+                var routes = this.routeHeaderRepository.CreateOrUpdate(new Routes { FileName = filenameWithoutPath });
                 MapRoutesToDomain(filename, fileType, routes.Id);
-               
             }
         }
 
@@ -53,7 +57,6 @@
 
             if (epodType == EpodFileType.RouteHeader)
             {
-
                 var attributesExceptions = this.epodDomainImportService.GetRouteAttributeException();
 
                 foreach (var attributesException in attributesExceptions)
@@ -68,48 +71,39 @@
                 overrides.Add(typeof(RouteHeader), "EntityAttributeValues", attribs);
             }
 
-            var reader = new StreamReader(filename);
-            epodDomainImportService.EpodType = epodType;
-            epodDomainImportService.CurrentUser = "ePodDomainImport";
-            var filnameWithoutPath = filename.GetFilenameWithoutPath();
-            var archiveLocation = System.Configuration.ConfigurationManager.AppSettings["archiveLocation"];
-
-            if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
+            using (var reader = new StreamReader(filename))
             {
-                var routeImportSerializer = new XmlSerializer(typeof(RouteDeliveries), overrides);
-                var routes = (RouteDeliveries) routeImportSerializer.Deserialize(reader);
-
-               
-                 if (epodType == EpodFileType.RouteHeader)
+                epodDomainImportService.EpodType = epodType;
+                
+                if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
                 {
-                    epodDomainImportService.AddRoutesFile(routes, routesId);
+                    var routeImportSerializer = new XmlSerializer(typeof(RouteDelivery), overrides);
+                    var routes = (RouteDelivery)routeImportSerializer.Deserialize(reader);
+
+                    if (epodType == EpodFileType.RouteHeader)
+                    {
+                        epodDomainImportService.AddRoutesFile(routes, routesId);
+                    }
+                    else
+                    {
+                        epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+                    }
                 }
                 else
                 {
-                    epodDomainImportService.AddRoutesEpodFile(routes, routesId);           
+                    var adamUpdatesSerializer = new XmlSerializer(typeof(RouteUpdates), overrides);
+                    var orderUpdates = (RouteUpdates)adamUpdatesSerializer.Deserialize(reader);
+                    epodDomainImportService.AddAdamUpdateFile(orderUpdates, routesId);
                 }
             }
-            else
-            {
-                var adamUpdatesSerializer = new XmlSerializer(typeof(RouteUpdates), overrides);
-                var orderUpdates = (RouteUpdates)adamUpdatesSerializer.Deserialize(reader);
-                epodDomainImportService.AddAdamUpdateFile(orderUpdates, routesId);
-            }
 
-
-
-            reader.Close();
+            var filnameWithoutPath = filename.GetFilenameWithoutPath();
+            var archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
 
             if (epodType == EpodFileType.RouteEpod || epodType == EpodFileType.OrderUpdate)
                 epodDomainImportService.CopyFileToArchive(filename, filnameWithoutPath, archiveLocation);
-
-
-
+            
             logger.LogDebug($"File {filename} imported successfully");
-
         }
-
-
-
     }
 }

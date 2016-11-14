@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
     using System;
-    using System.Collections.ObjectModel;
     using Well.Domain;
     using Well.Domain.Enums;
 
@@ -19,20 +18,9 @@
             this.Entity.OrderDate = DateTime.Now;
             this.Entity.RoyaltyCode = "Royal1";
             this.Entity.RoyaltyCodeDesc = "RoyalDesc";
-            this.Entity.OrdOuters = 1;
-            this.Entity.InvOuters = 1;
-            this.Entity.ColOuters = 1;
-            this.Entity.ColBoxes = 1;
-            this.Entity.ReCallPrd = false;
-            this.Entity.AllowSoCrd = false;
-            this.Entity.AllowSoCrd = false;
-            this.Entity.Cod = false;
-            this.Entity.AllowReOrd = false;
-            this.Entity.SandwchOrd = false;
             this.Entity.GrnNumber = null;
             this.Entity.GrnRefusedReason = null;
             this.Entity.GrnRefusedDesc = null;
-            this.Entity.ComdtyType = "1";
             this.Entity.PerformanceStatus = PerformanceStatus.Narri;
             this.Entity.ByPassReason = ByPassReasons.Notdef;
             this.Entity.StopId = 1;

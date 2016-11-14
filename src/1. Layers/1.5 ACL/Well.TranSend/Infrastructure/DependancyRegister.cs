@@ -1,5 +1,4 @@
-﻿using System;
-namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.TranSend.Infrastructure
 {
     using Common;
     using Common.Contracts;
@@ -18,8 +17,9 @@ namespace PH.Well.TranSend.Infrastructure
             return new Container(
                 x =>
                 {
-                    x.For<IEpodSchemaProvider>().Use<EpodSchemaProvider>();
-                    x.For<IEpodProvider>().Use<EpodFileProvider>();
+                    x.For<IEventLogger>().Use<EventLogger>();
+                    x.For<IEpodSchemaValidator>().Use<EpodSchemaValidator>();
+                    x.For<IEpodProvider>().Use<EpodFtpProvider>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
@@ -32,9 +32,8 @@ namespace PH.Well.TranSend.Infrastructure
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
-                    x.For<IEpodImportConfiguration>().Use<Configuration>();
                     x.For<IWebClient>().Use<WebClient>();
-
+                    x.For<IFtpClient>().Use<FtpClient>();
                 } );
         }
     }

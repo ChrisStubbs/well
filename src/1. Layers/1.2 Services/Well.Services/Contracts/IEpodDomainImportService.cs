@@ -1,22 +1,16 @@
 ﻿namespace PH.Well.Services.Contracts
 {
-    using System;
     using System.Collections.Generic;
     using Domain;
     using Domain.Enums;
-    using Domain.ValueObjects;
 
     public interface IEpodDomainImportService
     {
-        Routes GetByFileName(string filename);
-        Routes CreateOrUpdate(Routes routes);
-
-        string CurrentUser { get; set; }
         EpodFileType EpodType { get; set; }
 
-        void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId);
+        void AddRoutesFile(RouteDelivery routeDelivery, int routesId);
 
-        void AddRoutesEpodFile(RouteDeliveries routeDeliveries, int routesId);
+        void AddRoutesEpodFile(RouteDelivery routeDelivery, int routesId);
 
         string MatchFileNameToSchema(string fileTypeIndentifier);
 
@@ -25,8 +19,6 @@
         EpodFileType GetEpodFileType(string fileTypeIndentifier);
 
         string GetSchemaFilePath(string schemaName);
-
-        bool IsFileXmlType(string fileName);
 
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
 

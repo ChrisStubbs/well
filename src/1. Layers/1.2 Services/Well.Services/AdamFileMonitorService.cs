@@ -1,26 +1,17 @@
 ﻿namespace PH.Well.Services
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Xml;
-    using System.Xml.Linq;
-    using System.Xml.Schema;
-
-    using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
     using PH.Well.Services.Contracts;
 
     public class AdamFileMonitorService : IAdamFileMonitorService
     {
-        public bool SchemaValidationEnabled { get; set; }
-
         private readonly ILogger logger;
 
         private readonly IFileService fileService;
 
-        private readonly IEpodSchemaProvider epodSchemaProvider;
+        private readonly IEpodSchemaValidator epodSchemaValidator;
 
         private readonly IEpodDomainImportProvider epodDomainImportProvider;
 
@@ -31,16 +22,15 @@
         public AdamFileMonitorService(
             ILogger logger, 
             IFileService fileService, 
-            IEpodSchemaProvider epodSchemaProvider, 
+            IEpodSchemaValidator epodSchemaValidator, 
             IEpodDomainImportProvider epodDomainImportProvider,
             IEpodDomainImportService epodDomainImportService)
         {
             this.logger = logger;
             this.fileService = fileService;
-            this.epodSchemaProvider = epodSchemaProvider;
+            this.epodSchemaValidator = epodSchemaValidator;
             this.epodDomainImportProvider = epodDomainImportProvider;
             this.epodDomainImportService = epodDomainImportService;
-            SchemaValidationEnabled = true;
         }
 
         public void Monitor(string rootFolder)
@@ -55,9 +45,6 @@
             };
 
             watcher.Created += this.ProcessCreated;
-            // watcher.Renamed += this.ProcessRenamed;
-            // watcher.Deleted += this.ProcessDeleted;
-
             watcher.EnableRaisingEvents = true;
         }
 
@@ -73,60 +60,32 @@
             this.Process(args.FullPath);
         }
 
-        public List<string> Process(string filePath, bool archive = true)
+        public void Process(string filePath)
         {
-            var schemaErrors = new List<string>();
-
             var filenameWithoutPath = filePath.GetFilenameWithoutPath();
 
-            if (epodDomainImportService.IsFileXmlType(filenameWithoutPath))
+            if (filenameWithoutPath.EndsWith("xml"))
             {
                 var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
 
-                if (SchemaValidationEnabled)
+                var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
+
+                var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
+
+                var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(filePath, schemaPath);
+
+                if (isFileValidBySchema)
                 {
-                    var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
+                    var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
 
-                    var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
+                    epodDomainImportProvider.ImportRouteHeader(filePath, epodType);
 
-                    var validationErrors = new List<string>();
-                    var isFileValidBySchema = epodSchemaProvider.IsFileValid(filePath, schemaPath, validationErrors);
-
-                    if (!isFileValidBySchema && validationErrors.Count > 0)
-                    {
-                        var validationError =
-                            $"file {filenameWithoutPath} failed schema validation with the following: {string.Join(",", validationErrors)}";
-
-                        schemaErrors.Add(validationError);
-                        logger.LogError(validationError);
-                        return schemaErrors;
-                    }
-                }
-
-                var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
-
-                epodDomainImportProvider.ImportRouteHeader(filePath, epodType);
-
-                if (archive)
-                {
                     epodDomainImportService.CopyFileToArchive(
                     filePath,
                     filenameWithoutPath,
                     this.RootFolder + "\\archive");
                 }
             }
-
-            return schemaErrors;
         }
-
-        /*private void ProcessDeleted(object o, FileSystemEventArgs args)
-        {
-            this.logger.LogDebug($"File deleted ({args.FullPath})");
-        }
-
-        private void ProcessRenamed(object o, RenamedEventArgs args)
-        {
-            this.logger.LogDebug($"File renamed ({args.FullPath})");
-        }*/
     }
 }

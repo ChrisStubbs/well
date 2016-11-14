@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- href="PH-ROUTE.xsl"?                       -->
+<!--  XML document "$XML/PHROUTE-03-XMLPREP.txt -->
+<!--  created 08-11-2016 15.55 -->
+<!-- Document Root Element is "RouteDeliveries" -->
+<RouteDeliveries>
+	<Routes>
+		<RouteHeader>
+			<CompanyID>3</CompanyID>
+			<StartDepotCode>COV</StartDepotCode>
+			<FinishDepotCode>COV</FinishDepotCode>
+			<RouteDate>10-10-2016</RouteDate>
+			<RouteNumber>001</RouteNumber>
+			<PlannedRouteStartTime>05:45</PlannedRouteStartTime>
+			<PlannedRouteFinishTime>08:28</PlannedRouteFinishTime>
+			<PlannedDistance>17.6</PlannedDistance>
+			<ExternalReference>COVENTRY001CA - WARWICK UNI - r20161010</ExternalReference>
+			<PlannedTravelTime>00:46</PlannedTravelTime>
+			<PlannedStops>2</PlannedStops>
+			<EntityAttributes>
+				<Attribute>
+					<Code>ROUTEOWNER</Code>
+					<Value1>COV</Value1>
+				</Attribute>
+			</EntityAttributes>
+</RouteHeader>
+</Routes>
+</RouteDeliveries>

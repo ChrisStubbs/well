@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IEpodImportConfiguration.cs" />
     <Compile Include="Extensions\IPrincipleExtensions.cs" />
     <Compile Include="Import.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />
@@ -64,8 +63,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">

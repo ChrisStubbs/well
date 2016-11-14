@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PH.Well.Domain
+﻿namespace PH.Well.Domain
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Xml.Serialization;
+
     [Serializable()]
     [XmlRoot("RouteDeliveries")]
-    public class RouteDeliveries
+    public class RouteDelivery
     {
         [XmlArray("Routes")]
         [XmlArrayItem("RouteHeader", typeof(RouteHeader))]

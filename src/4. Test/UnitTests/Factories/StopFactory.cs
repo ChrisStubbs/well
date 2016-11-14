@@ -18,15 +18,12 @@
             this.Entity.DeliveryDate = DateTime.Now;
             this.Entity.ShellActionIndicator = "N";
             this.Entity.CustomerShopReference = "CustRef1";
-            this.Entity.AllowOvers = "false";
-            this.Entity.CustUnatt = "false";
-            this.Entity.PHUnatt = "false";
             this.Entity.StopStatusCodeId = 2;
             this.Entity.StopPerformanceStatusCodeId = 6;
             this.Entity.ByPassReasonId = 13;
             this.Entity.Jobs = new Collection<Job>();
 
-            this.Entity.Accounts = new Account
+            this.Entity.Account = new Account
             {
                 Id = 1,
                 Code = "AC001",

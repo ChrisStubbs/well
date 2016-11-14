@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Xml.Serialization;
@@ -13,13 +12,14 @@
         public RouteHeader()
         {
             this.Stops = new Collection<Stop>();
+            this.EntityAttributes = new Collection<EntityAttribute>();
         }
 
         [XmlElement("CompanyID")]
-        public int CompanyID { get; set; }
+        public int CompanyId { get; set; }
 
-        [XmlElement("RouteNumber")]
-        public string RouteNumber { get; set; }
+        [XmlElement("StartDepotCode")]
+        public string StartDepotCode { get; set; }
 
         [XmlIgnore]
         public DateTime RouteDate { get; set; }
@@ -31,12 +31,11 @@
             set { this.RouteDate = DateTime.Parse(value); }
         }
 
+        [XmlElement("RouteNumber")]
+        public string RouteNumber { get; set; }
+
         [XmlElement("DriverName")]
         public string DriverName { get; set; }
-
-        [XmlElement("StartDepotCode")]
-        public string StartDepotCode { get; set; }
-
 
         [XmlIgnore]
         public int StartDepot { get; set; }
@@ -73,7 +72,7 @@
             }
         }
 
-       [XmlIgnore]
+        [XmlIgnore]
         public int AuthByPass { get; set; }
 
         [XmlElement("AuthByPass")]
@@ -163,9 +162,21 @@
         [XmlArrayItem("Stop", typeof(Stop))]
         public Collection<Stop> Stops { get; set; }
 
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(EntityAttribute))]
+        public Collection<EntityAttribute> EntityAttributes { get; set; }
+
+        public string RouteOwner {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ROUTEOWNER");
+
+                return attribute?.Value;
+            }
+        }
 
         public int CleanJobs => Stops.Sum(s => s.CleanJobs);
-        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobs);
 
+        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobs);
     }
 }

@@ -2,6 +2,8 @@
 {
     public enum EventSource
     {
-        WellApi = 1
+        WellApi = 1,
+
+        WellAdamXmlImport = 2
     }
 }

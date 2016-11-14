@@ -58,6 +58,21 @@
             wc.DownloadFile(address, fileName);
         }
 
+        public string CopyFile(string from, string to)
+        {
+            using (var client = this.SetupClient())
+            {
+                var filedata = client.DownloadData(from);
+
+                using (var file = File.Create(to))
+                {
+                    file.Write(filedata, 0, filedata.Length);
+
+                    return file.Name;
+                }
+            }
+        }
+
         private string DoUploadString(string address, string method, string data, int? timeout)
         {
             var httpWebRequest = GetHttpWebRequest(address, method, timeout);
@@ -98,7 +113,7 @@
 
             var webClient = new System.Net.WebClient { UseDefaultCredentials = this.UseDefaultCredentials, Credentials = this.Credentials };
 
-            if (this.Headers != null)
+            if (this.Headers.Count > 0)
             {
                 webClient.Headers.Add(this.Headers);
             }

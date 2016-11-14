@@ -13,7 +13,7 @@
             this.Entity.DriverName = "Chip Marklow";
             this.Entity.RouteStatus = RouteStatusCode.Inpro;
             this.Entity.RouteStatusCode = RouteStatusCode.Compl.ToString();
-            this.Entity.CompanyID = 1;
+            this.Entity.CompanyId = 1;
             this.Entity.RouteDate = DateTime.Now;
             this.Entity.DriverName = "Alan Smith";
             this.Entity.StartDepotCode ="BIR";

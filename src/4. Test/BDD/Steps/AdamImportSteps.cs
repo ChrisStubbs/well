@@ -1,6 +1,4 @@
-﻿using PH.Well.BDD.XmlFileHelper;
-
-namespace PH.Well.BDD.Steps
+﻿namespace PH.Well.BDD.Steps
 {
     using System.IO;
     using System;
@@ -10,17 +8,16 @@ namespace PH.Well.BDD.Steps
 
     using PH.Well.BDD.Framework;
     using PH.Well.Common.Contracts;
-    using PH.Well.Common.Extensions;
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
 
     using StructureMap;
     using TechTalk.SpecFlow;
-    using Framework.Extensions;
-    using Microsoft.SqlServer.Dac.Model;
     using NUnit.Framework;
+
+    using PH.Well.BDD.XmlFileHelper;
+
     using Repositories.Contracts;
-    using TechTalk.SpecFlow.Assist.ValueRetrievers;
 
     [Binding]
     public class AdamImportSteps
@@ -31,7 +28,7 @@ namespace PH.Well.BDD.Steps
         private const string ParentNode = "RouteHeader";
         private ILogger logger;
         private IFileService fileService;
-        private IEpodSchemaProvider epodSchemaProvider;
+        private IEpodSchemaValidator epodSchemaValidator;
         private IEpodDomainImportProvider epodDomainImportProvider;
         private IEpodDomainImportService epodDomainImportService;
         private AdamFileMonitorService adamFileMonitorService;
@@ -41,20 +38,19 @@ namespace PH.Well.BDD.Steps
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
             FileMonitorSetup();
-
         }
 
         private void FileMonitorSetup()
         {
             logger = this.container.GetInstance<ILogger>();
             fileService = this.container.GetInstance<IFileService>();
-            epodSchemaProvider = this.container.GetInstance<IEpodSchemaProvider>();
+            this.epodSchemaValidator = this.container.GetInstance<IEpodSchemaValidator>();
             epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
             epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
 
 
             logger.LogDebug("Calling file monitor service");
-            adamFileMonitorService = new AdamFileMonitorService(logger, fileService, epodSchemaProvider, epodDomainImportProvider, epodDomainImportService);
+            adamFileMonitorService = new AdamFileMonitorService(logger, fileService, this.epodSchemaValidator, epodDomainImportProvider, epodDomainImportService);
         }
 
         [Given(@"I have loaded the Adam route data")]
@@ -62,7 +58,7 @@ namespace PH.Well.BDD.Steps
         {
             var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "xml\\PH_ROUTES_30062016_02.xml"));
-            adamFileMonitorService.Process(importFilePath, false);
+            adamFileMonitorService.Process(importFilePath);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]
@@ -87,21 +83,14 @@ namespace PH.Well.BDD.Steps
             var fileFolder = "Epod";
             ProcessImportFile(resultFile, parentNode, nodePosition, nodeToRemove, fileFolder, currentEpodRouteFile);
         }
-
-
+        
         [When(@"I import the route file '(.*)' into the well")]
         public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
         {
-            var schemaErrors = new List<string>();
-
             var adamContainer = container.GetInstance<IAdamFileMonitorService>();
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
 
-            schemaErrors = adamFileMonitorService.Process(Path.Combine(filePath, routeFile), false);
-
-            if(schemaErrors.Count > 0)
-                ScenarioContext.Current.Add("schemaErrors", schemaErrors[0]);
-
+            adamFileMonitorService.Process(Path.Combine(filePath, routeFile));
         }
 
         [Then(@"The schema validation error should be ""(.*)""")]
@@ -126,14 +115,12 @@ namespace PH.Well.BDD.Steps
             ProcessImportFileWithNodeAdded(resultFile, parentNode, nodePosition, nodeToAdd, nodeValue, fileFolder, currentEpodRouteFile);
         }
 
-
         [Given(@"I have imported a valid Epod update file named '(.*)' with (.*) clean and (.*) exceptions")]
         public void GivenIHaveImportedAValidEpodUpdateFileNamedWithCleanAndExceptions(string epodFile, int cleanLines, int exceptionLines)
         {
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
 
-            adamFileMonitorService.SchemaValidationEnabled = false;
-            adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
+            adamFileMonitorService.Process(Path.Combine(filePath, epodFile));
 
             ScenarioContext.Current.Add("cleanLines", cleanLines);
             ScenarioContext.Current.Add("exceptionLines", exceptionLines);
@@ -147,13 +134,11 @@ namespace PH.Well.BDD.Steps
 
         }
 
-
         [Given(@"I have imported a valid Epod update file named '(.*)'")]
         public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
         {
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
-            adamFileMonitorService.SchemaValidationEnabled = false;
-            adamFileMonitorService.Process(Path.Combine(filePath, epodFile), false);
+            adamFileMonitorService.Process(Path.Combine(filePath, epodFile));
         }
 
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
@@ -165,8 +150,6 @@ namespace PH.Well.BDD.Steps
             jobRepository.CurrentUser = this.currentUser;
             jobRepository.UpdateCustomerRoyaltyException(customerRoyalty);
         }
-
-
 
         [Then(@"there should be (.*) exception lines left for a Job with an Id of (.*)")]
         public void ThenThereShouldBeExceptionLinesLeftForAJobWithAndIdOr(int exceptionLines, int jobId)
@@ -183,8 +166,6 @@ namespace PH.Well.BDD.Steps
             var jobDetailCount = jobDetailrepositoryContainer.GetByJobId(jobId).Count();
             Assert.AreEqual(exceptionLines, jobDetailCount);
         }
-
-
 
         [Given(@"I resolve one of the exceptions with a JobId of (.*)")]
         public void GivenIResolveOneOfTheExceptionsWithAJobIdOf(int jobId)
@@ -210,8 +191,6 @@ namespace PH.Well.BDD.Steps
             }        
         }
 
-
-
         private void ProcessImportFileWithNodeAdded(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeToAddValue,  string routeFileFolder, string currentRouteFile)
         {
             var sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, routeFileFolder + @"\" + currentRouteFile);
@@ -225,7 +204,6 @@ namespace PH.Well.BDD.Steps
             ScenarioContext.Current.Add("currentRouteTestFile", importRouteFile);
         }
 
-
         private void ProcessImportFile(string resultFile, string parentNode, int nodePosition, string nodeToRemove, string routeFileFolder, string currentRouteFile)
         {
             var sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, routeFileFolder + @"\" + currentRouteFile);
@@ -238,8 +216,5 @@ namespace PH.Well.BDD.Steps
             RouteFileExtensions.RemoveElementsFromRouteFile(sourceFile, parentNode, nodePosition, nodeToRemove, importRouteFile, isChildCollectionNode);
             ScenarioContext.Current.Add("currentRouteTestFile", importRouteFile);
         }
-
-
-
     }
 }

@@ -8,6 +8,8 @@ Feature: Administration Parameters
 	And I want to be able to set the time clean deliveries are cleaned from the well
 	And I want to be able to set widget warning levels per branch
 
+#TODO BDD required around royalty exceptions when cleaning the Well
+
 Scenario: Seasonal dates applied all branches
 #Add, edit
 	Given I have a clean database

@@ -12,7 +12,7 @@
     {
         public Stop()
         {
-            this.Accounts = new Account();
+            this.Account = new Account();
             this.Jobs = new Collection<Job>();
         }
 
@@ -37,25 +37,46 @@
         [XmlIgnore]
         public DateTime DeliveryDate { get; set; }
 
-        [XmlElement("ShellActionIndicator")]
+        [XmlElement("TextField3")]
         public string ShellActionIndicator { get; set; }
 
-        [XmlElement("CustomerShopReference")]
+        [XmlElement("TextField4")]
         public string CustomerShopReference { get; set; }
 
-        [XmlElement("AllowOvers")]
-        public string AllowOvers { get; set; }
+        public string AllowOvers
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWOVERS");
 
-        [XmlElement("CustUnatt")]
-        public string CustUnatt { get; set; }
+                return attribute?.Value;
+            }
+        }
 
-        [XmlElement("PHUnatt")]
-        public string PHUnatt { get; set; }
+        public string CustUnatt
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "CUSTUNATT");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string PHUnatt
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "PHUNATT");
+
+                return attribute?.Value;
+            }
+        }
 
         [XmlIgnore]
         public int StopStatusCodeId { get; set; }
 
-        [XmlElement("StopStatusCode")]
+        [XmlElement("TextField1")]
         public string StopStatusCode
         {
             set
@@ -90,13 +111,18 @@
         }
 
         [XmlElement("Account")]
-        public Account Accounts { get; set; }
+        public Account Account { get; set; }
 
         [XmlArray("Jobs")]
         [XmlArrayItem("Job", typeof(Job))]
         public Collection<Job> Jobs { get; set; }
 
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(EntityAttribute))]
+        public Collection<EntityAttribute> EntityAttributes { get; set; }
+
         public int CleanJobs => Jobs.Count(j => j.IsClean);
+
         public int ExceptionJobs => Jobs.Count(j => j.IsException);
     }
 }

@@ -247,7 +247,7 @@
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null))
                     .Returns(dapperProxy.Object);
                 
-                dapperProxy.Setup(x => x.AddParameter("CompanyId", routeHeader.CompanyID, DbType.Int32, null))
+                dapperProxy.Setup(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
 
                 dapperProxy.Setup(x => x.AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String, null))
@@ -291,7 +291,7 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.AddParameter("CompanyId", routeHeader.CompanyID, DbType.Int32, null), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
 

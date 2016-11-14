@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace PH.Well.Domain
+﻿namespace PH.Well.Domain
 {
+    using System;
     using System.Xml.Serialization;
     using Common.Extensions;
     using Enums;
@@ -10,11 +9,6 @@ namespace PH.Well.Domain
     [Serializable()]
     public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
     {
-        public JobDetailDamage()
-        {
-            
-        }
-
         [XmlElement("Qty")]
         public decimal Qty { get; set; }
 
@@ -86,6 +80,7 @@ namespace PH.Well.Domain
             {
                 return false;
             }
+
             return other.DamageReason == DamageReason && other.Qty == Qty;
         }
     }

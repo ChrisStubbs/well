@@ -117,7 +117,7 @@
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
                 .AddParameter("Id", routeHeader.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
-                .AddParameter("CompanyId", routeHeader.CompanyID, DbType.Int32)
+                .AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32)
                 .AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String)
                 .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
                 .AddParameter("DriverName", routeHeader.DriverName, DbType.String)

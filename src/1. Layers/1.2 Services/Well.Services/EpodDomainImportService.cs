@@ -22,10 +22,8 @@
         private readonly IAccountRepository accountRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly ILogger logger;
-        public string CurrentUser { get; set; }
         
         private readonly string assemblyName = "PH.Well.Services";
-        private readonly string correctExtension = ".xml";
 
         public EpodFileType EpodType { get; set; }
         
@@ -40,23 +38,18 @@
             this.jobDetailRepository = jobDetailRepository;
             this.accountRepository = accountRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+
+            this.routeHeaderRepository.CurrentUser = "ePodDomainImport";
+            this.stopRepository.CurrentUser = "ePodDomainImport";
+            this.jobRepository.CurrentUser = "ePodDomainImport";
+            this.jobDetailRepository.CurrentUser = "ePodDomainImport";
+            this.accountRepository.CurrentUser = "ePodDomainImport";
+            this.jobDetailDamageRepository.CurrentUser = "ePodDomainImport";
         }
         
-        public Routes GetByFileName(string filename)
+        public void AddRoutesFile(RouteDelivery routeDelivery, int routesId)
         {
-            return this.routeHeaderRepository.GetByFilename(filename);
-        }
-
-        public Routes CreateOrUpdate(Routes routes)
-        {
-            routeHeaderRepository.CurrentUser = CurrentUser;
-            return this.routeHeaderRepository.CreateOrUpdate(routes);
-        }
-
-        public void AddRoutesFile(RouteDeliveries routeDeliveries, int routesId)
-        {
-
-            foreach (var routeHeader in routeDeliveries.RouteHeaders)
+            foreach (var routeHeader in routeDelivery.RouteHeaders)
             {
                 routeHeader.RoutesId = routesId;
 
@@ -81,11 +74,10 @@
             foreach (var stop in routeHeader.Stops)
             {
                 stop.RouteHeaderId = id;
-                this.stopRepository.CurrentUser = this.CurrentUser;
                 var newStop = this.stopRepository.StopCreateOrUpdate(stop);
 
-                stop.Accounts.StopId = newStop.Id;
-                stopRepository.StopAccountCreateOrUpdate(stop.Accounts);
+                stop.Account.StopId = newStop.Id;
+                stopRepository.StopAccountCreateOrUpdate(stop.Account);
                 
                 AddStopJobs(stop, newStop.Id);
             }
@@ -93,7 +85,6 @@
 
         public void AddStopJobs(Stop stop, int newStopId)
         {
-            this.jobRepository.CurrentUser = this.CurrentUser;
             foreach (var job in stop.Jobs)
             {
                 job.StopId = newStopId;
@@ -106,8 +97,6 @@
 
         public void AddJobJobDetail(Job job, int newJobId)
         {
-            this.jobDetailRepository.CurrentUser = this.CurrentUser;
-            this.jobDetailDamageRepository.CurrentUser = CurrentUser;
             foreach (var jobDetail in job.JobDetails)
             {
                 jobDetail.JobId = newJobId;
@@ -126,9 +115,9 @@
             }
         }
 
-        public void AddRoutesEpodFile(RouteDeliveries routeDeliveries, int routesId)
+        public void AddRoutesEpodFile(RouteDelivery routeDelivery, int routesId)
         {
-            foreach (var ePodRouteHeader in routeDeliveries.RouteHeaders)
+            foreach (var ePodRouteHeader in routeDelivery.RouteHeaders)
             {
                 var currentRouteHeader = this.routeHeaderRepository.GetRouteHeaderByRouteNumberAndDate(ePodRouteHeader.RouteNumber, ePodRouteHeader.RouteDate);
 
@@ -148,9 +137,8 @@
                     currentRouteHeader.StartDepot = int.Parse(currentRouteHeader.StartDepotCode);
                     currentRouteHeader.ActualStopsCompleted = ePodRouteHeader.ActualStopsCompleted;
 
-                   currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
-
-
+                    currentRouteHeader = this.routeHeaderRepository.RouteHeaderCreateOrUpdate(currentRouteHeader);
+                    
                     AddEpodRouteHeaderStops(ePodRouteHeader);
                 }
                 else
@@ -158,9 +146,7 @@
                     logger.LogError($"No data found for Epod route: {ePodRouteHeader.RouteNumber} on date: {ePodRouteHeader.RouteDate}");
                     throw new Exception($"No data found for Epod route: {ePodRouteHeader.RouteNumber} on date: {ePodRouteHeader.RouteDate}");
                 }
-
             }
-
         }
 
         public void AddAdamUpdateFile(RouteUpdates orderUpdates, int routesId)
@@ -187,8 +173,6 @@
 
                 AddStopByOrder(orderUpdate, orderTransportRefDetails, exsitingOrderStopDetails.Id, false);
             }
-
-
         }
 
         private void AddStopByOrder(Order order, IReadOnlyList<string> transportOrderRef, int currentStopId, bool insertOnly)
@@ -219,9 +203,6 @@
                 ByPassReasonId = (int)ByPassReasons.Notdef
             };
 
-            
-
-            this.stopRepository.CurrentUser = this.CurrentUser;
             newStop = this.stopRepository.StopCreateOrUpdate(newStop);
 
             var newStopAccountId = 0;
@@ -231,8 +212,6 @@
             var currentJobId = 0;
 
             AddJobByOrderJob(newStop.Id, order.OrderJobs, DateTime.Parse(transportOrderRef[3]), currentJobId, insertOnly);
-
-
         }
 
         private void AddStopAccountByOrderJob(int stopId, Account stopAccount, int currentStopAccountId, bool insertOnly)
@@ -288,12 +267,10 @@
                     StopId = stopId
                 };
 
-                this.jobRepository.CurrentUser = this.CurrentUser;
                 jobRepository.JobCreateOrUpdate(newJob);
 
                 var currentJobDetailId = 0;
                 AddJobDetailByOrderJobDetail(newJob.Id, orderJob.OrderJobDetails, currentJobDetailId, insertOnly);
-
             }
         }
 
@@ -323,8 +300,6 @@
                     SkuGoodsValue = orderJobDetail.SkuGoodsValue,
                     JobId = jobId
                 };
-
-                this.jobDetailRepository.CurrentUser = this.CurrentUser;
 
                 if (!insertOnly)
                 {
@@ -357,8 +332,6 @@
 
         private void AddEpodRouteHeaderStops(RouteHeader routeHeader)
         {
-            this.stopRepository.CurrentUser = this.CurrentUser;
-
             foreach (var ePodStop in routeHeader.Stops)
             {
 
@@ -391,8 +364,6 @@
 
         private void AddEpodStopJobs(Stop stop, int currentStopId)
         {
-            this.jobRepository.CurrentUser = this.CurrentUser;
-
             foreach (var ePodjob in stop.Jobs)
             {
                 var currentJob = this.jobRepository.GetByAccountPicklistAndStopId(ePodjob.PhAccount, ePodjob.PickListRef, currentStopId);
@@ -433,14 +404,9 @@
                 }
             }
         }
-
-
-
-
+        
         private void AddEpodJobJobDetail(Job job, int currentJobId)
         {
-            this.jobDetailRepository.CurrentUser = this.CurrentUser;
-
             foreach (var ePodJobDetail in job.JobDetails)
             {
                 var currentJobDetail = this.jobDetailRepository.GetByJobLine(currentJobId, ePodJobDetail.LineNumber);
@@ -453,7 +419,6 @@
                         foreach (var jobDetailDamage in ePodJobDetail.JobDetailDamages)
                         {
                             jobDetailDamage.JobDetailId = currentJobDetail.Id;
-                            this.jobDetailDamageRepository.CurrentUser = this.CurrentUser;
                             this.jobDetailDamageRepository.Save(jobDetailDamage);
                         }
                     }
@@ -480,16 +445,10 @@
                 }
             }
         }
-
-
+        
         private bool JobHasAnInvoiceNumber(int currentJobId)
         {
             return !string.IsNullOrWhiteSpace(jobRepository.GetById(currentJobId).InvoiceNumber);
-        }
-
-        public bool IsFileXmlType(string fileName)
-        {
-            return Path.GetExtension(fileName) == correctExtension;
         }
 
         public string MatchFileNameToSchema(string fileTypeIndentifier)
@@ -564,7 +523,6 @@
             var fileType = GetEpodFileType(fileTypeIdent);
 
             return StringExtensions.GetEnumDescription(fileType) + DateTime.Now.ToString("yyyyMMdd");
-
         }
 
         private void CreateArchiveDirectory(string directory)
@@ -574,7 +532,5 @@
                 Directory.CreateDirectory(directory);
             }
         }
-
-
     }
 }

@@ -1,7 +1,4 @@
-﻿
-
-
-namespace PH.Well.Domain
+﻿namespace PH.Well.Domain
 {
     using System;
     using System.Collections.ObjectModel;
@@ -45,14 +42,10 @@ namespace PH.Well.Domain
 
         [XmlElement("OrderedQty")]
         public int OrderedQty { get; set; }
-
-
+        
         [XmlElement("DeliveredQty")]
         public string DeliveredQty { get; set; }
 
-
-
-       
         [XmlIgnore]
         public int ShortQty { get; set; }
 
@@ -66,29 +59,34 @@ namespace PH.Well.Domain
                 ShortQty = value == string.Empty ? 0 : int.Parse(value);
             }
         }
-
-
-
+        
         [XmlElement("UnitMeasure")]
         public string UnitMeasure { get; set; }
 
-        [XmlElement("PHProductType")]
+        [XmlElement("TextField1")]
         public string PhProductType { get; set; }
 
-        [XmlElement("PackSize")]
+        [XmlElement("TextField2")]
         public string PackSize { get; set; }
 
-        [XmlElement("SingleOrOuter")]
+        [XmlElement("TextField3")]
         public string SingleOrOuter { get; set; }
 
-        [XmlElement("SSCCBarcode")]
+        [XmlElement("TextField5")]
         public string SsccBarcode { get; set; }
 
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }
 
-        [XmlElement("NetPrice")]
-        public double NetPrice { get; set; }
+        public string NetPrice
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "NetPrice");
+
+                return attribute?.Value;
+            }
+        }
 
         [XmlElement("SubOuterDamageTotal")]
         public int SubOuterDamageTotal { get; set; }
@@ -112,6 +110,10 @@ namespace PH.Well.Domain
 
         [XmlIgnore]
         public Collection<JobDetailAction> Actions { get; set; }
+
+        [XmlArray("EntityAttributes")]
+        [XmlArrayItem("Attribute", typeof(EntityAttribute))]
+        public Collection<EntityAttribute> EntityAttributes { get; set; }
 
         public bool IsClean()
         {

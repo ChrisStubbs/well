@@ -26,5 +26,7 @@
         void DownloadFile(string address, string fileName);
 
         void DownloadFile(Uri address, string fileName);
+
+        string CopyFile(string from, string to);
     }
 }

@@ -109,7 +109,7 @@
     <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeaders_Get.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
-    <Build Include="dbo\StoredProcedures\Routes_CreateOrUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Route_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_CreateOrUpdate.sql" />

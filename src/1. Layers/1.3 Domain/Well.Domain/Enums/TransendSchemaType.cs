@@ -13,5 +13,6 @@
         [Description("TransEndPHOrderUpdateSchema.xsd")]
         RouteUpdateSchema = 3,
 
+        Unknown = 4
     }
 }

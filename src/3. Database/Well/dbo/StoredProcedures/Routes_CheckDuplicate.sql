@@ -3,5 +3,5 @@
 
 AS
 BEGIN
-	SELECT [FileName] FROM [Routes] WHERE [FileName] = @FileName AND ImportDate = GETDATE()
+	SELECT [FileName] FROM [Routes] WHERE [FileName] = @FileName
 END

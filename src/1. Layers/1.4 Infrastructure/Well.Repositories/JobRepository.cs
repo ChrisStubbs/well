@@ -51,10 +51,7 @@
 
             return customerRoyaltyException.FirstOrDefault();
         }
-
-
         
-
         public void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionInsert)
@@ -89,9 +86,6 @@
 
         public void JobCreateOrUpdate(Job job)
         {
-
-            var credit = job.TotalCreditValueForThreshold();
-
             job.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
                 .AddParameter("Id", job.Id, DbType.Int32)
                 .AddParameter("Sequence", job.Sequence, DbType.Int32)
@@ -99,7 +93,7 @@
                 .AddParameter("JobTypeCode", job.JobTypeCode, DbType.String)
                 .AddParameter("PHAccount", job.PhAccount, DbType.String)
                 .AddParameter("PickListRef", job.PickListRef, DbType.String)
-                .AddParameter("InvoiceNumber", string.IsNullOrWhiteSpace(job.InvoiceNumber) ? null : job.InvoiceNumber, DbType.String)
+                .AddParameter("InvoiceNumber", job.InvoiceNumber, DbType.String)
                 .AddParameter("CustomerRef", job.CustomerRef, DbType.String)
                 .AddParameter("OrderDate", job.OrderDate, DbType.DateTime)
                 .AddParameter("RoyaltyCode", job.RoyaltyCode, DbType.String)
@@ -123,8 +117,7 @@
                 .AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16)
                 .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
         }
-
-
+        
         public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
         {
             var job =

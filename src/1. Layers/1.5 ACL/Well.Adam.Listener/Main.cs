@@ -41,12 +41,13 @@
                 {
                     x.For<IEpodSchemaValidator>().Use<EpodSchemaValidator>();
                     x.For<ILogger>().Use<NLogger>();
+                    x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
-                    x.For<IEpodDomainImportProvider>().Use<EpodDomainImportProvider>();
+                    x.For<IEpodImportProvider>().Use<EpodImportProvider>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IStopRepository>().Use<StopRepository>();
-                    x.For<IEpodDomainImportService>().Use<EpodDomainImportService>();
+                    x.For<IEpodImportService>().Use<EpodImportService>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
@@ -55,6 +56,7 @@
                     x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
+                    x.For<IFileTypeService>().Use<FileTypeService>();
                 });
         }
     }

@@ -2,6 +2,6 @@
 {
     public interface IEpodSchemaValidator
     {
-        bool IsFileValid(string sourceFile, string schemaFile);
+        bool IsFileValid(string sourceFile);
     }
 }

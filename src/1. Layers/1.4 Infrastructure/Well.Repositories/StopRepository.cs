@@ -45,7 +45,7 @@
             return stop;
         }
 
-        public Stop StopCreateOrUpdate(Stop stop)
+        public void StopCreateOrUpdate(Stop stop)
         {
             var stopStatusId = stop.StopStatusCodeId == 0 ? (int) StopStatus.Notdef : stop.StopStatusCodeId;
             var stopPerformanceStatusId = stop.StopPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : stop.StopPerformanceStatusCodeId;
@@ -75,11 +75,9 @@
                 .AddParameter("StopPerformanceStatusId", stopPerformanceStatusId, DbType.Int16)
                 .AddParameter("ByPassReasonId", stopByPassReasonId, DbType.Int16).Query<int>().FirstOrDefault();
 
-            return this.GetById(id);
-
+            stop.Id = id;
         }
-
-
+        
         public void StopAccountCreateOrUpdate(Account account)
         {
 
@@ -117,7 +115,7 @@
         public Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate)
         {
             var stop =
-               dapperProxy.WithStoredProcedure(StoredProcedures.StopGeyByOrderUpdateDetails)
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByOrderUpdateDetails)
                    .AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String)
                    .AddParameter("DropId", dropId, DbType.String)
                    .AddParameter("LocationId", locationId, DbType.String)

@@ -10,7 +10,6 @@
 
     public abstract class BaseDapperProxy : IDapperProxy
     {
-
         public IDbConfiguration DbConfiguration { get; set; }
 
         DynamicParameters parameters;

@@ -102,65 +102,90 @@
             }
         }
 
-        public string ReCallPrd
+        public bool ReCallPrd
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ReCallPrd");
 
-                return attribute?.Value;
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
             }
         }
 
         /// <summary>
         /// Single credit allowed
         /// </summary>
-        public string AllowSgCrd
+        public bool AllowSgCrd
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowSgCrd");
 
-                return attribute?.Value;
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
             }
         }
 
         /// <summary>
         /// Sub outer credit allowed
         /// </summary>
-        public string AllowSoCrd
+        public bool AllowSoCrd
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowSoCrd");
 
-                return attribute?.Value;
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
             }
         }
 
         /// <summary>
         /// Cash on delivery
         /// </summary>
-        public string Cod
+        public bool Cod
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "COD");
 
-                return attribute?.Value;
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
             }
         }
 
         /// <summary>
         /// Sandwich order
         /// </summary>
-        public string SandwchOrd
+        public bool SandwchOrd
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "SandwchOrd");
 
-                return attribute?.Value;
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
             }
         }
 
@@ -180,13 +205,18 @@
         /// <summary>
         /// ReOrder allowed
         /// </summary>
-        public string AllowReOrd
+        public bool AllowReOrd
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowReOrd");
 
-                return attribute?.Value;
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
             }
         }
 

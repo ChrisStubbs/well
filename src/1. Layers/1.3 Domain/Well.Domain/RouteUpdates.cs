@@ -6,7 +6,7 @@
     using ValueObjects;
 
     [Serializable()]
-    [XmlRoot("RouteUpdates")]
+    [XmlRoot("StopDeliveries")]
     public class RouteUpdates
     {
         [XmlArray("Orders")]

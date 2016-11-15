@@ -1,9 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Xml.Serialization;
     [Serializable()]
     public class Routes: Entity<int>
     { 

@@ -9,55 +9,69 @@
     using Domain;
     using Domain.Enums;
 
+    using PH.Well.Common;
     using PH.Well.Repositories.Contracts;
 
     using Services.Contracts;
 
-    public class EpodDomainImportProvider : IEpodDomainImportProvider
+    public class EpodImportProvider : IEpodImportProvider
     {
-        private readonly IEpodDomainImportService epodDomainImportService;
+        private readonly IEpodImportService epodImportService;
         private readonly ILogger logger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IFileTypeService fileTypeService;
 
-        public EpodDomainImportProvider(IEpodDomainImportService eopEpodDomainImportService, ILogger logger, IRouteHeaderRepository routeHeaderRepository)
+        private readonly IEventLogger eventLogger;
+
+        public EpodImportProvider(
+            IEpodImportService eopEpodImportService, 
+            ILogger logger, 
+            IRouteHeaderRepository routeHeaderRepository, 
+            IFileTypeService fileTypeService,
+            IEventLogger eventLogger)
         {
-            this.epodDomainImportService = eopEpodDomainImportService;
+            this.epodImportService = eopEpodImportService;
             this.logger = logger;
             this.routeHeaderRepository = routeHeaderRepository;
+            this.fileTypeService = fileTypeService;
+            this.eventLogger = eventLogger;
         }
 
-        public void ImportRouteHeader(string filename, EpodFileType fileType)
+        public void ImportRouteHeader(string fullpathFilename)
         {
-            var filenameWithoutPath = filename.GetFilenameWithoutPath();
+            var filename = fullpathFilename.GetFilename();
 
-            var currentRouteImportFile = new Routes();
+            var fileType = this.fileTypeService.DetermineFileType(filename);
 
             if (fileType == EpodFileType.RouteHeader)
             {
-                currentRouteImportFile = this.routeHeaderRepository.GetByFilename(filenameWithoutPath);
+                var alreadyLoaded = this.routeHeaderRepository.FileAlreadyLoaded(filename);
+
+                if (alreadyLoaded)
+                {
+                    logger.LogDebug($"File ({filename}) has already been imported!");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"File ({filename}) has already been imported!",
+                        1049);
+                    return;
+                }
             }
 
-            if (currentRouteImportFile != null && fileType == EpodFileType.RouteHeader)
-            {
-                logger.LogError($"file {filenameWithoutPath} has already been imported");
-                throw new Exception("error with file download");
-            }
-            else
-            {
-                this.routeHeaderRepository.CurrentUser = "ePodDomainImport";
-                var routes = this.routeHeaderRepository.CreateOrUpdate(new Routes { FileName = filenameWithoutPath });
-                MapRoutesToDomain(filename, fileType, routes.Id);
-            }
+            this.routeHeaderRepository.CurrentUser = "ePodImport";
+            var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
+            this.MapRoutesToDomain(fullpathFilename, fileType, route.Id);
         }
 
-        private void MapRoutesToDomain(string filename, EpodFileType epodType, int routesId)
+        private void MapRoutesToDomain(string filename, EpodFileType epodType, int routeId)
         {
             var overrides = new XmlAttributeOverrides();
             var attribs = new XmlAttributes { XmlIgnore = true };
 
+            // TODO not sure if we need this
             if (epodType == EpodFileType.RouteHeader)
             {
-                var attributesExceptions = this.epodDomainImportService.GetRouteAttributeException();
+                var attributesExceptions = this.epodImportService.GetRouteAttributeException();
 
                 foreach (var attributesException in attributesExceptions)
                 {
@@ -73,8 +87,6 @@
 
             using (var reader = new StreamReader(filename))
             {
-                epodDomainImportService.EpodType = epodType;
-                
                 if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
                 {
                     var routeImportSerializer = new XmlSerializer(typeof(RouteDelivery), overrides);
@@ -82,26 +94,25 @@
 
                     if (epodType == EpodFileType.RouteHeader)
                     {
-                        epodDomainImportService.AddRoutesFile(routes, routesId);
+                        this.epodImportService.AddRoutesFile(routes, routeId);
                     }
                     else
                     {
-                        epodDomainImportService.AddRoutesEpodFile(routes, routesId);
+                        this.epodImportService.AddRoutesEpodFile(routes, routeId);
                     }
                 }
-                else
+                else // we have a update from adam
                 {
                     var adamUpdatesSerializer = new XmlSerializer(typeof(RouteUpdates), overrides);
                     var orderUpdates = (RouteUpdates)adamUpdatesSerializer.Deserialize(reader);
-                    epodDomainImportService.AddAdamUpdateFile(orderUpdates, routesId);
+                    this.epodImportService.AddAdamUpdateFile(orderUpdates, routeId);
                 }
             }
 
-            var filnameWithoutPath = filename.GetFilenameWithoutPath();
+            var filnameWithoutPath = filename.GetFilename();
             var archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
 
-            if (epodType == EpodFileType.RouteEpod || epodType == EpodFileType.OrderUpdate)
-                epodDomainImportService.CopyFileToArchive(filename, filnameWithoutPath, archiveLocation);
+            this.epodImportService.CopyFileToArchive(filename, filnameWithoutPath, archiveLocation);
             
             logger.LogDebug($"File {filename} imported successfully");
         }

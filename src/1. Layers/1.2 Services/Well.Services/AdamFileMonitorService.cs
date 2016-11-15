@@ -13,9 +13,9 @@
 
         private readonly IEpodSchemaValidator epodSchemaValidator;
 
-        private readonly IEpodDomainImportProvider epodDomainImportProvider;
+        private readonly IEpodImportProvider epodImportProvider;
 
-        private readonly IEpodDomainImportService epodDomainImportService;
+        private readonly IEpodImportService epodImportService;
 
         private string RootFolder { get; set; }
 
@@ -23,14 +23,14 @@
             ILogger logger, 
             IFileService fileService, 
             IEpodSchemaValidator epodSchemaValidator, 
-            IEpodDomainImportProvider epodDomainImportProvider,
-            IEpodDomainImportService epodDomainImportService)
+            IEpodImportProvider epodImportProvider,
+            IEpodImportService epodImportService)
         {
             this.logger = logger;
             this.fileService = fileService;
             this.epodSchemaValidator = epodSchemaValidator;
-            this.epodDomainImportProvider = epodDomainImportProvider;
-            this.epodDomainImportService = epodDomainImportService;
+            this.epodImportProvider = epodImportProvider;
+            this.epodImportService = epodImportService;
         }
 
         public void Monitor(string rootFolder)
@@ -62,28 +62,15 @@
 
         public void Process(string filePath)
         {
-            var filenameWithoutPath = filePath.GetFilenameWithoutPath();
+            var filenameWithoutPath = filePath.GetFilename();
 
             if (filenameWithoutPath.EndsWith("xml"))
             {
-                var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filenameWithoutPath);
-
-                var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
-
-                var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
-
-                var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(filePath, schemaPath);
+                var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(filePath);
 
                 if (isFileValidBySchema)
                 {
-                    var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
-
-                    epodDomainImportProvider.ImportRouteHeader(filePath, epodType);
-
-                    epodDomainImportService.CopyFileToArchive(
-                    filePath,
-                    filenameWithoutPath,
-                    this.RootFolder + "\\archive");
+                    this.epodImportProvider.ImportRouteHeader(filePath);
                 }
             }
         }

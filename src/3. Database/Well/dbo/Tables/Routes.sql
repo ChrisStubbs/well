@@ -2,7 +2,6 @@
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[FileName] VARCHAR(255),
-	[ImportDate] DATETIME NOT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

@@ -4,7 +4,7 @@
 	[CompanyId] INT NOT NULL,
 	[RouteNumber] VARCHAR(12) NOT NULL,
 	[RouteDate] DATETIME NOT NULL,
-	[DriverName] VARCHAR(50) NOT NULL,
+	[DriverName] VARCHAR(50) NULL,
 	[StartDepotCode] INT NOT NULL,
 	[PlannedStops] TINYINT NOT NULL,
 	[ActualStopsCompleted] TINYINT NULL,

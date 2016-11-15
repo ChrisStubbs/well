@@ -29,8 +29,8 @@
         private ILogger logger;
         private IFileService fileService;
         private IEpodSchemaValidator epodSchemaValidator;
-        private IEpodDomainImportProvider epodDomainImportProvider;
-        private IEpodDomainImportService epodDomainImportService;
+        private IEpodImportProvider epodImportProvider;
+        private IEpodImportService epodImportService;
         private AdamFileMonitorService adamFileMonitorService;
         private readonly string currentUser = "epodBDDUser";
 
@@ -45,12 +45,12 @@
             logger = this.container.GetInstance<ILogger>();
             fileService = this.container.GetInstance<IFileService>();
             this.epodSchemaValidator = this.container.GetInstance<IEpodSchemaValidator>();
-            epodDomainImportProvider = this.container.GetInstance<IEpodDomainImportProvider>();
-            epodDomainImportService = this.container.GetInstance<IEpodDomainImportService>();
+            this.epodImportProvider = this.container.GetInstance<IEpodImportProvider>();
+            this.epodImportService = this.container.GetInstance<IEpodImportService>();
 
 
             logger.LogDebug("Calling file monitor service");
-            adamFileMonitorService = new AdamFileMonitorService(logger, fileService, this.epodSchemaValidator, epodDomainImportProvider, epodDomainImportService);
+            adamFileMonitorService = new AdamFileMonitorService(logger, fileService, this.epodSchemaValidator, this.epodImportProvider, this.epodImportService);
         }
 
         [Given(@"I have loaded the Adam route data")]

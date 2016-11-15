@@ -136,7 +136,7 @@
                 dapperProxy.Setup(x => x.WithStoredProcedure("Routes_CheckDuplicate")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("FileName", filename, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<Routes>()).Returns(new List<Routes>());
-                repository.GetByFilename(filename);
+                repository.FileAlreadyLoaded(filename);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("Routes_CheckDuplicate"), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("FileName", filename, DbType.String, null), Times.Once);
@@ -190,7 +190,7 @@
                 var user = UserFactory.New.Build();
 
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate))
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteInsert))
                     .Returns(dapperProxy.Object);
 
                 dapperProxy.Setup(x => x.AddParameter("Id", routes.Id, DbType.Int32, null))
@@ -213,11 +213,11 @@
                 this.dapperProxy.Setup(x => x.Query<Routes>()).Returns(new List<Routes>());
 
 
-                this.repository.CreateOrUpdate(routes);
+                this.repository.Create(routes);
 
                 Assert.That(user.Id, Is.EqualTo(1));
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteInsert), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.AddParameter("Filename", routes.FileName, DbType.String, null), Times.Exactly(1));
 

@@ -200,7 +200,7 @@
             return false;
         }
         
-        public static string GetFilenameWithoutPath(this string filePath)
+        public static string GetFilename(this string filePath)
         {
             return Path.GetFileName(filePath);
         }

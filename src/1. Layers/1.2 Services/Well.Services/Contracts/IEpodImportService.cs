@@ -2,23 +2,12 @@
 {
     using System.Collections.Generic;
     using Domain;
-    using Domain.Enums;
 
-    public interface IEpodDomainImportService
+    public interface IEpodImportService
     {
-        EpodFileType EpodType { get; set; }
-
-        void AddRoutesFile(RouteDelivery routeDelivery, int routesId);
+        void AddRoutesFile(RouteDelivery routeDelivery, int routeId);
 
         void AddRoutesEpodFile(RouteDelivery routeDelivery, int routesId);
-
-        string MatchFileNameToSchema(string fileTypeIndentifier);
-
-        string GetFileTypeIdentifier(string filename);
-
-        EpodFileType GetEpodFileType(string fileTypeIndentifier);
-
-        string GetSchemaFilePath(string schemaName);
 
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
 

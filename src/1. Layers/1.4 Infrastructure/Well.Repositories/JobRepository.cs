@@ -99,7 +99,8 @@
                 .AddParameter("JobTypeCode", job.JobTypeCode, DbType.String)
                 .AddParameter("PHAccount", job.PhAccount, DbType.String)
                 .AddParameter("PickListRef", job.PickListRef, DbType.String)
-                .AddParameter("InvoiceNumber", string.IsNullOrWhiteSpace(job.InvoiceNumber) ? null : job.InvoiceNumber, DbType.String)
+                .AddParameter("InvoiceNumber", string.IsNullOrWhiteSpace(job.InvoiceNumber) ? null : job.InvoiceNumber,
+                    DbType.String)
                 .AddParameter("CustomerRef", job.CustomerRef, DbType.String)
                 .AddParameter("OrderDate", job.OrderDate, DbType.DateTime)
                 .AddParameter("RoyaltyCode", job.RoyaltyCode, DbType.String)
@@ -119,9 +120,17 @@
                 .AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean)
                 .AddParameter("ComdtyType", job.ComdtyType, DbType.String)
                 .AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal)
-                .AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16)
-                .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
+                .AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", (int) job.ByPassReason, DbType.Int16)
+                .AddParameter("StopId", job.StopId, DbType.Int32)
+                .AddParameter("ActionLogNumber", job.ActionLogNumber, DbType.String)
+                .AddParameter("OuterCount", job.OuterCount, DbType.Int16)
+                .AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String)
+                .AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16)
+                .AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16)
+                .Query<int>().FirstOrDefault()
+                ;
+
         }
 
 

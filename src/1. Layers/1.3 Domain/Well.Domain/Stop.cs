@@ -121,6 +121,27 @@
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public Collection<EntityAttribute> EntityAttributes { get; set; }
 
+        public decimal ActualPaymentCash => ActualPayment("ACTPAYCASH");
+        public decimal ActualPaymentCheque => ActualPayment("ACTPAYCHEQ");
+        public decimal ActualPaymentCard => ActualPayment("ACTPAYCARD");
+
+        public decimal ActualPayment(string attributeName)
+        {
+            var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == attributeName);
+
+            decimal total;
+            var result = decimal.TryParse(attribute?.Value, out total);
+
+            if (result)
+            {
+                return total;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public int CleanJobs => Jobs.Count(j => j.IsClean);
 
         public int ExceptionJobs => Jobs.Count(j => j.IsException);

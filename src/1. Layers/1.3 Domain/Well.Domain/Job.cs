@@ -22,17 +22,17 @@
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
-        [XmlElement("JobRef1")]
-        public string PhAccount { get; set; }
+        [XmlElement("JobRef1")]                 // not sure we need this
+        public string SiteBunId { get; set; }
 
-        [XmlElement("PickListRef")]
+        [XmlElement("JobRef2")]
         public string PickListRef { get; set; }
 
         [XmlElement("JobRef3")]
         public string InvoiceNumber { get; set; }
 
         [XmlElement("JobRef4")]
-        public string CustomerRef { get; set; }
+        public string PhAccount { get; set; }
 
         [XmlIgnore]
         public DateTime OrderDate { get; set; }
@@ -49,6 +49,9 @@
 
         [XmlElement("TextField2")]
         public string RoyaltyCodeDesc { get; set; }
+
+        [XmlElement("TextField3")]
+        public string CustomerRef { get; set; }
 
         /// <summary>
         /// Total ordered outers
@@ -190,11 +193,11 @@
             }
         }
 
-        [XmlElement("GrnNumber")]
-        public string GrnNumber { get; set; }
+        //[XmlElement("GrnNumber")]
+        //public string GrnNumber { get; set; }
 
-        [XmlElement("GrnRefusedReason")]
-        public string GrnRefusedReason { get; set; }
+        //[XmlElement("GrnRefusedReason")]
+        //public string GrnRefusedReason { get; set; }
 
         [XmlElement("GrnRefusedDesc")]
         public string GrnRefusedDesc { get; set; }
@@ -245,6 +248,77 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public Collection<EntityAttribute> EntityAttributes { get; set; }
+
+        //ACTLOGNO CUSTSRVCON DISCFOUND GRNNO GRNREFREAS ISOVERAGE OUTERCOUNT OVERORDNO TOTOVER TOTSHORT
+        public string ActionLogNumber
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ACTLOGNO");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string GrnNumber
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "GRNNO");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string GrnRefusedReason
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "GRNREFREAS");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string OuterCount
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "OUTERCOUNT");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string OuterDiscrepancyFound
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "DISCFOUND");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string TotalOutersOver
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "TOTOVER");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string TotalOutersShort
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "TOTSHORT");
+
+                return attribute?.Value;
+            }
+        }
 
         public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
         public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;

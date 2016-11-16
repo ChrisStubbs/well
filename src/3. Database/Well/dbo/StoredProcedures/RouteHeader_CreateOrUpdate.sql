@@ -4,7 +4,7 @@
 	@CompanyId			    INT,
 	@RouteNumber			NVARCHAR(50),
 	@RouteDate				DATETIME,
-	@DriverName				NVARCHAR(50),
+	@DriverName				NVARCHAR(50) = NULL,
 	@StartDepotCode			INT,
 	@PlannedStops			TINYINT,
 	@ActualStopsCompleted   TINYINT = 0, 
@@ -18,9 +18,7 @@
 	@DamagesRejected        INT = NULL,
 	@DamagesAccepted        INT = NULL,
 	@NotRequired            INT = NULL,
-	@Depot                  INT = NULL
-
-	 
+	@Depot                  INT = NULL	 
 AS
 BEGIN
 	SET NOCOUNT ON;

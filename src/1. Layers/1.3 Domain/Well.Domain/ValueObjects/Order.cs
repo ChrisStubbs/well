@@ -7,7 +7,6 @@
     [Serializable()]
     public class Order
     {
-
         public Order()
         {
             this.OrderJobs = new Collection<OrderJob>();
@@ -19,10 +18,10 @@
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
-        [XmlIgnore]
+        [XmlElement("RouteDate")]
         public DateTime OrderDate { get; set; }
 
-        [XmlElement("RouteDate")]
+        [XmlIgnore]
         public string OrderDateString
         {
             get { return this.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"); }
@@ -65,12 +64,12 @@
 
         [XmlElement("BookTime")]
         public string BookTime { get; set; }
+
         [XmlElement("ActionIndicator")]
         public string ActionIndicator { get; set; }
 
         [XmlArray("OrderJobs")]
         [XmlArrayItem("OrderJob", typeof(OrderJob))]
-
         public Collection<OrderJob> OrderJobs { get; set; }
 
         [XmlElement("Account")]

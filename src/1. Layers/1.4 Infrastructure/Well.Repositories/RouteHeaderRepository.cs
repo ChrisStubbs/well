@@ -69,18 +69,15 @@
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGetForDelete)
               .Query<RouteHeader>();
-
         }
 
-        public Routes CreateOrUpdate(Routes routes)
+        public Routes Create(Routes route)
         {
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCreateOrUpdate)
-                .AddParameter("Id", routes.Id, DbType.Int32)
-                .AddParameter("Filename", routes.FileName, DbType.String)
+            route.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteInsert)
+                .AddParameter("Filename", route.FileName, DbType.String)
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>().FirstOrDefault();
 
-            return this.GetById(id);
-
+            return route;
         }
 
         public Routes GetById(int id)
@@ -105,16 +102,15 @@
             return routeImport;
         }
 
-        public Routes GetByFilename(string filename)
+        public bool FileAlreadyLoaded(string filename)
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCheckDuplicate)
-                    .AddParameter("FileName", filename, DbType.String).Query<Routes>().FirstOrDefault();
+                    .AddParameter("FileName", filename, DbType.String).Query<Routes>().FirstOrDefault() != null;
         }
 
-        public RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
+        public void RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
         {
-           
-            var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
+           routeHeader.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
                 .AddParameter("Id", routeHeader.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32)
@@ -135,9 +131,6 @@
                 .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
                 .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
                 .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
-
-            return this.GetRouteHeaderById(id);
-
         }
 
         public RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate)

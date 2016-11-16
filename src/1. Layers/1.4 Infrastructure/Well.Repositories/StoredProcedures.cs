@@ -8,7 +8,7 @@
         //route header
         public static string RouteHeadersGet = "RouteHeaders_Get";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
-        public static string RoutesCreateOrUpdate = "Routes_CreateOrUpdate";
+        public static string RouteInsert = "Route_Insert";
         public static string RoutesGetById = "Routes_GetById";
         public static string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
         public static string RouteHeaderGetById = "RouteHeader_GetById";
@@ -28,7 +28,7 @@
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string StopGetByRouteNumberAndDropNumber = "Stop_GetByRouteNumberAndDropNumber";
-        public static string StopGeyByOrderUpdateDetails = "Stop_GeyByOrderUpdateDetails";
+        public static string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
         public static string StopGetByJobId = "Stop_GetByJobId";
         public static string StopDeleteById = "Stop_DeleteById";
         public static string AccountDeleteByStopId = "Account_DeleteByStopId";

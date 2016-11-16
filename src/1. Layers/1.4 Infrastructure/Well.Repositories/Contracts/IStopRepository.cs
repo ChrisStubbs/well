@@ -8,7 +8,7 @@
     {
         IEnumerable<Stop> GetStopByRouteHeaderId(int routeHeaderId);
 
-        Stop StopCreateOrUpdate(Stop stop);
+        void StopCreateOrUpdate(Stop stop);
 
         Stop GetById(int id);
 

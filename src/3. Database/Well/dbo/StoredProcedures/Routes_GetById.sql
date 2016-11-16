@@ -5,7 +5,6 @@ BEGIN
 	SELECT 
 	   [Id],
        [FileName],
-       [ImportDate],
        [CreatedBy],
        [DateCreated],
        [UpdatedBy],

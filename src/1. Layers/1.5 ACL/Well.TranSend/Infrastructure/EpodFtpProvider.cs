@@ -7,34 +7,38 @@
     using Common.Contracts;
 
     using PH.Well.Common;
+    using PH.Well.Domain.Enums;
 
     using Well.Services.Contracts;
 
     public class EpodFtpProvider : IEpodProvider
     {
         private readonly IEpodSchemaValidator epodSchemaValidator;
-        private readonly IEpodDomainImportProvider epodDomainImportProvider;
-        private readonly IEpodDomainImportService epodDomainImportService;
+        private readonly IEpodImportProvider epodImportProvider;
+        private readonly IEpodImportService epodImportService;
         private readonly IFtpClient ftpClient;
         private readonly IWebClient webClient;
         private readonly IEventLogger eventLogger;
+        private readonly IFileTypeService fileTypeService;
         private readonly ILogger logger;
 
         public EpodFtpProvider(IEpodSchemaValidator epodSchemaValidator, 
             ILogger logger, 
-            IEpodDomainImportProvider epodDomainImportProvider,
-            IEpodDomainImportService epodDomainImportService,
+            IEpodImportProvider epodImportProvider,
+            IEpodImportService epodImportService,
             IFtpClient ftpClient,
             IWebClient webClient,
-            IEventLogger eventLogger)
+            IEventLogger eventLogger,
+            IFileTypeService fileTypeService)
         {
             this.epodSchemaValidator = epodSchemaValidator;
             this.logger = logger;
-            this.epodDomainImportProvider = epodDomainImportProvider;
-            this.epodDomainImportService = epodDomainImportService;
+            this.epodImportProvider = epodImportProvider;
+            this.epodImportService = epodImportService;
             this.ftpClient = ftpClient;
             this.webClient = webClient;
             this.eventLogger = eventLogger;
+            this.fileTypeService = fileTypeService;
 
             this.ftpClient.FtpLocation = Configuration.FtpLocation;
             this.ftpClient.FtpUserName = Configuration.FtpUsername;
@@ -67,9 +71,9 @@
                         
                         var filename = Path.GetFileName(downloadedFile);
 
-                        var fileTypeIndentifier = epodDomainImportService.GetFileTypeIdentifier(filename);
+                        var fileType = this.fileTypeService.DetermineFileType(filename);
 
-                        if (string.IsNullOrWhiteSpace(fileTypeIndentifier))
+                        if (fileType == EpodFileType.Unknown)
                         {
                             this.logger.LogDebug($"File incorrect {filename}! File name should start with one of the following: (PH_) (ePod_) (PHOrder_)");
                             this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"File incorrect {filename}! File name should start with one of the following: (PH_) (ePod_) (PHOrder_)", 8833);
@@ -77,18 +81,13 @@
                             continue;
                         }
 
-                        var schemaName = epodDomainImportService.MatchFileNameToSchema(fileTypeIndentifier);
-                        var schemaPath = epodDomainImportService.GetSchemaFilePath(schemaName);
-
-                        var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(downloadedFile, schemaPath);
+                        var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(downloadedFile);
 
                         if (isFileValidBySchema)
                         {
-                            var epodType = epodDomainImportService.GetEpodFileType(fileTypeIndentifier);
+                            this.epodImportProvider.ImportRouteHeader(downloadedFile);
 
-                            epodDomainImportProvider.ImportRouteHeader(downloadedFile, epodType);
-
-                            epodDomainImportService.CopyFileToArchive(downloadedFile, filename, Configuration.ArchiveLocation);
+                            this.epodImportService.CopyFileToArchive(downloadedFile, filename, Configuration.ArchiveLocation);
 
                             this.ftpClient.DeleteFile(filename);
 

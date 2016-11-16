@@ -3,7 +3,6 @@
 AS
 SELECT [Id]
       ,[FileName]
-      ,[ImportDate]
       ,[IsDeleted]
       ,[CreatedBy]
       ,[DateCreated]

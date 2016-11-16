@@ -6,8 +6,6 @@
     using System.Data.SqlClient;
     using System.Transactions;
 
-    using Dapper;
-
     using PH.Well.Common.Contracts;
     using PH.Well.Domain.Contracts;
     using PH.Well.Repositories.Contracts;

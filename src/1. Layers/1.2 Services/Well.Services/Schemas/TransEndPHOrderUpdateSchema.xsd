@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="StopDeliveries">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Orders">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Order">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="CompanyID" type="xs:unsignedByte" />
+                    <xs:element name="StartDepotCode" type="xs:string" />
+                    <xs:element name="OrderDate" type="xs:string" />
+                    <xs:element name="DeliveryDate" type="xs:string" />
+                    <xs:element name="TransportOrderRef" type="xs:string" />
+                    <xs:element name="PlannedArriveTime" type="xs:string" />
+                    <xs:element name="PlannedDepartTime" type="xs:string" />
+                    <xs:element name="TextField2" type="xs:string" />
+                    <xs:element name="TextField3" type="xs:string" />
+                    <xs:element name="TextField4" type="xs:unsignedShort" />
+                    <xs:element name="ActionIndicator" type="xs:string" />
+                    <xs:element name="StartWindow" type="xs:string" />
+                    <xs:element name="EndWindow" type="xs:string" />
+                    <xs:element name="EntityAttributes">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="Attribute">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Code" type="xs:string" />
+                                <xs:element name="Value1" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Account">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code" type="xs:decimal" />
+                          <xs:element name="AccountTypeCode" type="xs:string" />
+                          <xs:element name="Name" type="xs:string" />
+                          <xs:element name="Address1" type="xs:string" />
+                          <xs:element name="Address2" type="xs:string" />
+                          <xs:element name="PostCode" type="xs:string" />
+                          <xs:element name="ContactName" type="xs:string" />
+                          <xs:element name="ContactNumber" type="xs:unsignedInt" />
+                          <xs:element name="StartWindow" type="xs:string" />
+                          <xs:element name="EndWindow" type="xs:string" />
+                          <xs:element name="Latitude" type="xs:decimal" />
+                          <xs:element name="Longitude" type="xs:decimal" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="OrderJobs">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="OrderJob">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Sequence" type="xs:unsignedByte" />
+                                <xs:element name="JobTypeCode" type="xs:string" />
+                                <xs:element name="JobRef1" type="xs:unsignedShort" />
+                                <xs:element name="JobRef2" type="xs:unsignedInt" />
+                                <xs:element name="OrderDate" type="xs:string" />
+                                <xs:element name="Originator" type="xs:string" />
+                                <xs:element name="TextField1" type="xs:unsignedShort" />
+                                <xs:element name="TextField3" type="xs:unsignedInt" />
+                                <xs:element name="EntityAttributes">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element maxOccurs="unbounded" name="Attribute">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="Code" type="xs:string" />
+                                            <xs:element name="Value1" type="xs:string" />
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="OrderJobDetails">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element maxOccurs="unbounded" name="OrderJobDetail">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="LineNumber" type="xs:unsignedByte" />
+                                            <xs:element name="Barcode" type="xs:unsignedShort" />
+                                            <xs:element name="ProdDesc" type="xs:string" />
+                                            <xs:element name="OrderedQty" type="xs:unsignedByte" />
+                                            <xs:element name="SkuWeight" type="xs:decimal" />
+                                            <xs:element name="SkuCube" type="xs:decimal" />
+                                            <xs:element name="UnitMeasure" type="xs:unsignedByte" />
+                                            <xs:element name="TextField1" type="xs:string" />
+                                            <xs:element name="TextField2" type="xs:unsignedByte" />
+                                            <xs:element name="SkuGoodsValue" type="xs:decimal" />
+                                            <xs:element name="EntityAttributes">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" name="Attribute">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="Code" type="xs:string" />
+                                                        <xs:element name="Value1" type="xs:string" />
+                                                      </xs:sequence>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

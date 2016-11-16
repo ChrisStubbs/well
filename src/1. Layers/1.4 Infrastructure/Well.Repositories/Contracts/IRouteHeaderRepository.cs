@@ -8,13 +8,13 @@
     {
         IEnumerable<RouteHeader> GetRouteHeaders();
 
-        Routes CreateOrUpdate(Routes routes);
+        Routes Create(Routes routes);
 
         Routes GetById(int id);
 
-        Routes GetByFilename(string filename);
+        bool FileAlreadyLoaded(string filename);
 
-        RouteHeader RouteHeaderCreateOrUpdate(RouteHeader routeHeader);
+        void RouteHeaderCreateOrUpdate(RouteHeader routeHeader);
 
         RouteHeader GetRouteHeaderById(int id);
 

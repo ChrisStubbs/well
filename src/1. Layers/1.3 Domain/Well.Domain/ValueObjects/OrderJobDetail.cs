@@ -6,11 +6,10 @@
     [Serializable()]
     public class OrderJobDetail
     {
-
         [XmlElement("LineNumber")]
         public int LineNumber { get; set; }
 
-        [XmlElement("PHProductCode")]
+        [XmlElement("Barcode")]
         public string PhProductCode { get; set; }
 
         [XmlIgnore]
@@ -36,10 +35,10 @@
         [XmlElement("UnitMeasure")]
         public string UnitMeasure { get; set; }
 
-        [XmlElement("PHProductType")]
+        [XmlElement("TextField1")]
         public string PhProductType { get; set; }
 
-        [XmlElement("PackSize")]
+        [XmlElement("TextField2")]
         public string PackSize { get; set; }
 
         [XmlElement("SingleOrOuter")]

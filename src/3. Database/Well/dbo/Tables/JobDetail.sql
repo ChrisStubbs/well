@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[NetPrice] FLOAT NULL,
 	[JobId] INT NOT NULL,
 	[JobDetailStatusId] INT NOT NULL,
+	[LineStatus] VARCHAR(20) NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

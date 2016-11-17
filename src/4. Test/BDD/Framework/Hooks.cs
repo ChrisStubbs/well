@@ -161,6 +161,7 @@
                                                 x.For<IAuditRepository>().Use<AuditRepository>();
                                                 x.For<INotificationRepository>().Use<NotificationRepository>();
                                                 x.For<IDapperProxy>().Use<WellDapperProxy>();
+                                                x.For<IEventLogger>().Use<EventLogger>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

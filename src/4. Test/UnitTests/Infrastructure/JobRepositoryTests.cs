@@ -113,6 +113,11 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopId", job.StopId, DbType.Int32, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ActionLogNumber", job.ActionLogNumber, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("OuterCount", job.OuterCount, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
@@ -155,6 +160,11 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("StopId", job.StopId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ActionLogNumber", job.ActionLogNumber, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("OuterCount", job.OuterCount, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16, null), Times.Exactly(1));
 
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));

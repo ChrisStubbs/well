@@ -113,9 +113,17 @@
                 .AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean)
                 .AddParameter("ComdtyType", job.ComdtyType, DbType.String)
                 .AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal)
-                .AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16)
-                .AddParameter("StopId", job.StopId, DbType.Int32).Query<int>().FirstOrDefault();
+                .AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", (int) job.ByPassReason, DbType.Int16)
+                .AddParameter("StopId", job.StopId, DbType.Int32)
+                .AddParameter("ActionLogNumber", job.ActionLogNumber, DbType.String)
+                .AddParameter("OuterCount", job.OuterCount, DbType.Int16)
+                .AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String)
+                .AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16)
+                .AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16)
+                .Query<int>().FirstOrDefault()
+                ;
+
         }
         
         public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)

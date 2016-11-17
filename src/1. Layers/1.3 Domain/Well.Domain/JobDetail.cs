@@ -94,8 +94,29 @@
             }
         }
 
-        [XmlElement("SubOuterDamageTotal")]
-        public int SubOuterDamageTotal { get; set; }
+        //[XmlElement("SubOuterDamageTotal")]
+        //public int SubOuterDamageTotal { get; set; }
+
+        public string SubOuterDamageTotal
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "SUBOUTQTY");
+
+                return attribute?.Value;
+            }
+        }
+
+        public string LineStatus
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "LINESTATUS");
+
+                return attribute?.Value;
+            }
+        }
+
 
         public int JobId { get; set; }
 

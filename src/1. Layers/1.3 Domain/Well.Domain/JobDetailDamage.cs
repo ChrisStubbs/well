@@ -15,6 +15,7 @@
         [XmlElement("JobDetailID")]
         public string JobDetailCode { get; set; }
 
+        [XmlIgnore]
         public int JobDetailId { get; set; }
 
         [XmlElement("Reason")]

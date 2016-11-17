@@ -12,6 +12,7 @@
         [XmlElement("Barcode")]
         public string PhProductCode { get; set; }
 
+        [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
 
         [XmlElement("OriginalDespatchQty")]

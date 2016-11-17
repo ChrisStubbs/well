@@ -22,7 +22,8 @@
 
         [XmlElement("PHProductCode")]
         public string PhProductCode { get; set; }
-        
+
+        [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
 
         //Workaround for nullable int element
@@ -49,6 +50,7 @@
         [XmlElement("DeliveredQty")]
         public string DeliveredQty { get; set; }
 
+        [XmlIgnore]
         public int ShortQty { get; set; }
 
         //Workaround for nullable int element
@@ -84,6 +86,7 @@
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }
 
+        [XmlIgnore]
         public string NetPrice
         {
             get
@@ -97,6 +100,7 @@
         //[XmlElement("SubOuterDamageTotal")]
         //public int SubOuterDamageTotal { get; set; }
 
+        [XmlIgnore]
         public string SubOuterDamageTotal
         {
             get
@@ -107,6 +111,7 @@
             }
         }
 
+        [XmlIgnore]
         public string LineStatus
         {
             get
@@ -117,9 +122,10 @@
             }
         }
 
-
+        [XmlIgnore]
         public int JobId { get; set; }
 
+        [XmlIgnore]
         public int JobDetailStatusId { get; set; }
         
         public decimal CreditValueForThreshold()

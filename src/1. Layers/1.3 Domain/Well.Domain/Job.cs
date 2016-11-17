@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Linq;
     using System.Xml.Serialization;
     using Common.Extensions;
@@ -34,15 +35,19 @@
         [XmlElement("JobRef4")]
         public string PhAccount { get; set; }
 
+        [XmlIgnore]
         public DateTime? OrderDate { get; set; }
 
         [XmlElement("OrderDate")]
-        public string OrderDateFromXml {
+        public string OrderDateFromXml
+        {
             set
             {
+                var enGB = new CultureInfo("en-GB");
+
                 DateTime tryDate;
 
-                if (DateTime.TryParse(value, out tryDate))
+                if (DateTime.TryParseExact(value, "dd-mm-yyyy", enGB, DateTimeStyles.None, out tryDate))
                 {
                     this.OrderDate = tryDate;
                 }
@@ -61,6 +66,7 @@
         /// <summary>
         /// Total ordered outers
         /// </summary>
+        [XmlIgnore]
         public string OrdOuters
         {
             get
@@ -74,6 +80,7 @@
         /// <summary>
         /// Total invoiced outers
         /// </summary>
+        [XmlIgnore]
         public string InvOuters
         {
             get
@@ -87,6 +94,7 @@
         /// <summary>
         /// Total outers for uplift
         /// </summary>
+        [XmlIgnore]
         public string ColOuters
         {
             get
@@ -100,6 +108,7 @@
         /// <summary>
         /// Total boxes for uplift collection
         /// </summary>
+        [XmlIgnore]
         public string ColBoxes
         {
             get
@@ -110,6 +119,7 @@
             }
         }
 
+        [XmlIgnore]
         public bool ReCallPrd
         {
             get
@@ -128,6 +138,7 @@
         /// <summary>
         /// Single credit allowed
         /// </summary>
+        [XmlIgnore]
         public bool AllowSgCrd
         {
             get
@@ -146,6 +157,7 @@
         /// <summary>
         /// Sub outer credit allowed
         /// </summary>
+        [XmlIgnore]
         public bool AllowSoCrd
         {
             get
@@ -164,6 +176,7 @@
         /// <summary>
         /// Cash on delivery
         /// </summary>
+        [XmlIgnore]
         public bool Cod
         {
             get
@@ -182,6 +195,7 @@
         /// <summary>
         /// Sandwich order
         /// </summary>
+        [XmlIgnore]
         public bool SandwchOrd
         {
             get
@@ -200,6 +214,7 @@
         /// <summary>
         /// Commodity type
         /// </summary>
+        [XmlIgnore]
         public string ComdtyType
         {
             get
@@ -213,6 +228,7 @@
         /// <summary>
         /// ReOrder allowed
         /// </summary>
+        [XmlIgnore]
         public bool AllowReOrd
         {
             get
@@ -237,6 +253,7 @@
         [XmlElement("GrnRefusedDesc")]
         public string GrnRefusedDesc { get; set; }
 
+        [XmlIgnore]
         public PerformanceStatus PerformanceStatus { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
@@ -251,6 +268,7 @@
             }
         }
 
+        [XmlIgnore]
         public ByPassReasons ByPassReason { get; set; }
 
         [XmlElement("Reason_Description")]
@@ -270,6 +288,7 @@
             return JobDetails.Sum(d => d.CreditValueForThreshold());
         }
 
+        [XmlIgnore]
         public int StopId { get; set; }
 
         [XmlArray("JobDetails")]
@@ -281,6 +300,7 @@
         public Collection<EntityAttribute> EntityAttributes { get; set; }
 
         //ACTLOGNO CUSTSRVCON DISCFOUND GRNNO GRNREFREAS ISOVERAGE OUTERCOUNT OVERORDNO TOTOVER TOTSHORT
+        [XmlIgnore]
         public string ActionLogNumber
         {
             get
@@ -291,6 +311,7 @@
             }
         }
 
+        [XmlIgnore]
         public string GrnNumber
         {
             get
@@ -301,6 +322,7 @@
             }
         }
 
+        [XmlIgnore]
         public string GrnRefusedReason
         {
             get
@@ -311,6 +333,7 @@
             }
         }
 
+        [XmlIgnore]
         public string OuterCount
         {
             get
@@ -321,6 +344,7 @@
             }
         }
 
+        [XmlIgnore]
         public string OuterDiscrepancyFound
         {
             get
@@ -331,6 +355,7 @@
             }
         }
 
+        [XmlIgnore]
         public string TotalOutersOver
         {
             get
@@ -341,6 +366,7 @@
             }
         }
 
+        [XmlIgnore]
         public string TotalOutersShort
         {
             get

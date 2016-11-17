@@ -18,6 +18,7 @@
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
+        [XmlIgnore]
         public DateTime? OrderDate { get; set; }
 
         [XmlElement("RouteDate")]
@@ -34,6 +35,7 @@
             }
         }
 
+        [XmlIgnore]
         public DateTime? DeliveryDate { get; set; }
 
         [XmlElement("DeliveryDate")]

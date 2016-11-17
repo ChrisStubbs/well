@@ -21,6 +21,7 @@
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
+        [XmlIgnore]
         public DateTime? RouteDate { get; set; }
 
         [XmlElement("RouteDate")]
@@ -43,6 +44,7 @@
         [XmlElement("DriverName")]
         public string DriverName { get; set; }
 
+        [XmlIgnore]
         public int StartDepot { get; set; }
          
         [XmlElement("PlannedStops")]
@@ -51,11 +53,13 @@
         [XmlElement("ActualStopsCompleted")]
         public int ActualStopsCompleted { get; set; }
 
+        [XmlIgnore]
         public RouteStatusCode RouteStatus { get; set; }
 
         [XmlElement("RouteStatusCode")]
         public string RouteStatusCode { get; set; }
 
+        [XmlIgnore]
         public int RoutePerformanceStatusId { get; set; }
 
         [XmlElement("RoutePerformanceStatusCode")]
@@ -64,6 +68,7 @@
             set { RoutePerformanceStatusId = string.IsNullOrWhiteSpace(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
+        [XmlIgnore]
         public DateTime? LastRouteUpdate { get; set; }
 
         [XmlElement("LastRouteUpdate")]
@@ -79,6 +84,7 @@
             }
         }
 
+        [XmlIgnore]
         public int AuthByPass { get; set; }
 
         [XmlElement("AuthByPass")]
@@ -95,6 +101,7 @@
             }
         }
 
+        [XmlIgnore]
         public int NonAuthByPass { get; set; }
 
         [XmlElement("NonAuthByPass")]
@@ -111,6 +118,7 @@
             }
         }
 
+        [XmlIgnore]
         public int ShortDeliveries { get; set; }
 
         [XmlElement("ShortDeliveries")]
@@ -127,6 +135,7 @@
             }
         }
 
+        [XmlIgnore]
         public int DamagesRejected { get; set; }
 
         [XmlElement("DamagesRejected")]
@@ -143,6 +152,7 @@
             }
         }
 
+        [XmlIgnore]
         public int DamagesAccepted { get; set; }
 
         [XmlElement("DamagesAccepted")]
@@ -159,6 +169,7 @@
             }
         }
 
+        [XmlIgnore]
         public int NotRequired { get; set; }
 
         [XmlElement("NotRequired")]
@@ -175,8 +186,10 @@
             }
         }
 
+        [XmlIgnore]
         public int RoutesId { get; set; }
 
+        [XmlIgnore]
         public int EpodDepot { get; set; }
 
         [XmlElement("Depot")]
@@ -190,6 +203,7 @@
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public Collection<EntityAttribute> EntityAttributes { get; set; }
 
+        [XmlIgnore]
         public string RouteOwner {
             get
             {

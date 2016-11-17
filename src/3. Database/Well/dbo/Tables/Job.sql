@@ -7,7 +7,7 @@
 	[PickListRef] VARCHAR(40) NULL,
 	[InvoiceNumber] VARCHAR(40) NULL,
 	[CustomerRef] VARCHAR(40) NULL,
-	[OrderDate] DATETIME NOT NULL,
+	[OrderDate] DATETIME NULL,
 	[RoyaltyCode] VARCHAR(60) NULL,
 	[RoyaltyCodeDesc] VARCHAR(50) NULL,
 	[OrdOuters] BIT NULL DEFAULT 0,

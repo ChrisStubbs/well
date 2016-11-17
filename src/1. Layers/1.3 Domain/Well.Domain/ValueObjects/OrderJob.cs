@@ -7,7 +7,6 @@
     [Serializable()]
     public class OrderJob
     {
-
         public OrderJob()
         {
             this.OrderJobDetails = new Collection<OrderJobDetail>();

@@ -34,14 +34,19 @@
         [XmlElement("JobRef4")]
         public string CustomerRef { get; set; }
 
-        [XmlIgnore]
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
 
         [XmlElement("OrderDate")]
-        public string JobDateString
-        {
-            get { return this.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.OrderDate = DateTime.ParseExact(value,"dd-mm-yyyy",null); }
+        public string OrderDateFromXml {
+            set
+            {
+                DateTime tryDate;
+
+                if (DateTime.TryParse(value, out tryDate))
+                {
+                    this.OrderDate = tryDate;
+                }
+            }
         }
 
         [XmlElement("TextField1")]
@@ -229,8 +234,6 @@
         [XmlElement("GrnRefusedDesc")]
         public string GrnRefusedDesc { get; set; }
 
-
-        [XmlIgnore]
         public PerformanceStatus PerformanceStatus { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
@@ -245,7 +248,6 @@
             }
         }
 
-        [XmlIgnore]
         public ByPassReasons ByPassReason { get; set; }
 
         [XmlElement("Reason_Description")]
@@ -265,7 +267,6 @@
             return JobDetails.Sum(d => d.CreditValueForThreshold());
         }
 
-        [XmlIgnore]
         public int StopId { get; set; }
 
         [XmlArray("JobDetails")]
@@ -277,7 +278,9 @@
         public Collection<EntityAttribute> EntityAttributes { get; set; }
 
         public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
+
         public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;
+
         public bool IsResolved => PerformanceStatus == PerformanceStatus.Resolved;
     }
 }

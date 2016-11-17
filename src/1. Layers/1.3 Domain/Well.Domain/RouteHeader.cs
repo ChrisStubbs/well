@@ -21,14 +21,20 @@
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
-        [XmlIgnore]
-        public DateTime RouteDate { get; set; }
+        public DateTime? RouteDate { get; set; }
 
         [XmlElement("RouteDate")]
-        public string RouteDateString
+        public string RouteDateFromXml
         {
-            get { return this.RouteDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.RouteDate = DateTime.Parse(value); }
+            set
+            {
+                DateTime tryDate;
+
+                if (DateTime.TryParse(value, out tryDate))
+                {
+                    this.RouteDate = tryDate;
+                }
+            }
         }
 
         [XmlElement("RouteNumber")]
@@ -37,7 +43,6 @@
         [XmlElement("DriverName")]
         public string DriverName { get; set; }
 
-        [XmlIgnore]
         public int StartDepot { get; set; }
          
         [XmlElement("PlannedStops")]
@@ -46,7 +51,6 @@
         [XmlElement("ActualStopsCompleted")]
         public int ActualStopsCompleted { get; set; }
 
-        [XmlIgnore]
         public RouteStatusCode RouteStatus { get; set; }
 
         [XmlElement("RouteStatusCode")]
@@ -60,99 +64,119 @@
             set { RoutePerformanceStatusId = string.IsNullOrWhiteSpace(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
         }
 
-        [XmlIgnore]
         public DateTime? LastRouteUpdate { get; set; }
 
         [XmlElement("LastRouteUpdate")]
-        public string LastRouteUpdateString
-        {
+        public string LastRouteUpdateFromXml {
             set
             {
-                this.LastRouteUpdate = string.IsNullOrWhiteSpace(value) ? DateTime.Now : DateTime.Parse(value);
+                DateTime tryDate;
+
+                if (DateTime.TryParse(value, out tryDate))
+                {
+                    this.LastRouteUpdate = tryDate;
+                }
             }
         }
 
-        [XmlIgnore]
         public int AuthByPass { get; set; }
 
         [XmlElement("AuthByPass")]
-        public string AuthByPassString
+        public string AuthByPassFromXml
         {
-            get { return AuthByPassString; }
             set
             {
-                this.AuthByPass = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.AuthByPass = tryInt;
+                }
             }
         }
 
-        [XmlIgnore]
         public int NonAuthByPass { get; set; }
 
         [XmlElement("NonAuthByPass")]
-        public string NonAuthByPassString
+        public string NonAuthByPassFromXml
         {
-            get { return NonAuthByPassString; }
             set
             {
-                this.NonAuthByPass = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.NonAuthByPass = tryInt;
+                }
             }
         }
 
-        [XmlIgnore]
         public int ShortDeliveries { get; set; }
 
         [XmlElement("ShortDeliveries")]
-        public string ShortDeliveriesString
+        public string ShortDeliveriesFromXml
         {
-            get { return ShortDeliveriesString; } 
             set
             {
-                this.ShortDeliveries = value == string.Empty? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.ShortDeliveries = tryInt;
+                }
             }
         }
 
-        [XmlIgnore]
         public int DamagesRejected { get; set; }
 
         [XmlElement("DamagesRejected")]
-        public string DamagesRejectedString
+        public string DamagesRejectedFromXml
         {
-            get { return DamagesRejectedString; }
             set
             {
-                this.DamagesRejected = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.DamagesRejected = tryInt;
+                }
             }
         }
 
-        [XmlIgnore]
         public int DamagesAccepted { get; set; }
 
         [XmlElement("DamagesAccepted")]
-        public string DamagesAcceptedString
+        public string DamagesAcceptedFromXml
         {
-            get { return DamagesAcceptedString; }
             set
             {
-                this.DamagesAccepted = string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.DamagesAccepted = tryInt;
+                }
             }
         }
 
-        [XmlIgnore]
         public int NotRequired { get; set; }
 
         [XmlElement("NotRequired")]
-        public string NotRequiredString
+        public string NotRequiredFromXml
         {
-            get { return NotRequiredString; }
             set
             {
-                this.NotRequired = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.NotRequired = tryInt;
+                }
             }
         }
 
         public int RoutesId { get; set; }
 
-        [XmlIgnore]
         public int EpodDepot { get; set; }
 
         [XmlElement("Depot")]

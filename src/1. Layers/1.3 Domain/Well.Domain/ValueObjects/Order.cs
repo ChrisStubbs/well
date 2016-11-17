@@ -18,24 +18,36 @@
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
 
-        [XmlElement("RouteDate")]
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
 
-        [XmlIgnore]
-        public string OrderDateString
+        [XmlElement("RouteDate")]
+        public string OrderDateFromXml
         {
-            get { return this.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.OrderDate = DateTime.Parse(value); }
+            set
+            {
+                DateTime tryDate;
+
+                if (DateTime.TryParse(value, out tryDate))
+                {
+                    this.OrderDate = tryDate;
+                }
+            }
         }
 
-        [XmlIgnore]
-        public DateTime DeliveryDate { get; set; }
+        public DateTime? DeliveryDate { get; set; }
 
         [XmlElement("DeliveryDate")]
-        public string DeliveryDateString
+        public string DeliveryDateFromXml
         {
-            get { return this.DeliveryDate.ToString("yyyy-MM-dd HH:mm:ss"); }
-            set { this.DeliveryDate = DateTime.Parse(value); }
+            set
+            {
+                DateTime tryDate;
+
+                if (DateTime.TryParse(value, out tryDate))
+                {
+                    this.DeliveryDate = tryDate;
+                }
+            }
         }
 
         [XmlElement("TransportOrderRef")]
@@ -74,6 +86,5 @@
 
         [XmlElement("Account")]
         public Account Accounts { get; set; }
-
     }
 }

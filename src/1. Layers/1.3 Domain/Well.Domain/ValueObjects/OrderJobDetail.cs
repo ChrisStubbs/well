@@ -12,17 +12,19 @@
         [XmlElement("Barcode")]
         public string PhProductCode { get; set; }
 
-        [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
 
-        //Workaround for nullable int element
         [XmlElement("OriginalDespatchQty")]
-        public string OriginalDespatchQtyString
+        public string OriginalDespatchQtyFromXml
         {
-            get { return OriginalDespatchQty.ToString(); }
             set
             {
-                this.OriginalDespatchQty = value == string.Empty ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.OriginalDespatchQty = tryInt;
+                }
             }
         }
 

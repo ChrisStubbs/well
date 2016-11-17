@@ -34,6 +34,7 @@
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<IWebClient>().Use<WebClient>();
                     x.For<IFtpClient>().Use<FtpClient>();
+                    x.For<IFileTypeService>().Use<FileTypeService>();
                 } );
         }
     }

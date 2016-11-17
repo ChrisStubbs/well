@@ -270,6 +270,7 @@
     <Build Include="dbo\Functions\WidgetType_Assigned.sql" />
     <Build Include="dbo\Functions\WidgetType_Notifications.sql" />
     <Build Include="dbo\StoredProcedures\WidgetWarningLevelsByUserGet.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_GetByOrderUpdateDetails.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

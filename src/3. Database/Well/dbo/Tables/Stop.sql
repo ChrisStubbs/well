@@ -1,12 +1,13 @@
 ﻿CREATE TABLE [dbo].[Stop]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
+	[TransportOrderReference] VARCHAR(50) NOT NULL,
 	[PlannedStopNumber] VARCHAR(4) NOT NULL,
-	[RouteHeaderCode] VARCHAR(10)  NOT NULL,
+	[RouteHeaderCode] VARCHAR(10)  NULL,
 	[RouteHeaderId] INT NOT NULL,
-	[DropId] VARCHAR(2) NOT NULL,
-	[LocationId] VARCHAR(20) NOT NULL,
-	[DeliveryDate] DATETIME NOT NULL,
+	[DropId] VARCHAR(2) NULL,
+	[LocationId] VARCHAR(20) NULL,
+	[DeliveryDate] DATETIME NULL,
 	[ShellActionIndicator] varchar(100) NULL,
 	[CustomerShopReference] varchar(100) NULL,
 	[AllowOvers] BIT NULL,

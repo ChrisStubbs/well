@@ -82,6 +82,7 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         stop.RouteHeaderId = routeHeader.Id;
+                        stop.RouteHeaderCode = routeHeader.RouteNumber;
                         this.stopRepository.StopCreateOrUpdate(stop);
 
                         stop.Account.StopId = stop.Id;
@@ -137,7 +138,7 @@
         {
             foreach (var ePodRouteHeader in routeDelivery.RouteHeaders)
             {
-                var currentRouteHeader = this.routeHeaderRepository.GetRouteHeaderByRouteNumberAndDate(ePodRouteHeader.RouteNumber, ePodRouteHeader.RouteDate);
+                var currentRouteHeader = this.routeHeaderRepository.GetRouteHeaderByTransportOrderReference(ePodRouteHeader.RouteNumber, ePodRouteHeader.RouteDate);
 
                 if (currentRouteHeader != null)
                 {
@@ -189,10 +190,11 @@
                             4365);
                     }
 
-                    AddStopByOrder(orderUpdate, orderTransportRefDetails, 0, true);
+                   // AddStopByOrder(orderUpdate, orderTransportRefDetails, 0, true);
                 }
 
-                if (selectedAction != OrderActionIndicator.InsertOrUpdate) continue;
+                if (selectedAction != OrderActionIndicator.InsertOrUpdate)
+                    continue;
 
                 var exsitingOrderStopDetails = GetByOrderUpdateDetails(orderUpdate);
 
@@ -206,14 +208,14 @@
                         4365);
                 }
                 
-                AddStopByOrder(orderUpdate, orderTransportRefDetails, exsitingOrderStopDetails.Id, false);
+                //AddStopByOrder(orderUpdate, orderTransportRefDetails, exsitingOrderStopDetails.Id, false);
             }
         }
 
-        private void AddStopByOrder(Order order, IReadOnlyList<string> transportOrderRef, int currentStopId, bool insertOnly)
+        private void AddStopByOrder(Order order, int currentStopId, bool insertOnly)
         {
-            var currentRoute = this.routeHeaderRepository.GetRouteHeaderByRouteNumberAndDate(transportOrderRef[0],
-                DateTime.ParseExact(transportOrderRef[3], "dd/MM/yyyy", new DateTimeFormatInfo()));
+            //var currentRoute = this.routeHeaderRepository.GetRouteHeaderByTransportOrderReference(transportOrderRef[0],
+            //    DateTime.ParseExact(transportOrderRef[3], "dd/MM/yyyy", new DateTimeFormatInfo()));
            
             if (!insertOnly)
             {
@@ -225,12 +227,12 @@
             {
                 Id = currentStopId,
                 PlannedStopNumber = order?.PlannedStopNumber,
-                RouteHeaderCode = transportOrderRef[0],
-                RouteHeaderId = currentRoute.Id,
-                TransportOrderRef = order?.TransportOrderRef,
-                DropId = transportOrderRef[1],
-                LocationId = transportOrderRef[2],
-                DeliveryDate = DateTime.Parse(transportOrderRef[3]),
+               // RouteHeaderCode = transportOrderRef[0],
+               // RouteHeaderId = currentRoute.Id,
+                TransportOrderReference = order?.TransportOrderRef,
+               // DropId = transportOrderRef[1],
+               // LocationId = transportOrderRef[2],
+               // DeliveryDate = DateTime.Parse(transportOrderRef[3]),
                 ShellActionIndicator = order?.ShellActionIndicator,
                 CustomerShopReference = order?.CustomerShopReference,
                 StopStatusCodeId = (int)StopStatus.Notdef,
@@ -246,7 +248,7 @@
 
             var currentJobId = 0;
 
-            AddJobByOrderJob(stop.Id, order.OrderJobs, DateTime.Parse(transportOrderRef[3]), currentJobId, insertOnly);
+            //AddJobByOrderJob(stop.Id, order.OrderJobs, DateTime.Parse(transportOrderRef[3]), currentJobId, insertOnly);
         }
 
         private void AddStopAccountByOrderJob(int stopId, Account stopAccount, int currentStopAccountId, bool insertOnly)
@@ -354,15 +356,7 @@
 
         private Stop GetByOrderUpdateDetails(Order order)
         {
-            // TODO this will change whence we get the new identifier from ADAM
-            var orderTransportRefDetails = order?.TransportOrderRef.Split(' ');
-
-            var routeHeaderCode = orderTransportRefDetails?[0];
-            var dropId = orderTransportRefDetails?[1];
-            var locationId = orderTransportRefDetails?[2];
-            var deliveryDate = DateTime.Parse(orderTransportRefDetails?[3]);
-
-            return this.stopRepository.GetByOrderUpdateDetails(routeHeaderCode, dropId, locationId, deliveryDate);
+            return this.stopRepository.GetByOrderUpdateDetails(order.TransportOrderRef);
         }
 
         private void AddEpodRouteHeaderStops(RouteHeader routeHeader)
@@ -370,7 +364,7 @@
             foreach (var ePodStop in routeHeader.Stops)
             {
 
-                var tranOrderRef = ePodStop.TransportOrderRef.Split(' ');
+                var tranOrderRef = ePodStop.TransportOrderReference.Split(' ');
 
                 ePodStop.RouteHeaderCode = tranOrderRef?[0];
                 ePodStop.DropId = tranOrderRef?[1];
@@ -385,7 +379,7 @@
                     currentStop.StopStatusCodeId = ePodStop.StopStatusCodeId;
                     currentStop.StopPerformanceStatusCodeId = ePodStop.StopPerformanceStatusCodeId;
                     currentStop.ByPassReasonId = ePodStop.ByPassReasonId;
-                    currentStop.TransportOrderRef = ePodStop.TransportOrderRef;
+                    currentStop.TransportOrderReference = ePodStop.TransportOrderReference;
                     this.stopRepository.StopCreateOrUpdate(currentStop);
                     AddEpodStopJobs(ePodStop, currentStop.Id);
                 }

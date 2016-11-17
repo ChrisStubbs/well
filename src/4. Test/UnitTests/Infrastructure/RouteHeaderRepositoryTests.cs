@@ -156,7 +156,7 @@
                 dapperProxy.Setup(x => x.AddParameter("RouteNumber", routeNumber, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RouteDate", routeDate, DbType.DateTime, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
-                repository.GetRouteHeaderByRouteNumberAndDate(routeNumber, routeDate);
+                repository.GetRouteHeaderByTransportOrderReference(routeNumber, routeDate);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("RouteHeader_GetByRouteNumberAndDate"), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("RouteNumber", routeNumber, DbType.String, null), Times.Once);

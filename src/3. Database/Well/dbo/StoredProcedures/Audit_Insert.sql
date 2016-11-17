@@ -3,7 +3,7 @@
 	@Type				INT,
 	@InvoiceNumber		VARCHAR(255),
 	@AccountCode		VARCHAR(255),
-	@DeliveryDate		Datetime,
+	@DeliveryDate		Datetime = null,
 	@CreatedBy			VARCHAR(50),
 	@DateCreated		Datetime
 AS

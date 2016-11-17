@@ -5,8 +5,7 @@
 
     [Serializable()]
     public class Account : Entity<int>
-        {
-
+    {
         [XmlElement("Code")]
         public string Code { get; set; }
 

@@ -47,19 +47,14 @@
 
         public void StopCreateOrUpdate(Stop stop)
         {
-            var stopStatusId = stop.StopStatusCodeId == 0 ? (int) StopStatus.Notdef : stop.StopStatusCodeId;
+            var stopStatusId = stop.StopStatusCodeId == 0 ? (int)StopStatus.Notdef : stop.StopStatusCodeId;
             var stopPerformanceStatusId = stop.StopPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : stop.StopPerformanceStatusCodeId;
             var stopByPassReasonId = stop.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : stop.ByPassReasonId;
-
-            var transportOrderDetails = stop.TransportOrderRef.Split(' ');
-            stop.RouteHeaderCode = transportOrderDetails[0];
-            stop.DropId = transportOrderDetails[1];
-            stop.LocationId = transportOrderDetails[2];
-            stop.DeliveryDate = DateTime.ParseExact(transportOrderDetails[3], "dd-MM-yyyy", new DateTimeFormatInfo());
 
             var id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate)
                 .AddParameter("Id", stop.Id, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
+                .AddParameter("TransportOrderReference", stop.TransportOrderReference, DbType.String)
                 .AddParameter("PlannedStopNumber", stop.PlannedStopNumber, DbType.Int32)
                 .AddParameter("RouteHeaderCode", stop.RouteHeaderCode, DbType.String)
                 .AddParameter("RouteHeaderId", stop.RouteHeaderId, DbType.Int32)
@@ -80,8 +75,7 @@
         
         public void StopAccountCreateOrUpdate(Account account)
         {
-
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.StopAccountCreateOrUpdate)
+            account.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopAccountCreateOrUpdate)
                 .AddParameter("Id", account.Id, DbType.Int32)
                 .AddParameter("Code", account.Code, DbType.String)
                 .AddParameter("Username", this.CurrentUser, DbType.String)
@@ -96,7 +90,6 @@
                 .AddParameter("ContactNumber2", account.ContactNumber2, DbType.String)
                 .AddParameter("ContactEmailAddress", account.ContactEmailAddress, DbType.String)
                 .AddParameter("StopId", account.StopId, DbType.Int32).Query<int>().FirstOrDefault();
-
         }
 
         public Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId)
@@ -112,14 +105,11 @@
             return stop;
         }
 
-        public Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate)
+        public Stop GetByOrderUpdateDetails(string transportOrderReference)
         {
             var stop =
                dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByOrderUpdateDetails)
-                   .AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String)
-                   .AddParameter("DropId", dropId, DbType.String)
-                   .AddParameter("LocationId", locationId, DbType.String)
-                   .AddParameter("DeliveryDate", deliveryDate, DbType.DateTime)
+                   .AddParameter("transportOrderReference", transportOrderReference, DbType.String)
                    .Query<Stop>()
                    .FirstOrDefault();
 

@@ -3,7 +3,7 @@
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[CompanyId] INT NOT NULL,
 	[RouteNumber] VARCHAR(12) NOT NULL,
-	[RouteDate] DATETIME NOT NULL,
+	[RouteDate] DATETIME NULL,
 	[DriverName] VARCHAR(50) NULL,
 	[StartDepotCode] INT NOT NULL,
 	[PlannedStops] TINYINT NOT NULL,

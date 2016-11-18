@@ -101,7 +101,7 @@
             }
         }
 
-        public string LineStatus
+        public string LineDeliveryStatus
         {
             get
             {

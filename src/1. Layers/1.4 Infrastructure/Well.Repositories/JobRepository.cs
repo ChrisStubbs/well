@@ -120,7 +120,7 @@
                 .AddParameter("OuterCount", job.OuterCount, DbType.Int16)
                 .AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String)
                 .AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16)
-                .AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16)
+                .AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16)
                 .Query<int>().FirstOrDefault()
                 ;
 

@@ -181,170 +181,178 @@
             }
         }
 
-        public class TheSaveRoutesMethod : RouteHeaderRepositoryTests
+        // TODO
+        /*
+    public class TheSaveRoutesMethod : RouteHeaderRepositoryTests
+    {
+        // TODO
+        /*
+        [Test]
+        public void ShouldSaveRoutesFile()
         {
-            [Test]
-            public void ShouldSaveRoutesFile()
-            {
-                var routes = RoutesFactory.New.Build();
-                var user = UserFactory.New.Build();
+            var routes = RoutesFactory.New.Build();
+            var user = UserFactory.New.Build();
 
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteInsert))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteInsert))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("Id", routes.Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Id", routes.Id, DbType.Int32, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("Filename", routes.FileName, DbType.String, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Filename", routes.FileName, DbType.String, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null))
+                .Returns(dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
+            this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RoutesGetById))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RoutesGetById))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("Id", routes.Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Id", routes.Id, DbType.Int32, null))
+                .Returns(dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<Routes>()).Returns(new List<Routes>());
+            this.dapperProxy.Setup(x => x.Query<Routes>()).Returns(new List<Routes>());
 
 
-                this.repository.Create(routes);
+            this.repository.Create(routes);
 
-                Assert.That(user.Id, Is.EqualTo(1));
+            Assert.That(user.Id, Is.EqualTo(1));
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteInsert), Times.Exactly(1));
+            this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteInsert), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.AddParameter("Filename", routes.FileName, DbType.String, null), Times.Exactly(1));
+            this.dapperProxy.Verify(x => x.AddParameter("Filename", routes.FileName, DbType.String, null), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
+            this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
+            this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.Query<Routes>(), Times.Exactly(1));
-            }
+            this.dapperProxy.Verify(x => x.Query<Routes>(), Times.Exactly(1));
         }
+    }*/
 
-        public class TheSaveRoutesHeaderMethod : RouteHeaderRepositoryTests
+        // TODO
+        /*
+   public class TheSaveRoutesHeaderMethod : RouteHeaderRepositoryTests
+   {
+
+        [Test]
+        public void ShouldSaveRouteHeader()
         {
-            [Test]
-            public void ShouldSaveRouteHeader()
-            {
-                var routeHeader = RouteHeaderFactory.New.Build();
-                var user = UserFactory.New.Build();
+            var routeHeader = RouteHeaderFactory.New.Build();
+            var user = UserFactory.New.Build();
 
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("Id", routeHeader.Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Id", routeHeader.Id, DbType.Int32, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null))
-                    .Returns(dapperProxy.Object);
-                
-                dapperProxy.Setup(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime, null))
-                    .Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("DriverName", routeHeader.DriverName, DbType.String, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime, null))
+                .Returns(dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteStatusId", routeHeader.RouteStatus,DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("DriverName", routeHeader.DriverName, DbType.String, null)).Returns(dapperProxy.Object);
 
-
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetById))
-                    .Returns(dapperProxy.Object);
-
-                dapperProxy.Setup(x => x.AddParameter("Id", routeHeader.Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
+            dapperProxy.Setup(x => x.AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("RouteStatusId", routeHeader.RouteStatus,DbType.Int16, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId, DbType.Int16, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32, null)).Returns(dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
 
 
-                this.repository.RouteHeaderCreateOrUpdate(routeHeader);
+            this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
-                Assert.That(user.Id, Is.EqualTo(1));
+            dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetById))
+                .Returns(dapperProxy.Object);
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate), Times.Exactly(1));
+            dapperProxy.Setup(x => x.AddParameter("Id", routeHeader.Id, DbType.Int32, null))
+                .Returns(dapperProxy.Object);
 
-                this.dapperProxy.Verify(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null), Times.Exactly(1));
+            this.dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
 
-                this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
 
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
+            this.repository.RouteHeaderCreateOrUpdate(routeHeader);
 
-                this.dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Exactly(1));
-            }
+            Assert.That(user.Id, Is.EqualTo(1));
+
+            this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate), Times.Exactly(1));
+
+            this.dapperProxy.Verify(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null), Times.Exactly(1));
+
+            this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
+
+            this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
+
+            this.dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Exactly(1));
         }
+   }*/
 
 
         public class TheDeleteRouteHeaderByIdMethod : RouteHeaderRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                const int id = 1;
+         {
+             [Test]
+             public void ShouldCallTheStoredProcedureCorrectly()
+             {
+                 const int id = 1;
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Execute());
-                
-                this.repository.DeleteRouteHeaderById(id);
+                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById))
+                     .Returns(this.dapperProxy.Object);
+                 dapperProxy.Setup(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null))
+                     .Returns(this.dapperProxy.Object);
+                 dapperProxy.Setup(x => x.Execute());
 
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.Execute());
+                 this.repository.DeleteRouteHeaderById(id);
 
-            }
-        }
+                 dapperProxy.Verify(
+                     x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById), Times.Once);
+                 dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.AtLeastOnce);
+                 dapperProxy.Verify(x => x.Execute());
 
-        public class TheDeleteRoutesFileIdMethod : RouteHeaderRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                const int id = 1;
+             }
+         }
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RoutesDeleteById))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RoutesId", id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Execute());
+         public class TheDeleteRoutesFileIdMethod : RouteHeaderRepositoryTests
+         {
+             [Test]
+             public void ShouldCallTheStoredProcedureCorrectly()
+             {
+                 const int id = 1;
 
-                this.repository.RoutesDeleteById(id);
+                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RoutesDeleteById))
+                     .Returns(this.dapperProxy.Object);
+                 dapperProxy.Setup(x => x.AddParameter("RoutesId", id, DbType.Int32, null))
+                     .Returns(this.dapperProxy.Object);
+                 dapperProxy.Setup(x => x.Execute());
 
-                dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.RoutesDeleteById), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("RoutesId", id, DbType.Int32, null), Times.AtLeastOnce);
-                dapperProxy.Verify(x => x.Execute());
-            }
-        }
-    }
-}
+                 this.repository.RoutesDeleteById(id);
+
+                 dapperProxy.Verify(
+                     x => x.WithStoredProcedure(StoredProcedures.RoutesDeleteById), Times.Once);
+                 dapperProxy.Verify(x => x.AddParameter("RoutesId", id, DbType.Int32, null), Times.AtLeastOnce);
+                 dapperProxy.Verify(x => x.Execute());
+             }
+         }
+     }
+ }
+ 

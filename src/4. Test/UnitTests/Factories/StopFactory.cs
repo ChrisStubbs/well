@@ -4,7 +4,7 @@
     using System.Collections.ObjectModel;
     using Well.Domain;
 
-    public class StopFactory : EntityFactory<StopFactory,Stop>
+    public class StopFactory : EntityFactory<StopFactory, Stop>
     {
         public StopFactory()
         {
@@ -39,7 +39,12 @@
                 ContactEmailAddress = "A.Smith@palmerharvey.co.uk",
                 IsDeleted = false,
                 StopId = this.Entity.Id
-            };  
+            };
+
+            this.Entity.EntityAttributes = new Collection<EntityAttribute>();
+            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCash", Value = null});
+            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCheque", Value = null});
+            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCard", Value = null});
         }
     }
 }

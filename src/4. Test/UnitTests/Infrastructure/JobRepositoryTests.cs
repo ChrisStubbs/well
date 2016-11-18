@@ -76,7 +76,7 @@ namespace PH.Well.UnitTests.Infrastructure
         public class TheSaveJobMethod : JobRepositoryTests
         {
             // TODO fix test
-            /*[Test]
+            [Test]
             public void ShouldSaveJob()
             {
                 var job = JobFactory.New.Build();
@@ -117,7 +117,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("OuterCount", job.OuterCount, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
@@ -164,11 +164,11 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("OuterCount", job.OuterCount, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("TotalOutersshort", job.TotalOutersShort, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16, null), Times.Exactly(1));
 
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-            }*/
+            }
         }
 
 

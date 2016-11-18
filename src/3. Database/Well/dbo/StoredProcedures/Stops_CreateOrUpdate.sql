@@ -15,8 +15,10 @@
 	@StopStatusId			TINYINT= 4,
 	@StopPerformanceStatusId TINYINT= 6,
 	@ByPassReasonId			TINYINT= 13,
-	@IsDeleted				BIT=0
-
+	@IsDeleted				BIT=0,
+	@ActualPaymentCash		DECIMAL(7,2),
+	@ActualPaymentCheque	DECIMAL(7,2),
+	@ActualPaymentCard		DECIMAL(7,2)
 
 
 AS
@@ -28,10 +30,10 @@ BEGIN
 	MERGE INTO [Stop] AS Target
 	USING (VALUES
 		(@Id, @PlannedStopNumber, @RouteHeaderCode,  @RouteHeaderId, @DropId, @LocationId, @DeliveryDate,@ShellActionIndicator,@CustomerShopReference, @AllowOvers, @CustUnatt, @PHUnatt,
-		 @StopStatusId,@StopPerformanceStatusId, @ByPassReasonId, @IsDeleted,   @Username, GETDATE(), @Username, GETDATE())
+		 @StopStatusId,@StopPerformanceStatusId, @ByPassReasonId, @IsDeleted, @ActualPaymentCash, @ActualPaymentCheque, @ActualPaymentCard ,  @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[PlannedStopNumber],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
-			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [ActualPaymentCash], [ActualPaymentCheque], [ActualPaymentCard], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
 	UPDATE SET
@@ -50,15 +52,18 @@ BEGIN
 		[StopPerformanceStatusId] = Source.[StopPerformanceStatusId],
 		[ByPassReasonId] = Source.[ByPassReasonId],
 		[IsDeleted] = Source.[IsDeleted],
+		[ActualPaymentCash] = Source.[ActualPaymentCash], 
+		[ActualPaymentCheque] = Source.[ActualPaymentCheque],
+		[ActualPaymentCard] = Source.[ActualPaymentCard],
 		[CreatedBy] = Source.[CreatedBy],
 		[DateCreated] = Source.[DateCreated],
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([PlannedStopNumber],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
-			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [ActualPaymentCash], [ActualPaymentCheque], [ActualPaymentCard],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([PlannedStopNumber],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
-			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted],[ActualPaymentCash], [ActualPaymentCheque], [ActualPaymentCard], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;
 

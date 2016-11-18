@@ -73,7 +73,8 @@
         public class TheSaveStopsMethod : StopRepositoryTests
         {
             // TODO
-            /*[Test]
+            /*
+            [Test]
             public void ShouldSaveRouteHeader()
             {
                 var stop = StopFactory.New.Build();
@@ -106,7 +107,9 @@
                 dapperProxy.Setup(x => x.AddParameter("StopStatusId", stop.StopStatusCodeId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopPerformanceStatusId", stop.StopPerformanceStatusCodeId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId", stop.ByPassReasonId, DbType.Int16, null)).Returns(dapperProxy.Object);
-
+                dapperProxy.Setup(x => x.AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal , null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 

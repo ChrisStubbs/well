@@ -13,8 +13,9 @@
     {
         public JobDetail()
         {
-            JobDetailDamages = new Collection<JobDetailDamage>();
-            Actions = new Collection<JobDetailAction>();
+            this.JobDetailDamages = new Collection<JobDetailDamage>();
+            this.Actions = new Collection<JobDetailAction>();
+            this.EntityAttributes = new Collection<EntityAttribute>();
         }
 
         [XmlElement("LineNumber")]
@@ -30,6 +31,10 @@
         [XmlElement("OriginalDespatchQty")]
         public string OriginalDespatchQtyFromXml
         {
+            get
+            {
+                return this.OriginalDespatchQty.ToString();
+            }
             set
             {
                 int tryInt;
@@ -57,6 +62,10 @@
         [XmlElement("ShortQty")]
         public string ShortQtyFromXml
         {
+            get
+            {
+                return this.ShortQty.ToString();
+            }
             set
             {
                 int tryInt;

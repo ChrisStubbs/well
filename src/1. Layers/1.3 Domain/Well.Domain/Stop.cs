@@ -14,22 +14,28 @@
         {
             this.Account = new Account();
             this.Jobs = new Collection<Job>();
+            this.EntityAttributes = new Collection<EntityAttribute>();
         }
 
         [XmlElement("PlannedStopNumber")]
         public string PlannedStopNumber { get; set; }
 
+        [XmlElement("RouteHeaderId")]
         public int RouteHeaderId { get; set; }
 
         [XmlElement("TransportOrderRef")]
         public string TransportOrderReference { get; set; }
 
+        [XmlIgnore]
         public string RouteHeaderCode { get; set; }
 
+        [XmlIgnore]
         public string DropId { get; set; }
 
+        [XmlIgnore]
         public string LocationId { get; set; }
 
+        [XmlIgnore]
         public DateTime? DeliveryDate { get; set; }
 
         [XmlElement("TextField3")]
@@ -38,6 +44,7 @@
         [XmlElement("TextField4")]
         public string CustomerShopReference { get; set; }
 
+        [XmlIgnore]
         public string AllowOvers
         {
             get
@@ -48,6 +55,7 @@
             }
         }
 
+        [XmlIgnore]
         public string CustUnatt
         {
             get
@@ -58,6 +66,7 @@
             }
         }
 
+        [XmlIgnore]
         public string PHUnatt
         {
             get
@@ -68,34 +77,48 @@
             }
         }
 
+        [XmlIgnore]
         public int StopStatusCodeId { get; set; }
 
         [XmlElement("TextField1")]
         public string StopStatusCode
         {
+            get
+            {
+                return this.StopStatusCodeId.ToString();
+            }
             set
             {          
                 StopStatusCodeId = string.IsNullOrEmpty(value) ? (int)StopStatus.Notdef : (int)(StopStatus)Enum.Parse(typeof(StopStatus), value, true);
             }
         }
 
+        [XmlIgnore]
         public int StopPerformanceStatusCodeId { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
         public string StopPerformanceStatusCode
         {
+            get
+            {
+                return this.StopPerformanceStatusCodeId.ToString();
+            }
             set
             {
                 StopPerformanceStatusCodeId = string.IsNullOrEmpty(value) ? (int)PerformanceStatus.Notdef : (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
             }
         }
 
+        [XmlIgnore]
         public int ByPassReasonId { get; set; }
 
         [XmlElement("Reason_Description")]
         public string StopByPassReason
         {
-            get { return StopByPassReason; }
+            get
+            {
+                return this.ByPassReasonId.ToString();
+            }
             set
             {
                  ByPassReasonId = string.IsNullOrEmpty(value) ? (int)ByPassReasons.Notdef : (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value);

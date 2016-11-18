@@ -18,6 +18,10 @@
         [XmlElement("OriginalDespatchQty")]
         public string OriginalDespatchQtyFromXml
         {
+            get
+            {
+                return this.OriginalDespatchQty.ToString();
+            }
             set
             {
                 int tryInt;

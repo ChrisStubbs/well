@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeader_CreateOrUpdate]
 	@Id						INT = NULL,
-	@Username				NVARCHAR(50),
+	@Username				VARCHAR(50),
 	@CompanyId			    INT,
-	@RouteNumber			NVARCHAR(50),
+	@RouteNumber			VARCHAR(50),
 	@RouteDate				DATETIME,
-	@DriverName				NVARCHAR(50) = NULL,
+	@DriverName				VARCHAR(50) = NULL,
 	@StartDepotCode			INT,
 	@PlannedStops			TINYINT,
 	@ActualStopsCompleted   TINYINT = 0, 

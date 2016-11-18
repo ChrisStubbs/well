@@ -13,7 +13,7 @@
 
         void StopAccountCreateOrUpdate(Account account);
 
-        Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId);
+        Stop GetByTransportOrderReference(string transportOrderReference);
 
         Stop GetByOrderUpdateDetails(string transportOrderReference);
 

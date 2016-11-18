@@ -128,7 +128,7 @@
     <Build Include="dbo\StoredProcedures\Deliveries_GetByPerformanceStatus.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetByRouteNumberAndDate.sql" />
-    <Build Include="dbo\StoredProcedures\Stop_GetByRouteNumberAndDropNumber.sql" />
+    <Build Include="dbo\StoredProcedures\StopGetByTransportOrderReference.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />

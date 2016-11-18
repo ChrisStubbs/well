@@ -180,22 +180,16 @@
             [Test]
             public void ShouldGetStopRouteNumberAndDropNumber()
             {
-                const int routeHeaderId = 1;
-                const string routeHeaderCode = "001";
-                const string dropId = "001";
+                var transportOrderReference = "BRI-999911111";
 
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByRouteNumberAndDropNumber)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DropId", dropId, DbType.String, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("TransportOrderReference", transportOrderReference, DbType.String, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop>());
 
-                var result = this.repository.GetByRouteNumberAndDropNumber(routeHeaderCode, routeHeaderId, dropId);
+                var result = this.repository.GetByTransportOrderReference(transportOrderReference);
 
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByRouteNumberAndDropNumber), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("DropId", dropId, DbType.String, null), Times.Once);
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("TransportOrderReference", transportOrderReference, DbType.String, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<Stop>(), Times.Once());
             }
         }

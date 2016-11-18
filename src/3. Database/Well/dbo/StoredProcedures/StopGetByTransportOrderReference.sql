@@ -1,8 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Stop_GetByRouteNumberAndDropNumber]
-	@RouteHeaderCode	NVARCHAR(10),
-	@RouteHeaderId   	INT,
-	@DropId				NVARCHAR(2)
-
+﻿CREATE PROCEDURE [dbo].[StopGetByTransportOrderReference]
+	@TransportOrderReference	VARCHAR(50)
 AS
 BEGIN
 SELECT [Id],
@@ -19,9 +16,8 @@ SELECT [Id],
 	  [PHUnatt],
 	  [StopStatusId],
 	  [StopPerformanceStatusId],
-	  [ByPassReasonId]
+	  [ByPassReasonId],
+	  [TransportOrderReference]
   FROM [dbo].[Stop]
-  WHERE [RouteHeaderCode] = @RouteHeaderCode
-  AND [RouteHeaderId] = @RouteHeaderId
-  AND [DropId] = @DropId
+  WHERE [TransportOrderReference] = @TransportOrderReference
 END

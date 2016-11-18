@@ -92,17 +92,13 @@
                 .AddParameter("StopId", account.StopId, DbType.Int32).Query<int>().FirstOrDefault();
         }
 
-        public Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId)
+        public Stop GetByTransportOrderReference(string transportOrderReference)
         {
-            var stop =
-               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByRouteNumberAndDropNumber)
-                   .AddParameter("RouteHeaderCode", routeHeaderCode, DbType.String)
-                   .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
-                   .AddParameter("DropId", dropId, DbType.String)
+            return
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference)
+                   .AddParameter("TransportOrderReference", transportOrderReference, DbType.String)
                    .Query<Stop>()
                    .FirstOrDefault();
-
-            return stop;
         }
 
         public Stop GetByOrderUpdateDetails(string transportOrderReference)

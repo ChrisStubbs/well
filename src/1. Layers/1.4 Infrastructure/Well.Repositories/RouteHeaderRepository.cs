@@ -115,7 +115,7 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32)
                 .AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String)
-                .AddParameter("RouteDate", routeHeader.RouteDate, DbType.String)
+                .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
                 .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
                 .AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
@@ -133,7 +133,7 @@
                 .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
         }
 
-        public RouteHeader GetRouteHeaderByTransportOrderReference(string routeNumber, DateTime? routeDate)
+        public RouteHeader GetRouteHeaderByRoute(string routeNumber, DateTime? routeDate)
         {
             return
                 dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetByRouteNumberAndDate)

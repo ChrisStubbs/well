@@ -19,7 +19,8 @@
                 {
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IEpodSchemaValidator>().Use<EpodSchemaValidator>();
-                    x.For<IEpodProvider>().Use<EpodFtpProvider>();
+                    //x.For<IEpodProvider>().Use<EpodFtpProvider>();
+                    x.For<IEpodProvider>().Use<EpodFileProvider>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();

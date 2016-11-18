@@ -24,6 +24,10 @@
         [XmlElement("RouteDate")]
         public string OrderDateFromXml
         {
+            get
+            {
+                return this.OrderDate?.ToShortDateString() ?? "";
+            }
             set
             {
                 DateTime tryDate;
@@ -39,8 +43,11 @@
         public DateTime? DeliveryDate { get; set; }
 
         [XmlElement("DeliveryDate")]
-        public string DeliveryDateFromXml
-        {
+        public string DeliveryDateFromXml {
+            get
+            {
+                return this.DeliveryDate?.ToShortDateString() ?? "";
+            }
             set
             {
                 DateTime tryDate;

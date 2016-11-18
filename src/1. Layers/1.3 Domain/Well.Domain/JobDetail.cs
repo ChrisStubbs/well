@@ -22,18 +22,22 @@
 
         [XmlElement("PHProductCode")]
         public string PhProductCode { get; set; }
-        
+
         [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
 
         //Workaround for nullable int element
         [XmlElement("OriginalDespatchQty")]
-        public string OriginalDespatchQtyString
+        public string OriginalDespatchQtyFromXml
         {
-            get { return OriginalDespatchQty.ToString(); }
             set
             {
-                this.OriginalDespatchQty = value == string.Empty ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.OriginalDespatchQty = tryInt;
+                }
             }
         }
 
@@ -51,12 +55,16 @@
 
         //Workaround for nullable int element
         [XmlElement("ShortQty")]
-        public string ShortQtyString
+        public string ShortQtyFromXml
         {
-            get { return ShortQty.ToString(); }
             set
             {
-                ShortQty = value == string.Empty ? 0 : int.Parse(value);
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.ShortQty = tryInt;
+                }
             }
         }
         
@@ -78,6 +86,7 @@
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue  { get; set; }
 
+        [XmlIgnore]
         public string NetPrice
         {
             get
@@ -91,6 +100,7 @@
         //[XmlElement("SubOuterDamageTotal")]
         //public int SubOuterDamageTotal { get; set; }
 
+        [XmlIgnore]
         public string SubOuterDamageTotal
         {
             get
@@ -110,7 +120,6 @@
                 return attribute?.Value;
             }
         }
-
 
         [XmlIgnore]
         public int JobId { get; set; }
@@ -145,7 +154,7 @@
             return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
         }
 
-        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime deliveryDate)
+        public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)
         {
             var auditBuilder = new StringBuilder();
 

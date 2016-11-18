@@ -53,8 +53,6 @@
             // ignore archive and rejected folders
             if (args.FullPath.Contains("archive") || args.FullPath.Contains("rejected")) return;
 
-            this.logger.LogDebug($"File created ({args.FullPath})");
-
             this.fileService.WaitForFile(args.FullPath);
 
             this.Process(args.FullPath);

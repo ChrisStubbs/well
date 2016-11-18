@@ -46,7 +46,7 @@
 
                 schema.Add(string.Empty, schemaFile);
 
-                xdoc.Validate(schema, ValidationCallback);
+                //xdoc.Validate(schema, ValidationCallback);
             }
             catch (Exception exception)
             {

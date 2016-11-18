@@ -19,23 +19,18 @@
         [XmlElement("PlannedStopNumber")]
         public string PlannedStopNumber { get; set; }
 
-        [XmlIgnore]
         public int RouteHeaderId { get; set; }
 
         [XmlElement("TransportOrderRef")]
-        public string TransportOrderRef { get; set; }
+        public string TransportOrderReference { get; set; }
 
-        [XmlIgnore]
         public string RouteHeaderCode { get; set; }
 
-        [XmlIgnore]
         public string DropId { get; set; }
 
-        [XmlIgnore]
         public string LocationId { get; set; }
 
-        [XmlIgnore]
-        public DateTime DeliveryDate { get; set; }
+        public DateTime? DeliveryDate { get; set; }
 
         [XmlElement("TextField3")]
         public string ShellActionIndicator { get; set; }
@@ -73,7 +68,6 @@
             }
         }
 
-        [XmlIgnore]
         public int StopStatusCodeId { get; set; }
 
         [XmlElement("TextField1")]
@@ -85,7 +79,6 @@
             }
         }
 
-        [XmlIgnore]
         public int StopPerformanceStatusCodeId { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
@@ -97,7 +90,6 @@
             }
         }
 
-        [XmlIgnore]
         public int ByPassReasonId { get; set; }
 
         [XmlElement("Reason_Description")]

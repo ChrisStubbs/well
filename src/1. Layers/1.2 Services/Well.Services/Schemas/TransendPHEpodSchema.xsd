@@ -20,7 +20,7 @@
                     <xs:element name="DestinationFolder" />
                     <xs:element name="RetryInterval" />
                     <xs:element name="Timeout" />
-                    <xs:element name="Stamp" type="xs:unsignedByte" />
+                    <xs:element name="Stamp" type="xs:string" />
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
@@ -28,10 +28,10 @@
               <xs:element name="Date">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="Day" type="xs:unsignedByte" />
-                    <xs:element name="Month" type="xs:unsignedByte" />
-                    <xs:element name="Year" type="xs:unsignedShort" />
-                    <xs:element name="Time" type="xs:time" />
+                    <xs:element name="Day" type="xs:string" />
+                    <xs:element name="Month" type="xs:string" />
+                    <xs:element name="Year" type="xs:string" />
+                    <xs:element name="Time" type="xs:string" />
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
@@ -49,12 +49,12 @@
               <xs:element name="RouteHeader">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="RouteHeaderID" type="xs:unsignedShort" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="CompanyID" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="RouteNumber" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="RouteHeaderID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="CompanyID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="RouteNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="RouteDate" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="PlannedStops" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="ActualStopsCompleted" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="PlannedStops" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="ActualStopsCompleted" type="xs:string" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="RouteStatusCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="RouteStatusDescription" type="xs:string" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="PerformanceStatusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -73,10 +73,10 @@
                           <xs:element name="Stop" minOccurs="1" maxOccurs="unbounded">
                             <xs:complexType>
                               <xs:sequence>
-                                <xs:element name="StopID" type="xs:unsignedInt" minOccurs="1" maxOccurs="1"/>
-                                <xs:element name="RouteHeaderID" type="xs:unsignedShort" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="StopID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="RouteHeaderID" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                 <xs:element name="ByPassReasonID" minOccurs="0" maxOccurs="1"/>
-                                <xs:element name="PlannedStopNumber" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="PlannedStopNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                 <xs:element name="TransportOrderRef" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                 <xs:element name="StopStatusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                 <xs:element name="StopStatusDescription" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -84,21 +84,21 @@
                                 <xs:element name="PerformanceStatusDescription" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                 <xs:element name="ShellActionIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                 <xs:element name="CustomerShopReference" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                                <xs:element name="AllowOvers" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
-                                <xs:element name="CustUnatt" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
-                                <xs:element name="PHUnatt" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="AllowOvers" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="CustUnatt" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="PHUnatt" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                 <xs:element name="Jobs">
                                   <xs:complexType>
                                     <xs:sequence>
                                       <xs:element name="Job" minOccurs="1" maxOccurs="unbounded">
                                         <xs:complexType>
                                           <xs:sequence>
-                                            <xs:element name="JobID" type="xs:unsignedInt" minOccurs="1" maxOccurs="1"/>
-                                            <xs:element name="StopID" type="xs:unsignedInt" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="JobID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="StopID" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                             <xs:element name="ByPassReasonID" minOccurs="0" maxOccurs="1"/>
-                                            <xs:element name="Sequence" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                                            <xs:element name="PHAccount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
-                                            <xs:element name="PickListRef" type="xs:unsignedInt" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="Sequence" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="PHAccount" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="PickListRef" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="InvoiceNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                             <xs:element name="CustomerRef" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                             <xs:element name="GrnNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
@@ -116,23 +116,23 @@
                                                   <xs:element minOccurs="1" maxOccurs="unbounded" name="JobDetail">
                                                     <xs:complexType>
                                                       <xs:sequence>
-                                                        <xs:element name="JobDetailID" type="xs:unsignedInt" minOccurs="0" maxOccurs="1"/>
-                                                        <xs:element name="JobID" type="xs:unsignedInt" minOccurs="0" maxOccurs="1"/>
-                                                        <xs:element name="PHProductCode" type="xs:unsignedInt" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="UnitMeasure" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="OriginalDespatchQty" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="LineNumber" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="LineStatus" type="xs:unsignedByte" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="JobDetailID" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="JobID" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="PHProductCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="UnitMeasure" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="OriginalDespatchQty" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="LineNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="LineStatus" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="ProdDesc" type="xs:string" minOccurs="1" maxOccurs="1"/>
-                                                        <xs:element name="OrderedQty" type="xs:unsignedByte" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="OrderedQty" type="xs:string" minOccurs="1" maxOccurs="1"/>
                                                         <xs:element name="DeliveredQty" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="ShortQty" minOccurs="0" maxOccurs="1"/>
-                                                        <xs:element name="PHProductType" type="xs:unsignedByte" minOccurs="0" maxOccurs="1"/>
-                                                        <xs:element name="PackSize" type="xs:unsignedByte" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="PHProductType" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="PackSize" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="SingleOrOuter" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="SSCCBarcode" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="SubOuterDamageTotal" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                                                        <xs:element name="SkuGoodsValue" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="SkuGoodsValue" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                         <xs:element name="JobDetailDamages" minOccurs="0">
                                                           <xs:complexType>
                                                             <xs:sequence minOccurs="0" maxOccurs="unbounded">

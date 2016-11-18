@@ -115,7 +115,7 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String)
                 .AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32)
                 .AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String)
-                .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
+                .AddParameter("RouteDate", routeHeader.RouteDate, DbType.String)
                 .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
                 .AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32)
                 .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
@@ -123,7 +123,7 @@
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
                 .AddParameter("RouteStatusId", routeHeader.RouteStatus = (int)routeHeader.RouteStatus == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
-                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
+                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.String)
                 .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32)
                 .AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32)
@@ -133,16 +133,14 @@
                 .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
         }
 
-        public RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate)
+        public RouteHeader GetRouteHeaderByTransportOrderReference(string routeNumber, DateTime? routeDate)
         {
-            var routeImportId =
+            return
                 dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetByRouteNumberAndDate)
                     .AddParameter("RouteNumber", routeNumber, DbType.String)
                     .AddParameter("RouteDate", routeDate, DbType.DateTime)
                     .Query<RouteHeader>()
                     .FirstOrDefault();
-
-            return routeImportId;
         }
 
         public IEnumerable<RouteAttributeException>  GetRouteAttributeException()

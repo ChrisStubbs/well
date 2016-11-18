@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
-    using System;
     using System.Collections.Generic;
     using Domain;
 
@@ -16,7 +15,7 @@
 
         Stop GetByRouteNumberAndDropNumber(string routeHeaderCode, int routeHeaderId, string dropId);
 
-        Stop GetByOrderUpdateDetails(string routeHeaderCode, string dropId, string locationId, DateTime deliveryDate);
+        Stop GetByOrderUpdateDetails(string transportOrderReference);
 
         Stop GetByJobId(int jobId);
 

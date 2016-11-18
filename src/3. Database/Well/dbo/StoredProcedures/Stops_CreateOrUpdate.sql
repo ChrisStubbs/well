@@ -1,14 +1,15 @@
 ﻿CREATE PROCEDURE [dbo].[Stops_CreateOrUpdate]
 	@Id						INT = 0,
-	@Username				NVARCHAR(50),
-	@PlannedStopNumber		NVARCHAR(4),
-	@RouteHeaderCode		NVARCHAR(10),
+	@Username				VARCHAR(50),
+	@TransportOrderReference VARCHAR(50),
+	@PlannedStopNumber		VARCHAR(4),
+	@RouteHeaderCode		VARCHAR(10),
 	@RouteHeaderId			INT,
-	@DropId					NVARCHAR(2),
-	@LocationId				NVARCHAR(20),
-	@DeliveryDate			DATETIME , 
-	@ShellActionIndicator	NVARCHAR(100),
-	@CustomerShopReference	NVARCHAR(100),
+	@DropId					VARCHAR(2),
+	@LocationId				VARCHAR(20),
+	@DeliveryDate			DATETIME = null, 
+	@ShellActionIndicator	VARCHAR(100),
+	@CustomerShopReference	VARCHAR(100),
 	@AllowOvers				BIT NULL=0,
 	@CustUnatt				BIT NULL=0,
 	@PHUnatt				BIT NULL=0,
@@ -19,8 +20,6 @@
 	@ActualPaymentCash		DECIMAL(7,2),
 	@ActualPaymentCheque	DECIMAL(7,2),
 	@ActualPaymentCard		DECIMAL(7,2)
-
-
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -29,15 +28,16 @@ BEGIN
 
 	MERGE INTO [Stop] AS Target
 	USING (VALUES
-		(@Id, @PlannedStopNumber, @RouteHeaderCode,  @RouteHeaderId, @DropId, @LocationId, @DeliveryDate,@ShellActionIndicator,@CustomerShopReference, @AllowOvers, @CustUnatt, @PHUnatt,
+		(@Id, @PlannedStopNumber, @TransportOrderReference, @RouteHeaderCode,  @RouteHeaderId, @DropId, @LocationId, @DeliveryDate,@ShellActionIndicator,@CustomerShopReference, @AllowOvers, @CustUnatt, @PHUnatt,
 		 @StopStatusId,@StopPerformanceStatusId, @ByPassReasonId, @IsDeleted, @ActualPaymentCash, @ActualPaymentCheque, @ActualPaymentCard ,  @Username, GETDATE(), @Username, GETDATE())
 	)
-	AS Source ([Id],[PlannedStopNumber],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
+	AS Source ([Id],[PlannedStopNumber],[TransportOrderReference],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
 			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [ActualPaymentCash], [ActualPaymentCheque], [ActualPaymentCard], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
 	UPDATE SET
 		[PlannedStopNumber] = Source.[PlannedStopNumber],
+		[TransportOrderReference] = Source.[TransportOrderReference],
 		[RouteHeaderCode] = Source.[RouteHeaderCode],
 		[RouteHeaderId] = Source.[RouteHeaderId],
 		[DropId] = Source.[DropId],
@@ -60,9 +60,9 @@ BEGIN
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
-	INSERT ([PlannedStopNumber],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
+	INSERT ([PlannedStopNumber],[TransportOrderReference],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
 			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted], [ActualPaymentCash], [ActualPaymentCheque], [ActualPaymentCard],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
-	VALUES ([PlannedStopNumber],[RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
+	VALUES ([PlannedStopNumber],[TransportOrderReference], [RouteHeaderCode],[RouteHeaderId],[DropId],[LocationId],[DeliveryDate],[ShellActionIndicator], [CustomerShopReference], [AllowOvers], [CustUnatt], [PHUnatt],
 			   [StopStatusId], [StopPerformanceStatusId], [ByPassReasonId],[IsDeleted],[ActualPaymentCash], [ActualPaymentCheque], [ActualPaymentCard], [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;

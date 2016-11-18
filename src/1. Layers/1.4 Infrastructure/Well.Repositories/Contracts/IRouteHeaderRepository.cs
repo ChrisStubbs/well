@@ -18,7 +18,7 @@
 
         RouteHeader GetRouteHeaderById(int id);
 
-        RouteHeader GetRouteHeaderByRouteNumberAndDate(string routeNumber, DateTime routeDate);
+        RouteHeader GetRouteHeaderByTransportOrderReference(string routeNumber, DateTime? routeDate);
 
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
 

@@ -24,7 +24,6 @@
         [XmlElement("Source")]
         public DamageSource Source { get; set; }
 
-        [XmlIgnore]
         public DamageReasons DamageReason
         {
             get
@@ -33,6 +32,7 @@
                 {
                     return (DamageReasons)Enum.Parse(typeof(DamageReasons), Reason.Code);
                 }
+
                 return DamageReasons.Notdef;
             }
             set
@@ -45,7 +45,6 @@
             }
         }
 
-        [XmlIgnore]
         public JobDetailDamageSource JobDetailDamageSource
         {
             get

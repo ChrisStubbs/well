@@ -3,7 +3,8 @@
 	@PickListRef NVARCHAR(40),
 	@StopId INT
 AS
-	SELECT TOP 1000 [Id]
+BEGIN
+	SELECT [Id]
       ,[Sequence]
       ,[JobTypeCode]
       ,[PHAccount]
@@ -41,4 +42,5 @@ AS
   WHERE [PHAccount] = @PHAccount
   AND [PickListRef] = @PickListRef
   AND [StopId] = @StopId
-RETURN 0
+
+END

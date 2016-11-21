@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Transactions;
@@ -64,13 +63,11 @@
                 routeHeader.EpodDepot = string.IsNullOrWhiteSpace(routeHeader.Depot)
                                         ? (int)Branches.Ndf
                                         : (int)Enum.Parse(typeof(Branches), routeHeader.Depot, true);
-
-
+                
                 this.routeHeaderRepository.RouteHeaderCreateOrUpdate(routeHeader);
           
                 AddRouteHeaderStops(routeHeader);
             }
-
         }
 
         private void AddRouteHeaderStops(RouteHeader routeHeader)
@@ -162,8 +159,11 @@
                 }
                 else
                 {
-                    logger.LogError($"No data found for Epod route: {ePodRouteHeader.RouteNumber} on date: {ePodRouteHeader.RouteDate}");
-                    throw new Exception($"No data found for Epod route: {ePodRouteHeader.RouteNumber} on date: {ePodRouteHeader.RouteDate}");
+                    logger.LogDebug($"No data found for Epod route: {ePodRouteHeader.RouteNumber} on date: {ePodRouteHeader.RouteDate}");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"No data found for Epod route: {ePodRouteHeader.RouteNumber} on date: {ePodRouteHeader.RouteDate}",
+                        7450);
                 }
             }
         }
@@ -174,11 +174,9 @@
             {
                 var selectedAction = GetOrderUpdateAction(orderUpdate.ActionIndicator);
 
-                var orderTransportRefDetails = orderUpdate.TransportOrderRef.Split(' ');
-
                 if (selectedAction == OrderActionIndicator.InsertOnly)
                 {
-                    var newOrderDetails = GetByOrderUpdateDetails(orderUpdate);
+                    var newOrderDetails = this.GetByOrderUpdateDetails(orderUpdate);
 
                     if (newOrderDetails != null)
                     {
@@ -190,7 +188,7 @@
                             4365);
                     }
 
-                   // AddStopByOrder(orderUpdate, orderTransportRefDetails, 0, true);
+                   this.AddStopByOrder(orderUpdate, null, true);
                 }
 
                 if (selectedAction != OrderActionIndicator.InsertOrUpdate)
@@ -208,33 +206,21 @@
                         4365);
                 }
                 
-                //AddStopByOrder(orderUpdate, orderTransportRefDetails, exsitingOrderStopDetails.Id, false);
+                this.AddStopByOrder(orderUpdate, exsitingOrderStopDetails, false);
             }
         }
 
-        private void AddStopByOrder(Order order, int currentStopId, bool insertOnly)
+        private void AddStopByOrder(Order order, Stop currentStop, bool insertOnly)
         {
-            //var currentRoute = this.routeHeaderRepository.GetRouteHeaderByTransportOrderReference(transportOrderRef[0],
-            //    DateTime.ParseExact(transportOrderRef[3], "dd/MM/yyyy", new DateTimeFormatInfo()));
-           
-            if (!insertOnly)
-            {
-                var currentStop = GetByOrderUpdateDetails(order);
-                currentStopId = currentStop.Id;
-            }
-
             var stop = new Stop
             {
-                Id = currentStopId,
-                PlannedStopNumber = order?.PlannedStopNumber,
-               // RouteHeaderCode = transportOrderRef[0],
-               // RouteHeaderId = currentRoute.Id,
-                TransportOrderReference = order?.TransportOrderRef,
-               // DropId = transportOrderRef[1],
-               // LocationId = transportOrderRef[2],
-               // DeliveryDate = DateTime.Parse(transportOrderRef[3]),
-                ShellActionIndicator = order?.ShellActionIndicator,
-                CustomerShopReference = order?.CustomerShopReference,
+                Id = currentStop?.Id ?? 0,
+                PlannedStopNumber = currentStop?.PlannedStopNumber ?? order.PlannedStopNumber,
+                RouteHeaderCode = currentStop.RouteHeaderCode,
+                RouteHeaderId = currentStop.RouteHeaderId,
+                TransportOrderReference = order.TransportOrderRef,
+                ShellActionIndicator = currentStop?.ShellActionIndicator ?? order.ShellActionIndicator,
+                CustomerShopReference = order.CustomerShopReference,
                 StopStatusCodeId = (int)StopStatus.Notdef,
                 StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,
                 ByPassReasonId = (int)ByPassReasons.Notdef
@@ -248,7 +234,7 @@
 
             var currentJobId = 0;
 
-            //AddJobByOrderJob(stop.Id, order.OrderJobs, DateTime.Parse(transportOrderRef[3]), currentJobId, insertOnly);
+            AddJobByOrderJob(stop.Id, order.OrderJobs, currentJobId, insertOnly);
         }
 
         private void AddStopAccountByOrderJob(int stopId, Account stopAccount, int currentStopAccountId, bool insertOnly)
@@ -256,7 +242,15 @@
             if (!insertOnly)
             {
                 var currentStopAccount = this.accountRepository.GetAccountGetByAccountCode(stopAccount.Code, stopId);
-                currentStopAccountId = currentStopAccount.Id;
+
+                if (currentStopAccount == null)
+                {
+                    this.logger.LogDebug($"No Account for code {stopAccount.Code}, Id {stopId}");
+                }
+                else
+                {
+                    currentStopAccountId = currentStopAccount.Id;
+                }
             }
 
             var newStopAccount = new Account
@@ -279,26 +273,33 @@
             this.stopRepository.StopAccountCreateOrUpdate(newStopAccount);
         }
 
-        private void AddJobByOrderJob(int stopId, ICollection<OrderJob> orderJobs, DateTime orderDate, int currentJobId, bool insertOnly)
+        private void AddJobByOrderJob(int stopId, ICollection<OrderJob> orderJobs, int currentJobId, bool insertOnly)
         {
             foreach (var orderJob in orderJobs)
             {
                 if (!insertOnly)
                 {
                     var currentJob = this.jobRepository.JobGetByRefDetails(orderJob.PhAccount, orderJob.PickListRef, stopId);
-                    currentJobId = currentJob.Id;
+
+                    if (currentJob == null)
+                    {
+                        this.logger.LogDebug($"Current job not found with account {orderJob.PhAccount}, picklist {orderJob.PickListRef}, stopid {stopId}");
+                    }
+                    else
+                    {
+                        currentJobId = currentJob.Id;
+                    }
                 }
 
                 var newJob = new Job
                 {
                     Id = currentJobId,
                     Sequence = orderJob.Sequence,
-                    JobTypeCode = orderJob.JobTypeCode.Replace("&",""),
+                    JobTypeCode = orderJob.JobTypeCode,
                     PhAccount = orderJob.PhAccount,
                     PickListRef = orderJob.PickListRef,
                     InvoiceNumber = orderJob.InvoiceNumber,
                     CustomerRef = orderJob.CustomerRef,
-                    OrderDate = orderDate,
                     PerformanceStatus = PerformanceStatus.Notdef,
                     ByPassReason = ByPassReasons.Notdef,
                     StopId = stopId
@@ -307,6 +308,7 @@
                 jobRepository.JobCreateOrUpdate(newJob);
 
                 var currentJobDetailId = 0;
+
                 AddJobDetailByOrderJobDetail(newJob.Id, orderJob.OrderJobDetails, currentJobDetailId, insertOnly);
             }
         }
@@ -319,7 +321,15 @@
                 if (!insertOnly)
                 {
                     var currentJobDetail = this.jobDetailRepository.GetByJobLine(jobId, orderJobDetail.LineNumber);
-                    currentJobDetailId = currentJobDetail.Id;
+
+                    if (currentJobDetail == null)
+                    {
+                        this.logger.LogDebug($"No job detail for job id {jobId}");
+                    }
+                    else
+                    {
+                        currentJobDetailId = currentJobDetail.Id;
+                    }
                 }
 
                 var newJobDetail = new JobDetail
@@ -376,8 +386,11 @@
                 }
                 else
                 {
-                    logger.LogError($"No stop data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}");
-                    throw new Exception($"No stop data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}");
+                    logger.LogDebug($"No stop data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"No stop data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}",
+                        9455);
                 }
             }
         }
@@ -394,8 +407,7 @@
                     currentJob.PerformanceStatus = ePodjob.PerformanceStatus;
                     currentJob.InvoiceNumber = ePodjob.InvoiceNumber;
                     AddEpodJobJobDetail(ePodjob, currentJob.Id);
-
-
+                    
                     var damages = new List<JobDetailDamage>();
 
                     var jobDetails = this.jobDetailRepository.GetByJobId(currentJob.Id).ToList();
@@ -412,7 +424,6 @@
                         damages.Clear();
 
                         currentJob.JobDetails.Add(jobDetail);
-                        
                     }
 
                     jobRepository.JobCreateOrUpdate(currentJob);

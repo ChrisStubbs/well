@@ -4,8 +4,10 @@
     using System.Configuration;
     using System.IO;
     using System.Xml.Serialization;
+
     using Common.Contracts;
     using Common.Extensions;
+
     using Domain;
     using Domain.Enums;
 
@@ -17,16 +19,19 @@
     public class EpodImportProvider : IEpodImportProvider
     {
         private readonly IEpodImportService epodImportService;
+
         private readonly ILogger logger;
+
         private readonly IRouteHeaderRepository routeHeaderRepository;
+
         private readonly IFileTypeService fileTypeService;
 
         private readonly IEventLogger eventLogger;
 
         public EpodImportProvider(
-            IEpodImportService eopEpodImportService, 
-            ILogger logger, 
-            IRouteHeaderRepository routeHeaderRepository, 
+            IEpodImportService eopEpodImportService,
+            ILogger logger,
+            IRouteHeaderRepository routeHeaderRepository,
             IFileTypeService fileTypeService,
             IEventLogger eventLogger)
         {
@@ -65,7 +70,7 @@
 
         private void MapRoutesToDomain(string filename, EpodFileType epodType, int routeId)
         {
-            var overrides = new XmlAttributeOverrides();
+            /*var overrides = new XmlAttributeOverrides();
             var attribs = new XmlAttributes { XmlIgnore = true };
 
             // TODO not sure if we need this
@@ -83,15 +88,33 @@
             {
                 attribs.XmlElements.Add(new XmlElementAttribute("EntityAttributeValues"));
                 overrides.Add(typeof(RouteHeader), "EntityAttributeValues", attribs);
-            }
+            }*/
 
             using (var reader = new StreamReader(filename))
             {
                 if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
                 {
-                    var routeImportSerializer = new XmlSerializer(typeof(RouteDelivery), overrides);
-                    var routes = (RouteDelivery)routeImportSerializer.Deserialize(reader);
-                    
+                    var routeImportSerializer = new XmlSerializer(typeof(RouteDelivery));
+
+                    var routes = new RouteDelivery();
+
+                    try
+                    {
+                        routes = (RouteDelivery)routeImportSerializer.Deserialize(reader);
+                    }
+                    catch (Exception exception)
+                    {
+                        this.logger.LogError(
+                            $"File can not be deserialised to route delivery! Incorrect xml! {filename}",
+                            exception);
+                        this.eventLogger.TryWriteToEventLog(
+                            EventSource.WellAdamXmlImport,
+                            $"File can not be deserialised to route delivery! Incorrect xml! {filename}",
+                            2165);
+
+                        return;
+                    }
+
                     if (epodType == EpodFileType.RouteHeader)
                     {
                         this.epodImportService.AddRoutesFile(routes, routeId);
@@ -103,8 +126,27 @@
                 }
                 else // we have a update from adam
                 {
-                    var adamUpdatesSerializer = new XmlSerializer(typeof(RouteUpdates), overrides);
-                    var orderUpdates = (RouteUpdates)adamUpdatesSerializer.Deserialize(reader);
+                    var adamUpdatesSerializer = new XmlSerializer(typeof(RouteUpdates));
+
+                    var orderUpdates = new RouteUpdates();
+
+                    try
+                    {
+                        orderUpdates = (RouteUpdates)adamUpdatesSerializer.Deserialize(reader);
+                    }
+                    catch (Exception exception)
+                    {
+                        this.logger.LogError(
+                            $"File can not be deserialised to route update! Incorrect xml! {filename}",
+                            exception);
+                        this.eventLogger.TryWriteToEventLog(
+                            EventSource.WellAdamXmlImport,
+                            $"File can not be deserialised to route update! Incorrect xml! {filename}",
+                            2166);
+
+                        return;
+                    }
+                    
                     this.epodImportService.AddAdamUpdateFile(orderUpdates, routeId);
                 }
             }

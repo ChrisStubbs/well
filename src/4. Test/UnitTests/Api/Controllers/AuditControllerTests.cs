@@ -78,8 +78,7 @@
                         DeliveryDate = new DateTime(2016, 09, 14),
                         CreatedBy = "Dirk.Diggler",
                         DateCreated = new DateTime(2016, 10, 20)
-                    },
-                    new Audit() {}
+                    }
                 };
                 auditRepo.Setup(a => a.Get()).Returns(audits);
 
@@ -93,7 +92,6 @@
                 Assert.AreEqual(audits[0].InvoiceNumber, response[0].InvoiceNumber);
                 Assert.AreEqual(audits[0].AccountName, response[0].AccountName);
                 Assert.AreEqual(audits[0].AccountCode, response[0].AccountCode);
-                Assert.AreEqual(audits[0].DeliveryDate, response[0].DeliveryDate);
                 Assert.AreEqual(audits[0].DateCreated, response[0].AuditDate);
                 Assert.AreEqual(audits[0].CreatedBy, response[0].AuditBy);
             }

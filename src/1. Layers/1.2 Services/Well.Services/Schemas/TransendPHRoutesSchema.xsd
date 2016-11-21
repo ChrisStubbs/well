@@ -6,24 +6,25 @@
         <xs:element name="Routes">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="RouteHeader">
+              <xs:element maxOccurs="unbounded" name="RouteHeader">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="CompanyID" type="xs:unsignedInt" />
-                    <xs:element name="StartDepotCode" type="xs:string" />
-                    <xs:element name="FinishDepotCode" type="xs:string" />
-                    <xs:element name="RouteDate" type="xs:string" />
-                    <xs:element name="RouteNumber" type="xs:string" />
-                    <xs:element name="PlannedRouteStartTime" type="xs:string" />
-                    <xs:element name="PlannedRouteFinishTime" type="xs:string" />
-                    <xs:element name="PlannedDistance" type="xs:string" />
-                    <xs:element name="ExternalReference" type="xs:string" />
-                    <xs:element name="PlannedTravelTime" type="xs:string" />
-                    <xs:element name="PlannedStops" type="xs:string" />
-                    <xs:element name="EntityAttributes">
+                    <xs:element name="CompanyID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="RouteNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="RouteDate" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="DriverName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="VehicleReg" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="StartDepotCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="PlannedRouteStartTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="PlannedRouteFinishTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="PlannedDistance" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="ExternalReference" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="PlannedTravelTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="PlannedStops" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element minOccurs="0" name="EntityAttributes">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element name="Attribute">
+                          <xs:element minOccurs="0" maxOccurs="unbounded" name="Attribute">
                             <xs:complexType>
                               <xs:sequence>
                                 <xs:element name="Code" type="xs:string" />
@@ -37,104 +38,129 @@
                     <xs:element name="Stops">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element name="Stop">
+                          <xs:element maxOccurs="unbounded" name="Stop">
                             <xs:complexType>
                               <xs:sequence>
-                                <xs:element name="PlannedStopNumber" type="xs:unsignedInt" />
-                                <xs:element name="PlannedArriveTime" type="xs:string" />
-                                <xs:element name="PlannedDepartTime" type="xs:string" />
-                                <xs:element name="TransportOrderRef" type="xs:string" />
-                                <xs:element name="StartWindow" type="xs:string" />
-                                <xs:element name="EndWindow" type="xs:string" />
-                                <xs:element name="TextField2" type="xs:string" />
-                                <xs:element name="TextField3" type="xs:string" />
-                                <xs:element name="TextField5" type="xs:string" />
-                                <xs:element name="EntityAttributes">
+                                <xs:element name="PlannedStopNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="PlannedArriveTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="PlannedDepartTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="TransportOrderRef" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="SpecialInstructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="StartWindow" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="EndWindow" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="TextField1" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="TextField2" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="ShellActionIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="CustomerShopReference" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="AllowOvers" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="CustUnatt" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="PHUnatt" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="Account" minOccurs="1" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:all minOccurs="0">
+                                      <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                      <xs:element name="AccountTypeCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="Name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="Address1" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="Address2" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="PostCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="ContactName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="ContactNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="ContactNumber2" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="ContactEmailAddress" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="StartWindow" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="EndWindow" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="Latitude" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="Longitude" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                      <xs:element name="IsDropAndDrive" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                    </xs:all>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="EntityAttributes">
                                   <xs:complexType>
                                     <xs:sequence>
-                                      <xs:element maxOccurs="unbounded" name="Attribute">
+                                      <xs:element minOccurs="0" maxOccurs="unbounded" name="Attribute">
                                         <xs:complexType>
                                           <xs:sequence>
-                                            <xs:element name="Code" type="xs:string" />
-                                            <xs:element name="Value1" type="xs:string" />
+                                            <xs:element name="Code" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="Value1" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                           </xs:sequence>
                                         </xs:complexType>
                                       </xs:element>
                                     </xs:sequence>
                                   </xs:complexType>
                                 </xs:element>
-                                <xs:element name="Account">
+                                <xs:element name="Jobs" minOccurs="1" maxOccurs="1">
                                   <xs:complexType>
                                     <xs:sequence>
-                                      <xs:element name="Code" type="xs:string" />
-                                      <xs:element name="AccountTypeCode" type="xs:string" />
-                                      <xs:element name="Name" type="xs:string" />
-                                      <xs:element name="Address1" type="xs:string" />
-                                      <xs:element name="Address2" type="xs:string" />
-                                      <xs:element name="PostCode" type="xs:string" />
-                                      <xs:element name="ContactName" type="xs:string" />
-                                      <xs:element name="ContactNumber" type="xs:string" />
-                                      <xs:element name="StartWindow" type="xs:string" />
-                                      <xs:element name="EndWindow" type="xs:string" />
-                                      <xs:element name="Latitude" type="xs:string" />
-                                      <xs:element name="Longitude" type="xs:string" />
-                                    </xs:sequence>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element name="Jobs">
-                                  <xs:complexType>
-                                    <xs:sequence>
-                                      <xs:element name="Job">
+                                      <xs:element minOccurs="1" maxOccurs="unbounded" name="Job">
                                         <xs:complexType>
                                           <xs:sequence>
-                                            <xs:element name="Sequence" type="xs:unsignedInt" />
-                                            <xs:element name="JobTypeCode" type="xs:string" />
-                                            <xs:element name="JobRef1" type="xs:string" />
-                                            <xs:element name="JobRef2" type="xs:string" />
-                                            <xs:element name="JobRef3" type="xs:string" />
-                                            <xs:element name="JobRef4" type="xs:string" />
-                                            <xs:element name="OrderDate" type="xs:string" />
-                                            <xs:element name="Originator" type="xs:string" />
-                                            <xs:element name="TextField1" type="xs:string" />
-                                            <xs:element name="TextField3" type="xs:string" />
-                                            <xs:element name="EntityAttributes">
+                                            <xs:element name="Sequence" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="JobTypeCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="PHAccount" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="PickListRef" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="InvoiceNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="CustomerRef" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="OrderDate" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="Originator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="RoyaltyCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="RoyaltyCodeDesc" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="OrdOuters" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="InvOuters" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="ColOuters" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="ColBoxes" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="ReCallPrd" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="AllowSgCrd" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="AllowSOCrd" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="COD" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="SandwchOrd" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="ComdtyType" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="AllowReOrd" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                            <xs:element name="TextField2" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                            <xs:element name="EntityAttributes" minOccurs="0" maxOccurs="1">
                                               <xs:complexType>
                                                 <xs:sequence>
-                                                  <xs:element maxOccurs="unbounded" name="Attribute">
+                                                  <xs:element minOccurs="0" maxOccurs="unbounded" name="Attribute">
                                                     <xs:complexType>
                                                       <xs:sequence>
-                                                        <xs:element name="Code" type="xs:string" />
-                                                        <xs:element name="Value1" type="xs:string" />
+                                                        <xs:element name="Code" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="Value1" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                       </xs:sequence>
                                                     </xs:complexType>
                                                   </xs:element>
                                                 </xs:sequence>
                                               </xs:complexType>
                                             </xs:element>
-                                            <xs:element name="JobDetails">
+                                            <xs:element name="JobDetails" minOccurs="1">
                                               <xs:complexType>
                                                 <xs:sequence>
-                                                  <xs:element maxOccurs="unbounded" name="JobDetail">
+                                                  <xs:element minOccurs="1" maxOccurs="unbounded" name="JobDetail">
                                                     <xs:complexType>
                                                       <xs:sequence>
-                                                        <xs:element name="LineNumber" type="xs:unsignedInt" />
-                                                        <xs:element name="Barcode" type="xs:string" />
-                                                        <xs:element name="ProdDesc" type="xs:string" />
-                                                        <xs:element name="OrderedQty" type="xs:unsignedInt" />
-                                                        <xs:element name="SkuWeight" type="xs:string" />
-                                                        <xs:element name="SkuCube" type="xs:string" />
-                                                        <xs:element name="UnitMeasure" type="xs:string" />
-                                                        <xs:element name="TextField1" type="xs:string" />
-                                                        <xs:element name="TextField2" type="xs:string" />
-                                                        <xs:element name="SkuGoodsValue" type="xs:string" />
-                                                        <xs:element name="EntityAttributes">
+                                                        <xs:element name="LineNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="PHProductCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="OriginalDespatchQty" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="ProdDesc" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="OrderedQty" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="SkuWeight" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="SkuCube" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="UnitMeasure" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                                        <xs:element name="PHProductType" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="PackSize" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="SingleOrOuter" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="TextField4" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="SSCCBarcode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="SkuGoodsValue" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element name="NetPrice" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                        <xs:element minOccurs="0" name="EntityAttributes">
                                                           <xs:complexType>
                                                             <xs:sequence>
-                                                              <xs:element maxOccurs="unbounded" name="Attribute">
+                                                              <xs:element minOccurs="0" maxOccurs="unbounded" name="Attribute">
                                                                 <xs:complexType>
                                                                   <xs:sequence>
-                                                                    <xs:element name="Code" type="xs:string" />
-                                                                    <xs:element name="Value1" type="xs:string" />
+                                                                    <xs:element name="Code" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                                    <xs:element name="Value1" type="xs:string" minOccurs="0" maxOccurs="1"/>
                                                                   </xs:sequence>
                                                                 </xs:complexType>
                                                               </xs:element>

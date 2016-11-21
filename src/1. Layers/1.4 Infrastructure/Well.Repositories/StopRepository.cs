@@ -68,7 +68,11 @@
                 .AddParameter("PHUnatt", stop.PHUnatt == "True", DbType.Boolean)
                 .AddParameter("StopStatusId", stopStatusId, DbType.Int16)
                 .AddParameter("StopPerformanceStatusId", stopPerformanceStatusId, DbType.Int16)
-                .AddParameter("ByPassReasonId", stopByPassReasonId, DbType.Int16).Query<int>().FirstOrDefault();
+                .AddParameter("ByPassReasonId", stopByPassReasonId, DbType.Int16)
+                .AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal)
+                .AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal)
+                .AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal)
+                .Query<int>().FirstOrDefault();
 
             stop.Id = id;
         }

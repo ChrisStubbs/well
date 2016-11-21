@@ -65,6 +65,10 @@
                                         ? (int)Branches.Ndf
                                         : (int)Enum.Parse(typeof(Branches), routeHeader.Depot, true);
 
+                routeHeader.RouteOwnerId = string.IsNullOrWhiteSpace(routeHeader.RouteOwner)
+                                        ? (int)Branches.Ndf
+                                        : (int)Enum.Parse(typeof(Branches), routeHeader.RouteOwner, true);
+
 
                 this.routeHeaderRepository.RouteHeaderCreateOrUpdate(routeHeader);
           

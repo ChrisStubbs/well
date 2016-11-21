@@ -32,4 +32,5 @@ export interface IRouteHeader {
     updatedBy: string;
     isDeleted: string;
     version: string;
+    routeOwnerId: string;
 }

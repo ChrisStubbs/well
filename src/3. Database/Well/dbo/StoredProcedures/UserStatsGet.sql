@@ -17,7 +17,8 @@ INSERT INTO @StatsTable
 	  from Job j
 	  INNER JOIN [Stop] s on s.Id = j.StopId
 	  INNER JOIN RouteHeader rh on rh.Id = s.RouteHeaderId
-	  INNER JOIN Branch b on rh.StartDepotCode = b.Id
+	  --INNER JOIN Branch b on rh.StartDepotCode = b.Id
+	  INNER JOIN Branch b on rh.RouteOwnerId = b.Id
 	  INNER JOIN UserBranch ub on b.Id = ub.BranchId
 	  INNER JOIN [User] u on u.Id = ub.UserId	
 	  Where j.PerformanceStatusId in (3,4,5)
@@ -34,7 +35,8 @@ INSERT INTO @StatsTable
 		from Job j
 		INNER JOIN [Stop] s on s.Id = j.StopId
 		INNER JOIN RouteHeader rh on rh.Id = s.RouteHeaderId
-		INNER JOIN Branch b on rh.StartDepotCode = b.Id
+		--INNER JOIN Branch b on rh.StartDepotCode = b.Id
+		INNER JOIN Branch b on rh.RouteOwnerId = b.Id
 		INNER JOIN UserBranch ub on b.Id = ub.BranchId
 		INNER JOIN [User] u on u.Id = ub.UserId  
 		Where j.PerformanceStatusId in (3,4,5)

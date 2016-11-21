@@ -130,7 +130,9 @@
                 .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
                 .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
-                .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
+                .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32)
+                .AddParameter("RouteOwnerId", routeHeader.RouteOwnerId, DbType.Int32)
+                .Query<int>().FirstOrDefault();
         }
 
         public RouteHeader GetRouteHeaderByTransportOrderReference(string routeNumber, DateTime? routeDate)

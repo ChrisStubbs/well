@@ -9,7 +9,8 @@ DECLARE @routeHeaders TABLE (	[RouteHeaderId] INT NOT NULL,
 								[BranchId] INT NOT NULL	)
 
 INSERT @routeHeaders
-select Id, @routeId, StartDepotCode from RouteHeader where RoutesId = @routeId AND IsDeleted = 0
+--select Id, @routeId, StartDepotCode from RouteHeader where RoutesId = @routeId AND IsDeleted = 0
+select Id, @routeId, RouteOwnerId from RouteHeader where RoutesId = @routeId AND IsDeleted = 0
 
 DECLARE @stops TABLE ( [StopId] INT NOT NULL,
 					   [RouteHeaderId] INT NOT NULL )

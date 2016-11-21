@@ -2,7 +2,8 @@
 	@BranchId INT, 
 	@CleanPreferenceId INT
 AS
-BEGIN
+begin
+
 	SET NOCOUNT ON;
 
     INSERT INTO [dbo].[CleanPreferenceToBranch]
@@ -11,4 +12,4 @@ BEGIN
      VALUES
            (@BranchId
 		   ,@CleanPreferenceId);
-END
+end

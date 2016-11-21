@@ -213,6 +213,9 @@
             }
         }
 
+        [XmlIgnore]
+        public int RouteOwnerId { get; set; }
+
         public int CleanJobs => Stops.Sum(s => s.CleanJobs);
 
         public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobs);

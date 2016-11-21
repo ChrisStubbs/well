@@ -27,6 +27,10 @@
         [XmlElement("RouteDate")]
         public string RouteDateFromXml
         {
+            get
+            {
+                return this.RouteDate?.ToShortDateString() ?? "";
+            }
             set
             {
                 DateTime tryDate;
@@ -72,7 +76,12 @@
         public DateTime? LastRouteUpdate { get; set; }
 
         [XmlElement("LastRouteUpdate")]
-        public string LastRouteUpdateFromXml {
+        public string LastRouteUpdateFromXml
+        {
+            get
+            {
+                return this.LastRouteUpdate?.ToShortDateString() ?? "";
+            }
             set
             {
                 DateTime tryDate;
@@ -90,6 +99,10 @@
         [XmlElement("AuthByPass")]
         public string AuthByPassFromXml
         {
+            get
+            {
+                return this.AuthByPass.ToString();
+            }
             set
             {
                 int tryInt;
@@ -107,6 +120,10 @@
         [XmlElement("NonAuthByPass")]
         public string NonAuthByPassFromXml
         {
+            get
+            {
+                return this.NonAuthByPass.ToString();
+            }
             set
             {
                 int tryInt;
@@ -124,6 +141,10 @@
         [XmlElement("ShortDeliveries")]
         public string ShortDeliveriesFromXml
         {
+            get
+            {
+                return this.ShortDeliveries.ToString();
+            }
             set
             {
                 int tryInt;
@@ -141,6 +162,10 @@
         [XmlElement("DamagesRejected")]
         public string DamagesRejectedFromXml
         {
+            get
+            {
+                return this.DamagesRejected.ToString();
+            }
             set
             {
                 int tryInt;
@@ -158,6 +183,10 @@
         [XmlElement("DamagesAccepted")]
         public string DamagesAcceptedFromXml
         {
+            get
+            {
+                return this.DamagesAccepted.ToString();
+            }
             set
             {
                 int tryInt;
@@ -175,6 +204,10 @@
         [XmlElement("NotRequired")]
         public string NotRequiredFromXml
         {
+            get
+            {
+                return this.NotRequired.ToString();
+            }
             set
             {
                 int tryInt;
@@ -202,6 +235,9 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public Collection<EntityAttribute> EntityAttributes { get; set; }
+
+        [XmlIgnore]
+        public object EntityAttributeValues { get; set; }
 
         [XmlIgnore]
         public string RouteOwner {

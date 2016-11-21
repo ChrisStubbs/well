@@ -15,6 +15,7 @@
         public Job()
         {
             this.JobDetails = new Collection<JobDetail>();
+            this.EntityAttributes = new Collection<EntityAttribute>();
         }
 
         [XmlElement("Sequence")]
@@ -41,6 +42,10 @@
         [XmlElement("OrderDate")]
         public string OrderDateFromXml
         {
+            get
+            {
+                return this.OrderDate?.ToShortDateString() ?? "";
+            }
             set
             {
                 var enGB = new CultureInfo("en-GB");

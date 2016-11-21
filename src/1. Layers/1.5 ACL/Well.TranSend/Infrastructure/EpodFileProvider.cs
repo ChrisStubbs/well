@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
     using System.IO;
+    using System.Xml;
+
     using Contracts;
     using Common.Contracts;
     using Common.Extensions;

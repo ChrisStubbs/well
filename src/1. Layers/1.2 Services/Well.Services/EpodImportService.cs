@@ -142,7 +142,7 @@
         {
             foreach (var ePodRouteHeader in routeDelivery.RouteHeaders)
             {
-                var currentRouteHeader = this.routeHeaderRepository.GetRouteHeaderByTransportOrderReference(ePodRouteHeader.RouteNumber, ePodRouteHeader.RouteDate);
+                var currentRouteHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(ePodRouteHeader.RouteNumber, ePodRouteHeader.RouteDate);
 
                 if (currentRouteHeader != null)
                 {
@@ -367,16 +367,7 @@
         {
             foreach (var ePodStop in routeHeader.Stops)
             {
-
-                var tranOrderRef = ePodStop.TransportOrderReference.Split(' ');
-
-                ePodStop.RouteHeaderCode = tranOrderRef?[0];
-                ePodStop.DropId = tranOrderRef?[1];
-                ePodStop.LocationId = tranOrderRef?[2];
-                ePodStop.DeliveryDate = DateTime.Parse(tranOrderRef?[3]);
-
-
-                var currentStop = this.stopRepository.GetByRouteNumberAndDropNumber(ePodStop.RouteHeaderCode, routeHeader.Id, ePodStop.DropId);
+                var currentStop = this.stopRepository.GetByTransportOrderReference(ePodStop.TransportOrderReference);
 
                 if (currentStop != null)
                 {
@@ -432,8 +423,11 @@
                 }
                 else
                 {
-                    logger.LogError($"No data found for Epod job account: {ePodjob.PhAccount} on date: {stop.DeliveryDate}");
-                    throw new Exception($"No data found for Epod job account: {ePodjob.PhAccount} on date: {stop.DeliveryDate}");
+                    logger.LogDebug($"No data found for Epod job account: {ePodjob.PhAccount} on date: {stop.DeliveryDate}");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"No data found for Epod job account: {ePodjob.PhAccount} on date: {stop.DeliveryDate}",
+                        4322);
                 }
             }
         }
@@ -473,8 +467,11 @@
                 }
                 else
                 {
-                    logger.LogError($"No job detail data found for Epod job account: {job.PhAccount} barcode: {ePodJobDetail.PhProductCode}");
-                    throw new Exception($"No job detail data found for Epod job account: {job.PhAccount} barcode: {ePodJobDetail.PhProductCode}");
+                    logger.LogDebug($"No job detail data found for Epod job account: {job.PhAccount} barcode: {ePodJobDetail.PhProductCode}");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"No job detail data found for Epod job account: {job.PhAccount} barcode: {ePodJobDetail.PhProductCode}",
+                        6570);
                 }
             }
         }

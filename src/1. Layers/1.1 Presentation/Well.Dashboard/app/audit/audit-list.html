@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" *ngIf="audits">
                 <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
             </div>
         </div>

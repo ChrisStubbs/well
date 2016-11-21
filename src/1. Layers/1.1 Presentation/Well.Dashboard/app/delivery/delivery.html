@@ -30,6 +30,13 @@
     </div>
     <tabset>
         <tab title="Exceptions">
+            <div *ngIf="!delivery.exceptionDeliveryLines || delivery.exceptionDeliveryLines.length == 0">
+                <div class="table-responsive table-container">
+                    <div class="alert alert-info">
+                        <strong>No exceptions!</strong>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive table-container">
                 <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
                     <thead>
@@ -46,7 +53,7 @@
                     </thead>
                     <tbody>
                     <!--TODO add IPagination thingy with id to each paginator within the component-->
-                    <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }"
+                    <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { id: 'exception-pager', itemsPerPage: rowCount, currentPage: p }"
                         (click)="lineClicked(line)">
                         <td>{{line.lineNo}}</td>
                         <td>{{line.productCode}}</td>
@@ -60,11 +67,18 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row pull-right">
-                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            <div class="row pull-right" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
+                <pagination-controls id="exception-pager" (pageChange)="p = $event"></pagination-controls>
             </div>
         </tab>
         <tab title="Clean">
+            <div *ngIf="!delivery.cleanDeliveryLines || delivery.cleanDeliveryLines.length == 0">
+                <div class="table-responsive table-container">
+                    <div class="alert alert-info">
+                        <strong>No clean deliveries!</strong>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive table-container">
                 <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
                     <thead>
@@ -80,7 +94,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="grid-row" *ngFor="let line of delivery.cleanDeliveryLines | paginate: { itemsPerPage: rowCount, currentPage: p }"
+                    <tr class="grid-row" *ngFor="let line of delivery.cleanDeliveryLines | paginate: { id: 'clean-pager', itemsPerPage: rowCount, currentPage: p }"
                         (click)="lineClicked(line)">
                         <td>{{line.lineNo}}</td>
                         <td>{{line.productCode}}</td>
@@ -94,8 +108,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row pull-right">
-                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            <div class="row pull-right" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
+                <pagination-controls id="clean-pager" (pageChange)="p = $event"></pagination-controls>
             </div>
         </tab>
     </tabset>

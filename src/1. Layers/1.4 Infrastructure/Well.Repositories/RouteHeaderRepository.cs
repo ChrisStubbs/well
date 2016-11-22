@@ -123,7 +123,7 @@
                 .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
                 .AddParameter("RouteStatusId", routeHeader.RouteStatus = (int)routeHeader.RouteStatus == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
-                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.String)
+                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32)
                 .AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32)

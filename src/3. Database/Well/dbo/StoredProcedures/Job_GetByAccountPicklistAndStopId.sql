@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Job_GetByAccountPicklistAndStopId]
-	@AccountId		NVARCHAR(50),
-	@PicklistId		NVARCHAR(50),
+	@AccountId		VARCHAR(50),
+	@PicklistId		VARCHAR(50),
 	@StopId         INT
 
 AS

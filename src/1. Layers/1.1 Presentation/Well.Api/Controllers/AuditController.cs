@@ -28,6 +28,7 @@
             try
             {
                 var audits = auditRepository.Get();
+
                 if (audits == null || audits.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -47,7 +48,7 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, $"An error occcured when getting audits");
+                return serverErrorResponseHandler.HandleException(Request, ex, $"An error occured when getting audits");
             }
         }
     }

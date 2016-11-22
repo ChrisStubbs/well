@@ -48,7 +48,7 @@
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
         public static string PendingCreditsInsert = "PendingCredits_Insert";
-
+        
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
@@ -56,7 +56,6 @@
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  
         public static string JobDetailActionsGet = "JobDetailActionsGet";
         public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
-
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";
@@ -133,7 +132,6 @@
         public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
         public static string WidgetWarningDelete = "WidgetWarningDelete";
         public static string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
-
 
         public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
         public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";

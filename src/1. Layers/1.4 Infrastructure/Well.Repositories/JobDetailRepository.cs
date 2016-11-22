@@ -51,9 +51,9 @@
             foreach (var jobDetail in jobDetails)
             {
                 jobDetail.JobDetailDamages =
-                    new Collection<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id).ToList());
+                    new List<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id));
                 jobDetail.Actions =
-                    new Collection<JobDetailAction>(actions.Where(a => a.JobDetailId == jobDetail.Id).ToList());
+                    new List<JobDetailAction>(actions.Where(a => a.JobDetailId == jobDetail.Id));
             }
 
             return jobDetails;
@@ -61,7 +61,7 @@
 
         protected override void SaveNew(JobDetail jobDetail)
         {
-            jobDetail.Id = dapperProxy.WithStoredProcedure("JobDetail_Insert")
+            jobDetail.Id = dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailInsert)
                 .AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String)
@@ -83,7 +83,6 @@
                 .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
-                .AddParameter("IsDeleted", jobDetail.JobDetailStatusId == (int)JobDetailStatus.Res, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
         }
 

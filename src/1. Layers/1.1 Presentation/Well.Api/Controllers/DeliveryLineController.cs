@@ -52,7 +52,8 @@
 
                 jobDetail.ShortQty = model.ShortQuantity;
 
-                var damages = new Collection<JobDetailDamage>();
+                var damages = new List<JobDetailDamage>();
+
                 foreach (var damageUpdateModel in model.Damages)
                 {
                     var reasonCode = (DamageReasons) Enum.Parse(typeof(DamageReasons), damageUpdateModel.ReasonCode);
@@ -64,6 +65,7 @@
                     };
                     damages.Add(damage);
                 }
+
                 jobDetail.JobDetailDamages = damages;
 
                 deliveryService.UpdateDeliveryLine(jobDetail, UserIdentityName);

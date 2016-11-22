@@ -6,7 +6,6 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
-    using Domain.Enums;
     using Domain.ValueObjects;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
@@ -82,6 +81,48 @@
                    .FirstOrDefault();
 
             return job;
+        }
+
+        protected override void SaveNew(Job entity)
+        {
+            entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobInsert)
+                .AddParameter("Sequence", entity.Sequence, DbType.Int32)
+                .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
+                .AddParameter("PHAccount", entity.PhAccount, DbType.String)
+                .AddParameter("PickListRef", entity.PickListRef, DbType.String)
+                .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
+                .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
+                .AddParameter("OrderDate", entity.OrderDate, DbType.DateTime)
+                .AddParameter("RoyaltyCode", entity.RoyaltyCode, DbType.String)
+                .AddParameter("RoyaltyCodeDesc", entity.RoyaltyCodeDesc, DbType.String)
+                .AddParameter("OrdOuters", entity.OrdOuters, DbType.Int16)
+                .AddParameter("InvOuters", entity.InvOuters, DbType.Int16)
+                .AddParameter("ColOuters", entity.ColOuters, DbType.Int16)
+                .AddParameter("ColBoxes", entity.ColBoxes, DbType.Int16)
+                .AddParameter("ReCallPrd", entity.ReCallPrd, DbType.Boolean)
+                .AddParameter("AllowSgCrd", entity.AllowSgCrd, DbType.Boolean)
+                .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
+                .AddParameter("COD", entity.Cod, DbType.Boolean)
+                .AddParameter("GrnNumber", entity.GrnNumber, DbType.String)
+                .AddParameter("GrnRefusedReason", entity.GrnRefusedReason, DbType.String)
+                .AddParameter("GrnRefusedDesc", entity.GrnRefusedDesc, DbType.String)
+                .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
+                .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
+                .AddParameter("ComdtyType", entity.ComdtyType, DbType.String)
+                .AddParameter("TotalCreditValueForThreshold", entity.TotalCreditValueForThreshold(), DbType.Decimal)
+                .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)
+                .AddParameter("ByPassReasonId  ", (int)entity.ByPassReason, DbType.Int16)
+                .AddParameter("StopId", entity.StopId, DbType.Int32)
+                .AddParameter("ActionLogNumber", entity.ActionLogNumber, DbType.String)
+                .AddParameter("OuterCount", entity.OuterCount, DbType.Int16)
+                .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyFound, DbType.String)
+                .AddParameter("TotalOutersOver", entity.TotalOutersOver, DbType.Int16)
+                .AddParameter("TotalOutersshort", entity.TotalOutersShort, DbType.Int16)
+                .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .Query<int>().FirstOrDefault();
         }
 
         public void JobCreateOrUpdate(Job job)

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
@@ -13,9 +14,9 @@
     {
         public JobDetail()
         {
-            this.JobDetailDamages = new Collection<JobDetailDamage>();
-            this.Actions = new Collection<JobDetailAction>();
-            this.EntityAttributes = new Collection<EntityAttribute>();
+            this.JobDetailDamages = new List<JobDetailDamage>();
+            this.Actions = new List<JobDetailAction>();
+            this.EntityAttributes = new List<EntityAttribute>();
         }
 
         [XmlElement("LineNumber")]
@@ -146,14 +147,14 @@
 
         [XmlArray("JobDetailDamages")]
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamage))]
-        public Collection<JobDetailDamage> JobDetailDamages { get; set; }
+        public List<JobDetailDamage> JobDetailDamages { get; set; }
 
         [XmlIgnore]
-        public Collection<JobDetailAction> Actions { get; set; }
+        public List<JobDetailAction> Actions { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
-        public Collection<EntityAttribute> EntityAttributes { get; set; }
+        public List<EntityAttribute> EntityAttributes { get; set; }
 
         public bool IsClean()
         {
@@ -192,7 +193,7 @@
             return audit;
         }
 
-        private void AuditDamages(StringBuilder auditBuilder, Collection<JobDetailDamage> originalDamages)
+        private void AuditDamages(StringBuilder auditBuilder, List<JobDetailDamage> originalDamages)
         {
             var damages = JobDetailDamages;
 
@@ -216,7 +217,7 @@
             }
         }
 
-        private void AuditActions(StringBuilder auditBuilder, Collection<JobDetailAction> originalActions)
+        private void AuditActions(StringBuilder auditBuilder, List<JobDetailAction> originalActions)
         {
             var isChanged = originalActions.Count != Actions.Count ||
                                  originalActions.OrderBy(o => o.Action).SequenceEqual(Actions.OrderBy(d => d.Action)) == false;

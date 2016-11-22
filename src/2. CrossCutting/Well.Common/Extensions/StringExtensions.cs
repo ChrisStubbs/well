@@ -200,11 +200,6 @@
             return false;
         }
         
-        public static string GetFilename(this string filePath)
-        {
-            return Path.GetFileName(filePath);
-        }
-        
         public static string ToDashboardDateFormat(this DateTime dateTime)
         {
             return dateTime.ToString("dd-MM-yyyy HH:mm:ss");

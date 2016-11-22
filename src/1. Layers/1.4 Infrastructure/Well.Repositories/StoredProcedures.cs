@@ -11,6 +11,7 @@
         public static string RouteInsert = "Route_Insert";
         public static string RoutesGetById = "Routes_GetById";
         public static string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
+        public static string RouteHeaderInsert = "RouteHeader_Insert";
         public static string RouteHeaderGetById = "RouteHeader_GetById";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
@@ -25,8 +26,10 @@
         //Stops
         public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         public static string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
+        public static string StopInsert = "Stop_Insert";
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
+        public static string AccountInsert = "Account_Insert";
         public static string StopGetByTransportOrderReference = "StopGetByTransportOrderReference";
         public static string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
         public static string StopGetByJobId = "Stop_GetByJobId";
@@ -35,6 +38,7 @@
 
         //Jobs
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
+        public static string JobInsert = "Job_Insert";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public static string JobDeleteById = "Job_DeleteById";
@@ -51,6 +55,7 @@
         
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
+        public static string JobDetailInsert = "JobDetail_Insert";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  

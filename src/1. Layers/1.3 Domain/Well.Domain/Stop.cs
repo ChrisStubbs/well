@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Xml.Serialization;
@@ -13,8 +14,8 @@
         public Stop()
         {
             this.Account = new Account();
-            this.Jobs = new Collection<Job>();
-            this.EntityAttributes = new Collection<EntityAttribute>();
+            this.Jobs = new List<Job>();
+            this.EntityAttributes = new List<EntityAttribute>();
         }
 
         [XmlElement("PlannedStopNumber")]
@@ -130,11 +131,11 @@
 
         [XmlArray("Jobs")]
         [XmlArrayItem("Job", typeof(Job))]
-        public Collection<Job> Jobs { get; set; }
+        public List<Job> Jobs { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
-        public Collection<EntityAttribute> EntityAttributes { get; set; }
+        public List<EntityAttribute> EntityAttributes { get; set; }
 
         public decimal ActualPaymentCash => ActualPayment("ACTPAYCASH");
         public decimal ActualPaymentCheque => ActualPayment("ACTPAYCHEQ");

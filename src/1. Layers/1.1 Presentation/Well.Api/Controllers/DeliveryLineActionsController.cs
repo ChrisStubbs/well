@@ -66,7 +66,7 @@
                     Status = a.Status
                 });
                 var actions = nonDraftActions.Concat(draftActions).ToList();
-                jobDetail.Actions = new Collection<JobDetailAction>(actions);
+                jobDetail.Actions = new List<JobDetailAction>(actions);
 
                 deliveryService.UpdateDraftActions(jobDetail, UserIdentityName);
 

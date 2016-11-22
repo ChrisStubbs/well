@@ -56,6 +56,10 @@
             {
                 routeHeader.RoutesId = routeId;
 
+                routeHeader.RouteOwnerId = string.IsNullOrWhiteSpace(routeHeader.RouteOwner)
+                                        ? (int)Branches.NotDefined
+                                        : (int)Enum.Parse(typeof(Branches), routeHeader.RouteOwner, true);
+
                 this.routeHeaderRepository.RouteHeaderCreateOrUpdate(routeHeader);
           
                 AddRouteHeaderStops(routeHeader);
@@ -132,7 +136,6 @@
                 if (currentRouteHeader != null)
                 {
                     ePodRouteHeader.Id = currentRouteHeader.Id;
-                    ePodRouteHeader.Depot = ePodRouteHeader.Depot.Replace(">", string.Empty);
                     currentRouteHeader.RouteStatus = ePodRouteHeader.RouteStatus;
                     currentRouteHeader.RoutePerformanceStatusId = ePodRouteHeader.RoutePerformanceStatusId;
                     currentRouteHeader.AuthByPass = currentRouteHeader.AuthByPass + ePodRouteHeader.AuthByPass;
@@ -162,11 +165,11 @@
 
         public void AddAdamUpdateFile(RouteUpdates orderUpdates, int routesId)
         {
-            foreach (var orderUpdate in orderUpdates.Order)
+            foreach (var orderUpdate in orderUpdates.Stops)
             {
                 var selectedAction = GetOrderUpdateAction(orderUpdate.ActionIndicator);
 
-                if (selectedAction == OrderActionIndicator.InsertOnly)
+                if (selectedAction == OrderActionIndicator.Insert)
                 {
                     var newOrderDetails = this.GetByOrderUpdateDetails(orderUpdate);
 
@@ -183,7 +186,7 @@
                    this.AddStopByOrder(orderUpdate, null, true);
                 }
 
-                if (selectedAction != OrderActionIndicator.InsertOrUpdate)
+                if (selectedAction != OrderActionIndicator.Update)
                     continue;
 
                 var exsitingOrderStopDetails = GetByOrderUpdateDetails(orderUpdate);
@@ -202,17 +205,17 @@
             }
         }
 
-        private void AddStopByOrder(Order order, Stop currentStop, bool insertOnly)
+        private void AddStopByOrder(StopUpdate stopUpdate, Stop currentStop, bool insertOnly)
         {
             var stop = new Stop
             {
                 Id = currentStop?.Id ?? 0,
-                PlannedStopNumber = currentStop?.PlannedStopNumber ?? order.PlannedStopNumber,
+                PlannedStopNumber = currentStop?.PlannedStopNumber ?? stopUpdate.PlannedStopNumber,
                 RouteHeaderCode = currentStop.RouteHeaderCode,
                 RouteHeaderId = currentStop.RouteHeaderId,
-                TransportOrderReference = order.TransportOrderRef,
-                ShellActionIndicator = currentStop?.ShellActionIndicator ?? order.ShellActionIndicator,
-                CustomerShopReference = order.CustomerShopReference,
+                TransportOrderReference = stopUpdate.TransportOrderRef,
+                ShellActionIndicator = currentStop?.ShellActionIndicator ?? stopUpdate.ShellActionIndicator,
+                CustomerShopReference = stopUpdate.CustomerShopReference,
                 StopStatusCodeId = (int)StopStatus.Notdef,
                 StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,
                 ByPassReasonId = (int)ByPassReasons.Notdef
@@ -222,11 +225,11 @@
 
             var newStopAccountId = 0;
 
-            AddStopAccountByOrderJob(stop.Id, order.Accounts, newStopAccountId, insertOnly);
+            AddStopAccountByOrderJob(stop.Id, stopUpdate.Accounts, newStopAccountId, insertOnly);
 
             var currentJobId = 0;
 
-            AddJobByOrderJob(stop.Id, order.OrderJobs, currentJobId, insertOnly);
+            AddJobByOrderJob(stop.Id, stopUpdate.OrderJobs, currentJobId, insertOnly);
         }
 
         private void AddStopAccountByOrderJob(int stopId, Account stopAccount, int currentStopAccountId, bool insertOnly)
@@ -265,7 +268,7 @@
             this.stopRepository.StopAccountCreateOrUpdate(newStopAccount);
         }
 
-        private void AddJobByOrderJob(int stopId, ICollection<OrderJob> orderJobs, int currentJobId, bool insertOnly)
+        private void AddJobByOrderJob(int stopId, ICollection<JobUpdate> orderJobs, int currentJobId, bool insertOnly)
         {
             foreach (var orderJob in orderJobs)
             {
@@ -305,10 +308,10 @@
             }
         }
 
-        private void AddJobDetailByOrderJobDetail(int jobId, ICollection<OrderJobDetail> orderJobDetails,
+        private void AddJobDetailByOrderJobDetail(int jobId, ICollection<JobDetailUpdate> orderJobDetails,
             int currentJobDetailId, bool insertOnly)
         {
-            foreach (OrderJobDetail orderJobDetail in orderJobDetails)
+            foreach (JobDetailUpdate orderJobDetail in orderJobDetails)
             {
                 if (!insertOnly)
                 {
@@ -353,12 +356,12 @@
 
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
-            return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.InsertOrUpdate : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
+            return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.Update : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
         }
 
-        private Stop GetByOrderUpdateDetails(Order order)
+        private Stop GetByOrderUpdateDetails(StopUpdate stopUpdate)
         {
-            return this.stopRepository.GetByOrderUpdateDetails(order.TransportOrderRef);
+            return this.stopRepository.GetByOrderUpdateDetails(stopUpdate.TransportOrderRef);
         }
 
         private void AddEpodRouteHeaderStops(RouteHeader routeHeader)

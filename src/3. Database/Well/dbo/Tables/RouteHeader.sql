@@ -19,6 +19,7 @@
 	[DamagesAccepted] INT NULL,
 	[NotRequired] INT NULL,
 	[Depot] INT NULL,
+	[RouteOwnerId] INT NOT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
@@ -29,5 +30,6 @@
 	CONSTRAINT [FK_RouteHeader_Routes] FOREIGN KEY ([RoutesId]) REFERENCES [dbo].[Routes] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_RouteHeader_RouteStatusId] FOREIGN KEY ([RouteStatusId]) REFERENCES [dbo].[RouteStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_RouteHeader_StartDepotCode] FOREIGN KEY ([StartDepotCode]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_RouteHeader_Depot] FOREIGN KEY ([Depot]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+	CONSTRAINT [FK_RouteHeader_Depot] FOREIGN KEY ([Depot]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_RouteHeader_RouteOwnerId] FOREIGN KEY ([RouteOwnerId]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

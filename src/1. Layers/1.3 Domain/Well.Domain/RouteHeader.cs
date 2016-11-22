@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Xml.Serialization;
     using Enums;
@@ -270,6 +269,9 @@
                 return attribute?.Value;
             }
         }
+
+        [XmlIgnore]
+        public int RouteOwnerId { get; set; }
 
         public int CleanJobs => Stops.Sum(s => s.CleanJobs);
 

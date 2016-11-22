@@ -72,26 +72,17 @@
 
         public class TheSaveStopsMethod : StopRepositoryTests
         {
-            // TODO
-            /*[Test]
+            [Test]
             public void ShouldSaveRouteHeader()
             {
                 var stop = StopFactory.New.Build();
-                var user = UserFactory.New.Build();
-
-                var transportOrderDetails = stop.TransportOrderRef.Split(' ');
-                stop.RouteHeaderCode = transportOrderDetails[0];
-                stop.DropId = transportOrderDetails[1];
-                stop.LocationId = transportOrderDetails[2];
-                stop.DeliveryDate = DateTime.Parse(transportOrderDetails[3]);
-
-
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate))
                     .Returns(dapperProxy.Object);
 
                 dapperProxy.Setup(x => x.AddParameter("Id", stop.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("TransportOrderReference", stop.TransportOrderReference, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PlannedStopNumber", stop.PlannedStopNumber, DbType.Int32, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RouteHeaderCode", stop.RouteHeaderCode, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("RouteHeaderId", stop.RouteHeaderId, DbType.Int32, null)).Returns(dapperProxy.Object);
@@ -106,33 +97,39 @@
                 dapperProxy.Setup(x => x.AddParameter("StopStatusId", stop.StopStatusCodeId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("StopPerformanceStatusId", stop.StopPerformanceStatusCodeId, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId", stop.ByPassReasonId, DbType.Int16, null)).Returns(dapperProxy.Object);
-
+                dapperProxy.Setup(x => x.AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal , null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetById))
-                    .Returns(dapperProxy.Object);
-
-                dapperProxy.Setup(x => x.AddParameter("Id", stop.Id, DbType.Int32, null))
-                    .Returns(dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop>());
-
 
                 this.repository.StopCreateOrUpdate(stop);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopsCreateOrUpdate), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetById), Times.Exactly(1));
-
                 this.dapperProxy.Verify(x => x.AddParameter("PlannedStopNumber", stop.PlannedStopNumber, DbType.Int32, null), Times.Exactly(1));
-
                 this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("TransportOrderReference", stop.TransportOrderReference, DbType.String, null), Times.Exactly(1));
+
+                dapperProxy.Verify(x => x.AddParameter("PlannedStopNumber", stop.PlannedStopNumber, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("RouteHeaderCode", stop.RouteHeaderCode, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("RouteHeaderId", stop.RouteHeaderId, DbType.Int32, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("DropId", stop.DropId, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("LocationId", stop.LocationId, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("DeliveryDate", stop.DeliveryDate, DbType.DateTime, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ShellActionIndicator", stop.ShellActionIndicator, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("CustomerShopReference", stop.CustomerShopReference, DbType.String, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("AllowOvers", stop.AllowOvers == "True", DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("CustUnatt", stop.CustUnatt == "True", DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("PHUnatt", stop.PHUnatt == "True", DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("StopStatusId", stop.StopStatusCodeId, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("StopPerformanceStatusId", stop.StopPerformanceStatusCodeId, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ByPassReasonId", stop.ByPassReasonId, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.Query<Stop>(), Times.Exactly(1));
-            }*/
+            }
         }
 
         public class TheSaveStopAccountMethod : StopRepositoryTests

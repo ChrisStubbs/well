@@ -39,6 +39,10 @@
             this.eventLogger = eventLogger;
             this.routeHeaderRepository.CurrentUser = CurrentUser;
             this.stopRepository.CurrentUser = CurrentUser;
+            this.accountRepository.CurrentUser = CurrentUser;
+            this.jobRepository.CurrentUser = CurrentUser;
+            this.jobDetailRepository.CurrentUser = CurrentUser;
+            this.jobDetailDamageRepository.CurrentUser = CurrentUser;
         }
 
         public void Import(RouteDelivery route)

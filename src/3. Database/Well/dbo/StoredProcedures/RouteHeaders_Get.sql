@@ -2,13 +2,15 @@
 	@UserName VARCHAR(500)
 
 AS
+begin
 	SELECT 
 	  rh.[Id]
       ,rh.[CompanyId]
       ,rh.[RouteNumber]
       ,rh.[RouteDate]
       ,rh.[DriverName]
-      ,rh.[StartDepotCode]
+      --,rh.[StartDepotCode]
+	  ,rh.RouteOwnerId
       ,rh.[PlannedStops]
       ,rh.[ActualStopsCompleted]
       ,rh.[RoutesId]
@@ -29,5 +31,4 @@ INNER JOIN
 	dbo.[User] u on u.Id = ub.UserId
  WHERE
 	u.IdentityName = @UserName
-
-RETURN 0
+end

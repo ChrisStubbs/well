@@ -100,7 +100,7 @@
                 .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.String)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
-                .AddParameter("LineStatus", jobDetail.LineStatus, DbType.String)
+                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .Execute();
         }

@@ -100,7 +100,7 @@
                     Id = 1,
                     LineNumber = 1,
                     ShortQty = 0,
-                    JobDetailDamages = new Collection<JobDetailDamage>()
+                    JobDetailDamages = new List<JobDetailDamage>()
                     {
                         new JobDetailDamage() {Qty = 3}
                     },
@@ -159,7 +159,7 @@
                         JobId = 3,
                         LineNumber = 1,
                         ShortQty = 3,
-                        JobDetailDamages = new Collection<JobDetailDamage>()
+                        JobDetailDamages = new List<JobDetailDamage>()
                         {
                             new JobDetailDamage() {Qty = 5}
                         }
@@ -200,7 +200,7 @@
                 jobDetailUpdates = new JobDetail
                 {
                     Id = 5,
-                    Actions = new Collection<JobDetailAction>(new List<JobDetailAction>()
+                    Actions = new List<JobDetailAction>(new List<JobDetailAction>()
                     {
                         new JobDetailAction()
                         {
@@ -281,7 +281,7 @@
                     {
                         Id = 1, PhProductCode = "123", ProdDesc = "Cheesy Chips",
                         Actions =
-                            new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            new List<JobDetailAction>(new List<JobDetailAction>()
                             {
                                 new JobDetailAction()
                                 {
@@ -303,7 +303,7 @@
                     {
                         Id = 2, PhProductCode = "456", ProdDesc = "Dirty Burger",
                         Actions =
-                            new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            new List<JobDetailAction>(new List<JobDetailAction>()
                             {
                                 new JobDetailAction()
                                 {
@@ -364,7 +364,7 @@
                 {
                     new JobDetail()
                     {
-                        Actions = new Collection<JobDetailAction>(new List<JobDetailAction>()
+                        Actions = new List<JobDetailAction>(new List<JobDetailAction>()
                             {
                                 new JobDetailAction()
                                 {
@@ -379,7 +379,7 @@
                     new JobDetail()
                     {
                         Actions =
-                            new Collection<JobDetailAction>(new List<JobDetailAction>()
+                            new List<JobDetailAction>(new List<JobDetailAction>()
                             {
                                 new JobDetailAction()
                                 {

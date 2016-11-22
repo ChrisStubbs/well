@@ -5,11 +5,11 @@
     using System.Xml.Serialization;
 
     [Serializable()]
-    public class OrderJob
+    public class JobUpdate
     {
-        public OrderJob()
+        public JobUpdate()
         {
-            this.OrderJobDetails = new Collection<OrderJobDetail>();
+            this.OrderJobDetails = new Collection<JobDetailUpdate>();
         }
 
         [XmlElement("Sequence")]
@@ -31,7 +31,7 @@
         public string CustomerRef { get; set; }
 
         [XmlArray("OrderJobDetails")]
-        [XmlArrayItem("OrderJobDetail", typeof(OrderJobDetail))]
-        public Collection<OrderJobDetail> OrderJobDetails { get; set; }
+        [XmlArrayItem("OrderJobDetail", typeof(JobDetailUpdate))]
+        public Collection<JobDetailUpdate> OrderJobDetails { get; set; }
     }
 }

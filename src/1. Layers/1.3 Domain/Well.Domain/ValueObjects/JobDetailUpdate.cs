@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable()]
-    public class OrderJobDetail
+    public class JobDetailUpdate
     {
         [XmlElement("LineNumber")]
         public int LineNumber { get; set; }

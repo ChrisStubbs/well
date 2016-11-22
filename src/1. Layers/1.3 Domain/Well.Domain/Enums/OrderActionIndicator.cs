@@ -5,10 +5,10 @@
     public enum OrderActionIndicator
     {
         [Description("A")]
-        InsertOrUpdate = 1,
+        Update = 1,
 
         [Description("I")]
-        InsertOnly = 2,
+        Insert = 2,
 
         [Description("D")]
         Delete = 3

@@ -18,7 +18,8 @@
 	@DamagesRejected        INT = NULL,
 	@DamagesAccepted        INT = NULL,
 	@NotRequired            INT = NULL,
-	@Depot                  INT = NULL	 
+	@Depot                  INT = NULL,
+	@RouteOwnerId           INT	 
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -29,10 +30,10 @@ BEGIN
 	USING (VALUES
 		(@Id, @CompanyId, @RouteNumber, @RouteDate, @DriverName,  @StartDepotCode,
 		 @PlannedStops,@ActualStopsCompleted, @RoutesId, @RouteStatusId, @RoutePerformanceStatusId, @LastRouteUpdate, @AuthByPass, @NonAuthByPass, @ShortDeliveries, @DamagesRejected,
-		 @DamagesAccepted, @NotRequired,  @Depot, @Username, GETDATE(), @Username, GETDATE())
+		 @DamagesAccepted, @NotRequired,  @Depot, @RouteOwnerId, @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[CompanyId],[RouteNumber],[RouteDate],[DriverName],[StartDepotCode],[PlannedStops], [ActualStopsCompleted],[RoutesId],[RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
-			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot],
+			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot], [RouteOwnerId],
 			   [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
@@ -54,16 +55,17 @@ BEGIN
 		[DamagesAccepted] = Source.[DamagesAccepted],
 		[NotRequired] = Source.[NotRequired],
 		[Depot] = Source.[Depot],
+		[RouteOwnerId] = Source.[RouteOwnerId],
 		[CreatedBy] = Source.[CreatedBy],
 		[DateCreated] = Source.[DateCreated],
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([CompanyId],[RouteNumber],[RouteDate],[DriverName],[StartDepotCode],[PlannedStops], [ActualStopsCompleted],  [RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
-			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot],
+			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot], [RouteOwnerId],
 			   [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([CompanyId],[RouteNumber],[RouteDate],[DriverName],[StartDepotCode],[PlannedStops], [ActualStopsCompleted],  [RoutesId], [RouteStatusId], [RoutePerformanceStatusId], [LastRouteUpdate],
-			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot],
+			   [AuthByPass], [NonAuthByPass], [ShortDeliveries], [DamagesRejected], [DamagesAccepted], [NotRequired], [Depot], [RouteOwnerId],
 			   [CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;

@@ -69,12 +69,16 @@
     <Compile Include="Contracts\IFileTypeService.cs" />
     <Compile Include="Contracts\IFriendlyNameService.cs" />
     <Compile Include="Contracts\IAdamFileMonitorService.cs" />
+    <Compile Include="Contracts\IRouteMapper.cs" />
     <Compile Include="Contracts\IUserThresholdService.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="EpodImportService.cs" />
     <Compile Include="EpodServices\AdamImportService.cs" />
+    <Compile Include="EpodServices\AdamUpdateService.cs" />
     <Compile Include="EpodServices\EpodImportProvider.cs" />
     <Compile Include="EpodServices\EpodSchemaValidator.cs" />
+    <Compile Include="EpodServices\EpodUpdateService.cs" />
+    <Compile Include="EpodServices\RouteMapper.cs" />
     <Compile Include="EpodServices\XmlSerialisationHelper.cs" />
     <Compile Include="ExceptionEventService.cs" />
     <Compile Include="FileModule.cs" />

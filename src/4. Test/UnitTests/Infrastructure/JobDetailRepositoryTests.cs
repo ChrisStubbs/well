@@ -113,7 +113,7 @@
         public class TheSaveJobDetailMethod : JobDetailRepositoryTests
         {
             // TODO fix test
-            /*[Test]
+            [Test]
             public void ShouldSaveJobDetail()
             {
                 var jobDetail = JobDetailFactory.New.Build();
@@ -212,7 +212,7 @@
                     Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-            }*/
+            }
         }
     }
 }

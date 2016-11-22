@@ -12,6 +12,7 @@
         public static string RoutesGetById = "Routes_GetById";
         public static string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
         public static string RouteHeaderInsert = "RouteHeader_Insert";
+        public static string RouteHeaderUpdate = "RouteHeader_Update";
         public static string RouteHeaderGetById = "RouteHeader_GetById";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";

@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Routeheader_GetByRouteId]
 	@RouteId int 
 AS
+begin
 	SELECT[Id]
       ,[CompanyId]
       ,[RouteNumber]
@@ -20,6 +21,7 @@ AS
       ,[DamagesAccepted]
       ,[NotRequired]
       ,[Depot]
+	  ,[RouteOwnerId]
 	  ,[IsDeleted]
       ,[CreatedBy]
       ,[DateCreated]
@@ -28,4 +30,4 @@ AS
       ,[Version]
   FROM [dbo].[RouteHeader]
   WHERE [RoutesId] = @RouteId
-RETURN 0
+  end

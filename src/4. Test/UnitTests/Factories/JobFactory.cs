@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Well.Domain;
@@ -20,14 +21,12 @@
             this.Entity.OrderDate = DateTime.Now;
             this.Entity.RoyaltyCode = "Royal1";
             this.Entity.RoyaltyCodeDesc = "RoyalDesc";
-            //this.Entity.GrnNumber = null;
-           // this.Entity.GrnRefusedReason = null;
             this.Entity.GrnRefusedDesc = null;
             this.Entity.PerformanceStatus = PerformanceStatus.Narri;
             this.Entity.ByPassReason = ByPassReasons.Notdef;
             this.Entity.StopId = 1;
 
-            this.Entity.EntityAttributes = new Collection<EntityAttribute>();
+            this.Entity.EntityAttributes = new List<EntityAttribute>();
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "GrnNumber", Value = null});
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "GrnRefusedReason", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "ActionLogNumber", Value = null });

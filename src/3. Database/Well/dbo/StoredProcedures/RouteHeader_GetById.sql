@@ -22,6 +22,7 @@ BEGIN
 		[DamagesAccepted],
 		[NotRequired],
 		[Depot],
+		[RouteOwnerId],
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],

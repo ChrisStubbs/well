@@ -22,7 +22,10 @@
         [XmlElement("LineNumber")]
         public int LineNumber { get; set; }
 
-        [XmlElement("PHProductCode")]
+        //[XmlElement("PHProductCode")]
+        //public string PhProductCode { get; set; }
+
+        [XmlElement("Barcode")]
         public string PhProductCode { get; set; }
 
         [XmlIgnore]
@@ -121,8 +124,7 @@
             }
         }
 
-        [XmlIgnore]
-        public string LineStatus
+        public string LineDeliveryStatus
         {
             get
             {

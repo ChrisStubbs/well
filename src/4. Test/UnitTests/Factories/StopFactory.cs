@@ -1,16 +1,17 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Well.Domain;
 
-    public class StopFactory : EntityFactory<StopFactory,Stop>
+    public class StopFactory : EntityFactory<StopFactory, Stop>
     {
         public StopFactory()
         {
             this.Entity.Id = 1;
             this.Entity.PlannedStopNumber = "001";
-            this.Entity.TransportOrderReference = "0001 01 LOC001 " + DateTime.Now.ToString("dd-MM-yyyy");
+            this.Entity.TransportOrderReference = "BIR-000000000000001";
             this.Entity.RouteHeaderId = 1;
             this.Entity.RouteHeaderCode = "0001";
             this.Entity.DropId = "01";
@@ -21,7 +22,7 @@
             this.Entity.StopStatusCodeId = 2;
             this.Entity.StopPerformanceStatusCodeId = 6;
             this.Entity.ByPassReasonId = 13;
-            this.Entity.Jobs = new Collection<Job>();
+            this.Entity.Jobs = new List<Job>();
 
             this.Entity.Account = new Account
             {
@@ -39,7 +40,12 @@
                 ContactEmailAddress = "A.Smith@palmerharvey.co.uk",
                 IsDeleted = false,
                 StopId = this.Entity.Id
-            };  
+            };
+
+            this.Entity.EntityAttributes = new List<EntityAttribute>();
+            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCash", Value = null});
+            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCheque", Value = null});
+            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCard", Value = null});
         }
     }
 }

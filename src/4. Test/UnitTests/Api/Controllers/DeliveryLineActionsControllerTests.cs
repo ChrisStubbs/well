@@ -126,7 +126,7 @@
 
                 jobDetailRepository.Setup(r => r.GetById(model.JobDetailId)).Returns(new JobDetail()
                 {
-                    Actions = new Collection<JobDetailAction>(new List<JobDetailAction>()
+                    Actions = new List<JobDetailAction>(new List<JobDetailAction>()
                     {
                         new JobDetailAction()
                         {

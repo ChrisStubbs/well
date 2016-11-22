@@ -33,11 +33,11 @@ namespace PH.Well.UnitTests.Domain
             [Test]
             public void CleanJobsCountIncludesAllCompleteJobs()
             {
-                var routeHeader = new RouteHeader { Stops = new Collection<Stop>(new List<Stop>()
+                var routeHeader = new RouteHeader { Stops = new List<Stop>(new List<Stop>()
                 {
                     new Stop()
                     {
-                        Jobs = new Collection<Job>(new List<Job>()
+                        Jobs = new List<Job>(new List<Job>()
                         {
                             new Job() {PerformanceStatus = PerformanceStatus.Compl},
                             new Job() {PerformanceStatus = PerformanceStatus.Compl},
@@ -46,7 +46,7 @@ namespace PH.Well.UnitTests.Domain
                     },
                     new Stop()
                     {
-                        Jobs = new Collection<Job>(new List<Job>()
+                        Jobs = new List<Job>(new List<Job>()
                         {
                             new Job() {PerformanceStatus = PerformanceStatus.Compl},
                             new Job() {PerformanceStatus = PerformanceStatus.Incom},
@@ -63,11 +63,11 @@ namespace PH.Well.UnitTests.Domain
             {
                 var routeHeader = new RouteHeader
                 {
-                    Stops = new Collection<Stop>(new List<Stop>()
+                    Stops = new List<Stop>(new List<Stop>()
                     {
                         new Stop()
                         {
-                            Jobs = new Collection<Job>(new List<Job>()
+                            Jobs = new List<Job>(new List<Job>()
                             {
                                 new Job() {PerformanceStatus = PerformanceStatus.Incom}, //Exception
                                 new Job() {PerformanceStatus = PerformanceStatus.Abypa}, //Exception
@@ -76,7 +76,7 @@ namespace PH.Well.UnitTests.Domain
                         },
                         new Stop()
                         {
-                            Jobs = new Collection<Job>(new List<Job>()
+                            Jobs = new List<Job>(new List<Job>()
                             {
                                 new Job() {PerformanceStatus = PerformanceStatus.Incom}, //Exception
                                 new Job() {PerformanceStatus = PerformanceStatus.Nbypa}, //Exception

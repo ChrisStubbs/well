@@ -8,7 +8,7 @@
 	@IsDeleted				BIT,
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			DATETIME,
-	@LineStatus			    VARCHAR(20),
+	@LineDeliveryStatus	    VARCHAR(20),
 	@SubOuterDamageQty		INT = 0
 
 AS
@@ -25,7 +25,7 @@ UPDATE [dbo].[JobDetail]
       ,[IsDeleted] = @IsDeleted
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated
-	  ,[LineStatus] = @LineStatus
+	  ,[LineDeliveryStatus] = @LineDeliveryStatus
 	  ,[SubOuterDamageTotal] = @SubOuterDamageQty
  WHERE [Id] = @Id
 END

@@ -32,7 +32,8 @@ BEGIN
 	INNER JOIN
 		dbo.PerformanceStatus ps on ps.Id = j.PerformanceStatusId
 	INNER JOIN
-		dbo.Branch b on rh.StartDepotCode = b.Id
+		--dbo.Branch b on rh.StartDepotCode = b.Id
+		dbo.Branch b on rh.RouteOwnerId = b.Id
 	INNER JOIN
 		dbo.UserBranch ub on b.Id = ub.BranchId
 	INNER JOIN

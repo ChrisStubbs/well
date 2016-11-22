@@ -137,6 +137,23 @@
                 .AddParameter("Depot", entity.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
         }
 
+        protected override void UpdateExisting(RouteHeader entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdate)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
+                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
+                .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
+                .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)
+                .AddParameter("ShortDeliveries ", entity.ShortDeliveries, DbType.Int32)
+                .AddParameter("DamagesRejected", entity.DamagesRejected, DbType.Int32)
+                .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
+                .AddParameter("NotRequired", entity.NotRequired, DbType.Int32)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
+        }
+
         public void RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
         {
            routeHeader.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
@@ -159,7 +176,9 @@
                 .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
                 .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
-                .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
+                .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32)
+                .AddParameter("RouteOwnerId", routeHeader.RouteOwnerId, DbType.Int32)
+                .Query<int>().FirstOrDefault();
         }
 
         public RouteHeader GetRouteHeaderByRoute(string routeNumber, DateTime? routeDate)

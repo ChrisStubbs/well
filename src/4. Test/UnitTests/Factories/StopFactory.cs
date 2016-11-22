@@ -10,7 +10,7 @@
         {
             this.Entity.Id = 1;
             this.Entity.PlannedStopNumber = "001";
-            this.Entity.TransportOrderReference = "0001 01 LOC001 " + DateTime.Now.ToString("dd-MM-yyyy");
+            this.Entity.TransportOrderReference = "BIR-000000000000001";
             this.Entity.RouteHeaderId = 1;
             this.Entity.RouteHeaderCode = "0001";
             this.Entity.DropId = "01";

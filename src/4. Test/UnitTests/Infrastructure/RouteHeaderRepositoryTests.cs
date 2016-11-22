@@ -182,28 +182,32 @@
         }
 
         // TODO
-        /*
-    public class TheSaveRoutesMethod : RouteHeaderRepositoryTests
-    {
-        // TODO
-        /*
-        [Test]
-        public void ShouldSaveRoutesFile()
+
+        public class TheSaveRoutesMethod : RouteHeaderRepositoryTests
         {
-            var routes = RoutesFactory.New.Build();
+            [Test]
+            public void ShouldSaveRoutesFile()
+            {
+                var routes = RoutesFactory.New.Build();
 
                 dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteInsert)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Filename", routes.FileName, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
-            this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] {1});
 
-            this.repository.Create(routes);
+                this.repository.Create(routes);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteInsert), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("Filename", routes.FileName, DbType.String, null), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
+
+                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
+
+            }
         }
-    }*/
 
-        // TODO
-        
-   public class TheSaveRoutesHeaderMethod : RouteHeaderRepositoryTests
+
+        public class TheSaveRoutesHeaderMethod : RouteHeaderRepositoryTests
    {
 
         [Test]
@@ -236,9 +240,17 @@
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
-            this.repository.RouteHeaderCreateOrUpdate(routeHeader);
+                this.repository.RouteHeaderCreateOrUpdate(routeHeader);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
+                this.dapperProxy.Verify(x => x.AddParameter("RouteOwnerId", routeHeader.RouteOwnerId, DbType.Int32, null), Times.Exactly(1));
+
+                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
+
+            }
         }
-   }
 
 
         public class TheDeleteRouteHeaderByIdMethod : RouteHeaderRepositoryTests

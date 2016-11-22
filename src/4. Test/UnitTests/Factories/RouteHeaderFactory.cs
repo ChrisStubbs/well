@@ -31,6 +31,8 @@
             this.Entity.NotRequired = 0;
             this.Entity.Depot = "001";
             this.Entity.EpodDepot = 1;
+            //this.Entity.RouteOwner = "BIR";
+            this.Entity.RouteOwnerId = 22;
         }
     }
 

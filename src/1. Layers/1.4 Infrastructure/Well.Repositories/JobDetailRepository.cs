@@ -79,6 +79,7 @@
                 .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String)
                 .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
@@ -95,8 +96,8 @@
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("UdpatedDate", jobDetail.DateUpdated, DbType.DateTime)
-                //.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
-                //.AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
+                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
+                .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .Execute();
         }
         

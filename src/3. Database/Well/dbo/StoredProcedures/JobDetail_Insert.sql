@@ -16,6 +16,7 @@
 	@NetPrice			FLOAT,
 	@JobId					INT,
 	@JobDetailStatusId		INT,
+	@LineDeliveryStatus INT,
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
@@ -42,6 +43,7 @@ INSERT INTO [dbo].[JobDetail]
 		   ,[NetPrice]
            ,[JobId]
            ,[JobDetailStatusId]
+		   ,[LineDeliveryStatus]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
@@ -64,6 +66,7 @@ INSERT INTO [dbo].[JobDetail]
 		   ,@NetPrice
            ,@JobId
            ,@JobDetailStatusId
+		   ,@LineDeliveryStatus
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy

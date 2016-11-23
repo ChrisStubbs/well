@@ -3,6 +3,9 @@
 	@StopStatusCodeId	TINYINT,
 	@StopPerformanceStatusCodeId INT,
 	@ByPassReasonId         TINYINT,
+	@ActualPaymentCash		DECIMAL(7,2),
+	@ActualPaymentCheque	DECIMAL(7,2),
+	@ActualPaymentCard		DECIMAL(7,2),
 	@UpdatedBy VARCHAR(50),
 	@UpdatedDate DATETIME
 AS
@@ -14,7 +17,10 @@ BEGIN
 	SET 
 		[StopStatusId] = @StopStatusCodeId,
 		StopPerformanceStatusId = @StopPerformanceStatusCodeId, 
-		[ByPassReasonId] = @ByPassReasonId, 
+		[ByPassReasonId] = @ByPassReasonId,
+		ActualPaymentCash = @ActualPaymentCash,
+		ActualPaymentCheque = @ActualPaymentCheque,
+		ActualPaymentCard = @ActualPaymentCard,
 		UpdatedBy = @UpdatedBy, 
 		DateUpdated = @UpdatedDate
 	WHERE

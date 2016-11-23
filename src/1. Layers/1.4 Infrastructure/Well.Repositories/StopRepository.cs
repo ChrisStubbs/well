@@ -1,9 +1,7 @@
 ﻿namespace PH.Well.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Globalization;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
@@ -66,11 +64,15 @@
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
-                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Query<int>().FirstOrDefault();
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("ActualPaymentCash", entity.ActualPaymentCash, DbType.Decimal)
+                .AddParameter("ActualPaymentCheque", entity.ActualPaymentCheque, DbType.Decimal)
+                .AddParameter("ActualPaymentCard", entity.ActualPaymentCard, DbType.Decimal).Query<int>().FirstOrDefault();
         }
 
         public void StopCreateOrUpdate(Stop stop)
         {
+            // TODO removed in new refactor keep eye on it
             var stopStatusId = stop.StopStatusCodeId == 0 ? (int)StopStatus.Notdef : stop.StopStatusCodeId;
             var stopPerformanceStatusId = stop.StopPerformanceStatusCodeId == 0 ? (int)PerformanceStatus.Notdef : stop.StopPerformanceStatusCodeId;
             var stopByPassReasonId = stop.ByPassReasonId == 0 ? (int)ByPassReasons.Notdef : stop.ByPassReasonId;

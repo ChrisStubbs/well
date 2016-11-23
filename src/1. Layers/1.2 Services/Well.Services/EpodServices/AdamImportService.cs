@@ -50,6 +50,9 @@
             foreach (var header in route.RouteHeaders)
             {
                 header.RoutesId = route.RouteId;
+                header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
+                                        ? (int)Branches.NotDefined
+                                        : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
 
                 this.routeHeaderRepository.Save(header);
 

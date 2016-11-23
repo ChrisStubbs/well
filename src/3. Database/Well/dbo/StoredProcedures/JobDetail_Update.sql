@@ -3,6 +3,7 @@
 	@DeliveredQty			DECIMAL(8,3) ,
 	@ShortQty				INT,
 	@JobDetailStatusId		INT,
+	@LineDeliveryStatus		INT,
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			DATETIME
 
@@ -16,6 +17,7 @@ UPDATE
 	   [DeliveredQty] = @DeliveredQty
       ,[ShortQty] = @ShortQty    
       ,[JobDetailStatusId] = @JobDetailStatusId
+	  ,[LineDeliveryStatus] = @LineDeliveryStatus
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated
  WHERE 

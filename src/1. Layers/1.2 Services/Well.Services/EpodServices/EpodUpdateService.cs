@@ -155,7 +155,7 @@
 
                 if (existingJobDetail == null)
                 {
-                    this.logger.LogDebug($"Ecisting job detail not found for job id ({jobId}), line number ({detail.LineNumber})");
+                    this.logger.LogDebug($"Existing job detail not found for job id ({jobId}), line number ({detail.LineNumber})");
                     continue;
                 }
 

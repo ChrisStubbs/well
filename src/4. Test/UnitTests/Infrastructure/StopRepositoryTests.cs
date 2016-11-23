@@ -135,7 +135,7 @@
         public class TheSaveStopAccountMethod : StopRepositoryTests
         {
             [Test]
-            public void ShouldSaveStopAccountss()
+            public void ShouldSaveStopAccounts()
             {
                 var stopAccount = StopFactory.New.Build();
 

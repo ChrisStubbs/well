@@ -187,6 +187,17 @@
                 .Execute();
         }
 
+        protected override void UpdateExisting(Job entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdate)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("ByPassReason", (int)entity.ByPassReason, DbType.Int16)
+                .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int16)
+                .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
+        }
+
         public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetCreditActionReasons)

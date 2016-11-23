@@ -10,34 +10,34 @@
     {
         public void Update(RouteUpdates route)
         {
-            foreach (var order in route.Stops)
+            foreach (var stop in route.Stops)
             {
-                var action = GetOrderUpdateAction(order.ActionIndicator);
+                var action = GetOrderUpdateAction(stop.ActionIndicator);
 
                 switch (action)
                 {
                     case OrderActionIndicator.Insert:
-                        this.Insert(order);
+                        this.Insert(stop);
                         break;
                     case OrderActionIndicator.Update:
-                        this.Update(order);
+                        this.Update(stop);
                         break;
                     case OrderActionIndicator.Delete:
-                        this.Delete(order);
+                        this.Delete(stop);
                         break;
                 }
             }
         }
 
-        private void Insert(StopUpdate stopUpdate)
+        private void Insert(StopUpdate stop)
         {
         }
 
-        private void Update(StopUpdate stopUpdate)
+        private void Update(StopUpdate stop)
         {
         }
 
-        private void Delete(StopUpdate stopUpdate)
+        private void Delete(StopUpdate stop)
         {
         }
 

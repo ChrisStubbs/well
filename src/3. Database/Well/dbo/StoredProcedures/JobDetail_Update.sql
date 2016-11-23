@@ -1,31 +1,25 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_Update]
 	@Id						Int,
-	@OriginalDespatchQty	INT,
-	@OrderedQty				INT,
 	@DeliveredQty			DECIMAL(8,3) ,
 	@ShortQty				INT,
 	@JobDetailStatusId		INT,
-	@IsDeleted				BIT,
+	@LineDeliveryStatus		INT,
 	@UpdatedBy				VARCHAR(50),
-	@DateUpdated			DATETIME,
-	@LineDeliveryStatus	    VARCHAR(20),
-	@SubOuterDamageQty		INT = 0
+	@DateUpdated			DATETIME
 
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-UPDATE [dbo].[JobDetail]
+UPDATE 
+		[dbo].[JobDetail]
    SET 
-      [OriginalDespatchQty] = @OriginalDespatchQty  
-      ,[OrderedQty] = @OrderedQty
-	  ,[DeliveredQty] = @DeliveredQty
+	   [DeliveredQty] = @DeliveredQty
       ,[ShortQty] = @ShortQty    
       ,[JobDetailStatusId] = @JobDetailStatusId
-      ,[IsDeleted] = @IsDeleted
+	  ,[LineDeliveryStatus] = @LineDeliveryStatus
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated
-	  ,[LineDeliveryStatus] = @LineDeliveryStatus
-	  ,[SubOuterDamageTotal] = @SubOuterDamageQty
- WHERE [Id] = @Id
+ WHERE 
+	[Id] = @Id
 END

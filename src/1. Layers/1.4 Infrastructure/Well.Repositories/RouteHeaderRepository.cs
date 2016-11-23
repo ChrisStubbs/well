@@ -115,6 +115,7 @@
             entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderInsert)
                 .AddParameter("CompanyId", entity.CompanyId, DbType.Int32)
                 .AddParameter("RouteNumber", entity.RouteNumber, DbType.String)
+                .AddParameter("RouteOwnerId", entity.RouteOwnerId, DbType.Int32)
                 .AddParameter("RouteDate", entity.RouteDate, DbType.DateTime)
                 .AddParameter("DriverName", entity.DriverName, DbType.String)
                 .AddParameter("StartDepotCode", entity.StartDepot, DbType.Int32)

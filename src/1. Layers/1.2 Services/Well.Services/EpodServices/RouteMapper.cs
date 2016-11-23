@@ -26,5 +26,18 @@
             to.StopPerformanceStatusCodeId = from.StopPerformanceStatusCodeId;
             to.ByPassReasonId = from.ByPassReasonId;
         }
+
+        public void Map(Job from, Job to)
+        {
+            to.ByPassReason = from.ByPassReason;
+            to.PerformanceStatus = from.PerformanceStatus;
+            to.InvoiceNumber = from.InvoiceNumber;
+        }
+
+        public void Map(JobDetail from, JobDetail to)
+        {
+            to.ShortQty = from.ShortQty;
+            to.DeliveredQty = from.DeliveredQty;
+        }
     }
 }

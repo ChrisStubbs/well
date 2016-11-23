@@ -28,6 +28,7 @@
         public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         public static string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
         public static string StopInsert = "Stop_Insert";
+        public static string StopUpdate = "Stop_Update";
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string AccountInsert = "Account_Insert";
@@ -40,6 +41,7 @@
         //Jobs
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobInsert = "Job_Insert";
+        public static string JobUpdate = "Job_Update";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public static string JobDeleteById = "Job_DeleteById";
@@ -57,6 +59,7 @@
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailInsert = "JobDetail_Insert";
+        public static string JobDetailUpdate = "JobDetail_Update";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  

@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeader_Insert]
 	@CompanyId			    INT,
 	@RouteNumber			VARCHAR(50),
+	@RouteOwnerId			INT,
 	@RouteDate				DATETIME,
 	@DriverName				VARCHAR(50) = NULL,
 	@StartDepotCode			INT,
@@ -28,6 +29,7 @@ BEGIN
 	INSERT RouteHeader (
 		[CompanyId],
 		[RouteNumber],
+		[RouteOwnerId],
 		[RouteDate],
 		[DriverName],
 		[StartDepotCode],
@@ -51,6 +53,7 @@ BEGIN
 	VALUES (
 		@CompanyId, 
 		@RouteNumber, 
+		@RouteOwnerId,
 		@RouteDate, 
 		@DriverName,  
 		@StartDepotCode,

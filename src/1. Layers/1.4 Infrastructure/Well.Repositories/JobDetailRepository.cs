@@ -88,24 +88,18 @@
 
         protected override void UpdateExisting(JobDetail jobDetail)
         {
-            var credit = jobDetail.CreditValueForThreshold();
-
-            dapperProxy.WithStoredProcedure("JobDetail_Update")
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailUpdate)
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
-                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
-                .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
-                .AddParameter("DeliveredQty", string.IsNullOrWhiteSpace(jobDetail.DeliveredQty) ? 0m : decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal)
+                .AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Decimal)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
-                .AddParameter("IsDeleted", jobDetail.IsDeleted, DbType.String)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
-                .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
-                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
-                .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
+                .AddParameter("UdpatedDate", jobDetail.DateUpdated, DbType.DateTime)
+                //.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
+                //.AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .Execute();
         }
-
-
+        
         public void DeleteJobDetailById(int id)
         {
             this.JobDetailDeleteDamageReasonsByJobDetailId(id);

@@ -7,5 +7,9 @@
         void Map(RouteHeader from, RouteHeader to);
 
         void Map(Stop from, Stop to);
+
+        void Map(Job from, Job to);
+
+        void Map(JobDetail from, JobDetail to);
     }
 }

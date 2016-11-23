@@ -10,7 +10,7 @@
     public class RouteUpdates
     {
         [XmlArray("Orders")]
-        [XmlArrayItem("Order", typeof(Order))]
-        public Collection<Order> Order { get; set; }
+        [XmlArrayItem("Order", typeof(StopUpdate))]
+        public Collection<StopUpdate> Stops { get; set; }
     }
 }

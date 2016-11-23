@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
@@ -14,8 +15,8 @@
     {
         public Job()
         {
-            this.JobDetails = new Collection<JobDetail>();
-            this.EntityAttributes = new Collection<EntityAttribute>();
+            this.JobDetails = new List<JobDetail>();
+            this.EntityAttributes = new List<EntityAttribute>();
         }
 
         [XmlElement("Sequence")]
@@ -298,11 +299,11 @@
 
         [XmlArray("JobDetails")]
         [XmlArrayItem("JobDetail", typeof(JobDetail))]
-        public Collection<JobDetail> JobDetails { get; set; }
+        public List<JobDetail> JobDetails { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
-        public Collection<EntityAttribute> EntityAttributes { get; set; }
+        public List<EntityAttribute> EntityAttributes { get; set; }
 
         //ACTLOGNO CUSTSRVCON DISCFOUND GRNNO GRNREFREAS ISOVERAGE OUTERCOUNT OVERORDNO TOTOVER TOTSHORT
         [XmlIgnore]

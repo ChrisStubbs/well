@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Well.Domain;
 
@@ -21,7 +22,7 @@
             this.Entity.StopStatusCodeId = 2;
             this.Entity.StopPerformanceStatusCodeId = 6;
             this.Entity.ByPassReasonId = 13;
-            this.Entity.Jobs = new Collection<Job>();
+            this.Entity.Jobs = new List<Job>();
 
             this.Entity.Account = new Account
             {
@@ -41,7 +42,7 @@
                 StopId = this.Entity.Id
             };
 
-            this.Entity.EntityAttributes = new Collection<EntityAttribute>();
+            this.Entity.EntityAttributes = new List<EntityAttribute>();
             this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCash", Value = null});
             this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCheque", Value = null});
             this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCard", Value = null});

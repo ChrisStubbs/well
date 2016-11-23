@@ -60,7 +60,7 @@
 
         public void Process(string filePath)
         {
-            var filenameWithoutPath = filePath.GetFilename();
+            var filenameWithoutPath = Path.GetFileName(filePath);
 
             if (filenameWithoutPath.EndsWith("xml"))
             {

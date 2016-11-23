@@ -5,11 +5,11 @@
     using System.Xml.Serialization;
 
     [Serializable()]
-    public class Order
+    public class StopUpdate
     {
-        public Order()
+        public StopUpdate()
         {
-            this.OrderJobs = new Collection<OrderJob>();
+            this.OrderJobs = new Collection<JobUpdate>();
         }
 
         [XmlElement("CompanyID")]
@@ -90,8 +90,8 @@
         public string ActionIndicator { get; set; }
 
         [XmlArray("OrderJobs")]
-        [XmlArrayItem("OrderJob", typeof(OrderJob))]
-        public Collection<OrderJob> OrderJobs { get; set; }
+        [XmlArrayItem("OrderJob", typeof(JobUpdate))]
+        public Collection<JobUpdate> OrderJobs { get; set; }
 
         [XmlElement("Account")]
         public Account Accounts { get; set; }

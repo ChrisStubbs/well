@@ -1,16 +1,16 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_Insert]
 	@LineNumber				INT,
 	@OriginalDespatchQty	INT,
-	@ProdDesc				NVARCHAR(100),
+	@ProdDesc				VARCHAR(100),
 	@OrderedQty				INT,
 	@DeliveredQty				DECIMAL(8,3) ,
 	@ShortQty				INT,
-	@UnitMeasure			NVARCHAR(20),
-	@PHProductCode			NVARCHAR(50),
+	@UnitMeasure			VARCHAR(20),
+	@PHProductCode			VARCHAR(50),
 	@PHProductType			VARCHAR(50) NULL,
-	@PackSize				NVARCHAR(50),
-	@SingleOrOuter			NVARCHAR(50)=NULL,
-	@SSCCBarcode			NVARCHAR(50)=NULL,
+	@PackSize				VARCHAR(50),
+	@SingleOrOuter			VARCHAR(50)=NULL,
+	@SSCCBarcode			VARCHAR(50)=NULL,
 	@SubOuterDamageTotal	INT=NULL,
 	@SkuGoodsValue			FLOAT,
 	@NetPrice			FLOAT,
@@ -19,9 +19,7 @@
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
-	@DateUpdated			Datetime,
-	@IsDeleted				BIT = 0
-
+	@DateUpdated			Datetime
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -47,8 +45,7 @@ INSERT INTO [dbo].[JobDetail]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
-           ,[DateUpdated]
-		   ,[IsDeleted])
+           ,[DateUpdated])
      VALUES
            (@LineNumber
 		   ,@OriginalDespatchQty
@@ -70,8 +67,7 @@ INSERT INTO [dbo].[JobDetail]
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy
-           ,@DateUpdated
-		   ,@IsDeleted)
+           ,@DateUpdated)
 		   
 SELECT CAST(SCOPE_IDENTITY() as int);
 END

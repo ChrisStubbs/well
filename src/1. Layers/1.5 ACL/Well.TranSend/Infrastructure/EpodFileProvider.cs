@@ -1,29 +1,18 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
     using System.IO;
-    using System.Xml;
-
     using Contracts;
-    using Common.Contracts;
-    using Common.Extensions;
     using Well.Services.Contracts;
 
     public class EpodFileProvider : IEpodProvider
     {
         private readonly IEpodSchemaValidator epodSchemaValidator;
         private readonly IEpodImportProvider epodImportProvider;
-        private readonly IEpodImportService epodImportService;
-        private readonly ILogger logger;
-        private readonly string correctExtension = ".xml";
-        private readonly string assemblyName = "PH.Well.TranSend";
 
-        public EpodFileProvider(IEpodSchemaValidator epodSchemaValidator, ILogger logger, IEpodImportProvider epodImportProvider,
-            IEpodImportService epodImportService)
+        public EpodFileProvider(IEpodSchemaValidator epodSchemaValidator, IEpodImportProvider epodImportProvider)
         {
             this.epodSchemaValidator = epodSchemaValidator;
-            this.logger = logger;
             this.epodImportProvider = epodImportProvider;
-            this.epodImportService = epodImportService;
         }
 
         public void Import()

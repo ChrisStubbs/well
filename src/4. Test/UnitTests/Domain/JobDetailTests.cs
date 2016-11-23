@@ -21,7 +21,7 @@
                     ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 1,
                     JobDetailDamages =
-                        new Collection<JobDetailDamage>(new List<JobDetailDamage>()
+                        new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
                             new JobDetailDamage() {Qty = 1, DamageReason = DamageReasons.CAR01}
                         })
@@ -56,7 +56,7 @@
                 };
                 var originalJobDetail = new JobDetail() { ShortQty = 1,
                     JobDetailDamages =
-                        new Collection<JobDetailDamage>(new List<JobDetailDamage>()
+                        new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
                             new JobDetailDamage() {Qty = 1, DamageReason = DamageReasons.CAR01}
                         })
@@ -80,7 +80,7 @@
                     ProdDesc = "Ind Potato Gratin 400g",
                     ShortQty = 0,
                     JobDetailDamages =
-                        new Collection<JobDetailDamage>(new List<JobDetailDamage>()
+                        new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
                             new JobDetailDamage() {Qty = 1, DamageReason = DamageReasons.CAR01}
                         })
@@ -89,7 +89,7 @@
                 {
                     ShortQty = 0,
                     JobDetailDamages =
-                        new Collection<JobDetailDamage>(new List<JobDetailDamage>()
+                        new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
                             new JobDetailDamage() {Qty = 4, DamageReason = DamageReasons.CAR04}
                         })

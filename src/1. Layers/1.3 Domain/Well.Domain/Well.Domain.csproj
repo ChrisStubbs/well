@@ -100,7 +100,7 @@
     <Compile Include="RouteUpdates.cs" />
     <Compile Include="ValueObjects\Damage.cs" />
     <Compile Include="ValueObjects\ExceptionStatuses.cs" />
-    <Compile Include="ValueObjects\Order.cs" />
+    <Compile Include="ValueObjects\StopUpdate.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteAttributeException.cs" />
@@ -111,8 +111,7 @@
     <Compile Include="User.cs" />
     <Compile Include="ValueObjects\AdamSettings.cs" />
     <Compile Include="ValueObjects\Reason.cs" />
-    <Compile Include="ValueObjects\OrderJobDetail.cs" />
-    <Compile Include="ValueObjects\Orders.cs" />
+    <Compile Include="ValueObjects\JobDetailUpdate.cs" />
     <Compile Include="ValueObjects\QueueEvent.cs" />
     <Compile Include="ValueObjects\TranscendEvent.cs" />
     <Compile Include="ValueObjects\RoadnetEvent.cs" />
@@ -121,7 +120,7 @@
     <Compile Include="ValueObjects\CreditEvent.cs" />
     <Compile Include="ValueObjects\DeliveryDetail.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
-    <Compile Include="ValueObjects\OrderJob.cs" />
+    <Compile Include="ValueObjects\JobUpdate.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
     <Compile Include="ValueObjects\UserJob.cs" />
     <Compile Include="ValueObjects\WidgetWarningLevels.cs" />

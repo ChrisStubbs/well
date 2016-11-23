@@ -17,7 +17,6 @@
             this.Entity.RouteDate = DateTime.Now;
             this.Entity.DriverName = "Alan Smith";
             this.Entity.StartDepotCode ="BIR";
-            this.Entity.StartDepot = 22;
             this.Entity.PlannedStops= 10;
             this.Entity.PlannedStops = 10;
             this.Entity.RoutesId = 1;
@@ -30,7 +29,6 @@
             this.Entity.DamagesAccepted = 0;
             this.Entity.NotRequired = 0;
             this.Entity.Depot = "001";
-            this.Entity.EpodDepot = 1;
             //this.Entity.RouteOwner = "BIR";
             this.Entity.RouteOwnerId = 22;
         }

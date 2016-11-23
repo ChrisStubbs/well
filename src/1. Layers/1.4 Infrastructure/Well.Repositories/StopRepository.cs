@@ -45,6 +45,30 @@
             return stop;
         }
 
+        protected override void SaveNew(Stop entity)
+        {
+            entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopInsert)
+                .AddParameter("TransportOrderReference", entity.TransportOrderReference, DbType.String)
+                .AddParameter("PlannedStopNumber", entity.PlannedStopNumber, DbType.Int32)
+                .AddParameter("RouteHeaderCode", entity.RouteHeaderCode, DbType.String)
+                .AddParameter("RouteHeaderId", entity.RouteHeaderId, DbType.Int32)
+                .AddParameter("DropId", entity.DropId, DbType.String)
+                .AddParameter("LocationId", entity.LocationId, DbType.String)
+                .AddParameter("DeliveryDate", entity.DeliveryDate, DbType.DateTime)
+                .AddParameter("ShellActionIndicator", entity.ShellActionIndicator, DbType.String)
+                .AddParameter("CustomerShopReference", entity.CustomerShopReference, DbType.String)
+                .AddParameter("AllowOvers", entity.AllowOvers == "True", DbType.Boolean)
+                .AddParameter("CustUnatt", entity.CustUnatt == "True", DbType.Boolean)
+                .AddParameter("PHUnatt", entity.PHUnatt == "True", DbType.Boolean)
+                .AddParameter("StopStatusId", entity.StopStatusCodeId, DbType.Int16)
+                .AddParameter("StopPerformanceStatusId", entity.StopPerformanceStatusCodeId, DbType.Int16)
+                .AddParameter("ByPassReasonId", entity.ByPassReasonId, DbType.Int16)
+                .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Query<int>().FirstOrDefault();
+        }
+
         public void StopCreateOrUpdate(Stop stop)
         {
             var stopStatusId = stop.StopStatusCodeId == 0 ? (int)StopStatus.Notdef : stop.StopStatusCodeId;

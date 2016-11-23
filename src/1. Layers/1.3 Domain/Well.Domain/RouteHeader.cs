@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
     using Enums;
@@ -11,8 +11,8 @@
     {
         public RouteHeader()
         {
-            this.Stops = new Collection<Stop>();
-            this.EntityAttributes = new Collection<EntityAttribute>();
+            this.Stops = new List<Stop>();
+            this.EntityAttributes = new List<EntityAttribute>();
         }
 
         [XmlElement("CompanyID")]
@@ -49,7 +49,17 @@
         public string DriverName { get; set; }
 
         [XmlIgnore]
-        public int StartDepot { get; set; }
+        public int StartDepot {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.StartDepotCode))
+                {
+                    return (int)Branches.NotDefined;
+                }
+
+                return (int)Enum.Parse(typeof(Branches), this.StartDepotCode, true);
+            }
+        }
          
         [XmlElement("PlannedStops")]
         public int PlannedStops { get; set; }
@@ -223,18 +233,29 @@
         public int RoutesId { get; set; }
 
         [XmlIgnore]
-        public int EpodDepot { get; set; }
+        public int EpodDepot
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.Depot))
+                {
+                    return (int)Branches.NotDefined;
+                }
+
+                return (int)Enum.Parse(typeof(Branches), this.Depot, true);
+            }
+        }
 
         [XmlElement("Depot")]
         public string Depot { get; set; }
 
         [XmlArray("Stops")]
         [XmlArrayItem("Stop", typeof(Stop))]
-        public Collection<Stop> Stops { get; set; }
+        public List<Stop> Stops { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
-        public Collection<EntityAttribute> EntityAttributes { get; set; }
+        public List<EntityAttribute> EntityAttributes { get; set; }
 
         [XmlIgnore]
         public object EntityAttributeValues { get; set; }

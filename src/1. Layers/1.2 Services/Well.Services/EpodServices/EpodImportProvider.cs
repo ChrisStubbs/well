@@ -4,28 +4,19 @@
     using System.Configuration;
     using System.IO;
     using System.Xml.Serialization;
-
     using Common.Contracts;
-    using Common.Extensions;
-
     using Domain;
     using Domain.Enums;
-
     using PH.Well.Common;
     using PH.Well.Repositories.Contracts;
-
     using Services.Contracts;
 
     public class EpodImportProvider : IEpodImportProvider
     {
         private readonly IEpodImportService epodImportService;
-
         private readonly ILogger logger;
-
         private readonly IRouteHeaderRepository routeHeaderRepository;
-
         private readonly IFileTypeService fileTypeService;
-
         private readonly IEventLogger eventLogger;
 
         public EpodImportProvider(
@@ -44,7 +35,7 @@
 
         public void ImportRouteHeader(string fullpathFilename)
         {
-            var filename = fullpathFilename.GetFilename();
+            var filename = Path.GetFileName(fullpathFilename);
 
             var fileType = this.fileTypeService.DetermineFileType(filename);
 
@@ -151,7 +142,7 @@
                 }
             }
 
-            var filnameWithoutPath = filename.GetFilename();
+            var filnameWithoutPath = Path.GetFileName(filename);
             var archiveLocation = ConfigurationManager.AppSettings["archiveLocation"];
 
             this.epodImportService.CopyFileToArchive(filename, filnameWithoutPath, archiveLocation);

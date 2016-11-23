@@ -33,12 +33,14 @@
 
             foreach (var routeHeader in routeHeaders)
             {
-                var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id).ToList();
+                var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
+
                 foreach (var stop in stops)
                 {
-                    stop.Jobs = new Collection<Job>(jobRepository.GetByStopId(stop.Id).ToList());
+                    stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
                 }
-                routeHeader.Stops = new Collection<Stop>(stops);
+
+                routeHeader.Stops = stops.ToList();
             }
         
             return routeHeaders;
@@ -106,6 +108,50 @@
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.RoutesCheckDuplicate)
                     .AddParameter("FileName", filename, DbType.String).Query<Routes>().FirstOrDefault() != null;
+        }
+
+        protected override void SaveNew(RouteHeader entity)
+        {
+            entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderInsert)
+                .AddParameter("CompanyId", entity.CompanyId, DbType.Int32)
+                .AddParameter("RouteNumber", entity.RouteNumber, DbType.String)
+                .AddParameter("RouteDate", entity.RouteDate, DbType.DateTime)
+                .AddParameter("DriverName", entity.DriverName, DbType.String)
+                .AddParameter("StartDepotCode", entity.StartDepot, DbType.Int32)
+                .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16)
+                .AddParameter("ActualStopsCompleted", entity.PlannedStops, DbType.Int16)
+                .AddParameter("RoutesId", entity.RoutesId, DbType.Int32)
+                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
+                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
+                .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
+                .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)
+                .AddParameter("ShortDeliveries ", entity.ShortDeliveries, DbType.Int32)
+                .AddParameter("DamagesRejected", entity.DamagesRejected, DbType.Int32)
+                .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
+                .AddParameter("NotRequired", entity.NotRequired, DbType.Int32)
+                .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("Depot", entity.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
+        }
+
+        protected override void UpdateExisting(RouteHeader entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdate)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
+                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
+                .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
+                .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)
+                .AddParameter("ShortDeliveries ", entity.ShortDeliveries, DbType.Int32)
+                .AddParameter("DamagesRejected", entity.DamagesRejected, DbType.Int32)
+                .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
+                .AddParameter("NotRequired", entity.NotRequired, DbType.Int32)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 
         public void RouteHeaderCreateOrUpdate(RouteHeader routeHeader)

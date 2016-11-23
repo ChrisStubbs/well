@@ -41,6 +41,6 @@
         Hay = 82,
 
         [Description("Not Defined")]
-        Ndf = 99
+        NotDefined = 99
     }
 }

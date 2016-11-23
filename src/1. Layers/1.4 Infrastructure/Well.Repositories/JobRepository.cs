@@ -194,6 +194,10 @@
                 .AddParameter("ByPassReason", (int)entity.ByPassReason, DbType.Int16)
                 .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int16)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
+                .AddParameter("Sequence", entity.Sequence, DbType.Int32)
+                .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
+                .AddParameter("PhAccount", entity.PhAccount, DbType.String)
+                .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }

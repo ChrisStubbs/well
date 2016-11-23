@@ -37,6 +37,7 @@
         public static string StopGetByJobId = "Stop_GetByJobId";
         public static string StopDeleteById = "Stop_DeleteById";
         public static string AccountDeleteByStopId = "Account_DeleteByStopId";
+        public static string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";
 
         //Jobs
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";

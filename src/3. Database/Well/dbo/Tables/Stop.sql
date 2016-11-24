@@ -20,6 +20,7 @@
 	[ActualPaymentCash] DECIMAL(7,2) NULL,
 	[ActualPaymentCheque] DECIMAL(7,2) NULL,
 	[ActualPaymentCard] DECIMAL(7,2) NULL,
+	[AccountBalance] DECIMAL (7,2) NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

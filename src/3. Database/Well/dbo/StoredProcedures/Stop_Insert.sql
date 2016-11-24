@@ -17,10 +17,11 @@
 	@ActualPaymentCash		DECIMAL(7,2),
 	@ActualPaymentCheque	DECIMAL(7,2),
 	@ActualPaymentCard		DECIMAL(7,2),
-	@CreatedBy VARCHAR(50),
-	@CreatedDate DATETIME,
-	@UpdatedBy VARCHAR(50),
-	@UpdatedDate DATETIME
+	@AccountBalance         DECIMAL(7,2),
+	@CreatedBy				VARCHAR(50),
+	@CreatedDate			DATETIME,
+	@UpdatedBy				VARCHAR(50),
+	@UpdatedDate			DATETIME
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -44,6 +45,7 @@ BEGIN
 		[ActualPaymentCash], 
 		[ActualPaymentCheque], 
 		[ActualPaymentCard],
+		[AccountBalance],
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],
@@ -67,6 +69,7 @@ BEGIN
 		@ActualPaymentCash, 
 		@ActualPaymentCheque, 
 		@ActualPaymentCard,
+		@AccountBalance,
 		@CreatedBy, 
 		@CreatedDate, 
 		@UpdatedBy, 

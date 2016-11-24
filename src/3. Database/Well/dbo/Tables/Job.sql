@@ -34,6 +34,7 @@
 	[OuterDiscrepancyFound] VARCHAR(1) NULL,
 	[TotalOutersOver] INT NULL,
 	[TotalOutersShort] INT NULL,
+	[Picked] BIT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

@@ -67,7 +67,8 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("ActualPaymentCash", entity.ActualPaymentCash, DbType.Decimal)
                 .AddParameter("ActualPaymentCheque", entity.ActualPaymentCheque, DbType.Decimal)
-                .AddParameter("ActualPaymentCard", entity.ActualPaymentCard, DbType.Decimal).Query<int>().FirstOrDefault();
+                .AddParameter("ActualPaymentCard", entity.ActualPaymentCard, DbType.Decimal)
+                .AddParameter("AccountBalance", entity.AccountBalance, DbType.Decimal).Query<int>().FirstOrDefault();
         }
 
         public void StopCreateOrUpdate(Stop stop)
@@ -98,6 +99,7 @@
                 .AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal)
                 .AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal)
                 .AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal)
+                .AddParameter("AccountBalance", stop.AccountBalance, DbType.Decimal)
                 .Query<int>().FirstOrDefault();
 
             stop.Id = id;

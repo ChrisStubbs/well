@@ -100,6 +100,7 @@
                 dapperProxy.Setup(x => x.AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal , null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AccountBalance", stop.AccountBalance, DbType.Decimal, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
@@ -127,6 +128,7 @@
                 dapperProxy.Verify(x => x.AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("AccountBalance", stop.AccountBalance, DbType.Decimal, null), Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
             }

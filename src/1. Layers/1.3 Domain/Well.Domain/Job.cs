@@ -383,6 +383,22 @@
             }
         }
 
+        [XmlIgnore]
+        public bool Picked
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "PICKED");
+
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
+            }
+        }
+
         public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
 
         public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;

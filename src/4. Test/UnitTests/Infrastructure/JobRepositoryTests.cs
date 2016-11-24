@@ -118,6 +118,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Picked", job.Picked, DbType.Boolean, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
@@ -165,6 +166,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("Picked", job.Picked, DbType.Boolean, null), Times.Exactly(1));
 
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));

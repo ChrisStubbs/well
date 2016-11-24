@@ -32,7 +32,8 @@
 	@OuterCount				TINYINT = NULL,
 	@OuterDiscrepancyFound 	BIT = 0,
 	@TotalOutersOver		INT = NULL,
-	@TotalOutersShort		INT = NULL
+	@TotalOutersShort		INT = NULL,
+	@Picked				 	BIT = 0
 
 
 AS
@@ -46,12 +47,12 @@ BEGIN
 		(@Id, @Sequence, @JobTypeCode, @PHAccount, @PickListRef, @InvoiceNumber, @CustomerRef, @OrderDate, @RoyaltyCode, @RoyaltyCodeDesc,
 		@OrdOuters, @InvOuters, @ColOuters, @ColBoxes, @ReCallPrd, @AllowSgCrd, @AllowSOCrd, @COD, @GrnNumber, @GrnRefusedReason, @GrnRefusedDesc,
 		@AllowReOrd, @SandwchOrd, @ComdtyType, @TotalCreditValueForThreshold,   @PerformanceStatusId,@ByPassReasonId, @StopId, 
-		@ActionLogNumber, @OuterCount, @OuterDiscrepancyFound, @TotalOutersOver, @TotalOutersShort, @Username, GETDATE(), @Username, GETDATE())
+		@ActionLogNumber, @OuterCount, @OuterDiscrepancyFound, @TotalOutersOver, @TotalOutersShort, @Picked, @Username, GETDATE(), @Username, GETDATE())
 	)
 	AS Source ([Id],[Sequence],[JobTypeCode],[PHAccount], [PickListRef], [InvoiceNumber], [CustomerRef], [OrderDate],
 				[RoyaltyCode], [RoyaltyCodeDesc], [OrdOuters], [InvOuters], [ColOuters], [ColBoxes], [ReCallPrd], [AllowSgCrd], [AllowSOCrd],
 				[COD], [GrnNumber], [GrnRefusedReason], [GrnRefusedDesc], [AllowReOrd], [SandwchOrd], [ComdtyType],	[TotalCreditValueForThreshold],
-				[PerformanceStatusId],[ByPassReasonId], [StopId], [ActionLogNumber], [OuterCount], [OuterDiscrepancyFound], [TotalOutersOver], [TotalOutersShort],
+				[PerformanceStatusId],[ByPassReasonId], [StopId], [ActionLogNumber], [OuterCount], [OuterDiscrepancyFound], [TotalOutersOver], [TotalOutersShort],[Picked],
 				[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 	WHEN MATCHED THEN
@@ -88,18 +89,19 @@ BEGIN
 		[OuterDiscrepancyFound] = Source.[OuterDiscrepancyFound],
 		[TotalOutersOver] = Source.[TotalOutersOver], 
 		[TotalOutersShort] = Source.[TotalOutersShort],
+		[Picked] = Source.[Picked],
 		[UpdatedBy] = Source.[UpdatedBy],
 		[DateUpdated] = Source.[DateUpdated]
 	WHEN NOT MATCHED BY TARGET AND @Id = 0 THEN
 	INSERT ([Sequence],[JobTypeCode],[PHAccount], [PickListRef], [InvoiceNumber], [CustomerRef], [OrderDate], 
 				[RoyaltyCode], [RoyaltyCodeDesc], [OrdOuters], [InvOuters], [ColOuters], [ColBoxes], [ReCallPrd], [AllowSgCrd], [AllowSOCrd],
 				[COD], [GrnNumber], [GrnRefusedReason], [GrnRefusedDesc], [AllowReOrd], [SandwchOrd], [ComdtyType],	[TotalCreditValueForThreshold],	
-				[PerformanceStatusId],[ByPassReasonId], [StopId], [ActionLogNumber], [OuterCount], [OuterDiscrepancyFound], [TotalOutersOver], [TotalOutersShort], 
+				[PerformanceStatusId],[ByPassReasonId], [StopId], [ActionLogNumber], [OuterCount], [OuterDiscrepancyFound], [TotalOutersOver], [TotalOutersShort], [Picked],
 				[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([Sequence],[JobTypeCode],[PHAccount], [PickListRef], [InvoiceNumber], [CustomerRef], [OrderDate], 
 				[RoyaltyCode], [RoyaltyCodeDesc], [OrdOuters], [InvOuters], [ColOuters], [ColBoxes], [ReCallPrd], [AllowSgCrd], [AllowSOCrd],
 				[COD], [GrnNumber], [GrnRefusedReason], [GrnRefusedDesc], [AllowReOrd], [SandwchOrd], [ComdtyType],	[TotalCreditValueForThreshold],
-				[PerformanceStatusId],[ByPassReasonId], [StopId],  [ActionLogNumber],[OuterCount], [OuterDiscrepancyFound], [TotalOutersOver], [TotalOutersShort],
+				[PerformanceStatusId],[ByPassReasonId], [StopId],  [ActionLogNumber],[OuterCount], [OuterDiscrepancyFound], [TotalOutersOver], [TotalOutersShort],[Picked],
 				[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 
 	OUTPUT $action, inserted.Id INTO @ChangeResult;

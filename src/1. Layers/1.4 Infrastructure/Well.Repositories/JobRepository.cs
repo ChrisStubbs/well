@@ -117,7 +117,8 @@
                 .AddParameter("OuterCount", entity.OuterCount, DbType.Int16)
                 .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyFound, DbType.String)
                 .AddParameter("TotalOutersOver", entity.TotalOutersOver, DbType.Int16)
-                .AddParameter("TotalOutersshort", entity.TotalOutersShort, DbType.Int16)
+                .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int16)
+                .AddParameter("Picked", entity.Picked, DbType.Boolean)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
@@ -162,6 +163,7 @@
                 .AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String)
                 .AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16)
                 .AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16)
+                .AddParameter("Picked", job.Picked, DbType.Boolean)
                 .Query<int>().FirstOrDefault()
                 ;
 

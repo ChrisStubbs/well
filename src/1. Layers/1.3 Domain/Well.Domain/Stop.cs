@@ -137,11 +137,12 @@
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
 
-        public decimal ActualPaymentCash => ActualPayment("ACTPAYCASH");
-        public decimal ActualPaymentCheque => ActualPayment("ACTPAYCHEQ");
-        public decimal ActualPaymentCard => ActualPayment("ACTPAYCARD");
+        public decimal ActualPaymentCash => PaymentAmount("ACTPAYCASH");
+        public decimal ActualPaymentCheque => PaymentAmount("ACTPAYCHEQ");
+        public decimal ActualPaymentCard => PaymentAmount("ACTPAYCARD");
+        public decimal AccountBalance => PaymentAmount("ACCBAL");
 
-        public decimal ActualPayment(string attributeName)
+        public decimal PaymentAmount(string attributeName)
         {
             var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == attributeName);
 
@@ -157,6 +158,7 @@
                 return 0;
             }
         }
+
 
         public int CleanJobs => Jobs.Count(j => j.IsClean);
 

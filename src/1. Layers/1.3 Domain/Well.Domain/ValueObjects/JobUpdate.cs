@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Xml.Serialization;
 
     [Serializable()]
@@ -9,7 +9,7 @@
     {
         public JobUpdate()
         {
-            this.OrderJobDetails = new Collection<JobDetailUpdate>();
+            this.JobDetails = new List<JobDetailUpdate>();
         }
 
         [XmlElement("Sequence")]
@@ -32,6 +32,6 @@
 
         [XmlArray("OrderJobDetails")]
         [XmlArrayItem("OrderJobDetail", typeof(JobDetailUpdate))]
-        public Collection<JobDetailUpdate> OrderJobDetails { get; set; }
+        public List<JobDetailUpdate> JobDetails { get; set; }
     }
 }

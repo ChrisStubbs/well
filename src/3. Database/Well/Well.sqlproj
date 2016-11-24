@@ -278,6 +278,7 @@
     <Build Include="dbo\StoredProcedures\RouteHeader_Update.sql" />
     <Build Include="dbo\StoredProcedures\Job_Update.sql" />
     <Build Include="dbo\StoredProcedures\Stop_Update.sql" />
+    <Build Include="dbo\StoredProcedures\DeleteStopByTransportOrderReference.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

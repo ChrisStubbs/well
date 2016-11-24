@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Xml.Serialization;
 
     [Serializable()]
@@ -9,7 +9,7 @@
     {
         public StopUpdate()
         {
-            this.OrderJobs = new Collection<JobUpdate>();
+            this.Jobs = new List<JobUpdate>();
         }
 
         [XmlElement("CompanyID")]
@@ -91,7 +91,7 @@
 
         [XmlArray("OrderJobs")]
         [XmlArrayItem("OrderJob", typeof(JobUpdate))]
-        public Collection<JobUpdate> OrderJobs { get; set; }
+        public List<JobUpdate> Jobs { get; set; }
 
         [XmlElement("Account")]
         public Account Accounts { get; set; }

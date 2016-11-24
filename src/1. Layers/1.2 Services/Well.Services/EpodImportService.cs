@@ -229,7 +229,7 @@
 
             var currentJobId = 0;
 
-            AddJobByOrderJob(stop.Id, stopUpdate.OrderJobs, currentJobId, insertOnly);
+            AddJobByOrderJob(stop.Id, stopUpdate.Jobs, currentJobId, insertOnly);
         }
 
         private void AddStopAccountByOrderJob(int stopId, Account stopAccount, int currentStopAccountId, bool insertOnly)
@@ -304,7 +304,7 @@
 
                 var currentJobDetailId = 0;
 
-                AddJobDetailByOrderJobDetail(newJob.Id, orderJob.OrderJobDetails, currentJobDetailId, insertOnly);
+                AddJobDetailByOrderJobDetail(newJob.Id, orderJob.JobDetails, currentJobDetailId, insertOnly);
             }
         }
 

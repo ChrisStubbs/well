@@ -20,5 +20,7 @@
         Stop GetByJobId(int jobId);
 
         void DeleteStopById(int id);
+
+        void DeleteStopByTransportOrderReference(string transportOrderReference);
     }
 }

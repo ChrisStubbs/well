@@ -98,6 +98,15 @@
                 .AddParameter("UdpatedDate", jobDetail.DateUpdated, DbType.DateTime)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
+                .AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String)
+                .AddParameter("ProductDescription", jobDetail.ProdDesc, DbType.String)
+                .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
+                .AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String)
+                .AddParameter("ProductType", jobDetail.PhProductType, DbType.String)
+                .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
+                .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
+                .AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String)
+                .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal)
                 .Execute();
         }
         

@@ -279,6 +279,8 @@
     <Build Include="dbo\StoredProcedures\Job_Update.sql" />
     <Build Include="dbo\StoredProcedures\Stop_Update.sql" />
     <Build Include="dbo\StoredProcedures\DeleteStopByTransportOrderReference.sql" />
+    <Build Include="dbo\StoredProcedures\AuditTrigger.sql" />
+    <None Include="Post-Deployement\EnableAuditing.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

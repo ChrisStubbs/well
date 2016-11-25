@@ -57,6 +57,8 @@
                         if (!routeFile.EndsWith("xml"))
                             continue;
 
+                        // TODO copy all files over first with the date created of the file as we want to load the transend files in order oldest first
+
                         var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + routeFile, Configuration.DownloadFilePath + routeFile);
 
                         if (string.IsNullOrWhiteSpace(downloadedFile))

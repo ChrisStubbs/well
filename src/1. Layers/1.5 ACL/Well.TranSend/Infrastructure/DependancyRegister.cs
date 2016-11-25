@@ -3,12 +3,14 @@
     using Common;
     using Common.Contracts;
     using Contracts;
+
+    using PH.Well.Services.EpodServices;
+
     using Repositories;
     using Repositories.Contracts;
     using StructureMap;
     using Well.Services.Contracts;
     using Well.Services;
-    using Well.Services.EpodImport;
 
     public static class DependancyRegister
     {
@@ -18,14 +20,14 @@
                 x =>
                 {
                     x.For<IEventLogger>().Use<EventLogger>();
-                    x.For<IEpodProvider>().Use<EpodFileProvider>();
+                    x.For<IRouteMapper>().Use<RouteMapper>();
+                    x.For<IEpodProvider>().Use<EpodFtpProvider>();
+                    x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
-                    x.For<IEpodImportProvider>().Use<EpodImportProvider>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IStopRepository>().Use<StopRepository>();
-                    x.For<IEpodImportService>().Use<EpodImportService>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();

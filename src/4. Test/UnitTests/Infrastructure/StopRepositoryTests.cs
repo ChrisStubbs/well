@@ -90,7 +90,6 @@
                 dapperProxy.Setup(x => x.AddParameter("LocationId", stop.LocationId, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DeliveryDate", stop.DeliveryDate, DbType.DateTime, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ShellActionIndicator", stop.ShellActionIndicator, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("CustomerShopReference", stop.CustomerShopReference, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("AllowOvers", stop.AllowOvers == "True", DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("CustUnatt", stop.CustUnatt == "True", DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PHUnatt", stop.PHUnatt == "True", DbType.Boolean, null)).Returns(dapperProxy.Object);
@@ -118,7 +117,6 @@
                 dapperProxy.Verify(x => x.AddParameter("LocationId", stop.LocationId, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("DeliveryDate", stop.DeliveryDate, DbType.DateTime, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ShellActionIndicator", stop.ShellActionIndicator, DbType.String, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("CustomerShopReference", stop.CustomerShopReference, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("AllowOvers", stop.AllowOvers == "True", DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("CustUnatt", stop.CustUnatt == "True", DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("PHUnatt", stop.PHUnatt == "True", DbType.Boolean, null), Times.Exactly(1));

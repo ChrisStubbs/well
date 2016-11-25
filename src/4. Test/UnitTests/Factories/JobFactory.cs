@@ -35,6 +35,8 @@
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "OuterDiscrepancyFound", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "TotalOutersOver", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "TotalOutersShort", Value = null });
+            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "Picked", Value = null });
+            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "InvoiceValue", Value = null });
 
         }
     }

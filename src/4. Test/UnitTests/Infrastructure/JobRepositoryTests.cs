@@ -100,7 +100,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("ColOuters", job.ColOuters, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ColBoxes", job.ColBoxes, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ReCallPrd", job.ReCallPrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("AllowSgCrd", job.AllowSgCrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("AllowSOCrd", job.AllowSoCrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("COD", job.Cod, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("GrnNumber", job.GrnNumber, DbType.String, null)).Returns(dapperProxy.Object);
@@ -108,7 +107,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("GrnRefusedDesc", job.GrnRefusedDesc, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("ComdtyType", job.ComdtyType, DbType.String, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("PerformanceStatusId", (int)job.PerformanceStatus, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16, null)).Returns(dapperProxy.Object);
@@ -119,6 +117,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Setup(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16, null)).Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Picked", job.Picked, DbType.Boolean, null)).Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("InvoiceValue", job.InvoiceValue, DbType.Decimal, null)).Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
@@ -148,7 +147,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("ColOuters", job.ColOuters, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ColBoxes", job.ColBoxes, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ReCallPrd", job.ReCallPrd, DbType.Boolean, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("AllowSgCrd", job.AllowSgCrd, DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("AllowSOCrd", job.AllowSoCrd, DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("COD", job.Cod, DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("GrnNumber", job.GrnNumber, DbType.String, null), Times.Exactly(1));
@@ -156,7 +154,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("GrnRefusedDesc", job.GrnRefusedDesc, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean, null), Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("ComdtyType", job.ComdtyType, DbType.String, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("ByPassReasonId  ", (int)job.ByPassReason, DbType.Int16, null), Times.Exactly(1));
@@ -167,6 +164,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16, null), Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("Picked", job.Picked, DbType.Boolean, null), Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("InvoiceValue", job.InvoiceValue, DbType.Decimal, null), Times.Exactly(1));
 
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));

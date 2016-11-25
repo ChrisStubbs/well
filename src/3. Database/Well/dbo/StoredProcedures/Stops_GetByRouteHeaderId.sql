@@ -11,7 +11,6 @@ SELECT
       ,[LocationId]
       ,[DeliveryDate]
 	  ,[ShellActionIndicator] 
-	  ,[CustomerShopReference] 
 	  ,[AllowOvers] 
 	  ,[CustUnatt] 
 	  ,[PHUnatt] 

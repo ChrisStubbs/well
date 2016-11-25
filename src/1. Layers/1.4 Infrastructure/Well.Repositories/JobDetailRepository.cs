@@ -80,6 +80,8 @@
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
+                .AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean)
+                //.AddParameter("DateLife", jobDetail.DateLife, DbType.DateTime)
                 .AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String)
                 .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)

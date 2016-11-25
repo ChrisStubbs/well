@@ -215,7 +215,7 @@
                 RouteHeaderId = currentStop.RouteHeaderId,
                 TransportOrderReference = stopUpdate.TransportOrderRef,
                 ShellActionIndicator = currentStop?.ShellActionIndicator ?? stopUpdate.ShellActionIndicator,
-                CustomerShopReference = stopUpdate.CustomerShopReference,
+                //CustomerShopReference = stopUpdate.CustomerShopReference,
                 StopStatusCodeId = (int)StopStatus.Notdef,
                 StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,
                 ByPassReasonId = (int)ByPassReasons.Notdef

@@ -42,8 +42,8 @@
         [XmlElement("TextField3")]
         public string ShellActionIndicator { get; set; }
 
-        [XmlElement("TextField4")]
-        public string CustomerShopReference { get; set; }
+        //[XmlElement("TextField4")]
+        //public string CustomerShopReference { get; set; }
 
         [XmlIgnore]
         public string AllowOvers

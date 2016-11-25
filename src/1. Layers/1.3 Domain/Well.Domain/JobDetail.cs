@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Xml.Serialization;
@@ -157,6 +158,24 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
+
+        [XmlIgnore]
+        public bool IsHighValue
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "HIGHVALUE");
+
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
+            }
+        }
+
+       
 
         public bool IsClean()
         {

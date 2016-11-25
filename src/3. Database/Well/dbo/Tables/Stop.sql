@@ -9,7 +9,6 @@
 	[LocationId] VARCHAR(20) NULL,
 	[DeliveryDate] DATETIME NULL,
 	[ShellActionIndicator] varchar(100) NULL,
-	[CustomerShopReference] varchar(100) NULL,
 	[AllowOvers] BIT NULL,
 	[CustUnatt] BIT NULL,
 	[PHUnatt] BIT NULL,

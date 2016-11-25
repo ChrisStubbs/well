@@ -18,7 +18,6 @@ BEGIN
 	  ,[ColOuters] 
 	  ,[ColBoxes] 
 	  ,[ReCallPrd] 
-	  ,[AllowSgCrd] 
 	  ,[AllowSOCrd] 
 	  ,[COD] 
 	  ,[GrnNumber] 
@@ -26,7 +25,6 @@ BEGIN
 	  ,[GrnRefusedDesc] 
 	  ,[AllowReOrd] 
 	  ,[SandwchOrd] 
-	  ,[ComdtyType] 
 	  ,[TotalCreditValueForThreshold]
 	  ,[PerformanceStatusId] as PerformanceStatus
 	  ,[ByPassReasonId] as ByPassReason

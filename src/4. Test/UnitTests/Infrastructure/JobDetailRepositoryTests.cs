@@ -116,6 +116,8 @@
             [Test]
             public void ShouldSaveJobDetail()
             {
+
+
                 var jobDetail = JobDetailFactory.New.Build();
 
                 string sprocName = "JobDetail_Insert";
@@ -161,6 +163,11 @@
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime, null))
                     .Returns(dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean, null))
+                 .Returns(dapperProxy.Object);
+                //dapperProxy.Setup(x => x.AddParameter("DateLife", jobDetail.DateLife, DbType.DateTime, null))
+                // .Returns(dapperProxy.Object);
+
 
                 dapperProxy.Setup(x => x.AddParameter(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<DbType>(), null))
                     .Returns(dapperProxy.Object);
@@ -210,6 +217,10 @@
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime, null),
                     Times.Exactly(1));
+                dapperProxy.Verify(x => x.AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean, null),
+                  Times.Exactly(1));
+                //dapperProxy.Verify(x => x.AddParameter("DateLife", jobDetail.DateLife, DbType.DateTime, null),
+                //  Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
             }

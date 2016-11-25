@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
+    using System;
     using System.Collections.Generic;
 
     using Well.Domain;
@@ -39,6 +40,8 @@
 
             this.Entity.EntityAttributes = new List<EntityAttribute>();
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "SubOuterDamageTotal", Value = "100" });
+            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "IsHighValue", Value = "N" });
+            //this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "DateLife", Value = DateTime.Now.ToShortDateString()});
 
         }
     }

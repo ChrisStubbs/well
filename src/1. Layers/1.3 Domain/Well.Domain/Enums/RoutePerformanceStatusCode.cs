@@ -20,6 +20,6 @@
         Outof = 5,
 
         [Description("Not Defined")]
-        Notdef = 6,
+        Notdef = 0,
     }
 }

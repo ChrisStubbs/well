@@ -77,7 +77,7 @@
                     {
                         this.stopRepository.Save(stop);
 
-                        stop.Account.Id = stop.Id;
+                        stop.Account.StopId = stop.Id;
 
                         stop.Jobs.ForEach(x => x.StopId = stop.Id);
 

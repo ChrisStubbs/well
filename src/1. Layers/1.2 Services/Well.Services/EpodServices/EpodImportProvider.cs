@@ -39,7 +39,7 @@
 
             var fileType = this.fileTypeService.DetermineFileType(filename);
 
-            if (fileType == EpodFileType.RouteHeader)
+            if (fileType == EpodFileType.AdamInsert)
             {
                 var alreadyLoaded = this.routeHeaderRepository.FileAlreadyLoaded(filename);
 
@@ -83,7 +83,7 @@
 
             using (var reader = new StreamReader(filename))
             {
-                if (epodType == EpodFileType.RouteHeader || epodType == EpodFileType.RouteEpod)
+                if (epodType == EpodFileType.AdamInsert || epodType == EpodFileType.EpodUpdate)
                 {
                     var routeImportSerializer = new XmlSerializer(typeof(RouteDelivery));
 
@@ -106,7 +106,7 @@
                         return;
                     }
 
-                    if (epodType == EpodFileType.RouteHeader)
+                    if (epodType == EpodFileType.AdamInsert)
                     {
                         this.epodImportService.AddRoutesFile(routes, routeId);
                     }

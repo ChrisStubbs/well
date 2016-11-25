@@ -141,7 +141,6 @@
             var container = new Container(
                                             x =>
                                             {
-                                                x.For<IEpodSchemaValidator>().Use<EpodSchemaValidator>();
                                                 x.For<ILogger>().Use<NLogger>();
                                                 x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                                                 x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();

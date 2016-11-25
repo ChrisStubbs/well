@@ -6,6 +6,7 @@
 	@JobTypeCode VARCHAR(10),
 	@PhAccount VARCHAR(40),
 	@Sequence INT,
+	@CustomerRef VARCHAR(40),
 	@UpdatedBy VARCHAR(50),
 	@UpdatedDate DATETIME
 AS
@@ -21,6 +22,7 @@ BEGIN
 		[Sequence] = @Sequence,
 		JobTypeCode = @JobTypeCode,
 		PHAccount = @PhAccount,
+		CustomerRef = @CustomerRef,
 		UpdatedBy = @UpdatedBy, 
 		DateUpdated = @UpdatedDate
 	WHERE

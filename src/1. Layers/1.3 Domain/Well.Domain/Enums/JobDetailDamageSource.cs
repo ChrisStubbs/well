@@ -14,6 +14,6 @@
         PDRDIS002 = 3,
 
         [Description("Not Defined")]
-        NotDef = 4,
+        NotDef = 0,
     }
 }

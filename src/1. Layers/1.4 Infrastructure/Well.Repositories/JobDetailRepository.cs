@@ -1,14 +1,12 @@
 ﻿namespace PH.Well.Repositories
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
     using Dapper;
     using Domain;
-    using Domain.Enums;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
@@ -95,7 +93,7 @@
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
-                .AddParameter("UdpatedDate", jobDetail.DateUpdated, DbType.DateTime)
+                .AddParameter("DateUdpated", jobDetail.DateUpdated, DbType.DateTime)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String)

@@ -23,12 +23,12 @@
         Compl = 6,
 
         [Description("Not Defined")]
-        Notdef = 7,
+        Notdef = 0,
 
         [Description("Resolved")]
-        Resolved = 8,
+        Resolved = 7,
 
         [Description("Pending Authorisation")]
-        PendingAuthorisation = 9
+        PendingAuthorisation = 8
     }
 }

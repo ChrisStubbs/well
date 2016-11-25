@@ -1,43 +1,42 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
+    using System;
     using System.IO;
     using System.Net;
+    using System.Xml.Serialization;
+
     using Contracts;
     using Common.Contracts;
 
     using PH.Well.Common;
-    using PH.Well.Domain.Enums;
+    using PH.Well.Domain;
+    using PH.Well.Repositories.Contracts;
 
     using Well.Services.Contracts;
 
     public class EpodFtpProvider : IEpodProvider
     {
-        private readonly IEpodSchemaValidator epodSchemaValidator;
-        private readonly IEpodImportProvider epodImportProvider;
-        private readonly IEpodImportService epodImportService;
         private readonly IFtpClient ftpClient;
         private readonly IWebClient webClient;
         private readonly IEventLogger eventLogger;
-        private readonly IFileTypeService fileTypeService;
+        private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly ILogger logger;
+        private readonly IEpodUpdateService epodUpdateService;
 
-        public EpodFtpProvider(IEpodSchemaValidator epodSchemaValidator, 
+        public EpodFtpProvider(
             ILogger logger, 
-            IEpodImportProvider epodImportProvider,
-            IEpodImportService epodImportService,
+            IEpodUpdateService epodUpdateService,
             IFtpClient ftpClient,
             IWebClient webClient,
             IEventLogger eventLogger,
-            IFileTypeService fileTypeService)
+            IRouteHeaderRepository routeHeaderRepository)
         {
-            this.epodSchemaValidator = epodSchemaValidator;
             this.logger = logger;
-            this.epodImportProvider = epodImportProvider;
-            this.epodImportService = epodImportService;
+            this.epodUpdateService = epodUpdateService;
             this.ftpClient = ftpClient;
             this.webClient = webClient;
             this.eventLogger = eventLogger;
-            this.fileTypeService = fileTypeService;
+            this.routeHeaderRepository = routeHeaderRepository;
 
             this.ftpClient.FtpLocation = Configuration.FtpLocation;
             this.ftpClient.FtpUserName = Configuration.FtpUsername;
@@ -70,28 +69,29 @@
                         
                         var filename = Path.GetFileName(downloadedFile);
 
-                        var fileType = this.fileTypeService.DetermineFileType(filename);
+                        var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
 
-                        if (fileType == EpodFileType.Unknown)
+                        try
                         {
-                            this.logger.LogDebug($"File incorrect {filename}! File name should start with one of the following: (PH_) (ePod_) (PHOrder_)");
-                            this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"File incorrect {filename}! File name should start with one of the following: (PH_) (ePod_) (PHOrder_)", 8833);
+                            using (var streamReader = new StreamReader(downloadedFile))
+                            {
+                                var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
 
-                            continue;
+                                var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
+
+                                routes.RouteId = route.Id;
+
+                                this.epodUpdateService.Update(routes);
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            this.logger.LogError($"Epod update error in XML!", exception);
                         }
 
-                        var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(downloadedFile);
+                        this.ftpClient.DeleteFile(filename);
 
-                        if (isFileValidBySchema)
-                        {
-                            this.epodImportProvider.ImportRouteHeader(downloadedFile);
-
-                            this.epodImportService.CopyFileToArchive(downloadedFile, filename, Configuration.ArchiveLocation);
-
-                            this.ftpClient.DeleteFile(filename);
-
-                            logger.LogDebug($"File {routeFile} imported!");
-                        }
+                        logger.LogDebug($"File {routeFile} imported!");
                     }
                 }
             }

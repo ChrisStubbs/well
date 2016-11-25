@@ -4,7 +4,7 @@ MERGE INTO [StopStatus] AS Target
 USING	(VALUES	(1,'NARRI','Not Arrived','deployment',GETDATE(),'deployment',GETDATE()),
 				(2,'ARRIV','Arrived','deployment',GETDATE(),'deployment',GETDATE()),
 				(3,'DEPAR','Departed','deployment',GETDATE(),'deployment',GETDATE()),
-				(4,'NOTDEF','Not Defined','deployment',GETDATE(),'deployment',GETDATE())
+				(0,'NOTDEF','Not Defined','deployment',GETDATE(),'deployment',GETDATE())
 		)
 AS Source ([Id],[Code],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]

@@ -54,7 +54,7 @@
           <RouteHeaderID>1</RouteHeaderID>
           <ByPassReasonID />
           <PlannedStopNumber>01</PlannedStopNumber>
-          <TransportOrderRef>001 01 43362.048 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000001</TransportOrderRef>
           <StopStatusCode>DEPAR</StopStatusCode>
           <StopStatusDescription>Departed</StopStatusDescription>
           <PerformanceStatusCode>COMPL</PerformanceStatusCode>
@@ -70,9 +70,8 @@
               <StopID>88638</StopID>
               <ByPassReasonID />
               <Sequence>1</Sequence>
-              <PHAccount>49214.152</PHAccount>
-              <PickListRef>4294343</PickListRef>
-              <InvoiceNumber>12345678</InvoiceNumber>
+              <JobRef4>49214.152</JobRef4>
+              <JobRef2>4294343</JobRef2>
               <CustomerRef>946941</CustomerRef>
               <GrnNumber>1234567896541236547896</GrnNumber>
               <GrnRefusedReason>Inv</GrnRefusedReason>

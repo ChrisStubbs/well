@@ -57,7 +57,6 @@
     <Compile Include="Import.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />
     <Compile Include="Infrastructure\DependancyRegister.cs" />
-    <Compile Include="Infrastructure\EpodFileProvider.cs" />
     <Compile Include="Infrastructure\EpodFtpProvider.cs" />
     <Compile Include="Contracts\IEpodProvider.cs" />
     <Compile Include="Program.cs" />

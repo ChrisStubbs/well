@@ -59,8 +59,6 @@
     <Compile Include="Contracts\IBranchService.cs" />
     <Compile Include="Contracts\ICleanDeliveryService.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
-    <Compile Include="Contracts\IEpodImportProvider.cs" />
-    <Compile Include="Contracts\IEpodImportService.cs" />
     <Compile Include="Contracts\IEpodUpdateService.cs" />
     <Compile Include="Contracts\IExceptionEventService.cs" />
     <Compile Include="Contracts\IFileModule.cs" />

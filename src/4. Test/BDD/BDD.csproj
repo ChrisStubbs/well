@@ -184,6 +184,7 @@
     <Compile Include="Framework\Context\ScenarioContextWrapper.cs" />
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
+    <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
@@ -376,7 +377,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Xml\PH_ROUTES_30062016_02.xml">
+    <Content Include="Xml\ROUTE_30062016_02.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

@@ -12,6 +12,9 @@
     using Factories;
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
+
+    using PH.Well.Services.EpodServices;
+
     using Repositories;
     using Repositories.Contracts;
     using Services;
@@ -150,7 +153,8 @@
                                                 x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                                                 x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                                                 x.For<IWebClient>().Use<WebClient>();
-                                                x.For<IFileModule>().Use<FileModule>();
+                                                x.For<IFileModule>().Use<FakeFileModule>();
+                                                x.For<IFileTypeService>().Use<FileTypeService>();
                                                 x.For<IFileService>().Use<FileService>();
                                                 x.For<IAccountRepository>().Use<AccountRepository>();
                                                 x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
@@ -158,6 +162,10 @@
                                                 x.For<INotificationRepository>().Use<NotificationRepository>();
                                                 x.For<IDapperProxy>().Use<WellDapperProxy>();
                                                 x.For<IEventLogger>().Use<EventLogger>();
+                                                x.For<IAdamImportService>().Use<AdamImportService>();
+                                                x.For<IAdamUpdateService>().Use<AdamUpdateService>();
+                                                x.For<IEpodUpdateService>().Use<EpodUpdateService>();
+                                                x.For<IRouteMapper>().Use<RouteMapper>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

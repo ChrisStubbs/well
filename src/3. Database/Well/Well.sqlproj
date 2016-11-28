@@ -281,6 +281,8 @@
     <Build Include="dbo\StoredProcedures\DeleteStopByTransportOrderReference.sql" />
     <Build Include="dbo\Tables\CashOnDeliveryType.sql" />
     <None Include="Post-Deployement\Populate-CashOnDeliveryType.sql" />
+    <Build Include="dbo\StoredProcedures\AuditTrigger.sql" />
+    <None Include="Post-Deployement\EnableAuditing.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

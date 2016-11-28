@@ -6,12 +6,10 @@
 
     public class EpodFileProvider : IEpodProvider
     {
-        private readonly IEpodSchemaValidator epodSchemaValidator;
         private readonly IEpodImportProvider epodImportProvider;
 
-        public EpodFileProvider(IEpodSchemaValidator epodSchemaValidator, IEpodImportProvider epodImportProvider)
+        public EpodFileProvider(IEpodImportProvider epodImportProvider)
         {
-            this.epodSchemaValidator = epodSchemaValidator;
             this.epodImportProvider = epodImportProvider;
         }
 
@@ -23,12 +21,7 @@
 
             foreach (var fileToRead in filesToRead)
             {
-                var isFileValidBySchema = this.epodSchemaValidator.IsFileValid(fileToRead);
-
-                if (isFileValidBySchema)
-                {
-                    this.epodImportProvider.ImportRouteHeader(fileToRead);
-                }
+                this.epodImportProvider.ImportRouteHeader(fileToRead);
             }
         }
     }

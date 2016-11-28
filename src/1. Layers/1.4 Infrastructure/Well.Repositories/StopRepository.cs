@@ -129,7 +129,10 @@
                 .AddParameter("StopStatusCodeId", (int)entity.StopStatusCodeId, DbType.Int16)
                 .AddParameter("StopPerformanceStatusCodeId", (int)entity.StopPerformanceStatusCodeId, DbType.Int16)
                 .AddParameter("ByPassReasonId", entity.ByPassReasonId, DbType.Int32)
-                .AddParameter("PlannedStopNumber", entity.PlannedStopNumber, DbType.String)
+                .AddParameter("ShellActionIndicator", entity.ShellActionIndicator, DbType.String)
+                .AddParameter("ActualPaymentCash", entity.ActualPaymentCash, DbType.Decimal)
+                .AddParameter("ActualPaymentCheque", entity.ActualPaymentCheque, DbType.Decimal)
+                .AddParameter("ActualPaymentCard", entity.ActualPaymentCard, DbType.Decimal)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }

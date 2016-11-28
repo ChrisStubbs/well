@@ -1,14 +1,12 @@
 ﻿namespace PH.Well.Repositories
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
     using Dapper;
     using Domain;
-    using Domain.Enums;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {

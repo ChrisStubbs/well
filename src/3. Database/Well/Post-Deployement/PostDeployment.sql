@@ -9,6 +9,7 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+:r .\EnableAuditing.sql
 :r .\Populate-AccountType.sql
 :r .\Populate-ActionStatus.sql
 :r .\Populate-ByPassReasons.sql

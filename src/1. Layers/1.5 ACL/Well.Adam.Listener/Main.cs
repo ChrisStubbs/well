@@ -12,6 +12,7 @@
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodImport;
+    using PH.Well.Services.EpodServices;
 
     public partial class Main : Form
     {
@@ -39,7 +40,6 @@
             return new Container(
                 x =>
                 {
-                    x.For<IEpodSchemaValidator>().Use<EpodSchemaValidator>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
@@ -54,9 +54,12 @@
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
+                    x.For<IRouteMapper>().Use<RouteMapper>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
+                    x.For<IAdamImportService>().Use<AdamImportService>();
+                    x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                 });
         }
     }

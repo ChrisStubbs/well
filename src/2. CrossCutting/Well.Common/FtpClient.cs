@@ -30,7 +30,7 @@
             {
                 var request = (FtpWebRequest)WebRequest.Create(this.FtpLocation);
 
-                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
                 
                 request.Credentials = new NetworkCredential(this.FtpUserName, this.FtpPassword);
 

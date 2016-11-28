@@ -12,19 +12,22 @@
             this.JobDetails = new List<JobDetailUpdate>();
         }
 
+        [XmlElement("DeliveryDate")]
+        public DateTime DeliveryDate { get; set; }
+
         [XmlElement("Sequence")]
         public int Sequence { get; set; }
 
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
-        [XmlElement("JobRef1")]
+        [XmlElement("JobRef4")]
         public string PhAccount { get; set; }
 
         [XmlElement("JobRef2")]
         public string PickListRef { get; set; }
 
-        [XmlElement("TextField2")]
+        [XmlElement("JobRef3")]
         public string InvoiceNumber { get; set; }
 
         [XmlElement("TextField1")]

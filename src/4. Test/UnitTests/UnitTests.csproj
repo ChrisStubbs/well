@@ -168,6 +168,7 @@
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />
+    <Compile Include="Services\RouteMapperTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

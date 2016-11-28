@@ -28,7 +28,6 @@
         private const string ParentNode = "RouteHeader";
         private ILogger logger;
         private IFileService fileService;
-        private IEpodSchemaValidator epodSchemaValidator;
         private IEpodImportProvider epodImportProvider;
         private IEpodImportService epodImportService;
         private AdamFileMonitorService adamFileMonitorService;
@@ -44,13 +43,13 @@
         {
             logger = this.container.GetInstance<ILogger>();
             fileService = this.container.GetInstance<IFileService>();
-            this.epodSchemaValidator = this.container.GetInstance<IEpodSchemaValidator>();
             this.epodImportProvider = this.container.GetInstance<IEpodImportProvider>();
             this.epodImportService = this.container.GetInstance<IEpodImportService>();
 
 
             logger.LogDebug("Calling file monitor service");
-            adamFileMonitorService = new AdamFileMonitorService(logger, fileService, this.epodSchemaValidator, this.epodImportProvider, this.epodImportService);
+            // TODO
+            //adamFileMonitorService = new AdamFileMonitorService(logger, fileService, this.epodImportProvider, this.epodImportService);
         }
 
         [Given(@"I have loaded the Adam route data")]

@@ -72,7 +72,11 @@
         public string CustomerShopReference { get; set; }
 
         [XmlElement("TextField5")]
-        public string TextField5 { get; set; }
+        public string RouteNumberAndDropNumber { get; set; }
+
+        public string RouteNumber => this.RouteNumberAndDropNumber.Split(' ')[0];
+
+        public string DropNumber => this.RouteNumberAndDropNumber.Split(' ')[1];
 
         [XmlElement("PaymentMethod")]
         public string PaymentMethod { get; set; }

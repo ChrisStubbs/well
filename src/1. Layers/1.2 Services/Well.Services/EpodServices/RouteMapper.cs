@@ -65,6 +65,7 @@
 
         public void Map(JobDetailUpdate from, JobDetail to)
         {
+            to.LineNumber = from.LineNumber;
             to.PhProductCode = from.PhProductCode;
             to.ProdDesc = from.ProdDesc;
             to.OrderedQty = from.OrderedQty;

@@ -15,13 +15,6 @@
         [XmlElement("DeliveryDate")]
         public DateTime DeliveryDate { get; set; }
 
-        [XmlElement("TextField5")]
-        public string RouteNumberAndDropNumber { get; set; }
-
-        public string RouteNumber => this.RouteNumberAndDropNumber.Split(' ')[0];
-
-        public string DropNumber => this.RouteNumberAndDropNumber.Split(' ')[1];
-
         [XmlElement("Sequence")]
         public int Sequence { get; set; }
 

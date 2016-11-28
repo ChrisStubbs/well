@@ -16,22 +16,18 @@
     public class AdamUpdateService : IAdamUpdateService
     {
         private readonly ILogger logger;
-
         private readonly IEventLogger eventLogger;
-
+        private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IStopRepository stopRepository;
-
         private readonly IJobRepository jobRepository;
-
         private readonly IJobDetailRepository jobDetailRepository;
-
         private readonly IRouteMapper mapper;
-
         private const string CurrentUser = "AdamUpdate";
 
         public AdamUpdateService(
             ILogger logger,
             IEventLogger eventLogger,
+            IRouteHeaderRepository routeHeaderRepository,
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
@@ -39,6 +35,7 @@
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
+            this.routeHeaderRepository = routeHeaderRepository;
             this.stopRepository = stopRepository;
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
@@ -72,7 +69,21 @@
 
         private void Insert(StopUpdate stop)
         {
-            // TODO figure out how to match up the Identities
+            var existingRouteHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(
+                stop.RouteNumber,
+                stop.DeliveryDate);
+
+            if (existingRouteHeader == null)
+            {
+                this.logger.LogDebug($"Existing route header not found for route number ({stop.RouteNumber}), delivery date ({stop.DeliveryDate})!");
+                this.eventLogger.TryWriteToEventLog(
+                    EventSource.WellAdamXmlImport,
+                    $"Existing route header not found for route number ({stop.RouteNumber}), delivery date ({stop.DeliveryDate})!",
+                    3215);
+                return;
+            }
+
+            this.InsertStops(stop, existingRouteHeader);
         }
 
         private void Update(StopUpdate stop)
@@ -87,19 +98,19 @@
                     EventSource.WellAdamXmlImport,
                     $"Existing stop not found for transport order reference ({stop.TransportOrderRef})",
                     7222);
+
+                return;
             }
-            else
+
+            this.mapper.Map(stop, existingStop);
+
+            using (var transactionScope = new TransactionScope())
             {
-                this.mapper.Map(stop, existingStop);
+                this.stopRepository.Update(existingStop);
 
-                using (var transactionScope = new TransactionScope())
-                {
-                    this.stopRepository.Update(existingStop);
+                this.UpdateJobs(stop.Jobs, existingStop.Id);
 
-                    this.UpdateJobs(stop.Jobs, existingStop.Id);
-
-                    transactionScope.Complete();
-                }
+                transactionScope.Complete();
             }
         }
 
@@ -153,6 +164,59 @@
 
                     this.jobDetailRepository.Update(existingJobDetail);
                 }
+            }
+        }
+
+        private void InsertStops(StopUpdate stopInsert, RouteHeader header)
+        {
+            using (var transactionScope = new TransactionScope())
+            {
+                var stop = new Stop
+                {
+                    RouteHeaderId = header.Id,
+                    RouteHeaderCode = header.RouteNumber,
+                    CustomerShopReference = stopInsert.CustomerShopReference,
+                    TransportOrderReference = stopInsert.TransportOrderRef,
+                    StopStatusCodeId = (int)StopStatus.Notdef,
+                    StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,
+                    ByPassReasonId = (int)ByPassReasons.Notdef
+                };
+
+                this.mapper.Map(stopInsert, stop);
+
+                stop.PlannedStopNumber = stopInsert.DropNumber;
+
+                this.stopRepository.Save(stop);
+
+                this.InsertJobs(stopInsert.Jobs, stop.Id);
+
+                transactionScope.Complete();
+            }
+        }
+
+        private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId)
+        {
+            foreach (var update in jobs)
+            {
+                var job = new Job { StopId = stopId };
+
+                this.mapper.Map(update, job);
+
+                this.jobRepository.Save(job);
+
+                this.InsertJobDetails(update.JobDetails, job.Id);
+            }
+        }
+
+        private void InsertJobDetails(IEnumerable<JobDetailUpdate> jobDetails, int jobId)
+        {
+            foreach (var detail in jobDetails)
+            {
+                var jobDetail = new JobDetail { JobId = jobId, JobDetailStatusId = (int)JobDetailStatus.UnRes };
+
+                this.mapper.Map(detail, jobDetail);
+
+                this.jobDetailRepository.Save(jobDetail);
             }
         }
 

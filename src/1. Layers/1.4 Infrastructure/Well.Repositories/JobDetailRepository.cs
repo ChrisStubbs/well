@@ -96,8 +96,6 @@
                 .AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Decimal)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
-                .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
-                .AddParameter("UdpatedDate", jobDetail.DateUpdated, DbType.DateTime)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String)
@@ -109,6 +107,8 @@
                 .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
                 .AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal)
+                .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
+                .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
                 .Execute();
         }
         

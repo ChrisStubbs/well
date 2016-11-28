@@ -135,6 +135,7 @@
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
     <Compile Include="Factories\CleanPreferenceFactory.cs" />
+    <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
     <Compile Include="Factories\DamageFactory.cs" />
     <Compile Include="Factories\DeliveryFactory.cs" />
@@ -164,6 +165,8 @@
     <Compile Include="Infrastructure\UserStatsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
+    <Compile Include="Services\AdamImportServiceTests.cs" />
+    <Compile Include="Services\AdamUpdateTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />

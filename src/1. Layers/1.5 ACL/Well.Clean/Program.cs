@@ -6,7 +6,6 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
-    using PH.Well.Services.EpodImport;
 
     using StructureMap;
 
@@ -27,10 +26,8 @@
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
-                    x.For<IEpodImportProvider>().Use<EpodImportProvider>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IStopRepository>().Use<StopRepository>();
-                    x.For<IEpodImportService>().Use<EpodImportService>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();

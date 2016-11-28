@@ -4,7 +4,7 @@
     using Well.Domain;
     using Well.Domain.Enums;
 
-    public class RouteHeaderFactory : EntityFactory<RouteHeaderFactory,RouteHeader>
+    public class RouteHeaderFactory : EntityFactory<RouteHeaderFactory, RouteHeader>
     {
         public RouteHeaderFactory()
         {
@@ -29,7 +29,6 @@
             this.Entity.DamagesAccepted = 0;
             this.Entity.NotRequired = 0;
             this.Entity.Depot = "001";
-            //this.Entity.RouteOwner = "BIR";
             this.Entity.RouteOwnerId = 22;
         }
     }

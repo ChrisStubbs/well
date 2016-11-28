@@ -71,13 +71,10 @@
     <Compile Include="Contracts\IRouteMapper.cs" />
     <Compile Include="Contracts\IUserThresholdService.cs" />
     <Compile Include="DeliveryService.cs" />
-    <Compile Include="EpodImportService.cs" />
     <Compile Include="EpodServices\AdamImportService.cs" />
     <Compile Include="EpodServices\AdamUpdateService.cs" />
-    <Compile Include="EpodServices\EpodImportProvider.cs" />
     <Compile Include="EpodServices\EpodUpdateService.cs" />
     <Compile Include="EpodServices\RouteMapper.cs" />
-    <Compile Include="EpodServices\XmlSerialisationHelper.cs" />
     <Compile Include="ExceptionEventService.cs" />
     <Compile Include="FileModule.cs" />
     <Compile Include="FileService.cs" />
@@ -103,23 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Schemas\TransendPHEpodSchema.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Schemas\TransendPHRoutesSchema.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Schemas\TransEndPHOrderUpdateSchema.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

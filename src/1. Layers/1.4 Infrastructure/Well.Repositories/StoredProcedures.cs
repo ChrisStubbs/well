@@ -22,6 +22,7 @@
         public static string RoutesGet = "Routes_Get";
         public static string RoutesDeleteById = "Routes_DeleteById";
         public static string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
+        public static string RouteheaderGetByNumberDateBranch = "RouteheaderGetByNumberDateBranch";
         public static string HolidayExceptionGet = "HolidayException_Get";
 
         //Stops

@@ -20,6 +20,8 @@ CREATE TABLE [dbo].[JobDetail]
 	[JobId] INT NOT NULL,
 	[JobDetailStatusId] INT NOT NULL,
 	[LineDeliveryStatus] VARCHAR(20) NULL,
+	[IsHighValue]  BIT NOT NULL DEFAULT 0,
+	[DateLife] DATETIME NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

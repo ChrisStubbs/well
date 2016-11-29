@@ -7,7 +7,6 @@
 	@LocationId				VARCHAR(20),
 	@DeliveryDate			DATETIME = null, 
 	@ShellActionIndicator	VARCHAR(100),
-	@CustomerShopReference	VARCHAR(100),
 	@AllowOvers				BIT NULL,
 	@CustUnatt				BIT NULL,
 	@PHUnatt				BIT NULL,
@@ -17,10 +16,11 @@
 	@ActualPaymentCash		DECIMAL(7,2),
 	@ActualPaymentCheque	DECIMAL(7,2),
 	@ActualPaymentCard		DECIMAL(7,2),
-	@CreatedBy VARCHAR(50),
-	@CreatedDate DATETIME,
-	@UpdatedBy VARCHAR(50),
-	@UpdatedDate DATETIME
+	@AccountBalance         DECIMAL(7,2),
+	@CreatedBy				VARCHAR(50),
+	@CreatedDate			DATETIME,
+	@UpdatedBy				VARCHAR(50),
+	@UpdatedDate			DATETIME
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -34,7 +34,6 @@ BEGIN
 		[LocationId],
 		[DeliveryDate],
 		[ShellActionIndicator], 
-		[CustomerShopReference], 
 		[AllowOvers], 
 		[CustUnatt], 
 		[PHUnatt],
@@ -44,6 +43,7 @@ BEGIN
 		[ActualPaymentCash], 
 		[ActualPaymentCheque], 
 		[ActualPaymentCard],
+		[AccountBalance],
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],
@@ -57,7 +57,6 @@ BEGIN
 		@LocationId, 
 		@DeliveryDate,
 		@ShellActionIndicator,
-		@CustomerShopReference, 
 		@AllowOvers, 
 		@CustUnatt, 
 		@PHUnatt,
@@ -67,6 +66,7 @@ BEGIN
 		@ActualPaymentCash, 
 		@ActualPaymentCheque, 
 		@ActualPaymentCard,
+		@AccountBalance,
 		@CreatedBy, 
 		@CreatedDate, 
 		@UpdatedBy, 

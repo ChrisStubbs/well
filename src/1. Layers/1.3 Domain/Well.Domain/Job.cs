@@ -140,25 +140,7 @@
             }
         }
 
-        /// <summary>
-        /// Single credit allowed
-        /// </summary>
-        [XmlIgnore]
-        public bool AllowSgCrd
-        {
-            get
-            {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowSgCrd");
-
-                if (attribute != null)
-                {
-                    return attribute.Value != "N";
-                }
-
-                return false;
-            }
-        }
-
+  
         /// <summary>
         /// Sub outer credit allowed
         /// </summary>
@@ -216,19 +198,7 @@
             }
         }
 
-        /// <summary>
-        /// Commodity type
-        /// </summary>
-        [XmlIgnore]
-        public string ComdtyType
-        {
-            get
-            {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ComdtyType");
-
-                return attribute?.Value;
-            }
-        }
+ 
 
         /// <summary>
         /// ReOrder allowed
@@ -379,6 +349,43 @@
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "TOTSHORT");
 
                 return attribute?.Value;
+            }
+        }
+
+        [XmlIgnore]
+        public bool Picked
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "PICKED");
+
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
+            }
+        }
+
+        [XmlIgnore]
+        public decimal InvoiceValue
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "INVALUE");
+
+                decimal total;
+                var result = decimal.TryParse(attribute?.Value, out total);
+
+                if (result)
+                {
+                    return total;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 

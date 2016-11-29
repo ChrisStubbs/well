@@ -13,10 +13,12 @@
 	@SSCCBarcode			VARCHAR(50)=NULL,
 	@SubOuterDamageTotal	INT=NULL,
 	@SkuGoodsValue			FLOAT,
-	@NetPrice			FLOAT,
+	@NetPrice				FLOAT,
 	@JobId					INT,
 	@JobDetailStatusId		INT,
-	@LineDeliveryStatus INT,
+	@LineDeliveryStatus		INT,
+	@IsHighValue			BIT = 0,
+	--@DateLife				DATETIME,
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
@@ -44,6 +46,8 @@ INSERT INTO [dbo].[JobDetail]
            ,[JobId]
            ,[JobDetailStatusId]
 		   ,[LineDeliveryStatus]
+		   ,[IsHighValue]
+		 --  ,[DateLife]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
@@ -67,6 +71,8 @@ INSERT INTO [dbo].[JobDetail]
            ,@JobId
            ,@JobDetailStatusId
 		   ,@LineDeliveryStatus
+		   ,@IsHighValue
+		  -- ,@DateLife
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy

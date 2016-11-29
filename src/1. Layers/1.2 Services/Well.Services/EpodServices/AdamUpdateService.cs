@@ -188,7 +188,7 @@
                 {
                     RouteHeaderId = header.Id,
                     RouteHeaderCode = header.RouteNumber,
-                    CustomerShopReference = stopInsert.CustomerShopReference,
+                    //CustomerShopReference = stopInsert.CustomerShopReference,
                     TransportOrderReference = stopInsert.TransportOrderRef,
                     StopStatusCodeId = (int)StopStatus.Notdef,
                     StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef,

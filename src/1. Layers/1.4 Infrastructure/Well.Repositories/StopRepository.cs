@@ -54,7 +54,6 @@
                 .AddParameter("LocationId", entity.LocationId, DbType.String)
                 .AddParameter("DeliveryDate", entity.DeliveryDate, DbType.DateTime)
                 .AddParameter("ShellActionIndicator", entity.ShellActionIndicator, DbType.String)
-                .AddParameter("CustomerShopReference", entity.CustomerShopReference, DbType.String)
                 .AddParameter("AllowOvers", entity.AllowOvers == "True", DbType.Boolean)
                 .AddParameter("CustUnatt", entity.CustUnatt == "True", DbType.Boolean)
                 .AddParameter("PHUnatt", entity.PHUnatt == "True", DbType.Boolean)
@@ -67,7 +66,8 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("ActualPaymentCash", entity.ActualPaymentCash, DbType.Decimal)
                 .AddParameter("ActualPaymentCheque", entity.ActualPaymentCheque, DbType.Decimal)
-                .AddParameter("ActualPaymentCard", entity.ActualPaymentCard, DbType.Decimal).Query<int>().FirstOrDefault();
+                .AddParameter("ActualPaymentCard", entity.ActualPaymentCard, DbType.Decimal)
+                .AddParameter("AccountBalance", entity.AccountBalance, DbType.Decimal).Query<int>().FirstOrDefault();
         }
 
         public void StopCreateOrUpdate(Stop stop)
@@ -88,7 +88,6 @@
                 .AddParameter("LocationId", stop.LocationId, DbType.String)
                 .AddParameter("DeliveryDate", stop.DeliveryDate, DbType.DateTime)
                 .AddParameter("ShellActionIndicator", stop.ShellActionIndicator, DbType.String)
-                .AddParameter("CustomerShopReference", stop.CustomerShopReference, DbType.String)
                 .AddParameter("AllowOvers",  stop.AllowOvers == "True", DbType.Boolean)
                 .AddParameter("CustUnatt", stop.CustUnatt == "True", DbType.Boolean)
                 .AddParameter("PHUnatt", stop.PHUnatt == "True", DbType.Boolean)
@@ -98,6 +97,7 @@
                 .AddParameter("ActualPaymentCash", stop.ActualPaymentCash, DbType.Decimal)
                 .AddParameter("ActualPaymentCheque", stop.ActualPaymentCheque, DbType.Decimal)
                 .AddParameter("ActualPaymentCard", stop.ActualPaymentCard, DbType.Decimal)
+                .AddParameter("AccountBalance", stop.AccountBalance, DbType.Decimal)
                 .Query<int>().FirstOrDefault();
 
             stop.Id = id;

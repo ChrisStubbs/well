@@ -18,7 +18,6 @@
             this.Entity.LocationId = "LOC001";
             this.Entity.DeliveryDate = DateTime.Now;
             this.Entity.ShellActionIndicator = "N";
-            this.Entity.CustomerShopReference = "CustRef1";
             this.Entity.StopStatusCodeId = 2;
             this.Entity.StopPerformanceStatusCodeId = 6;
             this.Entity.ByPassReasonId = 13;

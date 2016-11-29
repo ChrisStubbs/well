@@ -283,6 +283,7 @@
     <None Include="Post-Deployement\Populate-CashOnDeliveryType.sql" />
     <Build Include="dbo\StoredProcedures\AuditTrigger.sql" />
     <None Include="Post-Deployement\EnableAuditing.sql" />
+    <Build Include="dbo\StoredProcedures\RouteheaderGetByNumberDateBranch.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

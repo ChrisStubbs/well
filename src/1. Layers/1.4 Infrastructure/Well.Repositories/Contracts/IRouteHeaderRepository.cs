@@ -31,5 +31,7 @@
         void DeleteRouteHeaderById(int id);
 
         IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId);
+
+        RouteHeader GetByNumberDateBranch(string routeNumber, DateTime routeDate, int branchId);
     }
 }

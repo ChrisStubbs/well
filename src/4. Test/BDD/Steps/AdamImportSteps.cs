@@ -4,6 +4,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Xml.Serialization;
+
     using Framework.Context;
 
     using PH.Well.BDD.Framework;
@@ -16,6 +18,7 @@
     using NUnit.Framework;
 
     using PH.Well.BDD.XmlFileHelper;
+    using PH.Well.Domain;
 
     using Repositories.Contracts;
 
@@ -23,41 +26,53 @@
     public class AdamImportSteps
     {
         private readonly IContainer container;
-        const string currentAdamRouteFile = "PH_ROUTES_30062016_02.xml";
+        const string currentAdamRouteFile = "ROUTES_30062016_02.xml";
         const string currentEpodRouteFile = "ePOD__20160701_10452212189454.xml";
         private const string ParentNode = "RouteHeader";
         private ILogger logger;
+        private IEventLogger eventLogger;
         private IFileService fileService;
-        private IEpodImportProvider epodImportProvider;
-        private IEpodImportService epodImportService;
+        private IFileModule fileModule;
+        private IAdamImportService adamImportService;
+        private IAdamUpdateService adamUpdateService;
+        private IFileTypeService fileTypeService;
+        private IRouteHeaderRepository routeHeaderRepository;
+        private IEpodUpdateService epodUpdateService;
         private AdamFileMonitorService adamFileMonitorService;
         private readonly string currentUser = "epodBDDUser";
 
         public AdamImportSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
-            FileMonitorSetup();
+            this.FileMonitorSetup();
         }
 
         private void FileMonitorSetup()
         {
-            logger = this.container.GetInstance<ILogger>();
-            fileService = this.container.GetInstance<IFileService>();
-            this.epodImportProvider = this.container.GetInstance<IEpodImportProvider>();
-            this.epodImportService = this.container.GetInstance<IEpodImportService>();
+            this.logger = this.container.GetInstance<ILogger>();
+            this.fileService = this.container.GetInstance<IFileService>();
 
+            this.eventLogger = this.container.GetInstance<IEventLogger>();
+            this.fileModule = this.container.GetInstance<IFileModule>();
+            this.fileTypeService = this.container.GetInstance<IFileTypeService>();
+            this.adamImportService = this.container.GetInstance<IAdamImportService>();
+            this.adamUpdateService = this.container.GetInstance<IAdamUpdateService>();
+            this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
+            this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
 
-            logger.LogDebug("Calling file monitor service");
-            // TODO
-            //adamFileMonitorService = new AdamFileMonitorService(logger, fileService, this.epodImportProvider, this.epodImportService);
+            this.routeHeaderRepository.CurrentUser = this.currentUser;
+
+            this.logger.LogDebug("Calling file monitor service");
+            adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);
         }
 
         [Given(@"I have loaded the Adam route data")]
         public void LoadAdamRouteData()
         {
             var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "xml\\PH_ROUTES_30062016_02.xml"));
-            adamFileMonitorService.Process(importFilePath);
+                "xml\\ROUTE_30062016_02.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
         }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]
@@ -137,7 +152,14 @@
         public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
         {
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
-            adamFileMonitorService.Process(Path.Combine(filePath, epodFile));
+
+            var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
+
+            using (var reader = new StreamReader(Path.Combine(filePath, epodFile)))
+            {
+                var routes = (RouteDelivery)xmlSerializer.Deserialize(reader);
+                this.epodUpdateService.Update(routes);
+            }
         }
 
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]

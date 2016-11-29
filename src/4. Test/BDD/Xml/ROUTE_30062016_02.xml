@@ -24,7 +24,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>07:03</PlannedArriveTime>
           <PlannedDepartTime>08:03</PlannedDepartTime>
-          <TransportOrderRef>001 01 49214.152 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000001</TransportOrderRef>
           <SpecialInstructions>Access at rear only</SpecialInstructions>
           <StartWindow>07:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -63,15 +63,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <PHAccount>49214.152</PHAccount>
-              <PickListRef>4294343</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>49214.152</JobRef4>
+              <JobRef2>4294343</JobRef2>
               <CustomerRef>946941</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
-              <RoyaltyCode>1871</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>1871</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -225,15 +223,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <PHAccount>2874.033</PHAccount>
-              <PickListRef>2545470</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>2874.033</JobRef4>
+              <JobRef2>2545470</JobRef2>
               <CustomerRef>22428</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
-              <RoyaltyCode>770</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>770</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -379,7 +375,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>08:32</PlannedArriveTime>
           <PlannedDepartTime>09:29</PlannedDepartTime>
-          <TransportOrderRef>001 02 02874.033 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000002</TransportOrderRef>
           <SpecialInstructions>Please do not be late</SpecialInstructions>
           <StartWindow>08:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -412,15 +408,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <PHAccount>2874.033</PHAccount>
-              <PickListRef>2545470</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>2874.033</JobRef4>
+              <JobRef2>2545470</JobRef2>
               <CustomerRef>22428</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
-              <RoyaltyCode>770</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>770</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -583,15 +577,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <PHAccount>2874.033</PHAccount>
-              <PickListRef>2545419</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>2874.033</JobRef4>
+              <JobRef2>2545419</JobRef2>
               <CustomerRef>RETAIL</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
-              <RoyaltyCode>770</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>770</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -809,7 +801,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>06:04</PlannedArriveTime>
           <PlannedDepartTime>07:34</PlannedDepartTime>
-          <TransportOrderRef>006 01 43362.048 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000003</TransportOrderRef>
           <SpecialInstructions>Use Albert Road entrance</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -843,15 +835,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <PHAccount>43362.048</PHAccount>
-              <PickListRef>1156028</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>43362.048</JobRef4>
+              <JobRef2>1156028</JobRef2>
               <CustomerRef>610578</CustomerRef>
               <OrderDate>30-05-2016</OrderDate>
-              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -1032,15 +1022,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <PHAccount>2874.033</PHAccount>
-              <PickListRef>2544765</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>2874.033</JobRef4>
+              <JobRef2>2544765</JobRef2>
               <CustomerRef>609769</CustomerRef>
               <OrderDate>30-05-2016</OrderDate>
-              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -1256,7 +1244,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>07:38</PlannedArriveTime>
           <PlannedDepartTime>07:48</PlannedDepartTime>
-          <TransportOrderRef>006 02 54107.000 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000004</TransportOrderRef>
           <SpecialInstructions>Enter via the lorry park</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>18:00</EndWindow>
@@ -1290,15 +1278,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <PHAccount>54107.000</PHAccount>
-              <PickListRef>4295479</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>54107.000</JobRef4>
+              <JobRef2>4295479</JobRef2>
               <CustomerRef>6526502</CustomerRef>
               <OrderDate>29-05-2016</OrderDate>
-              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -1441,15 +1427,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
-              <PHAccount>54107.000</PHAccount>
-              <PickListRef>4294985</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>54107.000</JobRef4>
+              <JobRef2>4294985</JobRef2>
               <CustomerRef>6524936</CustomerRef>
               <OrderDate>28-05-2016</OrderDate>
-              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -1629,7 +1613,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>06:09</PlannedArriveTime>
           <PlannedDepartTime>07:20</PlannedDepartTime>
-          <TransportOrderRef>011 01 28363.082 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000005</TransportOrderRef>
           <SpecialInstructions>Help yourself to coffee</SpecialInstructions>
           <StartWindow>06:09</StartWindow>
           <EndWindow>07:20</EndWindow>
@@ -1663,15 +1647,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <PHAccount>43362.048</PHAccount>
-              <PickListRef>1156028</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>43362.048</JobRef4>
+              <JobRef2>1156028</JobRef2>
               <CustomerRef>610578</CustomerRef>
               <OrderDate>30-05-2016</OrderDate>
-              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -1856,15 +1838,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <PHAccount>2874.033</PHAccount>
-              <PickListRef>2544765</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>2874.033</JobRef4>
+              <JobRef2>2544765</JobRef2>
               <CustomerRef>609769</CustomerRef>
               <OrderDate>30-05-2016</OrderDate>
-              <RoyaltyCode>318 WELCOME BREAK SHOPS</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>318 WELCOME BREAK SHOPS</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -2080,7 +2060,7 @@
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>11:07</PlannedArriveTime>
           <PlannedDepartTime>11:18</PlannedDepartTime>
-          <TransportOrderRef>011 02 28363.411 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000006</TransportOrderRef>
           <SpecialInstructions>Help yourself</SpecialInstructions>
           <StartWindow>06:00</StartWindow>
           <EndWindow>18:00</EndWindow>
@@ -2114,15 +2094,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <PHAccount>54107.000</PHAccount>
-              <PickListRef>4295479</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>54107.000</JobRef4>
+              <JobRef2>4295479</JobRef2>
               <CustomerRef>6526502</CustomerRef>
               <OrderDate>29-05-2016</OrderDate>
-              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -2265,15 +2243,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
-              <PHAccount>54107.000</PHAccount>
-              <PickListRef>4294985</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>54107.000</JobRef4>
+              <JobRef2>4294985</JobRef2>
               <CustomerRef>6524936</CustomerRef>
               <OrderDate>28-05-2016</OrderDate>
-              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -2438,7 +2414,7 @@
           <PlannedStopNumber>03</PlannedStopNumber>
           <PlannedArriveTime>11:19</PlannedArriveTime>
           <PlannedDepartTime>11:43</PlannedDepartTime>
-          <TransportOrderRef>011 03 43362.030 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000007</TransportOrderRef>
           <SpecialInstructions>
           </SpecialInstructions>
           <StartWindow>06:00</StartWindow>
@@ -2475,15 +2451,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <PHAccount>54107.000</PHAccount>
-              <PickListRef>4295479</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>54107.000</JobRef4>
+              <JobRef2>4295479</JobRef2>
               <CustomerRef>6526502</CustomerRef>
               <OrderDate>29-05-2016</OrderDate>
-              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -2626,15 +2600,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
-              <PHAccount>54107.000</PHAccount>
-              <PickListRef>4294985</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>54107.000</JobRef4>
+              <JobRef2>4294985</JobRef2>
               <CustomerRef>6524936</CustomerRef>
               <OrderDate>28-05-2016</OrderDate>
-              <RoyaltyCode>109 SHELL 2001 C&amp;F</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>109 SHELL 2001 C&amp;F</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -2799,7 +2771,7 @@
           <PlannedStopNumber>05</PlannedStopNumber>
           <PlannedArriveTime>13:15</PlannedArriveTime>
           <PlannedDepartTime>13:55</PlannedDepartTime>
-          <TransportOrderRef>011 05 28363.085 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000008</TransportOrderRef>
           <SpecialInstructions>Need to leave before 14:00</SpecialInstructions>
           <StartWindow>10:30</StartWindow>
           <EndWindow>14:00</EndWindow>
@@ -2833,15 +2805,13 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <PHAccount>28363.085</PHAccount>
-              <PickListRef>1156561</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>28363.085</JobRef4>
+              <JobRef2>1156561</JobRef2>
               <CustomerRef>518232247</CustomerRef>
               <OrderDate>20-05-2016</OrderDate>
-              <RoyaltyCode>222 TESCO STORES LTD</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>222 TESCO STORES LTD</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -2992,15 +2962,13 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <PHAccount>28398.080</PHAccount>
-              <PickListRef>2545853</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>28398.080</JobRef4>
+              <JobRef2>2545853</JobRef2>
               <CustomerRef>PO-611585</CustomerRef>
               <OrderDate>28-05-2016</OrderDate>
-              <RoyaltyCode>1478 (WELCOME BREAK-TESCO)</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>1478 (WELCOME BREAK-TESCO)</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -3162,15 +3130,13 @@
             <Job>
               <Sequence>3</Sequence>
               <JobTypeCode>DEL-CHL</JobTypeCode>
-              <PHAccount>4836.348</PHAccount>
-              <PickListRef>4295517</PickListRef>
-              <InvoiceNumber>
-              </InvoiceNumber>
+              <JobRef4>4836.348</JobRef4>
+              <JobRef2>4295517</JobRef2>
               <CustomerRef>672819A</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
-              <RoyaltyCode>1478 (WELCOME BREAK-TESCO)</RoyaltyCode>
-              <RoyaltyCodeDesc>
-              </RoyaltyCodeDesc>
+              <TextField1>1478 (WELCOME BREAK-TESCO)</TextField1>
+              <TextField1Desc>
+              </TextField1Desc>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>

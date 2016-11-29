@@ -54,7 +54,7 @@
           <RouteHeaderID>683</RouteHeaderID>
           <ByPassReasonID />
           <PlannedStopNumber>01</PlannedStopNumber>
-          <TransportOrderRef>006 01 43362.048 01-07-2016</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000001</TransportOrderRef>
           <StopStatusCode>DEPAR</StopStatusCode>
           <StopStatusDescription>Departed</StopStatusDescription>
           <PerformanceStatusCode>COMPL</PerformanceStatusCode>

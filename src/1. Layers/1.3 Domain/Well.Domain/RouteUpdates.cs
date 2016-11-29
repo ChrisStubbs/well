@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Xml.Serialization;
     using ValueObjects;
 
@@ -9,8 +9,13 @@
     [XmlRoot("StopDeliveries")]
     public class RouteUpdates
     {
+        public RouteUpdates()
+        {
+            this.Stops = new List<StopUpdate>();
+        }
+
         [XmlArray("Orders")]
         [XmlArrayItem("Order", typeof(StopUpdate))]
-        public Collection<StopUpdate> Stops { get; set; }
+        public List<StopUpdate> Stops { get; set; }
     }
 }

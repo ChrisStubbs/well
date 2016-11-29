@@ -54,6 +54,17 @@
             return routeHeaders;
         }
 
+        public RouteHeader GetByNumberDateBranch(string routeNumber, DateTime routeDate, int branchId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteheaderGetByNumberDateBranch)
+                    .AddParameter("RouteNumber", routeNumber, DbType.String)
+                    .AddParameter("RouteDate", routeDate, DbType.DateTime)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
+                    .Query<RouteHeader>()
+                    .FirstOrDefault();
+        }
+
         public IEnumerable<HolidayExceptions> HolidayExceptionGet()
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet)

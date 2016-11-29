@@ -8,6 +8,11 @@
     [XmlRoot("RouteDeliveries")]
     public class RouteDelivery
     {
+        public RouteDelivery()
+        {
+            this.RouteHeaders = new List<RouteHeader>();
+        }
+
         public int RouteId { get; set; }
 
         [XmlArray("Routes")]

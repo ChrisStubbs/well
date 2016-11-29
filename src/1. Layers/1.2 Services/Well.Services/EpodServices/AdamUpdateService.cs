@@ -69,9 +69,10 @@
 
         private void Insert(StopUpdate stop)
         {
-            var existingRouteHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(
+            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
                 stop.RouteNumber,
-                stop.DeliveryDate);
+                stop.DeliveryDate.Value,
+                int.Parse(stop.StartDepotCode));
 
             if (existingRouteHeader == null)
             {
@@ -169,6 +170,18 @@
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
+            var existingStop = this.stopRepository.GetByTransportOrderReference(stopInsert.TransportOrderRef);
+
+            if (existingStop != null)
+            {
+                this.logger.LogDebug($"Stop already exists for ({stopInsert.TransportOrderRef}) when doing adam insert to existing route header!");
+                this.eventLogger.TryWriteToEventLog(
+                    EventSource.WellAdamXmlImport,
+                    $"Stop already exists for ({stopInsert.TransportOrderRef}) when doing adam insert to existing route header!",
+                    3232);
+                return;
+            }
+
             using (var transactionScope = new TransactionScope())
             {
                 var stop = new Stop

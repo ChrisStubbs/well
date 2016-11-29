@@ -26,7 +26,8 @@
 
         public AdamImportService(IRouteHeaderRepository routeHeaderRepository, 
             IStopRepository stopRepository, IAccountRepository accountRepository, 
-            IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IJobDetailDamageRepository jobDetailDamageRepository,
+            IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, 
+            IJobDetailDamageRepository jobDetailDamageRepository,
             ILogger logger, IEventLogger eventLogger)
         {
             this.routeHeaderRepository = routeHeaderRepository;
@@ -49,6 +50,21 @@
         {
             foreach (var header in route.RouteHeaders)
             {
+                var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
+                    header.RouteNumber,
+                    header.RouteDate.Value,
+                    header.StartDepot);
+
+                if (existingRouteHeader != null)
+                {
+                    this.logger.LogDebug($"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})",
+                        7776);
+                    continue;
+                }
+
                 header.RoutesId = route.RouteId;
                 header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
                                         ? (int)Branches.NotDefined

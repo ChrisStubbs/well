@@ -68,7 +68,7 @@
             {
                 var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename, Configuration.DownloadFilePath + listing.Filename);
 
-                /*if (string.IsNullOrWhiteSpace(downloadedFile))
+                if (string.IsNullOrWhiteSpace(downloadedFile))
                 {
                     this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
                     this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", 4433);
@@ -92,15 +92,15 @@
 
                         this.epodUpdateService.Update(routes);
                     }
+
+                    this.ftpClient.DeleteFile(filename);
+
+                    logger.LogDebug($"File {listing.Filename} imported!");
                 }
                 catch (Exception exception)
                 {
                     this.logger.LogError($"Epod update error in XML!", exception);
                 }
-
-                this.ftpClient.DeleteFile(filename);
-
-                logger.LogDebug($"File {listing.Filename} imported!"); */
             }
         }
     }

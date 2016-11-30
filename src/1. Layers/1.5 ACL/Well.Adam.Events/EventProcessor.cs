@@ -2,6 +2,7 @@
 {
     using Newtonsoft.Json;
 
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
@@ -14,17 +15,21 @@
     {
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IExceptionEventService exceptionEventService;
-        
+        private readonly ILogger logger;
+
         public EventProcessor(IContainer container)
         {
             this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
             this.exceptionEventService = container.GetInstance<IExceptionEventService>();
+            this.logger = container.GetInstance<ILogger>();
         }
 
         public void Process()
         {
             var username = "Event Processor";
             var eventsToProcess = this.exceptionEventRepository.GetAllUnprocessed();
+
+            this.logger.LogDebug("Starting Well Adam Events!");
 
             foreach (var eventToProcess in eventsToProcess)
             {
@@ -56,6 +61,8 @@
                         break;
                 }
             }
+
+            this.logger.LogDebug("Finished Well Adam Events!");
         }
 
         private AdamSettings GetAdamSettings(int branchId)

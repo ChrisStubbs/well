@@ -49,7 +49,7 @@
 
         public void Import()
         {
-            var listings = new List<DirectoryListing>();
+            /*var listings = new List<DirectoryListing>();
 
             using (var response = this.ftpClient.GetResponseStream())
             {
@@ -65,10 +65,12 @@
             }
 
             foreach (var listing in listings.OrderBy(x => x.Datetime))
-            {
-                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename, Configuration.DownloadFilePath + listing.Filename);
+            {*/
+            var downloadedFile = "C:\\temp\\well\\smallfiles\\ePOD__20161130_14172812065505.xml";// this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename, Configuration.DownloadFilePath + listing.Filename);
+                var filename = "foo";
+                //var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename, Configuration.DownloadFilePath + listing.Filename);
 
-                if (string.IsNullOrWhiteSpace(downloadedFile))
+                /*if (string.IsNullOrWhiteSpace(downloadedFile))
                 {
                     this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
                     this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", 4433);
@@ -77,7 +79,7 @@
                 }
 
                 var filename = Path.GetFileName(downloadedFile);
-
+*/
                 var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
 
                 try
@@ -95,13 +97,13 @@
 
                     this.ftpClient.DeleteFile(filename);
 
-                    logger.LogDebug($"File {listing.Filename} imported!");
+                    //logger.LogDebug($"File {listing.Filename} imported!");
                 }
                 catch (Exception exception)
                 {
                     this.logger.LogError($"Epod update error in XML!", exception);
                 }
-            }
+            //}
         }
     }
 }

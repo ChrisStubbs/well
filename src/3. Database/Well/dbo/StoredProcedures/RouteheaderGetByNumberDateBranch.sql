@@ -23,7 +23,6 @@ BEGIN
 		[ShortDeliveries],
 		[DamagesRejected],
 		[DamagesAccepted],
-		[NotRequired],
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],

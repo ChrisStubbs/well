@@ -130,7 +130,7 @@
                 .AddParameter("DriverName", entity.DriverName, DbType.String)
                 .AddParameter("StartDepotCode", entity.StartDepot, DbType.Int32)
                 .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16)
-                .AddParameter("ActualStopsCompleted", entity.PlannedStops, DbType.Int16)
+                .AddParameter("ActualStopsCompleted", entity.ActualStopsCompleted, DbType.Int16)
                 .AddParameter("RoutesId", entity.RoutesId, DbType.Int32)
                 .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
                 .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
@@ -140,12 +140,11 @@
                 .AddParameter("ShortDeliveries ", entity.ShortDeliveries, DbType.Int32)
                 .AddParameter("DamagesRejected", entity.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
-                .AddParameter("NotRequired", entity.NotRequired, DbType.Int32)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
-                .AddParameter("Depot", entity.EpodDepot, DbType.Int32).Query<int>().FirstOrDefault();
+                .Query<int>().FirstOrDefault();
         }
 
         protected override void UpdateExisting(RouteHeader entity)
@@ -160,36 +159,8 @@
                 .AddParameter("ShortDeliveries ", entity.ShortDeliveries, DbType.Int32)
                 .AddParameter("DamagesRejected", entity.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
-                .AddParameter("NotRequired", entity.NotRequired, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
-        }
-
-        public void RouteHeaderCreateOrUpdate(RouteHeader routeHeader)
-        {
-           routeHeader.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)
-                .AddParameter("Id", routeHeader.Id, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String)
-                .AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32)
-                .AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String)
-                .AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime)
-                .AddParameter("DriverName", routeHeader.DriverName, DbType.String)
-                .AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32)
-                .AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16)
-                .AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16)
-                .AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32)
-                .AddParameter("RouteStatusId", routeHeader.RouteStatus = (int)routeHeader.RouteStatus == 0 ? (int)RouteStatusCode.Notdef : routeHeader.RouteStatus, DbType.Int16)
-                .AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId == 0 ? (int)RoutePerformanceStatusCode.Notdef : routeHeader.RoutePerformanceStatusId, DbType.Int16)
-                .AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime)
-                .AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32)
-                .AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32)
-                .AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32)
-                .AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32)
-                .AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32)
-                .AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32)
-                .AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32)
-                .AddParameter("RouteOwnerId", routeHeader.RouteOwnerId, DbType.Int32)
-                .Query<int>().FirstOrDefault();
         }
 
         public RouteHeader GetRouteHeaderByRoute(string routeNumber, DateTime? routeDate)

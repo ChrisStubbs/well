@@ -61,6 +61,7 @@
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
                 stop.DeliveryDate);
 
+            // TODO check this still works
             using (var transactionScope = new TransactionScope())
             {
                 this.jobDetailRepository.Update(jobDetail);
@@ -75,14 +76,14 @@
                 {
                     //Make dirty
                     job.PerformanceStatus = PerformanceStatus.Incom;
-                    this.jobRepository.JobCreateOrUpdate(job);
+                    this.jobRepository.Update(job);
                 }
 
                 if (isCleanBeforeUpdate == false && isClean)
                 {
                     //Resolve
                     job.PerformanceStatus = PerformanceStatus.Resolved;
-                    this.jobRepository.JobCreateOrUpdate(job);
+                    this.jobRepository.Update(job);
                 }
 
                 if (audit.HasEntry)

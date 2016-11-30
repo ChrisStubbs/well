@@ -207,53 +207,7 @@
         }
 
 
-        public class TheSaveRoutesHeaderMethod : RouteHeaderRepositoryTests
-   {
-
-        [Test]
-        public void ShouldSaveRouteHeader()
-        {
-            var routeHeader = RouteHeaderFactory.New.Build();
-                
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Id", routeHeader.Id, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Username", UserName, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteNumber", routeHeader.RouteNumber, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteDate", routeHeader.RouteDate, DbType.DateTime, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DriverName", routeHeader.DriverName, DbType.String, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("StartDepotCode", routeHeader.StartDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("PlannedStops", routeHeader.PlannedStops, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("ActualStopsCompleted", routeHeader.PlannedStops, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RoutesId", routeHeader.RoutesId, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteStatusId", routeHeader.RouteStatus,DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RoutePerformanceStatusId", routeHeader.RoutePerformanceStatusId, DbType.Int16, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("LastRouteUpdate", routeHeader.LastRouteUpdate, DbType.DateTime, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("AuthByPass", routeHeader.AuthByPass, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("NonAuthByPass", routeHeader.NonAuthByPass, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("ShortDeliveries ", routeHeader.ShortDeliveries, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DamagesRejected", routeHeader.DamagesRejected, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DamagesAccepted", routeHeader.DamagesAccepted, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("NotRequired", routeHeader.NotRequired, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Depot", routeHeader.EpodDepot, DbType.Int32, null)).Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("RouteOwnerId", routeHeader.RouteOwnerId, DbType.Int32, null)).Returns(dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
-
-                this.repository.RouteHeaderCreateOrUpdate(routeHeader);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderCreateOrUpdate), Times.Exactly(1));
-                this.dapperProxy.Verify(x => x.AddParameter("CompanyId", routeHeader.CompanyId, DbType.Int32, null), Times.Exactly(1));
-                this.dapperProxy.Verify(x => x.AddParameter("Username", UserName, DbType.String, null), Times.Exactly(1));
-                this.dapperProxy.Verify(x => x.AddParameter("RouteOwnerId", routeHeader.RouteOwnerId, DbType.Int32, null), Times.Exactly(1));
-
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
-
-            }
-        }
-
-
-        public class TheDeleteRouteHeaderByIdMethod : RouteHeaderRepositoryTests
+    public class TheDeleteRouteHeaderByIdMethod : RouteHeaderRepositoryTests
          {
              [Test]
              public void ShouldCallTheStoredProcedureCorrectly()

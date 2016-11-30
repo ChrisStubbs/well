@@ -9,8 +9,6 @@
     {
         Job GetById(int id);
 
-        void JobCreateOrUpdate(Job job);
-
         Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId);
 
         Job JobGetByRefDetails(string phAccount, string pickListRef, int stopId);

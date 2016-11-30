@@ -19,8 +19,6 @@ begin
       ,[ShortDeliveries]
       ,[DamagesRejected]
       ,[DamagesAccepted]
-      ,[NotRequired]
-      ,[Depot]
 	  ,[RouteOwnerId]
 	  ,[IsDeleted]
       ,[CreatedBy]

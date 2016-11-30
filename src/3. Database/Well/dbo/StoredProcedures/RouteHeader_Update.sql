@@ -8,7 +8,6 @@
 	@ShortDeliveries		INT,
 	@DamagesRejected		INT, 
 	@DamagesAccepted		INT,
-	@NotRequired			INT,
 	@UpdatedBy VARCHAR(50),
 	@UpdatedDate DATETIME
 AS
@@ -23,7 +22,6 @@ BEGIN
 		ShortDeliveries = @ShortDeliveries,
 		DamagesRejected = @DamagesRejected,
 		DamagesAccepted = @DamagesAccepted,
-		NotRequired = @NotRequired,
 		UpdatedBy = @UpdatedBy,
 		DateUpdated = @UpdatedDate
 	WHERE Id = @Id

@@ -14,8 +14,6 @@
 
         bool FileAlreadyLoaded(string filename);
 
-        void RouteHeaderCreateOrUpdate(RouteHeader routeHeader);
-
         RouteHeader GetRouteHeaderById(int id);
 
         RouteHeader GetRouteHeaderByRoute(string routeNumber, DateTime? routeDate);

@@ -1,8 +1,6 @@
 ﻿namespace PH.Well.UnitTests.ACL.AdamEvents
 {
     using System.Collections.Generic;
-    using System.IO;
-    using System.Xml.Serialization;
 
     using Moq;
 
@@ -11,6 +9,7 @@
     using NUnit.Framework;
 
     using PH.Well.Adam.Events;
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
@@ -26,6 +25,8 @@
 
         private Mock<IExceptionEventService> exceptionEventService;
 
+        private Mock<ILogger> logger;
+
         private Mock<IContainer> container;
 
         private EventProcessor processor;
@@ -37,6 +38,7 @@
         {
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             this.exceptionEventService = new Mock<IExceptionEventService>(MockBehavior.Strict);
+            this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.container = new Mock<IContainer>(MockBehavior.Strict);
 
             this.container.Setup(x => x.GetInstance<IExceptionEventRepository>())
@@ -44,6 +46,8 @@
 
             this.container.Setup(x => x.GetInstance<IExceptionEventService>())
                 .Returns(this.exceptionEventService.Object);
+
+            this.container.Setup(x => x.GetInstance<ILogger>()).Returns(this.logger.Object);
 
             this.processor = new EventProcessor(this.container.Object);
 
@@ -71,6 +75,9 @@
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
                     x => x.Credit(It.IsAny<CreditEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
 
                 this.processor.Process();
 
@@ -104,6 +111,9 @@
                             It.IsAny<AdamSettings>(),
                             this.username));
 
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
+
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
@@ -132,6 +142,9 @@
                 this.exceptionEventService.Setup(
                     x => x.Reject(It.IsAny<RejectEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
+
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
@@ -159,6 +172,9 @@
                 this.exceptionEventService.Setup(
                     x =>
                         x.ReplanRoadnet(It.IsAny<RoadnetEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
 
                 this.processor.Process();
 
@@ -193,6 +209,9 @@
                             It.IsAny<AdamSettings>(),
                             this.username));
 
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
+
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
@@ -224,6 +243,9 @@
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
                     x => x.ReplanQueue(It.IsAny<QueueEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
 
                 this.processor.Process();
 

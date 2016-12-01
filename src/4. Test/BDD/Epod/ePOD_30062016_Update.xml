@@ -70,8 +70,10 @@
               <StopID>88638</StopID>
               <ByPassReasonID />
               <Sequence>1</Sequence>
-              <JobRef4>49214.152</JobRef4>
+              <JobRef1>123</JobRef1>
               <JobRef2>4294343</JobRef2>
+              <JobRef3>1787878</JobRef3>
+              <JobRef4>49214.152</JobRef4>
               <CustomerRef>946941</CustomerRef>
               <GrnNumber>1234567896541236547896</GrnNumber>
               <GrnRefusedReason>Inv</GrnRefusedReason>

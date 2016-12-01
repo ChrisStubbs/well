@@ -112,12 +112,8 @@
     <Build Include="dbo\StoredProcedures\Route_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\Stops_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\StopAccount_CreateOrUpdate.sql" />
-    <Build Include="dbo\StoredProcedures\Job_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
@@ -130,7 +126,6 @@
     <Build Include="dbo\StoredProcedures\RouteHeader_GetByRouteNumberAndDate.sql" />
     <Build Include="dbo\StoredProcedures\StopGetByTransportOrderReference.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailDamage_CreateOrUpdate.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />
     <Build Include="dbo\Tables\Reason.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByAccountId.sql" />

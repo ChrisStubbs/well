@@ -27,8 +27,6 @@
             this.Entity.ShortDeliveries = 0;
             this.Entity.DamagesRejected = 1;
             this.Entity.DamagesAccepted = 0;
-            this.Entity.NotRequired = 0;
-            this.Entity.Depot = "001";
             this.Entity.RouteOwnerId = 22;
         }
     }

@@ -72,13 +72,20 @@
         /// Total ordered outers
         /// </summary>
         [XmlIgnore]
-        public string OrdOuters
+        public int? OrdOuters
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ORDOUTERS");
 
-                return attribute?.Value;
+                var intTry = 0;
+
+                if (int.TryParse(attribute?.Value, out intTry))
+                {
+                    return intTry;
+                }
+
+                return null;
             }
         }
 
@@ -86,13 +93,20 @@
         /// Total invoiced outers
         /// </summary>
         [XmlIgnore]
-        public string InvOuters
+        public int? InvOuters
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "INVOUTERS");
 
-                return attribute?.Value;
+                var intTry = 0;
+
+                if (int.TryParse(attribute?.Value, out intTry))
+                {
+                    return intTry;
+                }
+
+                return null;
             }
         }
 
@@ -100,13 +114,20 @@
         /// Total outers for uplift
         /// </summary>
         [XmlIgnore]
-        public string ColOuters
+        public int? ColOuters
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "COLOUTERS");
 
-                return attribute?.Value;
+                var intTry = 0;
+
+                if (int.TryParse(attribute?.Value, out intTry))
+                {
+                    return intTry;
+                }
+
+                return null;
             }
         }
 
@@ -114,13 +135,20 @@
         /// Total boxes for uplift collection
         /// </summary>
         [XmlIgnore]
-        public string ColBoxes
+        public int? ColBoxes
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "COLBOXES");
 
-                return attribute?.Value;
+                var intTry = 0;
+
+                if (int.TryParse(attribute?.Value, out intTry))
+                {
+                    return intTry;
+                }
+
+                return null;
             }
         }
 
@@ -129,7 +157,7 @@
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ReCallPrd");
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "RECALLPRD");
 
                 if (attribute != null)
                 {
@@ -149,7 +177,7 @@
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "AllowSoCrd");
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWSOCRD");
 
                 if (attribute != null)
                 {
@@ -164,7 +192,7 @@
         /// Cash on delivery
         /// </summary>
         [XmlIgnore]
-        public bool Cod
+        public string Cod
         {
             get
             {
@@ -172,10 +200,10 @@
 
                 if (attribute != null)
                 {
-                    return attribute.Value != "N";
+                    return attribute.Value;
                 }
 
-                return false;
+                return string.Empty;
             }
         }
 

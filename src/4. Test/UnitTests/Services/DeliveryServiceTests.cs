@@ -72,7 +72,7 @@
                 jobDetailDamageRepo.Setup(d => d.Delete(jobDetail.Id));
 
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
-                jobRepo.Setup(j => j.JobCreateOrUpdate(It.IsAny<Job>()));
+                jobRepo.Setup(j => j.Update(It.IsAny<Job>()));
 
                 jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
                     .Returns(new JobDetail());
@@ -86,7 +86,7 @@
                     jd => jd.Id == jobDetail.Id &&
                           jd.ShortQty == jobDetail.ShortQty)));
 
-                jobRepo.Verify(j => j.JobCreateOrUpdate(
+                jobRepo.Verify(j => j.Update(
                     It.Is<Job>(job => job.PerformanceStatus == PerformanceStatus.Incom)));
 
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
@@ -117,7 +117,7 @@
                 jobDetailDamageRepo.Setup(d => d.Save(It.IsAny<JobDetailDamage>()));
 
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
-                jobRepo.Setup(j => j.JobCreateOrUpdate(It.IsAny<Job>()));
+                jobRepo.Setup(j => j.Update(It.IsAny<Job>()));
 
                 jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
                     .Returns(new JobDetail());
@@ -134,7 +134,7 @@
                 jobDetailDamageRepo.Verify(
                     d => d.Save(It.Is<JobDetailDamage>(jdd => jdd.Qty == jobDetail.JobDetailDamages[0].Qty)));
 
-                jobRepo.Verify(j => j.JobCreateOrUpdate(It.Is<Job>(
+                jobRepo.Verify(j => j.Update(It.Is<Job>(
                     job => job.PerformanceStatus == PerformanceStatus.Incom)));
 
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
@@ -170,7 +170,7 @@
                 jobDetailDamageRepo.Setup(d => d.Delete(jobDetail.Id));
 
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
-                jobRepo.Setup(j => j.JobCreateOrUpdate(It.IsAny<Job>()));
+                jobRepo.Setup(j => j.Update(It.IsAny<Job>()));
 
                 jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
                     .Returns(new JobDetail() {ShortQty = 3});
@@ -184,7 +184,7 @@
                     jd => jd.Id == jobDetail.Id &&
                           jd.ShortQty == jobDetail.ShortQty)));
 
-                jobRepo.Verify(j => j.JobCreateOrUpdate(
+                jobRepo.Verify(j => j.Update(
                     It.Is<Job>(job => job.PerformanceStatus == PerformanceStatus.Resolved)));
 
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));

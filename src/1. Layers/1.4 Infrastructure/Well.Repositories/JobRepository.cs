@@ -101,7 +101,7 @@
                 .AddParameter("ColBoxes", entity.ColBoxes, DbType.Int16)
                 .AddParameter("ReCallPrd", entity.ReCallPrd, DbType.Boolean)
                 .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
-                .AddParameter("COD", entity.Cod, DbType.Boolean)
+                .AddParameter("COD", entity.Cod, DbType.String)
                 .AddParameter("GrnNumber", entity.GrnNumber, DbType.String)
                 .AddParameter("GrnRefusedReason", entity.GrnRefusedReason, DbType.String)
                 .AddParameter("GrnRefusedDesc", entity.GrnRefusedDesc, DbType.String)
@@ -125,48 +125,6 @@
                 .Query<int>().FirstOrDefault();
         }
 
-        public void JobCreateOrUpdate(Job job)
-        {
-            job.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobCreateOrUpdate)
-                .AddParameter("Id", job.Id, DbType.Int32)
-                .AddParameter("Sequence", job.Sequence, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String)
-                .AddParameter("JobTypeCode", job.JobTypeCode, DbType.String)
-                .AddParameter("PHAccount", job.PhAccount, DbType.String)
-                .AddParameter("PickListRef", job.PickListRef, DbType.String)
-                .AddParameter("InvoiceNumber", job.InvoiceNumber, DbType.String)
-                .AddParameter("CustomerRef", job.CustomerRef, DbType.String)
-                .AddParameter("OrderDate", job.OrderDate, DbType.DateTime)
-                .AddParameter("RoyaltyCode", job.RoyaltyCode, DbType.String)
-                .AddParameter("RoyaltyCodeDesc", job.RoyaltyCodeDesc, DbType.String)
-                .AddParameter("OrdOuters", job.OrdOuters, DbType.Int16)
-                .AddParameter("InvOuters", job.InvOuters, DbType.Int16)
-                .AddParameter("ColOuters", job.ColOuters, DbType.Int16)
-                .AddParameter("ColBoxes", job.ColBoxes, DbType.Int16)
-                .AddParameter("ReCallPrd", job.ReCallPrd, DbType.Boolean)
-                .AddParameter("AllowSOCrd", job.AllowSoCrd, DbType.Boolean)
-                .AddParameter("COD", job.Cod, DbType.Boolean)
-                .AddParameter("GrnNumber", job.GrnNumber, DbType.String)
-                .AddParameter("GrnRefusedReason", job.GrnRefusedReason, DbType.String)
-                .AddParameter("GrnRefusedDesc", job.GrnRefusedDesc, DbType.String)
-                .AddParameter("AllowReOrd", job.AllowReOrd, DbType.Boolean)
-                .AddParameter("SandwchOrd", job.SandwchOrd, DbType.Boolean)
-                .AddParameter("TotalCreditValueForThreshold", job.TotalCreditValueForThreshold(), DbType.Decimal)
-                .AddParameter("PerformanceStatusId", (int) job.PerformanceStatus, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", (int) job.ByPassReason, DbType.Int16)
-                .AddParameter("StopId", job.StopId, DbType.Int32)
-                .AddParameter("ActionLogNumber", job.ActionLogNumber, DbType.String)
-                .AddParameter("OuterCount", job.OuterCount, DbType.Int16)
-                .AddParameter("OuterDiscrepancyFound", job.OuterDiscrepancyFound, DbType.String)
-                .AddParameter("TotalOutersOver", job.TotalOutersOver, DbType.Int16)
-                .AddParameter("TotalOutersShort", job.TotalOutersShort, DbType.Int16)
-                .AddParameter("Picked", job.Picked, DbType.Boolean)
-                .AddParameter("InvoiceValue", job.InvoiceValue, DbType.Decimal)
-                .Query<int>().FirstOrDefault()
-                ;
-
-        }
-        
         public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
         {
             var job =

@@ -20,8 +20,6 @@ BEGIN
 		[ShortDeliveries],
 		[DamagesRejected],
 		[DamagesAccepted],
-		[NotRequired],
-		[Depot],
 		[RouteOwnerId],
 		[CreatedBy],
 		[DateCreated],

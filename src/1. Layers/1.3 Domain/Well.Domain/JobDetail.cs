@@ -104,7 +104,7 @@
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "NetPrice");
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "NETPRICE");
 
                 return attribute?.Value;
             }
@@ -167,7 +167,7 @@
 
                 if (attribute != null)
                 {
-                    return attribute.Value != "N";
+                    return attribute?.Value != "N";
                 }
 
                 return false;

@@ -16,8 +16,6 @@
             to.ShortDeliveries = from.ShortDeliveries;
             to.DamagesRejected = from.DamagesRejected;
             to.DamagesAccepted = from.DamagesAccepted;
-            to.NotRequired = from.NotRequired;
-            to.Depot = from.Depot;
             to.StartDepotCode = from.StartDepotCode;
             to.ActualStopsCompleted = from.ActualStopsCompleted;
         }

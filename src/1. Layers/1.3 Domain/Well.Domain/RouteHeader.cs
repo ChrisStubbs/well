@@ -209,45 +209,7 @@
         }
 
         [XmlIgnore]
-        public int NotRequired { get; set; }
-
-        [XmlElement("NotRequired")]
-        public string NotRequiredFromXml
-        {
-            get
-            {
-                return this.NotRequired.ToString();
-            }
-            set
-            {
-                int tryInt;
-
-                if (int.TryParse(value, out tryInt))
-                {
-                    this.NotRequired = tryInt;
-                }
-            }
-        }
-
-        [XmlIgnore]
         public int RoutesId { get; set; }
-
-        [XmlIgnore]
-        public int EpodDepot
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(this.Depot))
-                {
-                    return (int)Branches.NotDefined;
-                }
-
-                return (int)Enum.Parse(typeof(Branches), this.Depot, true);
-            }
-        }
-
-        [XmlElement("Depot")]
-        public string Depot { get; set; }
 
         [XmlArray("Stops")]
         [XmlArrayItem("Stop", typeof(Stop))]

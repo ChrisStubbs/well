@@ -62,7 +62,7 @@ Scenario: A user can view Route information and sort on updated date
 Scenario: A user can page through Route information
 	Given I have a clean database
 	And I have loaded the Adam route data that has 21 lines
-	And I have selected branch '22'
+	And I have selected branch '2'
 	When I open the routes page
 	Then '10' rows of data will be displayed
 	And I will have 3 pages of data

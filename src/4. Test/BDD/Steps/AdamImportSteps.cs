@@ -78,10 +78,10 @@
         [Given(@"I have loaded the Adam route data that has 21 lines")]
         public void GivenIHaveLoadedTheAdamRouteDataThatHasLines()
         {
-            for (int i = 0; i < 7; i++)
-            {
-                LoadAdamRouteData();
-            }
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+               "xml\\ROUTE_30062016_03.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
         }
 
         [Given(@"I have an invalid ADAM route file '(.*)' with a '(.*)' node at position '(.*)' with the '(.*)' node missing")]

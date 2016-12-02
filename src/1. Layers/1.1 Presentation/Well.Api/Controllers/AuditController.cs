@@ -41,7 +41,7 @@
                     AccountCode = a.AccountCode,
                     AuditBy = a.CreatedBy,
                     AuditDate = a.DateCreated,
-                    DeliveryDate = a.DeliveryDate.HasValue ? "" : a.DeliveryDate.Value.ToShortDateString(),
+                   // DeliveryDate = a.DeliveryDate.HasValue ? "" : a.DeliveryDate.Value.ToShortDateString(),
                     InvoiceNumber = a.InvoiceNumber,
                     Type = a.Type.ToString()
                 }));

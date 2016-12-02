@@ -29,9 +29,9 @@
         InvoiceNo = 2,
         Account = 3,
         AccountName= 4,
-        InfoButton = 8,
-        Status = 10,
-        Assigned = 11,
-        LastUpdatedDateTime = 13
+        InfoButton = 6,
+        Status = 9,
+        Assigned = 10,
+        LastUpdatedDateTime = 11
     }
 }

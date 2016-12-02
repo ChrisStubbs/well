@@ -35,6 +35,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>001 01</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -182,7 +183,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>50035</PHProductCode>
+                  <Barcode>50035</Barcode>
                   <OriginalDespatchQty>20</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -207,7 +208,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>50035</PHProductCode>
+                  <Barcode>50035</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -350,7 +351,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>36524</PHProductCode>
+                  <Barcode>36524</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -379,7 +380,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>36533</PHProductCode>
+                  <Barcode>36533</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Maltesers Box 102g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -411,6 +412,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>001 02</TextField5>
           <ShellActionIndicator>N</ShellActionIndicator>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
@@ -553,7 +555,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>50035</PHProductCode>
+                  <Barcode>50035</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -578,7 +580,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>50035</PHProductCode>
+                  <Barcode>50035</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -714,7 +716,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>6987</PHProductCode>
+                  <Barcode>6987</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Choc Teacakes Tunnock</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -733,7 +735,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>49179</PHProductCode>
+                  <Barcode>49179</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Ginger Nuts 250g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -752,7 +754,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>21633</PHProductCode>
+                  <Barcode>21633</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Kiddies Super Mix 220gPM</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -771,7 +773,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <PHProductCode>4244</PHProductCode>
+                  <Barcode>4244</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Milkybar Btns Giant PM</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -790,7 +792,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
-                  <PHProductCode>7621</PHProductCode>
+                  <Barcode>7621</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Fruit Past Tube 52.5g</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -847,6 +849,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>006 01</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -874,7 +877,7 @@
               <JobTypeCode>DEL-TOB</JobTypeCode>
               <JobRef1>211</JobRef1>
               <JobRef2>1156028</JobRef2>
-              <JobRef3></JobRef3>
+              <JobRef3>123123123</JobRef3>
               <JobRef4>43362.048</JobRef4>
               <OrderDate>30-05-2016</OrderDate>
               <TextField1>318 WELCOME BREAK SHOPS</TextField1>
@@ -987,7 +990,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>10637</PHProductCode>
+                  <Barcode>10637</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -1004,7 +1007,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>12274</PHProductCode>
+                  <Barcode>12274</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>B&amp;H Dual</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -1023,7 +1026,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>12476</PHProductCode>
+                  <Barcode>12476</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Marlboro Gold KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -1042,7 +1045,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <PHProductCode>10574</PHProductCode>
+                  <Barcode>10574</Barcode>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <ProdDesc>Mayfair KS</ProdDesc>
                   <OrderedQty>1</OrderedQty>
@@ -1066,7 +1069,7 @@
               <JobTypeCode>DEL-AMB</JobTypeCode>
               <JobRef1>212</JobRef1>
               <JobRef2>2544765</JobRef2>
-              <JobRef3></JobRef3>
+              <JobRef3>223123123</JobRef3>
               <JobRef4>2874.033</JobRef4>
               <OrderDate>30-05-2016</OrderDate>
               <TextField1>318 WELCOME BREAK SHOPS</TextField1>
@@ -1188,7 +1191,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>4237</PHProductCode>
+                  <Barcode>4237</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
@@ -1208,7 +1211,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>7605</PHProductCode>
+                  <Barcode>7605</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Bass Sherbet Lemons 200g</ProdDesc>
@@ -1228,7 +1231,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>41957</PHProductCode>
+                  <Barcode>41957</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Bournville Std 45g</ProdDesc>
@@ -1248,7 +1251,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <PHProductCode>3319</PHProductCode>
+                  <Barcode>3319</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>C.D.M Std 45g</ProdDesc>
@@ -1268,7 +1271,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
-                  <PHProductCode>9135</PHProductCode>
+                  <Barcode>9135</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Wispa Duo 51g</ProdDesc>
@@ -1301,6 +1304,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>006 02</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -1328,7 +1332,7 @@
               <JobTypeCode>DEL-CHL</JobTypeCode>
               <JobRef1>123</JobRef1>
               <JobRef2>4295479</JobRef2>
-              <JobRef3></JobRef3>
+              <JobRef3>323123123</JobRef3>
               <JobRef4>54107.000</JobRef4>
               <OrderDate>29-05-2016</OrderDate>
               <TextField1>109 SHELL 2001 C&amp;F</TextField1>
@@ -1442,7 +1446,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>96986</PHProductCode>
+                  <Barcode>96986</Barcode>
                   <OriginalDespatchQty>6</OriginalDespatchQty>
                   <ProdDesc>Deli2Go 3Chse&amp;Spring On</ProdDesc>
                   <OrderedQty>6</OrderedQty>
@@ -1461,7 +1465,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>97040</PHProductCode>
+                  <Barcode>97040</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Chicken Mayo</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -1484,7 +1488,7 @@
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
               <JobRef1>125</JobRef1>
-              <JobRef3></JobRef3>
+              <JobRef3>423123123</JobRef3>
               <JobRef4>54107.000</JobRef4>
               <JobRef2>4294985</JobRef2>
               <OrderDate>28-05-2016</OrderDate>
@@ -1599,7 +1603,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>56330</PHProductCode>
+                  <Barcode>56330</Barcode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Moms Crak HotDog</ProdDesc>
                   <OrderedQty>2</OrderedQty>
@@ -1618,7 +1622,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>90181</PHProductCode>
+                  <Barcode>90181</Barcode>
                   <OriginalDespatchQty>4</OriginalDespatchQty>
                   <ProdDesc>Deli2Go B/Fast Sausage</ProdDesc>
                   <OrderedQty>4</OrderedQty>
@@ -1637,7 +1641,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>96474</PHProductCode>
+                  <Barcode>96474</Barcode>
                   <OriginalDespatchQty>7</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Brunch Saus Roll</ProdDesc>
                   <OrderedQty>7</OrderedQty>
@@ -1694,6 +1698,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 01</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -1835,7 +1840,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>10637</PHProductCode>
+                  <Barcode>10637</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
@@ -1855,7 +1860,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>12274</PHProductCode>
+                  <Barcode>12274</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>B&amp;H Dual</ProdDesc>
@@ -1875,7 +1880,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>12476</PHProductCode>
+                  <Barcode>12476</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Marlboro Gold KS</ProdDesc>
@@ -1895,7 +1900,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <PHProductCode>10574</PHProductCode>
+                  <Barcode>10574</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Mayfair KS</ProdDesc>
@@ -2042,7 +2047,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>4237</PHProductCode>
+                  <Barcode>4237</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Maltesers Tube 75g</ProdDesc>
@@ -2062,7 +2067,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>7605</PHProductCode>
+                  <Barcode>7605</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Bass Sherbet Lemons 200g</ProdDesc>
@@ -2082,7 +2087,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>41957</PHProductCode>
+                  <Barcode>41957</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Bournville Std 45g</ProdDesc>
@@ -2102,7 +2107,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>4</LineNumber>
-                  <PHProductCode>3319</PHProductCode>
+                  <Barcode>3319</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>C.D.M Std 45g</ProdDesc>
@@ -2122,7 +2127,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>5</LineNumber>
-                  <PHProductCode>9135</PHProductCode>
+                  <Barcode>9135</Barcode>
                   <OriginalDespatchQty>
                   </OriginalDespatchQty>
                   <ProdDesc>Wispa Duo 51g</ProdDesc>
@@ -2155,6 +2160,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 02</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -2296,7 +2302,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>96986</PHProductCode>
+                  <Barcode>96986</Barcode>
                   <OriginalDespatchQty>6</OriginalDespatchQty>
                   <ProdDesc>Deli2Go 3Chse&amp;Spring On</ProdDesc>
                   <OrderedQty>6</OrderedQty>
@@ -2315,7 +2321,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>97040</PHProductCode>
+                  <Barcode>97040</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Chicken Mayo</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -2453,7 +2459,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>56330</PHProductCode>
+                  <Barcode>56330</Barcode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Moms Crak HotDog</ProdDesc>
                   <OrderedQty>2</OrderedQty>
@@ -2472,7 +2478,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>90181</PHProductCode>
+                  <Barcode>90181</Barcode>
                   <OriginalDespatchQty>4</OriginalDespatchQty>
                   <ProdDesc>Deli2Go B/Fast Sausage</ProdDesc>
                   <OrderedQty>4</OrderedQty>
@@ -2491,7 +2497,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>96474</PHProductCode>
+                  <Barcode>96474</Barcode>
                   <OriginalDespatchQty>7</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Brunch Saus Roll</ProdDesc>
                   <OrderedQty>7</OrderedQty>
@@ -2524,6 +2530,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 03</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -2668,7 +2675,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>96986</PHProductCode>
+                  <Barcode>96986</Barcode>
                   <OriginalDespatchQty>6</OriginalDespatchQty>
                   <ProdDesc>Deli2Go 3Chse&amp;Spring On</ProdDesc>
                   <OrderedQty>6</OrderedQty>
@@ -2687,7 +2694,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>97040</PHProductCode>
+                  <Barcode>97040</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Chicken Mayo</ProdDesc>
                   <OrderedQty>5</OrderedQty>
@@ -2825,7 +2832,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>56330</PHProductCode>
+                  <Barcode>56330</Barcode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Moms Crak HotDog</ProdDesc>
                   <OrderedQty>2</OrderedQty>
@@ -2844,7 +2851,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>90181</PHProductCode>
+                  <Barcode>90181</Barcode>
                   <OriginalDespatchQty>4</OriginalDespatchQty>
                   <ProdDesc>Deli2Go B/Fast Sausage</ProdDesc>
                   <OrderedQty>4</OrderedQty>
@@ -2863,7 +2870,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>96474</PHProductCode>
+                  <Barcode>96474</Barcode>
                   <OriginalDespatchQty>7</OriginalDespatchQty>
                   <ProdDesc>Deli2Go Brunch Saus Roll</ProdDesc>
                   <OrderedQty>7</OrderedQty>
@@ -2895,6 +2902,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 05</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -3044,7 +3052,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>13372</PHProductCode>
+                  <Barcode>13372</Barcode>
                   <OriginalDespatchQty>150</OriginalDespatchQty>
                   <ProdDesc>B&amp;H Gold</ProdDesc>
                   <OrderedQty>150</OrderedQty>
@@ -3063,7 +3071,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>10574</PHProductCode>
+                  <Barcode>10574</Barcode>
                   <OriginalDespatchQty>41</OriginalDespatchQty>
                   <ProdDesc>Mayfair KS</ProdDesc>
                   <OrderedQty>41</OrderedQty>
@@ -3202,7 +3210,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>23248</PHProductCode>
+                  <Barcode>23248</Barcode>
                   <OriginalDespatchQty>30</OriginalDespatchQty>
                   <ProdDesc>Bounty Trio Milk K/S 85g</ProdDesc>
                   <OrderedQty>30</OrderedQty>
@@ -3221,7 +3229,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>26353</PHProductCode>
+                  <Barcode>26353</Barcode>
                   <OriginalDespatchQty>40</OriginalDespatchQty>
                   <ProdDesc>Double Decker 54.5g</ProdDesc>
                   <OrderedQty>40</OrderedQty>
@@ -3240,7 +3248,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>3</LineNumber>
-                  <PHProductCode>7454</PHProductCode>
+                  <Barcode>7454</Barcode>
                   <OriginalDespatchQty>30</OriginalDespatchQty>
                   <ProdDesc>Galaxy Milk Kingsize 75g</ProdDesc>
                   <OrderedQty>30</OrderedQty>
@@ -3378,7 +3386,7 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <PHProductCode>50932</PHProductCode>
+                  <Barcode>50932</Barcode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Trop Orig Orange 300ml</ProdDesc>
                   <OrderedQty>2</OrderedQty>
@@ -3397,7 +3405,7 @@
                 </JobDetail>
                 <JobDetail>
                   <LineNumber>2</LineNumber>
-                  <PHProductCode>96365</PHProductCode>
+                  <Barcode>96365</Barcode>
                   <OriginalDespatchQty>2</OriginalDespatchQty>
                   <ProdDesc>Tesco Maple Pecan Plait</ProdDesc>
                   <OrderedQty>2</OrderedQty>

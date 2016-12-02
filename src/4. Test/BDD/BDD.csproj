@@ -106,20 +106,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\ACL\AdamRouteFileSchemaValidation.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AdamRouteFileSchemaValidation.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\ACL\ClearClean.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClearClean.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Features\ACL\EpodRouteFileSchemaValidation.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EpodRouteFileSchemaValidation.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Pages\ActionDeliveryLine.feature.cs">
       <AutoGen>True</AutoGen>
@@ -264,17 +254,9 @@
     <None Include="ConfigurationSections\connectionstring-qa1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\ACL\AdamRouteFileSchemaValidation.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>AdamRouteFileSchemaValidation.feature.cs</LastGenOutput>
-    </None>
     <None Include="Features\ACL\ClearClean.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ClearClean.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\ACL\EpodRouteFileSchemaValidation.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>EpodRouteFileSchemaValidation.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\ActionDeliveryLine.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

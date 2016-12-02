@@ -1,10 +1,4 @@
-﻿using System;
-using System.Reflection;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
-using PH.Well.BDD.Framework;
-
-namespace PH.Well.BDD.Steps.Page
+﻿namespace PH.Well.BDD.Steps.Page
 {
     using System.Linq;
     using System.Threading;

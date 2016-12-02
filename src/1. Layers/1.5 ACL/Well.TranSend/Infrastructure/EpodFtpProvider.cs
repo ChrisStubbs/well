@@ -93,7 +93,8 @@
                         this.epodUpdateService.Update(routes);
                     }
 
-                    this.ftpClient.DeleteFile(filename);
+                    // TODO dont delete as want to test on UAT
+                    // this.ftpClient.DeleteFile(filename);
 
                     logger.LogDebug($"File {listing.Filename} imported!");
                 }

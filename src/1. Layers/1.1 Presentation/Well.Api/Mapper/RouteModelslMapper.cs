@@ -24,7 +24,8 @@
                     DeliveryCleanCount = routeHeader.CleanJobs,
                     DeliveryExceptionCount = routeHeader.ExceptionJobs,
                     RouteStatus =   StringExtensions.GetEnumDescription(routeHeader.RouteStatus),
-                    DateTimeUpdated = routeHeader.DateUpdated
+                    DateTimeUpdated = routeHeader.DateUpdated,
+                    RouteOwnerId = routeHeader.RouteOwnerId
                 };
                 routeModels.Add(model);
             }

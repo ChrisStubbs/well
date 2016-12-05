@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
-import {PaginatePipe, PaginationControlsCmp} from 'ng2-pagination';
+import {Ng2PaginationModule} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
 import {TabsModule} from 'ng2-tabs';
 import {AppComponent} from './appComponent';
@@ -73,7 +73,7 @@ import {BranchService} from './shared/branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
 import {LogService} from './shared/logService';
-import {PaginationService } from 'ng2-pagination';
+//import {PaginationService } from 'ng2-pagination';
 import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
@@ -86,7 +86,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 
 @NgModule({
     declarations: [SpinnerComponent,
-        OptionFilterComponent, OptionFilterPipe, OutstandingPipe, PaginationControlsCmp, PaginatePipe, OrderByDatePipe,
+        OptionFilterComponent, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
@@ -100,10 +100,10 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
         CodComponent
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule
     ],
     providers: [
-        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService, PaginationService,
+        GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService,
         CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService,

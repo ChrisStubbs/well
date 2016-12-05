@@ -17,5 +17,7 @@
         public string RouteStatus { get; set; }
 
         public DateTime DateTimeUpdated { get; set; }
+
+        public int RouteOwnerId { get; set; }
     }
 }

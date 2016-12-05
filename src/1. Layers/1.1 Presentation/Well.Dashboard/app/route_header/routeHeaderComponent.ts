@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {Route} from './route';

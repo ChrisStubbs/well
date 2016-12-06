@@ -28,10 +28,11 @@
         Drop = 1,
         InvoiceNo = 2,
         Account = 3,
-        AccountName= 4,
-        InfoButton = 8,
-        Status = 10,
-        Assigned = 11,
-        LastUpdatedDateTime = 13
+        AccountName = 4,
+        COD = 5,
+        InfoButton = 6,
+        Status = 7,
+        Assigned = 8,
+        LastUpdatedDateTime = 9
     }
 }

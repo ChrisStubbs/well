@@ -47,9 +47,7 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Assigned), Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }
-
-
-
+        
         [Then(@"the following resolved deliveries will be displayed")]
         public void ThenTheFollowingResolvedDeliveriesWillBeDisplayed(Table table)
         {

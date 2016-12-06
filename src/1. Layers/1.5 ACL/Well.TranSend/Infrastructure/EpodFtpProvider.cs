@@ -23,6 +23,7 @@
         private readonly IWebClient webClient;
         private readonly IEventLogger eventLogger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IFileModule fileModule;
         private readonly ILogger logger;
         private readonly IEpodUpdateService epodUpdateService;
 
@@ -32,7 +33,8 @@
             IFtpClient ftpClient,
             IWebClient webClient,
             IEventLogger eventLogger,
-            IRouteHeaderRepository routeHeaderRepository)
+            IRouteHeaderRepository routeHeaderRepository,
+            IFileModule fileModule)
         {
             this.logger = logger;
             this.epodUpdateService = epodUpdateService;
@@ -40,6 +42,7 @@
             this.webClient = webClient;
             this.eventLogger = eventLogger;
             this.routeHeaderRepository = routeHeaderRepository;
+            this.fileModule = fileModule;
 
             this.ftpClient.FtpLocation = Configuration.FtpLocation;
             this.ftpClient.FtpUserName = Configuration.FtpUsername;
@@ -93,8 +96,8 @@
                         this.epodUpdateService.Update(routes);
                     }
 
-                    // TODO dont delete as want to test on UAT
-                    // this.ftpClient.DeleteFile(filename);
+                    this.ftpClient.DeleteFile(filename);
+                    this.fileModule.MoveFile(downloadedFile, Configuration.ArchiveLocation);
 
                     logger.LogDebug($"File {listing.Filename} imported!");
                 }

@@ -96,7 +96,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned"});
             table1.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
@@ -104,7 +104,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
             table1.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
@@ -112,7 +112,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
             table1.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -177,7 +177,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned"});
             table3.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP",
@@ -185,7 +185,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
             table3.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP",
@@ -193,7 +193,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
             table3.AddRow(new string[] {
                         "006",
-                        "02",
+                        "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT",
@@ -201,7 +201,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
             table3.AddRow(new string[] {
                         "006",
-                        "02",
+                        "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT",
@@ -224,7 +224,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned"});
             table4.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
@@ -248,7 +248,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned"});
             table5.AddRow(new string[] {
                         "011",
-                        "05",
+                        "5",
                         "928398.080",
                         "28398.080",
                         "TESCO EXPRESS",
@@ -272,7 +272,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned"});
             table6.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP",
@@ -281,7 +281,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated"});
             table6.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP",
@@ -323,7 +323,7 @@ this.ScenarioSetup(scenarioInfo);
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
@@ -332,7 +332,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Sep 7, 2016, 1:27:17 PM"});
             table7.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
@@ -341,7 +341,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Sep 7, 2016, 1:29:17 PM"});
             table7.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -364,7 +364,7 @@ this.ScenarioSetup(scenarioInfo);
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -373,7 +373,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Sep 7, 2016, 1:31:17 PM"});
             table8.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
@@ -382,7 +382,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Sep 7, 2016, 1:29:17 PM"});
             table8.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",

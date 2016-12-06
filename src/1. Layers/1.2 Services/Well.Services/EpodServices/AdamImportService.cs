@@ -77,6 +77,7 @@
                     {
                         x.RouteHeaderId = header.Id;
                         x.RouteHeaderCode = header.RouteNumber;
+                        x.DeliveryDate = header.RouteDate;
                     });
 
                 this.ImportStops(header.Stops);

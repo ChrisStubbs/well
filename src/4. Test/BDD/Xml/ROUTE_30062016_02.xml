@@ -81,7 +81,7 @@
               <ReCallPrd>true</ReCallPrd>
               <AllowSgCrd>true</AllowSgCrd>
               <AllowSOCrd>true</AllowSOCrd>
-              <COD></COD>
+              <COD>Yes</COD>
               <SandwchOrd>false</SandwchOrd>
               <!--<ComdtyType>A</ComdtyType>-->
               <AllowReOrd>true</AllowReOrd>
@@ -316,7 +316,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>Cheque</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -510,8 +510,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Card</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -679,8 +678,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Maybe</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -953,7 +951,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1></Value1>
+                  <Value1>Perhaps</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1145,8 +1143,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Not sure</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1407,8 +1404,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Cash</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1564,8 +1560,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Yes</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1800,8 +1795,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Cash</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1999,8 +1993,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>foo</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2261,8 +2254,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Yes</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2418,8 +2410,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Yes</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2633,8 +2624,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>perhaps</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2790,8 +2780,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>foo</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3001,8 +2990,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Please</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3167,8 +3155,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>Yes</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3343,8 +3330,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>
-                  </Value1>
+                  <Value1>no</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>

@@ -81,7 +81,7 @@
               <ReCallPrd>true</ReCallPrd>
               <AllowSgCrd>true</AllowSgCrd>
               <AllowSOCrd>true</AllowSOCrd>
-              <COD></COD>
+              <COD>yes</COD>
               <SandwchOrd>false</SandwchOrd>
               <!--<ComdtyType>A</ComdtyType>-->
               <AllowReOrd>true</AllowReOrd>

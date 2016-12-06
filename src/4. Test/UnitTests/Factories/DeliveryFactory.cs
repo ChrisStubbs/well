@@ -9,7 +9,7 @@
         {
             this.Entity.Id = 1;
             this.Entity.RouteNumber = "011";
-            this.Entity.DropId = "1";
+            this.Entity.DropId = 1;
             this.Entity.AccountName = "Mars Industries";
             this.Entity.InvoiceNumber = "54333";
             this.Entity.JobStatus = "On time";

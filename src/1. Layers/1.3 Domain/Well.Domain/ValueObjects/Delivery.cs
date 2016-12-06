@@ -8,7 +8,7 @@
 
         public string RouteNumber { get; set; }
 
-        public string DropId { get; set; }
+        public int DropId { get; set; }
 
         public string InvoiceNumber { get; set; }
 
@@ -41,6 +41,8 @@
         public string TotalCredit { get; set; }
 
         public string PendingCreditCreatedBy { get; set; }
+
+        public string Cod { get; set; }
 
         public string FormattedPendingCreditCreatedBy {
             get

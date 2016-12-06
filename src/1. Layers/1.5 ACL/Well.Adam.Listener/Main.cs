@@ -21,9 +21,20 @@
 
             var container = InitIoc();
 
-            var monitorService = container.GetInstance<IAdamFileMonitorService>();
+            var logger = container.GetInstance<ILogger>();
 
-            monitorService.Monitor(Configuration.RootFolder);
+            logger.LogDebug("Starting ADAM listener!");
+
+            try
+            {
+                var monitorService = container.GetInstance<IAdamFileMonitorService>();
+
+                monitorService.Monitor(Configuration.RootFolder);
+            }
+            catch (Exception exception)
+            {
+                logger.LogError("Error!", exception);
+            }
         }
 
         protected override void OnLoad(EventArgs e)

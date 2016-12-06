@@ -29,6 +29,8 @@
                     x.For<IAdamRepository>().Use<AdamRepository>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IExceptionEventService>().Use<ExceptionEventService>();
+                    x.For<IJobRepository>().Use<JobRepository>();
+                    x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                 });
         }
     }

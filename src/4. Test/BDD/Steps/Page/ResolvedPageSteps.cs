@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
-    using System.Linq;
     using NUnit.Framework;
     using Pages;
     using TechTalk.SpecFlow;
@@ -31,45 +30,41 @@
         [Then(@"The following resolved deliveries ordered by date will be displayed in '(.*)' order")]
         public void ThenTheFollowingResolvedDeliveriesOrderedByDateWillBeDisplayedInOrder(string direction, Table table)
         {
-            var pageRows = this.ResolvedDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
-
-            pageRows.Reverse(0, pageRows.Count);
-
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
             for (int i = 0; i < table.RowCount; i++)
             {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Assigned), Is.EqualTo(table.Rows[i]["Assigned"]));
+                var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
+
+                Assert.That(row.Route, Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(row.Drop, Is.EqualTo(table.Rows[i]["Drop"]));
+                Assert.That(row.Invoice, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+                Assert.That(row.Code, Is.EqualTo(table.Rows[i]["Account"]));
+                Assert.That(row.Name, Is.EqualTo(table.Rows[i]["AccountName"]));
+                Assert.That(row.Job, Is.EqualTo(table.Rows[i]["Status"]));
+                Assert.That(row.Assigned, Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }
         
         [Then(@"the following resolved deliveries will be displayed")]
         public void ThenTheFollowingResolvedDeliveriesWillBeDisplayed(Table table)
         {
-            var pageRows = this.ResolvedDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
             for (int i = 0; i < table.RowCount; i++)
             {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ResolvedDeliveriesGrid.Assigned), Is.EqualTo(table.Rows[i]["Assigned"]));
+                var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
+
+                Assert.That(row.Route.Text, Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(row.Drop.Text, Is.EqualTo(table.Rows[i]["Drop"]));
+                Assert.That(row.Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+                Assert.That(row.Code.Text, Is.EqualTo(table.Rows[i]["Account"]));
+                Assert.That(row.Name.Text, Is.EqualTo(table.Rows[i]["AccountName"]));
+                Assert.That(row.Job.Text, Is.EqualTo(table.Rows[i]["Status"]));
+                Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }
 
         [When(@"I view the account info modal for resolved row (.*)")]
         public void WhenIViewTheAccountInfoModalForResolvedRow(int row)
         {
-            var rows = ResolvedDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
-            rows[row - 1].GetItemInRowByClass("contact-info").Click();
+            ResolvedDeliveriesPage.GetGridRow(row).Contact.Click();
         }
 
 
@@ -89,8 +84,8 @@
         [Then(@"'(.*)' rows of resolved delivery data will be displayed")]
         public void ThenRowsOfDeliveryDataWillBeDisplayed(int noOfRowsExpected)
         {
-            var pageRows = this.ResolvedDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
-            Assert.That(pageRows.Count, Is.EqualTo(noOfRowsExpected));
+            /*var pageRows = this.ResolvedDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            Assert.That(pageRows.Count, Is.EqualTo(noOfRowsExpected));*/
         }
 
         [Then(@"I will have (.*) pages of resolved delivery data")]

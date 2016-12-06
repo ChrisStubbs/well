@@ -16,7 +16,6 @@ Scenario: A user can view Resolved Delivery Information
 	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated |
 	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated |
 	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated |
-
 	When I view the account info modal for resolved row 2
 	Then I can the following account info details - resolved
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
@@ -30,11 +29,11 @@ Scenario: A user can filter Resolved Delivery information
 	When I open the resolved deliveries page
 	And I filter the resolved delivery grid with the option 'Route' and value '006'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    |
-	| 006   | 1   | 943362.048 | 43362.048 | WB - SHOP            | Resolved | Unallocated |
-	| 006   | 1   | 92874.033  | 2874.033  | WB - SHOP            | Resolved | Unallocated |
-	| 006   | 2   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |
-	| 006   | 2   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    |
+	| 5  | 006   | 1    | 943362.048 | 43362.048 | WB - SHOP            | Resolved | Unallocated |
+	| 6  | 006   | 1    | 92874.033  | 2874.033  | WB - SHOP            | Resolved | Unallocated |
+	| 7  | 006   | 2    | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |
+	| 8  | 006   | 2    | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |
 	When I filter the resolved delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following resolved deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned	 |

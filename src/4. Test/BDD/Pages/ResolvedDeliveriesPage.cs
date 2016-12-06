@@ -7,7 +7,6 @@
     {
         public ResolvedDeliveriesPage()
         {
-            this.RoutesGrid = new Grid<ResolvedDeliveriesGrid> { Locator = By.Id("tableResolvedDeliveries"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
@@ -15,24 +14,62 @@
         }
         protected override string UrlSuffix => "resolved";
 
-        public Grid<ResolvedDeliveriesGrid> RoutesGrid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
         public Image OrderByButton { get; set; }
         public AccountModalComponent AccountModal { get; set; }
+
+        public ResolvedGridRow GetGridRow(int id)
+        {
+            return new ResolvedGridRow(id);
+        }
     }
 
-    public enum ResolvedDeliveriesGrid
+    public class ResolvedGridRow
     {
-        Route = 0,
-        Drop = 1,
-        InvoiceNo = 2,
-        Account = 3,
-        AccountName = 4,
-        COD = 5,
-        InfoButton = 6,
-        Status = 7,
-        Assigned = 8,
-        LastUpdatedDateTime = 9
+        public const string RouteId = "resolved-route-";
+        public const string DropId = "resolved-drop-";
+        public const string InvoiceId = "resolved-invoice-";
+        public const string CodeId = "resolved-code-";
+        public const string NameId = "resolved-name-";
+        public const string CodId = "resolved-cod-";
+        public const string JobId = "resolved-job-";
+        public const string AssignedId = "resolved-assigned-";
+        public const string DateId = "resolved-date-";
+        public const string ContactId = "resolved-contact-";
+
+        public ResolvedGridRow(int id)
+        {
+            this.Route = new SpanElement { Locator = By.Id(RouteId + id) };
+            this.Drop = new SpanElement { Locator = By.Id(DropId + id) };
+            this.Invoice = new SpanElement { Locator = By.Id(InvoiceId + id) };
+            this.Code = new SpanElement { Locator = By.Id(CodeId + id) };
+            this.Name = new SpanElement { Locator = By.Id(NameId + id) };
+            this.Cod = new SpanElement { Locator = By.Id(CodId + id) };
+            this.Job = new SpanElement { Locator = By.Id(JobId + id) };
+            this.Assigned = new SpanElement { Locator = By.Id(AssignedId + id) };
+            this.Date = new SpanElement { Locator = By.Id(DateId + id) };
+            this.Contact = new Button { Locator = By.Id(ContactId + id) };
+        }
+        
+        public SpanElement Route { get; set; }
+
+        public SpanElement Drop { get; set; }
+
+        public SpanElement Invoice { get; set; }
+
+        public SpanElement Code { get; set; }
+
+        public SpanElement Name { get; set; }
+
+        public SpanElement Cod { get; set; }
+
+        public SpanElement Job { get; set; }
+
+        public SpanElement Assigned { get; set; }
+
+        public SpanElement Date { get; set; }
+
+        public Button Contact { get; set; }
     }
 }

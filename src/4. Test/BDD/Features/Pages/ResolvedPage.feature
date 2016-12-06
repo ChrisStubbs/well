@@ -12,10 +12,10 @@ Scenario: A user can view Resolved Delivery Information
 	And  3 deliveries have been marked as Resolved
 	When I open the resolved deliveries page
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    |
-	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated |
-	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated |
-	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    |
+	| 1  | 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated |
+	| 2  | 001   | 1    | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated |
+	| 3  | 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated |
 	When I view the account info modal for resolved row 2
 	Then I can the following account info details - resolved
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
@@ -36,17 +36,17 @@ Scenario: A user can filter Resolved Delivery information
 	| 8  | 006   | 2    | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |
 	When I filter the resolved delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned	 |
-	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        | Unallocated |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Action | Assigned    |
+	| 1  | 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Resolved |        | Unallocated |
 	When I filter the resolved delivery grid with the option 'Account' and value '28398.080'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName   | Status   | Action | Assigned    |
-	| 011   | 5   | 928398.080 | 28398.080 | TESCO EXPRESS | Resolved |        | Unallocated |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName   | Status   | Action | Assigned    |
+	| 16 | 011   | 5    | 928398.080 | 28398.080 | TESCO EXPRESS | Resolved |        | Unallocated |
 	When I filter the resolved delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName | Status   | Action | Assigned    |
-	| 006   | 1   | 943362.048 | 43362.048 | WB - SHOP   | Resolved |        | Unallocated |
-	| 006   | 1   | 92874.033  | 2874.033  | WB - SHOP   | Resolved |        | Unallocated |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName | Status   | Action | Assigned    |
+	| 5  | 006   | 1    | 943362.048 | 43362.048 | WB - SHOP   | Resolved |        | Unallocated |
+	| 6  | 006   | 1    | 92874.033  | 2874.033  | WB - SHOP   | Resolved |        | Unallocated |
 
 Scenario: A user can view Resolved Delivery Information and sort on updated date
 	Given I have a clean database
@@ -55,16 +55,16 @@ Scenario: A user can view Resolved Delivery Information and sort on updated date
 	And  3 deliveries have been marked as Resolved
 	When I open the resolved deliveries page
 	Then the following resolved deliveries will be displayed
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    | LastUpdatedDateTime     |
-	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:27:17 PM |
-	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:29:17 PM |
-	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated | Sep 7, 2016, 1:31:17 PM |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    | LastUpdatedDateTime     |
+	| 1  | 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:27:17 PM |
+	| 2  | 001   | 1    | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:29:17 PM |
+	| 3  | 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated | Sep 7, 2016, 1:31:17 PM |
 	When I click on the orderby Triangle image in the resolved deliveries grid
 	Then The following resolved deliveries ordered by date will be displayed in 'desc' order
-	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    | LastUpdatedDateTime     |
-	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated | Sep 7, 2016, 1:31:17 PM |
-	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:29:17 PM |
-	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:27:17 PM |
+	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    | LastUpdatedDateTime     |
+	| 1  | 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated | Sep 7, 2016, 1:31:17 PM |
+	| 2  | 001   | 1    | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:29:17 PM |
+	| 3  | 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:27:17 PM |
 
 Scenario: A user can page through Resolved Delivery information
 	Given I have a clean database

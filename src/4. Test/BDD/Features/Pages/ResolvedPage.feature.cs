@@ -87,6 +87,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
                         "Route",
                         "Drop",
                         "InvoiceNo",
@@ -95,6 +96,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Status",
                         "Assigned"});
             table1.AddRow(new string[] {
+                        "1",
                         "001",
                         "1",
                         "949214.152",
@@ -103,6 +105,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table1.AddRow(new string[] {
+                        "2",
                         "001",
                         "1",
                         "92874.033",
@@ -111,6 +114,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table1.AddRow(new string[] {
+                        "3",
                         "001",
                         "2",
                         "92874.033",
@@ -219,6 +223,7 @@ this.ScenarioSetup(scenarioInfo);
                     "4.152\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
                         "Route",
                         "Drop",
                         "InvoiceNo",
@@ -228,6 +233,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Action",
                         "Assigned"});
             table4.AddRow(new string[] {
+                        "1",
                         "001",
                         "1",
                         "949214.152",
@@ -243,6 +249,7 @@ this.ScenarioSetup(scenarioInfo);
                     "0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
                         "Route",
                         "Drop",
                         "InvoiceNo",
@@ -252,6 +259,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Action",
                         "Assigned"});
             table5.AddRow(new string[] {
+                        "16",
                         "011",
                         "5",
                         "928398.080",
@@ -267,6 +275,7 @@ this.ScenarioSetup(scenarioInfo);
                     "- SHOP\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
                         "Route",
                         "Drop",
                         "InvoiceNo",
@@ -276,6 +285,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Action",
                         "Assigned"});
             table6.AddRow(new string[] {
+                        "5",
                         "006",
                         "1",
                         "943362.048",
@@ -285,6 +295,7 @@ this.ScenarioSetup(scenarioInfo);
                         "",
                         "Unallocated"});
             table6.AddRow(new string[] {
+                        "6",
                         "006",
                         "1",
                         "92874.033",
@@ -318,6 +329,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
                         "Route",
                         "Drop",
                         "InvoiceNo",
@@ -327,6 +339,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned",
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
+                        "1",
                         "001",
                         "1",
                         "949214.152",
@@ -336,6 +349,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated",
                         "Sep 7, 2016, 1:27:17 PM"});
             table7.AddRow(new string[] {
+                        "2",
                         "001",
                         "1",
                         "92874.033",
@@ -345,6 +359,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated",
                         "Sep 7, 2016, 1:29:17 PM"});
             table7.AddRow(new string[] {
+                        "3",
                         "001",
                         "2",
                         "92874.033",
@@ -359,6 +374,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I click on the orderby Triangle image in the resolved deliveries grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
                         "Route",
                         "Drop",
                         "InvoiceNo",
@@ -368,6 +384,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned",
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
+                        "1",
                         "001",
                         "2",
                         "92874.033",
@@ -377,6 +394,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated",
                         "Sep 7, 2016, 1:31:17 PM"});
             table8.AddRow(new string[] {
+                        "2",
                         "001",
                         "1",
                         "92874.033",
@@ -386,6 +404,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated",
                         "Sep 7, 2016, 1:29:17 PM"});
             table8.AddRow(new string[] {
+                        "3",
                         "001",
                         "1",
                         "949214.152",

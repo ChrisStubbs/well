@@ -42,7 +42,7 @@
                         <td (click)="deliverySelected(delivery)" id="resolved-name-{{delivery.id}}">{{delivery.accountName}}</td>
                         <td (click)="deliverySelected(delivery)" id="resolved-cod-{{delivery.id}}">{{delivery.cod}}</td>
                         <td>
-                            <button id="resolved-contact-" type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
+                            <button id="resolved-contact-{{delivery.id}}" type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td (click)="deliverySelected(delivery)" id="resolved-job-{{delivery.id}}">{{delivery.jobStatus}}</td>                       
                         <td id="resolved-assigned-{{delivery.id}}">

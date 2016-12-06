@@ -339,7 +339,7 @@
         [Given(@"'(.*)' clean deliveries are updated to branch '(.*)'")]
         public void GivenCleanDeliveriesAreUpdateTo(int noOfDeliveries, int location)
         {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP({noOfDeliveries}) RouteHeader SET StartDepotCode = '{location}'");
+            this.dapperProxy.ExecuteSql($"UPDATE TOP({noOfDeliveries}) RouteHeader SET StartDepotCode = '{location}', RouteOwnerId = '{location}'");
         }
 
 

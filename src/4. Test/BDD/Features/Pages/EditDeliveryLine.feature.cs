@@ -176,7 +176,7 @@ this.FeatureBackground();
                         "Account",
                         "DeliveryDate"});
             table2.AddRow(new string[] {
-                        "Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 3 to 0.",
+                        "Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 1 to 0.",
                         "DeliveryLineUpdate",
                         "949214.152",
                         "49214.152 - CSG - must be CF van",

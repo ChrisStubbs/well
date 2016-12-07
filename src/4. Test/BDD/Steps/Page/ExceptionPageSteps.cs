@@ -222,6 +222,8 @@
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
+
+            Thread.Sleep(1000);
         }
 
         [When(@"I assign the delivery on rows (.*) and (.*) to myself")]

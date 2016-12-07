@@ -6,7 +6,7 @@ BEGIN
 	Update 
 		job
 	SET 
-		PerformanceStatusId = 8
+		PerformanceStatusId = 7
 	WHERE 
 		Id = @jobId
 

@@ -141,6 +141,20 @@
 
                 this.mapper.Map(job, existingJob);
 
+                var hasDamage = false;
+
+                foreach (var detail in job.JobDetails)
+                {
+                    if (detail.JobDetailDamages.Any())
+                    {
+                        hasDamage = true;
+                        break;
+                    }
+                }
+
+                if (hasDamage)
+                    existingJob.PerformanceStatus = PerformanceStatus.Incom;
+
                 this.jobRepository.Update(existingJob);
 
                 this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));

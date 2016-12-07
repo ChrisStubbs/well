@@ -31,18 +31,21 @@
 
         public AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username)
         {
-            var response = this.adamRepository.Credit(creditEvent, adamSettings);
+            // TODO
+            //var response = this.adamRepository.Credit(creditEvent, adamSettings);
 
-            if (response == AdamResponse.AdamDown)
+            /*if (response == AdamResponse.AdamDown)
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEvent(creditEvent);
             }
             else
-            {
+            {*/
                 this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
-            }
-            return response;
+
+            return AdamResponse.Success;
+   ;         //}
+            //return response;
         }
 
         public void CreditReorder(CreditReorderEvent creditReorderEvent, int eventId, AdamSettings adamSettings, string username)

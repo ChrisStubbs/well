@@ -34,13 +34,13 @@
             {
                 var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
 
-                Assert.That(row.Route, Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(row.Drop, Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(row.Invoice, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(row.Code, Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(row.Name, Is.EqualTo(table.Rows[i]["AccountName"]));
-                Assert.That(row.Job, Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(row.Assigned, Is.EqualTo(table.Rows[i]["Assigned"]));
+                Assert.That(row.Route.Text, Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(row.Drop.Text, Is.EqualTo(table.Rows[i]["Drop"]));
+                Assert.That(row.Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+                Assert.That(row.Code.Text, Is.EqualTo(table.Rows[i]["Account"]));
+                Assert.That(row.Name.Text, Is.EqualTo(table.Rows[i]["AccountName"]));
+                Assert.That(row.Job.Text, Is.EqualTo(table.Rows[i]["Status"]));
+                Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }
         

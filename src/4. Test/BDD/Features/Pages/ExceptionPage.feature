@@ -16,9 +16,9 @@ Scenario: A user can view Exception Delivery Information
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |	
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
+	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
+	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
 	When I view the account info modal for exception row 2 
 	Then I can the following account info details
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
@@ -31,24 +31,24 @@ Scenario: A user can filter Exception Delivery information
 	And I filter the exception delivery grid with the option 'Route' and value '006'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP            | Incomplete |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP            | Incomplete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
-	| 006   | 02   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
+	| 006   | 1   | 943362.048 | 43362.048 | WB - SHOP            | Incomplete |
+	| 006   | 1   | 92874.033  | 2874.033  | WB - SHOP            | Incomplete |
+	| 006   | 2   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
+	| 006   | 2   | 954107.000 | 54107.000 | WB - SHELL FORECOURT | Incomplete |
 
 	When I filter the exception delivery grid with the option 'Invoice No' and value '949214.152'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
+	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
 	When I filter the exception delivery grid with the option 'Account' and value '28398.080'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName   | Status     |
-	| 011   | 05   | 928398.080 | 28398.080 | TESCO EXPRESS | Incomplete |
+	| 011   | 5   | 928398.080 | 28398.080 | TESCO EXPRESS | Incomplete |
 	When I filter the exception delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName | Status     |
-	| 006   | 01   | 943362.048 | 43362.048 | WB - SHOP   | Incomplete |
-	| 006   | 01   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
+	| 006   | 1   | 943362.048 | 43362.048 | WB - SHOP   | Incomplete |
+	| 006   | 1   | 92874.033  | 2874.033  | WB - SHOP   | Incomplete |
 
 
 Scenario: A user can view Exception Delivery Information and sort on updated date
@@ -57,16 +57,16 @@ Scenario: A user can view Exception Delivery Information and sort on updated dat
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | LastUpdatedDateTime     |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
+	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
+	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
+	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
 
 	When I click on the orderby Triangle image in the exceptions deliveries grid
 	Then The following exceptions ordered by date will be displayed in 'desc' order
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | LastUpdatedDateTime     |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
-	| 001   | 02  | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
+	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:28:16 PM |
+	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete | Sep 7, 2016, 1:30:17 PM |
+	| 001   | 2  | 92874.033  | 2874.033  | RVS SHOP             | Incomplete | Sep 7, 2016, 1:27:17 PM |
 
 
 Scenario: A user can page through Exception Delivery information
@@ -86,12 +86,12 @@ Scenario: View exception details at lower level
 	When I open the exception deliveries
 	And I click on exception row 4
 	Then I am shown the exception detail
-	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity  |
-	| 1      | 6987    | Choc Teacakes Tunnock    | 19    | 1               | -1                | 0               | 2             |
-	| 2      | 49179   | Ginger Nuts 250g         | 4     | 1               | -1                | 0               | 2             |
-	| 3      | 21633   | Kiddies Super Mix 220gPM | 3     | 1               | -1                | 0               | 2             |
-	| 4      | 4244    | Milkybar Btns Giant PM   | 5     | 1               | -1                | 0               | 2             |
-	| 5      | 7621    | Fruit Past Tube 52.5g    | 8     | 1               | -1                | 0               | 2             |
+	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
+	| 1      | 6987    | Choc Teacakes Tunnock    | 19    | 1               | -1               | 0               | 2             |
+	| 2      | 49179   | Ginger Nuts 250g         | 4     | 1               | -1               | 0               | 2             |
+	| 3      | 21633   | Kiddies Super Mix 220gPM | 3     | 1               | -1               | 0               | 2             |
+	| 4      | 4244    | Milkybar Btns Giant PM   | 5     | 1               | -1               | 0               | 2             |
+	| 5      | 7621    | Fruit Past Tube 52.5g    | 8     | 1               | -1               | 0               | 2             |
 
 Scenario: Exception assigned to a user
 	Given I have selected branch '22'
@@ -160,9 +160,9 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
-	| 001   | 01   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
-	| 001   | 01   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
-	| 001   | 02   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
+	| 001   | 1   | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
+	| 001   | 1   | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
+	| 001   | 2   | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |
 
 Scenario: A user can view Exception Delivery Information with cash on delivery icons displayed
 	Given I have selected branch '22'

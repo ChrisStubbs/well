@@ -62,9 +62,9 @@ Scenario: A user can view Resolved Delivery Information and sort on updated date
 	When I click on the orderby Triangle image in the resolved deliveries grid
 	Then The following resolved deliveries ordered by date will be displayed in 'desc' order
 	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    | LastUpdatedDateTime     |
-	| 1  | 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated | Sep 7, 2016, 1:31:17 PM |
+	| 3  | 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Resolved | Unallocated | Sep 7, 2016, 1:31:17 PM |
 	| 2  | 001   | 1    | 92874.033  | 2874.033  | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:29:17 PM |
-	| 3  | 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:27:17 PM |
+	| 1  | 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Resolved | Unallocated | Sep 7, 2016, 1:27:17 PM |
 
 Scenario: A user can page through Resolved Delivery information
 	Given I have a clean database

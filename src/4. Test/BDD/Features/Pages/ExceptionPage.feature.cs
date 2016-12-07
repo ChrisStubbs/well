@@ -105,21 +105,21 @@ this.FeatureBackground();
                         "Status"});
             table1.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete"});
             table1.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete"});
             table1.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -180,28 +180,28 @@ this.FeatureBackground();
                         "Status"});
             table3.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP",
                         "Incomplete"});
             table3.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP",
                         "Incomplete"});
             table3.AddRow(new string[] {
                         "006",
-                        "02",
+                        "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT",
                         "Incomplete"});
             table3.AddRow(new string[] {
                         "006",
-                        "02",
+                        "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT",
@@ -221,7 +221,7 @@ this.FeatureBackground();
                         "Status"});
             table4.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
@@ -241,7 +241,7 @@ this.FeatureBackground();
                         "Status"});
             table5.AddRow(new string[] {
                         "011",
-                        "05",
+                        "5",
                         "928398.080",
                         "28398.080",
                         "TESCO EXPRESS",
@@ -261,14 +261,14 @@ this.FeatureBackground();
                         "Status"});
             table6.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP",
                         "Incomplete"});
             table6.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP",
@@ -305,7 +305,7 @@ this.FeatureBackground();
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
@@ -313,7 +313,7 @@ this.FeatureBackground();
                         "Sep 7, 2016, 1:28:16 PM"});
             table7.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
@@ -321,7 +321,7 @@ this.FeatureBackground();
                         "Sep 7, 2016, 1:30:17 PM"});
             table7.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -342,7 +342,7 @@ this.FeatureBackground();
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
@@ -350,7 +350,7 @@ this.FeatureBackground();
                         "Sep 7, 2016, 1:28:16 PM"});
             table8.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
@@ -358,7 +358,7 @@ this.FeatureBackground();
                         "Sep 7, 2016, 1:30:17 PM"});
             table8.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -676,21 +676,21 @@ this.FeatureBackground();
                         "Status"});
             table10.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete"});
             table10.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete"});
             table10.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",

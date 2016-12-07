@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Xml.Serialization;
@@ -21,9 +20,6 @@
 
         [XmlElement("LineNumber")]
         public int LineNumber { get; set; }
-
-        //[XmlElement("PHProductCode")]
-        //public string PhProductCode { get; set; }
 
         [XmlElement("Barcode")]
         public string PhProductCode { get; set; }

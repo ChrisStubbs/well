@@ -86,7 +86,7 @@
                 <JobDetail>
                   <JobDetailID>195269</JobDetailID>
                   <JobID>110679</JobID>
-                  <PHProductCode>50035</PHProductCode>
+                  <Barcode>50035</Barcode>
                   <UnitMeasure>10</UnitMeasure>
                   <OriginalDespatchQty>1</OriginalDespatchQty>
                   <LineNumber>1</LineNumber>

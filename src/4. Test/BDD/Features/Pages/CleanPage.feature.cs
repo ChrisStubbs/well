@@ -94,19 +94,19 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table1.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van"});
             table1.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van"});
             table1.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP"});
@@ -167,25 +167,25 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table3.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP"});
             table3.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP"});
             table3.AddRow(new string[] {
                         "006",
-                        "02",
+                        "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT"});
             table3.AddRow(new string[] {
                         "006",
-                        "02",
+                        "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT"});
@@ -203,7 +203,7 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table4.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van"});
@@ -220,7 +220,7 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table5.AddRow(new string[] {
                         "011",
-                        "05",
+                        "5",
                         "928398.080",
                         "28398.080",
                         "TESCO EXPRESS"});
@@ -238,13 +238,13 @@ this.ScenarioSetup(scenarioInfo);
                         "AccountName"});
             table6.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP"});
             table6.AddRow(new string[] {
                         "006",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP"});
@@ -281,21 +281,21 @@ this.ScenarioSetup(scenarioInfo);
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
                         "Sep 7, 2016, 1:27:17 PM"});
             table7.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
                         "Sep 7, 2016, 1:27:16 PM"});
             table7.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
@@ -314,21 +314,21 @@ this.ScenarioSetup(scenarioInfo);
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
                         "001",
-                        "02",
+                        "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
                         "Sep 7, 2016, 1:27:15 PM"});
             table8.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
                         "Sep 7, 2016, 1:27:16 PM"});
             table8.AddRow(new string[] {
                         "001",
-                        "01",
+                        "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",

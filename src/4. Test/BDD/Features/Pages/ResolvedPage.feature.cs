@@ -384,7 +384,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Assigned",
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
-                        "1",
+                        "3",
                         "001",
                         "2",
                         "92874.033",
@@ -404,7 +404,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Unallocated",
                         "Sep 7, 2016, 1:29:17 PM"});
             table8.AddRow(new string[] {
-                        "3",
+                        "1",
                         "001",
                         "1",
                         "949214.152",

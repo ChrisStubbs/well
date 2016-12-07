@@ -49,27 +49,14 @@
         {
             this.RootFolder = rootFolder;
 
-            var watcher = new FileSystemWatcher
+            var files = Directory.GetFiles(rootFolder);
+
+            foreach (var file in files)
             {
-                Path = rootFolder,
-                NotifyFilter =
-                    NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.DirectoryName
-                    | NotifyFilters.LastAccess,
-                IncludeSubdirectories = true
-            };
+                this.fileService.WaitForFile(file);
 
-            watcher.Created += this.ProcessCreated;
-            watcher.EnableRaisingEvents = true;
-        }
-
-        private void ProcessCreated(object o, FileSystemEventArgs args)
-        {
-            // ignore archive and rejected folders
-            if (args.FullPath.Contains("archive") || args.FullPath.Contains("rejected")) return;
-
-            this.fileService.WaitForFile(args.FullPath);
-
-            this.Process(args.FullPath);
+                this.Process(file);
+            }
         }
 
         public void Process(string filePath)

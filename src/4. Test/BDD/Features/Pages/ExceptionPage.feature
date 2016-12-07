@@ -125,6 +125,7 @@ Scenario: UnAssigned user to an exception drills to details and can not update
 	And I select an unassigned exception row
 	Then All the exception detail rows can not be updated
 
+@Ignore
 Scenario: Credit check boxes are not enabled till exceptions are assigned
 	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
@@ -134,6 +135,7 @@ Scenario: Credit check boxes are not enabled till exceptions are assigned
 	And click the first credit checkbox
 	Then the 'credit' and 'selectAll' button are visible
 
+@Ignore
 Scenario: Select all button will check all allowcated job lines
 	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions

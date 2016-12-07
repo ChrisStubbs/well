@@ -112,12 +112,9 @@
 
         public class TheSaveJobDetailMethod : JobDetailRepositoryTests
         {
-            // TODO fix test
             [Test]
             public void ShouldSaveJobDetail()
             {
-
-
                 var jobDetail = JobDetailFactory.New.Build();
 
                 string sprocName = "JobDetail_Insert";
@@ -125,7 +122,7 @@
 
                 dapperProxy.Setup(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null))
                     .Returns(dapperProxy.Object);   
-                dapperProxy.Setup(x => x.AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.Int32, null))
+                dapperProxy.Setup(x => x.AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.String, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(
                         x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Decimal, null))
@@ -165,8 +162,6 @@
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean, null))
                  .Returns(dapperProxy.Object);
-                //dapperProxy.Setup(x => x.AddParameter("DateLife", jobDetail.DateLife, DbType.DateTime, null))
-                // .Returns(dapperProxy.Object);
 
 
                 dapperProxy.Setup(x => x.AddParameter(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<DbType>(), null))
@@ -180,7 +175,7 @@
 
                 dapperProxy.Verify(x => x.AddParameter("LineNumber", jobDetail.LineNumber, DbType.Int32, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.Int32, null),
+                dapperProxy.Verify(x => x.AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.String, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(
                     x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null),
@@ -219,8 +214,6 @@
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean, null),
                   Times.Exactly(1));
-                //dapperProxy.Verify(x => x.AddParameter("DateLife", jobDetail.DateLife, DbType.DateTime, null),
-                //  Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
             }

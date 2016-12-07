@@ -25,7 +25,7 @@ Scenario: Add short qty and damages to clean delivery
 	When I open the audits page
 	Then the following audit entries are shown
 	| Entry                                                                                            | Type               | InvoiceNo  | Account                          | DeliveryDate |
-	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages added CAR01 - 2. | DeliveryLineUpdate | 949214.152 | 49214.152 - CSG - must be CF van | 01/07/2016    | 
+	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages added CAR01 - 2. | DeliveryLineUpdate | 949214.152 | 49214.152 - CSG - must be CF van | 07/01/2016   |
 
 
 Scenario: Remove short qty and damages from exception delivery
@@ -36,7 +36,6 @@ Scenario: Remove short qty and damages from exception delivery
 	And I open the exception delivery '1'
 	And I click on the first delivery line
 	When I enter a short quantity of '0'
-	And I remove all damages
 	And I save the delivery line updates
 	And I confirm the delivery line update
 	And I open the clean tab
@@ -45,7 +44,7 @@ Scenario: Remove short qty and damages from exception delivery
 	When I open the audits page
 	Then the following audit entries are shown
 	| Entry                                                                                                                                | Type               | InvoiceNo  | Account                          | DeliveryDate |
-	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 3 to 0. Damages removed, old damages Notdef - 1.000, Notdef - 1.000. | DeliveryLineUpdate | 949214.152 | 49214.152 - CSG - must be CF van | 01/07/2016   | 
+	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 3 to 0. | DeliveryLineUpdate | 949214.152 | 49214.152 - CSG - must be CF van | 07/01/2016   | 
 
 Scenario: Can not edit unassigned delivery line
 	Given I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'

@@ -223,6 +223,8 @@
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
                                      $"SET PerformanceStatusId = {(int)status}, " +
                                      "    InvoiceNumber =  '9' + PHAccount  ");
+
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) JobDetail SET ShortQty = 1");
         }
 
         public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)

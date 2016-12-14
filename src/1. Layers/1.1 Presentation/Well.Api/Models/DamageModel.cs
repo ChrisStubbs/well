@@ -3,6 +3,9 @@
     public class DamageModel
     {
         public int Quantity { get; set; }
-        public string ReasonCode { get; set; }
+
+        public int JobDetailSourceId { get; set; }
+
+        public int JobDetailReasonId { get; set; }
     }
 }

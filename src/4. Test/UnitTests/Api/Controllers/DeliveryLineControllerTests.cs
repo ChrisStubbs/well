@@ -93,8 +93,8 @@
                     LineNo = 2,
                     Damages = new List<DamageModel>()
                     {
-                        new DamageModel() {Quantity = 1, ReasonCode = "CAR01"},
-                        new DamageModel() {Quantity = 3, ReasonCode = "CAR02"}
+                        new DamageModel() {Quantity = 1, JobDetailReasonId = (int)JobDetailReason.AccumulatedDamages},
+                        new DamageModel() {Quantity = 3, JobDetailReasonId = (int)JobDetailReason.BookingError}
                     },
                     ShortQuantity = 2
                 };
@@ -113,9 +113,9 @@
 
                 deliveryService.Verify(r => r.UpdateDeliveryLine(
                     It.Is<JobDetail>(j => j.JobDetailDamages[0].Qty == model.Damages[0].Quantity &&
-                                          j.JobDetailDamages[0].DamageReason == DamageReasons.CAR01 &&
+                                          j.JobDetailDamages[0].JobDetailReason == JobDetailReason.AccumulatedDamages &&
                                           j.JobDetailDamages[1].Qty == model.Damages[1].Quantity &&
-                                          j.JobDetailDamages[1].DamageReason == DamageReasons.CAR02),
+                                          j.JobDetailDamages[1].JobDetailReason == JobDetailReason.BookingError),
                     It.IsAny<string>()), Times.Once);
 
                 deliveryService.Verify(d => d.UpdateDeliveryLine(It.Is<JobDetail>(j => j.JobId == model.JobId &&

@@ -51,7 +51,7 @@
     <Compile Include="CreditThreshold.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
-    <Compile Include="Enums\JobDetailDamageSource.cs" />
+    <Compile Include="Enums\JobDetailSource.cs" />
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
     <Compile Include="Enums\ThresholdLevel.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\CsfRejection.cs" />
-    <Compile Include="Enums\DamageReasons.cs" />
+    <Compile Include="Enums\JobDetailReason.cs" />
     <Compile Include="Enums\EpodFileType.cs" />
     <Compile Include="Enums\ExceptionAction.cs" />
     <Compile Include="Enums\JobDetailStatus.cs" />

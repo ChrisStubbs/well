@@ -3,6 +3,8 @@
 	@DeliveredQty			DECIMAL(8,3) ,
 	@ShortQty				INT,
 	@JobDetailStatusId		INT,
+	@JobDetailReasonId		TINYINT,
+	@JobDetailSourceId		TINYINT,
 	@LineDeliveryStatus		INT,
 	@SubOuterDamageQty		INT,
 	@ProductCode			VARCHAR(60),
@@ -27,6 +29,8 @@ UPDATE
 	   [DeliveredQty] = @DeliveredQty
       ,[ShortQty] = @ShortQty    
       ,[JobDetailStatusId] = @JobDetailStatusId
+	  ,[JobDetailReasonId] = @JobDetailReasonId
+	  ,[JobDetailSourceId] = @JobDetailSourceId
 	  ,[LineDeliveryStatus] = @LineDeliveryStatus
 	  ,SubOuterDamageTotal = @SubOuterDamageQty
 	  ,PHProductCode = @ProductCode

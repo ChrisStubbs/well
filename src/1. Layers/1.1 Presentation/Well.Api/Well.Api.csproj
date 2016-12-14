@@ -201,6 +201,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\DeliveryLineActionsController.cs" />
+    <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\ExceptionActionController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
@@ -210,7 +211,7 @@
     <Compile Include="Controllers\ThresholdLevelController.cs" />
     <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
-    <Compile Include="Controllers\DamageReasonController.cs" />
+    <Compile Include="Controllers\JobDetailReasonController.cs" />
     <Compile Include="Controllers\DeliveryLineController.cs" />
     <Compile Include="Controllers\ExceptionEventController.cs" />
     <Compile Include="Controllers\AccountController.cs" />

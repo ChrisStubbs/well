@@ -13,8 +13,8 @@ Post-Deployment Script Template
 :r .\Populate-AccountType.sql
 :r .\Populate-ActionStatus.sql
 :r .\Populate-ByPassReasons.sql
-:r .\Populate-DamageReasons.sql
-:r .\Populate-DamageSource.sql
+:r .\Populate-JobDetailReason.sql
+:r .\Populate-JobDetailSource.sql
 :r .\Populate-PerformanceStatus.sql
 :r .\Populate-JobType.sql
 :r .\Populate-ReasonCategory.sql

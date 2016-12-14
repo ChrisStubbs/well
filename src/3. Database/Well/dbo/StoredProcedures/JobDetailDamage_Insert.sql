@@ -1,5 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetailDamage_Insert]
 	@JobDetailId			INT,
+    @JobDetailSource		TINYINT,
+	@JobDetailReason  		TINYINT,
 	@Qty					decimal(7,3),
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
@@ -12,6 +14,8 @@ BEGIN
 
 	INSERT INTO [dbo].[JobDetailDamage]
            ([JobDetailId]
+		   ,JobDetailSource
+		   ,JobDetailReason
            ,[Qty]
            ,[CreatedBy]
            ,[DateCreated]
@@ -19,6 +23,8 @@ BEGIN
            ,[DateUpdated])
      VALUES
            (@JobDetailId
+		   ,@JobDetailSource
+		   ,@JobDetailReason
            ,@Qty
            ,@CreatedBy
            ,@DateCreated

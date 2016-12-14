@@ -1,8 +1,5 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
-    using System;
-    using System.Linq;
-
     using Moq;
 
     using NUnit.Framework;

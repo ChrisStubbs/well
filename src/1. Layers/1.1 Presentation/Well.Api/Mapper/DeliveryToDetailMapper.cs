@@ -40,10 +40,13 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
+                    JobDetailReasonId = line.JobDetailReasonId,
+                    JobDetailSourceId = line.JobDetailSourceId,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,
-                        ReasonCode = d.Reason.ToString()
+                        JobDetailReasonId = d.JobDetailReason,
+                        JobDetailSourceId = d.JobDetailSource
                     }).ToList(),
                     Actions = line.Actions.Select(a => new ActionModel()
                     {
@@ -68,10 +71,13 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
+                    JobDetailReasonId = line.JobDetailReasonId,
+                    JobDetailSourceId = line.JobDetailSourceId,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,
-                        ReasonCode = d.Reason.ToString()
+                        JobDetailReasonId = d.JobDetailReason,
+                        JobDetailSourceId = d.JobDetailSource 
                     }).ToList(),
                     Actions = line.Actions.Select(a => new ActionModel()
                     {

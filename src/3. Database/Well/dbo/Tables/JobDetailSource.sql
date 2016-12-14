@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[JobDetailSource]
+(
+	[Id] TINYINT IDENTITY(1,1) NOT NULL CONSTRAINT [PK_JobDetailSource] PRIMARY KEY CLUSTERED,
+	[Description] VARCHAR(50) NOT NULL
+)

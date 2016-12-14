@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
 
     public static class StringExtensions
     {
@@ -203,6 +204,29 @@
         public static string ToDashboardDateFormat(this DateTime dateTime)
         {
             return dateTime.ToString("dd-MM-yyyy HH:mm:ss");
+        }
+
+        public static string SplitCapitalisedWords(this string source)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return string.Empty;
+            }
+
+            var newText = new StringBuilder(source.Length * 2);
+            newText.Append(source[0]);
+
+            for (var i = 1; i < source.Length; i++)
+            {
+                if (char.IsUpper(source[i]) && i + 1 < source.Length && !char.IsUpper(source[i + 1]))
+                {
+                    newText.Append(' ');
+                }
+
+                newText.Append(source[i]);
+            }
+
+            return newText.ToString();
         }
     }
 }

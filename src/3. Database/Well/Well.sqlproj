@@ -80,15 +80,15 @@
     <None Include="Post-Deployement\Populate-RouteStatus.sql" />
     <None Include="Post-Deployement\Populate-RoutePerformanceStatus.sql" />
     <None Include="Post-Deployement\Populate-ByPassReasons.sql" />
-    <None Include="Post-Deployement\Populate-DamageReasons.sql" />
+    <None Include="Post-Deployement\Populate-JobDetailReason.sql" />
     <None Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
     <None Include="Post-Deployement\Populate-PDACreditReasons.sql" />
+    <Build Include="dbo\Tables\JobDetailReason.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
     <Build Include="dbo\Tables\JobType.sql" />
     <Build Include="dbo\Tables\ReasonCategory.sql" />
-    <Build Include="dbo\Tables\DamageReasons.sql" />
     <Build Include="dbo\Tables\RouteStatus.sql" />
     <Build Include="dbo\Tables\RoutePerformanceStatus.sql" />
     <Build Include="dbo\Tables\JobStatus.sql" />
@@ -279,6 +279,8 @@
     <Build Include="dbo\StoredProcedures\AuditTrigger.sql" />
     <None Include="Post-Deployement\EnableAuditing.sql" />
     <Build Include="dbo\StoredProcedures\RouteheaderGetByNumberDateBranch.sql" />
+    <Build Include="dbo\Tables\JobDetailSource.sql" />
+    <None Include="Post-Deployement\Populate-JobDetailSource.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
@@ -291,7 +293,6 @@
     <None Include="Post-Deployement\Populate-GrnRefused.sql" />
     <None Include="Post-Deployement\Populate-CommodityType.sql" />
     <None Include="Post-Deployement\Populate-ProductType.sql" />
-    <None Include="Post-Deployement\Populate-DamageSource.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

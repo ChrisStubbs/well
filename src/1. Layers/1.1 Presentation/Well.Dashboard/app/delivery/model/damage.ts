@@ -1,12 +1,14 @@
 ﻿export class Damage {
 
-    constructor(index: number, quantity: number, reasonCode: string) {
+    constructor(index: number, quantity: number, jobDetailReasonId: number, jobDetailSourceId: number) {
         this.index = index;
         this.quantity = quantity;
-        this.reasonCode = reasonCode;
+        this.jobDetailReasonId = jobDetailReasonId;
+        this.jobDetailSourceId = jobDetailSourceId;
     }
 
     index: number;
     quantity: number;
-    reasonCode: string;
+    jobDetailReasonId: number;
+    jobDetailSourceId: number;
 }

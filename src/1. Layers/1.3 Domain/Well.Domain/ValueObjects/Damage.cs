@@ -8,6 +8,10 @@
 
         public int Quantity { get; set; }
 
-        public DamageReasons Reason { get; set; }
+        public int JobDetailSource { get; set; }
+
+        public int JobDetailReason { get; set; }
+
+        public JobDetailReason Reason { get; set; }
     }
 }

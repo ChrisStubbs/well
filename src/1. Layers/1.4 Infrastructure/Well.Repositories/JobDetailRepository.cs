@@ -66,6 +66,8 @@
                 .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
                 .AddParameter("DeliveredQty", string.IsNullOrWhiteSpace(jobDetail.DeliveredQty) ? 0m : decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal) //TODO should this be int not decimal?
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
+                .AddParameter("JobDetailReasonId", jobDetail.JobDetailReason, DbType.Int32)
+                .AddParameter("JobDetailSourceId", jobDetail.JobDetailSource, DbType.Int32)
                 .AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String)
                 .AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.String)           
                 .AddParameter("PHProductType", jobDetail.PhProductType, DbType.String)
@@ -92,6 +94,8 @@
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
                 .AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Decimal)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
+                .AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32)
+                .AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -51,15 +50,17 @@
                 }
 
                 jobDetail.ShortQty = model.ShortQuantity;
+                jobDetail.JobDetailReasonId = model.JobDetailReasonId;
+                jobDetail.JobDetailSourceId = model.JobDetailSourceId;
 
                 var damages = new List<JobDetailDamage>();
 
                 foreach (var damageUpdateModel in model.Damages)
                 {
-                    var reasonCode = (DamageReasons) Enum.Parse(typeof(DamageReasons), damageUpdateModel.ReasonCode);
                     var damage = new JobDetailDamage
                     {
-                        DamageReason = reasonCode,
+                        JobDetailReason = (JobDetailReason)damageUpdateModel.JobDetailReasonId,
+                        JobDetailSource = (JobDetailSource)damageUpdateModel.JobDetailSourceId,
                         JobDetailId = jobDetail.Id,
                         Qty = damageUpdateModel.Quantity
                     };

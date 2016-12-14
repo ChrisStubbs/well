@@ -12,28 +12,29 @@
         [XmlElement("Qty")]
         public decimal Qty { get; set; }
 
-        [XmlElement("JobDetailID")]
+        [XmlIgnore]
         public string JobDetailCode { get; set; }
 
         [XmlIgnore]
         public int JobDetailId { get; set; }
 
-        [XmlElement("Reason")]
+        [XmlIgnore]
         public Reason Reason { get; set; }
 
-        [XmlElement("Source")]
+        [XmlIgnore]
         public DamageSource Source { get; set; }
 
-        public DamageReasons DamageReason
+        [XmlIgnore]
+        public JobDetailReason JobDetailReason
         {
             get
             {
                 if (Reason != null)
                 {
-                    return (DamageReasons)Enum.Parse(typeof(DamageReasons), Reason.Code);
+                    return (JobDetailReason)Enum.Parse(typeof(JobDetailReason), Reason.Code);
                 }
 
-                return DamageReasons.Notdef;
+                return JobDetailReason.NotDefined;
             }
             set
             {
@@ -45,18 +46,20 @@
             }
         }
 
-        public JobDetailDamageSource JobDetailDamageSource
+        [XmlIgnore]
+        public JobDetailSource JobDetailSource
         {
             get
             {
                 if (Source != null)
                 {
-                    var damageReason =  (JobDetailDamageSource)Enum.Parse(typeof(JobDetailDamageSource), Source.Code);
+                    var damageReason =  (JobDetailSource)Enum.Parse(typeof(JobDetailSource), Source.Code);
 
                                   return damageReason;
 
                 }
-                return JobDetailDamageSource.NotDef;
+
+                return JobDetailSource.NotDefined;
             }
             set
             {
@@ -70,7 +73,7 @@
 
         public string GetDamageString()
         {
-            return $"{DamageReason.ToString()} - {Qty}";
+            return $"{this.JobDetailReason.ToString()} - {Qty}";
         }
 
         public bool Equals(JobDetailDamage other)
@@ -80,7 +83,7 @@
                 return false;
             }
 
-            return other.DamageReason == DamageReason && other.Qty == Qty;
+            return other.JobDetailReason == this.JobDetailReason && other.Qty == Qty;
         }
     }
 }

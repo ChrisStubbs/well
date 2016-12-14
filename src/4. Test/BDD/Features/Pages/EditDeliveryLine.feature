@@ -17,15 +17,15 @@ Scenario: Add short qty and damages to clean delivery
 	And I open the clean delivery '1'
 	And I click on the first delivery line
 	When I enter a short quantity of '5'
-	And I add a damage qty of '2' and reason 'CAR01 - Dented'
+	And I add a damage qty of '2' and reason 'Picking Error'
 	And I save the delivery line updates
 	And I confirm the delivery line update
 	Then the line '1' Short Qty is '5' and Damaged Qty is '2' Del Qty is '13'
 	And the delivery status is 'Incomplete'
 	When I open the audits page
 	Then the following audit entries are shown
-	| Entry                                                                                            | Type               | InvoiceNo  | Account                          | DeliveryDate |
-	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages added CAR01 - 2. | DeliveryLineUpdate | 949214.152 | 49214.152 - CSG - must be CF van | 07/01/2016   |
+	| Entry                                                                                                    | Type               | InvoiceNo  | Account                          | DeliveryDate |
+	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages added PickingError - 2. | DeliveryLineUpdate | 949214.152 | 49214.152 - CSG - must be CF van | 07/01/2016   |
 
 
 Scenario: Remove short qty and damages from exception delivery

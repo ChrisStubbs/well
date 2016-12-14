@@ -122,7 +122,14 @@
             {
                 this.jobRepository.Save(job);
 
-                job.JobDetails.ForEach(x => { x.JobId = job.Id; x.JobDetailStatusId = (int)JobDetailStatus.UnRes; });
+                job.JobDetails.ForEach(
+                    x =>
+                    {
+                        x.JobId = job.Id;
+                        x.JobDetailStatusId = (int)JobDetailStatus.UnRes;
+                        x.JobDetailReason = JobDetailReason.NotDefined;
+                        x.JobDetailSource = JobDetailSource.NotDefined;
+                    });
 
                 this.ImportJobDetails(job.JobDetails);
             }

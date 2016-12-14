@@ -54,6 +54,8 @@
                 jobDetails.Single(j => j.JobId == jobDetailUpdates.JobId && j.LineNumber == jobDetailUpdates.LineNumber);
             jobDetail.ShortQty = jobDetailUpdates.ShortQty;
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
+            jobDetail.JobDetailReasonId = jobDetailUpdates.JobDetailReasonId;
+            jobDetail.JobDetailSourceId = jobDetailUpdates.JobDetailSourceId;
 
             Job job = this.jobRepository.GetById(jobDetail.JobId);
             JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);

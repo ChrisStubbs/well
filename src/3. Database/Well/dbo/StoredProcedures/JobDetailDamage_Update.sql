@@ -2,8 +2,8 @@
 	@Id						Int,
 	@JobDetailId			INT,
 	@Qty					decimal(7,3),
-	@DamageReasonsId		tinyint,
-	@DamageSourceId			tinyint,
+	@JobDetailSource		tinyint,
+	@JobDetailReason		tinyint,
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			Datetime
 
@@ -14,8 +14,8 @@ BEGIN
 	UPDATE [dbo].[JobDetailDamage]
 		SET [JobDetailId] = @JobDetailId
 			,[Qty] = @Qty
-			,[DamageReasonsId] = @DamageReasonsId
-			,[DamageSourceId] = @DamageSourceId
+			,JobDetailSource = @JobDetailSource
+			,JobDetailReason = @JobDetailReason
 			,[UpdatedBy] = @UpdatedBy
 			,[DateUpdated] = @DateUpdated
 		WHERE Id = @Id		   

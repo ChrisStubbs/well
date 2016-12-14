@@ -23,7 +23,7 @@
                     JobDetailDamages =
                         new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
-                            new JobDetailDamage() {Qty = 1, DamageReason = DamageReasons.CAR01}
+                            new JobDetailDamage() {Qty = 1, JobDetailReason = JobDetailReason.Administration}
                         })
                 };
                 var originalJobDetail = new JobDetail() {ShortQty = 0};
@@ -58,7 +58,7 @@
                     JobDetailDamages =
                         new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
-                            new JobDetailDamage() {Qty = 1, DamageReason = DamageReasons.CAR01}
+                            new JobDetailDamage() {Qty = 1, JobDetailReason = JobDetailReason.Administration}
                         })
                 };
 
@@ -82,7 +82,7 @@
                     JobDetailDamages =
                         new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
-                            new JobDetailDamage() {Qty = 1, DamageReason = DamageReasons.CAR01}
+                            new JobDetailDamage() {Qty = 1, JobDetailReason = JobDetailReason.Administration}
                         })
                 };
                 var originalJobDetail = new JobDetail()
@@ -91,7 +91,7 @@
                     JobDetailDamages =
                         new List<JobDetailDamage>(new List<JobDetailDamage>()
                         {
-                            new JobDetailDamage() {Qty = 4, DamageReason = DamageReasons.CAR04}
+                            new JobDetailDamage() {Qty = 4, JobDetailReason = JobDetailReason.Administration}
                         })
                 };
 

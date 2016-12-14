@@ -14,6 +14,7 @@ export class DeliveryLine {
             this.deliveredQuantity = line.deliveredQuantity;
             this.damagedQuantity = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
+            this.lineDeliveryStatus = line.lineDeliveryStatus;
 
             if (line.damages) {
                 var index: number = 0;
@@ -45,6 +46,7 @@ export class DeliveryLine {
     deliveredQuantity: number;
     damagedQuantity: number;
     shortQuantity: number;
+    lineDeliveryStatus: string;
     damages: Damage[] = new Array<Damage>();
     actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
 
@@ -62,5 +64,20 @@ export class DeliveryLine {
         }
 
         return true;
+    }
+
+    isDetailChecked(): boolean {
+
+        if (this.lineDeliveryStatus === "Exception") {
+            return true;
+        }
+        if (this.lineDeliveryStatus === "Delivered") {
+            return true;
+        }
+        if (this.lineDeliveryStatus === "Unknown") {
+            return false;
+        }
+
+        return false;
     }
 }

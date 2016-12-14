@@ -5,6 +5,9 @@ export class Delivery {
         if (delivery) {
             this.id = delivery.id;
             this.accountCode = delivery.accountCode;
+            this.outerCount = delivery.outerCount;
+            this.outerDiscrepancyFound = delivery.outerDiscrepancyFound;
+            this.totalOutersShort = delivery.totalOutersShort;
             this.accountName = delivery.accountName;
             this.accountAddress = delivery.accountAddress;
             this.invoiceNumber = delivery.invoiceNumber;
@@ -32,6 +35,9 @@ export class Delivery {
     }
     id: number;
     accountCode: string;
+    outerCount: number;
+    outerDiscrepancyFound: boolean;
+    totalOutersShort: number;
     accountName: string;
     accountAddress: string;
     invoiceNumber: string;
@@ -45,6 +51,7 @@ export class Delivery {
     canSubmit: boolean;
     exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+
 
     isCleanOnInit(): boolean {
         var clean = true;

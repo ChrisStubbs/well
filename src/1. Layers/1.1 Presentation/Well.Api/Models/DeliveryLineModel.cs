@@ -19,6 +19,7 @@
         public int DeliveredQuantity { get; set; }
         public int ShortQuantity { get; set; }
         public int DamagedQuantity { get; set; }
+        public string LineDeliveryStatus { get; set; }
 
         public List<DamageModel> Damages { get; set; }
 

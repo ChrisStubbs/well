@@ -19,6 +19,7 @@
         public decimal Value { get; set; }
         public int InvoicedQuantity { get; set; }
         public int ShortQuantity { get; set; }
+        public string LineDeliveryStatus { get; set; }
         public string Reason { get; set; }
         public string Status { get; set; }
         public List<Damage> Damages { get; set; }
@@ -28,5 +29,6 @@
         public int DeliveredQuantity => InvoicedQuantity - ShortQuantity - DamagedQuantity;
 
         public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
+
     }
 }

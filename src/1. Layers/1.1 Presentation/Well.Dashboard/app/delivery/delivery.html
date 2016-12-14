@@ -14,6 +14,8 @@
                 <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br/>
                 <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br/>
                 <abbr *ngIf="delivery.invoiceNumber" title="Invoice">Invoice:</abbr> {{delivery.invoiceNumber}}<br/>
+                <br>
+                <abbr *ngIf="delivery.outerDiscrepancyFound" title="Discrepancy">Discrepancy:</abbr> {{delivery.totalOutersShort}}<br/>
             </address>
         </div>
         <div class="col-md-5">
@@ -49,10 +51,10 @@
                         <th>Del Qty</th>
                         <th>Damaged Qty</th>
                         <th>Short Qty</th>
+                        <th>Checked</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!--TODO add IPagination thingy with id to each paginator within the component-->
                     <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { id: 'exception-pager', itemsPerPage: rowCount, currentPage: p }"
                         (click)="lineClicked(line)">
                         <td>{{line.lineNo}}</td>
@@ -63,6 +65,7 @@
                         <td>{{line.deliveredQuantity}}</td>
                         <td>{{line.damagedQuantity}}</td>
                         <td>{{line.shortQuantity}}</td>
+                        <td><span *ngIf="line.isDetailChecked()" class="glyphicon glyphicon-ok"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -91,6 +94,7 @@
                         <th>Del Qty</th>
                         <th>Damaged Qty</th>
                         <th>Short Qty</th>
+                        <th>Checked</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -104,6 +108,7 @@
                         <td>{{line.deliveredQuantity}}</td>
                         <td>{{line.damagedQuantity}}</td>
                         <td>{{line.shortQuantity}}</td>
+                        <td><span *ngIf="line.isDetailChecked()" class="glyphicon glyphicon-ok"></span></td>
                     </tr>
                     </tbody>
                 </table>

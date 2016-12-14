@@ -86,12 +86,12 @@ Scenario: View exception details at lower level
 	When I open the exception deliveries
 	And I click on exception row 4
 	Then I am shown the exception detail
-	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
-	| 1      | 6987    | Choc Teacakes Tunnock    | 19    | 1               | -1               | 0               | 2             |
-	| 2      | 49179   | Ginger Nuts 250g         | 4     | 1               | -1               | 0               | 2             |
-	| 3      | 21633   | Kiddies Super Mix 220gPM | 3     | 1               | -1               | 0               | 2             |
-	| 4      | 4244    | Milkybar Btns Giant PM   | 5     | 1               | -1               | 0               | 2             |
-	| 5      | 7621    | Fruit Past Tube 52.5g    | 8     | 1               | -1               | 0               | 2             |
+	| LineNo | Product | Description              | Value	 | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
+	| 1      | 6987    | Choc Teacakes Tunnock    | 19.23    | 1               | -1               | 0               | 2             |
+	| 2      | 49179   | Ginger Nuts 250g         | 4.88     | 1               | -1               | 0               | 2             |
+	| 3      | 21633   | Kiddies Super Mix 220gPM | 3.60     | 1               | -1               | 0               | 2             |
+	| 4      | 4244    | Milkybar Btns Giant PM   | 5.60     | 1               | -1               | 0               | 2             |
+	| 5      | 7621    | Fruit Past Tube 52.5g    | 8.40     | 1               | -1               | 0               | 2             |
 
 Scenario: Exception assigned to a user
 	Given I have selected branch '22'

@@ -29,6 +29,7 @@
         public int ShortQuantity { get; set; }
 
         public int DamagedQuantity { get; set; }
+        public string LineDeliveryStatus { get; set; }
 
         public int JobDetailReasonId { get; set; }
 

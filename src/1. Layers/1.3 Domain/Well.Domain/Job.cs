@@ -348,13 +348,18 @@
         }
 
         [XmlIgnore]
-        public string OuterDiscrepancyFound
+        public bool OuterDiscrepancyFound
         {
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "DISCFOUND");
 
-                return attribute?.Value;
+                if (attribute != null)
+                  {
+                      return attribute.Value != "N";
+                  }
+
+                    return false;
             }
         }
 

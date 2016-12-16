@@ -14,6 +14,7 @@ export class DeliveryLine {
             this.deliveredQuantity = line.deliveredQuantity;
             this.damagedQuantity = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
+            this.lineDeliveryStatus = line.lineDeliveryStatus;
             this.jobDetailReasonId = line.jobDetailReasonId;
             this.jobDetailSourceId = line.jobDetailSourceId;
 
@@ -56,6 +57,7 @@ export class DeliveryLine {
     damagedQuantity: number;
 
     shortQuantity: number;
+    lineDeliveryStatus: string;
 
     jobDetailReasonId: number;
 
@@ -79,5 +81,20 @@ export class DeliveryLine {
         }
 
         return true;
+    }
+
+    isDetailChecked(): boolean {
+
+        if (this.lineDeliveryStatus === "Exception") {
+            return true;
+        }
+        if (this.lineDeliveryStatus === "Delivered") {
+            return true;
+        }
+        if (this.lineDeliveryStatus === "Unknown") {
+            return false;
+        }
+
+        return false;
     }
 }

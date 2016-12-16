@@ -25,6 +25,7 @@
         public int InvoicedQuantity { get; set; }
 
         public int ShortQuantity { get; set; }
+        public string LineDeliveryStatus { get; set; }
 
         public string Reason { get; set; }
 
@@ -43,5 +44,6 @@
         public int DeliveredQuantity => InvoicedQuantity - ShortQuantity - DamagedQuantity;
 
         public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
+
     }
 }

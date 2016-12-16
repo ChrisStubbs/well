@@ -15,6 +15,9 @@
             {
                 Id = detail.Id,
                 AccountCode = detail.AccountCode,
+                OuterCount = detail.OuterCount,
+                OuterDiscrepancyFound = detail.OuterDiscrepancyFound,
+                TotalOutersShort = detail.TotalOutersShort,
                 AccountName = detail.AccountName,
                 AccountAddress = detail.AccountAddress,
                 InvoiceNumber = detail.InvoiceNumber,
@@ -40,6 +43,7 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
+                    LineDeliveryStatus = line.LineDeliveryStatus,
                     JobDetailReasonId = line.JobDetailReasonId,
                     JobDetailSourceId = line.JobDetailSourceId,
                     Damages = line.Damages.Select(d => new DamageModel()
@@ -71,6 +75,7 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
+                    LineDeliveryStatus = line.LineDeliveryStatus,
                     JobDetailReasonId = line.JobDetailReasonId,
                     JobDetailSourceId = line.JobDetailSourceId,
                     Damages = line.Damages.Select(d => new DamageModel()

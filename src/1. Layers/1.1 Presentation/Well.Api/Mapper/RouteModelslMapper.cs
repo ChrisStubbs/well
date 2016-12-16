@@ -19,6 +19,7 @@
             {
                 var model = new RouteModel{
                     Route = routeHeader.RouteNumber,
+                    RouteDate = routeHeader.RouteDate.Value,
                     DriverName = routeHeader.DriverName,
                     TotalDrops = routeHeader.Stops.Count,
                     DeliveryCleanCount = routeHeader.CleanJobs,

@@ -6,6 +6,8 @@
     {
         public string Route { get; set; }
 
+        public DateTime RouteDate { get; set; }
+
         public string DriverName { get; set; }
 
         public int TotalDrops { get; set; }

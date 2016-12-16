@@ -6,18 +6,20 @@
 
     using NUnit.Framework;
 
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
+    using PH.Well.UnitTests.Factories;
 
     [TestFixture]
     public class UserThresholdServiceTests
     {
         private Mock<ICreditThresholdRepository> creditThresholdRepository;
-
         private Mock<IUserRepository> userRepository;
+        private Mock<ILogger> logger;
 
         private UserThresholdService service;
 
@@ -26,7 +28,8 @@
         {
             this.creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            this.service = new UserThresholdService(this.creditThresholdRepository.Object, this.userRepository.Object);
+            this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.service = new UserThresholdService(this.creditThresholdRepository.Object, this.userRepository.Object, this.logger.Object);
         }
 
         public class TheCanUserCreditMethod : UserThresholdServiceTests
@@ -99,6 +102,34 @@
             public void ShouldAssignLevel1ThresholdToUser()
             {
                 var level1Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level1 };
+            }
+        }
+
+        public class TheRemoveCreditEventsThatDontHaveAThresholdMethod : UserThresholdServiceTests
+        {
+            [Test]
+            public void ShouldRemoveCreditEventsThatDontHaveThresholdSetupCorrectly()
+            {
+                // TODO
+                /*var creditEvents = new List<CreditEvent>();
+
+                var creditEvent = CreditEventFactory.New.Build();
+
+                creditEvents.Add(creditEvent);
+
+                var username = "jonny the foo";
+
+                var user = new User { ThresholdLevelId = 1 };
+
+                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
+
+                var thresholds = new List<CreditThreshold> { new CreditThreshold { ThresholdLevelId = 1, Threshold = 2M } };
+                
+                this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
+
+                this.creditThresholdRepository.Setup(x => x.GetByBranch(creditEvent.BranchId))
+
+                this.service.RemoveCreditEventsThatDontHaveAThreshold(creditEvents, username);*/
             }
         }
     }

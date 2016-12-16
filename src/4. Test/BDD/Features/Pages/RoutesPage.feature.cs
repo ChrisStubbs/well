@@ -91,6 +91,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
                         "Branch",
+                        "Route Date",
                         "Driver",
                         "NoOfDrops",
                         "Exceptions",
@@ -99,6 +100,7 @@ this.ScenarioSetup(scenarioInfo);
             table1.AddRow(new string[] {
                         "011",
                         "22",
+                        "Jan 7, 2016",
                         "DUGDALE STEVEN",
                         "4",
                         "0",
@@ -107,6 +109,7 @@ this.ScenarioSetup(scenarioInfo);
             table1.AddRow(new string[] {
                         "006",
                         "22",
+                        "Jan 7, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
@@ -115,6 +118,7 @@ this.ScenarioSetup(scenarioInfo);
             table1.AddRow(new string[] {
                         "001",
                         "22",
+                        "Jan 7, 2016",
                         "HALL IAN",
                         "2",
                         "3",
@@ -147,6 +151,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
                         "Branch",
+                        "Route Date",
                         "Driver",
                         "NoOfDrops",
                         "Exceptions",
@@ -155,6 +160,7 @@ this.ScenarioSetup(scenarioInfo);
             table2.AddRow(new string[] {
                         "001",
                         "22",
+                        "Jan 7, 2016",
                         "HALL IAN",
                         "2",
                         "0",
@@ -168,6 +174,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
                         "Branch",
+                        "Route Date",
                         "Driver",
                         "NoOfDrops",
                         "Exceptions",
@@ -176,6 +183,7 @@ this.ScenarioSetup(scenarioInfo);
             table3.AddRow(new string[] {
                         "011",
                         "22",
+                        "Jan 7, 2016",
                         "DUGDALE STEVEN",
                         "4",
                         "0",
@@ -184,6 +192,7 @@ this.ScenarioSetup(scenarioInfo);
             table3.AddRow(new string[] {
                         "006",
                         "22",
+                        "Jan 7, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
@@ -192,6 +201,7 @@ this.ScenarioSetup(scenarioInfo);
             table3.AddRow(new string[] {
                         "001",
                         "22",
+                        "Jan 7, 2016",
                         "HALL IAN",
                         "2",
                         "0",
@@ -222,6 +232,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
                         "Branch",
+                        "Route Date",
                         "Driver",
                         "NoOfDrops",
                         "Exceptions",
@@ -231,6 +242,7 @@ this.ScenarioSetup(scenarioInfo);
             table4.AddRow(new string[] {
                         "011",
                         "22",
+                        "Jan 7, 2016",
                         "DUGDALE STEVEN",
                         "4",
                         "0",
@@ -240,6 +252,7 @@ this.ScenarioSetup(scenarioInfo);
             table4.AddRow(new string[] {
                         "006",
                         "22",
+                        "Jan 7, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
@@ -249,6 +262,7 @@ this.ScenarioSetup(scenarioInfo);
             table4.AddRow(new string[] {
                         "001",
                         "22",
+                        "Jan 7, 2016",
                         "HALL IAN",
                         "2",
                         "0",
@@ -263,6 +277,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
                         "Branch",
+                        "Route Date",
                         "Driver",
                         "NoOfDrops",
                         "Exceptions",
@@ -272,6 +287,7 @@ this.ScenarioSetup(scenarioInfo);
             table5.AddRow(new string[] {
                         "001",
                         "22",
+                        "Jan 7, 2016",
                         "HALL IAN",
                         "2",
                         "0",
@@ -281,6 +297,7 @@ this.ScenarioSetup(scenarioInfo);
             table5.AddRow(new string[] {
                         "006",
                         "22",
+                        "Jan 7, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
@@ -290,6 +307,7 @@ this.ScenarioSetup(scenarioInfo);
             table5.AddRow(new string[] {
                         "011",
                         "22",
+                        "Jan 7, 2016",
                         "DUGDALE STEVEN",
                         "4",
                         "0",
@@ -304,6 +322,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
                         "Branch",
+                        "Route Date",
                         "Driver",
                         "NoOfDrops",
                         "Exceptions",
@@ -313,6 +332,7 @@ this.ScenarioSetup(scenarioInfo);
             table6.AddRow(new string[] {
                         "011",
                         "22",
+                        "Jan 7, 2016",
                         "DUGDALE STEVEN",
                         "4",
                         "0",
@@ -322,6 +342,7 @@ this.ScenarioSetup(scenarioInfo);
             table6.AddRow(new string[] {
                         "006",
                         "22",
+                        "Jan 7, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
@@ -331,6 +352,7 @@ this.ScenarioSetup(scenarioInfo);
             table6.AddRow(new string[] {
                         "001",
                         "22",
+                        "Jan 7, 2016",
                         "HALL IAN",
                         "2",
                         "0",

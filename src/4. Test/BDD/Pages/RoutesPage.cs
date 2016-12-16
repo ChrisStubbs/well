@@ -34,6 +34,7 @@
     {
         Route,
         Branch,
+        RouteDate,
         Driver,
         NoOfDrops,
         Exceptions,

@@ -1,15 +1,11 @@
 ﻿namespace PH.Well.Services
 {
-    using System;
     using System.Collections.Generic;
-    using System.Data;
     using System.Linq;
     using System.Transactions;
-    using System.Xml.Linq;
     using Contracts;
     using Domain;
     using Domain.Enums;
-    using Domain.ValueObjects;
     using Repositories.Contracts;
 
     public class DeliveryService : IDeliveryService
@@ -63,7 +59,6 @@
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
                 stop.DeliveryDate);
 
-            // TODO check this still works
             using (var transactionScope = new TransactionScope())
             {
                 this.jobDetailRepository.Update(jobDetail);
@@ -161,33 +156,7 @@
             }
         }
 
-        public void CreditLines(IEnumerable<CreditLines> creditLines, string username)
-        {
-            var creditLinesTable = GetPendingCreditsTable(creditLines);
-
-            this.jobRepository.CreditLines(creditLinesTable);
-            this.jobDetailRepository.CreditLines(creditLinesTable);
-            var userId = this.userRepository.GetByIdentity(username).Id;
-            this.jobRepository.JobPendingCredits(creditLinesTable, userId);
-        }
-
-        private DataTable GetPendingCreditsTable(IEnumerable<CreditLines> creditLines)
-        {
-            var dt = new DataTable();
-            dt.Columns.Add("CreditId");
-            dt.Columns["CreditId"].DataType = typeof(int);
-            dt.Columns.Add("IsPending");
-            dt.Columns["IsPending"].DataType = typeof(bool);
-            foreach (var i in creditLines)
-            {
-                DataRow row = dt.NewRow();
-                row["CreditId"] = i.CreditId;
-                row["IsPending"] = i.IsPending;
-                dt.Rows.Add(row);
-            }
-
-            return dt;
-        }
+        
 
     }
 }

@@ -9,11 +9,11 @@
     using Common.Extensions;
     using Domain.Enums;
 
-    public class DamageReasonController : BaseApiController
+    public class JobDetailReasonController : BaseApiController
     {
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
-        public DamageReasonController(IServerErrorResponseHandler serverErrorResponseHandler)
+        public JobDetailReasonController(IServerErrorResponseHandler serverErrorResponseHandler)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
@@ -24,12 +24,13 @@
         {
             try
             {
-                var reasons = Enum.GetNames(typeof(DamageReasons)).Select(r => new
+                var jobDetailReasons = Enum<JobDetailReason>.GetValuesAndDescriptions().Select(x => new
                 {
-                    code = r,
-                    description = StringExtensions.GetEnumDescription<DamageReasons>(r)
+                    id = (int)x.Key,
+                    description = x.Value
                 });
-                return Request.CreateResponse(HttpStatusCode.OK, reasons);
+
+                return Request.CreateResponse(HttpStatusCode.OK, jobDetailReasons);
             }
             catch (Exception ex)
             {

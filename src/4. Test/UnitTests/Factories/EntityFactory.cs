@@ -2,6 +2,8 @@
 {
     using System;
 
+    using NUnit.Framework.Constraints;
+
     public abstract class EntityFactory<T, U> where T : EntityFactory<T, U>, new() where U : new()
     {
         private readonly U entity = new U();

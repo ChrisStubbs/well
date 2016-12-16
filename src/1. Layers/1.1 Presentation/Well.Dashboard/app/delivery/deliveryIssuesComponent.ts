@@ -2,7 +2,8 @@
 import {Delivery} from './model/delivery';
 import {DeliveryLine} from './model/deliveryLine';
 import {Damage} from './model/damage';
-import {DamageReason} from './model/damageReason';
+import {JobDetailReason} from './model/jobDetailReason';
+import {JobDetailSource} from './model/jobDetailSource';
 import {ConfirmModal} from "../shared/confirmModal";
 import {DeliveryService} from "./deliveryService";
 import {Router} from '@angular/router';
@@ -16,7 +17,8 @@ import * as lodash from 'lodash';
 export class DeliveryIssuesComponent {
     delivery: Delivery = new Delivery(undefined);
     deliveryLine: DeliveryLine = new DeliveryLine(undefined);
-    reasons: DamageReason[] = new Array<DamageReason>();
+    reasons: JobDetailReason[] = new Array<JobDetailReason>();
+    sources: JobDetailSource[] = new Array<JobDetailSource>();
     confirmMessage: string;
     confirmModalIsVisible: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
@@ -28,12 +30,15 @@ export class DeliveryIssuesComponent {
 
     ngOnInit(): void {
         this.deliveryService.getDamageReasons()
-            .subscribe(reasons => { this.reasons = reasons; });
+            .subscribe(r => { this.reasons = r; });
+
+        this.deliveryService.getSources()
+            .subscribe(s => { this.sources = s });
     }
 
     addDamage() {
         var index = this.deliveryLine.damages.length;
-        this.deliveryLine.damages.push(new Damage(index, 0, "Notdef"));
+        this.deliveryLine.damages.push(new Damage(index, 0, 0, 0));
     }
 
     removeDamage(index) {

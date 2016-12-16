@@ -140,6 +140,7 @@
         {
             var sumQty = this.JobDetailDamages.Sum(d => d.Qty);
             var c = (this.ShortQty + sumQty) * Convert.ToDecimal(NetPrice);
+
             return c;
         }
 
@@ -153,6 +154,14 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
+
+        public int JobDetailReasonId { get; set; }
+
+        public int JobDetailSourceId { get; set; }
+
+        public JobDetailReason JobDetailReason { get; set; }
+
+        public JobDetailSource JobDetailSource { get; set; }
 
         [XmlIgnore]
         public bool IsHighValue
@@ -169,8 +178,6 @@
                 return false;
             }
         }
-
-       
 
         public bool IsClean()
         {
@@ -214,7 +221,7 @@
             var damages = JobDetailDamages;
 
             var damagesChanged = originalDamages.Count != damages.Count ||
-                                 originalDamages.OrderBy(o => o.DamageReason).SequenceEqual(damages.OrderBy(d => d.DamageReason)) == false;
+                                 originalDamages.OrderBy(o => o.JobDetailReason).SequenceEqual(damages.OrderBy(d => d.JobDetailReason)) == false;
 
             if (damagesChanged && originalDamages.Count == 0)
             {

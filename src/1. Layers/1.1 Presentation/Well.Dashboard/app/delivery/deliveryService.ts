@@ -6,7 +6,8 @@ import 'rxjs/add/operator/map';
 import {Action} from './model/action';
 import {ActionStatus} from './model/actionStatus';
 import {Delivery} from './model/delivery';
-import {DamageReason} from './model/damageReason';
+import {JobDetailReason} from './model/jobDetailReason';
+import {JobDetailSource} from './model/jobDetailSource';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {HttpErrorService} from '../shared/httpErrorService';
 
@@ -25,9 +26,15 @@ export class DeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getDamageReasons(): Observable<DamageReason[]> {
+    getSources(): Observable<JobDetailSource[]> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'job-detail-source/')
+            .map((response: Response) => <JobDetailSource[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    getDamageReasons(): Observable<JobDetailReason[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'damage-reasons/')
-            .map((response: Response) => <DamageReason[]>response.json())
+            .map((response: Response) => <JobDetailReason[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

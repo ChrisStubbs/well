@@ -110,10 +110,12 @@
     <Compile Include="Api\Controllers\AuditControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
     <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
+    <Compile Include="Api\Controllers\JobDetailReasonControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineActionsControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
     <Compile Include="Api\Controllers\ExceptionEventControllerTests.cs" />
+    <Compile Include="Api\Controllers\JobDetailSourceControllerTests.cs" />
     <Compile Include="Api\Controllers\PendingCreditControllerTests.cs" />
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
     <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
     <Compile Include="Factories\CleanPreferenceFactory.cs" />
+    <Compile Include="Factories\CreditEventFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
     <Compile Include="Factories\DamageFactory.cs" />

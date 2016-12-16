@@ -32,8 +32,8 @@
                 {
                     Id = 1,
                     Qty = 1m,
-                    DamageReason = DamageReasons.CAR01,
-                    JobDetailDamageSource = JobDetailDamageSource.PDADIS001
+                    JobDetailReason = JobDetailReason.Administration,
+                    JobDetailSource = JobDetailSource.Confirming
 
                 }
             };

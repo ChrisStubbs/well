@@ -57,6 +57,7 @@
             for (int i = 0; i < table.RowCount; i++)
             {
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.RouteDate), Is.EqualTo(table.Rows[i]["Route Date"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Driver), Is.EqualTo(table.Rows[i]["Driver"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.NoOfDrops), Is.EqualTo(table.Rows[i]["NoOfDrops"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Exceptions), Is.EqualTo(table.Rows[i]["Exceptions"]));

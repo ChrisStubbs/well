@@ -50,7 +50,7 @@ export class ExceptionDeliveryService {
 
     creditLines(creditlines: any[]): Observable<any> {
         
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'deliveries-creditlines/{creditlines}',
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit-bulk/{creditlines}',
             JSON.stringify(creditlines),
             this.options)
             .map(res => res.json())

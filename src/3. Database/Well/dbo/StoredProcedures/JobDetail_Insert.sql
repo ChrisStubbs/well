@@ -5,6 +5,8 @@
 	@OrderedQty				INT,
 	@DeliveredQty				DECIMAL(8,3) ,
 	@ShortQty				INT,
+	@JobDetailReasonId		INT,
+	@JobDetailSourceId		INT,
 	@UnitMeasure			VARCHAR(20),
 	@PHProductCode			VARCHAR(50),
 	@PHProductType			VARCHAR(50) NULL,
@@ -47,7 +49,8 @@ INSERT INTO [dbo].[JobDetail]
            ,[JobDetailStatusId]
 		   ,[LineDeliveryStatus]
 		   ,[IsHighValue]
-		 --  ,[DateLife]
+			,[JobDetailReasonId]
+			,[JobDetailSourceId]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
@@ -72,7 +75,8 @@ INSERT INTO [dbo].[JobDetail]
            ,@JobDetailStatusId
 		   ,@LineDeliveryStatus
 		   ,@IsHighValue
-		  -- ,@DateLife
+		  ,@JobDetailReasonId
+		  ,@JobDetailSourceId
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy

@@ -16,6 +16,12 @@
 
         public string AccountCode { get; set; }
 
+        public int OuterCount { get; set; }
+
+        public bool OuterDiscrepancyFound { get; set; }
+
+        public int TotalOutersShort { get; set; }
+
         public string AccountName { get; set; }
 
         public string AccountAddress { get; set; }

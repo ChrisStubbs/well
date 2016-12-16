@@ -231,6 +231,7 @@
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\delivery\model\jobDetailSource.ts" />
     <TypeScriptCompile Include="app\delivery\model\submitLine.ts" />
     <TypeScriptCompile Include="app\delivery\submitConfirmModal.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryActionsComponent.ts" />
@@ -426,7 +427,7 @@
     <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
     <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
-    <TypeScriptCompile Include="app\delivery\model\damageReason.ts" />
+    <TypeScriptCompile Include="app\delivery\model\jobDetailReason.ts" />
     <TypeScriptCompile Include="app\delivery\model\delivery.ts" />
     <TypeScriptCompile Include="app\delivery\deliveryComponent.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryLine.ts" />

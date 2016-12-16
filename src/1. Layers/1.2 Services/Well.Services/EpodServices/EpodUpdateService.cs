@@ -179,7 +179,13 @@
 
                 if (invoiceOutstanding)
                     existingJobDetail.JobDetailStatusId = (int)JobDetailStatus.AwtInvNum;
-                
+
+                if (detail.ShortQty > 0)
+                {
+                    detail.JobDetailReason = JobDetailReason.NotDefined;
+                    detail.JobDetailSource = JobDetailSource.NotDefined;
+                }
+
                 this.jobDetailRepository.Update(existingJobDetail);
 
                 this.UpdateJobDamages(detail.JobDetailDamages, existingJobDetail.Id);
@@ -192,6 +198,7 @@
 
             foreach (var damage in damages)
             {
+                damage.JobDetailReason = JobDetailReason.NotDefined;
                 this.jobDetailDamageRepository.Save(damage);
             }
         }

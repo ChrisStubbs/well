@@ -102,7 +102,7 @@ this.FeatureBackground();
 #line 19
  testRunner.When("I enter a short quantity of \'5\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 20
- testRunner.And("I add a damage qty of \'2\' and reason \'CAR01 - Dented\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I add a damage qty of \'2\' and reason \'Picking Error\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
  testRunner.And("I save the delivery line updates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
@@ -122,7 +122,7 @@ this.FeatureBackground();
                         "DeliveryDate"});
             table1.AddRow(new string[] {
                         "Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages a" +
-                            "dded CAR01 - 2.",
+                            "dded PickingError - 2.",
                         "DeliveryLineUpdate",
                         "949214.152",
                         "49214.152 - CSG - must be CF van",

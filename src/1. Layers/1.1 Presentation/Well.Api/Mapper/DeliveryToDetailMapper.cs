@@ -15,6 +15,9 @@
             {
                 Id = detail.Id,
                 AccountCode = detail.AccountCode,
+                OuterCount = detail.OuterCount,
+                OuterDiscrepancyFound = detail.OuterDiscrepancyFound,
+                TotalOutersShort = detail.TotalOutersShort,
                 AccountName = detail.AccountName,
                 AccountAddress = detail.AccountAddress,
                 InvoiceNumber = detail.InvoiceNumber,
@@ -40,10 +43,14 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
+                    LineDeliveryStatus = line.LineDeliveryStatus,
+                    JobDetailReasonId = line.JobDetailReasonId,
+                    JobDetailSourceId = line.JobDetailSourceId,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,
-                        ReasonCode = d.Reason.ToString()
+                        JobDetailReasonId = d.JobDetailReason,
+                        JobDetailSourceId = d.JobDetailSource
                     }).ToList(),
                     Actions = line.Actions.Select(a => new ActionModel()
                     {
@@ -68,10 +75,14 @@
                     DeliveredQuantity = line.DeliveredQuantity,
                     DamagedQuantity = line.DamagedQuantity,
                     ShortQuantity = line.ShortQuantity,
+                    LineDeliveryStatus = line.LineDeliveryStatus,
+                    JobDetailReasonId = line.JobDetailReasonId,
+                    JobDetailSourceId = line.JobDetailSourceId,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,
-                        ReasonCode = d.Reason.ToString()
+                        JobDetailReasonId = d.JobDetailReason,
+                        JobDetailSourceId = d.JobDetailSource 
                     }).ToList(),
                     Actions = line.Actions.Select(a => new ActionModel()
                     {

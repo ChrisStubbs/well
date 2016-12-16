@@ -14,11 +14,14 @@ export class DeliveryLine {
             this.deliveredQuantity = line.deliveredQuantity;
             this.damagedQuantity = line.damagedQuantity;
             this.shortQuantity = line.shortQuantity;
+            this.lineDeliveryStatus = line.lineDeliveryStatus;
+            this.jobDetailReasonId = line.jobDetailReasonId;
+            this.jobDetailSourceId = line.jobDetailSourceId;
 
             if (line.damages) {
                 var index: number = 0;
                 for (let damage of line.damages) {
-                    this.damages.push(new Damage(index, damage.quantity, damage.reasonCode));
+                    this.damages.push(new Damage(index, damage.quantity, damage.jobDetailReasonId, damage.jobDetailSourceId));
                     index++;
                 }
             }
@@ -36,16 +39,32 @@ export class DeliveryLine {
     }
 
     jobDetailId: number;
+
     jobId: number;
+
     lineNo: number;
+
     productCode: string;
+
     productDescription: string;
+
     value: string;
+
     invoicedQuantity: number;
+
     deliveredQuantity: number;
+
     damagedQuantity: number;
+
     shortQuantity: number;
+    lineDeliveryStatus: string;
+
+    jobDetailReasonId: number;
+
+    jobDetailSourceId: number;
+
     damages: Damage[] = new Array<Damage>();
+
     actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
 
     isCleanOnInit: boolean;
@@ -62,5 +81,20 @@ export class DeliveryLine {
         }
 
         return true;
+    }
+
+    isDetailChecked(): boolean {
+
+        if (this.lineDeliveryStatus === "Exception") {
+            return true;
+        }
+        if (this.lineDeliveryStatus === "Delivered") {
+            return true;
+        }
+        if (this.lineDeliveryStatus === "Unknown") {
+            return false;
+        }
+
+        return false;
     }
 }

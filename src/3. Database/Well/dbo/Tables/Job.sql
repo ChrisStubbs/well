@@ -29,7 +29,7 @@
 	[StopId] INT NOT NULL,
 	[ActionLogNumber] VARCHAR(50) NULL,
 	[OuterCount] TINYINT NULL,
-	[OuterDiscrepancyFound] VARCHAR(1) NULL,
+	[OuterDiscrepancyFound] BIT DEFAULT 0,
 	[TotalOutersOver] INT NULL,
 	[TotalOutersShort] INT NULL,
 	[Picked] BIT NULL DEFAULT 0,

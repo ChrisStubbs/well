@@ -67,6 +67,9 @@
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  
         public static string JobDetailActionsGet = "JobDetailActionsGet";
         public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
+        public static string JobDetailDamageInsert = "JobDetailDamage_Insert";
+        public static string JobDetailDamageUpdate = "JobDetailDamage_Update";
+        public static string JobDetailDamageDelete = "JobDetailDamage_Delete";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";

@@ -9,6 +9,8 @@ CREATE TABLE [dbo].[JobDetail]
 	[ProdDesc] VARCHAR(100) NOT NULL,
 	[OrderedQty] DECIMAL(8,3) NOT NULL,
 	[ShortQty] DECIMAL(8,3)  NOT NULL,
+	[JobDetailReasonId] TINYINT NOT NULL,
+	[JobDetailSourceId] TINYINT NOT NULL,
 	[UnitMeasure] VARCHAR(50) NOT NULL,
 	[PHProductType] VARCHAR(50) NULL,
 	[PackSize] VARCHAR(50) NULL,
@@ -30,6 +32,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[Version] [TIMESTAMP] NOT NULL,
 	CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_JobDetail_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([JobDetailStatusId]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
-
+	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([JobDetailStatusId]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_JobDetail_JobDetailSource] FOREIGN KEY ([JobDetailSourceId]) REFERENCES [dbo].JobDetailSource ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_JobDetail_JobDetailReason] FOREIGN KEY ([JobDetailReasonId]) REFERENCES [dbo].JobDetailReason ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

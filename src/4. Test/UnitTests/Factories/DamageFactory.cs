@@ -9,7 +9,7 @@
         {
             this.Entity.JobDetailId = 1;
             this.Entity.Quantity = 5;
-            this.Entity.Reason = DamageReasons.CAR01;
+            this.Entity.Reason = JobDetailReason.Administration;
         }
     }
 }

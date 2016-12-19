@@ -164,7 +164,7 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     |
 	| 001   | 1    | 949214.152 | 49214.152 | CSG - must be CF van | Incomplete |
 	| 001   | 1    | 92874.033  | 2874.033  | CSG - must be CF van | Incomplete |
-	| 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |  |
+	| 001   | 2    | 92874.033  | 2874.033  | RVS SHOP             | Incomplete |  
 
 Scenario: A user can view Exception Delivery Information with cash on delivery icons displayed
 	Given I have selected branch '22'

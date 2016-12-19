@@ -99,8 +99,6 @@ export class ExceptionsComponent implements OnInit {
     ngOnInit(): void {
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
-        this.currentConfigSort = '-dateTime';
-        this.sortDirection(false);
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
             this.assignee = params['assignee'];

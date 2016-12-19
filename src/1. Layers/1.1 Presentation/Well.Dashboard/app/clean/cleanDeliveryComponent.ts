@@ -61,8 +61,6 @@ export class CleanDeliveryComponent implements OnInit {
     ngOnInit(): void {
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.currentConfigSort = '-deliveryDate';
-        this.sortDirection(false);
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
             this.getDeliveries();

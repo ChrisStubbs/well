@@ -13,12 +13,13 @@
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle enabled-action" id="credit-threshold-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true">{{thresholdLevel}} <span class="caret"></span></button>
                     <ul class="dropdown-menu" aria-labelledby="filter-option">
-                        <li><a id="credit-threshold-level1" (click)="setSelectedLevel('Level 1')">Level 1</a></li>
-                        <li><a id="credit-threshold-level2" (click)="setSelectedLevel('Level 2')">Level 2</a></li>
-                        <li><a id="credit-threshold-level3" (click)="setSelectedLevel('Level 3')">Level 3</a></li>
+                        <li><a id="credit-threshold-level1" (click)="setSelectedLevel('Level 1')">Level <span class="badge">1</span></a></li>
+                        <li><a id="credit-threshold-level2" (click)="setSelectedLevel('Level 2')">Level <span class="badge">2</span></a></li>
+                        <li><a id="credit-threshold-level3" (click)="setSelectedLevel('Level 3')">Level <span class="badge">3</span></a></li>
                     </ul>
                 </div>
             </div>
+            <div class="btn-group"><h5>Level 1 is the highest threshold!</h5></div>
         </div>
     </div>
     <div class="btn-group pull-right">

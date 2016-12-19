@@ -1,5 +1,8 @@
 ﻿namespace PH.Well.Services
 {
+    using System.Collections.Generic;
+    using System.Transactions;
+
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
@@ -8,12 +11,11 @@
     public class ExceptionEventService : IExceptionEventService
     {
         private readonly IAdamRepository adamRepository;
-
         private readonly IExceptionEventRepository eventRepository;
-
         private readonly IJobRepository jobRepository;
 
-        public ExceptionEventService(IAdamRepository adamRepository, 
+        public ExceptionEventService(
+            IAdamRepository adamRepository,
             IExceptionEventRepository eventRepository,
             IJobRepository jobRepository)
         {
@@ -31,22 +33,54 @@
 
         public AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username)
         {
-            // TODO
-            //var response = this.adamRepository.Credit(creditEvent, adamSettings);
+            var response = this.adamRepository.Credit(creditEvent, adamSettings);
 
-            /*if (response == AdamResponse.AdamDown)
+            if (response == AdamResponse.AdamDown)
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEvent(creditEvent);
             }
             else
-            {*/
+            {
                 this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+                this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
 
-            return AdamResponse.Success;
-   ;         //}
-            //return response;
+                return AdamResponse.Success;
+            }
+
+            return response;
         }
+
+        public AdamResponse BulkCredit(IEnumerable<CreditEvent> creditEvents, string username)
+        {
+            var adamDown = false;
+
+            foreach (var creditEvent in creditEvents)
+            {
+                var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
+
+                using (var transactionScope = new TransactionScope())
+                {
+                    var response = this.adamRepository.Credit(creditEvent, settings);
+
+                    if (response == AdamResponse.AdamDown)
+                    {
+                        this.eventRepository.CurrentUser = username;
+                        this.eventRepository.InsertCreditEvent(creditEvent);
+                        adamDown = true;
+                    }
+                    else
+                    {
+                        this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+                        this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
+                    }
+
+                    transactionScope.Complete();
+                }
+            }
+
+            return adamDown ? AdamResponse.AdamDown : AdamResponse.Success;
+         }
 
         public void CreditReorder(CreditReorderEvent creditReorderEvent, int eventId, AdamSettings adamSettings, string username)
         {

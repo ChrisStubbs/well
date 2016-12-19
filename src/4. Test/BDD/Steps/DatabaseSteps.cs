@@ -154,6 +154,13 @@
             SetDeliveryStatus(PerformanceStatus.Incom, noOfDeliveries);
         }
 
+        [Given(@"(.*) deliveries have been marked as exceptions with shorts to be advised")]
+        public void MarkDeliveriesAsExceptionWithShortsToBeAdvised(int noOfDeliveries)
+        {
+            SetDeliveryStatus(PerformanceStatus.Incom, noOfDeliveries);
+            this.MakeJobShortsToBeAdvised();
+        }
+
         [Given(@"All the deliveries are marked as exceptions")]
         public void GivenAllTheDeliveriesAreMarkedAsExceptions()
         {
@@ -216,6 +223,11 @@
         public void MakeJobDetailsShort()
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 2");
+        }
+
+        public void MakeJobShortsToBeAdvised()
+        {
+            this.dapperProxy.ExecuteSql("UPDATE Job Set OuterCount = 10, OuterDiscrepancyFound = 1, TotalOutersShort = 2 ");
         }
 
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)

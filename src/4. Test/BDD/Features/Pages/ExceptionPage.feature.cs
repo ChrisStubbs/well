@@ -102,28 +102,32 @@ this.FeatureBackground();
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "Status"});
+                        "Status",
+                        "TBA"});
             table1.AddRow(new string[] {
                         "001",
                         "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table1.AddRow(new string[] {
                         "001",
                         "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table1.AddRow(new string[] {
                         "001",
                         "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
 #line 17
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table1, "Then ");
 #line 22
@@ -177,35 +181,40 @@ this.FeatureBackground();
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "Status"});
+                        "Status",
+                        "TBA"});
             table3.AddRow(new string[] {
                         "006",
                         "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table3.AddRow(new string[] {
                         "006",
                         "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table3.AddRow(new string[] {
                         "006",
                         "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table3.AddRow(new string[] {
                         "006",
                         "2",
                         "954107.000",
                         "54107.000",
                         "WB - SHELL FORECOURT",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
 #line 32
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table3, "Then ");
 #line 39
@@ -218,14 +227,16 @@ this.FeatureBackground();
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "Status"});
+                        "Status",
+                        "TBA"});
             table4.AddRow(new string[] {
                         "001",
                         "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
 #line 40
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table4, "Then ");
 #line 43
@@ -238,14 +249,16 @@ this.FeatureBackground();
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "Status"});
+                        "Status",
+                        "TBA"});
             table5.AddRow(new string[] {
                         "011",
                         "5",
                         "928398.080",
                         "28398.080",
                         "TESCO EXPRESS",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
 #line 44
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table5, "Then ");
 #line 47
@@ -258,21 +271,24 @@ this.FeatureBackground();
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "Status"});
+                        "Status",
+                        "TBA"});
             table6.AddRow(new string[] {
                         "006",
                         "1",
                         "943362.048",
                         "43362.048",
                         "WB - SHOP",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table6.AddRow(new string[] {
                         "006",
                         "1",
                         "92874.033",
                         "2874.033",
                         "WB - SHOP",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
 #line 48
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table6, "Then ");
 #line hidden
@@ -302,6 +318,7 @@ this.FeatureBackground();
                         "Account",
                         "AccountName",
                         "Status",
+                        "TBA",
                         "LastUpdatedDateTime"});
             table7.AddRow(new string[] {
                         "001",
@@ -310,6 +327,7 @@ this.FeatureBackground();
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
+                        "0",
                         "Sep 7, 2016, 1:28:16 PM"});
             table7.AddRow(new string[] {
                         "001",
@@ -318,6 +336,7 @@ this.FeatureBackground();
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
+                        "0",
                         "Sep 7, 2016, 1:30:17 PM"});
             table7.AddRow(new string[] {
                         "001",
@@ -326,6 +345,7 @@ this.FeatureBackground();
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete",
+                        "0",
                         "Sep 7, 2016, 1:27:17 PM"});
 #line 58
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table7, "Then ");
@@ -339,6 +359,7 @@ this.FeatureBackground();
                         "Account",
                         "AccountName",
                         "Status",
+                        "TBA",
                         "LastUpdatedDateTime"});
             table8.AddRow(new string[] {
                         "001",
@@ -347,6 +368,7 @@ this.FeatureBackground();
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
+                        "0",
                         "Sep 7, 2016, 1:28:16 PM"});
             table8.AddRow(new string[] {
                         "001",
@@ -355,6 +377,7 @@ this.FeatureBackground();
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
+                        "0",
                         "Sep 7, 2016, 1:30:17 PM"});
             table8.AddRow(new string[] {
                         "001",
@@ -363,6 +386,7 @@ this.FeatureBackground();
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete",
+                        "0",
                         "Sep 7, 2016, 1:27:17 PM"});
 #line 65
  testRunner.Then("The following exceptions ordered by date will be displayed in \'desc\' order", ((string)(null)), table8, "Then ");
@@ -677,28 +701,32 @@ this.FeatureBackground();
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "Status"});
+                        "Status",
+                        "TBA"});
             table10.AddRow(new string[] {
                         "001",
                         "1",
                         "949214.152",
                         "49214.152",
                         "CSG - must be CF van",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table10.AddRow(new string[] {
                         "001",
                         "1",
                         "92874.033",
                         "2874.033",
                         "CSG - must be CF van",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
             table10.AddRow(new string[] {
                         "001",
                         "2",
                         "92874.033",
                         "2874.033",
                         "RVS SHOP",
-                        "Incomplete"});
+                        "Incomplete",
+                        "0"});
 #line 163
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table10, "Then ");
 #line hidden
@@ -726,6 +754,54 @@ this.FeatureBackground();
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 174
  testRunner.Then("the exception cod delivery icon is not displayed in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information with shorts to be advised displaye" +
+            "d")]
+        public virtual void AUserCanViewExceptionDeliveryInformationWithShortsToBeAdvisedDisplayed()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information with shorts to be advised displaye" +
+                    "d", ((string[])(null)));
+#line 177
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 178
+ testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 179
+ testRunner.And("2 deliveries have been marked as exceptions with shorts to be advised", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 180
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "TBA"});
+            table11.AddRow(new string[] {
+                        "001",
+                        "1",
+                        "949214.152",
+                        "49214.152",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "2"});
+            table11.AddRow(new string[] {
+                        "001",
+                        "1",
+                        "92874.033",
+                        "2874.033",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "2"});
+#line 181
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table11, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

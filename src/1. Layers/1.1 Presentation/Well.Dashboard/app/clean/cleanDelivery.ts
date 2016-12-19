@@ -1,15 +1,14 @@
-﻿export class CleanDelivery {
-    id: number;
+﻿import { BaseDelivery } from '../shared/baseDelivery';
+
+export class CleanDelivery extends BaseDelivery {
     routeNumber: string;
     dropId: string;
     invoiceNumber: number;
-    accountCode: string;
     accountName: string;
     jobStatus: string;
     action: string;
     assigned: string;
     deliveryDate: Date;
     accountId: string;
-    branchId: number;
     canAction: boolean;
 }

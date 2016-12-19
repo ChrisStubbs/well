@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Transactions;
 
     using PH.Well.Domain.Enums;
@@ -55,7 +56,9 @@
         {
             var adamDown = false;
 
-            foreach (var creditEvent in creditEvents)
+            if (!creditEvents.Any()) return AdamResponse.Success;
+
+;            foreach (var creditEvent in creditEvents)
             {
                 var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
 

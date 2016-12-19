@@ -231,6 +231,7 @@
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
+    <TypeScriptCompile Include="app\shared\baseDelivery.ts" />
     <TypeScriptCompile Include="app\delivery\model\jobDetailSource.ts" />
     <TypeScriptCompile Include="app\delivery\model\submitLine.ts" />
     <TypeScriptCompile Include="app\delivery\submitConfirmModal.ts" />

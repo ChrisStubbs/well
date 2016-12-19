@@ -86,6 +86,7 @@
                 catch (UserThresholdNotFoundException)
                 {
                     errors.Add(creditEvent.Id, $"The threshold level does not exist for branch {creditEvent.BranchId}, invoice {creditEvent.InvoiceNumber}");
+                    creditEventsToRemove.Add(creditEvent);
                 }
             }
 

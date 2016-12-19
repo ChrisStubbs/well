@@ -119,7 +119,7 @@ export class CleanDeliveryComponent implements OnInit {
     }
 
     allocateUser(delivery: CleanDelivery): void {
-        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+        this.assignModal.show(delivery);
     }
 
     onAssigned(assigned: boolean) {

@@ -109,7 +109,7 @@ export class ResolvedDeliveryComponent implements OnInit {
     }
 
     allocateUser(delivery: ResolvedDelivery): void {
-        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+        this.assignModal.show(delivery);
     }
 
     onAssigned(assigned: boolean) {

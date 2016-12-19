@@ -8,7 +8,6 @@
     using System.Web.Http;
     using Common.Contracts;
 
-    using PH.Well.Api.Models;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Services;
@@ -76,10 +75,10 @@
                 var response = this.exceptionEventService.BulkCredit(creditEvents, this.UserIdentityName);
 
                 if (response == AdamResponse.AdamDown)
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true, errors = thresholdErrors });
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true, notAcceptable = true, message = thresholdErrors.Select(x => x.Value) });
 
                 if (thresholdErrors.Any())
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { errors = thresholdErrors });
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = thresholdErrors.Select(x => x.Value) });
 
                 return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
             }

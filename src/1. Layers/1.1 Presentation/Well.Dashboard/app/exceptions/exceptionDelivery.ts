@@ -17,4 +17,5 @@
     formattedPendingCreditCreatedBy: string;
     cashOnDelivery: string;
     totalCredit: string;
+    totalOutersShort: number;
 }

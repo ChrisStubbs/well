@@ -62,5 +62,7 @@
         {
             this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
+
+        public int TotalOutersShort { get; set; }
     }
 }

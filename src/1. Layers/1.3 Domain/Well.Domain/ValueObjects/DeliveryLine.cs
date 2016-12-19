@@ -20,11 +20,13 @@
         public string ProductCode { get; set; }
 
         public string ProductDescription { get; set; }
+
         public decimal Value { get; set; }
 
         public int InvoicedQuantity { get; set; }
 
         public int ShortQuantity { get; set; }
+
         public string LineDeliveryStatus { get; set; }
 
         public string Reason { get; set; }

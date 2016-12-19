@@ -17,4 +17,5 @@ export class ExceptionDelivery extends BaseDelivery {
     cashOnDelivery: string;
     totalCredit: string;
     isPending: boolean;
+    totalOutersShort: number;
 }

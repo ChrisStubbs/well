@@ -45,6 +45,7 @@
                         <th>Credit Value</th>
                         <th>Contact</th>
                         <th>Status</th>
+                        <th>TBA</th>
                         <th>Assigned</th>
                         <th>Action</th>
                         <th>Credit</th>
@@ -64,6 +65,7 @@
                             <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
+                        <td (click)="deliverySelected(delivery)">{{delivery.totalOutersShort}}</td>
                         <td>
                             <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
                         </td>

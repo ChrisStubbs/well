@@ -76,7 +76,6 @@ export class ExceptionsComponent implements OnInit {
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
     value: string;
-    creditTitle:string;
     confirmMessage: string;
     confirmModalIsVisible: boolean = false;
     selectGridBox: boolean = false;
@@ -198,14 +197,13 @@ export class ExceptionsComponent implements OnInit {
         } else {
             this.removeFromCreditList(exception);
         }
-        this.creditTitle = this.bulkCredits.length > 1 ? "Bulk Credit" : "Credit";
     }
 
     getCreditListIndex(exceptionid) {
         return lodash.findIndex(this.bulkCredits, { id: exceptionid});
     }
 
-    selectAllCredits() {
+    /*selectAllCredits() {
 
         this.bulkCredits = [];
         var creditListIndex = -1;
@@ -233,7 +231,7 @@ export class ExceptionsComponent implements OnInit {
                     }
                 });
         }
-    }
+    }*/
     
     addToCreditList(exception, index) {
 
@@ -254,9 +252,11 @@ export class ExceptionsComponent implements OnInit {
 
     isGridCheckBoxDisabled(exceptionid) {
         var exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
-        if (exceptionDelivery.assigned !== 'Unallocated') {
+
+        if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName) {
             return '';
         }
+
         return 'disabled';
     }
 
@@ -278,9 +278,9 @@ export class ExceptionsComponent implements OnInit {
             : "";
 
         this.confirmModal.isVisible = true;
-        this.confirmModal.heading = this.creditTitle + " exceptions?";
+        this.confirmModal.heading = "Bulk credit exceptions?";
         this.confirmModal.messageHtml =
-            "You are about to " + this.creditTitle + " " + creditLength + " exceptions " + approvalConfirm +
+            "You are about to bulk credit " + creditLength + " exceptions " + approvalConfirm +
             "Are you sure you want to save your changes?";
         return;
     }

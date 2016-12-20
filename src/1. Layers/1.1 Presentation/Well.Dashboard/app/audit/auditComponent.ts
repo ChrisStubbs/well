@@ -19,7 +19,9 @@ export class AuditComponent implements OnInit {
     filterOptions: DropDownItem[] = [
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "account"),
-        new DropDownItem("Delivery Date", "deliveryDate", false, "date")
+        new DropDownItem("Delivery Date", "deliveryDate", false, "date"),
+        new DropDownItem("Audit By", "auditBy"),
+        new DropDownItem("Audit Date", "auditDate", false, "date")
     ];
 
     filterOption: FilterOption;

@@ -82,6 +82,7 @@ export class ExceptionsComponent implements OnInit {
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     thresholdLimit: Threshold;
+    isReadOnlyUser: boolean = false;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -107,6 +108,9 @@ export class ExceptionsComponent implements OnInit {
             this.getThresholdLimit();
             this.bulkCredits = new Array<ExceptionDelivery>();
         });
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     ngOnDestroy() {

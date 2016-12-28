@@ -13,6 +13,9 @@ SELECT j.[Id] AS [Id]
 	,a.ContactNumber2 AS MobileNumber
 	,ps.[Description] AS DeliveryType
 	,u2.IdentityName
+	,j.OuterCount
+	,j.OuterDiscrepancyFound
+	,j.TotalOutersShort
 FROM 
 	[dbo].RouteHeader rh
 JOIN

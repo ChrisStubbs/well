@@ -67,7 +67,8 @@
                         <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.totalOutersShort}}</td>
                         <td>
-                            <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                            <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
                         </td>
                         <td>
                             <div class="btn-group">

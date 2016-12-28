@@ -9,5 +9,7 @@
         public const string LandingPage = "LandingPage";
 
         public const string UserBranchPreferences = "UserBranchPreferences";
+
+        public const string ReadOnly = "ReadOnly";
     }
 }

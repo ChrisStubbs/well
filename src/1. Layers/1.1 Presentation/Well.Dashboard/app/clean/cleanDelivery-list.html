@@ -49,7 +49,8 @@
                             <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td>
-                            <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                            <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
                         </td>
                         <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
                     </tr>

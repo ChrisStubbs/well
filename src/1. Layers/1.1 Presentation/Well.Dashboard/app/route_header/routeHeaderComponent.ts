@@ -34,6 +34,7 @@ export class RouteHeaderComponent implements OnInit {
         new DropDownItem("Invoice", "invoice", true),
         new DropDownItem("Assignee", "assignee", true)
     ];
+    isReadOnlyUser: boolean = false;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,

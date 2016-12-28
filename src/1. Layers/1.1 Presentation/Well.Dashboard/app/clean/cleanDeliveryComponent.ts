@@ -45,6 +45,7 @@ export class CleanDeliveryComponent implements OnInit {
     routeId: string;
     selectedOption: DropDownItem;
     selectedFilter: string;
+    isReadOnlyUser: boolean = false;
 
     @ViewChild(AssignModal) assignModal: AssignModal;
     @ViewChild(ContactModal) contactModal : ContactModal;
@@ -65,6 +66,9 @@ export class CleanDeliveryComponent implements OnInit {
             this.routeId = params['route'];
             this.getDeliveries();
         });
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     ngOnDestroy() {

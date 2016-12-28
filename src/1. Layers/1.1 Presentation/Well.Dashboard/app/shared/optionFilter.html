@@ -1,14 +1,17 @@
 ﻿<div class="option-filter">
     <div class="btn-group">
         <div class="dropdown">
-            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{selectedOption.description}} <span class="caret"></span></button>
+            <button style="width: 126px;" class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{selectedOption.description}}
+                <span class="caret"></span>
+            </button>
             <ul class="dropdown-menu" aria-labelledby="filter-option">
                 <li *ngFor="let option of options"><a (click)="setSelectedOption(option)">{{option.description}}</a></li>
             </ul>
         </div>
     </div>
-    <div class="btn-group">
-        <input id="filter-text" type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" [placeholder]="inputPlaceholder" />
+    <div class="btn-group" style="width: 213px">
+        <input *ngIf="SelectedOption.type != 'date'"  id="textSearch" type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" />
+        <p-calendar *ngIf="SelectedOption.type  == 'date'" id="textSearch" [(ngModel)]="filterText" [showIcon]="true" dateFormat="dd/mm/yy" readonlyInput="readonlyInput" (onSelect)="applyFilter()" ></p-calendar>
     </div>
     <div class="btn-group">
         <button id="filter-apply" type="button" class="btn btn-success btn-sm" (click)="applyFilter()">Filter</button>

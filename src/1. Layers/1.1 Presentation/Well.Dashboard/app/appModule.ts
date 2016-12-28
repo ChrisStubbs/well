@@ -84,6 +84,9 @@ import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 
+//import {CalendarModule} from 'primeng/primeng';
+import {CalendarModule} from './shared/primeng/primeng';
+
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
@@ -100,7 +103,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
         CodComponent
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

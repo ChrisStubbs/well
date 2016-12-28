@@ -1,7 +1,6 @@
-﻿import { PipeTransform, Pipe } from '@angular/core';
-import {FilterOption} from "./filterOption";
-import * as moment from 'moment/moment';
-import * as lodash from 'lodash';
+﻿import { PipeTransform, Pipe }  from '@angular/core';
+import {FilterOption}           from "./filterOption";
+import * as moment              from 'moment/moment';
 
 @Pipe({
     name: 'optionFilter'
@@ -11,7 +10,7 @@ export class OptionFilterPipe implements PipeTransform {
 
         let filterOption: FilterOption = args; /*args[0] ? args[0] : null;*/
 
-        if (!filterOption) {
+        if (!filterOption || filterOption.filterText == "") {
             return value;
         }
 
@@ -24,7 +23,7 @@ export class OptionFilterPipe implements PipeTransform {
         }
     }
 
-    filterString(list: any, filterOption: FilterOption) {
+    private filterString(list: any, filterOption: FilterOption) {
         if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
             var propertyValue = list[filterOption.dropDownItem.value].toString().toLocaleLowerCase();
             return propertyValue.indexOf(filterOption.filterText.toLocaleLowerCase()) !== -1;
@@ -32,7 +31,7 @@ export class OptionFilterPipe implements PipeTransform {
         return true;
     }
 
-    filterNumberLessThanOrEqual(list: any, filterOption: FilterOption) {
+    private filterNumberLessThanOrEqual(list: any, filterOption: FilterOption) {
         if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
             var propertyValue = list[filterOption.dropDownItem.value].toString().toLocaleLowerCase();
             var threshold = parseInt(filterOption.filterText);
@@ -41,7 +40,7 @@ export class OptionFilterPipe implements PipeTransform {
         return true;        
     }
 
-    filterDate(list: any, filterOption: FilterOption) {
+    private filterDate(list: Array<string>, filterOption: FilterOption) {
         //Ignore times in data as filterDate doesn't have a time
         if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
             var filterDate = moment(filterOption.filterText, "DD/MM/YYYY");

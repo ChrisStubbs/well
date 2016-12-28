@@ -85,7 +85,7 @@
                         Description = "Deliveries assigned to you for actioning",
                         SortOrder = 3,
                         Link = "/exceptions",
-                        LinkText = "exceptions assigned to you",
+                        LinkText = "deliveries assigned to you",
                         WarningLevel = warningLevels.AssignedWarningLevel ?? 10,
                         ShowOnGraph = true
                     },

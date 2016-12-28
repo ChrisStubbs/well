@@ -21,6 +21,8 @@
 
         private Mock<IJobRepository> jobRepository;
 
+        private Mock<IUserRepository> userRepository;
+
         private ExceptionEventService service;
 
         [SetUp]
@@ -29,8 +31,9 @@
             this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
 
-            this.service = new ExceptionEventService(this.adamRepository.Object, this.exceptionEventRepository.Object, this.jobRepository.Object);
+            this.service = new ExceptionEventService(this.adamRepository.Object, this.exceptionEventRepository.Object, this.jobRepository.Object, this.userRepository.Object);
         }
 
         public class TheCreditMethod : ExceptionEventServiceTests
@@ -47,6 +50,7 @@
 
                 this.jobRepository.Setup(x => x.ResolveJobAndJobDetails(creditEvent.Id));
                 this.exceptionEventRepository.Setup(x => x.RemovedPendingCredit(creditEvent.InvoiceNumber));
+                this.userRepository.Setup(x => x.UnAssignJobToUser(creditEvent.Id));
 
                 var response = this.service.Credit(creditEvent, adamSettings, username);
 
@@ -99,7 +103,7 @@
 
                 this.jobRepository.Setup(x => x.ResolveJobAndJobDetails(creditEvents[0].Id));
                 this.exceptionEventRepository.Setup(x => x.RemovedPendingCredit(creditEvents[0].InvoiceNumber));
-
+                this.userRepository.Setup(x => x.UnAssignJobToUser(creditEvents[0].Id));
                 var response = this.service.BulkCredit(creditEvents, "jonny the foo");
 
                 this.adamRepository.Verify(x => x.Credit(creditEvents[0], It.IsAny<AdamSettings>()), Times.Once);

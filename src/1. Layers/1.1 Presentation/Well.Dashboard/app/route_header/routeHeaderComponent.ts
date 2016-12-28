@@ -26,6 +26,7 @@ export class RouteHeaderComponent implements OnInit {
     routes: Route[];
     rowCount: number = 10;
     currentConfigSort: string;
+    currentConfigSortRoute: string;
     lastRefresh = Date.now();
     filterOption: Option.FilterOption = new FilterOption();
     options: DropDownItem[] = [
@@ -51,6 +52,7 @@ export class RouteHeaderComponent implements OnInit {
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
         this.currentConfigSort = '+dateTimeUpdated';
+        this.currentConfigSortRoute = '+routeDate';
         this.sortDirection(false);
     }
 
@@ -66,6 +68,12 @@ export class RouteHeaderComponent implements OnInit {
 
     onSortDirectionChanged(isDesc: boolean) {
         this.sortDirection(isDesc);
+    }
+
+    onSortDirectionChangedRoute(isDesc: boolean) {
+        this.currentConfigSortRoute = isDesc === true ? '+routeDate' : '-routeDate';
+        var sortString = this.currentConfigSortRoute === '+routeDate' ? 'asc' : 'desc';
+        lodash.sortBy(this.routes, ['routeDate'], [sortString]);
     }
 
     getRoutes(): void {

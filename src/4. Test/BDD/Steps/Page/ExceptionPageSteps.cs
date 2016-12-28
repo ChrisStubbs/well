@@ -362,6 +362,15 @@
             Assert.That(cashOnDeliveryIcon, Is.Empty);
         }
 
+        [Then(@"the delivery checked icon is not displayed in row (.*)")]
+        public void ThenTheDeliveryCheckedIconIsNotDisplayedInRow(int firstRow)
+        {
+            var row = firstRow - 1;
+            var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var deliveryCheckedIcon = pageRows[row].GetColumnValueByIndex(8);
+            Assert.That(deliveryCheckedIcon, !Is.Empty );
+        }
+
         [Then(@"the user credit threshold page is opened")]
         public void ThenTheUserCreditThresholdPageIsOpened()
         {

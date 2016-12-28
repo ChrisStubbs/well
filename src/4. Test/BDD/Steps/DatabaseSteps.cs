@@ -168,6 +168,12 @@
             this.MakeJobDetailsShort();
         }
 
+        [Given(@"All delivery lines are flagged with line delivery status 'Exception'")]
+        public void GivenAllTheDeliveryLinesAreFlaggedAsLineDeliveryStatusException()
+        {
+            this.MakeJobDetailsLineDeliveryStatusException();
+        }
+
         [Given(@"25 audit entries have been made")]
         public void InsertAudits()
         {
@@ -229,6 +235,12 @@
         {
             this.dapperProxy.ExecuteSql("UPDATE Job Set OuterCount = 10, OuterDiscrepancyFound = 1, TotalOutersShort = 2 ");
         }
+
+        public void MakeJobDetailsLineDeliveryStatusException()
+        {
+            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
+        }
+
 
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {

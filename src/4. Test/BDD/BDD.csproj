@@ -177,7 +177,6 @@
     <Compile Include="Framework\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
-    <Compile Include="Framework\WebElements\PrimengDate.cs" />
     <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />

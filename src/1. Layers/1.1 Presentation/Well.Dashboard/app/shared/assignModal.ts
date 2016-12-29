@@ -1,6 +1,6 @@
 ﻿import {Component, EventEmitter, Output} from '@angular/core';
 import {IUser} from '../shared/user';
-import {ExceptionDelivery} from '../exceptions/exceptionDelivery';
+import {BaseDelivery} from '../shared/baseDelivery';
 import {Router} from '@angular/router';
 import {Response} from '@angular/http';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
@@ -16,8 +16,7 @@ export class AssignModal {
     isVisible: boolean = false;
     users: IUser[];
     userJob:UserJob;
-    deliveryId: number;
-    accountCode: string;
+    delivery: BaseDelivery;
     httpResponse: HttpResponse = new HttpResponse();
     @Output() onAssigned = new EventEmitter();
     assigned = false;
@@ -28,11 +27,10 @@ export class AssignModal {
         this.userJob = new UserJob();
     }
 
-    show(deliveryId: number, branchId: number, accountCode: string) {
-        this.deliveryId = deliveryId;
-        this.accountCode = accountCode;
+    show(delivery: BaseDelivery) {
+        this.delivery = delivery;
 
-        this.userService.getUsersForBranch(branchId)
+        this.userService.getUsersForBranch(this.delivery.branchId)
             .subscribe(users => {
                 this.users = users;
                 this.isVisible = true;
@@ -43,8 +41,8 @@ export class AssignModal {
         this.isVisible = false;
     }
 
-    userSelected(userid, deliveryid): void {
-        this.userJob.jobId = deliveryid;
+    userSelected(userid, delivery): void {
+        this.userJob.jobId = delivery.id;
         this.userJob.userId = userid;
         
         this.userService.assign(this.userJob)
@@ -63,9 +61,9 @@ export class AssignModal {
         });
     }
 
-    unassign(jobId): void {
+    unassign(delivery): void {
 
-        this.userService.unassign(jobId)
+        this.userService.unassign(delivery.id)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
@@ -79,7 +77,6 @@ export class AssignModal {
             });
 
         this.hide();
-        //this.onAssigned.emit(this.assigned);
-        this.onAssigned.emit({ event: event, isAssigned: this.assigned, exceptionId: jobId});
+        this.onAssigned.emit({ event: event, isAssigned: this.assigned, delivery: this.delivery});
     }
 }

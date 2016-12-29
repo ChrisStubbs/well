@@ -148,36 +148,5 @@
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
-
-        [HttpPost]
-        [Route("deliveries-creditlines/{creditlines}")]
-        public HttpResponseMessage CreditLines(IEnumerable<CreditLines> creditLines)
-        {
-            try
-            {
-                if (creditLines == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel()
-                    {
-                        Message = "No I'ds given for updated credited job lines",
-                        Errors = new List<string>()
-                        {
-                            $"No Id's given for updated credited job lines."
-                        }
-                    });
-                }
-
-                this.deliveryService.CreditLines(creditLines, this.UserIdentityName);
-
-                return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-                
-            }
-            catch (Exception ex)
-            {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when crediting Job lines");
-            }
-        }
-
-
     }
 }

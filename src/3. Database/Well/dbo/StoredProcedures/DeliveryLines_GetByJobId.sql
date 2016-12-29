@@ -11,6 +11,7 @@ BEGIN
 		,jd.[SkuGoodsValue] AS [Value]
 		,jd.[OriginalDespatchQty] AS InvoicedQuantity
 		,jd.[ShortQty] AS ShortQuantity
+		,jd.LineDeliveryStatus
 		,jd.JobDetailReasonId
 		,jd.JobDetailSourceId
 	FROM [dbo].[JobDetail] jd

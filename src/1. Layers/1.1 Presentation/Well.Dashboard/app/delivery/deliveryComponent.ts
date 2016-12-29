@@ -66,7 +66,6 @@ export class DeliveryComponent implements OnInit {
         let submitLines: SubmitLine[] = new Array<SubmitLine>();
 
         this.addSubmissionLines(submitLines, this.delivery.exceptionDeliveryLines);
-        //this.addSubmissionLines(submitLines, this.delivery.cleanDeliveryLines);
 
         this.submitConfirmModal.submitLines = submitLines;
         this.submitConfirmModal.show();

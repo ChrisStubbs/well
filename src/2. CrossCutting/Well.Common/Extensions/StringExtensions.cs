@@ -3,13 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text;
 
     public static class StringExtensions
     {
+        public static string StripDomain(this string username)
+        {
+            if (username.IndexOf('\\') > -1) return username.Split('\\')[1];
+
+            return username;
+        }
+
         public static bool IsInteger(this string sourceString)
         {
             int output;

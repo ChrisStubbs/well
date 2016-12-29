@@ -1,5 +1,9 @@
 ﻿namespace PH.Well.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Transactions;
+
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
@@ -8,18 +12,20 @@
     public class ExceptionEventService : IExceptionEventService
     {
         private readonly IAdamRepository adamRepository;
-
         private readonly IExceptionEventRepository eventRepository;
-
         private readonly IJobRepository jobRepository;
+        private readonly IUserRepository userRepository;
 
-        public ExceptionEventService(IAdamRepository adamRepository, 
+        public ExceptionEventService(
+            IAdamRepository adamRepository,
             IExceptionEventRepository eventRepository,
-            IJobRepository jobRepository)
+            IJobRepository jobRepository,
+            IUserRepository userRepository)
         {
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
             this.jobRepository = jobRepository;
+            this.userRepository = userRepository;
         }
 
         public void Credit(CreditEvent creditEvent, int eventId, AdamSettings adamSettings, string username)
@@ -31,22 +37,63 @@
 
         public AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username)
         {
-            // TODO
-            //var response = this.adamRepository.Credit(creditEvent, adamSettings);
+            var response = this.adamRepository.Credit(creditEvent, adamSettings);
 
-            /*if (response == AdamResponse.AdamDown)
+            if (response == AdamResponse.AdamDown)
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEvent(creditEvent);
             }
             else
-            {*/
-                this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+            {
+                using (var transactionScope = new TransactionScope())
+                {
+                    this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+                    this.userRepository.UnAssignJobToUser(creditEvent.Id);
+                    this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
 
-            return AdamResponse.Success;
-   ;         //}
-            //return response;
+                    transactionScope.Complete();
+
+                    return AdamResponse.Success;
+                }
+            }
+
+            return response;
         }
+
+        public AdamResponse BulkCredit(IEnumerable<CreditEvent> creditEvents, string username)
+        {
+            var adamDown = false;
+
+            if (!creditEvents.Any()) return AdamResponse.Success;
+
+;            foreach (var creditEvent in creditEvents)
+            {
+                var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
+
+                using (var transactionScope = new TransactionScope())
+                {
+                    var response = this.adamRepository.Credit(creditEvent, settings);
+
+                    if (response == AdamResponse.AdamDown)
+                    {
+                        this.eventRepository.CurrentUser = username;
+                        this.eventRepository.InsertCreditEvent(creditEvent);
+                        adamDown = true;
+                    }
+                    else
+                    {
+                        this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+                        this.userRepository.UnAssignJobToUser(creditEvent.Id);
+                        this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
+                    }
+
+                    transactionScope.Complete();
+                }
+            }
+
+            return adamDown ? AdamResponse.AdamDown : AdamResponse.Success;
+         }
 
         public void CreditReorder(CreditReorderEvent creditReorderEvent, int eventId, AdamSettings adamSettings, string username)
         {

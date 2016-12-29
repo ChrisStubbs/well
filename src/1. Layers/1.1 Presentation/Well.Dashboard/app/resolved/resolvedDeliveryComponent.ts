@@ -60,8 +60,6 @@ export class ResolvedDeliveryComponent implements OnInit {
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.getDeliveries();
-        this.currentConfigSort = '-dateTime';
-        this.sortDirection(false);
     }
 
     ngOnDestroy() {
@@ -90,9 +88,8 @@ export class ResolvedDeliveryComponent implements OnInit {
     }
 
     sortDirection(sortDirection): void {
-        this.currentConfigSort = sortDirection === true ? '+dateTime' : '-dateTime';
+        this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
         var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
-        //this.getDeliveries();
         lodash.sortBy(this.deliveries, ['dateTime'], [sortString]);
     }
 
@@ -109,7 +106,7 @@ export class ResolvedDeliveryComponent implements OnInit {
     }
 
     allocateUser(delivery: ResolvedDelivery): void {
-        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+        this.assignModal.show(delivery);
     }
 
     onAssigned(assigned: boolean) {

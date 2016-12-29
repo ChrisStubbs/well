@@ -140,6 +140,7 @@
         {
             var sumQty = this.JobDetailDamages.Sum(d => d.Qty);
             var c = (this.ShortQty + sumQty) * Convert.ToDecimal(NetPrice);
+
             return c;
         }
 

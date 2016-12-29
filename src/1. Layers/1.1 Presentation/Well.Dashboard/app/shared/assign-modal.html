@@ -3,12 +3,12 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Available users for account {{accountCode}}</h4>
+                <h4 class="modal-title">Available users for account {{delivery.accountCode}}</h4>
             </div>
             <div class="modal-body">
                 <ul class="list-group">
-                    <li class="list-group-item"><a class="assign-user" (click)="unassign(deliveryId)">Unallocated</a></li>
-                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, deliveryId)">{{user.name}}</a></li>
+                    <li class="list-group-item"><a class="assign-user" (click)="unassign(delivery)">Unallocated</a></li>
+                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, delivery)">{{user.name}}</a></li>
                 </ul>   
             </div>
             <div class="modal-footer">

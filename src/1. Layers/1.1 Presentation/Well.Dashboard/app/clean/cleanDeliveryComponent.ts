@@ -39,12 +39,14 @@ export class CleanDeliveryComponent implements OnInit {
         new DropDownItem("Invoice No", "invoiceNumber"),
         new DropDownItem("Account", "accountCode"),
         new DropDownItem("Account Name", "accountName"),
+        new DropDownItem('Assignee', 'assigned'),
         new DropDownItem("Date", "deliveryDate", false, "date")
     ];
     account: IAccount;
     routeId: string;
     selectedOption: DropDownItem;
     selectedFilter: string;
+    isReadOnlyUser: boolean = false;
 
     @ViewChild(AssignModal) assignModal: AssignModal;
     @ViewChild(ContactModal) contactModal : ContactModal;
@@ -61,12 +63,13 @@ export class CleanDeliveryComponent implements OnInit {
     ngOnInit(): void {
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.currentConfigSort = '-deliveryDate';
-        this.sortDirection(false);
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
             this.getDeliveries();
         });
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     ngOnDestroy() {
@@ -119,7 +122,7 @@ export class CleanDeliveryComponent implements OnInit {
     }
 
     allocateUser(delivery: CleanDelivery): void {
-        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+        this.assignModal.show(delivery);
     }
 
     onAssigned(assigned: boolean) {

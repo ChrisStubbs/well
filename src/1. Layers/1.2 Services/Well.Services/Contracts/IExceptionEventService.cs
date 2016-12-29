@@ -1,11 +1,15 @@
 ﻿namespace PH.Well.Services.Contracts
 {
+    using System.Collections.Generic;
+
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
 
     public interface IExceptionEventService
     {
         void Credit(CreditEvent creditEvent, int eventId, AdamSettings adamSettings, string username);
+
+        AdamResponse BulkCredit(IEnumerable<CreditEvent> creditEvents, string username);
 
         AdamResponse Credit(CreditEvent creditEvent, AdamSettings adamSettings, string username);
 

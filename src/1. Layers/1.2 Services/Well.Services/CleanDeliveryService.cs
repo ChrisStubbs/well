@@ -43,6 +43,8 @@
 
         public void DeleteCleans()
         {
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday) return;
+
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
             foreach (var id in routeIds)

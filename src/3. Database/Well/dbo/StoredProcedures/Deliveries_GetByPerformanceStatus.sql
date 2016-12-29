@@ -21,7 +21,8 @@ BEGIN
 		b.Id as BranchId,
 		u2.IdentityName,
 		j.COD as CashOnDelivery,
-		j.TotalCreditValueForThreshold
+		j.TotalCreditValueForThreshold,
+		j.TotalOutersShort
 	FROM
 		RouteHeader rh 
 	INNER JOIN 

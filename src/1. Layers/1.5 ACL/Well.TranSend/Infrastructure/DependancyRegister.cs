@@ -21,7 +21,7 @@
                 {
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
-                    x.For<IEpodProvider>().Use<EpodFileProvider>();
+                    x.For<IEpodProvider>().Use<EpodFtpProvider>();
                     x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();

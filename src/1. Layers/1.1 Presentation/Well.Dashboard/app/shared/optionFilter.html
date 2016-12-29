@@ -10,8 +10,8 @@
         </div>
     </div>
     <div class="btn-group" style="width: 213px">
-        <input *ngIf="SelectedOption.type != 'date'"  id="textSearch" type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" />
-        <p-calendar *ngIf="SelectedOption.type  == 'date'" id="textSearch" [(ngModel)]="filterText" [showIcon]="true" dateFormat="dd/mm/yy" readonlyInput="readonlyInput" (onSelect)="applyFilter()" ></p-calendar>
+        <input *ngIf="SelectedOption.type != 'date'"  id="filter-text" type="text" class="form-control input-sm" [(ngModel)]="filterText" (keyup.enter)="applyFilter()" />
+        <p-calendar *ngIf="SelectedOption.type  == 'date'" id="filter-text" [(ngModel)]="filterText" [showIcon]="true" dateFormat="dd/mm/yy" (onSelect)="applyFilter()" ></p-calendar>
     </div>
     <div class="btn-group">
         <button id="filter-apply" type="button" class="btn btn-success btn-sm" (click)="applyFilter()">Filter</button>

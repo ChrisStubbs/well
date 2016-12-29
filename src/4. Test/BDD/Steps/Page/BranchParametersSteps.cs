@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Reflection;
-using PH.Well.BDD.Framework.Extensions;
 using PH.Well.Domain.Enums;
+using PH.Well.BDD.Framework.Extensions;
 
 namespace PH.Well.BDD.Steps.Page
 {
@@ -47,16 +46,16 @@ namespace PH.Well.BDD.Steps.Page
             var toDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["ToDate"]));
             this.page.AddButton.Click();
             this.page.Description.EnterText(table.Rows[0]["Description"]);
-            this.page.FromDate.EnterText(fromDate.ToString("dd/MM/yyyy"));
-            this.page.ToDate.EnterText(toDate.ToString("dd/MM/yyyy"));
+            this.page.FromDate.Date = fromDate;
+            this.page.ToDate.Date = toDate;
         }
 
         [When("I change the seasonal date")]
         public void ChangeSeasonalDate(Table table)
         {
             this.page.Description.EnterText(table.Rows[0]["Description"]);
-            this.page.FromDate.EnterText(table.Rows[0]["FromDate"]);
-            this.page.ToDate.EnterText(table.Rows[0]["ToDate"]);
+            this.page.FromDate.Date = table.Rows[0]["FromDate"].ParseBritishDate();
+            this.page.ToDate.Date = table.Rows[0]["ToDate"].ParseBritishDate();
         }
 
         [When("I add a credit threshold")]
@@ -133,8 +132,8 @@ namespace PH.Well.BDD.Steps.Page
             var fromDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["FromDate"]));
             var toDate = DateTime.Now.AddDays(int.Parse(table.Rows[0]["ToDate"]));
             this.page.Description.EnterText(table.Rows[0]["Description"]);
-            this.page.FromDate.EnterText(fromDate.ToString("dd/MM/yyyy"));
-            this.page.ToDate.EnterText(toDate.ToString("dd/MM/yyyy"));
+            this.page.FromDate.Date  = fromDate;
+            this.page.ToDate.Date = toDate;
 
         }
 
@@ -307,7 +306,7 @@ namespace PH.Well.BDD.Steps.Page
         }
 
         [Then("it is removed from the seasonal date grid")]
-        [Then ("the seasonal dates are not saved")]
+        [Then("the seasonal dates are not saved")]
         public void SeasonalDateHasGoneFromGrid()
         {
             Assert.That(this.page.NoResults.Text, Is.EqualTo("No Seasonal Dates!"));
@@ -340,7 +339,7 @@ namespace PH.Well.BDD.Steps.Page
         }
 
         [Then("it is removed from the clean parameter grid")]
-        [Then ("the clean parameter is not saved")]
+        [Then("the clean parameter is not saved")]
         public void CleanParameterHasGoneFromGrid()
         {
             Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
@@ -378,12 +377,12 @@ namespace PH.Well.BDD.Steps.Page
             for (int i = 0; i < table.RowCount; i++)
             {
                 Assert.That(grid[i].Level.Text, Is.EqualTo(table.Rows[i]["Level"]));
-                Assert.That(grid[i].WidgetType.Text, Is.EqualTo(table.Rows[i]["Widget"]) );
+                Assert.That(grid[i].WidgetType.Text, Is.EqualTo(table.Rows[i]["Widget"]));
                 Assert.That(grid[i].Branches.Text, Is.EqualTo(table.Rows[i]["Branches"]));
             }
         }
 
-        
+
         [When("I remove the widget warning parameter")]
         public void RemoveWidgetWarningParameter()
         {
@@ -433,7 +432,7 @@ namespace PH.Well.BDD.Steps.Page
         {
             this.cleanPage.Add.Click();
         }
-        
+
         [Then(@"warnings appear on the clean input page")]
         public void ThenWarningsAppearOnTheCleanInputPage(Table table)
         {
@@ -473,4 +472,4 @@ namespace PH.Well.BDD.Steps.Page
 
 
     }
-}  
+}

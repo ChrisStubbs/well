@@ -204,7 +204,8 @@ this.FeatureBackground();
 #line 37
  testRunner.Then("the following audit entries are shown", ((string)(null)), table3, "Then ");
 #line 43
- testRunner.When("I filter the audits grid with the option \'Delivery Date\' and value \'15/05/2016\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I filter the audits grid with the date option \'Delivery Date\' and value \'15/05/20" +
+                    "16\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Entry",

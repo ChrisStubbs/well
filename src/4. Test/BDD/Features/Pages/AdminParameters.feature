@@ -94,40 +94,6 @@ Scenario: Seasonal dates negative inputs
 	| To date is required!     |
 	| Select a branch!         |
 	When I change the seasonal date
-    | Description | FromDate | ToDate |
-    |   test      | aaa		 | aaa    |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| From date is not a valid date! |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate | ToDate   |
-    |   test      | 01012016 | 01012016 |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| From date is not a valid date! |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate   | ToDate     |
-    |   test      | 2016/01/31 | 2016/31/01 |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
-    | Description | FromDate   | ToDate   |
-    |   test      | 29/02/2016 | -1       |
-	And I save the seasonal date
-	Then warnings appear in the seasonal input page
-	| Error					         |
-	| To date is not a valid date!   |
-	| Select a branch!               |
-	When I change the seasonal date
     | Description | FromDate   | ToDate     |
     |   test      | 29/02/2016 | 30/03/2016 |
 	And all branches are selected for the seasonal date

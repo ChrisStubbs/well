@@ -21,7 +21,7 @@
 
         public IWebDriver Driver => DriverContext.CurrentDriver;
         
-        public By Locator { get; set; }
+        public virtual By Locator { get; set; }
 
         public virtual IWebElement GetElement()
         {
@@ -57,7 +57,7 @@
                 this.GetElement().Click();
                 return true;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return false;
             }

@@ -156,7 +156,7 @@ export class Calendar implements AfterViewInit,OnInit,OnDestroy,ControlValueAcce
     
     @Input() showIcon: boolean;
     
-    @Input() icon: string = 'fa-calendar';
+    @Input() icon: string = 'glyphicon glyphicon-calendar';
     
     @Input() appendTo: any;
     

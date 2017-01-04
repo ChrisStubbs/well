@@ -21,6 +21,7 @@
                 {
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
+                  
 # if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

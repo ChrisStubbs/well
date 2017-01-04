@@ -1,6 +1,6 @@
-﻿import {Component, OnChanges, Input, Output, EventEmitter} from "@angular/core";
-import {FilterOption} from "./filterOption";
-import {DropDownItem} from "./dropDownItem";
+﻿import {Component, Input, Output, EventEmitter} from "@angular/core";
+import {FilterOption}                           from "./filterOption";
+import {DropDownItem}                           from "./dropDownItem";
 
 @Component({
     selector: "ow-optionfilter",
@@ -8,40 +8,54 @@ import {DropDownItem} from "./dropDownItem";
 })
 export class OptionFilterComponent {
 
-    private defaultOption: DropDownItem = new DropDownItem("Option", "");
-
     @Input() options: DropDownItem[];
     filterText: string;
     inputPlaceholder: string = "";
-    selectedOption: DropDownItem = this.defaultOption;
-    @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
+    private selectedOption: DropDownItem;
 
-    clearFilterText(): void {
+    @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
+    public constructor(){
         this.filterText = '';
-        this.selectedOption = this.defaultOption;
+        this.SelectedOption = new DropDownItem("Option", "");
+    }
+
+    setSelectedOption = (option: DropDownItem) : void => {
+        this.ClearFilter();
+        this.SelectedOption = option;
         this.applyFilter();
     }
 
-    applyFilter(): void {
+    private ClearFilter() : void {
+        this.filterText = '';
+        this.SelectedOption = new DropDownItem("Option", "");
+    }
+
+    public clearFilterText(): void {
+        this.ClearFilter();
+        this.applyFilter();
+    }
+
+    public applyFilter(): void {
         this.filterClicked.emit(new FilterOption(this.selectedOption, this.filterText));
     }
 
-    setSelectedOption(option: DropDownItem): void {
-        this.selectedOption = option;
-        if (option.description == "Date" || option.description == "Delivery Date") {
-            this.inputPlaceholder = "dd/mm/yyyy";
-        } else {
-            this.inputPlaceholder = "";
+    public set SelectedOption(value: DropDownItem) {
+        this.selectedOption = value;
+    }
+
+    public get SelectedOption(): DropDownItem {
+        return this.selectedOption;
+    }
+
+    @Input()
+    public set setKnownOption(option: DropDownItem) {
+        if (option) {
+            this.SelectedOption = option
         }
     }
 
     @Input()
-    set setKnownOption(option: DropDownItem) {
-        if (option) this.setSelectedOption(option);
-    }
-
-    @Input()
-    set setKnownFilter(filter: string) {
+    public set setKnownFilter(filter: string) {
         if (filter) this.filterText = filter;
     }
 }

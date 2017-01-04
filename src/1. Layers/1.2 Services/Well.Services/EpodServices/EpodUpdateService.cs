@@ -56,7 +56,7 @@
             foreach (var header in route.RouteHeaders)
             {
                 var existingHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(
-                    header.RouteNumber,
+                    header.RouteNumber.Substring(2),
                     header.RouteDate);
 
                 if (existingHeader == null)

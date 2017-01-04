@@ -20,9 +20,9 @@ namespace PH.Well.BDD.Pages
 
         public readonly TextBox Description;
 
-        public readonly TextBox FromDate;
+        public PrimengCalendar FromDate { get; private set; }
 
-        public readonly TextBox ToDate;
+        public PrimengCalendar ToDate { get; private set; }
 
         public readonly Button RemoveConfirmButton;
 
@@ -33,8 +33,8 @@ namespace PH.Well.BDD.Pages
             this.AdminDropDown = new AdminButtonDropDown {Locator = By.Id("admin-dropdown")};
             this.AddButton = new Button {Locator = By.Id("add-seasonal-date")};
             this.Description = new TextBox {Locator = By.Id("seasonal-date-description")};
-            this.FromDate = new TextBox {Locator = By.Id("seasonal-date-from-date")};
-            this.ToDate = new TextBox {Locator = By.Id("seasonal-date-to-date")};
+            this.FromDate = new PrimengCalendar("#seasonal-date-from-date");
+            this.ToDate = new PrimengCalendar("#seasonal-date-to-date");
             this.SaveButton = new Button {Locator = By.Id("seasonal-date-save")};
             this.CloseButton = new Button {Locator = By.Id("seasonal-date-close")};
             this.RemoveConfirmButton = new Button {Locator = By.Id("seasonal-remove-confirm")};

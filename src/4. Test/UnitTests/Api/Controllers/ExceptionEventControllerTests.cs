@@ -141,7 +141,7 @@
 
                 var result = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(result, Is.EqualTo("{\"adamdown\":true,\"errors\":{}}"));
+                Assert.That(result, Is.EqualTo("{\"adamdown\":true,\"notAcceptable\":true,\"message\":[]}"));
             }
 
             [Test]
@@ -169,7 +169,7 @@
 
                 var result = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(result, Is.EqualTo("{\"errors\":{\"1\":\"Some error\"}}"));
+                Assert.That(result, Is.EqualTo("{\"notAcceptable\":true,\"message\":[\"Some error\"]}"));
             }
 
             [Test]

@@ -177,6 +177,8 @@
                 stopRepo.Setup(r => r.GetByJobId(jobDetail.JobId)).Returns(new Stop());
                 auditRepo.Setup(a => a.Save(It.IsAny<Audit>()));
 
+                this.userRepo.Setup(x => x.UnAssignJobToUser(0));
+
                 //ACT
                 service.UpdateDeliveryLine(jobDetail, "user");
 

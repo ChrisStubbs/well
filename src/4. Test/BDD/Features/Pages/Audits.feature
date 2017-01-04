@@ -40,7 +40,7 @@ Scenario: Audit filtering
 	| Audit 456 | DeliveryLineUpdate | 55555     | 88888   | 15/05/2016   |
 	| Audit 456 | DeliveryLineUpdate | 55555     | 88888   | 15/05/2016   |
 
-	When I filter the audits grid with the option 'Delivery Date' and value '15/05/2016'
+	When I filter the audits grid with the date option 'Delivery Date' and value '15/05/2016'
 	Then the following audit entries are shown
 	| Entry     | Type               | InvoiceNo | Account | DeliveryDate |
 	| Audit 456 | DeliveryLineUpdate | 55555     | 88888   | 15/05/2016   |

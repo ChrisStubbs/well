@@ -7,6 +7,9 @@
     using System.Web.Http;
     using Common.Contracts;
     using Models;
+
+    using PH.Well.Common.Extensions;
+
     using Repositories.Contracts;
 
     public class AuditController : ApiController
@@ -39,7 +42,7 @@
                     Entry = a.Entry,
                     AccountName = a.AccountName,
                     AccountCode = a.AccountCode,
-                    AuditBy = a.CreatedBy,
+                    AuditBy = a.CreatedBy.StripDomain(),
                     AuditDate = a.DateCreated,
                     DeliveryDate = a.DeliveryDate.Value,
                     InvoiceNumber = a.InvoiceNumber,

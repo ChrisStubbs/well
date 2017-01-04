@@ -70,7 +70,7 @@
             route.RouteHeaders.Add(routeHeader);
 
             this.routeHeaderRepository.Setup(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber, routeHeader.RouteDate)).Returns((RouteHeader)null);
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
             this.logger.Setup(
                 x =>
@@ -88,7 +88,7 @@
             this.service.Update(route);
 
             this.routeHeaderRepository.Verify(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber, routeHeader.RouteDate), Times.Once);
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
             this.logger.Verify(
                 x =>
@@ -128,7 +128,7 @@
             var existingJob = new Job();
 
             this.routeHeaderRepository.Setup(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber, routeHeader.RouteDate)).Returns(existingRouteHeader);
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
 
             this.mapper.Setup(x => x.Map(routeHeader, existingRouteHeader));
 
@@ -151,7 +151,7 @@
             this.service.Update(route);
 
             this.routeHeaderRepository.Verify(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber, routeHeader.RouteDate), Times.Once);
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
             this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
 

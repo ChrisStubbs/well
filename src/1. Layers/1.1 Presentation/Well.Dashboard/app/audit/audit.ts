@@ -3,7 +3,7 @@
     type: string;
     invoiceNumber: string;
     account: string;
-    deliveryDate: Date;
+    deliveryDate: string;
     auditDate: Date;
     auditBy: string;
 }

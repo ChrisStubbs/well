@@ -8,11 +8,10 @@ module.exports = {
         vendor: "./app/shared/vendor.ts",
         app: ["./app/main.ts"]
     },
-    //debug: true,
-    devtool: "cheap-module-eval-source-map",
+    devtool: "source-map",
     output: {
         path: "./Scripts/angular2/"
-        ,filename: "[name]Bundle.js"
+        , filename: "[name]Bundle.js"
     },
     plugins: [],
     module: {

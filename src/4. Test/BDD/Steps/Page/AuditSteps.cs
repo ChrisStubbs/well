@@ -9,6 +9,8 @@
     using PH.Well.BDD.Pages;
 
     using TechTalk.SpecFlow;
+    using System;
+    using Framework.Extensions;
 
     [Binding]
     public class AuditSteps
@@ -31,6 +33,12 @@
         public void WhenIFilterTheExceptionDeliveryGridWithTheOptionAndValue(string option, string value)
         {
             this.page.Filter.Apply(option, value);
+        }
+
+        [When(@"I filter the audits grid with the date option '(.*)' and value '(.*)'")]
+        public void WhenIFilterTheExceptionDeliveryGridWithTheDateOptionAndValue(string option, string value)
+        {
+            this.page.Filter.Apply(option, value.ParseBritishDate());
         }
 
         [Then(@"'(.*)' rows of audit data will be displayed")]

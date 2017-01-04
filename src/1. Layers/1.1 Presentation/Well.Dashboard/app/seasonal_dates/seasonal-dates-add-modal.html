@@ -10,27 +10,31 @@
                         <div class="seasonal-error" *ngFor="let error of errors"><strong>{{error}}</strong></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-1">&nbsp;</div>
-                    <div class="col-md-7">
+                <div class="form-horizontal">
+                    <div class="col-md-8">
                         <div class="form-group">
-                            <label>Description</label>
-                            <input type="text" id="seasonal-date-description" class="form-control" placeholder="Description" [(ngModel)]="seasonalDate.description"/>
+                            <label class="col-md-3 control-label">Description</label>
+                            <div class="col-md-9">
+                                <input type="text" id="seasonal-date-description" class="form-control" placeholder="Description" [(ngModel)]="seasonalDate.description"/>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>From</label>
-                            <input type="text" id="seasonal-date-from-date" class="form-control" placeholder="dd/mm/yyyy" [(ngModel)]="seasonalDate.fromDate"/>
+                            <label class="col-md-3 control-label">From</label>
+                            <div class="col-md-9">
+                                <p-calendar id="seasonal-date-from-date" [(ngModel)]="seasonalDate.fromDate" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>To</label>
-                            <input type="text" id="seasonal-date-to-date" class="form-control" placeholder="dd/mm/yyyy" [(ngModel)]="seasonalDate.toDate"/>
+                            <label class="col-md-3 control-label">To</label>
+                            <div class="col-md-9">
+                                <p-calendar id="seasonal-date-to-date" [(ngModel)]="seasonalDate.toDate" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <ow-branch-select></ow-branch-select>
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <div class="btn-group"><button id="seasonal-date-save" type="button" class="btn btn-primary" (click)="save()">Save</button></div>

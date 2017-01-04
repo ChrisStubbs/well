@@ -2,12 +2,15 @@
 {
     using Framework.WebElements;
     using OpenQA.Selenium;
+    using System;
 
     public class FilterControl
     {
         public ButtonDropDown OptionDropDown { get; set; }
 
-        public TextBox FilterText { get; set; }
+        private TextBox FilterText { get; set; }
+
+        private PrimengCalendar FilterDate { get; set; }
 
         public Button ApplyFilter { get; set; }
 
@@ -19,14 +22,32 @@
             this.FilterText = new TextBox { Locator = By.Id("filter-text") };
             this.ApplyFilter = new Button { Locator = By.Id("filter-apply") };
             this.ClearFilter = new Button { Locator = By.Id("filter-clear") };
+            this.FilterDate = new PrimengCalendar("#filter-text");
+        }
+
+        public void Apply<T>(string filterOption, T filterValue) where T : struct
+        {
+            if (filterValue is DateTime)
+            {
+                this.Apply(filterOption, () => this.FilterDate.Date = (DateTime)(object)filterValue);
+            }
+            else
+            {
+                this.Apply(filterOption, filterValue.ToString());
+            }
+        }
+        
+        private void Apply(string filterOption, Action writer)
+        {
+            Clear();
+            this.OptionDropDown.Select(filterOption);
+            writer();
+            this.ApplyFilter.Click();
         }
 
         public void Apply(string filterOption, string filterValue)
         {
-            Clear();
-            this.OptionDropDown.Select(filterOption);
-            this.FilterText.EnterText(filterValue);
-            this.ApplyFilter.Click();
+            this.Apply(filterOption, () => this.FilterText.EnterText(filterValue));
         }
 
         public void Clear()

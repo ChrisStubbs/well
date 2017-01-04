@@ -65,6 +65,7 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
+                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.ToBeAdvised), Is.EqualTo(table.Rows[i]["TBA"]));
             }
         }
 
@@ -359,6 +360,15 @@
             var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(5);
             Assert.That(cashOnDeliveryIcon, Is.Empty);
+        }
+
+        [Then(@"the delivery checked icon is not displayed in row (.*)")]
+        public void ThenTheDeliveryCheckedIconIsNotDisplayedInRow(int firstRow)
+        {
+            var row = firstRow - 1;
+            var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var deliveryCheckedIcon = pageRows[row].GetColumnValueByIndex(8);
+            Assert.That(deliveryCheckedIcon, !Is.Empty );
         }
 
         [Then(@"the user credit threshold page is opened")]

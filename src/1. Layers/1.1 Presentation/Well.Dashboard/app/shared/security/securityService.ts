@@ -8,6 +8,7 @@ export class SecurityService {
     branchSelection: string = 'BranchSelection';
     landingPage: string = 'LandingPage';
     userBranchPreferences: string = 'UserBranchPreferences';
+    readOnly: string = 'ReadOnly';
 
     constructor(private router: Router,
     private logService: LogService) { }
@@ -19,5 +20,13 @@ export class SecurityService {
             this.logService.log("Required permission: '" + requiredPermission + "'");
             this.router.navigate(['/unauthorised']);
         }
+    }
+
+    hasPermission(permissions: string[], requiredPermission: string): boolean {
+
+        if (permissions.indexOf(requiredPermission) !== -1)
+            return true;
+
+        return false;
     }
 }

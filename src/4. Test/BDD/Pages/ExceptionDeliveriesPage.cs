@@ -117,13 +117,14 @@
         Account = 3,
         AccountName= 4,
         Cod = 5,
-        Contact= 6,
+        CreditValue = 6,
         InfoButton = 7,
         Status = 8,
-        Reason = 9,
-        Assigned = 10,
-        Action = 11,
-        LastUpdatedDateTime = 12
+        ToBeAdvised = 11,
+        Reason = 12,
+        Assigned = 13,
+        Action = 14,
+        LastUpdatedDateTime = 15
     }
 
     public enum ExceptionDrilldownGrid

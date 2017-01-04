@@ -1,31 +1,27 @@
-﻿import { Component, OnInit, ViewChild }  from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import { Response } from '@angular/http';
-import {GlobalSettingsService} from '../shared/globalSettings';
-import {LogService} from '../shared/logService';
+﻿import { Component, OnInit, ViewChild }     from '@angular/core';
+import { Router, ActivatedRoute}            from '@angular/router';
+import { Response }                         from '@angular/http';
+import { GlobalSettingsService }            from '../shared/globalSettings';
+import { LogService }                       from '../shared/logService';
 import 'rxjs/Rx';   // Load all features
-
-import {BranchService} from "../shared/branch/branchService";
-import {FilterOption} from "../shared/filterOption";
-import {DropDownItem} from "../shared/dropDownItem";
-import {ContactModal} from "../shared/contactModal";
-import {AccountService} from "../account/accountService";
-import {IAccount} from "../account/account";
-import {ExceptionDelivery} from "./exceptionDelivery";
-import {ExceptionDeliveryService} from "./exceptionDeliveryService";
-import {RefreshService} from '../shared/refreshService';
-import {HttpResponse} from '../shared/httpResponse';
-import {AssignModal} from "../shared/assignModal";
-import {ConfirmModal} from "../shared/confirmModal";
-import {IUser} from "../shared/user";
-import {CreditItem} from "../shared/creditItem";
-import {OrderArrowComponent} from '../shared/orderbyArrow';
-import {CodComponent} from '../shared/codComponent';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
-import {SecurityService} from '../shared/security/securityService';
-import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import {Threshold} from '../shared/threshold';
-import * as lodash from 'lodash';
+import {BranchService}                      from "../shared/branch/branchService";
+import {FilterOption}                       from "../shared/filterOption";
+import {DropDownItem}                       from "../shared/dropDownItem";
+import {ContactModal}                       from "../shared/contactModal";
+import {AccountService}                     from "../account/accountService";
+import {IAccount}                           from "../account/account";
+import {ExceptionDelivery}                  from "./exceptionDelivery";
+import {ExceptionDeliveryService}           from "./exceptionDeliveryService";
+import {RefreshService}                     from '../shared/refreshService';
+import {HttpResponse}                       from '../shared/httpResponse';
+import {AssignModal}                        from "../shared/assignModal";
+import {ConfirmModal}                       from "../shared/confirmModal";
+import {IUser}                              from "../shared/user";
+import {CreditItem}                         from "../shared/creditItem";
+import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
+import {SecurityService}                    from '../shared/security/securityService';
+import {Threshold}                          from '../shared/threshold';
+import * as lodash                          from 'lodash';
 
 @Component({
     selector: 'ow-exceptions',
@@ -71,18 +67,18 @@ export class ExceptionsComponent implements OnInit {
     selectedOption: DropDownItem;
     selectedFilter: string;
     outstandingFilter: boolean = false;
-    creditList: CreditItem[];
+    bulkCredits: ExceptionDelivery[];
     threshold:number;
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
     value: string;
-    creditTitle:string;
     confirmMessage: string;
     confirmModalIsVisible: boolean = false;
     selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     thresholdLimit: Threshold;
+    isReadOnlyUser: boolean = false;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -100,16 +96,17 @@ export class ExceptionsComponent implements OnInit {
     ngOnInit(): void {
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
-        this.currentConfigSort = '-dateTime';
-        this.sortDirection(false);
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
             this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
-            this.creditList = Array<CreditItem>();
+            this.bulkCredits = new Array<ExceptionDelivery>();
         });
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     ngOnDestroy() {
@@ -165,7 +162,7 @@ export class ExceptionsComponent implements OnInit {
     
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
-        this.creditList = [];
+        this.bulkCredits = [];
     }
 
     onOutstandingClicked(showOutstandingOnly: boolean) {
@@ -187,27 +184,26 @@ export class ExceptionsComponent implements OnInit {
     }
 
     creditListlength() {
-        return this.creditList.length;
+        return this.bulkCredits.length;
     }
 
-    onCheck(exceptionid, thresholdValue) {
-        var creditListIndex = this.getCreditListIndex(exceptionid);
+    onCheck(exception) {
+        var creditListIndex = this.getCreditListIndex(exception.id);
 
         if (creditListIndex === -1) {
-            this.addToCreditList(exceptionid, creditListIndex, thresholdValue);
+            this.addToCreditList(exception, creditListIndex);
         } else {
-            this.removeFromCreditList(exceptionid, creditListIndex, thresholdValue);
+            this.removeFromCreditList(exception);
         }
-        this.creditTitle = this.creditList.length > 1 ? "Bulk Credit" : "Credit";
     }
 
     getCreditListIndex(exceptionid) {
-        return lodash.findIndex(this.creditList, { creditId: exceptionid});
+        return lodash.findIndex(this.bulkCredits, { id: exceptionid});
     }
 
-    selectAllCredits() {
+    /*selectAllCredits() {
 
-        this.creditList = [];
+        this.bulkCredits = [];
         var creditListIndex = -1;
 
         if (this.filterOption.dropDownItem.description === 'Credit Threshold' &&
@@ -216,12 +212,11 @@ export class ExceptionsComponent implements OnInit {
 
             var currentThreshold = parseFloat(this.filterOption.filterText);
             
-            
             lodash.forEach(this.exceptions,
                 value => {
                     if (value.totalCreditValueForThreshold <= currentThreshold && value.assigned !== 'Unallocated') {
                         creditListIndex = this.getCreditListIndex(value.id);
-                        this.addToCreditList(value.id, creditListIndex, value.totalCreditValueForThreshold);
+                        this.addToCreditList(value, creditListIndex);
                     }
                 });
         } else {
@@ -230,42 +225,41 @@ export class ExceptionsComponent implements OnInit {
                 value => {
                     if (value.assigned !== 'Unallocated') {
                         creditListIndex = this.getCreditListIndex(value.id);
-                        this.addToCreditList(value.id, creditListIndex, value.totalCreditValueForThreshold);
+                        this.addToCreditList(value, creditListIndex);
                     }
                 });
         }
-    }
+    }*/
+    
+    addToCreditList(exception, index) {
 
-
-    addToCreditList(exceptionId, index, thresholdAmount) {
-
-        var isAboveThesholdLimit = this.isAboveThresholdLimit(thresholdAmount);
-        var creditItem = new CreditItem();
+        var isAboveThesholdLimit = this.isAboveThresholdLimit(exception.totalCreditValueForThreshold);
 
         if (index === -1) {
-            creditItem.creditId = exceptionId;
-            creditItem.isPending = isAboveThesholdLimit;
-            this.creditList.push(creditItem);
+            exception.isPending = isAboveThesholdLimit;
+            this.bulkCredits.push(exception);
         }       
     }
 
-    removeFromCreditList(exceptionId, index, thresholdAmount) {
+    removeFromCreditList(index) {
 
         if (index !== -1) {
-            this.creditList.splice(index, 1);
+            this.bulkCredits.splice(index, 1);
         }
     }
 
     isGridCheckBoxDisabled(exceptionid) {
         var exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
-        if (exceptionDelivery.assigned !== 'Unallocated') {
+
+        if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName) {
             return '';
         }
+
         return 'disabled';
     }
 
     checkExceptionsForCredit() {
-        if (this.creditList !== []) {
+        if (this.bulkCredits !== []) {
             this.creditExceptions();
         } else {
             this.toasterService.pop('error', 'No Delivery line(s) selected for credit. Please select at least one Delivery line.', '');
@@ -274,17 +268,17 @@ export class ExceptionsComponent implements OnInit {
 
     creditExceptions() {
 
-        var pendingLength = lodash.filter(this.creditList, o => { if (o.isPending === true) return o }).length;
-        var creditLength = lodash.filter(this.creditList, o => { if (o.isPending === false) return o }).length;
+        var pendingLength = lodash.filter(this.bulkCredits, o => { if (o.isPending === true) return o }).length;
+        var creditLength = lodash.filter(this.bulkCredits, o => { if (o.isPending === false) return o }).length;
 
         var approvalConfirm = pendingLength > 0
             ? " and " + pendingLength + " pending exceptions "
             : "";
 
         this.confirmModal.isVisible = true;
-        this.confirmModal.heading = this.creditTitle + " exceptions?";
+        this.confirmModal.heading = "Bulk credit exceptions?";
         this.confirmModal.messageHtml =
-            "You are about to " + this.creditTitle + " " + creditLength + " exceptions " + approvalConfirm +
+            "You are about to bulk credit " + creditLength + " exceptions " + approvalConfirm +
             "Are you sure you want to save your changes?";
         return;
     }
@@ -293,20 +287,21 @@ export class ExceptionsComponent implements OnInit {
 
         this.paginationCount();
         
-        this.exceptionDeliveryService.creditLines(this.creditList)
+        this.exceptionDeliveryService.creditLines(this.bulkCredits)
             .subscribe((res: Response) => {
 
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', this.creditList.length + ' Delivery line(s) credited', '');
+                    this.toasterService.pop('success', this.bulkCredits.length + ' Delivery line(s) credited', '');
 
                     this.getExceptions();
-                    this.creditList = [];
-                } else {
-                    this.toasterService.pop('error', 'Error crediting exceptions!', 'An error occured please contact support.');
+                    this.bulkCredits = [];
+                } else if (this.httpResponse.adamdown) {
+                    if (this.httpResponse.adamdown) this.toasterService.pop('error', 'ADAM is currently offline!', 'You will receive a notification once the credit has taken place!');
+                } else if (this.httpResponse.notAcceptable) {
+                    this.toasterService.pop('error', this.httpResponse.message, '');
                 }
-
             });
     }
 
@@ -328,7 +323,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     allocateUser(delivery: ExceptionDelivery): void {
-        this.assignModal.show(delivery.id, delivery.branchId, delivery.accountCode);
+        this.assignModal.show(delivery);
     }
 
     openConfirmModal(delivery): void {
@@ -337,14 +332,16 @@ export class ExceptionsComponent implements OnInit {
 
     onAssigned($event) {
 
-        var creditListIndex = this.getCreditListIndex($event.exceptionId);
+        if ($event.delivery) {
+            var creditListIndex = this.getCreditListIndex($event.delivery.id);
 
-        var exceptionDelivery = lodash.find(this.exceptions, ['id', $event.exceptionId]);
+            var exceptionDelivery = lodash.find(this.exceptions, ['id', $event.delivery.id]);
 
-        if (creditListIndex !== -1) {
-            this.removeFromCreditList($event.exceptionId, creditListIndex, exceptionDelivery.totalCreditValueForThreshold);
+            if (creditListIndex !== -1) {
+                this.removeFromCreditList($event.delivery);
+            }
         } 
-       this.getExceptions();
+        this.getExceptions();
     }
 
     paginationCount() {

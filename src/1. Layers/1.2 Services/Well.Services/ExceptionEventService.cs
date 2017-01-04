@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Transactions;
 
     using PH.Well.Domain.Enums;
@@ -13,15 +14,18 @@
         private readonly IAdamRepository adamRepository;
         private readonly IExceptionEventRepository eventRepository;
         private readonly IJobRepository jobRepository;
+        private readonly IUserRepository userRepository;
 
         public ExceptionEventService(
             IAdamRepository adamRepository,
             IExceptionEventRepository eventRepository,
-            IJobRepository jobRepository)
+            IJobRepository jobRepository,
+            IUserRepository userRepository)
         {
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
             this.jobRepository = jobRepository;
+            this.userRepository = userRepository;
         }
 
         public void Credit(CreditEvent creditEvent, int eventId, AdamSettings adamSettings, string username)
@@ -42,10 +46,16 @@
             }
             else
             {
-                this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
-                this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
+                using (var transactionScope = new TransactionScope())
+                {
+                    this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+                    this.userRepository.UnAssignJobToUser(creditEvent.Id);
+                    this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
 
-                return AdamResponse.Success;
+                    transactionScope.Complete();
+
+                    return AdamResponse.Success;
+                }
             }
 
             return response;
@@ -55,7 +65,9 @@
         {
             var adamDown = false;
 
-            foreach (var creditEvent in creditEvents)
+            if (!creditEvents.Any()) return AdamResponse.Success;
+
+;            foreach (var creditEvent in creditEvents)
             {
                 var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
 
@@ -72,6 +84,7 @@
                     else
                     {
                         this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
+                        this.userRepository.UnAssignJobToUser(creditEvent.Id);
                         this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
                     }
 

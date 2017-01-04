@@ -1,16 +1,15 @@
-﻿export class ResolvedDelivery {
-    id: number;
+﻿import {BaseDelivery} from '../shared/baseDelivery' 
+
+export class ResolvedDelivery extends BaseDelivery{
     routeNumber: string;
     dropId: string;
     invoiceNumber: number;
-    accountCode: string;
     accountName: string;
     jobStatus: string;
     action: string;
     assigned: string;
     deliveryDate: Date;
     accountId: string;
-    branchId: number;
     canAction: boolean;
     cod: string;
 }

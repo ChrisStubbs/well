@@ -1,5 +1,6 @@
 ﻿import {Damage} from './damage';
 import {DeliveryLineAction} from './deliveryLineAction';
+import * as lodash from 'lodash';
 
 export class DeliveryLine {
     constructor(line: DeliveryLine) {
@@ -57,6 +58,7 @@ export class DeliveryLine {
     damagedQuantity: number;
 
     shortQuantity: number;
+
     lineDeliveryStatus: string;
 
     jobDetailReasonId: number;
@@ -96,5 +98,14 @@ export class DeliveryLine {
         }
 
         return false;
+    }
+
+    totalQtyOfShortsAndDamages(): number {
+        return this.shortQuantity + lodash.sum(lodash.map(this.damages, 'quantity'));
+    }
+
+    canSave(): boolean {
+        return this.totalQtyOfShortsAndDamages() <= this.invoicedQuantity &&
+            this.deliveredQuantity - this.totalQtyOfShortsAndDamages() >= 0;
     }
 }

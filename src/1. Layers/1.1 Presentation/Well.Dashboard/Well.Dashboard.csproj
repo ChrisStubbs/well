@@ -228,6 +228,7 @@
     <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
+    <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
     <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
@@ -328,9 +329,9 @@
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="Scripts\Chart.min.js" />
-    <Content Include="tsconfig.json" />
     <Content Include="webpackProd.config.js" />
     <Content Include="webpack.config.js" />
+    <Content Include="app\shared\primeng\tsconfig-aot.json" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -508,12 +509,13 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptJSXEmit>-1</TypeScriptJSXEmit>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>System</TypeScriptModuleKind>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
-    <TypeScriptOutFile>$(ProjectDir)\Scripts\angular2\bundle.js</TypeScriptOutFile>
+    <TypeScriptOutFile>
+    </TypeScriptOutFile>
     <TypeScriptOutDir />
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>

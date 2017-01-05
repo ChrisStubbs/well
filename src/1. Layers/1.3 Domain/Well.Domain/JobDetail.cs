@@ -104,11 +104,11 @@
             }
             set
             {
-                int tryInt;
+                double tryDouble;
 
-                if (int.TryParse(value, out tryInt))
+                if (double.TryParse(value, out tryDouble))
                 {
-                    this.SkuGoodsValue = tryInt;
+                    this.SkuGoodsValue = tryDouble;
                 }
             }
         }

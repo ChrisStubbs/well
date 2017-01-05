@@ -9,6 +9,10 @@
     [Serializable()]
     public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
     {
+        public JobDetailDamage()
+        {
+        }
+
         [XmlElement("Qty")]
         public decimal Qty { get; set; }
 

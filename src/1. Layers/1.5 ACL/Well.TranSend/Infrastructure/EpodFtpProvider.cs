@@ -83,6 +83,8 @@
 
                 var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
 
+                this.logger.LogDebug($"Processing {filename}...");
+
                 try
                 {
                     using (var streamReader = new StreamReader(downloadedFile))

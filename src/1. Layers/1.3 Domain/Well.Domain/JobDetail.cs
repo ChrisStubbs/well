@@ -157,7 +157,7 @@
         public decimal CreditValueForThreshold()
         {
             var sumQty = this.JobDetailDamages.Sum(d => d.Qty);
-            var c = (this.ShortQty + sumQty) * Convert.ToDecimal(NetPrice);
+            var c = (this.ShortQty + sumQty) * Convert.ToDecimal(this.SkuGoodsValue);
 
             return c;
         }

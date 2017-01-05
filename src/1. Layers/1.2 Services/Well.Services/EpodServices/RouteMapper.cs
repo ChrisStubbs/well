@@ -41,6 +41,7 @@
             to.ByPassReason = from.ByPassReason;
             to.PerformanceStatus = from.PerformanceStatus;
             to.InvoiceNumber = from.InvoiceNumber;
+            to.JobDetails = from.JobDetails;
         }
 
         public void Map(JobUpdate from, Job to)

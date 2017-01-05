@@ -1,4 +1,6 @@
-﻿import { NgModule, APP_INITIALIZER } from '@angular/core';
+﻿
+
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -11,7 +13,7 @@ import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
 
 import {AccountComponent} from './account/accountComponent';
-import {AuditComponent} from './audit/auditComponent';
+
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
@@ -68,7 +70,7 @@ import {WidgetWarningRemoveModalComponent} from './widget_warnings/widgetWarning
 import {WidgetWarningEditModalComponent} from './widget_warnings/widgetWarningEditModalComponent';
 
 import {AccountService} from './account/accountService';
-import {AuditService} from './audit/auditService';
+
 import {BranchService} from './shared/branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
@@ -86,6 +88,8 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 
 //import {CalendarModule} from 'primeng/primeng';
 import {CalendarModule} from './shared/primeng/primeng';
+import { AuditComponent } from './audit/auditComponent';
+import { AuditService } from './audit/auditService';
 
 @NgModule({
     declarations: [SpinnerComponent,

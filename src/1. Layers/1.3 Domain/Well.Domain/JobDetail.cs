@@ -92,8 +92,26 @@
         [XmlElement("TextField5")]
         public string SsccBarcode { get; set; }
 
-        [XmlElement("SkuGoodsValue")]
+        [XmlIgnore]
         public double SkuGoodsValue  { get; set; }
+
+        [XmlElement("SkuGoodsValue")]
+        public string SkuGoodsValueFromXml
+        {
+            get
+            {
+                return this.SkuGoodsValue.ToString();
+            }
+            set
+            {
+                double tryDouble;
+
+                if (double.TryParse(value, out tryDouble))
+                {
+                    this.SkuGoodsValue = tryDouble;
+                }
+            }
+        }
 
         [XmlIgnore]
         public string NetPrice

@@ -6,6 +6,10 @@
     [Serializable()]
     public class EntityAttribute
     {
+        public EntityAttribute()
+        {
+        }
+
         [XmlElement("Code")]
         public string Code { get; set; }
 

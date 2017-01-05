@@ -107,7 +107,6 @@
                 .AddParameter("GrnRefusedDesc", entity.GrnRefusedDesc, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
-                .AddParameter("TotalCreditValueForThreshold", entity.TotalCreditValueForThreshold(), DbType.Decimal)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)
                 .AddParameter("ByPassReasonId  ", (int)entity.ByPassReason, DbType.Int16)
                 .AddParameter("StopId", entity.StopId, DbType.Int32)

@@ -18,8 +18,26 @@
             this.EntityAttributes = new List<EntityAttribute>();
         }
 
-        [XmlElement("LineNumber")]
+        [XmlIgnore]
         public int LineNumber { get; set; }
+
+        [XmlElement("LineNumber")]
+        public string LineNumberXml
+        {
+            get
+            {
+                return this.LineNumber.ToString();
+            }
+            set
+            {
+                var tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.LineNumber = tryInt;
+                }
+            }
+        }
 
         [XmlElement("Barcode")]
         public string PhProductCode { get; set; }
@@ -49,9 +67,27 @@
         [XmlElement("ProdDesc")]
         public string ProdDesc { get; set; }
 
-        [XmlElement("OrderedQty")]
+        [XmlIgnore]
         public int OrderedQty { get; set; }
-        
+
+        [XmlElement("OrderedQty")]
+        public string OrderedQtyXml
+        {
+            get
+            {
+                return this.OrderedQty.ToString();
+            }
+            set
+            {
+                var tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.OrderedQty = tryInt;
+                }
+            }
+        }
+
         [XmlElement("DeliveredQty")]
         public string DeliveredQty { get; set; }
 

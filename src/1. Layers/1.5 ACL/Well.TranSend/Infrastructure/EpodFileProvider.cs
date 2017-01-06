@@ -50,7 +50,7 @@
                 }
                 catch (Exception exception)
                 {
-                    this.logger.LogError($"Epod update error in XML!", exception);
+                    this.logger.LogError($"Epod update error in XML file {filename}!", exception);
                 }
             }
         }

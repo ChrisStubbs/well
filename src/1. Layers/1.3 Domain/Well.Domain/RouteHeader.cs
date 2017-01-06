@@ -15,8 +15,26 @@
             this.EntityAttributes = new List<EntityAttribute>();
         }
 
-        [XmlElement("CompanyID")]
+        [XmlIgnore]
         public int CompanyId { get; set; }
+
+        [XmlElement("CompanyID")]
+        public string CompanyIdXml
+        {
+            get
+            {
+                return this.CompanyId.ToString();
+            }
+            set
+            {
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.CompanyId = tryInt;
+                }
+            }
+        }
 
         [XmlElement("StartDepotCode")]
         public string StartDepotCode { get; set; }
@@ -61,11 +79,47 @@
             }
         }
          
-        [XmlElement("PlannedStops")]
+        [XmlIgnore]
         public int PlannedStops { get; set; }
 
-        [XmlElement("ActualStopsCompleted")]
+        [XmlElement("PlannedStops")]
+        public string PlannedStopsXml
+        {
+            get
+            {
+                return this.PlannedStops.ToString();
+            }
+            set
+            {
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.PlannedStops = tryInt;
+                }
+            }
+        }
+
+        [XmlIgnore]
         public int ActualStopsCompleted { get; set; }
+
+        [XmlElement("ActualStopsCompleted")]
+        public string ActualStopsCompletedXml
+        {
+            get
+            {
+                return this.ActualStopsCompleted.ToString();
+            }
+            set
+            {
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.ActualStopsCompleted = tryInt;
+                }
+            }
+        }
 
         [XmlIgnore]
         public RouteStatusCode RouteStatus { get; set; }

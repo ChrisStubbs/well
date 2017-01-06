@@ -18,8 +18,26 @@
             this.EntityAttributes = new List<EntityAttribute>();
         }
 
-        [XmlElement("Sequence")]
+        [XmlIgnore]
         public int Sequence { get; set; }
+
+        [XmlElement("Sequence")]
+        public string SequenceXml
+        {
+            get
+            {
+                return this.Sequence.ToString();
+            }
+            set
+            {
+                int tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.Sequence = tryInt;
+                }
+            }
+        }
 
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
@@ -225,8 +243,6 @@
                 return false;
             }
         }
-
- 
 
         /// <summary>
         /// ReOrder allowed

@@ -42,5 +42,8 @@
 
         [Description("Not Defined")]
         Notdef = 13,
+
+        [Description("Bypassed Stop")]
+        BypassedStop = 14
     }
 }

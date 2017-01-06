@@ -12,13 +12,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label>Product</label>
-                <div class="alert alert-danger" *ngIf="deliveryLine.totalQtyOfShortsAndDamages() > deliveryLine.invoicedQuantity">
+                <div class="alert alert-danger" *ngIf="invalidShortDamagesQty()">
                     <strong>Total number of short and damages can not exceed total invoiced!</strong>
                 </div>
-                <!--<div class="alert alert-danger" *ngIf="deliveryLine.deliveredQuantity - deliveryLine.totalQtyOfShortsAndDamages() < 0">
-                    <strong>Delivered quantity must be a positive number!</strong>
-                </div>-->
+                <div class="alert alert-danger" *ngIf="invalidDeliveryQty()">
+                    <strong>Total damaged / short cannot exceed invoice quantity!</strong>
+                </div>
+                <label>Product</label>
                 <div class="form-label">{{deliveryLine.productCode}} - {{deliveryLine.productDescription}} - Invoiced Qty {{deliveryLine.invoicedQuantity}} - Delivered Qty {{deliveryLine.deliveredQuantity}}</div>
             </div>
         </div>

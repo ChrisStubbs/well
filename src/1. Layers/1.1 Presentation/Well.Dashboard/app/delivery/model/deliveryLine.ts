@@ -105,7 +105,6 @@ export class DeliveryLine {
     }
 
     canSave(): boolean {
-        return true; //this.totalQtyOfShortsAndDamages() <= this.invoicedQuantity &&
-        //this.deliveredQuantity - this.totalQtyOfShortsAndDamages() >= 0;
+        return this.totalQtyOfShortsAndDamages() <= this.invoicedQuantity;
     }
 }

@@ -5,5 +5,7 @@
     public interface IAdamImportService
     {
         void Import(RouteDelivery route);
+
+        void ImportRouteHeader(RouteHeader header, int routeId);
     }
 }

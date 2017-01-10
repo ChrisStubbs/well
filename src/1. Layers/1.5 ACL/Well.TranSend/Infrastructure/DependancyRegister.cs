@@ -28,7 +28,6 @@
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IStopRepository>().Use<StopRepository>();
-                    x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();

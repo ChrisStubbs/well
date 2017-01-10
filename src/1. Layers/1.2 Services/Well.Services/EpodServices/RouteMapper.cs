@@ -41,6 +41,7 @@
             to.PerformanceStatus = from.PerformanceStatus;
             to.InvoiceNumber = from.InvoiceNumber;
             to.JobDetails = from.JobDetails;
+            to.GrnNumberUpdate = from.GrnNumber;
         }
 
         public void Map(JobUpdate from, Job to)

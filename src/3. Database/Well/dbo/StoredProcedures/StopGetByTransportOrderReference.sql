@@ -15,7 +15,7 @@ SELECT [Id],
 	  [PHUnatt],
 	  [StopStatusId],
 	  [StopPerformanceStatusId],
-	  [ByPassReasonId],
+	  [Reason],
 	  [TransportOrderReference]
   FROM [dbo].[Stop]
   WHERE [TransportOrderReference] = @TransportOrderReference

@@ -2,7 +2,7 @@
 	@Id				INT,
 	@StopStatusCodeId	TINYINT,
 	@StopPerformanceStatusCodeId INT,
-	@ByPassReasonId         TINYINT,
+	@Reason         VARCHAR(255),
 	@ShellActionIndicator VARCHAR(100),
 	@ActualPaymentCash		DECIMAL(7,2),
 	@ActualPaymentCheque	DECIMAL(7,2),
@@ -18,7 +18,7 @@ BEGIN
 	SET 
 		[StopStatusId] = @StopStatusCodeId,
 		StopPerformanceStatusId = @StopPerformanceStatusCodeId, 
-		[ByPassReasonId] = @ByPassReasonId,
+		[Reason] = @Reason,
 		ShellActionIndicator = @ShellActionIndicator,
 		ActualPaymentCash = @ActualPaymentCash,
 		ActualPaymentCheque = @ActualPaymentCheque,

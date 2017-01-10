@@ -5,7 +5,7 @@
 
 AS
 BEGIN
-	SELECT TOP 1000 [Id]
+	SELECT [Id]
       ,[Sequence]
       ,[JobTypeCode]
       ,[PHAccount]
@@ -29,7 +29,7 @@ BEGIN
 	  ,[SandwchOrd] 
 	  ,[TotalCreditValueForThreshold]
       ,[PerformanceStatusId]
-      ,[ByPassReasonId]
+      ,[Reason]
 	  ,[IsDeleted]
       ,[StopId]
       ,[CreatedBy]

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
-    using Common.Extensions;
     using Enums;
 
     [Serializable()]
@@ -124,21 +123,8 @@
             }
         }
 
-        [XmlIgnore]
-        public int ByPassReasonId { get; set; }
-
         [XmlElement("Reason_Description")]
-        public string StopByPassReason
-        {
-            get
-            {
-                return this.ByPassReasonId.ToString();
-            }
-            set
-            {
-                 ByPassReasonId = string.IsNullOrEmpty(value) ? (int)ByPassReasons.Notdef : (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value);
-            }
-        }
+        public string StopByPassReason { get; set; }
 
         [XmlElement("Account")]
         public Account Account { get; set; }

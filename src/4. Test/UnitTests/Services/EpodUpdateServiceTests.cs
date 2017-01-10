@@ -1,19 +1,15 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
-    using System.Diagnostics;
-
     using Moq;
 
     using NUnit.Framework;
 
-    using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
-    using PH.Well.UnitTests.Infrastructure;
 
     [TestFixture]
     public class EpodUpdateServiceTests

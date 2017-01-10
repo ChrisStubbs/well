@@ -27,7 +27,7 @@ BEGIN
 	  ,[SandwchOrd] 
 	  ,[TotalCreditValueForThreshold]
 	  ,[PerformanceStatusId] as PerformanceStatus
-	  ,[ByPassReasonId] as ByPassReason
+	  ,[Reason]
 	  ,[IsDeleted]
       ,[StopId]
       ,[CreatedBy]

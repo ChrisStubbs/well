@@ -16,7 +16,7 @@ SELECT stp.[Id],
 	  stp.[PHUnatt],
 	  stp.[StopStatusId],
 	  stp.[StopPerformanceStatusId],
-	  stp.[ByPassReasonId]
+	  stp.[Reason]
   FROM [dbo].[Stop] stp
   INNER JOIN [dbo].[Job] jb
   ON stp.Id = jb.StopId

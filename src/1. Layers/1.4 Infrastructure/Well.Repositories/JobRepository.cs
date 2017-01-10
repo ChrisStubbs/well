@@ -108,7 +108,7 @@
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", (int)entity.ByPassReason, DbType.Int16)
+                .AddParameter("Reason", entity.JobByPassReason, DbType.String)
                 .AddParameter("StopId", entity.StopId, DbType.Int32)
                 .AddParameter("ActionLogNumber", entity.ActionLogNumber, DbType.String)
                 .AddParameter("OuterCount", entity.OuterCount, DbType.Int16)
@@ -148,7 +148,7 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
-                .AddParameter("ByPassReason", (int)entity.ByPassReason, DbType.Int16)
+                .AddParameter("Reason", entity.JobByPassReason, DbType.String)
                 .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int16)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
                 .AddParameter("CreditValue", entity.TotalCreditValueForThreshold(), DbType.Decimal)

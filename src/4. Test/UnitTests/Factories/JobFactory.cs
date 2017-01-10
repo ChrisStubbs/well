@@ -23,7 +23,7 @@
             this.Entity.RoyaltyCodeDesc = "RoyalDesc";
             this.Entity.GrnRefusedDesc = null;
             this.Entity.PerformanceStatus = PerformanceStatus.Narri;
-            this.Entity.ByPassReason = ByPassReasons.Notdef;
+            this.Entity.JobByPassReason = "some reason";
             this.Entity.StopId = 1;
 
             this.Entity.EntityAttributes = new List<EntityAttribute>();

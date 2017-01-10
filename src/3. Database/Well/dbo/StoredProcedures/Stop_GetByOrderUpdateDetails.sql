@@ -18,7 +18,7 @@ BEGIN
 	  [PHUnatt],
 	  [StopStatusId],
 	  [StopPerformanceStatusId],
-	  [ByPassReasonId]
+	  [Reason]
   FROM 
 	  [dbo].[Stop]
   WHERE 

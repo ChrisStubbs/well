@@ -287,20 +287,8 @@
             }
         }
 
-        [XmlIgnore]
-        public ByPassReasons ByPassReason { get; set; }
-
         [XmlElement("Reason_Description")]
-        public string JobByPassReason
-        {
-            get { return StringExtensions.GetEnumDescription(ByPassReason); }
-            set
-            {
-                ByPassReason = string.IsNullOrEmpty(value)
-                    ? ByPassReasons.Notdef
-                    : StringExtensions.GetValueFromDescription<ByPassReasons>(value);
-            }
-        }
+        public string JobByPassReason { get; set; }
 
         public decimal TotalCreditValueForThreshold()
         {

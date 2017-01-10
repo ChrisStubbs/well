@@ -263,15 +263,6 @@
             }
         }
 
-        //[XmlElement("GrnNumber")]
-        //public string GrnNumber { get; set; }
-
-        //[XmlElement("GrnRefusedReason")]
-        //public string GrnRefusedReason { get; set; }
-
-        [XmlElement("GrnRefusedDesc")]
-        public string GrnRefusedDesc { get; set; }
-
         [XmlIgnore]
         public PerformanceStatus PerformanceStatus { get; set; }
 

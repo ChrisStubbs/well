@@ -103,8 +103,6 @@
                 .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
                 .AddParameter("COD", entity.Cod, DbType.String)
                 .AddParameter("GrnNumber", entity.GrnNumber, DbType.String)
-                .AddParameter("GrnRefusedReason", entity.GrnRefusedReason, DbType.String)
-                .AddParameter("GrnRefusedDesc", entity.GrnRefusedDesc, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)

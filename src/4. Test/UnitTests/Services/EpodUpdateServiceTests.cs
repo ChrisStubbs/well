@@ -76,28 +76,12 @@
             this.routeHeaderRepository.Setup(
                 x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
-            this.eventLogger.Setup(
-                x =>
-                    x.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"No data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}",
-                        7450,
-                        EventLogEntryType.Error)).Returns(true);
-
             this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
 
             this.service.Update(route);
 
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
-
-            this.eventLogger.Verify(
-                x =>
-                    x.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"No data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}",
-                        7450,
-                        EventLogEntryType.Error), Times.Once);
 
             this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Once);
         }

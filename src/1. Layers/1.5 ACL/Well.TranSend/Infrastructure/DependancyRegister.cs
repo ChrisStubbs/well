@@ -36,6 +36,7 @@
                     x.For<IFtpClient>().Use<FtpClient>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IFileModule>().Use<FileModule>();
+                    x.For<IAdamImportService>().Use<AdamImportService>();
                 } );
         }
     }

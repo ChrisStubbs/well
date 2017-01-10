@@ -4,7 +4,7 @@
 
     public enum OrderActionIndicator
     {
-        [Description("A")]
+        [Description("U")]
         Update = 1,
 
         [Description("I")]

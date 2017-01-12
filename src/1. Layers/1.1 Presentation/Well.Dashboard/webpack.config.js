@@ -9,7 +9,7 @@ module.exports = {
         path: path.join(__dirname, 'Scripts/angular2/'),
         filename: "app.js",
         sourceMapFilename: 'app.js.map'
-    },
+    }, 
     debug: true,
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin()//,

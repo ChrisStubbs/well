@@ -7,6 +7,10 @@
     {
         AdamResponse Credit(CreditEvent credit, AdamSettings adamSettings);
 
+        //    AdamResponse CreditHeader(CreditEvent credit, AdamSettings adamSettings);
+
+        //    AdamResponse CreditLines(CreditEvent credit, AdamSettings adamSettings);
+
         AdamResponse CreditReorder(CreditReorderEvent creditReorder, AdamSettings adamSettings);
 
         AdamResponse Reject(RejectEvent reject, AdamSettings adamSettings);

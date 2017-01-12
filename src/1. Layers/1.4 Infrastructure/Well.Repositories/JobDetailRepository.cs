@@ -7,18 +7,20 @@
     using Contracts;
     using Dapper;
     using Domain;
+    using Domain.ValueObjects;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
-        public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy) : 
-            base(logger, dapperProxy) {}
+        public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy) :
+            base(logger, dapperProxy)
+        { }
 
         public JobDetail GetById(int id)
         {
             return Get(id, null, null).FirstOrDefault();
         }
 
-        public IEnumerable<JobDetail>  GetByJobId(int jobId)
+        public IEnumerable<JobDetail> GetByJobId(int jobId)
         {
             return Get(null, jobId, null);
         }
@@ -69,7 +71,7 @@
                 .AddParameter("JobDetailReasonId", jobDetail.JobDetailReason, DbType.Int32)
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSource, DbType.Int32)
                 .AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String)
-                .AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.String)           
+                .AddParameter("PHProductCode", jobDetail.PhProductCode, DbType.String)
                 .AddParameter("PHProductType", jobDetail.PhProductType, DbType.String)
                 .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
                 .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
@@ -112,14 +114,14 @@
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
                 .Execute();
         }
-        
+
         public void DeleteJobDetailById(int id)
         {
             this.JobDetailDeleteDamageReasonsByJobDetailId(id);
 
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteById)
                 .AddParameter("JobDetailId", id, DbType.Int32)
-                .Execute();          
+                .Execute();
         }
 
         private void JobDetailDeleteDamageReasonsByJobDetailId(int jobDetailId)
@@ -134,6 +136,24 @@
             dapperProxy.WithStoredProcedure("JobDetail_CreditLines")
                 .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .Execute();
+        }
+
+        public IEnumerable<JobDetailsWithAction> GetJobDetailsWithActions(int jobId, int action)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailsWithAction)
+                .AddParameter("jobId", jobId, DbType.Int32)
+                .AddParameter("action", action, DbType.Int16)
+                .Query<JobDetailsWithAction>();
+
+        }
+
+        public IEnumerable<JobDetailsWithAction> GetJobDetailDamagesWithActions(int jobId, int action)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamagesWithAction)
+                .AddParameter("jobId", jobId, DbType.Int32)
+                .AddParameter("action", action, DbType.Int16)
+                .Query<JobDetailsWithAction>();
+
         }
     }
 }

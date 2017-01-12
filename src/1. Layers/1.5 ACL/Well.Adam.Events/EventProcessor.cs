@@ -33,29 +33,29 @@
 
             foreach (var eventToProcess in eventsToProcess)
             {
-                switch (eventToProcess.ExceptionAction)
+                switch (eventToProcess.EventAction)
                 {
-                    case ExceptionAction.Credit:
+                    case EventAction.Credit:
                         var creditEvent = JsonConvert.DeserializeObject<CreditEvent>(eventToProcess.Event);
                         this.exceptionEventService.Credit(creditEvent, eventToProcess.Id, GetAdamSettings(creditEvent.BranchId), username);
                         break;
-                    case ExceptionAction.CreditAndReorder:
+                    case EventAction.CreditAndReorder:
                         var creditReorderEvent = JsonConvert.DeserializeObject<CreditReorderEvent>(eventToProcess.Event);
                         this.exceptionEventService.CreditReorder(creditReorderEvent, eventToProcess.Id, GetAdamSettings(creditReorderEvent.BranchId), username);
                         break;
-                    case ExceptionAction.Reject:
+                    case EventAction.Reject:
                         var rejectEvent = JsonConvert.DeserializeObject<RejectEvent>(eventToProcess.Event);
                         this.exceptionEventService.Reject(rejectEvent, eventToProcess.Id, GetAdamSettings(rejectEvent.BranchId), username);
                         break;
-                    case ExceptionAction.ReplanInRoadnet:
+                    case EventAction.ReplanInRoadnet:
                         var roadnetEvent = JsonConvert.DeserializeObject<RoadnetEvent>(eventToProcess.Event);
                         this.exceptionEventService.ReplanRoadnet(roadnetEvent, eventToProcess.Id, GetAdamSettings(roadnetEvent.BranchId), username);
                         break;
-                    case ExceptionAction.ReplanInTranSend:
+                    case EventAction.ReplanInTranSend:
                         var transcendEvent = JsonConvert.DeserializeObject<TranscendEvent>(eventToProcess.Event);
                         this.exceptionEventService.ReplanTranscend(transcendEvent, eventToProcess.Id, GetAdamSettings(transcendEvent.BranchId), username);
                         break;
-                    case ExceptionAction.ReplanInTheQueue:
+                    case EventAction.ReplanInTheQueue:
                         var queueEvent = JsonConvert.DeserializeObject<QueueEvent>(eventToProcess.Event);
                         this.exceptionEventService.ReplanQueue(queueEvent, eventToProcess.Id, GetAdamSettings(queueEvent.BranchId), username);
                         break;

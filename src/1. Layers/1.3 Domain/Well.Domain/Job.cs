@@ -16,6 +16,7 @@
         {
             this.JobDetails = new List<JobDetail>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
         [XmlIgnore]
@@ -263,15 +264,6 @@
             }
         }
 
-        //[XmlElement("GrnNumber")]
-        //public string GrnNumber { get; set; }
-
-        //[XmlElement("GrnRefusedReason")]
-        //public string GrnRefusedReason { get; set; }
-
-        [XmlElement("GrnRefusedDesc")]
-        public string GrnRefusedDesc { get; set; }
-
         [XmlIgnore]
         public PerformanceStatus PerformanceStatus { get; set; }
 
@@ -306,6 +298,10 @@
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
 
+        [XmlArray("EntityAttributeValues")]
+        [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
+        public List<EntityAttributeValue> EntityAttributeValues { get; set; }
+
         //ACTLOGNO CUSTSRVCON DISCFOUND GRNNO GRNREFREAS ISOVERAGE OUTERCOUNT OVERORDNO TOTOVER TOTSHORT
         [XmlIgnore]
         public string ActionLogNumber
@@ -318,12 +314,14 @@
             }
         }
 
+        public string GrnNumberUpdate { get; set; }
+
         [XmlIgnore]
         public string GrnNumber
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "GRNNO");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "GRNNO");
 
                 return attribute?.Value;
             }

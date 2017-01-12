@@ -49,6 +49,7 @@
     <Compile Include="Enums\ActionStatus.cs" />
     <Compile Include="Enums\CommodityType.cs" />
     <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\DeliveryAction.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
     <Compile Include="Enums\JobDetailSource.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="Enums\CsfRejection.cs" />
     <Compile Include="Enums\JobDetailReason.cs" />
     <Compile Include="Enums\EpodFileType.cs" />
-    <Compile Include="Enums\ExceptionAction.cs" />
+    <Compile Include="Enums\EventAction.cs" />
     <Compile Include="Enums\JobDetailStatus.cs" />
     <Compile Include="Enums\OrderActionIndicator.cs" />
     <Compile Include="Enums\PerformanceStatus.cs" />

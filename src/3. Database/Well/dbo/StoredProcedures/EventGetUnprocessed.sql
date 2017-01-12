@@ -7,6 +7,7 @@ BEGIN
       ,[Event]
       ,[ExceptionActionId]
       ,[Processed]
+	  ,[DateCanBeProcessed]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

@@ -4,7 +4,7 @@
     public requiresServerCall: boolean;
     public type: string;
 
-    constructor(description: string = '', value: string = '', requiresServerCall = false, type: string = 'string') {
+    constructor(description = '', value = '', requiresServerCall = false, type = 'string') {
         this.description = description;
         this.value = value;
         this.type = type;

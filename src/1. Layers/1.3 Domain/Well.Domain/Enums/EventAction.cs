@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain.Enums
 {
-    public enum ExceptionAction
+    public enum EventAction
     {
         Credit = 1,
         CreditAndReorder = 2,

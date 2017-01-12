@@ -33,7 +33,7 @@
                 new JobDetailAction()
                 {
                     Quantity = 3,
-                    Action = ExceptionAction.CreditAndReorder,
+                    Action = EventAction.CreditAndReorder,
                     Status = ActionStatus.Submitted
                 }
             };

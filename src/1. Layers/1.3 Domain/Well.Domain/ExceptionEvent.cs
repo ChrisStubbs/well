@@ -8,7 +8,7 @@
     {
         public string Event { get; set; }
 
-        public ExceptionAction ExceptionAction => (ExceptionAction)this.ExceptionActionId;
+        public EventAction EventAction => (EventAction)this.ExceptionActionId;
 
         public int ExceptionActionId { get; set; }
 

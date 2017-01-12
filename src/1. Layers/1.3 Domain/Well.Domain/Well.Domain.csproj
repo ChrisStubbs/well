@@ -73,7 +73,7 @@
     <Compile Include="Enums\CsfRejection.cs" />
     <Compile Include="Enums\JobDetailReason.cs" />
     <Compile Include="Enums\EpodFileType.cs" />
-    <Compile Include="Enums\ExceptionAction.cs" />
+    <Compile Include="Enums\EventAction.cs" />
     <Compile Include="Enums\JobDetailStatus.cs" />
     <Compile Include="Enums\OrderActionIndicator.cs" />
     <Compile Include="Enums\PerformanceStatus.cs" />

@@ -67,7 +67,7 @@
                 {
                     Id = 501,
                     Event = json,
-                    ExceptionActionId = (int)ExceptionAction.Credit
+                    ExceptionActionId = (int)EventAction.Credit
                 };
 
                 var events = new List<ExceptionEvent> { exception };
@@ -97,7 +97,7 @@
                 var exception = new ExceptionEvent
                 {
                     Event = json,
-                    ExceptionActionId = (int)ExceptionAction.CreditAndReorder
+                    ExceptionActionId = (int)EventAction.CreditAndReorder
                 };
 
                 var events = new List<ExceptionEvent> { exception };
@@ -134,7 +134,7 @@
 
                 var json = JsonConvert.SerializeObject(rejectEvent);
 
-                var exception = new ExceptionEvent { Event = json, ExceptionActionId = (int)ExceptionAction.Reject };
+                var exception = new ExceptionEvent { Event = json, ExceptionActionId = (int)EventAction.Reject };
 
                 var events = new List<ExceptionEvent> { exception };
 
@@ -163,7 +163,7 @@
                 var exception = new ExceptionEvent
                 {
                     Event = json,
-                    ExceptionActionId = (int)ExceptionAction.ReplanInRoadnet
+                    ExceptionActionId = (int)EventAction.ReplanInRoadnet
                 };
 
                 var events = new List<ExceptionEvent> { exception };
@@ -195,7 +195,7 @@
                 var exception = new ExceptionEvent
                 {
                     Event = json,
-                    ExceptionActionId = (int)ExceptionAction.ReplanInTranSend
+                    ExceptionActionId = (int)EventAction.ReplanInTranSend
                 };
 
                 var events = new List<ExceptionEvent> { exception };
@@ -235,7 +235,7 @@
                 var exception = new ExceptionEvent
                 {
                     Event = json,
-                    ExceptionActionId = (int)ExceptionAction.ReplanInTheQueue
+                    ExceptionActionId = (int)EventAction.ReplanInTheQueue
                 };
 
                 var events = new List<ExceptionEvent> { exception };

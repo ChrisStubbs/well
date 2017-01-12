@@ -26,7 +26,8 @@
                 MobileNumber = detail.MobileNumber,
                 DeliveryType = detail.DeliveryType,
                 IsException = detail.IsException,
-                CanAction = detail.CanAction
+                CanAction = detail.CanAction,
+                GrnNumber = detail.GrnNumber
             };
 
             foreach (DeliveryLine line in lines.Where(x => x.IsClean))

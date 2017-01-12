@@ -34,6 +34,8 @@
 
         public bool CanAction { get; set; }
 
+        public string GrnNumber { get; set; }
+
         public string IdentityName { get; set; }
 
         public bool IsException => ExceptionStatuses.Statuses.Contains(Status);

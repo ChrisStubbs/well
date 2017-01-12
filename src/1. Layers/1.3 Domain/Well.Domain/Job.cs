@@ -16,6 +16,7 @@
         {
             this.JobDetails = new List<JobDetail>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
         [XmlIgnore]

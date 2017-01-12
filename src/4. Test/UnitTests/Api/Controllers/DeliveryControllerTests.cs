@@ -352,5 +352,22 @@
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
         }
+
+        public class TheSaveGrnMethod : DeliveryControllerTests
+        {
+            [Test]
+            public void ShouldSaveTheGrnAgainstTheJob()
+            {
+                var model = new GrnModel { Id = 302, GrnNumber = "123212" };
+
+                this.jobRepository.Setup(x => x.SaveGrn(model.Id, model.GrnNumber));
+
+                var response = this.Controller.SaveGrn(model);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+                this.jobRepository.Verify(x => x.SaveGrn(model.Id, model.GrnNumber), Times.Once);
+            }
+        }
     }
 }

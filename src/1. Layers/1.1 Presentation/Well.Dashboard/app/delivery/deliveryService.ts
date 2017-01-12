@@ -39,7 +39,7 @@ export class DeliveryService {
     }
 
     getActions(): Observable<Action[]> {
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'exception-actions/')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'delivery-actions/')
             .map((response: Response) => <Action[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
@@ -76,5 +76,13 @@ export class DeliveryService {
         let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
         var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId + '/submit-actions';
         return this.http.post(url, "", options).catch(e => this.httpErrorService.handleError(e));
+    }
+
+    saveGrn(delivery: Delivery): Observable<any> {
+        let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+        let body = JSON.stringify(delivery);
+        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/grn';
+
+        return this.http.post(url, body, options).catch(e => this.httpErrorService.handleError(e));
     }
 }

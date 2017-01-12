@@ -180,6 +180,14 @@
                 .Execute();
         }
 
+        public void SaveGrn(int jobId, string grn)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveGrn)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("Grn", grn, DbType.String)
+                .Execute();
+        }
+
         public void ResolveJobAndJobDetails(int jobId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.ResolveJobAndJobDetails)

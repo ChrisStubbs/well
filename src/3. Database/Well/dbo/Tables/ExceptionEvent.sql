@@ -4,6 +4,7 @@
 	[Event] VARCHAR(2500) NOT NULL,
 	[ExceptionActionId] INT NOT NULL,
 	[Processed] BIT NOT NULL DEFAULT 0,
+	[DateCanBeProcessed] DATETIME NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

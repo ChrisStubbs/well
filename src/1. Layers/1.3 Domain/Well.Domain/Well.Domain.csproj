@@ -49,6 +49,7 @@
     <Compile Include="Enums\ActionStatus.cs" />
     <Compile Include="Enums\CommodityType.cs" />
     <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\DeliveryAction.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
     <Compile Include="Enums\JobDetailSource.cs" />

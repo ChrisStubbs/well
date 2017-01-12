@@ -10,7 +10,9 @@
     using Domain.ValueObjects;
     using Models;
     using PH.Well.Api.Mapper.Contracts;
+    using PH.Well.Common.Extensions;
     using PH.Well.Common.Security;
+    using PH.Well.Domain.Enums;
 
     using Repositories.Contracts;
     using Services.Contracts;
@@ -147,6 +149,32 @@
             deliveryService.SubmitActions(id, UserIdentityName);
 
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("deliveries/grn")]
+        public HttpResponseMessage SaveGrn(GrnModel model)
+        {
+            this.jobRepository.SaveGrn(model.Id, model.GrnNumber);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [Route("delivery-actions")]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                IEnumerable<DeliveryAction> actions = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>();
+                var reasons = actions.Select(a => new { id = (int)a, description = StringExtensions.GetEnumDescription(a) });
+
+                return Request.CreateResponse(HttpStatusCode.OK, reasons);
+            }
+            catch (Exception ex)
+            {
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting delivery actions");
+            }
         }
     }
 }

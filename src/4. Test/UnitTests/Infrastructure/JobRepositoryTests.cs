@@ -119,5 +119,35 @@ namespace PH.Well.UnitTests.Infrastructure
             }
         }
 
+        public class TheSaveGrnMethod : JobRepositoryTests
+        {
+            [Test]
+            public void ShouldSaveTheGrnAgainstTheJob()
+            {
+                var jobId = 101;
+                var grn = "3323332111";
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.SaveGrn))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("JobId", jobId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Grn", grn, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.SaveGrn(jobId, grn);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.SaveGrn), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("JobId", jobId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Grn", grn, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+            }
+        }
     }
 }

@@ -202,7 +202,6 @@
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\DeliveryLineActionsController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
-    <Compile Include="Controllers\ExceptionActionController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />
@@ -257,6 +256,7 @@
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
+    <Compile Include="Models\GrnModel.cs" />
     <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />

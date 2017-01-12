@@ -20,40 +20,40 @@ export class DeliveryService {
         private httpErrorService: HttpErrorService) {
     }
 
-    getDelivery(deliveryId: number): Observable<Delivery> {
+    public getDelivery(deliveryId: number): Observable<Delivery> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId)
             .map((response: Response) => <Delivery>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getSources(): Observable<JobDetailSource[]> {
+    public getSources(): Observable<JobDetailSource[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'job-detail-source/')
             .map((response: Response) => <JobDetailSource[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getDamageReasons(): Observable<JobDetailReason[]> {
+    public getDamageReasons(): Observable<JobDetailReason[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'damage-reasons/')
             .map((response: Response) => <JobDetailReason[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getActions(): Observable<Action[]> {
+    public getActions(): Observable<Action[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'exception-actions/')
             .map((response: Response) => <Action[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getActionStatuses(): Observable<ActionStatus[]> {
+    public getActionStatuses(): Observable<ActionStatus[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'action-statuses/')
             .map((response: Response) => <ActionStatus[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    updateDeliveryLine(line): Observable<any> {
-        let body = JSON.stringify(line);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    public updateDeliveryLine(line): Observable<any> {
+        const body = JSON.stringify(line);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
 
         return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line/',
                 body,
@@ -61,10 +61,10 @@ export class DeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    updateDeliveryLineActions(request): Observable<any> {
-        let body = JSON.stringify(request);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    public updateDeliveryLineActions(request): Observable<any> {
+        const body = JSON.stringify(request);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line-actions/',
                 body,
@@ -72,9 +72,9 @@ export class DeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    submitActions(deliveryId): Observable<any> {
-        let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId + '/submit-actions';
-        return this.http.post(url, "", options).catch(e => this.httpErrorService.handleError(e));
+    public submitActions(deliveryId): Observable<any> {
+        const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/' + deliveryId + '/submit-actions';
+        return this.http.post(url, '', options).catch(e => this.httpErrorService.handleError(e));
     }
 }

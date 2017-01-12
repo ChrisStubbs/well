@@ -3,28 +3,25 @@ import { Response} from '@angular/http';
 import { ToasterService} from 'angular2-toaster/angular2-toaster';
 import { BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
 import { HttpResponse} from '../shared/httpResponse';
-
 import { WidgetWarning } from './widgetWarning';
 import { WidgetWarningService } from './widgetWarningService';
-
 
 @Component({
     selector: 'ow-widget-warning-add-modal',
     templateUrl: './app/widget_warnings/widget-warning-add-modal.html'
 })
 export class WidgetWarningAddModalComponent {
-    isVisible: boolean = false;
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    widgetWarning: WidgetWarning = new WidgetWarning();
-    @Output() onWidgetWarningSave = new EventEmitter<WidgetWarning>();
+    public isVisible: boolean = false;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    public widgetWarning: WidgetWarning = new WidgetWarning();
+    @Output() public onWidgetWarningSave = new EventEmitter<WidgetWarning>();
 
     constructor(private widgetWarningService: WidgetWarningService, private toasterService: ToasterService) {}
 
-    @ViewChild(BranchCheckboxComponent)
-    branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
-    show() {
+    public show() {
         this.clear();
         this.isVisible = true;
         this.widgetWarning.type = 'Widget Type';
@@ -32,18 +29,17 @@ export class WidgetWarningAddModalComponent {
         //this.widgetWarning.widgetName = 'WidgetName';
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.widgetWarning = new WidgetWarning();
         this.errors = [];
     }
 
-
-    save() {
+    public save() {
         this.widgetWarning.branches = this.branch.selectedBranches;
 
         this.widgetWarningService.saveWidgetWarning(this.widgetWarning, false)
@@ -68,7 +64,7 @@ export class WidgetWarningAddModalComponent {
             });
     }
 
-    setSelectedType(type) {
+    public setSelectedType(type) {
         this.widgetWarning.type = type;
     }
 }

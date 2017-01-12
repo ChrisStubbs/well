@@ -10,30 +10,36 @@ import {SeasonalDate} from './seasonalDate';
     templateUrl: './app/seasonal_dates/seasonal-dates-remove-modal.html'
 })
 export class SeasonalDatesRemoveModalComponent {
-    isVisible: boolean = false;
-    seasonalDate: SeasonalDate;
-    httpResponse: HttpResponse = new HttpResponse();
-    @Output() onRemoved = new EventEmitter<SeasonalDate>();
+    public isVisible: boolean = false;
+    public seasonalDate: SeasonalDate;
+    public httpResponse: HttpResponse = new HttpResponse();
+    @Output() public onRemoved = new EventEmitter<SeasonalDate>();
 
     constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
 
-    show(seasonalDate: SeasonalDate) {
+    public show(seasonalDate: SeasonalDate) {
         this.seasonalDate = seasonalDate;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    yes() {
+    public yes() {
         this.seasonalDateService.removeSeasonalDate(this.seasonalDate.id)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                if (this.httpResponse.success) this.toasterService.pop('success', 'Seasonal date has been removed!', '');
-                if (this.httpResponse.failure) this.toasterService.pop('error', 'Seasonal date could not be deleted at this time!', 'Please try again later!');
-
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Seasonal date has been removed!', '');
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop(
+                        'error',
+                        'Seasonal date could not be deleted at this time!',
+                        'Please try again later!');
+                }
                 this.isVisible = false;
 
                 this.onRemoved.emit(this.seasonalDate);

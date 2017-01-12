@@ -1,32 +1,36 @@
-﻿import {Injectable, Inject, Compiler} from "@angular/core";
+﻿import {Injectable, Inject, Compiler} from '@angular/core';
 import {Http, Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {LogService} from './logService';
 
 export class GlobalSettings {
-    apiUrl: string;
-    version: string;
-    userName: string;
-    identityName: string;
-    permissions: string[];
+    public apiUrl: string;
+    public version: string;
+    public userName: string;
+    public identityName: string;
+    public permissions: string[];
 }
 
 @Injectable()
 export class GlobalSettingsService {
-    globalSettings: GlobalSettings;
-    jsonOptions: RequestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+    public globalSettings: GlobalSettings;
+    public jsonOptions: RequestOptions = new RequestOptions({
+        headers: new Headers({ 'Content-Type': 'application/json' })
+    });
 
-    constructor(private http: Http,
+    constructor(
+        private http: Http,
         private httpErrorService: HttpErrorService,
         private logService: LogService,
         private compiler: Compiler) {
-        var configuredApiUrl = "#{OrderWellApi}"; //This variable can be replaced by Octopus during deployment :)
+
+        const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
-        this.globalSettings.apiUrl = (configuredApiUrl[0] !== "#") ? configuredApiUrl : "http://localhost/well/api/";
-        this.globalSettings.version = "";
-        this.globalSettings.userName = "";
-        this.globalSettings.identityName = "";
+        this.globalSettings.apiUrl = (configuredApiUrl[0] !== '#') ? configuredApiUrl : 'http://localhost/well/api/';
+        this.globalSettings.version = '';
+        this.globalSettings.userName = '';
+        this.globalSettings.identityName = '';
     }
 
     public initApp(): Promise<GlobalSettings> {
@@ -38,7 +42,7 @@ export class GlobalSettingsService {
         return this.http.get(this.globalSettings.apiUrl + 'global-settings')
             .map((response: Response) => {
                 this.mapSettings(<GlobalSettings>response.json());
-                this.logService.log("Settings: " + JSON.stringify(this.globalSettings));
+                this.logService.log('Settings: ' + JSON.stringify(this.globalSettings));
                 return this.globalSettings;
             })
             .catch(e => this.httpErrorService.handleError(e))

@@ -7,17 +7,17 @@ import { PendingCreditDetail } from './pendingCreditDetail';
 
 @Injectable()
 export class PendingCreditService {
-    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-    options: RequestOptions = new RequestOptions({ headers: this.headers });
+    public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getPendingCredits(): Observable<ExceptionDelivery[]> {
+    public getPendingCredits(): Observable<ExceptionDelivery[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'pending-credits')
             .map((res: Response) => <ExceptionDelivery[]>res.json());
     }
 
-    getPendingCreditDetail(jobId: number): Observable<PendingCreditDetail[]> {
+    public getPendingCreditDetail(jobId: number): Observable<PendingCreditDetail[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'pending-credit-detail/' + jobId)
             .map((res: Response) => <PendingCreditDetail[]>res.json());
     }

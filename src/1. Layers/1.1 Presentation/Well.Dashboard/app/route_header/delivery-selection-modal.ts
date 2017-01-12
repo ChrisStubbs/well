@@ -6,17 +6,15 @@ import {Route} from './route';
     templateUrl: './app/route_header/delivery-selection-modal.html'
 })
 export class DeliverySelectionModal {
-    isVisible = false;
-    route: Route;
-
-    constructor() { }
-
-    show(route) {
+    public isVisible = false;
+    public route: Route;
+    
+    public show(route) {
         this.route = route;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 }

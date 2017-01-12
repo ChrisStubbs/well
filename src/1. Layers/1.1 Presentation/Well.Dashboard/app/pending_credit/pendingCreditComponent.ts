@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExceptionDelivery } from '../exceptions/exceptionDelivery';
-import { ExceptionDeliveryService } from "../exceptions/exceptionDeliveryService";
+import { ExceptionDeliveryService } from '../exceptions/exceptionDeliveryService';
 import { PendingCreditService } from './pendingCreditService';
-import { AccountService } from "../account/accountService";
+import { AccountService } from '../account/accountService';
 import { ContactModal } from '../shared/contactModal';
 import { PendingCreditDetailModal } from './pendingCreditDetailModal';
 import {PendingCreditConfirmationModal} from './pendingCreditConfirmationModal';
@@ -11,9 +11,9 @@ import {PendingCreditConfirmationModal} from './pendingCreditConfirmationModal';
     selector: 'ow-pending-credit',
     templateUrl: './app/pending_credit/pending-credit.html'
 })
-export class PendingCreditComponent implements OnInit{
-    rowCount: number = 10;
-    pendingCredits: ExceptionDelivery[];
+export class PendingCreditComponent implements OnInit {
+    public rowCount: number = 10;
+    public pendingCredits: ExceptionDelivery[];
     @ViewChild(ContactModal)
     private contactModal: ContactModal;
 
@@ -26,27 +26,27 @@ export class PendingCreditComponent implements OnInit{
     constructor(private pendingCreditService: PendingCreditService,
                 private accountService: AccountService) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.pendingCreditService.getPendingCredits().subscribe(x => this.pendingCredits = x);
     }
 
-    openContactModal(accountId): void {
+    public openContactModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => {
                 this.contactModal.show(account);
             });
     }
 
-    setAction(pendingCredit: ExceptionDelivery, action: string) {
+    public setAction(pendingCredit: ExceptionDelivery, action: string) {
         pendingCredit.action = action;
         this.confirmModal.show(pendingCredit);
     }
 
-    viewDetail(pendingCredit: ExceptionDelivery) {
+    public viewDetail(pendingCredit: ExceptionDelivery) {
         this.detailModal.show(pendingCredit);
     }
 
-    onAccepted() {
+    public onAccepted() {
 
         this.pendingCreditService.getPendingCredits().subscribe(x => this.pendingCredits = x);
     }

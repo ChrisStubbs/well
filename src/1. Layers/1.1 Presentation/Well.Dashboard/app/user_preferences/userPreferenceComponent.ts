@@ -16,27 +16,30 @@ import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 }
 )
 export class UserPreferenceComponent {
-    userText: string;
-    users: Array<User> = [];
-    rowCount = 10;
-    @Input() header: string = 'User Preferences';
-    @Input() isThreshold: boolean;
+    public userText: string;
+    public users: Array<User> = [];
+    public rowCount = 10;
+    @Input() public header: string = 'User Preferences';
+    @Input() public isThreshold: boolean;
 
-    constructor(private globalSettingsService: GlobalSettingsService,
+    constructor(
+        private globalSettingsService: GlobalSettingsService,
         private userPreferenceService: UserPreferenceService,
         private router: Router,
         private securityService: SecurityService) {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.userBranchPreferences);
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.userBranchPreferences);
     }
 
-    @ViewChild(UserPreferenceModal) modal : UserPreferenceModal;
+    @ViewChild(UserPreferenceModal) public modal: UserPreferenceModal;
 
-    find(): void {
+    public find(): void {
         this.userPreferenceService.getUsers(this.userText)
             .subscribe(users => this.users = users);
     }
 
-    userSelected(user): void {
+    public userSelected(user): void {
         this.modal.show(user, this.isThreshold);
     }
 }

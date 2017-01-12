@@ -6,11 +6,11 @@ import { BaseChartComponent } from 'ng2-charts/ng2-charts';
     templateUrl: './app/home/widgetGraph.html'
 })
 export class WidgetGraphComponent {
-    private red: string = "#a94442";
-    private blue: string = "#428bca";
+    private red: string = '#a94442';
+    private blue: string = '#428bca';
 
-    @Output() barClicked = new EventEmitter<string>();
-    @ViewChild(BaseChartComponent) myChart: BaseChartComponent;
+    @Output() public barClicked = new EventEmitter<string>();
+    @ViewChild(BaseChartComponent) public myChart: BaseChartComponent;
 
     public barChartOptions: any = {
         scaleShowVerticalLines: false,
@@ -21,24 +21,26 @@ export class WidgetGraphComponent {
             }
         }
     };
+
     public barChartLabels: string[] = [];
     public barChartData: any[] = [{data: []}];
     public barChartColors: Array<any> = [{ backgroundColor: [] }];
     public updateDate: Date;
-    public chartStyle: string = "chart";
+    public chartStyle: string = 'chart';
 
-    init(labels: string[], data: any[], warningLevels: boolean[], updateDate: Date) :void {
+    public init(labels: string[], data: any[], warningLevels: boolean[], updateDate: Date): void {
+        const colors: string[] = warningLevels.map(showWarning => { return showWarning ? this.red : this.blue });
+
         this.barChartLabels = labels;
         this.barChartData[0].data = data;
-        var colors: string[] = warningLevels.map(showWarning => { return showWarning ? this.red : this.blue });
         this.barChartColors[0].backgroundColor = colors;
         this.updateDate = updateDate;
     };
 
     public chartClicked(e: any): void {
         if (e.active.length > 0) {
-            let index: number = e.active[0]._index;
-            let name: string = this.barChartLabels[index];
+            const index: number = e.active[0]._index;
+            const name: string = this.barChartLabels[index];
             this.barClicked.emit(name);
         }
     }

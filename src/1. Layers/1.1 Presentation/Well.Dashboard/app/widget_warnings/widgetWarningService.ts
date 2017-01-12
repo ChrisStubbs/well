@@ -6,19 +6,18 @@ import { WidgetWarning } from './widgetWarning';
 
 @Injectable()
 export class WidgetWarningService {
-    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-    options: RequestOptions = new RequestOptions({ headers: this.headers });
+    public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
-
-
-    getWidgetWarnings(): Observable<WidgetWarning[]> {
+    
+    public getWidgetWarnings(): Observable<WidgetWarning[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'widgetsWarnings')
             .map((res: Response) => <WidgetWarning[]>res.json());
     }
 
-    saveWidgetWarning(widgetWarning: WidgetWarning, isUpdate: boolean): Observable<any> {
-        let body = JSON.stringify(widgetWarning);
+    public saveWidgetWarning(widgetWarning: WidgetWarning, isUpdate: boolean): Observable<any> {
+        const body = JSON.stringify(widgetWarning);
 
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'widgetWarning/' + isUpdate,
             body,
@@ -26,7 +25,7 @@ export class WidgetWarningService {
             .map(res => res.json());
     }
 
-    removeWidgetWarning(widgetWarningId: number): Observable<any> {
+    public removeWidgetWarning(widgetWarningId: number): Observable<any> {
         return this.http.delete(this.globalSettingsService.globalSettings.apiUrl + 'widgetWarning/' + widgetWarningId,
             this.options).map(res => res.json());
     }

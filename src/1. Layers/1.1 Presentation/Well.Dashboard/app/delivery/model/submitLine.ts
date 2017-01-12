@@ -1,4 +1,4 @@
-﻿import {DeliveryLineAction} from './deliveryLineAction';
+﻿import { DeliveryLineAction } from './deliveryLineAction';
 
 export class SubmitLine {
     constructor(productCode: string, productDescription: string, actions: DeliveryLineAction[]) {
@@ -7,7 +7,7 @@ export class SubmitLine {
         this.actions = actions;
     }
 
-    productCode: string;
-    productDescription: string;
-    actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
+    public productCode: string;
+    public productDescription: string;
+    public actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
 }

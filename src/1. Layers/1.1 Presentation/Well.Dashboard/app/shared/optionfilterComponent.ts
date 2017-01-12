@@ -1,33 +1,33 @@
-﻿import {Component, Input, Output, EventEmitter} from "@angular/core";
-import {FilterOption}                           from "./filterOption";
-import {DropDownItem}                           from "./dropDownItem";
+﻿import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {FilterOption}                           from './filterOption';
+import {DropDownItem}                           from './dropDownItem';
 
 @Component({
-    selector: "ow-optionfilter",
-    templateUrl: "app/shared/optionFilter.html"
+    selector: 'ow-optionfilter',
+    templateUrl: 'app/shared/optionFilter.html'
 })
 export class OptionFilterComponent {
 
-    @Input() options: DropDownItem[];
-    filterText: string;
-    inputPlaceholder: string = "";
+    @Input() public options: DropDownItem[];
+    public filterText: string;
+    public inputPlaceholder: string = '';
     private selectedOption: DropDownItem;
 
-    @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
-    public constructor(){
+    @Output() public filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
+    public constructor() {
         this.filterText = '';
-        this.SelectedOption = new DropDownItem("Option", "");
+        this.SelectedOption = new DropDownItem('Option', '');
     }
 
-    setSelectedOption = (option: DropDownItem) : void => {
+    public setSelectedOption = (option: DropDownItem): void => {
         this.ClearFilter();
         this.SelectedOption = option;
         this.applyFilter();
     }
 
-    private ClearFilter() : void {
+    private ClearFilter(): void {
         this.filterText = '';
-        this.SelectedOption = new DropDownItem("Option", "");
+        this.SelectedOption = new DropDownItem('Option', '');
     }
 
     public clearFilterText(): void {
@@ -56,6 +56,8 @@ export class OptionFilterComponent {
 
     @Input()
     public set setKnownFilter(filter: string) {
-        if (filter) this.filterText = filter;
+        if (filter) {
+            this.filterText = filter;
+        }
     }
 }

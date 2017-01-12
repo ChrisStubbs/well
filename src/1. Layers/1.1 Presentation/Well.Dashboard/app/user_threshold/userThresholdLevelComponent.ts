@@ -11,34 +11,38 @@ import {HttpResponse} from '../shared/httpResponse';
     }
 )
 export class UserThresholdLevelComponent implements OnInit {
-    username: string;
-    thresholdLevel: string = 'Level';
-    httpResponse: HttpResponse = new HttpResponse();
+    public username: string;
+    public thresholdLevel: string = 'Level';
+    public httpResponse: HttpResponse = new HttpResponse();
 
     constructor(
         private route: ActivatedRoute,
         private creditThresholdService: CreditThresholdService,
         private toasterService: ToasterService) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.route.params.subscribe(params => {
             this.username = params['name'];
         });
     }
 
-    setSelectedLevel(level) {
+    public setSelectedLevel(level) {
         this.thresholdLevel = level;
     }
 
-    save() {
-        this.creditThresholdService.saveThresholdLevel(this.thresholdLevel, this.username).subscribe((res: Response) => {
+    public save() {
+        this.creditThresholdService
+        .saveThresholdLevel(this.thresholdLevel, this.username).subscribe((res: Response) => {
             this.httpResponse = JSON.parse(JSON.stringify(res));
 
             if (this.httpResponse.success) {
                 this.toasterService.pop('success', 'Threshold level has been saved!', '');
             }
             if (this.httpResponse.failure) {
-                this.toasterService.pop('error', 'Threshold level could not be saved at this time!', 'Please try again later!');
+                this.toasterService.pop(
+                    'error',
+                    'Threshold level could not be saved at this time!',
+                    'Please try again later!');
             }
             if (this.httpResponse.notAcceptable) {
                 this.toasterService.pop('warning', this.httpResponse.message, '');

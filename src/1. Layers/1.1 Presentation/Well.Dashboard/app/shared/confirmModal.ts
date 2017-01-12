@@ -5,20 +5,20 @@
     templateUrl: 'app/shared/confirmModal.html'
 })
 export class ConfirmModal {
-    @Input() isVisible: boolean = false;
-    @Input() heading: string;
-    @Input() messageHtml: string;
-    @Output() confirmed = new EventEmitter();
+    @Input() public isVisible: boolean = false;
+    @Input() public heading: string;
+    @Input() public messageHtml: string;
+    @Output() public confirmed = new EventEmitter();
 
-    show() {
+    public show() {
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    confirm() {
+    public confirm() {
         this.confirmed.emit({});
         this.isVisible = false;
     }

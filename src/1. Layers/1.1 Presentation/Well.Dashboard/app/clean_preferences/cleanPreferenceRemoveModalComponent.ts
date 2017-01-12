@@ -10,30 +10,36 @@ import {CleanPreference} from './cleanPreference';
     templateUrl: './app/clean_preferences/clean-preference-remove-modal.html'
 })
 export class CleanPreferenceRemoveModalComponent {
-    isVisible: boolean = false;
-    cleanPreference: CleanPreference;
-    httpResponse: HttpResponse = new HttpResponse();
-    @Output() onCleanPreferenceRemoved = new EventEmitter<CleanPreference>();
+    public isVisible: boolean = false;
+    public cleanPreference: CleanPreference;
+    public httpResponse: HttpResponse = new HttpResponse();
+    @Output() public onCleanPreferenceRemoved = new EventEmitter<CleanPreference>();
 
     constructor(private cleanPreferenceService: CleanPreferenceService, private toasterService: ToasterService) { }
 
-    show(cleanPreference: CleanPreference) {
+    public show(cleanPreference: CleanPreference) {
         this.cleanPreference = cleanPreference;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    yes() {
+    public yes() {
         this.cleanPreferenceService.removeCleanPreference(this.cleanPreference.id)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                if (this.httpResponse.success) this.toasterService.pop('success', 'Clean preference has been removed!', '');
-                if (this.httpResponse.failure) this.toasterService.pop('error', 'Clean preference could not be deleted at this time!', 'Please try again later!');
-
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Clean preference has been removed!', '');
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop(
+                        'error',
+                        'Clean preference could not be deleted at this time!',
+                        'Please try again later!');
+                }
                 this.isVisible = false;
 
                 this.onCleanPreferenceRemoved.emit(this.cleanPreference);

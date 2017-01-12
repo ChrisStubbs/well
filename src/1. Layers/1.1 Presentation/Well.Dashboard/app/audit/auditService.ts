@@ -14,7 +14,7 @@ export class AuditService {
         private httpErrorService: HttpErrorService) {
     }
 
-    getAudits(): Observable<Audit[]> {
+    public getAudits(): Observable<Audit[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'audits')
             .map((response: Response) => <Audit[]>response.json())

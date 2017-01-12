@@ -11,36 +11,36 @@ import * as lodash from 'lodash';
         templateUrl: './app/clean_preferences/clean-preferences-view.html'
     }
 )
-export class CleanPreferenceComponent implements OnInit{
-    cleanPreferences: CleanPreference[];
+export class CleanPreferenceComponent implements OnInit {
+    public cleanPreferences: CleanPreference[];
 
     constructor(private cleanPreferenceService: CleanPreferenceService) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.loadCleanPreferences();
     }
 
-    @ViewChild(CleanPreferenceAddModalComponent) addModal: CleanPreferenceAddModalComponent;
-    @ViewChild(CleanPreferenceRemoveModalComponent) removeModal: CleanPreferenceRemoveModalComponent;
-    @ViewChild(CleanPreferenceEditModalComponent) editModal: CleanPreferenceEditModalComponent;
+    @ViewChild(CleanPreferenceAddModalComponent) public addModal: CleanPreferenceAddModalComponent;
+    @ViewChild(CleanPreferenceRemoveModalComponent) public removeModal: CleanPreferenceRemoveModalComponent;
+    @ViewChild(CleanPreferenceEditModalComponent) public editModal: CleanPreferenceEditModalComponent;
 
-    loadCleanPreferences(): void {
+    public loadCleanPreferences(): void {
         this.cleanPreferenceService.getCleanPreference().subscribe(x => this.cleanPreferences = x);
     }
 
-    selectCleanPreference(clean: CleanPreference) {
+    public selectCleanPreference(clean: CleanPreference) {
         this.editModal.show(clean);
     }
 
-    add() {
+    public add() {
         this.addModal.show();
     }
 
-    remove(clean: CleanPreference): void {
+    public remove(clean: CleanPreference): void {
         this.removeModal.show(clean);
     }
 
-    onRemoved(cleanPreference: CleanPreference) {
+    public onRemoved(cleanPreference: CleanPreference) {
         lodash.remove(this.cleanPreferences, cleanPreference);
     }
 }

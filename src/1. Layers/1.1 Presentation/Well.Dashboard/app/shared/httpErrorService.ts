@@ -7,20 +7,21 @@ import {LogService} from './logService';
 @Injectable()
 export class HttpErrorService {
 
-    constructor(private toasterService: ToasterService,
+    constructor(
+        private toasterService: ToasterService,
         private logService: LogService) {
     }
 
-    handleError(error: Response) : Observable<any> {
+    public handleError(error: Response): Observable<any> {
         if (error.status && error.status === 404) {
             //Not an error, just no data. No popup required.
             return Observable.of(undefined);
         } else {
             try {
-                let message: string = error.json()
+                const message: string = error.json()
                     ? JSON.stringify(error.json())
                     : (error.status ? error.status.toString() : 'Server error');
-                this.logService.log("HTTP Error: " + message);
+                this.logService.log('HTTP Error: ' + message);
                 this.toasterService.pop('error', message, '');
             } catch (ex) {
                 return Observable.throw(error);

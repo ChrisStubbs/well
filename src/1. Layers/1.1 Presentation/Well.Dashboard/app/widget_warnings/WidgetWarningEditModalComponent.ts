@@ -11,33 +11,33 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/widget_warnings/widget-warning-edit-modal.html'
 })
 export class WidgetWarningEditModalComponent {
-    isVisible: boolean = false;
-    widgetWarning: WidgetWarning;
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onWidgetWarningUpdate = new EventEmitter<WidgetWarning>();
+    public isVisible: boolean = false;
+    public widgetWarning: WidgetWarning;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onWidgetWarningUpdate = new EventEmitter<WidgetWarning>();
 
     constructor(private widgetWarningService: WidgetWarningService, private toasterService: ToasterService) { }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
-    show(widgetWarning: WidgetWarning) {
+    public show(widgetWarning: WidgetWarning) {
         this.clear();
         this.widgetWarning = widgetWarning;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.widgetWarning = new WidgetWarning();
         this.errors = [];
     }
 
-    update() {
+    public  update() {
         this.widgetWarningService.saveWidgetWarning(this.widgetWarning, true)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -48,7 +48,10 @@ export class WidgetWarningEditModalComponent {
                     this.onWidgetWarningUpdate.emit(this.widgetWarning);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Widget warning could not be updated at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Widget warning could not be updated at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

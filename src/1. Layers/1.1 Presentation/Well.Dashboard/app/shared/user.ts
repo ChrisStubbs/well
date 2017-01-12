@@ -4,6 +4,6 @@
     name: string;
     friendlyName: string;
     jobDescription: string;
-    domain: string;
+    domain: string;  
 
 }

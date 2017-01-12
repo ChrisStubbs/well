@@ -703,7 +703,9 @@
     <Content Include="app\exceptions\exceptionDeliveryService.ts" />
     <Content Include="app\exceptions\exceptionsComponent.ts" />
     <Content Include="app\home\widgetGraphComponent.ts" />
-    <Content Include="app\main.ts" />
+    <Content Include="app\main.ts">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Content>
     <Content Include="app\delivery\model\damage.ts" />
     <Content Include="app\notifications\notification.ts" />
     <Content Include="app\notifications\notificationsComponent.ts" />

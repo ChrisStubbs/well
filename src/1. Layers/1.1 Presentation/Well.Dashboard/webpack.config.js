@@ -27,23 +27,5 @@ module.exports = {
     },
     resolve: {
             extensions: ['', '.ts', '.js']
-        },
-    watch: true,
-    tslint: {
-        /*configuration: {
-            rules: {
-                quotemark: [true, "single", "avoid-escape"]
-            }
-        },*/
-        //configFile: 'tsconfig.json',
-        //typeCheck: false,
-        //failOnHint: false,
-        fileOutput: {
-            dir: './tslint',
-            ext: 'xml',
-            clean: true,
-            header: '<?xml version="1.0" encoding="utf-8"?>\n<checkstyle version="5.7">',
-            footer: '</checkstyle>'
         }
-    }
 }

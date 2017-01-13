@@ -11,7 +11,7 @@ export class GlobalSettings {
     public identityName: string;
     public permissions: string[];
 }
-
+  
 @Injectable()
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;

@@ -21,13 +21,13 @@
                 {
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
+                  
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
                     x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
-                    x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
@@ -37,6 +37,7 @@
                     x.For<IFtpClient>().Use<FtpClient>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IFileModule>().Use<FileModule>();
+                    x.For<IAdamImportService>().Use<AdamImportService>();
                 } );
         }
     }

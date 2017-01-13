@@ -13,8 +13,26 @@
         {
         }
 
-        [XmlElement("Qty")]
+        [XmlIgnore]
         public decimal Qty { get; set; }
+
+        [XmlElement("Qty")]
+        public string QtyXml
+        {
+            get
+            {
+                return this.Qty.ToString();                    
+            }
+            set
+            {
+                var tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.Qty = tryInt;
+                }
+            }
+        }
 
         [XmlIgnore]
         public string JobDetailCode { get; set; }
@@ -59,8 +77,7 @@
                 {
                     var damageReason =  (JobDetailSource)Enum.Parse(typeof(JobDetailSource), Source.Code);
 
-                                  return damageReason;
-
+                    return damageReason;
                 }
 
                 return JobDetailSource.NotDefined;

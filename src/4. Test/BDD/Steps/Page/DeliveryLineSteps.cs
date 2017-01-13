@@ -144,8 +144,8 @@
             {
                 Assert.AreEqual(table.Rows[i]["Quantity"], pageRows[i].GetItemInRowById($"action-qty-input{i}").GetAttribute("value"));
 
-                ExceptionAction expectedAction =
-                    EnumExtensions.GetValueFromDescription<ExceptionAction>(table.Rows[i]["Action"]);
+                DeliveryAction expectedAction =
+                    EnumExtensions.GetValueFromDescription<DeliveryAction>(table.Rows[i]["Action"]);
                 int actionSelectValue =
                     int.Parse(pageRows[i].GetItemInRowById($"action-select{i}").GetAttribute("value"));
                 Assert.AreEqual((int) expectedAction, actionSelectValue);

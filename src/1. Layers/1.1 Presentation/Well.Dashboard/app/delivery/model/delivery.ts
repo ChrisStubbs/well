@@ -19,6 +19,7 @@ export class Delivery {
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit;
+            this.grnNumber = delivery.grnNumber;
 
             if (delivery.exceptionDeliveryLines) {
                 for (const line of delivery.exceptionDeliveryLines) {
@@ -50,6 +51,7 @@ export class Delivery {
     public canAction: boolean;
     public canSubmit: boolean;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+    grnNumber: string;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     public isCleanOnInit(): boolean {

@@ -23,6 +23,9 @@
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
 
         private readonly IRouteMapper mapper;
+
+        private readonly IAdamImportService adamImportService;
+
         private const string UpdatedBy = "EpodUpdate";
 
         public EpodUpdateService(
@@ -33,7 +36,8 @@
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
-            IRouteMapper mapper)
+            IRouteMapper mapper,
+            IAdamImportService adamImportService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -43,6 +47,7 @@
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.mapper = mapper;
+            this.adamImportService = adamImportService;
 
             this.routeHeaderRepository.CurrentUser = UpdatedBy;
             this.stopRepository.CurrentUser = UpdatedBy;
@@ -61,12 +66,7 @@
 
                 if (existingHeader == null)
                 {
-                    logger.LogDebug($"No data found for Epod route: {header.RouteNumber} on date: {header.RouteDate}");
-                    this.eventLogger.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"No data found for Epod route: {header.RouteNumber} on date: {header.RouteDate}",
-                        7450);
-
+                    this.adamImportService.ImportRouteHeader(header, route.RouteId);
                     continue;
                 }
 

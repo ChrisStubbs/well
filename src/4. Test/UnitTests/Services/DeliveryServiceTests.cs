@@ -207,14 +207,14 @@
                         new JobDetailAction()
                         {
                             JobDetailId = 5,
-                            Action = ExceptionAction.Reject,
+                            Action = EventAction.Reject,
                             Quantity = 2,
                             Status = ActionStatus.Draft
                         },
                         new JobDetailAction()
                         {
                             JobDetailId = 5,
-                            Action = ExceptionAction.CreditAndReorder,
+                            Action = EventAction.CreditAndReorder,
                             Quantity = 3,
                             Status = ActionStatus.Draft
                         }
@@ -250,13 +250,13 @@
 
                 jobDetailActionRepo.Verify(j => j.Save(
                     It.Is<JobDetailAction>(a => a.JobDetailId == 5 &&
-                                                a.Action == ExceptionAction.Reject &&
+                                                a.Action == EventAction.Reject &&
                                                 a.Quantity == 2 &&
                                                 a.Status == ActionStatus.Draft)), Times.Once);
                 jobDetailActionRepo.Verify(j => j.Save(
                     It.Is<JobDetailAction>(a => a.JobDetailId == 5 &&
                                                 a.Action ==
-                                                ExceptionAction.CreditAndReorder &&
+                                                EventAction.CreditAndReorder &&
                                                 a.Quantity == 3 &&
                                                 a.Status == ActionStatus.Draft)), Times.Once);
                
@@ -288,14 +288,14 @@
                                 new JobDetailAction()
                                 {
                                     JobDetailId = 1,
-                                    Action = ExceptionAction.Credit,
+                                    Action = EventAction.Credit,
                                     Quantity = 1,
                                     Status = ActionStatus.Draft
                                 },
                                 new JobDetailAction()
                                 {
                                     JobDetailId = 1,
-                                    Action = ExceptionAction.CreditAndReorder,
+                                    Action = EventAction.CreditAndReorder,
                                     Quantity = 2,
                                     Status = ActionStatus.Submitted
                                 }
@@ -310,7 +310,7 @@
                                 new JobDetailAction()
                                 {
                                     JobDetailId = 2,
-                                    Action = ExceptionAction.ReplanInRoadnet,
+                                    Action = EventAction.ReplanInRoadnet,
                                     Quantity = 3,
                                     Status = ActionStatus.Draft
                                 }
@@ -345,13 +345,13 @@
                 jobDetailActionRepo.VerifySet(r => r.CurrentUser = "user");
 
                 jobDetailActionRepo.Verify(r => r.Update(It.Is<JobDetailAction>(a => a.JobDetailId == 1 &&
-                                                                                     a.Action == ExceptionAction.Credit &&
+                                                                                     a.Action == EventAction.Credit &&
                                                                                      a.Quantity == 1 &&
                                                                                      a.Status == ActionStatus.Submitted)),Times.Once);
 
                 jobDetailActionRepo.Verify(r => r.Update(It.Is<JobDetailAction>(a => a.JobDetailId == 2 &&
                                                                                      a.Action ==
-                                                                                     ExceptionAction.ReplanInRoadnet &&
+                                                                                     EventAction.ReplanInRoadnet &&
                                                                                      a.Quantity == 3 &&
                                                                                      a.Status == ActionStatus.Submitted)),Times.Once);
 
@@ -370,11 +370,11 @@
                             {
                                 new JobDetailAction()
                                 {
-                                    JobDetailId = 1, Action = ExceptionAction.Credit, Quantity = 1, Status = ActionStatus.Submitted
+                                    JobDetailId = 1, Action = EventAction.Credit, Quantity = 1, Status = ActionStatus.Submitted
                                 },
                                 new JobDetailAction()
                                 {
-                                    JobDetailId = 1, Action = ExceptionAction.CreditAndReorder, Quantity = 2,Status = ActionStatus.Submitted
+                                    JobDetailId = 1, Action = EventAction.CreditAndReorder, Quantity = 2,Status = ActionStatus.Submitted
                                 }
                             })
                     },
@@ -386,7 +386,7 @@
                                 new JobDetailAction()
                                 {
                                     JobDetailId = 2,
-                                    Action = ExceptionAction.ReplanInRoadnet,
+                                    Action = EventAction.ReplanInRoadnet,
                                     Quantity = 3,
                                     Status = ActionStatus.Submitted
                                 }

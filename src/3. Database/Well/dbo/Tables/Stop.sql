@@ -14,7 +14,7 @@
 	[PHUnatt] BIT NULL,
 	[StopStatusId] TINYINT NULL,
 	[StopPerformanceStatusId] TINYINT NULL,
-	[ByPassReasonId] TINYINT NULL,
+	[Reason] VARCHAR(255) NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[ActualPaymentCash] DECIMAL(7,2) NULL,
 	[ActualPaymentCheque] DECIMAL(7,2) NULL,

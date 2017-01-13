@@ -1,12 +1,9 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
-    using System.Diagnostics;
-
     using Moq;
 
     using NUnit.Framework;
 
-    using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -33,6 +30,8 @@
 
         private Mock<IRouteMapper> mapper;
 
+        private Mock<IAdamImportService> adamImportService;
+
         private EpodUpdateService service;
 
         [SetUp]
@@ -48,6 +47,7 @@
             this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
+            this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
 
             this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
             this.stopRepository.SetupSet(x => x.CurrentUser = user);
@@ -57,11 +57,11 @@
 
             this.service = new EpodUpdateService(this.logger.Object, this.eventLogger.Object, this.routeHeaderRepository.Object,
                 this.stopRepository.Object, this.jobRepository.Object, this.jobDetailRepository.Object, this.jobDetailDamageRepository.Object,
-                this.mapper.Object);
+                this.mapper.Object, this.adamImportService.Object);
         }
 
         [Test]
-        public void ShouldNotProcessWhenNoHeader()
+        public void ShouldAddNewHeaderWhenHeaderDoesNotExist()
         {
             var route = new RouteDelivery();
 
@@ -72,36 +72,14 @@
             this.routeHeaderRepository.Setup(
                 x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
-            this.logger.Setup(
-                x =>
-                    x.LogDebug(
-                        $"No data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}"));
-
-            this.eventLogger.Setup(
-                x =>
-                    x.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"No data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}",
-                        7450,
-                        EventLogEntryType.Error)).Returns(true);
+            this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
 
             this.service.Update(route);
 
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
-            this.logger.Verify(
-                x =>
-                    x.LogDebug(
-                        $"No data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}"), Times.Once);
-
-            this.eventLogger.Verify(
-                x =>
-                    x.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"No data found for Epod route: {routeHeader.RouteNumber} on date: {routeHeader.RouteDate}",
-                        7450,
-                        EventLogEntryType.Error), Times.Once);
+            this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Once);
         }
 
         [Test]

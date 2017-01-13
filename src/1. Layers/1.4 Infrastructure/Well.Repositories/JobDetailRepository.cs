@@ -92,7 +92,7 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailUpdate)
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
-                .AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Decimal)
+                .AddParameter("DeliveredQty", string.IsNullOrWhiteSpace(jobDetail.DeliveredQty) ? 0M : decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32)
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32)

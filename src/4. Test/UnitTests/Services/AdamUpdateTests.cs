@@ -280,7 +280,7 @@
                     RouteNumberAndDropNumber = "001 02",
                     DeliveryDate = DateTime.Now,
                     StartDepotCode = "22",
-                    ActionIndicator = "A",
+                    ActionIndicator = "U",
                     TransportOrderRef = "BIR-000001"
                 };
 
@@ -327,7 +327,7 @@
                     RouteNumberAndDropNumber = "001 02",
                     DeliveryDate = DateTime.Now,
                     StartDepotCode = "22",
-                    ActionIndicator = "A",
+                    ActionIndicator = "U",
                     TransportOrderRef = "BIR-000001"
                 };
 

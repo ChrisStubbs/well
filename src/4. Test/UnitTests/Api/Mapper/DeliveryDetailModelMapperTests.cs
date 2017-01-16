@@ -33,7 +33,7 @@
                 new JobDetailAction()
                 {
                     Quantity = 3,
-                    Action = ExceptionAction.CreditAndReorder,
+                    Action = EventAction.CreditAndReorder,
                     Status = ActionStatus.Submitted
                 }
             };
@@ -53,6 +53,7 @@
             Assert.That(model.DeliveryType, Is.EqualTo(deliveryDetail.DeliveryType));
             Assert.That(model.IsException, Is.EqualTo(deliveryDetail.IsException));
             Assert.That(model.CanAction, Is.EqualTo(deliveryDetail.CanAction));
+            Assert.That(model.GrnNumber, Is.EqualTo(deliveryDetail.GrnNumber));
 
             var modelLine1 = model.ExceptionDeliveryLines[0];
             var modelLine2 = model.ExceptionDeliveryLines[1];

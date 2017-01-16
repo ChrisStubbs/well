@@ -33,7 +33,7 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.mapper = new Mock<ISeasonalDateMapper>(MockBehavior.Strict);
             this.validator = new Mock<ISeasonalDateValidator>(MockBehavior.Strict);
-            this.seasonalDateRepository.SetupSet(x => x.CurrentUser = "");
+            this.seasonalDateRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
             this.Controller = new SeasonalDateController(
                 this.seasonalDateRepository.Object, 
                 this.logger.Object, 

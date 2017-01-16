@@ -119,8 +119,8 @@
                     JobDetailId = 1,
                     DraftActions = new List<ActionModel>()
                     {
-                        new ActionModel() { Action = ExceptionAction.CreditAndReorder, Quantity = 2, Status = ActionStatus.Draft},
-                         new ActionModel() { Action = ExceptionAction.Credit, Quantity = 1, Status = ActionStatus.Draft}
+                        new ActionModel() { Action = EventAction.CreditAndReorder, Quantity = 2, Status = ActionStatus.Draft},
+                         new ActionModel() { Action = EventAction.Credit, Quantity = 1, Status = ActionStatus.Draft}
                     }
                 };
 
@@ -131,14 +131,14 @@
                         new JobDetailAction()
                         {
                             JobDetailId = 1,
-                            Action = ExceptionAction.Reject,
+                            Action = EventAction.Reject,
                             Quantity = 1,
                             Status = ActionStatus.Submitted
                         },
                         new JobDetailAction()
                         {
                             JobDetailId = 1,
-                            Action = ExceptionAction.CreditAndReorder,
+                            Action = EventAction.CreditAndReorder,
                             Quantity = 1,
                             Status = ActionStatus.Draft
                         }
@@ -151,19 +151,19 @@
 
                 deliveryService.Verify(d => d.UpdateDraftActions(It.Is<JobDetail>(j =>
                     j.Actions[0].JobDetailId == model.JobDetailId &&
-                    j.Actions[0].Action == ExceptionAction.Reject &&
+                    j.Actions[0].Action == EventAction.Reject &&
                     j.Actions[0].Quantity == 1 &&
                     j.Actions[0].Status == ActionStatus.Submitted), ""));
 
                 deliveryService.Verify(d => d.UpdateDraftActions(It.Is<JobDetail>(j =>
                     j.Actions[1].JobDetailId == model.JobDetailId &&
-                    j.Actions[1].Action == ExceptionAction.CreditAndReorder &&
+                    j.Actions[1].Action == EventAction.CreditAndReorder &&
                     j.Actions[1].Quantity == 2 &&
                     j.Actions[1].Status == ActionStatus.Draft), ""));
 
                 deliveryService.Verify(d => d.UpdateDraftActions(It.Is<JobDetail>(j =>
                     j.Actions[2].JobDetailId == model.JobDetailId &&
-                    j.Actions[2].Action == ExceptionAction.Credit &&
+                    j.Actions[2].Action == EventAction.Credit &&
                     j.Actions[2].Quantity == 1 &&
                     j.Actions[2].Status == ActionStatus.Draft), ""));
 

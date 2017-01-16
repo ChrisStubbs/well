@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using Well.Domain;
 
     public class StopFactory : EntityFactory<StopFactory, Stop>
@@ -20,7 +19,7 @@
             this.Entity.ShellActionIndicator = "N";
             this.Entity.StopStatusCodeId = 2;
             this.Entity.StopPerformanceStatusCodeId = 6;
-            this.Entity.ByPassReasonId = 13;
+            this.Entity.StopByPassReason = "Some reason";
             this.Entity.Jobs = new List<Job>();
 
             this.Entity.Account = new Account

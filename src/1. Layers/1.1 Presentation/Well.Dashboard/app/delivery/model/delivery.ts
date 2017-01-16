@@ -19,6 +19,7 @@ export class Delivery {
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit;
+            this.grnNumber = delivery.grnNumber;
 
             if (delivery.exceptionDeliveryLines) {
                 for (let line of delivery.exceptionDeliveryLines) {
@@ -49,6 +50,7 @@ export class Delivery {
     isException: boolean;
     canAction: boolean;
     canSubmit: boolean;
+    grnNumber: string;
     exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 

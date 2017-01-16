@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
-    using Common.Extensions;
     using Enums;
 
     [Serializable()]
@@ -20,8 +19,26 @@
         [XmlElement("PlannedStopNumber")]
         public string PlannedStopNumber { get; set; }
 
-        [XmlElement("RouteHeaderId")]
+        [XmlIgnore]
         public int RouteHeaderId { get; set; }
+
+        [XmlElement("RouteHeaderId")]
+        public string RouteHeaderIdXml
+        {
+            get
+            {
+                return this.RouteHeaderId.ToString();
+            }
+            set
+            {
+                int tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.RouteHeaderId = tryInt;
+                }
+            }
+        }
 
         [XmlElement("TransportOrderRef")]
         public string TransportOrderReference { get; set; }
@@ -51,9 +68,6 @@
 
         [XmlElement("TextField3")]
         public string ShellActionIndicator { get; set; }
-
-        //[XmlElement("TextField4")]
-        //public string CustomerShopReference { get; set; }
 
         [XmlIgnore]
         public string AllowOvers
@@ -120,21 +134,8 @@
             }
         }
 
-        [XmlIgnore]
-        public int ByPassReasonId { get; set; }
-
         [XmlElement("Reason_Description")]
-        public string StopByPassReason
-        {
-            get
-            {
-                return this.ByPassReasonId.ToString();
-            }
-            set
-            {
-                 ByPassReasonId = string.IsNullOrEmpty(value) ? (int)ByPassReasons.Notdef : (int)StringExtensions.GetValueFromDescription<ByPassReasons>(value);
-            }
-        }
+        public string StopByPassReason { get; set; }
 
         [XmlElement("Account")]
         public Account Account { get; set; }

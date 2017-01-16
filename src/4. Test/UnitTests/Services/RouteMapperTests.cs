@@ -54,7 +54,7 @@
 
             from.StopStatusCodeId = 5;
             from.StopPerformanceStatusCodeId = 9;
-            from.ByPassReasonId = 7;
+            from.StopByPassReason = "Somethnig";
 
             var to = new Stop();
 
@@ -62,7 +62,7 @@
 
             Assert.That(to.StopStatusCodeId, Is.EqualTo(from.StopStatusCodeId));
             Assert.That(to.StopPerformanceStatusCodeId, Is.EqualTo(from.StopPerformanceStatusCodeId));
-            Assert.That(to.ByPassReasonId, Is.EqualTo(from.ByPassReasonId));
+            Assert.That(to.StopByPassReason, Is.EqualTo(from.StopByPassReason));
         }
 
         [Test]
@@ -81,7 +81,6 @@
             Assert.That(to.ShellActionIndicator, Is.EqualTo(from.ShellActionIndicator));
             Assert.That(to.StopStatusCodeId, Is.EqualTo((int)StopStatus.Notdef));
             Assert.That(to.StopPerformanceStatusCodeId, Is.EqualTo((int)PerformanceStatus.Notdef));
-            Assert.That(to.ByPassReasonId, Is.EqualTo((int)ByPassReasons.Notdef));
         }
 
         [Test]
@@ -89,7 +88,7 @@
         {
             var from = new Job();
 
-            from.ByPassReason = ByPassReasons.Cib;
+            from.JobByPassReason = "Some reason";
             from.PerformanceStatus = PerformanceStatus.Abypa;
             from.InvoiceNumber = "12009";
 
@@ -97,7 +96,7 @@
 
             this.mapper.Map(from, to);
 
-            Assert.That(to.ByPassReason, Is.EqualTo(from.ByPassReason));
+            Assert.That(to.JobByPassReason, Is.EqualTo(from.JobByPassReason));
             Assert.That(to.PerformanceStatus, Is.EqualTo(from.PerformanceStatus));
             Assert.That(to.InvoiceNumber, Is.EqualTo(from.InvoiceNumber));
         }
@@ -125,7 +124,6 @@
             Assert.That(to.InvoiceNumber, Is.EqualTo(from.InvoiceNumber));
             Assert.That(to.CustomerRef, Is.EqualTo(from.CustomerRef));
             Assert.That(to.PerformanceStatus, Is.EqualTo(PerformanceStatus.Notdef));
-            Assert.That(to.ByPassReason, Is.EqualTo(ByPassReasons.Notdef));
         }
 
         [Test]

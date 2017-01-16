@@ -47,7 +47,7 @@
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public static string JobDeleteById = "Job_DeleteById";
-
+        public static string SaveGrn = "SaveGrn";
         public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
@@ -57,19 +57,21 @@
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
         public static string PendingCreditsInsert = "PendingCredits_Insert";
-        
+
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailInsert = "JobDetail_Insert";
         public static string JobDetailUpdate = "JobDetail_Update";
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
-        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";  
+        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
         public static string JobDetailActionsGet = "JobDetailActionsGet";
         public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
         public static string JobDetailDamageInsert = "JobDetailDamage_Insert";
         public static string JobDetailDamageUpdate = "JobDetailDamage_Update";
         public static string JobDetailDamageDelete = "JobDetailDamage_Delete";
+        public static string JobDetailsWithAction = "JobDetails_WithAction";
+        public static string JobDetailDamagesWithAction = "JobDetailDamages_WithAction";
 
         //Account
         public static string AccountGetByStopId = "Account_GetByStopId";

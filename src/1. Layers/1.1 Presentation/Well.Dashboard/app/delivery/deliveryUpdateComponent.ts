@@ -28,6 +28,7 @@ export class DeliveryUpdateComponent {
     }
 
     ngOnInit(): void {
+        console.log('hit');
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(deliveryResponse => this.initDelivery(new Delivery(deliveryResponse)));
     }
@@ -47,4 +48,11 @@ export class DeliveryUpdateComponent {
         this.deliveryActions.canAction = this.delivery.canAction;
     }
 
+    invalidShortDamagesQty(): boolean {
+        return this.deliveryLine.totalQtyOfShortsAndDamages() > this.deliveryLine.invoicedQuantity;
+    }
+
+    invalidDeliveryQty(): boolean {
+        return this.deliveryLine.totalQtyOfShortsAndDamages() > this.deliveryLine.invoicedQuantity;
+    }
 }

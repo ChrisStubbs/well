@@ -49,6 +49,7 @@
     <Compile Include="Enums\ActionStatus.cs" />
     <Compile Include="Enums\CommodityType.cs" />
     <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\DeliveryAction.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
     <Compile Include="Enums\JobDetailSource.cs" />
@@ -66,14 +67,13 @@
     <Compile Include="Enums\AdamResponse.cs" />
     <Compile Include="Enums\Branch.cs" />
     <Compile Include="Enums\Branches.cs" />
-    <Compile Include="Enums\ByPassReasons.cs" />
     <Compile Include="Enums\ChangeInfo.cs" />
     <Compile Include="Enums\ChangeSource.cs" />
     <Compile Include="Enums\ChangeType.cs" />
     <Compile Include="Enums\CsfRejection.cs" />
     <Compile Include="Enums\JobDetailReason.cs" />
     <Compile Include="Enums\EpodFileType.cs" />
-    <Compile Include="Enums\ExceptionAction.cs" />
+    <Compile Include="Enums\EventAction.cs" />
     <Compile Include="Enums\JobDetailStatus.cs" />
     <Compile Include="Enums\OrderActionIndicator.cs" />
     <Compile Include="Enums\PerformanceStatus.cs" />
@@ -95,6 +95,8 @@
     <Compile Include="SeasonalDate.cs" />
     <Compile Include="ValueObjects\DeliveryToRemove.cs" />
     <Compile Include="ValueObjects\DirectoryListing.cs" />
+    <Compile Include="ValueObjects\GrnEvent.cs" />
+    <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
     <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />

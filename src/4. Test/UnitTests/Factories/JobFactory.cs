@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
     using Well.Domain;
     using Well.Domain.Enums;
 
@@ -21,9 +19,8 @@
             this.Entity.OrderDate = DateTime.Now;
             this.Entity.RoyaltyCode = "Royal1";
             this.Entity.RoyaltyCodeDesc = "RoyalDesc";
-            this.Entity.GrnRefusedDesc = null;
             this.Entity.PerformanceStatus = PerformanceStatus.Narri;
-            this.Entity.ByPassReason = ByPassReasons.Notdef;
+            this.Entity.JobByPassReason = "some reason";
             this.Entity.StopId = 1;
 
             this.Entity.EntityAttributes = new List<EntityAttribute>();

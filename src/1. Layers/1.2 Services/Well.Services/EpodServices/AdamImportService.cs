@@ -65,23 +65,28 @@
                     continue;
                 }
 
-                header.RoutesId = route.RouteId;
-                header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
-                                        ? (int)Branches.NotDefined
-                                        : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
-
-                this.routeHeaderRepository.Save(header);
-
-                header.Stops.ForEach(
-                    x =>
-                    {
-                        x.RouteHeaderId = header.Id;
-                        x.RouteHeaderCode = header.RouteNumber;
-                        x.DeliveryDate = header.RouteDate;
-                    });
-
-                this.ImportStops(header.Stops);
+                this.ImportRouteHeader(header, route.RouteId);
             }
+        }
+
+        public void ImportRouteHeader(RouteHeader header, int routeId)
+        {
+            header.RoutesId = routeId;
+            header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
+                                    ? (int)Branches.NotDefined
+                                    : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
+
+            this.routeHeaderRepository.Save(header);
+
+            header.Stops.ForEach(
+                x =>
+                {
+                    x.RouteHeaderId = header.Id;
+                    x.RouteHeaderCode = header.RouteNumber;
+                    x.DeliveryDate = header.RouteDate;
+                });
+
+            this.ImportStops(header.Stops);
         }
 
         private void ImportStops(IEnumerable<Stop> stops)

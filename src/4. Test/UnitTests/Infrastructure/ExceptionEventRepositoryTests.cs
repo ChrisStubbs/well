@@ -51,7 +51,10 @@
                 this.dapperProxy.Setup(x => x.AddParameter("Event", creditEventJson, DbType.String, 2500))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", ExceptionAction.Credit, DbType.Int32, null))
+                this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", EventAction.Credit, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "foo", DbType.String, 50))
@@ -74,7 +77,9 @@
 
                 this.dapperProxy.Verify(x => x.AddParameter("Event", creditEventJson, DbType.String, 2500), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("ExceptionActionId", ExceptionAction.Credit, DbType.Int32, null), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("ExceptionActionId", EventAction.Credit, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }

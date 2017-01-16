@@ -24,7 +24,7 @@
         {
             to.StopStatusCodeId = from.StopStatusCodeId;
             to.StopPerformanceStatusCodeId = from.StopPerformanceStatusCodeId;
-            to.ByPassReasonId = from.ByPassReasonId;
+            to.StopByPassReason = from.StopByPassReason;
         }
 
         public void Map(StopUpdate from, Stop to)
@@ -33,14 +33,15 @@
             to.ShellActionIndicator = from.ShellActionIndicator;
             to.StopStatusCodeId = (int)StopStatus.Notdef;
             to.StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef;
-            to.ByPassReasonId = (int)ByPassReasons.Notdef;
         }
 
         public void Map(Job from, Job to)
         {
-            to.ByPassReason = from.ByPassReason;
+            to.JobByPassReason = from.JobByPassReason;
             to.PerformanceStatus = from.PerformanceStatus;
             to.InvoiceNumber = from.InvoiceNumber;
+            to.JobDetails = from.JobDetails;
+            to.GrnNumberUpdate = from.GrnNumber;
         }
 
         public void Map(JobUpdate from, Job to)
@@ -52,7 +53,6 @@
             to.InvoiceNumber = from.InvoiceNumber;
             to.CustomerRef = from.CustomerRef;
             to.PerformanceStatus = PerformanceStatus.Notdef;
-            to.ByPassReason = ByPassReasons.Notdef;
         }
 
         public void Map(JobDetail from, JobDetail to)

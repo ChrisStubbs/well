@@ -34,6 +34,8 @@
 
         public bool CanAction { get; set; }
 
+        public string GrnNumber { get; set; }
+
         public string IdentityName { get; set; }
 
         public bool IsException => ExceptionStatuses.Statuses.Contains(Status);
@@ -42,5 +44,7 @@
         {
             this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
+
+        public int BranchId { get; set; }
     }
 }

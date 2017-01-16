@@ -8,6 +8,7 @@ SELECT j.[Id] AS [Id]
 	,a.Name AS AccountName
 	,a.Address1 + ',' + a.Address2  + ',' + a.PostCode AS AccountAddress
 	,j.InvoiceNumber
+	,j.GrnNumber
 	,a.ContactName
 	,a.ContactNumber AS PhoneNumber
 	,a.ContactNumber2 AS MobileNumber
@@ -16,6 +17,7 @@ SELECT j.[Id] AS [Id]
 	,j.OuterCount
 	,j.OuterDiscrepancyFound
 	,j.TotalOutersShort
+	,rh.StartDepotCode AS BranchId
 FROM 
 	[dbo].RouteHeader rh
 JOIN

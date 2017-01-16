@@ -102,13 +102,10 @@
                 .AddParameter("ReCallPrd", entity.ReCallPrd, DbType.Boolean)
                 .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
                 .AddParameter("COD", entity.Cod, DbType.String)
-                .AddParameter("GrnNumber", entity.GrnNumber, DbType.String)
-                .AddParameter("GrnRefusedReason", entity.GrnRefusedReason, DbType.String)
-                .AddParameter("GrnRefusedDesc", entity.GrnRefusedDesc, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)
-                .AddParameter("ByPassReasonId  ", (int)entity.ByPassReason, DbType.Int16)
+                .AddParameter("Reason", entity.JobByPassReason, DbType.String)
                 .AddParameter("StopId", entity.StopId, DbType.Int32)
                 .AddParameter("ActionLogNumber", entity.ActionLogNumber, DbType.String)
                 .AddParameter("OuterCount", entity.OuterCount, DbType.Int16)
@@ -148,12 +145,14 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
-                .AddParameter("ByPassReason", (int)entity.ByPassReason, DbType.Int16)
+                .AddParameter("Reason", entity.JobByPassReason, DbType.String)
                 .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int16)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
+                .AddParameter("CreditValue", entity.TotalCreditValueForThreshold(), DbType.Decimal)
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
                 .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
                 .AddParameter("PhAccount", entity.PhAccount, DbType.String)
+                .AddParameter("GrnNumber", entity.GrnNumberUpdate, DbType.String)
                 .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
@@ -178,6 +177,14 @@
             dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditsInsert)
                 .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .AddParameter("UserId", userId, DbType.Int32)
+                .Execute();
+        }
+
+        public void SaveGrn(int jobId, string grn)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveGrn)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("Grn", grn, DbType.String)
                 .Execute();
         }
 

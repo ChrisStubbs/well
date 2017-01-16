@@ -16,10 +16,29 @@
         {
             this.JobDetails = new List<JobDetail>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
-        [XmlElement("Sequence")]
+        [XmlIgnore]
         public int Sequence { get; set; }
+
+        [XmlElement("Sequence")]
+        public string SequenceXml
+        {
+            get
+            {
+                return this.Sequence.ToString();
+            }
+            set
+            {
+                int tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.Sequence = tryInt;
+                }
+            }
+        }
 
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
@@ -226,8 +245,6 @@
             }
         }
 
- 
-
         /// <summary>
         /// ReOrder allowed
         /// </summary>
@@ -247,15 +264,6 @@
             }
         }
 
-        //[XmlElement("GrnNumber")]
-        //public string GrnNumber { get; set; }
-
-        //[XmlElement("GrnRefusedReason")]
-        //public string GrnRefusedReason { get; set; }
-
-        [XmlElement("GrnRefusedDesc")]
-        public string GrnRefusedDesc { get; set; }
-
         [XmlIgnore]
         public PerformanceStatus PerformanceStatus { get; set; }
 
@@ -271,20 +279,8 @@
             }
         }
 
-        [XmlIgnore]
-        public ByPassReasons ByPassReason { get; set; }
-
         [XmlElement("Reason_Description")]
-        public string JobByPassReason
-        {
-            get { return StringExtensions.GetEnumDescription(ByPassReason); }
-            set
-            {
-                ByPassReason = string.IsNullOrEmpty(value)
-                    ? ByPassReasons.Notdef
-                    : StringExtensions.GetValueFromDescription<ByPassReasons>(value);
-            }
-        }
+        public string JobByPassReason { get; set; }
 
         public decimal TotalCreditValueForThreshold()
         {
@@ -302,6 +298,10 @@
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
 
+        [XmlArray("EntityAttributeValues")]
+        [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
+        public List<EntityAttributeValue> EntityAttributeValues { get; set; }
+
         //ACTLOGNO CUSTSRVCON DISCFOUND GRNNO GRNREFREAS ISOVERAGE OUTERCOUNT OVERORDNO TOTOVER TOTSHORT
         [XmlIgnore]
         public string ActionLogNumber
@@ -314,12 +314,14 @@
             }
         }
 
+        public string GrnNumberUpdate { get; set; }
+
         [XmlIgnore]
         public string GrnNumber
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "GRNNO");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "GRNNO");
 
                 return attribute?.Value;
             }

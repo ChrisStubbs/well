@@ -7,11 +7,7 @@
     {
         IEnumerable<Stop> GetStopByRouteHeaderId(int routeHeaderId);
 
-        void StopCreateOrUpdate(Stop stop);
-
         Stop GetById(int id);
-
-        void StopAccountCreateOrUpdate(Account account);
 
         Stop GetByTransportOrderReference(string transportOrderReference);
 

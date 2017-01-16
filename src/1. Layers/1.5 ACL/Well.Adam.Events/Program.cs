@@ -31,6 +31,9 @@
                     x.For<IExceptionEventService>().Use<ExceptionEventService>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IJobDetailRepository>().Use<JobDetailRepository>();
+                    x.For<IAccountRepository>().Use<AccountRepository>();
+                    x.For<IUserRepository>().Use<UserRepository>();
                 });
         }
     }

@@ -20,5 +20,7 @@
         AdamResponse ReplanTranscend(TranscendEvent transcend, AdamSettings adamSettings);
 
         AdamResponse ReplanQueue(QueueEvent queue, AdamSettings adamSettings);
+
+        AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings);
     }
 }

@@ -26,6 +26,7 @@
             this.eventRepository = eventRepository;
             this.jobRepository = jobRepository;
             this.userRepository = userRepository;
+
         }
 
         public void Credit(CreditEvent creditEvent, int eventId, AdamSettings adamSettings, string username)
@@ -143,6 +144,39 @@
         public AdamResponse ReplanQueue(QueueEvent queueEvent, AdamSettings adamSettings, string username)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username)
+        {
+            var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
+
+            this.MarkAsDone(eventId, adamResponse, username);
+        }
+
+
+        public AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username)
+        {
+            var response = this.adamRepository.Grn(grnEvent, adamSettings);
+
+            if (response == AdamResponse.AdamDown)
+            {
+                this.eventRepository.CurrentUser = username;
+                this.eventRepository.InsertGrnEvent(grnEvent);
+            }
+            else
+            {
+                using (var transactionScope = new TransactionScope())
+                {
+                    //this.jobRepository.ResolveJobAndJobDetails(grnEvent.Id);
+                    //this.userRepository.UnAssignJobToUser(grnEvent.Id);
+
+                    transactionScope.Complete();
+
+                    return AdamResponse.Success;
+                }
+            }
+
+            return response;
         }
 
         private void MarkAsDone(int eventId, AdamResponse response, string username)

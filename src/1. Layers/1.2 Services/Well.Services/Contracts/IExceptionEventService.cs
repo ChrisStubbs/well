@@ -32,5 +32,9 @@
         void ReplanQueue(QueueEvent queueEvent, int eventId, AdamSettings adamSettings, string username);
 
         AdamResponse ReplanQueue(QueueEvent queueEvent, AdamSettings adamSettings, string username);
+
+        void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username);
+
+        AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
     }
 }

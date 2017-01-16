@@ -87,9 +87,10 @@ export class DeliveryComponent implements OnInit {
     }
 
     saveGrn(): void {
-        this.deliveryService.saveGrn(this.delivery).subscribe(() => {
-            this.toasterService.pop('success', 'GRN saved...', '');
-        })
+        this.deliveryService.saveGrn(this.delivery)
+            .subscribe(() => {
+                this.toasterService.pop('success', 'GRN saved...', '');
+            });
     }
 
     disableGrnSave(): boolean {

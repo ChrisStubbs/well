@@ -95,6 +95,7 @@
     <Compile Include="SeasonalDate.cs" />
     <Compile Include="ValueObjects\DeliveryToRemove.cs" />
     <Compile Include="ValueObjects\DirectoryListing.cs" />
+    <Compile Include="ValueObjects\GrnEvent.cs" />
     <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
     <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />

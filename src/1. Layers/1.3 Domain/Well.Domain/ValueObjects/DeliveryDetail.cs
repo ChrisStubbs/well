@@ -44,5 +44,7 @@
         {
             this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
+
+        public int BranchId { get; set; }
     }
 }

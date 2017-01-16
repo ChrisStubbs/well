@@ -53,5 +53,21 @@
                 .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
                 .Execute();
         }
+
+        public void InsertGrnEvent(GrnEvent grnEvent)
+        {
+            var grnEventJson = JsonConvert.SerializeObject(grnEvent);
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+                .AddParameter("Event", grnEventJson, DbType.String, size: 2500)
+                .AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32)
+                //.AddParameter("DateCanBeProcessed", DateTime.Now.AddHours(24), DbType.DateTime)
+                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
     }
 }

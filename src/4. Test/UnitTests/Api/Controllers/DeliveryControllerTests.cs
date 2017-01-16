@@ -30,6 +30,7 @@
         private Mock<IJobRepository> jobRepository;
         private Mock<ILogger> logger;
         private Mock<IDeliveryService> deliveryService;
+        private Mock<IExceptionEventRepository> exceptionEventRepository;
 
         [SetUp]
         public void Setup()
@@ -40,6 +41,7 @@
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             logger = new Mock<ILogger>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
+            exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
 
             this.Controller = new DeliveryController(
                 this.deliveryReadRepository.Object,
@@ -47,7 +49,8 @@
                 this.deliveryToDetailMapper.Object,
                 logger.Object,
                 deliveryService.Object,
-                jobRepository.Object);
+                jobRepository.Object,
+                exceptionEventRepository.Object);
 
             this.SetupController();
         }

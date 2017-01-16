@@ -81,7 +81,7 @@
 
                         commandString = string.Format(
         "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, {13});",
-        today, now, job.Id, 1, "WELL", credit.BranchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
+        today, now, job.Id, EventAction.Credit, "WELL", credit.BranchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
                         command.CommandText = commandString;
                         command.ExecuteNonQuery();
                     }
@@ -156,6 +156,46 @@
         public AdamResponse ReplanQueue(QueueEvent queue, AdamSettings adamSettings)
         {
             throw new System.NotImplementedException();
+        }
+
+        public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings)
+        {
+            var job = this.jobRepository.GetById(grn.Id);
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new AdamCommand(connection))
+                    {
+                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                        var today = DateTime.Now.ToShortDateString();
+                        var now = DateTime.Now.ToShortTimeString();
+
+                        var commandString =
+                            string.Format(
+                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
+                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, job.InvoiceNumber, 1, job.GrnNumberUpdate);
+
+                        command.CommandText = commandString;
+                        command.ExecuteNonQuery();
+
+                    }
+                    return AdamResponse.Success;
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred!", adamException);
+
+                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    {
+                        return AdamResponse.AdamDown;
+                    }
+                }
+            }
+
+            return AdamResponse.Unknown;
         }
 
         private static string GetConnection(AdamSettings settings)

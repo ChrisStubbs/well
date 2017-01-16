@@ -1,15 +1,15 @@
 ﻿import {Component, OnInit, Input} from '@angular/core';
 
 @Component({
-    selector: "ow-cod",
+    selector: 'ow-cod',
     templateUrl: 'app/shared/cashOnDelivery.html'
 })
 export class CodComponent implements OnInit {
 
-    @Input() isCashOnDelivery: string;
-    isCod:boolean;
+    @Input() public isCashOnDelivery: string;
+    public isCod: boolean;
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.isCod = this.isCashOnDelivery === 'True';
     }
 

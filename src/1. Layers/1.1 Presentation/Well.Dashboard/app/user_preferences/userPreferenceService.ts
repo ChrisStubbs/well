@@ -14,7 +14,7 @@ export class UserPreferenceService {
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService) { }
 
-    getUsers(name: string): Observable<User[]> {
+    public getUsers(name: string): Observable<User[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users/' + name)
             .map((response: Response) => <User[]>response.json())

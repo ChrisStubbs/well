@@ -10,31 +10,29 @@ import {Notification} from './notification';
 @Injectable()
 export class NotificationsService {
 
-    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-    options: RequestOptions = new RequestOptions({ headers: this.headers });
+    public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
-    constructor(private http: Http,
+    constructor(
+        private http: Http,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService) {
-    }
+        private httpErrorService: HttpErrorService) { }
 
-    getNotifications(): Observable<Notification[]> {
+    public getNotifications(): Observable<Notification[]> {
 
-        var url = this.globalSettingsService.globalSettings.apiUrl + 'notification';
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'notification';
 
         return this.http.get(url)
             .map((response: Response) => <Notification[]>response.json())
-            .do(data => console.log("All: " + JSON.stringify(data)))
+            .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    archiveNotification(id: number): Observable<any> {
+    public archiveNotification(id: number): Observable<any> {
 
         return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'notification/archive/' + id,
             this.options)
             .map(res => res.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
-
-
 }

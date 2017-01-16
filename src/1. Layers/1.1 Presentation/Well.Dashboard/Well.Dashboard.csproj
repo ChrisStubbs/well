@@ -637,6 +637,7 @@
     <Content Include="app\widget_warnings\widgetWarningRemoveModalComponent.ts" />
     <Content Include="app\widget_warnings\widgetWarningService.ts" />
     <Content Include="app\widget_warnings\widgetWarningsViewComponent.ts" />
+    <Content Include="tslint.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -706,7 +707,9 @@
     <Content Include="app\exceptions\exceptionDeliveryService.ts" />
     <Content Include="app\exceptions\exceptionsComponent.ts" />
     <Content Include="app\home\widgetGraphComponent.ts" />
-    <Content Include="app\main.ts" />
+    <Content Include="app\main.ts">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Content>
     <Content Include="app\delivery\model\damage.ts" />
     <Content Include="app\notifications\notification.ts" />
     <Content Include="app\notifications\notificationsComponent.ts" />
@@ -732,7 +735,6 @@
     <Content Include="app\shared\outstandingPipe.ts" />
     <Content Include="app\shared\orderbyArrow.ts" />
     <Content Include="app\shared\orderByDatePipe.ts" />
-    <Content Include="app\shared\polyfills.ts" />
     <Content Include="app\shared\refreshService.ts" />
     <Content Include="app\shared\security\securityService.ts" />
     <Content Include="app\shared\spinnerComponent.ts" />
@@ -740,7 +742,6 @@
     <Content Include="app\shared\user.ts" />
     <Content Include="app\shared\userJob.ts" />
     <Content Include="app\shared\userService.ts" />
-    <Content Include="app\shared\vendor.ts" />
     <Content Include="app\shared\confirmModal.ts" />
     <Content Include="app\shared\optionFilterComponent.ts" />
     <Content Include="app\shared\filterOption.ts" />

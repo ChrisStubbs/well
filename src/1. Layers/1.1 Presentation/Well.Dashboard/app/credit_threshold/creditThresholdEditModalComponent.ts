@@ -11,33 +11,33 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/credit_threshold/credit-threshold-edit-modal.html'
 })
 export class CreditThresholdEditModalComponent {
-    isVisible: boolean = false;
-    creditThreshold: CreditThreshold;
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onCreditThresholdUpdate = new EventEmitter<CreditThreshold>();
+    public isVisible: boolean = false;
+    public creditThreshold: CreditThreshold;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onCreditThresholdUpdate = new EventEmitter<CreditThreshold>();
 
     constructor(private creditThresholdService: CreditThresholdService, private toasterService: ToasterService) { }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
     
-    show(creditThreshold: CreditThreshold) {
+    public show(creditThreshold: CreditThreshold) {
         this.clear();
         this.creditThreshold = creditThreshold;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.creditThreshold = new CreditThreshold();
         this.errors = [];
     }
 
-    update() {
+    public update() {
         this.creditThresholdService.saveCreditThreshold(this.creditThreshold, true)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -48,7 +48,10 @@ export class CreditThresholdEditModalComponent {
                     this.onCreditThresholdUpdate.emit(this.creditThreshold);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Credit threshold could not be updated at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Credit threshold could not be updated at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

@@ -7,8 +7,8 @@
         this.jobDetailSourceId = jobDetailSourceId;
     }
 
-    index: number;
-    quantity: number;
-    jobDetailReasonId: number;
-    jobDetailSourceId: number;
+    public index: number;
+    public quantity: number;
+    public jobDetailReasonId: number;
+    public jobDetailSourceId: number;
 }

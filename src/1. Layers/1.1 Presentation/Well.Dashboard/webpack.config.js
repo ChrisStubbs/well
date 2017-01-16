@@ -1,7 +1,6 @@
 ﻿﻿var path = require('path')
 var webpack = require('webpack')
 //var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: ["./app/main.ts"],
@@ -10,22 +9,23 @@ module.exports = {
         path: path.join(__dirname, 'Scripts/angular2/'),
         filename: "app.js",
         sourceMapFilename: 'app.js.map'
-    },
+    }, 
     debug: true,
     plugins: [
-        new CleanWebpackPlugin(['Scripts/angular2']),
         new webpack.optimize.OccurrenceOrderPlugin()//,
         //new HtmlWebpackPlugin({
         //    template: './src/index.html'
         //})
     ],
     module: {
+        preLoaders: [
+            { test: /\.ts$/, exclude: path.resolve(__dirname, 'app/shared/primeng'), loader: 'tslint-loader' }
+        ],
         loaders: [
             { test: /\.ts$/, exclude: /node_modules/, loader: "awesome-typescript-loader" }
         ]
     },
     resolve: {
             extensions: ['', '.ts', '.js']
-        },
-    watch: true
+        }
 }

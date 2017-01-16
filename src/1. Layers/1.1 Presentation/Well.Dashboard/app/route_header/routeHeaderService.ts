@@ -16,9 +16,9 @@ export class RouteHeaderService {
         private logService: LogService) {
     }
 
-    getRouteHeaders(searchField: string = '', searchTerm: string = ''): Observable<Route[]> {
+    public getRouteHeaders(searchField = '', searchTerm = ''): Observable<Route[]> {
 
-        var url = this.globalSettingsService.globalSettings.apiUrl +
+        const url = this.globalSettingsService.globalSettings.apiUrl +
             'routes?searchField=' +
             searchField +
             '&searchTerm=' +
@@ -26,7 +26,7 @@ export class RouteHeaderService {
 
         return this.http.get(url)
             .map((response: Response) => <Route[]>response.json())
-            .do(data => this.logService.log("All: " + JSON.stringify(data)))
+            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

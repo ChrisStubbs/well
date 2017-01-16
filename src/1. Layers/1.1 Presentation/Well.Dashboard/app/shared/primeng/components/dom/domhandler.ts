@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -197,7 +198,7 @@ export class DomHandler {
                 opacity = 0;
                 clearInterval(fading);
             }
-            
+
             element.style.opacity = opacity;
         }, interval);
     }

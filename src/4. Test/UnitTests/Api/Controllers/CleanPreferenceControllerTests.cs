@@ -36,7 +36,7 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.cleanPreferenceValidator = new Mock<ICleanPreferenceValidator>(MockBehavior.Strict);
 
-            this.cleanPreferenceRepository.SetupSet(x => x.CurrentUser = "");
+            this.cleanPreferenceRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
 
             this.Controller = new CleanPreferenceController(
                 this.cleanPreferenceRepository.Object, 

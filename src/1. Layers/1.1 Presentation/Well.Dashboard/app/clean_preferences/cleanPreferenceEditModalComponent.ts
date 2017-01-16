@@ -11,33 +11,33 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/clean_preferences/clean-preference-edit-modal.html'
 })
 export class CleanPreferenceEditModalComponent {
-    isVisible: boolean = false;
-    cleanPreference: CleanPreference;
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onCleanPreferenceUpdate = new EventEmitter<CleanPreference>();
+    public isVisible: boolean = false;
+    public cleanPreference: CleanPreference;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onCleanPreferenceUpdate = new EventEmitter<CleanPreference>();
 
     constructor(private cleanPreferenceService: CleanPreferenceService, private toasterService: ToasterService) { }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
     
-    show(cleanPreference: CleanPreference) {
+    public show(cleanPreference: CleanPreference) {
         this.clear();
         this.cleanPreference = cleanPreference;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.cleanPreference = new CleanPreference();
         this.errors = [];
     }
 
-    update() {
+    public update() {
         this.cleanPreferenceService.saveCleanPreference(this.cleanPreference, true)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -48,7 +48,10 @@ export class CleanPreferenceEditModalComponent {
                     this.onCleanPreferenceUpdate.emit(this.cleanPreference);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Clean preference could not be updated at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Clean preference could not be updated at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

@@ -1,4 +1,5 @@
-import {NgModule,Directive,ElementRef,HostListener,Input,Output,EventEmitter} from '@angular/core';
+/* tslint:disable */
+import { NgModule, Directive, ElementRef, HostListener, Input, Output, EventEmitter } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DomHandler} from '../dom/domhandler';
 

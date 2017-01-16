@@ -20,22 +20,22 @@ import * as lodash from 'lodash';
     providers: [RouteHeaderService]
 })
 export class RouteHeaderComponent implements OnInit {
-    isLoading: boolean = true;
-    refreshSubscription: any;
-    errorMessage: string;
-    routes: Route[];
-    rowCount: number = 10;
-    currentConfigSort: string;
-    currentConfigSortRoute: string;
-    lastRefresh = Date.now();
-    filterOption: Option.FilterOption = new FilterOption();
-    options: DropDownItem[] = [
-        new DropDownItem("Route", "route"),
-        new DropDownItem("Account", "account", true),
-        new DropDownItem("Invoice", "invoice", true),
-        new DropDownItem("Assignee", "assignee", true)
+    public isLoading: boolean = true;
+    public refreshSubscription: any;
+    public errorMessage: string;
+    public routes: Route[];
+    public rowCount: number = 10;
+    public currentConfigSort: string;
+    public currentConfigSortRoute: string;
+    public lastRefresh = Date.now();
+    public filterOption: Option.FilterOption = new FilterOption();
+    public options: DropDownItem[] = [
+        new DropDownItem('Route', 'route'),
+        new DropDownItem('Account', 'account', true),
+        new DropDownItem('Invoice', 'invoice', true),
+        new DropDownItem('Assignee', 'assignee', true)
     ];
-    isReadOnlyUser: boolean = false;
+    public isReadOnlyUser: boolean = false;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -45,10 +45,12 @@ export class RouteHeaderComponent implements OnInit {
         private securityService: SecurityService) {
     }
 
-    @ViewChild(DeliverySelectionModal) deliverySelectionModal : DeliverySelectionModal;
+    @ViewChild(DeliverySelectionModal) public deliverySelectionModal: DeliverySelectionModal;
 
-    ngOnInit() {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
+    public ngOnInit() {
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.getRoutes();
         this.currentConfigSort = '+dateTimeUpdated';
@@ -56,27 +58,27 @@ export class RouteHeaderComponent implements OnInit {
         this.sortDirection(false);
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.refreshSubscription.unsubscribe();
     }
 
-    sortDirection(sortDirection): void {
+    public sortDirection(sortDirection): void {
         this.currentConfigSort = sortDirection === true ? '+dateTimeUpdated' : '-dateTimeUpdated';
-        var sortString = this.currentConfigSort === '+dateTimeUpdated' ? 'asc' : 'desc';
+        const sortString = this.currentConfigSort === '+dateTimeUpdated' ? 'asc' : 'desc';
         lodash.sortBy(this.routes, ['dateTimeUpdated'], [sortString]);
     }
 
-    onSortDirectionChanged(isDesc: boolean) {
+    public onSortDirectionChanged(isDesc: boolean) {
         this.sortDirection(isDesc);
     }
 
-    onSortDirectionChangedRoute(isDesc: boolean) {
+    public onSortDirectionChangedRoute(isDesc: boolean) {
         this.currentConfigSortRoute = isDesc === true ? '+routeDate' : '-routeDate';
-        var sortString = this.currentConfigSortRoute === '+routeDate' ? 'asc' : 'desc';
+        const sortString = this.currentConfigSortRoute === '+routeDate' ? 'asc' : 'desc';
         lodash.sortBy(this.routes, ['routeDate'], [sortString]);
     }
 
-    getRoutes(): void {
+    public getRoutes(): void {
         this.routerHeaderService.getRouteHeaders()
             .subscribe(routes => {
                     this.routes = routes;
@@ -89,11 +91,11 @@ export class RouteHeaderComponent implements OnInit {
                 });
     }
 
-    routeSelected(route): void {
+    public routeSelected(route): void {
         this.deliverySelectionModal.show(route);
     }
 
-    onFilterClicked(filterOption: FilterOption) {
+    public onFilterClicked(filterOption: FilterOption) {
 
         if (filterOption.dropDownItem.requiresServerCall) {
             this.routerHeaderService.getRouteHeaders(filterOption.dropDownItem.value, filterOption.filterText)
@@ -103,6 +105,3 @@ export class RouteHeaderComponent implements OnInit {
         }
     }
 }
-
-
-

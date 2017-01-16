@@ -5,10 +5,10 @@ import * as moment from 'moment/moment';
     name: 'outstanding'
 })
 export class OutstandingPipe implements PipeTransform {
-    transform(value: any[], args: any[]): any[] {
+    public transform(value: any[], args: any[]): any[] {
 
-        let outstandingOnly: boolean = args[0]; /*args[0] ? args[0] : null;*/
-        let propertyName: string = args[1];
+        const outstandingOnly: boolean = args[0]; 
+        const propertyName: string = args[1];
 
         if (!outstandingOnly) {
             return value;
@@ -17,13 +17,12 @@ export class OutstandingPipe implements PipeTransform {
         return value.filter((delivery: any) => this.filterOutstanding(delivery, propertyName));
     }
 
-    filterOutstanding(list: any, propertyName: string) {
+    public filterOutstanding(list: any, propertyName: string) {
         if (list.hasOwnProperty(propertyName)) {
-            var today = moment();
-            var propertyValue = moment(list[propertyName]);
-            return propertyValue.isBefore(today, 'day');
+            const propertyValue = moment(list[propertyName]);
+            return propertyValue.isBefore(moment(), 'day');
         }
+
         return false;
     }
 }
-

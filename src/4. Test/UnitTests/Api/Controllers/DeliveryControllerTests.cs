@@ -93,7 +93,8 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries("")).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(""))
+                    .Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>

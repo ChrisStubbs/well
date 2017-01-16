@@ -5,12 +5,12 @@ import 'rxjs/Rx';   // Load all features
 
 import {CleanDelivery} from './cleanDelivery';
 import {CleanDeliveryService} from './cleanDeliveryService';
-import {AssignModal} from "../shared/assignModal";
-import {FilterOption} from "../shared/filterOption";
-import {DropDownItem} from "../shared/dropDownItem";
-import {ContactModal} from "../shared/contactModal";
-import {AccountService} from "../account/accountService";
-import {IAccount} from "../account/account";
+import {AssignModal} from '../shared/assignModal';
+import {FilterOption} from '../shared/filterOption';
+import {DropDownItem} from '../shared/dropDownItem';
+import {ContactModal} from '../shared/contactModal';
+import {AccountService} from '../account/accountService';
+import {IAccount} from '../account/account';
 import {RefreshService} from '../shared/refreshService';
 import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {SecurityService} from '../shared/security/securityService';
@@ -25,31 +25,31 @@ import * as lodash from 'lodash';
 
 })
 export class CleanDeliveryComponent implements OnInit {
-    isLoading: boolean = true;
-    lastRefresh = Date.now();
-    refreshSubscription: any;
-    errorMessage: string;
-    cleanDeliveries: CleanDelivery[];
-    currentConfigSort: string;
-    rowCount: number = 10;
-    filterOption: FilterOption = new FilterOption();
-    routeOption = new DropDownItem("Route", "routeNumber");
-    options: DropDownItem[] = [
+    public isLoading: boolean = true;
+    public lastRefresh = Date.now();
+    public refreshSubscription: any;
+    public errorMessage: string;
+    public cleanDeliveries: CleanDelivery[];
+    public currentConfigSort: string;
+    public rowCount: number = 10;
+    public filterOption: FilterOption = new FilterOption();
+    public routeOption = new DropDownItem('Route', 'routeNumber');
+    public options: DropDownItem[] = [
         this.routeOption,
-        new DropDownItem("Invoice No", "invoiceNumber"),
-        new DropDownItem("Account", "accountCode"),
-        new DropDownItem("Account Name", "accountName"),
+        new DropDownItem('Invoice No', 'invoiceNumber'),
+        new DropDownItem('Account', 'accountCode'),
+        new DropDownItem('Account Name', 'accountName'),
         new DropDownItem('Assignee', 'assigned'),
-        new DropDownItem("Date", "deliveryDate", false, "date")
+        new DropDownItem('Date', 'deliveryDate', false, 'date')
     ];
-    account: IAccount;
-    routeId: string;
-    selectedOption: DropDownItem;
-    selectedFilter: string;
-    isReadOnlyUser: boolean = false;
+    public account: IAccount;
+    public routeId: string;
+    public selectedOption: DropDownItem;
+    public selectedFilter: string;
+    public isReadOnlyUser: boolean = false;
 
-    @ViewChild(AssignModal) assignModal: AssignModal;
-    @ViewChild(ContactModal) contactModal : ContactModal;
+    @ViewChild(AssignModal) public assignModal: AssignModal;
+    @ViewChild(ContactModal) public contactModal: ContactModal;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -60,8 +60,10 @@ export class CleanDeliveryComponent implements OnInit {
         private refreshService: RefreshService,
         private securityService: SecurityService) { }
 
-    ngOnInit(): void {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
+    public ngOnInit(): void {
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeId = params['route'];
@@ -72,60 +74,59 @@ export class CleanDeliveryComponent implements OnInit {
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.refreshSubscription.unsubscribe();
     }
 
-    getDeliveries() {
+    public getDeliveries() {
         this.cleanDeliveryService.getCleanDeliveries()
             .subscribe(cleanDeliveries => {
-                    this.cleanDeliveries = cleanDeliveries;
-                    this.lastRefresh = Date.now();
+                this.cleanDeliveries = cleanDeliveries;
+                this.lastRefresh = Date.now();
 
-                    if (this.routeId) {
-                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
-                        this.selectedOption = this.routeOption;
-                        this.selectedFilter = this.routeId;
-                    }
-                    this.isLoading = false;
-                },
-                error => {
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                });
+                if (this.routeId) {
+                    this.filterOption = new FilterOption(this.routeOption, this.routeId);
+                    this.selectedOption = this.routeOption;
+                    this.selectedFilter = this.routeId;
+                }
+                this.isLoading = false;
+            },
+            error => {
+                this.lastRefresh = Date.now();
+                this.isLoading = false;
+            });
     }
 
-    sortDirection(sortDirection): void {    
+    public sortDirection(sortDirection): void {
         this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
-        var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
+        const sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
         this.getDeliveries();
-        lodash.sortBy(this.cleanDeliveries, ['dateTime'], [sortString]);   
+        lodash.sortBy(this.cleanDeliveries, ['dateTime'], [sortString]);
     }
 
-    
-    onSortDirectionChanged(isDesc: boolean) {
+    public onSortDirectionChanged(isDesc: boolean) {
         this.sortDirection(isDesc);
     }
 
-    onFilterClicked(filterOption: FilterOption) {
+    public onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
     }
 
-    deliverySelected(delivery): void {
+    public deliverySelected(delivery): void {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    openModal(accountId): void {
+    public openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => { this.account = account; this.contactModal.show(this.account);},
+            .subscribe(account => { this.account = account; this.contactModal.show(this.account); },
             error => this.errorMessage = <any>error);
     }
 
-    allocateUser(delivery: CleanDelivery): void {
+    public allocateUser(delivery: CleanDelivery): void {
         this.assignModal.show(delivery);
     }
 
-    onAssigned(assigned: boolean) {
+    public onAssigned(assigned: boolean) {
         this.getDeliveries();
     }
 }

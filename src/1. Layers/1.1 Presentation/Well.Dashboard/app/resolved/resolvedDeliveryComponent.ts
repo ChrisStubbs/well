@@ -5,13 +5,13 @@ import 'rxjs/Rx';   // Load all features
 
 import {ResolvedDelivery} from './resolvedDelivery';
 import {ResolvedDeliveryService} from './ResolvedDeliveryService';
-import {DropDownItem} from "../shared/dropDownItem";
-import Option = require("../shared/filterOption");
+import {DropDownItem} from '../shared/dropDownItem';
+import Option = require('../shared/filterOption');
 import FilterOption = Option.FilterOption;
-import {AssignModal} from "../shared/assignModal";
-import {ContactModal} from "../shared/contactModal";
-import {AccountService} from "../account/accountService";
-import {IAccount} from "../account/account";
+import {AssignModal} from '../shared/assignModal';
+import {ContactModal} from '../shared/contactModal';
+import {AccountService} from '../account/accountService';
+import {IAccount} from '../account/account';
 import {RefreshService} from '../shared/refreshService';
 import {OrderArrowComponent} from '../shared/orderbyArrow';
 import {CodComponent} from '../shared/codComponent';
@@ -26,27 +26,27 @@ import * as lodash from 'lodash';
 
 })
 export class ResolvedDeliveryComponent implements OnInit {
-    isLoading: boolean = true;
-    lastRefresh = Date.now();
-    refreshSubscription: any;
-    deliveries: ResolvedDelivery[];
-    currentConfigSort: string;
-    rowCount: number = 10;
-    filterOption: Option.FilterOption = new FilterOption();
-    options: DropDownItem[] = [
-        new DropDownItem("Route", "routeNumber"),
-        new DropDownItem("Invoice No", "invoiceNumber"),
-        new DropDownItem("Account", "accountCode"),
-        new DropDownItem("Account Name", "accountName"),
-        new DropDownItem("Status", "jobStatus"),
-        new DropDownItem("Action", "action"),
-        new DropDownItem("Assigned", "assigned"),
-        new DropDownItem("Date", "deliveryDate", false, "date")
+    public isLoading: boolean = true;
+    public lastRefresh = Date.now();
+    public refreshSubscription: any;
+    public deliveries: ResolvedDelivery[];
+    public currentConfigSort: string;
+    public rowCount: number = 10;
+    public filterOption: Option.FilterOption = new FilterOption();
+    public options: DropDownItem[] = [
+        new DropDownItem('Route', 'routeNumber'),
+        new DropDownItem('Invoice No', 'invoiceNumber'),
+        new DropDownItem('Account', 'accountCode'),
+        new DropDownItem('Account Name', 'accountName'),
+        new DropDownItem('Status', 'jobStatus'),
+        new DropDownItem('Action', 'action'),
+        new DropDownItem('Assigned', 'assigned'),
+        new DropDownItem('Date', 'deliveryDate', false, 'date')
     ];
-    account: IAccount;
+    public account: IAccount;
 
-    @ViewChild(ContactModal) contactModal : ContactModal;
-    @ViewChild(AssignModal) assignModal: AssignModal;
+    @ViewChild(ContactModal) public contactModal: ContactModal;
+    @ViewChild(AssignModal) public assignModal: AssignModal;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -56,17 +56,19 @@ export class ResolvedDeliveryComponent implements OnInit {
         private refreshService: RefreshService,
         private securityService: SecurityService) { }
 
-    ngOnInit() {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
+    public ngOnInit() {
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.getDeliveries();
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.refreshSubscription.unsubscribe();
     }
 
-    getDeliveries() {
+    public getDeliveries() {
         this.resolvedDeliveryService.getResolvedDeliveries()
             .subscribe(deliveries => {
                     this.deliveries = deliveries;
@@ -79,25 +81,25 @@ export class ResolvedDeliveryComponent implements OnInit {
                 });
     }
 
-    deliverySelected(delivery): void {
+    public deliverySelected(delivery): void {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    onFilterClicked(filterOption: FilterOption) {
+    public onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
     }
 
-    sortDirection(sortDirection): void {
+    public sortDirection(sortDirection): void { 
         this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
-        var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
+        const sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
         lodash.sortBy(this.deliveries, ['dateTime'], [sortString]);
     }
 
-    onSortDirectionChanged(isDesc: boolean) {      
+    public onSortDirectionChanged(isDesc: boolean) {      
         this.sortDirection(isDesc);
     }
 
-    openModal(accountId): void {
+    public openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => {
                 this.account = account;
@@ -105,12 +107,11 @@ export class ResolvedDeliveryComponent implements OnInit {
             });
     }
 
-    allocateUser(delivery: ResolvedDelivery): void {
+    public allocateUser(delivery: ResolvedDelivery): void {
         this.assignModal.show(delivery);
     }
 
-    onAssigned(assigned: boolean) {
+    public onAssigned(assigned: boolean) {
         this.getDeliveries();
     }
-
 }

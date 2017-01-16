@@ -11,31 +11,31 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/seasonal_dates/seasonal-dates-add-modal.html'
 })
 export class SeasonalDatesAddModalComponent {
-    isVisible: boolean = false;
-    seasonalDate: SeasonalDate = new SeasonalDate();
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onSave = new EventEmitter<SeasonalDate>();
+    public isVisible: boolean = false;
+    public seasonalDate: SeasonalDate = new SeasonalDate();
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onSave = new EventEmitter<SeasonalDate>();
 
     constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
-    show() {
+    public show() {
         this.isVisible = true;
         this.errors = [];
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.seasonalDate = new SeasonalDate();
     }
 
-    save() {
+    public save() {
         this.seasonalDate.branches = this.branch.selectedBranches;
 
         this.seasonalDateService.saveSeasonalDate(this.seasonalDate)
@@ -49,7 +49,10 @@ export class SeasonalDatesAddModalComponent {
                     this.onSave.emit(this.seasonalDate);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Seasonal date could not be saved at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Seasonal date could not be saved at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

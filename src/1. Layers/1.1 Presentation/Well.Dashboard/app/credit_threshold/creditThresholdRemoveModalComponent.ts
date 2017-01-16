@@ -10,29 +10,36 @@ import {CreditThreshold} from './creditThreshold';
     templateUrl: './app/credit_threshold/credit-threshold-remove-modal.html'
 })
 export class CreditThresholdRemoveModalComponent {
-    isVisible: boolean = false;
-    creditThreshold: CreditThreshold;
-    httpResponse: HttpResponse = new HttpResponse();
-    @Output() onCreditThresholdRemoved = new EventEmitter<CreditThreshold>();
+    public isVisible: boolean = false;
+    public creditThreshold: CreditThreshold;
+    public httpResponse: HttpResponse = new HttpResponse();
+    @Output() public onCreditThresholdRemoved = new EventEmitter<CreditThreshold>();
 
     constructor(private creditThresholdService: CreditThresholdService, private toasterService: ToasterService) { }
 
-    show(creditThreshold: CreditThreshold) {
+    public show(creditThreshold: CreditThreshold) {
         this.creditThreshold = creditThreshold;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    yes() {
+    public yes() {
         this.creditThresholdService.removeCreditThreshold(this.creditThreshold.id)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                if (this.httpResponse.success) this.toasterService.pop('success', 'Credit threshold has been removed!', '');
-                if (this.httpResponse.failure) this.toasterService.pop('error', 'Credit threshold could not be deleted at this time!', 'Please try again later!');
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Credit threshold has been removed!', '');
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop(
+                        'error',
+                        'Credit threshold could not be deleted at this time!',
+                        'Please try again later!');
+                }
 
                 this.isVisible = false;
 

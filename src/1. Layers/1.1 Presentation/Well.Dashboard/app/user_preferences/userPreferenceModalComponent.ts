@@ -7,27 +7,27 @@ import {User} from './user';
     templateUrl: './app/user_preferences/user-preference-modal.html'
 })
 export class UserPreferenceModal {
-    isVisible = false;
-    user: User;
-    isThreshold: boolean;
+    public isVisible = false;
+    public user: User;
+    public isThreshold: boolean;
 
     constructor(private router: Router) {}
 
-    show(user, isThreshold) {
+    public show(user, isThreshold) {
         this.user = user;
         this.isVisible = true;
         this.isThreshold = isThreshold;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    setBranches(user) {
+    public setBranches(user) {
         this.router.navigate(['/branch', user.name, user.domain]);
     }
 
-    setThresholdLevels(user) {
+    public setThresholdLevels(user) {
         this.router.navigate(['/user-threshold-level', user.name]);
     }
 }

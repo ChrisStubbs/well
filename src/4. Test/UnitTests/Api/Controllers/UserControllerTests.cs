@@ -87,7 +87,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             {
                 var job = new UserJob { JobId = 2, UserId = 5 };
 
-                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId));
 
                 var response = this.Controller.Assign(job);
@@ -116,7 +116,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 
                 var exception = new Exception();
 
-                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId)).Throws(exception);
 
                 this.logger.Setup(x => x.LogError("Error when trying to assign job for the user", exception));
@@ -138,7 +138,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             {
                 var jobId = 5;
 
-                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.UnAssignJobToUser(jobId));
 
                 var response = this.Controller.UnAssign(jobId);
@@ -156,7 +156,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 
                 var exception = new Exception();
 
-                this.userRepository.SetupSet(x => x.CurrentUser = "");
+                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.UnAssignJobToUser(jobId)).Throws(exception);
 
                 this.logger.Setup(x => x.LogError("Error when trying to unassign the user from the job", exception));

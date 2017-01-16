@@ -10,29 +10,38 @@ import {Notification} from './notification';
     templateUrl: './app/notifications/notification-archive-modal.html'
 })
 export class NotificationModalComponent {
-    isVisible: boolean = false;
-    notification: Notification;
-    httpResponse: HttpResponse = new HttpResponse();
-    @Output() onArchived = new EventEmitter<Notification>();
+    public isVisible: boolean = false;
+    public notification: Notification;
+    public httpResponse: HttpResponse = new HttpResponse();
+    @Output() public onArchived = new EventEmitter<Notification>();
 
     constructor(private notificationsService: NotificationsService, private toasterService: ToasterService) { }
 
-    show(notification: Notification) {
+    public show(notification: Notification) {
         this.notification = notification;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    yes() {
+    public yes() {
         this.notificationsService.archiveNotification(this.notification.id)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
-                if (this.httpResponse.success) this.toasterService.pop('success', 'Notification has been archived!', '');
-                if (this.httpResponse.failure) this.toasterService.pop('error', 'Notification could not be archived at this time!', 'Please try again later!');
-                if (this.httpResponse.notAcceptable) this.toasterService.pop('warning', 'Notification id is incorrect, contact support!', '');
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Notification has been archived!', '');
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop(
+                        'error',
+                        'Notification could not be archived at this time!',
+                        'Please try again later!');
+                }
+                if (this.httpResponse.notAcceptable) {
+                    this.toasterService.pop('warning', 'Notification id is incorrect, contact support!', '');
+                }
 
                 this.isVisible = false;
 

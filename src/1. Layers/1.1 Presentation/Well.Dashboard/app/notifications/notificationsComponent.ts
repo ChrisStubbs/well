@@ -13,7 +13,6 @@ import { PaginationService } from 'ng2-pagination';
 import { NotificationsService} from './notificationsService';
 import { NotificationModalComponent} from './notificationModalComponent'
 
-
 @Component({
     selector: 'ow-notifications',
     templateUrl: './app/notifications/notifications-list.html',
@@ -21,38 +20,41 @@ import { NotificationModalComponent} from './notificationModalComponent'
 })
 
 export class NotificationsComponent implements OnInit {
-    notifications: Notification[] = new Array<Notification>();
-    lastRefresh = Date.now();
-    notification: Notification;
-    httpResponse: HttpResponse = new HttpResponse();
-    rowCount: number = 3;
+    public notifications: Notification[] = new Array<Notification>();
+    public lastRefresh = Date.now();
+    public notification: Notification;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public rowCount: number = 3;
 
-    constructor(private notificationsService: NotificationsService,
+    constructor(
+        private notificationsService: NotificationsService,
         private toasterService: ToasterService,
         private globalSettingsService: GlobalSettingsService,
         private securityService: SecurityService) { }
-    ngOnInit() {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
+
+    public ngOnInit() {
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.actionDeliveries);
         this.getNotifications();
     }
         
-    @ViewChild(NotificationModalComponent) archiveModal: NotificationModalComponent;
+    @ViewChild(NotificationModalComponent) public archiveModal: NotificationModalComponent;
 
-    getNotifications(): void {
+    public getNotifications(): void {
         this.notificationsService.getNotifications()
             .subscribe(notifications => {
                 this.notifications = notifications;
-
-                    this.lastRefresh = Date.now();
-                },
-                error => this.lastRefresh = Date.now());
+                this.lastRefresh = Date.now();
+            },
+            error => this.lastRefresh = Date.now());
     }
 
-    archive(notification: Notification): void {
+    public archive(notification: Notification): void {
         this.archiveModal.show(notification);
     }
 
-    getStyle(notification): string {
+    public getStyle(notification): string {
         switch (notification.type) {
             case 1:
                 return 'bs-callout bs-callout-danger';
@@ -64,7 +66,7 @@ export class NotificationsComponent implements OnInit {
         }
     }
 
-    getHeading(notification): string {
+    public getHeading(notification): string {
         switch (notification.type) {
             case 1:
                 return 'Credit Failed';
@@ -72,20 +74,15 @@ export class NotificationsComponent implements OnInit {
                 return 'Warning';
             default:
                 return 'Task';
-
         }
     }
 
-    onArchived(notification: Notification) {
-        var preEventNotifications = this.notifications.length;
-        var isLastNotificationOnPage = preEventNotifications % this.rowCount === 1;
+    public onArchived(notification: Notification) {
+        const isLastNotificationOnPage = this.notifications.length % this.rowCount === 1;
         lodash.remove(this.notifications, notification);
 
-        if (isLastNotificationOnPage)
-        {
+        if (isLastNotificationOnPage) {
             location.reload();
         }       
     }
-
-
 }

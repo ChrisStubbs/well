@@ -46,6 +46,7 @@
         [XmlIgnore]
         public DamageSource Source { get; set; }
 
+        // TODO remove this as wont work
         [XmlIgnore]
         public JobDetailReason JobDetailReason
         {
@@ -68,6 +69,7 @@
             }
         }
 
+        // TODO remove this as wont work
         [XmlIgnore]
         public JobDetailSource JobDetailSource
         {
@@ -106,5 +108,25 @@
 
             return other.JobDetailReason == this.JobDetailReason && other.Qty == Qty;
         }
+    }
+
+    [Serializable]
+    public class DamageReason
+    {
+        [XmlElement("ReasonCode")]
+        public string ReasonCode { get; set; }
+
+        [XmlElement("Description")]
+        public string Description { get; set; }
+    }
+
+    [Serializable]
+    public class Source
+    {
+        [XmlElement("ReasonCode")]
+        public string ReasonCode { get; set; }
+
+        [XmlElement("Description")]
+        public string Description { get; set; }
     }
 }

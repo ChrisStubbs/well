@@ -64,7 +64,7 @@
                         SortOrder = 1,
                         Link = "/pending-credit",
                         LinkText = "pending credits",
-                        WarningLevel = 100,
+                        WarningLevel = 50,
                         ShowOnGraph = false
                     },
                     new WidgetModel()
@@ -75,7 +75,7 @@
                         SortOrder = 2,
                         Link = "/exceptions",
                         LinkText = "deliveries with exceptions",
-                        WarningLevel = warningLevels.ExceptionWarningLevel ?? 10,
+                        WarningLevel = warningLevels.ExceptionWarningLevel ?? 50,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -86,7 +86,7 @@
                         SortOrder = 3,
                         Link = "/exceptions",
                         LinkText = "deliveries assigned to you",
-                        WarningLevel = warningLevels.AssignedWarningLevel ?? 10,
+                        WarningLevel = warningLevels.AssignedWarningLevel ?? 50,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -97,7 +97,7 @@
                         SortOrder = 4,
                         Link = "/exceptions",
                         LinkText = "outstanding exceptions",
-                        WarningLevel = warningLevels.OutstandingWarningLevel ?? 10,
+                        WarningLevel = warningLevels.OutstandingWarningLevel ?? 50,
                         ShowOnGraph = true
                     },
                     new WidgetModel()
@@ -108,7 +108,7 @@
                         Link = "/notifications",
                         LinkText = "notifications",
                         SortOrder = 5,
-                        WarningLevel = warningLevels.NotificationsWarningLevel ?? 10,
+                        WarningLevel = warningLevels.NotificationsWarningLevel ?? 50,
                         ShowOnGraph = true
                     }
                 };

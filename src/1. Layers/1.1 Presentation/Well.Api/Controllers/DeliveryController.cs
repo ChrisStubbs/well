@@ -160,14 +160,7 @@
         [Route("deliveries/grn")]
         public HttpResponseMessage SaveGrn(GrnModel model)
         {
-            this.jobRepository.SaveGrn(model.Id, model.GrnNumber);
-            var delivery = this.deliveryReadRepository.GetDeliveryById(model.Id, UserIdentityName);
-
-            //TODO event
-            var grnEvent = new GrnEvent();
-            grnEvent.Id = model.Id;
-            grnEvent.BranchId = delivery.BranchId;
-            this.exceptionEventRepository.InsertGrnEvent(grnEvent);
+            this.deliveryService.SaveGrn(model.Id, model.GrnNumber, model.BranchId, UserIdentityName);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

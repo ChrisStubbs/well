@@ -40,6 +40,8 @@
 
         public string GrnNumber { get; set; }
 
+        public int BranchId { get; set; }
+
         public bool CanAction { get; set; }
 
         public bool CanSubmit { get {return CanAction && ExceptionDeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }
@@ -47,5 +49,7 @@
         public List<DeliveryLineModel> ExceptionDeliveryLines { get; set; }
 
         public List<DeliveryLineModel> CleanDeliveryLines { get; set; }
+
+        
     }
 }

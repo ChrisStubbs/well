@@ -9,6 +9,7 @@
     using Well.Common.Security;
     using Well.Domain;
     using Well.Domain.Enums;
+    using Well.Domain.ValueObjects;
     using Well.Services;
 
     [TestFixture]
@@ -22,6 +23,7 @@
         private Mock<IStopRepository> stopRepo;
         private Mock<IJobDetailActionRepository> jobDetailActionRepo;
         private Mock<IUserRepository> userRepo;
+        private Mock<IExceptionEventRepository> exceptionEventRepo;
 
         [SetUp]
         public void Setup()
@@ -33,6 +35,7 @@
             stopRepo = new Mock<IStopRepository>(MockBehavior.Strict);
             jobDetailActionRepo = new Mock<IJobDetailActionRepository>(MockBehavior.Strict);
             userRepo = new Mock<IUserRepository>(MockBehavior.Strict);
+            exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
@@ -40,7 +43,8 @@
                 auditRepo.Object,
                 stopRepo.Object,
                 jobDetailActionRepo.Object,
-                userRepo.Object);
+                userRepo.Object,
+                exceptionEventRepo.Object);
 
             jobDetailRepository.SetupSet(x => x.CurrentUser = "user");
             jobDetailDamageRepo.SetupSet(x => x.CurrentUser = "user");
@@ -48,6 +52,7 @@
             auditRepo.SetupSet(a => a.CurrentUser = "user");
             stopRepo.SetupSet(a => a.CurrentUser = "user");
             jobDetailActionRepo.SetupSet(a => a.CurrentUser = "user");
+            exceptionEventRepo.SetupSet(a => a.CurrentUser = "user");
         }
 
         public class UpdateDeliveryLineTests : DeliveryServiceTests
@@ -409,6 +414,32 @@
 
                 auditRepo.VerifySet(a => a.CurrentUser = "user");
             }
+        }
+
+        public class WhenSavingGrnTests : DeliveryServiceTests
+        {
+            private void CommonArrangeAct()
+            {
+                var jobId = 1;
+                var grn = "1234";
+                var branchId = 2;
+
+                jobRepo.Setup(jr => jr.SaveGrn(It.IsAny<int>(), It.IsAny<string>()));
+                exceptionEventRepo.Setup(er => er.InsertGrnEvent(It.IsAny<GrnEvent>()));
+
+                //ACT
+                service.SaveGrn(jobId, grn, branchId, "user");
+            }
+
+            [Test]
+            public void GrnIsSavedForJob()
+            {
+                CommonArrangeAct();
+                jobRepo.Verify(j => j.SaveGrn(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+                exceptionEventRepo.Verify(e => e.InsertGrnEvent(It.IsAny<GrnEvent>()), Times.Once);
+
+            }
+
         }
     }
 }

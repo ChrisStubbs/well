@@ -81,7 +81,7 @@
 
                         commandString = string.Format(
         "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, {13});",
-        today, now, job.Id, EventAction.Credit, "WELL", credit.BranchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
+        today, now, job.Id, (int)EventAction.Credit, "WELL", credit.BranchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
                         command.CommandText = commandString;
                         command.ExecuteNonQuery();
                     }

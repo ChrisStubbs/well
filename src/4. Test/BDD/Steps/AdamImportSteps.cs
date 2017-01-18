@@ -59,6 +59,7 @@
             this.adamUpdateService = this.container.GetInstance<IAdamUpdateService>();
             this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
+            
 
             this.routeHeaderRepository.CurrentUser = this.currentUser;
 

@@ -281,7 +281,9 @@
     <Build Include="dbo\StoredProcedures\RouteheaderGetByNumberDateBranch.sql" />
     <Build Include="dbo\Tables\JobDetailSource.sql" />
     <None Include="Post-Deployement\Populate-JobDetailSource.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetails_WithAction.sql" />
     <Build Include="dbo\StoredProcedures\SaveGrn.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetailDamages_WithAction.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

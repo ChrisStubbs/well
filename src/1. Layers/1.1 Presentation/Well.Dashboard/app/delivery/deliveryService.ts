@@ -79,8 +79,8 @@ export class DeliveryService {
     }
 
     public saveGrn(delivery: Delivery): Observable<any> {
-        let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-        let body = JSON.stringify(delivery);
+        const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+        const body = JSON.stringify(delivery);
         let url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/grn';
 
         return this.http.post(url, body, options).catch(e => this.httpErrorService.handleError(e));

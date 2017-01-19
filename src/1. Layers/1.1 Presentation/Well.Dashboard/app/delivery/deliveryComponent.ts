@@ -46,13 +46,13 @@ export class DeliveryComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.securityService.validateUser(
+        this.securityService.validateUser( 
             this.globalSettingsService.globalSettings.permissions,
             this.securityService.actionDeliveries);
         this.route.params.subscribe(params => { this.deliveryId = params['id'] });
 
         this.deliveryService.getDelivery(this.deliveryId)
-            .subscribe(delivery => this.delivery = new Delivery(delivery),
+            .subscribe(delivery => { this.delivery = new Delivery(delivery), console.log(delivery.branchId); },
             error => this.errorMessage = <any>error);
     }
 
@@ -89,9 +89,10 @@ export class DeliveryComponent implements OnInit {
     }
 
     public saveGrn(): void {
-        this.deliveryService.saveGrn(this.delivery).subscribe(() => {
-            this.toasterService.pop('success', 'GRN saved...', '');
-        })
+        this.deliveryService.saveGrn(this.delivery)
+            .subscribe(() => {
+                this.toasterService.pop('success', 'GRN saved...', '');
+            });
     }
 
     public disableGrnSave(): boolean {

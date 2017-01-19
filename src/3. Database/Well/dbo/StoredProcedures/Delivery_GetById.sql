@@ -17,6 +17,7 @@ SELECT j.[Id] AS [Id]
 	,j.OuterCount
 	,j.OuterDiscrepancyFound
 	,j.TotalOutersShort
+	,rh.StartDepotCode AS BranchId
 FROM 
 	[dbo].RouteHeader rh
 JOIN

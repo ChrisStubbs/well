@@ -26,6 +26,7 @@
         private readonly ILogger logger;
         private readonly IDeliveryService deliveryService;
         private readonly IJobRepository jobRepository;
+        private readonly IExceptionEventRepository exceptionEventRepository;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
@@ -33,7 +34,8 @@
             IDeliveryToDetailMapper deliveryToDetailMapper,
             ILogger logger,
             IDeliveryService deliveryService,
-            IJobRepository jobRepository)
+            IJobRepository jobRepository,
+            IExceptionEventRepository exceptionEventRepository)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
@@ -41,6 +43,9 @@
             this.logger = logger;
             this.deliveryService = deliveryService;
             this.jobRepository = jobRepository;
+            this.exceptionEventRepository = exceptionEventRepository;
+
+            this.exceptionEventRepository.CurrentUser = this.UserIdentityName;
         }
 
         [HttpGet]
@@ -155,7 +160,7 @@
         [Route("deliveries/grn")]
         public HttpResponseMessage SaveGrn(GrnModel model)
         {
-            this.jobRepository.SaveGrn(model.Id, model.GrnNumber);
+            this.deliveryService.SaveGrn(model.Id, model.GrnNumber, model.BranchId, UserIdentityName);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

@@ -34,6 +34,8 @@
 
         private EpodUpdateService service;
 
+        private Mock<IExceptionEventRepository> exceptionEventRepository;
+
         [SetUp]
         public void Setup()
         {
@@ -48,6 +50,7 @@
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
             this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
+            this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
 
             this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
             this.stopRepository.SetupSet(x => x.CurrentUser = user);
@@ -56,7 +59,7 @@
             this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
 
             this.service = new EpodUpdateService(this.logger.Object, this.eventLogger.Object, this.routeHeaderRepository.Object,
-                this.stopRepository.Object, this.jobRepository.Object, this.jobDetailRepository.Object, this.jobDetailDamageRepository.Object,
+                this.stopRepository.Object, this.jobRepository.Object, this.jobDetailRepository.Object, this.jobDetailDamageRepository.Object, this.exceptionEventRepository.Object,
                 this.mapper.Object, this.adamImportService.Object);
         }
 

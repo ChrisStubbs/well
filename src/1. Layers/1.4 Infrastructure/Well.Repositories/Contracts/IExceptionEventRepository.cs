@@ -14,5 +14,7 @@
         IEnumerable<ExceptionEvent> GetAllUnprocessed();
 
         void RemovedPendingCredit(string invoiceNumber);
+
+        void InsertGrnEvent(GrnEvent grnEvent);
     }
 }

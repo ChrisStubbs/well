@@ -11,6 +11,7 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using Repositories.Read;
+    using Services.EpodServices;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
@@ -57,6 +58,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobDetailActionRepository>().Use<JobDetailActionRepository>();
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
+            For<IEpodUpdateService>().Use<EpodUpdateService>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

@@ -166,6 +166,7 @@
                                                 x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                                                 x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                                                 x.For<IRouteMapper>().Use<RouteMapper>();
+                                                x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

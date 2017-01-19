@@ -51,11 +51,11 @@ export class DeliveryUpdateComponent {
         this.deliveryActions.canAction = this.delivery.canAction;
     }
 
-    invalidShortDamagesQty(): boolean {
+    public invalidShortDamagesQty(): boolean {
         return this.deliveryLine.totalQtyOfShortsAndDamages() > this.deliveryLine.invoicedQuantity;
     }
 
-    invalidDeliveryQty(): boolean {
+    public invalidDeliveryQty(): boolean {
         return this.deliveryLine.totalQtyOfShortsAndDamages() > this.deliveryLine.invoicedQuantity;
     }
 }

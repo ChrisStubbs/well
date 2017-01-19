@@ -78,10 +78,10 @@ export class DeliveryService {
         return this.http.post(url, '', options).catch(e => this.httpErrorService.handleError(e));
     }
 
-    saveGrn(delivery: Delivery): Observable<any> {
+    public saveGrn(delivery: Delivery): Observable<any> {
         let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
         let body = JSON.stringify(delivery);
-        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/grn';
+        let url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/grn';
 
         return this.http.post(url, body, options).catch(e => this.httpErrorService.handleError(e));
     }

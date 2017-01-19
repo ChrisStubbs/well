@@ -51,7 +51,7 @@ export class Delivery {
     public canAction: boolean;
     public canSubmit: boolean;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
-    grnNumber: string;
+    public grnNumber: string;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     public isCleanOnInit(): boolean {

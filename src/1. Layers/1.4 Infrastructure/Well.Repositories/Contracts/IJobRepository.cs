@@ -32,5 +32,7 @@
         void CreditLines(DataTable creditLinesTable);
 
         void JobPendingCredits(DataTable creditLinesTable, int userId);
+
+        void SaveGrn(int jobId, string grn);
     }
 }

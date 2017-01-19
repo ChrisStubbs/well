@@ -13,21 +13,22 @@ import {UserService}  from './userService';
     templateUrl: 'app/shared/assign-modal.html'
 })
 export class AssignModal {
-    isVisible: boolean = false;
-    users: IUser[];
-    userJob:UserJob;
-    delivery: BaseDelivery;
-    httpResponse: HttpResponse = new HttpResponse();
-    @Output() onAssigned = new EventEmitter();
-    assigned = false;
+    public isVisible: boolean = false;
+    public users: IUser[];
+    public userJob: UserJob;
+    public delivery: BaseDelivery;
+    public httpResponse: HttpResponse = new HttpResponse();
+    @Output() public onAssigned = new EventEmitter();
+    public assigned = false;
 
-    constructor(private userService: UserService,
-                private router: Router,
-                private toasterService: ToasterService) {
+    constructor(
+        private userService: UserService,
+        private router: Router,
+        private toasterService: ToasterService) {
         this.userJob = new UserJob();
     }
 
-    show(delivery: BaseDelivery) {
+    public show(delivery: BaseDelivery) {
         this.delivery = delivery;
 
         this.userService.getUsersForBranch(this.delivery.branchId)
@@ -37,22 +38,22 @@ export class AssignModal {
             });
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    userSelected(userid, delivery): void {
+    public userSelected(userid, delivery): void {
         this.userJob.jobId = delivery.id;
         this.userJob.userId = userid;
         
         this.userService.assign(this.userJob)
             .subscribe((res: Response) => {
-                    this.httpResponse = JSON.parse(JSON.stringify(res));
+                this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                    if (this.httpResponse.success) {
-                        this.toasterService.pop('success', 'Delivery has been assigned!', '');
-                        this.assigned = true;
-                    }
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Delivery has been assigned!', '');
+                    this.assigned = true;
+                }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop('error', 'Delivery unassigned', '');
                 }
@@ -61,7 +62,7 @@ export class AssignModal {
         });
     }
 
-    unassign(delivery): void {
+    public unassign(delivery): void {
 
         this.userService.unassign(delivery.id)
             .subscribe((res: Response) => {

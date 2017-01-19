@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
-
+    using Domain.ValueObjects;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -21,6 +21,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
+        private readonly IExceptionEventRepository exceptionEventRepository;
 
         private readonly IRouteMapper mapper;
 
@@ -36,6 +37,7 @@
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
+            IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
             IAdamImportService adamImportService)
         {
@@ -46,6 +48,7 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.exceptionEventRepository = exceptionEventRepository;
             this.mapper = mapper;
             this.adamImportService = adamImportService;
 
@@ -54,6 +57,7 @@
             this.jobRepository.CurrentUser = UpdatedBy;
             this.jobDetailRepository.CurrentUser = UpdatedBy;
             this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
+            this.exceptionEventRepository.CurrentUser = UpdatedBy;
         }
 
         public void Update(RouteDelivery route)
@@ -74,11 +78,11 @@
 
                 this.routeHeaderRepository.Update(existingHeader);
 
-                this.UpdateStops(header.Stops);
+                this.UpdateStops(header.Stops, header.StartDepot);
             }
         }
 
-        private void UpdateStops(IEnumerable<Stop> stops)
+        private void UpdateStops(IEnumerable<Stop> stops, int branchId)
         {
             foreach (var stop in stops)
             {
@@ -103,7 +107,7 @@
 
                         this.stopRepository.Update(existingStop);
 
-                        this.UpdateJobs(stop.Jobs, existingStop.Id);
+                        this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
 
                         transactionScope.Complete();
                     }
@@ -119,7 +123,7 @@
             }
         }
 
-        private void UpdateJobs(IEnumerable<Job> jobs, int stopId)
+        private void UpdateJobs(IEnumerable<Job> jobs, int stopId, int branchId)
         {
             foreach (var job in jobs)
             {
@@ -156,6 +160,16 @@
                     existingJob.PerformanceStatus = PerformanceStatus.Incom;
 
                 this.jobRepository.Update(existingJob);
+
+                //TODO event
+                if (job.GrnNumberUpdate != String.Empty)
+                {
+                    var grnEvent = new GrnEvent();
+                    grnEvent.Id = job.Id;
+                    grnEvent.BranchId = branchId;
+
+                    this.exceptionEventRepository.InsertGrnEvent(grnEvent);
+                }
 
                 this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
             }

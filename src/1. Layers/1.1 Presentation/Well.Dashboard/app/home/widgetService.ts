@@ -14,13 +14,13 @@ export class WidgetService {
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {
-    }
+    } 
 
-    getWidgets(): Observable<Widget[]> {
+    public getWidgets(): Observable<Widget[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'widgets')
             .map((response: Response) => <Widget[]>response.json())
-            .do(data => this.logService.log("All: " + JSON.stringify(data)))
+            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

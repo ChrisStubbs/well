@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -211,6 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
+    <Content Include="app\appComponent.js" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
@@ -228,15 +228,16 @@
     <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
-    <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
-    <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
-    <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
-    <TypeScriptCompile Include="app\shared\baseDelivery.ts" />
-    <TypeScriptCompile Include="app\delivery\model\jobDetailSource.ts" />
-    <TypeScriptCompile Include="app\delivery\model\submitLine.ts" />
-    <TypeScriptCompile Include="app\delivery\submitConfirmModal.ts" />
-    <TypeScriptCompile Include="app\delivery\deliveryActionsComponent.ts" />
-    <TypeScriptCompile Include="app\delivery\deliveryIssuesComponent.ts" />
+    <Content Include="tsconfig.json" />
+    <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
+    <Content Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
+    <Content Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
+    <Content Include="app\shared\baseDelivery.ts" />
+    <Content Include="app\delivery\model\jobDetailSource.ts" />
+    <Content Include="app\delivery\model\submitLine.ts" />
+    <Content Include="app\delivery\submitConfirmModal.ts" />
+    <Content Include="app\delivery\deliveryActionsComponent.ts" />
+    <Content Include="app\delivery\deliveryIssuesComponent.ts" />
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\home\widgetGraph.html" />
     <Content Include="app\notifications\notification-archive-modal.html" />
@@ -354,7 +355,6 @@
     <Content Include="app\shared\primeng\components\schedule\schedule.js" />
     <Content Include="app\shared\primeng\components\selectbutton\selectbutton.css" />
     <Content Include="app\shared\primeng\components\selectbutton\selectbutton.js" />
-    <Content Include="app\shared\primeng\components\slidemenu\slidemenu.js" />
     <Content Include="app\shared\primeng\components\slider\slider.css" />
     <Content Include="app\shared\primeng\components\slider\slider.js" />
     <Content Include="app\shared\primeng\components\spinner\spinner.css" />
@@ -444,10 +444,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="gulpfile.js" />
-    <Content Include="Scripts\angular2\appBundle.js" />
-    <Content Include="Scripts\angular2\polyfillsBundle.js" />
-    <Content Include="Scripts\angular2\vendorBundle.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -464,9 +460,9 @@
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="Scripts\Chart.min.js" />
-    <Content Include="tsconfig.json" />
     <Content Include="webpackProd.config.js" />
     <Content Include="webpack.config.js" />
+    <Content Include="app\shared\primeng\tsconfig-aot.json" />
     <Content Include="app\shared\primeng\components\accordion\accordion.js.map" />
     <Content Include="app\shared\primeng\components\autocomplete\autocomplete.js.map" />
     <Content Include="app\shared\primeng\components\blockui\blockui.js.map" />
@@ -519,7 +515,6 @@
     <Content Include="app\shared\primeng\components\rating\rating.js.map" />
     <Content Include="app\shared\primeng\components\schedule\schedule.js.map" />
     <Content Include="app\shared\primeng\components\selectbutton\selectbutton.js.map" />
-    <Content Include="app\shared\primeng\components\slidemenu\slidemenu.js.map" />
     <Content Include="app\shared\primeng\components\slider\slider.js.map" />
     <Content Include="app\shared\primeng\components\spinner\spinner.js.map" />
     <Content Include="app\shared\primeng\components\splitbutton\splitbutton.js.map" />
@@ -569,83 +564,84 @@
     <Content Include="typings.json" />
     <Content Include="Views\Home\AppLayout.cshtml" />
     <Content Include="Well.Dashboard.nuspec" />
-    <TypeScriptCompile Include="app\shared\primeng\components\accordion\accordion.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\autocomplete\autocomplete.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\blockui\blockui.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\breadcrumb\breadcrumb.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\button\button.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\calendar\calendar.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\carousel\carousel.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\chart\chart.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\checkbox\checkbox.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\chips\chips.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\codehighlighter\codehighlighter.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\common\api.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\common\shared.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\confirmdialog\confirmdialog.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\contextmenu\contextmenu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\datagrid\datagrid.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\datalist\datalist.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\datascroller\datascroller.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\dialog\dialog.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\dom\domhandler.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\dragdrop\dragdrop.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\dropdown\dropdown.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\editor\editor.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\fieldset\fieldset.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\fileupload\fileupload.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\galleria\galleria.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\gmap\gmap.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\growl\growl.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\inplace\inplace.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\inputmask\inputmask.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\inputswitch\inputswitch.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\inputtextarea\inputtextarea.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\inputtext\inputtext.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\lightbox\lightbox.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\listbox\listbox.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\megamenu\megamenu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\menubar\menubar.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\menu\menu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\messages\messages.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\multiselect\multiselect.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\orderlist\orderlist.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\overlaypanel\overlaypanel.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\paginator\paginator.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\panelmenu\panelmenu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\panel\panel.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\password\password.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\picklist\picklist.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\progressbar\progressbar.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\radiobutton\radiobutton.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\rating\rating.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\schedule\schedule.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\selectbutton\selectbutton.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\slidemenu\slidemenu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\slider\slider.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\spinner\spinner.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\splitbutton\splitbutton.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\steps\steps.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\tabmenu\tabmenu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\tabview\tabview.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\terminal\terminal.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\tieredmenu\tieredmenu.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\togglebutton\togglebutton.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\toolbar\toolbar.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\tooltip\tooltip.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\treetable\treetable.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\tree\tree.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\components\tristatecheckbox\tristatecheckbox.ts" />
-    <TypeScriptCompile Include="app\shared\primeng\primeng.ts" />
-    <TypeScriptCompile Include="app\widget_warnings\widgetWarning.ts" />
-    <TypeScriptCompile Include="app\widget_warnings\widgetWarningAddModalComponent.ts" />
-    <TypeScriptCompile Include="app\widget_warnings\WidgetWarningEditModalComponent.ts" />
-    <TypeScriptCompile Include="app\widget_warnings\widgetWarningRemoveModalComponent.ts" />
-    <TypeScriptCompile Include="app\widget_warnings\widgetWarningService.ts" />
-    <TypeScriptCompile Include="app\widget_warnings\widgetWarningsViewComponent.ts" />
+    <Content Include="app\shared\primeng\components\accordion\accordion.ts" />
+    <Content Include="app\shared\primeng\components\autocomplete\autocomplete.ts" />
+    <Content Include="app\shared\primeng\components\blockui\blockui.ts" />
+    <Content Include="app\shared\primeng\components\breadcrumb\breadcrumb.ts" />
+    <Content Include="app\shared\primeng\components\button\button.ts" />
+    <Content Include="app\shared\primeng\components\calendar\calendar.ts" />
+    <Content Include="app\shared\primeng\components\carousel\carousel.ts" />
+    <Content Include="app\shared\primeng\components\chart\chart.ts" />
+    <Content Include="app\shared\primeng\components\checkbox\checkbox.ts" />
+    <Content Include="app\shared\primeng\components\chips\chips.ts" />
+    <Content Include="app\shared\primeng\components\codehighlighter\codehighlighter.ts" />
+    <Content Include="app\shared\primeng\components\common\api.ts" />
+    <Content Include="app\shared\primeng\components\common\shared.ts" />
+    <Content Include="app\shared\primeng\components\confirmdialog\confirmdialog.ts" />
+    <Content Include="app\shared\primeng\components\contextmenu\contextmenu.ts" />
+    <Content Include="app\shared\primeng\components\datagrid\datagrid.ts" />
+    <Content Include="app\shared\primeng\components\datalist\datalist.ts" />
+    <Content Include="app\shared\primeng\components\datascroller\datascroller.ts" />
+    <Content Include="app\shared\primeng\components\dialog\dialog.ts" />
+    <Content Include="app\shared\primeng\components\dom\domhandler.ts" />
+    <Content Include="app\shared\primeng\components\dragdrop\dragdrop.ts" />
+    <Content Include="app\shared\primeng\components\dropdown\dropdown.ts" />
+    <Content Include="app\shared\primeng\components\editor\editor.ts" />
+    <Content Include="app\shared\primeng\components\fieldset\fieldset.ts" />
+    <Content Include="app\shared\primeng\components\fileupload\fileupload.ts" />
+    <Content Include="app\shared\primeng\components\galleria\galleria.ts" />
+    <Content Include="app\shared\primeng\components\gmap\gmap.ts" />
+    <Content Include="app\shared\primeng\components\growl\growl.ts" />
+    <Content Include="app\shared\primeng\components\inplace\inplace.ts" />
+    <Content Include="app\shared\primeng\components\inputmask\inputmask.ts" />
+    <Content Include="app\shared\primeng\components\inputswitch\inputswitch.ts" />
+    <Content Include="app\shared\primeng\components\inputtextarea\inputtextarea.ts" />
+    <Content Include="app\shared\primeng\components\inputtext\inputtext.ts" />
+    <Content Include="app\shared\primeng\components\lightbox\lightbox.ts" />
+    <Content Include="app\shared\primeng\components\listbox\listbox.ts" />
+    <Content Include="app\shared\primeng\components\megamenu\megamenu.ts" />
+    <Content Include="app\shared\primeng\components\menubar\menubar.ts" />
+    <Content Include="app\shared\primeng\components\menu\menu.ts" />
+    <Content Include="app\shared\primeng\components\messages\messages.ts" />
+    <Content Include="app\shared\primeng\components\multiselect\multiselect.ts" />
+    <Content Include="app\shared\primeng\components\orderlist\orderlist.ts" />
+    <Content Include="app\shared\primeng\components\overlaypanel\overlaypanel.ts" />
+    <Content Include="app\shared\primeng\components\paginator\paginator.ts" />
+    <Content Include="app\shared\primeng\components\panelmenu\panelmenu.ts" />
+    <Content Include="app\shared\primeng\components\panel\panel.ts" />
+    <Content Include="app\shared\primeng\components\password\password.ts" />
+    <Content Include="app\shared\primeng\components\picklist\picklist.ts" />
+    <Content Include="app\shared\primeng\components\progressbar\progressbar.ts" />
+    <Content Include="app\shared\primeng\components\radiobutton\radiobutton.ts" />
+    <Content Include="app\shared\primeng\components\rating\rating.ts" />
+    <Content Include="app\shared\primeng\components\schedule\schedule.ts" />
+    <Content Include="app\shared\primeng\components\selectbutton\selectbutton.ts" />
+    <Content Include="app\shared\primeng\components\slider\slider.ts" />
+    <Content Include="app\shared\primeng\components\spinner\spinner.ts" />
+    <Content Include="app\shared\primeng\components\splitbutton\splitbutton.ts" />
+    <Content Include="app\shared\primeng\components\steps\steps.ts" />
+    <Content Include="app\shared\primeng\components\tabmenu\tabmenu.ts" />
+    <Content Include="app\shared\primeng\components\tabview\tabview.ts" />
+    <Content Include="app\shared\primeng\components\terminal\terminal.ts" />
+    <Content Include="app\shared\primeng\components\tieredmenu\tieredmenu.ts" />
+    <Content Include="app\shared\primeng\components\togglebutton\togglebutton.ts" />
+    <Content Include="app\shared\primeng\components\toolbar\toolbar.ts" />
+    <Content Include="app\shared\primeng\components\tooltip\tooltip.ts" />
+    <Content Include="app\shared\primeng\components\treetable\treetable.ts" />
+    <Content Include="app\shared\primeng\components\tree\tree.ts" />
+    <Content Include="app\shared\primeng\components\tristatecheckbox\tristatecheckbox.ts" />
+    <Content Include="app\shared\primeng\primeng.ts" />
+    <Content Include="app\widget_warnings\widgetWarning.ts" />
+    <Content Include="app\widget_warnings\widgetWarningAddModalComponent.ts" />
+    <Content Include="app\widget_warnings\WidgetWarningEditModalComponent.ts" />
+    <Content Include="app\widget_warnings\widgetWarningRemoveModalComponent.ts" />
+    <Content Include="app\widget_warnings\widgetWarningService.ts" />
+    <Content Include="app\widget_warnings\widgetWarningsViewComponent.ts" />
+    <Content Include="tslint.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\angular2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff">
@@ -661,106 +657,106 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\account\account.ts" />
-    <TypeScriptCompile Include="app\account\accountComponent.ts" />
-    <TypeScriptCompile Include="app\account\accountService.ts" />
-    <TypeScriptCompile Include="app\appModule.ts" />
-    <TypeScriptCompile Include="app\appComponent.ts" />
-    <TypeScriptCompile Include="app\appRoutes.ts" />
-    <TypeScriptCompile Include="app\audit\auditComponent.ts" />
-    <TypeScriptCompile Include="app\audit\audit.ts" />
-    <TypeScriptCompile Include="app\audit\auditService.ts" />
-    <TypeScriptCompile Include="app\branch-role\branchRoleComponent.ts" />
-    <TypeScriptCompile Include="app\clean_preferences\cleanPreference.ts" />
-    <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceComponent.ts" />
-    <TypeScriptCompile Include="app\clean_preferences\cleanPreferenceService.ts" />
-    <TypeScriptCompile Include="app\credit_threshold\creditThresholdViewComponent.ts" />
-    <TypeScriptCompile Include="app\credit_threshold\creditThreshold.ts" />
-    <TypeScriptCompile Include="app\credit_threshold\creditThresholdService.ts" />
-    <TypeScriptCompile Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
-    <TypeScriptCompile Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
-    <TypeScriptCompile Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
-    <TypeScriptCompile Include="app\delivery\model\actionStatus.ts" />
-    <TypeScriptCompile Include="app\delivery\model\action.ts" />
-    <TypeScriptCompile Include="app\delivery\model\deliveryLineAction.ts" />
-    <TypeScriptCompile Include="app\notifications\notificationModalComponent.ts" />
-    <TypeScriptCompile Include="app\pending_credit\pendingCreditComponent.ts" />
-    <TypeScriptCompile Include="app\pending_credit\pendingCreditConfirmationModal.ts" />
-    <TypeScriptCompile Include="app\pending_credit\pendingCreditDetail.ts" />
-    <TypeScriptCompile Include="app\pending_credit\pendingCreditDetailModal.ts" />
-    <TypeScriptCompile Include="app\pending_credit\pendingCreditService.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDate.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesEditModalComponent.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesRemoveModalComponent.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDateService.ts" />
-    <TypeScriptCompile Include="app\seasonal_dates\seasonalDatesViewComponent.ts" />
-    <TypeScriptCompile Include="app\shared\branch\branch.ts" />
-    <TypeScriptCompile Include="app\branch\branchSelectionComponent.ts" />
-    <TypeScriptCompile Include="app\shared\branch\branchService.ts" />
-    <TypeScriptCompile Include="app\clean\cleanDelivery.ts" />
-    <TypeScriptCompile Include="app\clean\cleanDeliveryComponent.ts" />
-    <TypeScriptCompile Include="app\clean\cleanDeliveryService.ts" />
-    <TypeScriptCompile Include="app\delivery\model\jobDetailReason.ts" />
-    <TypeScriptCompile Include="app\delivery\model\delivery.ts" />
-    <TypeScriptCompile Include="app\delivery\deliveryComponent.ts" />
-    <TypeScriptCompile Include="app\delivery\model\deliveryLine.ts" />
-    <TypeScriptCompile Include="app\delivery\deliveryService.ts" />
-    <TypeScriptCompile Include="app\delivery\deliveryUpdateComponent.ts" />
-    <TypeScriptCompile Include="app\exceptions\exceptionDelivery.ts" />
-    <TypeScriptCompile Include="app\exceptions\exceptionDeliveryService.ts" />
-    <TypeScriptCompile Include="app\exceptions\exceptionsComponent.ts" />
-    <TypeScriptCompile Include="app\home\widgetGraphComponent.ts" />
-    <TypeScriptCompile Include="app\main.ts" />
-    <TypeScriptCompile Include="app\delivery\model\damage.ts" />
-    <TypeScriptCompile Include="app\notifications\notification.ts" />
-    <TypeScriptCompile Include="app\notifications\notificationsComponent.ts" />
-    <TypeScriptCompile Include="app\notifications\notificationsService.ts" />
-    <TypeScriptCompile Include="app\resolved\resolvedDeliveryComponent.ts" />
-    <TypeScriptCompile Include="app\resolved\resolvedDelivery.ts" />
-    <TypeScriptCompile Include="app\resolved\resolvedDeliveryService.ts" />
-    <TypeScriptCompile Include="app\route_header\delivery-selection-modal.ts" />
-    <TypeScriptCompile Include="app\route_header\route.ts" />
-    <TypeScriptCompile Include="app\route_header\routeHeader.ts" />
-    <TypeScriptCompile Include="app\route_header\routeHeaderComponent.ts" />
-    <TypeScriptCompile Include="app\route_header\routeHeaderService.ts" />
-    <TypeScriptCompile Include="app\shared\assignModal.ts" />
-    <TypeScriptCompile Include="app\shared\branch\branchCheckboxComponent.ts" />
-    <TypeScriptCompile Include="app\shared\codComponent.ts" />
-    <TypeScriptCompile Include="app\shared\contactModal.ts" />
-    <TypeScriptCompile Include="app\shared\creditItem.ts" />
-    <TypeScriptCompile Include="app\shared\logService.ts" />
-    <TypeScriptCompile Include="app\shared\httpResponse.ts" />
-    <TypeScriptCompile Include="app\shared\dropDownItem.ts" />
-    <TypeScriptCompile Include="app\shared\globalSettings.ts" />
-    <TypeScriptCompile Include="app\shared\httpErrorService.ts" />
-    <TypeScriptCompile Include="app\shared\outstandingPipe.ts" />
-    <TypeScriptCompile Include="app\shared\orderbyArrow.ts" />
-    <TypeScriptCompile Include="app\shared\orderByDatePipe.ts" />
-    <TypeScriptCompile Include="app\shared\polyfills.ts" />
-    <TypeScriptCompile Include="app\shared\refreshService.ts" />
-    <TypeScriptCompile Include="app\shared\security\securityService.ts" />
-    <TypeScriptCompile Include="app\shared\spinnerComponent.ts" />
-    <TypeScriptCompile Include="app\shared\threshold.ts" />
-    <TypeScriptCompile Include="app\shared\user.ts" />
-    <TypeScriptCompile Include="app\shared\userJob.ts" />
-    <TypeScriptCompile Include="app\shared\userService.ts" />
-    <TypeScriptCompile Include="app\shared\vendor.ts" />
-    <TypeScriptCompile Include="app\shared\confirmModal.ts" />
-    <TypeScriptCompile Include="app\shared\optionFilterComponent.ts" />
-    <TypeScriptCompile Include="app\shared\filterOption.ts" />
-    <TypeScriptCompile Include="app\shared\optionFilterPipe.ts" />
-    <TypeScriptCompile Include="app\stops\stops.ts" />
-    <TypeScriptCompile Include="app\home\widgetService.ts" />
-    <TypeScriptCompile Include="app\home\widget.ts" />
-    <TypeScriptCompile Include="app\home\widgetComponent.ts" />
-    <TypeScriptCompile Include="app\unauthorised\unauthorisedComponent.ts" />
-    <TypeScriptCompile Include="app\user_preferences\User.ts" />
-    <TypeScriptCompile Include="app\user_preferences\userPreferenceComponent.ts" />
-    <TypeScriptCompile Include="app\user_preferences\userPreferenceModalComponent.ts" />
-    <TypeScriptCompile Include="app\user_preferences\userPreferenceService.ts" />
-    <TypeScriptCompile Include="app\user_threshold\userThresholdLevelComponent.ts" />
-    <TypeScriptCompile Include="app\user_threshold\userThresholdComponent.ts" />
+    <Content Include="app\account\account.ts" />
+    <Content Include="app\account\accountComponent.ts" />
+    <Content Include="app\account\accountService.ts" />
+    <Content Include="app\appModule.ts" />
+    <Content Include="app\appComponent.ts" />
+    <Content Include="app\appRoutes.ts" />
+    <Content Include="app\audit\auditComponent.ts" />
+    <Content Include="app\audit\audit.ts" />
+    <Content Include="app\audit\auditService.ts" />
+    <Content Include="app\branch-role\branchRoleComponent.ts" />
+    <Content Include="app\clean_preferences\cleanPreference.ts" />
+    <Content Include="app\clean_preferences\cleanPreferenceComponent.ts" />
+    <Content Include="app\clean_preferences\cleanPreferenceService.ts" />
+    <Content Include="app\credit_threshold\creditThresholdViewComponent.ts" />
+    <Content Include="app\credit_threshold\creditThreshold.ts" />
+    <Content Include="app\credit_threshold\creditThresholdService.ts" />
+    <Content Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
+    <Content Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
+    <Content Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
+    <Content Include="app\delivery\model\actionStatus.ts" />
+    <Content Include="app\delivery\model\action.ts" />
+    <Content Include="app\delivery\model\deliveryLineAction.ts" />
+    <Content Include="app\notifications\notificationModalComponent.ts" />
+    <Content Include="app\pending_credit\pendingCreditComponent.ts" />
+    <Content Include="app\pending_credit\pendingCreditConfirmationModal.ts" />
+    <Content Include="app\pending_credit\pendingCreditDetail.ts" />
+    <Content Include="app\pending_credit\pendingCreditDetailModal.ts" />
+    <Content Include="app\pending_credit\pendingCreditService.ts" />
+    <Content Include="app\seasonal_dates\seasonalDate.ts" />
+    <Content Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
+    <Content Include="app\seasonal_dates\seasonalDatesEditModalComponent.ts" />
+    <Content Include="app\seasonal_dates\seasonalDatesRemoveModalComponent.ts" />
+    <Content Include="app\seasonal_dates\seasonalDateService.ts" />
+    <Content Include="app\seasonal_dates\seasonalDatesViewComponent.ts" />
+    <Content Include="app\shared\branch\branch.ts" />
+    <Content Include="app\branch\branchSelectionComponent.ts" />
+    <Content Include="app\shared\branch\branchService.ts" />
+    <Content Include="app\clean\cleanDelivery.ts" />
+    <Content Include="app\clean\cleanDeliveryComponent.ts" />
+    <Content Include="app\clean\cleanDeliveryService.ts" />
+    <Content Include="app\delivery\model\jobDetailReason.ts" />
+    <Content Include="app\delivery\model\delivery.ts" />
+    <Content Include="app\delivery\deliveryComponent.ts" />
+    <Content Include="app\delivery\model\deliveryLine.ts" />
+    <Content Include="app\delivery\deliveryService.ts" />
+    <Content Include="app\delivery\deliveryUpdateComponent.ts" />
+    <Content Include="app\exceptions\exceptionDelivery.ts" />
+    <Content Include="app\exceptions\exceptionDeliveryService.ts" />
+    <Content Include="app\exceptions\exceptionsComponent.ts" />
+    <Content Include="app\home\widgetGraphComponent.ts" />
+    <Content Include="app\main.ts">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Content>
+    <Content Include="app\delivery\model\damage.ts" />
+    <Content Include="app\notifications\notification.ts" />
+    <Content Include="app\notifications\notificationsComponent.ts" />
+    <Content Include="app\notifications\notificationsService.ts" />
+    <Content Include="app\resolved\resolvedDeliveryComponent.ts" />
+    <Content Include="app\resolved\resolvedDelivery.ts" />
+    <Content Include="app\resolved\resolvedDeliveryService.ts" />
+    <Content Include="app\route_header\delivery-selection-modal.ts" />
+    <Content Include="app\route_header\route.ts" />
+    <Content Include="app\route_header\routeHeader.ts" />
+    <Content Include="app\route_header\routeHeaderComponent.ts" />
+    <Content Include="app\route_header\routeHeaderService.ts" />
+    <Content Include="app\shared\assignModal.ts" />
+    <Content Include="app\shared\branch\branchCheckboxComponent.ts" />
+    <Content Include="app\shared\codComponent.ts" />
+    <Content Include="app\shared\contactModal.ts" />
+    <Content Include="app\shared\creditItem.ts" />
+    <Content Include="app\shared\logService.ts" />
+    <Content Include="app\shared\httpResponse.ts" />
+    <Content Include="app\shared\dropDownItem.ts" />
+    <Content Include="app\shared\globalSettings.ts" />
+    <Content Include="app\shared\httpErrorService.ts" />
+    <Content Include="app\shared\outstandingPipe.ts" />
+    <Content Include="app\shared\orderbyArrow.ts" />
+    <Content Include="app\shared\orderByDatePipe.ts" />
+    <Content Include="app\shared\refreshService.ts" />
+    <Content Include="app\shared\security\securityService.ts" />
+    <Content Include="app\shared\spinnerComponent.ts" />
+    <Content Include="app\shared\threshold.ts" />
+    <Content Include="app\shared\user.ts" />
+    <Content Include="app\shared\userJob.ts" />
+    <Content Include="app\shared\userService.ts" />
+    <Content Include="app\shared\confirmModal.ts" />
+    <Content Include="app\shared\optionFilterComponent.ts" />
+    <Content Include="app\shared\filterOption.ts" />
+    <Content Include="app\shared\optionFilterPipe.ts" />
+    <Content Include="app\stops\stops.ts" />
+    <Content Include="app\home\widgetService.ts" />
+    <Content Include="app\home\widget.ts" />
+    <Content Include="app\home\widgetComponent.ts" />
+    <Content Include="app\unauthorised\unauthorisedComponent.ts" />
+    <Content Include="app\user_preferences\User.ts" />
+    <Content Include="app\user_preferences\userPreferenceComponent.ts" />
+    <Content Include="app\user_preferences\userPreferenceModalComponent.ts" />
+    <Content Include="app\user_preferences\userPreferenceService.ts" />
+    <Content Include="app\user_threshold\userThresholdLevelComponent.ts" />
+    <Content Include="app\user_threshold\userThresholdComponent.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -782,12 +778,13 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptJSXEmit>-1</TypeScriptJSXEmit>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>System</TypeScriptModuleKind>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
-    <TypeScriptOutFile>$(ProjectDir)\Scripts\angular2\bundle.js</TypeScriptOutFile>
+    <TypeScriptOutFile>
+    </TypeScriptOutFile>
     <TypeScriptOutDir />
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
@@ -795,7 +792,6 @@
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

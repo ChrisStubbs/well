@@ -6,7 +6,7 @@
 })
 export class SpinnerComponent implements OnDestroy {
     private currentTimeout: number;
-    private _isRunning: boolean = false;
+    private isItRunning: boolean = false;
 
     @Input()
     public delay: number = 0;
@@ -15,7 +15,7 @@ export class SpinnerComponent implements OnDestroy {
     public set isRunning(value: boolean) {
         if (!value) {
             this.cancelTimeout();
-            this._isRunning = false;
+            this.isItRunning = false;
             return;
         }
 
@@ -24,7 +24,7 @@ export class SpinnerComponent implements OnDestroy {
         }
 
         this.currentTimeout = window.setTimeout(() => {
-            this._isRunning = value;
+            this.isItRunning = value;
             this.cancelTimeout();
         }, this.delay);
     }
@@ -34,7 +34,7 @@ export class SpinnerComponent implements OnDestroy {
         this.currentTimeout = undefined;
     }
 
-    ngOnDestroy(): any {
+    public ngOnDestroy(): void {
         this.cancelTimeout();
     }
 }

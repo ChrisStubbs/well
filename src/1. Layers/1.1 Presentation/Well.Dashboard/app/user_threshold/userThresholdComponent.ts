@@ -7,6 +7,5 @@ import {UserPreferenceComponent} from '../user_preferences/userPreferenceCompone
     }
 )
 export class UserThresholdComponent {
-    header: string = 'User Threshold Levels';
+    public header: string = 'User Threshold Levels';
 }
-

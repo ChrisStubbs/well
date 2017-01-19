@@ -15,35 +15,35 @@ import * as lodash from 'lodash';
 })
 
 export class WidgetWarningsViewComponent implements OnInit {
-    widgetWarnings: WidgetWarning[];
+    public widgetWarnings: WidgetWarning[];
 
     constructor(private widgetWarningService: WidgetWarningService) {}
 
-    @ViewChild(WidgetWarningAddModalComponent) addModal: WidgetWarningAddModalComponent;
-    @ViewChild(WidgetWarningRemoveModalComponent) removeModal: WidgetWarningRemoveModalComponent;
-    @ViewChild(WidgetWarningEditModalComponent) editModal: WidgetWarningEditModalComponent;
+    @ViewChild(WidgetWarningAddModalComponent) public addModal: WidgetWarningAddModalComponent;
+    @ViewChild(WidgetWarningRemoveModalComponent) public removeModal: WidgetWarningRemoveModalComponent;
+    @ViewChild(WidgetWarningEditModalComponent) public editModal: WidgetWarningEditModalComponent;
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.loadWidgetWarnings();
     }
 
-    selectWarning(widgetWarning: WidgetWarning): void {
+    public selectWarning(widgetWarning: WidgetWarning): void {
         this.editModal.show(widgetWarning);
     }
 
-    loadWidgetWarnings(): void {
+    public loadWidgetWarnings(): void {
         this.widgetWarningService.getWidgetWarnings().subscribe(x => this.widgetWarnings = x);
     }
 
-    add() {
+    public add() {
         this.addModal.show();
     }
 
-    remove(widgetWarning: WidgetWarning): void {
+    public remove(widgetWarning: WidgetWarning): void {
         this.removeModal.show(widgetWarning);
     }
 
-    onWidgetWarningRemoved(widgetWarning: WidgetWarning) {
+    public onWidgetWarningRemoved(widgetWarning: WidgetWarning) {
         lodash.remove(this.widgetWarnings, widgetWarning);
     }
 }

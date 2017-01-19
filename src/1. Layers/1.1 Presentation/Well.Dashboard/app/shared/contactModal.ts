@@ -1,5 +1,5 @@
 ﻿import {Component} from '@angular/core';
-import {IAccount} from "../account/account";
+import {IAccount} from '../account/account';
 
 @Component({
     selector: 'contact-modal',
@@ -9,12 +9,12 @@ export class ContactModal  {
     private IsVisible: boolean = false;
     private account: IAccount;
     
-    show(account: IAccount) {
+    public show(account: IAccount) {
         this.account = account;
         this.IsVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.IsVisible = false;
     }
 }

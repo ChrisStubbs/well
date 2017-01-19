@@ -10,37 +10,36 @@ import * as lodash from 'lodash';
     selector: 'ow-seasonal-date-view',
     templateUrl: './app/seasonal_dates/seasonal-dates-view.html'
 })
-export class SeasonalDatesViewComponent implements OnInit{
-    seasonalDates: SeasonalDate[];
+export class SeasonalDatesViewComponent implements OnInit {
+    public seasonalDates: SeasonalDate[];
 
     constructor(private seasonalDateService: SeasonalDateService) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.loadSeasonalDates();
     }
 
-    @ViewChild(SeasonalDatesEditModalComponent) editModal: SeasonalDatesEditModalComponent;
-    @ViewChild(SeasonalDatesAddModalComponent) addModal: SeasonalDatesAddModalComponent;
-    @ViewChild(SeasonalDatesRemoveModalComponent) removeModal: SeasonalDatesRemoveModalComponent;
+    @ViewChild(SeasonalDatesEditModalComponent) public editModal: SeasonalDatesEditModalComponent;
+    @ViewChild(SeasonalDatesAddModalComponent) public addModal: SeasonalDatesAddModalComponent;
+    @ViewChild(SeasonalDatesRemoveModalComponent) public removeModal: SeasonalDatesRemoveModalComponent;
 
-    selectSeason(season: SeasonalDate): void {
+    public selectSeason(season: SeasonalDate): void {
         this.editModal.show(season);
     }
 
-    loadSeasonalDates(): void {
+    public loadSeasonalDates(): void {
         this.seasonalDateService.getSeasonalDates().subscribe(x => this.seasonalDates = x);
     }
 
-    add() {
+    public add() {
         this.addModal.show();
     }
 
-    remove(season: SeasonalDate): void {
+    public remove(season: SeasonalDate): void {
         this.removeModal.show(season);
     }
 
-    onRemoved(seasonalDate: SeasonalDate) {
+    public onRemoved(seasonalDate: SeasonalDate) {
         lodash.remove(this.seasonalDates, seasonalDate);
     }
-
 }

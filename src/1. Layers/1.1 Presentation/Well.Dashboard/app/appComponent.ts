@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {BranchService} from './shared/branch/branchService';
 import {SecurityService} from './shared/security/securityService'
@@ -9,18 +9,19 @@ import 'rxjs/Rx';   // Load all features
     templateUrl: 'home/applayout'
 })
 export class AppComponent {
-    version: string = "";
-    branches: string = "";
+    public version: string = '';
+    public branches: string = '';
 
-    constructor(private globalSettingsService: GlobalSettingsService,
+    constructor(
+        private globalSettingsService: GlobalSettingsService,
         private branchService: BranchService,
         private securityService: SecurityService) {
-        securityService.validateUser(this.globalSettingsService.globalSettings.permissions, "");
+        securityService.validateUser(this.globalSettingsService.globalSettings.permissions, '');
         this.version = this.globalSettingsService.globalSettings.version;
         this.fetchBranches();
         this.branchService.userBranchesChanged$.subscribe(b => this.fetchBranches());
     }
-    
+
     private fetchBranches() {
         this.globalSettingsService.getBranches().subscribe(branches => this.branches = branches);
     }

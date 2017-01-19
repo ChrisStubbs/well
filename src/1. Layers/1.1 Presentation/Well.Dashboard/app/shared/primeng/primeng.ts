@@ -50,7 +50,7 @@ export * from './components/radiobutton/radiobutton';
 export * from './components/rating/rating';
 export * from './components/schedule/schedule';
 export * from './components/selectbutton/selectbutton';
-export * from './components/slidemenu/slidemenu';
+//export * from './components/slidemenu/slidemenu';
 export * from './components/slider/slider';
 export * from './components/spinner/spinner';
 export * from './components/splitbutton/splitbutton';
@@ -65,4 +65,3 @@ export * from './components/tooltip/tooltip';
 export * from './components/tree/tree';
 export * from './components/treetable/treetable';
 export * from './components/tristatecheckbox/tristatecheckbox';
-

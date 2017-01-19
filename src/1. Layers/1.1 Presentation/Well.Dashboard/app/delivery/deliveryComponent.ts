@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {TabsModule} from 'ng2-tabs';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {Delivery} from "./model/delivery";
-import {DeliveryService} from "./deliveryService";
-import {DropDownItem} from "../shared/dropDownItem";
+import {Delivery} from './model/delivery';
+import {DeliveryService} from './deliveryService';
+import {DropDownItem} from '../shared/dropDownItem';
 import {SecurityService} from '../shared/security/securityService';
 import {SubmitConfirmModal} from './submitConfirmModal';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
@@ -19,21 +19,21 @@ import * as lodash from 'lodash';
     providers: [DeliveryService]
 })
 export class DeliveryComponent implements OnInit {
-    errorMessage: string;
-    delivery: Delivery = new Delivery(undefined);
-    rowCount: number = 10;
-    showAll: boolean = false;
-    deliveryId: number;
+    public errorMessage: string;
+    public delivery: Delivery = new Delivery(undefined);
+    public rowCount: number = 10;
+    public showAll: boolean = false;
+    public deliveryId: number;
     @ViewChild(SubmitConfirmModal) private submitConfirmModal: SubmitConfirmModal;
 
-    options: DropDownItem[] = [
-        new DropDownItem("Exceptions", "isException"),
-        new DropDownItem("Line", "lineNo"),
-        new DropDownItem("Product", "productCode"),
-        new DropDownItem("Description", "productDescription"),
-        new DropDownItem("Reason", "reason"),
-        new DropDownItem("Status", "status"),
-        new DropDownItem("Action", "action")
+    public options: DropDownItem[] = [
+        new DropDownItem('Exceptions', 'isException'),
+        new DropDownItem('Line', 'lineNo'),
+        new DropDownItem('Product', 'productCode'),
+        new DropDownItem('Description', 'productDescription'),
+        new DropDownItem('Reason', 'reason'),
+        new DropDownItem('Status', 'status'),
+        new DropDownItem('Action', 'action')
     ];
 
     constructor(
@@ -45,25 +45,27 @@ export class DeliveryComponent implements OnInit {
         private toasterService: ToasterService) {
     }
 
-    ngOnInit(): void {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.actionDeliveries);
+    public ngOnInit(): void {
+        this.securityService.validateUser( 
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.actionDeliveries);
         this.route.params.subscribe(params => { this.deliveryId = params['id'] });
 
         this.deliveryService.getDelivery(this.deliveryId)
-            .subscribe(delivery => this.delivery = new Delivery(delivery),
+            .subscribe(delivery => { this.delivery = new Delivery(delivery), console.log(delivery.branchId); },
             error => this.errorMessage = <any>error);
     }
 
-    onShowAllClicked() {
+    public onShowAllClicked() {
         this.showAll = !this.showAll;
     }
 
-    lineClicked(line): void {
+    public lineClicked(line): void {
         this.router.navigate(['/delivery', this.delivery.id, line.lineNo]);
     }
 
-    submitActions(): void {
-        let submitLines: SubmitLine[] = new Array<SubmitLine>();
+    public submitActions(): void {
+        const submitLines: SubmitLine[] = new Array<SubmitLine>();
 
         this.addSubmissionLines(submitLines, this.delivery.exceptionDeliveryLines);
 
@@ -71,18 +73,29 @@ export class DeliveryComponent implements OnInit {
         this.submitConfirmModal.show();
     }
 
-    addSubmissionLines(submitLines, deliveryLines) {
-        for (let line of this.delivery.exceptionDeliveryLines) {
-            var draftActions = lodash.filter(line.actions, { status: 1 });
+    public addSubmissionLines(submitLines, deliveryLines) {
+        for (const line of this.delivery.exceptionDeliveryLines) {
+            const draftActions = lodash.filter(line.actions, { status: 1 });
             if (draftActions && draftActions.length > 0) {
                 submitLines.push(new SubmitLine(line.productCode, line.productDescription, draftActions));
             }
         }
     }
 
-    submitActionsConfirmed(): void {
+    public submitActionsConfirmed(): void {
         this.deliveryService.submitActions(this.delivery.id).subscribe(() => {
             this.toasterService.pop('success', 'Delivery actions submitted.', '');
         });
+    }
+
+    public saveGrn(): void {
+        this.deliveryService.saveGrn(this.delivery)
+            .subscribe(() => {
+                this.toasterService.pop('success', 'GRN saved...', '');
+            });
+    }
+
+    public disableGrnSave(): boolean {
+        return !this.delivery.grnNumber || this.delivery.grnNumber.length === 0;
     }
 }

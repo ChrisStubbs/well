@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum ExceptionAction
+    public enum DeliveryAction
     {
         [Description("Credit")]
         Credit = 1,

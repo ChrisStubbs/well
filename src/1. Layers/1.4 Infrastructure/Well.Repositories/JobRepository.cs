@@ -102,9 +102,6 @@
                 .AddParameter("ReCallPrd", entity.ReCallPrd, DbType.Boolean)
                 .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
                 .AddParameter("COD", entity.Cod, DbType.String)
-                .AddParameter("GrnNumber", entity.GrnNumber, DbType.String)
-                .AddParameter("GrnRefusedReason", entity.GrnRefusedReason, DbType.String)
-                .AddParameter("GrnRefusedDesc", entity.GrnRefusedDesc, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)
@@ -155,6 +152,7 @@
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
                 .AddParameter("JobTypeCode", entity.GetJobTypeCode(), DbType.String)
                 .AddParameter("PhAccount", entity.PhAccount, DbType.String)
+                .AddParameter("GrnNumber", entity.GrnNumberUpdate, DbType.String)
                 .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
@@ -179,6 +177,14 @@
             dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditsInsert)
                 .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .AddParameter("UserId", userId, DbType.Int32)
+                .Execute();
+        }
+
+        public void SaveGrn(int jobId, string grn)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveGrn)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("Grn", grn, DbType.String)
                 .Execute();
         }
 

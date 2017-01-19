@@ -17,12 +17,12 @@ export class AccountService {
         private httpErrorService: HttpErrorService,
         private logService: LogService) {
     }
-
-    getAccountByAccountId(accountId: number): Observable<IAccount> {
+    
+    public getAccountByAccountId(accountId: number): Observable<IAccount> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'account/' + accountId)
             .map((response: Response) => <IAccount>response.json())
-            .do(data => this.logService.log("All: " + JSON.stringify(data)))
+            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

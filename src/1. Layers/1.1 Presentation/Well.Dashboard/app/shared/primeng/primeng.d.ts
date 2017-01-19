@@ -49,7 +49,6 @@ export * from './components/radiobutton/radiobutton';
 export * from './components/rating/rating';
 export * from './components/schedule/schedule';
 export * from './components/selectbutton/selectbutton';
-export * from './components/slidemenu/slidemenu';
 export * from './components/slider/slider';
 export * from './components/spinner/spinner';
 export * from './components/splitbutton/splitbutton';

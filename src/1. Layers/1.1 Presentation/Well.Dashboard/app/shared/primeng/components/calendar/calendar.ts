@@ -1,4 +1,5 @@
-import {NgModule,Component,ElementRef,AfterViewInit,OnDestroy,OnInit,Input,Output,SimpleChange,EventEmitter,forwardRef,Renderer,trigger,state,style,transition,animate,ViewChild} from '@angular/core';
+/* tslint:disable */
+import { NgModule, Component, ElementRef, AfterViewInit, OnDestroy, OnInit, Input, Output, SimpleChange, EventEmitter, forwardRef, Renderer, trigger, state, style, transition, animate, ViewChild } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ButtonModule} from '../button/button';
 import {InputTextModule} from '../inputtext/inputtext';

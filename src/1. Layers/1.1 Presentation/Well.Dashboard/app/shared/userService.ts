@@ -12,20 +12,21 @@ import {UserJob} from './userJob';
 @Injectable()
 export class UserService {
 
-    constructor(public globalSettingsService: GlobalSettingsService,
+    constructor(
+        public globalSettingsService: GlobalSettingsService,
         private logService: LogService,
         private httpErrorService: HttpErrorService,
         private http: Http) {
     }
 
-    getUsersForBranch(branchId): Observable<IUser[]> {
+    public getUsersForBranch(branchId): Observable<IUser[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
             .map((response: Response) => <IUser[]>response.json())
-            .do(data => this.logService.log("All: " + JSON.stringify(data)))
+            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    assign(userJob: UserJob): Observable<any>{
+    public assign(userJob: UserJob): Observable<any> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-job',
             JSON.stringify(userJob),
             this.globalSettingsService.jsonOptions)
@@ -33,8 +34,11 @@ export class UserService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    unassign(jobId): Observable<any> {
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'unassign-user-from-job?jobId=' + jobId,
+    public unassign(jobId): Observable<any> {
+        return this.http.post(
+            this.globalSettingsService.globalSettings.apiUrl
+                + 'unassign-user-from-job?jobId='
+                + jobId,
             '',
             this.globalSettingsService.jsonOptions)
             .map(res => res.json())

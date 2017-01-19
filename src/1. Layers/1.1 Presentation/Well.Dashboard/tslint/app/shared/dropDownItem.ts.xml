@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<checkstyle version="5.7">[7, 30]: LHS type (string) inferred by RHS expression, remove type annotation
+[7, 50]: LHS type (string) inferred by RHS expression, remove type annotation
+[7, 97]: LHS type (string) inferred by RHS expression, remove type annotation
+</checkstyle>

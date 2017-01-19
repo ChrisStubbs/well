@@ -43,6 +43,8 @@
 
         public void DeleteCleans()
         {
+            this.logger.LogDebug("Started cleaning the Well...");
+
             if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday) return;
 
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
@@ -112,6 +114,8 @@
                     this.logger.LogError("Error when trying to delete clean route!", exception);
                 }
             }
+
+            this.logger.LogDebug("Finished cleaning the Well...");
         }
 
         public bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateUpdated)

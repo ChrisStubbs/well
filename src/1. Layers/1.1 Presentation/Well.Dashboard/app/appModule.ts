@@ -1,4 +1,6 @@
-﻿import { NgModule, APP_INITIALIZER } from '@angular/core';
+﻿/* tslint:disable:max-line-length */
+
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -9,9 +11,7 @@ import {ChartsModule} from 'ng2-charts/ng2-charts';
 import {TabsModule} from 'ng2-tabs';
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
-
 import {AccountComponent} from './account/accountComponent';
-import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
@@ -40,14 +40,13 @@ import { PendingCreditComponent } from './pending_credit/pendingCreditComponent'
 import { PendingCreditService } from './pending_credit/pendingCreditService';
 import { PendingCreditDetailModal } from './pending_credit/pendingCreditDetailModal';
 import { PendingCreditConfirmationModal } from './pending_credit/pendingCreditConfirmationModal';
-
-import {AssignModal} from "./shared/assignModal";
-import {ConfirmModal} from "./shared/confirmModal";
-import {ContactModal} from "./shared/contactModal";
+import {AssignModal} from './shared/assignModal';
+import {ConfirmModal} from './shared/confirmModal';
+import {ContactModal} from './shared/contactModal';
 import {OptionFilterComponent} from './shared/optionFilterComponent';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
-import {OrderByDatePipe} from "./shared/orderByDatePipe";
-import {OutstandingPipe} from "./shared/outstandingPipe";
+import {OrderByDatePipe} from './shared/orderByDatePipe';
+import {OutstandingPipe} from './shared/outstandingPipe';
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {CodComponent} from './shared/codComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
@@ -61,19 +60,16 @@ import {CreditThresholdRemoveModalComponent} from './credit_threshold/creditThre
 import {CreditThresholdAddModalComponent} from './credit_threshold/creditThresholdAddModalComponent';
 import {CreditThresholdEditModalComponent} from './credit_threshold/creditThresholdEditModalComponent';
 import {NotificationModalComponent} from './notifications/notificationModalComponent';
-import AppRoutes = require("./appRoutes");
+import AppRoutes = require('./appRoutes');
 import {WidgetWarningsViewComponent} from './widget_warnings/widgetWarningsViewComponent';
 import {WidgetWarningAddModalComponent} from './widget_warnings/widgetWarningAddModalComponent';
 import {WidgetWarningRemoveModalComponent} from './widget_warnings/widgetWarningRemoveModalComponent';
 import {WidgetWarningEditModalComponent} from './widget_warnings/widgetWarningEditModalComponent';
-
 import {AccountService} from './account/accountService';
-import {AuditService} from './audit/auditService';
 import {BranchService} from './shared/branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
 import {HttpErrorService} from './shared/httpErrorService';
 import {LogService} from './shared/logService';
-//import {PaginationService } from 'ng2-pagination';
 import {RefreshService} from './shared/refreshService';
 import {SecurityService} from './shared/security/securityService';
 import {WidgetService} from './home/widgetService';
@@ -83,9 +79,9 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
 import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
-
-//import {CalendarModule} from 'primeng/primeng';
 import {CalendarModule} from './shared/primeng/primeng';
+import { AuditComponent } from './audit/auditComponent';
+import { AuditService } from './audit/auditService';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -115,10 +111,8 @@ import {CalendarModule} from './shared/primeng/primeng';
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),
         deps: [GlobalSettingsService],
         multi: true
-    }
-        ],
+    }],
     bootstrap: [AppComponent]
 })
-export class AppModule {
 
-}
+export class AppModule {}

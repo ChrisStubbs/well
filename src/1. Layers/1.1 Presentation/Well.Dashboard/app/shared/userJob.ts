@@ -1,6 +1,5 @@
 ﻿export class UserJob {
-
-    userId: number;
-    jobId: number;
+    public userId: number;
+    public jobId: number;
 
 }

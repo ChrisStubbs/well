@@ -6,6 +6,7 @@
     using Contracts;
     using Domain;
     using Domain.Enums;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
 
     public class DeliveryService : IDeliveryService
@@ -17,6 +18,7 @@
         private readonly IStopRepository stopRepository;
         private readonly IJobDetailActionRepository jobDetailActionRepository;
         private readonly IUserRepository userRepository;
+        private readonly IExceptionEventRepository exceptionEventRepository;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -24,7 +26,8 @@
             IAuditRepository auditRepository,
             IStopRepository stopRepository,
             IJobDetailActionRepository jobDetailActionRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IExceptionEventRepository exceptionEventRepository)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -33,6 +36,7 @@
             this.stopRepository = stopRepository;
             this.jobDetailActionRepository = jobDetailActionRepository;
             this.userRepository = userRepository;
+            this.exceptionEventRepository = exceptionEventRepository;
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
@@ -157,7 +161,22 @@
             }
         }
 
-        
+        public void SaveGrn(int jobId, string grn, int branchId, string username)
+        {
+            this.jobRepository.CurrentUser = username;
 
+            using (var transactionScope = new TransactionScope())
+            {
+                this.jobRepository.SaveGrn(jobId, grn);
+
+                var grnEvent = new GrnEvent();
+                grnEvent.Id = jobId;
+                grnEvent.BranchId = branchId;
+                this.exceptionEventRepository.InsertGrnEvent(grnEvent);
+
+                transactionScope.Complete();
+
+            }
+        }
     }
 }

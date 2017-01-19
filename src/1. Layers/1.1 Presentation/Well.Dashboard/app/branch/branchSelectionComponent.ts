@@ -16,35 +16,45 @@ import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent'
     templateUrl: './app/branch/branch-list.html'
 })
 export class BranchSelectionComponent implements OnInit {
-    errorMessage: string;
-    httpResponse: HttpResponse = new HttpResponse();
-    username: string;
-    domain: string;
+    public errorMessage: string;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public username: string;
+    public domain: string;
 
     constructor(private branchService: BranchService,
-        private toasterService: ToasterService,
-        private globalSettingsService: GlobalSettingsService,
-        private securityService: SecurityService,
-        private route: ActivatedRoute) { }
+                private toasterService: ToasterService,
+                private globalSettingsService: GlobalSettingsService,
+                private securityService: SecurityService,
+                private route: ActivatedRoute) { }
 
-    ngOnInit(): void {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.branchSelection);
+    public ngOnInit(): void {
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.branchSelection);
         this.route.params.subscribe(params => {
             this.username = params['name'] === undefined ? '' : params['name']; this.domain = params['domain'];
         });
     }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
-    save(): void {
+    public save(): void {
         this.branchService.saveBranches(this.branch.selectedBranches, this.username, this.domain)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                if (this.httpResponse.success) this.toasterService.pop('success', 'Branches have been saved!', '');
-                if (this.httpResponse.failure) this.toasterService.pop('error', 'Branches could not be saved at this time!', 'Please try again later!');
-                if (this.httpResponse.notAcceptable) this.toasterService.pop('warning', 'Please select at least one branch!', '');
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Branches have been saved!', '');
+                }
+                if (this.httpResponse.failure) {
+                    this.toasterService.pop(
+                        'error',
+                        'Branches could not be saved at this time!',
+                        'Please try again later!');
+                }
+                if (this.httpResponse.notAcceptable) {
+                    this.toasterService.pop('warning', 'Please select at least one branch!', '');
+                }
             });
     }
 }
-

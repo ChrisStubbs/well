@@ -6,23 +6,24 @@ import {CreditThreshold} from './creditThreshold';
 
 @Injectable()
 export class CreditThresholdService {
-    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-    options: RequestOptions = new RequestOptions({ headers: this.headers });
+    public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getCreditThresholds(): Observable<CreditThreshold[]> {
+    public getCreditThresholds(): Observable<CreditThreshold[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold')
             .map((res: Response) => <CreditThreshold[]>res.json());
     }
 
-    removeCreditThreshold(creditThresholdId: number): Observable<any> {
-        return this.http.delete(this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/' + creditThresholdId,
+    public removeCreditThreshold(creditThresholdId: number): Observable<any> {
+        return this.http.delete(
+            this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/' + creditThresholdId,
             this.options).map(res => res.json());
     }
 
-    saveCreditThreshold(creditThreshold: CreditThreshold, isUpdate: boolean): Observable<any> {
-        let body = JSON.stringify(creditThreshold);
+    public saveCreditThreshold(creditThreshold: CreditThreshold, isUpdate: boolean): Observable<any> {
+        const body = JSON.stringify(creditThreshold);
 
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/' + isUpdate,
             body,
@@ -30,13 +31,13 @@ export class CreditThresholdService {
             .map(res => res.json());
     }
 
-    saveThresholdLevel(threshold: string, username: string): Observable<any> {
+    public saveThresholdLevel(threshold: string, username: string): Observable<any> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl +
                 'threshold-level?threshold=' +
                 threshold +
                 '&username=' +
                 username,
-                null,
+                undefined,
                 this.options)
             .map(res => res.json());
     }

@@ -19,50 +19,53 @@ export class Delivery {
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit;
+            this.grnNumber = delivery.grnNumber;
+            this.branchId = delivery.branchId;
 
             if (delivery.exceptionDeliveryLines) {
-                for (let line of delivery.exceptionDeliveryLines) {
+                for (const line of delivery.exceptionDeliveryLines) {
                     this.exceptionDeliveryLines.push(new DeliveryLine(line));
                 }
             }
 
             if (delivery.cleanDeliveryLines) {
-                for (let line of delivery.cleanDeliveryLines) {
+                for (const line of delivery.cleanDeliveryLines) {
                     this.cleanDeliveryLines.push(new DeliveryLine(line));
                 }
             }
         }
     }
-    id: number;
-    accountCode: string;
-    outerCount: number;
-    outerDiscrepancyFound: boolean;
-    totalOutersShort: number;
-    accountName: string;
-    accountAddress: string;
-    invoiceNumber: string;
-    contactName: string;
-    phoneNumber: string;
-    mobileNumber: string;
-    deliveryType: string;
-    cashOnDelivery: string;
-    isException: boolean;
-    canAction: boolean;
-    canSubmit: boolean;
-    exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
-    cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+    public id: number;
+    public accountCode: string;
+    public outerCount: number;
+    public outerDiscrepancyFound: boolean;
+    public totalOutersShort: number;
+    public accountName: string;
+    public accountAddress: string;
+    public invoiceNumber: string;
+    public contactName: string;
+    public phoneNumber: string;
+    public mobileNumber: string;
+    public deliveryType: string;
+    public cashOnDelivery: string;
+    public isException: boolean;
+    public canAction: boolean;
+    public canSubmit: boolean;
+    public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+    public grnNumber: string;
+    public branchId: number;
+    public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
+    public isCleanOnInit(): boolean {
+        let clean = true;
 
-    isCleanOnInit(): boolean {
-        var clean = true;
-
-        for (let line of this.exceptionDeliveryLines) {
+        for (const line of this.exceptionDeliveryLines) {
             if (line.isCleanOnInit === false) {
                 clean = false;
             }
         }
 
-        for (let line of this.cleanDeliveryLines) {
+        for (const line of this.cleanDeliveryLines) {
             if (line.isCleanOnInit === false) {
                 clean = false;
             }
@@ -71,21 +74,21 @@ export class Delivery {
         return clean;
     };
 
-    isClean(): boolean {
-        var clean = true;
+    public isClean(): boolean {
+        let clean = true;
 
-        for (let line of this.exceptionDeliveryLines) {
+        for (const line of this.exceptionDeliveryLines) {
             if (line.isClean() === false) {
                 clean = false;
             }
         }
 
-        for (let line of this.cleanDeliveryLines) {
+        for (const line of this.cleanDeliveryLines) {
             if (line.isClean() === false) {
                 clean = false;
             }
         }
-
+        
         return clean;
     }
 }

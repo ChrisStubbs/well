@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-5">
             <address>
-                <strong>{{delivery.accountCode}} {{delivery.contactName}}</strong><br/>
+                <strong>{{delivery.branchId}}/{{delivery.accountCode}} {{delivery.contactName}}</strong><br/>
                 <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br/>
                 <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br/>
                 <abbr *ngIf="delivery.invoiceNumber" title="Invoice">Invoice:</abbr> {{delivery.invoiceNumber}}<br/>
@@ -22,6 +22,11 @@
             <address>
                 <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
             </address>
+            <label>GRN</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required />
+                <span class="input-group-btn"><button class="btn btn-primary" (click)="saveGrn()" [disabled]="disableGrnSave()">Save</button></span>
+            </div>
         </div>
         <div class="col-md-2">
             <div class="btn-group pull-right">

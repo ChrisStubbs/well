@@ -35,6 +35,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>001 01</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -411,6 +412,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>001 02</TextField5>
           <ShellActionIndicator>N</ShellActionIndicator>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
@@ -845,6 +847,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>006 01</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -872,7 +875,7 @@
               <JobTypeCode>DEL-TOB</JobTypeCode>
               <JobRef1>211</JobRef1>
               <JobRef2>1156028</JobRef2>
-              <JobRef3></JobRef3>
+              <JobRef3>123123123</JobRef3>
               <JobRef4>43362.048</JobRef4>
               <OrderDate>30-05-2016</OrderDate>
               <TextField1>318 WELCOME BREAK SHOPS</TextField1>
@@ -1064,7 +1067,7 @@
               <JobTypeCode>DEL-AMB</JobTypeCode>
               <JobRef1>212</JobRef1>
               <JobRef2>2544765</JobRef2>
-              <JobRef3></JobRef3>
+              <JobRef3>223123123</JobRef3>
               <JobRef4>2874.033</JobRef4>
               <OrderDate>30-05-2016</OrderDate>
               <TextField1>318 WELCOME BREAK SHOPS</TextField1>
@@ -1298,6 +1301,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>006 02</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -1325,7 +1329,7 @@
               <JobTypeCode>DEL-CHL</JobTypeCode>
               <JobRef1>123</JobRef1>
               <JobRef2>4295479</JobRef2>
-              <JobRef3></JobRef3>
+              <JobRef3>323123123</JobRef3>
               <JobRef4>54107.000</JobRef4>
               <OrderDate>29-05-2016</OrderDate>
               <TextField1>109 SHELL 2001 C&amp;F</TextField1>
@@ -1480,7 +1484,7 @@
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-FRZ</JobTypeCode>
               <JobRef1>125</JobRef1>
-              <JobRef3></JobRef3>
+              <JobRef3>423123123</JobRef3>
               <JobRef4>54107.000</JobRef4>
               <JobRef2>4294985</JobRef2>
               <OrderDate>28-05-2016</OrderDate>
@@ -1689,6 +1693,7 @@
           <TextField1>1</TextField1>
           <TextField2>N</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 01</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -2148,6 +2153,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 02</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -2515,6 +2521,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 03</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
@@ -2884,6 +2891,7 @@
           <TextField1>1</TextField1>
           <TextField2>Y</TextField2>
           <TextField3>N</TextField3>
+          <TextField5>011 05</TextField5>
           <AllowOvers>true</AllowOvers>
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>

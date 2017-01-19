@@ -3,23 +3,22 @@
 @Pipe({ name: 'orderByDate' })
 export class OrderByDatePipe implements PipeTransform {
 
-    transform(array: Array<string>, property: string): Array<string> {
-        if (typeof property === "undefined") {
+    public transform(array: Array<string>, property: string): Array<string> {
+        if (typeof property === 'undefined') {
             return array;
         }
 
-        let direction = property[0];
-        let column = (direction === "-" || direction === "+") ? property.slice(1) : property;
+        const direction = property[0];
+        const column = (direction === '-' || direction === '+') ? property.slice(1) : property;
 
         array.sort((a: any, b: any) => {
 
-            let left = Number(new Date(a[column]));
-            let right = Number(new Date(b[column]));
+            const left = Number(new Date(a[column]));
+            const right = Number(new Date(b[column]));
 
-            return (direction === "-") ? right - left : left - right;
+            return (direction === '-') ? right - left : left - right;
         });
 
         return array;
     }
-
 }

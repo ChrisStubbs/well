@@ -11,13 +11,13 @@ import { AccountService } from './accountService';
 })
 
 export class AccountComponent implements OnInit {
-    errorMessage: string;
-    account: IAccount;
-    accountId: number;
+    public errorMessage: string;
+    public account: IAccount;
+    public accountId: number;
 
     constructor(private accountService: AccountService) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.accountService.getAccountByAccountId(this.accountId)
             .subscribe(account => this.account = account,
                 error => this.errorMessage = <any>error);

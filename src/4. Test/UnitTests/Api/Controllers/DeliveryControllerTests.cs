@@ -30,16 +30,20 @@
         private Mock<IJobRepository> jobRepository;
         private Mock<ILogger> logger;
         private Mock<IDeliveryService> deliveryService;
+        private Mock<IExceptionEventRepository> exceptionEventRepository;
 
         [SetUp]
         public void Setup()
         {
-            deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
+            deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Loose);
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             deliveryToDetailMapper = new Mock<IDeliveryToDetailMapper>(MockBehavior.Strict);
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             logger = new Mock<ILogger>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
+            exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
+
+           // deliveryReadRepository.SetupSet(r => r. = It.IsAny<string>())
 
             this.Controller = new DeliveryController(
                 this.deliveryReadRepository.Object,
@@ -47,7 +51,8 @@
                 this.deliveryToDetailMapper.Object,
                 logger.Object,
                 deliveryService.Object,
-                jobRepository.Object);
+                jobRepository.Object,
+                exceptionEventRepository.Object);
 
             this.SetupController();
         }
@@ -90,7 +95,8 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries("")).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(""))
+                    .Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>
@@ -350,6 +356,25 @@
                 deliveryService.Verify(d => d.SubmitActions(deliveryId, ""), Times.Once);
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            }
+        }
+
+        public class TheSaveGrnMethod : DeliveryControllerTests
+        {
+            [Test]
+            public void ShouldSaveTheGrnAgainstTheJob()
+            {
+                var model = new GrnModel { Id = 302, GrnNumber = "123212", BranchId = 2};
+
+                this.deliveryService.Setup(x => x.SaveGrn(model.Id, model.GrnNumber, model.BranchId, ""));
+
+                //ACT
+                var response = this.Controller.SaveGrn(model);
+
+                deliveryService.Verify(d => d.SaveGrn(model.Id, model.GrnNumber, model.BranchId, ""), Times.Once);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
             }
         }
     }

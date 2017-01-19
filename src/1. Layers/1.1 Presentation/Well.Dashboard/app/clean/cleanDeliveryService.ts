@@ -14,9 +14,9 @@ export class CleanDeliveryService {
         private httpErrorService: HttpErrorService) {
     }
 
-    getCleanDeliveries(): Observable<CleanDelivery[]> {
+    public getCleanDeliveries(): Observable<CleanDelivery[]> {
 
-        var url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean';
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/clean';
 
         return this.http.get(url)
             .map((response: Response) => <CleanDelivery[]>response.json())

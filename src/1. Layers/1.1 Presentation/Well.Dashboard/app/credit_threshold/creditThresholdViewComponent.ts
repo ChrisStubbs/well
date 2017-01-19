@@ -10,36 +10,36 @@ import * as lodash from 'lodash';
     selector: 'ow-credit-threshold-view',
     templateUrl: './app/credit_threshold/credit-threshold-view.html'
 })
-export class CreditThresholdViewComponent implements OnInit{
-    credits: CreditThreshold[];
+export class CreditThresholdViewComponent implements OnInit {
+    public credits: CreditThreshold[];
 
     constructor(private creditThresholdService: CreditThresholdService) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.loadCreditThreshold();
     }
 
-    @ViewChild(CreditThresholdAddModalComponent) addModal: CreditThresholdAddModalComponent;
-    @ViewChild(CreditThresholdRemoveModalComponent) removeModal: CreditThresholdRemoveModalComponent;
-    @ViewChild(CreditThresholdEditModalComponent) editModal: CreditThresholdEditModalComponent;
+    @ViewChild(CreditThresholdAddModalComponent) public addModal: CreditThresholdAddModalComponent;
+    @ViewChild(CreditThresholdRemoveModalComponent) public removeModal: CreditThresholdRemoveModalComponent;
+    @ViewChild(CreditThresholdEditModalComponent) public editModal: CreditThresholdEditModalComponent;
 
-    selectCredit(credit: CreditThreshold): void {
+    public selectCredit(credit: CreditThreshold): void {
         this.editModal.show(credit);
     }
 
-    loadCreditThreshold() {
+    public loadCreditThreshold() {
         this.creditThresholdService.getCreditThresholds().subscribe(x => this.credits = x);
     }
 
-    add() {
+    public add() {
         this.addModal.show();
     }
 
-    remove(creditThreshold: CreditThreshold): void {
+    public remove(creditThreshold: CreditThreshold): void {
         this.removeModal.show(creditThreshold);
     }
 
-    onRemoved(creditThreshold: CreditThreshold) {
+    public onRemoved(creditThreshold: CreditThreshold) {
         lodash.remove(this.credits, creditThreshold);
     }
 }

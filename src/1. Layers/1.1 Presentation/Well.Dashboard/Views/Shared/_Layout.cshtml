@@ -27,7 +27,6 @@
 
 @RenderBody()
 
-<script src="@string.Format("{0}/Scripts/angular2/polyfillsBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
 
 @Scripts.Render("~/bundles/jsscripts")
 @Scripts.Render("~/bundles/signalr")
@@ -36,8 +35,7 @@
 <script src="@string.Format("{0}/Scripts/Chart.min.js", HttpRuntime.AppDomainAppVirtualPath)"></script>
 
 <!-- Load Angular2 -->
-<script src="@string.Format("{0}/Scripts/angular2/vendorBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
-<script src="@string.Format("{0}/Scripts/angular2/appBundle.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
+<script src="@string.Format("{0}/Scripts/angular2/app.js?ticks={1}", HttpRuntime.AppDomainAppVirtualPath, DateTime.Now.Ticks)"></script>
 
 
 @RenderSection("scripts", required: false)

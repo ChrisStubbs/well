@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Data;
     using Domain;
+    using Domain.ValueObjects;
 
     public interface IJobDetailRepository : IRepository<JobDetail, int>
     {
@@ -15,5 +16,7 @@
         void DeleteJobDetailById(int id);
 
         void CreditLines(DataTable creditLinesTable);
+
+        IEnumerable<JobDetailsWithAction> GetJobDetailsWithActions(int jobId, int action);
     }
 }

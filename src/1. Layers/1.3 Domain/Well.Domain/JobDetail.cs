@@ -94,6 +94,12 @@
         [XmlIgnore]
         public int ShortQty { get; set; }
 
+        [XmlIgnore]
+        public int ShortsActionId { get; set; }
+
+        [XmlIgnore]
+        public DeliveryAction ShortsAction => (DeliveryAction)this.ShortsActionId;
+
         //Workaround for nullable int element
         [XmlElement("ShortQty")]
         public string ShortQtyFromXml
@@ -239,7 +245,8 @@
             {
                 return false;
             }
-            return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
+
+            return !this.JobDetailDamages.Any(d => d.Qty > 0);
         }
 
         public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)

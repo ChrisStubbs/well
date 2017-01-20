@@ -8,6 +8,8 @@
     using Repositories;
     using Repositories.Contracts;
     using System.Collections.Generic;
+    using System.Linq;
+
     using Well.Domain;
 
     [TestFixture]
@@ -26,6 +28,16 @@
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
 
             this.repository = new AccountRepository(this.logger.Object, this.dapperProxy.Object);
+        }
+
+        [Test]
+        public void FooMe()
+        {
+            var name = "Lee-Grindon";
+
+            var initials = name.Split('-').Select(x => x.Substring(0, 1)).ToArray();
+
+            Assert.That(string.Join("", initials[0], initials[1]), Is.EqualTo("LG"));
         }
 
         public class TheGetGetAccountByStopIdMethod : AccountRepositoryTests

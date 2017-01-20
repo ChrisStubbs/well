@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
-import {TabsModule} from 'ng2-tabs';
+import {TabsModule} from 'ng2-tabs'; 
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
 import {AccountComponent} from './account/accountComponent';

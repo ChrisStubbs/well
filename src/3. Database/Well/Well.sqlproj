@@ -284,6 +284,8 @@
     <Build Include="dbo\StoredProcedures\JobDetails_WithAction.sql" />
     <Build Include="dbo\StoredProcedures\SaveGrn.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamages_WithAction.sql" />
+    <Build Include="dbo\Tables\DeliveryAction.sql" />
+    <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

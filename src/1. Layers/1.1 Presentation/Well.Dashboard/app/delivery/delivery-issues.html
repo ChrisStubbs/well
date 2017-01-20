@@ -12,25 +12,32 @@
                         <th>Quantity</th>
                         <th>Source</th>
                         <th>Reason</th>
+                        <th>Action</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="editable">
                         <td>
-                            <input id="short-qty-input" class="form-control" [disabled]="delivery.canAction ? false : true" type="number"
+                            <input id="short-qty-input" class="form-control" [disabled]="canAction()" type="number"
                                    [(ngModel)]="deliveryLine.shortQuantity" />            
                         </td>
                         <td>
-                            <select id="short-source-select" [disabled]="delivery.canAction ? false : true" class="form-control"
-                                    [(ngModel)]="deliveryLine.jobDetailSourceId" name="short-select">
+                            <select id="short-source-select" [disabled]="canAction()" class="form-control"
+                                    [(ngModel)]="deliveryLine.jobDetailSourceId">
                                 <option *ngFor="let x of sources" [value]="x.id">{{x.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <select id="short-reason-select" class="form-control" [disabled]="delivery.canAction ? false : true"
-                                    [(ngModel)]="deliveryLine.jobDetailReasonId" name="short-reason">
+                            <select id="short-reason-select" class="form-control" [disabled]="canAction()"
+                                    [(ngModel)]="deliveryLine.jobDetailReasonId">
                                 <option *ngFor="let x of reasons" [value]="x.id">{{x.description}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="short-reason-action" class="form-control" [disabled]="canAction()"
+                                    [(ngModel)]="deliveryLine.shortsActionId">
+                                <option *ngFor="let x of actions" [value]="x.id">{{x.description}}</option>
                             </select>
                         </td>
                         <td><button style="visibility: hidden" class="btn">remove</button></td>
@@ -51,28 +58,35 @@
                         <th>Quantity</th>
                         <th>Source</th>
                         <th>Reason</th>
+                        <th>Action</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let damage of deliveryLine.damages; let i = index" class="editable">
-                        <td><input id="damage-qty-input{{i}}" [disabled]="delivery.canAction ? false : true" type="number" 
+                        <td><input id="damage-qty-input{{i}}" [disabled]="canAction()" type="number" 
                                    class="form-control" [(ngModel)]="damage.quantity" />
                         </td>
                         <td>
-                            <select id="source-select{{i}}" [disabled]="delivery.canAction ? false : true" class="form-control"
+                            <select id="damage-source-select{{i}}" [disabled]="canAction()" class="form-control"
                                     [(ngModel)]="damage.jobDetailSourceId" name="source">
                                 <option *ngFor="let r of sources" [value]="r.id">{{r.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <select id="reason-select{{i}}" [disabled]="delivery.canAction ? false : true" class="form-control" 
+                            <select id="damage-reason-select{{i}}" [disabled]="canAction()" class="form-control" 
                                     [(ngModel)]="damage.jobDetailReasonId" name="reason">
                                 <option *ngFor="let r of reasons" [value]="r.id">{{r.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <button id="remove-damage-button{{i}}" [disabled]="delivery.canAction ? false : true" 
+                            <select id="damage-action-select{{i}}" class="form-control" [disabled]="canAction()"
+                                    [(ngModel)]="damage.damageActionId">
+                                <option *ngFor="let x of actions" [value]="x.id">{{x.description}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button id="remove-damage-button{{i}}" [disabled]="canAction()" 
                                     type="button" class="btn btn-primary" (click)="removeDamage(damage.index)">Remove</button>
                         </td>
                     </tr>

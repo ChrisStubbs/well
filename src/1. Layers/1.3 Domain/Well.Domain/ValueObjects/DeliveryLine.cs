@@ -27,6 +27,8 @@
 
         public int ShortQuantity { get; set; }
 
+        public int ShortsActionId { get; set; }
+
         public string LineDeliveryStatus { get; set; }
 
         public string Reason { get; set; }

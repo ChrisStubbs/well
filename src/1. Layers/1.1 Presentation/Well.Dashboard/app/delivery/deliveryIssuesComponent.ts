@@ -7,7 +7,9 @@ import {JobDetailSource} from './model/jobDetailSource';
 import {ConfirmModal} from '../shared/confirmModal';
 import {DeliveryService} from './deliveryService';
 import {Router} from '@angular/router';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { Action } from './model/action';
+import { ActionStatus } from './model/actionStatus';
 import * as lodash from 'lodash';
 
 @Component({
@@ -19,6 +21,7 @@ export class DeliveryIssuesComponent {
     public deliveryLine: DeliveryLine = new DeliveryLine(undefined);
     public reasons: JobDetailReason[] = new Array<JobDetailReason>();
     public sources: JobDetailSource[] = new Array<JobDetailSource>();
+    public actions: Action[] = new Array<Action>();
     public confirmMessage: string;
     public confirmModalIsVisible: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
@@ -35,11 +38,14 @@ export class DeliveryIssuesComponent {
 
         this.deliveryService.getSources()
             .subscribe(s => { this.sources = s });
+
+        this.deliveryService.getActions()
+            .subscribe(actions => { this.actions = actions; });
     }
 
     public addDamage() {
         const index = this.deliveryLine.damages.length;
-        this.deliveryLine.damages.push(new Damage(index, 0, 0, 0));
+        this.deliveryLine.damages.push(new Damage(index, 0, 0, 0, 0));
     }
 
     public removeDamage(index) {
@@ -68,7 +74,7 @@ export class DeliveryIssuesComponent {
 
         this.updateConfirmed();
     }
-
+     
     public updateConfirmed() {
         this.deliveryService.updateDeliveryLine(this.deliveryLine)
             .subscribe(() => {
@@ -79,5 +85,9 @@ export class DeliveryIssuesComponent {
 
     public cancel() {
         this.router.navigate(['/delivery', this.delivery.id]);
+    }
+
+    public canAction(): boolean {
+        return this.delivery.canAction ? false : true;
     }
 }

@@ -56,6 +56,7 @@
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
             jobDetail.JobDetailReasonId = jobDetailUpdates.JobDetailReasonId;
             jobDetail.JobDetailSourceId = jobDetailUpdates.JobDetailSourceId;
+            jobDetail.ShortsActionId = jobDetailUpdates.ShortsActionId;
 
             Job job = this.jobRepository.GetById(jobDetail.JobId);
             JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);

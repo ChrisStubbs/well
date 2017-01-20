@@ -18,6 +18,7 @@ export class DeliveryLine {
             this.lineDeliveryStatus = line.lineDeliveryStatus;
             this.jobDetailReasonId = line.jobDetailReasonId;
             this.jobDetailSourceId = line.jobDetailSourceId;
+            this.shortsActionId = line.shortsActionId;
 
             if (line.damages) {
                 let index = 0;
@@ -26,7 +27,8 @@ export class DeliveryLine {
                         index,
                         damage.quantity,
                         damage.jobDetailReasonId,
-                        damage.jobDetailSourceId));
+                        damage.jobDetailSourceId,
+                        damage.damageActionId));
                     index++;
                 }
             }
@@ -62,6 +64,7 @@ export class DeliveryLine {
     public lineDeliveryStatus: string;
     public jobDetailReasonId: number;
     public jobDetailSourceId: number;
+    public shortsActionId: number;
     public damages: Damage[] = new Array<Damage>();
     public actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
     public isCleanOnInit: boolean;

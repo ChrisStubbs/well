@@ -5,5 +5,5 @@
     public adamdown: boolean;
     public message: string;
     public errors: string[];
-    public adamPartProcessed boolean;
+    public adamPartProcessed: boolean;
 }

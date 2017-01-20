@@ -6,7 +6,6 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
-    using Domain.Enums;
 
     public class JobDetailDamageRepository : DapperRepository<JobDetailDamage, int>, IJobDetailDamageRepository
     {
@@ -25,8 +24,9 @@
         {
             entity.Id = dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageInsert)
                 .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
-                .AddParameter("JobDetailSource", entity.JobDetailSource, DbType.Int16)
-                .AddParameter("JobDetailReason", entity.JobDetailReason, DbType.Int16)
+                .AddParameter("JobDetailSourceId", entity.JobDetailSourceId, DbType.Int16)
+                .AddParameter("JobDetailReasonId", entity.JobDetailReasonId, DbType.Int16)
+                .AddParameter("DamageActionId", entity.DamageActionId, DbType.Int32)
                 .AddParameter("Qty", entity.Qty, DbType.Decimal)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
@@ -41,8 +41,9 @@
                 .AddParameter("Id", entity.Id, DbType.Int32)
                 .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
                 .AddParameter("Qty", entity.Qty, DbType.Decimal)
-                .AddParameter("JobDetailSource", entity.JobDetailSource, DbType.Int16)
-                .AddParameter("JobDetailReason", entity.JobDetailReason, DbType.Int16)
+                .AddParameter("JobDetailSourceId", entity.JobDetailSource, DbType.Int16)
+                .AddParameter("JobDetailReasonId", entity.JobDetailReason, DbType.Int16)
+                .AddParameter("DamageActionId", entity.DamageActionId, DbType.Int16)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                 .Execute();

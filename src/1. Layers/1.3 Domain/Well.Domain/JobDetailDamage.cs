@@ -2,9 +2,14 @@
 {
     using System;
     using System.Xml.Serialization;
-    using Common.Extensions;
+
     using Enums;
+
+    using PH.Well.Domain.Extensions;
+
     using ValueObjects;
+
+    using StringExtensions = PH.Well.Common.Extensions.StringExtensions;
 
     [Serializable()]
     public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
@@ -99,9 +104,10 @@
             }
         }
 
-        public string GetDamageString()
+        public override string ToString()
         {
-            return $"{this.JobDetailReason.ToString()} - {Qty}";
+            return
+                $"Reason - {EnumExtensions.GetDescription((JobDetailReason)this.JobDetailReasonId)}, Source - {EnumExtensions.GetDescription((JobDetailSource)this.JobDetailSourceId)}, Action - {EnumExtensions.GetDescription((DeliveryAction)this.DamageActionId)} - {this.Qty}";
         }
 
         public bool Equals(JobDetailDamage other)

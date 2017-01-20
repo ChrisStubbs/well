@@ -37,7 +37,7 @@
 
                 string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
                                        $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
-                                       $"Damages added {jobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                                       $"Damages added {jobDetail.JobDetailDamages[0].ToString()}. ";
                 Assert.AreEqual(expectedEntry, audit.Entry);
                 Assert.AreEqual(AuditType.DeliveryLineUpdate, audit.Type);
                 Assert.AreEqual(invoiceNumber, audit.InvoiceNumber);
@@ -66,7 +66,7 @@
 
                 string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
                                        $"Short Qty changed from {originalJobDetail.ShortQty} to {jobDetail.ShortQty}. " +
-                                       $"Damages removed, old damages {originalJobDetail.JobDetailDamages[0].GetDamageString()}. ";
+                                       $"Damages removed, old damages {originalJobDetail.JobDetailDamages[0].ToString()}. ";
                     
                 Assert.AreEqual(expectedEntry, audit.Entry);
             }
@@ -98,8 +98,8 @@
                 var audit = jobDetail.CreateAuditEntry(originalJobDetail, "", "", DateTime.Now);
 
                 string expectedEntry = $"Product: {jobDetail.PhProductCode} - {jobDetail.ProdDesc}. " +
-                                       $"Damages changed from '{originalJobDetail.JobDetailDamages[0].GetDamageString()}' " +
-                                       $"to '{jobDetail.JobDetailDamages[0].GetDamageString()}'. ";
+                                       $"Damages changed from '{originalJobDetail.JobDetailDamages[0].ToString()}' " +
+                                       $"to '{jobDetail.JobDetailDamages[0].ToString()}'. ";
                                        
                 Assert.AreEqual(expectedEntry, audit.Entry);
             }

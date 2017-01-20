@@ -138,6 +138,12 @@
             this.page.DamageSourceSelect(id).Select(source);
         }
 
+        [When(@"I enter a damage action of '(.*)' for id '(.*)'")]
+        public void EnterDamageAction(string action, int id)
+        {
+            this.page.DamageActionSelect(id).Select(action);
+        }
+
         [When(@"click add damage button")]
         public void ClickAddDamageButton()
         {

@@ -6,61 +6,85 @@ import {BranchService} from './branchService';
     selector: 'ow-branch-select',
     templateUrl: './app/shared/branch/branch-select.html'
 })
-export class BranchCheckboxComponent implements OnInit{
-    branches: Branch[];
-    selectedBranches: Array<Branch> = [];
-    selectAllCheckbox: boolean = false;    
-    @Input() username: string;
-    @Input() seasonalDateId: number;
-    @Input() creditThresholdId: number;
-    @Input() cleanPreferenceId: number;
+export class BranchCheckboxComponent implements OnInit {
+    public branches: Branch[];
+    public selectedBranches: Array<Branch> = [];
+    public selectAllCheckbox: boolean = false;    
+    @Input() public username: string;
+    @Input() public seasonalDateId: number;
+    @Input() public creditThresholdId: number;
+    @Input() public cleanPreferenceId: number;
 
     constructor(private branchService: BranchService) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (this.creditThresholdId) {
             this.branchService.getBranchesWithCreditThreshold(this.creditThresholdId)
                 .subscribe(branches => {
                     this.branches = branches;
-                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+                    this.branches.forEach(branch => {
+                        if (branch.selected) {
+                            this.selectedBranches.push(branch)
+                        }
+                    });
 
-                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                    if (this.branches.every(x => x.selected)) {
+                        this.selectAllCheckbox = true;
+                    }
                 });
 
         } else if (this.cleanPreferenceId) {
             this.branchService.getBranchesWithCleanPreference(this.cleanPreferenceId)
                 .subscribe(branches => {
                     this.branches = branches;
-                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+                    this.branches.forEach(branch => {
+                        if (branch.selected) {
+                            this.selectedBranches.push(branch)
+                        }
+                    });
 
-                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                    if (this.branches.every(x => x.selected)) {
+                        this.selectAllCheckbox = true;
+                    }
                 });
 
         } else if (this.seasonalDateId) {
             this.branchService.getBranchesWithSeasonalDate(this.seasonalDateId)
                 .subscribe(branches => {
                     this.branches = branches;
-                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+                    this.branches.forEach(branch => {
+                        if (branch.selected) {
+                            this.selectedBranches.push(branch)
+                        }
+                    });
 
-                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                    if (this.branches.every(x => x.selected)) {
+                        this.selectAllCheckbox = true;
+                    }
                 });
             
         } else {
             this.branchService.getBranches(this.username)
                 .subscribe(branches => {
                     this.branches = branches;
-                    this.branches.forEach(branch => { if (branch.selected) this.selectedBranches.push(branch) });
+                    this.branches.forEach(branch => {
+                        if (branch.selected) {
+                            this.selectedBranches.push(branch)
+                        }
+                    });
 
-                    if (this.branches.every(x => x.selected)) { this.selectAllCheckbox = true; }
+                    if (this.branches.every(x => x.selected)) {
+                        this.selectAllCheckbox = true;
+                    }
                 });
         }
     }
 
-    selectAll(selectAllCheckbox): void {
-        var selected = !selectAllCheckbox;
+    public selectAll(selectAllCheckbox): void {
+        const selected = !selectAllCheckbox;
 
         this.branches.forEach(branch => {
-            var index = this.selectedBranches.indexOf(branch, 0);
+            const index = this.selectedBranches.indexOf(branch, 0);
             if (index > -1) {
                 this.selectedBranches.splice(index, 1);
             }
@@ -74,8 +98,8 @@ export class BranchCheckboxComponent implements OnInit{
         });
     }
 
-    selectBranch(branch): void {
-        var index = this.selectedBranches.indexOf(branch, 0);
+    public selectBranch(branch): void {
+        const index = this.selectedBranches.indexOf(branch, 0);
 
         if (index > -1 && !branch.selected) {
             this.selectedBranches.splice(index, 1);

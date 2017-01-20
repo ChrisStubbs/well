@@ -6,23 +6,23 @@ import {SeasonalDate} from './seasonalDate';
 
 @Injectable()
 export class SeasonalDateService {
-    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-    options: RequestOptions = new RequestOptions({ headers: this.headers });
+    public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
 
-    getSeasonalDates(): Observable<SeasonalDate[]> {
+    public getSeasonalDates(): Observable<SeasonalDate[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'seasonaldate')
             .map((res: Response) => <SeasonalDate[]>res.json());
     }
 
-    removeSeasonalDate(seasonalDateId: number): Observable<any> {
+    public removeSeasonalDate(seasonalDateId: number): Observable<any> {
         return this.http.delete(this.globalSettingsService.globalSettings.apiUrl + 'seasonal-date/' + seasonalDateId,
             this.options).map(res => res.json());
     }
 
-    saveSeasonalDate(seasonalDate: SeasonalDate): Observable<any> {
-        let body = JSON.stringify(seasonalDate);
+    public saveSeasonalDate(seasonalDate: SeasonalDate): Observable<any> {
+        const body = JSON.stringify(seasonalDate);
 
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'seasonal-date',
             body,

@@ -11,32 +11,32 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/clean_preferences/clean-preferences-add-modal.html'
 })
 export class CleanPreferenceAddModalComponent {
-    isVisible: boolean = false;
-    cleanPreference: CleanPreference = new CleanPreference();
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onCleanPreferenceSave = new EventEmitter<CleanPreference>();
+    public isVisible: boolean = false;
+    public cleanPreference: CleanPreference = new CleanPreference();
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onCleanPreferenceSave = new EventEmitter<CleanPreference>();
 
     constructor(private cleanPreferenceService: CleanPreferenceService, private toasterService: ToasterService) { }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
-    show() {
+    public show() {
         this.clear();
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.cleanPreference = new CleanPreference();
         this.errors = [];
     }
 
-    save() {
+    public save() {
         this.cleanPreference.branches = this.branch.selectedBranches;
 
         this.cleanPreferenceService.saveCleanPreference(this.cleanPreference, false)
@@ -50,7 +50,10 @@ export class CleanPreferenceAddModalComponent {
                     this.onCleanPreferenceSave.emit(this.cleanPreference);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Clean preference could not be saved at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Clean preference could not be saved at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

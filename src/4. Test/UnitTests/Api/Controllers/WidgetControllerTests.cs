@@ -41,13 +41,17 @@ namespace PH.Well.UnitTests.Api.Controllers
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             userStatsRepository = new Mock<IUserStatsRepository>(MockBehavior.Strict);
             logger = new Mock<ILogger>(MockBehavior.Strict);
-            widgetRepository = new Mock<IWidgetRepository>(MockBehavior.Strict);
+            widgetRepository = new Mock<IWidgetRepository>(MockBehavior.Loose);
+
             mapper = new Mock<IWidgetWarningMapper>(MockBehavior.Strict);
             validator = new Mock<IWidgetWarningValidator>(MockBehavior.Strict);
-
-            this.widgetRepository.SetupSet(x => x.CurrentUser = "");
-
-            this.Controller = new WidgetController(serverErrorResponseHandler.Object, userStatsRepository.Object, logger.Object, widgetRepository.Object, mapper.Object, validator.Object);
+            
+            this.Controller = new WidgetController(serverErrorResponseHandler.Object,
+                userStatsRepository.Object,
+                logger.Object,
+                widgetRepository.Object,
+                mapper.Object,
+                validator.Object);
             SetupController();
         }
 
@@ -76,7 +80,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             public void ReturnsWidgetsWithCorrectUserStats()
             {
                 string userIdentity = "bob";
-                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] {"A role"});
+                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
 
                 var stats = new UserStats()
                 {

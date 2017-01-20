@@ -8,12 +8,14 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 })
 export class BranchRoleComponent implements OnInit {
 
-    roles: string[] = [ 'Customer Service User', 'Customer Service Manager', 'Branch Manager' ];
+    public roles: string[] = [ 'Customer Service User', 'Customer Service Manager', 'Branch Manager' ];
 
     constructor(private securityService: SecurityService, private globalSettingsService: GlobalSettingsService) { }
 
     public ngOnInit(): void {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.branchSelection);
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.branchSelection);
     }
 
     public save(): void {

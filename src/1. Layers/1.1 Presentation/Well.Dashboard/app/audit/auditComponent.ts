@@ -10,29 +10,29 @@ import * as lodash from 'lodash';
     templateUrl: './app/audit/audit-list.html'
 })
 export class AuditComponent implements OnInit {
-    isLoading: boolean = true;
-    audits: Audit[] = [];
-    currentConfigSort: string;
+    public isLoading: boolean = true;
+    public audits: Audit[] = [];
+    public currentConfigSort: string;
 
-    pageSize: number = 10;
+    public pageSize: number = 10;
 
-    filterOptions: DropDownItem[] = [
-        new DropDownItem("Invoice No", "invoiceNumber"),
-        new DropDownItem("Account", "account"),
-        new DropDownItem("Delivery Date", "deliveryDate", false, "date"),
-        new DropDownItem("Audit By", "auditBy"),
-        new DropDownItem("Audit Date", "auditDate", false, "date")
+    public filterOptions: DropDownItem[] = [
+        new DropDownItem('Invoice No', 'invoiceNumber'),
+        new DropDownItem('Account', 'account'),
+        new DropDownItem('Delivery Date', 'deliveryDate', false, 'date'),
+        new DropDownItem('Audit By', 'auditBy'),
+        new DropDownItem('Audit Date', 'auditDate', false, 'date')
     ];
 
-    filterOption: FilterOption;
+    public filterOption: FilterOption;
 
-    onFilterClicked(filterOption: FilterOption) {
+    public onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
     }
 
     constructor(private auditService: AuditService) {}
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
             this.auditService.getAudits()
                 .subscribe(a => {
                     this.audits = a;
@@ -40,14 +40,13 @@ export class AuditComponent implements OnInit {
                 });
     }
 
-    sortDirection(sortDirection): void {
+    public sortDirection(sortDirection): void {
         this.currentConfigSort = sortDirection === true ? '+auditDate' : '-auditDate';
-        var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
+        const sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
         lodash.sortBy(this.audits, ['dateTime'], [sortString]);
     }
 
-    onSortDirectionChanged(isDesc: boolean) {
+    public onSortDirectionChanged(isDesc: boolean) {
         this.sortDirection(isDesc);
     }
 }
-

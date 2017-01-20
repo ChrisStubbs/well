@@ -11,33 +11,33 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/credit_threshold/credit-threshold-add-modal.html'
 })
 export class CreditThresholdAddModalComponent {
-    isVisible: boolean = false;
-    creditThreshold: CreditThreshold = new CreditThreshold();
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onCreditThresholdSave = new EventEmitter<CreditThreshold>();
+    public isVisible: boolean = false;
+    public creditThreshold: CreditThreshold = new CreditThreshold();
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onCreditThresholdSave = new EventEmitter<CreditThreshold>();
 
     constructor(private creditThresholdService: CreditThresholdService, private toasterService: ToasterService) { }
     
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
-    show() {
+    public show() {
         this.clear();
         this.isVisible = true;
         this.creditThreshold.thresholdLevel = 'Level';
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.creditThreshold = new CreditThreshold();
         this.errors = [];
     }
 
-    save() {
+    public save() {
         this.creditThreshold.branches = this.branch.selectedBranches;
 
         this.creditThresholdService.saveCreditThreshold(this.creditThreshold, false)
@@ -51,7 +51,10 @@ export class CreditThresholdAddModalComponent {
                     this.onCreditThresholdSave.emit(this.creditThreshold);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Credit threshold could not be saved at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Credit threshold could not be saved at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {
@@ -60,7 +63,7 @@ export class CreditThresholdAddModalComponent {
             });
     }
 
-    setSelectedLevel(level) {
+    public setSelectedLevel(level) {
         this.creditThreshold.thresholdLevel = level;
     }
 }

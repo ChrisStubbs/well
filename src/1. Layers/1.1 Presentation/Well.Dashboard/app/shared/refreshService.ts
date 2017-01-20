@@ -6,23 +6,24 @@ declare var $: any;
 export class RefreshService {
     public dataRefreshed$ = new EventEmitter();
 
-    constructor(private zone: NgZone,
+    constructor(
+        private zone: NgZone,
         private logService: LogService) {
         this.initSignalr();
     }
 
-    initSignalr(): void {
-        var hub = $.connection.refreshHub;
+    public initSignalr(): void {
+        const hub = $.connection.refreshHub;
         hub.client.dataRefreshed = () => {
             this.zone.run(() => {
                 //This is inside zone.run to trigger the Angular automagical change detection shizzle! 
-                this.logService.log("Awoooga! Data refreshed.");
+                this.logService.log('Awoooga! Data refreshed.');
                 this.dataRefreshed$.emit(undefined);
             });
         };
 
         $.connection.hub.start().done((data) => {
-            console.log("Hub started");
+            console.log('Hub started');
         });
     }
 }

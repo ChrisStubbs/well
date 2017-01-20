@@ -5,34 +5,35 @@ import { NavigateQueryParametersService }           from './NavigateQueryParamet
 import { IOptionFilter }                            from './IOptionFilter';
 
 @Component({
-    selector: "ow-optionfilter",
-    templateUrl: "app/shared/optionFilter.html"
+    selector: 'ow-optionfilter',
+    templateUrl: 'app/shared/optionFilter.html'
 })
 export class OptionFilterComponent implements IOptionFilter{
 
     @Input() public options: DropDownItem[];
     public filterText: string;
-    inputPlaceholder: string = "";
+    public inputPlaceholder: string = '';
     public selectedOption: DropDownItem;
 
-    @Output() filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
+    @Output() public filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
     public constructor(private navigateQueryParametersService: NavigateQueryParametersService){
         this.ClearFilter();
+        this.SelectedOption = new DropDownItem('Option', '');
     }
 
     public ngAfterContentInit(): void {
         this.navigateQueryParametersService.Navigate(this);
     }
 
-    setSelectedOption = (option: DropDownItem) : void => {
+    public setSelectedOption = (option: DropDownItem): void => {
         this.ClearFilter();
         this.SelectedOption = option;
         this.applyFilter();
     }
 
-    private ClearFilter() : void {
+    private ClearFilter(): void {
         this.filterText = '';
-        this.SelectedOption = new DropDownItem("Option", "");
+        this.SelectedOption = new DropDownItem('Option', '');
     }
 
     public clearFilterText(): void {
@@ -69,6 +70,8 @@ export class OptionFilterComponent implements IOptionFilter{
 
     @Input()
     public set setKnownFilter(filter: string) {
-        if (filter) this.filterText = filter;
+        if (filter) {
+            this.filterText = filter;
+        }
     }
 }

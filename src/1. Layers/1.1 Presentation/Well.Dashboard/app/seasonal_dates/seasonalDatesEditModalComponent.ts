@@ -11,33 +11,33 @@ import {HttpResponse} from '../shared/httpResponse';
     templateUrl: './app/seasonal_dates/seasonal-dates-edit-modal.html'
 })
 export class SeasonalDatesEditModalComponent {
-    isVisible: boolean = false;
-    seasonalDate: SeasonalDate;
-    httpResponse: HttpResponse = new HttpResponse();
-    errors: string[];
-    @Output() onUpdate = new EventEmitter<SeasonalDate>();
+    public isVisible: boolean = false;
+    public seasonalDate: SeasonalDate;
+    public httpResponse: HttpResponse = new HttpResponse();
+    public errors: string[];
+    @Output() public onUpdate = new EventEmitter<SeasonalDate>();
 
     constructor(private seasonalDateService: SeasonalDateService, private toasterService: ToasterService) { }
 
-    @ViewChild(BranchCheckboxComponent) branch: BranchCheckboxComponent;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
     
-    show(seasonalDate: SeasonalDate) {
+    public show(seasonalDate: SeasonalDate) {
         this.clear();
         this.seasonalDate = seasonalDate;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
         this.clear();
     }
 
-    clear() {
+    public clear() {
         this.seasonalDate = new SeasonalDate();
         this.errors = [];
     }
 
-    update() {
+    public update() {
         this.seasonalDateService.saveSeasonalDate(this.seasonalDate)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -48,7 +48,10 @@ export class SeasonalDatesEditModalComponent {
                     this.onUpdate.emit(this.seasonalDate);
                 }
                 if (this.httpResponse.failure) {
-                    this.toasterService.pop('error', 'Seasonal date could not be updated at this time!', 'Please try again later!');
+                    this.toasterService.pop(
+                        'error',
+                        'Seasonal date could not be updated at this time!',
+                        'Please try again later!');
                     this.isVisible = false;
                 }
                 if (this.httpResponse.notAcceptable) {

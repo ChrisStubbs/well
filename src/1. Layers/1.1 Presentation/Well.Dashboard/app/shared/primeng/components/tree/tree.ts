@@ -24,6 +24,251 @@ export class TreeNodeTemplateLoader implements OnInit {
 }
 
 @Component({
+    selector: 'p-tree',
+    template: `
+        <div [ngClass]="{'ui-tree ui-widget ui-widget-content ui-corner-all':true,'ui-tree-selectable':selectionMode}" [ngStyle]="style" [class]="styleClass" *ngIf="!horizontal">
+            <ul class="ui-tree-container">
+                <p-treeNode *ngFor="let node of value" [node]="node"></p-treeNode>
+            </ul>
+        </div>
+        <div [ngClass]="{'ui-tree ui-tree-horizontal ui-widget ui-widget-content ui-corner-all':true,'ui-tree-selectable':selectionMode}"  [ngStyle]="style" [class]="styleClass" *ngIf="horizontal">
+            <table *ngIf="value&&value[0]">
+                <p-treeNode [node]="value[0]" [root]="true"></p-treeNode>
+            </table>
+        </div>
+    `
+})
+export class Tree implements AfterContentInit {
+
+    @Input() value: TreeNode[];
+
+    @Input() selectionMode: string;
+
+    @Input() selection: any;
+
+    @Output() selectionChange: EventEmitter<any> = new EventEmitter();
+
+    @Output() onNodeSelect: EventEmitter<any> = new EventEmitter();
+
+    @Output() onNodeUnselect: EventEmitter<any> = new EventEmitter();
+
+    @Output() onNodeExpand: EventEmitter<any> = new EventEmitter();
+
+    @Output() onNodeCollapse: EventEmitter<any> = new EventEmitter();
+
+    @Output() onNodeContextMenuSelect: EventEmitter<any> = new EventEmitter();
+
+    @Input() style: any;
+
+    @Input() styleClass: string;
+
+    @Input() contextMenu: any;
+
+    @Input() layout: string = 'vertical';
+
+    @ContentChildren(PrimeTemplate) templates: QueryList<any>;
+
+    public templateMap: any;
+
+    get horizontal(): boolean {
+        return this.layout == 'horizontal';
+    }
+
+    ngAfterContentInit() {
+        if (this.templates.length) {
+            this.templateMap = {};
+        }
+
+        this.templates.forEach((item) => {
+            this.templateMap[item.getType()] = item.template;
+        });
+    }
+
+    onNodeClick(event: MouseEvent, node: TreeNode) {
+        let eventTarget = (<Element>event.target);
+
+        if (eventTarget.className && eventTarget.className.indexOf('ui-tree-toggler') === 0) {
+            return;
+        }
+        else {
+            let metaKey = (event.metaKey || event.ctrlKey);
+            let index = this.findIndexInSelection(node);
+            let selected = (index >= 0);
+
+            if (this.isCheckboxSelectionMode()) {
+                if (selected) {
+                    this.propagateSelectionDown(node, false);
+                    if (node.parent) {
+                        this.propagateSelectionUp(node.parent, false);
+                    }
+                    this.selectionChange.emit(this.selection);
+                    this.onNodeUnselect.emit({ originalEvent: event, node: node });
+                }
+                else {
+                    this.propagateSelectionDown(node, true);
+                    if (node.parent) {
+                        this.propagateSelectionUp(node.parent, true);
+                    }
+                    this.selectionChange.emit(this.selection);
+                    this.onNodeSelect.emit({ originalEvent: event, node: node });
+                }
+            }
+            else {
+                if (selected && metaKey) {
+                    if (this.isSingleSelectionMode()) {
+                        this.selectionChange.emit(null);
+                    }
+                    else {
+                        this.selection.splice(index, 1);
+                        this.selectionChange.emit(this.selection);
+                    }
+
+                    this.onNodeUnselect.emit({ originalEvent: event, node: node });
+                }
+                else {
+                    if (this.isSingleSelectionMode()) {
+                        this.selectionChange.emit(node);
+                    }
+                    else if (this.isMultipleSelectionMode()) {
+                        this.selection = (!metaKey) ? [] : this.selection || [];
+                        this.selection.push(node);
+                        this.selectionChange.emit(this.selection);
+                    }
+
+                    this.onNodeSelect.emit({ originalEvent: event, node: node });
+                }
+            }
+        }
+    }
+
+    onNodeRightClick(event: MouseEvent, node: TreeNode) {
+        if (this.contextMenu) {
+            let eventTarget = (<Element>event.target);
+
+            if (eventTarget.className && eventTarget.className.indexOf('ui-tree-toggler') === 0) {
+                return;
+            }
+            else {
+                let index = this.findIndexInSelection(node);
+                let selected = (index >= 0);
+
+                if (!selected) {
+                    if (this.isSingleSelectionMode())
+                        this.selectionChange.emit(node);
+                    else
+                        this.selectionChange.emit([node]);
+                }
+
+                this.contextMenu.show(event);
+                this.onNodeContextMenuSelect.emit({ originalEvent: event, node: node });
+            }
+        }
+    }
+
+    findIndexInSelection(node: TreeNode) {
+        let index: number = -1;
+
+        if (this.selectionMode && this.selection) {
+            if (this.isSingleSelectionMode()) {
+                index = (this.selection == node) ? 0 : - 1;
+            }
+            else {
+                for (let i = 0; i < this.selection.length; i++) {
+                    if (this.selection[i] == node) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return index;
+    }
+
+    propagateSelectionUp(node: TreeNode, select: boolean) {
+        if (node.children && node.children.length) {
+            let selectedCount: number = 0;
+            let childPartialSelected: boolean = false;
+            for (let child of node.children) {
+                if (this.isSelected(child)) {
+                    selectedCount++;
+                }
+                else if (child.partialSelected) {
+                    childPartialSelected = true;
+                }
+            }
+
+            if (select && selectedCount == node.children.length) {
+                this.selection = this.selection || [];
+                this.selection.push(node);
+                node.partialSelected = false;
+            }
+            else {
+                if (!select) {
+                    let index = this.findIndexInSelection(node);
+                    if (index >= 0) {
+                        this.selection.splice(index, 1);
+                    }
+                }
+
+                if (childPartialSelected || selectedCount > 0 && selectedCount != node.children.length)
+                    node.partialSelected = true;
+                else
+                    node.partialSelected = false;
+            }
+        }
+
+        let parent = node.parent;
+        if (parent) {
+            this.propagateSelectionUp(parent, select);
+        }
+    }
+
+    propagateSelectionDown(node: TreeNode, select: boolean) {
+        let index = this.findIndexInSelection(node);
+
+        if (select && index == -1) {
+            this.selection = this.selection || [];
+            this.selection.push(node);
+        }
+        else if (!select && index > -1) {
+            this.selection.splice(index, 1);
+        }
+
+        node.partialSelected = false;
+
+        if (node.children && node.children.length) {
+            for (let child of node.children) {
+                this.propagateSelectionDown(child, select);
+            }
+        }
+    }
+
+    isSelected(node: TreeNode) {
+        return this.findIndexInSelection(node) != -1;
+    }
+
+    isSingleSelectionMode() {
+        return this.selectionMode && this.selectionMode == 'single';
+    }
+
+    isMultipleSelectionMode() {
+        return this.selectionMode && this.selectionMode == 'multiple';
+    }
+
+    isCheckboxSelectionMode() {
+        return this.selectionMode && this.selectionMode == 'checkbox';
+    }
+
+    getTemplateForNode(node: TreeNode): TemplateRef<any> {
+        if (this.templateMap)
+            return node.type ? this.templateMap[node.type] : this.templateMap['default'];
+        else
+            return null;
+    }
+}
+
+@Component({
     selector: 'p-treeNode',
     template: `
         <template [ngIf]="node">
@@ -150,250 +395,6 @@ export class UITreeNode {
     }
 }
 
-@Component({
-    selector: 'p-tree',
-    template: `
-        <div [ngClass]="{'ui-tree ui-widget ui-widget-content ui-corner-all':true,'ui-tree-selectable':selectionMode}" [ngStyle]="style" [class]="styleClass" *ngIf="!horizontal">
-            <ul class="ui-tree-container">
-                <p-treeNode *ngFor="let node of value" [node]="node"></p-treeNode>
-            </ul>
-        </div>
-        <div [ngClass]="{'ui-tree ui-tree-horizontal ui-widget ui-widget-content ui-corner-all':true,'ui-tree-selectable':selectionMode}"  [ngStyle]="style" [class]="styleClass" *ngIf="horizontal">
-            <table *ngIf="value&&value[0]">
-                <p-treeNode [node]="value[0]" [root]="true"></p-treeNode>
-            </table>
-        </div>
-    `
-})
-export class Tree implements AfterContentInit {
-
-    @Input() value: TreeNode[];
-        
-    @Input() selectionMode: string;
-    
-    @Input() selection: any;
-    
-    @Output() selectionChange: EventEmitter<any> = new EventEmitter();
-    
-    @Output() onNodeSelect: EventEmitter<any> = new EventEmitter();
-    
-    @Output() onNodeUnselect: EventEmitter<any> = new EventEmitter();
-    
-    @Output() onNodeExpand: EventEmitter<any> = new EventEmitter();
-    
-    @Output() onNodeCollapse: EventEmitter<any> = new EventEmitter();
-    
-    @Output() onNodeContextMenuSelect: EventEmitter<any> = new EventEmitter();
-    
-    @Input() style: any;
-        
-    @Input() styleClass: string;
-    
-    @Input() contextMenu: any;
-    
-    @Input() layout: string = 'vertical';
-    
-    @ContentChildren(PrimeTemplate) templates: QueryList<any>;
-    
-    public templateMap: any;
-    
-    get horizontal(): boolean {
-        return this.layout == 'horizontal';
-    }
-    
-    ngAfterContentInit() {
-        if(this.templates.length) {
-            this.templateMap = {};
-        }
-        
-        this.templates.forEach((item) => {
-            this.templateMap[item.getType()] = item.template;
-        });
-    }
-         
-    onNodeClick(event: MouseEvent, node: TreeNode) {
-        let eventTarget = (<Element> event.target);
-        
-        if(eventTarget.className && eventTarget.className.indexOf('ui-tree-toggler') === 0) {
-            return;
-        }
-        else {
-            let metaKey = (event.metaKey||event.ctrlKey);
-            let index = this.findIndexInSelection(node);
-            let selected = (index >= 0);
-                   
-            if(this.isCheckboxSelectionMode()) {
-                if(selected) {
-                    this.propagateSelectionDown(node, false);
-                    if(node.parent) {
-                        this.propagateSelectionUp(node.parent, false);
-                    }
-                    this.selectionChange.emit(this.selection);
-                    this.onNodeUnselect.emit({originalEvent: event, node: node});
-                }
-                else {
-                    this.propagateSelectionDown(node, true);
-                    if(node.parent) {
-                        this.propagateSelectionUp(node.parent, true);
-                    }
-                    this.selectionChange.emit(this.selection);
-                    this.onNodeSelect.emit({originalEvent: event, node: node});
-                }
-            }
-            else {
-                if(selected && metaKey) {
-                    if(this.isSingleSelectionMode()) {
-                        this.selectionChange.emit(null);
-                    }
-                    else {
-                        this.selection.splice(index,1);
-                        this.selectionChange.emit(this.selection);
-                    }
-
-                    this.onNodeUnselect.emit({originalEvent: event, node: node});
-                }
-                else {
-                    if(this.isSingleSelectionMode()) {
-                        this.selectionChange.emit(node);
-                    }
-                    else if(this.isMultipleSelectionMode()) {
-                        this.selection = (!metaKey) ? [] : this.selection||[];
-                        this.selection.push(node);
-                        this.selectionChange.emit(this.selection);
-                    }
-
-                    this.onNodeSelect.emit({originalEvent: event, node: node});
-                }
-            }
-        }
-    }
-    
-    onNodeRightClick(event: MouseEvent, node: TreeNode) {
-        if(this.contextMenu) {
-            let eventTarget = (<Element> event.target);
-            
-            if(eventTarget.className && eventTarget.className.indexOf('ui-tree-toggler') === 0) {
-                return;
-            }
-            else {
-                let index = this.findIndexInSelection(node);
-                let selected = (index >= 0);
-                
-                if(!selected) {
-                    if(this.isSingleSelectionMode())
-                        this.selectionChange.emit(node);
-                    else
-                        this.selectionChange.emit([node]);
-                }
-                   
-                this.contextMenu.show(event);
-                this.onNodeContextMenuSelect.emit({originalEvent: event, node: node});
-            }
-        }
-    }
-    
-    findIndexInSelection(node: TreeNode) {
-        let index: number = -1;
-
-        if(this.selectionMode && this.selection) {
-            if(this.isSingleSelectionMode()) {
-                index = (this.selection == node) ? 0 : - 1;
-            }
-            else {
-                for(let i = 0; i  < this.selection.length; i++) {
-                    if(this.selection[i] == node) {
-                        index = i;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return index;
-    }
-    
-    propagateSelectionUp(node: TreeNode, select: boolean) {
-        if(node.children && node.children.length) {
-            let selectedCount: number = 0;
-            let childPartialSelected: boolean = false;
-            for(let child of node.children) {
-                if(this.isSelected(child)) {
-                    selectedCount++;
-                }
-                else if(child.partialSelected) {
-                    childPartialSelected = true;
-                }
-            }
-            
-            if(select && selectedCount == node.children.length) {
-                this.selection = this.selection||[];
-                this.selection.push(node);
-                node.partialSelected = false;
-            }
-            else {                
-                if(!select) {
-                    let index = this.findIndexInSelection(node);
-                    if(index >= 0) {
-                        this.selection.splice(index, 1);
-                    }
-                }
-                
-                if(childPartialSelected || selectedCount > 0 && selectedCount != node.children.length)
-                    node.partialSelected = true;
-                else
-                    node.partialSelected = false;
-            }
-        }
-                
-        let parent = node.parent;
-        if(parent) {
-            this.propagateSelectionUp(parent, select);
-        }
-    }
-    
-    propagateSelectionDown(node: TreeNode, select: boolean) {
-        let index = this.findIndexInSelection(node);
-        
-        if(select && index == -1) {
-            this.selection = this.selection||[];
-            this.selection.push(node);
-        }
-        else if(!select && index > -1) {
-            this.selection.splice(index, 1);
-        }
-        
-        node.partialSelected = false;
-        
-        if(node.children && node.children.length) {
-            for(let child of node.children) {
-                this.propagateSelectionDown(child, select);
-            }
-        }
-    }
-    
-    isSelected(node: TreeNode) {
-        return this.findIndexInSelection(node) != -1;         
-    }
-    
-    isSingleSelectionMode() {
-        return this.selectionMode && this.selectionMode == 'single';
-    }
-    
-    isMultipleSelectionMode() {
-        return this.selectionMode && this.selectionMode == 'multiple';
-    }
-    
-    isCheckboxSelectionMode() {
-        return this.selectionMode && this.selectionMode == 'checkbox';
-    }
-
-    getTemplateForNode(node: TreeNode): TemplateRef<any> {
-        if(this.templateMap)
-            return node.type ? this.templateMap[node.type] : this.templateMap['default'];
-        else
-            return null;
-    }
-}
 @NgModule({
     imports: [CommonModule],
     exports: [Tree,SharedModule],

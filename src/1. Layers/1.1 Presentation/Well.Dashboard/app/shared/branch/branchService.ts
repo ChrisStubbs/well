@@ -19,43 +19,54 @@ export class BranchService {
         private logService: LogService) {
     }
 
-    getBranches(username): Observable<Branch[]> {
+    public getBranches(username): Observable<Branch[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getBranchesWithSeasonalDate(seasonalDateId): Observable<Branch[]> {
+    public getBranchesWithSeasonalDate(seasonalDateId): Observable<Branch[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch-season?seasonalDateId=' + seasonalDateId)
+        return this.http.get(
+                this.globalSettingsService.globalSettings.apiUrl + 'branch-season?seasonalDateId=' + seasonalDateId)
             .map((response: Response) => <Branch[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getBranchesWithCreditThreshold(creditThresholdId): Observable<Branch[]> {
+    public getBranchesWithCreditThreshold(creditThresholdId): Observable<Branch[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch-credit-threshold?creditThresholdId=' + creditThresholdId)
+        return this.http.get(
+                this.globalSettingsService.globalSettings.apiUrl
+                + 'branch-credit-threshold?creditThresholdId='
+                + creditThresholdId)
             .map((response: Response) => <Branch[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    getBranchesWithCleanPreference(cleanPreferenceId): Observable<Branch[]> {
+    public getBranchesWithCleanPreference(cleanPreferenceId): Observable<Branch[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch-clean-preference?cleanPreferenceId=' + cleanPreferenceId)
+        return this.http.get(
+                this.globalSettingsService.globalSettings.apiUrl
+                + 'branch-clean-preference?cleanPreferenceId='
+                + cleanPreferenceId)
             .map((response: Response) => <Branch[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    saveBranches(branches: Branch[], username, domain): Observable<any> {
-        let body = JSON.stringify(branches);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({headers: headers});
+    public saveBranches(branches: Branch[], username, domain): Observable<any> {
+        const body = JSON.stringify(branches);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({headers: headers});
 
         if (username) {
-            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'save-branches-on-behalf-of-user?username=' + username + '&domain=' + domain,
-                    body,
-                    options)
+            return this.http.post(this.globalSettingsService.globalSettings.apiUrl
+                    + 'save-branches-on-behalf-of-user?username='
+                    + username
+                    + '&domain='
+                    + domain,
+                body,
+                options)
                 .map(res => res.json());
         } else {
             return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch',

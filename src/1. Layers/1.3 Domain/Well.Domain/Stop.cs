@@ -49,6 +49,17 @@
         [XmlIgnore]
         public string DropId { get; set; }
 
+        [XmlElement("TextField5")]
+        public string TextField5
+        {
+            get { return DropId; }
+            set
+            {
+                string[] text = value.Split(' ');
+                this.DropId = text[1];
+            }
+        }
+
         [XmlIgnore]
         public string LocationId { get; set; }
 

@@ -14,7 +14,7 @@ export class ResolvedDeliveryService {
         private httpErrorService: HttpErrorService) {
     }
 
-    getResolvedDeliveries(): Observable<ResolvedDelivery[]> {
+    public getResolvedDeliveries(): Observable<ResolvedDelivery[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'deliveries/resolved')
             .map((response: Response) => <ResolvedDelivery[]>response.json())

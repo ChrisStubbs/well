@@ -10,23 +10,23 @@ import {WidgetWarning} from './widgetWarning';
     templateUrl: './app/widget_warnings/widget-warning-remove-modal.html'
 })
 export class WidgetWarningRemoveModalComponent {
-    isVisible: boolean = false;
-    widgetWarning: WidgetWarning;
-    httpResponse: HttpResponse = new HttpResponse();
-    @Output() onWidgetWarningRemoved = new EventEmitter<WidgetWarning>();
+    public isVisible: boolean = false;
+    public widgetWarning: WidgetWarning;
+    public httpResponse: HttpResponse = new HttpResponse();
+    @Output() public onWidgetWarningRemoved = new EventEmitter<WidgetWarning>();
 
     constructor(private widgetWarningService: WidgetWarningService, private toasterService: ToasterService) { }
 
-    show(widgetWarning: WidgetWarning) {
+    public show(widgetWarning: WidgetWarning) {
         this.widgetWarning = widgetWarning;
         this.isVisible = true;
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 
-    yes() {
+    public yes() {
         this.widgetWarningService.removeWidgetWarning(this.widgetWarning.id)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -35,8 +35,12 @@ export class WidgetWarningRemoveModalComponent {
                     this.toasterService.pop('success', 'Widget warning has been removed!', '');
                     this.onWidgetWarningRemoved.emit(this.widgetWarning);
                 }
-                if (this.httpResponse.failure) this.toasterService.pop('error', 'Widget warning could not be deleted at this time!', 'Please try again later!');
-
+                if (this.httpResponse.failure) { 
+                    this.toasterService.pop(
+                        'error',
+                        'Widget warning could not be deleted at this time!',
+                        'Please try again later!');
+                }
                 this.isVisible = false;
                 
             });

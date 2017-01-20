@@ -7,24 +7,6 @@ export declare class TreeNodeTemplateLoader implements OnInit {
     constructor(viewContainer: ViewContainerRef);
     ngOnInit(): void;
 }
-export declare class UITreeNode {
-    tree: Tree;
-    static ICON_CLASS: string;
-    node: TreeNode;
-    parentNode: TreeNode;
-    root: boolean;
-    firstChild: boolean;
-    lastChild: boolean;
-    hover: boolean;
-    constructor(tree: Tree);
-    ngOnInit(): void;
-    getIcon(): string;
-    isLeaf(): boolean;
-    toggle(event: Event): void;
-    onNodeClick(event: MouseEvent): void;
-    onNodeRightClick(event: MouseEvent): void;
-    isSelected(): boolean;
-}
 export declare class Tree implements AfterContentInit {
     value: TreeNode[];
     selectionMode: string;
@@ -53,6 +35,24 @@ export declare class Tree implements AfterContentInit {
     isMultipleSelectionMode(): boolean;
     isCheckboxSelectionMode(): boolean;
     getTemplateForNode(node: TreeNode): TemplateRef<any>;
+}
+export declare class UITreeNode {
+    tree: Tree;
+    static ICON_CLASS: string;
+    node: TreeNode;
+    parentNode: TreeNode;
+    root: boolean;
+    firstChild: boolean;
+    lastChild: boolean;
+    hover: boolean;
+    constructor(tree: Tree);
+    ngOnInit(): void;
+    getIcon(): string;
+    isLeaf(): boolean;
+    toggle(event: Event): void;
+    onNodeClick(event: MouseEvent): void;
+    onNodeRightClick(event: MouseEvent): void;
+    isSelected(): boolean;
 }
 export declare class TreeModule {
 }

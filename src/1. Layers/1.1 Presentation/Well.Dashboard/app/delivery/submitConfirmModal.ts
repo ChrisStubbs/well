@@ -6,20 +6,20 @@ import {SubmitLine} from './model/submitLine';
     templateUrl: './app/delivery/submit-confirm-modal.html'
 })
 export class SubmitConfirmModal {
-    @Input() isVisible: boolean = false;
-    @Input() heading: string;
-    @Input() submitLines: SubmitLine[] = new Array<SubmitLine>();
-    @Output() confirmed = new EventEmitter();
+    @Input() public isVisible: boolean = false;
+    @Input() public heading: string;
+    @Input() public submitLines: SubmitLine[] = new Array<SubmitLine>();
+    @Output() public confirmed = new EventEmitter();
 
-    show() {
+    public show() {
         this.isVisible = true;
     }
-
-    hide() {
+    
+    public hide() {
         this.isVisible = false;
     }
 
-    confirm() {
+    public confirm() {
         this.confirmed.emit({});
         this.isVisible = false;
     }

@@ -2,21 +2,6 @@ import { ElementRef, AfterViewInit, OnDestroy, Renderer } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { MenuItem } from '../common/api';
 import { Router } from '@angular/router';
-export declare class ContextMenuSub {
-    domHandler: DomHandler;
-    router: Router;
-    contextMenu: ContextMenu;
-    item: MenuItem;
-    root: boolean;
-    constructor(domHandler: DomHandler, router: Router, contextMenu: ContextMenu);
-    activeItem: any;
-    activeLink: any;
-    onItemMouseEnter(event: any, item: any, menuitem: any): void;
-    onItemMouseLeave(event: any, link: any): void;
-    itemClick(event: any, item: MenuItem): void;
-    listClick(event: any): void;
-    position(sublist: any, item: any): void;
-}
 export declare class ContextMenu implements AfterViewInit, OnDestroy {
     el: ElementRef;
     domHandler: DomHandler;
@@ -39,6 +24,21 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     position(event?: MouseEvent): void;
     unsubscribe(item: any): void;
     ngOnDestroy(): void;
+}
+export declare class ContextMenuSub {
+    domHandler: DomHandler;
+    router: Router;
+    contextMenu: ContextMenu;
+    item: MenuItem;
+    root: boolean;
+    constructor(domHandler: DomHandler, router: Router, contextMenu: ContextMenu);
+    activeItem: any;
+    activeLink: any;
+    onItemMouseEnter(event: any, item: any, menuitem: any): void;
+    onItemMouseLeave(event: any, link: any): void;
+    itemClick(event: any, item: MenuItem): void;
+    listClick(event: any): void;
+    position(sublist: any, item: any): void;
 }
 export declare class ContextMenuModule {
 }

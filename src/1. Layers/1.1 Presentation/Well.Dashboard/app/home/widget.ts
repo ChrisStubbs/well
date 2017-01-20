@@ -1,10 +1,10 @@
 ﻿export class Widget {
-    name: string;
-    linkText: string;
-    link: string;
-    description: string;
-    count: number;
-    sortOrder: number;
-    showWarning: boolean;
-    showOnGraph: boolean;
+    public name: string;
+    public linkText: string;
+    public link: string;
+    public description: string;
+    public count: number;
+    public sortOrder: number;
+    public showWarning: boolean;
+    public showOnGraph: boolean;
 }

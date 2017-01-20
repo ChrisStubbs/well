@@ -1,4 +1,5 @@
-/* 
+/* tslint:disable */
+/*
     Port of jQuery MaskedInput by DigitalBush as a Native Angular2 Component in Typescript without jQuery
     https://github.com/digitalBush/jquery.maskedinput/
     

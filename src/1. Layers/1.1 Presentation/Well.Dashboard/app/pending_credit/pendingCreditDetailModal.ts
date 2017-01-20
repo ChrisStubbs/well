@@ -8,21 +8,23 @@ import { PendingCreditService } from './pendingCreditService';
     templateUrl: './app/pending_credit/pending-credit-detail-modal.html'
 })
 export class PendingCreditDetailModal {
-    isVisible: boolean;
-    pendingCredit: ExceptionDelivery;
-    details: PendingCreditDetail[];
+    public isVisible: boolean;
+    public pendingCredit: ExceptionDelivery;
+    public details: PendingCreditDetail[];
 
     constructor(private pendingCreditService: PendingCreditService) {}
 
-    show(pendingCredit: ExceptionDelivery) {
+    public show(pendingCredit: ExceptionDelivery) {
         this.pendingCredit = pendingCredit;
         this.pendingCreditService.getPendingCreditDetail(pendingCredit.id)
-            .subscribe(x => { this.details = x; this.isVisible = true;
+            .subscribe(x => {
+                this.details = x;
+                this.isVisible = true;
                 console.log(this.details);
             });
     }
 
-    hide() {
+    public hide() {
         this.isVisible = false;
     }
 }

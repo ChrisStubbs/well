@@ -1,4 +1,5 @@
-import {NgModule,Component,ElementRef,Input,Output,EventEmitter,AfterContentInit,ContentChildren,QueryList} from '@angular/core';
+/* tslint:disable */
+import { NgModule, Component, ElementRef, Input, Output, EventEmitter, AfterContentInit, ContentChildren, QueryList } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BlockableUI} from '../common/api';
 

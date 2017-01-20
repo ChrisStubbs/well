@@ -1,9 +1,9 @@
 ﻿import {Branch} from '../shared/branch/branch';
 
 export class WidgetWarning {
-    id: number;
-    widgetName: string;
-    warningLevel: number;
-    branches: Branch[];
-    type: string;
+    public id: number;
+    public widgetName: string;
+    public warningLevel: number;
+    public branches: Branch[];
+    public type: string;
 } 

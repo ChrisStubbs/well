@@ -1,8 +1,8 @@
 ﻿import {Branch} from '../shared/branch/branch';
 
 export class CleanPreference {
-    id: number;
-    days: number;
-    branchName: string;
-    branches: Branch[];
+    public id: number;
+    public days: number;
+    public branchName: string;
+    public branches: Branch[];
 }

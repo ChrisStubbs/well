@@ -15,9 +15,9 @@ import * as lodash from 'lodash';
 })
 
 export class WidgetComponent implements OnInit {
-    widgets: Widget[] = new Array<Widget>();
-    refreshSubscription: any;
-    @ViewChild(WidgetGraphComponent) widgetGraph: WidgetGraphComponent;
+    public widgets: Widget[] = new Array<Widget>();
+    public refreshSubscription: any;
+    @ViewChild(WidgetGraphComponent) public widgetGraph: WidgetGraphComponent;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -27,31 +27,33 @@ export class WidgetComponent implements OnInit {
         private router: Router) {
     }
 
-    ngOnInit() {
-        this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions, this.securityService.landingPage);
+    public ngOnInit() {
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.landingPage);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getWidgets());
         this.getWidgets();
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.refreshSubscription.unsubscribe();
     }
 
-    getWidgets() {
+    public getWidgets() {
         this.widgetService.getWidgets()
             .subscribe(widgets => {
-                let graphWidgets = lodash.filter(widgets, function(widget) {
+                const graphWidgets = lodash.filter(widgets, function(widget) {
                     return widget.showOnGraph === true;
                 });
                 this.widgets = widgets;
-                let graphlabels: string[] = graphWidgets.map(widget => { return widget.name; });
-                let graphData: any[] = graphWidgets.map(widget => { return widget.count; });
-                let graphWarnings = graphWidgets.map(widget => { return widget.showWarning; });
+                const graphlabels: string[] = graphWidgets.map(widget => { return widget.name; });
+                const graphData: any[] = graphWidgets.map(widget => { return widget.count; });
+                const graphWarnings = graphWidgets.map(widget => { return widget.showWarning; });
                 this.widgetGraph.init(graphlabels, graphData, graphWarnings, new Date());
             });
     }
 
-    widgetLinkClicked(widgetName: string) {
+    public widgetLinkClicked(widgetName: string) {
 
         let navigationExtras: NavigationExtras;
         switch (widgetName) {
@@ -78,12 +80,11 @@ export class WidgetComponent implements OnInit {
             }
         }
 
-
-        let link: string = this.widgets.filter(widget => { return widget.name === widgetName; })[0].link;
+        const link: string = this.widgets.filter(widget => { return widget.name === widgetName; })[0].link;
         this.router.navigate([link], navigationExtras);
     }
 
-    graphBarClicked(barName: string) {
+    public graphBarClicked(barName: string) {
         this.widgetLinkClicked(barName);
     }
 }

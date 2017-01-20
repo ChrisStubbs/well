@@ -88,20 +88,16 @@
 
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditEvent, username)).Returns(creditEventTransaction);
                 this.adamRepository.Setup(x => x.Credit(creditEventTransaction, adamSettings, username))
-                    // .Returns(AdamResponse.AdamDown);
                     .Returns(AdamResponse.PartProcessed);
 
                 this.exceptionEventRepository.SetupSet(x => x.CurrentUser = username);
 
-              //  this.exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditEventTransaction));
-
+                //ACT
                 var response = this.service.Credit(creditEvent, adamSettings, username);
 
-                //Assert.That(response, Is.EqualTo(AdamResponse.AdamDown));
                 Assert.That(response, Is.EqualTo(AdamResponse.PartProcessed));
 
                 this.adamRepository.Verify(x => x.Credit(creditEventTransaction, adamSettings, username), Times.Once);
-              //  this.exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditEventTransaction), Times.Once);
             }
         }
 

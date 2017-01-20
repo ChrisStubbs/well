@@ -17,7 +17,13 @@ Scenario: Add short qty and damages to clean delivery
 	And I open the clean delivery '1'
 	And I click on the first delivery line
 	When I enter a short quantity of '5'
-	And I add a damage qty of '2' and reason 'Picking Error'
+	And I select a short source of 'Checker'
+	And I select a short reason of 'Minimum Drop Charge'
+	And I select a short action of 'Reject'
+	And click add damage button
+	And I enter a damage qty of '2' for id '0'
+	And I enter a damage reason of 'Picking Error' for id '0'
+	And I enter a damage source of 'Customer' for id '0'
 	And I save the delivery line updates
 	And I confirm the delivery line update
 	Then the line '1' Short Qty is '5' and Damaged Qty is '2' Del Qty is '13'

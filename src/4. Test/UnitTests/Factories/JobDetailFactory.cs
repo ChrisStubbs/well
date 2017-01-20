@@ -23,8 +23,8 @@
             this.Entity.PackSize = "Text2";
             this.Entity.SingleOrOuter = "Text3";
             this.Entity.SsccBarcode = "123456789";
-            //this.Entity.SubOuterDamageTotal = 100;
             this.Entity.SkuGoodsValue = 2.2;
+            this.Entity.DeliveredQty = "23";
             this.Entity.JobId = 1;
             this.Entity.JobDetailDamages = new List<JobDetailDamage>
             {

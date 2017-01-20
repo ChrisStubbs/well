@@ -10,29 +10,55 @@
         public DeliveryLinePage()
         {
             ShortQtyTextBox = new TextBox { Locator = By.Id("short-qty-input") };
-
             AddDamageButton = new Button { Locator = By.Id("add-damage-button") };
             FirstDamageQtyTextBox = new TextBox { Locator = By.Id("damage-qty-input0") };
             FirstDamageReasonSelect = new HtmlSelectElement() { Locator = By.Id("reason-select0") };
             DamagesGrid = new Grid<DamagesGridCols> {Locator = By.Id("damageTable"), RowLocator = By.ClassName("editable") };
-
             SaveButton = new Button { Locator = By.Id("save-button") };
             ConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
-
             AddActionButton = new Button() { Locator = By.Id("add-action-button") };
             ActionGrid = new Grid<ActionGridCols> { Locator = By.Id("actionTable"), RowLocator = By.ClassName("editable") };
+            this.ShortSourceSelect = new HtmlSelectElement() { Locator = By.Id("short-source-select") };
+            this.ShortReasonSelect = new HtmlSelectElement() { Locator = By.Id("short-reason-select") };
+            this.ShortActionSelect = new HtmlSelectElement() { Locator = By.Id("short-reason-action") };
         }
 
         protected override string UrlSuffix => "delivery";
 
-     
-        public TextBox ShortQtyTextBox;
+        public readonly TextBox ShortQtyTextBox;
         public readonly Button AddDamageButton;
-       
-        public TextBox FirstDamageQtyTextBox;
-        public HtmlSelectElement FirstDamageReasonSelect;
+        public readonly TextBox FirstDamageQtyTextBox;
+        public readonly HtmlSelectElement FirstDamageReasonSelect;
         public readonly Button SaveButton;
         public readonly Button ConfirmButton;
+        public readonly HtmlSelectElement ShortSourceSelect;
+        public readonly HtmlSelectElement ShortReasonSelect;
+        public readonly HtmlSelectElement ShortActionSelect;
+
+        public TextBox DamageQtyInput(int id)
+        {
+            return new TextBox() { Locator = By.Id("damage-qty-input" + id) };
+        }
+
+        public HtmlSelectElement DamageReasonSelect(int id)
+        {
+            return new HtmlSelectElement() { Locator = By.Id("damage-reason-select" + id) };
+        }
+
+        public HtmlSelectElement DamageSourceSelect(int id)
+        {
+            return new HtmlSelectElement() { Locator = By.Id("damage-source-select" + id) };
+        }
+
+        public HtmlSelectElement DamageActionSelect(int id)
+        {
+            return new HtmlSelectElement() { Locator = By.Id("damage-action-select" + id) };
+        }
+
+        public Button DamageRemoveButton(int id)
+        {
+            return new Button() { Locator = By.Id("remove-damage-button" + id) };
+        }
 
         public IWebElement ActionsTab
         {

@@ -9,7 +9,9 @@
         {
             this.Entity.JobDetailId = 1;
             this.Entity.Quantity = 5;
-            this.Entity.Reason = JobDetailReason.Administration;
+            this.Entity.JobDetailReasonId = (int)JobDetailReason.Administration;
+            this.Entity.JobDetailSourceId = (int)JobDetailSource.Assembler;
+            this.Entity.DamageActionId = (int)DeliveryAction.Credit;
         }
     }
 }

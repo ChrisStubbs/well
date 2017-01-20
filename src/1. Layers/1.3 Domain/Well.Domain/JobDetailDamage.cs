@@ -9,9 +9,8 @@
     [Serializable()]
     public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
     {
-        public JobDetailDamage()
-        {
-        }
+        [XmlIgnore]
+        public int DamageActionId { get; set; }
 
         [XmlIgnore]
         public decimal Qty { get; set; }
@@ -21,7 +20,7 @@
         {
             get
             {
-                return this.Qty.ToString();                    
+                return this.Qty.ToString();
             }
             set
             {
@@ -45,6 +44,12 @@
 
         [XmlIgnore]
         public DamageSource Source { get; set; }
+
+        [XmlIgnore]
+        public int JobDetailReasonId { get; set; }
+
+        [XmlIgnore]
+        public int JobDetailSourceId { get; set; }
 
         // TODO remove this as wont work
         [XmlIgnore]

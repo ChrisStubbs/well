@@ -7,5 +7,7 @@
         public int JobDetailSourceId { get; set; }
 
         public int JobDetailReasonId { get; set; }
+
+        public int DamageActionId { get; set; }
     }
 }

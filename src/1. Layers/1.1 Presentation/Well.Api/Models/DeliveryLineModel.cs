@@ -36,6 +36,8 @@
 
         public int JobDetailSourceId { get; set; }
 
+        public int ShortsActionId { get; set; }
+
         public List<DamageModel> Damages { get; set; }
 
         public List<ActionModel> Actions { get; set; }

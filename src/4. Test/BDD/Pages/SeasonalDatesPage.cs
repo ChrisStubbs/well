@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using Microsoft.SqlServer.Management.Smo.Agent;
-
-namespace PH.Well.BDD.Pages
+﻿namespace PH.Well.BDD.Pages
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using OpenQA.Selenium;
     using PH.Well.BDD.Framework.WebElements;
 

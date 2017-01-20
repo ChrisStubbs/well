@@ -7,6 +7,9 @@
     using Factories;
     using Moq;
     using NUnit.Framework;
+
+    using PH.Well.UnitTests.Api.Controllers;
+
     using Repositories;
     using Repositories.Contracts;
     using Well.Common.Contracts;
@@ -56,7 +59,6 @@
 
             }
         }
-
 
         public class TheGetByJobIdMethod : JobDetailRepositoryTests
         {
@@ -216,6 +218,161 @@
                   Times.Exactly(1));
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Exactly(1));
+            }
+        }
+
+        public class TheUpdateMethod : JobDetailRepositoryTests
+        {
+            [Test]
+            public void ShouldUpdateTheJobDetail()
+            {
+                var jobDetail = JobDetailFactory.New.Build();
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailUpdate)).Returns(dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Id", jobDetail.Id, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("DeliveredQty", decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal, null))
+                    .Returns(dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null))
+                    .Returns(dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("ProductDescription", jobDetail.ProdDesc, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("ProductType", jobDetail.PhProductType, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("PackSize", jobDetail.PackSize, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("UpdatedBy", "TestUser", DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.Update(jobDetail);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailUpdate), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Id", jobDetail.Id, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("DeliveredQty", decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("ProductDescription", jobDetail.ProdDesc, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("UnitMeasure", jobDetail.UnitMeasure, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("ProductType", jobDetail.PhProductType, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("PackSize", jobDetail.PackSize, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("UpdatedBy", "TestUser", DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
         }
     }

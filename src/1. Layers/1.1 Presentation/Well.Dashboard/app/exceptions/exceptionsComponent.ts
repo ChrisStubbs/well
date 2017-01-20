@@ -1,9 +1,10 @@
-﻿import { Component, OnInit, ViewChild }     from '@angular/core';
+﻿//https://www.softwarearchitekt.at/post/2016/12/02/sticky-routes-in-angular-2-3-with-routereusestrategy.aspx
+import { Component, OnInit, ViewChild }     from '@angular/core';
 import { Router, ActivatedRoute}            from '@angular/router';
 import { Response }                         from '@angular/http';
 import { GlobalSettingsService }            from '../shared/globalSettings';
 import { LogService }                       from '../shared/logService';
-import 'rxjs/Rx';   // Load all features
+import 'rxjs/Rx';
 import {BranchService}                      from "../shared/branch/branchService";
 import {FilterOption}                       from "../shared/filterOption";
 import {DropDownItem}                       from "../shared/dropDownItem";
@@ -17,18 +18,18 @@ import {HttpResponse}                       from '../shared/httpResponse';
 import {AssignModal}                        from "../shared/assignModal";
 import {ConfirmModal}                       from "../shared/confirmModal";
 import {IUser}                              from "../shared/user";
-import {CreditItem}                         from "../shared/creditItem";
 import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
 import {SecurityService}                    from '../shared/security/securityService';
 import {Threshold}                          from '../shared/threshold';
 import * as lodash                          from 'lodash';
 
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
+
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
-    providers: [ExceptionDeliveryService]
+    providers: [ExceptionDeliveryService, Location, {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
-
 export class ExceptionsComponent implements OnInit {
     isLoading: boolean = true;
     refreshSubscription: any;
@@ -79,6 +80,7 @@ export class ExceptionsComponent implements OnInit {
     @ViewChild(ContactModal) private contactModal: ContactModal;
     thresholdLimit: Threshold;
     isReadOnlyUser: boolean = false;
+    private currentPage  = 1;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -89,8 +91,8 @@ export class ExceptionsComponent implements OnInit {
         private refreshService: RefreshService,
         private toasterService: ToasterService,
         private securityService: SecurityService,
-        private logService: LogService,
-        private branchService: BranchService ) {
+        private location: Location) {
+
     }
 
     ngOnInit(): void {
@@ -100,6 +102,7 @@ export class ExceptionsComponent implements OnInit {
             this.routeId = params['route'];
             this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
+
             this.getExceptions();
             this.getThresholdLimit();
             this.bulkCredits = new Array<ExceptionDelivery>();
@@ -145,7 +148,7 @@ export class ExceptionsComponent implements OnInit {
         this.exceptionDeliveryService.getUserCreditThreshold(this.globalSettingsService.globalSettings.userName)
             .subscribe(responseData => {
                 this.threshold = responseData[0];
-               
+
             });
     }
 
@@ -154,12 +157,14 @@ export class ExceptionsComponent implements OnInit {
         var sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
         this.getExceptions();
         lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);
+
+        this.location
     }
 
     onSortDirectionChanged(isDesc: boolean) {
         this.sortDirection(isDesc);
     }
-    
+
     onFilterClicked(filterOption: FilterOption) {
         this.filterOption = filterOption;
         this.bulkCredits = [];
@@ -175,11 +180,11 @@ export class ExceptionsComponent implements OnInit {
 
     isChecked(exceptionid) {
         var creditListIndex = this.getCreditListIndex(exceptionid);
-        
+
         if (creditListIndex === -1) {
             return '';
         } else {
-            return'checked'; 
+            return'checked';
         }
     }
 
@@ -203,34 +208,34 @@ export class ExceptionsComponent implements OnInit {
 
     /*selectAllCredits() {
 
-        this.bulkCredits = [];
-        var creditListIndex = -1;
+     this.bulkCredits = [];
+     var creditListIndex = -1;
 
-        if (this.filterOption.dropDownItem.description === 'Credit Threshold' &&
-            this.exceptions.length > 0 &&
-            !isNaN(parseFloat(this.filterOption.filterText))) {
+     if (this.filterOption.dropDownItem.description === 'Credit Threshold' &&
+     this.exceptions.length > 0 &&
+     !isNaN(parseFloat(this.filterOption.filterText))) {
 
-            var currentThreshold = parseFloat(this.filterOption.filterText);
-            
-            lodash.forEach(this.exceptions,
-                value => {
-                    if (value.totalCreditValueForThreshold <= currentThreshold && value.assigned !== 'Unallocated') {
-                        creditListIndex = this.getCreditListIndex(value.id);
-                        this.addToCreditList(value, creditListIndex);
-                    }
-                });
-        } else {
+     var currentThreshold = parseFloat(this.filterOption.filterText);
 
-            lodash.forEach(this.exceptions,
-                value => {
-                    if (value.assigned !== 'Unallocated') {
-                        creditListIndex = this.getCreditListIndex(value.id);
-                        this.addToCreditList(value, creditListIndex);
-                    }
-                });
-        }
-    }*/
-    
+     lodash.forEach(this.exceptions,
+     value => {
+     if (value.totalCreditValueForThreshold <= currentThreshold && value.assigned !== 'Unallocated') {
+     creditListIndex = this.getCreditListIndex(value.id);
+     this.addToCreditList(value, creditListIndex);
+     }
+     });
+     } else {
+
+     lodash.forEach(this.exceptions,
+     value => {
+     if (value.assigned !== 'Unallocated') {
+     creditListIndex = this.getCreditListIndex(value.id);
+     this.addToCreditList(value, creditListIndex);
+     }
+     });
+     }
+     }*/
+
     addToCreditList(exception, index) {
 
         var isAboveThesholdLimit = this.isAboveThresholdLimit(exception.totalCreditValueForThreshold);
@@ -238,7 +243,7 @@ export class ExceptionsComponent implements OnInit {
         if (index === -1) {
             exception.isPending = isAboveThesholdLimit;
             this.bulkCredits.push(exception);
-        }       
+        }
     }
 
     removeFromCreditList(index) {
@@ -286,7 +291,7 @@ export class ExceptionsComponent implements OnInit {
     creditConfirmed() {
 
         this.paginationCount();
-        
+
         this.exceptionDeliveryService.creditLines(this.bulkCredits)
             .subscribe((res: Response) => {
 
@@ -327,7 +332,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     openConfirmModal(delivery): void {
-        
+
     }
 
     onAssigned($event) {
@@ -340,7 +345,7 @@ export class ExceptionsComponent implements OnInit {
             if (creditListIndex !== -1) {
                 this.removeFromCreditList($event.delivery);
             }
-        } 
+        }
         this.getExceptions();
     }
 
@@ -349,7 +354,7 @@ export class ExceptionsComponent implements OnInit {
 
         if (isLastExceptionOnPage) {
             location.reload();
-        }       
+        }
 
     }
 
@@ -371,4 +376,11 @@ export class ExceptionsComponent implements OnInit {
         }
     }
 
+    public bla(pageNumber: number): void {
+        this.currentPage = pageNumber;
+        let queryParams = {
+            page: this.currentPage
+        };
+        this.router.navigate([], {queryParams});
+    }
 }

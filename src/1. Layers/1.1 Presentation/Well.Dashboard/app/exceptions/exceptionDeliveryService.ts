@@ -6,9 +6,7 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {IUser} from '../shared/user';
-import {UserJob} from '../shared/userJob';
 import {LogService} from '../shared/logService';
-import {Threshold} from '../shared/threshold';
 
 @Injectable()
 export class ExceptionDeliveryService {

@@ -53,7 +53,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                    <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
                         <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                         <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
@@ -61,7 +61,7 @@
                         <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
                         <td (click)="deliverySelected(delivery)"><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
                         <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>
-                        <td>
+                        <td>`
                             <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                         </td>
                         <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
             <div class="col-md-6" *ngIf="exceptions && exceptions.length">
-                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+                <pagination-controls class="pull-right" (pageChange)=" bla($event)"></pagination-controls>
             </div>
         </div>
     </div>

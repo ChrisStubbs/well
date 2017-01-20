@@ -1,5 +1,5 @@
 ﻿import { Component, EventEmitter, Output, ViewChild }  from '@angular/core';
-import { BaseChartComponent } from 'ng2-charts/ng2-charts';
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 
 @Component({
     selector: 'ow-widget-graph',
@@ -10,7 +10,7 @@ export class WidgetGraphComponent {
     private blue: string = "#428bca";
 
     @Output() barClicked = new EventEmitter<string>();
-    @ViewChild(BaseChartComponent) myChart: BaseChartComponent;
+    @ViewChild(BaseChartDirective) myChart: BaseChartDirective;
 
     public barChartOptions: any = {
         scaleShowVerticalLines: false,

@@ -52,7 +52,7 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {CodComponent} from './shared/codComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
-import {SpinnerComponent} from './shared/spinnerComponent'; 
+import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
@@ -83,9 +83,9 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
 import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
-
+import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
 //import {CalendarModule} from 'primeng/primeng';
-import {CalendarModule} from './shared/primeng/primeng';
+import {CalendarModule, PaginatorModule} from './shared/primeng/primeng';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -103,13 +103,13 @@ import {CalendarModule} from './shared/primeng/primeng';
         CodComponent
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule, PaginatorModule
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService,
-        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService,
+        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService, NavigateQueryParametersService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

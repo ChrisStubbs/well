@@ -19,7 +19,7 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveNotification)
                     .AddParameter("JobId", notification.JobId, DbType.Int32)
                     .AddParameter("Type", notification.Type, DbType.Int16)
-                    .AddParameter("Reason", notification.ErrorMessage, DbType.String, size: 255)
+                    .AddParameter("ErrorMessage", notification.ErrorMessage, DbType.String, size: 255)
                     .AddParameter("CreatedBy", notification.Source, DbType.String, size: 50)
                     .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                     .AddParameter("UpdatedBy", notification.Source, DbType.String, size: 50)

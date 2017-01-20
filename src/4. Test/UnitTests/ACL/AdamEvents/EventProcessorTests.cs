@@ -77,7 +77,7 @@
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
-                    x => x.Credit(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+                    x => x.CreditEventTransaction(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
@@ -86,7 +86,7 @@
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 this.exceptionEventService.Verify(
-                    x => x.Credit(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
+                    x => x.CreditEventTransaction(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
                     Times.Once);
             }
 

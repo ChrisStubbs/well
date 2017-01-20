@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    public class CreditFail
+    public class AdamFail
     {
 
         public int Id { get; set; }

@@ -4,6 +4,7 @@
     {
         Success = 0,
         AdamDown = 1,
-        Unknown = 2
+        Unknown = 2,
+        PartProcessed = 3
     }
 }

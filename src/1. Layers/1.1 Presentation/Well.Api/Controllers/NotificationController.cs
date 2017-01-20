@@ -46,19 +46,19 @@
 
         }
 
-        [Route("notification/credit")]
+        [Route("notification/adamError")]
         [HttpPost]
-        public HttpResponseMessage Post(CreditFail credit)
+        public HttpResponseMessage Post(AdamFail failure)
         {
             try
             {
-                if (credit.JobId > 0)
+                if (failure.JobId > 0)
                 {
                     var notification = new Notification
                     {
-                        JobId = credit.JobId,
-                        Reason = credit.Reason, 
-                        Type = (int) NotificationType.Credit,
+                        JobId = failure.JobId,
+                        ErrorMessage = failure.ErrorMessage, 
+                        Type = failure.TransactionType,
                         Source = "ADAMCSS"
                     };
 
@@ -70,7 +70,7 @@
             }
             catch (Exception exception)
             {
-                this.logger.LogError("Error when trying to save credit failure notification ", exception);
+                this.logger.LogError("Error when trying to save ADAM failure notification ", exception);
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }

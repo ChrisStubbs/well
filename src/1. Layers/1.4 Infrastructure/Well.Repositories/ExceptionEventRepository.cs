@@ -18,6 +18,21 @@
         {
         }
 
+        public void InsertCreditEventTransaction(CreditEventTransaction creditEventTransaction)
+        {
+            var creditEventTransactionJson = JsonConvert.SerializeObject(creditEventTransaction);
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+                .AddParameter("Event", creditEventTransactionJson, DbType.String)
+                .AddParameter("ExceptionActionId", EventAction.CreditTransaction, DbType.Int32)
+                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
+
+        }
+
         public void InsertCreditEvent(CreditEvent creditEvent)
         {
             var creditEventJson = JsonConvert.SerializeObject(creditEvent);

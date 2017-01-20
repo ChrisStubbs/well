@@ -5,7 +5,7 @@
 
     public interface IAdamRepository
     {
-        AdamResponse Credit(CreditEvent credit, AdamSettings adamSettings);
+        AdamResponse Credit(CreditEventTransaction creditTransaction, AdamSettings adamSettings, string username);
 
         //    AdamResponse CreditHeader(CreditEvent credit, AdamSettings adamSettings);
 
@@ -22,5 +22,6 @@
         AdamResponse ReplanQueue(QueueEvent queue, AdamSettings adamSettings);
 
         AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings);
+
     }
 }

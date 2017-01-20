@@ -3,7 +3,7 @@
 	[Id] INT NOT NULL IDENTITY(1,1),
 	[JobId] INT NOT NULL,
 	[Type] TINYINT NOT NULL,
-	[Reason] VARCHAR(255) NULL,
+	[ErrorMessage] VARCHAR(255) NULL,
 	[IsArchived] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,

@@ -59,7 +59,10 @@
             [Test]
             public void Credit()
             {
-                var creditEvent = new CreditEvent { BranchId = 22, InvoiceNumber = "20011.110" };
+                var lineDictionary = new Dictionary<int, string>();
+                var line = "jhgkjhgkj";
+                lineDictionary.Add(1, line);
+                var creditEvent = new CreditEventTransaction { BranchId = 22, HeaderSql = "20011.110", LineSql = lineDictionary};
 
                 var json = JsonConvert.SerializeObject(creditEvent);
 
@@ -67,14 +70,14 @@
                 {
                     Id = 501,
                     Event = json,
-                    ExceptionActionId = (int)EventAction.Credit
+                    ExceptionActionId = (int)EventAction.CreditTransaction
                 };
 
                 var events = new List<ExceptionEvent> { exception };
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
-                    x => x.Credit(It.IsAny<CreditEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+                    x => x.Credit(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
@@ -83,7 +86,7 @@
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 this.exceptionEventService.Verify(
-                    x => x.Credit(It.IsAny<CreditEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
+                    x => x.Credit(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
                     Times.Once);
             }
 

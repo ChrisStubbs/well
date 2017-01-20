@@ -287,6 +287,11 @@ export class ExceptionsComponent implements OnInit {
                     }
                 } else if (this.httpResponse.notAcceptable) {
                     this.toasterService.pop('error', this.httpResponse.message, '');
+                } else if (this.httpResponse.adamPartProcessed) {
+                    this.toasterService.pop(
+                        'error',
+                        'the credit has been part processed!',
+                        'You will receive a notification once the credit is complete!');
                 }
             });
     }

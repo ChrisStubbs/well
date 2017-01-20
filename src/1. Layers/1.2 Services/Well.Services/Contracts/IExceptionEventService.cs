@@ -7,7 +7,9 @@
 
     public interface IExceptionEventService
     {
-        void Credit(CreditEvent creditEvent, int eventId, AdamSettings adamSettings, string username);
+        void Credit(CreditEventTransaction creditEventTransaction, int eventId, AdamSettings adamSettings, string username);
+
+        void CreditEventTransaction(CreditEventTransaction creditEventTransaction, int eventId, AdamSettings adamSettings, string username);
 
         AdamResponse BulkCredit(IEnumerable<CreditEvent> creditEvents, string username);
 

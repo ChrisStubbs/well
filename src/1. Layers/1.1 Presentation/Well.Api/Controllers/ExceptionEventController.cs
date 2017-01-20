@@ -46,12 +46,14 @@
 
                     if (response == AdamResponse.AdamDown)
                         return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
+                    if (response == AdamResponse.PartProcessed)
+                        return this.Request.CreateResponse(HttpStatusCode.OK, new { adamPartProcessed = true });
 
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }
 
                 this.userThresholdService.AssignPendingCredit(creditEvent, this.UserIdentityName);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t higher enough to credit this! It has been passed on for authorisation!'" });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t high enough to credit this! It has been passed on for authorisation!'" });
             }
             catch (UserThresholdNotFoundException)
             {

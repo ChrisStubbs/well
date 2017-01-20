@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import {Action} from './model/action';
-import {ActionStatus} from './model/actionStatus';
 import {Delivery} from './model/delivery';
 import {JobDetailReason} from './model/jobDetailReason';
 import {JobDetailSource} from './model/jobDetailSource';
@@ -41,12 +40,6 @@ export class DeliveryService {
     public getActions(): Observable<Action[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'delivery-actions/')
             .map((response: Response) => <Action[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e));
-    }
-
-    public getActionStatuses(): Observable<ActionStatus[]> {
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'action-statuses/')
-            .map((response: Response) => <ActionStatus[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

@@ -200,7 +200,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
-    <Compile Include="Controllers\DeliveryLineActionsController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
@@ -223,7 +222,6 @@
     <Compile Include="Controllers\WidgetController.cs" />
     <Compile Include="Controllers\RouterHeaderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
@@ -242,7 +240,7 @@
     <Compile Include="Mapper\CleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IWidgetWarningMapper.cs" />
     <Compile Include="Mapper\CreditThresholdMapper.cs" />
-    <Compile Include="Controllers\RouteModelslMapper.cs" />
+    <Compile Include="Mapper\RouteModelslMapper.cs" />
     <Compile Include="Mapper\DeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />

@@ -45,13 +45,13 @@
 
             Assert.That(jobDetail.JobDetailDamages.Count, Is.EqualTo(2));
 
-            Assert.That((int)jobDetail.JobDetailDamages[0].JobDetailReason, Is.EqualTo(model.Damages[0].JobDetailReasonId));
-            Assert.That((int)jobDetail.JobDetailDamages[0].JobDetailSource, Is.EqualTo(model.Damages[0].JobDetailSourceId));
+            Assert.That(jobDetail.JobDetailDamages[0].JobDetailReasonId, Is.EqualTo(model.Damages[0].JobDetailReasonId));
+            Assert.That(jobDetail.JobDetailDamages[0].JobDetailSourceId, Is.EqualTo(model.Damages[0].JobDetailSourceId));
             Assert.That(jobDetail.JobDetailDamages[0].JobDetailId, Is.EqualTo(jobDetail.Id));
             Assert.That(jobDetail.JobDetailDamages[0].Qty, Is.EqualTo(model.Damages[0].Quantity));
 
-            Assert.That((int)jobDetail.JobDetailDamages[1].JobDetailReason, Is.EqualTo(model.Damages[1].JobDetailReasonId));
-            Assert.That((int)jobDetail.JobDetailDamages[1].JobDetailSource, Is.EqualTo(model.Damages[1].JobDetailSourceId));
+            Assert.That(jobDetail.JobDetailDamages[1].JobDetailReasonId, Is.EqualTo(model.Damages[1].JobDetailReasonId));
+            Assert.That(jobDetail.JobDetailDamages[1].JobDetailSourceId, Is.EqualTo(model.Damages[1].JobDetailSourceId));
             Assert.That(jobDetail.JobDetailDamages[1].JobDetailId, Is.EqualTo(jobDetail.Id));
             Assert.That(jobDetail.JobDetailDamages[1].Qty, Is.EqualTo(model.Damages[1].Quantity));
         }

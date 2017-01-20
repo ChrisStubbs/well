@@ -9,7 +9,6 @@ import {DeliveryService} from './deliveryService';
 import {Router} from '@angular/router';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Action } from './model/action';
-import { ActionStatus } from './model/actionStatus';
 import * as lodash from 'lodash';
 
 @Component({

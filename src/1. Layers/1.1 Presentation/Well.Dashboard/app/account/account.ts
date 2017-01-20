@@ -6,9 +6,8 @@
     address2: string;
     postcode: string;
     contactName: string;
-    contactNumber: string;
+    contactNumber: string; 
     contactNumber2: string;
     contactEmailAddress: string;
     depotId: string;
-
 }

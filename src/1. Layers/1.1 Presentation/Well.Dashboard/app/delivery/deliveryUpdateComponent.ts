@@ -51,7 +51,7 @@ export class DeliveryUpdateComponent {
         this.deliveryActions.canAction = this.delivery.canAction;
     }
 
-   public invalidShortDamagesQty(): boolean {
+    public invalidShortDamagesQty(): boolean {
         return this.deliveryLine.totalQtyOfShortsAndDamages() > this.deliveryLine.invoicedQuantity;
     }
 

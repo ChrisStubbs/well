@@ -259,8 +259,8 @@ export class ExceptionsComponent implements OnInit {
         this.confirmModal.isVisible = true;
         this.confirmModal.heading = 'Bulk credit exceptions?';
         this.confirmModal.messageHtml =
-            'You are about to bulk credit ' + creditLength + ' exceptions ' + approvalConfirm +
-            'Are you sure you want to save your changes?';
+            'You are about to bulk credit the exceptions of ' + creditLength + ' invoices ' + approvalConfirm +
+            'Are you sure you want to continue?';
         return;
     }
 

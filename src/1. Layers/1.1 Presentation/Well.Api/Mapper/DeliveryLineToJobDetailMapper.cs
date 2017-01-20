@@ -22,8 +22,9 @@
             {
                 var damage = new JobDetailDamage
                 {
-                    JobDetailReason = (JobDetailReason)damageUpdateModel.JobDetailReasonId,
-                    JobDetailSource = (JobDetailSource)damageUpdateModel.JobDetailSourceId,
+                    JobDetailReasonId = damageUpdateModel.JobDetailReasonId,
+                    JobDetailSourceId = damageUpdateModel.JobDetailSourceId,
+                    DamageActionId = damageUpdateModel.DamageActionId,
                     JobDetailId = to.Id,
                     Qty = damageUpdateModel.Quantity
                 };

@@ -23,6 +23,7 @@ BEGIN
 		,jdd.[Qty] as Quantity
 		,jdd.JobDetailSourceId
 		,jdd.JobDetailReasonId
+		,jdd.DamageActionId
 	From 
 		[dbo].[JobDetailDamage] jdd
 		inner join [dbo].[JobDetail] jd on jdd.JobDetailId = jd.Id	

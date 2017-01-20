@@ -53,7 +53,8 @@
                     {
                         Quantity = d.Quantity,
                         JobDetailReasonId = d.JobDetailReasonId,
-                        JobDetailSourceId = d.JobDetailSourceId
+                        JobDetailSourceId = d.JobDetailSourceId,
+                        DamageActionId = d.DamageActionId
                     }).ToList(),
                     Actions = line.Actions.Select(a => new ActionModel()
                     {
@@ -86,7 +87,8 @@
                     {
                         Quantity = d.Quantity,
                         JobDetailReasonId = d.JobDetailReasonId,
-                        JobDetailSourceId = d.JobDetailSourceId 
+                        JobDetailSourceId = d.JobDetailSourceId,
+                        DamageActionId = d.DamageActionId 
                     }).ToList(),
                     Actions = line.Actions.Select(a => new ActionModel()
                     {

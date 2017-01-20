@@ -38,10 +38,15 @@
                 {
                     switch (eventToProcess.EventAction)
                     {
-                        case EventAction.Credit:
-                            var creditEvent = JsonConvert.DeserializeObject<CreditEvent>(eventToProcess.Event);
-                            this.exceptionEventService.Credit(creditEvent, eventToProcess.Id,
-                                GetAdamSettings(creditEvent.BranchId), username);
+                        //case EventAction.Credit:
+                        //    var creditEvent = JsonConvert.DeserializeObject<CreditEvent>(eventToProcess.Event);
+                        //    this.exceptionEventService.Credit(creditEvent, eventToProcess.Id,
+                        //        GetAdamSettings(creditEvent.BranchId), username);
+                        //    break;
+                        case EventAction.CreditTransaction:
+                            var creditEventTransaction = JsonConvert.DeserializeObject<CreditEventTransaction>(eventToProcess.Event);
+                            this.exceptionEventService.CreditEventTransaction(creditEventTransaction, eventToProcess.Id,
+                                GetAdamSettings(creditEventTransaction.BranchId), username);
                             break;
                         case EventAction.CreditAndReorder:
                             var creditReorderEvent =

@@ -70,4 +70,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="WarningLevel" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="990bc6a3-d440-4d41-9763-f8d0f2f2d215" ChangeDateTime="01/20/2017 10:15:38">
+    <Property Name="ElementName" Value="[dbo].[Notification].[Reason]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Notification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ErrorMessage" />
+  </Operation>
 </Operations>

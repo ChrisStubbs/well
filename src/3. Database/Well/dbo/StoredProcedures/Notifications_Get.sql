@@ -7,7 +7,7 @@ BEGIN
 SELECT n.[Id]
 		  ,n.[JobId]
 		  ,n.[Type]
-		  ,n.[Reason]
+		  ,n.[ErrorMessage]
 		  ,j.PHAccount
 		  ,j.PickListRef
 		  ,j.InvoiceNumber

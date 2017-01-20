@@ -59,6 +59,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
             For<IEpodUpdateService>().Use<EpodUpdateService>();
+            For<ICreditEventTransactionFactory>().Use<CreditEventTransactionFactory>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

@@ -7,6 +7,8 @@
 
     public interface IExceptionEventRepository : IRepository<ExceptionEvent, int>
     {
+        void InsertCreditEventTransaction(CreditEventTransaction creditEventTransaction);
+
         void InsertCreditEvent(CreditEvent creditEvent);
 
         void MarkEventAsProcessed(int eventId);

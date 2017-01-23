@@ -17,8 +17,6 @@ import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
-import {DeliveryActionsComponent} from './delivery/deliveryActionsComponent';
-import {SubmitConfirmModal} from './delivery/submitConfirmModal';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
@@ -88,8 +86,8 @@ import { AuditService } from './audit/auditService';
         OptionFilterComponent, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
-        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
-        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,
+        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,
+        DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,

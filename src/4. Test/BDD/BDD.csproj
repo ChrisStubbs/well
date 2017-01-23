@@ -111,11 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ClearClean.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\ActionDeliveryLine.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ActionDeliveryLine.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Pages\AdminParameters.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -259,10 +254,6 @@
     <None Include="Features\ACL\ClearClean.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ClearClean.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\ActionDeliveryLine.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ActionDeliveryLine.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\AdminParameters.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

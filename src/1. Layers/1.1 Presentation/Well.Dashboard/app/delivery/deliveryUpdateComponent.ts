@@ -1,7 +1,6 @@
 ﻿import {Component, ViewChild} from '@angular/core';
 import {Delivery} from './model/delivery';
 import {DeliveryIssuesComponent} from './deliveryIssuesComponent';
-import {DeliveryActionsComponent} from './deliveryActionsComponent';
 import {DeliveryLine} from './model/deliveryLine';
 import {DeliveryService} from './deliveryService';
 import {ActivatedRoute} from '@angular/router';
@@ -18,7 +17,6 @@ export class DeliveryUpdateComponent {
     public deliveryLine: DeliveryLine = new DeliveryLine(undefined);
 
     @ViewChild(DeliveryIssuesComponent) private deliveryIssues: DeliveryIssuesComponent;
-    @ViewChild(DeliveryActionsComponent) private deliveryActions: DeliveryActionsComponent;
 
     constructor(private deliveryService: DeliveryService, private route: ActivatedRoute) {
         route.params.subscribe(params => {
@@ -46,9 +44,6 @@ export class DeliveryUpdateComponent {
         this.deliveryLine = line;
         this.deliveryIssues.delivery = this.delivery;
         this.deliveryIssues.deliveryLine = this.deliveryLine;
-        this.deliveryActions.deliveryId = this.delivery.id;
-        this.deliveryActions.deliveryLine = this.deliveryLine;
-        this.deliveryActions.canAction = this.delivery.canAction;
     }
 
     public invalidShortDamagesQty(): boolean {

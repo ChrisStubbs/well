@@ -118,7 +118,6 @@
     <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
     <Compile Include="Api\Controllers\JobDetailReasonControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
-    <Compile Include="Api\Controllers\DeliveryLineActionsControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
     <Compile Include="Api\Controllers\ExceptionEventControllerTests.cs" />
     <Compile Include="Api\Controllers\JobDetailSourceControllerTests.cs" />

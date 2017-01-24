@@ -116,6 +116,7 @@
     <Compile Include="Api\Controllers\AuditControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
     <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
+    <Compile Include="Api\Controllers\ExceptionSubmissionControllerTests.cs" />
     <Compile Include="Api\Controllers\JobDetailReasonControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
     <Compile Include="Api\Mapper\CleanPreferenceMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryDetailModelMapperTests.cs" />
+    <Compile Include="Api\Mapper\DeliveryLinesToModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryLineToJobDetailMapperTests.cs" />
     <Compile Include="Api\Mapper\RouteModelsMapperTests.cs" />
     <Compile Include="Api\Mapper\SeasonalDateMapperTests.cs" />

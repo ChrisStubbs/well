@@ -227,6 +227,7 @@
     <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
+    <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
@@ -764,6 +765,9 @@
       <Project>{94DED6AE-3FDA-42C6-AFD5-D7ECDB59AB7B}</Project>
       <Name>Well.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

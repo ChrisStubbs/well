@@ -27,7 +27,8 @@
         public CreditEventTransaction BuildCreditEventTransaction(CreditEvent credit, string username)
         {
             var user = this.userRepository.GetByIdentity(username);
-            string initials = new string(user.FriendlyName.ToCharArray().Where(char.IsUpper).ToArray());
+            
+            var initials = new string(user.FriendlyName.ToCharArray().Where(char.IsUpper).ToArray());
 
             var job = this.jobRepository.GetById(credit.Id);
             var details = this.jobDetailRepository.GetJobDetailsWithActions(credit.Id, 1);

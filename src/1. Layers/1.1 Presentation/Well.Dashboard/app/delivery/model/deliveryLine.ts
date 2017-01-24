@@ -50,6 +50,10 @@ export class DeliveryLine {
     public jobDetailReasonId: number;
     public jobDetailSourceId: number;
     public shortsActionId: number;
+    public jobDetailReason: string;
+    public jobDetailSource: string;
+    public shortsAction: string;
+    public totalCreditThreshold: string;
     public damages: Damage[] = new Array<Damage>();
     public isCleanOnInit: boolean;
 

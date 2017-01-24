@@ -1,0 +1,63 @@
+﻿<div *ngIf="isVisible" class="modal fade show in danger" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Please confirm your actions! <small>Amount you can credit per delivery is {{userThreshold | currency:'GBP':true}}! The total credit value for this delivery is <span class="badge">{{deliveryLines[0].totalCreditThreshold | currency:'GBP':true}}</span></small></h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default" *ngFor="let line of deliveryLines">
+                    <div class="panel-heading">
+                        <h5><strong>{{line.productCode}} {{line.productDescription}}</strong></h5>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px;">Short Qty</th>
+                                <th style="width: 260px;">Reason</th>
+                                <th style="width: 260px;">Source</th>
+                                <th style="width: 200px;">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="grid-row">
+                                    <td><span class="badge">{{line.shortQuantity}}</span></td>
+                                    <td>{{line.jobDetailReason}}</td>
+                                    <td>{{line.jobDetailSource}}</td>
+                                    <td>{{line.shortsAction}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Damage Qty</th>
+                                    <th style="width: 260px;">Reason</th>
+                                    <th style="width: 260px;">Source</th>
+                                    <th style="width: 200px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="grid-row" *ngFor="let damage of line.damages">
+                                    <td><span class="badge">{{damage.quantity}}</span></td>
+                                    <td>{{damage.jobDetailReason}}</td>
+                                    <td>{{damage.jobDetailSource}}</td>
+                                    <td>{{damage.damageAction}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button id="exception-confirm-save" type="button" class="btn btn-primary" (click)="save()">Save</button>
+                </div>
+                <div class="btn-group">
+                    <button id="exception-confirm-close" type="button" class="btn btn-default" (click)="hide()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

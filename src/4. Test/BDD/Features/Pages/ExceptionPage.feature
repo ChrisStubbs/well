@@ -12,7 +12,7 @@ Background:
 
 Scenario: A user can view Exception Delivery Information
 	Given I have selected branch '22'
-	And  3 deliveries have been marked as exceptions
+	And  1 deliveries have been marked as exceptions
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | TBA |

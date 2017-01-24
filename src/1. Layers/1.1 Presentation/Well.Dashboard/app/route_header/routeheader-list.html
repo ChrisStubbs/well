@@ -18,35 +18,37 @@
                                      (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
                 </div>
             </div>
-            <div class="table-responsive table-container">
-                <table id="tableRoutes" class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Route</th>
-                        <th>Branch</th>
-                        <th>Route Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChangedRoute($event)"></ow-orderbyarrow></a></th>
-                        <th>Driver</th>
-                        <th>No of Drops</th>
-                        <th>Exceptions</th>
-                        <th>Clean</th>
-                        <th>Status</th>
-                        <th>Last updated date/time<a id="sort-me" style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="grid-row" *ngFor="let route of routes | paginate: { itemsPerPage: rowCount, currentPage: p } | optionFilter:filterOption | orderByDate : currentConfigSort | orderByDate : currentConfigSortRoute " (click)="routeSelected(route)">
-                            <td>{{route.route}}</td>
-                            <td>{{route.routeOwnerId}}</td>
-                            <td>{{route.routeDate | date:'yMMMd'}}</td>
-                            <td>{{route.driverName}}</td>
-                            <td>{{route.totalDrops}}</td>
-                            <td>{{route.deliveryExceptionCount}}</td>
-                            <td>{{route.deliveryCleanCount}}</td>
-                            <td>{{route.routeStatus}}</td>
-                            <td>{{route.dateTimeUpdated | date:'medium'}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12">
+                    <table id="tableRoutes" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Branch</th>
+                                <th>Route Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChangedRoute($event)"></ow-orderbyarrow></a></th>
+                                <th>Driver</th>
+                                <th>No of Drops</th>
+                                <th>Exceptions</th>
+                                <th>Clean</th>
+                                <th>Status</th>
+                                <th>Last updated date/time<a id="sort-me" style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let route of routes | paginate: { itemsPerPage: rowCount, currentPage: p } | optionFilter:filterOption | orderByDate : currentConfigSort | orderByDate : currentConfigSortRoute " (click)="routeSelected(route)">
+                                <td>{{route.route}}</td>
+                                <td>{{route.routeOwnerId}}</td>
+                                <td>{{route.routeDate | date:'yMMMd'}}</td>
+                                <td>{{route.driverName}}</td>
+                                <td>{{route.totalDrops}}</td>
+                                <td>{{route.deliveryExceptionCount}}</td>
+                                <td>{{route.deliveryCleanCount}}</td>
+                                <td>{{route.routeStatus}}</td>
+                                <td>{{route.dateTimeUpdated | date:'medium'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row">

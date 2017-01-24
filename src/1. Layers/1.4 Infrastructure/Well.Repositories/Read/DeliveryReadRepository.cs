@@ -85,12 +85,10 @@
         {
             var deliveryLines = grid.Read<DeliveryLine>().ToList();
             var damages = grid.Read<Damage>().ToList();
-            var actions = grid.Read<JobDetailAction>().ToList();
 
             foreach (var line in deliveryLines)
             {
                 line.Damages = damages.Where(d => d.JobDetailId == line.JobDetailId).ToList();
-                line.Actions = actions.Where(a => a.JobDetailId == line.JobDetailId).ToList();
             }
 
             return deliveryLines;

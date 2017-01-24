@@ -80,6 +80,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 import {CalendarModule} from './shared/primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
+import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 
 @NgModule({
     declarations: [SpinnerComponent,
@@ -94,7 +95,7 @@ import { AuditService } from './audit/auditService';
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, PendingCreditComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        CodComponent
+        CodComponent, ExceptionsConfirmModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule

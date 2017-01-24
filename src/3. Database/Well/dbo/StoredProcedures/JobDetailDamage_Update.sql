@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetailDamage_Update]
 	@Id						Int,
 	@JobDetailId			INT,
-	@Qty					decimal(7,3),
+	@Qty					INT,
 	@JobDetailSourceId		tinyint,
 	@JobDetailReasonId		tinyint,
 	@DamageActionId int,

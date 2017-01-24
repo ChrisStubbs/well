@@ -25,7 +25,6 @@ export class DeliveryUpdateComponent {
     }
 
     public ngOnInit(): void {
-        console.log('hit');
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(deliveryResponse => this.initDelivery(new Delivery(deliveryResponse)));
     }

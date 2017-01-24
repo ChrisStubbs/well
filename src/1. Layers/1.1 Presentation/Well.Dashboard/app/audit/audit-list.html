@@ -18,31 +18,33 @@
                                      (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
                 </div>
             </div>
-            <div class="table-responsive table-container">
-                <table id="tableAudits" class="table table-hover table-striped audits">
-                    <thead>
-                    <tr>
-                        <th>Entry</th>
-                        <th>Type</th>
-                        <th>Invoice No</th>
-                        <th>Account</th>
-                        <th>Delivery Date</th>
-                        <th>Audit Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                        <th>Audit By</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="grid-row" *ngFor="let audit of audits | optionFilter: filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: pageSize, currentPage: p } ">
-                        <td class="entry">{{audit.entry}}</td>
-                        <td>{{audit.type}}</td>
-                        <td>{{audit.invoiceNumber}}</td>
-                        <td>{{audit.account}}</td>
-                        <td>{{audit.deliveryDate | date:'dd/MM/y'}}</td>
-                        <td>{{audit.auditDate | date:'dd/MM/y'}}</td>
-                        <td>{{audit.auditBy}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12">
+                    <table id="tableAudits" class="table table-hover table-striped audits">
+                        <thead>
+                            <tr>
+                                <th>Entry</th>
+                                <th>Type</th>
+                                <th>Invoice No</th>
+                                <th>Account</th>
+                                <th>Delivery Date</th>
+                                <th>Audit Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th>Audit By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let audit of audits | optionFilter: filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: pageSize, currentPage: p } ">
+                                <td class="entry">{{audit.entry}}</td>
+                                <td>{{audit.type}}</td>
+                                <td>{{audit.invoiceNumber}}</td>
+                                <td>{{audit.account}}</td>
+                                <td>{{audit.deliveryDate | date:'dd/MM/y'}}</td>
+                                <td>{{audit.auditDate | date:'dd/MM/y'}}</td>
+                                <td>{{audit.auditBy}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row">

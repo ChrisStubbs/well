@@ -2,7 +2,7 @@
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[JobDetailId] INT NOT NULL,
-	[Qty] DECIMAL(7,3) NOT NULL,
+	[Qty] INT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,	
 	JobDetailSource TINYINT NULL CONSTRAINT FK_JobDetailDamage_JobDetailSource REFERENCES [dbo].JobDetailSource (Id),
 	JobDetailReason TINYINT NULL CONSTRAINT FK_JobDetailDamage_JobDetailReason REFERENCES [dbo].[JobDetailReason] (Id),

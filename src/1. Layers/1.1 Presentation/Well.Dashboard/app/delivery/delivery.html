@@ -19,13 +19,15 @@
             </address>
         </div>
         <div class="col-md-5">
-            <address>
+            <address> 
                 <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
             </address>
+            <div *ngIf="delivery.grnProcessType === 1">
             <label>GRN</label>
             <div class="input-group">
-                <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required />
+                <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required/>
                 <span class="input-group-btn"><button class="btn btn-primary" (click)="saveGrn()" [disabled]="disableGrnSave()">Save</button></span>
+            </div>
             </div>
         </div>
         <div class="col-md-2">

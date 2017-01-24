@@ -314,6 +314,26 @@
             }
         }
 
+        public int? GrnProcessType { get; set; }
+
+        [XmlIgnore]
+        public int? GrnProcessingType
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "GRNPROCTYPE");
+
+                var intTry = 0;
+
+                if (int.TryParse(attribute?.Value, out intTry))
+                {
+                    return intTry;
+                }
+
+                return null;
+            }
+        }
+
         public string GrnNumberUpdate { get; set; }
 
         [XmlIgnore]

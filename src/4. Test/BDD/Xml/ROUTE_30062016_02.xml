@@ -179,6 +179,10 @@
                   <Code>PACKTOT1</Code>
                   <Value1>38</Value1>
                 </Attribute>
+                <Attribute>
+                  <Code>GRNPROCTYPE</Code>
+                  <Value1>1</Value1>
+                </Attribute>
               </EntityAttributes>
               <JobDetails>
                 <JobDetail>

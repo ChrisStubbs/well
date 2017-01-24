@@ -78,7 +78,7 @@
 
                 this.routeHeaderRepository.Update(existingHeader);
 
-                this.UpdateStops(header.Stops, header.StartDepot);
+                this.UpdateStops(header.Stops, existingHeader.StartDepot);
             }
         }
 
@@ -162,10 +162,10 @@
                 this.jobRepository.Update(existingJob);
 
                 //TODO event
-                if (job.GrnNumberUpdate != String.Empty)
+                if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
                 {
                     var grnEvent = new GrnEvent();
-                    grnEvent.Id = job.Id;
+                    grnEvent.Id = existingJob.Id;
                     grnEvent.BranchId = branchId;
 
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);

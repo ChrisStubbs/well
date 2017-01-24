@@ -102,6 +102,7 @@
                 .AddParameter("ReCallPrd", entity.ReCallPrd, DbType.Boolean)
                 .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
                 .AddParameter("COD", entity.Cod, DbType.String)
+                .AddParameter("GrnProcessingType", entity.GrnProcessingType, DbType.Int16)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)

@@ -28,7 +28,8 @@
                 IsException = detail.IsException,
                 CanAction = detail.CanAction,
                 GrnNumber = detail.GrnNumber,
-                BranchId = detail.BranchId
+                BranchId = detail.BranchId,
+                GrnProcessType = detail.GrnProcessType
             };
 
             foreach (DeliveryLine line in lines.Where(x => x.IsClean))

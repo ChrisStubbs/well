@@ -17,6 +17,7 @@
 	[ReCallPrd] BIT NULL DEFAULT 0,
 	[AllowSOCrd] BIT NULL DEFAULT 0,
 	[COD] VARCHAR(50) NULL,
+	[GrnProcessType] INT NULL DEFAULT 0,
 	[GrnNumber] VARCHAR(50) NULL,
 	[GrnRefusedReason] VARCHAR(50) NULL,
 	[GrnRefusedDesc] VARCHAR(50) NULL,

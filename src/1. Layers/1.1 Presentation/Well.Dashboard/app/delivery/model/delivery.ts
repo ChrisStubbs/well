@@ -1,4 +1,4 @@
-﻿import { DeliveryLine } from './deliveryLine';
+﻿import { DeliveryLine } from './deliveryLine'; 
 
 export class Delivery {
     constructor(delivery: Delivery) {
@@ -18,9 +18,10 @@ export class Delivery {
             this.cashOnDelivery = delivery.cashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
-            this.canSubmit = delivery.canSubmit;
+            this.canSubmit = delivery.canSubmit; 
             this.grnNumber = delivery.grnNumber;
             this.branchId = delivery.branchId;
+            this.grnProcessType = delivery.grnProcessType;
 
             if (delivery.exceptionDeliveryLines) {
                 for (const line of delivery.exceptionDeliveryLines) {
@@ -54,6 +55,7 @@ export class Delivery {
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public grnNumber: string;
     public branchId: number;
+    public grnProcessType: number;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     public isCleanOnInit(): boolean {

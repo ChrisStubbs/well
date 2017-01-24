@@ -87,6 +87,12 @@
         [XmlElement("TextField3")]
         public string CustomerRef { get; set; }
 
+        [XmlElement("GrnProcType")]
+        public int? GrnProcessType { get; set; }
+
+        [XmlElement("ProofDeliv")]
+        public int? ProofOfDelivery { get; set; }
+
         /// <summary>
         /// Total ordered outers
         /// </summary>
@@ -311,26 +317,6 @@
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ACTLOGNO");
 
                 return attribute?.Value;
-            }
-        }
-
-        public int? GrnProcessType { get; set; }
-
-        [XmlIgnore]
-        public int? GrnProcessingType
-        {
-            get
-            {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "GRNPROCTYPE");
-
-                var intTry = 0;
-
-                if (int.TryParse(attribute?.Value, out intTry))
-                {
-                    return intTry;
-                }
-
-                return null;
             }
         }
 

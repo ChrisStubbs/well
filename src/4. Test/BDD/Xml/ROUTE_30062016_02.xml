@@ -75,6 +75,7 @@
               <TextField1>1871</TextField1>
               <TextField2></TextField2>
               <TextField3>946941</TextField3>
+              <GrnProcType>1</GrnProcType>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -179,10 +180,10 @@
                   <Code>PACKTOT1</Code>
                   <Value1>38</Value1>
                 </Attribute>
-                <Attribute>
+                <!--<Attribute>
                   <Code>GRNPROCTYPE</Code>
                   <Value1>1</Value1>
-                </Attribute>
+                </Attribute>-->
               </EntityAttributes>
               <JobDetails>
                 <JobDetail>
@@ -450,6 +451,7 @@
               <TextField1>770</TextField1>
               <TextField1Desc>
               </TextField1Desc>
+              <ProofDeliv>8</ProofDeliv>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>

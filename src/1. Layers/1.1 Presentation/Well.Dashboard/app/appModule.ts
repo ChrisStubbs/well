@@ -1,11 +1,10 @@
 ﻿/* tslint:disable:max-line-length */
-
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
+import { ToasterModule, ToasterService } from 'angular2-toaster';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
 import {TabsModule} from 'ng2-tabs';
@@ -80,7 +79,7 @@ import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import {CalendarModule, PaginatorModule} from './shared/primeng/primeng';
+import {CalendarModule } from './shared/primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 
@@ -100,7 +99,7 @@ import { AuditService } from './audit/auditService';
         CodComponent
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule, PaginatorModule
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
     ],
     providers: [
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

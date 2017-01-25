@@ -1,14 +1,14 @@
-﻿import { Component, Input, Output, EventEmitter }   from "@angular/core";
-import { FilterOption }                             from "./filterOption";
-import { DropDownItem }                             from "./dropDownItem";
+﻿import { Component, Input, Output, EventEmitter }   from '@angular/core';
+import { FilterOption }                             from './filterOption';
+import { DropDownItem }                             from './dropDownItem';
 import { NavigateQueryParametersService }           from './NavigateQueryParametersService';
-import { IOptionFilter }                            from './IOptionFilter';
+import { DictionaryItem, NavigateQueryParameters }  from './NavigateQueryParameters';
 
 @Component({
     selector: 'ow-optionfilter',
     templateUrl: 'app/shared/optionFilter.html'
 })
-export class OptionFilterComponent implements IOptionFilter{
+export class OptionFilterComponent {
 
     @Input() public options: DropDownItem[];
     public filterText: string;
@@ -16,24 +16,22 @@ export class OptionFilterComponent implements IOptionFilter{
     public selectedOption: DropDownItem;
 
     @Output() public filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
-    public constructor(private navigateQueryParametersService: NavigateQueryParametersService){
+    public constructor() {
         this.ClearFilter();
-        this.SelectedOption = new DropDownItem('Option', '');
-    }
-
-    public ngAfterContentInit(): void {
-        this.navigateQueryParametersService.Navigate(this);
+        this.SelectedOption = DropDownItem.CreateDefaultOption();
     }
 
     public setSelectedOption = (option: DropDownItem): void => {
-        this.ClearFilter();
-        this.SelectedOption = option;
-        this.applyFilter();
+        if (!option.IsDefaultItem()) {
+            this.ClearFilter();
+            this.SelectedOption = option;
+            this.applyFilter();
+        }
     }
 
     private ClearFilter(): void {
         this.filterText = '';
-        this.SelectedOption = new DropDownItem('Option', '');
+        this.SelectedOption = DropDownItem.CreateDefaultOption();
     }
 
     public clearFilterText(): void {
@@ -42,15 +40,17 @@ export class OptionFilterComponent implements IOptionFilter{
     }
 
     public applyFilter(): void {
-        this.filterClicked.emit(new FilterOption(this.selectedOption, this.filterText));
+        let dicItem: DictionaryItem;
 
-        // if (this.filterText != ''){
-            const item = {[this.selectedOption.value]: this.filterText};
-            this.navigateQueryParametersService.Save(item);
-        // }
-        // else {
-        //     this.navigateQueryParametersService.Save(null);
-        // }
+        if (!this.SelectedOption.IsDefaultItem()) {
+            dicItem = new DictionaryItem();
+            dicItem[this.selectedOption.value] = this.filterText;
+        }
+
+        const item = new NavigateQueryParameters(dicItem , undefined);
+        NavigateQueryParametersService.SaveFilter(item);
+
+        this.filterClicked.emit(new FilterOption(this.selectedOption, this.filterText));
     }
 
     public set SelectedOption(value: DropDownItem) {

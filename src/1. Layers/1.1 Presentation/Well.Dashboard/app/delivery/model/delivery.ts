@@ -50,7 +50,7 @@ export class Delivery {
     public isException: boolean;
     public canAction: boolean;
     public canSubmit: boolean;
-    grnNumber: string;
+    public grnNumber: string;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 

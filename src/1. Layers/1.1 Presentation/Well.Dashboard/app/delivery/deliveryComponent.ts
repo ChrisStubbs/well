@@ -88,14 +88,14 @@ export class DeliveryComponent implements OnInit {
         });
     }
 
-    saveGrn(): void {
+    public saveGrn(): void {
         this.deliveryService.saveGrn(this.delivery)
             .subscribe(() => {
                 this.toasterService.pop('success', 'GRN saved...', '');
             });
     }
 
-    disableGrnSave(): boolean {
+    public disableGrnSave(): boolean {
         return !this.delivery.grnNumber || this.delivery.grnNumber.length === 0;
     }
 }

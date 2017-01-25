@@ -1,5 +1,5 @@
-﻿﻿var path = require('path')
-var webpack = require('webpack')
+﻿﻿var path = require('path');
+var webpack = require('webpack');
 //var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
         path: path.join(__dirname, 'Scripts/angular2/'),
         filename: "app.js",
         sourceMapFilename: 'app.js.map'
-    }, 
+    },
     debug: true,
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin()//,
@@ -26,6 +26,6 @@ module.exports = {
         ]
     },
     resolve: {
-            extensions: ['', '.ts', '.js']
-        }
-}
+        extensions: ['', '.ts', '.js']
+    }
+};

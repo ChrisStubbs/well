@@ -1,41 +1,89 @@
-import {Injectable}                                 from '@angular/core';
-import { ActivatedRoute }                           from '@angular/router';
+import { Injectable, EventEmitter }                 from '@angular/core';
 import * as _                                       from 'lodash';
+import { Location }                                 from '@angular/common';
 import { NavigateQueryParameters, DictionaryItem }  from './NavigateQueryParameters';
 import { IOptionFilter }                            from './IOptionFilter';
-import {DropDownItem}                               from "../shared/dropDownItem";
+import { DropDownItem }                             from '../shared/dropDownItem';
 
 @Injectable()
-export  class NavigateQueryParametersService{
-    private paramName = 'filter.';
+export  class NavigateQueryParametersService {
+    private static paramName = 'filter.';
+    private static paramPage = 'pagenumber';
+    public BrowserNavigation: EventEmitter<string> = new EventEmitter<string>();
 
-    constructor(private activatedRoute: ActivatedRoute){}
+    constructor(location: Location) {
+        location.subscribe((value: any) => {
+            this.BrowserNavigation.emit(value.url);
+        });
+    }
 
-    public Save(value?: NavigateQueryParameters): void {
-        let qs = this.DeleteFilter();
+    public static SaveFilter(value?: NavigateQueryParameters): void {
 
-        if (this.IsValidOptionFilter(value)) {
-            const proName = _.keys(value)[0];
+        let qs = NavigateQueryParametersService.GetQueryStringObject();
+        qs = NavigateQueryParametersService.DeleteFilter(qs);
+        qs = NavigateQueryParametersService.DeletePageNumber(qs);
+
+        if (value.HasFilter()) {
+            const proName = _.keys(value.Filter)[0];
             const newParam = new DictionaryItem();
-            newParam[this.paramName + proName] = value[proName];
 
+            newParam[this.paramName + proName] = value.Filter[proName];
             qs = _.extend(JSON.parse(JSON.stringify(qs)), newParam);
         }
 
-        this.SaveHistory(qs);
+        NavigateQueryParametersService.SaveHistory(qs);
     }
 
-    private SaveHistory(queryStringObject: any): void{
-        const newqs = this.serializeQueryParams(queryStringObject);
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + newqs;
+    public static SavePageNumber(value?: NavigateQueryParameters): void {
+
+        let qs = NavigateQueryParametersService.GetQueryStringObject();
+        qs = NavigateQueryParametersService.DeletePageNumber(qs);
+
+        if (value.HasPageNumber()) {
+            qs = _.extend(JSON.parse(JSON.stringify(qs)), {[this.paramPage]: value.Page});
+        }
+
+        NavigateQueryParametersService.SaveHistory(qs);
+    }
+
+    /*
+     public static Save(value?: NavigateQueryParameters): void {
+
+     let qs = NavigateQueryParametersService.GetQueryStringObject();
+     qs = NavigateQueryParametersService.DeleteFilter(qs);
+     qs = NavigateQueryParametersService.DeletePageNumber(qs);
+
+     if (value.IsValidNavigation()) {
+     if (value.HasFilter()) {
+     const proName = _.keys(value.Filter)[0];
+     const newParam = new DictionaryItem();
+
+     newParam[this.paramName + proName] = value.Filter[proName];
+     qs = _.extend(JSON.parse(JSON.stringify(qs)), newParam);
+     }
+
+     if (value.HasPageNumber()) {
+     qs = _.extend(JSON.parse(JSON.stringify(qs)), {[this.paramPage]: value.Page});
+     }
+     }
+
+     NavigateQueryParametersService.SaveHistory(qs);
+     }
+     */
+
+    private static SaveHistory(queryStringObject: any): void {
+        const newqs = NavigateQueryParametersService.SerializeQueryParams(queryStringObject);
+        const newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + newqs;
+
+        console.log(newurl);
+
         window.history.pushState({path: newurl}, '', newurl);
     }
 
-    private DeleteFilter() {
-        let qs = this.GetQueryStringObject();
+    private static DeleteFilter(qs: any): any {
 
         if (!_.isUndefined(qs)) {
-            const current = this.GetActiveFilterParameterName(qs);
+            const current = NavigateQueryParametersService.GetActiveFilterParameterName(qs);
 
             if (current.length > 0) {
                 delete qs[current];
@@ -45,78 +93,162 @@ export  class NavigateQueryParametersService{
         return qs;
     }
 
-    private IsValidOptionFilter(value?: NavigateQueryParameters): boolean {
-
-        if (value == null){
-            return false;
-        }
-
-        var k = _.keys(value)[0];
-        var v = value[k];
-
-        return !(_.isNull(v) || _.isUndefined(v) || _.trim(v) == '');
-    }
-
-    public Navigate(optionFilter: IOptionFilter): void {
-        let qs = this.GetQueryStringObject();
-        let selectedOption = new DropDownItem("Option", "");
-        let filterText = '';
+    private static DeletePageNumber(qs: any): any {
 
         if (!_.isUndefined(qs)) {
-            const current = this.GetActiveFilterParameterName(qs);
-
-            if (current.length > 0){
-                //remove the perfix
-                const currentNoPrefix = current.split('.')[1];
-                //search in the options array if the current filter exists
-                const opt = _.find(optionFilter.options, (o: DropDownItem) => o.value == currentNoPrefix);
-                 if (!_.isUndefined(opt)){
-                     //i found it, so now lets save the values
-                     selectedOption = opt;
-                     filterText = qs[current];
-                 }
+            if (qs[NavigateQueryParametersService.paramPage]) {
+                delete qs[NavigateQueryParametersService.paramPage];
             }
         }
 
-        optionFilter.filterText = filterText;
+        return qs;
+    }
+
+    public Navigate(optionFilter: IOptionFilter): void {
+        const qs = NavigateQueryParametersService.GetQueryStringObject();
+        let selectedOption = DropDownItem.CreateDefaultOption();
+        let filterText = '';
+        let currentPage = 1;
+
+        if (!_.isUndefined(qs)) {
+            //lets get the filter
+            const current = NavigateQueryParametersService.GetActiveFilterParameterName(qs);
+
+            if (current.length > 0) {
+                //remove the prefix
+                const currentNoPrefix = current.split('.')[1];
+                //search in the options array if the current filter exists
+                const opt = _.find(
+                    optionFilter.options,
+                    (o: DropDownItem) => o.value.toLowerCase() == currentNoPrefix.toLowerCase());
+                if (!_.isUndefined(opt)) {
+                    //i found it, so now lets save the values
+                    selectedOption = opt;
+                    filterText = qs[current];
+                }
+            }
+
+            //now lets get the page
+            currentPage = NavigateQueryParametersService.GetCurrentPage(qs);
+        }
+
+        optionFilter.filterOption.filterText = filterText;
+        optionFilter.filterOption.dropDownItem = selectedOption;
+
+        optionFilter.selectedFilter = filterText;
         optionFilter.selectedOption = selectedOption;
-        optionFilter.applyFilter();
+        optionFilter.currentPage = currentPage;
     }
 
-    private GetQueryStringObject() {
-        let qs = {};
-        this.activatedRoute.queryParams.subscribe( p => qs = p);
+    private static GetQueryStringObject() {
 
-        return _.extend({}, qs);
+        const url = window.location.href;
+
+        // get query string from url (optional) or window
+        let queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+        // we'll store the parameters here
+        const obj = {};
+
+        // if query string exists
+        if (queryString) {
+
+            // stuff after # is not part of query string, so get rid of it
+            queryString = queryString.split('#')[0];
+
+            // split our query string into its component parts
+            const arr = queryString.split('&');
+
+            for (let i = 0; i < arr.length; i++) {
+                // separate the keys and the values
+                const a = arr[i].split('=');
+
+                // in case params look like: list[]=thing1&list[]=thing2
+                let paramNum = '';
+                let paramName = '';
+
+                paramName = a[0].replace(/\[\d*\]/, v => {
+                    paramNum = v.slice(1, -1);
+                    return '';
+                });
+
+                // set parameter value (use 'true' if empty)
+                let paramValue = typeof(a[1]) === 'undefined' ? 'true' : a[1];
+
+                // (optional) keep case consistent
+                paramName = decodeURIComponent(paramName.toLowerCase());
+                paramValue = paramValue.toLowerCase();
+
+                // if parameter name already exists
+                if (obj[paramName]) {
+                    // convert value to array (if still string)
+                    if (typeof obj[paramName] === 'string') {
+                        obj[paramName] = [obj[paramName]];
+                    }
+                    // if no array index number specified...
+                    if (typeof paramNum === 'undefined') {
+                        // put the value on the end of the array
+                        obj[paramName].push(paramValue);
+                    }
+                    // if array index number specified...
+                    else {
+                        // put the value at that index number
+                        obj[paramName][paramNum] = paramValue;
+                    }
+                }
+                // if param name doesn't exist yet, set it
+                else {
+                    obj[paramName] = paramValue;
+                }
+                obj[paramName] = decodeURIComponent(obj[paramName]);
+            }
+        }
+
+        return obj;
     }
 
-    private GetActiveFilterParameterName(qs: any): string{
+    private static GetActiveFilterParameterName(qs: any): string {
 
         const current = _.chain(qs)
             .keys()
-            .filter(p => { return p.startsWith(this.paramName)})
+            .filter(p => { return p.startsWith(NavigateQueryParametersService.paramName)})
             .value();
 
-        if (current.length > 0){
+        if (current.length > 0) {
             return current[0];
         }
 
         return '';
     }
 
-    private serializeQueryParams(params: any): string {
+    private static GetCurrentPage(qs: any): number {
 
-        let result = _.chain(params)
+        const current = _.chain(qs)
+            .keys()
+            .filter(p => { return p.toLowerCase() == NavigateQueryParametersService.paramPage})
+            .first()
+            .value();
+
+        if (current) {
+            return parseInt(qs[current], 10);
+        }
+
+        return 1;
+    }
+
+    private static SerializeQueryParams(params: any): string {
+
+        const result = _.chain(params)
             .keys()
             .map((p: string) => {
-                return this.encode(p) + "=" + this.encode(params[p]);
+                return this.Encode(p) + '=' + this.Encode(params[p]);
             })
             .value();
 
-        return result.length > 0 ? "?" + result.join("&") : '';
+        return result.length > 0 ? '?' + result.join('&') : '';
     }
 
-    private encode(value: string): string{
+    private static Encode(value: string): string {
         //to avoid encode 2 times the same value
         return decodeURIComponent(encodeURIComponent(value))
     }

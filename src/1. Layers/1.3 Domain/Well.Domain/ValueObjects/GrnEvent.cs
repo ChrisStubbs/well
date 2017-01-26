@@ -9,6 +9,5 @@
 
         public int BranchId { get; set; }
 
-
     }
 }

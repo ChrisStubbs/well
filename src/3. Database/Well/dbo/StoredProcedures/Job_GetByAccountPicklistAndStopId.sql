@@ -22,6 +22,7 @@ BEGIN
 	  ,[ReCallPrd] 
 	  ,[AllowSOCrd] 
 	  ,[COD] 
+	  ,[GrnProcessType]
 	  ,[GrnNumber] 
 	  ,[GrnRefusedReason] 
 	  ,[GrnRefusedDesc] 

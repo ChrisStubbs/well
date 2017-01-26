@@ -46,5 +46,7 @@
         }
 
         public int BranchId { get; set; }
+
+        public int GrnProcessType { get; set; }
     }
 }

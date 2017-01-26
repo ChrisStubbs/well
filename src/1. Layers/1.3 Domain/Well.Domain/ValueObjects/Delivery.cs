@@ -64,5 +64,6 @@
         }
 
         public int TotalOutersShort { get; set; }
+
     }
 }

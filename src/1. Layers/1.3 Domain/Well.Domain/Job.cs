@@ -86,6 +86,12 @@
         [XmlElement("TextField3")]
         public string CustomerRef { get; set; }
 
+        [XmlElement("GrnProcType")]
+        public int? GrnProcessType { get; set; }
+
+        [XmlElement("ProofDeliv")]
+        public int? ProofOfDelivery { get; set; }
+
         /// <summary>
         /// Total ordered outers
         /// </summary>

@@ -18,6 +18,7 @@ SELECT j.[Id] AS [Id]
 	,j.OuterDiscrepancyFound
 	,j.TotalOutersShort
 	,rh.StartDepotCode AS BranchId
+	,j.GrnProcessType
 FROM 
 	[dbo].RouteHeader rh
 JOIN

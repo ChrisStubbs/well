@@ -18,5 +18,7 @@
         void RemovedPendingCredit(string invoiceNumber);
 
         void InsertGrnEvent(GrnEvent grnEvent);
+
+        void InsertPodEvent(PodEvent podEvent);
     }
 }

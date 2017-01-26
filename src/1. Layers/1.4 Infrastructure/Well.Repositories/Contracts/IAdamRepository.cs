@@ -23,5 +23,7 @@
 
         AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings);
 
+        AdamResponse Pod (PodEvent pod, AdamSettings adamSettings);
+
     }
 }

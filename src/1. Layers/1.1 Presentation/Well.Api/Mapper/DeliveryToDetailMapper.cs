@@ -29,7 +29,8 @@
                 CanAction = detail.CanAction,
                 GrnNumber = detail.GrnNumber,
                 BranchId = detail.BranchId,
-                GrnProcessType = detail.GrnProcessType
+                GrnProcessType = detail.GrnProcessType,
+                ProofOfDelivery = detail.ProofOfDelivery
             };
 
             foreach (DeliveryLine line in lines.Where(x => x.IsClean))

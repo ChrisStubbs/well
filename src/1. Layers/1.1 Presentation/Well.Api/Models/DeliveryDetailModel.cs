@@ -44,6 +44,8 @@
 
         public int GrnProcessType { get; set; }
 
+        public int ProofOfDelivery { get; set; }
+
         public bool CanAction { get; set; }
 
         public bool CanSubmit { get {return CanAction && ExceptionDeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }

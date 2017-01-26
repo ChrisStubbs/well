@@ -76,6 +76,22 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", grnEventJson, DbType.String, size: 2500)
                 .AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32)
+                .AddParameter("DateCanBeProcessed", DateTime.Now.AddHours(24), DbType.DateTime)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
+
+
+        public void InsertPodEvent(PodEvent podEvent)
+        {
+            var podEventJson = JsonConvert.SerializeObject(podEvent);
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+                .AddParameter("Event", podEventJson, DbType.String, size: 2500)
+                .AddParameter("ExceptionActionId", EventAction.Pod, DbType.Int32)
                 //.AddParameter("DateCanBeProcessed", DateTime.Now.AddHours(24), DbType.DateTime)
                 .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)

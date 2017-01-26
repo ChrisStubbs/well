@@ -206,6 +206,39 @@
             return response;
         }
 
+        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings, string username)
+        {
+            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
+
+            this.MarkAsDone(eventId, adamResponse, username);
+        }
+
+        // do we need this
+        public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings, string username)
+        {
+            var response = this.adamRepository.Pod(podEvent, adamSettings);
+
+            if (response == AdamResponse.AdamDown)
+            {
+                this.eventRepository.CurrentUser = username;
+                this.eventRepository.InsertPodEvent(podEvent);
+            }
+            else
+            {
+                using (var transactionScope = new TransactionScope())
+                {
+                    //this.jobRepository.ResolveJobAndJobDetails(grnEvent.Id);
+                    //this.userRepository.UnAssignJobToUser(grnEvent.Id);
+
+                    transactionScope.Complete();
+
+                    return AdamResponse.Success;
+                }
+            }
+
+            return response;
+        }
+
         private void MarkAsDone(int eventId, AdamResponse response, string username)
         {
             if (response == AdamResponse.Success)
@@ -214,7 +247,5 @@
                 this.eventRepository.MarkEventAsProcessed(eventId);
             }
         }
-
-        
     }
 }

@@ -33,6 +33,7 @@ BEGIN
       ,[Reason]
 	  ,[IsDeleted]
       ,[StopId]
+	  ,[ProofOfDelivery]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

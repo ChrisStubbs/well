@@ -38,5 +38,9 @@
         void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username);
 
         AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
+
+        void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings, string username);
+
+        AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings, string username);
     }
 }

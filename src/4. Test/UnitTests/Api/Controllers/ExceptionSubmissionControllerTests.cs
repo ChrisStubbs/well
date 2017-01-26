@@ -13,6 +13,7 @@
     using PH.Well.Common.Contracts;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
+    using PH.Well.Services.Contracts;
 
     [TestFixture]
     public class ExceptionSubmissionControllerTests : BaseControllerTests<ExceptionSubmissionController>
@@ -23,14 +24,29 @@
 
         private Mock<IDeliveryLinesToModelMapper> mapper;
 
+        private Mock<IExceptionEventService> exceptionEventService;
+
+        private Mock<IJobRepository> jobRepository;
+
+        private Mock<IBranchRepository> branchRepository;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IDeliveryLinesToModelMapper>(MockBehavior.Strict);
+            this.exceptionEventService = new Mock<IExceptionEventService>(MockBehavior.Strict);
+            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
 
-            this.Controller = new ExceptionSubmissionController(this.logger.Object, this.deliveryReadRepository.Object, this.mapper.Object);
+            this.Controller = new ExceptionSubmissionController(
+                this.logger.Object, 
+                this.deliveryReadRepository.Object, 
+                this.mapper.Object, 
+                this.exceptionEventService.Object,
+                this.jobRepository.Object,
+                this.branchRepository.Object);
 
             this.SetupController();
         }

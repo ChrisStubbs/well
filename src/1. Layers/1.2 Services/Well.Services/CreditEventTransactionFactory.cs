@@ -6,6 +6,9 @@
     using Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
+
+    using PH.Well.Common.Extensions;
+
     using Repositories.Contracts;
 
     public class CreditEventTransactionFactory : ICreditEventTransactionFactory
@@ -22,15 +25,16 @@
              this.accountRepository = accountRepository;
              this.userRepository = userRepository;
         }
-
-
-        public CreditEventTransaction BuildCreditEventTransaction(CreditEvent credit, string username)
+        
+        public CreditEventTransaction BuildCreditEventTransaction(IList<DeliveryLine> deliveryLines, string username)
         {
-            var user = this.userRepository.GetByIdentity(username);
-            
-            var initials = new string(user.FriendlyName.ToCharArray().Where(char.IsUpper).ToArray());
+            return null;
 
-            var job = this.jobRepository.GetById(credit.Id);
+            var user = this.userRepository.GetByIdentity(username);
+
+            var initials = user.FriendlyName.GetInitials();
+
+            /*var job = this.jobRepository.GetById(credit.Id);
             var details = this.jobDetailRepository.GetJobDetailsWithActions(credit.Id, 1);
             var account = this.accountRepository.GetAccountGetByAccountCode(job.PhAccount, job.StopId);
 
@@ -83,7 +87,7 @@
 
             creditTransaction.BranchId = credit.BranchId;
 
-            return creditTransaction;
+            return creditTransaction;*/
         }
     }
 }

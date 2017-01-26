@@ -7,7 +7,6 @@
     using Contracts;
     using Dapper;
     using Domain;
-    using Domain.ValueObjects;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
@@ -137,24 +136,6 @@
             dapperProxy.WithStoredProcedure("JobDetail_CreditLines")
                 .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .Execute();
-        }
-
-        public IEnumerable<JobDetailsWithAction> GetJobDetailsWithActions(int jobId, int action)
-        {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailsWithAction)
-                .AddParameter("jobId", jobId, DbType.Int32)
-                .AddParameter("action", action, DbType.Int16)
-                .Query<JobDetailsWithAction>();
-
-        }
-
-        public IEnumerable<JobDetailsWithAction> GetJobDetailDamagesWithActions(int jobId, int action)
-        {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamagesWithAction)
-                .AddParameter("jobId", jobId, DbType.Int32)
-                .AddParameter("action", action, DbType.Int16)
-                .Query<JobDetailsWithAction>();
-
         }
     }
 }

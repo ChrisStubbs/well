@@ -28,45 +28,7 @@
             this.userThresholdService = userThresholdService;
         }
 
-        [Route("credit")]
-        [HttpPost]
-        public HttpResponseMessage Credit(CreditEvent creditEvent)
-        {
-            try
-            {
-                var canCredit = this.userThresholdService.CanUserCredit(
-                    this.UserIdentityName,
-                    creditEvent.TotalCreditValueForThreshold);
-
-                if (canCredit)
-                {
-                    var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
-
-                    var response = this.exceptionEventService.Credit(creditEvent, settings, this.UserIdentityName);
-
-                    if (response == AdamResponse.AdamDown)
-                        return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
-                    if (response == AdamResponse.PartProcessed)
-                        return this.Request.CreateResponse(HttpStatusCode.OK, new { adamPartProcessed = true });
-
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-                }
-
-                this.userThresholdService.AssignPendingCredit(creditEvent, this.UserIdentityName);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "'Your threshold level isn\'t high enough to credit this! It has been passed on for authorisation!'" });
-            }
-            catch (UserThresholdNotFoundException)
-            {
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = "No threshold exists!" });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error on credit event", exception);
-                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
-        }
-
-        [HttpPost]
+        /*[HttpPost]
         [Route("credit-bulk/{creditEvents}")]
         public HttpResponseMessage BulkCredit(List<CreditEvent> creditEvents)
         {
@@ -89,6 +51,6 @@
                 this.logger.LogError("Error on bulk credit", exception);
                 return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
-        }
+        }*/
     }
 }

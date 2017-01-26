@@ -56,7 +56,6 @@
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
-        public static string PendingCreditsInsert = "PendingCredits_Insert";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
@@ -156,5 +155,7 @@
 
         //User
         public static string UserGetCreditThreshold = "User_GetCreditThreshold";
+
+        public static string GetBranchIdForJob = "GetBranchIdForJob";
     }
 }

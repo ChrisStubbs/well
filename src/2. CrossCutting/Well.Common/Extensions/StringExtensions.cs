@@ -234,5 +234,10 @@
 
             return newText.ToString();
         }
+
+        public static string GetInitials(this string name)
+        {
+            return new string(name.ToCharArray().Where(char.IsUpper).ToArray());
+        }
     }
 }

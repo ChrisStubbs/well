@@ -31,11 +31,17 @@ export class ExceptionsConfirmModal {
     }
 
     public hide() {
-        this.isVisible = false;
+        this.isVisible = false; 
     }
 
     public save() {
         this.exceptionDeliveryService.submitExceptionConfirmation(this.deliveryLines[0].jobId)
-            .subscribe(response => console.log(response));
+            .subscribe((res: Response) => {
+                this.httpResponse = JSON.parse(JSON.stringify(res));
+
+                if (this.httpResponse.notAcceptable) {
+                    this.toasterService.pop('error', this.httpResponse.message, '');
+                }
+            });
     }
 }

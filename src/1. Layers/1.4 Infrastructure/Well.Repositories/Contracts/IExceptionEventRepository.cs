@@ -9,13 +9,11 @@
     {
         void InsertCreditEventTransaction(CreditEventTransaction creditEventTransaction);
 
-        void InsertCreditEvent(CreditEvent creditEvent);
-
         void MarkEventAsProcessed(int eventId);
 
         IEnumerable<ExceptionEvent> GetAllUnprocessed();
 
-        void RemovedPendingCredit(string invoiceNumber);
+        void RemovedPendingCredit(int jobId);
 
         void InsertGrnEvent(GrnEvent grnEvent);
     }

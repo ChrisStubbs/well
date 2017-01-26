@@ -87,9 +87,6 @@
             else
             {
                 this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
-                // PART PROCESS
-                this.exceptionEventRepository.CurrentUser = username;
-                this.exceptionEventRepository.InsertCreditEventTransaction(creditTransaction);
                 return AdamResponse.PartProcessed;
             }
 

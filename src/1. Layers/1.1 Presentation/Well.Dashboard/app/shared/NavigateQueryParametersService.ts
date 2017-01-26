@@ -9,6 +9,8 @@ import { DropDownItem }                             from '../shared/dropDownItem
 export  class NavigateQueryParametersService {
     private static paramName = 'filter.';
     private static paramPage = 'pagenumber';
+    private static paramSort = 'sort';
+
     public BrowserNavigation: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(location: Location) {
@@ -17,11 +19,40 @@ export  class NavigateQueryParametersService {
         });
     }
 
+    private static Save(qs: any, value?: NavigateQueryParameters): void {
+
+        if (value.HasSort()) {
+            qs = _.extend(JSON.parse(JSON.stringify(qs)), {[this.paramSort]: value.Sort});
+        }
+
+        if (value.HasPageNumber()) {
+            qs = _.extend(JSON.parse(JSON.stringify(qs)), {[this.paramPage]: value.Page});
+        }
+
+        NavigateQueryParametersService.SaveHistory(qs);
+    }
+
+    public static SaveSort(value?: NavigateQueryParameters): void {
+
+        let qs = NavigateQueryParametersService.GetQueryStringObject();
+
+        qs = NavigateQueryParametersService.DeleteQueryStringParameter(qs, NavigateQueryParametersService.paramSort);
+        qs = NavigateQueryParametersService.DeleteQueryStringParameter(qs, NavigateQueryParametersService.paramPage);
+        this.Save(qs, value);
+    }
+
     public static SaveFilter(value?: NavigateQueryParameters): void {
 
         let qs = NavigateQueryParametersService.GetQueryStringObject();
-        qs = NavigateQueryParametersService.DeleteFilter(qs);
-        qs = NavigateQueryParametersService.DeletePageNumber(qs);
+        qs = NavigateQueryParametersService.DeleteQueryStringParameter(
+            qs,
+            NavigateQueryParametersService.GetActiveFilterParameterName(qs));
+        qs = NavigateQueryParametersService.DeleteQueryStringParameter(
+            qs,
+            NavigateQueryParametersService.paramPage);
+        qs = NavigateQueryParametersService.DeleteQueryStringParameter(
+            qs,
+            NavigateQueryParametersService.paramSort);
 
         if (value.HasFilter()) {
             const proName = _.keys(value.Filter)[0];
@@ -37,74 +68,30 @@ export  class NavigateQueryParametersService {
     public static SavePageNumber(value?: NavigateQueryParameters): void {
 
         let qs = NavigateQueryParametersService.GetQueryStringObject();
-        qs = NavigateQueryParametersService.DeletePageNumber(qs);
 
-        if (value.HasPageNumber()) {
-            qs = _.extend(JSON.parse(JSON.stringify(qs)), {[this.paramPage]: value.Page});
-        }
-
-        NavigateQueryParametersService.SaveHistory(qs);
+        qs = NavigateQueryParametersService.DeleteQueryStringParameter(qs, NavigateQueryParametersService.paramPage);
+        this.Save(qs, value);
     }
 
-    /*
-     public static Save(value?: NavigateQueryParameters): void {
-
-     let qs = NavigateQueryParametersService.GetQueryStringObject();
-     qs = NavigateQueryParametersService.DeleteFilter(qs);
-     qs = NavigateQueryParametersService.DeletePageNumber(qs);
-
-     if (value.IsValidNavigation()) {
-     if (value.HasFilter()) {
-     const proName = _.keys(value.Filter)[0];
-     const newParam = new DictionaryItem();
-
-     newParam[this.paramName + proName] = value.Filter[proName];
-     qs = _.extend(JSON.parse(JSON.stringify(qs)), newParam);
-     }
-
-     if (value.HasPageNumber()) {
-     qs = _.extend(JSON.parse(JSON.stringify(qs)), {[this.paramPage]: value.Page});
-     }
-     }
-
-     NavigateQueryParametersService.SaveHistory(qs);
-     }
-     */
-
     private static SaveHistory(queryStringObject: any): void {
+
         const newqs = NavigateQueryParametersService.SerializeQueryParams(queryStringObject);
         const newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + newqs;
-
-        console.log(newurl);
 
         window.history.pushState({path: newurl}, '', newurl);
     }
 
-    private static DeleteFilter(qs: any): any {
+    private static DeleteQueryStringParameter(qs: any, paramName: string) {
 
-        if (!_.isUndefined(qs)) {
-            const current = NavigateQueryParametersService.GetActiveFilterParameterName(qs);
-
-            if (current.length > 0) {
-                delete qs[current];
-            }
-        }
-
-        return qs;
-    }
-
-    private static DeletePageNumber(qs: any): any {
-
-        if (!_.isUndefined(qs)) {
-            if (qs[NavigateQueryParametersService.paramPage]) {
-                delete qs[NavigateQueryParametersService.paramPage];
-            }
+        if (!_.isUndefined(qs) && !_.isUndefined(paramName) && qs[paramName]) {
+            delete qs[paramName];
         }
 
         return qs;
     }
 
     public Navigate(optionFilter: IOptionFilter): void {
+
         const qs = NavigateQueryParametersService.GetQueryStringObject();
         let selectedOption = DropDownItem.CreateDefaultOption();
         let filterText = '';
@@ -130,6 +117,7 @@ export  class NavigateQueryParametersService {
 
             //now lets get the page
             currentPage = NavigateQueryParametersService.GetCurrentPage(qs);
+
         }
 
         optionFilter.filterOption.filterText = filterText;

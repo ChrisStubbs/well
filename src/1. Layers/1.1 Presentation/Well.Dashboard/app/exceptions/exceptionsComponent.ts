@@ -1,53 +1,40 @@
-﻿import { Component, OnInit, ViewChild }     from '@angular/core';
-import { Router, ActivatedRoute}            from '@angular/router';
-import { Response }                         from '@angular/http';
-import { GlobalSettingsService }            from '../shared/globalSettings';
-import { NavigateQueryParametersService }   from '../shared/NavigateQueryParametersService';
-import { NavigateQueryParameters }          from '../shared/NavigateQueryParameters';
-import { IOptionFilter }                    from '../shared/IOptionFilter';
+﻿import {Component, OnInit, ViewChild, OnDestroy}    from '@angular/core';
+import { Router, ActivatedRoute}                    from '@angular/router';
+import { Response }                                 from '@angular/http';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
+import { FilterOption }                             from '../shared/filterOption';
+import { DropDownItem }                             from '../shared/dropDownItem';
+import { ContactModal }                             from '../shared/contactModal';
+import { AccountService }                           from '../account/accountService';
+import { IAccount }                                 from '../account/account';
+import { ExceptionDelivery }                        from './exceptionDelivery';
+import { ExceptionDeliveryService }                 from './exceptionDeliveryService';
+import { RefreshService }                           from '../shared/refreshService';
+import { HttpResponse }                             from '../shared/httpResponse';
+import { AssignModal }                              from '../shared/assignModal';
+import { ConfirmModal }                             from '../shared/confirmModal';
+import { IUser }                                    from '../shared/user';
+import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
+import { SecurityService }                          from '../shared/security/securityService';
+import * as lodash                                  from 'lodash';
+import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';   // Load all features
-import {FilterOption}                       from '../shared/filterOption';
-import {DropDownItem}                       from '../shared/dropDownItem';
-import {ContactModal}                       from '../shared/contactModal';
-import {AccountService}                     from '../account/accountService';
-import {IAccount}                           from '../account/account';
-import {ExceptionDelivery}                  from './exceptionDelivery';
-import {ExceptionDeliveryService}           from './exceptionDeliveryService';
-import {RefreshService}                     from '../shared/refreshService';
-import {HttpResponse}                       from '../shared/httpResponse';
-import {AssignModal}                        from '../shared/assignModal';
-import {ConfirmModal}                       from '../shared/confirmModal';
-import {IUser}                              from '../shared/user';
-import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
-import {SecurityService}                    from '../shared/security/securityService';
-import {Threshold}                          from '../shared/threshold';
-import * as lodash                          from 'lodash';
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [ExceptionDeliveryService]
 })
-export class ExceptionsComponent implements OnInit, IOptionFilter {
+export class ExceptionsComponent extends BaseComponent implements OnInit, OnDestroy {
     public isLoading: boolean = true;
     private  refreshSubscription: any;
-    private navigationSubscriber: any;
     public errorMessage: string;
     public exceptions: ExceptionDelivery[];
     public currentConfigSort: string;
     private rowCount: number = 10;
-    public currentPage: number = 1;
     public routeOption = new DropDownItem('Route', 'routeNumber');
     public assigneeOption = new DropDownItem('Assignee', 'assigned');
-    public options: DropDownItem[] = [
-        this.routeOption,
-        new DropDownItem('Invoice No', 'invoiceNumber'),
-        new DropDownItem('Account', 'accountCode'),
-        new DropDownItem('Account Name', 'accountName'),
-        this.assigneeOption,
-        new DropDownItem('Date', 'deliveryDate', false, 'date'),
-        new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
-    ];
     public defaultAction: DropDownItem = new DropDownItem('Action');
     public actions: DropDownItem[] = [
         new DropDownItem('Credit', 'credit'),
@@ -62,24 +49,19 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
     public httpResponse: HttpResponse = new HttpResponse();
     public users: IUser[];
     public delivery: ExceptionDelivery;
-    public routeId: string;
-    public assignee: string;
+    // public routeId: string;
+    // public assignee: string;
     public outstandingFilter: boolean = false;
     public bulkCredits: ExceptionDelivery[];
     public threshold: number;
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
     public value: string;
-    public confirmMessage: string;
     public confirmModalIsVisible: boolean = false;
     public selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
-    public thresholdLimit: Threshold;
     public isReadOnlyUser: boolean = false;
-    public filterOption: FilterOption = new FilterOption();
-    public selectedOption: DropDownItem;
-    public selectedFilter: string;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -90,18 +72,31 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
         private refreshService: RefreshService,
         private toasterService: ToasterService,
         private securityService: SecurityService,
-        private navigateQueryParametersService: NavigateQueryParametersService ) {
+        private nqps: NavigateQueryParametersService ) {
+
+        super(nqps);
+
+        this.options = [
+            this.routeOption,
+            new DropDownItem('Invoice No', 'invoiceNumber'),
+            new DropDownItem('Account', 'accountCode'),
+            new DropDownItem('Account Name', 'accountName'),
+            this.assigneeOption,
+            new DropDownItem('Date', 'deliveryDate', false, 'date'),
+            new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
+        ];
     }
 
     public ngOnInit(): void {
-        this.navigateQueryParametersService.Navigate(this);
+        super.ngOnInit();
+
         this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
+            this.globalSettingsService.globalSettings.permissions, 
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params => {
-            this.routeId = params['route'];
-            this.assignee = params['assignee'];
+            // this.routeId = params['route'];
+            // this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
@@ -110,14 +105,11 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
 
         this.isReadOnlyUser = this.securityService
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
-
-        this.navigationSubscriber = this.navigateQueryParametersService.BrowserNavigation
-            .subscribe(p => this.navigateQueryParametersService.Navigate(this));
     }
 
     public ngOnDestroy() {
+        super.ngOnDestroy();
         this.refreshSubscription.unsubscribe();
-        this.navigationSubscriber.unsubscribe();
     }
 
     public getExceptions() {
@@ -125,18 +117,6 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
             .subscribe(responseData => {
                     this.exceptions = responseData;
                     this.lastRefresh = Date.now();
-
-                    if (this.routeId) {
-                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
-                        this.selectedOption = this.routeOption;
-                        this.selectedFilter = this.routeId;
-                    }
-                    if (this.assignee) {
-                        this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
-                        this.selectedOption = this.assigneeOption;
-                        this.selectedFilter = this.assignee;
-                    }
-
                     this.isLoading = false;
                 },
                 error => {
@@ -156,11 +136,11 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
             });
     }
 
-    public sortDirection(sortDirection): void {
-        this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
+    private sortDirection(sortDirection): void {
+        this.currentConfigSort = sortDirection ? '+deliveryDate' : '-deliveryDate';
         const sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
-        this.getExceptions();
-        lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);
+        //this.getExceptions();
+        this.exceptions = lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);
     }
 
     public onSortDirectionChanged(isDesc: boolean) {
@@ -168,9 +148,8 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
     }
     
     public onFilterClicked(filterOption: FilterOption) {
-        this.filterOption = filterOption;
         this.bulkCredits = [];
-        this.navigateQueryParametersService.Navigate(this);
+        super.onFilterClicked(filterOption);
     }
 
     public onOutstandingClicked(showOutstandingOnly: boolean) {
@@ -335,7 +314,6 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
         if (this.exceptions.length % this.rowCount === 1) {
             location.reload();
         }       
-
     }
 
     public setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
@@ -363,12 +341,5 @@ export class ExceptionsComponent implements OnInit, IOptionFilter {
                 // do something else
                 break;
         }
-    }
-
-    public SetCurrentPage(pageNumber: number): void {
-        this.currentPage = pageNumber
-
-        const item = new NavigateQueryParameters(undefined, this.currentPage);
-        NavigateQueryParametersService.SavePageNumber(item);
     }
 }

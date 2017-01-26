@@ -3,13 +3,14 @@ import { CompositeSpecification } from './CompositeSpecification';
 
 export class DictionaryItem {
     [key: string]: string;
-};
+}
 
 export class NavigateQueryParameters {
     private pageSpec = new HasPageSpecification();
     private filterSpec = new HasFilterSpecification();
+    private sortSpec = new HasSortSpecification();
 
-    constructor (public Filter?: DictionaryItem, public Page?: number) {}
+    constructor (public Filter?: DictionaryItem, public Page?: number, public Sort?: string) {}
 
     public HasFilter(): boolean {
         return this.filterSpec.IsSatisfiedBy(this);
@@ -19,8 +20,19 @@ export class NavigateQueryParameters {
         return this.pageSpec.IsSatisfiedBy(this);
     }
 
+    public HasSort(): boolean {
+        return this.sortSpec.IsSatisfiedBy(this);
+    }
+
     public IsValidNavigation(): boolean {
-        return this.pageSpec.or(this.filterSpec).IsSatisfiedBy(this);
+        return this.pageSpec.or(this.filterSpec).or(this.sortSpec).IsSatisfiedBy(this);
+    }
+}
+
+class HasSortSpecification extends CompositeSpecification<NavigateQueryParameters> {
+    public IsSatisfiedBy(item: NavigateQueryParameters): boolean {
+        return !(_.isNull(item) || _.isUndefined(item)
+        || _.isNull(item.Sort) || _.isUndefined(item.Sort));
     }
 }
 
@@ -34,15 +46,6 @@ class HasPageSpecification extends CompositeSpecification<NavigateQueryParameter
 class HasFilterSpecification extends CompositeSpecification<NavigateQueryParameters> {
     public IsSatisfiedBy (item: NavigateQueryParameters): boolean {
 
-        return !(_.isUndefined(item) || _.isUndefined(item.Filter));
-        // if (_.isUndefined(item) || _.isUndefined(item.Filter)) {
-        //     return false;
-        // }
-        //
-        // const k = _.keys(item.Filter)[0];
-        // const v = item.Filter[k];
-        //
-        // //     check if the filter has a valid value
-        // return !(_.isNull(v) || _.isUndefined(v) || _.trim(v) == '');
+        return !(_.isNull(item) || _.isUndefined(item) || _.isUndefined(item.Filter));
     }
 }

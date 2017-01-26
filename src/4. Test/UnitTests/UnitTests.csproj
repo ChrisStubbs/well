@@ -178,6 +178,7 @@
     <Compile Include="Services\AdamUpdateTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
+    <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\EpodUpdateServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />

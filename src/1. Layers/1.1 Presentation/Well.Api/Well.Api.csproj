@@ -214,7 +214,6 @@
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
     <Compile Include="Controllers\JobDetailReasonController.cs" />
     <Compile Include="Controllers\DeliveryLineController.cs" />
-    <Compile Include="Controllers\ExceptionEventController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BranchController.cs" />

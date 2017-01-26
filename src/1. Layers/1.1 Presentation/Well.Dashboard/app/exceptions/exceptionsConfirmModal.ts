@@ -15,7 +15,7 @@ export class ExceptionsConfirmModal {
     public httpResponse: HttpResponse = new HttpResponse();
     public userThreshold: number = 0.00;  
 
-    //@Output() public onSave = new EventEmitter<DeliveryLine[]>();
+    @Output() public onSave = new EventEmitter();
 
     constructor(private exceptionDeliveryService: ExceptionDeliveryService, private toasterService: ToasterService) { }
 
@@ -41,6 +41,19 @@ export class ExceptionsConfirmModal {
 
                 if (this.httpResponse.notAcceptable) {
                     this.toasterService.pop('error', this.httpResponse.message, '');
+                }
+                else if (this.httpResponse.adamdown) {
+                    this.toasterService.pop('info',
+                        'ADAM is currently offline!',
+                        'You will receive a notification once the credit has taken place!');
+                }
+                else if (this.httpResponse.success) {
+                    this.toasterService.pop('success',
+                        'Delivery line actions completed!',
+                        '');
+
+                    this.onSave.emit();
+                    this.hide();
                 }
             });
     }

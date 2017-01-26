@@ -95,6 +95,7 @@
     <Compile Include="ValueObjects\DamageSource.cs" />
     <Compile Include="ValueObjects\CreditFail.cs" />
     <Compile Include="SeasonalDate.cs" />
+    <Compile Include="ValueObjects\DeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\DeliveryToRemove.cs" />
     <Compile Include="ValueObjects\DirectoryListing.cs" />
     <Compile Include="ValueObjects\GrnEvent.cs" />

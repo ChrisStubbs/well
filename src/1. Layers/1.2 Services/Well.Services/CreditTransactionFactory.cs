@@ -14,29 +14,24 @@
     public class CreditTransactionFactory : ICreditTransactionFactory
     {
         private readonly IJobRepository jobRepository;
-        private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAccountRepository accountRepository;
         private readonly IUserRepository userRepository;
 
-        public CreditTransactionFactory(IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository, IUserRepository userRepository)
+        public CreditTransactionFactory(IJobRepository jobRepository, IAccountRepository accountRepository, IUserRepository userRepository)
         {
              this.jobRepository = jobRepository;
-             this.jobDetailRepository = jobDetailRepository;
              this.accountRepository = accountRepository;
              this.userRepository = userRepository;
         }
         
-        public CreditTransaction BuildCreditEventTransaction(IList<DeliveryLine> deliveryLines, string username)
+        public CreditTransaction Build(IList<DeliveryLine> deliveryLines, string username)
         {
-            return null;
-
             var user = this.userRepository.GetByIdentity(username);
 
             var initials = user.FriendlyName.GetInitials();
 
-            /*var job = this.jobRepository.GetById(credit.Id);
-            var details = this.jobDetailRepository.GetJobDetailsWithActions(credit.Id, 1);
-            var account = this.accountRepository.GetAccountGetByAccountCode(job.PhAccount, job.StopId);
+            var job = this.jobRepository.GetById(deliveryLines[0].JobId);
+            var account = this.accountRepository.GetAccountByAccountCode(job.PhAccount, job.StopId);
 
             var endFlag = 0;
             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
@@ -81,13 +76,13 @@
                 "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, {13});",
                 today, now, job.Id, (int)EventAction.CreditTransaction, initials, credit.BranchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
 
-            var creditTransaction = new CreditEventTransaction { HeaderSql = creditHeader };
+            var creditTransaction = new CreditTransaction { HeaderSql = creditHeader };
 
             creditTransaction.LineSql = lineDictionary;
 
             creditTransaction.BranchId = credit.BranchId;
 
-            return creditTransaction;*/
+            return creditTransaction;
         }
     }
 }

@@ -45,7 +45,7 @@
         {
             var job = this.jobRepository.GetById(creditLines[0].JobId);
             
-            var creditEventTransaction = this.creditTransactionFactory.BuildCreditEventTransaction(creditLines, username);
+            var creditEventTransaction = this.creditTransactionFactory.Build(creditLines, username);
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
 
@@ -121,14 +121,14 @@
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
                 var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
-                if (!thresholdResponse.CanUserCredit)
+                if (thresholdResponse.IsInError)
                 {
                     result.ThresholdError = true;
-                    result.ThresholdErrorMessage = response.ErrorMessage;
+                    result.ThresholdErrorMessage = thresholdResponse.ErrorMessage;
                 }
                 else
                 {
-                    if (!response.CanUserCredit)
+                    if (!thresholdResponse.CanUserCredit)
                     {
                         this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
                         result.CreditThresholdLimitReached = true;

@@ -6,6 +6,6 @@
 
     public interface ICreditTransactionFactory
     {
-        CreditTransaction BuildCreditEventTransaction(IList<DeliveryLine> deliveryLines, string username);
+        CreditTransaction Build(IList<DeliveryLine> deliveryLines, string username);
     }
 }

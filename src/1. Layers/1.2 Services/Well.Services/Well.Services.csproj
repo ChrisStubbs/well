@@ -59,6 +59,7 @@
     <Compile Include="Contracts\IBranchService.cs" />
     <Compile Include="Contracts\ICleanDeliveryService.cs" />
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
+    <Compile Include="Contracts\IDeliverLineToDeliveryLineAction.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
     <Compile Include="Contracts\IEpodUpdateService.cs" />
     <Compile Include="Contracts\IDeliveryLineActionService.cs" />

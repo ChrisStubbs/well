@@ -34,7 +34,7 @@
 
         }
 
-        public Account GetAccountGetByAccountCode(string accountCode, int stopId)
+        public Account GetAccountByAccountCode(string accountCode, int stopId)
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountGetByAccountCode)
                     .AddParameter("Code", accountCode, DbType.String)

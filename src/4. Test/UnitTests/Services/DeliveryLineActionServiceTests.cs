@@ -61,8 +61,7 @@
                 thresholdResponse.CanUserCredit = true;
 
                 this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
-                    ErrorMessage = String.Empty
-                });
+                    //ErrorMessage = String.Empty});
                 this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditLines, username))
                     .Returns(creditTransaction);

@@ -23,7 +23,7 @@
     {
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
-        private Mock<IExceptionEventService> exceptionEventService;
+        private Mock<IDeliveryLineActionService> exceptionEventService;
 
         private Mock<ILogger> logger;
 
@@ -37,14 +37,14 @@
         public void Setup()
         {
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
-            this.exceptionEventService = new Mock<IExceptionEventService>(MockBehavior.Strict);
+            this.exceptionEventService = new Mock<IDeliveryLineActionService>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.container = new Mock<IContainer>(MockBehavior.Strict);
 
             this.container.Setup(x => x.GetInstance<IExceptionEventRepository>())
                 .Returns(this.exceptionEventRepository.Object);
 
-            this.container.Setup(x => x.GetInstance<IExceptionEventService>())
+            this.container.Setup(x => x.GetInstance<IDeliveryLineActionService>())
                 .Returns(this.exceptionEventService.Object);
 
             this.container.Setup(x => x.GetInstance<ILogger>()).Returns(this.logger.Object);
@@ -62,7 +62,7 @@
                 var lineDictionary = new Dictionary<int, string>();
                 var line = "jhgkjhgkj";
                 lineDictionary.Add(1, line);
-                var creditEvent = new CreditEventTransaction { BranchId = 22, HeaderSql = "20011.110", LineSql = lineDictionary};
+                var creditEvent = new CreditTransaction { BranchId = 22, HeaderSql = "20011.110", LineSql = lineDictionary};
 
                 var json = JsonConvert.SerializeObject(creditEvent);
 
@@ -77,7 +77,7 @@
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
-                    x => x.CreditEventTransaction(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+                    x => x.CreditTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
@@ -86,7 +86,7 @@
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 this.exceptionEventService.Verify(
-                    x => x.CreditEventTransaction(It.IsAny<CreditEventTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
+                    x => x.CreditTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
                     Times.Once);
             }
         }

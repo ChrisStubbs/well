@@ -9,34 +9,34 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
-    public class ExceptionEventService : IExceptionEventService
+    public class DeliveryLineActionService : IDeliveryLineActionService
     {
         private readonly IAdamRepository adamRepository;
         private readonly IExceptionEventRepository eventRepository;
         private readonly IJobRepository jobRepository;
         private readonly IUserRepository userRepository;
-        private readonly ICreditEventTransactionFactory creditEventTransactionFactory;
+        private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IUserThresholdService userThresholdService;
 
-        public ExceptionEventService(
+        public DeliveryLineActionService(
             IAdamRepository adamRepository,
             IExceptionEventRepository eventRepository,
             IJobRepository jobRepository,
             IUserRepository userRepository,
-            ICreditEventTransactionFactory creditEventTransactionFactory,
+            ICreditTransactionFactory creditTransactionFactory,
             IUserThresholdService userThresholdService)
         {
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
             this.jobRepository = jobRepository;
             this.userRepository = userRepository;
-            this.creditEventTransactionFactory = creditEventTransactionFactory;
+            this.creditTransactionFactory = creditTransactionFactory;
             this.userThresholdService = userThresholdService;
         }
 
-        public void CreditEventTransaction(CreditEventTransaction creditEventTransaction, int eventId, AdamSettings adamSettings, string username)
+        public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings, string username)
         {
-            var adamResponse = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
+            var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings, username);
 
             this.MarkAsDone(eventId, adamResponse, username);
         }
@@ -45,7 +45,7 @@
         {
             var job = this.jobRepository.GetById(creditLines[0].JobId);
             
-            var creditEventTransaction = this.creditEventTransactionFactory.BuildCreditEventTransaction(creditLines, username);
+            var creditEventTransaction = this.creditTransactionFactory.BuildCreditEventTransaction(creditLines, username);
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
 
@@ -68,41 +68,6 @@
                 return AdamResponse.Success;
             }
         }
-
-        /*public AdamResponse BulkCredit(IEnumerable<CreditEvent> creditEvents, string username)
-        *///{
-//todo
-          //  var adamDown = false;
-
-//            if (!creditEvents.Any()) return AdamResponse.Success;
-
-//;            foreach (var creditEvent in creditEvents)
-//            {
-//                var settings = AdamSettingsFactory.GetAdamSettings((Branch)creditEvent.BranchId);
-
-//                using (var transactionScope = new TransactionScope())
-//                {
-//                    var response = this.adamRepository.Credit(creditEvent, settings, username);
-
-//                    if (response == AdamResponse.AdamDown)
-//                    {
-//                        this.eventRepository.CurrentUser = username;
-//                        this.eventRepository.InsertCreditEvent(creditEvent);
-//                        adamDown = true;
-//                    }
-//                    else
-//                    {
-//                        this.jobRepository.ResolveJobAndJobDetails(creditEvent.Id);
-//                        this.userRepository.UnAssignJobToUser(creditEvent.Id);
-//                        this.eventRepository.RemovedPendingCredit(creditEvent.InvoiceNumber);
-//                    }
-
-//                    transactionScope.Complete();
-//                }
-//            }
-
-         //   return adamDown ? AdamResponse.AdamDown : AdamResponse.Success;
-       // }
         
         public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username)
         {

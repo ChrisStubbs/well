@@ -5,9 +5,9 @@
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
 
-    public interface IExceptionEventService
+    public interface IDeliveryLineActionService
     {
-        void CreditEventTransaction(CreditEventTransaction creditEventTransaction, int eventId, AdamSettings adamSettings, string username);
+        void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings, string username);
 
         void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username);
 

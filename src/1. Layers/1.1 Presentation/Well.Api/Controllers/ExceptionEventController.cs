@@ -16,11 +16,11 @@
     public class ExceptionEventController : BaseApiController
     {
         private readonly ILogger logger;
-        private readonly IExceptionEventService exceptionEventService;
+        private readonly IDeliveryLineActionService exceptionEventService;
         private readonly IUserThresholdService userThresholdService;
 
         public ExceptionEventController(ILogger logger, 
-            IExceptionEventService exceptionEventService,
+            IDeliveryLineActionService exceptionEventService,
             IUserThresholdService userThresholdService)
         {
             this.logger = logger;

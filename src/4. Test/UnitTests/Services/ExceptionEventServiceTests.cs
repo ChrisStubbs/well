@@ -24,9 +24,9 @@
 
         private Mock<IUserRepository> userRepository;
 
-        private ExceptionEventService service;
+        private DeliveryLineActionService service;
 
-        private Mock<ICreditEventTransactionFactory> creditTransactionFactory;
+        private Mock<ICreditTransactionFactory> creditTransactionFactory;
 
         private Mock<IUserThresholdService> userThresholdService;
 
@@ -37,10 +37,10 @@
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            this.creditTransactionFactory = new Mock<ICreditEventTransactionFactory>(MockBehavior.Strict);
+            this.creditTransactionFactory = new Mock<ICreditTransactionFactory>(MockBehavior.Strict);
             this.userThresholdService = new Mock<IUserThresholdService>(MockBehavior.Strict);
 
-            this.service = new ExceptionEventService(
+            this.service = new DeliveryLineActionService(
                 this.adamRepository.Object, 
                 this.exceptionEventRepository.Object, 
                 this.jobRepository.Object, 

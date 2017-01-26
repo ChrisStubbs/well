@@ -16,7 +16,7 @@
     using PH.Well.Services.Contracts;
 
     [TestFixture]
-    public class ExceptionSubmissionControllerTests : BaseControllerTests<ExceptionSubmissionController>
+    public class ActionDeliveryLineControllerTests : BaseControllerTests<ActionDeliveryLinesController>
     {
         private Mock<ILogger> logger;
 
@@ -24,7 +24,7 @@
 
         private Mock<IDeliveryLinesToModelMapper> mapper;
 
-        private Mock<IExceptionEventService> exceptionEventService;
+        private Mock<IDeliveryLineActionService> exceptionEventService;
 
         private Mock<IJobRepository> jobRepository;
 
@@ -36,11 +36,11 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IDeliveryLinesToModelMapper>(MockBehavior.Strict);
-            this.exceptionEventService = new Mock<IExceptionEventService>(MockBehavior.Strict);
+            this.exceptionEventService = new Mock<IDeliveryLineActionService>(MockBehavior.Strict);
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
 
-            this.Controller = new ExceptionSubmissionController(
+            this.Controller = new ActionDeliveryLinesController(
                 this.logger.Object, 
                 this.deliveryReadRepository.Object, 
                 this.mapper.Object, 
@@ -51,10 +51,10 @@
             this.SetupController();
         }
 
-        public class TheGetConfirmationDetailsMethod : ExceptionSubmissionControllerTests
+        public class TheDeliveryLineActionsMethod : ActionDeliveryLineControllerTests
         {
             [Test]
-            public void ShouldReturnTheExceptionDeliveryConfirmationDetails()
+            public void ShouldReturnTheActionsTakenOnTheDeliveryLine()
             {
                 var deliveryLines = new List<DeliveryLine>();
                 var jobId = 44;
@@ -62,7 +62,7 @@
                 this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(jobId)).Returns(deliveryLines);
                 this.mapper.Setup(x => x.Map(deliveryLines)).Returns(new List<DeliveryLineModel>());
 
-                var response = this.Controller.GetConfirmationDetails(jobId);
+                var response = this.Controller.DeliveryLineActions(jobId);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 

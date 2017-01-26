@@ -13,7 +13,7 @@
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
 
-    public class ExceptionSubmissionController : BaseApiController
+    public class ActionDeliveryLinesController : BaseApiController
     {
         private readonly ILogger logger;
 
@@ -21,17 +21,17 @@
 
         private readonly IDeliveryLinesToModelMapper mapper;
 
-        private readonly IExceptionEventService exceptionEventService;
+        private readonly IDeliveryLineActionService exceptionEventService;
 
         private readonly IJobRepository jobRepository;
 
         private readonly IBranchRepository branchRepository;
 
-        public ExceptionSubmissionController(
+        public ActionDeliveryLinesController(
             ILogger logger,
             IDeliveryReadRepository deliveryRepository,
             IDeliveryLinesToModelMapper mapper,
-            IExceptionEventService exceptionEventService,
+            IDeliveryLineActionService exceptionEventService,
             IJobRepository jobRepository,
             IBranchRepository branchRepository)
         {
@@ -43,9 +43,9 @@
             this.branchRepository = branchRepository;
         }
 
-        [Route("submission-confirm/{jobId:int}")]
+        [Route("delivery-line-actions/{jobId:int}")]
         [HttpGet]
-        public HttpResponseMessage GetConfirmationDetails(int jobId)
+        public HttpResponseMessage DeliveryLineActions(int jobId)
         {
             var deliveryLines = this.deliveryRepository.GetDeliveryLinesByJobId(jobId);
 
@@ -54,9 +54,9 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
-        [Route("confirm-exceptions/{jobId:int}")]
+        [Route("confirm-delivery-lines/{jobId:int}")]
         [HttpPost]
-        public HttpResponseMessage Confirm(int jobId)
+        public HttpResponseMessage ConfirmDeliveryLines(int jobId)
         {
             try
             {

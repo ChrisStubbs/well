@@ -11,14 +11,14 @@
 
     using Repositories.Contracts;
 
-    public class CreditEventTransactionFactory : ICreditEventTransactionFactory
+    public class CreditTransactionFactory : ICreditTransactionFactory
     {
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAccountRepository accountRepository;
         private readonly IUserRepository userRepository;
 
-        public CreditEventTransactionFactory(IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository, IUserRepository userRepository)
+        public CreditTransactionFactory(IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository, IUserRepository userRepository)
         {
              this.jobRepository = jobRepository;
              this.jobDetailRepository = jobDetailRepository;
@@ -26,7 +26,7 @@
              this.userRepository = userRepository;
         }
         
-        public CreditEventTransaction BuildCreditEventTransaction(IList<DeliveryLine> deliveryLines, string username)
+        public CreditTransaction BuildCreditEventTransaction(IList<DeliveryLine> deliveryLines, string username)
         {
             return null;
 

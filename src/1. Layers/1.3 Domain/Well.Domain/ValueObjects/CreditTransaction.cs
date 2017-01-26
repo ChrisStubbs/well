@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CreditEventTransaction
+    public class CreditTransaction
     {
-        public CreditEventTransaction()
+        public CreditTransaction()
         {
             this.LineSql = new Dictionary<int, string>();
             this.LinesToRemove = new Dictionary<int, string>();

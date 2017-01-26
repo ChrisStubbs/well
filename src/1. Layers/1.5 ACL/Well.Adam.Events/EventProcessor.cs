@@ -15,13 +15,13 @@
     public class EventProcessor
     {
         private readonly IExceptionEventRepository exceptionEventRepository;
-        private readonly IExceptionEventService exceptionEventService;
+        private readonly IDeliveryLineActionService exceptionEventService;
         private readonly ILogger logger;
 
         public EventProcessor(IContainer container)
         {
             this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
-            this.exceptionEventService = container.GetInstance<IExceptionEventService>();
+            this.exceptionEventService = container.GetInstance<IDeliveryLineActionService>();
             this.logger = container.GetInstance<ILogger>();
         }
 
@@ -39,8 +39,8 @@
                     switch (eventToProcess.EventAction)
                     {
                         case EventAction.CreditTransaction:
-                            var creditEventTransaction = JsonConvert.DeserializeObject<CreditEventTransaction>(eventToProcess.Event);
-                            this.exceptionEventService.CreditEventTransaction(creditEventTransaction, eventToProcess.Id,
+                            var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
+                            this.exceptionEventService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
                                 GetAdamSettings(creditEventTransaction.BranchId), username);
                             break;
                         case EventAction.Grn:

@@ -19,9 +19,9 @@
         {
         }
 
-        public void InsertCreditEventTransaction(CreditEventTransaction creditEventTransaction)
+        public void InsertCreditEventTransaction(CreditTransaction creditTransaction)
         {
-            var creditEventTransactionJson = JsonConvert.SerializeObject(creditEventTransaction);
+            var creditEventTransactionJson = JsonConvert.SerializeObject(creditTransaction);
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", creditEventTransactionJson, DbType.String)

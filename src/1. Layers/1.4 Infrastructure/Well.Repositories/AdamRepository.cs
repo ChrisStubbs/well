@@ -26,7 +26,7 @@
             this.eventLogger = eventLogger;
         }
 
-        public AdamResponse Credit(CreditEventTransaction creditTransaction, AdamSettings adamSettings, string username)
+        public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings, string username)
         {
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {

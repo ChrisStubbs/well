@@ -43,12 +43,12 @@ export class ExceptionDeliveryService {
     }
 
     public getConfirmationDetails(jobId: number): Observable<DeliveryLine[]> {
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'submission-confirm/' + jobId)
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line-actions/' + jobId)
             .map(res => res.json());
     }
 
     public submitExceptionConfirmation(jobId: number): Observable<any> {
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'confirm-exceptions/' + jobId,
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'confirm-delivery-lines/' + jobId,
                 JSON.stringify(''),
                 this.options)
             .map(response => response.json())

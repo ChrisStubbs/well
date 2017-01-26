@@ -119,9 +119,9 @@
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var canCredit = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
-                if (!canCredit)
+                if (!thresholdResponse.CanUserCredit)
                 {
                     this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
                     result.CreditThresholdLimitReached = true;

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
+    using System;
     using System.Collections.Generic;
 
     using Moq;
@@ -56,7 +57,12 @@
                 var job = new Job { Id = 202 };
                 int branchId = 2;
 
-                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(true);
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(new ThresholdResponse
+                {
+                    CanUserCredit = true,
+                    IsInError = false,
+                    ErrorMessage = String.Empty
+                });
                 this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditLines, username))
                     .Returns(creditTransaction);
@@ -91,7 +97,7 @@
                 int branchId = 2;
                 decimal threshold = 1015;
                 
-                this.userThresholdService.Setup(x => x.CanUserCredit(username, threshold)).Returns(false);
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, threshold)).Returns(new ThresholdResponse { CanUserCredit = false });
 
                 this.userThresholdService.Setup(
                     x => x.AssignPendingCredit(branchId, threshold, creditLines[0].JobId, username));
@@ -126,7 +132,7 @@
             }
 
             [Test]
-            public void AdamNotAvaliableCreditReturnsResultAdamDown()
+            public void AdamNotAvailableCreditReturnsResultAdamDown()
             {
                 var creditLines = new List<DeliveryLine> { DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.Credit).Build() };
 
@@ -136,7 +142,7 @@
                 var job = new Job { Id = 202 };
                 int branchId = 2;
 
-                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(true);
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(new ThresholdResponse { CanUserCredit = true});
                 this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditLines, username))
                     .Returns(creditTransaction);

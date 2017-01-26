@@ -125,12 +125,20 @@
 
                 if (!thresholdResponse.CanUserCredit)
                 {
-                    this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
-                    result.CreditThresholdLimitReached = true;
+                    result.ThresholdError = true;
+                    result.ThresholdErrorMessage = response.ErrorMessage;
                 }
                 else
                 {
-                    result.AdamResponse = this.Credit(creditLines, adamSettings, username);
+                    if (!response.CanUserCredit)
+                    {
+                        this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
+                        result.CreditThresholdLimitReached = true;
+                    }
+                    else
+                    {
+                        result.AdamResponse = this.Credit(creditLines, adamSettings, username);
+                    }
                 }
             }
 

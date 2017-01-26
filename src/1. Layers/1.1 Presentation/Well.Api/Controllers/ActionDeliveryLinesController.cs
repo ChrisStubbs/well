@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -15,8 +14,6 @@
 
     public class ActionDeliveryLinesController : BaseApiController
     {
-        private readonly ILogger logger;
-
         private readonly IDeliveryReadRepository deliveryRepository;
 
         private readonly IDeliveryLinesToModelMapper mapper;
@@ -28,14 +25,12 @@
         private readonly IBranchRepository branchRepository;
 
         public ActionDeliveryLinesController(
-            ILogger logger,
             IDeliveryReadRepository deliveryRepository,
             IDeliveryLinesToModelMapper mapper,
             IDeliveryLineActionService deliveryLineActionService,
             IJobRepository jobRepository,
             IBranchRepository branchRepository)
         {
-            this.logger = logger;
             this.deliveryRepository = deliveryRepository;
             this.mapper = mapper;
             this.deliveryLineActionService = deliveryLineActionService;
@@ -92,7 +87,13 @@
                         "Your threshold level isn\'t high enough for the credit... It has been passed on for authorisation..."
                     });
 
-            if (response.AdamResponse == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
+            if (response.ThresholdError)
+                return this.Request.CreateResponse(
+                    HttpStatusCode.OK,
+                    new { notAcceptable = true, message = response.ThresholdErrorMessage });
+
+            if (response.AdamResponse == AdamResponse.AdamDown)
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
 
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }

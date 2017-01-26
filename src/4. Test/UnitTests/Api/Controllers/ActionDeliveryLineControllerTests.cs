@@ -22,8 +22,6 @@
     [TestFixture]
     public class ActionDeliveryLineControllerTests : BaseControllerTests<ActionDeliveryLinesController>
     {
-        private Mock<ILogger> logger;
-
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
 
         private Mock<IDeliveryLinesToModelMapper> mapper;
@@ -37,7 +35,6 @@
         [SetUp]
         public void Setup()
         {
-            this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IDeliveryLinesToModelMapper>(MockBehavior.Strict);
             this.deliveryLineActionService = new Mock<IDeliveryLineActionService>(MockBehavior.Strict);
@@ -45,7 +42,6 @@
             this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
 
             this.Controller = new ActionDeliveryLinesController(
-                this.logger.Object, 
                 this.deliveryReadRepository.Object, 
                 this.mapper.Object, 
                 this.deliveryLineActionService.Object,

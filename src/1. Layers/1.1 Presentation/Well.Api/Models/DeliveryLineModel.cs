@@ -38,6 +38,14 @@
 
         public int ShortsActionId { get; set; }
 
+        public string JobDetailReason { get; set; }
+
+        public string JobDetailSource { get; set; }
+
+        public string ShortsAction { get; set; }
+
+        public decimal TotalCreditThreshold { get; set; }
+
         public List<DamageModel> Damages { get; set; }
 
         public List<ActionModel> Actions { get; set; }

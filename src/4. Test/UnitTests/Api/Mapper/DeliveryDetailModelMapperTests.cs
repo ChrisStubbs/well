@@ -28,15 +28,6 @@
 
             var line1 = DeliveryLineFactory.New.Build();
             var line2 = DeliveryLineFactory.New.With(x => x.LineNo = 2).Build();
-            line1.Actions = new List<JobDetailAction>()
-            {
-                new JobDetailAction()
-                {
-                    Quantity = 3,
-                    Action = EventAction.CreditAndReorder,
-                    Status = ActionStatus.Submitted
-                }
-            };
 
             var lines = new List<DeliveryLine> { line1, line2 };
 
@@ -68,12 +59,6 @@
             Assert.That(modelLine1.DeliveredQuantity, Is.EqualTo(line1.DeliveredQuantity));
             Assert.That(modelLine1.DamagedQuantity, Is.EqualTo(line1.DamagedQuantity));
             Assert.That(modelLine1.ShortQuantity, Is.EqualTo(line1.ShortQuantity));
-
-            var action = model.ExceptionDeliveryLines[0].Actions[0];
-            Assert.AreEqual(action.Quantity, line1.Actions[0].Quantity);
-            Assert.AreEqual(action.Status, line1.Actions[0].Status);
-            Assert.AreEqual(action.StatusDescription, line1.Actions[0].Status.ToString());
-            Assert.AreEqual(action.Action, line1.Actions[0].Action);
 
             Assert.That(modelLine2.JobId, Is.EqualTo(line2.JobId));
             Assert.That(modelLine2.LineNo, Is.EqualTo(line2.LineNo));

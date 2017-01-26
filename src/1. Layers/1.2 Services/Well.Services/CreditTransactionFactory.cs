@@ -6,30 +6,35 @@
     using Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
+
+    using PH.Well.Common.Extensions;
+
     using Repositories.Contracts;
 
-    public class CreditEventTransactionFactory : ICreditEventTransactionFactory
+    public class CreditTransactionFactory : ICreditTransactionFactory
     {
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAccountRepository accountRepository;
         private readonly IUserRepository userRepository;
 
-        public CreditEventTransactionFactory(IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository, IUserRepository userRepository)
+        public CreditTransactionFactory(IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository, IUserRepository userRepository)
         {
              this.jobRepository = jobRepository;
              this.jobDetailRepository = jobDetailRepository;
              this.accountRepository = accountRepository;
              this.userRepository = userRepository;
         }
-
-
-        public CreditEventTransaction BuildCreditEventTransaction(CreditEvent credit, string username)
+        
+        public CreditTransaction BuildCreditEventTransaction(IList<DeliveryLine> deliveryLines, string username)
         {
-            var user = this.userRepository.GetByIdentity(username);
-            string initials = new string(user.FriendlyName.ToCharArray().Where(char.IsUpper).ToArray());
+            return null;
 
-            var job = this.jobRepository.GetById(credit.Id);
+            var user = this.userRepository.GetByIdentity(username);
+
+            var initials = user.FriendlyName.GetInitials();
+
+            /*var job = this.jobRepository.GetById(credit.Id);
             var details = this.jobDetailRepository.GetJobDetailsWithActions(credit.Id, 1);
             var account = this.accountRepository.GetAccountGetByAccountCode(job.PhAccount, job.StopId);
 
@@ -82,7 +87,7 @@
 
             creditTransaction.BranchId = credit.BranchId;
 
-            return creditTransaction;
+            return creditTransaction;*/
         }
     }
 }

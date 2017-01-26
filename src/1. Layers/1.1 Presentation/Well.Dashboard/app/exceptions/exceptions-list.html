@@ -32,60 +32,57 @@
                     </span>
                 </div>
             </div>
-            <div class="table-responsive table-container" *ngIf="exceptions && exceptions.length > 0">
-                <table id="tableExceptionDeliveries" class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Route</th>
-                        <th>Drop</th>
-                        <th>Invoice No</th>
-                        <th>Account</th>
-                        <th>Account Name</th>
-                        <th>COD</th>
-                        <th>Credit Value</th>
-                        <th>Contact</th>
-                        <th>Status</th>
-                        <th>TBA</th>
-                        <th>Assigned</th>
-                        <th>Action</th>
-                        <th>Credit</th>
-                        <th>Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
-                        <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                        <td (click)="deliverySelected(delivery)"><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
-                        </td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.totalOutersShort}}</td>
-                        <td>
-                            <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <div class="dropdown">
-                                    <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm dropdown-toggle enabled-action" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
-                                    <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm dropdown-toggle disabled-action" type="button" data-toggle="dropdown" aria-haspopup="true" id="filter-option">{{delivery.action ? delivery.action :defaultAction.description}} <span class="caret"></span></button>
-                                    <ul class="dropdown-menu" aria-labelledby="filter-option">
-                                        <li *ngFor="let action of actions"><a (click)="setSelectedAction(delivery,action)"> {{action.description}}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="gridCheckbox"><input type="checkbox" class="exceptionCheckbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)"  [checked]="isChecked(delivery.id)" (click)="onCheck(delivery)" value="{{delivery.id}}" id="{{delivery.id}}"></td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td> 
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12" *ngIf="exceptions && exceptions.length > 0">
+                    <table id="tableExceptionDeliveries" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Drop</th>
+                                <th>Invoice No</th>
+                                <th>Account</th>
+                                <th>Account Name</th>
+                                <th>COD</th>
+                                <th>Credit Value</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                                <th>TBA</th>
+                                <th>Assigned</th>
+                                <th>Action</th>
+                                <!--<th>Credit</th>-->
+                                <th>Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                                <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                                <td (click)="deliverySelected(delivery)"><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
+                                </td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.totalOutersShort}}</td>
+                                <td>
+                                    <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                                    <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm enabled-action" type="button" id="filter-option" (click)="submit(delivery)">Submit</button>
+                                        <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
+                                    </div>
+                                </td>
+                                <!--<td class="gridCheckbox"><input type="checkbox" class="exceptionCheckbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)" [checked]="isChecked(delivery.id)" (click)="onCheck(delivery)" value="{{delivery.id}}" id="{{delivery.id}}"></td>-->
+                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row credit">
@@ -107,3 +104,4 @@
 <contact-modal></contact-modal>
 <assign-modal (onAssigned)="onAssigned($event)"></assign-modal>
 <confirmModal heading="Confirm changes" (confirmed)="creditConfirmed()"></confirmModal>
+<ow-exceptions-confirm-modal></ow-exceptions-confirm-modal>

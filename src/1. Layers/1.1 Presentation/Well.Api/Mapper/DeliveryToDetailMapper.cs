@@ -57,12 +57,6 @@
                         JobDetailReasonId = d.JobDetailReasonId,
                         JobDetailSourceId = d.JobDetailSourceId,
                         DamageActionId = d.DamageActionId
-                    }).ToList(),
-                    Actions = line.Actions.Select(a => new ActionModel()
-                    {
-                        Quantity = a.Quantity,
-                        Action = a.Action,
-                        Status = a.Status
                     }).ToList()
                 });
             }
@@ -91,12 +85,6 @@
                         JobDetailReasonId = d.JobDetailReasonId,
                         JobDetailSourceId = d.JobDetailSourceId,
                         DamageActionId = d.DamageActionId 
-                    }).ToList(),
-                    Actions = line.Actions.Select(a => new ActionModel()
-                    {
-                        Quantity = a.Quantity,
-                        Action = a.Action,
-                        Status = a.Status
                     }).ToList()
                 });
             }

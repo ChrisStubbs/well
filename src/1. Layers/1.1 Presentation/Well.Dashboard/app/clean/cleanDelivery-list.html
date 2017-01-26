@@ -21,41 +21,42 @@
                     </ow-optionfilter>
                 </div>
             </div>
-
-            <div class="table-responsive table-container">
-                <table id="tableCleanDeliveries" class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Route</th>
-                        <th>Drop</th>
-                        <th>Invoice No</th>
-                        <th>Account</th>
-                        <th>Account Name</th>
-                        <th>COD</th>
-                        <th>Contact</th>
-                        <th>Assigned</th>
-                        <th>Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
-                        <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                        <td><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
-                        </td>
-                        <td>
-                            <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
-                        </td>
-                        <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12">
+                    <table id="tableCleanDeliveries" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Drop</th>
+                                <th>Invoice No</th>
+                                <th>Account</th>
+                                <th>Account Name</th>
+                                <th>COD</th>
+                                <th>Contact</th>
+                                <th>Assigned</th>
+                                <th>Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | orderByDate : currentConfigSort | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                                <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                                <td><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
+                                </td>
+                                <td>
+                                    <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                                    <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                </td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

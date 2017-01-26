@@ -27,7 +27,7 @@
             this.eventLogger = eventLogger;
         }
 
-        public AdamResponse Credit(CreditEventTransaction creditTransaction, AdamSettings adamSettings, string username)
+        public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings, string username)
         {
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
@@ -88,9 +88,6 @@
             else
             {
                 this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
-                // PART PROCESS
-                this.exceptionEventRepository.CurrentUser = username;
-                this.exceptionEventRepository.InsertCreditEventTransaction(creditTransaction);
                 return AdamResponse.PartProcessed;
             }
 

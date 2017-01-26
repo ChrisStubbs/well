@@ -31,7 +31,7 @@
                 new JobDetailDamage
                 {
                     Id = 1,
-                    Qty = 1m,
+                    Qty = 1,
                     JobDetailReason = JobDetailReason.Administration,
                     JobDetailSource = JobDetailSource.Confirming
 

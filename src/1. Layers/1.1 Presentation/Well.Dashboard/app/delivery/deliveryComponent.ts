@@ -14,7 +14,7 @@ import * as lodash from 'lodash';
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
-    providers: [DeliveryService]
+    providers: [DeliveryService] 
 })
 export class DeliveryComponent implements OnInit {
     public errorMessage: string;

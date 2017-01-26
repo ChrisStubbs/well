@@ -20,7 +20,9 @@ import {IUser}                              from '../shared/user';
 import {CreditItem}                         from '../shared/creditItem';
 import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
 import {SecurityService}                    from '../shared/security/securityService';
-import {Threshold}                          from '../shared/threshold';
+import { Threshold } from '../shared/threshold';
+import { DeliveryLine } from '../delivery/model/deliveryLine';
+import { ExceptionsConfirmModal } from './exceptionsConfirmModal';
 import * as lodash                          from 'lodash';
 
 @Component({
@@ -48,15 +50,6 @@ export class ExceptionsComponent implements OnInit {
         new DropDownItem('Date', 'deliveryDate', false, 'date'),
         new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
     ];
-    public defaultAction: DropDownItem = new DropDownItem('Action');
-    public actions: DropDownItem[] = [
-        new DropDownItem('Credit', 'credit'),
-        new DropDownItem('Credit and Re-Order', 'credit-reorder'),
-        new DropDownItem('Re-plan in TranSend', 'replan-transcend'),
-        new DropDownItem('Re-plan in Roadnet', 'replan-roadnet'),
-        new DropDownItem('Re-plan in Queue', 'replan-queue'),
-        new DropDownItem('Reject - No Action', 'reject')
-    ];
     public account: IAccount;
     public lastRefresh = Date.now();
     public httpResponse: HttpResponse = new HttpResponse();
@@ -77,6 +70,7 @@ export class ExceptionsComponent implements OnInit {
     public selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
+    @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
     public thresholdLimit: Threshold;
     public isReadOnlyUser: boolean = false;
 
@@ -144,10 +138,9 @@ export class ExceptionsComponent implements OnInit {
 
     public getThresholdLimit() {
 
-        this.exceptionDeliveryService.getUserCreditThreshold(this.globalSettingsService.globalSettings.userName)
+        this.exceptionDeliveryService.getUserCreditThreshold()
             .subscribe(responseData => {
                 this.threshold = responseData[0];
-               
             });
     }
 
@@ -337,30 +330,24 @@ export class ExceptionsComponent implements OnInit {
 
     }
 
-    public setSelectedAction(delivery: ExceptionDelivery, action: DropDownItem): void {
-        switch (action.value) {
-            case 'credit':
-                this.exceptionDeliveryService.credit(delivery)
-                    .subscribe((res: Response) => {
-                        this.httpResponse = JSON.parse(JSON.stringify(res));
+    public submit(delivery: ExceptionDelivery): void {
+        this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
+            .subscribe((deliveryLines: DeliveryLine[]) => {
+                this.exceptionConfirmModal.show(deliveryLines);
+                /*this.httpResponse = JSON.parse(JSON.stringify(res));
 
-                        if (this.httpResponse.success) {
-                            this.toasterService.pop('success', 'Exception has been credited!', '');
-                        }
-                        if (this.httpResponse.notAcceptable) {
-                            this.toasterService.pop('error', this.httpResponse.message, '');
-                        }
-                        if (this.httpResponse.adamdown) {
-                            this.toasterService.pop(
-                                'error',
-                                'ADAM is currently offline!',
-                                'You will receive a notification once the credit has taken place!');
-                        }
-                    });
-                break;
-            case 'credit-reorder':
-                // do something else
-                break;
-        }
+                if (this.httpResponse.success) {
+                    this.toasterService.pop('success', 'Exception has been credited!', '');
+                }
+                if (this.httpResponse.notAcceptable) {
+                    this.toasterService.pop('error', this.httpResponse.message, '');
+                }
+                if (this.httpResponse.adamdown) {
+                    this.toasterService.pop(
+                        'error',
+                        'ADAM is currently offline!',
+                        'You will receive a notification once the credit has taken place!');
+                }*/
+            });
     }
 }

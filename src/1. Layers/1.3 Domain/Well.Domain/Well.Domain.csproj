@@ -90,7 +90,7 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
-    <Compile Include="ValueObjects\CreditEventTransaction.cs" />
+    <Compile Include="ValueObjects\CreditTransaction.cs" />
     <Compile Include="ValueObjects\CreditLines.cs" />
     <Compile Include="ValueObjects\DamageSource.cs" />
     <Compile Include="ValueObjects\CreditFail.cs" />
@@ -101,6 +101,7 @@
     <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
     <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\PodEvent.cs" />
+    <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />
@@ -123,7 +124,6 @@
     <Compile Include="ValueObjects\RoadnetEvent.cs" />
     <Compile Include="ValueObjects\RejectEvent.cs" />
     <Compile Include="ValueObjects\CreditReorderEvent.cs" />
-    <Compile Include="ValueObjects\CreditEvent.cs" />
     <Compile Include="ValueObjects\DeliveryDetail.cs" />
     <Compile Include="ValueObjects\Delivery.cs" />
     <Compile Include="ValueObjects\JobUpdate.cs" />

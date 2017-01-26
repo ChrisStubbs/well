@@ -218,22 +218,14 @@
     <Build Include="dbo\StoredProcedures\CleanPreferencesGetAll.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferencesBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
-    <Build Include="dbo\Types\CreditTableType.sql" />
-    <Build Include="dbo\StoredProcedures\Job_CreditLines.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_CreditLines.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
-    <Build Include="dbo\StoredProcedures\Job_CreditLines.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_CreditLines.sql" />
     <None Include="Post-Deployement\Populate-ActionStatus.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Tables\JobDetailAction.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceSave.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceDelete.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailAction_Delete.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForCleanPreference.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailAction_Insert.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailAction_Update.sql" />
     <Build Include="dbo\StoredProcedures\RouteIdsToRemoveGet.sql" />
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceByBranchGet.sql" />
@@ -250,7 +242,6 @@
     <Build Include="dbo\StoredProcedures\PendingCreditCountByUserGet.sql" />
     <Build Include="dbo\Tables\PendingCreditToUser.sql" />
     <Build Include="dbo\StoredProcedures\PendingCreditDeliveriesGet.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailActionsGet.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
@@ -259,7 +250,6 @@
     <Build Include="dbo\StoredProcedures\ResolveJobAndJobDetails.sql" />
     <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\User_GetCreditThreshold.sql" />
-    <Build Include="dbo\StoredProcedures\PendingCredits_Insert.sql" />
     <Build Include="dbo\Functions\WidgetType_Exceptions.sql" />
     <Build Include="dbo\Functions\WidgetType_Outstanding.sql" />
     <Build Include="dbo\Functions\WidgetType_Assigned.sql" />
@@ -286,6 +276,7 @@
     <Build Include="dbo\StoredProcedures\JobDetailDamages_WithAction.sql" />
     <Build Include="dbo\Tables\DeliveryAction.sql" />
     <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

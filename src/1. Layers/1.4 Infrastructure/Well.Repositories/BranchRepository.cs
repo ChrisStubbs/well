@@ -80,5 +80,14 @@
                     .AddParameter("CleanPreferenceId", cleanPreferenceId, DbType.Int32)
                     .Query<Branch>();
         }
+
+        public int GetBranchIdForJob(int jobId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchIdForJob)
+                    .AddParameter("jobId", jobId, DbType.Int32)
+                    .Query<int>()
+                    .Single();
+        }
     }
 }

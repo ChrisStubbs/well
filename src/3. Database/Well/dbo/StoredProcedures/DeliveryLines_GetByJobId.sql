@@ -30,18 +30,4 @@ BEGIN
 	WHERE 
 		jd.JobId = @JobId AND jd.IsDeleted = 0
 
-	SELECT a.Id
-		,a.[JobDetailId]
-		,a.[Quantity]
-		,a.ActionId as [Action]
-		,a.StatusId as [Status]
-		,a.[CreatedBy]
-		,a.[DateCreated]
-		,a.[UpdatedBy]
-		,a.[DateUpdated]
-		,a.[Version]
-	From [dbo].[JobDetailAction] a
-	inner join [dbo].[JobDetail] jd on a.JobDetailId = jd.Id	
-	WHERE jd.JobId = @JobId AND jd.IsDeleted = 0
-
 END

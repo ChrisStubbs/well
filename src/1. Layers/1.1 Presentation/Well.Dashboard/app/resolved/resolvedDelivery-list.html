@@ -17,41 +17,43 @@
                                      (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
                 </div>
             </div>
-            <div class="table-responsive table-container">
-                <table id="tableResolvedDeliveries" class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Route</th>
-                        <th>Drop</th>
-                        <th>Invoice No</th>
-                        <th>Account</th>
-                        <th>Account Name</th>
-                        <th>COD</th>
-                        <th>Contact</th>
-                        <th>Status</th>
-                        <th>Assigned</th>
-                        <th>Date/Time<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
-                        <td (click)="deliverySelected(delivery)" id="resolved-route-{{delivery.id}}">{{delivery.routeNumber}}</td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-drop-{{delivery.id}}">{{delivery.dropId}}</td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-invoice-{{delivery.id}}">{{delivery.invoiceNumber}}</td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-code-{{delivery.id}}">{{delivery.accountCode}}</td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-name-{{delivery.id}}">{{delivery.accountName}}</td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-cod-{{delivery.id}}">{{delivery.cod}}</td>
-                        <td>
-                            <button id="resolved-contact-{{delivery.id}}" type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
-                        </td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-job-{{delivery.id}}">{{delivery.jobStatus}}</td>                       
-                        <td id="resolved-assigned-{{delivery.id}}">
-                            <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
-                        </td>
-                        <td (click)="deliverySelected(delivery)" id="resolved-date-{{delivery.id}}">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12">
+                    <table id="tableResolvedDeliveries" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Drop</th>
+                                <th>Invoice No</th>
+                                <th>Account</th>
+                                <th>Account Name</th>
+                                <th>COD</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                                <th>Assigned</th>
+                                <th>Date/Time<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                                <td (click)="deliverySelected(delivery)" id="resolved-route-{{delivery.id}}">{{delivery.routeNumber}}</td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-drop-{{delivery.id}}">{{delivery.dropId}}</td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-invoice-{{delivery.id}}">{{delivery.invoiceNumber}}</td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-code-{{delivery.id}}">{{delivery.accountCode}}</td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-name-{{delivery.id}}">{{delivery.accountName}}</td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-cod-{{delivery.id}}">{{delivery.cod}}</td>
+                                <td>
+                                    <button id="resolved-contact-{{delivery.id}}" type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
+                                </td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-job-{{delivery.id}}">{{delivery.jobStatus}}</td>
+                                <td id="resolved-assigned-{{delivery.id}}">
+                                    <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                </td>
+                                <td (click)="deliverySelected(delivery)" id="resolved-date-{{delivery.id}}">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row">

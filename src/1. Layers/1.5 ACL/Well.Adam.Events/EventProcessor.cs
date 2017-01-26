@@ -15,13 +15,13 @@
     public class EventProcessor
     {
         private readonly IExceptionEventRepository exceptionEventRepository;
-        private readonly IExceptionEventService exceptionEventService;
+        private readonly IDeliveryLineActionService exceptionEventService;
         private readonly ILogger logger;
 
         public EventProcessor(IContainer container)
         {
             this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
-            this.exceptionEventService = container.GetInstance<IExceptionEventService>();
+            this.exceptionEventService = container.GetInstance<IDeliveryLineActionService>();
             this.logger = container.GetInstance<ILogger>();
         }
 
@@ -38,41 +38,10 @@
                 {
                     switch (eventToProcess.EventAction)
                     {
-                        //case EventAction.Credit:
-                        //    var creditEvent = JsonConvert.DeserializeObject<CreditEvent>(eventToProcess.Event);
-                        //    this.exceptionEventService.Credit(creditEvent, eventToProcess.Id,
-                        //        GetAdamSettings(creditEvent.BranchId), username);
-                        //    break;
                         case EventAction.CreditTransaction:
-                            var creditEventTransaction = JsonConvert.DeserializeObject<CreditEventTransaction>(eventToProcess.Event);
-                            this.exceptionEventService.CreditEventTransaction(creditEventTransaction, eventToProcess.Id,
+                            var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
+                            this.exceptionEventService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
                                 GetAdamSettings(creditEventTransaction.BranchId), username);
-                            break;
-                        case EventAction.CreditAndReorder:
-                            var creditReorderEvent =
-                                JsonConvert.DeserializeObject<CreditReorderEvent>(eventToProcess.Event);
-                            this.exceptionEventService.CreditReorder(creditReorderEvent, eventToProcess.Id,
-                                GetAdamSettings(creditReorderEvent.BranchId), username);
-                            break;
-                        case EventAction.Reject:
-                            var rejectEvent = JsonConvert.DeserializeObject<RejectEvent>(eventToProcess.Event);
-                            this.exceptionEventService.Reject(rejectEvent, eventToProcess.Id,
-                                GetAdamSettings(rejectEvent.BranchId), username);
-                            break;
-                        case EventAction.ReplanInRoadnet:
-                            var roadnetEvent = JsonConvert.DeserializeObject<RoadnetEvent>(eventToProcess.Event);
-                            this.exceptionEventService.ReplanRoadnet(roadnetEvent, eventToProcess.Id,
-                                GetAdamSettings(roadnetEvent.BranchId), username);
-                            break;
-                        case EventAction.ReplanInTranSend:
-                            var transcendEvent = JsonConvert.DeserializeObject<TranscendEvent>(eventToProcess.Event);
-                            this.exceptionEventService.ReplanTranscend(transcendEvent, eventToProcess.Id,
-                                GetAdamSettings(transcendEvent.BranchId), username);
-                            break;
-                        case EventAction.ReplanInTheQueue:
-                            var queueEvent = JsonConvert.DeserializeObject<QueueEvent>(eventToProcess.Event);
-                            this.exceptionEventService.ReplanQueue(queueEvent, eventToProcess.Id,
-                                GetAdamSettings(queueEvent.BranchId), username);
                             break;
                         case EventAction.Grn:
                             var grnEvent = JsonConvert.DeserializeObject<GrnEvent>(eventToProcess.Event);

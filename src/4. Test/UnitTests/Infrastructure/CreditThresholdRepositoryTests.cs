@@ -254,7 +254,7 @@
             {
                 var user = new User { Id = 67 };
 
-                var creditEvent = new CreditEvent { InvoiceNumber = "foo" };
+                var jobId = 45;
 
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser))
                     .Returns(this.dapperProxy.Object);
@@ -262,7 +262,7 @@
                 this.dapperProxy.Setup(x => x.AddParameter("userId", user.Id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("invoiceNumber", creditEvent.InvoiceNumber, DbType.String, null))
+                this.dapperProxy.Setup(x => x.AddParameter("jobId", jobId, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("originator", "foo", DbType.String, null))
@@ -270,13 +270,13 @@
 
                 this.dapperProxy.Setup(x => x.Execute());
 
-                this.repository.AssignPendingCreditToUser(user, creditEvent, "foo");
+                this.repository.AssignPendingCreditToUser(user, jobId, "foo");
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("userId", user.Id, DbType.Int32, null), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("invoiceNumber", creditEvent.InvoiceNumber, DbType.String, null), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("jobId", jobId, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("originator", "foo", DbType.String, null), Times.Once);
 

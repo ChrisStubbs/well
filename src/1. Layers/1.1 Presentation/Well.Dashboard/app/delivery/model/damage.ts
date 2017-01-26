@@ -18,4 +18,7 @@
     public jobDetailReasonId: number;
     public jobDetailSourceId: number;
     public damageActionId: number;
+    public jobDetailReason: string;
+    public jobDetailSource: string;
+    public damageAction: string;
 }

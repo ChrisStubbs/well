@@ -3,7 +3,7 @@
     @JobDetailSourceId		TINYINT,
 	@JobDetailReasonId 		TINYINT,
 	@DamageActionId	INT,
-	@Qty					decimal(7,3),
+	@Qty					INT,
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),

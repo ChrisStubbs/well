@@ -78,11 +78,11 @@
                 .Query<CreditThreshold>();
         }
 
-        public void AssignPendingCreditToUser(User user, CreditEvent creditEvent, string originator)
+        public void AssignPendingCreditToUser(User user, int jobId, string originator)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser)
                 .AddParameter("userId", user.Id, DbType.Int32)
-                .AddParameter("invoiceNumber", creditEvent.InvoiceNumber, DbType.String)
+                .AddParameter("jobId", jobId, DbType.Int32)
                 .AddParameter("originator", originator, DbType.String)
                 .Execute();
         }

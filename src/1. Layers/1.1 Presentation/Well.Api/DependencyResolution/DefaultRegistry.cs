@@ -39,7 +39,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-            For<IExceptionEventService>().Use<ExceptionEventService>();
+            For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
@@ -59,7 +59,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
             For<IEpodUpdateService>().Use<EpodUpdateService>();
-            For<ICreditEventTransactionFactory>().Use<CreditEventTransactionFactory>();
+            For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

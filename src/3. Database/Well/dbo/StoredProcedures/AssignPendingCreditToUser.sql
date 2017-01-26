@@ -1,6 +1,6 @@
 ﻿Create PROCEDURE [dbo].[AssignPendingCreditToUser]
 	@userId INT,
-	@invoiceNumber VARCHAR(50),
+	@jobId INT,
 	@originator VARCHAR(50)
 AS
 BEGIN
@@ -8,14 +8,14 @@ BEGIN
 
     INSERT INTO [dbo].[PendingCreditToUser]
            ([UserId]
-		   ,[InvoiceNumber]
+		   ,[JobId]
            ,[DateCreated]
 		   ,[DateUpdated]
            ,[CreatedBy]
            ,[UpdatedBy])
      VALUES
            (@userId
-		   ,@invoiceNumber
+		   ,@jobId
            ,getdate()
            ,getdate()
            ,@originator

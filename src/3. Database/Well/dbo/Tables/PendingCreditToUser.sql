@@ -2,7 +2,7 @@
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[UserId] INT NOT NULL,
-	[InvoiceNumber] VARCHAR(40) NOT NULL,
+	[JobId] INT NOT NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,

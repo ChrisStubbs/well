@@ -5,6 +5,7 @@
     using AIA.Adam.RFS;
     using AIA.ADAM.DataProvider;
     using Common;
+    using Domain;
     using Newtonsoft.Json;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain.Enums;
@@ -167,7 +168,7 @@
                         var commandString =
                             string.Format(
                                 "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, job.InvoiceNumber, 1, job.GrnNumberUpdate);
+                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, job.InvoiceNumber, job.GrnProcessType, job.GrnNumberUpdate);
 
                         command.CommandText = commandString;
                         command.ExecuteNonQuery();
@@ -188,6 +189,58 @@
 
             return AdamResponse.Unknown;
         }
+
+
+
+        public AdamResponse Pod(PodEvent pod, AdamSettings adamSettings)
+        {
+            var job = this.jobRepository.GetById(pod.Id);
+            if (job.IsClean)
+            {
+                return CleanPod(job, adamSettings, pod.BranchId);
+            }
+
+            return AdamResponse.Unknown;
+        }
+
+        public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
+        {
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new AdamCommand(connection))
+                    {
+                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                        var today = DateTime.Now.ToShortDateString();
+                        var now = DateTime.Now.ToShortTimeString();
+
+                        var commandString =
+                            string.Format(
+                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
+                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
+
+                        command.CommandText = commandString;
+                        command.ExecuteNonQuery();
+
+                    }
+                    return AdamResponse.Success;
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred!", adamException);
+
+                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    {
+                        return AdamResponse.AdamDown;
+                    }
+                }
+                return AdamResponse.Unknown;
+            }
+        }
+           
 
         private static string GetConnection(AdamSettings settings)
         {

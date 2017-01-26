@@ -16,5 +16,7 @@
         void RemovedPendingCredit(int jobId);
 
         void InsertGrnEvent(GrnEvent grnEvent);
+
+        void InsertPodEvent(PodEvent podEvent);
     }
 }

@@ -29,6 +29,8 @@
 
         private const string UpdatedBy = "EpodUpdate";
 
+        private List<int> ProofOfDeliveryList = new List<int> { 1 , 8}; 
+
         public EpodUpdateService(
             ILogger logger,
             IEventLogger eventLogger,
@@ -161,7 +163,6 @@
 
                 this.jobRepository.Update(existingJob);
 
-                //TODO event
                 if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
                 {
                     var grnEvent = new GrnEvent();
@@ -170,6 +171,19 @@
 
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
+
+                //TODO POD event
+                var pod = existingJob.ProofOfDelivery ?? 0;
+                if (ProofOfDeliveryList.Contains(pod) && job.IsClean)
+                {
+                    var podEvent = new PodEvent();
+                    podEvent.Id = existingJob.Id;
+                    podEvent.BranchId = branchId;
+
+                    this.exceptionEventRepository.InsertPodEvent(podEvent);
+
+                }
+
 
                 this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
             }

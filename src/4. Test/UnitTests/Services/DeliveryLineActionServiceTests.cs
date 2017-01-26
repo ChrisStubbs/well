@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
+    using System;
     using System.Collections.Generic;
 
     using Moq;
@@ -60,6 +61,8 @@
                 thresholdResponse.CanUserCredit = true;
 
                 this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
+                    ErrorMessage = String.Empty
+                });
                 this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditLines, username))
                     .Returns(creditTransaction);
@@ -132,7 +135,7 @@
             }
 
             [Test]
-            public void AdamNotAvaliableCreditReturnsResultAdamDown()
+            public void AdamNotAvailableCreditReturnsResultAdamDown()
             {
                 var creditLines = new List<DeliveryLine> { DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.Credit).Build() };
 

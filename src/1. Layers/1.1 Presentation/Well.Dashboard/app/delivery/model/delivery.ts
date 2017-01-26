@@ -22,6 +22,7 @@ export class Delivery {
             this.grnNumber = delivery.grnNumber;
             this.branchId = delivery.branchId;
             this.grnProcessType = delivery.grnProcessType;
+            this.proofOfDelivery = delivery.proofOfDelivery;
 
             if (delivery.exceptionDeliveryLines) {
                 for (const line of delivery.exceptionDeliveryLines) {
@@ -56,6 +57,7 @@ export class Delivery {
     public grnNumber: string;
     public branchId: number;
     public grnProcessType: number;
+    public proofOfDelivery: number;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     public isCleanOnInit(): boolean {

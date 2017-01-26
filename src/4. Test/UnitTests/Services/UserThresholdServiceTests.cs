@@ -49,9 +49,9 @@
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
                 this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
 
-                var response = this.service.CanUserCredit(username, creditValue);
+                var thresholdResponse = this.service.CanUserCredit(username, creditValue);
 
-                Assert.IsTrue(response.CanUserCredit);
+                Assert.IsTrue(thresholdResponse.CanUserCredit);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);
@@ -72,9 +72,9 @@
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
                 this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
 
-                var response = this.service.CanUserCredit(username, creditValue);
+                var thresholdResponse = this.service.CanUserCredit(username, creditValue);
 
-                Assert.IsFalse(response.CanUserCredit);
+                Assert.IsFalse(thresholdResponse.CanUserCredit);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);

@@ -119,9 +119,9 @@
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var response = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
-                if (response.IsInError)
+                if (!thresholdResponse.CanUserCredit)
                 {
                     result.ThresholdError = true;
                     result.ThresholdErrorMessage = response.ErrorMessage;

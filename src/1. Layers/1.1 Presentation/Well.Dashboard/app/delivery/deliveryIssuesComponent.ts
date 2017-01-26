@@ -32,6 +32,23 @@ export class DeliveryIssuesComponent {
     }
 
     public ngOnInit(): void {
+
+        if (this.delivery.proofOfDelivery === 8) {
+            //this.deliveryService.getPodReasons()
+            //    .subscribe(r => { this.reasons = r; });
+
+            //this.deliveryService.getSources()
+            //    .subscribe(s => { this.sources = s });
+
+        } else {
+            this.deliveryService.getDamageReasons()
+                .subscribe(r => { this.reasons = r; });
+
+            this.deliveryService.getSources()
+                .subscribe(s => { this.sources = s });
+            
+        }
+
         this.deliveryService.getDamageReasons()
             .subscribe(r => { this.reasons = r; });
 

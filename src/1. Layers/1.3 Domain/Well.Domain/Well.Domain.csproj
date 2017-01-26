@@ -100,6 +100,7 @@
     <Compile Include="ValueObjects\GrnEvent.cs" />
     <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
     <Compile Include="ValueObjects\PendingCreditDetail.cs" />
+    <Compile Include="ValueObjects\PodEvent.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />

@@ -19,6 +19,7 @@ SELECT j.[Id] AS [Id]
 	,j.TotalOutersShort
 	,rh.StartDepotCode AS BranchId
 	,j.GrnProcessType
+	,j.ProofOfDelivery
 FROM 
 	[dbo].RouteHeader rh
 JOIN

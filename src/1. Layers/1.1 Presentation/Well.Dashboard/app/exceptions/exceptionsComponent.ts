@@ -21,7 +21,7 @@ import {CreditItem}                         from '../shared/creditItem';
 import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
 import {SecurityService}                    from '../shared/security/securityService';
 import { Threshold } from '../shared/threshold';
-import { DeliveryLine } from '../delivery/model/deliveryLine';
+import { DeliveryLine } from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal } from './exceptionsConfirmModal';
 import * as lodash                          from 'lodash';
 

@@ -48,6 +48,10 @@
                             this.exceptionEventService.Grn(grnEvent, eventToProcess.Id,
                                 GetAdamSettings(grnEvent.BranchId), username);
                             break;
+                        case EventAction.Pod:
+                            var podEvent = JsonConvert.DeserializeObject<PodEvent>(eventToProcess.Event);
+                           // this.exceptionEventService.Pod(podEvent, eventToProcess.Id, GetAdamSettings(podEvent.BranchId), username);
+                            break;
                     }
                 }
             }

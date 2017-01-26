@@ -53,6 +53,8 @@
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);
+                // update job here to show that the job has been actioned
+                this.jobRepository.SetJobToSubmittedStatus(job.Id);
 
                 return response;
             }

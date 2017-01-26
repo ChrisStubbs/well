@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
     using Domain.ValueObjects;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
@@ -180,6 +181,14 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.ResolveJobAndJobDetails)
                 .AddParameter("jobId", jobId, DbType.Int32)
                 .Execute();                
+        }
+
+        public void SetJobToSubmittedStatus(int jobId)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobSetToStatus)
+                .AddParameter("jobId", jobId, DbType.Int32)
+                .AddParameter("status", PerformanceStatus.Submitted, DbType.Int16)
+                .Execute();
         }
     }
 }

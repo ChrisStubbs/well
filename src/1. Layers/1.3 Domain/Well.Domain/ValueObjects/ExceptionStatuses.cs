@@ -9,7 +9,8 @@
         {
             PerformanceStatus.Incom,
             PerformanceStatus.Abypa,
-            PerformanceStatus.Nbypa
+            PerformanceStatus.Nbypa,
+            PerformanceStatus.Submitted
         };
     }
 }

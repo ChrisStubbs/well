@@ -51,7 +51,7 @@ export class Delivery {
     public deliveryType: string;
     public cashOnDelivery: string;
     public isException: boolean;
-    public canAction: boolean;
+    public canAction: boolean; 
     public canSubmit: boolean;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public grnNumber: string;

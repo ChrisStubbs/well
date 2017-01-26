@@ -14,6 +14,7 @@ export class ExceptionsConfirmModal {
     public deliveryLines: DeliveryLine[];
     public httpResponse: HttpResponse = new HttpResponse();
     public userThreshold: number = 0.00;  
+    public disableSave: boolean = false;
 
     @Output() public onSave = new EventEmitter();
 
@@ -35,6 +36,7 @@ export class ExceptionsConfirmModal {
     }
 
     public save() {
+        this.disableSave = true;
         this.exceptionDeliveryService.submitExceptionConfirmation(this.deliveryLines[0].jobId)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));

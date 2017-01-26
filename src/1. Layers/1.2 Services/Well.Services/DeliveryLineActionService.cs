@@ -119,16 +119,24 @@
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var canCredit = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var response = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
-                if (!canCredit)
+                if (response.IsInError)
                 {
-                    this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
-                    result.CreditThresholdLimitReached = true;
+                    result.ThresholdError = true;
+                    result.ThresholdErrorMessage = response.ErrorMessage;
                 }
                 else
                 {
-                    result.AdamResponse = this.Credit(creditLines, adamSettings, username);
+                    if (!response.CanUserCredit)
+                    {
+                        this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
+                        result.CreditThresholdLimitReached = true;
+                    }
+                    else
+                    {
+                        result.AdamResponse = this.Credit(creditLines, adamSettings, username);
+                    }
                 }
             }
 

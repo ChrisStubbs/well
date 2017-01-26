@@ -56,7 +56,10 @@
                 var job = new Job { Id = 202 };
                 int branchId = 2;
 
-                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(true);
+                var thresholdResponse = new ThresholdResponse();
+                thresholdResponse.CanUserCredit = true;
+
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
                 this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditLines, username))
                     .Returns(creditTransaction);
@@ -91,7 +94,10 @@
                 int branchId = 2;
                 decimal threshold = 1015;
                 
-                this.userThresholdService.Setup(x => x.CanUserCredit(username, threshold)).Returns(false);
+                var thresholdResponse = new ThresholdResponse();
+                thresholdResponse.CanUserCredit = false;
+
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, threshold)).Returns(thresholdResponse);
 
                 this.userThresholdService.Setup(
                     x => x.AssignPendingCredit(branchId, threshold, creditLines[0].JobId, username));
@@ -136,7 +142,10 @@
                 var job = new Job { Id = 202 };
                 int branchId = 2;
 
-                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(true);
+                var thresholdResponse = new ThresholdResponse();
+                thresholdResponse.CanUserCredit = true;
+
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
                 this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
                 this.creditTransactionFactory.Setup(x => x.BuildCreditEventTransaction(creditLines, username))
                     .Returns(creditTransaction);

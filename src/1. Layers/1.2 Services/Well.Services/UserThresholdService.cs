@@ -29,20 +29,29 @@
             this.logger = logger;
         }
 
-        public bool CanUserCredit(string username, decimal creditValue)
+        public ThresholdResponse CanUserCredit(string username, decimal creditValue)
         {
+            var response = new ThresholdResponse();
             var user = this.userRepository.GetByIdentity(username);
 
-            if (user == null) throw new ApplicationException($"User not found ({username})");
+            if (user == null) 
+            {
+                response.IsInError = true;
+                response.ErrorMessage = $"User not found ({username})";
+            }
 
             var threshold =
                 this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
 
-            if (threshold == null) throw new UserThresholdNotFoundException($"Threshold not found with id ({user.ThresholdLevelId})");
+            if (threshold == null) 
+            {
+                response.IsInError = true;
+                response.ErrorMessage = $"Threshold not found with id ({user.ThresholdLevelId})";
+            }
 
-            if (creditValue <= threshold.Threshold) return true;
+            if (creditValue <= threshold.Threshold) response.CanUserCredit = true;
 
-            return false;
+            return response;
         }
 
         public void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId, string originator)

@@ -102,6 +102,7 @@
     <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\PodEvent.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
+    <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\UserStats.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />

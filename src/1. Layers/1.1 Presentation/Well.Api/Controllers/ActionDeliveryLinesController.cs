@@ -21,7 +21,7 @@
 
         private readonly IDeliveryLinesToModelMapper mapper;
 
-        private readonly IDeliveryLineActionService exceptionEventService;
+        private readonly IDeliveryLineActionService deliveryLineActionService;
 
         private readonly IJobRepository jobRepository;
 
@@ -31,14 +31,14 @@
             ILogger logger,
             IDeliveryReadRepository deliveryRepository,
             IDeliveryLinesToModelMapper mapper,
-            IDeliveryLineActionService exceptionEventService,
+            IDeliveryLineActionService deliveryLineActionService,
             IJobRepository jobRepository,
             IBranchRepository branchRepository)
         {
             this.logger = logger;
             this.deliveryRepository = deliveryRepository;
             this.mapper = mapper;
-            this.exceptionEventService = exceptionEventService;
+            this.deliveryLineActionService = deliveryLineActionService;
             this.jobRepository = jobRepository;
             this.branchRepository = branchRepository;
         }
@@ -58,65 +58,43 @@
         [HttpPost]
         public HttpResponseMessage ConfirmDeliveryLines(int jobId)
         {
-            try
-            {
-                var deliveryLines = this.deliveryRepository.GetDeliveryLinesByJobId(jobId);
+            var deliveryLines = this.deliveryRepository.GetDeliveryLinesByJobId(jobId);
 
-                if (!deliveryLines.Any())
-                    return this.Request.CreateResponse(
-                        HttpStatusCode.OK,
-                        new { notAcceptable = true, message = $"No delivery lines found for job id ({jobId})..." });
+            if (!deliveryLines.Any())
+                return this.Request.CreateResponse(
+                    HttpStatusCode.OK,
+                    new { notAcceptable = true, message = $"No delivery lines found for job id ({jobId})..." });
 
-                var job = this.jobRepository.GetById(jobId);
+            var job = this.jobRepository.GetById(jobId);
 
-                if (job == null)
-                    return this.Request.CreateResponse(
-                        HttpStatusCode.OK,
-                        new { notAcceptable = true, message = $"No job found for Id ({jobId})" });
+            if (job == null)
+                return this.Request.CreateResponse(
+                    HttpStatusCode.OK,
+                    new { notAcceptable = true, message = $"No job found for Id ({jobId})..." });
 
-                var branchId = this.branchRepository.GetBranchIdForJob(jobId);
+            var branchId = this.branchRepository.GetBranchIdForJob(jobId);
 
-                var settings = AdamSettingsFactory.GetAdamSettings((Branch)branchId);
+            var settings = AdamSettingsFactory.GetAdamSettings((Branch)branchId);
 
-                var response = this.exceptionEventService.ProcessDeliveryActions(
-                    deliveryLines.ToList(),
-                    settings,
-                    this.UserIdentityName,
-                    branchId);
+            var response = this.deliveryLineActionService.ProcessDeliveryActions(
+                deliveryLines.ToList(),
+                settings,
+                this.UserIdentityName,
+                branchId);
 
-                if (response.CreditThresholdLimitReached)
-                    return this.Request.CreateResponse(
-                        HttpStatusCode.OK,
-                        new
-                        {
-                            notAcceptable = true,
-                            message =
-                            "Your threshold level isn\'t high enough to credit this! It has been passed on for authorisation!"
-                        });
-
-                if (response.AdamResponse == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
-
-                if (response.AdamResponse == AdamResponse.PartProcessed) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamPartProcessed = true });
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-            }
-            catch (UserThresholdNotFoundException)
-            {
+            if (response.CreditThresholdLimitReached)
                 return this.Request.CreateResponse(
                     HttpStatusCode.OK,
                     new
                     {
                         notAcceptable = true,
-                        message = "User for next level of threshold to assign to was not found..."
+                        message =
+                        "Your threshold level isn\'t high enough for the credit... It has been passed on for authorisation..."
                     });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when processing delivery line actions...", exception);
-                return this.Request.CreateResponse(
-                    HttpStatusCode.OK,
-                    new { notAcceptable = true, message = "Error when processing delivery line actions..." });
-            }
+
+            if (response.AdamResponse == AdamResponse.AdamDown) return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
     }
 }

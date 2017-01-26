@@ -280,12 +280,7 @@ export class ExceptionsComponent implements OnInit {
                     }
                 } else if (this.httpResponse.notAcceptable) {
                     this.toasterService.pop('error', this.httpResponse.message, '');
-                } else if (this.httpResponse.adamPartProcessed) {
-                    this.toasterService.pop(
-                        'error',
-                        'the credit has been part processed!',
-                        'You will receive a notification once the credit is complete!');
-                }
+                } 
             });
     }
 
@@ -323,31 +318,19 @@ export class ExceptionsComponent implements OnInit {
     }
 
     public paginationCount() {
-
         if (this.exceptions.length % this.rowCount === 1) {
             location.reload();
         }       
-
     }
 
     public submit(delivery: ExceptionDelivery): void {
         this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
             .subscribe((deliveryLines: DeliveryLine[]) => {
                 this.exceptionConfirmModal.show(deliveryLines);
-                /*this.httpResponse = JSON.parse(JSON.stringify(res));
-
-                if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Exception has been credited!', '');
-                }
-                if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('error', this.httpResponse.message, '');
-                }
-                if (this.httpResponse.adamdown) {
-                    this.toasterService.pop(
-                        'error',
-                        'ADAM is currently offline!',
-                        'You will receive a notification once the credit has taken place!');
-                }*/
             });
+    }
+
+    public deliveryLinesSaved() {
+        console.log('pond');
     }
 }

@@ -88,7 +88,7 @@
             else
             {
                 this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
-                return AdamResponse.PartProcessed;
+                return AdamResponse.AdamDown;
             }
 
             return AdamResponse.Unknown;

@@ -49,7 +49,7 @@
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
 
-            if (response == AdamResponse.AdamDown || response == AdamResponse.PartProcessed)
+            if (response == AdamResponse.AdamDown)
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);
@@ -103,13 +103,20 @@
 
         public ProcessDeliveryActionResult ProcessDeliveryActions(IList<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
         {
+            var creditResult = this.CreditDeliveryLines(lines, adamSettings, username, branchId);
+
+            return creditResult;
+        }
+
+        public ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        {
             var result = new ProcessDeliveryActionResult();
 
             var creditLines = GetDeliveryLinesByAction(lines, DeliveryAction.Credit);
 
             if (creditLines.Any())
             {
-                var totalThresholdValue = lines.Sum(x => x.CreditValueForThreshold());
+                var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
                 var canCredit = this.userThresholdService.CanUserCredit(username, totalThresholdValue);

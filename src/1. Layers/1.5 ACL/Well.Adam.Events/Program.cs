@@ -18,7 +18,7 @@
             new EventProcessor(container).Process();
         }
 
-        private static Container InitIoc()
+        public static Container InitIoc()
         {
             return new Container(
                 x =>
@@ -34,6 +34,12 @@
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<IUserRepository>().Use<UserRepository>();
+                    x.For<IEventLogger>().Use<EventLogger>();
+                    x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
+                    x.For<IUserThresholdService>().Use<UserThresholdService>();
+                    x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
+                    x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+                    x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
                 });
         }
     }

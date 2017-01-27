@@ -1,12 +1,12 @@
 ﻿namespace PH.Well.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using AIA.Adam.RFS;
     using AIA.ADAM.DataProvider;
     using Common;
     using Domain;
-    using Newtonsoft.Json;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
@@ -16,19 +16,19 @@
     {
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
-        private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IEventLogger eventLogger;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IExceptionEventRepository exceptionEventRepository, IEventLogger eventLogger)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
-            this.exceptionEventRepository = exceptionEventRepository;
             this.eventLogger = eventLogger;
         }
 
         public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings, string username)
         {
+            var linesToRemove = new Dictionary<int, string>();
+
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
                 try
@@ -41,7 +41,7 @@
                         {
                                 command.CommandText = line.Value;
                                 command.ExecuteNonQuery();
-                                creditTransaction.LinesToRemove.Add(line.Key, line.Value);
+                                linesToRemove.Add(line.Key, line.Value);
                         }
                     }
                 }
@@ -54,9 +54,9 @@
                 }
               }
 
-            foreach (var linesToRemove in creditTransaction.LinesToRemove)
+            foreach (var line in linesToRemove)
             {
-                creditTransaction.LineSql.Remove(linesToRemove.Key);
+                creditTransaction.LineSql.Remove(line.Key);
             }
 
             if (creditTransaction.CanWriteHeader)

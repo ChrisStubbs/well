@@ -38,6 +38,8 @@
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
+                    x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
+                    x.For<IDapperProxy>().Use<WellDapperProxy>();
                 } );
         }
     }

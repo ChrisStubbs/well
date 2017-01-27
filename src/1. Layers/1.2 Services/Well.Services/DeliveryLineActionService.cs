@@ -54,7 +54,7 @@
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
 
-            if (response == AdamResponse.AdamDown)
+            if (response == AdamResponse.AdamDown || response == AdamResponse.Unknown)
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);
@@ -126,7 +126,7 @@
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var response = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
                 if (thresholdResponse.IsInError)
                 {

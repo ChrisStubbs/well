@@ -109,6 +109,10 @@ export class ExceptionsComponent implements OnInit {
         this.refreshSubscription.unsubscribe();
     }
 
+    public deliveryLinesSaved() { 
+        this.getExceptions();
+    }
+
     public getExceptions() {
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData => {
@@ -328,9 +332,5 @@ export class ExceptionsComponent implements OnInit {
             .subscribe((deliveryLines: DeliveryLine[]) => {
                 this.exceptionConfirmModal.show(deliveryLines);
             });
-    }
-
-    public deliveryLinesSaved() {
-        console.log('pond');
     }
 }

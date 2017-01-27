@@ -195,6 +195,10 @@ Scenario: View exception details at lower level with delivery check icon display
 	| 4      | 4244    | Milkybar Btns Giant PM   | 5.60     | 1               | -1               | 0               | 2             |
 	| 5      | 7621    | Fruit Past Tube 52.5g    | 8.40     | 1               | -1               | 0               | 2             |
 
-
-
+Scenario: Credit an exception
+	Given I have selected branch '22'
+	And All the deliveries are marked as exceptions
+	And All delivery lines are flagged with line delivery status 'Exception'
+	When I open the exception deliveries
+	And I click on exception row 1
 

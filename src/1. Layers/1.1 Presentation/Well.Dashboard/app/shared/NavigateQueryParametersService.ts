@@ -83,7 +83,7 @@ export  class NavigateQueryParametersService {
 
     private static DeleteQueryStringParameter(qs: any, paramName: string) {
 
-        if (!_.isUndefined(qs) && !_.isUndefined(paramName) && qs[paramName]) {
+        if (!_.isUndefined(qs) && !_.isUndefined(paramName)) {
             delete qs[paramName];
         }
 

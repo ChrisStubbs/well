@@ -31,8 +31,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     private  refreshSubscription: any;
     public errorMessage: string;
     public exceptions: ExceptionDelivery[];
-    public currentConfigSort: string;
-    private rowCount: number = 10;
     public routeOption = new DropDownItem('Route', 'routeNumber');
     public assigneeOption = new DropDownItem('Assignee', 'assigned');
     public defaultAction: DropDownItem = new DropDownItem('Action');
@@ -132,15 +130,13 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.exceptionDeliveryService.getUserCreditThreshold(this.globalSettingsService.globalSettings.userName)
             .subscribe(responseData => {
                 this.threshold = responseData[0];
-               
             });
     }
 
     private sortDirection(sortDirection): void {
-        this.currentConfigSort = sortDirection ? '+deliveryDate' : '-deliveryDate';
-        const sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
-        //this.getExceptions();
-        this.exceptions = lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);
+        const sortString = sortDirection ? 'asc' : 'desc';
+        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [sortString]);
+        super.onSortDirectionChanged(sortDirection);
     }
 
     public onSortDirectionChanged(isDesc: boolean) {

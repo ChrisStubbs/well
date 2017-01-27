@@ -12,10 +12,15 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
     public selectedFilter: string;
     public currentPage: number;
     private navigationSubscriber: any;
+    public readonly rowCount: number = 10;
 
     constructor(private navigateQueryParametersService: NavigateQueryParametersService) {}
 
-    public abstract onSortDirectionChanged(isDesc: boolean)
+    public onSortDirectionChanged(isDesc: boolean): void {
+        const item = new NavigateQueryParameters(undefined, 1, isDesc ? 'desc' : 'asc');
+        NavigateQueryParametersService.SaveSort(item);
+        this.navigateQueryParametersService.Navigate(this);
+    }
 
     public ngOnDestroy(): void {
         this.navigationSubscriber.unsubscribe();

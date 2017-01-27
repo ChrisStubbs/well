@@ -29,6 +29,9 @@
         Resolved = 7,
 
         [Description("Pending Authorisation")]
-        PendingAuthorisation = 8
+        PendingAuthorisation = 8,
+
+        [Description("Submitted")]
+        Submitted = 9
     }
 }

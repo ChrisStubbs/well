@@ -56,6 +56,7 @@
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
+        public static string JobSetToStatus = "Job_SetToStatus";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";

@@ -58,6 +58,8 @@
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);
+                // update job here to show that the job has been actioned
+                this.jobRepository.SetJobToSubmittedStatus(job.Id);
 
                 return response;
             }
@@ -124,7 +126,7 @@
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var response = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
                 if (thresholdResponse.IsInError)
                 {

@@ -7,7 +7,7 @@
 
         public int JobId { get; set; }
 
-        public int TransactionType { get; set; }
+        public string JobParameters { get; set; }
 
         public string Operator { get; set; }
 

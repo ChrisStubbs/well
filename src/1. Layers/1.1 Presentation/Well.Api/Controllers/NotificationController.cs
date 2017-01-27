@@ -54,11 +54,14 @@
             {
                 if (failure.JobId > 0)
                 {
+                    string[] substrings = failure.JobParameters.Split(',');
+                    int type;
+                    Int32.TryParse(substrings[0], out type);
                     var notification = new Notification
                     {
                         JobId = failure.JobId,
                         ErrorMessage = failure.ErrorMessage, 
-                        Type = failure.TransactionType,
+                        Type = type,
                         Source = "ADAMCSS"
                     };
 

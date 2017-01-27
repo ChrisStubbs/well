@@ -121,16 +121,16 @@
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var response = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
 
-                if (!response.CanUserCredit)
+                if (thresholdResponse.IsInError)
                 {
                     result.ThresholdError = true;
-                    result.ThresholdErrorMessage = response.ErrorMessage;
+                    result.ThresholdErrorMessage = thresholdResponse.ErrorMessage;
                 }
                 else
                 {
-                    if (!response.CanUserCredit)
+                    if (!thresholdResponse.CanUserCredit)
                     {
                         this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
                         result.CreditThresholdLimitReached = true;
@@ -167,6 +167,14 @@
 
             return lines;
         }
+
+        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings, string username)
+        {
+            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
+
+            this.MarkAsDone(eventId, adamResponse, username);
+        }
+
 
         private void MarkAsDone(int eventId, AdamResponse response, string username)
         {

@@ -13,6 +13,6 @@
 
         AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
 
-        ProcessDeliveryActionResult ProcessDeliveryActions(IList<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId);
+        ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId);
     }
 }

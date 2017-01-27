@@ -4,8 +4,8 @@
 
     using PH.Well.Domain.ValueObjects;
 
-    public interface IDeliverLineToDeliveryLineCredit
+    public interface IDeliverLineToDeliveryLineCreditMapper
     {
-        IEnumerable<DeliveryLineCredit> Map(IEnumerable<DeliveryLine> creditLines);
+        List<DeliveryLineCredit> Map(IEnumerable<DeliveryLine> creditLines);
     }
 }

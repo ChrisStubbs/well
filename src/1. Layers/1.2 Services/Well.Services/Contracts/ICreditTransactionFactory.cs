@@ -6,6 +6,6 @@
 
     public interface ICreditTransactionFactory
     {
-        CreditTransaction Build(IList<DeliveryLine> deliveryLines, string username);
+        CreditTransaction Build(List<DeliveryLineCredit> deliveryLines, string username, int branchId);
     }
 }

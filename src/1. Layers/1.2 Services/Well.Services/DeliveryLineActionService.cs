@@ -173,6 +173,14 @@
             return lines;
         }
 
+        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings, string username)
+        {
+            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
+
+            this.MarkAsDone(eventId, adamResponse, username);
+        }
+
+
         private void MarkAsDone(int eventId, AdamResponse response, string username)
         {
             if (response == AdamResponse.Success)

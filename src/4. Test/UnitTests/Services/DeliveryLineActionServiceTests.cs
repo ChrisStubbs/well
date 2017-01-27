@@ -158,6 +158,7 @@
                 this.creditTransactionFactory.Setup(x => x.Build(credits, username, branchId)).Returns(creditTransaction);
                 this.adamRepository.Setup(x => x.Credit(creditTransaction, adamSettings, username)).Returns(AdamResponse.AdamDown);
                 this.exceptionEventRepository.SetupSet(x => x.CurrentUser = username);
+                this.jobRepository.Setup(x => x.SetJobToSubmittedStatus(job.Id));
                 this.exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction));
                 this.mapper.Setup(x => x.Map(creditLines)).Returns(credits);
 
@@ -169,6 +170,7 @@
                 this.jobRepository.Verify(x => x.GetById(creditLines[0].JobId), Times.Once);
                 this.creditTransactionFactory.Verify(x => x.Build(credits, username, branchId), Times.Once);
                 this.adamRepository.Verify(x => x.Credit(creditTransaction, adamSettings, username), Times.Once);
+                this.jobRepository.Verify(x => x.SetJobToSubmittedStatus(job.Id), Times.Once);
                 this.exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction), Times.Once);
                 this.mapper.Verify(x => x.Map(creditLines), Times.Once);
             }

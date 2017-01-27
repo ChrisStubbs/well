@@ -70,6 +70,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
+            For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
         }
     }
 }

@@ -17,6 +17,7 @@
         private readonly IUserRepository userRepository;
         private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IUserThresholdService userThresholdService;
+        private readonly IDeliverLineToDeliveryLineCreditMapper mapper;
 
         public DeliveryLineActionService(
             IAdamRepository adamRepository,
@@ -24,7 +25,8 @@
             IJobRepository jobRepository,
             IUserRepository userRepository,
             ICreditTransactionFactory creditTransactionFactory,
-            IUserThresholdService userThresholdService)
+            IUserThresholdService userThresholdService,
+            IDeliverLineToDeliveryLineCreditMapper mapper)
         {
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
@@ -32,6 +34,7 @@
             this.userRepository = userRepository;
             this.creditTransactionFactory = creditTransactionFactory;
             this.userThresholdService = userThresholdService;
+            this.mapper = mapper;
         }
 
         public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings, string username)
@@ -41,11 +44,13 @@
             this.MarkAsDone(eventId, adamResponse, username);
         }
 
-        private AdamResponse Credit(IList<DeliveryLine> creditLines, AdamSettings adamSettings, string username)
+        private AdamResponse Credit(IList<DeliveryLine> creditLines, AdamSettings adamSettings, string username, int branchId)
         {
             var job = this.jobRepository.GetById(creditLines[0].JobId);
+
+            var credits = this.mapper.Map(creditLines);
             
-            var creditEventTransaction = this.creditTransactionFactory.BuildCreditEventTransaction(creditLines, username);
+            var creditEventTransaction = this.creditTransactionFactory.Build(credits, username, branchId);
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
 
@@ -103,14 +108,14 @@
             return response;
         }
 
-        public ProcessDeliveryActionResult ProcessDeliveryActions(IList<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
         {
             var creditResult = this.CreditDeliveryLines(lines, adamSettings, username, branchId);
 
             return creditResult;
         }
 
-        public ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult CreditDeliveryLines(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
         {
             var result = new ProcessDeliveryActionResult();
 
@@ -137,7 +142,7 @@
                     }
                     else
                     {
-                        result.AdamResponse = this.Credit(creditLines, adamSettings, username);
+                        result.AdamResponse = this.Credit(creditLines, adamSettings, username, branchId);
                     }
                 }
             }

@@ -179,6 +179,7 @@
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
+    <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\EpodUpdateServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />

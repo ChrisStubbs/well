@@ -32,6 +32,7 @@ export class ExceptionsConfirmModal {
     }
 
     public hide() {
+        this.disableSave = false;
         this.isVisible = false; 
     }
 

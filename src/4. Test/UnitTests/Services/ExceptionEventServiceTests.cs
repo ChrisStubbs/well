@@ -30,6 +30,8 @@
 
         private Mock<IUserThresholdService> userThresholdService;
 
+        private Mock<IDeliverLineToDeliveryLineCreditMapper> mapper;
+
         [SetUp]
         public void Setup()
         {
@@ -39,6 +41,7 @@
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.creditTransactionFactory = new Mock<ICreditTransactionFactory>(MockBehavior.Strict);
             this.userThresholdService = new Mock<IUserThresholdService>(MockBehavior.Strict);
+            this.mapper = new Mock<IDeliverLineToDeliveryLineCreditMapper>(MockBehavior.Strict);
 
             this.service = new DeliveryLineActionService(
                 this.adamRepository.Object, 
@@ -46,7 +49,8 @@
                 this.jobRepository.Object, 
                 this.userRepository.Object, 
                 this.creditTransactionFactory.Object, 
-                this.userThresholdService.Object);
+                this.userThresholdService.Object,
+                this.mapper.Object);
         }
 
         public class TheCreditMethod : ExceptionEventServiceTests

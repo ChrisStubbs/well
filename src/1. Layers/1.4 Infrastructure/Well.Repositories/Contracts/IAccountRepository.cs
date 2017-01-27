@@ -8,6 +8,6 @@
 
         Account GetAccountByAccountId(int accountId);
 
-        Account GetAccountGetByAccountCode(string accountCode, int stopId);
+        Account GetAccountByAccountCode(string accountCode, int stopId);
     }
 }

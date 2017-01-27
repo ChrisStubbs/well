@@ -11,7 +11,7 @@ import {ChartsModule} from 'ng2-charts/ng2-charts';
 import {TabsModule} from 'ng2-tabs'; 
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
-import {AccountComponent} from './account/accountComponent';
+import {AccountComponent} from './account/accountComponent'; 
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';

@@ -1,6 +1,9 @@
-﻿import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FilterOption}                           from './filterOption';
-import {DropDownItem}                           from './dropDownItem';
+﻿import { Component, Input, Output, EventEmitter }   from '@angular/core';
+import { FilterOption }                             from './filterOption';
+import { DropDownItem }                             from './dropDownItem';
+import { NavigateQueryParametersService }           from './NavigateQueryParametersService';
+import { DictionaryItem, NavigateQueryParameters }  from './NavigateQueryParameters';
+import * as moment from 'moment';
 
 @Component({
     selector: 'ow-optionfilter',
@@ -11,23 +14,25 @@ export class OptionFilterComponent {
     @Input() public options: DropDownItem[];
     public filterText: string;
     public inputPlaceholder: string = '';
-    private selectedOption: DropDownItem;
+    public selectedOption: DropDownItem;
 
     @Output() public filterClicked: EventEmitter<FilterOption> = new EventEmitter<FilterOption>();
     public constructor() {
-        this.filterText = '';
-        this.SelectedOption = new DropDownItem('Option', '');
+        this.ClearFilter();
+        this.SelectedOption = DropDownItem.CreateDefaultOption();
     }
 
     public setSelectedOption = (option: DropDownItem): void => {
-        this.ClearFilter();
-        this.SelectedOption = option;
-        this.applyFilter();
+        if (!option.IsDefaultItem()) {
+            this.ClearFilter();
+            this.SelectedOption = option;
+            this.applyFilter();
+        }
     }
 
     private ClearFilter(): void {
         this.filterText = '';
-        this.SelectedOption = new DropDownItem('Option', '');
+        this.SelectedOption = DropDownItem.CreateDefaultOption();
     }
 
     public clearFilterText(): void {
@@ -36,6 +41,23 @@ export class OptionFilterComponent {
     }
 
     public applyFilter(): void {
+        let dicItem: DictionaryItem;
+
+        if (!this.SelectedOption.IsDefaultItem()) {
+            dicItem = new DictionaryItem();
+            if (this.filterText) {
+                dicItem[this.selectedOption.value] = this.SelectedOption.type == 'date' ? 
+                                moment(this.filterText).format('DD/MM/YYYY') : 
+                                this.filterText;
+            }
+            else {
+                dicItem[this.selectedOption.value] = '';
+            }
+        }
+
+        const item = new NavigateQueryParameters(dicItem , undefined);
+        NavigateQueryParametersService.SaveFilter(item);
+
         this.filterClicked.emit(new FilterOption(this.selectedOption, this.filterText));
     }
 

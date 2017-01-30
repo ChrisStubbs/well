@@ -1,6 +1,7 @@
-﻿﻿var path = require('path')
-var webpack = require('webpack')
+﻿﻿var path = require('path');
+var webpack = require('webpack');
 //var HtmlWebpackPlugin = require('html-webpack-plugin');
+var BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin");
 
 module.exports = {
     entry: ["./app/main.ts"],
@@ -9,10 +10,11 @@ module.exports = {
         path: path.join(__dirname, 'Scripts/angular2/'),
         filename: "app.js",
         sourceMapFilename: 'app.js.map'
-    }, 
+    },
     debug: true,
     plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin()//,
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new BitBarWebpackProgressPlugin()//,
         //new HtmlWebpackPlugin({
         //    template: './src/index.html'
         //})
@@ -26,6 +28,6 @@ module.exports = {
         ]
     },
     resolve: {
-            extensions: ['', '.ts', '.js']
-        }
-}
+        extensions: ['', '.ts', '.js']
+    }
+};

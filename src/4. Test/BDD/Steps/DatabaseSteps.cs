@@ -240,13 +240,12 @@
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
         }
-
-
+        
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
                                      $"SET PerformanceStatusId = {(int)status}, " +
-                                     "    InvoiceNumber =  '9' + PHAccount  ");
+                                     "    InvoiceNumber =  '9' + PickListRef  ");
 
             if (status == PerformanceStatus.Incom)
                 this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) JobDetail SET ShortQty = 1");

@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Adam.Listener
 {
+    using System.Diagnostics;
+
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -15,6 +17,14 @@
         public static void Main(string[] args)
         {
             var container = InitIoc();
+
+            var eventLogger = container.GetInstance<IEventLogger>();
+
+            eventLogger.TryWriteToEventLog(
+                EventSource.WellTaskRunner,
+                "Processing ADAM imports...",
+                5422,
+                EventLogEntryType.Information);
 
             var monitorService = container.GetInstance<IAdamFileMonitorService>();
 

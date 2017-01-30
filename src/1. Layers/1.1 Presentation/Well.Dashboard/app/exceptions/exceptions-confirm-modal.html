@@ -7,7 +7,7 @@
             <div class="modal-body">
                 <div class="panel panel-default" *ngFor="let line of deliveryLines">
                     <div class="panel-heading">
-                        <h5><strong>{{line.productCode}} {{line.productDescription}}</strong></h5>
+                        <h5><strong id="product-information">{{line.productCode}} {{line.productDescription}}</strong></h5>
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover table-striped">
@@ -21,10 +21,10 @@
                             </thead>
                             <tbody>
                                 <tr class="grid-row">
-                                    <td><span class="badge">{{line.shortQuantity}}</span></td>
-                                    <td>{{line.jobDetailReason}}</td>
-                                    <td>{{line.jobDetailSource}}</td>
-                                    <td>{{line.shortsAction}}</td>
+                                    <td><span class="badge" id="short-qty">{{line.shortQuantity}}</span></td>
+                                    <td id="short-reason">{{line.jobDetailReason}}</td>
+                                    <td id="short-source">{{line.jobDetailSource}}</td>
+                                    <td id="short-action">{{line.shortsAction}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -39,11 +39,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="grid-row" *ngFor="let damage of line.damages">
-                                    <td><span class="badge">{{damage.quantity}}</span></td>
-                                    <td>{{damage.jobDetailReason}}</td>
-                                    <td>{{damage.jobDetailSource}}</td>
-                                    <td>{{damage.damageAction}}</td>
+                                <tr class="grid-row" *ngFor="let damage of line.damages; let i = index">
+                                    <td><span class="badge" id="damage-qty{{i}}">{{damage.quantity}}</span></td>
+                                    <td id="damage-reason{{i}}">{{damage.jobDetailReason}}</td>
+                                    <td id="damage-source{{i}}">{{damage.jobDetailSource}}</td>
+                                    <td id="damage-action{{i}}">{{damage.damageAction}}</td>
                                 </tr>
                             </tbody>
                         </table>

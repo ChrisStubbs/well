@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Clean
 {
+    using System.Diagnostics;
+
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -14,6 +16,14 @@
         public static void Main(string[] args)
         {
             var container = InitIoc();
+
+            var eventLogger = container.GetInstance<IEventLogger>();
+
+            eventLogger.TryWriteToEventLog(
+                EventSource.WellTaskRunner,
+                "Processing clean deliveries...",
+                2123,
+                EventLogEntryType.Information);
 
             new CleanWell().Process(container);
         }
@@ -38,6 +48,7 @@
                     x.For<IRouteToRemoveRepository>().Use<RouteToRemoveRepository>();
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IEventLogger>().Use<EventLogger>();
                 });
         }
     }

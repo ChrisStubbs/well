@@ -406,6 +406,64 @@
             Thread.Sleep(2000);
         }
 
+        [When(@"I select the exception submit button")]
+        public void SelectExceptionSubmitButton()
+        {
+            this.ExceptionDeliveriesPage.SubmitButton.Click();
+        }
 
+        [Then(@"I can see the product information '(.*)'")]
+        public void ViewProductInformation(string productInformation)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ProductInformation.Text, productInformation);
+        }
+
+        [Then(@"I can see the shortage quantity of '(.*)'")]
+        public void ViewShortageQuantity(string quantity)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortQty.Text, quantity);
+        }
+
+        [Then(@"I can see the shortage reason of '(.*)'")]
+        public void ViewShortageReason(string reason)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortReason.Text, reason);
+        }
+
+        [Then(@"I can see the shortage source of '(.*)'")]
+        public void ViewShortageSource(string source)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortSource.Text, source);
+        }
+
+        [Then(@"I can see the shortage action of '(.*)'")]
+        public void ViewShortageAction(string action)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortAction.Text, action);
+        }
+
+        [Then(@"I can see the damage quantity of '(.*)'")]
+        public void ViewDamageQuantity(string quantity)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageQty.Text, quantity);
+        }
+
+        [Then(@"I can see the damage reason of '(.*)'")]
+        public void ViewDamageReason(string reason)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageReason.Text, reason);
+        }
+
+        [Then(@"I can see the damage source of '(.*)'")]
+        public void ViewDamageSource(string source)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageSource.Text, source);
+        }
+
+        [Then(@"I can see the damage action of '(.*)'")]
+        public void ViewDamageAction(string action)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageAction.Text, action);
+        }
     }
 }

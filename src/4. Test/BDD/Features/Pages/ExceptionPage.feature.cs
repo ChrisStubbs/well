@@ -107,7 +107,7 @@ this.FeatureBackground();
             table1.AddRow(new string[] {
                         "001",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -115,7 +115,7 @@ this.FeatureBackground();
             table1.AddRow(new string[] {
                         "001",
                         "1",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -123,7 +123,7 @@ this.FeatureBackground();
             table1.AddRow(new string[] {
                         "001",
                         "2",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete",
@@ -186,7 +186,7 @@ this.FeatureBackground();
             table3.AddRow(new string[] {
                         "006",
                         "1",
-                        "943362.048",
+                        "91156028",
                         "43362.048",
                         "WB - SHOP",
                         "Incomplete",
@@ -194,7 +194,7 @@ this.FeatureBackground();
             table3.AddRow(new string[] {
                         "006",
                         "1",
-                        "92874.033",
+                        "92544765",
                         "2874.033",
                         "WB - SHOP",
                         "Incomplete",
@@ -202,7 +202,7 @@ this.FeatureBackground();
             table3.AddRow(new string[] {
                         "006",
                         "2",
-                        "954107.000",
+                        "94295479",
                         "54107.000",
                         "WB - SHELL FORECOURT",
                         "Incomplete",
@@ -210,7 +210,7 @@ this.FeatureBackground();
             table3.AddRow(new string[] {
                         "006",
                         "2",
-                        "954107.000",
+                        "94294985",
                         "54107.000",
                         "WB - SHELL FORECOURT",
                         "Incomplete",
@@ -218,8 +218,8 @@ this.FeatureBackground();
 #line 32
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table3, "Then ");
 #line 39
- testRunner.When("I filter the exception delivery grid with the option \'Invoice No\' and value \'9492" +
-                    "14.152\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I filter the exception delivery grid with the option \'Invoice No\' and value \'9429" +
+                    "4343\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -232,7 +232,7 @@ this.FeatureBackground();
             table4.AddRow(new string[] {
                         "001",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -254,7 +254,7 @@ this.FeatureBackground();
             table5.AddRow(new string[] {
                         "011",
                         "5",
-                        "928398.080",
+                        "92545853",
                         "28398.080",
                         "TESCO EXPRESS",
                         "Incomplete",
@@ -276,7 +276,7 @@ this.FeatureBackground();
             table6.AddRow(new string[] {
                         "006",
                         "1",
-                        "943362.048",
+                        "91156028",
                         "43362.048",
                         "WB - SHOP",
                         "Incomplete",
@@ -284,7 +284,7 @@ this.FeatureBackground();
             table6.AddRow(new string[] {
                         "006",
                         "1",
-                        "92874.033",
+                        "92544765",
                         "2874.033",
                         "WB - SHOP",
                         "Incomplete",
@@ -323,7 +323,7 @@ this.FeatureBackground();
             table7.AddRow(new string[] {
                         "001",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -332,7 +332,7 @@ this.FeatureBackground();
             table7.AddRow(new string[] {
                         "001",
                         "1",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -341,7 +341,7 @@ this.FeatureBackground();
             table7.AddRow(new string[] {
                         "001",
                         "2",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete",
@@ -364,7 +364,7 @@ this.FeatureBackground();
             table8.AddRow(new string[] {
                         "001",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -373,7 +373,7 @@ this.FeatureBackground();
             table8.AddRow(new string[] {
                         "001",
                         "1",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -382,7 +382,7 @@ this.FeatureBackground();
             table8.AddRow(new string[] {
                         "001",
                         "2",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete",
@@ -706,7 +706,7 @@ this.FeatureBackground();
             table10.AddRow(new string[] {
                         "001",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -714,7 +714,7 @@ this.FeatureBackground();
             table10.AddRow(new string[] {
                         "001",
                         "1",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -722,7 +722,7 @@ this.FeatureBackground();
             table10.AddRow(new string[] {
                         "001",
                         "2",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "RVS SHOP",
                         "Incomplete",
@@ -765,15 +765,15 @@ this.FeatureBackground();
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information with shorts to be advised displaye" +
                     "d", ((string[])(null)));
-#line 175
+#line 174
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 176
+#line 175
  testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 177
+#line 176
  testRunner.And("2 deliveries have been marked as exceptions with shorts to be advised", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 178
+#line 177
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
@@ -787,7 +787,7 @@ this.FeatureBackground();
             table11.AddRow(new string[] {
                         "001",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Incomplete",
@@ -795,12 +795,12 @@ this.FeatureBackground();
             table11.AddRow(new string[] {
                         "001",
                         "1",
-                        "92874.033",
+                        "92545470",
                         "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
                         "2"});
-#line 179
+#line 178
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table11, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -811,19 +811,19 @@ this.FeatureBackground();
         public virtual void ViewExceptionDetailsAtLowerLevelWithDeliveryCheckIconDisplayed()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details at lower level with delivery check icon displayed", ((string[])(null)));
-#line 184
+#line 183
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 185
+#line 184
  testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 186
+#line 185
  testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 187
+#line 186
  testRunner.And("All delivery lines are flagged with line delivery status \'Exception\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 188
+#line 187
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 189
+#line 188
  testRunner.And("I click on exception row 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
@@ -880,7 +880,7 @@ this.FeatureBackground();
                         "-1",
                         "0",
                         "2"});
-#line 190
+#line 189
  testRunner.Then("I am shown the exception detail", ((string)(null)), table12, "Then ");
 #line hidden
             this.ScenarioCleanup();

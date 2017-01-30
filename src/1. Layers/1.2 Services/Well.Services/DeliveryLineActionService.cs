@@ -54,7 +54,7 @@
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
 
-            if (response == AdamResponse.AdamDown)
+            if (response == AdamResponse.AdamDown || response == AdamResponse.Unknown)
             {
                 this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);

@@ -40,7 +40,7 @@ export * from './components/messages/messages';
 export * from './components/multiselect/multiselect';
 export * from './components/orderlist/orderlist';
 export * from './components/overlaypanel/overlaypanel';
-export * from './components/paginator/paginator';
+//export * from './components/paginator/paginator';
 export * from './components/panel/panel';
 export * from './components/panelmenu/panelmenu';
 export * from './components/password/password';

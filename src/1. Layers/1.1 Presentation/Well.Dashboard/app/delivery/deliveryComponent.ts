@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild}  from '@angular/core'; 
+﻿import {Component, OnInit, ViewChild}  from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {TabsModule} from 'ng2-tabs';
 import {GlobalSettingsService} from '../shared/globalSettings';
@@ -61,6 +61,7 @@ export class DeliveryComponent implements OnInit {
         this.router.navigate(['/delivery', this.delivery.id, line.lineNo]);
     }
 
+    public saveGrn(): void {
     public saveGrn(): void {
         this.deliveryService.saveGrn(this.delivery)
             .subscribe(() => {

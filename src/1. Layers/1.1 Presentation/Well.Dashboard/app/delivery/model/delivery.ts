@@ -1,4 +1,4 @@
-﻿import { DeliveryLine } from './deliveryLine'; 
+﻿import { DeliveryLine } from './deliveryLine';
 
 export class Delivery {
     constructor(delivery: Delivery) {
@@ -53,6 +53,7 @@ export class Delivery {
     public isException: boolean;
     public canAction: boolean; 
     public canSubmit: boolean;
+    public grnNumber: string;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public grnNumber: string;
     public branchId: number;

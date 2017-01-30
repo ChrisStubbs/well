@@ -1,77 +1,59 @@
-﻿import { Component, OnInit, ViewChild }     from '@angular/core';
-import { Router, ActivatedRoute}            from '@angular/router';
-import { Response }                         from '@angular/http';
-import { GlobalSettingsService }            from '../shared/globalSettings';
-import { LogService }                       from '../shared/logService';
-import 'rxjs/Rx';   // Load all features
-import {BranchService}                      from '../shared/branch/branchService';
-import {FilterOption}                       from '../shared/filterOption';
-import {DropDownItem}                       from '../shared/dropDownItem';
-import {ContactModal}                       from '../shared/contactModal';
-import {AccountService}                     from '../account/accountService';
-import {IAccount}                           from '../account/account';
-import {ExceptionDelivery}                  from './exceptionDelivery';
-import {ExceptionDeliveryService}           from './exceptionDeliveryService';
-import {RefreshService}                     from '../shared/refreshService';
-import {HttpResponse}                       from '../shared/httpResponse';
-import {AssignModal}                        from '../shared/assignModal';
-import {ConfirmModal}                       from '../shared/confirmModal';
-import {IUser}                              from '../shared/user';
-import {CreditItem}                         from '../shared/creditItem';
-import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
-import {SecurityService}                    from '../shared/security/securityService';
+﻿import {Component, OnInit, ViewChild, OnDestroy}    from '@angular/core';
+import { Router, ActivatedRoute}                    from '@angular/router';
+import { Response }                                 from '@angular/http';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
+import { FilterOption }                             from '../shared/filterOption';
+import { DropDownItem }                             from '../shared/dropDownItem';
+import { ContactModal }                             from '../shared/contactModal';
+import { AccountService }                           from '../account/accountService';
+import { IAccount }                                 from '../account/account';
+import { ExceptionDelivery }                        from './exceptionDelivery';
+import { ExceptionDeliveryService }                 from './exceptionDeliveryService';
+import { RefreshService }                           from '../shared/refreshService';
+import { HttpResponse }                             from '../shared/httpResponse';
+import { AssignModal }                              from '../shared/assignModal';
+import { ConfirmModal }                             from '../shared/confirmModal';
+import { IUser }                                    from '../shared/user';
+import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
+import { SecurityService }                          from '../shared/security/securityService';
 import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal } from './exceptionsConfirmModal';
-import * as lodash                          from 'lodash';
+import * as lodash                                  from 'lodash';
+import { BaseComponent }                            from '../shared/BaseComponent';
+import 'rxjs/Rx';   // Load all features
 
 @Component({
     selector: 'ow-exceptions',
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [ExceptionDeliveryService]
 })
-
-export class ExceptionsComponent implements OnInit {
+export class ExceptionsComponent extends BaseComponent implements OnInit, OnDestroy {
     public isLoading: boolean = true;
-    public refreshSubscription: any;
+    private  refreshSubscription: any;
     public errorMessage: string;
     public exceptions: ExceptionDelivery[];
-    public currentConfigSort: string;
-    public rowCount: number = 10;
-    public filterOption: FilterOption = new FilterOption();
     public routeOption = new DropDownItem('Route', 'routeNumber');
     public assigneeOption = new DropDownItem('Assignee', 'assigned');
-    public options: DropDownItem[] = [
-        this.routeOption,
-        new DropDownItem('Invoice No', 'invoiceNumber'),
-        new DropDownItem('Account', 'accountCode'),
-        new DropDownItem('Account Name', 'accountName'),
-        this.assigneeOption,
-        new DropDownItem('Date', 'deliveryDate', false, 'date'),
-        new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
-    ];
     public account: IAccount;
     public lastRefresh = Date.now();
     public httpResponse: HttpResponse = new HttpResponse();
     public users: IUser[];
     public delivery: ExceptionDelivery;
-    public routeId: string;
-    public assignee: string;
-    public selectedOption: DropDownItem;
-    public selectedFilter: string;
+    // public routeId: string;
+    // public assignee: string;
     public outstandingFilter: boolean = false;
     public bulkCredits: ExceptionDelivery[];
     public threshold: number;
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
     public value: string;
-    public confirmMessage: string;
     public confirmModalIsVisible: boolean = false;
     public selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
-    public thresholdLimit: Threshold;
     public isReadOnlyUser: boolean = false;
 
     constructor(
@@ -83,18 +65,29 @@ export class ExceptionsComponent implements OnInit {
         private refreshService: RefreshService,
         private toasterService: ToasterService,
         private securityService: SecurityService,
-        private logService: LogService,
-        private branchService: BranchService ) {
+        private nqps: NavigateQueryParametersService ) {
+
+        super(nqps);
+
+        this.options = [
+            this.routeOption,
+            new DropDownItem('Invoice No', 'invoiceNumber'),
+            new DropDownItem('Account', 'accountCode'),
+            new DropDownItem('Account Name', 'accountName'),
+            this.assigneeOption,
+            new DropDownItem('Date', 'deliveryDate', false, 'date'),
+            new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
+        ];
     }
 
     public ngOnInit(): void {
+        super.ngOnInit();
+
         this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
+            this.globalSettingsService.globalSettings.permissions, 
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params => {
-            this.routeId = params['route'];
-            this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
@@ -106,6 +99,7 @@ export class ExceptionsComponent implements OnInit {
     }
 
     public ngOnDestroy() {
+        super.ngOnDestroy();
         this.refreshSubscription.unsubscribe();
     }
 
@@ -118,18 +112,6 @@ export class ExceptionsComponent implements OnInit {
             .subscribe(responseData => {
                     this.exceptions = responseData;
                     this.lastRefresh = Date.now();
-
-                    if (this.routeId) {
-                        this.filterOption = new FilterOption(this.routeOption, this.routeId);
-                        this.selectedOption = this.routeOption;
-                        this.selectedFilter = this.routeId;
-                    }
-                    if (this.assignee) {
-                        this.filterOption = new FilterOption(this.assigneeOption, this.assignee);
-                        this.selectedOption = this.assigneeOption;
-                        this.selectedFilter = this.assignee;
-                    }
-
                     this.isLoading = false;
                 },
                 error => {
@@ -148,11 +130,10 @@ export class ExceptionsComponent implements OnInit {
             });
     }
 
-    public sortDirection(sortDirection): void {
-        this.currentConfigSort = sortDirection === true ? '+deliveryDate' : '-deliveryDate';
-        const sortString = this.currentConfigSort === '+dateTime' ? 'asc' : 'desc';
-        this.getExceptions();
-        lodash.sortBy(this.exceptions, ['dateTime'], [sortString]);
+    private sortDirection(sortDirection): void {
+        const sortString = sortDirection ? 'asc' : 'desc';
+        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [sortString]);
+        super.onSortDirectionChanged(sortDirection);
     }
 
     public onSortDirectionChanged(isDesc: boolean) {
@@ -160,8 +141,8 @@ export class ExceptionsComponent implements OnInit {
     }
     
     public onFilterClicked(filterOption: FilterOption) {
-        this.filterOption = filterOption;
         this.bulkCredits = [];
+        super.onFilterClicked(filterOption);
     }
 
     public onOutstandingClicked(showOutstandingOnly: boolean) {

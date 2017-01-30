@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                            <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
                                 <td (click)="deliverySelected(delivery)" id="resolved-route-{{delivery.id}}">{{delivery.routeNumber}}</td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-drop-{{delivery.id}}">{{delivery.dropId}}</td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-invoice-{{delivery.id}}">{{delivery.invoiceNumber}}</td>
@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
             <div class="col-md-6" *ngIf='deliveries && deliveries.length'>
-                <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+                <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
             </div>
         </div>
     </div>

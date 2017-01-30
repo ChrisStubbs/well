@@ -1,11 +1,10 @@
 ﻿/* tslint:disable:max-line-length */
-
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
+import { ToasterModule, ToasterService } from 'angular2-toaster';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
 import {TabsModule} from 'ng2-tabs'; 
@@ -49,7 +48,7 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {CodComponent} from './shared/codComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
-import {SpinnerComponent} from './shared/spinnerComponent'; 
+import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
@@ -77,7 +76,8 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
 import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
-import {CalendarModule} from './shared/primeng/primeng';
+import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
+import {CalendarModule } from './shared/primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -104,7 +104,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService,
-        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService,
+        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService, NavigateQueryParametersService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

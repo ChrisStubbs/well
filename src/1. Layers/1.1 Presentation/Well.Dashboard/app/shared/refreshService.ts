@@ -17,7 +17,7 @@ export class RefreshService {
         hub.client.dataRefreshed = () => {
             this.zone.run(() => {
                 //This is inside zone.run to trigger the Angular automagical change detection shizzle! 
-                this.logService.log('Awoooga! Data refreshed.');
+                //this.logService.log('Awoooga! Data refreshed.');
                 this.dataRefreshed$.emit(undefined);
             });
         };

@@ -1,7 +1,7 @@
 ﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnDestroy, OnInit, ViewChild }  from '@angular/core';
-import { Router }                                   from '@angular/router';
+import { Router, ActivatedRoute }                   from '@angular/router';
 import {GlobalSettingsService}                      from '../shared/globalSettings';
 import {Route}                                      from './route';
 import {RouteHeaderService}                         from './routeHeaderService';
@@ -14,13 +14,13 @@ import {SecurityService}                            from '../shared/security/sec
 import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
 import * as lodash                                  from 'lodash';
 import 'rxjs/Rx';
-
+ 
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
     providers: [RouteHeaderService]
 })
-export class RouteHeaderComponent  extends BaseComponent implements OnInit, OnDestroy {
+export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDestroy {
     public isLoading: boolean = true;
     public refreshSubscription: any;
     public errorMessage: string;
@@ -33,6 +33,7 @@ export class RouteHeaderComponent  extends BaseComponent implements OnInit, OnDe
         private routerHeaderService: RouteHeaderService,
         private refreshService: RefreshService,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private securityService: SecurityService,
         private nqps: NavigateQueryParametersService ) {
 
@@ -55,6 +56,9 @@ export class RouteHeaderComponent  extends BaseComponent implements OnInit, OnDe
             this.securityService.actionDeliveries);
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.getRoutes();
+        });
         this.getRoutes();
     }
 
@@ -66,7 +70,6 @@ export class RouteHeaderComponent  extends BaseComponent implements OnInit, OnDe
     private sortDirection(sortDirection): void {
         const sortString = sortDirection ? 'asc' : 'desc';
         this.routes = lodash.orderBy(this.routes, ['routeDate'], [sortString]);
-        
         super.onSortDirectionChanged(sortDirection);
     }
 

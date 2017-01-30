@@ -93,8 +93,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params => {
-            // this.routeId = params['route'];
-            // this.assignee = params['assignee'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();

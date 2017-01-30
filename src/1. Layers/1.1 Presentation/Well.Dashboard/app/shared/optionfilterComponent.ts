@@ -3,6 +3,7 @@ import { FilterOption }                             from './filterOption';
 import { DropDownItem }                             from './dropDownItem';
 import { NavigateQueryParametersService }           from './NavigateQueryParametersService';
 import { DictionaryItem, NavigateQueryParameters }  from './NavigateQueryParameters';
+import * as moment from 'moment';
 
 @Component({
     selector: 'ow-optionfilter',
@@ -44,7 +45,14 @@ export class OptionFilterComponent {
 
         if (!this.SelectedOption.IsDefaultItem()) {
             dicItem = new DictionaryItem();
-            dicItem[this.selectedOption.value] = this.filterText;
+            if (this.filterText) {
+                dicItem[this.selectedOption.value] = this.SelectedOption.type == 'date' ? 
+                                moment(this.filterText).format('DD/MM/YYYY') : 
+                                this.filterText;
+            }
+            else {
+                dicItem[this.selectedOption.value] = '';
+            }
         }
 
         const item = new NavigateQueryParameters(dicItem , undefined);

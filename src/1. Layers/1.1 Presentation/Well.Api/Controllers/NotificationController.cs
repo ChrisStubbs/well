@@ -57,11 +57,20 @@
                     string[] substrings = failure.JobParameters.Split(',');
                     int type;
                     Int32.TryParse(substrings[0], out type);
+
+
                     var notification = new Notification
                     {
                         JobId = failure.JobId,
                         ErrorMessage = failure.ErrorMessage, 
                         Type = type,
+                        Branch = substrings[1],
+                        Account = substrings[2],
+                        InvoiceNumber = substrings[3],
+                        LineNumber = substrings[4],
+                        AdamErrorNumber = substrings[5],
+                        AdamCrossReference = substrings[6],
+                        UserName = failure.Operator,
                         Source = "ADAMCSS"
                     };
 

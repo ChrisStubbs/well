@@ -49,10 +49,12 @@
             for (int i = 0; i < table.RowCount; i++)
             {
                 Assert.That(notifications[i].Account.Text, Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(notifications[i].Pick.Text, Is.EqualTo(table.Rows[i]["PicklistReference"]));
                 Assert.That(notifications[i].Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNumber"]));
-                Assert.That(notifications[i].Contact.Text, Is.EqualTo(table.Rows[i]["Contact"]));
-                //Assert.That(notifications[i].Reason.Text, Is.EqualTo(table.Rows[i]["Reason"]));
+                Assert.That(notifications[i].ErrorNumber.Text, Is.EqualTo(table.Rows[i]["AdamErrorNumber"]));
+                Assert.That(notifications[i].ErrorMessage.Text, Is.EqualTo(table.Rows[i]["ErrorMessage"]));
+                Assert.That(notifications[i].CrossReference.Text, Is.EqualTo(table.Rows[i]["CrossReference"]));
+                Assert.That(notifications[i].ErrorMessage.Text, Is.EqualTo(table.Rows[i]["ErrorMessage"]));
+                Assert.That(notifications[i].User.Text, Is.EqualTo(table.Rows[i]["UserName"]));
             }
         }
 
@@ -67,9 +69,9 @@
             for (int i = 0; i < table.RowCount; i++)
             {
                 Assert.That(notifications[i].Account.Text, Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(notifications[i].Pick.Text, Is.EqualTo(table.Rows[i]["PicklistReference"]));
+               //Assert.That(notifications[i].Pick.Text, Is.EqualTo(table.Rows[i]["PicklistReference"]));
                 Assert.That(notifications[i].Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNumber"]));
-                Assert.That(notifications[i].Contact.Text, Is.EqualTo(table.Rows[i]["Contact"]));
+                //Assert.That(notifications[i].Contact.Text, Is.EqualTo(table.Rows[i]["Contact"]));
                 //Assert.That(notifications[i].Reason.Text, Is.EqualTo(table.Rows[i]["Reason"]));
             }
         }

@@ -344,17 +344,26 @@
 
 
 
-        [Given(@"(.*) notifications have been made starting with job (.*)")]
-        public void InsertNotifications(int notifications, int jobId)
+        [Given(@"(.*) notifications have been made")]
+        public void InsertNotifications(int notifications)
         {
             notificationRepository.CurrentUser = "BDD.User";
             for (int i = 0; i < notifications; i++)
             {
+                var accountNumber = 12345.001;
+                var invoiceNumber = 440000;
+
                 var notification = new Notification
                 {
-                    JobId = jobId + i,
+                    JobId = i,
                     ErrorMessage = "Credit failed ADAM validation",
                     Type = (int)NotificationType.Credit,
+                    Account = (accountNumber + i).ToString(),
+                    InvoiceNumber = (invoiceNumber + i).ToString(),
+                    Branch = "55",
+                    UserName = "FP",
+                    AdamErrorNumber = "1",
+                    AdamCrossReference = "123",
                     Source = "BDD"
                 };
 

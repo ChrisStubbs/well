@@ -14,24 +14,56 @@
     {
         public ExceptionDeliveriesPage()
         {
-            this.ExceptionsGrid = new Grid<ExceptionDeliveriesGrid> { Locator = By.Id("tableExceptionDeliveries"), RowLocator = By.ClassName("grid-row") };
-            this.ExceptionsDrillDownGrid = new Grid<ExceptionDrilldownGrid> { Locator = By.Id("tableDelivery"), RowLocator = By.ClassName("grid-row") };
+            this.ExceptionsGrid = new Grid<ExceptionDeliveriesGrid>
+            {
+                Locator = By.Id("tableExceptionDeliveries"),
+                RowLocator = By.ClassName("grid-row")
+            };
+            this.ExceptionsDrillDownGrid = new Grid<ExceptionDrilldownGrid>
+            {
+                Locator = By.Id("tableDelivery"),
+                RowLocator = By.ClassName("grid-row")
+            };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.EnabledButton = new Button { Locator = By.ClassName("enabled-action") };
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             this.NoExceptionsDiv = new Div { Locator = By.Id("no-exceptions") };
-            this.CreditCheckBox = new CheckBox {Locator = By.Id("1")};
-            CurrentUserName = new SpanElement() {Locator = By.Id("current-user-name") };
+            this.CreditCheckBox = new CheckBox { Locator = By.Id("1") };
+            this.CurrentUserName = new SpanElement() { Locator = By.Id("current-user-name") };
             this.CreditButton = new Button { Locator = By.Id("credit") };
             this.SelectAllButton = new Button { Locator = By.Id("selectAll") };
             this.ModalConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
+            this.SubmitButton = new Button { Locator = By.Id("submit1") };
+            this.ProductInformation = new SpanElement { Locator = By.Id("product-information") };
+            this.ShortQty = new SpanElement { Locator = By.Id("short-qty") };
+            this.ShortReason = new SpanElement { Locator = By.Id("short-reason") };
+            this.ShortSource = new SpanElement { Locator = By.Id("short-source") };
+            this.ShortAction = new SpanElement { Locator = By.Id("short-action") };
+            this.DamageQty = new SpanElement { Locator = By.Id("damage-qty0") };
+            this.DamageReason = new SpanElement { Locator = By.Id("damage-reason0") };
+            this.DamageSource = new SpanElement { Locator = By.Id("damage-source0") };
+            this.DamageAction = new SpanElement { Locator = By.Id("damage-action0") };
 
-            AccountModal = new AccountModalComponent();
-            AssignModal = new AssignModal(Driver);
-            CreditModalComponent = new CreditModalComponent();
+            this.AccountModal = new AccountModalComponent();
+            this.AssignModal = new AssignModal(Driver);
+            this.CreditModalComponent = new CreditModalComponent();
         }
+
+        public SpanElement ShortReason { get; set; }
+
+        public SpanElement ShortSource { get; set; }
+
+        public SpanElement ShortAction { get; set; }
+
+        public SpanElement DamageQty { get; set; }
+
+        public SpanElement DamageReason { get; set; }
+
+        public SpanElement DamageSource { get; set; }
+
+        public SpanElement DamageAction { get; set; }
 
         protected override string UrlSuffix => "exceptions";
 
@@ -54,17 +86,24 @@
         public Button SelectAllButton { get; set; }
 
         public Image OrderByButton { get; set; }
+
         public Heading DeliveryUpdateDrillDown { get; set; }
 
         public AccountModalComponent AccountModal { get; set; }
 
         public readonly Button ModalConfirmButton;
 
+        public readonly Button SubmitButton;
+    
         public Div NoExceptionsDiv { get; set; }
 
         public SpanElement CurrentUserName { get; set; } 
 
         public AssignModal AssignModal { get; set; }
+
+        public SpanElement ProductInformation { get; set; }
+
+        public SpanElement ShortQty { get; set; }
 
         public IWebElement GetFirstCell()
         {

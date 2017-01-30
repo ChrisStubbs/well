@@ -73,7 +73,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm enabled-action" type="button" id="filter-option" (click)="submit(delivery)">Submit</button>
+                                        <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm enabled-action" type="button" id="submit{{delivery.id}}" (click)="submit(delivery)">Submit</button>
                                         <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
 
                                     </div>

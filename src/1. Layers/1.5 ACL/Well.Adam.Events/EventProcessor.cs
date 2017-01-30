@@ -1,8 +1,11 @@
 ﻿namespace PH.Well.Adam.Events
 {
     using System;
+    using System.Diagnostics;
+
     using Newtonsoft.Json;
 
+    using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
@@ -17,16 +20,20 @@
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryLineActionService exceptionEventService;
         private readonly ILogger logger;
+        private readonly IEventLogger eventLogger;
 
         public EventProcessor(IContainer container)
         {
             this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
             this.exceptionEventService = container.GetInstance<IDeliveryLineActionService>();
             this.logger = container.GetInstance<ILogger>();
+            this.eventLogger = container.GetInstance<IEventLogger>();
         }
 
         public void Process()
         {
+            this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner, "Processing ADAM tasks...", 5655, EventLogEntryType.Information);
+
             var username = "Event Processor";
             var eventsToProcess = this.exceptionEventRepository.GetAllUnprocessed();
 

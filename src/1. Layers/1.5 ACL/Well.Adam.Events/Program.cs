@@ -40,6 +40,7 @@
                     x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
+                    x.For<IEventLogger>().Use<EventLogger>();
                 });
         }
     }

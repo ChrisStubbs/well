@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.ACL.AdamEvents
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     using Moq;
 
@@ -9,6 +10,7 @@
     using NUnit.Framework;
 
     using PH.Well.Adam.Events;
+    using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
@@ -25,6 +27,8 @@
 
         private Mock<IDeliveryLineActionService> exceptionEventService;
 
+        private Mock<IEventLogger> eventLogger;
+
         private Mock<ILogger> logger;
 
         private Mock<IContainer> container;
@@ -39,6 +43,7 @@
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             this.exceptionEventService = new Mock<IDeliveryLineActionService>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
             this.container = new Mock<IContainer>(MockBehavior.Strict);
 
             this.container.Setup(x => x.GetInstance<IExceptionEventRepository>())
@@ -48,6 +53,8 @@
                 .Returns(this.exceptionEventService.Object);
 
             this.container.Setup(x => x.GetInstance<ILogger>()).Returns(this.logger.Object);
+
+            this.container.Setup(x => x.GetInstance<IEventLogger>()).Returns(this.eventLogger.Object);
 
             this.processor = new EventProcessor(this.container.Object);
 
@@ -81,6 +88,14 @@
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
+
+                this.eventLogger.Setup(
+                    x =>
+                        x.TryWriteToEventLog(
+                            EventSource.WellTaskRunner,
+                            "Processing ADAM tasks...",
+                            5655,
+                            EventLogEntryType.Information)).Returns(true);
 
                 this.processor.Process();
 

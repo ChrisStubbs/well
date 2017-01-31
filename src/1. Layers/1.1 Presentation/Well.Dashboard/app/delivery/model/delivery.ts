@@ -55,7 +55,6 @@ export class Delivery {
     public canSubmit: boolean;
     public grnNumber: string;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
-    public grnNumber: string;
     public branchId: number;
     public grnProcessType: number;
     public proofOfDelivery: number;

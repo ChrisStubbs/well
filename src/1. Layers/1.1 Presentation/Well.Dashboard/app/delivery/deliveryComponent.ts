@@ -62,7 +62,6 @@ export class DeliveryComponent implements OnInit {
     }
 
     public saveGrn(): void {
-    public saveGrn(): void {
         this.deliveryService.saveGrn(this.delivery)
             .subscribe(() => {
                 this.toasterService.pop('success', 'GRN saved...', '');

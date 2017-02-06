@@ -173,12 +173,34 @@
             return lines;
         }
 
-        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings, string username)
+        public void Pod(PodTransaction podTransaction, int eventId, AdamSettings adamSettings, string username)
         {
-            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
+            var adamResponse = this.adamRepository.Pod(podTransaction, adamSettings);
 
             this.MarkAsDone(eventId, adamResponse, username);
         }
+
+        //public ProcessDeliveryPodActionResult ProcessDeliveryPodActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        //{
+        //    var podResult = this.PodDeliveryLines(lines, adamSettings, username, branchId);
+
+        //    return podResult;
+        //}
+
+        //public ProcessDeliveryPodActionResult PodDeliveryLines(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        //{
+        //    var result = new ProcessDeliveryPodActionResult();
+
+        //    var podLines = GetDeliveryLinesByAction(lines, DeliveryAction.Pod);
+
+        //    if (podLines.Any())
+        //    {
+        //          result.AdamResponse = this.Pod(podLines, adamSettings, username, branchId);
+        //    }
+
+        //    return result;
+        //}
+
 
 
         private void MarkAsDone(int eventId, AdamResponse response, string username)

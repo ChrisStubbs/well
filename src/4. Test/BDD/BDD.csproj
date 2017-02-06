@@ -136,6 +136,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CleanPage.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\HighValueItemsExceptionPage.feature.cs">
+      <DependentUpon>HighValueItemsExceptionPage.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Features\Pages\ExceptionPage.feature.cs">
       <DependentUpon>ExceptionPage.feature</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -274,6 +279,10 @@
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\HighValueItemsExceptionPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>HighValueItemsExceptionPage.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\ExceptionPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

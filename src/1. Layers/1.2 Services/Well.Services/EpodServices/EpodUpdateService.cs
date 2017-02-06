@@ -22,6 +22,7 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly IPodTransactionFactory podTransactionFactory;
 
         private readonly IRouteMapper mapper;
 
@@ -41,7 +42,8 @@
             IJobDetailDamageRepository jobDetailDamageRepository,
             IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
-            IAdamImportService adamImportService)
+            IAdamImportService adamImportService,
+            IPodTransactionFactory podTransactionFactory)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -53,6 +55,7 @@
             this.exceptionEventRepository = exceptionEventRepository;
             this.mapper = mapper;
             this.adamImportService = adamImportService;
+            this.podTransactionFactory = podTransactionFactory;
 
             this.routeHeaderRepository.CurrentUser = UpdatedBy;
             this.stopRepository.CurrentUser = UpdatedBy;
@@ -172,20 +175,19 @@
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
 
+                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
+
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery ?? 0;
-                if (ProofOfDeliveryList.Contains(pod) && job.IsClean)
+
+                if (ProofOfDeliveryList.Contains(pod))
                 {
-                    var podEvent = new PodEvent();
-                    podEvent.Id = existingJob.Id;
-                    podEvent.BranchId = branchId;
+                    //build pod transaction
+                    var podTransaction = this.podTransactionFactory.Build(job, branchId);
 
-                    this.exceptionEventRepository.InsertPodEvent(podEvent);
-
+                    this.exceptionEventRepository.InsertPodEvent(podTransaction);
                 }
 
-
-                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
             }
         }
 

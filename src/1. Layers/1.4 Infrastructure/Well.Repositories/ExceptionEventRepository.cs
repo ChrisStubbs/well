@@ -71,9 +71,9 @@
         }
 
 
-        public void InsertPodEvent(PodEvent podEvent)
+        public void InsertPodEvent(PodTransaction podTransaction)
         {
-            var podEventJson = JsonConvert.SerializeObject(podEvent);
+            var podEventJson = JsonConvert.SerializeObject(podTransaction);
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", podEventJson, DbType.String, size: 2500)

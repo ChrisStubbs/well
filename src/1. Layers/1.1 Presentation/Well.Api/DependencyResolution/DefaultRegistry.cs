@@ -60,6 +60,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IUserThresholdService>().Use<UserThresholdService>();
             For<IEpodUpdateService>().Use<EpodUpdateService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
+            For<IPodTransactionFactory>().Use<PodTransactionFactory>();
 
             // Mappers
             For<IRouteModelsMapper>().Use<RouteModelsMapper>();

@@ -170,6 +170,7 @@
                                                 x.For<IRouteMapper>().Use<RouteMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                                 x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
+                                                x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

@@ -78,7 +78,7 @@ body {
     margin: 0;
     color: #333;
     min-width: 940px;
-    background: #e0e0e0 url(../../content/images/bg-body.gif); 
+    background: #e0e0e0 url(./images/bg-body.gif); 
     overflow-y: scroll;
 }
 
@@ -106,7 +106,7 @@ body {
 .app .row-fluid:first-child .span7 { position: relative; }
 
 .logo {
-    background: url(../../content/images/logo.png);
+    background: url(./images/logo.png);
     height: 96px;
     margin-left: -26px;
     overflow: hidden;
@@ -328,19 +328,54 @@ input.period-filter{
     margin-top: 32px;
 }
 
-.ng2-pagination li {
+#pageElement() {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    text-decoration: none;
     background-color: #fff;
-    font-size: 1.2em;
-}
-
-.ng2-pagination li span, .ng2-pagination li a, .ng2-pagination li div{
-    font-size: 1.2em;
+    border: 1px solid #ddd;
 }
 
 .ng2-pagination .current {
-    background-color: #ff8080 !important;
+    padding: 0px!important;
 }
 
+.ng2-pagination > li > a {
+    #pageElement;
+    color: #337ab7;
+}
+
+.ng2-pagination > li > div {
+    #pageElement;
+    color: #000;
+}
+
+.ng2-pagination > li > span {
+    #pageElement;
+    color: #cacaca;
+}
+
+.ng2-pagination > li > a:hover {
+    z-index: 2;
+    color: #23527c;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.ng2-pagination .disabled {
+    padding: 0px!important;
+}
+
+.ng2-pagination .pagination-previous a::before, .ng2-pagination .pagination-previous.disabled::before {
+    display: none!important;
+}
+
+.ng2-pagination .pagination-next a::after, .ng2-pagination .pagination-next.disabled::after {
+     display: none!important;
+}
 
 .bs-callout {
     padding: 20px;

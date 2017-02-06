@@ -8,10 +8,9 @@
     <base href="/Well/Dashboard/" />
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" href="~/favicon.ico"/>
-    <link href="@string.Format("{0}/Content/css/bootstrap.min.css", HttpRuntime.AppDomainAppVirtualPath)" rel="stylesheet" />
-    <link href="@string.Format("{0}/Content/css/ngprime-theme.css", HttpRuntime.AppDomainAppVirtualPath)" rel="stylesheet" />
-    <link href="@string.Format("{0}/Content/css/primeng.css", HttpRuntime.AppDomainAppVirtualPath)" rel="stylesheet" />
-
+    
+    <link href="@string.Format("{0}/Scripts/angular2/site.css", HttpRuntime.AppDomainAppVirtualPath)" rel="stylesheet" />
+    
     @Styles.Render("~/bundles/css/all")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")

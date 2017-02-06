@@ -81,16 +81,15 @@ export class BranchCheckboxComponent implements OnInit {
     }
 
     public selectAll(selectAllCheckbox): void {
-        const selected = !selectAllCheckbox;
-
-        this.branches.forEach(branch => {
+         this.branches.forEach(branch => {
             const index = this.selectedBranches.indexOf(branch, 0);
+            
             if (index > -1) {
                 this.selectedBranches.splice(index, 1);
             }
-            branch.selected = selected;
+            branch.selected = selectAllCheckbox;
 
-            if (selected) {
+            if (selectAllCheckbox) {
                 this.selectedBranches.push(branch);
             } else {
                 this.selectedBranches = [];

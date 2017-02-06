@@ -9,13 +9,13 @@ import {DropDownItem} from '../shared/dropDownItem';
 import {SecurityService} from '../shared/security/securityService';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import * as lodash from 'lodash';
-
+import * as lodash from 'lodash';  
+        
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
     providers: [DeliveryService] 
-})
+}) 
 export class DeliveryComponent implements OnInit {
     public errorMessage: string;
     public delivery: Delivery = new Delivery(undefined);

@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading;
     using Framework.Context;
+    using Framework.Extensions;
     using NUnit.Framework;
     using Pages;
     using TechTalk.SpecFlow;
@@ -73,16 +74,19 @@
         [Then(@"the following clean deliveries will be displayed")]
         public void ThenTheFollowingCleanDeliveriesWillBeDisplayed(Table table)
         {
-            var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-            }
+            Assert.That(this.CleanDeliveriesPage.RoutesGrid.IsEqualToSpecFlowTable(table), Is.True);
+
+            //var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
+            //Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
+            //for (int i = 0; i < table.RowCount; i++)
+            //{
+            //    Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
+            //    Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Branch), Is.EqualTo(table.Rows[i]["Branch"]));
+            //    Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
+            //    Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+            //    Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
+            //    Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
+            //}
         }
 
         [Then(@"the following clean with cash on delivery deliveries will be displayed")]

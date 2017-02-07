@@ -1,0 +1,4 @@
+﻿CREATE TYPE IntTableType AS TABLE
+(
+	Value INT NOT NULL
+)

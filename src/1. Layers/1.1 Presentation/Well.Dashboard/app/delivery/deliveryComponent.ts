@@ -60,8 +60,7 @@ export class DeliveryComponent implements OnInit {
     public lineClicked(line): void {
         this.router.navigate(['/delivery', this.delivery.id, line.lineNo]);
     }
-
-    public saveGrn(): void {
+    
     public saveGrn(): void {
         this.deliveryService.saveGrn(this.delivery)
             .subscribe(() => {

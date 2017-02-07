@@ -84,6 +84,7 @@
     <None Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
     <None Include="Post-Deployement\Populate-PDACreditReasons.sql" />
     <Build Include="dbo\Tables\JobDetailReason.sql" />
+    <Build Include="dbo\Types\IntTableType.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -278,6 +279,7 @@
     <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
+    <Build Include="dbo\StoredProcedures\Deliveries_GetByArrayPerformanceStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

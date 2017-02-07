@@ -53,13 +53,14 @@
     public enum CleanDeliveriesGrid
     {
         Route = 0,
-        Drop = 1,
-        InvoiceNo = 2,
-        Account = 3,
-        AccountName = 4,
-        CashOnDelivery = 5,
-        Contact= 6,
-        Assigned = 7,
-        LastUpdatedDateTime = 7
+        Branch = 1,
+        Drop = 2,
+        InvoiceNo = 3,
+        Account = 4,
+        AccountName = 5,
+        CashOnDelivery = 6,
+        Contact= 7,
+        Assigned = 8,
+        LastUpdatedDateTime = 9
     }
 }

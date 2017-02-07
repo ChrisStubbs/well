@@ -55,7 +55,7 @@
                 dapperProxy.Setup(x => x.WithStoredProcedure("Notification_Archive")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("UpdatedBy", It.IsAny<string>(), DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("DateUpdated", DateTime.Now, DbType.DateTime, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
                 repository.ArchiveNotification(id);
@@ -75,18 +75,18 @@
                 dapperProxy.Setup(x => x.WithStoredProcedure("Notification_Save")).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", notification.JobId, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("Type", notification.Type, DbType.Int16, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("ErrorMessage", notification.ErrorMessage, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Branch", notification.Branch, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Account", notification.Account, DbType.String, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("ErrorMessage", notification.ErrorMessage, DbType.String, 255)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Branch", notification.Branch, DbType.String, 3)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("Account", notification.Account, DbType.String, 10)).Returns(this.dapperProxy.Object);
 
-                dapperProxy.Setup(x => x.AddParameter("InvoiceNumber", notification.InvoiceNumber, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("LineNumber", notification.LineNumber, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("AdamErrorNumber", notification.AdamErrorNumber, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("AdamCrossReference", notification.AdamCrossReference, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("UserName", notification.UserName, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("CreatedBy", It.IsAny<string>(), DbType.String, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("InvoiceNumber", notification.InvoiceNumber, DbType.String, 20)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("LineNumber", notification.LineNumber, DbType.String, 3)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AdamErrorNumber", notification.AdamErrorNumber, DbType.String, 3)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("AdamCrossReference", notification.AdamCrossReference, DbType.String, 20)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UserName", notification.UserName, DbType.String, 10)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("CreatedBy", It.IsAny<string>(), DbType.String, 50)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("UpdatedBy", It.IsAny<string>(), DbType.String, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("UpdatedBy", It.IsAny<string>(), DbType.String, 50)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.Execute());
 
@@ -95,18 +95,18 @@
                 dapperProxy.Verify(x => x.WithStoredProcedure("Notification_Save"), Times.Once);
 
                 dapperProxy.Verify(x => x.AddParameter("JobId", notification.JobId, DbType.Int32, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("ErrorMessage", It.IsAny<string>(), DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("Branch", notification.Branch, DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("Account", notification.Account, DbType.String, null), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("ErrorMessage", It.IsAny<string>(), DbType.String, 255), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("Branch", notification.Branch, DbType.String, 3), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("Account", notification.Account, DbType.String, 10), Times.Once());
 
-                dapperProxy.Verify(x => x.AddParameter("InvoiceNumber", notification.InvoiceNumber, DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("LineNumber", notification.LineNumber, DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("AdamErrorNumber", notification.AdamErrorNumber, DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("AdamCrossReference", notification.AdamCrossReference, DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("UserName", notification.UserName, DbType.String, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("CreatedBy", It.IsAny<string>(), DbType.String, null), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("InvoiceNumber", notification.InvoiceNumber, DbType.String, 20), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("LineNumber", notification.LineNumber, DbType.String, 3), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("AdamErrorNumber", notification.AdamErrorNumber, DbType.String, 3), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("AdamCrossReference", notification.AdamCrossReference, DbType.String, 20), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("UserName", notification.UserName, DbType.String, 10), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("CreatedBy", It.IsAny<string>(), DbType.String, 50), Times.Once());
                 dapperProxy.Verify(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once());
-                dapperProxy.Verify(x => x.AddParameter("UpdatedBy", It.IsAny<string>(), DbType.String, null), Times.Once());
+                dapperProxy.Verify(x => x.AddParameter("UpdatedBy", It.IsAny<string>(), DbType.String, 50), Times.Once());
                 dapperProxy.Verify(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once());
 
                 dapperProxy.Verify(x => x.Execute(), Times.Once);

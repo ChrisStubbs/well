@@ -1,14 +1,14 @@
-﻿import {Component, OnInit, ViewChild}  from '@angular/core';
-import {NavigationExtras, Router} from '@angular/router';
-import {GlobalSettingsService} from '../shared/globalSettings';
+﻿import {Component, OnInit, ViewChild}   from '@angular/core';
+import {NavigationExtras, Router}       from '@angular/router';
+import {GlobalSettingsService}          from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {Widget} from './widget';
-import {WidgetService} from './widgetService';
-import {RefreshService} from '../shared/refreshService';
-import {SecurityService} from '../shared/security/securityService';
-import {WidgetGraphComponent} from './widgetGraphComponent';
-import { UnauthorisedComponent } from '../unauthorised/unauthorisedComponent';
-import * as lodash from 'lodash';
+import {Widget}                         from './widget';
+import {WidgetService}                  from './widgetService';
+import {RefreshService}                 from '../shared/refreshService';
+import {SecurityService}                from '../shared/security/securityService';
+import {WidgetGraphComponent}           from './widgetGraphComponent';
+import { UnauthorisedComponent }        from '../unauthorised/unauthorisedComponent';
+import * as lodash                      from 'lodash';
 
 @Component({
     templateUrl: './app/home/widgets.html'
@@ -20,7 +20,7 @@ export class WidgetComponent implements OnInit {
     @ViewChild(WidgetGraphComponent) public widgetGraph: WidgetGraphComponent;
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        public globalSettingsService: GlobalSettingsService,
         private widgetService: WidgetService,
         private refreshService: RefreshService,
         private securityService: SecurityService,

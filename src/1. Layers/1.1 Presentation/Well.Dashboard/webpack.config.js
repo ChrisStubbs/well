@@ -24,7 +24,7 @@ module.exports = {
         loaders: [
             { test: /\.ts$/, exclude: /node_modules/, loader: "awesome-typescript-loader" }, 
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file?hash=sha512&digest=hex&name=[hash].[ext]', 'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false']},
-            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
+            //{ test: /\.(png|gif|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
             { test: /\.(css|less)$/, exclude: /node_modules/, loader:  ExtractTextPlugin.extract('css?sourceMap!less?sourceMap') },          
         ],
         rules: [{

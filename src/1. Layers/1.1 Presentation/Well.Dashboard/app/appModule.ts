@@ -41,6 +41,7 @@ import {AssignModal} from './shared/assignModal';
 import {ConfirmModal} from './shared/confirmModal';
 import {ContactModal} from './shared/contactModal';
 import {OptionFilterComponent} from './shared/optionFilterComponent';
+import {CustomDatePipe} from './shared/customDatePipe';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from './shared/orderByDatePipe';
 import {OutstandingPipe} from './shared/outstandingPipe';
@@ -84,7 +85,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 
 @NgModule({
     declarations: [SpinnerComponent,
-        OptionFilterComponent, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
+        OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,

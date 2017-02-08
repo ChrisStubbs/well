@@ -4,6 +4,7 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Dapper;
     using Domain;
@@ -49,16 +50,12 @@
 
         public IEnumerable<Delivery> GetExceptionDeliveries(string username)
         {
-            var exceptionStatuses = ExceptionStatuses.Statuses;
+            var intStatuses = ExceptionStatuses.Statuses.Select(p => (int)p).ToList();
 
-            var allExceptions = new List<Delivery>();
-
-            foreach (var exceptionStatus in exceptionStatuses)
-            {
-                allExceptions.AddRange(GetDeliveriesByStatus(exceptionStatus, username));
-            }
-
-            return allExceptions;
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByArrayPerformanceStatus)
+                .AddParameter("PerformanceStatusIds", intStatuses.ToIntDataTables("Value"), DbType.Object)
+                .AddParameter("UserName", username, DbType.String)
+                .Query<Delivery>();
         }
 
         public DeliveryDetail GetDeliveryById(int id, string username)

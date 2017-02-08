@@ -170,6 +170,7 @@
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
     <Compile Include="Framework\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Framework\Extensions\GridExtensions.cs" />
     <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
     <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />

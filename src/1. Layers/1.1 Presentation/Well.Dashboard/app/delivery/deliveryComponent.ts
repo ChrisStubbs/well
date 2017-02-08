@@ -9,8 +9,8 @@ import {DropDownItem} from '../shared/dropDownItem';
 import {SecurityService} from '../shared/security/securityService';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import * as lodash from 'lodash';  
-        
+import * as lodash from 'lodash';
+
 @Component({
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
@@ -60,7 +60,7 @@ export class DeliveryComponent implements OnInit {
     public lineClicked(line): void {
         this.router.navigate(['/delivery', this.delivery.id, line.lineNo]);
     }
-
+    
     public saveGrn(): void {
         this.deliveryService.saveGrn(this.delivery)
             .subscribe(() => {

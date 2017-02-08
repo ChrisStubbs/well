@@ -10,6 +10,11 @@
     {
         public By RowLocator { get; set; }
 
+        public IList<IWebElement> Header => this.GetElement()
+            .FindElements(By.TagName("th"))
+            .Select(p => p)
+            .ToList();
+
         private IEnumerable<IWebElement> rowElements;
 
         public IEnumerable<IWebElement> RowElements()
@@ -102,9 +107,13 @@
         public string GetColumnValueByIndex(int idx)
         {
             return this.row.FindElements(By.XPath(".//*"))[idx].Text;
-
         }
-        
+
+        public string GetTdValueByIndex(int index)
+        {
+            return this.row.FindElements(By.TagName("td"))[index].Text;
+        }
+
         public override void Click()
         {
             this.Driver.ExecuteJavaScript(string.Format("window.scrollTo(0, {0});", this.row.Location.Y));

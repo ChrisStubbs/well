@@ -98,7 +98,7 @@
             }
             catch (Exception ex)
             {
-                return ex.Message + ": Occured in Enum.cs (GetDescription)";
+                return ex.Message + ": Occurred in Enum.cs (GetDescription)";
             }
         }
     }

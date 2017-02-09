@@ -182,7 +182,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92544765",
-                        "2874.033",
+                        "02874.033",
                         "WB - SHOP"});
             table3.AddRow(new string[] {
                         "006",
@@ -262,7 +262,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92544765",
-                        "2874.033",
+                        "02874.033",
                         "WB - SHOP"});
 #line 49
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table6, "Then ");

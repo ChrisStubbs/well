@@ -242,7 +242,6 @@
     <Compile Include="Mapper\Contracts\IWidgetWarningMapper.cs" />
     <Compile Include="Mapper\CreditThresholdMapper.cs" />
     <Compile Include="Mapper\DeliveryLinesToModelMapper.cs" />
-    <Compile Include="Mapper\RouteModelslMapper.cs" />
     <Compile Include="Mapper\DeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />

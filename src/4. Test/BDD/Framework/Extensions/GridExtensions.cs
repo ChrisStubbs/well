@@ -8,6 +8,34 @@ using TechTalk.SpecFlow;
 
 namespace PH.Well.BDD.Framework.Extensions
 {
+    public class ContainsSpecFlowTableResult
+    {
+        public ContainsSpecFlowTableResult()
+        {
+            this.Erros = new List<CellErro>();
+        }
+
+        public IList<CellErro> Erros { get; set; }
+
+        public bool RowCountMatches { get; set; }
+
+        public bool HasError
+        {
+            get
+            {
+                return this.RowCountMatches && this.Erros.Count == 0;
+            }
+        }
+
+        public class CellErro
+        {
+            public string GridCellText { get; set; }
+            public string TableCellText { get; set; }
+            public string Column { get; set; }
+            public int RowNumber { get; set; }
+        }
+    }
+
     public static class GridExtensions
     {
         public static Func<string, string, bool> defaultHeaderMatcher = (left, right) =>
@@ -26,20 +54,20 @@ namespace PH.Well.BDD.Framework.Extensions
             return new Tuple<string, int>("", 1);
         }
 
-        public static bool IsEqualToSpecFlowTable<T>(this WebElements.Grid<T> grid,
+        public static ContainsSpecFlowTableResult ContainsSpecFlowTable<T>(this WebElements.Grid<T> grid,
             Table table,
             Func<string, string, bool> headerMatcher = null,
             Func<string, string, string, bool> cellComparer = null)
         {
             var header = grid.Header;
             var rows = grid.ReturnAllRows().ToList();
-            var returnValue = false;
+            var returnValue = new ContainsSpecFlowTableResult();
 
             //if null set it to the default matcher
             headerMatcher = headerMatcher ?? defaultHeaderMatcher;
             //if null set it to the default comparer
             cellComparer = cellComparer ?? defaultCellComparer;
-            
+
             //here i am going to find the position of the header inside the array
             Func<string, Tuple<string, string, int>> indexFinder = (headerName) =>
             {
@@ -60,21 +88,32 @@ namespace PH.Well.BDD.Framework.Extensions
                 .Select(p => indexFinder(p))
                 .ToDictionary(k => k.Item1, v => v);
 
-            if (table.RowCount == rows.Count)
+            //loop thought all the rows
+            for (int i = 0; i < rows.Count; i++)
             {
-                returnValue = true;
-                //loop thought all the rows
-                for (int i = 0; i < rows.Count; i++)
+                var cells = header
+                    .Where(p => finder.ContainsKey(p.Text));
+
+                foreach (var cell in cells)
                 {
-                    returnValue = returnValue && header
-                        .Where(p => finder.ContainsKey(p.Text))
-                        .All(p => cellComparer(rows[i].GetTdValueByIndex(finder[p.Text].Item3), table.Rows[i][finder[p.Text].Item2], p.Text));
+                    var tableCellText = table.Rows[i][finder[cell.Text].Item2];
+                    var gridCellText = rows[i].GetTdValueByIndex(finder[cell.Text].Item3);
+
+                    if (!cellComparer(gridCellText, tableCellText, cell.Text))
+                    {
+                        //it is not equal so lets add it to the error list
+                        returnValue.Erros.Add(new ContainsSpecFlowTableResult.CellErro
+                        {
+                            TableCellText = tableCellText,
+                            GridCellText = gridCellText,
+                            Column = cell.Text,
+                            RowNumber = i
+                        });
+                    }
                 }
             }
-            else
-            {
-                returnValue = false;
-            }
+
+            returnValue.RowCountMatches = table.RowCount == rows.Count;
 
             return returnValue;
         }

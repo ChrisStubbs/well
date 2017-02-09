@@ -31,25 +31,25 @@ Scenario: A user can filter Clean Delivery information
 	When I open the clean deliveries
 	And I filter the clean delivery grid with the option 'Route' and value '006'
 	Then the following clean deliveries will be displayed
-	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          |
-	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            |
-	| 006   | 22     | 1    | 92544765  | 2874.033  | WB - SHOP            |
-	| 006   | 22     | 2    | 94295479  | 54107.000 | WB - SHELL FORECOURT |
-	| 006   | 22     | 2    | 94294985  | 54107.000 | WB - SHELL FORECOURT |	
+	| Route | Branch | Drop | InvoiceNo | Account    | AccountName          |
+	| 006   | 22     | 1    | 91156028  | 43362.048  | WB - SHOP            |
+	| 006   | 22     | 1    | 92544765  | 02874.033  | WB - SHOP            |
+	| 006   | 22     | 2    | 94295479  | 54107.000  | WB - SHELL FORECOURT |
+	| 006   | 22     | 2    | 94294985  | 54107.000  | WB - SHELL FORECOURT |	
 
 	When I filter the clean delivery grid with the option 'Invoice No' and value '94294343'
 	Then the following clean deliveries will be displayed
-	| Route | Branch | Drop | InvoiceNo | Account | AccountName |
-	| 001   | 22     |1   | 94294343 | 49214.152 | CSG - must be CF van | 
+	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          |
+	| 001   | 22     |1     | 94294343  | 49214.152 | CSG - must be CF van | 
 	When I filter the clean delivery grid with the option 'Account' and value '28398.080'
 	Then the following clean deliveries will be displayed
-	| Route | Branch | Drop | InvoiceNo | Account | AccountName |
-	| 011   | 22     |5   | 92545853 | 28398.080 | TESCO EXPRESS | 
+	| Route | Branch | Drop | InvoiceNo | Account   | AccountName   |
+	| 011   | 22     |5     | 92545853  | 28398.080 | TESCO EXPRESS | 
 	When I filter the clean delivery grid with the option 'Account Name' and value 'WB - SHOP'
 	Then the following clean deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName |
 	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP   |
-	| 006   | 22     | 1    | 92544765  | 2874.033  | WB - SHOP   | 
+	| 006   | 22     | 1    | 92544765  | 02874.033 | WB - SHOP   | 
 
 Scenario: A user can view Clean Delivery Information and sort on updated date
 	Given I have a clean database

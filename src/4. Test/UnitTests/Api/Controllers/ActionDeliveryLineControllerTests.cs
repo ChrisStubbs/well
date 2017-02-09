@@ -125,7 +125,7 @@
                 processDeliveryActionResult.CreditThresholdLimitReached = true;
 
                 this.deliveryLineActionService.Setup(
-                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), "", branchId)).Returns(processDeliveryActionResult);
+                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), It.IsAny<string>(), branchId)).Returns(processDeliveryActionResult);
 
                 var response = this.Controller.ConfirmDeliveryLines(jobId);
 
@@ -154,7 +154,7 @@
                 processDeliveryActionResult.AdamResponse = AdamResponse.AdamDown;
 
                 this.deliveryLineActionService.Setup(
-                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), "", branchId)).Returns(processDeliveryActionResult);
+                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), It.IsAny<string>(), branchId)).Returns(processDeliveryActionResult);
 
                 var response = this.Controller.ConfirmDeliveryLines(jobId);
 
@@ -183,7 +183,7 @@
                 processDeliveryActionResult.AdamResponse = AdamResponse.Success;
 
                 this.deliveryLineActionService.Setup(
-                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), "", branchId)).Returns(processDeliveryActionResult);
+                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), It.IsAny<string>(), branchId)).Returns(processDeliveryActionResult);
 
                 var response = this.Controller.ConfirmDeliveryLines(jobId);
 

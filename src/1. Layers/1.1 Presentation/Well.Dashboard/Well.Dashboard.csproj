@@ -425,8 +425,6 @@
     <Content Include="Content\Images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Images\triangle_asc.png" />
-    <Content Include="Content\Images\triangle_desc.png" />
     <Content Include="Content\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\Images\ui-bg_glass_55_fbf9ee_1x400.png" />

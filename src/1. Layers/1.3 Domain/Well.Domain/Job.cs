@@ -42,6 +42,18 @@
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
+        [XmlElement("JobType_Code")]
+        public string JobTypeCodeTransend { get; set; }
+
+        public string GetJobTypeCode()
+        {
+            if (!string.IsNullOrWhiteSpace(this.JobTypeCode)) return this.JobTypeCode;
+
+            if (!string.IsNullOrWhiteSpace(this.JobTypeCodeTransend)) return this.JobTypeCodeTransend;
+
+            return "Not found";
+        }
+
         [XmlElement("JobRef1")]                 // not sure we need this
         public string SiteBunId { get; set; }
 

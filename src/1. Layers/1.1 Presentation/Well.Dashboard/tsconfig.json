@@ -11,5 +11,6 @@
         "preserveConstEnums": true,
         "experimentalDecorators": true
     },
-    "compileOnSave": true
+    "compileOnSave": true,
+    "exclude": ["node_modules" ]
 }

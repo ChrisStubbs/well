@@ -20,8 +20,8 @@
                 x =>
                 {
                     x.For<IEventLogger>().Use<EventLogger>();
-                  
                     x.For<IEpodUpdateService>().Use<EpodUpdateService>();
+                    x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
@@ -38,6 +38,7 @@
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IEpodProvider>().Use<EpodFtpProvider>();
                 } );
         }
     }

@@ -16,7 +16,7 @@ namespace PH.Well.BDD.Framework.Extensions
 
         public bool RowCountMatches { get; set; }
 
-        public bool HasError => !this.RowCountMatches || this.Erros.Any();
+        public bool HasError => !this.RowCountMatches || this.Errors.Any();
 
 
         public class CellError

@@ -105,14 +105,14 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "CSG - must be CF van"});
             table1.AddRow(new string[] {
                         "001",
                         "22",
                         "2",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP"});
 #line 15
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table1, "Then ");
@@ -182,7 +182,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92544765",
-                        "2874.033",
+                        "02874.033",
                         "WB - SHOP"});
             table3.AddRow(new string[] {
                         "006",
@@ -262,7 +262,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92544765",
-                        "2874.033",
+                        "02874.033",
                         "WB - SHOP"});
 #line 49
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table6, "Then ");
@@ -309,7 +309,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "CSG - must be CF van",
                         "07/01/2016"});
             table7.AddRow(new string[] {
@@ -317,7 +317,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "2",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP",
                         "07/01/2016"});
 #line 60
@@ -338,7 +338,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "2",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP",
                         "07/01/2016"});
             table8.AddRow(new string[] {
@@ -346,7 +346,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "CSG - must be CF van",
                         "07/01/2016"});
             table8.AddRow(new string[] {

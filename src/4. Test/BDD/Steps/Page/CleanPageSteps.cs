@@ -110,7 +110,7 @@
         {
             var row = firstRow - 1;
             var pageRows = this.CleanDeliveriesPage.RoutesGrid.ReturnAllRows().ToList();
-            var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(5);
+            var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(6);
             Assert.That(cashOnDeliveryIcon, Is.Empty);
         }
 

@@ -11,7 +11,7 @@ import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import * as lodash from 'lodash';
 
-@Component({
+@Component({  
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
     providers: [DeliveryService] 

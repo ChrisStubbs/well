@@ -48,7 +48,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             [Test]
             public void ShouldReturnTheUserBranchesInformationForDashboardHeader()
             {
-                this.branchService.Setup(x => x.GetUserBranchesFriendlyInformation("")).Returns("med, bir");
+                this.branchService.Setup(x => x.GetUserBranchesFriendlyInformation(It.IsAny<string>())).Returns("med, bir");
 
                 var response = this.Controller.UserBranches();
 

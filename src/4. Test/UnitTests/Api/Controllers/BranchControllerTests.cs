@@ -57,7 +57,7 @@
 
                 this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(branches);
 
-                this.branchRepository.Setup(x => x.GetBranchesForUser("")).Returns((List<Branch>)null);
+                this.branchRepository.Setup(x => x.GetBranchesForUser(It.IsAny<string>())).Returns((List<Branch>)null);
 
                 this.branchModelMapper.Setup(x => x.Map(branches, (List<Branch>)null))
                     .Returns(new List<BranchModel> { new BranchModel { Name = BranchFactory.New.Build().Name } });
@@ -93,7 +93,7 @@
 
                 this.branchRepository.Setup(x => x.GetAllValidBranches()).Throws(exception);
 
-                this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception, "An error occcured when getting branches!"))
+                this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception, "An error occurred when getting branches!"))
                     .Returns(new HttpResponseMessage());
                 
                 this.Controller.Get();
@@ -106,7 +106,7 @@
             public void ShouldSaveTheBranchesForTheLoggedInUser()
             {
                 var branches = new Branch[] { BranchFactory.New.Build(), BranchFactory.New.Build() };
-                this.branchService.Setup(x => x.SaveBranchesForUser(branches, ""));
+                this.branchService.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<string>()));
 
                 var response = this.Controller.Post(branches);
 
@@ -132,7 +132,7 @@
                 var branches = new Branch[] { BranchFactory.New.Build(), BranchFactory.New.Build() };
                 var exception = new Exception();
 
-                this.branchService.Setup(x => x.SaveBranchesForUser(It.IsAny<Branch[]>(), "")).Throws(exception);
+                this.branchService.Setup(x => x.SaveBranchesForUser(It.IsAny<Branch[]>(), It.IsAny<string>())).Throws(exception);
                 this.logger.Setup(x => x.LogError("Error when trying to save branches for the user", exception));
                 var response = this.Controller.Post(branches);
 

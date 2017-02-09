@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace PH.Well.BDD.Framework.Extensions
@@ -19,13 +16,8 @@ namespace PH.Well.BDD.Framework.Extensions
 
         public bool RowCountMatches { get; set; }
 
-        public bool HasError
-        {
-            get
-            {
-                return !(this.RowCountMatches && this.Errors.Count == 0);
-            }
-        }
+        public bool HasError => !this.RowCountMatches || this.Errors.Any();
+
 
         public class CellError
         {

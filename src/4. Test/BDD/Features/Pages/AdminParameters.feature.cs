@@ -617,8 +617,6 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("I save the branch selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 215
  testRunner.Then("all the branches are saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 216
- testRunner.When("I navigate to the user threshold levels page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             this.ScenarioCleanup();
         }

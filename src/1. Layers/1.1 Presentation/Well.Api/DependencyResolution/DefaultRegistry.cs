@@ -62,7 +62,6 @@ namespace PH.Well.Api.DependencyResolution
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
 
             // Mappers
-            For<IRouteModelsMapper>().Use<RouteModelsMapper>();
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
             For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();

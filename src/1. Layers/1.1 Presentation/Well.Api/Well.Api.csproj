@@ -221,7 +221,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GlobalSettingsController.cs" />
     <Compile Include="Controllers\WidgetController.cs" />
-    <Compile Include="Controllers\RouterHeaderController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />

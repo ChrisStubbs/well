@@ -27,7 +27,7 @@ export class PendingCreditConfirmationModal {
     }
 
     public yes() {
-        this.exceptionDeliveryService.credit(this.pendingCredit)
+        /*this.exceptionDeliveryService.credit(this.pendingCredit)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
@@ -46,6 +46,6 @@ export class PendingCreditConfirmationModal {
                 this.isVisible = false;
 
                 this.onAccepted.emit(this.pendingCredit);
-            });
+            });*/
     }
 }

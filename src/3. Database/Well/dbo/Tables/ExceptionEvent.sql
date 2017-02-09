@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ExceptionEvent]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
-	[Event] VARCHAR(2500) NOT NULL,
+	[Event] VARCHAR(MAX) NOT NULL,
 	[ExceptionActionId] INT NOT NULL,
 	[Processed] BIT NOT NULL DEFAULT 0,
 	[DateCanBeProcessed] DATETIME NOT NULL,

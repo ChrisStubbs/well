@@ -111,11 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ClearClean.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\ActionDeliveryLine.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ActionDeliveryLine.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Pages\AdminParameters.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -175,6 +170,7 @@
     <Compile Include="Framework\Context\UrlContextWrapper.cs" />
     <Compile Include="Framework\Driver.cs" />
     <Compile Include="Framework\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Framework\Extensions\GridExtensions.cs" />
     <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
     <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />
@@ -260,10 +256,6 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ClearClean.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Pages\ActionDeliveryLine.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ActionDeliveryLine.feature.cs</LastGenOutput>
-    </None>
     <None Include="Features\Pages\AdminParameters.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AdminParameters.feature.cs</LastGenOutput>
@@ -318,6 +310,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\1. Layers\1.1 Presentation\Well.Api\Well.Api.csproj">
+      <Project>{22815DD8-A36A-4D28-85B2-B105E57CE597}</Project>
+      <Name>Well.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\1. Layers\1.2 Services\Well.Services\Well.Services.csproj">
       <Project>{8c839ee3-9b46-4d0b-a38b-6e653e471fbf}</Project>
       <Name>Well.Services</Name>

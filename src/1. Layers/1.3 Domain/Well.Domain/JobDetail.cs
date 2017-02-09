@@ -94,6 +94,12 @@
         [XmlIgnore]
         public int ShortQty { get; set; }
 
+        [XmlIgnore]
+        public int ShortsActionId { get; set; }
+
+        [XmlIgnore]
+        public DeliveryAction ShortsAction => (DeliveryAction)this.ShortsActionId;
+
         //Workaround for nullable int element
         [XmlElement("ShortQty")]
         public string ShortQtyFromXml
@@ -239,7 +245,8 @@
             {
                 return false;
             }
-            return JobDetailDamages.Any(d => d.Qty > 0) ? false : true;
+
+            return !this.JobDetailDamages.Any(d => d.Qty > 0);
         }
 
         public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)
@@ -279,18 +286,18 @@
 
             if (damagesChanged && originalDamages.Count == 0)
             {
-                auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.GetDamageString()))}. ");
+                auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.ToString()))}. ");
             }
             else if (damagesChanged && damages.Count == 0)
             {
                 auditBuilder.Append(
-                    $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}. ");
+                    $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.ToString()))}. ");
             }
             else if (damagesChanged)
             {
                 auditBuilder.Append($"Damages changed from " +
-                    $"'{string.Join(", ", originalDamages.Select(d => d.GetDamageString()))}' to " +
-                    $"'{string.Join(", ", damages.Select(d => d.GetDamageString()))}'. ");
+                    $"'{string.Join(", ", originalDamages.Select(d => d.ToString()))}' to " +
+                    $"'{string.Join(", ", damages.Select(d => d.ToString()))}'. ");
             }
         }
 

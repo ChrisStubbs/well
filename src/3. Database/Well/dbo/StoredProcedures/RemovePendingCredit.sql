@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE  [dbo].[RemovePendingCredit]
-	@invoiceNumber VARCHAR(50)
+	@jobId VARCHAR(50)
 AS
 BEGIN
 
 	SET NOCOUNT ON;
-	UPDATE PendingCreditToUSer SET IsDeleted = 1 WHERE InvoiceNumber = @invoiceNumber
+	UPDATE PendingCreditToUSer SET IsDeleted = 1 WHERE JobId = @jobId
 END

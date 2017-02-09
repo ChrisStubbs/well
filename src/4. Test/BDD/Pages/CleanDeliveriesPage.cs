@@ -7,7 +7,7 @@
     {
         public CleanDeliveriesPage()
         {
-            this.RoutesGrid = new Grid<CleanDeliveriesGrid> { Locator = By.Id("tableCleanDeliveries"), RowLocator = By.ClassName("grid-row") };
+            this.Grid = new Grid<CleanDeliveriesGrid> { Locator = By.Id("tableCleanDeliveries"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
@@ -20,7 +20,7 @@
 
         protected override string UrlSuffix => "clean";
 
-        public Grid<CleanDeliveriesGrid> RoutesGrid { get; set; }
+        public Grid<CleanDeliveriesGrid> Grid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
 
@@ -53,13 +53,14 @@
     public enum CleanDeliveriesGrid
     {
         Route = 0,
-        Drop = 1,
-        InvoiceNo = 2,
-        Account = 3,
-        AccountName = 4,
-        CashOnDelivery = 5,
-        Contact= 6,
-        Assigned = 7,
-        LastUpdatedDateTime = 7
+        Branch = 1,
+        Drop = 2,
+        InvoiceNo = 3,
+        Account = 4,
+        AccountName = 5,
+        CashOnDelivery = 6,
+        Contact= 7,
+        Assigned = 8,
+        LastUpdatedDateTime = 9
     }
 }

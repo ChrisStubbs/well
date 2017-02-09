@@ -1,21 +1,21 @@
 ﻿import {BaseDelivery} from '../shared/baseDelivery';
 
 export class ExceptionDelivery extends BaseDelivery {
-    routeNumber: string;
-    dropId: string;
-    invoiceNumber: number;
-    accountName: string;
-    jobStatus: string;
-    action: string;
-    assigned: string;
-    deliveryDate: Date;
-    accountId: string;
-    canAction: boolean;
-    totalCreditValueForThreshold: number;
-    formattedDeliveryDate: string;
-    formattedPendingCreditCreatedBy: string;
-    cashOnDelivery: string;
-    totalCredit: string;
-    isPending: boolean;
-    totalOutersShort: number;
+    public  routeNumber: string;
+    public  dropId: string;
+    public  invoiceNumber: number;
+    public  accountName: string;
+    public  jobStatus: string;
+    public  action: string;
+    public  assigned: string;
+    public  deliveryDate: Date;
+    public  accountId: string;
+    public  canAction: boolean;
+    public  totalCreditValueForThreshold: number;
+    public  formattedDeliveryDate: string;
+    public  formattedPendingCreditCreatedBy: string;
+    public  cashOnDelivery: string;
+    public  totalCredit: string;
+    public  isPending: boolean;
+    public  totalOutersShort: number;
 }

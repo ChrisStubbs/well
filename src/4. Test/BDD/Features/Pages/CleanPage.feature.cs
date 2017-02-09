@@ -88,27 +88,31 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName"});
             table1.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van"});
             table1.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "92874.033",
-                        "2874.033",
+                        "92545470",
+                        "02874.033",
                         "CSG - must be CF van"});
             table1.AddRow(new string[] {
                         "001",
+                        "22",
                         "2",
-                        "92874.033",
-                        "2874.033",
+                        "92545470",
+                        "02874.033",
                         "RVS SHOP"});
 #line 15
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table1, "Then ");
@@ -161,50 +165,57 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName"});
             table3.AddRow(new string[] {
                         "006",
+                        "22",
                         "1",
-                        "943362.048",
+                        "91156028",
                         "43362.048",
                         "WB - SHOP"});
             table3.AddRow(new string[] {
                         "006",
+                        "22",
                         "1",
-                        "92874.033",
-                        "2874.033",
+                        "92544765",
+                        "02874.033",
                         "WB - SHOP"});
             table3.AddRow(new string[] {
                         "006",
+                        "22",
                         "2",
-                        "954107.000",
+                        "94295479",
                         "54107.000",
                         "WB - SHELL FORECOURT"});
             table3.AddRow(new string[] {
                         "006",
+                        "22",
                         "2",
-                        "954107.000",
+                        "94294985",
                         "54107.000",
                         "WB - SHELL FORECOURT"});
 #line 33
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table3, "Then ");
 #line 40
- testRunner.When("I filter the clean delivery grid with the option \'Invoice No\' and value \'949214.1" +
-                    "52\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I filter the clean delivery grid with the option \'Invoice No\' and value \'94294343" +
+                    "\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName"});
             table4.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van"});
 #line 41
@@ -214,14 +225,16 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName"});
             table5.AddRow(new string[] {
                         "011",
+                        "22",
                         "5",
-                        "928398.080",
+                        "92545853",
                         "28398.080",
                         "TESCO EXPRESS"});
 #line 45
@@ -232,21 +245,24 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName"});
             table6.AddRow(new string[] {
                         "006",
+                        "22",
                         "1",
-                        "943362.048",
+                        "91156028",
                         "43362.048",
                         "WB - SHOP"});
             table6.AddRow(new string[] {
                         "006",
+                        "22",
                         "1",
-                        "92874.033",
-                        "2874.033",
+                        "92544765",
+                        "02874.033",
                         "WB - SHOP"});
 #line 49
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table6, "Then ");
@@ -274,32 +290,36 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "LastUpdatedDateTime"});
+                        "DeliveryDate"});
             table7.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
-                        "Sep 7, 2016, 1:27:17 PM"});
+                        "07/01/2016"});
             table7.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "92874.033",
-                        "2874.033",
+                        "92545470",
+                        "02874.033",
                         "CSG - must be CF van",
-                        "Sep 7, 2016, 1:27:16 PM"});
+                        "07/01/2016"});
             table7.AddRow(new string[] {
                         "001",
+                        "22",
                         "2",
-                        "92874.033",
-                        "2874.033",
+                        "92545470",
+                        "02874.033",
                         "RVS SHOP",
-                        "Sep 7, 2016, 1:27:15 PM"});
+                        "07/01/2016"});
 #line 60
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table7, "Then ");
 #line 65
@@ -307,32 +327,36 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
+                        "Branch",
                         "Drop",
                         "InvoiceNo",
                         "Account",
                         "AccountName",
-                        "LastUpdatedDateTime"});
+                        "DeliveryDate"});
             table8.AddRow(new string[] {
                         "001",
+                        "22",
                         "2",
-                        "92874.033",
-                        "2874.033",
+                        "92545470",
+                        "02874.033",
                         "RVS SHOP",
-                        "Sep 7, 2016, 1:27:15 PM"});
+                        "07/01/2016"});
             table8.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "92874.033",
-                        "2874.033",
+                        "92545470",
+                        "02874.033",
                         "CSG - must be CF van",
-                        "Sep 7, 2016, 1:27:16 PM"});
+                        "07/01/2016"});
             table8.AddRow(new string[] {
                         "001",
+                        "22",
                         "1",
-                        "949214.152",
+                        "94294343",
                         "49214.152",
                         "CSG - must be CF van",
-                        "Sep 7, 2016, 1:27:17 PM"});
+                        "07/01/2016"});
 #line 66
  testRunner.Then("The following clean deliveries ordered by date will be displayed in \'desc\' order", ((string)(null)), table8, "Then ");
 #line hidden

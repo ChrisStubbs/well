@@ -6,9 +6,10 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Domain;
-    using Domain.Enums;
     using Models;
+
+    using PH.Well.Api.Mapper.Contracts;
+
     using Repositories.Contracts;
     using Services.Contracts;
 
@@ -17,15 +18,18 @@
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IDeliveryService deliveryService;
+        private readonly IDeliveryLineToJobDetailMapper deliveryLineToJobDetailMapper;
 
         public DeliveryLineController(
             IServerErrorResponseHandler serverErrorResponseHandler,
             IJobDetailRepository jobDetailRepository,
-            IDeliveryService deliveryService)
+            IDeliveryService deliveryService,
+            IDeliveryLineToJobDetailMapper deliveryLineToJobDetailMapper)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
             this.deliveryService = deliveryService;
+            this.deliveryLineToJobDetailMapper = deliveryLineToJobDetailMapper;
             this.jobDetailRepository.CurrentUser = UserIdentityName;
         }
 
@@ -49,25 +53,7 @@
                     });
                 }
 
-                jobDetail.ShortQty = model.ShortQuantity;
-                jobDetail.JobDetailReasonId = model.JobDetailReasonId;
-                jobDetail.JobDetailSourceId = model.JobDetailSourceId;
-
-                var damages = new List<JobDetailDamage>();
-
-                foreach (var damageUpdateModel in model.Damages)
-                {
-                    var damage = new JobDetailDamage
-                    {
-                        JobDetailReason = (JobDetailReason)damageUpdateModel.JobDetailReasonId,
-                        JobDetailSource = (JobDetailSource)damageUpdateModel.JobDetailSourceId,
-                        JobDetailId = jobDetail.Id,
-                        Qty = damageUpdateModel.Quantity
-                    };
-                    damages.Add(damage);
-                }
-
-                jobDetail.JobDetailDamages = damages;
+                this.deliveryLineToJobDetailMapper.Map(model, jobDetail);
 
                 deliveryService.UpdateDeliveryLine(jobDetail, UserIdentityName);
 

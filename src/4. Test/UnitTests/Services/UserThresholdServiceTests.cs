@@ -49,9 +49,9 @@
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
                 this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
 
-                var canCredit = this.service.CanUserCredit(username, creditValue);
+                var thresholdResponse = this.service.CanUserCredit(username, creditValue);
 
-                Assert.IsTrue(canCredit);
+                Assert.IsTrue(thresholdResponse.CanUserCredit);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);
@@ -72,9 +72,9 @@
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
                 this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
 
-                var canCredit = this.service.CanUserCredit(username, creditValue);
+                var thresholdResponse = this.service.CanUserCredit(username, creditValue);
 
-                Assert.IsFalse(canCredit);
+                Assert.IsFalse(thresholdResponse.CanUserCredit);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);
@@ -85,18 +85,19 @@
         {
             public void ShouldAssignLevel2ThresholdToUser()
             {
-                var creditEvent = new CreditEvent { BranchId = 22, TotalCreditValueForThreshold = 100 };
+                var branchId = 22;
+                var totalThresholdAmount = 100;
                 var user = new User();
 
                 var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Threshold = 100 };
 
-                this.creditThresholdRepository.Setup(x => x.GetByBranch(creditEvent.BranchId)).Returns(new List<CreditThreshold> { level2Threshold });
+                this.creditThresholdRepository.Setup(x => x.GetByBranch(branchId)).Returns(new List<CreditThreshold> { level2Threshold });
 
                 this.userRepository.Setup(x => x.GetUserByCreditThreshold(level2Threshold)).Returns(user);
 
-                this.creditThresholdRepository.Setup(x => x.AssignPendingCreditToUser(user, creditEvent, "foo"));
+                this.creditThresholdRepository.Setup(x => x.AssignPendingCreditToUser(user, 1, "foo"));
 
-                this.service.AssignPendingCredit(creditEvent, "");
+                this.service.AssignPendingCredit(branchId, totalThresholdAmount, 1, "");
             }
 
             public void ShouldAssignLevel1ThresholdToUser()

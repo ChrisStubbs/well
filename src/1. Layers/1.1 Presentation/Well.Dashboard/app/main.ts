@@ -1,4 +1,4 @@
-﻿declare var require;
+﻿//declare var require;
 
 import 'reflect-metadata';
 require('core-js/client/shim.min.js');
@@ -18,7 +18,22 @@ import 'rxjs';
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 import * as _ from 'lodash';
-//require('es6-promise');
+
+// require('../Content/Site.less');
+// require('../Content/css/6-chasing-dots.css');
+// require('../Content/css/primeng.css');
+// require('../Content/css/ngprime-theme.css');
+
+// let style = require('style-loader/useable!css-loader!./shared/primeng/resources/primeng.css?singleton&insertAt=top');
+// style.use();
+
+/* tslint:disable */
+// style = require('style-loader/useable!css-loader!./Content/css/theme.css?singleton&insertAt=top');
+// style.use();
+/* tslint:enable */
+
+// style = require('style-loader/useable!css-loader!../Content/css/bootstrap.min.css?singleton&insertAt=top');
+// style.use();
 
 // You can import js, ts, css, sass, ...
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

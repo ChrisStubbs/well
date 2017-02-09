@@ -13,7 +13,6 @@
             true,
             "spaces"
         ],
-        "linebreak-style": [ true, "CRLF" ],
         "one-line": [
             true,
             "check-open-brace",
@@ -46,7 +45,6 @@
             }
         ],
         "no-internal-module": true,
-        "no-inferrable-types": true,
         "no-null-keyword": true,
         "prefer-const": true
     }

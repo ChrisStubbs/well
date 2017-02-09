@@ -5,6 +5,7 @@
 	@JobDetailStatusId		INT,
 	@JobDetailReasonId		TINYINT,
 	@JobDetailSourceId		TINYINT,
+	@ShortsActionId INT,
 	@LineDeliveryStatus		INT,
 	@SubOuterDamageQty		INT,
 	@ProductCode			VARCHAR(60),
@@ -31,6 +32,7 @@ UPDATE
       ,[JobDetailStatusId] = @JobDetailStatusId
 	  ,[JobDetailReasonId] = @JobDetailReasonId
 	  ,[JobDetailSourceId] = @JobDetailSourceId
+	  ,[ShortsActionId] = @ShortsActionId
 	  ,[LineDeliveryStatus] = @LineDeliveryStatus
 	  ,SubOuterDamageTotal = @SubOuterDamageQty
 	  ,PHProductCode = @ProductCode

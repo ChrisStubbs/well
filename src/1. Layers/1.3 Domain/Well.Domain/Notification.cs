@@ -12,7 +12,7 @@
 
         public bool IsArchived { get; set; }
 
-        public string PhAccount { get; set; } 
+        public string Account { get; set; } 
 
         public string PicklistRef { get; set; }
 
@@ -20,9 +20,18 @@
 
         public string ContactName { get; set; }
 
-        public string DepotId { get; set; }
+        public string Branch { get; set; }
 
         public string UserName { get; set; }
+
+        public string ErrorMessage { get; set; }
+
+        public string LineNumber { get; set; }
+
+        public string AdamErrorNumber { get; set; }
+
+        public string AdamCrossReference { get; set; }
+
 
     }
 }

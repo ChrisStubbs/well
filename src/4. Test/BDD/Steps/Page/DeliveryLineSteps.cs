@@ -102,6 +102,54 @@
             page.ShortQtyTextBox.EnterText(shortQty);
         }
 
+        [When(@"I select a short action of '(.*)'")]
+        public void SelectShortAction(string shortsAction)
+        {
+            this.page.ShortActionSelect.Select(shortsAction);
+        }
+
+        [When(@"I select a short reason of '(.*)'")]
+        public void SelectShortReason(string shortsReason)
+        {
+            this.page.ShortReasonSelect.Select(shortsReason);
+        }
+
+        [When(@"I select a short source of '(.*)'")]
+        public void SelectShortSource(string shortsSource)
+        {
+            this.page.ShortSourceSelect.Select(shortsSource);
+        }
+
+        [When(@"I enter a damage qty of '(.*)' for id '(.*)'")]
+        public void EnterDamageQuantity(string qty, int id)
+        {
+            this.page.DamageQtyInput(id).EnterText(qty);
+        }
+
+        [When(@"I enter a damage reason of '(.*)' for id '(.*)'")]
+        public void EnterDamageReason(string reason, int id)
+        {
+            this.page.DamageReasonSelect(id).Select(reason);
+        }
+
+        [When(@"I enter a damage source of '(.*)' for id '(.*)'")]
+        public void EnterDamageSource(string source, int id)
+        {
+            this.page.DamageSourceSelect(id).Select(source);
+        }
+
+        [When(@"I enter a damage action of '(.*)' for id '(.*)'")]
+        public void EnterDamageAction(string action, int id)
+        {
+            this.page.DamageActionSelect(id).Select(action);
+        }
+
+        [When(@"click add damage button")]
+        public void ClickAddDamageButton()
+        {
+            page.AddDamageButton.Click();
+        }
+
         [When(@"I add a damage qty of '(.*)' and reason '(.*)'")]
         public void WhenIAddADamageQtyAndReason(string damageQuantity, string reasonCode)
         {
@@ -176,7 +224,8 @@
             for (int i = 0; i < pageRows.Count; i++)
             {
                 Assert.AreEqual("true", pageRows[i].GetItemInRowById($"damage-qty-input{i}").GetAttribute("disabled"));
-                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"reason-select{i}").GetAttribute("disabled"));
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"damage-reason-select{i}").GetAttribute("disabled"));
+                Assert.AreEqual("true", pageRows[i].GetItemInRowById($"damage-source-select{i}").GetAttribute("disabled"));
                 Assert.AreEqual("true", pageRows[i].GetItemInRowById($"remove-damage-button{i}").GetAttribute("disabled"));
             }
 

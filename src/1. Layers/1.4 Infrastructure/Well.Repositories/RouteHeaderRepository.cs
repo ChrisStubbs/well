@@ -8,8 +8,6 @@
     using Contracts;
     using Domain;
 
-    using PH.Well.Domain.Enums;
-
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
         private readonly IStopRepository stopRepository;

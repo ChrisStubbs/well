@@ -7,7 +7,6 @@
     using Contracts;
     using Dapper;
     using Domain;
-    using Domain.ValueObjects;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
@@ -99,6 +98,7 @@
                 .AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32)
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32)
                 .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String)
@@ -136,24 +136,6 @@
             dapperProxy.WithStoredProcedure("JobDetail_CreditLines")
                 .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .Execute();
-        }
-
-        public IEnumerable<JobDetailsWithAction> GetJobDetailsWithActions(int jobId, int action)
-        {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailsWithAction)
-                .AddParameter("jobId", jobId, DbType.Int32)
-                .AddParameter("action", action, DbType.Int16)
-                .Query<JobDetailsWithAction>();
-
-        }
-
-        public IEnumerable<JobDetailsWithAction> GetJobDetailDamagesWithActions(int jobId, int action)
-        {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamagesWithAction)
-                .AddParameter("jobId", jobId, DbType.Int32)
-                .AddParameter("action", action, DbType.Int16)
-                .Query<JobDetailsWithAction>();
-
         }
     }
 }

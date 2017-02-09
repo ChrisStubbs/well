@@ -4,6 +4,9 @@
 
     public enum DeliveryAction
     {
+        [Description("Not Defined")]
+        NotDefined = 0,
+
         [Description("Credit")]
         Credit = 1,
 

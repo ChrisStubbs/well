@@ -6,8 +6,8 @@ BEGIN
 	SELECT jd.JobId AS Id,
 		jd.PHProductCode AS ProductCode,
 		jda.ActionId AS [Action],
-		jdd.JobDetailReason AS Reason,
-		jdd.JobDetailSource AS [Source],
+		jdd.JobDetailReasonId AS Reason,
+		jdd.JobDetailSourceId AS [Source],
 		jda.Quantity
 	FROM 
 		dbo.JobDetail jd

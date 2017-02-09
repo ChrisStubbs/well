@@ -172,5 +172,30 @@
                 this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
             }
         }
+
+        public class TheGetBRanchIdForJobMethod : BranchRepositoryTests
+        {
+            [Test]
+            public void ShouldReturnTheBranchIdForAJob()
+            {
+                var jobId = 43;
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.GetBranchIdForJob))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("jobId", jobId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new List<int> { 1 });
+
+                this.repository.GetBranchIdForJob(jobId);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.GetBranchIdForJob), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("jobId", jobId, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<int>(), Times.Once);
+            }
+        }
     }
 }

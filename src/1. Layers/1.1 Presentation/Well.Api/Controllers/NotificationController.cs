@@ -46,19 +46,31 @@
 
         }
 
-        [Route("notification/credit")]
+        [Route("notification/adamError")]
         [HttpPost]
-        public HttpResponseMessage Post(CreditFail credit)
+        public HttpResponseMessage Post(AdamFail failure)
         {
             try
             {
-                if (credit.JobId > 0)
+                if (failure.JobId > 0)
                 {
+                    string[] substrings = failure.JobParameters.Split(',');
+                    int type;
+                    Int32.TryParse(substrings[0], out type);
+
+
                     var notification = new Notification
                     {
-                        JobId = credit.JobId,
-                        Reason = credit.Reason, 
-                        Type = (int) NotificationType.Credit,
+                        JobId = failure.JobId,
+                        ErrorMessage = failure.ErrorMessage, 
+                        Type = type,
+                        Branch = substrings[1],
+                        Account = substrings[2],
+                        InvoiceNumber = substrings[3],
+                        LineNumber = substrings[4],
+                        AdamErrorNumber = substrings[5],
+                        AdamCrossReference = substrings[6],
+                        UserName = failure.Operator,
                         Source = "ADAMCSS"
                     };
 
@@ -70,7 +82,7 @@
             }
             catch (Exception exception)
             {
-                this.logger.LogError("Error when trying to save credit failure notification ", exception);
+                this.logger.LogError("Error when trying to save ADAM failure notification ", exception);
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }

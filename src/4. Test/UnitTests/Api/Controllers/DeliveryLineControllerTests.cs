@@ -10,6 +10,7 @@
     using Moq;
     using NUnit.Framework;
     using PH.Well.Api.Controllers;
+    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Contracts;
     using Repositories.Contracts;
     using Well.Api.Models;
@@ -23,6 +24,7 @@
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IDeliveryService> deliveryService;
+        private Mock<IDeliveryLineToJobDetailMapper> deliveryLineToJobDetailMapper;
 
         [SetUp]
         public void Setup()
@@ -30,13 +32,15 @@
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
+            this.deliveryLineToJobDetailMapper = new Mock<IDeliveryLineToJobDetailMapper>(MockBehavior.Strict);
 
             jobDetailRepository.SetupSet(r => r.CurrentUser = It.IsAny<string>());
 
             Controller = new DeliveryLineController(
                 serverErrorResponseHandler.Object,
                 jobDetailRepository.Object,
-                deliveryService.Object);
+                deliveryService.Object,
+                this.deliveryLineToJobDetailMapper.Object);
 
             SetupController();
         }
@@ -107,23 +111,17 @@
                     ShortQty = 0
                 });
 
+                this.deliveryLineToJobDetailMapper.Setup(x => x.Map(model, It.IsAny<JobDetail>()));
+
                 deliveryService.Setup(r => r.UpdateDeliveryLine(It.IsAny<JobDetail>(), It.IsAny<string>()));
 
                 HttpResponseMessage response = Controller.Update(model);
 
-                deliveryService.Verify(r => r.UpdateDeliveryLine(
-                    It.Is<JobDetail>(j => j.JobDetailDamages[0].Qty == model.Damages[0].Quantity &&
-                                          j.JobDetailDamages[0].JobDetailReason == JobDetailReason.AccumulatedDamages &&
-                                          j.JobDetailDamages[1].Qty == model.Damages[1].Quantity &&
-                                          j.JobDetailDamages[1].JobDetailReason == JobDetailReason.BookingError),
-                    It.IsAny<string>()), Times.Once);
-
-                deliveryService.Verify(d => d.UpdateDeliveryLine(It.Is<JobDetail>(j => j.JobId == model.JobId &&
-                                                                                       j.LineNumber == model.LineNo &&
-                                                                                       j.ShortQty == model.ShortQuantity),
-                    It.IsAny<string>()), Times.Once);
+                deliveryService.Verify(r => r.UpdateDeliveryLine(It.IsAny<JobDetail>(), It.IsAny<string>()), Times.Once);
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+                this.deliveryLineToJobDetailMapper.Verify(x => x.Map(model, It.IsAny<JobDetail>()), Times.Once);
             }
 
             [Test]

@@ -2,13 +2,12 @@
     id: number;
     jobId: number;
     type: number;
-    reason: number;
-    phAccount: string;
-    picklistRef: string;
+    errorMessage: number;
+    account: string;
     invoiceNumber: string;
-    contactName: string;
-    depotId: number;
+    branch: number;
+    adamErrorNumber: string;
+    adamCrossReference: string;
     userName: string;
-
    
 }

@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
     using Domain.ValueObjects;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
@@ -102,6 +103,7 @@
                 .AddParameter("ReCallPrd", entity.ReCallPrd, DbType.Boolean)
                 .AddParameter("AllowSOCrd", entity.AllowSoCrd, DbType.Boolean)
                 .AddParameter("COD", entity.Cod, DbType.String)
+                .AddParameter("GrnProcessingType", entity.GrnProcessType, DbType.Int16)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("SandwchOrd", entity.SandwchOrd, DbType.Boolean)
                 .AddParameter("PerformanceStatusId", (int)entity.PerformanceStatus, DbType.Int16)
@@ -114,6 +116,7 @@
                 .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int16)
                 .AddParameter("Picked", entity.Picked, DbType.Boolean)
                 .AddParameter("InvoiceValue", entity.InvoiceValue, DbType.Decimal)
+                .AddParameter("ProofOfDelivery", entity.ProofOfDelivery, DbType.Int16)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
@@ -165,21 +168,6 @@
                    .Query<PodActionReasons>();
         }
 
-        public void CreditLines(DataTable creditLinesTable)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.CreditJob)
-                .AddParameter("CreditLines", creditLinesTable, DbType.Object)
-                .Execute();
-        }
-
-        public void JobPendingCredits(DataTable creditLinesTable, int userId)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditsInsert)
-                .AddParameter("CreditLines", creditLinesTable, DbType.Object)
-                .AddParameter("UserId", userId, DbType.Int32)
-                .Execute();
-        }
-
         public void SaveGrn(int jobId, string grn)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveGrn)
@@ -193,6 +181,14 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.ResolveJobAndJobDetails)
                 .AddParameter("jobId", jobId, DbType.Int32)
                 .Execute();                
+        }
+
+        public void SetJobToSubmittedStatus(int jobId)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobSetToStatus)
+                .AddParameter("jobId", jobId, DbType.Int32)
+                .AddParameter("status", PerformanceStatus.Submitted, DbType.Int16)
+                .Execute();
         }
     }
 }

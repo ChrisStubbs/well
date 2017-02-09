@@ -2,16 +2,20 @@
 {
     using System;
     using System.Xml.Serialization;
-    using Common.Extensions;
+
     using Enums;
+
+    using PH.Well.Domain.Extensions;
+
     using ValueObjects;
+
+    using StringExtensions = PH.Well.Common.Extensions.StringExtensions;
 
     [Serializable()]
     public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
     {
-        public JobDetailDamage()
-        {
-        }
+        [XmlIgnore]
+        public int DamageActionId { get; set; }
 
         [XmlIgnore]
         public int Qty { get; set; }
@@ -21,7 +25,7 @@
         {
             get
             {
-                return this.Qty.ToString();                    
+                return this.Qty.ToString();
             }
             set
             {
@@ -45,6 +49,12 @@
 
         [XmlIgnore]
         public DamageSource Source { get; set; }
+
+        [XmlIgnore]
+        public int JobDetailReasonId { get; set; }
+
+        [XmlIgnore]
+        public int JobDetailSourceId { get; set; }
 
         // TODO remove this as wont work
         [XmlIgnore]
@@ -94,9 +104,10 @@
             }
         }
 
-        public string GetDamageString()
+        public override string ToString()
         {
-            return $"{this.JobDetailReason.ToString()} - {Qty}";
+            return
+                $"Reason - {EnumExtensions.GetDescription((JobDetailReason)this.JobDetailReasonId)}, Source - {EnumExtensions.GetDescription((JobDetailSource)this.JobDetailSourceId)}, Action - {EnumExtensions.GetDescription((DeliveryAction)this.DamageActionId)} - {this.Qty}";
         }
 
         public bool Equals(JobDetailDamage other)

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
+    using Enums;
 
     public class Delivery
     {
@@ -60,9 +61,13 @@
 
         public void SetCanAction(string username)
         {
+            if (this.JobStatus == PerformanceStatus.Submitted.ToString())
+                this.CanAction = false;
+            else
             this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
 
         public int TotalOutersShort { get; set; }
+
     }
 }

@@ -18,9 +18,11 @@ export class Delivery {
             this.cashOnDelivery = delivery.cashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
-            this.canSubmit = delivery.canSubmit;
+            this.canSubmit = delivery.canSubmit; 
             this.grnNumber = delivery.grnNumber;
             this.branchId = delivery.branchId;
+            this.grnProcessType = delivery.grnProcessType;
+            this.proofOfDelivery = delivery.proofOfDelivery;
 
             if (delivery.exceptionDeliveryLines) {
                 for (const line of delivery.exceptionDeliveryLines) {
@@ -49,11 +51,13 @@ export class Delivery {
     public deliveryType: string;
     public cashOnDelivery: string;
     public isException: boolean;
-    public canAction: boolean;
+    public canAction: boolean; 
     public canSubmit: boolean;
-    public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public grnNumber: string;
+    public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public branchId: number;
+    public grnProcessType: number;
+    public proofOfDelivery: number;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     public isCleanOnInit(): boolean {

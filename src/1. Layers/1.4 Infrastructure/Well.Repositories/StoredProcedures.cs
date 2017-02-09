@@ -56,7 +56,7 @@
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
-        public static string PendingCreditsInsert = "PendingCredits_Insert";
+        public static string JobSetToStatus = "Job_SetToStatus";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";
@@ -80,6 +80,7 @@
 
         //Deliveries
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
+        public static string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
         public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
         public static string PendingCreditDeliveriesGet = "PendingCreditDeliveriesGet";
@@ -156,5 +157,7 @@
 
         //User
         public static string UserGetCreditThreshold = "User_GetCreditThreshold";
+
+        public static string GetBranchIdForJob = "GetBranchIdForJob";
     }
 }

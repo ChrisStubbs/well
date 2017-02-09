@@ -7,7 +7,9 @@ USING	(VALUES	(1,'Credit','deployment',GETDATE(),'deployment',GETDATE()),
 				(4,'ReplanInTranscend','deployment',GETDATE(),'deployment',GETDATE()),
 				(5,'ReplanInTheQueue','deployment',GETDATE(),'deployment',GETDATE()),
 				(6,'Reject','deployment',GETDATE(),'deployment',GETDATE()),
-				(7,'Grn','deployment',GETDATE(),'deployment',GETDATE()))
+				(7,'Grn','deployment',GETDATE(),'deployment',GETDATE()),
+				(8,'CreditTransaction','deployment',GETDATE(),'deployment',GETDATE()))
+
 AS Source ([Id],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]
 

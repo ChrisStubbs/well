@@ -4,6 +4,8 @@
     {
         WellApi = 1,
 
-        WellAdamXmlImport = 2
+        WellAdamXmlImport = 2,
+
+        WellTaskRunner = 3
     }
 }

@@ -6,9 +6,9 @@ import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {IUser} from '../shared/user';
-import {UserJob} from '../shared/userJob';
 import {LogService} from '../shared/logService';
-import {Threshold} from '../shared/threshold';
+import { Threshold } from '../shared/threshold';
+import { DeliveryLine } from '../delivery/model/deliveryLine';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -41,11 +41,18 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public credit(exception: ExceptionDelivery): Observable<any> {
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit',
-            JSON.stringify(exception),
-            this.options)
-            .map(res => res.json());
+    public getConfirmationDetails(jobId: number): Observable<DeliveryLine[]> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line-actions/' + jobId)
+            .map(res => res.json());  
+    }
+
+    public submitExceptionConfirmation(jobId: number): Observable<any> {
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'confirm-delivery-lines/' + jobId,
+                JSON.stringify(''),
+                this.options)
+            .map(response => response.json())
+            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
+            .catch(e => this.httpErrorService.handleError(e));
     }
 
     public creditLines(creditlines: any[]): Observable<any> {
@@ -58,7 +65,7 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getUserCreditThreshold(user): Observable<any> {
+    public getUserCreditThreshold(): Observable<any> {
 
         const url = this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold/getByUser';
 

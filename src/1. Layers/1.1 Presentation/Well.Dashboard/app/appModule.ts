@@ -1,24 +1,21 @@
 ﻿/* tslint:disable:max-line-length */
-
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ToasterModule, ToasterService } from 'angular2-toaster/angular2-toaster';
+import { ToasterModule, ToasterService } from 'angular2-toaster';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
-import {TabsModule} from 'ng2-tabs';
+import {TabsModule} from 'ng2-tabs'; 
 import {AppComponent} from './appComponent';
 import {routing, appRoutingProviders} from './appRoutes';
-import {AccountComponent} from './account/accountComponent';
+import {AccountComponent} from './account/accountComponent'; 
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
-import {DeliveryActionsComponent} from './delivery/deliveryActionsComponent';
-import {SubmitConfirmModal} from './delivery/submitConfirmModal';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
@@ -44,6 +41,7 @@ import {AssignModal} from './shared/assignModal';
 import {ConfirmModal} from './shared/confirmModal';
 import {ContactModal} from './shared/contactModal';
 import {OptionFilterComponent} from './shared/optionFilterComponent';
+import {CustomDatePipe} from './shared/customDatePipe';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from './shared/orderByDatePipe';
 import {OutstandingPipe} from './shared/outstandingPipe';
@@ -51,7 +49,7 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {CodComponent} from './shared/codComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
-import {SpinnerComponent} from './shared/spinnerComponent'; 
+import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
@@ -79,24 +77,26 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
 import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
-import {CalendarModule} from './shared/primeng/primeng';
+import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
+import {CalendarModule } from './shared/primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
+import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 
 @NgModule({
     declarations: [SpinnerComponent,
-        OptionFilterComponent, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
+        OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
-        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent, SubmitConfirmModal,
-        DeliveryIssuesComponent, DeliveryActionsComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,
+        SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,
+        DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,
         AccountComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, ExceptionsComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, PendingCreditComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        CodComponent
+        CodComponent, ExceptionsConfirmModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
@@ -105,7 +105,7 @@ import { AuditService } from './audit/auditService';
         GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService,
-        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService,
+        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService, NavigateQueryParametersService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

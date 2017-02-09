@@ -29,37 +29,69 @@
             this.logger = logger;
         }
 
-        public bool CanUserCredit(string username, decimal creditValue)
+        public ThresholdResponse CanUserCredit(string username, decimal creditValue)
         {
+            var response = new ThresholdResponse();
             var user = this.userRepository.GetByIdentity(username);
 
-            if (user == null) throw new ApplicationException($"User not found ({username})");
+            if (user == null) 
+            {
+                response.IsInError = true;
+                response.ErrorMessage = $"User not found ({username})";
+            }
 
             var threshold =
                 this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
 
-            if (threshold == null) throw new UserThresholdNotFoundException($"Threshold not found with id ({user.ThresholdLevelId})");
+            if (threshold == null) 
+            {
+                response.IsInError = true;
+                response.ErrorMessage = $"Threshold not found with id ({user.ThresholdLevelId})";
 
-            if (creditValue <= threshold.Threshold) return true;
+                return response;
+            }
 
-            return false;
+            if (creditValue <= threshold.Threshold) response.CanUserCredit = true;
+
+            return response;
         }
 
-        public void AssignPendingCredit(CreditEvent creditEvent, string originator)
+        public void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId, string originator)
         {
-            var branchSpecificThresholds = this.creditThresholdRepository.GetByBranch(creditEvent.BranchId);
+            var branchSpecificThresholds = this.creditThresholdRepository.GetByBranch(branchId);
 
-            if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level2, creditEvent, originator))
+            if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level2, branchId, totalThresholdAmount, originator, jobId))
             {
-                if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, creditEvent, originator))
+                if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, branchId, totalThresholdAmount, originator, jobId))
                 {
                     throw new ApplicationException(
-                        $"There are no levels that can handle the credit value of ({creditEvent.TotalCreditValueForThreshold}) for branch ({creditEvent.BranchId})");
+                        $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})");
                 }
             }
         }
 
-        public Dictionary<int, string> RemoveCreditEventsThatDontHaveAThreshold(List<CreditEvent> creditEvents, string originator)
+        private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, string originator, int jobId)
+        {
+            var threshold = branchThresholds.FirstOrDefault(x => x.ThresholdLevel == level);
+
+            if (threshold == null)
+                throw new ApplicationException($"Threshold not found for branch ({branchId})");
+
+            if (totalThresholdAmount <= threshold.Threshold)
+            {
+                var user = this.userRepository.GetUserByCreditThreshold(threshold);
+
+                if (user == null) throw new ApplicationException("User not found for credit threshold");
+
+                this.creditThresholdRepository.AssignPendingCreditToUser(user, jobId, originator);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /*public Dictionary<int, string> RemoveCreditEventsThatDontHaveAThreshold(List<CreditEvent> creditEvents, string originator)
         {
             var errors = new Dictionary<int, string>();
 
@@ -73,7 +105,8 @@
                     {
                         try
                         {
-                            this.AssignPendingCredit(creditEvent, originator);
+                            //todo
+                            //this.AssignPendingCredit(creditEvent, originator);
                             creditEventsToRemove.Add(creditEvent);
                         }
                         catch (ApplicationException exception)
@@ -96,27 +129,6 @@
             }
 
             return errors;
-        }
-
-        private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, CreditEvent creditEvent, string originator)
-        {
-            var threshold = branchThresholds.FirstOrDefault(x => x.ThresholdLevel == level);
-
-            if (threshold == null)
-                throw new ApplicationException($"Threshold not found for branch ({creditEvent.BranchId})");
-
-            if (creditEvent.TotalCreditValueForThreshold <= threshold.Threshold)
-            {
-                var user = this.userRepository.GetUserByCreditThreshold(threshold);
-
-                if (user == null) throw new ApplicationException("User not found for credit threshold");
-
-                this.creditThresholdRepository.AssignPendingCreditToUser(user, creditEvent, originator);
-
-                return true;
-            }
-
-            return false;
-        }
+        }*/
     }
 }

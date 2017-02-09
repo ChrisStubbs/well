@@ -1,5 +1,4 @@
 ﻿import {Damage} from './damage';
-import {DeliveryLineAction} from './deliveryLineAction';
 import * as lodash from 'lodash';
 
 export class DeliveryLine {
@@ -18,6 +17,7 @@ export class DeliveryLine {
             this.lineDeliveryStatus = line.lineDeliveryStatus;
             this.jobDetailReasonId = line.jobDetailReasonId;
             this.jobDetailSourceId = line.jobDetailSourceId;
+            this.shortsActionId = line.shortsActionId;
 
             if (line.damages) {
                 let index = 0;
@@ -26,21 +26,8 @@ export class DeliveryLine {
                         index,
                         damage.quantity,
                         damage.jobDetailReasonId,
-                        damage.jobDetailSourceId));
-                    index++;
-                }
-            }
-
-            if (line.actions) {
-                let index = 0;
-                for (const a of line.actions) {
-                    this.actions.push(new DeliveryLineAction(
-                        index,
-                        a.quantity,
-                        a.action,
-                        a.actionDescription,
-                        a.status,
-                        a.statusDescription));
+                        damage.jobDetailSourceId,
+                        damage.damageActionId));
                     index++;
                 }
             }
@@ -62,8 +49,12 @@ export class DeliveryLine {
     public lineDeliveryStatus: string;
     public jobDetailReasonId: number;
     public jobDetailSourceId: number;
+    public shortsActionId: number;
+    public jobDetailReason: string;
+    public jobDetailSource: string;
+    public shortsAction: string;
+    public totalCreditThreshold: string;
     public damages: Damage[] = new Array<Damage>();
-    public actions: DeliveryLineAction[] = new Array<DeliveryLineAction>();
     public isCleanOnInit: boolean;
 
     public isClean(): boolean {

@@ -7,24 +7,21 @@ import {Delivery} from './model/delivery';
 import {DeliveryService} from './deliveryService';
 import {DropDownItem} from '../shared/dropDownItem';
 import {SecurityService} from '../shared/security/securityService';
-import {SubmitConfirmModal} from './submitConfirmModal';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import {SubmitLine} from './model/submitLine';
 import * as lodash from 'lodash';
 
-@Component({
+@Component({  
     selector: 'ow-delivery',
     templateUrl: './app/delivery/delivery.html',
-    providers: [DeliveryService]
-})
+    providers: [DeliveryService] 
+}) 
 export class DeliveryComponent implements OnInit {
     public errorMessage: string;
     public delivery: Delivery = new Delivery(undefined);
     public rowCount: number = 10;
     public showAll: boolean = false;
     public deliveryId: number;
-    @ViewChild(SubmitConfirmModal) private submitConfirmModal: SubmitConfirmModal;
 
     public options: DropDownItem[] = [
         new DropDownItem('Exceptions', 'isException'),
@@ -63,31 +60,7 @@ export class DeliveryComponent implements OnInit {
     public lineClicked(line): void {
         this.router.navigate(['/delivery', this.delivery.id, line.lineNo]);
     }
-
-    public submitActions(): void {
-        const submitLines: SubmitLine[] = new Array<SubmitLine>();
-
-        this.addSubmissionLines(submitLines, this.delivery.exceptionDeliveryLines);
-
-        this.submitConfirmModal.submitLines = submitLines;
-        this.submitConfirmModal.show();
-    }
-
-    public addSubmissionLines(submitLines, deliveryLines) {
-        for (const line of this.delivery.exceptionDeliveryLines) {
-            const draftActions = lodash.filter(line.actions, { status: 1 });
-            if (draftActions && draftActions.length > 0) {
-                submitLines.push(new SubmitLine(line.productCode, line.productDescription, draftActions));
-            }
-        }
-    }
-
-    public submitActionsConfirmed(): void {
-        this.deliveryService.submitActions(this.delivery.id).subscribe(() => {
-            this.toasterService.pop('success', 'Delivery actions submitted.', '');
-        });
-    }
-
+    
     public saveGrn(): void {
         this.deliveryService.saveGrn(this.delivery)
             .subscribe(() => {

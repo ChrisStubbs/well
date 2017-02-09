@@ -13,6 +13,8 @@
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
 
+    using PH.Well.Api.Mapper;
+    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Services.EpodServices;
 
     using Repositories;
@@ -167,6 +169,7 @@
                                                 x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                                                 x.For<IRouteMapper>().Use<RouteMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
+                                                x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

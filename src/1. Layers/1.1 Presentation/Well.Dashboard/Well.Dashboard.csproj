@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -19,12 +20,15 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -210,7 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
-    <Content Include="app\appComponent.js" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
@@ -223,20 +226,17 @@
     <Content Include="app\credit_threshold\credit-threshold-remove-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-add-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-edit-modal.html" />
-    <Content Include="app\delivery\submit-confirm-modal.html" />
-    <Content Include="app\delivery\delivery-actions.html" />
     <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
+    <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
     <Content Include="app\shared\baseDelivery.ts" />
     <Content Include="app\delivery\model\jobDetailSource.ts" />
-    <Content Include="app\delivery\model\submitLine.ts" />
-    <Content Include="app\delivery\submitConfirmModal.ts" />
-    <Content Include="app\delivery\deliveryActionsComponent.ts" />
     <Content Include="app\delivery\deliveryIssuesComponent.ts" />
     <Content Include="app\exceptions\exceptions-list.html" />
     <Content Include="app\home\widgetGraph.html" />
@@ -422,9 +422,9 @@
     <Content Include="Content\Images\dialog-warning.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\green-check.png" />
-    <Content Include="Content\Images\logo.png" />
-    <Content Include="Content\Images\triangle_asc.png" />
-    <Content Include="Content\Images\triangle_desc.png" />
+    <Content Include="Content\Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -460,7 +460,6 @@
     <Content Include="Content\library.less" />
     <Content Include="Content\Site.less" />
     <Content Include="Scripts\Chart.min.js" />
-    <Content Include="webpackProd.config.js" />
     <Content Include="webpack.config.js" />
     <Content Include="app\shared\primeng\tsconfig-aot.json" />
     <Content Include="app\shared\primeng\components\accordion\accordion.js.map" />
@@ -676,9 +675,7 @@
     <Content Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
     <Content Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
     <Content Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
-    <Content Include="app\delivery\model\actionStatus.ts" />
     <Content Include="app\delivery\model\action.ts" />
-    <Content Include="app\delivery\model\deliveryLineAction.ts" />
     <Content Include="app\notifications\notificationModalComponent.ts" />
     <Content Include="app\pending_credit\pendingCreditComponent.ts" />
     <Content Include="app\pending_credit\pendingCreditConfirmationModal.ts" />
@@ -771,11 +768,16 @@
       <Name>Well.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
+    <Content Include="app\shared\customDatePipe.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>

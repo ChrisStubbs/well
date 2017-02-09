@@ -15,46 +15,51 @@
             <div class="row">
                 <div class="col-md-8">
                     <ow-optionfilter [options]="options"
-                                     (filterClicked)="onFilterClicked($event)"></ow-optionfilter>
+                                     (filterClicked)="onFilterClicked($event)"
+                                     [setKnownOption]="selectedOption"
+                                     [setKnownFilter]="selectedFilter">
+                    </ow-optionfilter>
                 </div>
             </div>
-            <div class="table-responsive table-container">
-                <table id="tableRoutes" class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Route</th>
-                        <th>Branch</th>
-                        <th>Route Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChangedRoute($event)"></ow-orderbyarrow></a></th>
-                        <th>Driver</th>
-                        <th>No of Drops</th>
-                        <th>Exceptions</th>
-                        <th>Clean</th>
-                        <th>Status</th>
-                        <th>Last updated date/time<a id="sort-me" style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="grid-row" *ngFor="let route of routes | paginate: { itemsPerPage: rowCount, currentPage: p } | optionFilter:filterOption | orderByDate : currentConfigSort | orderByDate : currentConfigSortRoute " (click)="routeSelected(route)">
-                            <td>{{route.route}}</td>
-                            <td>{{route.routeOwnerId}}</td>
-                            <td>{{route.routeDate | date:'yMMMd'}}</td>
-                            <td>{{route.driverName}}</td>
-                            <td>{{route.totalDrops}}</td>
-                            <td>{{route.deliveryExceptionCount}}</td>
-                            <td>{{route.deliveryCleanCount}}</td>
-                            <td>{{route.routeStatus}}</td>
-                            <td>{{route.dateTimeUpdated | date:'medium'}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12">
+                    <table id="tableRoutes" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 7%">Route</th>
+                                <th style="width: 7%">Branch</th>
+                                <th style="width: 11%">Route Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th style="width: 14%">Driver</th>
+                                <th style="width: 8%">No of Drops</th>
+                                <th style="width: 8%">Exceptions</th>
+                                <th style="width: 8%">Clean</th>
+                                <th style="width: 12%">Status</th>
+                                <th style="width: 15%">Last updated date/time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage } " (click)="routeSelected(route)">
+                                <td>{{route.route}}</td>
+                                <td>{{route.routeOwnerId}}</td>
+                                <td>{{route.routeDate | date:'yMMMd'}}</td>
+                                <td>{{route.driverName}}</td>
+                                <td>{{route.totalDrops}}</td>
+                                <td>{{route.deliveryExceptionCount}}</td>
+                                <td>{{route.deliveryCleanCount}}</td>
+                                <td>{{route.routeStatus}}</td>
+                                <td>{{route.dateTimeUpdated | date:'medium'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
             <div class="col-md-6" *ngIf='routes && routes.length'>
-                <pagination-controls class="pull-right" (pageChange)="p=$event"></pagination-controls>
+                <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
             </div>
         </div>
     </div>
 </div>
-<delivery-selection-modal></delivery-selection-modal>
+<delivery-selection-modal></delivery-selection-modal> 

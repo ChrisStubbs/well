@@ -240,13 +240,12 @@
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
         }
-
-
+        
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
                                      $"SET PerformanceStatusId = {(int)status}, " +
-                                     "    InvoiceNumber =  '9' + PHAccount  ");
+                                     "    InvoiceNumber =  '9' + PickListRef  ");
 
             if (status == PerformanceStatus.Incom)
                 this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) JobDetail SET ShortQty = 1");
@@ -344,17 +343,26 @@
 
 
 
-        [Given(@"(.*) notifications have been made starting with job (.*)")]
-        public void InsertNotifications(int notifications, int jobId)
+        [Given(@"(.*) notifications have been made")]
+        public void InsertNotifications(int notifications)
         {
             notificationRepository.CurrentUser = "BDD.User";
             for (int i = 0; i < notifications; i++)
             {
+                var accountNumber = 12345.001;
+                var invoiceNumber = 440000;
+
                 var notification = new Notification
                 {
-                    JobId = jobId + i,
-                    Reason = "Credit failed ADAM validation",
+                    JobId = i,
+                    ErrorMessage = "Credit failed ADAM validation",
                     Type = (int)NotificationType.Credit,
+                    Account = (accountNumber + i).ToString(),
+                    InvoiceNumber = (invoiceNumber + i).ToString(),
+                    Branch = "55",
+                    UserName = "FP",
+                    AdamErrorNumber = "1",
+                    AdamCrossReference = "123",
                     Source = "BDD"
                 };
 

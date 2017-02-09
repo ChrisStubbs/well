@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -8,7 +9,6 @@
         public DeliveryLine()
         {
             Damages = new List<Damage>();
-            Actions = new List<JobDetailAction>();
         }
 
         public int JobDetailId { get; set; }
@@ -27,6 +27,8 @@
 
         public int ShortQuantity { get; set; }
 
+        public int ShortsActionId { get; set; }
+
         public string LineDeliveryStatus { get; set; }
 
         public string Reason { get; set; }
@@ -34,8 +36,6 @@
         public string Status { get; set; }
 
         public List<Damage> Damages { get; set; }
-
-        public List<JobDetailAction> Actions { get; set; }
 
         public int JobDetailReasonId { get; set; }
 
@@ -46,6 +46,14 @@
         public int DeliveredQuantity => InvoicedQuantity - ShortQuantity - DamagedQuantity;
 
         public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
+
+        public decimal CreditValueForThreshold()
+        {
+            var sumQty = this.Damages.Sum(d => d.Quantity);
+            var c = (this.ShortQuantity + sumQty) * Convert.ToDecimal(this.Value);
+
+            return c;
+        }
 
     }
 }

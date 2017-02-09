@@ -39,7 +39,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-            For<IExceptionEventService>().Use<ExceptionEventService>();
+            For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
@@ -59,15 +59,17 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
             For<IEpodUpdateService>().Use<EpodUpdateService>();
+            For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
 
             // Mappers
-            For<IRouteModelsMapper>().Use<RouteModelsMapper>();
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
             For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
             For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
             For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
+            For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
+            For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
         }
     }
 }

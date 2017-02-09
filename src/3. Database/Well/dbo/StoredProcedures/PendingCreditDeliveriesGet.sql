@@ -36,7 +36,7 @@ BEGIN
 	INNER JOIN
 		dbo.[User] u on u.Id = ub.UserId
 	INNER JOIN
-		dbo.[PendingCreditToUser] pc on pc.UserId = u.Id AND pc.InvoiceNumber = j.InvoiceNumber
+		dbo.[PendingCreditToUser] pc on pc.UserId = u.Id AND pc.JobId = j.Id
 	WHERE
 		u.IdentityName = @UserName
 	AND 

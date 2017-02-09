@@ -22,15 +22,12 @@
                     <h4 id="notification-header-{{notification.id}}">{{getHeading(notification)}}</h4>
                     
                     <p>
-                        <b>Account:</b> <span id="notification-account-{{notification.id}}">{{notification.depotId}}/{{notification.phAccount}}</span><br>
-                        <b>PickList Reference:</b> <span id="notification-pick-{{notification.id}}">{{notification.picklistRef}}</span><br>
-                        <b>Invoice Number:</b> <span id="notification-invoice-{{notification.id}}">{{notification.invoiceNumber}}</span><br><br>
-                        <b>Contact:</b> <span id="notification-contact-{{notification.id}}">{{notification.contactName}}</span><br>
-                        <b>Allocated to:</b> <span id="notification-user-{{notification.id}}">{{notification.userName}}</span><br>
-                    </p>
-                    
-                    <p id="notification-reason-{{notification.id}}">
-                        {{notification.reason}}
+                        <b>Account:</b> <span id="notification-account-{{notification.id}}">{{notification.branch}}/{{notification.account}}</span><br>
+                        <b>Adam Error Number:</b> <span id="notification-errornumber-{{notification.id}}">{{notification.adamErrorNumber}}</span><br>
+                        <b>Adam Error Message:</b> <span id="notification-errormessage-{{notification.id}}">{{notification.errorMessage}}</span><br>
+                        <b>Invoice Number:</b> <span id="notification-invoice-{{notification.id}}">{{notification.invoiceNumber}}</span><br>
+                        <b>Adam Cross Reference:</b> <span id="notification-crossreference-{{notification.id}}">{{notification.adamCrossReference}}</span><br><br>
+                        <b>Operator initials:</b> <span id="notification-user-{{notification.id}}">{{notification.userName}}</span><br>
                     </p>
                    
                 </div>

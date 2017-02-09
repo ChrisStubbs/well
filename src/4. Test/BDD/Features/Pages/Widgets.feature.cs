@@ -90,7 +90,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 15
  testRunner.And("I assign the delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
- testRunner.And("1 notifications have been made starting with job 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("1 notifications have been made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 17
  testRunner.When("I view the widgets page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18

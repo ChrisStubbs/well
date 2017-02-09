@@ -10,6 +10,7 @@
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
+    using PH.Well.BDD.Framework.Extensions;
 
     [Binding]
     public class ExceptionPageSteps
@@ -56,19 +57,9 @@
         [Then(@"the following exception deliveries will be displayed")]
         public void ThenTheFollowingExceptionDeliveriesWillBeDisplayed(Table table)
         {
-            var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.ToBeAdvised), Is.EqualTo(table.Rows[i]["TBA"]));
-            }
+            var result = this.ExceptionDeliveriesPage.ExceptionsGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False);
         }
-
 
         [Then(@"there are (.*) exception deliveries will be displayed")]
         public void ThenThereAreExceptionDeliveriesWillBeDisplayed(int currentExceptions)
@@ -88,18 +79,8 @@
         [Then(@"The following exceptions ordered by date will be displayed in '(.*)' order")]
         public void ThenTheFollowingExceptionsOrderedByDateWillBeDisplayedInOrder(string p0, Table table)
         {
-            var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-                //Assert.That(pageRows[i].GetColumnValueByIndex((int)ExceptionDeliveriesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
-            }
+            var result = this.ExceptionDeliveriesPage.ExceptionsGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False);
         }
 
 
@@ -358,7 +339,7 @@
         {
             var row = firstRow - 1;
             var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(5);
+            var cashOnDeliveryIcon = pageRows[row].GetItemInRowByClass("fakeCod").Text;
             Assert.That(cashOnDeliveryIcon, Is.Empty);
         }
 
@@ -406,6 +387,64 @@
             Thread.Sleep(2000);
         }
 
+        [When(@"I select the exception submit button")]
+        public void SelectExceptionSubmitButton()
+        {
+            this.ExceptionDeliveriesPage.SubmitButton.Click();
+        }
 
+        [Then(@"I can see the product information '(.*)'")]
+        public void ViewProductInformation(string productInformation)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ProductInformation.Text, productInformation);
+        }
+
+        [Then(@"I can see the shortage quantity of '(.*)'")]
+        public void ViewShortageQuantity(string quantity)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortQty.Text, quantity);
+        }
+
+        [Then(@"I can see the shortage reason of '(.*)'")]
+        public void ViewShortageReason(string reason)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortReason.Text, reason);
+        }
+
+        [Then(@"I can see the shortage source of '(.*)'")]
+        public void ViewShortageSource(string source)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortSource.Text, source);
+        }
+
+        [Then(@"I can see the shortage action of '(.*)'")]
+        public void ViewShortageAction(string action)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.ShortAction.Text, action);
+        }
+
+        [Then(@"I can see the damage quantity of '(.*)'")]
+        public void ViewDamageQuantity(string quantity)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageQty.Text, quantity);
+        }
+
+        [Then(@"I can see the damage reason of '(.*)'")]
+        public void ViewDamageReason(string reason)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageReason.Text, reason);
+        }
+
+        [Then(@"I can see the damage source of '(.*)'")]
+        public void ViewDamageSource(string source)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageSource.Text, source);
+        }
+
+        [Then(@"I can see the damage action of '(.*)'")]
+        public void ViewDamageAction(string action)
+        {
+            Assert.AreEqual(this.ExceptionDeliveriesPage.DamageAction.Text, action);
+        }
     }
 }

@@ -1,10 +1,12 @@
 ﻿namespace PH.Well.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using AIA.Adam.RFS;
     using AIA.ADAM.DataProvider;
-    using Microsoft.Ajax.Utilities;
+    using Common;
+    using Domain;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
@@ -14,31 +16,18 @@
     {
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
-        private readonly IJobDetailRepository jobDetailRepository;
-        private readonly IAccountRepository accountRepository;
+        private readonly IEventLogger eventLogger;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, IAccountRepository accountRepository)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
-            this.jobDetailRepository = jobDetailRepository;
-            this.accountRepository = accountRepository;
+            this.eventLogger = eventLogger;
         }
 
-
-        public AdamResponse Credit(CreditEvent credit, AdamSettings adamSettings)
+        public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings, string username)
         {
-            // get the job, jobdetailactions, job details
-            var job = this.jobRepository.GetById(credit.Id);
-            var details = this.jobDetailRepository.GetJobDetailsWithActions(credit.Id, 1);
-            var account = this.accountRepository.GetAccountGetByAccountCode(job.PhAccount, job.StopId);
-
-            var commandString = string.Empty;
-            var endFlag = 0;
-            var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
-            var today = DateTime.Now.ToShortDateString();
-            var now = DateTime.Now.ToShortTimeString();
-            var jobDetails = details.ToList();
+            var linesToRemove = new Dictionary<int, string>();
 
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
@@ -48,55 +37,58 @@
 
                     using (var command = new AdamCommand(connection))
                     {
-                        var totalOfLines = jobDetails.Count;
-                        var source = 0;
-                        var lineCount = 0;
-                        var groupCount = 0;
-
-                        // group credit lines by reason
-                        var reasonLines =
-                            from line in jobDetails
-                            group line by line.Reason;
-
-                        foreach (var reasonGroup in reasonLines)
+                        foreach (var line in creditTransaction.LineSql.OrderBy(x => x.Key))
                         {
-                            groupCount++;
-
-                            foreach (var line in reasonGroup)
-                            {
-                                lineCount++;
-                                if (lineCount == totalOfLines)
-                                {
-                                    endFlag = 1;
-                                    source = line.Source;
-                                }
-                                commandString =
-                                    string.Format(
-                                        "INSERT INTO WELLLINE(WELLINEGUID, WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({0}, {1},' {2} ', {3}, {4}, {5});",
-                                        job.Id, lineCount, line.Reason, line.Quantity, line.ProductCode, endFlag);
-                                command.CommandText = commandString;
+                                command.CommandText = line.Value;
                                 command.ExecuteNonQuery();
-                            }
+                                linesToRemove.Add(line.Key, line.Value);
                         }
-
-                        commandString = string.Format(
-        "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, {13});",
-        today, now, job.Id, (int)EventAction.Credit, "WELL", credit.BranchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
-                        command.CommandText = commandString;
-                        command.ExecuteNonQuery();
                     }
-
-                    return AdamResponse.Success;
                 }
                 catch (AdamProviderException adamException)
                 {
-                    this.logger.LogError("ADAM error occurred!", adamException);
+                    this.logger.LogError("ADAM error occurred writing credit line!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        $"Adam exception {adamException} when writing credit line for credit event transaction {creditTransaction.HeaderSql}",
+                        2010);
+                }
+              }
 
-                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+            foreach (var line in linesToRemove)
+            {
+                creditTransaction.LineSql.Remove(line.Key);
+            }
+
+            if (creditTransaction.CanWriteHeader)
+            {
+                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                {
+                    try
                     {
-                        return AdamResponse.AdamDown;
+                        connection.Open();
+
+                        using (var command = new AdamCommand(connection))
+                        {
+                            command.CommandText = creditTransaction.HeaderSql;
+                            command.ExecuteNonQuery();
+
+                            return AdamResponse.Success;
+                        }
+                    }
+                    catch (AdamProviderException adamException)
+                    {
+                        this.logger.LogError("ADAM error occurred writing credit header!", adamException);
+
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                       $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
+                       2020);
                     }
                 }
+            }
+            else
+            {
+                this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
+                return AdamResponse.AdamDown;
             }
 
             return AdamResponse.Unknown;
@@ -176,7 +168,7 @@
                         var commandString =
                             string.Format(
                                 "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, job.InvoiceNumber, 1, job.GrnNumberUpdate);
+                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, job.InvoiceNumber, job.GrnProcessType, job.GrnNumberUpdate);
 
                         command.CommandText = commandString;
                         command.ExecuteNonQuery();
@@ -197,6 +189,58 @@
 
             return AdamResponse.Unknown;
         }
+
+
+
+        public AdamResponse Pod(PodEvent pod, AdamSettings adamSettings)
+        {
+            var job = this.jobRepository.GetById(pod.Id);
+            if (job.IsClean)
+            {
+                return CleanPod(job, adamSettings, pod.BranchId);
+            }
+
+            return AdamResponse.Unknown;
+        }
+
+        public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
+        {
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new AdamCommand(connection))
+                    {
+                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                        var today = DateTime.Now.ToShortDateString();
+                        var now = DateTime.Now.ToShortTimeString();
+
+                        var commandString =
+                            string.Format(
+                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
+                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
+
+                        command.CommandText = commandString;
+                        command.ExecuteNonQuery();
+
+                    }
+                    return AdamResponse.Success;
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred!", adamException);
+
+                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    {
+                        return AdamResponse.AdamDown;
+                    }
+                }
+                return AdamResponse.Unknown;
+            }
+        }
+           
 
         private static string GetConnection(AdamSettings settings)
         {

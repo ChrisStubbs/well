@@ -8,7 +8,7 @@
 </div>
 <div class="jumbotron">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <address>
                 <strong>{{delivery.branchId}}/{{delivery.accountCode}} {{delivery.contactName}}</strong><br/>
                 <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br/>
@@ -18,20 +18,16 @@
                 <strong><abbr *ngIf="delivery.outerDiscrepancyFound" title="Discrepancy">Outer count link: {{delivery.outerCount}} Discrepancy found: {{delivery.totalOutersShort}} shorts to be advised </abbr></strong><br/>
             </address>
         </div>
-        <div class="col-md-5">
-            <address>
+        <div class="col-md-6">
+            <address> 
                 <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
             </address>
+            <div *ngIf="delivery.grnProcessType === 1">
             <label>GRN</label>
             <div class="input-group">
-                <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required />
+                <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required/>
                 <span class="input-group-btn"><button class="btn btn-primary" (click)="saveGrn()" [disabled]="disableGrnSave()">Save</button></span>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="btn-group pull-right">
-                <button class="btn btn-success" id="submit-button" [disabled]="delivery.canSubmit ? false : true"
-                        type="button" (click)="submitActions()">Submit Actions</button>
             </div>
         </div>
     </div>
@@ -126,4 +122,3 @@
     
 </div>
 
-<submitConfirmModal heading="Confirm action submission" (confirmed)="submitActionsConfirmed()"></submitConfirmModal>

@@ -52,7 +52,10 @@
 
         public void Clear()
         {
-            this.ClearFilter.Click();
+            if (this.ClearFilter.GetElement().Enabled)
+            {
+                this.ClearFilter.Click();
+            }
         }
 
         public string GetFilterText()

@@ -8,6 +8,8 @@
         ReplanInTranSend = 4,
         ReplanInTheQueue = 5,
         Reject = 6,
-        Grn = 7
+        Grn = 7,
+        CreditTransaction = 8,
+        Pod = 9
     }
 }

@@ -64,7 +64,7 @@
             {
                 var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries("")).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetExceptions();
 
@@ -95,7 +95,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(""))
+                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(It.IsAny<string>()))
                     .Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
@@ -123,7 +123,7 @@
             {
                 var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
 
-                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries("")).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetCleanDeliveries();
 
@@ -142,7 +142,7 @@
             {
                 var deliveries = new List<Delivery>();
 
-                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries("")).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetCleanDeliveries();
 
@@ -154,7 +154,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries("")).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>
@@ -181,7 +181,7 @@
             {
                 var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
 
-                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries("")).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetResolvedDeliveries();
 
@@ -200,7 +200,7 @@
             {
                 var deliveries = new List<Delivery>();
 
-                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries("")).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetResolvedDeliveries();
 
@@ -212,7 +212,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries("")).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>
@@ -242,7 +242,7 @@
 
                 var lines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, "")).Returns(delivery);
+                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>())).Returns(delivery);
                 this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(deliveryId)).Returns(lines);
                 this.deliveryToDetailMapper.Setup(x => x.Map(lines, delivery)).Returns(new DeliveryDetailModel { AccountCode = "1000" });
 
@@ -259,7 +259,7 @@
 
                 var lines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, "")).Returns(delivery);
+                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>())).Returns(delivery);
                 this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(deliveryId)).Returns(lines);
 
                 this.deliveryToDetailMapper.Setup(x => x.Map(lines, delivery)).Returns(new DeliveryDetailModel { AccountCode = "" });
@@ -275,7 +275,7 @@
                 var exception = new Exception();
                 var deliveryId = 4;
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, "")).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>())).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>
@@ -353,7 +353,7 @@
                 //ACT
                 HttpResponseMessage response = Controller.SubmitActions(deliveryId);
 
-                deliveryService.Verify(d => d.SubmitActions(deliveryId, ""), Times.Once);
+                deliveryService.Verify(d => d.SubmitActions(deliveryId, It.IsAny<string>()), Times.Once);
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
@@ -366,7 +366,7 @@
             {
                 var model = new GrnModel { Id = 302, GrnNumber = "123212", BranchId = 2};
 
-                this.deliveryService.Setup(x => x.SaveGrn(model.Id, model.GrnNumber, model.BranchId, ""));
+                this.deliveryService.Setup(x => x.SaveGrn(model.Id, model.GrnNumber, model.BranchId, It.IsAny<string>()));
 
                 //ACT
                 var response = this.Controller.SaveGrn(model);

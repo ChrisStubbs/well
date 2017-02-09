@@ -36,3 +36,4 @@ Post-Deployment Script Template
 :r .\Populate-ThresholdLevels.sql
 :r .\Populate-CommodityType.sql
 :r .\Populate-WidgetType.sql
+:r .\Populate-DeliveryAction.sql

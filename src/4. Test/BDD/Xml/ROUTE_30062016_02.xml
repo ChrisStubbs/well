@@ -75,6 +75,7 @@
               <TextField1>1871</TextField1>
               <TextField2></TextField2>
               <TextField3>946941</TextField3>
+              <GrnProcType>1</GrnProcType>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -179,6 +180,10 @@
                   <Code>PACKTOT1</Code>
                   <Value1>38</Value1>
                 </Attribute>
+                <!--<Attribute>
+                  <Code>GRNPROCTYPE</Code>
+                  <Value1>1</Value1>
+                </Attribute>-->
               </EntityAttributes>
               <JobDetails>
                 <JobDetail>
@@ -239,7 +244,7 @@
               <JobRef1></JobRef1>
               <JobRef2>2545470</JobRef2>
               <JobRef3></JobRef3>
-              <JobRef4>2874.033</JobRef4>
+              <JobRef4>02874.033</JobRef4>
               <OrderDate>31-05-2016</OrderDate>
               <TextField1>770</TextField1>
               <TextField2></TextField2>
@@ -439,13 +444,14 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef4>2874.033</JobRef4>
+              <JobRef4>02874.033</JobRef4>
               <JobRef2>2545470</JobRef2>
               <CustomerRef>22428</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
               <TextField1>770</TextField1>
               <TextField1Desc>
               </TextField1Desc>
+              <ProofDeliv>8</ProofDeliv>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -607,7 +613,7 @@
             <Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
-              <JobRef4>2874.033</JobRef4>
+              <JobRef4>02874.033</JobRef4>
               <JobRef2>2545419</JobRef2>
               <CustomerRef>RETAIL</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
@@ -1068,7 +1074,7 @@
               <JobRef1>212</JobRef1>
               <JobRef2>2544765</JobRef2>
               <JobRef3>223123123</JobRef3>
-              <JobRef4>2874.033</JobRef4>
+              <JobRef4>02874.033</JobRef4>
               <OrderDate>30-05-2016</OrderDate>
               <TextField1>318 WELCOME BREAK SHOPS</TextField1>
               <TextField2></TextField2>
@@ -1920,7 +1926,7 @@
               <JobRef1>127</JobRef1>
               <JobRef2>2544765</JobRef2>
               <JobRef3></JobRef3>
-              <JobRef4>2874.033</JobRef4>
+              <JobRef4>02874.033</JobRef4>
               <OrderDate>30-05-2016</OrderDate>
               <TextField1>318 WELCOME BREAK SHOPS</TextField1>
               <TextField2></TextField2>

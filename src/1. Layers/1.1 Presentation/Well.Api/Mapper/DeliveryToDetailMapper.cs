@@ -28,7 +28,9 @@
                 IsException = detail.IsException,
                 CanAction = detail.CanAction,
                 GrnNumber = detail.GrnNumber,
-                BranchId = detail.BranchId
+                BranchId = detail.BranchId,
+                GrnProcessType = detail.GrnProcessType,
+                ProofOfDelivery = detail.ProofOfDelivery
             };
 
             foreach (DeliveryLine line in lines.Where(x => x.IsClean))
@@ -48,17 +50,13 @@
                     LineDeliveryStatus = line.LineDeliveryStatus,
                     JobDetailReasonId = line.JobDetailReasonId,
                     JobDetailSourceId = line.JobDetailSourceId,
+                    ShortsActionId = line.ShortsActionId,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,
-                        JobDetailReasonId = d.JobDetailReason,
-                        JobDetailSourceId = d.JobDetailSource
-                    }).ToList(),
-                    Actions = line.Actions.Select(a => new ActionModel()
-                    {
-                        Quantity = a.Quantity,
-                        Action = a.Action,
-                        Status = a.Status
+                        JobDetailReasonId = d.JobDetailReasonId,
+                        JobDetailSourceId = d.JobDetailSourceId,
+                        DamageActionId = d.DamageActionId
                     }).ToList()
                 });
             }
@@ -80,17 +78,13 @@
                     LineDeliveryStatus = line.LineDeliveryStatus,
                     JobDetailReasonId = line.JobDetailReasonId,
                     JobDetailSourceId = line.JobDetailSourceId,
+                    ShortsActionId = line.ShortsActionId,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,
-                        JobDetailReasonId = d.JobDetailReason,
-                        JobDetailSourceId = d.JobDetailSource 
-                    }).ToList(),
-                    Actions = line.Actions.Select(a => new ActionModel()
-                    {
-                        Quantity = a.Quantity,
-                        Action = a.Action,
-                        Status = a.Status
+                        JobDetailReasonId = d.JobDetailReasonId,
+                        JobDetailSourceId = d.JobDetailSourceId,
+                        DamageActionId = d.DamageActionId 
                     }).ToList()
                 });
             }

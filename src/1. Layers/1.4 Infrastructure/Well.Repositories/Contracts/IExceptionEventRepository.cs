@@ -7,14 +7,16 @@
 
     public interface IExceptionEventRepository : IRepository<ExceptionEvent, int>
     {
-        void InsertCreditEvent(CreditEvent creditEvent);
+        void InsertCreditEventTransaction(CreditTransaction creditTransaction);
 
         void MarkEventAsProcessed(int eventId);
 
         IEnumerable<ExceptionEvent> GetAllUnprocessed();
 
-        void RemovedPendingCredit(string invoiceNumber);
+        void RemovedPendingCredit(int jobId);
 
         void InsertGrnEvent(GrnEvent grnEvent);
+
+        void InsertPodEvent(PodEvent podEvent);
     }
 }

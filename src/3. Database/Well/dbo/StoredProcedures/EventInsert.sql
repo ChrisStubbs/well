@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE  [dbo].[EventInsert]
-	@Event VARCHAR(2500),
+	@Event VARCHAR(MAX),
 	@ExceptionActionId INT,
 	@DateCanBeProcessed DATETIME,
 	@CreatedBy VARCHAR(50),

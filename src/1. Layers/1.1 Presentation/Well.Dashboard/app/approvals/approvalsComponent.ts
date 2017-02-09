@@ -15,11 +15,13 @@ import {ExceptionDeliveryService}                   from '../exceptions/exceptio
 import { RefreshService }                           from '../shared/refreshService';
 import { AssignModal }                              from '../shared/assignModal';
 import { ConfirmModal }                             from '../shared/confirmModal';
+import {ExceptionsConfirmModal} from '../exceptions/exceptionsConfirmModal';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
 import * as lodash                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
-import 'rxjs/Rx';   // Load all features
+import 'rxjs/Rx';
+import {DeliveryLine} from '../delivery/model/deliveryLine';
 
 @Component({
     templateUrl: './app/approvals/approvals-list.html'
@@ -40,6 +42,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     public selectGridBox: boolean = false;
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
+    @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
 
     constructor(
@@ -57,9 +60,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         super(nqps);
 
         this.options = [
-            this.assigneeOption,
-            new DropDownItem('Date', 'deliveryDate', false, 'date'),
-            new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
+            this.assigneeOption
         ];
     }
 
@@ -122,7 +123,22 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
                 error => this.errorMessage = <any>error);
     }
 
+    public onAssigned($event) {
+        this.getApprovals();
+    }
+
     public allocateUser(delivery: ApprovalDelivery): void {
         this.assignModal.show(delivery);
+    }
+
+    public deliverySelected(delivery): void {
+        this.router.navigate(['/delivery', delivery.id]);
+    }
+
+    public submit(delivery: ExceptionDelivery): void {
+        this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
+            .subscribe((deliveryLines: DeliveryLine[]) => {
+                this.exceptionConfirmModal.show(deliveryLines);
+            });
     }
 }

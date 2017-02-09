@@ -1,25 +1,25 @@
-﻿namespace PH.Well.Api.Models
-{
-    using System;
+﻿//namespace PH.Well.Api.Models
+//{
+//    using System;
 
-    public class RouteModel
-    {
-        public string Route { get; set; }
+//    public class RouteModel
+//    {
+//        public string Route { get; set; }
 
-        public DateTime RouteDate { get; set; }
+//        public DateTime RouteDate { get; set; }
 
-        public string DriverName { get; set; }
+//        public string DriverName { get; set; }
 
-        public int TotalDrops { get; set; }
+//        public int TotalDrops { get; set; }
 
-        public int DeliveryExceptionCount { get; set; }
+//        public int DeliveryExceptionCount { get; set; }
 
-        public int DeliveryCleanCount { get; set; }
+//        public int DeliveryCleanCount { get; set; }
 
-        public string RouteStatus { get; set; }
+//        public string RouteStatus { get; set; }
 
-        public DateTime DateTimeUpdated { get; set; }
+//        public DateTime DateTimeUpdated { get; set; }
 
-        public int RouteOwnerId { get; set; }
-    }
-}
+//        public int RouteOwnerId { get; set; }
+//    }
+//}

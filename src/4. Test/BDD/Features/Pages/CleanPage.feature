@@ -15,8 +15,8 @@ Scenario: A user can view Clean Delivery Information
 	Then the following clean deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          |
 	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van |
-	| 001   | 22     | 1    | 92545470  | 2874.033  | CSG - must be CF van |
-	| 001   | 22     | 2    | 92545470  | 2874.033  | RVS SHOP             |
+	| 001   | 22     | 1    | 92545470  | 02874.033  | CSG - must be CF van |
+	| 001   | 22     | 2    | 92545470  | 02874.033  | RVS SHOP             |
 	When I view the account info modal for clean row 2
 	Then I can the following account info details - clean
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
@@ -60,13 +60,13 @@ Scenario: A user can view Clean Delivery Information and sort on updated date
 	Then the following clean deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
 	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
-	| 001   | 22     | 1    | 92545470  | 2874.033  | CSG - must be CF van | 07/01/2016   |
-	| 001   | 22     | 2    | 92545470  | 2874.033  | RVS SHOP             | 07/01/2016   |
+	| 001   | 22     | 1    | 92545470  | 02874.033  | CSG - must be CF van | 07/01/2016   |
+	| 001   | 22     | 2    | 92545470  | 02874.033  | RVS SHOP             | 07/01/2016   |
 	When I click on the orderby Triangle image in the clean deliveries grid
 	Then The following clean deliveries ordered by date will be displayed in 'desc' order
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 001   | 22     | 2    | 92545470  | 2874.033  | RVS SHOP             | 07/01/2016   |
-	| 001   | 22     | 1    | 92545470  | 2874.033  | CSG - must be CF van | 07/01/2016   |
+	| 001   | 22     | 2    | 92545470  | 02874.033  | RVS SHOP             | 07/01/2016   |
+	| 001   | 22     | 1    | 92545470  | 02874.033  | CSG - must be CF van | 07/01/2016   |
 	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
 
 Scenario: A user can page through Clean Delivery information

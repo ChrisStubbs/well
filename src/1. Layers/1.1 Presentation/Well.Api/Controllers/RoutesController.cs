@@ -47,7 +47,8 @@
                                         DeliveryExceptionCount = p.ExceptionJobs,
                                         RouteStatus = StringExtensions.GetEnumDescription(p.RouteStatus),
                                         DateTimeUpdated = p.DateUpdated,
-                                        RouteOwnerId = p.RouteOwnerId
+                                        RouteOwnerId = p.RouteOwnerId,
+                                        DriverName = p.DriverName
                                     })
                                     .ToList();
 

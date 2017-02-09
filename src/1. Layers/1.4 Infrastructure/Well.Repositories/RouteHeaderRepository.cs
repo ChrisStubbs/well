@@ -24,23 +24,23 @@
 
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
+            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
               .AddParameter("UserName", this.CurrentUser, DbType.String)
               .Query<RouteHeader>();
 
-            //foreach (var routeHeader in routeHeaders)
-            //{
-            //    var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
+            foreach (var routeHeader in routeHeaders)
+            {
+                var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
 
-            //    foreach (var stop in stops)
-            //    {
-            //        stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
-            //    }
+                foreach (var stop in stops)
+                {
+                    stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
+                }
 
-            //    routeHeader.Stops = stops.ToList();
-            //}
+                routeHeader.Stops = stops.ToList();
+            }
         
-            //return routeHeaders;
+            return routeHeaders;
         }
 
         public IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId)

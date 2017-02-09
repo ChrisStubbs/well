@@ -1,0 +1,106 @@
+﻿
+<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Approvals</li>
+    </ol>
+</div>
+<div class="jumbotron">
+    <ow-spinner [isRunning]="isLoading"></ow-spinner>
+    <div *ngIf="!isLoading">
+        <div *ngIf="!approvals">
+            <div ID="no-approvals" class="alert alert-info">
+                <strong>There are no credits waiting approval</strong>
+            </div>
+        </div>
+        <div *ngIf="approvals">
+            <div class="row">
+                <div class="col-md-8">
+                    <ow-optionfilter [options]="options"
+                                     (filterClicked)="onFilterClicked($event)"
+                                     [setKnownOption]="selectedOption"
+                                     [setKnownFilter]="selectedFilter">
+                    </ow-optionfilter>
+                </div>
+                <div class="col-md-4">
+                    <label>Threshold:</label>
+                    <span class="pull-right">
+                        <label class="radio-inline">
+                            <input name="thresholdToggle" id="thresholdToggle1" type="radio" checked="{{level ? '' : 'checked'}}" value="All" (click)="onThresholdClicked(null)">All
+                        </label>
+                        <label class="radio-inline">
+                            <input name="thresholdToggle" id="thresholdToggle2" type="radio" checked="{{level == 1 ? 'checked' : ''}}" value="Level1" (click)="onThresholdClicked(1)">Level 1
+                        </label>
+                        <label class="radio-inline">
+                            <input name="thresholdToggle" id="thresholdToggle3" type="radio" checked="{{level == 2 ? 'checked' : ''}}" value="Level2" (click)="onThresholdClicked(2)">Level 2
+                        </label>
+                        <label class="radio-inline">
+                            <input name="thresholdToggle" id="thresholdToggle4" type="radio" checked="{{level == 3 ? 'checked' : ''}}" value="Level3" (click)="onThresholdClicked(3)">Level 3
+                        </label>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12" *ngIf="approvals && approvals.length > 0">
+                    <table id="tableApprovalDeliveries" class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 4%">Route</th>
+                                <th style="width: 5%">Branch</th>
+                                <th style="width: 4%">Drop</th>
+                                <th style="width: 9%">Invoice No</th>
+                                <th style="width: 7%">Account</th>
+                                <th style="width: 12%">Account Name</th>
+                                <th style="width: 4%">COD</th>
+                                <th style="width: 5%">Credit Value</th>
+                                <th style="width: 5%">Contact</th>
+                                <th style="width: 10%">Status</th>
+
+                                <th style="width: 4%">Threshold</th>
+                                <th style="width: 8%">Assigned</th>
+                                <th style="width: 7%">Action</th>
+                                <th style="width: 14%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-row" *ngFor="let delivery of approvals | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
+                                <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                                <td class="fakeCod" (click)="deliverySelected(delivery)"><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>
+                                <td><button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button></td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.jobStatus}}</td>
+                                <td (click)="deliverySelected(delivery)">THRESHOLD</td>
+                                <td>
+                                    <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                                    <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button *ngIf="delivery.canAction" class="btn btn-primary btn-sm enabled-action" type="button" id="submit{{delivery.id}}" (click)="submit(delivery)">Submit</button>
+                                        <button *ngIf="!delivery.canAction" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
+
+                                    </div>
+                                </td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+            <div class="col-md-6" *ngIf="approvals && approvals.length">
+                <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<contact-modal></contact-modal>
+<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>
+<confirmModal heading="Confirm changes" (confirmed)="creditConfirmed()"></confirmModal>

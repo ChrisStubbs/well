@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.BDD.Framework.WebElements
 {
     using System;
+    using System.Threading;
+
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
     using Well.BDD.Framework;
@@ -35,6 +37,7 @@
         public void SelectUserThreshold()
         {
             this.Driver.WaitForJavascript();
+            
             this.GetElement().FindElement(By.Id("admin-dropdown-anchor")).Click();
 
             var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));

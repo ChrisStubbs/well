@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {TabsModule} from 'ng2-tabs';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {Delivery} from './model/delivery';
+import {Delivery} from './model/delivery';  
 import {DeliveryService} from './deliveryService';
 import {DropDownItem} from '../shared/dropDownItem';
 import {SecurityService} from '../shared/security/securityService';

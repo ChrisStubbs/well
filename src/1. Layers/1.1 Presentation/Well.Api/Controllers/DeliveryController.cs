@@ -178,7 +178,7 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting delivery actions");
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting delivery actions");
             }
         }
     }

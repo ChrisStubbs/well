@@ -14,7 +14,7 @@
         }
 
         [XmlIgnore]
-        public decimal Qty { get; set; }
+        public int Qty { get; set; }
 
         [XmlElement("Qty")]
         public string QtyXml

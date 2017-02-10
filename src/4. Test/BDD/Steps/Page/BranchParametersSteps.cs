@@ -309,7 +309,7 @@ namespace PH.Well.BDD.Steps.Page
         [Then("the seasonal dates are not saved")]
         public void SeasonalDateHasGoneFromGrid()
         {
-            Assert.That(this.page.NoResults.Text, Is.EqualTo("No Seasonal Dates!"));
+            Assert.That(this.page.NoResults.Text, Is.EqualTo("No Seasonal Dates"));
         }
 
         [When("I remove the credit threshold")]
@@ -342,7 +342,7 @@ namespace PH.Well.BDD.Steps.Page
         [Then("the clean parameter is not saved")]
         public void CleanParameterHasGoneFromGrid()
         {
-            Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences!"));
+            Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences"));
         }
 
         [When("I add a widget warning parameter")]
@@ -396,7 +396,7 @@ namespace PH.Well.BDD.Steps.Page
         [Then("it is removed from the widget warning grid")]
         public void WidgetWarningParameterHasGoneFromGrid()
         {
-            Assert.That(this.widgetWarningPage.NoResults.Text, Is.EqualTo("No Widget Warnings!"));
+            Assert.That(this.widgetWarningPage.NoResults.Text, Is.EqualTo("No Widget Warnings"));
         }
 
         [When("I edit a widget warning parameter")]

@@ -11,7 +11,7 @@
         </thead>
         <tbody>
         <tr *ngIf="widgetWarnings && widgetWarnings.length === 0">
-            <td id="widgetWarnings-no-results" colspan="5">No Widget Warnings!</td>
+            <td id="widgetWarnings-no-results" colspan="5">No Widget Warnings</td>
         </tr>
         <tr class="grid-row" *ngFor="let x of widgetWarnings">
             <td (click)="selectWarning(x)" id="warning-description-{{x.id}}">{{x.widgetName}}</td>

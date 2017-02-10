@@ -10,8 +10,7 @@ import { AccountService }                           from '../account/accountServ
 import { IAccount }                                 from '../account/account';
 import { ApprovalDelivery }                         from './approvalDelivery';
 import { ApprovalsService }                         from './approvalsService';
-import {ExceptionDelivery}                   from '../exceptions/exceptionDelivery';
-import {ExceptionDeliveryService}                   from '../exceptions/exceptionDeliveryService';
+import { ExceptionDeliveryService }                 from '../exceptions/exceptionDeliveryService';
 import { RefreshService }                           from '../shared/refreshService';
 import { AssignModal }                              from '../shared/assignModal';
 import { ConfirmModal }                             from '../shared/confirmModal';
@@ -22,6 +21,7 @@ import * as lodash                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';
 import {DeliveryLine} from '../delivery/model/deliveryLine';
+import {BaseDelivery} from '../shared/baseDelivery';
 
 @Component({
     templateUrl: './app/approvals/approvals-list.html'
@@ -30,7 +30,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     public isLoading: boolean = true;
     private refreshSubscription: any;
     public errorMessage: string;
-    public approvals: ExceptionDelivery[];
+    public approvals: ApprovalDelivery[];
     public level: number;
     public assigneeOption = new DropDownItem('Assignee', 'assigned');
     public account: IAccount;
@@ -69,7 +69,12 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions,
             this.securityService.actionDeliveries);
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(this.getApprovals());
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
+
+        this.activatedRoute.queryParams.subscribe(params => {
+            // this.outstandingFilter = params['outstanding'] === 'true';
+            this.getApprovals();
+        });
 
         this.isReadOnlyUser = this.securityService
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
@@ -81,8 +86,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     }
 
     public getApprovals() {
-        //TODO - Switch for approvalsService once API is implemented
-        this.exceptionDeliveryService.getExceptions()
+        this.approvalsService.getApprovals()
             .subscribe(responseData => {
                     this.approvals = responseData;
                     this.lastRefresh = Date.now();
@@ -135,7 +139,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    public submit(delivery: ExceptionDelivery): void {
+    public submit(delivery: BaseDelivery): void {
         this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
             .subscribe((deliveryLines: DeliveryLine[]) => {
                 this.exceptionConfirmModal.show(deliveryLines);

@@ -71,7 +71,7 @@
         }
 
         [HttpGet]
-        [Route("deliveries/approvals")]
+        [Route("deliveries/approval")]
         public HttpResponseMessage GetApprovals()
         {
             try

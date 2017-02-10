@@ -40,6 +40,7 @@
             return GetDeliveriesByStatus(PerformanceStatus.Resolved, username);
         }
 
+        //TODO - Refactor into a single sproc with parameters to filter those pending credit
         public IEnumerable<Delivery> GetByPendingCredit(string username)
         {
             return
@@ -52,10 +53,15 @@
         {
             var intStatuses = ExceptionStatuses.Statuses.Select(p => (int)p).ToList();
 
-            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByArrayPerformanceStatus)
+            var exceptionDeliveries = dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByArrayPerformanceStatus)
                 .AddParameter("PerformanceStatusIds", intStatuses.ToIntDataTables("Value"), DbType.Object)
                 .AddParameter("UserName", username, DbType.String)
-                .Query<Delivery>();
+                .Query<Delivery>().ToList();
+
+            var deliveriesPendingCredit = GetByPendingCredit(username);
+
+            exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
+            return exceptionDeliveries;
         }
 
         public DeliveryDetail GetDeliveryById(int id, string username)

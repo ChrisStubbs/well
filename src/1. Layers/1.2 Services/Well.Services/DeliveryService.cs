@@ -20,6 +20,7 @@
         private readonly IUserRepository userRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryReadRepository deliveryReadRepository;
+        private readonly IBranchRepository branchRepository;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -29,7 +30,8 @@
             IJobDetailActionRepository jobDetailActionRepository,
             IUserRepository userRepository,
             IExceptionEventRepository exceptionEventRepository,
-            IDeliveryReadRepository deliveryReadRepository)
+            IDeliveryReadRepository deliveryReadRepository,
+            IBranchRepository branchRepository)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -40,12 +42,28 @@
             this.userRepository = userRepository;
             this.exceptionEventRepository = exceptionEventRepository;
             this.deliveryReadRepository = deliveryReadRepository;
+            this.branchRepository = branchRepository;
         }
 
         public IList<Delivery> GetApprovals(string username)
         {
             var approvals = deliveryReadRepository.GetByPendingCredit(username);
-            //TODO - Populate Thresholds
+
+            //Populate Thresholds
+            var branches = branchRepository.GetAllValidBranches();
+            foreach (var approval in approvals)
+            {
+                var branch = branches.SingleOrDefault(b => b.Id == approval.BranchId);
+                if (branch == null)
+                {
+                    continue;
+                }
+                var threshold = branch.CreditThresholds.OrderBy(t => t.Threshold)
+                    .FirstOrDefault(t => t.Threshold >= approval.TotalCreditValueForThreshold);
+
+                approval.ThresholdLevel = threshold?.ThresholdLevel;
+            }
+
             return approvals.ToList();
         }
 

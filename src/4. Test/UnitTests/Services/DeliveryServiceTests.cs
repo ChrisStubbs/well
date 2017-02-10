@@ -25,6 +25,7 @@
         private Mock<IUserRepository> userRepo;
         private Mock<IExceptionEventRepository> exceptionEventRepo;
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
+        private Mock<IBranchRepository> branchRepository;
 
         [SetUp]
         public void Setup()
@@ -38,7 +39,7 @@
             userRepo = new Mock<IUserRepository>(MockBehavior.Strict);
             exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
-            
+            branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
@@ -48,8 +49,8 @@
                 jobDetailActionRepo.Object,
                 userRepo.Object,
                 exceptionEventRepo.Object,
-                deliveryReadRepository.Object
-                );
+                deliveryReadRepository.Object,
+                branchRepository.Object);
 
             jobDetailRepository.SetupSet(x => x.CurrentUser = "user");
             jobDetailDamageRepo.SetupSet(x => x.CurrentUser = "user");

@@ -18,5 +18,5 @@ export class ApprovalDelivery extends BaseDelivery {
     public  totalCredit: string;
     public  isPending: boolean;
     public  totalOutersShort: number;
-    public  thresholdLevel: string;
+    public  creditThresholdLevel: string;
 }

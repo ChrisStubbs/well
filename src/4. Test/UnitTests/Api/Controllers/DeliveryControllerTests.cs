@@ -317,7 +317,7 @@
             {
                 MethodInfo controllerMethod = GetMethod(c => c.GetApprovals());
                 var routeAttribute = GetAttributes<RouteAttribute>(controllerMethod).FirstOrDefault();
-                Assert.AreEqual("deliveries/approvals", routeAttribute.Template);
+                Assert.AreEqual("deliveries/approval", routeAttribute.Template);
             }
 
             [Test]

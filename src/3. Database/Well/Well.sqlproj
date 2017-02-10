@@ -240,13 +240,13 @@
     <Build Include="dbo\Tables\WidgetType.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <Build Include="dbo\StoredProcedures\PendingCreditCountByUserGet.sql" />
-    <Build Include="dbo\Tables\PendingCreditToUser.sql" />
-    <Build Include="dbo\StoredProcedures\PendingCreditDeliveriesGet.sql" />
+    <Build Include="dbo\Tables\PendingCredit.sql" />
+    <Build Include="dbo\StoredProcedures\DeliveriesGetByPendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
     <Build Include="dbo\StoredProcedures\UserByCreditThresholdGet.sql" />
-    <Build Include="dbo\StoredProcedures\AssignPendingCreditToUser.sql" />
+    <Build Include="dbo\StoredProcedures\PendingCreditInsert.sql" />
     <Build Include="dbo\StoredProcedures\ResolveJobAndJobDetails.sql" />
     <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\User_GetCreditThreshold.sql" />

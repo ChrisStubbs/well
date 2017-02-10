@@ -40,10 +40,10 @@
             return GetDeliveriesByStatus(PerformanceStatus.Resolved, username);
         }
 
-        public IEnumerable<Delivery> GetPendingCreditDeliveries(string username)
+        public IEnumerable<Delivery> GetByPendingCredit(string username)
         {
             return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.PendingCreditDeliveriesGet)
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit)
                     .AddParameter("UserName", username, DbType.String)
                     .Query<Delivery>();
         }

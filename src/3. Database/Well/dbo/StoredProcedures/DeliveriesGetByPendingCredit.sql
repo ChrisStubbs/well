@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[PendingCreditDeliveriesGet]
+﻿CREATE PROCEDURE [dbo].[DeliveriesGetByPendingCredit]
 	@UserName VARCHAR(500)
 AS
 BEGIN
@@ -36,7 +36,7 @@ BEGIN
 	INNER JOIN
 		dbo.[User] u on u.Id = ub.UserId
 	INNER JOIN
-		dbo.[PendingCreditToUser] pc on pc.UserId = u.Id AND pc.JobId = j.Id
+		dbo.[PendingCredit] pc on pc.JobId = j.Id
 	WHERE
 		u.IdentityName = @UserName
 	AND 

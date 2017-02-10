@@ -15,7 +15,7 @@ import {ExceptionDeliveryService}                   from '../exceptions/exceptio
 import { RefreshService }                           from '../shared/refreshService';
 import { AssignModal }                              from '../shared/assignModal';
 import { ConfirmModal }                             from '../shared/confirmModal';
-import {ExceptionsConfirmModal} from '../exceptions/exceptionsConfirmModal';
+import { ExceptionsConfirmModal }                   from '../exceptions/exceptionsConfirmModal';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
 import * as lodash                                  from 'lodash';

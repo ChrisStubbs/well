@@ -34,7 +34,7 @@
                 var pendingCredits = new List<Delivery>();
                 pendingCredits.Add(new Delivery { AccountName = "foo" });
 
-                this.deliveryReadRepository.Setup(x => x.GetPendingCreditDeliveries("")).Returns(pendingCredits);
+                this.deliveryReadRepository.Setup(x => x.GetByPendingCredit("")).Returns(pendingCredits);
 
                 var response = this.Controller.Get();
 

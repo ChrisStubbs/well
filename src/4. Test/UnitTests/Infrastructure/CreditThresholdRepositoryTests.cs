@@ -250,16 +250,13 @@
         public class TheAssignPendingCreditToUserMethod : CreditThresholdRepositoryTests
         {
             [Test]
-            public void ShouldAssignPendingCreditToUser()
+            public void ShouldAddPendingCredit()
             {
                 var user = new User { Id = 67 };
 
                 var jobId = 45;
 
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("userId", user.Id, DbType.Int32, null))
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.PendingCreditInsert))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("jobId", jobId, DbType.Int32, null))
@@ -270,11 +267,9 @@
 
                 this.dapperProxy.Setup(x => x.Execute());
 
-                this.repository.AssignPendingCreditToUser(user, jobId, "foo");
+                this.repository.PendingCreditInsert(jobId, "foo");
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("userId", user.Id, DbType.Int32, null), Times.Once);
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.PendingCreditInsert), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("jobId", jobId, DbType.Int32, null), Times.Once);
 

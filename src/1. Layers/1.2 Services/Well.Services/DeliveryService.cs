@@ -19,6 +19,7 @@
         private readonly IJobDetailActionRepository jobDetailActionRepository;
         private readonly IUserRepository userRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly IDeliveryReadRepository deliveryReadRepository;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -27,7 +28,8 @@
             IStopRepository stopRepository,
             IJobDetailActionRepository jobDetailActionRepository,
             IUserRepository userRepository,
-            IExceptionEventRepository exceptionEventRepository)
+            IExceptionEventRepository exceptionEventRepository,
+            IDeliveryReadRepository deliveryReadRepository)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -37,6 +39,14 @@
             this.jobDetailActionRepository = jobDetailActionRepository;
             this.userRepository = userRepository;
             this.exceptionEventRepository = exceptionEventRepository;
+            this.deliveryReadRepository = deliveryReadRepository;
+        }
+
+        public IList<Delivery> GetApprovals(string username)
+        {
+            var approvals = deliveryReadRepository.GetByPendingCredit(username);
+            //TODO - Populate Thresholds
+            return approvals.ToList();
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)

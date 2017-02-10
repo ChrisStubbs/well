@@ -247,7 +247,7 @@
             }
         }
 
-        public class TheAssignPendingCreditToUserMethod : CreditThresholdRepositoryTests
+        public class ThePendingCreditInsertMethod : CreditThresholdRepositoryTests
         {
             [Test]
             public void ShouldAddPendingCredit()

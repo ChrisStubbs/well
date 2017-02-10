@@ -41,6 +41,7 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
+            DeleteAndReseed("PendingCredit");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
@@ -51,7 +52,6 @@
             DeleteAndReseed("Stop");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
-            DeleteAndReseed("PendingCreditToUser");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
             DeleteAndReseed("Audit");

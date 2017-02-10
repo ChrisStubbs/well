@@ -325,7 +325,7 @@ namespace PH.Well.BDD.Steps.Page
         [Then("it is removed from the credit threshold grid")]
         public void CreditThresholdHasGoneFromGrid()
         {
-            Assert.That(this.creditThresholdPage.NoResults.Text, Is.EqualTo("No Credit Thresholds!"));
+            Assert.That(this.creditThresholdPage.NoResults.Text, Is.EqualTo("No Credit Thresholds"));
         }
 
         [When("I remove the clean parameter")]

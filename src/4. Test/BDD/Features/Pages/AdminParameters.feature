@@ -213,7 +213,7 @@ Scenario: Credit threshold applied all levels
 	And I select all the branches
 	And I save the branch selection
 	Then all the branches are saved
-	When I navigate to the user threshold levels page
+	#When I navigate to the user threshold levels page
 	#And I search for the current user
 	#And I select the current user from the results
 	#And I select Level '2' from the dropdown list

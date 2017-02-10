@@ -401,7 +401,7 @@
 
                 logger.Setup(l => l.LogError(It.IsAny<string>()));
 
-                deliveryService.Setup(d => d.SubmitActions(deliveryId, ""));
+                deliveryService.Setup(d => d.SubmitActions(deliveryId, It.IsAny<string>()));
 
                 //ACT
                 HttpResponseMessage response = Controller.SubmitActions(deliveryId);
@@ -425,7 +425,7 @@
                 //ACT
                 var response = this.Controller.SaveGrn(model);
 
-                deliveryService.Verify(d => d.SaveGrn(model.Id, model.GrnNumber, model.BranchId, ""), Times.Once);
+                deliveryService.Verify(d => d.SaveGrn(model.Id, model.GrnNumber, model.BranchId, It.IsAny<string>()), Times.Once);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace PH.Well.BDD.Framework.Extensions
@@ -12,22 +9,17 @@ namespace PH.Well.BDD.Framework.Extensions
     {
         public ContainsSpecFlowTableResult()
         {
-            this.Erros = new List<CellErro>();
+            this.Errors = new List<CellError>();
         }
 
-        public IList<CellErro> Erros { get; set; }
+        public IList<CellError> Errors { get; set; }
 
         public bool RowCountMatches { get; set; }
 
-        public bool HasError
-        {
-            get
-            {
-                return this.RowCountMatches && this.Erros.Count == 0;
-            }
-        }
+        public bool HasError => !this.RowCountMatches || this.Errors.Any();
 
-        public class CellErro
+
+        public class CellError
         {
             public string GridCellText { get; set; }
             public string TableCellText { get; set; }
@@ -47,13 +39,7 @@ namespace PH.Well.BDD.Framework.Extensions
         {
             return left == right;
         };
-
-
-        private static Tuple<string, int> Bla()
-        {
-            return new Tuple<string, int>("", 1);
-        }
-
+        
         public static ContainsSpecFlowTableResult ContainsSpecFlowTable<T>(this WebElements.Grid<T> grid,
             Table table,
             Func<string, string, bool> headerMatcher = null,
@@ -102,7 +88,7 @@ namespace PH.Well.BDD.Framework.Extensions
                     if (!cellComparer(gridCellText, tableCellText, cell.Text))
                     {
                         //it is not equal so lets add it to the error list
-                        returnValue.Erros.Add(new ContainsSpecFlowTableResult.CellErro
+                        returnValue.Errors.Add(new ContainsSpecFlowTableResult.CellError
                         {
                             TableCellText = tableCellText,
                             GridCellText = gridCellText,

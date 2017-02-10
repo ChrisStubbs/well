@@ -40,6 +40,8 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     public value: string;
     public confirmModalIsVisible: boolean = false;
     public selectGridBox: boolean = false;
+    public thresholdFilterOption = new FilterOption();
+
     @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
@@ -72,7 +74,6 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
 
         this.activatedRoute.queryParams.subscribe(params => {
-            // this.outstandingFilter = params['outstanding'] === 'true';
             this.getApprovals();
         });
 
@@ -116,6 +117,9 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
     public onThresholdClicked(level: number) {
         this.level = level;
+        this.thresholdFilterOption = new FilterOption(
+            new DropDownItem('Level', 'creditThresholdLevel'),
+            level == undefined ? '' : 'Level ' + level);
     }
 
     public openModal(accountId): void {

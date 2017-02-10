@@ -25,7 +25,7 @@
                     <label>Threshold:</label>
                     <span class="pull-right">
                         <label class="radio-inline">
-                            <input name="thresholdToggle" id="thresholdToggle1" type="radio" checked="{{level ? '' : 'checked'}}" value="All" (click)="onThresholdClicked(null)">All
+                            <input name="thresholdToggle" id="thresholdToggle1" type="radio" checked="{{level ? '' : 'checked'}}" value="All" (click)="onThresholdClicked(undefined)">All
                         </label>
                         <label class="radio-inline">
                             <input name="thresholdToggle" id="thresholdToggle2" type="radio" checked="{{level == 1 ? 'checked' : ''}}" value="Level1" (click)="onThresholdClicked(1)">Level 1
@@ -62,7 +62,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="grid-row" *ngFor="let delivery of approvals | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
+                            <tr class="grid-row" *ngFor="let delivery of approvals | optionFilter:thresholdFilterOption | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
                                 <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>

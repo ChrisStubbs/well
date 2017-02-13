@@ -58,9 +58,10 @@ export class WidgetComponent implements OnInit {
         let navigationExtras: NavigationExtras;
         switch (widgetName) {
         case 'Assigned':
+        case 'Pending Approval':
         {
             navigationExtras = {
-                queryParams: { 'assignee': this.globalSettingsService.globalSettings.userName }
+                queryParams: { 'filter.assigned': this.globalSettingsService.globalSettings.userName }
             };
             break;
         }

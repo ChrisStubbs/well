@@ -62,6 +62,7 @@
                     .FirstOrDefault(t => t.Threshold >= approval.TotalCreditValueForThreshold);
 
                 approval.ThresholdLevel = threshold?.ThresholdLevel;
+                approval.SetCanAction(username);
             }
 
             return approvals.ToList();
@@ -87,6 +88,7 @@
             jobDetail.ShortsActionId = jobDetailUpdates.ShortsActionId;
 
             Job job = this.jobRepository.GetById(jobDetail.JobId);
+            job.JobDetails = jobDetails.ToList();
             JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
             Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,

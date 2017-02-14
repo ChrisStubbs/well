@@ -12,5 +12,13 @@ BEGIN
 		  ,[LastUpdatedDate]
 		  ,[Version]
 	  FROM [dbo].[Branch]
+	  
+	  SELECT  ct.Id,
+			  ct.Threshold,
+			  tl.Id as ThresholdLevelId,
+			  ctb.BranchId
+		from [dbo].[CreditThresholdToBranch] ctb
+		inner join [dbo].[CreditThreshold] ct on ct.Id = ctb.CreditThresholdId
+		inner join [dbo].[ThresholdLevel] tl on ct.ThresholdLevelId = tl.Id
 
 END

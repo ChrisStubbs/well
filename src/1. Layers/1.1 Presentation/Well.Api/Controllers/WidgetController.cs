@@ -58,12 +58,12 @@
                 {
                     new WidgetModel()
                     {
-                        Name = "Pending Authorisation",
+                        Name = "Pending Approval",
                         Count = pendingCreditCount,
-                        Description = "Credits awaiting your authorisation",
+                        Description = "Credits awaiting your approval",
                         SortOrder = 1,
-                        Link = "/pending-credit",
-                        LinkText = "pending credits",
+                        Link = "/approvals",
+                        LinkText = "credits pending approval",
                         WarningLevel = 50,
                         ShowOnGraph = false
                     },

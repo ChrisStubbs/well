@@ -59,7 +59,7 @@
                 this.dapperProxy.Setup(x => x.AddParameter("routeId", routeId, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, RouteToRemove>>()));
+                this.dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, RouteToRemove>>())).Returns(new RouteToRemove());
 
                 var route = this.repository.GetRouteToRemove(1);
 

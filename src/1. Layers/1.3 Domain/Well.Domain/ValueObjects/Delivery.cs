@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
+    using Common.Extensions;
     using Enums;
 
     public class Delivery
@@ -59,6 +60,11 @@
 
         public decimal TotalCreditValueForThreshold { get; set; }
 
+        public ThresholdLevel? ThresholdLevel { get; set; }
+
+        public string CreditThresholdLevel
+            => ThresholdLevel != null ? Enum<ThresholdLevel>.GetDescription(ThresholdLevel) : "";
+
         public void SetCanAction(string username)
         {
             if (this.JobStatus == PerformanceStatus.Submitted.ToString())
@@ -68,6 +74,5 @@
         }
 
         public int TotalOutersShort { get; set; }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 import {AccountComponent} from './account/accountComponent';
+import {ApprovalsComponent} from './approvals/approvalsComponent';
 import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
     { path: 'unauthorised', component: UnauthorisedComponent },
+    { path: 'approvals', component: ApprovalsComponent },
     { path: 'audits', component: AuditComponent },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },

@@ -12,8 +12,8 @@ Scenario: A user can view Resolved Delivery Information
 	And  3 deliveries have been marked as Resolved
 	When I open the resolved deliveries page
 	Then the following resolved deliveries will be displayed
-	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    |
-	| 1  | 001   | 1    | 94294343 | 49214.152 | CSG - must be CF van | Resolved | Unallocated |
+	| Id | Route | Drop | InvoiceNo | Account   | AccountName          | Status   | Assigned    |
+	| 1  | 001   | 1    | 94294343	| 49214.152 | CSG - must be CF van | Resolved | Unallocated |
 	| 2  | 001   | 1    | 92545470  | 2874.033  | CSG - must be CF van | Resolved | Unallocated |
 	| 3  | 001   | 2    | 92545470  | 2874.033  | RVS SHOP             | Resolved | Unallocated |
 	When I view the account info modal for resolved row 2
@@ -30,7 +30,7 @@ Scenario: A user can filter Resolved Delivery information
 	And I filter the resolved delivery grid with the option 'Route' and value '006'
 	Then the following resolved deliveries will be displayed
 	| Id | Route | Drop | InvoiceNo  | Account   | AccountName          | Status   | Assigned    |
-	| 5  | 006   | 1    | 91156028 | 43362.048 | WB - SHOP            | Resolved | Unallocated |
+	| 5  | 006   | 1    | 91156028	| 43362.048 | WB - SHOP            | Resolved | Unallocated |
 	| 6  | 006   | 1    | 92544765  | 2874.033  | WB - SHOP            | Resolved | Unallocated |
 	| 7  | 006   | 2    | 94295479 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |
 	| 8  | 006   | 2    | 94294985 | 54107.000 | WB - SHELL FORECOURT | Resolved | Unallocated |

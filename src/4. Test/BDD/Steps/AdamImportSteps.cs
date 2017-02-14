@@ -76,6 +76,24 @@
             this.adamFileMonitorService.Process(importFilePath);
         }
 
+        [Given(@"I have loaded the Adam route data to check data to ADAM")]
+        public void LoadAdamRouteDataToCheck()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_30062016_82.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
+        [Given(@"I have loaded the Adam order data to check data to ADAM")]
+        public void LoadAdamOrderDataToCheck()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ORDER_HAY_170207_2333.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
         [Given(@"I have loaded the Adam route data that has 21 lines")]
         public void GivenIHaveLoadedTheAdamRouteDataThatHasLines()
         {

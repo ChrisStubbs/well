@@ -124,29 +124,10 @@ this.FeatureBackground();
                         "2"});
 #line 18
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table1, "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("View exception details at lower level with delivery check icon displayed")]
-        public virtual void ViewExceptionDetailsAtLowerLevelWithDeliveryCheckIconDisplayed()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details at lower level with delivery check icon displayed", ((string[])(null)));
-#line 23
-this.ScenarioSetup(scenarioInfo);
-#line 8
-this.FeatureBackground();
-#line 24
- testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 25
- testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 26
- testRunner.And("All delivery lines are flagged with line delivery status \'Exception\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 27
+#line 22
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 28
- testRunner.And("I click on exception row 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 23
+ testRunner.And("I click on exception row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "LineNo",
@@ -159,6 +140,50 @@ this.FeatureBackground();
                         "ShortQuantity"});
             table2.AddRow(new string[] {
                         "1",
+                        "50035",
+                        "Ind Potato Gratin 400g",
+                        "39.95",
+                        "20",
+                        "18",
+                        "2",
+                        "0"});
+#line 24
+ testRunner.Then("I am shown the exception detail", ((string)(null)), table2, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("View exception details at lower level with delivery check icon displayed")]
+        public virtual void ViewExceptionDetailsAtLowerLevelWithDeliveryCheckIconDisplayed()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details at lower level with delivery check icon displayed", ((string[])(null)));
+#line 28
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 29
+ testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 30
+ testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+ testRunner.And("All delivery lines are flagged with line delivery status \'Exception\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 32
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.And("I click on exception row 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo",
+                        "Product",
+                        "Description",
+                        "Value",
+                        "InvoiceQuantity",
+                        "DeliveryQuantity",
+                        "DamagedQuantity",
+                        "ShortQuantity"});
+            table3.AddRow(new string[] {
+                        "1",
                         "6987",
                         "Choc Teacakes Tunnock",
                         "19.23",
@@ -166,7 +191,7 @@ this.FeatureBackground();
                         "-1",
                         "0",
                         "2"});
-            table2.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "2",
                         "49179",
                         "Ginger Nuts 250g",
@@ -175,7 +200,7 @@ this.FeatureBackground();
                         "-1",
                         "0",
                         "2"});
-            table2.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "3",
                         "21633",
                         "Kiddies Super Mix 220gPM",
@@ -184,7 +209,7 @@ this.FeatureBackground();
                         "-1",
                         "0",
                         "2"});
-            table2.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "4",
                         "4244",
                         "Milkybar Btns Giant PM",
@@ -193,7 +218,7 @@ this.FeatureBackground();
                         "-1",
                         "0",
                         "2"});
-            table2.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "5",
                         "7621",
                         "Fruit Past Tube 52.5g",
@@ -202,8 +227,8 @@ this.FeatureBackground();
                         "-1",
                         "0",
                         "2"});
-#line 29
- testRunner.Then("I am shown the exception detail", ((string)(null)), table2, "Then ");
+#line 34
+ testRunner.Then("I am shown the exception detail", ((string)(null)), table3, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

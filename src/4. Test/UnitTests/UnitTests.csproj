@@ -169,6 +169,7 @@
     <Compile Include="Infrastructure\ExceptionEventRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
+    <Compile Include="Infrastructure\PodTransactionFactoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteToRemoveRepositoryTests.cs" />
     <Compile Include="Infrastructure\SeasonalDateRepositoryTests.cs" />

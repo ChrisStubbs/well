@@ -3,11 +3,11 @@
   <Routes>
     <RouteHeader>
       <CompanyID>3</CompanyID>
-      <RouteNumber>001</RouteNumber>
-      <RouteDate>01-07-2016</RouteDate>
-      <DriverName>HALL IAN</DriverName>
+      <RouteNumber>11</RouteNumber>
+      <RouteDate>07-07-2016 10:00:00</RouteDate>
+      <DriverName></DriverName>
       <VehicleReg>DE12NNO</VehicleReg>
-      <StartDepotCode>BIR</StartDepotCode>
+      <StartDepotCode>HAY</StartDepotCode>
       <PlannedRouteStartTime>10:28</PlannedRouteStartTime>
       <PlannedRouteFinishTime>13:41</PlannedRouteFinishTime>
       <PlannedDistance>96</PlannedDistance>
@@ -20,7 +20,7 @@
         </Attribute>
         <Attribute>
           <Code>ROUTEOWNER</Code>
-          <Value1>BIR</Value1>
+          <Value1>HAY</Value1>
         </Attribute>
       </EntityAttributes>
       <Stops>
@@ -28,7 +28,7 @@
           <PlannedStopNumber>01</PlannedStopNumber>
           <PlannedArriveTime>07:03</PlannedArriveTime>
           <PlannedDepartTime>08:03</PlannedDepartTime>
-          <TransportOrderRef>BIR-0000000000000000001</TransportOrderRef>
+          <TransportOrderRef>HAY-0000000000000000001</TransportOrderRef>
           <SpecialInstructions>Access at rear only</SpecialInstructions>
           <StartWindow>07:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -40,16 +40,16 @@
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
           <Account>
-            <Code>49214.152</Code>
-            <AccountTypeCode>SHELL</AccountTypeCode>
-            <Name>CSG - must be CF van</Name>
-            <Address1>112-114 Barrow Road</Address1>
-            <Address2>SILEBY</Address2>
+            <Code>18767.000</Code>
+            <AccountTypeCode>CUST</AccountTypeCode>
+            <Name>Mr Nimeselan</Name>
+            <Address1>Some shop</Address1>
+            <Address2>Somewhere</Address2>
             <PostCode>LE12 7LP</PostCode>
-            <ContactName>CSG Contact 1</ContactName>
+            <ContactName>Frank</ContactName>
             <ContactNumber>01509815739</ContactNumber>
             <ContactNumber2>01234987654</ContactNumber2>
-            <ContactEmailAddress>contact@csg.com</ContactEmailAddress>
+            <ContactEmailAddress>contact@frankshop.com</ContactEmailAddress>
             <StartWindow>07:00</StartWindow>
             <EndWindow>10:00</EndWindow>
             <Latitude>52.73288</Latitude>
@@ -66,16 +66,16 @@
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
-              <JobTypeCode>DEL-TOB</JobTypeCode>
+              <JobTypeCode>DEL-AMB</JobTypeCode>
               <JobRef1>123</JobRef1>
-              <JobRef2>4294343</JobRef2>
-              <JobRef3></JobRef3>
-              <JobRef4>49214.152</JobRef4>
+              <JobRef2>4294</JobRef2>
+              <JobRef3>2214895</JobRef3>
+              <JobRef4>18767.000</JobRef4>
               <OrderDate>31-05-2016</OrderDate>
-              <TextField1>1871</TextField1>
+              <TextField1>1788</TextField1>
               <TextField2></TextField2>
               <TextField3>946941</TextField3>
-              <GrnProcType>1</GrnProcType>
+              <GrnProcType>0</GrnProcType>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -188,9 +188,9 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>20</OriginalDespatchQty>
-                  <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
+                  <Barcode>24077</Barcode>
+                  <OriginalDespatchQty>5</OriginalDespatchQty>
+                  <ProdDesc>Coca Cola 1.75Ltr</ProdDesc>
                   <OrderedQty>5</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
@@ -211,7 +211,9 @@
                     </Attribute>
                   </EntityAttributes>
                 </JobDetail>
-                <JobDetail>
+              </JobDetails>
+              </Job>
+                <!--<JobDetail>
                   <LineNumber>2</LineNumber>
                   <Barcode>50035</Barcode>
                   <OriginalDespatchQty>5</OriginalDespatchQty>
@@ -403,14 +405,14 @@
                   <NetPrice>22.41</NetPrice>
                 </JobDetail>
               </JobDetails>
-            </Job>
+            </Job>-->
           </Jobs>
         </Stop>
         <Stop>
           <PlannedStopNumber>02</PlannedStopNumber>
           <PlannedArriveTime>08:32</PlannedArriveTime>
           <PlannedDepartTime>09:29</PlannedDepartTime>
-          <TransportOrderRef>BIR-0000000000000000002</TransportOrderRef>
+          <TransportOrderRef>HAY-0000000000000000002</TransportOrderRef>
           <SpecialInstructions>Please do not be late</SpecialInstructions>
           <StartWindow>08:00</StartWindow>
           <EndWindow>10:00</EndWindow>
@@ -423,9 +425,9 @@
           <CustUnatt>true</CustUnatt>
           <PHUnatt>true</PHUnatt>
           <Account>
-            <Code>2874.033</Code>
-            <AccountTypeCode>MMRG</AccountTypeCode>
-            <Name>RVS SHOP</Name>
+            <Code>47621.126</Code>
+            <AccountTypeCode>ONE</AccountTypeCode>
+            <Name>ONE STOP</Name>
             <Address1>BROAD AVENUE</Address1>
             <Address2>LEICESTER</Address2>
             <PostCode>LE5 4PW</PostCode>
@@ -444,14 +446,14 @@
             <Job>
               <Sequence>1</Sequence>
               <JobTypeCode>DEL-AMB</JobTypeCode>
-              <JobRef4>2874.033</JobRef4>
-              <JobRef2>2545470</JobRef2>
+              <JobRef4>47621.126</JobRef4>
+              <JobRef2>123456</JobRef2>
               <CustomerRef>22428</CustomerRef>
               <OrderDate>31-05-2016</OrderDate>
               <TextField1>770</TextField1>
               <TextField1Desc>
               </TextField1Desc>
-              <ProofDeliv>8</ProofDeliv>
+              <ProofDeliv>0</ProofDeliv>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -463,6 +465,7 @@
               <SandwchOrd>false</SandwchOrd>
               <ComdtyType>A</ComdtyType>
               <AllowReOrd>true</AllowReOrd>
+              <GrnProcType>1</GrnProcType>
               <EntityAttributes>
                 <Attribute>
                   <Code>ORDOUTERS</Code>
@@ -560,35 +563,10 @@
               <JobDetails>
                 <JobDetail>
                   <LineNumber>1</LineNumber>
-                  <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>5</OriginalDespatchQty>
-                  <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
-                  <OrderedQty>5</OrderedQty>
-                  <SkuWeight>2.65</SkuWeight>
-                  <SkuCube>7.51</SkuCube>
-                  <UnitMeasure>6</UnitMeasure>
-                  <PHProductType>15</PHProductType>
-                  <PackSize>6</PackSize>
-                  <SingleOrOuter>
-                  </SingleOrOuter>
-                  <TextField4 />
-                  <SSCCBarcode>
-                  </SSCCBarcode>
-                  <SkuGoodsValue>39.95</SkuGoodsValue>
-                  <NetPrice>7.99</NetPrice>
-                  <EntityAttributes>
-                    <Attribute>
-                      <Code>JD002</Code>
-                      <Value1>ACDS-103827-27-001</Value1>
-                    </Attribute>
-                  </EntityAttributes>
-                </JobDetail>
-                <JobDetail>
-                  <LineNumber>2</LineNumber>
-                  <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>5</OriginalDespatchQty>
-                  <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
-                  <OrderedQty>5</OrderedQty>
+                  <Barcode>55520</Barcode>
+                  <OriginalDespatchQty>10</OriginalDespatchQty>
+                  <ProdDesc>One Stop Sandwich Box</ProdDesc>
+                  <OrderedQty>10</OrderedQty>
                   <SkuWeight>2.65</SkuWeight>
                   <SkuCube>7.51</SkuCube>
                   <UnitMeasure>6</UnitMeasure>
@@ -610,7 +588,214 @@
                 </JobDetail>
               </JobDetails>
             </Job>
-            <Job>
+            </Jobs>
+        </Stop>
+            <Stop>
+              <PlannedStopNumber>03</PlannedStopNumber>
+              <PlannedArriveTime>08:32</PlannedArriveTime>
+              <PlannedDepartTime>09:29</PlannedDepartTime>
+              <TransportOrderRef>HAY-0000000000000000003</TransportOrderRef>
+              <SpecialInstructions>Please do not be late</SpecialInstructions>
+              <StartWindow>08:00</StartWindow>
+              <EndWindow>10:00</EndWindow>
+              <TextField1>1</TextField1>
+              <TextField2>N</TextField2>
+              <TextField3>N</TextField3>
+              <TextField5>001 03</TextField5>
+              <ShellActionIndicator>N</ShellActionIndicator>
+              <AllowOvers>true</AllowOvers>
+              <CustUnatt>true</CustUnatt>
+              <PHUnatt>true</PHUnatt>
+              <Account>
+                <Code>48796.790</Code>
+                <AccountTypeCode>CCE</AccountTypeCode>
+                <Name>Royal Northern College</Name>
+                <Address1>124 OXFORD ROAD</Address1>
+                <Address2>MANCHESTER</Address2>
+                <PostCode>LE5 4PW</PostCode>
+                <ContactName>Professor Dumbledore</ContactName>
+                <ContactNumber>01162584229</ContactNumber>
+                <ContactNumber2 />
+                <ContactEmailAddress />
+                <StartWindow>08:00</StartWindow>
+                <EndWindow>10:00</EndWindow>
+                <Latitude>52.62983</Latitude>
+                <Longitude>-1.08295</Longitude>
+                <IsDropAndDrive>
+                </IsDropAndDrive>
+              </Account>
+              <Jobs>
+                <Job>
+                  <Sequence>1</Sequence>
+                  <JobTypeCode>DEL-AMB</JobTypeCode>
+                  <JobRef4>48796.790</JobRef4>
+                  <JobRef2>654321</JobRef2>
+                  <CustomerRef>John</CustomerRef>
+                  <OrderDate>31-05-2016</OrderDate>
+                  <TextField1>1984</TextField1>
+                  <TextField1Desc>
+                  </TextField1Desc>
+                  <ProofDeliv>8</ProofDeliv>
+                  <OrdOuters>1</OrdOuters>
+                  <InvOuters>1</InvOuters>
+                  <ColOuters>1</ColOuters>
+                  <ColBoxes>1</ColBoxes>
+                  <ReCallPrd>true</ReCallPrd>
+                  <AllowSgCrd>true</AllowSgCrd>
+                  <AllowSOCrd>true</AllowSOCrd>
+                  <COD>true</COD>
+                  <SandwchOrd>false</SandwchOrd>
+                  <ComdtyType>A</ComdtyType>
+                  <AllowReOrd>true</AllowReOrd>
+                  <GrnProcType>0</GrnProcType>
+                  <EntityAttributes>
+                    <Attribute>
+                      <Code>ORDOUTERS</Code>
+                      <Value1>2</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>INVOUTERS</Code>
+                      <Value1>0</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>SIGREQ</Code>
+                      <Value1>Delivery</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>RECALLTOB</Code>
+                      <Value1>false</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>RECALLCON</Code>
+                      <Value1>false</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>RECALLALC</Code>
+                      <Value1>false</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>RECALLCHL</Code>
+                      <Value1>false</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>RECALLFRZ</Code>
+                      <Value1>false</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>GRNTYPE</Code>
+                      <Value1>Picture</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>ALLOWOVERS</Code>
+                      <Value1>false</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>ALLOWSINCR</Code>
+                      <Value1>true</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>CUSTUNATT</Code>
+                      <Value1>true</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>PHUNATT</Code>
+                      <Value1>true</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>COD</Code>
+                      <Value1>Card</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>ALLOWREORD</Code>
+                      <Value1>true</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>CUSLATEREP</Code>
+                      <Value1>true</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>DETCHKQTY</Code>
+                      <Value1>100</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>DETOUTSHRT</Code>
+                      <Value1>20</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>DETAVESHRT</Code>
+                      <Value1>100.00</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>PACKMETH1</Code>
+                      <Value1>CAGE</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>PACKTOT1</Code>
+                      <Value1>70</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>PACKMETH2</Code>
+                      <Value1>BOX</Value1>
+                    </Attribute>
+                    <Attribute>
+                      <Code>PACKTOT1</Code>
+                      <Value1>35</Value1>
+                    </Attribute>
+                  </EntityAttributes>
+                  <JobDetails>
+                    <JobDetail>
+                      <LineNumber>1</LineNumber>
+                      <Barcode>45048</Barcode>
+                      <OriginalDespatchQty>1</OriginalDespatchQty>
+                      <ProdDesc>Coca Cola 7Ltr</ProdDesc>
+                      <OrderedQty>1</OrderedQty>
+                      <SkuWeight>2.65</SkuWeight>
+                      <SkuCube>7.51</SkuCube>
+                      <UnitMeasure>6</UnitMeasure>
+                      <PHProductType>15</PHProductType>
+                      <PackSize>6</PackSize>
+                      <SingleOrOuter>
+                      </SingleOrOuter>
+                      <TextField4 />
+                      <SSCCBarcode>
+                      </SSCCBarcode>
+                      <SkuGoodsValue>20.95</SkuGoodsValue>
+                      <NetPrice>7.99</NetPrice>
+                      <EntityAttributes>
+                        <Attribute>
+                          <Code>JD002</Code>
+                          <Value1>ACDS-103827-27-001</Value1>
+                        </Attribute>
+                      </EntityAttributes>
+                    </JobDetail>
+                    <JobDetail>
+                      <LineNumber>2</LineNumber>
+                      <Barcode>45046</Barcode>
+                      <OriginalDespatchQty>1</OriginalDespatchQty>
+                      <ProdDesc>Diet Cola 7Ltr</ProdDesc>
+                      <OrderedQty>1</OrderedQty>
+                      <SkuWeight>2.65</SkuWeight>
+                      <SkuCube>7.51</SkuCube>
+                      <UnitMeasure>6</UnitMeasure>
+                      <PHProductType>15</PHProductType>
+                      <PackSize>6</PackSize>
+                      <SingleOrOuter>
+                      </SingleOrOuter>
+                      <TextField4 />
+                      <SSCCBarcode>
+                      </SSCCBarcode>
+                      <SkuGoodsValue>20.95</SkuGoodsValue>
+                      <NetPrice>7.99</NetPrice>
+                      <EntityAttributes>
+                        <Attribute>
+                          <Code>JD002</Code>
+                          <Value1>ACDS-103827-27-001</Value1>
+                        </Attribute>
+                      </EntityAttributes>
+                    </JobDetail>
+                  </JobDetails>
+                </Job>
+            <!--<Job>
               <Sequence>2</Sequence>
               <JobTypeCode>DEL-TOB</JobTypeCode>
               <JobRef4>2874.033</JobRef4>
@@ -814,11 +999,11 @@
                   <NetPrice>8.40</NetPrice>
                 </JobDetail>
               </JobDetails>
-            </Job>
-          </Jobs>
+            </Job>-->
+       <!--   </Jobs>
         </Stop>
       </Stops>
-    </RouteHeader>
+   </RouteHeader>
    <RouteHeader>
       <CompanyID>3</CompanyID>
       <RouteNumber>006</RouteNumber>
@@ -3415,9 +3600,9 @@
                   <NetPrice>16.03</NetPrice>
                 </JobDetail>
               </JobDetails>
-            </Job>
+            </Job>-->
           </Jobs>
-        </Stop>
+          </Stop>
       </Stops>
     </RouteHeader>
   </Routes>

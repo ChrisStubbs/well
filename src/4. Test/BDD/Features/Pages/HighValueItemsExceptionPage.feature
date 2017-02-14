@@ -19,10 +19,15 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | TBA |
 	| 001   | 1    | 94294343	| 49214.152 | CSG - must be CF van | Incomplete | 2   |
 	| 001   | 1    | 92545470	| 2874.033  | CSG - must be CF van | Incomplete | 2   |
+	When I open the exception deliveries
+	And I click on exception row 1
+	Then I am shown the exception detail
+   | LineNo | Product | Description            | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
+   | 1      | 50035   | Ind Potato Gratin 400g | 39.95 | 20				 |        18        |       2         |        0      |
 
 Scenario: View exception details at lower level with delivery check icon displayed
 	Given I have selected branch '22'
-	And  All the deliveries are marked as exceptions
+	And All the deliveries are marked as exceptions
 	And All delivery lines are flagged with line delivery status 'Exception'
 	When I open the exception deliveries
 	And I click on exception row 4

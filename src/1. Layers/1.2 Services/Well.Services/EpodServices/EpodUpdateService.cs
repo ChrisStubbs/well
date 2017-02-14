@@ -83,7 +83,10 @@
 
                 this.routeHeaderRepository.Update(existingHeader);
 
-                this.UpdateStops(header.Stops, existingHeader.StartDepot);
+                int branchId;
+                Int32.TryParse(existingHeader.StartDepotCode, out branchId);
+
+                this.UpdateStops(header.Stops, branchId);
             }
         }
 
@@ -183,7 +186,7 @@
                 if (ProofOfDeliveryList.Contains(pod))
                 {
                     //build pod transaction
-                    var podTransaction = this.podTransactionFactory.Build(job, branchId);
+                    var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
 
                     this.exceptionEventRepository.InsertPodEvent(podTransaction);
                 }

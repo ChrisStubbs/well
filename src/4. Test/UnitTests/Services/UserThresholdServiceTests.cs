@@ -19,7 +19,6 @@
     {
         private Mock<ICreditThresholdRepository> creditThresholdRepository;
         private Mock<IUserRepository> userRepository;
-        private Mock<ILogger> logger;
 
         private UserThresholdService service;
 
@@ -28,8 +27,7 @@
         {
             this.creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            this.logger = new Mock<ILogger>(MockBehavior.Strict);
-            this.service = new UserThresholdService(this.creditThresholdRepository.Object, this.userRepository.Object, this.logger.Object);
+            this.service = new UserThresholdService(this.creditThresholdRepository.Object, this.userRepository.Object);
         }
 
         public class TheCanUserCreditMethod : UserThresholdServiceTests
@@ -95,7 +93,7 @@
 
                 this.userRepository.Setup(x => x.GetUserByCreditThreshold(level2Threshold)).Returns(user);
 
-                this.creditThresholdRepository.Setup(x => x.AssignPendingCreditToUser(user, 1, "foo"));
+                this.creditThresholdRepository.Setup(x => x.PendingCreditInsert(1, "foo"));
 
                 this.service.AssignPendingCredit(branchId, totalThresholdAmount, 1, "");
             }

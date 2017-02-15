@@ -90,6 +90,7 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
+    <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\CreditTransaction.cs" />
     <Compile Include="ValueObjects\CreditLines.cs" />
     <Compile Include="ValueObjects\DamageSource.cs" />

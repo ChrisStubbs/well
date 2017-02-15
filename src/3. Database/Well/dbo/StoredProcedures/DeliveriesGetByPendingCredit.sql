@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[PendingCreditDeliveriesGet]
+﻿CREATE PROCEDURE [dbo].[DeliveriesGetByPendingCredit]
 	@UserName VARCHAR(500)
 AS
 BEGIN
@@ -7,16 +7,20 @@ BEGIN
 	SELECT
 		j.Id,
 		rh.RouteNumber, 
-		s.DropId,
+		s.PlannedStopNumber as DropId,
 		j.InvoiceNumber, 
 		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
 		ps.Description as JobStatus,
+		j.Cod,
 		s.DeliveryDate,
+		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
 		b.Id as BranchId,
+		u2.IdentityName,
 		j.COD as CashOnDelivery,
-		j.TotalCreditValueForThreshold as TotalCredit,
+		j.TotalCreditValueForThreshold,
+		j.TotalOutersShort,
 		pc.CreatedBy as PendingCreditCreatedBy
 	FROM
 		RouteHeader rh 
@@ -35,8 +39,12 @@ BEGIN
 		dbo.UserBranch ub on b.Id = ub.BranchId
 	INNER JOIN
 		dbo.[User] u on u.Id = ub.UserId
+	LEFT JOIN
+		dbo.UserJob uj on uj.JobId = j.Id 
+	LEFT JOIN
+		dbo.[User] u2 on u2.Id = uj.UserId
 	INNER JOIN
-		dbo.[PendingCreditToUser] pc on pc.UserId = u.Id AND pc.JobId = j.Id
+		dbo.[PendingCredit] pc on pc.JobId = j.Id
 	WHERE
 		u.IdentityName = @UserName
 	AND 
@@ -51,7 +59,4 @@ BEGIN
 		j.IsDeleted = 0
 	AND
 		pc.IsDeleted = 0
-	AND 
-		j.PerformanceStatusId = 9
-
 END

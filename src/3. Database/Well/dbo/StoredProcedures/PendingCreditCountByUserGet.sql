@@ -8,9 +8,9 @@ BEGIN
 	select
 		count(1)
 	from
-		PendingCreditToUser p
-	join
-		[User] u on u.Id = p.userId
+		[PendingCredit] p
+	inner join [UserJob] uj on uj.JobId = p.JobId
+	inner join [User] u on u.Id = uj.UserId
 	where
 		u.IdentityName = @identityName AND p.IsDeleted = 0
 

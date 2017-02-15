@@ -4,5 +4,5 @@ AS
 BEGIN
 
 	SET NOCOUNT ON;
-	UPDATE PendingCreditToUSer SET IsDeleted = 1 WHERE JobId = @jobId
+	UPDATE PendingCredit SET IsDeleted = 1 WHERE JobId = @jobId
 END

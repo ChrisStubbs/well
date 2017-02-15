@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.BDD.Steps
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     using Domain.Enums;
@@ -17,7 +18,8 @@
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
-    
+    using Branch = Domain.Branch;
+
     [Binding]
     public class DatabaseSteps
     {
@@ -41,6 +43,7 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
+            DeleteAndReseed("PendingCredit");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
@@ -51,7 +54,6 @@
             DeleteAndReseed("Stop");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
-            DeleteAndReseed("PendingCreditToUser");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
             DeleteAndReseed("Audit");
@@ -413,9 +415,6 @@
             Assert.That(pendingValue, Is.EqualTo(pendingDelivery));
             Assert.That(resolvedValue, Is.EqualTo(resolvedDelivery));
         }
-
-
-
     }
 }
 

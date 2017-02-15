@@ -83,7 +83,7 @@
         public static string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
         public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
-        public static string PendingCreditDeliveriesGet = "PendingCreditDeliveriesGet";
+        public static string DeliveriesGetByPendingCredit = "DeliveriesGetByPendingCredit";
 
         public static string BranchesGet = "BranchesGet";
 
@@ -150,7 +150,7 @@
         public static string WidgetWarningDelete = "WidgetWarningDelete";
         public static string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
 
-        public static string AssignPendingCreditToUser = "AssignPendingCreditToUser";
+        public static string PendingCreditInsert = "PendingCreditInsert";
         public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";
         public static string CreditJob = "Job_CreditLines";
         public static string RemovePendingCredit = "RemovePendingCredit";

@@ -43,7 +43,7 @@
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
             exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
 
-           // deliveryReadRepository.SetupSet(r => r. = It.IsAny<string>())
+            // deliveryReadRepository.SetupSet(r => r. = It.IsAny<string>())
 
             this.Controller = new DeliveryController(
                 this.deliveryReadRepository.Object,
@@ -62,7 +62,7 @@
             [Test]
             public void ShouldGetExceptions()
             {
-                var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
+                var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
 
                 this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(It.IsAny<string>())).Returns(deliveries);
 
@@ -121,7 +121,7 @@
             [Test]
             public void ShouldGetCleanDeliveries()
             {
-                var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
+                var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
 
                 this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Returns(deliveries);
 
@@ -179,7 +179,7 @@
             [Test]
             public void ShouldGetResolvedDeliveries()
             {
-                var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
+                var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
 
                 this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Returns(deliveries);
 
@@ -215,11 +215,12 @@
                 this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
-                    x =>
-                        x.HandleException(
-                            It.IsAny<HttpRequestMessage>(),
-                            exception,
-                            "An error occured when getting resolved deliveries")).Returns(It.IsAny<HttpResponseMessage>());
+                        x =>
+                            x.HandleException(
+                                It.IsAny<HttpRequestMessage>(),
+                                exception,
+                                "An error occured when getting resolved deliveries"))
+                    .Returns(It.IsAny<HttpResponseMessage>());
 
                 var response = this.Controller.GetResolvedDeliveries();
 
@@ -240,11 +241,13 @@
                 var delivery = DeliveryDetailFactory.New.Build();
                 var deliveryId = 4;
 
-                var lines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
+                var lines = new List<DeliveryLine> {DeliveryLineFactory.New.Build()};
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>())).Returns(delivery);
+                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>()))
+                    .Returns(delivery);
                 this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(deliveryId)).Returns(lines);
-                this.deliveryToDetailMapper.Setup(x => x.Map(lines, delivery)).Returns(new DeliveryDetailModel { AccountCode = "1000" });
+                this.deliveryToDetailMapper.Setup(x => x.Map(lines, delivery))
+                    .Returns(new DeliveryDetailModel {AccountCode = "1000"});
 
                 var response = this.Controller.GetDelivery(deliveryId);
 
@@ -257,12 +260,14 @@
                 var delivery = DeliveryDetailFactory.New.With(x => x.AccountCode = null).Build();
                 var deliveryId = 4;
 
-                var lines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
+                var lines = new List<DeliveryLine> {DeliveryLineFactory.New.Build()};
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>())).Returns(delivery);
+                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>()))
+                    .Returns(delivery);
                 this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(deliveryId)).Returns(lines);
 
-                this.deliveryToDetailMapper.Setup(x => x.Map(lines, delivery)).Returns(new DeliveryDetailModel { AccountCode = "" });
+                this.deliveryToDetailMapper.Setup(x => x.Map(lines, delivery))
+                    .Returns(new DeliveryDetailModel {AccountCode = ""});
 
                 var response = this.Controller.GetDelivery(deliveryId);
 
@@ -275,14 +280,16 @@
                 var exception = new Exception();
                 var deliveryId = 4;
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>())).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetDeliveryById(deliveryId, It.IsAny<string>()))
+                    .Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
-                    x =>
-                        x.HandleException(
-                            It.IsAny<HttpRequestMessage>(),
-                            exception,
-                            "An error occured when getting delivery detail id: 4")).Returns(It.IsAny<HttpResponseMessage>());
+                        x =>
+                            x.HandleException(
+                                It.IsAny<HttpRequestMessage>(),
+                                exception,
+                                "An error occured when getting delivery detail id: 4"))
+                    .Returns(It.IsAny<HttpResponseMessage>());
 
                 var response = this.Controller.GetDelivery(deliveryId);
 
@@ -292,6 +299,52 @@
                             It.IsAny<HttpRequestMessage>(),
                             exception,
                             "An error occured when getting delivery detail id: 4"), Times.Once);
+            }
+        }
+
+        public class TheGetApprovalsMethod : DeliveryControllerTests
+        {
+            [Test]
+            public void HasGetAttribute()
+            {
+                MethodInfo controllerMethod = GetMethod(c => c.GetApprovals());
+                var routeAttribute = GetAttributes<HttpGetAttribute>(controllerMethod).FirstOrDefault();
+                Assert.IsNotNull(routeAttribute);
+            }
+
+            [Test]
+            public void HasCorrectRoute()
+            {
+                MethodInfo controllerMethod = GetMethod(c => c.GetApprovals());
+                var routeAttribute = GetAttributes<RouteAttribute>(controllerMethod).FirstOrDefault();
+                Assert.AreEqual("deliveries/approval", routeAttribute.Template);
+            }
+
+            [Test]
+            public void GivenNoApprovals_ThenReturnsNotFound()
+            {
+                deliveryService.Setup(d => d.GetApprovals(It.IsAny<string>())).Returns(new List<Delivery>());
+
+                HttpResponseMessage response = Controller.GetApprovals();
+
+                Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+            }
+
+            [Test]
+            public void GivenApprovals_ThenReturnsListWithOKStatus()
+            {
+                var expectedDeliveries = new List<Delivery>()
+                {
+                    new Delivery() {Id = 1}
+                };
+                deliveryService.Setup(d => d.GetApprovals(It.IsAny<string>())).Returns(expectedDeliveries);
+
+                HttpResponseMessage response = Controller.GetApprovals();
+                var responseModel = GetResponseObject<List<Delivery>>(response);
+
+
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                Assert.AreEqual(expectedDeliveries[0].Id, responseModel[0].Id);
             }
         }
 
@@ -364,9 +417,10 @@
             [Test]
             public void ShouldSaveTheGrnAgainstTheJob()
             {
-                var model = new GrnModel { Id = 302, GrnNumber = "123212", BranchId = 2};
+                var model = new GrnModel {Id = 302, GrnNumber = "123212", BranchId = 2};
 
-                this.deliveryService.Setup(x => x.SaveGrn(model.Id, model.GrnNumber, model.BranchId, It.IsAny<string>()));
+                this.deliveryService.Setup(
+                    x => x.SaveGrn(model.Id, model.GrnNumber, model.BranchId, It.IsAny<string>()));
 
                 //ACT
                 var response = this.Controller.SaveGrn(model);
@@ -377,5 +431,6 @@
 
             }
         }
+
     }
 }

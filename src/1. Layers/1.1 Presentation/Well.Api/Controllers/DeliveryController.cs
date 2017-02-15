@@ -54,7 +54,7 @@
         {
             try
             {
-                var exceptionDeliveries =
+                List<Delivery> exceptionDeliveries =
                     this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
@@ -67,6 +67,25 @@
             {
                 return this.serverErrorResponseHandler.HandleException(Request, ex,
                     "An error occured when getting exceptions");
+            }
+        }
+
+        [HttpGet]
+        [Route("deliveries/approval")]
+        public HttpResponseMessage GetApprovals()
+        {
+            try
+            {
+                var approvals = deliveryService.GetApprovals(this.UserIdentityName);
+
+                return !approvals.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, approvals);
+            }
+            catch (Exception ex)
+            {
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting approvals");
             }
         }
 
@@ -178,7 +197,7 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting delivery actions");
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting delivery actions");
             }
         }
     }

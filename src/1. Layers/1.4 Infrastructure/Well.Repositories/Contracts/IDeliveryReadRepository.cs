@@ -15,7 +15,7 @@
 
         DeliveryDetail GetDeliveryById(int id, string username);
 
-        IEnumerable<Delivery> GetPendingCreditDeliveries(string username);
+        IEnumerable<Delivery> GetByPendingCredit(string username);
 
         IEnumerable<PendingCreditDetail> GetPendingCreditDetail(int jobId);
     }

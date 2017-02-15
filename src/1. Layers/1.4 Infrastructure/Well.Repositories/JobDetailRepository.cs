@@ -31,14 +31,11 @@
 
         private IEnumerable<JobDetail> Get(int? id, int? jobId, int? lineNumber)
         {
-            var jobDetails = new List<JobDetail>();
-            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGet)
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailGet)
                 .AddParameter("Id", id, DbType.Int32)
                 .AddParameter("JobId", jobId, DbType.Int32)
                 .AddParameter("LineNumber", lineNumber, DbType.Int32)
-                .QueryMultiple<JobDetail>(g => jobDetails = GetFromGrid(g));
-
-            return jobDetails;
+                .QueryMultiples(GetFromGrid);
         }
 
         private List<JobDetail> GetFromGrid(SqlMapper.GridReader grid)

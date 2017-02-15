@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
+    <Content Include="app\approvals\approvals-list.html" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
@@ -767,6 +768,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\approvals\approvalsComponent.ts" />
+    <Content Include="app\approvals\approvalDelivery.ts" />
+    <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />

@@ -32,7 +32,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occcured when getting account by id {accountId}");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, $"An error occurred when getting account by id {accountId}");
             }
         }
     }

@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-
+    using System.Security.Cryptography.X509Certificates;
+    using Dapper;
     using Moq;
 
     using NUnit.Framework;
@@ -39,17 +40,20 @@
             public void ShouldReturnAllBranches()
             {
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.BranchesGet)).Returns(this.dapperProxy.Object);
-                this.dapperProxy.Setup(x => x.Query<Branch>()).Returns(new List<Branch>());
+                dapperProxy.Setup(x => x.QueryMultiples(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Branch>>>()))
+                    .Returns(new List<Branch>());
 
                 this.repository.GetAll();
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.BranchesGet), Times.Once);
-                this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
+                dapperProxy.Verify(x => x.QueryMultiples(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Branch>>>()), Times.Once);
             }
         }
 
         public class TheGetAllValidBranchesMethod : BranchRepositoryTests
         {
+            private List<Branch> branches;
+
             [Test]
             public void ShouldOnlyReturnRealBranches()
             {
@@ -57,12 +61,13 @@
                 var validBranch2 = BranchFactory.New.With(x => x.Id = (int)Well.Domain.Enums.Branch.Hemel).Build();
                 var invalidBranch = BranchFactory.New.With(x => x.Id = (int)Well.Domain.Enums.Branch.NotDefined).Build();
 
-                var branches = new List<Branch> { validBranch1, validBranch2, invalidBranch };
+                branches = new List<Branch> { validBranch1, validBranch2, invalidBranch };
 
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.BranchesGet))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<Branch>()).Returns(branches);
+                dapperProxy.Setup(x => x.QueryMultiples<Branch>(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Branch>>>()))
+                    .Returns(branches);
 
                 var result = this.repository.GetAllValidBranches().ToList();
 
@@ -76,7 +81,15 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.BranchesGet), Times.Once);
 
-                this.dapperProxy.Verify(x => x.Query<Branch>(), Times.Once);
+                this.dapperProxy.Verify(x => x.QueryMultiples<Branch>(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Branch>>>()), Times.Once);
+            }
+
+            
+            
+
+            private List<Branch> GetFromGrid(SqlMapper.GridReader grid)
+            {
+                return branches;
             }
         }
 

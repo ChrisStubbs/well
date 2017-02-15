@@ -93,7 +93,7 @@
 
                 this.branchRepository.Setup(x => x.GetAllValidBranches()).Throws(exception);
 
-                this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception, "An error occured when getting branches!"))
+                this.serverErrorResponseHandler.Setup(x => x.HandleException(It.IsAny<HttpRequestMessage>(), exception, "An error occurred when getting branches!"))
                     .Returns(new HttpResponseMessage());
                 
                 this.Controller.Get();

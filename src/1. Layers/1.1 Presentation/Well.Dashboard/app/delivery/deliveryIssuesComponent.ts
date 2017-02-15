@@ -115,4 +115,4 @@ export class DeliveryIssuesComponent {
 
         return !(this.delivery.canAction && hasPermission);
     }
-}
+} 

@@ -9,8 +9,10 @@
 	[PlannedStops] TINYINT NOT NULL,
 	[ActualStopsCompleted] TINYINT NULL,
 	[RoutesId] INT NOT NULL,
-	[RouteStatusId] TINYINT NULL,
-	[RoutePerformanceStatusId] TINYINT NULL,
+	[RouteStatusCode] VARCHAR(50) NULL,
+	[RouteStatusDescription] VARCHAR(255) NULL,
+	[PerformanceStatusCode] VARCHAR(50) NULL,
+	[PerformanceStatusDescription] VARCHAR(255) NULL,
 	[LastRouteUpdate] DATETIME NULL,
 	[AuthByPass] INT NULL,
 	[NonAuthByPass] INT NULL,
@@ -26,7 +28,6 @@
 	[Version] [TIMESTAMP] NOT NULL,
 	CONSTRAINT [PK_RouteHeader] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_RouteHeader_Routes] FOREIGN KEY ([RoutesId]) REFERENCES [dbo].[Routes] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_RouteHeader_RouteStatusId] FOREIGN KEY ([RouteStatusId]) REFERENCES [dbo].[RouteStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_RouteHeader_StartDepotCode] FOREIGN KEY ([StartDepotCode]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_RouteHeader_RouteOwnerId] FOREIGN KEY ([RouteOwnerId]) REFERENCES [dbo].[Branch] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

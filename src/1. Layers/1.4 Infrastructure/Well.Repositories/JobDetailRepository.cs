@@ -112,6 +112,7 @@
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
+                .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .Execute();
         }
 

@@ -14,9 +14,9 @@ Scenario: A user can view Route information
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     | Not Defined |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Defined |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Defined |
+	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |  |
+	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     | |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | |
 	
 	
 
@@ -28,13 +28,13 @@ Scenario: A user can filter Route information
 	And I filter the grid with the option 'Route' and value '001'
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver   | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN | 2         | 0          | 0     | Not Defined |
+	| 001   | 22     | Jan 7, 2016 | HALL IAN | 2         | 0          | 0     |  |
 	When I clear the filter 
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined |
+	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     |  |
+	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     |  |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |  |
 
 	@ignore the order does not change 
 Scenario: A user can view Route information and sort on updated date

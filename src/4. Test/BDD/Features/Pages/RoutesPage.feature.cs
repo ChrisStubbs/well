@@ -105,7 +105,7 @@ this.ScenarioSetup(scenarioInfo);
                         "2",
                         "3",
                         "1",
-                        "Not Defined"});
+                        ""});
             table1.AddRow(new string[] {
                         "006",
                         "22",
@@ -114,7 +114,7 @@ this.ScenarioSetup(scenarioInfo);
                         "2",
                         "0",
                         "4",
-                        "Not Defined"});
+                        ""});
             table1.AddRow(new string[] {
                         "011",
                         "22",
@@ -123,7 +123,7 @@ this.ScenarioSetup(scenarioInfo);
                         "4",
                         "0",
                         "9",
-                        "Not Defined"});
+                        ""});
 #line 15
  testRunner.Then("The following routes will be displayed", ((string)(null)), table1, "Then ");
 #line hidden
@@ -165,7 +165,7 @@ this.ScenarioSetup(scenarioInfo);
                         "2",
                         "0",
                         "0",
-                        "Not Defined"});
+                        ""});
 #line 29
  testRunner.Then("The following routes will be displayed", ((string)(null)), table2, "Then ");
 #line 32
@@ -188,7 +188,7 @@ this.ScenarioSetup(scenarioInfo);
                         "2",
                         "0",
                         "0",
-                        "Not Defined"});
+                        ""});
             table3.AddRow(new string[] {
                         "006",
                         "22",
@@ -197,7 +197,7 @@ this.ScenarioSetup(scenarioInfo);
                         "2",
                         "0",
                         "0",
-                        "Not Defined"});
+                        ""});
             table3.AddRow(new string[] {
                         "011",
                         "22",
@@ -206,7 +206,7 @@ this.ScenarioSetup(scenarioInfo);
                         "4",
                         "0",
                         "0",
-                        "Not Defined"});
+                        ""});
 #line 33
  testRunner.Then("The following routes will be displayed", ((string)(null)), table3, "Then ");
 #line hidden

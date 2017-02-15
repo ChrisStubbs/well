@@ -81,8 +81,6 @@
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteImportType.cs" />
     <Compile Include="Enums\RoutePerformanceStatusCode.cs" />
-    <Compile Include="Enums\RouteStatusCode.cs" />
-    <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Enums\TransendSchemaType.cs" />
     <Compile Include="ExceptionEvent.cs" />
     <Compile Include="HolidayExceptions.cs" />

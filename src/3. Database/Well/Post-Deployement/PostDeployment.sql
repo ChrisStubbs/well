@@ -19,9 +19,7 @@ Post-Deployment Script Template
 :r .\Populate-JobType.sql
 :r .\Populate-ReasonCategory.sql
 :r .\Populate-RoutePerformanceStatus.sql
-:r .\Populate-RouteStatus.sql
 :r .\Populate-VisitTypes.sql
-:r .\Populate-StopStatus.sql
 :r .\Populate-RouteHeaderExceptions.sql
 :r .\Populate-Branch.sql
 :r .\Populate-ExceptionAction.sql

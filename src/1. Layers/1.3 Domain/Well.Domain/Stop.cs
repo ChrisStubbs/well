@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
-    using Enums;
 
     [Serializable()]
     public class Stop : Entity<int>
@@ -102,37 +101,17 @@
             }
         }
 
-        [XmlIgnore]
-        public int StopStatusCodeId { get; set; }
+        [XmlElement("StopStatusCode")]
+        public string StopStatusCode { get; set; }
 
-        [XmlElement("TextField1")]
-        public string StopStatusCode
-        {
-            get
-            {
-                return this.StopStatusCodeId.ToString();
-            }
-            set
-            {          
-                StopStatusCodeId = string.IsNullOrEmpty(value) ? (int)StopStatus.Notdef : (int)(StopStatus)Enum.Parse(typeof(StopStatus), value, true);
-            }
-        }
-
-        [XmlIgnore]
-        public int StopPerformanceStatusCodeId { get; set; }
+        [XmlElement("StopStatusDescription")]
+        public string StopStatusDescription { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
-        public string StopPerformanceStatusCode
-        {
-            get
-            {
-                return this.StopPerformanceStatusCodeId.ToString();
-            }
-            set
-            {
-                StopPerformanceStatusCodeId = string.IsNullOrEmpty(value) ? (int)PerformanceStatus.Notdef : (int)(PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
-            }
-        }
+        public string PerformanceStatusCode { get; set; }
+
+        [XmlElement("PerformanceStatusDescription")]
+        public string PerformanceStatusDescription { get; set; }
 
         [XmlElement("Reason_Description")]
         public string StopByPassReason { get; set; }

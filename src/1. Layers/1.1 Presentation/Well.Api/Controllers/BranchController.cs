@@ -60,7 +60,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occured when getting branches!");
             }
         }
 

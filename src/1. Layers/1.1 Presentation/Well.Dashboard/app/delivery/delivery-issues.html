@@ -19,23 +19,23 @@
                     <tbody>
                     <tr class="editable">
                         <td>
-                            <input id="short-qty-input" class="form-control" [disabled]="canAction()" type="number"
+                            <input id="short-qty-input" class="form-control" [disabled]="IsDisabled()" type="number"
                                    [(ngModel)]="deliveryLine.shortQuantity" />            
                         </td>
                         <td>
-                            <select id="short-source-select" [disabled]="canAction()" class="form-control"
+                            <select id="short-source-select" [disabled]="IsDisabled()" class="form-control"
                                     [(ngModel)]="deliveryLine.jobDetailSourceId">
                                 <option *ngFor="let x of sources" [value]="x.id">{{x.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <select id="short-reason-select" class="form-control" [disabled]="canAction()"
+                            <select id="short-reason-select" class="form-control" [disabled]="IsDisabled()"
                                     [(ngModel)]="deliveryLine.jobDetailReasonId">
                                 <option *ngFor="let x of reasons" [value]="x.id">{{x.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <select id="short-reason-action" class="form-control" [disabled]="canAction()"
+                            <select id="short-reason-action" class="form-control" [disabled]="IsDisabled()"
                                     [(ngModel)]="deliveryLine.shortsActionId">
                                 <option *ngFor="let x of actions" [value]="x.id">{{x.description}}</option>
                             </select>

@@ -44,7 +44,7 @@ namespace PH.Well.Api.App_Start {
         }
 		
         public static void Start() {
-            IContainer container = IoC.Initialize();
+            IContainer container = IoC.Container;
             StructureMapDependencyScope = new StructureMapDependencyScope(container);
             DependencyResolver.SetResolver(StructureMapDependencyScope);
             DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));

@@ -5,11 +5,9 @@
     using System.Net.Http;
     using System.Reflection;
     using System.Web.Hosting;
-    using System.Web.Http;
     using Models;
-
-    using PH.Well.Common.Contracts;
-    using PH.Well.Repositories.Contracts;
+    using Common.Contracts;
+    using Repositories.Contracts;
 
     public class GlobalSettingsController : BaseApiController
     {
@@ -24,9 +22,7 @@
             this.userRepository = userRepository;
             this.userRoleProvider = userRoleProvider;
         }
-
-        [Route("global-settings")]
-        [HttpGet]
+        
         public HttpResponseMessage Get()
         {
             var deploymentDate = File.GetLastWriteTime(Path.Combine(HostingEnvironment.MapPath("~"), "web.config"));

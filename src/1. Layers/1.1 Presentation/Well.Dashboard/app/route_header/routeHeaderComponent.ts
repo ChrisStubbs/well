@@ -40,6 +40,7 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
             super(nqps);
             this.options = [
                 new DropDownItem('Route', 'route'),
+                new DropDownItem('Branch', 'routeOwnerId'),
                 new DropDownItem('Account', 'account', true),
                 new DropDownItem('Invoice', 'invoice', true),
                 new DropDownItem('Assignee', 'assignee', true)

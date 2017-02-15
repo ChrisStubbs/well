@@ -1,15 +1,17 @@
-﻿import {Component, ViewChild} from '@angular/core';
-import {Delivery} from './model/delivery';
-import {DeliveryLine} from './model/deliveryLine';
-import {Damage} from './model/damage';
-import {JobDetailReason} from './model/jobDetailReason';
-import {JobDetailSource} from './model/jobDetailSource';
-import {ConfirmModal} from '../shared/confirmModal';
-import {DeliveryService} from './deliveryService';
-import {Router} from '@angular/router';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
-import { Action } from './model/action';
-import * as lodash from 'lodash';
+﻿import {Component, ViewChild}       from '@angular/core';
+import {Delivery}                   from './model/delivery';
+import {DeliveryLine}               from './model/deliveryLine';
+import {Damage}                     from './model/damage';
+import {JobDetailReason}            from './model/jobDetailReason';
+import {JobDetailSource}            from './model/jobDetailSource';
+import {ConfirmModal}               from '../shared/confirmModal';
+import {DeliveryService}            from './deliveryService';
+import {Router}                     from '@angular/router';
+import { ToasterService }           from 'angular2-toaster/angular2-toaster';
+import { Action }                   from './model/action';
+import * as lodash                  from 'lodash';
+import { GlobalSettingsService }    from '../shared/globalSettings';
+import { SecurityService }          from '../shared/security/securityService';
 
 @Component({
     templateUrl: './app/delivery/delivery-issues.html',
@@ -28,6 +30,8 @@ export class DeliveryIssuesComponent {
     constructor(
         private deliveryService: DeliveryService,
         private toasterService: ToasterService,
+        private globalSettingsService: GlobalSettingsService,
+        private securityService: SecurityService,
         private router: Router) {
     }
 
@@ -103,7 +107,12 @@ export class DeliveryIssuesComponent {
         this.router.navigate(['/delivery', this.delivery.id]);
     }
 
-    public canAction(): boolean {
-        return this.delivery.canAction ? false : true;
+    public IsDisabled(): boolean {
+
+        const hasPermission = this.securityService.hasPermission(
+             this.globalSettingsService.globalSettings.permissions, 
+             'CanSetActionsOnExceptions');
+
+        return !(this.delivery.canAction && hasPermission);
     }
-}
+} 

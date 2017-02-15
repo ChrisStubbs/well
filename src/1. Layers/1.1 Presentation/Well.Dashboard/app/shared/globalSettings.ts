@@ -39,7 +39,7 @@ export class GlobalSettingsService {
     }
 
     public getSettings(): Promise<GlobalSettings> {
-        return this.http.get(this.globalSettings.apiUrl + 'global-settings')
+        return this.http.get(this.globalSettings.apiUrl + 'GlobalSettings')
             .map((response: Response) => {
                 this.mapSettings(<GlobalSettings>response.json());
                 this.logService.log('Settings: ' + JSON.stringify(this.globalSettings));

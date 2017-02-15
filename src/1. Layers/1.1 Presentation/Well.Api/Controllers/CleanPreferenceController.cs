@@ -7,12 +7,14 @@
     using System.Net.Http;
     using System.Web.Http;
 
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Api.Models;
-    using PH.Well.Api.Validators.Contracts;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Repositories.Contracts;
+    using Mapper.Contracts;
+    using Models;
+    using Validators.Contracts;
+    using Common.Contracts;
+    using Repositories.Contracts;
+    using Validators;
 
+    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class CleanPreferenceController : BaseApiController
     {
         private readonly ICleanPreferenceRepository cleanPreferenceRepository;

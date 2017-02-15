@@ -1,5 +1,7 @@
 namespace PH.Well.Api.DependencyResolution
 {
+    using System;
+    using System.Threading;
     using Mapper;
 
     using PH.Well.Api.Mapper.Contracts;
@@ -12,6 +14,7 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Services.Contracts;
     using Repositories.Read;
     using Services.EpodServices;
+    using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 

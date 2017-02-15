@@ -18,7 +18,8 @@
 	@Barcode				VARCHAR(50),
 	@SkuGoodsValue			FLOAT,
 	@UpdatedBy				VARCHAR(50),
-	@DateUpdated			DATETIME
+	@DateUpdated			DATETIME,
+	@OriginalDespatchQty	INT
 
 AS
 BEGIN
@@ -46,6 +47,7 @@ UPDATE
 	  ,SkuGoodsValue = @SkuGoodsValue
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated
+	  ,OriginalDespatchQty = @OriginalDespatchQty
  WHERE 
 	[Id] = @Id
 END

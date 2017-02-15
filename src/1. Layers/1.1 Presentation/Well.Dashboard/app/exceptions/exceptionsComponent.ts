@@ -71,6 +71,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         this.options = [
             this.routeOption,
+            new DropDownItem('Branch', 'branchId'),
             new DropDownItem('Invoice No', 'invoiceNumber'),
             new DropDownItem('Account', 'accountCode'),
             new DropDownItem('Account Name', 'accountName'),
@@ -82,7 +83,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public ngOnInit(): void {
         super.ngOnInit();
-
+        
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions, 
             this.securityService.actionDeliveries);

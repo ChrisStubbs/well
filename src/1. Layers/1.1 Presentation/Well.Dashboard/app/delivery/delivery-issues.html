@@ -64,29 +64,29 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let damage of deliveryLine.damages; let i = index" class="editable">
-                        <td><input id="damage-qty-input{{i}}" [disabled]="canAction()" type="number" 
+                        <td><input id="damage-qty-input{{i}}" [disabled]="IsDisabled()" type="number" 
                                    class="form-control" [(ngModel)]="damage.quantity" />
                         </td>
                         <td>
-                            <select id="damage-source-select{{i}}" [disabled]="canAction()" class="form-control"
+                            <select id="damage-source-select{{i}}" [disabled]="IsDisabled()" class="form-control"
                                     [(ngModel)]="damage.jobDetailSourceId" name="source">
                                 <option *ngFor="let r of sources" [value]="r.id">{{r.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <select id="damage-reason-select{{i}}" [disabled]="canAction()" class="form-control" 
+                            <select id="damage-reason-select{{i}}" [disabled]="IsDisabled()" class="form-control" 
                                     [(ngModel)]="damage.jobDetailReasonId" name="reason">
                                 <option *ngFor="let r of reasons" [value]="r.id">{{r.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <select id="damage-action-select{{i}}" class="form-control" [disabled]="canAction()"
+                            <select id="damage-action-select{{i}}" class="form-control" [disabled]="IsDisabled()"
                                     [(ngModel)]="damage.damageActionId">
                                 <option *ngFor="let x of actions" [value]="x.id">{{x.description}}</option>
                             </select>
                         </td>
                         <td>
-                            <button id="remove-damage-button{{i}}" [disabled]="canAction()" 
+                            <button id="remove-damage-button{{i}}" [disabled]="IsDisabled()" 
                                     type="button" class="btn btn-primary" (click)="removeDamage(damage.index)">Remove</button>
                         </td>
                     </tr>

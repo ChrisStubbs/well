@@ -76,7 +76,7 @@ Scenario: A user can page through Route information
 	When I click on page 1
 	Then '10' rows of data will be displayed
 
-	 
+ 
 Scenario: A user can drill into a Route to view exceptions
 	Given I have a clean database
 	And I have loaded the Adam route data

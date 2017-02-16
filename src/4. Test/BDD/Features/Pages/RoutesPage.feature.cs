@@ -414,11 +414,9 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A user can drill into a Route to view exceptions")]
-        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public virtual void AUserCanDrillIntoARouteToViewExceptions()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can drill into a Route to view exceptions", new string[] {
-                        "ignore"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can drill into a Route to view exceptions", ((string[])(null)));
 #line 80
 this.ScenarioSetup(scenarioInfo);
 #line 81
@@ -445,11 +443,9 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A user can drill into a Route to view clean deliveries")]
-        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         public virtual void AUserCanDrillIntoARouteToViewCleanDeliveries()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can drill into a Route to view clean deliveries", new string[] {
-                        "ignore"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can drill into a Route to view clean deliveries", ((string[])(null)));
 #line 92
 this.ScenarioSetup(scenarioInfo);
 #line 93

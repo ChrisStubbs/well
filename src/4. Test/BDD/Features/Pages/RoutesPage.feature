@@ -76,7 +76,7 @@ Scenario: A user can page through Route information
 	When I click on page 1
 	Then '10' rows of data will be displayed
 
-	@ignore 
+	 
 Scenario: A user can drill into a Route to view exceptions
 	Given I have a clean database
 	And I have loaded the Adam route data
@@ -88,7 +88,7 @@ Scenario: A user can drill into a Route to view exceptions
 	Then I can see that routes exceptions
 	And the filter should be preset to route and route number
 
-	@ignore 
+ 
 Scenario: A user can drill into a Route to view clean deliveries
 	Given I have a clean database
 	And I have loaded the Adam route data

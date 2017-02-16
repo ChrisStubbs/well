@@ -13,10 +13,10 @@ Scenario: A user can view Route information
 	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |  |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     | |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |        |
+	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     |        |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
 	
 	
 
@@ -36,29 +36,30 @@ Scenario: A user can filter Route information
 	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     |  |
 	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |  |
 
-	@ignore the order does not change 
+
 Scenario: A user can view Route information and sort on updated date
 	Given I have a clean database
-	And I have loaded the Adam route data
+	And I have loaded the MultiDate Adam route data
 	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDate/time    |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
-	When I click on the orderby Triangle image
-	Then The following routes ordered by date will be displayed in 'desc' order
-	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'asc' order
-	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
+	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	When I click on the orderby Triangle image
+	Then The following routes ordered by date will be displayed in 'desc' order
+	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+
 
 #TODO Add more filter scenarios when the additional filters have been implemented
 

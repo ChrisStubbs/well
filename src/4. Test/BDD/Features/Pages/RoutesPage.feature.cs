@@ -215,27 +215,15 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A user can view Route information and sort on updated date")]
-        [NUnit.Framework.IgnoreAttribute("Ignored scenario")]
-        [NUnit.Framework.CategoryAttribute("the")]
-        [NUnit.Framework.CategoryAttribute("order")]
-        [NUnit.Framework.CategoryAttribute("does")]
-        [NUnit.Framework.CategoryAttribute("not")]
-        [NUnit.Framework.CategoryAttribute("change")]
         public virtual void AUserCanViewRouteInformationAndSortOnUpdatedDate()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Route information and sort on updated date", new string[] {
-                        "ignore",
-                        "the",
-                        "order",
-                        "does",
-                        "not",
-                        "change"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Route information and sort on updated date", ((string[])(null)));
 #line 40
 this.ScenarioSetup(scenarioInfo);
 #line 41
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 42
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the MultiDate Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 43
  testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 44
@@ -249,8 +237,25 @@ this.ScenarioSetup(scenarioInfo);
                         "NoOfDrops",
                         "Exceptions",
                         "Clean",
-                        "Status",
-                        "LastUpdatedDate/time"});
+                        "Status"});
+            table4.AddRow(new string[] {
+                        "001",
+                        "22",
+                        "Jan 8, 2016",
+                        "HALL IAN",
+                        "2",
+                        "0",
+                        "0",
+                        ""});
+            table4.AddRow(new string[] {
+                        "006",
+                        "22",
+                        "Jan 6, 2016",
+                        "RENTON MARK",
+                        "2",
+                        "0",
+                        "0",
+                        ""});
             table4.AddRow(new string[] {
                         "011",
                         "22",
@@ -259,28 +264,7 @@ this.ScenarioSetup(scenarioInfo);
                         "4",
                         "0",
                         "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:17 PM"});
-            table4.AddRow(new string[] {
-                        "006",
-                        "22",
-                        "Jan 7, 2016",
-                        "RENTON MARK",
-                        "2",
-                        "0",
-                        "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:17 PM"});
-            table4.AddRow(new string[] {
-                        "001",
-                        "22",
-                        "Jan 7, 2016",
-                        "HALL IAN",
-                        "2",
-                        "0",
-                        "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:16 PM"});
+                        ""});
 #line 45
  testRunner.Then("The following routes will be displayed", ((string)(null)), table4, "Then ");
 #line 50
@@ -294,28 +278,16 @@ this.ScenarioSetup(scenarioInfo);
                         "NoOfDrops",
                         "Exceptions",
                         "Clean",
-                        "Status",
-                        "LastUpdatedDateTime"});
-            table5.AddRow(new string[] {
-                        "001",
-                        "22",
-                        "Jan 7, 2016",
-                        "HALL IAN",
-                        "2",
-                        "0",
-                        "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:16 PM"});
+                        "Status"});
             table5.AddRow(new string[] {
                         "006",
                         "22",
-                        "Jan 7, 2016",
+                        "Jan 6, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
                         "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:17 PM"});
+                        ""});
             table5.AddRow(new string[] {
                         "011",
                         "22",
@@ -324,10 +296,18 @@ this.ScenarioSetup(scenarioInfo);
                         "4",
                         "0",
                         "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:17 PM"});
+                        ""});
+            table5.AddRow(new string[] {
+                        "001",
+                        "22",
+                        "Jan 8, 2016",
+                        "HALL IAN",
+                        "2",
+                        "0",
+                        "0",
+                        ""});
 #line 51
- testRunner.Then("The following routes ordered by date will be displayed in \'desc\' order", ((string)(null)), table5, "Then ");
+ testRunner.Then("The following routes ordered by date will be displayed in \'asc\' order", ((string)(null)), table5, "Then ");
 #line 56
  testRunner.When("I click on the orderby Triangle image", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -339,8 +319,16 @@ this.ScenarioSetup(scenarioInfo);
                         "NoOfDrops",
                         "Exceptions",
                         "Clean",
-                        "Status",
-                        "LastUpdatedDateTime"});
+                        "Status"});
+            table6.AddRow(new string[] {
+                        "001",
+                        "22",
+                        "Jan 8, 2016",
+                        "HALL IAN",
+                        "2",
+                        "0",
+                        "0",
+                        ""});
             table6.AddRow(new string[] {
                         "011",
                         "22",
@@ -349,30 +337,18 @@ this.ScenarioSetup(scenarioInfo);
                         "4",
                         "0",
                         "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:17 PM"});
+                        ""});
             table6.AddRow(new string[] {
                         "006",
                         "22",
-                        "Jan 7, 2016",
+                        "Jan 6, 2016",
                         "RENTON MARK",
                         "2",
                         "0",
                         "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:17 PM"});
-            table6.AddRow(new string[] {
-                        "001",
-                        "22",
-                        "Jan 7, 2016",
-                        "HALL IAN",
-                        "2",
-                        "0",
-                        "0",
-                        "Not Defined",
-                        "Sep 8, 2016, 1:27:16 PM"});
+                        ""});
 #line 57
- testRunner.Then("The following routes ordered by date will be displayed in \'asc\' order", ((string)(null)), table6, "Then ");
+ testRunner.Then("The following routes ordered by date will be displayed in \'desc\' order", ((string)(null)), table6, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -382,31 +358,31 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanPageThroughRouteInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Route information", ((string[])(null)));
-#line 65
-this.ScenarioSetup(scenarioInfo);
 #line 66
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 67
- testRunner.And("I have loaded the Adam route data that has 21 lines", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 68
- testRunner.And("I have selected branch \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data that has 21 lines", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 69
- testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have selected branch \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 70
- testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 71
- testRunner.And("I will have 3 pages of data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 72
- testRunner.When("I click on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 73
  testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 72
+ testRunner.And("I will have 3 pages of data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 73
+ testRunner.When("I click on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 74
- testRunner.When("I click on page 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 75
- testRunner.Then("\'1\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I click on page 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 76
- testRunner.When("I click on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("\'1\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 77
+ testRunner.When("I click on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 78
  testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -417,25 +393,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanDrillIntoARouteToViewExceptions()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can drill into a Route to view exceptions", ((string[])(null)));
-#line 80
-this.ScenarioSetup(scenarioInfo);
 #line 81
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 82
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 83
- testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 84
- testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 85
- testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 86
- testRunner.And("I select the first row of the route", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 87
- testRunner.And("I choose to view that routes exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select the first row of the route", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 88
- testRunner.Then("I can see that routes exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I choose to view that routes exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 89
+ testRunner.Then("I can see that routes exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 90
  testRunner.And("the filter should be preset to route and route number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -446,25 +422,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void AUserCanDrillIntoARouteToViewCleanDeliveries()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can drill into a Route to view clean deliveries", ((string[])(null)));
-#line 92
-this.ScenarioSetup(scenarioInfo);
 #line 93
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 94
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 95
- testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 96
- testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 97
- testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 98
- testRunner.And("I select the first row of the route", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I open the routes page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 99
- testRunner.And("I choose to view that routes clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select the first row of the route", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 100
- testRunner.Then("I can see that routes clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I choose to view that routes clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 101
+ testRunner.Then("I can see that routes clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 102
  testRunner.And("the filter should be preset to route and route number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

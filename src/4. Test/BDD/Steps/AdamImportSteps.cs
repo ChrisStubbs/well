@@ -75,6 +75,14 @@
 
             this.adamFileMonitorService.Process(importFilePath);
         }
+        [Given(@"I have loaded the MultiDate Adam route data")]
+        public void LoadAdamRouteDataMultiDate()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_30062016_04.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
 
         [Given(@"I have loaded the Adam route data that has 21 lines")]
         public void GivenIHaveLoadedTheAdamRouteDataThatHasLines()

@@ -22,22 +22,29 @@ Scenario: A user can view Route information
 
 Scenario: A user can filter Route information
 	Given I have a clean database
-	And I have loaded the Adam route data
-	And I have selected branch '22'
+	And I have loaded the MultiDate Adam route data
+	And  All the deliveries are marked as clean
+	And  3 deliveries have been marked as exceptions
+	And I have selected branches '22' and '2'
 	When I open the routes page
-	And I filter the grid with the option 'Route' and value '001'
+	And I filter the grid with the option 'Route' and value '011'
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver   | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN | 2         | 0          | 0     |  |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
 	When I clear the filter 
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     |  |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     |  |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |  |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	When I filter the grid with the option 'Branch' and value '2'
+	Then The following routes will be displayed
+    | Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+    | 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
 
-
-Scenario: A user can view Route information and sort on updated date
+Scenario: A user can view Route information and sort on route date
 	Given I have a clean database
 	And I have loaded the MultiDate Adam route data
 	And I have selected branch '22'

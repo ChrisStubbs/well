@@ -133,7 +133,7 @@
 
                 var content = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"Your threshold level isn\'t high enough for the credit... It has been passed on for authorisation...\"}"));
+                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"Your threshold level isn\'t high enough to credit this delivery.  It has been passed on for authorisation.\"}"));
             }
 
             [Test]

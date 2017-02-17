@@ -49,7 +49,7 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
             super(nqps);
             this.options = [
                 new DropDownItem('Route', 'routeNumber'),
-                new DropDownItem('Branch', 'branchId'),
+                new DropDownItem('Branch', 'branchId', false, 'number'),
                 new DropDownItem('Invoice No', 'invoiceNumber'),
                 new DropDownItem('Account', 'accountCode'),
                 new DropDownItem('Account Name', 'accountName'),

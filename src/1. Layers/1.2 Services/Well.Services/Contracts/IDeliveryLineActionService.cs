@@ -12,6 +12,6 @@
 
         //AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
 
-        Task<ProcessDeliveryActionResult> ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId);
+        ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId);
     }
 }

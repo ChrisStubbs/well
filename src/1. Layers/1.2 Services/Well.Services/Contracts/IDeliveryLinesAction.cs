@@ -8,6 +8,7 @@ namespace PH.Well.Services.Contracts
 {
     public interface IDeliveryLinesAction
     {
-        Task<ProcessDeliveryActionResult> Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId);
+        ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId);
+        DeliveryAction Action { get; }
     }
 }

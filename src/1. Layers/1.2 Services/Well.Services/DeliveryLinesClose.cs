@@ -19,20 +19,26 @@ namespace PH.Well.Services
             this.jobRepository = jobRepository;
             this.userRepository = userRepository;
         }
-        
-        public async Task<ProcessDeliveryActionResult> Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId)
-        {
-            return await Task.Run<ProcessDeliveryActionResult>(() =>
-            {
-                var lines = deliveryLines(DeliveryAction.Close);
 
-                if (lines.Any())
-                {
-                    this.jobRepository.ResolveJobAndJobDetails(lines[0].JobId);
-                    this.userRepository.UnAssignJobToUser(lines[0].JobId);
-                }
-                return new ProcessDeliveryActionResult();
-            });
+        public DeliveryAction Action
+        {
+            get
+            {
+                return DeliveryAction.Close;
+            }
+        }
+
+        public ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId)
+        {
+            var lines = deliveryLines(this.Action);
+
+            if (lines.Any())
+            {
+                this.jobRepository.ResolveJobAndJobDetails(lines[0].JobId);
+                this.userRepository.UnAssignJobToUser(lines[0].JobId);
+            }
+
+            return new ProcessDeliveryActionResult();
         }
     }
 }

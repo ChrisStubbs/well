@@ -51,7 +51,7 @@
             this.MarkAsDone(eventId, adamResponse, username);
         }
 
-        public async Task<ProcessDeliveryActionResult> ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
         {
             var groupdLines = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>()
             .Select(p => new
@@ -61,26 +61,19 @@
             })
             .ToDictionary(p => p.key, v => v.values);
 
-            var results = new List<ProcessDeliveryActionResult>();
             using (var transactionScope = new TransactionScope())
             {
-                var tasks = allActionHandlers
-                .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
-                .ToArray();
+                var results = allActionHandlers
+                    .OrderBy(p=> p.Action)
+                    .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
+                    .ToList();
 
-                await Task.WhenAll(tasks.ToArray());
-                
-                foreach (var item in tasks)
+                return new ProcessDeliveryActionResult
                 {
-                    results.Add(await item);
-                }
+                    AdmamIsDown = results.Any(p => p.AdmamIsDown),
+                    Warnings = results.SelectMany(p => p.Warnings).ToList()
+                };
             }
-
-            return new ProcessDeliveryActionResult
-            {
-                AdmamIsDown = results.Any(p => p.AdmamIsDown),
-                Warnings = results.SelectMany(p => p.Warnings).ToList()
-            };
         }
 
         private IList<DeliveryLine> GetDeliveryLinesByAction(IList<DeliveryLine> deliveryLines, DeliveryAction action)

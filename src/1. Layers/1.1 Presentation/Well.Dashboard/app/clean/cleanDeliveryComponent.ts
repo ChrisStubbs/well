@@ -52,7 +52,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             super(nqps);
             this.options = [
                 this.routeOption,
-                new DropDownItem('Branch', 'branchId'),
+                new DropDownItem('Branch', 'branchId', false, 'number'),
                 new DropDownItem('Invoice No', 'invoiceNumber'),
                 new DropDownItem('Account', 'accountCode'),
                 new DropDownItem('Account Name', 'accountName'),

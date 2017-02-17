@@ -34,17 +34,23 @@ namespace PH.Well.Services
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
         }
-        
-        public async Task<ProcessDeliveryActionResult> Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId)
-        {
-            return await Task.Run<ProcessDeliveryActionResult>(() =>
-            {   var lines = deliveryLines(DeliveryAction.Close);
 
-                return CreditDeliveryLines(lines, adamSettings, username, branchId);
-            });
+        public DeliveryAction Action
+        {
+            get
+            {
+                return DeliveryAction.Close;
+            }
         }
 
-        public ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> creditLines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId)
+        {
+            var lines = deliveryLines(this.Action);
+
+            return CreditDeliveryLines(lines, adamSettings, username, branchId);
+        }
+
+        private ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> creditLines, AdamSettings adamSettings, string username, int branchId)
         {
             var result = new ProcessDeliveryActionResult();
 
@@ -68,7 +74,7 @@ namespace PH.Well.Services
                     }
                     else
                     {
-                        result.AdmamIsDown = this.Credit(creditLines, adamSettings, username, branchId) !=  AdamResponse.Success;
+                        result.AdmamIsDown = this.Credit(creditLines, adamSettings, username, branchId) != AdamResponse.Success;
                     }
                 }
             }

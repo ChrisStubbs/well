@@ -13,12 +13,18 @@ export class OptionFilterPipe implements PipeTransform {
         if (!filterOption || filterOption.filterText == '') {
             return value;
         }
-
+ 
         if (filterOption.dropDownItem.type == 'date') {
             return value.filter((delivery: any) => this.filterDate(delivery, filterOption));
-        } else if (filterOption.dropDownItem.type == 'numberLessThanOrEqual') {
+        } 
+        else if (filterOption.dropDownItem.type == 'number') {
+            return value.filter((delivery: any) => this.filterNumber(delivery, filterOption));
+        } 
+        
+        else if (filterOption.dropDownItem.type == 'numberLessThanOrEqual') {
             return value.filter((delivery: any) => this.filterNumberLessThanOrEqual(delivery, filterOption));
-        } else {
+        } 
+        else {
             return value.filter((delivery: any) => this.filterString(delivery, filterOption));
         }
     }
@@ -32,12 +38,24 @@ export class OptionFilterPipe implements PipeTransform {
         return true;
     }
 
+    private filterNumber(list: any, filterOption: FilterOption) {
+        if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
+            const propertyValue = list[filterOption.dropDownItem.value].toString().toLocaleLowerCase();
+            const threshold = parseInt(filterOption.filterText, 10);
+
+            return propertyValue == threshold;
+        }
+
+        return true;   
+    }
+
     private filterNumberLessThanOrEqual(list: any, filterOption: FilterOption) {
         if (list.hasOwnProperty(filterOption.dropDownItem.value)) {
             const propertyValue = list[filterOption.dropDownItem.value].toString().toLocaleLowerCase();
-            const threshold = parseInt(filterOption.filterText);
+            const threshold = parseInt(filterOption.filterText, 10);
             return propertyValue <= threshold;
         }
+
         return true;        
     }
 

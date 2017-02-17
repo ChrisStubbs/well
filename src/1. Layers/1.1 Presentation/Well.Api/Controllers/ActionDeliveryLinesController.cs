@@ -51,7 +51,7 @@
 
         [Route("confirm-delivery-lines/{jobId:int}")]
         [HttpPost]
-        public async Task<HttpResponseMessage> ConfirmDeliveryLines(int jobId)
+        public HttpResponseMessage ConfirmDeliveryLines(int jobId)
         {
             var deliveryLines = this.deliveryRepository.GetDeliveryLinesByJobId(jobId);
 
@@ -75,7 +75,7 @@
 
             var settings = AdamSettingsFactory.GetAdamSettings((Branch)branchId);
 
-            var response = await this.deliveryLineActionService.ProcessDeliveryActions(
+            var response = this.deliveryLineActionService.ProcessDeliveryActions(
                 deliveryLines.ToList(),
                 settings,
                 this.UserIdentityName,

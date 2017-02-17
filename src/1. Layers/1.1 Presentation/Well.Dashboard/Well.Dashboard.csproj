@@ -20,10 +20,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -776,6 +774,10 @@
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
+    <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
+    <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
+    <TypeScriptCompile Include="app\shared\NavigateQueryParameters.ts" />
+    <TypeScriptCompile Include="app\shared\NavigateQueryParametersService.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

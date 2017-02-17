@@ -1,7 +1,7 @@
 ﻿SET IDENTITY_INSERT dbo.JobDetailReason ON
 
 MERGE INTO JobDetailReason AS Target
-USING	(VALUES	(0, 'NotDefined'),
+USING	(VALUES	(0,'NotDefined'),
 				(1,'NoCredit'),
 				(2,'DamagedGoods'),
 				(3,'ShortDelivered'),

@@ -161,8 +161,6 @@
                 if (hasDamage)
                     existingJob.PerformanceStatus = PerformanceStatus.Incom;
 
-                this.jobRepository.Update(existingJob);
-
                 if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
                 {
                     var grnEvent = new GrnEvent();
@@ -183,9 +181,10 @@
                     this.exceptionEventRepository.InsertPodEvent(podEvent);
 
                 }
-
-
+                
                 this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
+
+                this.jobRepository.Update(existingJob);
             }
         }
 
@@ -202,6 +201,8 @@
                 }
 
                 this.mapper.Map(detail, existingJobDetail);
+
+                detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
 
                 // TODO might need to set resolved unresolved status here and add in sub outer values
 

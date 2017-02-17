@@ -158,7 +158,13 @@
                 .AddParameter("GrnNumber", entity.GrnNumberUpdate, DbType.String)
                 .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
-                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("Picked", entity.Picked, DbType.Boolean)
+                .AddParameter("OrdOuters", entity.OrdOuters, DbType.Int32)
+                .AddParameter("InvOuters", entity.InvOuters, DbType.Int32)
+                .AddParameter("AllowSoCrd", entity.AllowSoCrd, DbType.Boolean)
+                .AddParameter("Cod", entity.Cod, DbType.String)
+                .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean).Execute();
         }
 
         public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)

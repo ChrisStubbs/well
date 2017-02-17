@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Services.EpodServices
 {
+    using System.Linq;
+
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
@@ -9,8 +11,10 @@
     {
         public void Map(RouteHeader from, RouteHeader to)
         {
-            to.RouteStatus = from.RouteStatus;
-            to.RoutePerformanceStatusId = from.RoutePerformanceStatusId;
+            to.RouteStatusCode = from.RouteStatusCode;
+            to.RouteStatusDescription = from.RouteStatusDescription;
+            to.PerformanceStatusCode = from.PerformanceStatusCode;
+            to.PerformanceStatusDescription = from.PerformanceStatusDescription;
             to.AuthByPass = from.AuthByPass;
             to.NonAuthByPass = from.NonAuthByPass;
             to.ShortDeliveries = from.ShortDeliveries;
@@ -22,8 +26,10 @@
 
         public void Map(Stop from, Stop to)
         {
-            to.StopStatusCodeId = from.StopStatusCodeId;
-            to.StopPerformanceStatusCodeId = from.StopPerformanceStatusCodeId;
+            to.StopStatusCode = from.StopStatusCode;
+            to.StopStatusDescription = from.StopStatusDescription;
+            to.PerformanceStatusCode = from.PerformanceStatusCode;
+            to.PerformanceStatusDescription = from.PerformanceStatusDescription;
             to.StopByPassReason = from.StopByPassReason;
         }
 
@@ -31,8 +37,6 @@
         {
             to.PlannedStopNumber = from.PlannedStopNumber;
             to.ShellActionIndicator = from.ShellActionIndicator;
-            to.StopStatusCodeId = (int)StopStatus.Notdef;
-            to.StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef;
         }
 
         public void Map(Job from, Job to)
@@ -53,12 +57,20 @@
             to.InvoiceNumber = from.InvoiceNumber;
             to.CustomerRef = from.CustomerRef;
             to.PerformanceStatus = PerformanceStatus.Notdef;
+
+            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "PICKED"));
+            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ORDOUTERS"));
+            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "INVOUTERS"));
+            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWSOCRD"));
+            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "COD"));
+            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWREORD"));
         }
 
         public void Map(JobDetail from, JobDetail to)
         {
             to.ShortQty = from.ShortQty;
             to.DeliveredQty = from.DeliveredQty;
+            to.OriginalDespatchQty = from.OriginalDespatchQty;
         }
 
         public void Map(JobDetailUpdate from, JobDetail to)
@@ -73,6 +85,7 @@
             to.SingleOrOuter = from.SingleOrOuter;
             to.SsccBarcode = from.SsccBarcode;
             to.SkuGoodsValue = from.SkuGoodsValue;
+            to.OriginalDespatchQty = from.OriginalDespatchQty;
         }
     }
 }

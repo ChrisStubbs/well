@@ -17,8 +17,8 @@
             this.Entity.LocationId = "LOC001";
             this.Entity.DeliveryDate = DateTime.Now;
             this.Entity.ShellActionIndicator = "N";
-            this.Entity.StopStatusCodeId = 2;
-            this.Entity.StopPerformanceStatusCodeId = 6;
+            this.Entity.StopStatusCode = "a status";
+            this.Entity.StopStatusDescription = "something";
             this.Entity.StopByPassReason = "Some reason";
             this.Entity.Jobs = new List<Job>();
 
@@ -40,10 +40,12 @@
                 StopId = this.Entity.Id
             };
 
-            this.Entity.EntityAttributes = new List<EntityAttribute>();
-            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCash", Value = null});
-            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCheque", Value = null});
-            this.Entity.EntityAttributes.Add(new EntityAttribute {Code = "ActualPaymentCard", Value = null});
+            this.Entity.EntityAttributes = new List<EntityAttribute>
+            {
+                new EntityAttribute { Code = "ActualPaymentCash", Value = null },
+                new EntityAttribute { Code = "ActualPaymentCheque", Value = null },
+                new EntityAttribute { Code = "ActualPaymentCard", Value = null }
+            };
         }
     }
 }

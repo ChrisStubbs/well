@@ -22,6 +22,7 @@
             this.jobRepository = jobRepository;
         }
 
+        // TODO refactor to use query multiple
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
             var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
@@ -130,8 +131,10 @@
                 .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16)
                 .AddParameter("ActualStopsCompleted", entity.ActualStopsCompleted, DbType.Int16)
                 .AddParameter("RoutesId", entity.RoutesId, DbType.Int32)
-                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
-                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("RouteStatusCode", entity.RouteStatusCode, DbType.String)
+                .AddParameter("RouteStatusDescription", entity.RouteStatusDescription, DbType.String)
+                .AddParameter("PerformanceStatusCode", entity.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusDescription", entity.PerformanceStatusDescription, DbType.String)
                 .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)
@@ -149,8 +152,10 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
-                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
-                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("RouteStatusCode", entity.RouteStatusCode, DbType.String)
+                .AddParameter("RouteStatusDescription", entity.RouteStatusDescription, DbType.String)
+                .AddParameter("PerformanceStatusCode", entity.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusDescription", entity.PerformanceStatusDescription, DbType.String)
                 .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)

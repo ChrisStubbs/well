@@ -16,8 +16,10 @@ BEGIN
 	  [AllowOvers],
 	  [CustUnatt],
 	  [PHUnatt],
-	  [StopStatusId],
-	  [StopPerformanceStatusId],
+	  [StopStatusCode],
+	  [StopStatusDescription],
+	  [PerformanceStatusCode],
+	  [PerformanceStatusDescription],
 	  [Reason]
   FROM 
 	  [dbo].[Stop]

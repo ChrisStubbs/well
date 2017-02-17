@@ -10,7 +10,13 @@
 	@Sequence INT,
 	@CustomerRef VARCHAR(40),
 	@UpdatedBy VARCHAR(50),
-	@UpdatedDate DATETIME
+	@UpdatedDate DATETIME,
+	@Picked BIT,
+	@OrdOuters INT,
+	@InvOuters INT,
+	@AllowSoCrd BIT,
+	@Cod VARCHAR(50),
+	@AllowReOrd BIT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -28,7 +34,13 @@ BEGIN
 		PHAccount = @PhAccount,
 		CustomerRef = @CustomerRef,
 		UpdatedBy = @UpdatedBy, 
-		DateUpdated = @UpdatedDate
+		DateUpdated = @UpdatedDate,
+		Picked = @Picked,
+		OrdOuters = @OrdOuters,
+		InvOuters = @InvOuters,
+		AllowSOCRD = @AllowSoCrd,
+		Cod = @Cod,
+		AllowReOrd = @AllowReOrd
 	WHERE
 		Id = @Id
 END

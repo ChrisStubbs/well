@@ -126,7 +126,7 @@
         {
             var rows = this.exceptionPage.ExceptionsGrid.ReturnAllRows().ToList();
 
-            Assert.That(rows.Count, Is.GreaterThan(1));
+            Assert.That(rows.Count, Is.GreaterThan(0));
 
             var routeNumberShouldBe = ScenarioContextWrapper.GetContextObject<string>(
                     ContextDescriptors.RouteNumber);

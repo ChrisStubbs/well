@@ -6,9 +6,6 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Common.Extensions;
-    using Domain;
-    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Security;
 
     using Repositories.Contracts;
@@ -32,6 +29,7 @@
             try
             {
                 var routeHeaders = this.routeRepository.GetRouteHeaders();
+
                 if (!routeHeaders.Any())
                 {
                     return this.Request.CreateResponse(HttpStatusCode.NotFound);
@@ -45,7 +43,7 @@
                                         TotalDrops = p.TotalDrops,
                                         DeliveryCleanCount = p.CleanJobs,
                                         DeliveryExceptionCount = p.ExceptionJobs,
-                                        RouteStatus = StringExtensions.GetEnumDescription(p.RouteStatus),
+                                        RouteStatusDescription = p.RouteStatusDescription,
                                         DateTimeUpdated = p.DateUpdated,
                                         RouteOwnerId = p.RouteOwnerId,
                                         DriverName = p.DriverName

@@ -83,7 +83,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public ngOnInit(): void {
         super.ngOnInit();
-
+        
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions, 
             this.securityService.actionDeliveries);

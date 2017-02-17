@@ -21,8 +21,7 @@ export interface IRouteHeader {
     plannedDistance: number;
     plannedTravelTime: string;
     plannedStops: number;
-    routeStatusId: number;
-    routeStatus: string;
+    routeStatusDescription: string;
     routeImportId: number;
     stops: Array<any>;
     id: number;

@@ -122,33 +122,17 @@
             }
         }
 
-        [XmlIgnore]
-        public RouteStatusCode RouteStatus
-        {
-            get
-            {
-                return (RouteStatusCode)this.RouteStatusId;
-            }
-            set
-            {
-                this.RouteStatusId = (int)value;
-            }
-        }
-
-        [XmlIgnore]
-        public int RouteStatusId { get; set; }
+        [XmlElement("RouteStatusDescription")]
+        public string RouteStatusDescription { get; set; }
 
         [XmlElement("RouteStatusCode")]
         public string RouteStatusCode { get; set; }
 
-        [XmlIgnore]
-        public int RoutePerformanceStatusId { get; set; }
+        [XmlElement("PerformanceStatusCode")]
+        public string PerformanceStatusCode { get; set; }
 
-        [XmlElement("RoutePerformanceStatusCode")]
-        public string PerformanceStatusCode
-        {
-            set { RoutePerformanceStatusId = string.IsNullOrWhiteSpace(value) ? (int)RoutePerformanceStatusCode.Notdef : (int)(RoutePerformanceStatusCode)Enum.Parse(typeof(RoutePerformanceStatusCode), value, true); }
-        }
+        [XmlElement("PerformanceStatusDescription")]
+        public string PerformanceStatusDescription { get; set; }
 
         [XmlIgnore]
         public DateTime? LastRouteUpdate { get; set; }

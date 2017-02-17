@@ -12,7 +12,7 @@
             this.Pager = new PagerControl();
             this.ExceptionButton = new Button { Locator = By.Id("btn-exceptions") };
             this.CleanButton = new Button { Locator = By.Id("btn-clean") };
-            this.OrderByButton = new Button {Locator = By.Id("sort-me") };
+            this.OrderByButton = new Button {Locator = By.Id("img-orderByArrow") };
         }
 
         protected override string UrlSuffix => "routes";

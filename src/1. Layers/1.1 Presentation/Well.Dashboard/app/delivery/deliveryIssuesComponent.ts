@@ -50,7 +50,6 @@ export class DeliveryIssuesComponent {
 
             this.deliveryService.getSources()
                 .subscribe(s => { this.sources = s });
-            
         }
 
         this.deliveryService.getDamageReasons()
@@ -78,7 +77,7 @@ export class DeliveryIssuesComponent {
             this.confirmModal.isVisible = true;
             this.confirmModal.heading = 'Make delivery dirty?';
             this.confirmModal.messageHtml =
-                '<p>You have added shorts or damages for this delivery, this will make the delivery dirty. ' +
+                '<p>You have added shorts and/or damages, this will make the delivery dirty. ' +
                 'Are you sure you want to save your changes?</p>';
             return;
         }
@@ -87,7 +86,7 @@ export class DeliveryIssuesComponent {
             this.confirmModal.isVisible = true;
             this.confirmModal.heading = 'Resolve delivery?';
             this.confirmModal.messageHtml =
-                '<p>You have removed all shorts and damages for this delivery, this will resolve the delivery. ' +
+                '<p>You have removed all shorts and/or damages, this will resolve the delivery. ' +
                 'Are you sure you want to save your changes?</p>';
             return;
         }

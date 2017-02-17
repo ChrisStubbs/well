@@ -10,7 +10,7 @@
         </thead>
         <tbody>
         <tr *ngIf="credits && credits.length === 0">
-            <td id="threshold-no-results" colspan="4">No Credit Thresholds!</td>
+            <td id="threshold-no-results" colspan="4">No Credit Thresholds</td>
         </tr>
         <tr class="grid-row" *ngFor="let x of credits">
             <td id="threshold-level-{{x.id}}" (click)="selectCredit(x)">{{x.thresholdLevel}}</td>

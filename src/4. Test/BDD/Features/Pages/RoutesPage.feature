@@ -13,52 +13,60 @@ Scenario: A user can view Route information
 	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |  |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     | |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |        |
+	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     |        |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
 	
 	
 
 Scenario: A user can filter Route information
 	Given I have a clean database
-	And I have loaded the Adam route data
-	And I have selected branch '22'
+	And I have loaded the MultiDate Adam route data
+	And  All the deliveries are marked as clean
+	And  3 deliveries have been marked as exceptions
+	And I have selected branches '22' and '2'
 	When I open the routes page
-	And I filter the grid with the option 'Route' and value '001'
+	And I filter the grid with the option 'Route' and value '011'
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver   | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN | 2         | 0          | 0     |  |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
 	When I clear the filter 
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     |  |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     |  |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |  |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	When I filter the grid with the option 'Branch' and value '2'
+	Then The following routes will be displayed
+    | Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+    | 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
 
-	@ignore the order does not change 
-Scenario: A user can view Route information and sort on updated date
+Scenario: A user can view Route information and sort on route date
 	Given I have a clean database
-	And I have loaded the Adam route data
+	And I have loaded the MultiDate Adam route data
 	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDate/time    |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
-	When I click on the orderby Triangle image
-	Then The following routes ordered by date will be displayed in 'desc' order
-	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'asc' order
-	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      | LastUpdatedDateTime     |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:17 PM |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 0          | 0     | Not Defined | Sep 8, 2016, 1:27:16 PM |
+	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	When I click on the orderby Triangle image
+	Then The following routes ordered by date will be displayed in 'desc' order
+	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+
 
 #TODO Add more filter scenarios when the additional filters have been implemented
 
@@ -76,7 +84,7 @@ Scenario: A user can page through Route information
 	When I click on page 1
 	Then '10' rows of data will be displayed
 
-	@ignore 
+ 
 Scenario: A user can drill into a Route to view exceptions
 	Given I have a clean database
 	And I have loaded the Adam route data
@@ -88,7 +96,7 @@ Scenario: A user can drill into a Route to view exceptions
 	Then I can see that routes exceptions
 	And the filter should be preset to route and route number
 
-	@ignore 
+ 
 Scenario: A user can drill into a Route to view clean deliveries
 	Given I have a clean database
 	And I have loaded the Adam route data

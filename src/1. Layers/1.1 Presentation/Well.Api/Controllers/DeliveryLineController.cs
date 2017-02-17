@@ -4,12 +4,9 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
-    using System.Web.Http;
     using Common.Contracts;
     using Models;
-
-    using PH.Well.Api.Mapper.Contracts;
-
+    using Mapper.Contracts;
     using Repositories.Contracts;
     using Services.Contracts;
 
@@ -33,9 +30,7 @@
             this.jobDetailRepository.CurrentUser = UserIdentityName;
         }
 
-        [HttpPut]
-        [Route("delivery-line")]
-        public HttpResponseMessage Update(DeliveryLineModel model)
+        public HttpResponseMessage Put(DeliveryLineModel model)
         {
             try
             {
@@ -61,7 +56,7 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occured when updating DeliveryLine");
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when updating DeliveryLine");
             }
         }
 

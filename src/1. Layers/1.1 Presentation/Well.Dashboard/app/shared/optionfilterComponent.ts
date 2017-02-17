@@ -22,6 +22,16 @@ export class OptionFilterComponent {
         this.SelectedOption = DropDownItem.CreateDefaultOption();
     }
 
+    public inputType(type: string): string {
+        //SelectedOption.type == 'numberLessThanOrEqual': number 
+
+        if (type == 'numberLessThanOrEqual' || type == 'number') {
+            return 'number';
+        }
+
+        return 'text';
+    }
+
     public setSelectedOption = (option: DropDownItem): void => {
         if (!option.IsDefaultItem()) {
             this.ClearFilter();

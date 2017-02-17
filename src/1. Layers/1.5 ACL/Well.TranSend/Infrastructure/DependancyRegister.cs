@@ -44,7 +44,7 @@
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
-#endif           
+#endif
                 });
         }
     }

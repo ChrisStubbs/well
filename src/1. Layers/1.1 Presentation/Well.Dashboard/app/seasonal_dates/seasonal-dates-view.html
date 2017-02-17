@@ -11,7 +11,7 @@
         </thead>
         <tbody>
         <tr *ngIf="seasonalDates && seasonalDates.length === 0">
-            <td id="seasonal-no-results" colspan="5">No Seasonal Dates!</td>
+            <td id="seasonal-no-results" colspan="5">No Seasonal Dates</td>
         </tr>
         <tr class="grid-row" *ngFor="let x of seasonalDates">
             <td (click)="selectSeason(x)" id="seasonal-description-{{x.id}}">{{x.description}}</td>

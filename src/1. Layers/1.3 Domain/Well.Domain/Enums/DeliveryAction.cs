@@ -23,6 +23,9 @@
         ReplanInTheQueue = 5,
 
         [Description("Reject")]
-        Reject = 6
+        Reject = 6,
+
+        [Description("Close")]
+        Close = 7,
     }
 }

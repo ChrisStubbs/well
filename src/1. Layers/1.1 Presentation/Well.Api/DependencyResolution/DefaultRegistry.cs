@@ -1,5 +1,9 @@
 namespace PH.Well.Api.DependencyResolution
 {
+    using System;
+    using System.Threading;
+    using Domain.Enums;
+    using Domain.ValueObjects;
     using Mapper;
 
     using PH.Well.Api.Mapper.Contracts;
@@ -12,6 +16,7 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Services.Contracts;
     using Repositories.Read;
     using Services.EpodServices;
+    using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
@@ -40,6 +45,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
+
+            
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
@@ -70,6 +77,10 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
+
+            //delivery lines
+            For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();//.Named(DeliveryAction.Credit.ToString());
+            For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();//.Named(DeliveryAction.Close.ToString());
         }
     }
 }

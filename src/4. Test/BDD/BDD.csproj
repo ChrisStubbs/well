@@ -116,6 +116,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AdminParameters.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\ApprovalsPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApprovalsPage.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\Audits.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -173,7 +178,11 @@
     <Compile Include="Framework\Extensions\GridExtensions.cs" />
     <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
-    <Compile Include="XmlFileHelper\RouteFileExtensions.cs" />
+    <Compile Include="Helpers\IWebClientHelper.cs" />
+    <Compile Include="Helpers\WebClientHelper.cs" />
+    <Compile Include="Pages\ApprovalsPage.cs" />
+    <Compile Include="Steps\Page\ApprovalsSteps.cs" />
+    <Compile Include="Helpers\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
     <Compile Include="Framework\Hooks.cs" />
     <Compile Include="Framework\WebElements\CreditThresholdButtonDropDown.cs" />
@@ -259,6 +268,10 @@
     <None Include="Features\Pages\AdminParameters.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AdminParameters.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\ApprovalsPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ApprovalsPage.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Audits.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

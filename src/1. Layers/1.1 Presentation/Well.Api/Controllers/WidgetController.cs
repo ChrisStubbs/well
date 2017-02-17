@@ -14,6 +14,7 @@
 
     using PH.Well.Common.Security;
     using Repositories.Contracts;
+    using Validators;
     using Validators.Contracts;
 
     public class WidgetController : BaseApiController
@@ -58,12 +59,12 @@
                 {
                     new WidgetModel()
                     {
-                        Name = "Pending Authorisation",
+                        Name = "Pending Approval",
                         Count = pendingCreditCount,
-                        Description = "Credits awaiting your authorisation",
+                        Description = "Credits awaiting your approval",
                         SortOrder = 1,
-                        Link = "/pending-credit",
-                        LinkText = "pending credits",
+                        Link = "/approvals",
+                        LinkText = "credits pending approval",
                         WarningLevel = 50,
                         ShowOnGraph = false
                     },
@@ -119,6 +120,8 @@
                 return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting widgets");
             }
         }
+
+        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetsWarnings")]
         [HttpGet]
         public HttpResponseMessage GetWarnings()
@@ -145,6 +148,7 @@
             }
         }
 
+        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetWarning/{isUpdate:bool}")]
         [HttpPost]
         public HttpResponseMessage Post(WidgetWarningModel model, bool isUpdate)
@@ -171,7 +175,7 @@
             }
         }
 
-
+        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetWarning/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)

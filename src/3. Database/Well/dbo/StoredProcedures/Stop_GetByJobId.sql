@@ -14,8 +14,10 @@ SELECT stp.[Id],
 	  stp.[AllowOvers],
 	  stp.[CustUnatt],
 	  stp.[PHUnatt],
-	  stp.[StopStatusId],
-	  stp.[StopPerformanceStatusId],
+	  stp.[StopStatusCode],
+	  stp.[StopStatusDescription],
+	  stp.[PerformanceStatusCode],
+	  stp.[PerformanceStatusDescription],
 	  stp.[Reason]
   FROM [dbo].[Stop] stp
   INNER JOIN [dbo].[Job] jb

@@ -54,7 +54,7 @@
         {
             try
             {
-                var exceptionDeliveries =
+                List<Delivery> exceptionDeliveries =
                     this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
@@ -67,6 +67,25 @@
             {
                 return this.serverErrorResponseHandler.HandleException(Request, ex,
                     "An error occured when getting exceptions");
+            }
+        }
+
+        [HttpGet]
+        [Route("deliveries/approval")]
+        public HttpResponseMessage GetApprovals()
+        {
+            try
+            {
+                var approvals = deliveryService.GetApprovals(this.UserIdentityName);
+
+                return !approvals.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, approvals);
+            }
+            catch (Exception ex)
+            {
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting approvals");
             }
         }
 
@@ -172,7 +191,12 @@
             try
             {
                 IEnumerable<DeliveryAction> actions = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>();
-                var reasons = actions.Select(a => new { id = (int)a, description = StringExtensions.GetEnumDescription(a) });
+                var reasons = actions
+                    .Select(a => new
+                    {
+                        id = (int)a,
+                        description = StringExtensions.GetEnumDescription(a)
+                    });
 
                 return Request.CreateResponse(HttpStatusCode.OK, reasons);
             }

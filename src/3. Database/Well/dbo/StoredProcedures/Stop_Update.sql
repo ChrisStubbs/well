@@ -1,7 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[Stop_Update]
 	@Id				INT,
-	@StopStatusCodeId	TINYINT,
-	@StopPerformanceStatusCodeId INT,
+	@StopStatusCode VARCHAR(50),
+	@StopStatusDescription VARCHAR(255),
+	@PerformanceStatusCode VARCHAR(50),
+	@PerformanceStatusDescription VARCHAR(255),
 	@Reason         VARCHAR(255),
 	@ShellActionIndicator VARCHAR(100),
 	@ActualPaymentCash		DECIMAL(7,2),
@@ -16,8 +18,10 @@ BEGIN
 	UPDATE 
 		[Stop] 
 	SET 
-		[StopStatusId] = @StopStatusCodeId,
-		StopPerformanceStatusId = @StopPerformanceStatusCodeId, 
+		[StopStatusCode] = @StopStatusCode,
+		StopStatusDescription = @StopStatusDescription,
+		[PerformanceStatusCode] = @PerformanceStatusCode,
+		PerformanceStatusDescription = @PerformanceStatusDescription, 
 		[Reason] = @Reason,
 		ShellActionIndicator = @ShellActionIndicator,
 		ActualPaymentCash = @ActualPaymentCash,

@@ -55,7 +55,7 @@ export class DeliveryService
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
-        return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line/',
+        return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'DeliveryLine/',
             body,
             options)
             .catch(e => this.httpErrorService.handleError(e));

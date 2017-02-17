@@ -77,7 +77,7 @@
             {
                 var username = "foo";
 
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.PendingCreditDeliveriesGet))
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("UserName", username, DbType.String, null))
@@ -85,9 +85,9 @@
 
                 this.dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());
 
-                this.repository.GetPendingCreditDeliveries(username);
+                this.repository.GetByPendingCredit(username);
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.PendingCreditDeliveriesGet), Times.Once);
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("UserName", username, DbType.String, null), Times.Once);
 

@@ -12,8 +12,10 @@
 	[AllowOvers] BIT NULL,
 	[CustUnatt] BIT NULL,
 	[PHUnatt] BIT NULL,
-	[StopStatusId] TINYINT NULL,
-	[StopPerformanceStatusId] TINYINT NULL,
+	[StopStatusCode] VARCHAR(50) NULL,
+	[StopStatusDescription] VARCHAR(255) NULL,
+	[PerformanceStatusCode] VARCHAR(50) NULL,
+	[PerformanceStatusDescription] VARCHAR(255) NULL,
 	[Reason] VARCHAR(255) NULL,
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[ActualPaymentCash] DECIMAL(7,2) NULL,
@@ -26,7 +28,5 @@
 	[DateUpdated] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
     CONSTRAINT [PK_Stops] PRIMARY KEY CLUSTERED ([Id] ASC),
-	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_Stops_StopStatus] FOREIGN KEY ([StopStatusId]) REFERENCES [dbo].[StopStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_Stops_StopPerformanceStatus] FOREIGN KEY ([StopPerformanceStatusId]) REFERENCES [dbo].[PerformanceStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

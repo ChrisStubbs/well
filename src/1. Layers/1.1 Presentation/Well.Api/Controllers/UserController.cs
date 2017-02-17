@@ -12,7 +12,8 @@
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
-    
+    using Validators;
+
     public class UserController : BaseApiController
     {
         private readonly IBranchService branchService;
@@ -83,6 +84,7 @@
         }
 
         [Route("users/{name}")]
+        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {

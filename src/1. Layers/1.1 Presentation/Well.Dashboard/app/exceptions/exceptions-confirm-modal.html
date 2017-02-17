@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Please confirm your actions! <small>Amount you can credit per delivery is {{userThreshold | currency:'GBP':true}}! The total credit value for this delivery is <span class="badge">{{deliveryLines[0].totalCreditThreshold | currency:'GBP':true}}</span></small></h4>
+                <h4 class="modal-title">Please confirm your actions <br /> <small>Amount you can credit per delivery is {{userThreshold | currency:'GBP':true}} The total credit value for this delivery is <span class="badge">{{deliveryLines[0].totalCreditThreshold | currency:'GBP':true}}</span></small></h4>
             </div>
             <div class="modal-body">
                 <div class="panel panel-default" *ngFor="let line of deliveryLines">

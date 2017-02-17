@@ -188,9 +188,7 @@
                 {
                     RouteHeaderId = header.Id,
                     RouteHeaderCode = header.RouteNumber,
-                    TransportOrderReference = stopInsert.TransportOrderRef,
-                    StopStatusCodeId = (int)StopStatus.Notdef,
-                    StopPerformanceStatusCodeId = (int)PerformanceStatus.Notdef
+                    TransportOrderReference = stopInsert.TransportOrderRef
                 };
 
                 this.mapper.Map(stopInsert, stop);

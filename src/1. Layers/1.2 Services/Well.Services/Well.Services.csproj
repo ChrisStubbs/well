@@ -61,6 +61,7 @@
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
     <Compile Include="Contracts\IDeliverLineToDeliveryLineActionMapper.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
+    <Compile Include="Contracts\IDeliveryStatusService.cs" />
     <Compile Include="Contracts\IEpodUpdateService.cs" />
     <Compile Include="Contracts\IDeliveryLineActionService.cs" />
     <Compile Include="Contracts\IFileModule.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="CreditTransactionFactory.cs" />
     <Compile Include="DeliverLineToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
+    <Compile Include="DeliveryStatusService.cs" />
     <Compile Include="EpodServices\AdamImportService.cs" />
     <Compile Include="EpodServices\AdamUpdateService.cs" />
     <Compile Include="EpodServices\EpodUpdateService.cs" />

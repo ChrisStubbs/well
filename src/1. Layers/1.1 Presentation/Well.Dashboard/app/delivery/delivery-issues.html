@@ -11,8 +11,8 @@
                     <tr>
                         <th>Quantity</th>
                         <th>Source</th>
-                        <th>Reason</th>
                         <th>Action</th>
+                        <th>Reason</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -29,15 +29,15 @@
                             </select>
                         </td>
                         <td>
-                            <select id="short-reason-select" class="form-control" [disabled]="canAction()"
-                                    [(ngModel)]="deliveryLine.jobDetailReasonId">
-                                <option *ngFor="let x of reasons" [value]="x.id">{{x.description}}</option>
-                            </select>
-                        </td>
-                        <td>
                             <select id="short-reason-action" class="form-control" [disabled]="canAction()"
                                     [(ngModel)]="deliveryLine.shortsActionId">
                                 <option *ngFor="let x of actions" [value]="x.id">{{x.description}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="short-reason-select" class="form-control" [disabled]="canAction()"
+                                    [(ngModel)]="deliveryLine.jobDetailReasonId">
+                                <option *ngFor="let x of reasons" [value]="x.id">{{x.description}}</option>
                             </select>
                         </td>
                         <td><button style="visibility: hidden" class="btn">remove</button></td>
@@ -57,8 +57,8 @@
                     <tr>
                         <th>Quantity</th>
                         <th>Source</th>
-                        <th>Reason</th>
                         <th>Action</th>
+                        <th>Reason</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -74,15 +74,15 @@
                             </select>
                         </td>
                         <td>
-                            <select id="damage-reason-select{{i}}" [disabled]="canAction()" class="form-control" 
-                                    [(ngModel)]="damage.jobDetailReasonId" name="reason">
-                                <option *ngFor="let r of reasons" [value]="r.id">{{r.description}}</option>
-                            </select>
-                        </td>
-                        <td>
                             <select id="damage-action-select{{i}}" class="form-control" [disabled]="canAction()"
                                     [(ngModel)]="damage.damageActionId">
                                 <option *ngFor="let x of actions" [value]="x.id">{{x.description}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="damage-reason-select{{i}}" [disabled]="canAction()" class="form-control"
+                                    [(ngModel)]="damage.jobDetailReasonId" name="reason">
+                                <option *ngFor="let r of reasons" [value]="r.id">{{r.description}}</option>
                             </select>
                         </td>
                         <td>

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using Dapper;
+
+namespace PH.Well.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
@@ -71,7 +73,7 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
-        public Job JobGetByRefDetails(string phAccount, string pickListRef, int stopId)
+        public Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId)
         {
             var job =
                dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
@@ -189,6 +191,34 @@
                 .AddParameter("jobId", jobId, DbType.Int32)
                 .AddParameter("status", PerformanceStatus.Submitted, DbType.Int16)
                 .Execute();
+        }
+
+        public IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int branchId, string invoiceNumber)
+        {
+            IEnumerable<Job> jobs = new List<Job>();
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph)
+                .AddParameter("branchId", branchId, DbType.Int32)
+                .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
+                .QueryMultiple(x => jobs = GetJobsByGrid(x));
+
+            return jobs;
+        }
+
+        private IEnumerable<Job> GetJobsByGrid(SqlMapper.GridReader gridReader)
+        {
+            var jobs = gridReader.Read<Job>();
+            var jobDetails = gridReader.Read<JobDetail>().ToList();
+            var jobDetailsDamages = gridReader.Read<JobDetailDamage>().ToList();
+            foreach (var job in jobs)
+            {
+                foreach (JobDetail jobDetail in jobDetails.Where(x=>x.JobId == job.Id))
+                {
+                    jobDetail.JobDetailDamages = jobDetailsDamages.Where(x => x.JobDetailId == jobDetail.Id).ToList();
+                    job.JobDetails.Add(jobDetail);
+                }
+            }
+            return jobs;
         }
     }
 }

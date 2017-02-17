@@ -65,7 +65,7 @@
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .AddParameter("ProdDesc", jobDetail.ProdDesc, DbType.String)
                 .AddParameter("OrderedQty", jobDetail.OrderedQty, DbType.Int32)
-                .AddParameter("DeliveredQty", string.IsNullOrWhiteSpace(jobDetail.DeliveredQty) ? 0m : decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal) //TODO should this be int not decimal?
+                .AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Int32)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailReasonId", jobDetail.JobDetailReason, DbType.Int32)
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSource, DbType.Int32)
@@ -93,7 +93,7 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailUpdate)
                 .AddParameter("Id", jobDetail.Id, DbType.Int32)
-                .AddParameter("DeliveredQty", string.IsNullOrWhiteSpace(jobDetail.DeliveredQty) ? 0M : decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal)
+                .AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Int32)
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32)
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32)

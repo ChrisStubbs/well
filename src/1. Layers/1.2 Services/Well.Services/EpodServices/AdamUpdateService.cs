@@ -140,7 +140,7 @@
         {
             foreach (var job in jobs)
             {
-                var existingJob = this.jobRepository.JobGetByRefDetails(job.PhAccount, job.PickListRef, stopId);
+                var existingJob = this.jobRepository.GetJobByRefDetails(job.PhAccount, job.PickListRef, stopId);
 
                 if (existingJob != null)
                 {

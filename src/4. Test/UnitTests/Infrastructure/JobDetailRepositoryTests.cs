@@ -234,7 +234,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("DeliveredQty", decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal, null))
+                        x => x.AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null))
@@ -317,7 +317,7 @@
                 this.dapperProxy.Verify(x => x.AddParameter("Id", jobDetail.Id, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("DeliveredQty", decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal, null), Times.Once);
+                        x => x.AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null), Times.Once);
 

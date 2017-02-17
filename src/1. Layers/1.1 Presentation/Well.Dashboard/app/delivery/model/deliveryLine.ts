@@ -1,9 +1,12 @@
-﻿import {Damage} from './damage';
+﻿import { Damage } from './damage';
 import * as lodash from 'lodash';
 
-export class DeliveryLine {
-    constructor(line: DeliveryLine) {
-        if (line) {
+export class DeliveryLine
+{
+    constructor(line: DeliveryLine)
+    {
+        if (line)
+        {
             this.jobDetailId = line.jobDetailId;
             this.jobId = line.jobId;
             this.lineNo = line.lineNo;
@@ -19,9 +22,11 @@ export class DeliveryLine {
             this.jobDetailSourceId = line.jobDetailSourceId;
             this.shortsActionId = line.shortsActionId;
 
-            if (line.damages) {
+            if (line.damages)
+            {
                 let index = 0;
-                for (const damage of line.damages) {
+                for (const damage of line.damages)
+                {
                     this.damages.push(new Damage(
                         index,
                         damage.quantity,
@@ -57,13 +62,17 @@ export class DeliveryLine {
     public damages: Damage[] = new Array<Damage>();
     public isCleanOnInit: boolean;
 
-    public isClean(): boolean {
-        if (this.shortQuantity > 0) {
+    public isClean(): boolean
+    {
+        if (this.shortQuantity > 0)
+        {
             return false;
         }
 
-        for (const damage of this.damages) {
-            if (damage.quantity > 0) {
+        for (const damage of this.damages)
+        {
+            if (damage.quantity > 0)
+            {
                 return false;
             }
         }
@@ -71,26 +80,32 @@ export class DeliveryLine {
         return true;
     }
 
-    public isDetailChecked(): boolean {
+    public isDetailChecked(): boolean
+    {
 
-        if (this.lineDeliveryStatus === 'Exception') {
+        if (this.lineDeliveryStatus === 'Exception')
+        {
             return true;
         }
-        if (this.lineDeliveryStatus === 'Delivered') {
+        if (this.lineDeliveryStatus === 'Delivered')
+        {
             return true;
         }
-        if (this.lineDeliveryStatus === 'Unknown') {
+        if (this.lineDeliveryStatus === 'Unknown')
+        {
             return false;
         }
 
         return false;
     }
 
-    public totalQtyOfShortsAndDamages(): number {
+    public totalQtyOfShortsAndDamages(): number
+    {
         return this.shortQuantity + lodash.sum(lodash.map(this.damages, 'quantity'));
     }
 
-    public canSave(): boolean {
+    public canSave(): boolean
+    {
         return this.totalQtyOfShortsAndDamages() <= this.invoicedQuantity;
     }
 }

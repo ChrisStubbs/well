@@ -57,6 +57,7 @@
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
         public static string JobSetToStatus = "Job_SetToStatus";
+        public static string JobsGetByBranchAndInvoiceNumberWithFullObjectGraph = "Jobs_GetByBranchAndInvoiceNumber";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";

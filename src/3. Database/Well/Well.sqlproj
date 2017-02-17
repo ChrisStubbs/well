@@ -280,6 +280,7 @@
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
     <Build Include="dbo\StoredProcedures\Deliveries_GetByArrayPerformanceStatus.sql" />
     <Build Include="dbo\Types\IntTableType.sql" />
+    <Build Include="dbo\StoredProcedures\Jobs_GetByBranchAndInvoiceNumber.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

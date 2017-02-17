@@ -226,7 +226,7 @@
 
                 var existingJob = new Job();
 
-                this.jobRepository.Setup(x => x.JobGetByRefDetails(jobUpdate.PhAccount, jobUpdate.PickListRef, 0))
+                this.jobRepository.Setup(x => x.GetJobByRefDetails(jobUpdate.PhAccount, jobUpdate.PickListRef, 0))
                     .Returns(existingJob);
 
                 this.mapper.Setup(x => x.Map(jobUpdate, It.IsAny<Job>()));

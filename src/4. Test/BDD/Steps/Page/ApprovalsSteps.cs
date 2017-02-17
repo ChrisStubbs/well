@@ -102,7 +102,7 @@
                         }
                     }
                 };
-                var address = $"{Configuration.WellApiUrl}delivery-line";
+                var address = $"{Configuration.WellApiUrl}DeliveryLine";
                 var data = JsonConvert.SerializeObject(deliverylineUpdate);
 
                 var response = webClientHelper.Put(address, data);

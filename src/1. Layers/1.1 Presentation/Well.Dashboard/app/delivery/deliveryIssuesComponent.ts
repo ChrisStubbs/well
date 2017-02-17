@@ -50,7 +50,6 @@ export class DeliveryIssuesComponent {
 
             this.deliveryService.getSources()
                 .subscribe(s => { this.sources = s });
-            
         }
 
         this.deliveryService.getDamageReasons()

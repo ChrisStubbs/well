@@ -191,7 +191,12 @@
             try
             {
                 IEnumerable<DeliveryAction> actions = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>();
-                var reasons = actions.Select(a => new { id = (int)a, description = StringExtensions.GetEnumDescription(a) });
+                var reasons = actions
+                    .Select(a => new
+                    {
+                        id = (int)a,
+                        description = StringExtensions.GetEnumDescription(a)
+                    });
 
                 return Request.CreateResponse(HttpStatusCode.OK, reasons);
             }

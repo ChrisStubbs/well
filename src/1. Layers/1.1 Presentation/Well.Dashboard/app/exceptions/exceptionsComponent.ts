@@ -17,9 +17,9 @@ import { ConfirmModal }                             from '../shared/confirmModal
 import { IUser }                                    from '../shared/user';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
-import { Threshold } from '../shared/threshold';
-import { DeliveryLine } from '../delivery/model/deliveryLine'; 
-import { ExceptionsConfirmModal } from './exceptionsConfirmModal';
+import { Threshold }                                from '../shared/threshold';
+import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
+import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
 import * as lodash                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';   // Load all features

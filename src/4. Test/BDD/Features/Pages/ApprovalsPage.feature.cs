@@ -125,7 +125,8 @@ this.FeatureBackground();
                         "AccountName",
                         "CreditValue",
                         "Status",
-                        "Threshold"});
+                        "Threshold",
+                        "Assigned"});
             table2.AddRow(new string[] {
                         "001",
                         "1",
@@ -134,7 +135,8 @@ this.FeatureBackground();
                         "CSG - must be CF van",
                         "199.75",
                         "Incomplete",
-                        "Level 1"});
+                        "Level 1",
+                        "Unallocated"});
             table2.AddRow(new string[] {
                         "001",
                         "1",
@@ -143,7 +145,8 @@ this.FeatureBackground();
                         "CSG - must be CF van",
                         "22.41",
                         "Incomplete",
-                        "Level 2"});
+                        "Level 2",
+                        "Unallocated"});
             table2.AddRow(new string[] {
                         "001",
                         "2",
@@ -152,7 +155,8 @@ this.FeatureBackground();
                         "RVS SHOP",
                         "39.95",
                         "Incomplete",
-                        "Level 2"});
+                        "Level 2",
+                        "Unallocated"});
 #line 26
  testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table2, "Then ");
 #line 31

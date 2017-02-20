@@ -18,7 +18,6 @@
         private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IUserThresholdService userThresholdService;
         private readonly IDeliverLineToDeliveryLineCreditMapper mapper;
-        private readonly IPodTransactionFactory podTransactionFactory;
 
         public DeliveryLineActionService(
             IAdamRepository adamRepository,
@@ -27,8 +26,7 @@
             IUserRepository userRepository,
             ICreditTransactionFactory creditTransactionFactory,
             IUserThresholdService userThresholdService,
-            IDeliverLineToDeliveryLineCreditMapper mapper,
-            IPodTransactionFactory podTransactionFactory)
+            IDeliverLineToDeliveryLineCreditMapper mapper)
         {
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
@@ -37,7 +35,6 @@
             this.creditTransactionFactory = creditTransactionFactory;
             this.userThresholdService = userThresholdService;
             this.mapper = mapper;
-            this.podTransactionFactory = podTransactionFactory;
         }
 
         public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings, string username)

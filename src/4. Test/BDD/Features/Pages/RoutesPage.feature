@@ -43,6 +43,15 @@ Scenario: A user can filter Route information
 	Then The following routes will be displayed
     | Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
     | 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	When I select 'Route' from the filter options
+	Then the the previous filter should be cleared 
+	And The following routes will be displayed
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        |
+
 
 Scenario: A user can view Route information and sort on route date
 	Given I have a clean database
@@ -83,6 +92,14 @@ Scenario: A user can page through Route information
 	Then '1' rows of data will be displayed
 	When I click on page 1
 	Then '10' rows of data will be displayed
+	When I click on page '2' 
+	And I select the first row of the route
+	And I choose to view that routes clean deliveries
+	Then No clean deliveries will be displayed
+	When I click the back button
+	Then the routes page will be displayed
+	And '1' rows of data will be displayed
+
 
  
 Scenario: A user can drill into a Route to view exceptions
@@ -107,3 +124,4 @@ Scenario: A user can drill into a Route to view clean deliveries
 	And I choose to view that routes clean deliveries
 	Then I can see that routes clean deliveries
 	And the filter should be preset to route and route number
+

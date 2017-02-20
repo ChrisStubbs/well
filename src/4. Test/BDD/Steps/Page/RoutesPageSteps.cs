@@ -31,6 +31,13 @@
             this.routesPage.Filter.Apply(option, value);
         }
 
+        [When(@"I select '(.*)' from the filter options")]
+        public void WhenISelectRouteFromTheFilterOptions(string option)
+        {
+            this.routesPage.Filter.OptionDropDown.Select(option);
+        }
+
+
         [When(@"I clear the filter")]
         public void WhenIClearTheFilter()
         {
@@ -48,6 +55,13 @@
         {
            this.routesPage.OrderByButton.Click();
         }
+
+        [Then(@"the the previous filter should be cleared")]
+        public void ThenTheThePreviousFilterShouldBeCleared()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
         [Then(@"The following routes will be displayed")]
         public void ThenTheFollowingRoutesWillBeDisplayed(Table table)
@@ -171,5 +185,12 @@
 
             Assert.That(option, Is.EqualTo("Route"));
         }
+
+        [Then(@"the routes page will be displayed")]
+        public void ThenTheRoutesPageWillBeDisplayed()
+        {
+            Assert.That(this.routesPage.IsElementPresent("filter-option"));
+        }
+
     }
 }

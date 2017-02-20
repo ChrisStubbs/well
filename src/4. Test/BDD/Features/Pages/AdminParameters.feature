@@ -10,6 +10,24 @@ Feature: Administration Parameters
 
 #TODO BDD required around royalty exceptions when cleaning the Well
 
+
+Scenario: Empty Test For Test Times
+	Given I have a clean database
+
+Scenario: Widget warning parameter remove
+	Given I have a clean database
+	And I navigate to the branch parameters page
+	When I add a widget warning parameter
+	| Level | Widget     | Description |
+	| 5     | Exceptions | 'Test'      |
+	And all branches are selected for the widget warning parameter
+	And I save the widget warning parameter
+	Then the widget warning parameter is saved
+	| Level | Widget	 | Branches													 |
+	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
+	When I remove the widget warning parameter
+	Then it is removed from the widget warning grid
+
 Scenario: Seasonal dates applied all branches
 #Add, edit
 	Given I have a clean database
@@ -390,20 +408,6 @@ Scenario: Clean parameter negative inputs
 	Then the widget warning parameter is saved
 	| Level | Widget     | Branches													 |
 	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-
-Scenario: Widget warning parameter remove
-	Given I have a clean database
-	And I navigate to the branch parameters page
-	When I add a widget warning parameter
-	| Level | Widget     | Description |
-	| 5     | Exceptions | 'Test'      |
-	And all branches are selected for the widget warning parameter
-	And I save the widget warning parameter
-	Then the widget warning parameter is saved
-	| Level | Widget	 | Branches													 |
-	| 5     | Exceptions |med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
-	When I remove the widget warning parameter
-	Then it is removed from the widget warning grid
 
 Scenario: Widget warning parameter edit
 	Given I have a clean database

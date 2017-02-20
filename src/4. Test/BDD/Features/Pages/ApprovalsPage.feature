@@ -21,6 +21,8 @@ Scenario: A user can view Deliveries waiting credit approval
 	And I am assigned to credit threshold 'Level 3'
 	And 3 deliveries are waiting credit approval
 	When I open the approval deliveries page
+	And I open the widget page
+	And I go back
 	Then the following approval deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Status     | Threshold |
 	| 001   | 1    | 1787878   | 49214.152 | CSG - must be CF van | 199.75      | Incomplete | Level 1   |

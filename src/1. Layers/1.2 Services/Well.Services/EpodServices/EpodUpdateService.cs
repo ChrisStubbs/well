@@ -30,7 +30,7 @@
 
         private const string UpdatedBy = "EpodUpdate";
 
-        private List<int> ProofOfDeliveryList = new List<int> { 1 , 8}; 
+        private List<int> proofOfDeliveryList = new List<int> { 1 , 8}; 
 
         public EpodUpdateService(
             ILogger logger,
@@ -84,9 +84,18 @@
                 this.routeHeaderRepository.Update(existingHeader);
 
                 int branchId;
-                Int32.TryParse(existingHeader.StartDepotCode, out branchId);
 
-                this.UpdateStops(header.Stops, branchId);
+                if (int.TryParse(existingHeader.StartDepotCode, out branchId))
+                {
+                    this.UpdateStops(header.Stops, branchId);
+                }
+                else
+                {
+                    this.logger.LogDebug($"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})");
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport,
+                        $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})",
+                        9682);
+                }
             }
         }
 
@@ -169,9 +178,11 @@
 
                 if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
                 {
-                    var grnEvent = new GrnEvent();
-                    grnEvent.Id = existingJob.Id;
-                    grnEvent.BranchId = branchId;
+                    var grnEvent = new GrnEvent
+                    {
+                        Id = existingJob.Id,
+                        BranchId = branchId
+                    };
 
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
@@ -181,14 +192,13 @@
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery ?? 0;
 
-                if (ProofOfDeliveryList.Contains(pod))
+                if (pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade)
                 {
                     //build pod transaction
                     var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
 
                     this.exceptionEventRepository.InsertPodEvent(podTransaction);
                 }
-                
 
                 this.jobRepository.Update(existingJob);
             }

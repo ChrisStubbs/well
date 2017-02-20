@@ -68,9 +68,11 @@
                     .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
                     .ToList();
 
+                transactionScope.Complete();
+
                 return new ProcessDeliveryActionResult
                 {
-                    AdmamIsDown = results.Any(p => p.AdmamIsDown),
+                    AdamIsDown = results.Any(p => p.AdamIsDown),
                     Warnings = results.SelectMany(p => p.Warnings).ToList()
                 };
             }

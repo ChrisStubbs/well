@@ -8,7 +8,7 @@ export class CustomDatePipe implements PipeTransform {
 
         if (!value) {
              return '';
-        }
+        }   
 
         return moment(value).format(format);
     }

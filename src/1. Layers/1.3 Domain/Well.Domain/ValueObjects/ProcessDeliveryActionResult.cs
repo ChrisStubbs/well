@@ -8,11 +8,11 @@
         public ProcessDeliveryActionResult()
         {
             this.Warnings = new List<string>();
-            this.AdmamIsDown = false;
+            this.AdamIsDown = false;
         }
         
         public List<string> Warnings { get; set; }
 
-        public bool AdmamIsDown { get; set; }
+        public bool AdamIsDown { get; set; }
     }
 }

@@ -74,7 +74,7 @@ namespace PH.Well.Services
                     }
                     else
                     {
-                        result.AdmamIsDown = this.Credit(creditLines, adamSettings, username, branchId) != AdamResponse.Success;
+                        result.AdamIsDown = this.Credit(creditLines, adamSettings, username, branchId) != AdamResponse.Success;
                     }
                 }
             }

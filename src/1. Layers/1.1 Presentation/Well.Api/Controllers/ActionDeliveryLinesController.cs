@@ -86,7 +86,7 @@
                 return this.Request.CreateResponse(new { notAcceptable = true, message = response.Warnings });
             }
 
-            if (response.AdmamIsDown)
+            if (response.AdamIsDown)
             {
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
             }

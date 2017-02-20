@@ -152,7 +152,7 @@
                 //this.branchRepository.Setup(x => x.GetBranchIdForJob(jobId)).Returns(branchId);
 
                 //var processDeliveryActionResult = new ProcessDeliveryActionResult();
-                //processDeliveryActionResult.AdmamIsDown = true;
+                //processDeliveryActionResult.AdamIsDown = true;
 
                 //this.deliveryLineActionService.Setup(
                 //    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), It.IsAny<string>(), branchId)).Returns(processDeliveryActionResult);

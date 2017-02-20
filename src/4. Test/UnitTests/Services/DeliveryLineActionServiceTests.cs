@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿// TODO 
+/*
+namespace PH.Well.UnitTests.Services
 {
     using System;
     using System.Collections.Generic;
@@ -26,158 +28,213 @@
         private Mock<ICreditTransactionFactory> creditTransactionFactory;
         private Mock<IUserThresholdService> userThresholdService;
         private Mock<IDeliverLineToDeliveryLineCreditMapper> mapper;
+        private Mock<IDeliveryLinesAction> creditAction;
+        private Mock<IDeliveryLinesAction> closeAction;
         private DeliveryLineActionService service;
 
         [SetUp]
         public void Setup()
         {
-            //this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
-            //this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
-            //this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
-            //this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            //this.creditTransactionFactory = new Mock<ICreditTransactionFactory>(MockBehavior.Strict);
-            //this.userThresholdService = new Mock<IUserThresholdService>(MockBehavior.Strict);
-            //this.mapper = new Mock<IDeliverLineToDeliveryLineCreditMapper>(MockBehavior.Strict);
+            this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
+            this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
+            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            this.creditTransactionFactory = new Mock<ICreditTransactionFactory>(MockBehavior.Strict);
+            this.userThresholdService = new Mock<IUserThresholdService>(MockBehavior.Strict);
+            this.mapper = new Mock<IDeliverLineToDeliveryLineCreditMapper>(MockBehavior.Strict);
+            this.creditAction = new Mock<IDeliveryLinesAction>(MockBehavior.Strict);
+            this.closeAction = new Mock<IDeliveryLinesAction>(MockBehavior.Strict);
 
-            //this.service = new DeliveryLineActionService(
-            //    this.adamRepository.Object, 
-            //    this.exceptionEventRepository.Object,
-            //    this.jobRepository.Object, 
-            //    this.userRepository.Object,
-            //    this.creditTransactionFactory.Object, 
-            //    this.userThresholdService.Object,
-            //    this.mapper.Object);
+            var actions = new List<IDeliveryLinesAction> { creditAction.Object, closeAction.Object };
+
+            this.service = new DeliveryLineActionService(
+                this.adamRepository.Object,
+                this.jobRepository.Object,
+                this.userRepository.Object,
+                this.userThresholdService.Object, 
+                this.exceptionEventRepository.Object,
+                actions);
         }
 
         public class ProcessDeliveryActionResultTests : DeliveryLineActionServiceTests
         {
             [Test]
-            [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void SuccessfulCreditReturnsResultSuccess()
             {
-                //var creditLines = new List<DeliveryLine>() { DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.Credit).Build() };
-                //var credits = new List<DeliveryLineCredit>();
+                var creditLines = new List<DeliveryLine>()
+                {
+                    DeliveryLineFactory.New.With(x => x.ShortsActionId = (int) DeliveryAction.Credit).Build()
+                };
+                var credits = new List<DeliveryLineCredit>();
 
-                //var username = "fiona.pond";
-                //var creditTransaction = new CreditTransaction();
-                //var adamSettings = new AdamSettings();
-                //var job = new Job { Id = 202 };
-                //int branchId = 2;
+                var username = "fiona.pond";
+                var creditTransaction = new CreditTransaction();
+                var adamSettings = new AdamSettings();
+                var job = new Job {Id = 202};
+                int branchId = 2;
 
-                //var thresholdResponse = new ThresholdResponse();
-                //thresholdResponse.CanUserCredit = true;
+                var thresholdResponse = new ThresholdResponse();
+                thresholdResponse.CanUserCredit = true;
 
-                //this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
-                //this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
-                //this.creditTransactionFactory.Setup(x => x.Build(credits, username, branchId)).Returns(creditTransaction);
-                //this.adamRepository.Setup(x => x.Credit(creditTransaction, adamSettings, username)).Returns(AdamResponse.Success);
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
+                this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
+                this.creditTransactionFactory.Setup(x => x.Build(credits, username, branchId))
+                    .Returns(creditTransaction);
+                this.adamRepository.Setup(x => x.Credit(creditTransaction, adamSettings, username))
+                    .Returns(AdamResponse.Success);
 
-                //this.jobRepository.Setup(x => x.ResolveJobAndJobDetails(job.Id));
-                //this.userRepository.Setup(x => x.UnAssignJobToUser(job.Id));
-                //this.exceptionEventRepository.Setup(x => x.RemovedPendingCredit(job.Id));
+                this.jobRepository.Setup(x => x.ResolveJobAndJobDetails(job.Id));
+                this.userRepository.Setup(x => x.UnAssignJobToUser(job.Id));
+                this.exceptionEventRepository.Setup(x => x.RemovedPendingCredit(job.Id));
 
-                //this.mapper.Setup(x => x.Map(creditLines)).Returns(credits);
+                this.mapper.Setup(x => x.Map(creditLines)).Returns(credits);
 
-                //var response = this.service.CreditDeliveryLines(creditLines, adamSettings, username, branchId);
+                var response = this.service.ProcessDeliveryActions(creditLines, adamSettings, username, branchId);
 
-                //Assert.That(response.AdamResponse, Is.EqualTo(AdamResponse.Success));
+                Assert.IsFalse(response.AdamIsDown);
 
-                //this.userThresholdService.Verify(x => x.CanUserCredit(username, 1015), Times.Once);
-                //this.jobRepository.Verify(x => x.GetById(creditLines[0].JobId), Times.Once);
-                //this.creditTransactionFactory.Verify(x => x.Build(credits, username, branchId), Times.Once);
-                //this.adamRepository.Verify(x => x.Credit(creditTransaction, adamSettings, username), Times.Once);
+                this.userThresholdService.Verify(x => x.CanUserCredit(username, 1015), Times.Once);
+                this.jobRepository.Verify(x => x.GetById(creditLines[0].JobId), Times.Once);
+                this.creditTransactionFactory.Verify(x => x.Build(credits, username, branchId), Times.Once);
+                this.adamRepository.Verify(x => x.Credit(creditTransaction, adamSettings, username), Times.Once);
 
-                //this.jobRepository.Verify(x => x.ResolveJobAndJobDetails(job.Id), Times.Once);
-                //this.userRepository.Verify(x => x.UnAssignJobToUser(job.Id), Times.Once);
-                //this.exceptionEventRepository.Verify(x => x.RemovedPendingCredit(job.Id), Times.Once);
+                this.jobRepository.Verify(x => x.ResolveJobAndJobDetails(job.Id), Times.Once);
+                this.userRepository.Verify(x => x.UnAssignJobToUser(job.Id), Times.Once);
+                this.exceptionEventRepository.Verify(x => x.RemovedPendingCredit(job.Id), Times.Once);
 
-                //this.mapper.Verify(x => x.Map(creditLines), Times.Once);
+                this.mapper.Verify(x => x.Map(creditLines), Times.Once);
             }
 
             [Test]
-            [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void CantCreditAsThresholdToHighForUser()
             {
-                //var creditLines = new List<DeliveryLine> { DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.Credit).Build() };
+                var creditLines = new List<DeliveryLine>
+                {
+                    DeliveryLineFactory.New.With(x => x.ShortsActionId = (int) DeliveryAction.Credit).Build()
+                };
 
-                //var username = "fiona.pond";
-                //var adamSettings = new AdamSettings();
-                //int branchId = 2;
-                //decimal threshold = 1015;
+                var username = "fiona.pond";
+                var adamSettings = new AdamSettings();
+                int branchId = 2;
+                decimal threshold = 1015;
 
-                //var thresholdResponse = new ThresholdResponse { CanUserCredit = false };
+                var thresholdResponse = new ThresholdResponse {CanUserCredit = false};
 
-                //this.userThresholdService.Setup(x => x.CanUserCredit(username, threshold)).Returns(thresholdResponse);
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, threshold)).Returns(thresholdResponse);
 
-                //this.userThresholdService.Setup(
-                //    x => x.AssignPendingCredit(branchId, threshold, creditLines[0].JobId, username));
+                this.userThresholdService.Setup(
+                    x => x.AssignPendingCredit(branchId, threshold, creditLines[0].JobId, username));
 
-                //var response = this.service.CreditDeliveryLines(creditLines, adamSettings, username, branchId);
+                var response = this.service.ProcessDeliveryActions(creditLines, adamSettings, username, branchId);
 
-                //Assert.IsTrue(response.CreditThresholdLimitReached);
+                Assert.IsTrue(response.CreditThresholdLimitReached);
 
-                //this.userThresholdService.Verify(x => x.CanUserCredit(username, threshold), Times.Once);
+                this.userThresholdService.Verify(x => x.CanUserCredit(username, threshold), Times.Once);
 
-                //this.userThresholdService.Verify(
-                //    x => x.AssignPendingCredit(branchId, threshold, creditLines[0].JobId, username), Times.Once);
+                this.userThresholdService.Verify(
+                    x => x.AssignPendingCredit(branchId, threshold, creditLines[0].JobId, username), Times.Once);
             }
 
             [Test]
-            [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void NoCreditLinesFound()
             {
-                //var deliveryLines = new List<DeliveryLine>();
-                //deliveryLines.Add(DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.CreditAndReorder).Build());
-                //deliveryLines.Add(DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.Reject).Build());
-                //deliveryLines.Add(DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.ReplanInRoadnet).Build());
-                
-                //var username = "fiona.pond";
-                //var adamSettings = new AdamSettings();
-                //int branchId = 2;
-                //decimal threshold = 1015;
+                var deliveryLines = new List<DeliveryLine>();
+                deliveryLines.Add(
+                    DeliveryLineFactory.New.With(x => x.ShortsActionId = (int) DeliveryAction.CreditAndReorder).Build());
+                deliveryLines.Add(
+                    DeliveryLineFactory.New.With(x => x.ShortsActionId = (int) DeliveryAction.Reject).Build());
+                deliveryLines.Add(
+                    DeliveryLineFactory.New.With(x => x.ShortsActionId = (int) DeliveryAction.ReplanInRoadnet).Build());
 
-                //var response = this.service.CreditDeliveryLines(deliveryLines, adamSettings, username, branchId);
+                var username = "fiona.pond";
+                var adamSettings = new AdamSettings();
+                int branchId = 2;
+                decimal threshold = 1015;
 
-                //Assert.IsFalse(response.CreditThresholdLimitReached);
-                //Assert.That(response.AdamResponse, Is.EqualTo(AdamResponse.Success));
+                var response = this.service.CreditDeliveryLines(deliveryLines, adamSettings, username, branchId);
+
+                Assert.IsFalse(response.CreditThresholdLimitReached);
+                Assert.That(response.AdamResponse, Is.EqualTo(AdamResponse.Success));
             }
 
             [Test]
-            [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void AdamNotAvailableCreditReturnsResultAdamDown()
             {
-                //var creditLines = new List<DeliveryLine> { DeliveryLineFactory.New.With(x => x.ShortsActionId = (int)DeliveryAction.Credit).Build() };
-                //var credits = new List<DeliveryLineCredit>();
+                var creditLines = new List<DeliveryLine>
+                {
+                    DeliveryLineFactory.New.With(x => x.ShortsActionId = (int) DeliveryAction.Credit).Build()
+                };
+                var credits = new List<DeliveryLineCredit>();
 
-                //var username = "fiona.pond";
-                //var creditTransaction = new CreditTransaction();
-                //var adamSettings = new AdamSettings();
-                //var job = new Job { Id = 202 };
-                //int branchId = 2;
+                var username = "fiona.pond";
+                var creditTransaction = new CreditTransaction();
+                var adamSettings = new AdamSettings();
+                var job = new Job {Id = 202};
+                int branchId = 2;
 
-                //var thresholdResponse = new ThresholdResponse { CanUserCredit = true };
+                var thresholdResponse = new ThresholdResponse {CanUserCredit = true};
 
-                //this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
-                //this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
-                //this.creditTransactionFactory.Setup(x => x.Build(credits, username, branchId)).Returns(creditTransaction);
-                //this.adamRepository.Setup(x => x.Credit(creditTransaction, adamSettings, username)).Returns(AdamResponse.AdamDown);
-                //this.exceptionEventRepository.SetupSet(x => x.CurrentUser = username);
-                //this.jobRepository.Setup(x => x.SetJobToSubmittedStatus(job.Id));
-                //this.exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction));
-                //this.mapper.Setup(x => x.Map(creditLines)).Returns(credits);
+                this.userThresholdService.Setup(x => x.CanUserCredit(username, 1015)).Returns(thresholdResponse);
+                this.jobRepository.Setup(x => x.GetById(creditLines[0].JobId)).Returns(job);
+                this.creditTransactionFactory.Setup(x => x.Build(credits, username, branchId))
+                    .Returns(creditTransaction);
+                this.adamRepository.Setup(x => x.Credit(creditTransaction, adamSettings, username))
+                    .Returns(AdamResponse.AdamDown);
+                this.exceptionEventRepository.SetupSet(x => x.CurrentUser = username);
+                this.jobRepository.Setup(x => x.SetJobToSubmittedStatus(job.Id));
+                this.exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction));
+                this.mapper.Setup(x => x.Map(creditLines)).Returns(credits);
 
-                //var response = this.service.CreditDeliveryLines(creditLines, adamSettings, username, branchId);
+                var response = this.service.CreditDeliveryLines(creditLines, adamSettings, username, branchId);
 
-                //Assert.That(response.AdamResponse, Is.EqualTo(AdamResponse.AdamDown));
+                Assert.That(response.AdamResponse, Is.EqualTo(AdamResponse.AdamDown));
 
-                //this.userThresholdService.Verify(x => x.CanUserCredit(username, 1015), Times.Once);
-                //this.jobRepository.Verify(x => x.GetById(creditLines[0].JobId), Times.Once);
-                //this.creditTransactionFactory.Verify(x => x.Build(credits, username, branchId), Times.Once);
-                //this.adamRepository.Verify(x => x.Credit(creditTransaction, adamSettings, username), Times.Once);
-                //this.jobRepository.Verify(x => x.SetJobToSubmittedStatus(job.Id), Times.Once);
-                //this.exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction), Times.Once);
-                //this.mapper.Verify(x => x.Map(creditLines), Times.Once);
+                this.userThresholdService.Verify(x => x.CanUserCredit(username, 1015), Times.Once);
+                this.jobRepository.Verify(x => x.GetById(creditLines[0].JobId), Times.Once);
+                this.creditTransactionFactory.Verify(x => x.Build(credits, username, branchId), Times.Once);
+                this.adamRepository.Verify(x => x.Credit(creditTransaction, adamSettings, username), Times.Once);
+                this.jobRepository.Verify(x => x.SetJobToSubmittedStatus(job.Id), Times.Once);
+                this.exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction), Times.Once);
+                this.mapper.Verify(x => x.Map(creditLines), Times.Once);
+            }
+
+            [Test]
+            public void SuccessfulGrnReturnsResultSuccess()
+            {
+                var eventId = 3;
+                var adamSettings = new AdamSettings();
+                var username = "fiona.pond";
+                var grnEvent = new GrnEvent {Id = 1, BranchId = 55};
+                this.adamRepository.Setup(x => x.Grn(grnEvent, adamSettings)).Returns(AdamResponse.Success);
+
+                var response = this.service.Grn(grnEvent, adamSettings, username);
+
+                Assert.That(response, Is.EqualTo(AdamResponse.Success));
+
+                this.adamRepository.Verify(x => x.Grn(grnEvent, adamSettings), Times.Once);
+
+            }
+
+            [Test]
+            public void SuccessfulPodReturnsResultSuccess()
+            {
+                var eventId = 3;
+                var adamSettings = new AdamSettings();
+                var username = "fiona.pond";
+                var lines = new Dictionary<int, string>();
+
+                lines.Add(1, "Thing 1");
+                lines.Add(2, "Thing 2");
+
+                var podTransaction = new PodTransaction() { BranchId  = 55, HeaderSql = "Header string", LineSql = lines };
+                this.adamRepository.Setup(x => x.Pod(podTransaction, adamSettings)).Returns(AdamResponse.Success);
+
+                this.service.Pod(podTransaction, eventId, adamSettings, username);
+
+                this.adamRepository.Verify(x => x.Pod(podTransaction, adamSettings), Times.Once);
+
             }
         }
     }
 }
+*/

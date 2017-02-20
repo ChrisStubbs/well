@@ -161,11 +161,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NotificationsPage.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\ResolvedPage.feature.cs">
-      <DependentUpon>ResolvedPage.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="Features\Pages\RoutesPage.feature.cs">
       <DependentUpon>RoutesPage.feature</DependentUpon>
       <DesignTime>True</DesignTime>

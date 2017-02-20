@@ -15,7 +15,7 @@
             this.Entity.CompanyId = 1;
             this.Entity.RouteDate = DateTime.Now;
             this.Entity.DriverName = "Alan Smith";
-            this.Entity.StartDepotCode ="BIR";
+            this.Entity.StartDepotCode ="22";
             this.Entity.PlannedStops= 10;
             this.Entity.PlannedStops = 10;
             this.Entity.RoutesId = 1;

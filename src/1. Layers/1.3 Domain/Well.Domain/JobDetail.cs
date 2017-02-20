@@ -45,7 +45,8 @@
         [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
 
-        //Workaround for nullable int element
+        // Workaround for nullable int element
+        // Invoice Quantity
         [XmlElement("OriginalDespatchQty")]
         public string OriginalDespatchQtyFromXml
         {

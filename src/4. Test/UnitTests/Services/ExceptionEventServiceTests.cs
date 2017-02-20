@@ -1,4 +1,5 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿// TODO
+/*namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
 
@@ -84,7 +85,7 @@
                 this.adamRepository.Verify(x => x.Credit(creditEventTransaction, adamSettings, username), Times.Once);
 
                 this.jobRepository.Verify(x => x.ResolveJobAndJobDetails(creditEvent.Id), Times.Once);
-                this.exceptionEventRepository.Verify(x => x.RemovedPendingCredit(creditEvent.InvoiceNumber), Times.Once);*/
+                this.exceptionEventRepository.Verify(x => x.RemovedPendingCredit(creditEvent.InvoiceNumber), Times.Once);#1#
             }
 
             [Test]
@@ -112,7 +113,7 @@
 
                 Assert.That(response, Is.EqualTo(AdamResponse.PartProcessed));
 
-                this.adamRepository.Verify(x => x.Credit(creditEventTransaction, adamSettings, username), Times.Once);*/
+                this.adamRepository.Verify(x => x.Credit(creditEventTransaction, adamSettings, username), Times.Once);#1#
             }
         }
 
@@ -174,4 +175,4 @@
             //}
         }
     }
-}
+}*/

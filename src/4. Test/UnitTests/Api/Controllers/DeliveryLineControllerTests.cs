@@ -47,7 +47,8 @@
 
         public class TheUpdateMethod : DeliveryLineControllerTests
         {
-            [Test]
+            // TODO
+            /*[Test]
             public void HasPutAttribute()
             {
                 MethodInfo controllerMethod = GetMethod(c => c.Update(null));
@@ -143,7 +144,7 @@
 
                 serverErrorResponseHandler.Verify(
                     s => s.HandleException(It.IsAny<HttpRequestMessage>(), It.Is<Exception>(e => e == ex), "An error occured when updating DeliveryLine"));
-            }
+            }*/
         }
     }
 }

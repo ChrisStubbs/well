@@ -86,8 +86,17 @@
         [BeforeTestRun]
         public static void SetupDatabase()
         {
+            var x = new System.Diagnostics.Stopwatch();
+            x.Start();
+
             DropDatabase();
             RunDacpac();
+
+            x.Stop();
+            var container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
+            var Logger = container.GetInstance<ILogger>();
+
+            Logger.LogDebug(string.Format("SetupDatabase took: {0:00}:{1:00}.{2:00}", x.Elapsed.Minutes, x.Elapsed.Seconds, x.Elapsed.Milliseconds / 10));
         }
 
         [AfterTestRun]

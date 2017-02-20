@@ -86,8 +86,16 @@
         [BeforeTestRun]
         public static void SetupDatabase()
         {
+            var x = new System.Diagnostics.Stopwatch();
+            x.Start();
+
             DropDatabase();
             RunDacpac();
+
+            x.Stop();
+            var e = x.Elapsed;
+
+            new NLogger().LogDebug(string.Format("SetupDatabase took: {0:00}:{1:00}.{2:00}", e.Minutes, e.Seconds, e.Milliseconds / 10));
         }
 
         [AfterTestRun]

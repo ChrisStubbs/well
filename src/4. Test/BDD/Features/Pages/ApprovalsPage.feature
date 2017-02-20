@@ -24,10 +24,10 @@ Scenario: A user can view Deliveries waiting credit approval
 	And I open the widget page
 	And I go back
 	Then the following approval deliveries will be displayed
-	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Status     | Threshold |
-	| 001   | 1    | 1787878   | 49214.152 | CSG - must be CF van | 199.75      | Incomplete | Level 1   |
-	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | 22.41       | Incomplete | Level 2   |
-	| 001   | 2    | 976541    | 02874.033 | RVS SHOP             | 39.95       | Incomplete | Level 2   |
+	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Status     | Threshold | Assigned    |
+	| 001   | 1    | 1787878   | 49214.152 | CSG - must be CF van | 199.75      | Incomplete | Level 1   | Unallocated |
+	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | 22.41       | Incomplete | Level 2   | Unallocated |
+	| 001   | 2    | 976541    | 02874.033 | RVS SHOP             | 39.95       | Incomplete | Level 2   | Unallocated |
 	When I view the account info modal for approval row 2 
 	Then I can view the following account info details
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |

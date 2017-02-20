@@ -8,6 +8,7 @@
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
+    using Repositories;
 
     public class UserThresholdService : IUserThresholdService
     {
@@ -71,7 +72,8 @@
 
             if (totalThresholdAmount <= threshold.Threshold)
             {
-                this.creditThresholdRepository.PendingCreditInsert(jobId, originator);
+                creditThresholdRepository.PendingCreditInsert(jobId, originator);
+                userRepository.UnAssignJobToUser(jobId);
                 return true;
             }
 

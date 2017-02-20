@@ -44,7 +44,7 @@
             this.routesPage.Filter.Clear();
         }
 
-        [When(@"I click on page (.*)")]
+        [When(@"I click on page '(.*)'")]
         public void WhenIClickOnPage(int pageNo)
         {
             this.routesPage.Pager.Click(pageNo);
@@ -54,12 +54,6 @@
         public void WhenIClickOnTheOrderByArrowImage()
         {
            this.routesPage.OrderByButton.Click();
-        }
-
-        [Then(@"the the previous filter should be cleared")]
-        public void ThenTheThePreviousFilterShouldBeCleared()
-        {
-            ScenarioContext.Current.Pending();
         }
 
 
@@ -171,6 +165,13 @@
             }
         }
 
+        [Then(@"the clean deliveries page will be opened")]
+        public void ThenTheCleanDeliveriesPageWillBeOpened()
+        {
+            Assert.That(this.routesPage.IsElementPresent("CleanPage"));
+        }
+
+
         [Then(@"the filter should be preset to route and route number")]
         public void FilterShouldBePresetToRouteAndRouteNumber()
         {
@@ -191,6 +192,27 @@
         {
             Assert.That(this.routesPage.IsElementPresent("filter-option"));
         }
+
+        [Then(@"page '(.*)' will be displayed")]
+        public void ThenPageWillBeDisplayed(int pageNo)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"I click the back button")]
+        public void WhenIClickTheBackButton()
+        {
+            this.routesPage.Back();
+            Thread.Sleep(1000);
+
+        }
+
+        [Then(@"the the previous filter should be cleared")]
+        public void ThenTheThePreviousFilterShouldBeCleared()
+        {
+            Assert.That(this.routesPage.Filter.GetFilterText(), Is.EqualTo(null));
+        }
+
 
     }
 }

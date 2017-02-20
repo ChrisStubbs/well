@@ -168,7 +168,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
             table2.AddRow(new string[] {
                         "011",
@@ -177,7 +177,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
 #line 31
  testRunner.Then("The following routes will be displayed", ((string)(null)), table2, "Then ");
@@ -199,8 +199,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Jan 8, 2016",
                         "HALL IAN",
                         "2",
-                        "0",
-                        "0",
+                        "3",
+                        "1",
                         ""});
             table3.AddRow(new string[] {
                         "006",
@@ -209,7 +209,7 @@ this.ScenarioSetup(scenarioInfo);
                         "RENTON MARK",
                         "2",
                         "0",
-                        "0",
+                        "4",
                         ""});
             table3.AddRow(new string[] {
                         "011",
@@ -218,7 +218,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
             table3.AddRow(new string[] {
                         "011",
@@ -227,7 +227,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
 #line 36
  testRunner.Then("The following routes will be displayed", ((string)(null)), table3, "Then ");
@@ -250,7 +250,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
 #line 43
  testRunner.Then("The following routes will be displayed", ((string)(null)), table4, "Then ");
@@ -274,8 +274,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Jan 8, 2016",
                         "HALL IAN",
                         "2",
-                        "0",
-                        "0",
+                        "3",
+                        "1",
                         ""});
             table5.AddRow(new string[] {
                         "006",
@@ -284,7 +284,7 @@ this.ScenarioSetup(scenarioInfo);
                         "RENTON MARK",
                         "2",
                         "0",
-                        "0",
+                        "4",
                         ""});
             table5.AddRow(new string[] {
                         "011",
@@ -293,7 +293,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
             table5.AddRow(new string[] {
                         "011",
@@ -302,7 +302,7 @@ this.ScenarioSetup(scenarioInfo);
                         "DUGDALE STEVEN",
                         "4",
                         "0",
-                        "0",
+                        "9",
                         ""});
 #line 48
  testRunner.And("The following routes will be displayed", ((string)(null)), table5, "And ");
@@ -470,25 +470,25 @@ this.ScenarioSetup(scenarioInfo);
 #line 88
  testRunner.And("I will have 3 pages of data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 89
- testRunner.When("I click on page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click on page \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 90
  testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 91
- testRunner.When("I click on page 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click on page \'3\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 92
  testRunner.Then("\'1\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 93
- testRunner.When("I click on page 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click on page \'1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 94
  testRunner.Then("\'10\' rows of data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 95
- testRunner.When("I click on page \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click on page \'3\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 96
  testRunner.And("I select the first row of the route", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 97
  testRunner.And("I choose to view that routes clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 98
- testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the clean deliveries page will be opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 99
  testRunner.When("I click the back button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 100

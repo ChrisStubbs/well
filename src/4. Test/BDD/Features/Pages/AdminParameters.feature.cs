@@ -73,60 +73,69 @@ namespace PH.Well.BDD.Features.Pages
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Widget warning parameter remove")]
+        public virtual void WidgetWarningParameterRemove()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Widget warning parameter remove", ((string[])(null)));
+#line 13
+this.ScenarioSetup(scenarioInfo);
+#line 14
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 15
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Widget",
+                        "Description"});
+            table1.AddRow(new string[] {
+                        "5",
+                        "Exceptions",
+                        "\'Test\'"});
+#line 16
+ testRunner.When("I add a widget warning parameter", ((string)(null)), table1, "When ");
+#line 19
+ testRunner.And("all branches are selected for the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 20
+ testRunner.And("I save the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Widget",
+                        "Branches"});
+            table2.AddRow(new string[] {
+                        "5",
+                        "Exceptions",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 21
+ testRunner.Then("the widget warning parameter is saved", ((string)(null)), table2, "Then ");
+#line 24
+ testRunner.When("I remove the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 25
+ testRunner.Then("it is removed from the widget warning grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Seasonal dates applied all branches")]
         public virtual void SeasonalDatesAppliedAllBranches()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Seasonal dates applied all branches", ((string[])(null)));
-#line 13
+#line 27
 this.ScenarioSetup(scenarioInfo);
-#line 15
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 16
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 17
- testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 18
- testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 19
- testRunner.And("The clean deliveries are \'-2\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 20
- testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Description",
-                        "FromDate",
-                        "ToDate"});
-            table1.AddRow(new string[] {
-                        "New Year",
-                        "-5",
-                        "0"});
-#line 21
- testRunner.When("I add a seasonal date", ((string)(null)), table1, "When ");
-#line 24
- testRunner.And("all branches are selected for the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 25
- testRunner.And("I save the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Description",
-                        "FromDate",
-                        "ToDate",
-                        "Branches"});
-            table2.AddRow(new string[] {
-                        "New Year",
-                        "-5",
-                        "0",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 26
- testRunner.Then("the seasonal date is saved", ((string)(null)), table2, "Then ");
 #line 29
- testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 30
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
- testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 32
- testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 33
+ testRunner.And("The clean deliveries are \'-2\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 34
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "Description",
@@ -135,11 +144,13 @@ this.ScenarioSetup(scenarioInfo);
             table3.AddRow(new string[] {
                         "New Year",
                         "-5",
-                        "-2"});
-#line 33
- testRunner.And("I edit a seasonal date", ((string)(null)), table3, "And ");
-#line 36
- testRunner.And("I update the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "0"});
+#line 35
+ testRunner.When("I add a seasonal date", ((string)(null)), table3, "When ");
+#line 38
+ testRunner.And("all branches are selected for the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
+ testRunner.And("I save the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Description",
@@ -149,15 +160,49 @@ this.ScenarioSetup(scenarioInfo);
             table4.AddRow(new string[] {
                         "New Year",
                         "-5",
+                        "0",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 40
+ testRunner.Then("the seasonal date is saved", ((string)(null)), table4, "Then ");
+#line 43
+ testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 44
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 45
+ testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 46
+ testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Description",
+                        "FromDate",
+                        "ToDate"});
+            table5.AddRow(new string[] {
+                        "New Year",
+                        "-5",
+                        "-2"});
+#line 47
+ testRunner.And("I edit a seasonal date", ((string)(null)), table5, "And ");
+#line 50
+ testRunner.And("I update the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Description",
+                        "FromDate",
+                        "ToDate",
+                        "Branches"});
+            table6.AddRow(new string[] {
+                        "New Year",
+                        "-5",
                         "-2",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 37
- testRunner.Then("the seasonal date is updated with id \'2\'", ((string)(null)), table4, "Then ");
-#line 40
+#line 51
+ testRunner.Then("the seasonal date is updated with id \'2\'", ((string)(null)), table6, "Then ");
+#line 54
  testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 41
+#line 55
  testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 42
+#line 56
  testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -168,95 +213,95 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void SeasonalDatesAppliedOneBranch()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Seasonal dates applied one branch", ((string[])(null)));
-#line 44
+#line 58
 this.ScenarioSetup(scenarioInfo);
-#line 46
+#line 60
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 47
+#line 61
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 48
+#line 62
  testRunner.And("I have selected branches \'22\' and \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 49
+#line 63
  testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 50
+#line 64
  testRunner.And("\'2\' clean deliveries are updated to branch \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 51
+#line 65
  testRunner.And("The clean deliveries are \'-3\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 52
+#line 66
  testRunner.When("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 53
+#line 67
  testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 54
+#line 68
  testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "Description",
                         "FromDate",
                         "ToDate"});
-            table5.AddRow(new string[] {
+            table7.AddRow(new string[] {
                         "New Year",
                         "-5",
                         "0"});
-#line 55
- testRunner.And("I add a seasonal date", ((string)(null)), table5, "And ");
-#line 58
+#line 69
+ testRunner.And("I add a seasonal date", ((string)(null)), table7, "And ");
+#line 72
  testRunner.And("\'Medway\' is selected for the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 59
+#line 73
  testRunner.And("I save the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "Description",
                         "FromDate",
                         "ToDate",
                         "Branches"});
-            table6.AddRow(new string[] {
+            table8.AddRow(new string[] {
                         "New Year",
                         "-5",
                         "0",
                         "med"});
-#line 60
- testRunner.Then("the seasonal date is saved", ((string)(null)), table6, "Then ");
-#line 63
- testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 64
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 65
- testRunner.Then("At least \'1\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 66
- testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 67
- testRunner.And("I deselect branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 68
- testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 69
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 70
- testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 71
- testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 72
- testRunner.And("I deselect branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 73
- testRunner.And("I select branch \'Birtley\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 74
- testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 75
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 76
- testRunner.Then("At least \'1\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the seasonal date is saved", ((string)(null)), table8, "Then ");
 #line 77
- testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 78
- testRunner.And("I select the seasonal dates tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 79
- testRunner.And("I remove the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 80
- testRunner.Then("it is removed from the seasonal date grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 81
  testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 82
+#line 78
  testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 79
+ testRunner.Then("At least \'1\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 80
+ testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 81
+ testRunner.And("I deselect branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 82
+ testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 83
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 84
+ testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 85
+ testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 86
+ testRunner.And("I deselect branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 87
+ testRunner.And("I select branch \'Birtley\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 88
+ testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 89
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 90
+ testRunner.Then("At least \'1\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 91
+ testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 92
+ testRunner.And("I select the seasonal dates tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 93
+ testRunner.And("I remove the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 94
+ testRunner.Then("it is removed from the seasonal date grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 95
+ testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 96
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 97
  testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -267,45 +312,45 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void SeasonalDatesNegativeInputs()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Seasonal dates negative inputs", ((string[])(null)));
-#line 85
+#line 99
 this.ScenarioSetup(scenarioInfo);
-#line 86
+#line 100
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 87
+#line 101
  testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 88
+#line 102
  testRunner.When("I open the seasonal date input", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 89
+#line 103
  testRunner.And("I save the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "Description is required!"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "From date is required!"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "To date is required!"});
-            table7.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "Select a branch!"});
-#line 90
- testRunner.Then("warnings appear in the seasonal input page", ((string)(null)), table7, "Then ");
+#line 104
+ testRunner.Then("warnings appear in the seasonal input page", ((string)(null)), table9, "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                         "Description",
                         "FromDate",
                         "ToDate"});
-            table8.AddRow(new string[] {
+            table10.AddRow(new string[] {
                         "test",
                         "29/02/2016",
                         "30/03/2016"});
-#line 96
- testRunner.When("I change the seasonal date", ((string)(null)), table8, "When ");
-#line 99
+#line 110
+ testRunner.When("I change the seasonal date", ((string)(null)), table10, "When ");
+#line 113
  testRunner.And("all branches are selected for the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 100
+#line 114
  testRunner.And("the seasonal dates page is closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 101
+#line 115
  testRunner.Then("the seasonal dates are not saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -316,47 +361,27 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CreditThresholdAddEditAndRemove()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Credit threshold Add, Edit, and Remove", ((string[])(null)));
-#line 104
+#line 118
 this.ScenarioSetup(scenarioInfo);
-#line 105
+#line 119
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 106
+#line 120
  testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 107
+#line 121
  testRunner.And("I select the credit threshold tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Threshold"});
-            table9.AddRow(new string[] {
-                        "1",
-                        "1000"});
-#line 108
- testRunner.And("I add a credit threshold", ((string)(null)), table9, "And ");
-#line 111
- testRunner.And("all branches are selected for the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 112
- testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Threshold",
-                        "Branches"});
-            table10.AddRow(new string[] {
-                        "Level 1",
-                        "1000",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 113
- testRunner.Then("the credit threshold is saved", ((string)(null)), table10, "Then ");
-#line hidden
             TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
                         "Threshold"});
             table11.AddRow(new string[] {
-                        "2000"});
-#line 116
- testRunner.When("I edit a credit threshold", ((string)(null)), table11, "When ");
-#line 119
- testRunner.And("I update the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "1",
+                        "1000"});
+#line 122
+ testRunner.And("I add a credit threshold", ((string)(null)), table11, "And ");
+#line 125
+ testRunner.And("all branches are selected for the seasonal date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 126
+ testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
@@ -364,13 +389,33 @@ this.ScenarioSetup(scenarioInfo);
                         "Branches"});
             table12.AddRow(new string[] {
                         "Level 1",
+                        "1000",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 127
+ testRunner.Then("the credit threshold is saved", ((string)(null)), table12, "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Threshold"});
+            table13.AddRow(new string[] {
+                        "2000"});
+#line 130
+ testRunner.When("I edit a credit threshold", ((string)(null)), table13, "When ");
+#line 133
+ testRunner.And("I update the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Threshold",
+                        "Branches"});
+            table14.AddRow(new string[] {
+                        "Level 1",
                         "2000",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 120
- testRunner.Then("the credit threshold is updated with id \'2\'", ((string)(null)), table12, "Then ");
-#line 123
+#line 134
+ testRunner.Then("the credit threshold is updated with id \'2\'", ((string)(null)), table14, "Then ");
+#line 137
  testRunner.When("I remove the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 124
+#line 138
  testRunner.Then("it is removed from the credit threshold grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -381,48 +426,28 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CreditThresholdNegativeInputs()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Credit threshold negative inputs", ((string[])(null)));
-#line 126
-this.ScenarioSetup(scenarioInfo);
-#line 127
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 128
- testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 129
- testRunner.And("I select the credit threshold tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 130
- testRunner.And("I open the credit threshold input", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 131
- testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Error"});
-            table13.AddRow(new string[] {
-                        "Threshold level is required!"});
-            table13.AddRow(new string[] {
-                        "Threshold is required!"});
-            table13.AddRow(new string[] {
-                        "Branch is required!"});
-#line 132
- testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table13, "Then ");
-#line hidden
-            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Threshold"});
-            table14.AddRow(new string[] {
-                        "1",
-                        "aaa"});
-#line 137
- testRunner.When("I change the credit threshold", ((string)(null)), table14, "When ");
 #line 140
+this.ScenarioSetup(scenarioInfo);
+#line 141
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 142
+ testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 143
+ testRunner.And("I select the credit threshold tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 144
+ testRunner.And("I open the credit threshold input", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 145
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table15.AddRow(new string[] {
+                        "Threshold level is required!"});
+            table15.AddRow(new string[] {
                         "Threshold is required!"});
             table15.AddRow(new string[] {
                         "Branch is required!"});
-#line 141
+#line 146
  testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table15, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
@@ -430,19 +455,19 @@ this.ScenarioSetup(scenarioInfo);
                         "Threshold"});
             table16.AddRow(new string[] {
                         "1",
-                        "-1"});
-#line 145
+                        "aaa"});
+#line 151
  testRunner.When("I change the credit threshold", ((string)(null)), table16, "When ");
-#line 148
+#line 154
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table17.AddRow(new string[] {
-                        "Threshold range is 1 to 1000000"});
+                        "Threshold is required!"});
             table17.AddRow(new string[] {
                         "Branch is required!"});
-#line 149
+#line 155
  testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table17, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
@@ -450,10 +475,10 @@ this.ScenarioSetup(scenarioInfo);
                         "Threshold"});
             table18.AddRow(new string[] {
                         "1",
-                        "0"});
-#line 153
+                        "-1"});
+#line 159
  testRunner.When("I change the credit threshold", ((string)(null)), table18, "When ");
-#line 156
+#line 162
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
@@ -462,7 +487,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Threshold range is 1 to 1000000"});
             table19.AddRow(new string[] {
                         "Branch is required!"});
-#line 157
+#line 163
  testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table19, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
@@ -470,10 +495,10 @@ this.ScenarioSetup(scenarioInfo);
                         "Threshold"});
             table20.AddRow(new string[] {
                         "1",
-                        "10000001"});
-#line 161
+                        "0"});
+#line 167
  testRunner.When("I change the credit threshold", ((string)(null)), table20, "When ");
-#line 164
+#line 170
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
@@ -482,7 +507,7 @@ this.ScenarioSetup(scenarioInfo);
                         "Threshold range is 1 to 1000000"});
             table21.AddRow(new string[] {
                         "Branch is required!"});
-#line 165
+#line 171
  testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table21, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
@@ -490,18 +515,38 @@ this.ScenarioSetup(scenarioInfo);
                         "Threshold"});
             table22.AddRow(new string[] {
                         "1",
-                        "10"});
-#line 169
+                        "10000001"});
+#line 175
  testRunner.When("I change the credit threshold", ((string)(null)), table22, "When ");
-#line 172
+#line 178
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table23.AddRow(new string[] {
+                        "Threshold range is 1 to 1000000"});
+            table23.AddRow(new string[] {
                         "Branch is required!"});
-#line 173
+#line 179
  testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table23, "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Threshold"});
+            table24.AddRow(new string[] {
+                        "1",
+                        "10"});
+#line 183
+ testRunner.When("I change the credit threshold", ((string)(null)), table24, "When ");
+#line 186
+ testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Error"});
+            table25.AddRow(new string[] {
+                        "Branch is required!"});
+#line 187
+ testRunner.Then("warnings appear on the credit threshold page", ((string)(null)), table25, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -511,56 +556,32 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CreditThresholdAppliedAllLevels()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Credit threshold applied all levels", ((string[])(null)));
-#line 177
+#line 191
 this.ScenarioSetup(scenarioInfo);
-#line 178
+#line 192
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 179
+#line 193
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 180
+#line 194
  testRunner.And("I have imported a valid Epod update file named \'ePOD_30062016_Update.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 181
+#line 195
  testRunner.And("3 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 183
+#line 197
  testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 184
+#line 198
  testRunner.And("I select the credit threshold tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Threshold"});
-            table24.AddRow(new string[] {
-                        "1",
-                        "1000"});
-#line 185
- testRunner.And("I add a credit threshold", ((string)(null)), table24, "And ");
-#line 188
- testRunner.And("all branches are selected for the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 189
- testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Threshold",
-                        "Branches"});
-            table25.AddRow(new string[] {
-                        "Level 1",
-                        "1000",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 190
- testRunner.Then("the credit threshold is saved", ((string)(null)), table25, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
                         "Threshold"});
             table26.AddRow(new string[] {
-                        "2",
-                        "100"});
-#line 193
- testRunner.When("I add a credit threshold", ((string)(null)), table26, "When ");
-#line 196
+                        "1",
+                        "1000"});
+#line 199
+ testRunner.And("I add a credit threshold", ((string)(null)), table26, "And ");
+#line 202
  testRunner.And("all branches are selected for the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 197
+#line 203
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
@@ -571,24 +592,20 @@ this.ScenarioSetup(scenarioInfo);
                         "Level 1",
                         "1000",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-            table27.AddRow(new string[] {
-                        "Level 2",
-                        "100",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 198
+#line 204
  testRunner.Then("the credit threshold is saved", ((string)(null)), table27, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table28 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
                         "Threshold"});
             table28.AddRow(new string[] {
-                        "3",
-                        "10"});
-#line 202
+                        "2",
+                        "100"});
+#line 207
  testRunner.When("I add a credit threshold", ((string)(null)), table28, "When ");
-#line 205
+#line 210
  testRunner.And("all branches are selected for the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 206
+#line 211
  testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table29 = new TechTalk.SpecFlow.Table(new string[] {
@@ -603,19 +620,47 @@ this.ScenarioSetup(scenarioInfo);
                         "Level 2",
                         "100",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-            table29.AddRow(new string[] {
+#line 212
+ testRunner.Then("the credit threshold is saved", ((string)(null)), table29, "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table30 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Threshold"});
+            table30.AddRow(new string[] {
+                        "3",
+                        "10"});
+#line 216
+ testRunner.When("I add a credit threshold", ((string)(null)), table30, "When ");
+#line 219
+ testRunner.And("all branches are selected for the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 220
+ testRunner.And("I save the credit threshold", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table31 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Threshold",
+                        "Branches"});
+            table31.AddRow(new string[] {
+                        "Level 1",
+                        "1000",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+            table31.AddRow(new string[] {
+                        "Level 2",
+                        "100",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+            table31.AddRow(new string[] {
                         "Level 3",
                         "10",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 207
- testRunner.Then("the credit threshold is saved", ((string)(null)), table29, "Then ");
-#line 212
+#line 221
+ testRunner.Then("the credit threshold is saved", ((string)(null)), table31, "Then ");
+#line 226
  testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 213
+#line 227
  testRunner.And("I select all the branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 214
+#line 228
  testRunner.And("I save the branch selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 215
+#line 229
  testRunner.Then("all the branches are saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -626,77 +671,77 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CleanParametersAppliedAllBranches()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clean parameters applied all branches", ((string[])(null)));
-#line 243
-this.ScenarioSetup(scenarioInfo);
-#line 245
-  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 246
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 247
- testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 248
- testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 249
- testRunner.And("The clean deliveries are \'-2\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 250
- testRunner.When("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 251
- testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 252
- testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-            TechTalk.SpecFlow.Table table30 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Days"});
-            table30.AddRow(new string[] {
-                        "3"});
-#line 253
- testRunner.And("I add a clean parameter", ((string)(null)), table30, "And ");
-#line 256
- testRunner.And("all branches are selected for the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 257
- testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table31 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Days",
-                        "Branches"});
-            table31.AddRow(new string[] {
-                        "3",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 258
- testRunner.Then("the clean parameter is saved", ((string)(null)), table31, "Then ");
+this.ScenarioSetup(scenarioInfo);
+#line 259
+  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 260
+ testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 261
- testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 262
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 263
- testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("The clean deliveries are \'-2\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 264
- testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 265
- testRunner.And("I select the clean parameter tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 266
+ testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table32 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
             table32.AddRow(new string[] {
-                        "2"});
-#line 266
- testRunner.And("I edit a clean parameter", ((string)(null)), table32, "And ");
-#line 269
- testRunner.And("I update the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "3"});
+#line 267
+ testRunner.And("I add a clean parameter", ((string)(null)), table32, "And ");
+#line 270
+ testRunner.And("all branches are selected for the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 271
+ testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table33 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days",
                         "Branches"});
             table33.AddRow(new string[] {
+                        "3",
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 272
+ testRunner.Then("the clean parameter is saved", ((string)(null)), table33, "Then ");
+#line 275
+ testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 276
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 277
+ testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 278
+ testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 279
+ testRunner.And("I select the clean parameter tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table34 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days"});
+            table34.AddRow(new string[] {
+                        "2"});
+#line 280
+ testRunner.And("I edit a clean parameter", ((string)(null)), table34, "And ");
+#line 283
+ testRunner.And("I update the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table35 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days",
+                        "Branches"});
+            table35.AddRow(new string[] {
                         "2",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 270
- testRunner.Then("the clean parameter is updated with id \'2\'", ((string)(null)), table33, "Then ");
-#line 273
+#line 284
+ testRunner.Then("the clean parameter is updated with id \'2\'", ((string)(null)), table35, "Then ");
+#line 287
  testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 274
+#line 288
  testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 275
+#line 289
  testRunner.Then("the clean deliveries are removed from the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -707,83 +752,83 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CleanParametersAppliedOneBranch()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clean parameters applied one branch", ((string[])(null)));
-#line 277
+#line 291
 this.ScenarioSetup(scenarioInfo);
-#line 279
+#line 293
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 280
+#line 294
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 281
+#line 295
  testRunner.And("I have selected branches \'2\' and \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 282
+#line 296
  testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 283
+#line 297
  testRunner.And("The clean deliveries are \'-2\' days old", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 284
+#line 298
  testRunner.And("\'2\' clean deliveries are updated to branch \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 285
+#line 299
  testRunner.When("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 286
+#line 300
  testRunner.Then("\'10\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 287
+#line 301
  testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-            TechTalk.SpecFlow.Table table34 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table36 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
-            table34.AddRow(new string[] {
+            table36.AddRow(new string[] {
                         "3"});
-#line 288
- testRunner.And("I add a clean parameter", ((string)(null)), table34, "And ");
-#line 291
+#line 302
+ testRunner.And("I add a clean parameter", ((string)(null)), table36, "And ");
+#line 305
  testRunner.And("\'Medway\' is selected for the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 292
+#line 306
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table35 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table37 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days",
                         "Branches"});
-            table35.AddRow(new string[] {
+            table37.AddRow(new string[] {
                         "3",
                         "med"});
-#line 293
- testRunner.Then("the clean parameter is saved", ((string)(null)), table35, "Then ");
-#line 296
- testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 297
- testRunner.And("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 298
- testRunner.And("I deselect branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 299
- testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 300
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 301
- testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 302
- testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 303
- testRunner.And("I select branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 304
- testRunner.And("I deselect branch \'Birtley\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 305
- testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 306
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 307
- testRunner.Then("At least \'1\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 308
- testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 309
- testRunner.And("I select the clean parameter tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("the clean parameter is saved", ((string)(null)), table37, "Then ");
 #line 310
- testRunner.And("I remove the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 311
- testRunner.Then("it is removed from the clean parameter grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 312
  testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 311
+ testRunner.And("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 312
+ testRunner.And("I deselect branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 313
- testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 314
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 315
+ testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 316
+ testRunner.When("I navigate to the branches page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 317
+ testRunner.And("I select branch \'Medway\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 318
+ testRunner.And("I deselect branch \'Birtley\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 319
+ testRunner.And("I save my branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 320
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 321
+ testRunner.Then("At least \'1\' rows of clean delivery data will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 322
+ testRunner.When("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 323
+ testRunner.And("I select the clean parameter tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 324
+ testRunner.And("I remove the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 325
+ testRunner.Then("it is removed from the clean parameter grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 326
+ testRunner.When("The clean task runs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 327
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 328
  testRunner.Then("No clean deliveries will be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -794,53 +839,35 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CleanParameterNegativeInputs()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clean parameter negative inputs", ((string[])(null)));
-#line 316
+#line 330
 this.ScenarioSetup(scenarioInfo);
-#line 317
+#line 331
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 318
+#line 332
  testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 319
+#line 333
  testRunner.When("I select the clean parameter tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 320
+#line 334
  testRunner.And("I click the add parameter button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 321
- testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table36 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Error"});
-            table36.AddRow(new string[] {
-                        "Days is required!"});
-            table36.AddRow(new string[] {
-                        "Branch is required!"});
-#line 322
- testRunner.Then("warnings appear on the clean input page", ((string)(null)), table36, "Then ");
-#line hidden
-            TechTalk.SpecFlow.Table table37 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Days"});
-            table37.AddRow(new string[] {
-                        "0"});
-#line 326
- testRunner.When("I update clean parameter values", ((string)(null)), table37, "When ");
-#line 329
+#line 335
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table38 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table38.AddRow(new string[] {
-                        "Days range is 1 to 100!"});
+                        "Days is required!"});
             table38.AddRow(new string[] {
                         "Branch is required!"});
-#line 330
+#line 336
  testRunner.Then("warnings appear on the clean input page", ((string)(null)), table38, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table39 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
             table39.AddRow(new string[] {
-                        "101"});
-#line 334
+                        "0"});
+#line 340
  testRunner.When("I update clean parameter values", ((string)(null)), table39, "When ");
-#line 337
+#line 343
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table40 = new TechTalk.SpecFlow.Table(new string[] {
@@ -849,16 +876,16 @@ this.ScenarioSetup(scenarioInfo);
                         "Days range is 1 to 100!"});
             table40.AddRow(new string[] {
                         "Branch is required!"});
-#line 338
+#line 344
  testRunner.Then("warnings appear on the clean input page", ((string)(null)), table40, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table41 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
             table41.AddRow(new string[] {
-                        "-1"});
-#line 342
+                        "101"});
+#line 348
  testRunner.When("I update clean parameter values", ((string)(null)), table41, "When ");
-#line 345
+#line 351
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table42 = new TechTalk.SpecFlow.Table(new string[] {
@@ -867,63 +894,81 @@ this.ScenarioSetup(scenarioInfo);
                         "Days range is 1 to 100!"});
             table42.AddRow(new string[] {
                         "Branch is required!"});
-#line 346
+#line 352
  testRunner.Then("warnings appear on the clean input page", ((string)(null)), table42, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table43 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
             table43.AddRow(new string[] {
-                        "abc"});
-#line 350
+                        "-1"});
+#line 356
  testRunner.When("I update clean parameter values", ((string)(null)), table43, "When ");
-#line 353
+#line 359
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table44 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table44.AddRow(new string[] {
-                        "Days is required!"});
+                        "Days range is 1 to 100!"});
             table44.AddRow(new string[] {
                         "Branch is required!"});
-#line 354
+#line 360
  testRunner.Then("warnings appear on the clean input page", ((string)(null)), table44, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table45 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
             table45.AddRow(new string[] {
-                        "1"});
-#line 358
+                        "abc"});
+#line 364
  testRunner.When("I update clean parameter values", ((string)(null)), table45, "When ");
-#line 361
+#line 367
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table46 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table46.AddRow(new string[] {
+                        "Days is required!"});
+            table46.AddRow(new string[] {
                         "Branch is required!"});
-#line 362
+#line 368
  testRunner.Then("warnings appear on the clean input page", ((string)(null)), table46, "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table47 = new TechTalk.SpecFlow.Table(new string[] {
                         "Days"});
             table47.AddRow(new string[] {
-                        "100"});
-#line 365
+                        "1"});
+#line 372
  testRunner.When("I update clean parameter values", ((string)(null)), table47, "When ");
-#line 368
+#line 375
  testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table48 = new TechTalk.SpecFlow.Table(new string[] {
                         "Error"});
             table48.AddRow(new string[] {
                         "Branch is required!"});
-#line 369
+#line 376
  testRunner.Then("warnings appear on the clean input page", ((string)(null)), table48, "Then ");
-#line 372
+#line hidden
+            TechTalk.SpecFlow.Table table49 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Days"});
+            table49.AddRow(new string[] {
+                        "100"});
+#line 379
+ testRunner.When("I update clean parameter values", ((string)(null)), table49, "When ");
+#line 382
+ testRunner.And("I save the clean parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table50 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Error"});
+            table50.AddRow(new string[] {
+                        "Branch is required!"});
+#line 383
+ testRunner.Then("warnings appear on the clean input page", ((string)(null)), table50, "Then ");
+#line 386
  testRunner.When("I select all the branches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 373
+#line 387
  testRunner.And("I click the Close button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 374
+#line 388
  testRunner.Then("the clean parameter is not saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -934,83 +979,42 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void WidgetWarningParameterAddNew()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Widget warning parameter add new", ((string[])(null)));
-#line 377
+#line 391
  this.ScenarioSetup(scenarioInfo);
-#line 378
+#line 392
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 379
+#line 393
  testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table49 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Widget",
-                        "Description"});
-            table49.AddRow(new string[] {
-                        "5",
-                        "Exceptions",
-                        "\'Test\'"});
-#line 380
- testRunner.When("I add a widget warning parameter", ((string)(null)), table49, "When ");
-#line 383
- testRunner.And("all branches are selected for the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 384
- testRunner.And("I save the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            TechTalk.SpecFlow.Table table50 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Level",
-                        "Widget",
-                        "Branches"});
-            table50.AddRow(new string[] {
-                        "5",
-                        "Exceptions",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 385
- testRunner.Then("the widget warning parameter is saved", ((string)(null)), table50, "Then ");
-#line 388
- testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 389
- testRunner.When("I select the widget warning tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table51 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
                         "Widget",
-                        "Branches"});
+                        "Description"});
             table51.AddRow(new string[] {
                         "5",
                         "Exceptions",
-                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 390
- testRunner.Then("the widget warning parameter is saved", ((string)(null)), table51, "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Widget warning parameter remove")]
-        public virtual void WidgetWarningParameterRemove()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Widget warning parameter remove", ((string[])(null)));
+                        "\'Test\'"});
 #line 394
-this.ScenarioSetup(scenarioInfo);
-#line 395
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 396
- testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I add a widget warning parameter", ((string)(null)), table51, "When ");
+#line 397
+ testRunner.And("all branches are selected for the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 398
+ testRunner.And("I save the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table52 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
                         "Widget",
-                        "Description"});
+                        "Branches"});
             table52.AddRow(new string[] {
                         "5",
                         "Exceptions",
-                        "\'Test\'"});
-#line 397
- testRunner.When("I add a widget warning parameter", ((string)(null)), table52, "When ");
-#line 400
- testRunner.And("all branches are selected for the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 401
- testRunner.And("I save the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
+#line 399
+ testRunner.Then("the widget warning parameter is saved", ((string)(null)), table52, "Then ");
+#line 402
+ testRunner.And("I navigate to the branch parameters page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 403
+ testRunner.When("I select the widget warning tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table53 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
@@ -1020,12 +1024,8 @@ this.ScenarioSetup(scenarioInfo);
                         "5",
                         "Exceptions",
                         "med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay"});
-#line 402
+#line 404
  testRunner.Then("the widget warning parameter is saved", ((string)(null)), table53, "Then ");
-#line 405
- testRunner.When("I remove the widget warning parameter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 406
- testRunner.Then("it is removed from the widget warning grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -45,13 +45,16 @@
         {
             this.logger.LogDebug("Started cleaning the Well...");
 
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday) return;
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return;
+            }
 
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
-            foreach (var id in routeIds)
+            foreach (var routeId in routeIds)
             {
-                var route = this.routeToRemoveRepository.GetRouteToRemove(id);
+                var route = this.routeToRemoveRepository.GetRouteToRemove(routeId);
 
                 foreach (var routeHeader in route.RouteHeaders)
                 {
@@ -66,7 +69,10 @@
 
                             foreach (var detail in job.JobDetails)
                             {
-                                if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateUpdated)) detail.SetToDelete();
+                                if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateUpdated))
+                                {
+                                    detail.SetToDelete();
+                                }
                             }
 
                             job.SetToDelete();

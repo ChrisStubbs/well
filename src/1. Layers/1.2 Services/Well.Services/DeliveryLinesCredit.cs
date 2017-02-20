@@ -39,7 +39,7 @@ namespace PH.Well.Services
         {
             get
             {
-                return DeliveryAction.Close;
+                return DeliveryAction.Credit;
             }
         }
 

@@ -112,6 +112,10 @@ this.FeatureBackground();
  testRunner.And("3 deliveries are waiting credit approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 23
  testRunner.When("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.And("I open the widget page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 25
+ testRunner.And("I go back", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -149,9 +153,9 @@ this.FeatureBackground();
                         "39.95",
                         "Incomplete",
                         "Level 2"});
-#line 24
+#line 26
  testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table2, "Then ");
-#line 29
+#line 31
  testRunner.When("I view the account info modal for approval row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -172,7 +176,7 @@ this.FeatureBackground();
                         "01509815739",
                         "01234987654",
                         "contact@csg.com"});
-#line 30
+#line 32
  testRunner.Then("I can view the following account info details", ((string)(null)), table3, "Then ");
 #line hidden
             this.ScenarioCleanup();

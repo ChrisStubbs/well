@@ -124,6 +124,12 @@
             ApprovalsPage.Open();
         }
 
+        [When(@"I open the widget page")]
+        public void WhenIOpenTheWidgetPage()
+        {
+            ApprovalsPage.OpenAbsolute("widgets");
+        }
+
         [When(@"I view the account info modal for approval row (.*)")]
         public void ViewAccountModal(int row)
         {
@@ -145,6 +151,10 @@
             AccountModalSteps.CompareModal(table, modal);
         }
 
-
+        [When(@"I go back")]
+        public void ThenIGoBack()
+        {
+            ApprovalsPage.Back();
+        }
     }
 }

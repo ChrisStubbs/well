@@ -10,6 +10,10 @@ Feature: Administration Parameters
 
 #TODO BDD required around royalty exceptions when cleaning the Well
 
+
+Scenario: Empty Test For Test Times
+	Given I have a clean database
+
 Scenario: Widget warning parameter remove
 	Given I have a clean database
 	And I navigate to the branch parameters page

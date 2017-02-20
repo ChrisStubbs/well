@@ -93,10 +93,9 @@
             RunDacpac();
 
             x.Stop();
-            var container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
-            var Logger = container.GetInstance<ILogger>();
+            var e = x.Elapsed;
 
-            Logger.LogDebug(string.Format("SetupDatabase took: {0:00}:{1:00}.{2:00}", x.Elapsed.Minutes, x.Elapsed.Seconds, x.Elapsed.Milliseconds / 10));
+            new NLogger().LogDebug(string.Format("SetupDatabase took: {0:00}:{1:00}.{2:00}", e.Minutes, e.Seconds, e.Milliseconds / 10));
         }
 
         [AfterTestRun]

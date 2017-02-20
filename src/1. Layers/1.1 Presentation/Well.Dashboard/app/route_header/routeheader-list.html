@@ -8,7 +8,7 @@
     <div class="content" *ngIf="!isLoading">
         <div *ngIf="!routes">
             <div class="alert alert-info">
-                <strong>No routes!</strong>
+                <strong>No route data available</strong>
             </div>
         </div>
         <div *ngIf='routes && routes.length'>
@@ -26,15 +26,15 @@
                     <table id="tableRoutes" class="table table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Route</th>
-                                <th>Branch</th>
-                                <th>Route Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                                <th>Driver</th>
-                                <th>No of Drops</th>
-                                <th>Exceptions</th>
-                                <th>Clean</th>
-                                <th>Status</th>
-                                <th>Last updated date/time</th>
+                                <th style="width: 7%">Route</th>
+                                <th style="width: 7%">Branch</th>
+                                <th style="width: 11%">Route Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th style="width: 14%">Driver</th>
+                                <th style="width: 8%">No of Drops</th>
+                                <th style="width: 8%">Exceptions</th>
+                                <th style="width: 8%">Clean</th>
+                                <th style="width: 12%">Status</th>
+                                <th style="width: 15%">Last updated date/time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,7 +46,7 @@
                                 <td>{{route.totalDrops}}</td>
                                 <td>{{route.deliveryExceptionCount}}</td>
                                 <td>{{route.deliveryCleanCount}}</td>
-                                <td>{{route.routeStatus}}</td>
+                                <td>{{route.routeStatusDescription}}</td>
                                 <td>{{route.dateTimeUpdated | date:'medium'}}</td>
                             </tr>
                         </tbody>

@@ -42,6 +42,18 @@
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
 
+        [XmlElement("JobType_Code")]
+        public string JobTypeCodeTransend { get; set; }
+
+        public string GetJobTypeCode()
+        {
+            if (!string.IsNullOrWhiteSpace(this.JobTypeCode)) return this.JobTypeCode;
+
+            if (!string.IsNullOrWhiteSpace(this.JobTypeCodeTransend)) return this.JobTypeCodeTransend;
+
+            return "Not found";
+        }
+
         [XmlElement("JobRef1")]                 // not sure we need this
         public string SiteBunId { get; set; }
 
@@ -273,7 +285,7 @@
         public PerformanceStatus PerformanceStatus { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
-        public string JobPerformanceStatusCode
+        public string PerformanceStatusCode
         {
             get { return PerformanceStatus.ToString(); }
             set
@@ -429,8 +441,10 @@
             }
         }
 
+        // TODO exception is a job with any details that has a short and or any damages
         public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
 
+        // TODO clean is a job with all details without any damages and zero shorts
         public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;
 
         public bool IsResolved => PerformanceStatus == PerformanceStatus.Resolved;

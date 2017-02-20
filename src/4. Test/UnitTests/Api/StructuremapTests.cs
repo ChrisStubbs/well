@@ -15,7 +15,7 @@
         [Test]
         public void WhenGettingControllers_ThenAllServicesAreRegistered()
         {
-            IContainer container = IoC.Initialize();
+            IContainer container = IoC.Container;
             var structureMapDependencyScope = new StructureMapDependencyScope(container);
 
             List<Type> controllerTypes = GetSubClasses<ApiController>();

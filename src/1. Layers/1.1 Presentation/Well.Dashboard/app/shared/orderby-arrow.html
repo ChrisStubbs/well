@@ -1,1 +1,2 @@
-﻿<span class="orderArrow"><img [src]="imgSrc" (click)="setImageSrc()" id="img-orderByArrow" style="cursor:pointer"></span>
+﻿<span id="img-orderByArrow" [ngClass]="{'orderArrow glyphicon': true, 'glyphicon-arrow-up': !isDesc, 'glyphicon-arrow-down': isDesc}" 
+      (click)="setImageSrc()"></span>

@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
+    <Content Include="app\approvals\approvals-list.html" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
@@ -228,6 +229,8 @@
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\menu.html" />
+    <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
@@ -422,8 +425,6 @@
     <Content Include="Content\Images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Images\triangle_asc.png" />
-    <Content Include="Content\Images\triangle_desc.png" />
     <Content Include="Content\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -768,7 +769,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\approvals\approvalsComponent.ts" />
+    <Content Include="app\approvals\approvalDelivery.ts" />
+    <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
+    <Content Include="app\shared\customDatePipe.ts" />
+    <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
+    <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
+    <TypeScriptCompile Include="app\shared\NavigateQueryParameters.ts" />
+    <TypeScriptCompile Include="app\shared\NavigateQueryParametersService.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -7,16 +7,24 @@
                         <div class="panel {{widget.showWarning ? 'panel-danger' : 'panel-primary'}}">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
-                                    <span *ngIf="widget.showWarning === false" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <span *ngIf="widget.showWarning" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{widget.name}}
+                                    <span *ngIf="widget.showWarning === false" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 
+                                    <span *ngIf="widget.showWarning" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{widget.name}}
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                <h4><a class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.name)">
-                                    <span class="{{widget.name}}-count">{{widget.count}}</span> {{widget.linkText}}
-                                </a></h4>
-                                <p>
-                                    {{widget.description}}
-                                </p>
+                                <h4>
+                                    <a *ngIf="widget.name != 'Assigned'" class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.name)">
+                                        <span class="{{widget.name}}-count">{{widget.count}}</span> {{widget.linkText}}
+                                    </a>
+                                    <a *ngIf="widget.name == 'Assigned'" 
+                                        class="{{widget.showWarning ? 'text-danger' : 'text'}}" 
+                                        [routerLink]="['/exceptions']" 
+                                        [queryParams]="{ 'filter.assigned': globalSettingsService.globalSettings.userName }"
+                                        routerLinkActive="active">
+                                        <span class="{{widget.name}}-count">{{widget.count}}</span> {{widget.linkText}}
+                                    </a>
+                                </h4>
+                                <p>{{widget.description}}</p>
                             </div>
                         </div>
                     </div>

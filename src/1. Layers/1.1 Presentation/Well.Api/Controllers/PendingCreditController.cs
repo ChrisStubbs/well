@@ -19,7 +19,7 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var pendingCredits = this.deliveryReadRepository.GetPendingCreditDeliveries(this.UserIdentityName);
+            var pendingCredits = this.deliveryReadRepository.GetByPendingCredit(this.UserIdentityName);
 
             return this.Request.CreateResponse(HttpStatusCode.OK, pendingCredits);
         }

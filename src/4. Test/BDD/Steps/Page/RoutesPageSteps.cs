@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading;
     using Domain;
+    using Framework.Extensions;
     using NUnit.Framework;
     using Pages;
 
@@ -48,22 +49,11 @@
            this.routesPage.OrderByButton.Click();
         }
 
-
         [Then(@"The following routes will be displayed")]
         public void ThenTheFollowingRoutesWillBeDisplayed(Table table)
         {
-            var pageRows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.RouteDate), Is.EqualTo(table.Rows[i]["Route Date"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Driver), Is.EqualTo(table.Rows[i]["Driver"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.NoOfDrops), Is.EqualTo(table.Rows[i]["NoOfDrops"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Exceptions), Is.EqualTo(table.Rows[i]["Exceptions"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Clean), Is.EqualTo(table.Rows[i]["Clean"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)RoutesGrid.Status), Is.EqualTo(table.Rows[i]["Status"]));
-            }
+            var result = this.routesPage.RoutesGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False);
         }
 
         [Then(@"The following routes ordered by date will be displayed in '(.*)' order")]
@@ -136,7 +126,7 @@
         {
             var rows = this.exceptionPage.ExceptionsGrid.ReturnAllRows().ToList();
 
-            Assert.That(rows.Count, Is.GreaterThan(1));
+            Assert.That(rows.Count, Is.GreaterThan(0));
 
             var routeNumberShouldBe = ScenarioContextWrapper.GetContextObject<string>(
                     ContextDescriptors.RouteNumber);
@@ -152,7 +142,7 @@
         [Then(@"I can see that routes clean deliveries")]
         public void SeeRoutesCleanDeliveriesOnly()
         {
-            var rows = this.cleanPage.RoutesGrid.ReturnAllRows().ToList();
+            var rows = this.cleanPage.Grid.ReturnAllRows().ToList();
 
             Assert.That(rows.Count, Is.GreaterThan(1));
 

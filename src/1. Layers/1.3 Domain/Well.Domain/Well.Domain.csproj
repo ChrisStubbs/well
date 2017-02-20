@@ -83,8 +83,6 @@
     <Compile Include="Enums\JobType.cs" />
     <Compile Include="Enums\RouteImportType.cs" />
     <Compile Include="Enums\RoutePerformanceStatusCode.cs" />
-    <Compile Include="Enums\RouteStatusCode.cs" />
-    <Compile Include="Enums\StopStatus.cs" />
     <Compile Include="Enums\TransendSchemaType.cs" />
     <Compile Include="ExceptionEvent.cs" />
     <Compile Include="HolidayExceptions.cs" />
@@ -93,6 +91,7 @@
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
+    <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />
     <Compile Include="ValueObjects\CreditTransaction.cs" />
     <Compile Include="ValueObjects\CreditLines.cs" />

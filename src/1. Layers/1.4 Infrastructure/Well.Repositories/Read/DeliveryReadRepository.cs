@@ -4,6 +4,7 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Dapper;
     using Domain;
@@ -39,26 +40,28 @@
             return GetDeliveriesByStatus(PerformanceStatus.Resolved, username);
         }
 
-        public IEnumerable<Delivery> GetPendingCreditDeliveries(string username)
+        //TODO - Refactor into a single sproc with parameters to filter those pending credit
+        public IEnumerable<Delivery> GetByPendingCredit(string username)
         {
             return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.PendingCreditDeliveriesGet)
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit)
                     .AddParameter("UserName", username, DbType.String)
                     .Query<Delivery>();
         }
 
         public IEnumerable<Delivery> GetExceptionDeliveries(string username)
         {
-            var exceptionStatuses = ExceptionStatuses.Statuses;
+            var intStatuses = ExceptionStatuses.Statuses.Select(p => (int)p).ToList();
 
-            var allExceptions = new List<Delivery>();
+            var exceptionDeliveries = dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByArrayPerformanceStatus)
+                .AddParameter("PerformanceStatusIds", intStatuses.ToIntDataTables("Value"), DbType.Object)
+                .AddParameter("UserName", username, DbType.String)
+                .Query<Delivery>().ToList();
 
-            foreach (var exceptionStatus in exceptionStatuses)
-            {
-                allExceptions.AddRange(GetDeliveriesByStatus(exceptionStatus, username));
-            }
+            var deliveriesPendingCredit = GetByPendingCredit(username);
 
-            return allExceptions;
+            exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
+            return exceptionDeliveries;
         }
 
         public DeliveryDetail GetDeliveryById(int id, string username)

@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="btn-group" style="width: 213px">
-        <input *ngIf="SelectedOption.type != 'date'"  id="filter-text" type="text" class="form-control input-sm"
+        <input *ngIf="SelectedOption.type != 'date'" style="width: 100%" id="filter-text" type="{{inputType(SelectedOption.type)}}" class="form-control input-sm"
                [(ngModel)]="filterText"
                (keyup.enter)="applyFilter()"
                [readonly]="SelectedOption.value == ''" />

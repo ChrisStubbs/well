@@ -34,7 +34,7 @@
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting damage reasons");
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting damage reasons");
             }
         }
     }

@@ -14,8 +14,10 @@ BEGIN
 		[PlannedStops],
 		[ActualStopsCompleted],
 		[RoutesId],
-		[RouteStatusId],
-		[RoutePerformanceStatusId],
+		[RouteStatusCode],
+		[RouteStatusDescription]
+		[PerformanceStatusCode],
+		[PerformanceStatusDescription],
 		[LastRouteUpdate],
 		[AuthByPass],
 		[NonAuthByPass],

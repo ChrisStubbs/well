@@ -48,25 +48,6 @@
         public class TheUpdateMethod : DeliveryLineControllerTests
         {
             [Test]
-            public void HasPutAttribute()
-            {
-                MethodInfo controllerMethod = GetMethod(c => c.Update(null));
-
-                var routeAttribute = GetAttributes<HttpPutAttribute>(controllerMethod).FirstOrDefault();
-                Assert.IsNotNull(routeAttribute);
-            }
-
-            [Test]
-            public void HasCorrectRouteAttribute()
-            {
-                MethodInfo controllerMethod = GetMethod(c => c.Update(null));
-
-                var routeAttribute = GetAttributes<RouteAttribute>(controllerMethod).FirstOrDefault();
-                Assert.IsNotNull(routeAttribute);
-                Assert.AreEqual("delivery-line", routeAttribute.Template);
-            }
-
-            [Test]
             public void GivenNoMatchingLine_ThenReturnsBadRequest()
             {
                 var model = new DeliveryLineModel()
@@ -77,7 +58,7 @@
 
                 jobDetailRepository.Setup(r => r.GetByJobLine(model.JobId, model.LineNo)).Returns((JobDetail) null);
 
-                HttpResponseMessage response = Controller.Update(model);
+                HttpResponseMessage response = Controller.Put(model);
                 var responseModel = GetResponseObject<ErrorModel>(response);
 
                 Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
@@ -115,7 +96,7 @@
 
                 deliveryService.Setup(r => r.UpdateDeliveryLine(It.IsAny<JobDetail>(), It.IsAny<string>()));
 
-                HttpResponseMessage response = Controller.Update(model);
+                HttpResponseMessage response = Controller.Put(model);
 
                 deliveryService.Verify(r => r.UpdateDeliveryLine(It.IsAny<JobDetail>(), It.IsAny<string>()), Times.Once);
 
@@ -136,13 +117,13 @@
                         x.HandleException(
                             It.IsAny<HttpRequestMessage>(),
                             ex,
-                            "An error occured when updating DeliveryLine")).Returns(It.IsAny<HttpResponseMessage>());
+                            "An error occurred when updating DeliveryLine")).Returns(It.IsAny<HttpResponseMessage>());
 
                 //ACT
-                Controller.Update(model);
+                Controller.Put(model);
 
                 serverErrorResponseHandler.Verify(
-                    s => s.HandleException(It.IsAny<HttpRequestMessage>(), It.Is<Exception>(e => e == ex), "An error occured when updating DeliveryLine"));
+                    s => s.HandleException(It.IsAny<HttpRequestMessage>(), It.Is<Exception>(e => e == ex), "An error occurred when updating DeliveryLine"));
             }
         }
     }

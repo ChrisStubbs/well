@@ -47,14 +47,15 @@
                 dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("LineNumber", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()));
+                dapperProxy.Setup(x => x.QueryMultiples(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()))
+                    .Returns(new List<JobDetail>());
 
                 var result = repository.GetById(id);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGet), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
                 dapperProxy.Verify(
-                    x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()),
+                    x => x.QueryMultiples(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()),
                     Times.Once());
 
             }
@@ -71,13 +72,14 @@
                 dapperProxy.Setup(x => x.AddParameter("Id", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("JobId", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("LineNumber", null, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()));
+                dapperProxy.Setup(x => x.QueryMultiples(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()))
+                    .Returns(new List<JobDetail>());
 
                 var result = repository.GetByJobId(id);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailGet), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("JobId", id, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()),Times.Once);
+                dapperProxy.Verify(x => x.QueryMultiples(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<JobDetail>>>()),Times.Once);
             }
         }
 
@@ -308,6 +310,10 @@
                         x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
                 this.dapperProxy.Setup(x => x.Execute());
 
                 this.repository.Update(jobDetail);
@@ -373,6 +379,9 @@
                         x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+
+                this.dapperProxy.Verify(
+                        x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null), Times.Once);
             }
         }
     }

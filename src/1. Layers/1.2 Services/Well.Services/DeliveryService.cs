@@ -19,6 +19,8 @@
         private readonly IJobDetailActionRepository jobDetailActionRepository;
         private readonly IUserRepository userRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly IDeliveryReadRepository deliveryReadRepository;
+        private readonly IBranchRepository branchRepository;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -27,7 +29,9 @@
             IStopRepository stopRepository,
             IJobDetailActionRepository jobDetailActionRepository,
             IUserRepository userRepository,
-            IExceptionEventRepository exceptionEventRepository)
+            IExceptionEventRepository exceptionEventRepository,
+            IDeliveryReadRepository deliveryReadRepository,
+            IBranchRepository branchRepository)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -37,6 +41,31 @@
             this.jobDetailActionRepository = jobDetailActionRepository;
             this.userRepository = userRepository;
             this.exceptionEventRepository = exceptionEventRepository;
+            this.deliveryReadRepository = deliveryReadRepository;
+            this.branchRepository = branchRepository;
+        }
+
+        public IList<Delivery> GetApprovals(string username)
+        {
+            var approvals = deliveryReadRepository.GetByPendingCredit(username);
+
+            //Populate Thresholds
+            var branches = branchRepository.GetAllValidBranches();
+            foreach (var approval in approvals)
+            {
+                var branch = branches.SingleOrDefault(b => b.Id == approval.BranchId);
+                if (branch == null)
+                {
+                    continue;
+                }
+                var threshold = branch.CreditThresholds.OrderBy(t => t.Threshold)
+                    .FirstOrDefault(t => t.Threshold >= approval.TotalCreditValueForThreshold);
+
+                approval.ThresholdLevel = threshold?.ThresholdLevel;
+                approval.SetCanAction(username);
+            }
+
+            return approvals.ToList();
         }
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
@@ -59,6 +88,7 @@
             jobDetail.ShortsActionId = jobDetailUpdates.ShortsActionId;
 
             Job job = this.jobRepository.GetById(jobDetail.JobId);
+            job.JobDetails = jobDetails.ToList();
             JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
             Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,

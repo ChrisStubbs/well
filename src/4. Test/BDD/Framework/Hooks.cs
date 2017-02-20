@@ -10,6 +10,7 @@
     using Common.Security;
     using Context;
     using Factories;
+    using Helpers;
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
 
@@ -171,6 +172,10 @@
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                                 x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
                                                 x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+                                                x.For<IUserRepository>().Use<UserRepository>();
+                                                x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+                                                x.For<IBranchRepository>().Use<BranchRepository>();
+                                                x.For<IWebClientHelper>().Use<WebClientHelper>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

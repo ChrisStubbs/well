@@ -54,7 +54,7 @@
                         }
                     }
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     // log me
                 }

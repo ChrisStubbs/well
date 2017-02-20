@@ -13,8 +13,10 @@ SELECT [Id],
 	  [AllowOvers],
 	  [CustUnatt],
 	  [PHUnatt],
-	  [StopStatusId],
-	  [StopPerformanceStatusId],
+	  [StopStatusCode],
+	  [StopStatusDescription],
+	  [PerformanceStatusCode],
+	  [PerformanceStatusDescription],
 	  [Reason],
 	  [TransportOrderReference]
   FROM [dbo].[Stop]

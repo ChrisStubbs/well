@@ -7,13 +7,15 @@
     using System.Net.Http;
     using System.Web.Http;
     using Models;
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Common.Security;
-    using PH.Well.Domain;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services.Contracts;
+    using Mapper.Contracts;
+    using Common.Contracts;
+    using Common.Security;
+    using Domain;
+    using Repositories.Contracts;
+    using Services.Contracts;
+    using Validators;
 
+    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class BranchController : BaseApiController
     {
         private readonly ILogger logger;
@@ -60,7 +62,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -85,7 +87,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -110,7 +112,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -135,7 +137,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 

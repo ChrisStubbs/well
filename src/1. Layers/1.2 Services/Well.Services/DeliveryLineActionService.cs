@@ -61,21 +61,23 @@
             })
             .ToDictionary(p => p.key, v => v.values);
 
+            List<ProcessDeliveryActionResult> results = null;
             using (var transactionScope = new TransactionScope())
             {
-                var results = allActionHandlers
+                results = allActionHandlers
                     .OrderBy(p=> p.Action)
                     .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
                     .ToList();
 
                 transactionScope.Complete();
 
-                return new ProcessDeliveryActionResult
-                {
+
+            return new ProcessDeliveryActionResult
+            {
                     AdamIsDown = results.Any(p => p.AdamIsDown),
-                    Warnings = results.SelectMany(p => p.Warnings).ToList()
-                };
-            }
+                Warnings = results.SelectMany(p => p.Warnings).ToList()
+            };
+
         }
 
         private IList<DeliveryLine> GetDeliveryLinesByAction(IList<DeliveryLine> deliveryLines, DeliveryAction action)

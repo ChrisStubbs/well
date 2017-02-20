@@ -21,9 +21,11 @@ Scenario: A user can view Deliveries waiting credit approval
 	And I am assigned to credit threshold 'Level 3'
 	And 3 deliveries are waiting credit approval
 	When I open the approval deliveries page
+	And I open the widget page
+	And I go back
 	Then the following approval deliveries will be displayed
-	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Status     | Threshold |
-	| 001   | 1    | 1787878   | 49214.152 | CSG - must be CF van | 199.75      | Incomplete | Level 1   |
+	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Status     | Threshold | Assigned    |
+	| 001   | 1    | 1787878   | 49214.152 | CSG - must be CF van | 199.75      | Incomplete | Level 1   | Unallocated |
 	| 001   | 1    | 976549    | 2874.033 | CSG - must be CF van | 22.41       | Incomplete | Level 2   |
 	| 001   | 2    | 976541    | 2874.033 | RVS SHOP             | 39.95       | Incomplete | Level 2   |
 	When I view the account info modal for approval row 2 

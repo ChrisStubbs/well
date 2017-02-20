@@ -107,6 +107,7 @@
                 {
                     using (var transactionScope = new TransactionScope())
                     {
+                        // TODO
                         var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderReference);
 
                         if (existingStop == null)
@@ -144,6 +145,7 @@
         {
             foreach (var job in jobs)
             {
+                // TODO do we need the invoice here im thinking we dont as we have enough info already
                 var existingJob = this.jobRepository.GetByAccountPicklistAndStopId(
                     job.PhAccount,
                     job.PickListRef,
@@ -174,14 +176,16 @@
                 }
 
                 if (hasDamage)
-                    existingJob.PerformanceStatus = PerformanceStatus.Incom;
-
-                if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
                 {
-                    var grnEvent = new GrnEvent
-                    {
-                        Id = existingJob.Id,
-                        BranchId = branchId
+                    // TODO think about this status do we need it, maybe for querying hmm not sure
+                    existingJob.PerformanceStatus = PerformanceStatus.Incom;
+                } 
+
+                // TODO refactor this
+                if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
+                {
+                    var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+                    
                     };
 
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
@@ -190,13 +194,13 @@
                 this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
 
                 //TODO POD event
-                var pod = existingJob.ProofOfDelivery ?? 0;
+                var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
+
 
                 if (pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade)
                 {
                     //build pod transaction
                     var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
-
                     this.exceptionEventRepository.InsertPodEvent(podTransaction);
                 }
 
@@ -221,7 +225,7 @@
                 detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
 
                 // TODO might need to set resolved unresolved status here and add in sub outer values
-
+                // whole status thing im not sure about
                 if (invoiceOutstanding)
                     existingJobDetail.JobDetailStatusId = (int)JobDetailStatus.AwtInvNum;
 

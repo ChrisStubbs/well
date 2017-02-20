@@ -58,6 +58,7 @@
             to.CustomerRef = from.CustomerRef;
             to.PerformanceStatus = PerformanceStatus.Notdef;
 
+            // TODO refactor to check that we have these attributes else will throw an error
             to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "PICKED"));
             to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ORDOUTERS"));
             to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "INVOUTERS"));

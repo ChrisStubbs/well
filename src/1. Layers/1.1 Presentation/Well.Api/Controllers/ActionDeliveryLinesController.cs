@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Api.Controllers
 {
     using System.Linq;
     using System.Net;
@@ -29,7 +31,9 @@
             IDeliveryLinesToModelMapper mapper,
             IDeliveryLineActionService deliveryLineActionService,
             IJobRepository jobRepository,
-            IBranchRepository branchRepository)
+            IBranchRepository branchRepository,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.deliveryRepository = deliveryRepository;
             this.mapper = mapper;
@@ -78,7 +82,6 @@
             var response = this.deliveryLineActionService.ProcessDeliveryActions(
                 deliveryLines.ToList(),
                 settings,
-                this.UserIdentityName,
                 branchId);
 
             if (response.Warnings.Any())
@@ -86,7 +89,7 @@
                 return this.Request.CreateResponse(new { notAcceptable = true, message = response.Warnings });
             }
 
-            if (response.AdmamIsDown)
+            if (response.AdamIsDown)
             {
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
             }

@@ -32,7 +32,9 @@
             ILogger logger, 
             ICreditThresholdMapper mapper,
             ICreditThresholdValidator validator,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
@@ -40,7 +42,7 @@
             this.validator = validator;
             this.userRepository = userRepository;
 
-            this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
+            //////this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Route("credit-threshold")]

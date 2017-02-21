@@ -26,13 +26,17 @@
 
         private ExceptionEventRepository repository;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            this.repository = new ExceptionEventRepository(this.logger.Object, this.dapperProxy.Object);
+            this.repository = new ExceptionEventRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         public class TheInsertCreditEventMethod : ExceptionEventRepositoryTests

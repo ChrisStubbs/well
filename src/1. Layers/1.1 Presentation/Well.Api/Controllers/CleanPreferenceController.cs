@@ -29,13 +29,15 @@
             ICleanPreferenceRepository cleanPreferenceRepository,
             ICleanPreferenceMapper mapper, 
             ILogger logger,
-            ICleanPreferenceValidator validator)
+            ICleanPreferenceValidator validator,
+            IUserNameProvider userNameProvider)
+            :base(userNameProvider)
         {
             this.cleanPreferenceRepository = cleanPreferenceRepository;
             this.mapper = mapper;
             this.logger = logger;
             this.validator = validator;
-            this.cleanPreferenceRepository.CurrentUser = this.UserIdentityName;
+            ////this.cleanPreferenceRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Route("clean-preference")]

@@ -9,7 +9,8 @@
 
     public class JobDetailActionRepository : DapperRepository<JobDetailAction, int>, IJobDetailActionRepository
     {
-        public JobDetailActionRepository(ILogger logger, IDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public JobDetailActionRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

@@ -16,7 +16,8 @@
 	@InvOuters INT,
 	@AllowSoCrd BIT,
 	@Cod VARCHAR(50),
-	@AllowReOrd BIT
+	@AllowReOrd BIT,
+	@HasException BIT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -40,7 +41,8 @@ BEGIN
 		InvOuters = @InvOuters,
 		AllowSOCRD = @AllowSoCrd,
 		Cod = @Cod,
-		AllowReOrd = @AllowReOrd
+		AllowReOrd = @AllowReOrd,
+		HasException = @HasException
 	WHERE
 		Id = @Id
 END

@@ -36,6 +36,10 @@
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
+        private Mock<IDeliveryStatusService> deliveryStatusService;
+
         [SetUp]
         public void Setup()
         {
@@ -51,16 +55,28 @@
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
             this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
+            this.deliveryStatusService = new Mock<IDeliveryStatusService>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
+            //this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
+            //this.stopRepository.SetupSet(x => x.CurrentUser = user);
+            //this.jobRepository.SetupSet(x => x.CurrentUser = user);
+            //this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
+            //this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
 
-            this.service = new EpodUpdateService(this.logger.Object, this.eventLogger.Object, this.routeHeaderRepository.Object,
-                this.stopRepository.Object, this.jobRepository.Object, this.jobDetailRepository.Object, this.jobDetailDamageRepository.Object, this.exceptionEventRepository.Object,
-                this.mapper.Object, this.adamImportService.Object);
+            this.service = new EpodUpdateService(this.logger.Object, 
+                this.eventLogger.Object, 
+                this.routeHeaderRepository.Object,
+                this.stopRepository.Object, 
+                this.jobRepository.Object, 
+                this.jobDetailRepository.Object, 
+                this.jobDetailDamageRepository.Object, 
+                this.exceptionEventRepository.Object,
+                this.mapper.Object, 
+                this.adamImportService.Object, 
+                this.deliveryStatusService.Object,
+                this.userNameProvider.Object);
         }
 
         [Test]
@@ -86,13 +102,14 @@
         }
 
         [Test]
-        public void ShouldProcessCorrectly()
+        [TestCase(55)]
+        public void ShouldProcessCorrectly(int branchId)
         {
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
 
-            var existingRouteHeader = RouteHeaderFactory.New.Build();
+            var existingRouteHeader = RouteHeaderFactory.New.With(x=>x.StartDepotCode = branchId.ToString()).Build();
 
             var stop = StopFactory.New.Build();
 
@@ -128,6 +145,10 @@
             this.mapper.Setup(x => x.Map(job, existingJob));
 
             this.jobRepository.Setup(x => x.Update(existingJob));
+
+            // HACK: DIJ TOTAL HACK FOR NOW!!!
+
+            this.deliveryStatusService.Setup(x => x.SetStatus(existingJob, branchId));
 
             this.service.Update(route);
 

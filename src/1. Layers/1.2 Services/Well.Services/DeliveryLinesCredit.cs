@@ -43,14 +43,14 @@ namespace PH.Well.Services
             }
         }
 
-        public ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, int branchId)
         {
             var lines = deliveryLines(this.Action);
 
-            return CreditDeliveryLines(lines, adamSettings, username, branchId);
+            return CreditDeliveryLines(lines, adamSettings, branchId);
         }
 
-        private ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> creditLines, AdamSettings adamSettings, string username, int branchId)
+        private ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> creditLines, AdamSettings adamSettings, int branchId)
         {
             var result = new ProcessDeliveryActionResult();
 
@@ -59,7 +59,7 @@ namespace PH.Well.Services
                 var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
                 // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var thresholdResponse = this.userThresholdService.CanUserCredit(username, totalThresholdValue);
+                var thresholdResponse = this.userThresholdService.CanUserCredit(totalThresholdValue);
 
                 if (thresholdResponse.IsInError)
                 {
@@ -70,11 +70,11 @@ namespace PH.Well.Services
                     if (!thresholdResponse.CanUserCredit)
                     {
                         result.Warnings.Add("Your threshold level isn\'t high enough for the credit... It has been passed on for authorisation...");
-                        this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId, username);
+                        this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId);
                     }
                     else
                     {
-                        result.AdmamIsDown = this.Credit(creditLines, adamSettings, username, branchId) != AdamResponse.Success;
+                        result.AdamIsDown = this.Credit(creditLines, adamSettings, branchId) != AdamResponse.Success;
                     }
                 }
             }
@@ -82,19 +82,19 @@ namespace PH.Well.Services
             return result;
         }
 
-        private AdamResponse Credit(IList<DeliveryLine> creditLines, AdamSettings adamSettings, string username, int branchId)
+        private AdamResponse Credit(IList<DeliveryLine> creditLines, AdamSettings adamSettings, int branchId)
         {
             var job = this.jobRepository.GetById(creditLines[0].JobId);
 
             var credits = this.mapper.Map(creditLines);
 
-            var creditEventTransaction = this.creditTransactionFactory.Build(credits, username, branchId);
+            var creditEventTransaction = this.creditTransactionFactory.Build(credits, branchId);
 
-            var response = this.adamRepository.Credit(creditEventTransaction, adamSettings, username);
+            var response = this.adamRepository.Credit(creditEventTransaction, adamSettings);
 
             if (response == AdamResponse.AdamDown || response == AdamResponse.Unknown)
             {
-                this.eventRepository.CurrentUser = username;
+                //////this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);
                 // update job here to show that the job has been actioned
                 this.jobRepository.SetJobToSubmittedStatus(job.Id);

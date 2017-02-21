@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -13,16 +15,20 @@
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;
         private readonly IUserRepository userRepository;
+        private readonly IUserNameProvider userNameProvider;
 
         public UserThresholdService(ICreditThresholdRepository creditThresholdRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IUserNameProvider userNameProvider)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.userRepository = userRepository;
+            this.userNameProvider = userNameProvider;
         }
 
-        public ThresholdResponse CanUserCredit(string username, decimal creditValue)
+        public ThresholdResponse CanUserCredit(decimal creditValue)
         {
+            var username = this.userNameProvider.GetUserName();
             var response = new ThresholdResponse();
             var user = this.userRepository.GetByIdentity(username);
 
@@ -48,13 +54,13 @@
             return response;
         }
 
-        public void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId, string originator)
+        public void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId)
         {
             var branchSpecificThresholds = this.creditThresholdRepository.GetByBranch(branchId);
 
-            if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level2, branchId, totalThresholdAmount, originator, jobId))
+            if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level2, branchId, totalThresholdAmount, jobId))
             {
-                if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, branchId, totalThresholdAmount, originator, jobId))
+                if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, branchId, totalThresholdAmount, jobId))
                 {
                     throw new ApplicationException(
                         $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})");
@@ -62,7 +68,7 @@
             }
         }
 
-        private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, string originator, int jobId)
+        private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)
         {
             var threshold = branchThresholds.FirstOrDefault(x => x.ThresholdLevel == level);
 
@@ -71,7 +77,7 @@
 
             if (totalThresholdAmount <= threshold.Threshold)
             {
-                this.creditThresholdRepository.PendingCreditInsert(jobId, originator);
+                this.creditThresholdRepository.PendingCreditInsert(jobId);
                 return true;
             }
 

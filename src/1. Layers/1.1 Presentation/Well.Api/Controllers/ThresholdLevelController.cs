@@ -17,7 +17,8 @@
 
         private readonly ILogger logger;
 
-        public ThresholdLevelController(IUserRepository userRepository, ILogger logger)
+        public ThresholdLevelController(IUserRepository userRepository, ILogger logger, IUserNameProvider userNameProvider):
+            base(userNameProvider)
         {
             this.userRepository = userRepository;
             this.logger = logger;

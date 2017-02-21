@@ -27,6 +27,7 @@
         private Mock<ILogger> logger;
 
         private Mock<ICleanPreferenceValidator> cleanPreferenceValidator;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -35,14 +36,17 @@
             this.cleanPreferenceMapper = new Mock<ICleanPreferenceMapper>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.cleanPreferenceValidator = new Mock<ICleanPreferenceValidator>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(It.IsAny<string>());
 
-            this.cleanPreferenceRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+            //////this.cleanPreferenceRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
 
             this.Controller = new CleanPreferenceController(
                 this.cleanPreferenceRepository.Object, 
                 this.cleanPreferenceMapper.Object, 
                 this.logger.Object,
-                this.cleanPreferenceValidator.Object);
+                this.cleanPreferenceValidator.Object,
+                this.userNameProvider.Object);
 
             this.SetupController();
         }

@@ -141,6 +141,9 @@
 
         #endregion
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         private static void InitIoc()
         {
             var container = new Container(
@@ -175,6 +178,8 @@
                                                 x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                                                 x.For<IBranchRepository>().Use<BranchRepository>();
                                                 x.For<IWebClientHelper>().Use<WebClientHelper>();
+                                                x.For<IDeliveryStatusService>().Use<DeliveryStatusService>();
+                                                x.For<IUserNameProvider>().Use<UserNameProvider>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

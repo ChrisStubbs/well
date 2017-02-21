@@ -33,6 +33,7 @@
         private ICreditThresholdRepository creditThresholdRepository;
         private IBranchRepository branchRepository;
         private IUserRepository userRepository;
+        private IUserNameProvider userNameProvider;
 
         public ApprovalsSteps()
         {
@@ -42,6 +43,7 @@
             creditThresholdRepository = container.GetInstance<ICreditThresholdRepository>();
             branchRepository = container.GetInstance<IBranchRepository>();
             userRepository = container.GetInstance<IUserRepository>();
+            userNameProvider = container.GetInstance<IUserNameProvider>();
         }
 
 
@@ -49,7 +51,8 @@
         public void GivenIHaveTheFollowingCreditThresholdsSetupForAllBranches(Table table)
         {
             var branches = branchRepository.GetAllValidBranches();
-            creditThresholdRepository.CurrentUser = "BDD";
+            //////creditThresholdRepository.CurrentUser = "BDD";
+            this.userNameProvider.ChangeUserName("BDD");
             foreach (var tableRow in table.Rows)
             {
                 var creditThreshold = new CreditThreshold()

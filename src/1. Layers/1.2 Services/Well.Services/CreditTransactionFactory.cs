@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -17,16 +19,22 @@
         private readonly IJobRepository jobRepository;
         private readonly IAccountRepository accountRepository;
         private readonly IUserRepository userRepository;
+        private readonly IUserNameProvider userNameProvider;
 
-        public CreditTransactionFactory(IJobRepository jobRepository, IAccountRepository accountRepository, IUserRepository userRepository)
+        public CreditTransactionFactory(IJobRepository jobRepository,
+            IAccountRepository accountRepository,
+            IUserRepository userRepository,
+            IUserNameProvider userNameProvider)
         {
-             this.jobRepository = jobRepository;
-             this.accountRepository = accountRepository;
-             this.userRepository = userRepository;
+            this.jobRepository = jobRepository;
+            this.accountRepository = accountRepository;
+            this.userRepository = userRepository;
+            this.userNameProvider = userNameProvider;
         }
-        
-        public CreditTransaction Build(List<DeliveryLineCredit> deliveryLines, string username, int branchId)
+
+        public CreditTransaction Build(List<DeliveryLineCredit> deliveryLines, int branchId)
         {
+            var username = this.userNameProvider.GetUserName();
             var user = this.userRepository.GetByIdentity(username);
 
             var initials = user.FriendlyName.GetInitials();

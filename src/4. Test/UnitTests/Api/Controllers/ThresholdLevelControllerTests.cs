@@ -20,14 +20,17 @@
         private Mock<IUserRepository> userRepository;
 
         private Mock<ILogger> logger;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
         {
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            this.Controller = new ThresholdLevelController(this.userRepository.Object, this.logger.Object);
+            this.Controller = new ThresholdLevelController(this.userRepository.Object, this.logger.Object, this.userNameProvider.Object);
 
             this.SetupController();
         }

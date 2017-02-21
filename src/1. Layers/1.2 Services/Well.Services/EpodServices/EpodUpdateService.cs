@@ -22,10 +22,10 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
-
         private readonly IRouteMapper mapper;
-
         private readonly IAdamImportService adamImportService;
+        private readonly IDeliveryStatusService deliveryStatusService;
+        private readonly IUserNameProvider userNameProvider;
 
         private const string UpdatedBy = "EpodUpdate";
 
@@ -41,7 +41,9 @@
             IJobDetailDamageRepository jobDetailDamageRepository,
             IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
-            IAdamImportService adamImportService)
+            IAdamImportService adamImportService,
+            IDeliveryStatusService deliveryStatusService,
+            IUserNameProvider userNameProvider)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -53,13 +55,15 @@
             this.exceptionEventRepository = exceptionEventRepository;
             this.mapper = mapper;
             this.adamImportService = adamImportService;
+            this.deliveryStatusService = deliveryStatusService;
+            this.userNameProvider = userNameProvider;
 
-            this.routeHeaderRepository.CurrentUser = UpdatedBy;
-            this.stopRepository.CurrentUser = UpdatedBy;
-            this.jobRepository.CurrentUser = UpdatedBy;
-            this.jobDetailRepository.CurrentUser = UpdatedBy;
-            this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
-            this.exceptionEventRepository.CurrentUser = UpdatedBy;
+            //this.routeHeaderRepository.CurrentUser = UpdatedBy;
+            //this.stopRepository.CurrentUser = UpdatedBy;
+            //this.jobRepository.CurrentUser = UpdatedBy;
+            //this.jobDetailRepository.CurrentUser = UpdatedBy;
+            //this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
+            //this.exceptionEventRepository.CurrentUser = UpdatedBy;
         }
 
         public void Update(RouteDelivery route)
@@ -147,25 +151,15 @@
 
                 this.mapper.Map(job, existingJob);
 
-                var hasDamage = false;
-
-                foreach (var detail in job.JobDetails)
-                {
-                    if (detail.JobDetailDamages.Any())
-                    {
-                        hasDamage = true;
-                        break;
-                    }
-                }
-
-                if (hasDamage)
-                    existingJob.PerformanceStatus = PerformanceStatus.Incom;
+                this.deliveryStatusService.SetStatus(existingJob, branchId);
 
                 if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
                 {
-                    var grnEvent = new GrnEvent();
-                    grnEvent.Id = existingJob.Id;
-                    grnEvent.BranchId = branchId;
+                    var grnEvent = new GrnEvent
+                    {
+                        Id = existingJob.Id,
+                        BranchId = branchId
+                    };
 
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
@@ -174,9 +168,11 @@
                 var pod = existingJob.ProofOfDelivery ?? 0;
                 if (ProofOfDeliveryList.Contains(pod) && job.IsClean)
                 {
-                    var podEvent = new PodEvent();
-                    podEvent.Id = existingJob.Id;
-                    podEvent.BranchId = branchId;
+                    var podEvent = new PodEvent
+                    {
+                        Id = existingJob.Id,
+                        BranchId = branchId
+                    };
 
                     this.exceptionEventRepository.InsertPodEvent(podEvent);
 

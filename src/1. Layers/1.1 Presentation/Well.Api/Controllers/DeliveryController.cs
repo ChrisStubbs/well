@@ -35,7 +35,9 @@
             ILogger logger,
             IDeliveryService deliveryService,
             IJobRepository jobRepository,
-            IExceptionEventRepository exceptionEventRepository)
+            IExceptionEventRepository exceptionEventRepository,
+            IUserNameProvider userNameProvider) 
+            : base(userNameProvider)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
@@ -45,7 +47,7 @@
             this.jobRepository = jobRepository;
             this.exceptionEventRepository = exceptionEventRepository;
 
-            this.exceptionEventRepository.CurrentUser = this.UserIdentityName;
+            //////this.exceptionEventRepository.CurrentUser = this.UserIdentityName;
         }
 
         [HttpGet]

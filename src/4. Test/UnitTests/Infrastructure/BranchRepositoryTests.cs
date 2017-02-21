@@ -25,13 +25,16 @@
 
         private BranchRepository repository;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
-            
-            this.repository = new BranchRepository(this.logger.Object, this.dapperProxy.Object);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
+            this.repository = new BranchRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         public class TheGetAllMethod : BranchRepositoryTests

@@ -35,6 +35,8 @@
 
         private AdamUpdateService service;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
@@ -47,11 +49,13 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.stopRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
 
             this.service = new AdamUpdateService(
                 this.logger.Object, this.eventLogger.Object,

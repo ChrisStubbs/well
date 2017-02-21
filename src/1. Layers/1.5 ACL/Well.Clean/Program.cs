@@ -28,6 +28,9 @@
             new CleanWell().Process(container);
         }
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public static Container InitIoc()
         {
             return new Container(
@@ -49,6 +52,7 @@
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IEventLogger>().Use<EventLogger>();
+                    x.For<IUserNameProvider>().Use<UserNameProvider>();
                 });
         }
     }

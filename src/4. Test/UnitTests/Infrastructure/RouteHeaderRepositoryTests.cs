@@ -21,7 +21,11 @@
         private Mock<IStopRepository> stopRepository;
         private Mock<IJobRepository> jobRepository;
         private RouteHeaderRepository repository;
-        private string UserName = "TestUser";
+        
+        //////private string UserName = "TestUser";
+        public string UserName { get { return this.userNameProvider.Object.GetUserName(); } }
+
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -30,10 +34,12 @@
             dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
 
             repository = new RouteHeaderRepository(this.logger.Object, this.dapperProxy.Object,
-                stopRepository.Object, jobRepository.Object);
-            repository.CurrentUser = UserName;
+                stopRepository.Object, jobRepository.Object, this.userNameProvider.Object);
+            //////repository.CurrentUser = UserName;
         }
 
         public class TheGetRouteHeadersMethod : RouteHeaderRepositoryTests

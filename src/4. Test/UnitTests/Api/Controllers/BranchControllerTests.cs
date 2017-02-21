@@ -30,6 +30,7 @@
         private Mock<IBranchService> branchService;
 
         private Mock<IBranchModelMapper> branchModelMapper;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -39,12 +40,15 @@
             this.serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             this.branchService = new Mock<IBranchService>(MockBehavior.Strict);
             this.branchModelMapper = new Mock<IBranchModelMapper>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
             this.Controller = new BranchController(this.logger.Object,
                 this.branchRepository.Object,
                 this.serverErrorResponseHandler.Object,
                 this.branchService.Object,
-                this.branchModelMapper.Object);
+                this.branchModelMapper.Object,
+                this.userNameProvider.Object);
             SetupController();
         }
 
@@ -106,7 +110,7 @@
             public void ShouldSaveTheBranchesForTheLoggedInUser()
             {
                 var branches = new Branch[] { BranchFactory.New.Build(), BranchFactory.New.Build() };
-                this.branchService.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<string>()));
+                this.branchService.Setup(x => x.SaveBranchesForUser(branches));
 
                 var response = this.Controller.Post(branches);
 
@@ -118,7 +122,7 @@
             public void ShouldReturnNotAcceptableIfNoBranchesPassedToThePostMethod()
             {
                 var branches = new Branch[0];
-                this.branchService.Setup(x => x.SaveBranchesForUser(branches, ""));
+                this.branchService.Setup(x => x.SaveBranchesForUser(branches));
 
                 var response = this.Controller.Post(branches);
 
@@ -132,7 +136,7 @@
                 var branches = new Branch[] { BranchFactory.New.Build(), BranchFactory.New.Build() };
                 var exception = new Exception();
 
-                this.branchService.Setup(x => x.SaveBranchesForUser(It.IsAny<Branch[]>(), It.IsAny<string>())).Throws(exception);
+                this.branchService.Setup(x => x.SaveBranchesForUser(It.IsAny<Branch[]>())).Throws(exception);
                 this.logger.Setup(x => x.LogError("Error when trying to save branches for the user", exception));
                 var response = this.Controller.Post(branches);
 

@@ -26,18 +26,6 @@
             this.Entity.SkuGoodsValue = 2.2;
             this.Entity.DeliveredQty = 23;
             this.Entity.JobId = 1;
-            this.Entity.JobDetailDamages = new List<JobDetailDamage>
-            {
-                new JobDetailDamage
-                {
-                    Id = 1,
-                    Qty = 1,
-                    JobDetailReason = JobDetailReason.Administration,
-                    JobDetailSource = JobDetailSource.Confirming
-
-                }
-            };
-
             this.Entity.EntityAttributes = new List<EntityAttribute>();
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "SubOuterDamageTotal", Value = "100" });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "IsHighValue", Value = "N" });

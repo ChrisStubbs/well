@@ -9,7 +9,8 @@
 
     public class StopRepository : DapperRepository<Stop, int>, IStopRepository
     {
-        public StopRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public StopRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

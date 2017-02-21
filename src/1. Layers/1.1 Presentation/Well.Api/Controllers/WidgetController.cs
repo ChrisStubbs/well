@@ -31,8 +31,9 @@
             ILogger logger,
             IWidgetRepository widgetRepository,
             IWidgetWarningMapper mapper,
-            IWidgetWarningValidator validator
-            )
+            IWidgetWarningValidator validator,
+            IUserNameProvider userNameProvider
+            ) : base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.userStatsRepository = userStatsRepository;
@@ -41,7 +42,7 @@
             this.mapper = mapper;
             this.validator = validator;
 
-            this.widgetRepository.CurrentUser = this.UserIdentityName;
+            //////this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Authorize(Roles = SecurityPermissions.LandingPage)]

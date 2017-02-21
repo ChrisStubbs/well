@@ -1,48 +1,67 @@
-﻿using PH.Well.Domain;
-using PH.Well.Repositories.Contracts;
+﻿using System.Threading;
 
 namespace PH.Well.Services
 {
-    using System;
-    using System.Collections.Generic;
+    using System.Transactions;
+    using PH.Well.Domain;
+    using PH.Well.Repositories.Contracts;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using PH.Well.Services.Contracts;
 
     public class DeliveryStatusService : IDeliveryStatusService
     {
         private readonly IJobRepository jobRepository;
-        private readonly IJobDetailRepository jobDetailRepository;
 
-        public DeliveryStatusService(IJobRepository jobRepository, IJobDetailRepository jobDetailRepository)
+        public DeliveryStatusService(IJobRepository jobRepository)
         {
             this.jobRepository = jobRepository;
-            this.jobDetailRepository = jobDetailRepository;
+
+            //////this.jobRepository.CurrentUser = Thread.CurrentPrincipal.Identity.Name;
         }
 
         public void SetStatus(Job job, int branchId)
         {
             // Fetch all jobs associated with the current job's invoice and branch
-            var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(branchId, job.InvoiceNumber);
+            var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(branchId, job.InvoiceNumber).ToList();
 
+            bool hasException = false;
             if (jobs.Any())
             {
-                // Any shorts are an exception
-
-                // Any damages are an exception
-
                 // If the delivered QTY > the invoiced QTY is an exception
-                var products = jobs.SelectMany(x => x.JobDetails).GroupBy(x=>x.PhProductCode);
+                var products = jobs.SelectMany(x => x.JobDetails).GroupBy(x => x.PhProductCode);
                 foreach (var product in products)
                 {
+                    // The original QTY is duplicated on all deliveries, so take the first one
                     var originalDespatchQty = product.First().OriginalDespatchQty;
+
+                    // Delivered quantity of this product across all deliveries
                     var deliveryedQty = product.Sum(x => x.DeliveredQty);
                     if (deliveryedQty > originalDespatchQty)
                     {
-                        
+                        hasException = true;
+                        break;
                     }
                 }
+                // Set all jobs to have an exceptions
+                if (hasException)
+                {
+                    using (var transactionScope = new TransactionScope())
+                    {
+                        jobs.ForEach(x =>
+                        {
+                            x.HasException = true;
+                            this.jobRepository.Update(x);
+                        });
+                        transactionScope.Complete();
+                    }
+                    
+                    job.HasException = true;
+                }
+            }
+            // Any damages are an exception or any shorts are an exception
+            if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0)))
+            {
+                job.HasException = true;
             }
         }
     }

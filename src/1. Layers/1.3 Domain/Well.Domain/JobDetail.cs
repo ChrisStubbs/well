@@ -88,6 +88,7 @@
             }
         }
 
+        [XmlIgnore]
         public int DeliveredQty { get; set; }
 
         [XmlElement("DeliveredQty")]

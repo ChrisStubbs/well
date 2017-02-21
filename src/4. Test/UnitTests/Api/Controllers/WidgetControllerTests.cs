@@ -34,6 +34,8 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<IWidgetRepository> widgetRepository;
         private Mock<IWidgetWarningMapper> mapper;
         private Mock<IWidgetWarningValidator> validator;
+        private Mock<IUserNameProvider> userNameProvider;
+        private string userIdentity = "bob";
 
         [SetUp]
         public void Setup()
@@ -45,13 +47,16 @@ namespace PH.Well.UnitTests.Api.Controllers
 
             mapper = new Mock<IWidgetWarningMapper>(MockBehavior.Strict);
             validator = new Mock<IWidgetWarningValidator>(MockBehavior.Strict);
-            
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("bob");
+
             this.Controller = new WidgetController(serverErrorResponseHandler.Object,
                 userStatsRepository.Object,
                 logger.Object,
                 widgetRepository.Object,
                 mapper.Object,
-                validator.Object);
+                validator.Object,
+                this.userNameProvider.Object);
             SetupController();
         }
 
@@ -79,7 +84,6 @@ namespace PH.Well.UnitTests.Api.Controllers
             [Test]
             public void ReturnsWidgetsWithCorrectUserStats()
             {
-                string userIdentity = "bob";
                 Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
 
                 var stats = new UserStats()

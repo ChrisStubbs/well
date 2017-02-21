@@ -13,7 +13,8 @@
     {
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
-        public JobDetailReasonController(IServerErrorResponseHandler serverErrorResponseHandler)
+        public JobDetailReasonController(IServerErrorResponseHandler serverErrorResponseHandler, IUserNameProvider userNameProvider)
+            :base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }

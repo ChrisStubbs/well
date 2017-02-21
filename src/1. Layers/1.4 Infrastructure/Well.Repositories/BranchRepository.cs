@@ -12,8 +12,8 @@
 
     public class BranchRepository : DapperRepository<Branch, int>, IBranchRepository
     {
-        public BranchRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public BranchRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

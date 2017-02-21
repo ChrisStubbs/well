@@ -25,6 +25,7 @@ namespace PH.Well.UnitTests.Infrastructure
         private Mock<ILogger> logger;
 
         private Mock<IWellDapperProxy> dapperProxy;
+        private Mock<IUserNameProvider> userNameProvider;
 
         private JobRepository repository;
         private string UserName = "TestUser";
@@ -34,9 +35,10 @@ namespace PH.Well.UnitTests.Infrastructure
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
-
-            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object);
-            this.repository.CurrentUser = UserName;
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
+            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object);
+            //////this.repository.CurrentUser = UserName;
         }
 
         public class TheGetByIdMethod : JobRepositoryTests
@@ -167,7 +169,7 @@ namespace PH.Well.UnitTests.Infrastructure
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("invoiceNumber", invoiceNumber, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Job>>>()));
+                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Job>>>())).Returns(new List<Job>());
 
                 this.repository.GetJobsByBranchAndInvoiceNumber(branchId, invoiceNumber);
 

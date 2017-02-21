@@ -14,8 +14,8 @@
 
     public class CleanPreferenceRepository : DapperRepository<CleanPreference, int>, ICleanPreferenceRepository
     {
-        public CleanPreferenceRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public CleanPreferenceRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

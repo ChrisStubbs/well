@@ -22,6 +22,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IRouteMapper mapper;
+
         private const string CurrentUser = "AdamUpdate";
 
         public AdamUpdateService(
@@ -41,9 +42,9 @@
             this.jobDetailRepository = jobDetailRepository;
             this.mapper = mapper;
 
-            this.stopRepository.CurrentUser = CurrentUser;
-            this.jobRepository.CurrentUser = CurrentUser;
-            this.jobDetailRepository.CurrentUser = CurrentUser;
+            //////this.stopRepository.CurrentUser = CurrentUser;
+            //////this.jobRepository.CurrentUser = CurrentUser;
+            //////this.jobDetailRepository.CurrentUser = CurrentUser;
         }
 
         public void Update(RouteUpdates route)

@@ -22,6 +22,9 @@ namespace PH.Well.Api.DependencyResolution
 
     public class DefaultRegistry : Registry
     {
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public DefaultRegistry()
         {
             Scan(
@@ -30,6 +33,7 @@ namespace PH.Well.Api.DependencyResolution
                     scan.WithDefaultConventions();
                 });
 
+            For<IUserNameProvider>().Use<UserNameProvider>();
             For<IWellDbConfiguration>().Use<WellDbConfiguration>();
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
@@ -45,8 +49,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
+            For<IDeliveryStatusService>().Use<DeliveryStatusService>();
 
-            
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();

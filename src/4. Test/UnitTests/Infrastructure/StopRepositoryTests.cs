@@ -23,16 +23,19 @@
 
         private StopRepository repository;
 
-        private string UserName = "TestUser";
+        //////private string UserName = "TestUser";
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
 
-            this.repository = new StopRepository(this.logger.Object, this.dapperProxy.Object);
-            this.repository.CurrentUser = UserName;
+            this.repository = new StopRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
+            //////this.repository.CurrentUser = UserName;
         }
 
         public class TheGetStopByRouteHeaderId : StopRepositoryTests

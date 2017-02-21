@@ -20,7 +20,9 @@
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public NotificationController(ILogger logger, INotificationRepository notificationRepository,
-            IServerErrorResponseHandler serverErrorResponseHandler)
+            IServerErrorResponseHandler serverErrorResponseHandler,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.logger = logger;
             this.notificationRepository = notificationRepository;
@@ -95,7 +97,7 @@
             {
                 if (id > 0)
                 {
-                    this.notificationRepository.CurrentUser = this.UserIdentityName;
+                    //////this.notificationRepository.CurrentUser = this.UserIdentityName;
                     this.notificationRepository.ArchiveNotification(id);
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }

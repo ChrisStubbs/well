@@ -14,7 +14,8 @@
 
     public class SeasonalDateRepository : DapperRepository<SeasonalDate, int>, ISeasonalDateRepository
     {
-        public SeasonalDateRepository(ILogger logger, IDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public SeasonalDateRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

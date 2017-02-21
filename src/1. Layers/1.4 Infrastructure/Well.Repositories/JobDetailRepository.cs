@@ -10,8 +10,8 @@
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
-        public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy) :
-            base(logger, dapperProxy)
+        public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) :
+            base(logger, dapperProxy, userNameProvider)
         { }
 
         public JobDetail GetById(int id)

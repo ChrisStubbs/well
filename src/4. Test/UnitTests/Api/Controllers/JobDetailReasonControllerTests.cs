@@ -13,13 +13,16 @@
     public class JobDetailReasonControllerTests : BaseControllerTests<JobDetailReasonController>
     {
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
         {
             this.serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            this.Controller = new JobDetailReasonController(this.serverErrorResponseHandler.Object);
+            this.Controller = new JobDetailReasonController(this.serverErrorResponseHandler.Object, this.userNameProvider.Object);
 
             this.SetupController();
         }

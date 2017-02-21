@@ -25,6 +25,7 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<IUserRepository> userRepository;
         private Mock<ILogger> logger;
         private Mock<IActiveDirectoryService> activeDirectoryService;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -33,13 +34,16 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
 
-            this.userRepository.SetupSet(x => x.CurrentUser = "foo");
+            //////this.userRepository.SetupSet(x => x.CurrentUser = "foo");
 
             this.Controller = new UserController(this.branchService.Object,
                 this.activeDirectoryService.Object,
                 this.userRepository.Object,
-                this.logger.Object);
+                this.logger.Object,
+                this.userNameProvider.Object);
             SetupController();
         }
 
@@ -87,7 +91,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             {
                 var job = new UserJob { JobId = 2, UserId = 5 };
 
-                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId));
 
                 var response = this.Controller.Assign(job);
@@ -116,7 +120,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 
                 var exception = new Exception();
 
-                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId)).Throws(exception);
 
                 this.logger.Setup(x => x.LogError("Error when trying to assign job for the user", exception));
@@ -138,7 +142,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             {
                 var jobId = 5;
 
-                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.UnAssignJobToUser(jobId));
 
                 var response = this.Controller.UnAssign(jobId);
@@ -156,7 +160,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 
                 var exception = new Exception();
 
-                this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.UnAssignJobToUser(jobId)).Throws(exception);
 
                 this.logger.Setup(x => x.LogError("Error when trying to unassign the user from the job", exception));

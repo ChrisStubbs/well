@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Services
+﻿using System.Threading;
+using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -21,6 +24,7 @@
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IBranchRepository branchRepository;
+        private readonly IUserNameProvider userNameProvider;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -31,7 +35,8 @@
             IUserRepository userRepository,
             IExceptionEventRepository exceptionEventRepository,
             IDeliveryReadRepository deliveryReadRepository,
-            IBranchRepository branchRepository)
+            IBranchRepository branchRepository,
+            IUserNameProvider userNameProvider)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -43,6 +48,14 @@
             this.exceptionEventRepository = exceptionEventRepository;
             this.deliveryReadRepository = deliveryReadRepository;
             this.branchRepository = branchRepository;
+
+            //////var currentUser = Thread.CurrentPrincipal.Identity.Name;
+            //////this.jobDetailRepository.CurrentUser = currentUser;
+            //////this.jobDetailDamageRepository.CurrentUser = currentUser;
+            //////this.jobRepository.CurrentUser = currentUser;
+            //////this.auditRepository.CurrentUser = currentUser;
+            //////this.stopRepository.CurrentUser = currentUser;
+
         }
 
         public IList<Delivery> GetApprovals(string username)
@@ -70,12 +83,6 @@
 
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
         {
-            this.jobDetailRepository.CurrentUser = username;
-            this.jobDetailDamageRepository.CurrentUser = username;
-            this.jobRepository.CurrentUser = username;
-            this.auditRepository.CurrentUser = username;
-            this.stopRepository.CurrentUser = username;
-
             IEnumerable<JobDetail> jobDetails = this.jobDetailRepository.GetByJobId(jobDetailUpdates.JobId);
             bool isCleanBeforeUpdate = jobDetails.All(jd => jd.IsClean());
 
@@ -130,8 +137,8 @@
 
         public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
         {
-            this.jobDetailActionRepository.CurrentUser = username;
-            this.auditRepository.CurrentUser = username;
+            //////this.jobDetailActionRepository.CurrentUser = username;
+            //////this.auditRepository.CurrentUser = username;
 
             Job job = this.jobRepository.GetById(jobDetailUpdates.JobId);
             JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
@@ -161,8 +168,8 @@
 
         public void SubmitActions(int jobId, string username)
         {
-            this.jobDetailActionRepository.CurrentUser = username;
-            this.auditRepository.CurrentUser = username;
+            //////this.jobDetailActionRepository.CurrentUser = username;
+            //////this.auditRepository.CurrentUser = username;
 
             Job job = this.jobRepository.GetById(jobId);
             Stop stop = this.stopRepository.GetByJobId(jobId);
@@ -194,7 +201,7 @@
 
         public void SaveGrn(int jobId, string grn, int branchId, string username)
         {
-            this.jobRepository.CurrentUser = username;
+            //////this.jobRepository.CurrentUser = username;
 
             using (var transactionScope = new TransactionScope())
             {

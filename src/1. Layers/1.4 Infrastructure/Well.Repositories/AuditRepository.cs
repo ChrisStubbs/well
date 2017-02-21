@@ -10,7 +10,8 @@
 
     public class AuditRepository : DapperRepository<Audit, int>, IAuditRepository
     {
-        public AuditRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public AuditRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

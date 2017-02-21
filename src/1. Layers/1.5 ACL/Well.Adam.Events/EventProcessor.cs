@@ -48,12 +48,12 @@
                         case EventAction.CreditTransaction:
                             var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
                             this.exceptionEventService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
-                                GetAdamSettings(creditEventTransaction.BranchId), username);
+                                GetAdamSettings(creditEventTransaction.BranchId));
                             break;
                         case EventAction.Grn:
                             var grnEvent = JsonConvert.DeserializeObject<GrnEvent>(eventToProcess.Event);
                             this.exceptionEventService.Grn(grnEvent, eventToProcess.Id,
-                                GetAdamSettings(grnEvent.BranchId), username);
+                                GetAdamSettings(grnEvent.BranchId));
                             break;
                         case EventAction.Pod:
                             var podEvent = JsonConvert.DeserializeObject<PodEvent>(eventToProcess.Event);

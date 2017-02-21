@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +22,7 @@
         private readonly IUserThresholdService userThresholdService;
         private readonly IExceptionEventRepository eventRepository;
         private readonly IEnumerable<IDeliveryLinesAction> allActionHandlers;
+        private readonly IUserNameProvider userNameProvider;
 
         public DeliveryLineActionService(
             IAdamRepository adamRepository,
@@ -27,7 +30,8 @@
             IUserRepository userRepository,
             IUserThresholdService userThresholdService,
             IExceptionEventRepository eventRepository,
-            IEnumerable<IDeliveryLinesAction> allActionHandlers)
+            IEnumerable<IDeliveryLinesAction> allActionHandlers,
+            IUserNameProvider userNameProvider)
         {
             this.adamRepository = adamRepository;
             this.jobRepository = jobRepository;
@@ -35,23 +39,24 @@
             this.userThresholdService = userThresholdService;
             this.eventRepository = eventRepository;
             this.allActionHandlers = allActionHandlers;
+            this.userNameProvider = userNameProvider;
         }
 
-        public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings, string username)
+        public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings, username);
+            var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings);
 
-            this.MarkAsDone(eventId, adamResponse, username);
+            this.MarkAsDone(eventId, adamResponse);
         }
 
-        public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username)
+        public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
 
-            this.MarkAsDone(eventId, adamResponse, username);
+            this.MarkAsDone(eventId, adamResponse);
         }
 
-        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, int branchId)
         {
             var groupdLines = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>()
             .Select(p => new
@@ -65,12 +70,12 @@
             {
                 var results = allActionHandlers
                     .OrderBy(p=> p.Action)
-                    .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
+                    .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, branchId))
                     .ToList();
 
                 return new ProcessDeliveryActionResult
                 {
-                    AdmamIsDown = results.Any(p => p.AdmamIsDown),
+                    AdamIsDown = results.Any(p => p.AdamIsDown),
                     Warnings = results.SelectMany(p => p.Warnings).ToList()
                 };
             }
@@ -93,18 +98,18 @@
                 .ToList();
         }
 
-        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings, string username)
+        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
 
-            this.MarkAsDone(eventId, adamResponse, username);
+            this.MarkAsDone(eventId, adamResponse);
         }
 
-        private void MarkAsDone(int eventId, AdamResponse response, string username)
+        private void MarkAsDone(int eventId, AdamResponse response)
         {
             if (response == AdamResponse.Success)
             {
-                this.eventRepository.CurrentUser = username;
+                //////this.eventRepository.CurrentUser = username;
                 this.eventRepository.MarkEventAsProcessed(eventId);
             }
         }

@@ -113,9 +113,6 @@
         public static string GetNotifications = "Notifications_Get";
         public static string ArchiveNotification = "Notification_Archive";
 
-        public static string UserStatsGet = "UserStatsGet";
-        public static string PendingCreditCountByUserGet = "PendingCreditCountByUserGet";
-
         public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
         public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
         public static string SeasonalDatesDelete = "SeasonalDatesDelete";

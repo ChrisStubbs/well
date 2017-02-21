@@ -42,9 +42,7 @@ export class WidgetComponent implements OnInit {
     public getWidgets() {
         this.widgetService.getWidgets()
             .subscribe(widgets => {
-                const graphWidgets = lodash.filter(widgets, function(widget) {
-                    return widget.showOnGraph === true;
-                });
+                const graphWidgets = lodash.filter(widgets, w => w.showOnGraph === true);
                 this.widgets = widgets;
                 const graphlabels: string[] = graphWidgets.map(widget => { return widget.name; });
                 const graphData: any[] = graphWidgets.map(widget => { return widget.count; });
@@ -53,12 +51,11 @@ export class WidgetComponent implements OnInit {
             });
     }
 
-    public widgetLinkClicked(widgetName: string) {
+    public widgetLinkClicked(widgetName: string, link: string) {
 
         let navigationExtras: NavigationExtras;
         switch (widgetName) {
         case 'Assigned':
-        case 'Pending Approval':
         {
             navigationExtras = {
                 queryParams: { 'filter.assigned': this.globalSettingsService.globalSettings.userName }
@@ -80,12 +77,7 @@ export class WidgetComponent implements OnInit {
                 break;
             }
         }
-
-        const link: string = this.widgets.filter(widget => { return widget.name === widgetName; })[0].link;
+       
         this.router.navigate([link], navigationExtras);
-    }
-
-    public graphBarClicked(barName: string) {
-        this.widgetLinkClicked(barName);
     }
 }

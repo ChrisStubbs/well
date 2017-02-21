@@ -185,7 +185,6 @@
     <Build Include="dbo\StoredProcedures\Notification_Save.sql" />
     <Build Include="dbo\StoredProcedures\Notifications_Get.sql" />
     <Build Include="dbo\StoredProcedures\Notification_Archive.sql" />
-    <Build Include="dbo\StoredProcedures\UserStatsGet.sql" />
     <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
     <Build Include="dbo\StoredProcedures\Audit_Get.sql" />
     <Build Include="dbo\Tables\Audit.sql" />
@@ -235,7 +234,6 @@
     <Build Include="dbo\StoredProcedures\WidgetWarningDelete.sql" />
     <Build Include="dbo\Tables\WidgetType.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
-    <Build Include="dbo\StoredProcedures\PendingCreditCountByUserGet.sql" />
     <Build Include="dbo\Tables\PendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\DeliveriesGetByPendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />

@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
     using NUnit.Framework;
-    using PH.Well.BDD.Pages;
+    using Pages;
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -15,13 +15,23 @@
             widgetsPage.Open();
         }
 
-        [Then(@"there are (.*) exceptions, (.*) assigned, (.*) outstanding and (.*) notifications")]
-        public void ThenThereAreExceptionsAssignedOutstandingAndNotifications(string exceptions, string assigned,
-            string outstanding, string notifications)
+        [Then(@"there are the following widget stats")]
+        public void ThenThereAreTheFollowingWidgetStats(Table table)
         {
-            Assert.AreEqual(exceptions, widgetsPage.ExceptionsSpan.Text);
-            Assert.AreEqual(assigned, widgetsPage.AssignedSpan.Text);
-            Assert.AreEqual(outstanding, widgetsPage.OutstandingSpan.Text);
+            var unsubmittedExceptions = table.Rows[0]["Unsubmitted exceptions"];
+            var unapprovedExceptions = table.Rows[0]["Unapproved exceptions"];
+            var unsubmittedAssigned = table.Rows[0]["Unsubmitted assigned"];
+            var unapprovedAssigned = table.Rows[0]["Unapproved assigned"];
+            var unsubmittedOutstanding = table.Rows[0]["Unsubmitted outstanding"];
+            var unapprovedOutstanding = table.Rows[0]["Unapproved outstanding"];
+            var notifications = table.Rows[0]["Notifications"];
+
+            Assert.AreEqual(unsubmittedExceptions, widgetsPage.UnsubmittedExceptionsSpan.Text);
+            Assert.AreEqual(unapprovedExceptions, widgetsPage.UnapprovedExceptionsSpan.Text);
+            Assert.AreEqual(unsubmittedAssigned, widgetsPage.UnsubmittedAssignedSpan.Text);
+            Assert.AreEqual(unapprovedAssigned, widgetsPage.UnapprovedAssignedSpan.Text);
+            Assert.AreEqual(unsubmittedOutstanding, widgetsPage.UnsubmittedOutstandingSpan.Text);
+            Assert.AreEqual(unapprovedOutstanding, widgetsPage.UnapprovedOutstandingSpan.Text);
             Assert.AreEqual(notifications, widgetsPage.NotificationsSpan.Text);
         }
     }

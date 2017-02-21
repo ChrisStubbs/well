@@ -13,24 +13,7 @@
         {
             this.dapperProxy = dapperProxy;
         }
-
-        public UserStats GetByUser(string userIdentity)
-        {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UserStatsGet)
-                .AddParameter("UserIdentity", userIdentity, DbType.String)
-                .Query<UserStats>()
-                .SingleOrDefault();
-        }
-
-        public int GetPendingCreditCountByUser(string userIdentity)
-        {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditCountByUserGet)
-                    .AddParameter("identityName", userIdentity, DbType.String)
-                    .Query<int>()
-                    .SingleOrDefault();
-        }
-
+      
         public WidgetWarningLevels GetWidgetWarningLevels(string userIdentity)
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.WidgetWarningLevelsByUserGet)

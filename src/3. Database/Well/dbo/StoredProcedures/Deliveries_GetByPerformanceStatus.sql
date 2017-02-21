@@ -22,7 +22,8 @@ BEGIN
 		u2.IdentityName,
 		j.COD as CashOnDelivery,
 		j.TotalCreditValueForThreshold,
-		j.TotalOutersShort
+		j.TotalOutersShort,
+		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -44,6 +45,8 @@ BEGIN
 		dbo.UserJob uj on uj.JobId = j.Id 
 	LEFT JOIN
 		dbo.[User] u2 on u2.Id = uj.UserId
+	LEFT JOIN 
+		dbo.[PendingCredit] pc on pc.JobId = j.Id And pc.isDeleted = 0
 	WHERE
 		ps.Id =  @PerformanceStatusId
 	AND 

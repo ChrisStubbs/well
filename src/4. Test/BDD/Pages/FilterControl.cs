@@ -50,6 +50,12 @@
             this.Apply(filterOption, () => this.FilterText.EnterText(filterValue));
         }
 
+        public void Select(string filterOption)
+        {
+            this.OptionDropDown.Select(filterOption);
+        }
+
+
         public void Clear()
         {
             if (this.ClearFilter.GetElement().Enabled)

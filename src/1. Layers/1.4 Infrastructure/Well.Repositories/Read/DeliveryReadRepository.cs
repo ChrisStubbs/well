@@ -49,7 +49,7 @@
                     .Query<Delivery>();
         }
 
-        public IEnumerable<Delivery> GetExceptionDeliveries(string username)
+        public IEnumerable<Delivery> GetExceptionDeliveries(string username, bool includePendingCredit = false)
         {
             var intStatuses = ExceptionStatuses.Statuses.Select(p => (int)p).ToList();
 
@@ -60,7 +60,10 @@
 
             var deliveriesPendingCredit = GetByPendingCredit(username);
 
-            exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
+            if (includePendingCredit == false)
+            {
+                exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
+            }
             return exceptionDeliveries;
         }
 

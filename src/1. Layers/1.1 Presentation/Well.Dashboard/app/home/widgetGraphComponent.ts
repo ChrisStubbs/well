@@ -9,12 +9,12 @@ export class WidgetGraphComponent {
     private red: string = '#a94442';
     private blue: string = '#428bca';
 
-    @Output() public barClicked = new EventEmitter<string>();
     @ViewChild(BaseChartComponent) public myChart: BaseChartComponent;
 
     public barChartOptions: any = {
         scaleShowVerticalLines: false,
         responsive: true,
+        scales: {yAxes: [{ticks: {beginAtZero: true}}]},
         tooltips: {
             custom: (e) => {
                 this.chartStyle = (e.body && e.body.length > 0) ? 'chart-hover' : 'chart';
@@ -36,12 +36,4 @@ export class WidgetGraphComponent {
         this.barChartColors[0].backgroundColor = colors;
         this.updateDate = updateDate;
     };
-
-    public chartClicked(e: any): void {
-        if (e.active.length > 0) {
-            const index: number = e.active[0]._index;
-            const name: string = this.barChartLabels[index];
-            this.barClicked.emit(name);
-        }
-    }
 }

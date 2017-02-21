@@ -140,8 +140,8 @@
         [Then(@"the following approval deliveries will be displayed")]
         public void ThenTheFollowingApprovalDeliveriesWillBeDisplayed(Table table)
         {
-            var result = this.ApprovalsPage.ApprovalsGrid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            ContainsSpecFlowTableResult result = this.ApprovalsPage.ApprovalsGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
         [Then(@"I can view the following account info details")]

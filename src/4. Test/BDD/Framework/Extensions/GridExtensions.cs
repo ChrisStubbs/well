@@ -14,6 +14,8 @@ namespace PH.Well.BDD.Framework.Extensions
 
         public IList<CellError> Errors { get; set; }
 
+        public string ErrorsDesc => string.Join(", ", Errors.Select(e => e.ErrorDesc));
+
         public bool RowCountMatches { get; set; }
 
         public bool HasError => !this.RowCountMatches || this.Errors.Any();
@@ -25,6 +27,9 @@ namespace PH.Well.BDD.Framework.Extensions
             public string TableCellText { get; set; }
             public string Column { get; set; }
             public int RowNumber { get; set; }
+
+            public string ErrorDesc
+                => $"Error at col {Column}, row {RowNumber}. Expected: {TableCellText}, Actual: {GridCellText}";
         }
     }
 

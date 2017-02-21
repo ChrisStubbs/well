@@ -186,8 +186,6 @@
                 {
                     var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
                     
-                    };
-
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
 

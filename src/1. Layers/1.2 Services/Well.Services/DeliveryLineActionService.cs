@@ -51,33 +51,35 @@
             this.MarkAsDone(eventId, adamResponse, username);
         }
 
-        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings,
+            string username, int branchId)
         {
             var groupdLines = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>()
-            .Select(p => new
-            {
-                key = p,
-                values = GetDeliveryLinesByAction(lines, p)
-            })
-            .ToDictionary(p => p.key, v => v.values);
+                .Select(p => new
+                {
+                    key = p,
+                    values = GetDeliveryLinesByAction(lines, p)
+                })
+                .ToDictionary(p => p.key, v => v.values);
 
             List<ProcessDeliveryActionResult> results = null;
             using (var transactionScope = new TransactionScope())
             {
                 results = allActionHandlers
-                    .OrderBy(p=> p.Action)
+                    .OrderBy(p => p.Action)
                     .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
                     .ToList();
 
                 transactionScope.Complete();
 
 
-            return new ProcessDeliveryActionResult
-            {
+                return new ProcessDeliveryActionResult
+                {
                     AdamIsDown = results.Any(p => p.AdamIsDown),
-                Warnings = results.SelectMany(p => p.Warnings).ToList()
-            };
+                    Warnings = results.SelectMany(p => p.Warnings).ToList()
+                };
 
+            }
         }
 
         private IList<DeliveryLine> GetDeliveryLinesByAction(IList<DeliveryLine> deliveryLines, DeliveryAction action)

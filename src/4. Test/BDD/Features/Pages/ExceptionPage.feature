@@ -177,7 +177,7 @@ Scenario: A user can view Exception Delivery Information with cash on delivery i
 #	Then the following exception deliveries will be displayed
 #	| Route | Drop | InvoiceNo  | Account   | AccountName          | Status     | TBA |
 #	| 001   | 1    | 94294343	| 49214.152 | CSG - must be CF van | Incomplete | 2   |
-	| 001   | 1    | 92545470  | 02874.033  | CSG - must be CF van | Incomplete | 2   |
+#	| 001   | 1    | 92545470  | 02874.033  | CSG - must be CF van | Incomplete | 2   |
 #
 #Scenario: View exception details at lower level with delivery check icon displayed
 #	Given I have selected branch '22'

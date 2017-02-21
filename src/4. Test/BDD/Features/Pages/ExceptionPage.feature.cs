@@ -769,17 +769,8 @@ this.FeatureBackground();
     testRunner.And("the first \'exception\' delivery is not a cash on delivery customer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 170
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
-                        "001",
-                        "1",
-                        "92545470",
-                        "02874.033",
-                        "CSG - must be CF van",
-                        "Incomplete",
-                        "2"});
 #line 171
- testRunner.Then("the exception cod delivery icon is not displayed in row 1", ((string)(null)), table11, "Then ");
+ testRunner.Then("the exception cod delivery icon is not displayed in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

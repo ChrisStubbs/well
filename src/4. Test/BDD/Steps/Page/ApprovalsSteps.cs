@@ -137,6 +137,12 @@
             rows[row - 1].GetItemInRowByClass("contact-info").Click();
         }
 
+        [When(@"I click on approvals page (.*)")]
+        public void WhenIClickOnExceptionDeliveryPage(int pageNo)
+        {
+            this.ApprovalsPage.Pager.Click(pageNo);
+        }
+
         [Then(@"the following approval deliveries will be displayed")]
         public void ThenTheFollowingApprovalDeliveriesWillBeDisplayed(Table table)
         {

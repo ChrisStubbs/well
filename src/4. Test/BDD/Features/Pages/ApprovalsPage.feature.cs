@@ -83,7 +83,7 @@ namespace PH.Well.BDD.Features.Pages
                         "Threshold"});
             table1.AddRow(new string[] {
                         "1",
-                        "100"});
+                        "500"});
             table1.AddRow(new string[] {
                         "2",
                         "30"});
@@ -96,25 +96,25 @@ namespace PH.Well.BDD.Features.Pages
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Approvals Browsing")]
-        public virtual void ApprovalsBrowsing()
+        [NUnit.Framework.DescriptionAttribute("Approvals Browsing and Paging")]
+        public virtual void ApprovalsBrowsingAndPaging()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Approvals Browsing", ((string[])(null)));
-#line 19
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Approvals Browsing and Paging", ((string[])(null)));
+#line 18
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 20
+#line 19
  testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 21
+#line 20
  testRunner.And("I am assigned to credit threshold \'Level 3\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.And("11 deliveries are waiting credit approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
- testRunner.And("7 deliveries are waiting credit approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 23
  testRunner.When("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 24
+#line 23
  testRunner.And("I open the widget page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 25
+#line 24
  testRunner.And("I go back", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -189,9 +189,36 @@ this.FeatureBackground();
                         "7.32",
                         "Level 2",
                         "Unallocated"});
-#line 26
+            table2.AddRow(new string[] {
+                        "006",
+                        "2",
+                        "423123123",
+                        "54107.000",
+                        "WB - SHELL FORECOURT",
+                        "176.7",
+                        "Level 1",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "011",
+                        "1",
+                        "976549",
+                        "43362.048",
+                        "CSG - COSTCUTTER",
+                        "24.72",
+                        "Level 2",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "011",
+                        "1",
+                        "976549",
+                        "02874.033",
+                        "CSG - COSTCUTTER",
+                        "80",
+                        "Level 1",
+                        "Unallocated"});
+#line 25
  testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table2, "Then ");
-#line 35
+#line 37
  testRunner.When("I view the account info modal for approval row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -212,8 +239,31 @@ this.FeatureBackground();
                         "01509815739",
                         "01234987654",
                         "contact@csg.com"});
-#line 36
+#line 38
  testRunner.Then("I can view the following account info details", ((string)(null)), table3, "Then ");
+#line 41
+ testRunner.When("I click on approvals page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "CreditValue",
+                        "Threshold",
+                        "Assigned"});
+            table4.AddRow(new string[] {
+                        "011",
+                        "2",
+                        "976549",
+                        "54107.000",
+                        "TESCO - EXPRESS",
+                        "7.32",
+                        "Level 2",
+                        "Unallocated"});
+#line 42
+ testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

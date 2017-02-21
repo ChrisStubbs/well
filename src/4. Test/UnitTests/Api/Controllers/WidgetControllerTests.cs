@@ -84,10 +84,8 @@ namespace PH.Well.UnitTests.Api.Controllers
             }
 
             [Test]
-            public void ReturnsWidgetsWithCorrectUserStats()
+            public void ReturnsCorrectWarningLevels()
             {
-                //TODO - Update this test
-
                 string userIdentity = "bob";
                 Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
 
@@ -113,6 +111,42 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.AreEqual(warnings.AssignedWarningLevel, response.Single(r => r.Name == "Assigned").WarningLevel);
                 Assert.AreEqual(warnings.NotificationsWarningLevel, response.SingleOrDefault(r => r.Name == "Notifications").WarningLevel);
                 Assert.AreEqual(warnings.OutstandingWarningLevel, response.SingleOrDefault(r => r.Name == "Outstanding").WarningLevel);
+            }
+
+            [Test]
+            public void ReturnsCorrectCounts()
+            {
+                string userIdentity = "bob";
+                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
+
+                var exceptions = new List<Delivery>();
+                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now});
+                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now});
+                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
+                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
+                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+
+                deliveryReadRepository.Setup(d => d.GetExceptionDeliveries(userIdentity, true)).Returns(exceptions);
+                notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>() {new Notification()});
+
+                this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(new WidgetWarningLevels());
+
+                var result = Controller.Get();
+
+                var response = GetResponseObject<IEnumerable<WidgetModel>>(result);
+
+                Assert.AreEqual(6, response.Single(r => r.Name == "Exceptions").Links.Single(l => l.CountName == "unsubmitted-exceptions").Count);
+                Assert.AreEqual(4, response.Single(r => r.Name == "Exceptions").Links.Single(l => l.CountName == "approval-exceptions").Count);
+                Assert.AreEqual(3, response.Single(r => r.Name == "Assigned").Links.Single(l => l.CountName == "my-unsubmitted-exceptions").Count);
+                Assert.AreEqual(1, response.Single(r => r.Name == "Assigned").Links.Single(l => l.CountName == "my-approval-exceptions").Count);
+                Assert.AreEqual(4, response.Single(r => r.Name == "Outstanding").Links.Single(l => l.CountName == "outstanding-unsubmitted-exceptions").Count);
+                Assert.AreEqual(2, response.Single(r => r.Name == "Outstanding").Links.Single(l => l.CountName == "outstanding-approval-exceptions").Count);
+                Assert.AreEqual(1, response.SingleOrDefault(r => r.Name == "Notifications").Count);
             }
         }
     }

@@ -74,5 +74,7 @@
         }
 
         public int TotalOutersShort { get; set; }
+
+        public bool IsPendingCredit { get; set; }
     }
 }

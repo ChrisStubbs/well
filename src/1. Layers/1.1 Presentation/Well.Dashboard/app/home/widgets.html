@@ -3,8 +3,8 @@
         <div id="widgets-column" class="col-md-4">
             <div class="jumbotron">
                 <div class="row">
-                    <div *ngFor="let widget of widgets">
-                        <div class="panel {{widget.showWarning ? 'panel-danger' : 'panel-primary'}}">
+                    
+                        <div *ngFor="let widget of widgets" class="panel {{widget.showWarning ? 'panel-danger' : 'panel-primary'}}">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
                                     <span *ngIf="widget.showWarning === false" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 
@@ -12,22 +12,14 @@
                                 </h3>
                             </div>
                             <div class="panel-body">
-                                <h4>
-                                    <a *ngIf="widget.name != 'Assigned'" class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.name)">
-                                        <span class="{{widget.name}}-count">{{widget.count}}</span> {{widget.linkText}}
-                                    </a>
-                                    <a *ngIf="widget.name == 'Assigned'" 
-                                        class="{{widget.showWarning ? 'text-danger' : 'text'}}" 
-                                        [routerLink]="['/exceptions']" 
-                                        [queryParams]="{ 'filter.assigned': globalSettingsService.globalSettings.userName }"
-                                        routerLinkActive="active">
-                                        <span class="{{widget.name}}-count">{{widget.count}}</span> {{widget.linkText}}
+                                <h4 *ngFor="let link of widget.links">
+                                    <a class="{{widget.showWarning ? 'text-danger' : 'text'}}" (click)="widgetLinkClicked(widget.name, link.link)">
+                                        <span class="{{link.countName}}">{{link.count}}</span> {{link.linkText}}
                                     </a>
                                 </h4>
                                 <p>{{widget.description}}</p>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

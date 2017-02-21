@@ -9,7 +9,7 @@
 
         IEnumerable<Delivery> GetResolvedDeliveries(string username);
 
-        IEnumerable<Delivery> GetExceptionDeliveries(string username);
+        IEnumerable<Delivery> GetExceptionDeliveries(string username, bool includePendingCredit = false);
 
         IEnumerable<DeliveryLine> GetDeliveryLinesByJobId(int id);
 

@@ -127,6 +127,12 @@
             ApprovalsPage.Open();
         }
 
+        [When(@"I open the widget page")]
+        public void WhenIOpenTheWidgetPage()
+        {
+            ApprovalsPage.OpenAbsolute("widgets");
+        }
+
         [When(@"I view the account info modal for approval row (.*)")]
         public void ViewAccountModal(int row)
         {
@@ -134,11 +140,17 @@
             rows[row - 1].GetItemInRowByClass("contact-info").Click();
         }
 
+        [When(@"I click on approvals page (.*)")]
+        public void WhenIClickOnExceptionDeliveryPage(int pageNo)
+        {
+            this.ApprovalsPage.Pager.Click(pageNo);
+        }
+
         [Then(@"the following approval deliveries will be displayed")]
         public void ThenTheFollowingApprovalDeliveriesWillBeDisplayed(Table table)
         {
-            var result = this.ApprovalsPage.ApprovalsGrid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            ContainsSpecFlowTableResult result = this.ApprovalsPage.ApprovalsGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
         [Then(@"I can view the following account info details")]
@@ -148,6 +160,10 @@
             AccountModalSteps.CompareModal(table, modal);
         }
 
-
+        [When(@"I go back")]
+        public void ThenIGoBack()
+        {
+            ApprovalsPage.Back();
+        }
     }
 }

@@ -14,6 +14,7 @@
             };
 
             this.AccountModal = new AccountModalComponent();
+            this.Pager = new PagerControl();
         }
 
         protected override string UrlSuffix => "approvals";
@@ -21,6 +22,8 @@
         public Grid<ApprovalDeliveriesGrid> ApprovalsGrid { get; set; }
 
         public AccountModalComponent AccountModal { get; set; }
+
+        public PagerControl Pager { get; set; }
 
         public enum ApprovalDeliveriesGrid
         {

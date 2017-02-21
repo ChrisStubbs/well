@@ -28,7 +28,22 @@
         public Button CleanButton { get; set; }
 
         public Button OrderByButton { get; set; }
+
+        public bool IsElementPresent(string elementName)
+        {
+            try
+            {
+                this.Driver.FindElement(By.Id(elementName));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
+
+
 
     public enum RoutesGrid
     {

@@ -33,8 +33,8 @@ namespace PH.Well.BDD.Features.Pages
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Approvals Page", "\tAs a user\r\n\tI wish to be able to view and filter credits waiting approval\r\n\tso t" +
-                    "hat I can find and approve credits", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Approvals Page", "\tAs a user\r\n\tI wish to be able to view and filter deliveries waiting credit appro" +
+                    "val\r\n\tso that I can find and approve credits", ProgrammingLanguage.CSharp, new string[] {
                         "WebDriverFeature",
                         "RoleSuperUser"});
             testRunner.OnFeatureStart(featureInfo);
@@ -76,42 +76,46 @@ namespace PH.Well.BDD.Features.Pages
 #line 10
  testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
- testRunner.And("I have imported a valid Epod update file named \'ePOD_30062016_Update.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the MultiDate Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Level",
                         "Threshold"});
             table1.AddRow(new string[] {
                         "1",
-                        "200"});
+                        "500"});
             table1.AddRow(new string[] {
                         "2",
-                        "100"});
+                        "30"});
             table1.AddRow(new string[] {
                         "3",
-                        "10"});
+                        "5"});
 #line 12
  testRunner.And("I have the following credit thresholds setup for all branches", ((string)(null)), table1, "And ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Deliveries waiting credit approval")]
-        public virtual void AUserCanViewDeliveriesWaitingCreditApproval()
+        [NUnit.Framework.DescriptionAttribute("Approvals Browsing and Paging")]
+        public virtual void ApprovalsBrowsingAndPaging()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Deliveries waiting credit approval", ((string[])(null)));
-#line 19
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Approvals Browsing and Paging", ((string[])(null)));
+#line 18
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 20
+#line 19
  testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 21
+#line 20
  testRunner.And("I am assigned to credit threshold \'Level 3\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.And("11 deliveries are waiting credit approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
- testRunner.And("3 deliveries are waiting credit approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 23
  testRunner.When("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.And("I open the widget page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
+ testRunner.And("I go back", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Route",
@@ -120,17 +124,17 @@ this.FeatureBackground();
                         "Account",
                         "AccountName",
                         "CreditValue",
-                        "Status",
-                        "Threshold"});
+                        "Threshold",
+                        "Assigned"});
             table2.AddRow(new string[] {
                         "001",
                         "1",
-                        "1787878",
+                        "976549",
                         "49214.152",
                         "CSG - must be CF van",
-                        "199.75",
-                        "Incomplete",
-                        "Level 1"});
+                        "39.95",
+                        "Level 1",
+                        "Unallocated"});
             table2.AddRow(new string[] {
                         "001",
                         "1",
@@ -138,8 +142,8 @@ this.FeatureBackground();
                         "02874.033",
                         "CSG - must be CF van",
                         "22.41",
-                        "Incomplete",
-                        "Level 2"});
+                        "Level 2",
+                        "Unallocated"});
             table2.AddRow(new string[] {
                         "001",
                         "2",
@@ -147,11 +151,74 @@ this.FeatureBackground();
                         "02874.033",
                         "RVS SHOP",
                         "39.95",
-                        "Incomplete",
-                        "Level 2"});
-#line 24
+                        "Level 1",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "001",
+                        "2",
+                        "976542",
+                        "02874.033",
+                        "RVS SHOP",
+                        "19.23",
+                        "Level 2",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "006",
+                        "1",
+                        "123123123",
+                        "43362.048",
+                        "WB - SHOP",
+                        "24.72",
+                        "Level 2",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "006",
+                        "1",
+                        "223123123",
+                        "02874.033",
+                        "WB - SHOP",
+                        "80",
+                        "Level 1",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "006",
+                        "2",
+                        "323123123",
+                        "54107.000",
+                        "WB - SHELL FORECOURT",
+                        "7.32",
+                        "Level 2",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "006",
+                        "2",
+                        "423123123",
+                        "54107.000",
+                        "WB - SHELL FORECOURT",
+                        "176.7",
+                        "Level 1",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "011",
+                        "1",
+                        "976549",
+                        "43362.048",
+                        "CSG - COSTCUTTER",
+                        "24.72",
+                        "Level 2",
+                        "Unallocated"});
+            table2.AddRow(new string[] {
+                        "011",
+                        "1",
+                        "976549",
+                        "02874.033",
+                        "CSG - COSTCUTTER",
+                        "80",
+                        "Level 1",
+                        "Unallocated"});
+#line 25
  testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table2, "Then ");
-#line 29
+#line 37
  testRunner.When("I view the account info modal for approval row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -172,8 +239,31 @@ this.FeatureBackground();
                         "01509815739",
                         "01234987654",
                         "contact@csg.com"});
-#line 30
+#line 38
  testRunner.Then("I can view the following account info details", ((string)(null)), table3, "Then ");
+#line 41
+ testRunner.When("I click on approvals page 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "CreditValue",
+                        "Threshold",
+                        "Assigned"});
+            table4.AddRow(new string[] {
+                        "011",
+                        "2",
+                        "976549",
+                        "54107.000",
+                        "TESCO - EXPRESS",
+                        "7.32",
+                        "Level 2",
+                        "Unallocated"});
+#line 42
+ testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

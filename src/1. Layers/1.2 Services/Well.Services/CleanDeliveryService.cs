@@ -52,9 +52,9 @@
 
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
-            foreach (var id in routeIds)
+            foreach (var routeId in routeIds)
             {
-                var route = this.routeToRemoveRepository.GetRouteToRemove(id);
+                var route = this.routeToRemoveRepository.GetRouteToRemove(routeId);
 
                 foreach (var routeHeader in route.RouteHeaders)
                 {

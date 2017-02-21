@@ -115,7 +115,8 @@
             [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void ShouldReturnMessageYourThresholdLevelIsntHighEnoughWhenUserCreditThresholdIsLowerThanTheDeliveriesCreditAmount()
             {
-                var jobId = 101;
+                // TODO
+                /*var jobId = 101;
                 var branchId = 2;
 
                 var deliveryLines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
@@ -137,15 +138,15 @@
 
                 var content = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"Your threshold level isn\'t high enough to credit this delivery.  It has been passed on for authorisation.\"}"));
+                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"Your threshold level isn\'t high enough to credit this delivery.  It has been passed on for authorisation.\"}"));*/
             }
 
             [Test]
             [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void ShouldReturnMessageAdamDownWhenAdamIsNotAvailable()
             {
-                //var jobId = 101;
-                //var branchId = 2;
+                // TODO
+                /*var jobId = 101;
 
                 //var deliveryLines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
 
@@ -164,6 +165,7 @@
                 //var response = this.Controller.ConfirmDeliveryLines(jobId);
 
                 //Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(content, Is.EqualTo("{\"adamdown\":true}"));*/
 
                 //var content = response.Content.ReadAsStringAsync().Result;
                 //Assert.That(content, Is.EqualTo("{\"adamdown\":true}"));
@@ -172,8 +174,9 @@
             [Test]
             [Ignore("we need to make teamcity run. This need big refactoring, since the delivery lines credit logic was changed")]
             public void ShouldReturnSuccessWhenAdamIsUpdated()
+                // TODO
             {
-                //var jobId = 101;
+                /*var jobId = 101;
                 //var branchId = 2;
 
                 //var deliveryLines = new List<DeliveryLine> { DeliveryLineFactory.New.Build() };
@@ -195,7 +198,7 @@
                 //Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
                 //var content = response.Content.ReadAsStringAsync().Result;
-                //Assert.That(content, Is.EqualTo("{\"success\":true}"));
+                Assert.That(content, Is.EqualTo("{\"success\":true}"));*/
 
             }
         }

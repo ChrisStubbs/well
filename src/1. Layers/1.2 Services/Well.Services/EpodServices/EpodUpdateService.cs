@@ -96,6 +96,7 @@
                 {
                     using (var transactionScope = new TransactionScope())
                     {
+                        // TODO
                         var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderReference);
 
                         if (existingStop == null)
@@ -133,6 +134,7 @@
         {
             foreach (var job in jobs)
             {
+                // TODO do we need the invoice here im thinking we dont as we have enough info already
                 var existingJob = this.jobRepository.GetByAccountPicklistAndStopId(
                     job.PhAccount,
                     job.PickListRef,
@@ -153,7 +155,11 @@
 
                 this.deliveryStatusService.SetStatus(existingJob, branchId);
 
-                if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
+                {
+                    // TODO think about this status do we need it, maybe for querying hmm not sure
+                } 
+                // TODO refactor this
+                if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
                 {
                     var grnEvent = new GrnEvent
                     {
@@ -165,7 +171,8 @@
                 }
 
                 //TODO POD event
-                var pod = existingJob.ProofOfDelivery ?? 0;
+                var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
+
                 if (ProofOfDeliveryList.Contains(pod) && job.IsClean)
                 {
                     var podEvent = new PodEvent
@@ -175,7 +182,6 @@
                     };
 
                     this.exceptionEventRepository.InsertPodEvent(podEvent);
-
                 }
                 
                 this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
@@ -201,7 +207,7 @@
                 detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
 
                 // TODO might need to set resolved unresolved status here and add in sub outer values
-
+                // whole status thing im not sure about
                 if (invoiceOutstanding)
                     existingJobDetail.JobDetailStatusId = (int)JobDetailStatus.AwtInvNum;
 

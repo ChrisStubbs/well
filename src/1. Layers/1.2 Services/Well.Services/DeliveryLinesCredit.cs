@@ -39,7 +39,7 @@ namespace PH.Well.Services
         {
             get
             {
-                return DeliveryAction.Close;
+                return DeliveryAction.Credit;
             }
         }
 
@@ -69,7 +69,7 @@ namespace PH.Well.Services
                 {
                     if (!thresholdResponse.CanUserCredit)
                     {
-                        result.Warnings.Add("Your threshold level isn\'t high enough for the credit... It has been passed on for authorisation...");
+                        result.Warnings.Add("Your threshold level is not high enough to credit this order. It has been passed on for authorisation.");
                         this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId);
                     }
                     else

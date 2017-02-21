@@ -1,18 +1,12 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
-
     using Moq;
-
     using NUnit.Framework;
-
-    using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
-    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
-    using PH.Well.UnitTests.Factories;
 
     [TestFixture]
     public class UserThresholdServiceTests

@@ -90,6 +90,7 @@
 
         private void Update(StopUpdate stop)
         {
+            // TODO
             var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderRef);
 
             if (existingStop == null)
@@ -122,6 +123,7 @@
             {
                 using (var transactionScope = new TransactionScope())
                 {
+                    // TODO
                     this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderRef);
 
                     transactionScope.Complete();
@@ -141,7 +143,9 @@
         {
             foreach (var job in jobs)
             {
+                // TODO do we need to add invoice to the get or not, lets investigate
                 var existingJob = this.jobRepository.GetJobByRefDetails(job.PhAccount, job.PickListRef, stopId);
+
 
                 if (existingJob != null)
                 {
@@ -171,6 +175,7 @@
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
+            // TODO get the stop via any jobs picklist account and invoice as we dont want to use the TOR anymore
             var existingStop = this.stopRepository.GetByTransportOrderReference(stopInsert.TransportOrderRef);
 
             if (existingStop != null)

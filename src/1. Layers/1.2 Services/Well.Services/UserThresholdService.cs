@@ -10,6 +10,7 @@ namespace PH.Well.Services
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
+    using Repositories;
 
     public class UserThresholdService : IUserThresholdService
     {
@@ -77,7 +78,9 @@ namespace PH.Well.Services
 
             if (totalThresholdAmount <= threshold.Threshold)
             {
+                creditThresholdRepository.PendingCreditInsert(jobId);
                 this.creditThresholdRepository.PendingCreditInsert(jobId);
+                userRepository.UnAssignJobToUser(jobId);
                 return true;
             }
 

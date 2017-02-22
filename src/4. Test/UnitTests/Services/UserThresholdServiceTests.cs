@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
     using Moq;

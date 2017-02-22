@@ -177,7 +177,9 @@
     <Compile Include="Framework\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Framework\Extensions\GridExtensions.cs" />
     <Compile Include="Framework\FakeFileModule.cs" />
+    <Compile Include="Framework\WebElements\RadioGroup.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
+    <Compile Include="Framework\WebElements\WebElementList.cs" />
     <Compile Include="Helpers\IWebClientHelper.cs" />
     <Compile Include="Helpers\WebClientHelper.cs" />
     <Compile Include="Pages\ApprovalsPage.cs" />

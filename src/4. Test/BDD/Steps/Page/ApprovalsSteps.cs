@@ -118,6 +118,14 @@
             }
         }
 
+        [When(@"I filter for threshold level (.*)")]
+        [Then(@"I filter for threshold level (.*)")]
+        public void GivenIFilterForThresholdLevel(int level)
+        {
+            ApprovalsPage.ThresholdRadioGroup.Click("Level" + level);
+        }
+
+
         [When(@"I open the approval deliveries page")]
         public void WhenIOpenTheApprovalDeliveriesPage()
         {

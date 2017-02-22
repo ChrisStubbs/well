@@ -1,11 +1,9 @@
-﻿using System.Threading;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services
 {
+    using System.Linq;
     using System.Transactions;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
-    using System.Linq;
     using PH.Well.Services.Contracts;
 
     public class DeliveryStatusService : IDeliveryStatusService

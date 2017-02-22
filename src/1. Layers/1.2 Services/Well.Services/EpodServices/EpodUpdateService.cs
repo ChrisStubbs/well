@@ -97,7 +97,8 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         // TODO
-                        var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderReference);
+                        var job = stop.Jobs.First();
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 
                         if (existingStop == null)
                         {

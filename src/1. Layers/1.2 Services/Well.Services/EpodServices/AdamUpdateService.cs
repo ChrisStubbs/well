@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Transactions;
 
     using PH.Well.Common;
@@ -90,8 +91,8 @@
 
         private void Update(StopUpdate stop)
         {
-            // TODO
-            var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderRef);
+            var job = stop.Jobs.First();
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 
             if (existingStop == null)
             {
@@ -176,7 +177,8 @@
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
             // TODO get the stop via any jobs picklist account and invoice as we dont want to use the TOR anymore
-            var existingStop = this.stopRepository.GetByTransportOrderReference(stopInsert.TransportOrderRef);
+            var job = stopInsert.Jobs.First();
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 
             if (existingStop != null)
             {

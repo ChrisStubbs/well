@@ -33,7 +33,7 @@
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string AccountInsert = "Account_Insert";
-        public static string StopGetByTransportOrderReference = "StopGetByTransportOrderReference";
+        public static string StopGetByJob = "StopGetByJob";
         public static string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
         public static string StopGetByJobId = "Stop_GetByJobId";
         public static string StopDeleteById = "Stop_DeleteById";

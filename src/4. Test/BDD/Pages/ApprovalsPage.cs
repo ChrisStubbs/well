@@ -15,6 +15,7 @@
 
             this.AccountModal = new AccountModalComponent();
             this.Pager = new PagerControl();
+            ThresholdRadioGroup = new RadioGroup("thresholdToggle");
         }
 
         protected override string UrlSuffix => "approvals";
@@ -24,6 +25,8 @@
         public AccountModalComponent AccountModal { get; set; }
 
         public PagerControl Pager { get; set; }
+
+        public RadioGroup ThresholdRadioGroup { get; set; }
 
         public enum ApprovalDeliveriesGrid
         {

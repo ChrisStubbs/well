@@ -10,7 +10,6 @@
         ReplanInRoadnet = 6,
         ReplanInTranSend = 7,
         ReplanInTheQueue = 8,
-        Reject = 9,
-        CreditTransaction = 10,
+        Reject = 9
     }
 }

@@ -77,7 +77,7 @@
                 {
                     Id = 501,
                     Event = json,
-                    ExceptionActionId = (int)EventAction.CreditTransaction
+                    ExceptionActionId = (int)EventAction.Credit
                 };
 
                 var events = new List<ExceptionEvent> { exception };

@@ -25,7 +25,7 @@
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", creditEventTransactionJson, DbType.String)
-                .AddParameter("ExceptionActionId", EventAction.CreditTransaction, DbType.Int32)
+                .AddParameter("ExceptionActionId", EventAction.Credit, DbType.Int32)
                 .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
@@ -62,7 +62,8 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", grnEventJson, DbType.String, size: 2500)
                 .AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32)
-                .AddParameter("DateCanBeProcessed", DateTime.Now.AddHours(24), DbType.DateTime)
+            //    .AddParameter("DateCanBeProcessed", DateTime.Now.AddHours(24), DbType.DateTime)
+                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)

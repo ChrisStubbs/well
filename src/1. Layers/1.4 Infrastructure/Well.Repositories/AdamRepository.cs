@@ -17,13 +17,15 @@
     {
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
+        private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IEventLogger eventLogger;
         private readonly IPodTransactionFactory podTransactionFactory;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
+            this.deliveryReadRepository = deliveryReadRepository;
             this.eventLogger = eventLogger;
             this.podTransactionFactory = podTransactionFactory;
         }
@@ -153,9 +155,12 @@
             throw new System.NotImplementedException();
         }
 
-        public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings)
+        public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings, string username)
         {
-            var job = this.jobRepository.GetById(grn.Id);
+            //  var job = this.jobRepository.GetById(grn.Id);
+
+            var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, username);
+
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
                 try
@@ -164,14 +169,14 @@
 
                     using (var command = new AdamCommand(connection))
                     {
-                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                        var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
                         var today = DateTime.Now.ToShortDateString();
                         var now = DateTime.Now.ToShortTimeString();
 
                         var commandString =
                             string.Format(
                                 "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, job.InvoiceNumber, job.GrnProcessType, job.GrnNumberUpdate);
+                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, delivery.InvoiceNumber, delivery.GrnProcessType, delivery.GrnNumber);
 
                         command.CommandText = commandString;
                         command.ExecuteNonQuery();

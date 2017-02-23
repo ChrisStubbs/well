@@ -237,29 +237,8 @@
                   <LineStatus>1</LineStatus>
                   <ProdDesc>Coca Cola 7Ltr</ProdDesc>
                   <OrderedQty>1</OrderedQty>
-                  <DeliveredQty>1</DeliveredQty>
-                  <ShortQty>1</ShortQty>
-                  <PHProductType>8</PHProductType>
-                  <PackSize>10</PackSize>
-                  <SingleOrOuter>
-                  </SingleOrOuter>
-                  <SSCCBarcode>
-                  </SSCCBarcode>
-                  <SubOuterDamageTotal></SubOuterDamageTotal>
-                  <SkuGoodsValue>2.75</SkuGoodsValue>
-                </JobDetail>
-                  <JobDetail>
-                  <JobDetailID>195270</JobDetailID>
-                  <JobID>110679</JobID>
-                  <Barcode>45046</Barcode>
-                  <UnitMeasure>1</UnitMeasure>
-                  <OriginalDespatchQty>1</OriginalDespatchQty>
-                  <LineNumber>1</LineNumber>
-                  <LineStatus>1</LineStatus>
-                  <ProdDesc>Diet Cola 7Ltr</ProdDesc>
-                  <OrderedQty>1</OrderedQty>
-                  <DeliveredQty>1</DeliveredQty>
-                  <ShortQty />
+                  <DeliveredQty>0</DeliveredQty>
+                  <ShortQty>0</ShortQty>
                   <PHProductType>8</PHProductType>
                   <PackSize>10</PackSize>
                   <SingleOrOuter>
@@ -281,6 +260,28 @@
                       </Source>
                     </JobDetailDamage>
                   </JobDetailDamages>
+                </JobDetail>
+                  <JobDetail>
+                  <JobDetailID>195270</JobDetailID>
+                  <JobID>110679</JobID>
+                  <Barcode>45046</Barcode>
+                  <UnitMeasure>1</UnitMeasure>
+                  <OriginalDespatchQty>0</OriginalDespatchQty>
+                  <LineNumber>2</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>Diet Cola 7Ltr</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty>0</DeliveredQty>
+                  <ShortQty />
+                  <PHProductType>8</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal></SubOuterDamageTotal>
+                  <SkuGoodsValue>2.75</SkuGoodsValue>
+               
                 </JobDetail>
               </JobDetails>
             </Job>

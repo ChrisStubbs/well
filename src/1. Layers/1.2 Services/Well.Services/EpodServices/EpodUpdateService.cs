@@ -194,7 +194,6 @@
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
 
-
                 if (pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade)
                 {
                     //build pod transaction

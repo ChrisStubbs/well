@@ -1,9 +1,5 @@
 namespace PH.Well.Api.DependencyResolution
 {
-    using System;
-    using System.Threading;
-    using Domain.Enums;
-    using Domain.ValueObjects;
     using Mapper;
 
     using PH.Well.Api.Mapper.Contracts;
@@ -80,8 +76,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
 
             //delivery lines
-            For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();//.Named(DeliveryAction.Credit.ToString());
-            For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();//.Named(DeliveryAction.Close.ToString());
+            For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
+            For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();
         }
     }
 }

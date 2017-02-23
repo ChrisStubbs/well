@@ -30,6 +30,7 @@ BEGIN
 	  ,[Reason]
 	  ,[IsDeleted]
       ,[StopId]
+	  ,[GrnProcessType]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

@@ -39,13 +39,15 @@
 
             this.logger.LogDebug("Starting Well Adam Events!");
 
+            // create all pod events for deliveries over 24 hours old
+
             foreach (var eventToProcess in eventsToProcess)
             {
                 if (eventToProcess.DateCanBeProcessed < DateTime.Now)
                 {
                     switch (eventToProcess.EventAction)
                     {
-                        case EventAction.CreditTransaction:
+                        case EventAction.Credit:
                             var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
                             this.deliveryLineActionService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
                                 GetAdamSettings(creditEventTransaction.BranchId), username);

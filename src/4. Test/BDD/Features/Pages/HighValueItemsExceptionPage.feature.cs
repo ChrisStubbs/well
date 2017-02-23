@@ -181,7 +181,8 @@ this.FeatureBackground();
                         "InvoiceQuantity",
                         "DeliveryQuantity",
                         "DamagedQuantity",
-                        "ShortQuantity"});
+                        "ShortQuantity",
+                        "Checked"});
             table3.AddRow(new string[] {
                         "1",
                         "6987",
@@ -190,7 +191,8 @@ this.FeatureBackground();
                         "1",
                         "-1",
                         "0",
-                        "2"});
+                        "2",
+                        "true"});
             table3.AddRow(new string[] {
                         "2",
                         "49179",
@@ -199,7 +201,8 @@ this.FeatureBackground();
                         "1",
                         "-1",
                         "0",
-                        "2"});
+                        "2",
+                        "true"});
             table3.AddRow(new string[] {
                         "3",
                         "21633",
@@ -208,7 +211,8 @@ this.FeatureBackground();
                         "1",
                         "-1",
                         "0",
-                        "2"});
+                        "2",
+                        "true"});
             table3.AddRow(new string[] {
                         "4",
                         "4244",
@@ -217,7 +221,8 @@ this.FeatureBackground();
                         "1",
                         "-1",
                         "0",
-                        "2"});
+                        "2",
+                        "true"});
             table3.AddRow(new string[] {
                         "5",
                         "7621",
@@ -226,7 +231,8 @@ this.FeatureBackground();
                         "1",
                         "-1",
                         "0",
-                        "2"});
+                        "2",
+                        "true"});
 #line 34
  testRunner.Then("I am shown the exception detail", ((string)(null)), table3, "Then ");
 #line hidden

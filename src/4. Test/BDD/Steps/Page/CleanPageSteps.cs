@@ -4,6 +4,7 @@
     using System.Threading;
     using Framework.Context;
     using Framework.Extensions;
+    using Framework.WebElements;
     using NUnit.Framework;
     using Pages;
     using TechTalk.SpecFlow;
@@ -32,23 +33,37 @@
             this.Page.OrderByButton.Click();
         }
 
-        public void SelectAssignLink()
+        [Given(@"I assign the POD delivery to myself")]
+        public void AssignPODToMe()
         {
-            var rows = this.Page.Grid.ReturnAllRows().ToList();
-            var assignAnchor = rows[0].GetItemInRowByClass("assign");
-            assignAnchor.Click();
+            var podRow = GetPodRow();
+            SelectAssignLink(podRow);
         }
 
-        [Given(@"I assign the clean delivery to myself")]
-        public void AssignToMe()
+        [Given(@"I click on the first POD delivery")]
+        public void GivenIClickOnTheFirstPODDelivery()
         {
-            SelectAssignLink();
+            var podRow = GetPodRow();
+            podRow?.GetItemInRowById("isPod").Click();
+        }
+
+        public void SelectAssignLink(GridRow<CleanDeliveriesGrid> row)
+        {
+            var assignAnchor = row.GetItemInRowByClass("assign");
+            assignAnchor.Click();
 
             Thread.Sleep(1000);
             var element = this.Page.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
+        }
+
+        [Given(@"I assign the clean delivery to myself")]
+        public void AssignToMe()
+        {
+            var rows = this.Page.Grid.ReturnAllRows().ToList();
+            SelectAssignLink(rows[0]);
         }
 
 
@@ -152,5 +167,10 @@
             AccountModalSteps.CompareModal(table, modal);
         }
 
+        private GridRow<CleanDeliveriesGrid> GetPodRow()
+        {
+            var rows = Page.Grid.ReturnAllRows();
+            return rows.FirstOrDefault(r => r.GetItemInRowById("isPod") != null);
+        } 
     }
 }

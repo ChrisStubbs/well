@@ -75,6 +75,7 @@
             }
         }
 
+        [Given(@"I open the clean tab")]
         [When(@"I open the clean tab")]
         public void OpenCleanTab()
         {

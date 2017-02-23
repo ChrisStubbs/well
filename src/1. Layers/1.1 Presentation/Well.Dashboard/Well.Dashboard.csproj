@@ -20,8 +20,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -254,7 +256,7 @@
     <Content Include="app\seasonal_dates\seasonal-dates-edit-modal.html" />
     <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\branch\branch-select.html" />
-    <Content Include="app\shared\cashOnDelivery.html" />
+    <Content Include="app\shared\accountFlagsComponent.html" />
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\confirmModal.html" />
@@ -721,7 +723,7 @@
     <Content Include="app\route_header\routeHeaderService.ts" />
     <Content Include="app\shared\assignModal.ts" />
     <Content Include="app\shared\branch\branchCheckboxComponent.ts" />
-    <Content Include="app\shared\codComponent.ts" />
+    <Content Include="app\shared\accountFlagsComponent.ts" />
     <Content Include="app\shared\contactModal.ts" />
     <Content Include="app\shared\creditItem.ts" />
     <Content Include="app\shared\logService.ts" />

@@ -12,7 +12,7 @@ export class AccountFlagsComponent implements OnInit {
     public isPod: boolean;
 
     public ngOnInit(): void {
-        this.isCod = this.isCashOnDelivery === 'True';
+        this.isCod = this.isCashOnDelivery === 'Yes';
         this.isPod = this.isProofOfDelivery;
     }
 

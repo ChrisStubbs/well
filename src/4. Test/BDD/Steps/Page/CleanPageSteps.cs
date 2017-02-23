@@ -66,31 +66,11 @@
             SelectAssignLink(rows[0]);
         }
 
-
-        [Then(@"The following clean deliveries ordered by date will be displayed in '(.*)' order")]
-        public void ThenTheFollowingCleanDeliveriesOrderedByDateWillBeDisplayedInOrder(string direction, Table table)
-        {
-             var pageRows = this.Page.Grid.ReturnAllRows().ToList();
-
-            pageRows.Reverse(0, pageRows.Count);
-
-            Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Route), Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Drop), Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.InvoiceNo), Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.Account), Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(pageRows[i].GetColumnValueByIndex((int)CleanDeliveriesGrid.AccountName), Is.EqualTo(table.Rows[i]["AccountName"]));
-            }
-        }
-
-
         [Then(@"the following clean deliveries will be displayed")]
         public void ThenTheFollowingCleanDeliveriesWillBeDisplayed(Table table)
         {
             var result = this.Page.Grid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
         [Then(@"the following clean with cash on delivery deliveries will be displayed")]
@@ -109,13 +89,11 @@
             }
         }
 
-        [Then(@"the cod delivery icon is not displayed in row (.*)")]
-        public void ThenTheCodDeliveryIconIsNotDisplayedInRow(int firstRow)
+        [Then(@"the first clean delivery line is COD \(Cash on Delivery\)")]
+        public void ThenTheFirstDeliveryLineIsCODCashOnDelivery()
         {
-            var row = firstRow - 1;
-            var pageRows = this.Page.Grid.ReturnAllRows().ToList();
-            var cashOnDeliveryIcon = pageRows[row].GetColumnValueByIndex(6);
-            Assert.That(cashOnDeliveryIcon, Is.Empty);
+            var pageRow = this.Page.Grid.ReturnAllRows().First();
+            Assert.IsNotNull(pageRow.GetItemInRowById("isCod"));
         }
 
         [When(@"I click on clean delivery page (.*)")]

@@ -44,8 +44,6 @@
 
         public string PendingCreditCreatedBy { get; set; }
 
-        public string Cod { get; set; }
-
         public string FormattedPendingCreditCreatedBy {
             get
             {

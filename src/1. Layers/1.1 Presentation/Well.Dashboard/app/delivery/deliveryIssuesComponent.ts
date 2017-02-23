@@ -1,4 +1,4 @@
-﻿import {Component, ViewChild}       from '@angular/core';
+﻿import {Component, ViewChild, Input} from '@angular/core';
 import {Delivery}                   from './model/delivery';
 import {DeliveryLine}               from './model/deliveryLine';
 import {Damage}                     from './model/damage';
@@ -15,11 +15,12 @@ import { SecurityService }          from '../shared/security/securityService';
 
 @Component({
     templateUrl: './app/delivery/delivery-issues.html',
-    selector: 'ow-delivery-issues',
+    selector: 'ow-delivery-issues'
 })
 export class DeliveryIssuesComponent {
-    public delivery: Delivery = new Delivery(undefined);
-    public deliveryLine: DeliveryLine = new DeliveryLine(undefined);
+    @Input() public delivery: Delivery;
+    @Input() public deliveryLine: DeliveryLine;
+
     public reasons: JobDetailReason[] = new Array<JobDetailReason>();
     public sources: JobDetailSource[] = new Array<JobDetailSource>();
     public actions: Action[] = new Array<Action>();
@@ -37,14 +38,6 @@ export class DeliveryIssuesComponent {
 
     public ngOnInit(): void {
 
-        if (this.delivery.proofOfDelivery === 8) {
-            //this.deliveryService.getPodReasons()
-            //    .subscribe(r => { this.reasons = r; });
-
-            //this.deliveryService.getSources()
-            //    .subscribe(s => { this.sources = s });
-
-        }
 
         this.deliveryService.getDamageReasons()
             .subscribe(r => { this.reasons = r; });
@@ -53,7 +46,12 @@ export class DeliveryIssuesComponent {
             .subscribe(s => { this.sources = s });
 
         this.deliveryService.getActions()
-            .subscribe(actions => { this.actions = actions; });
+            .subscribe(actions => {
+                this.actions = actions;
+                if (this.delivery.isProofOfDelivery) {
+                    lodash.remove(this.actions, a => { return a.id === 1 || a.id === 2; });
+                }
+            });
     }
 
     public addDamage() {

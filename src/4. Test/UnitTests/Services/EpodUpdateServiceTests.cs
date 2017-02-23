@@ -36,6 +36,7 @@
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
+        private Mock<IPodTransactionFactory> podTransactionFactory;
         private Mock<IUserNameProvider> userNameProvider;
 
         private Mock<IDeliveryStatusService> deliveryStatusService;
@@ -55,26 +56,22 @@
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
             this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
+            this.podTransactionFactory = new Mock<IPodTransactionFactory>(MockBehavior.Strict);
             this.deliveryStatusService = new Mock<IDeliveryStatusService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            //this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            //this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            //this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            //this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
-            //this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
-
             this.service = new EpodUpdateService(this.logger.Object, 
                 this.eventLogger.Object, 
                 this.routeHeaderRepository.Object,
-                this.stopRepository.Object, 
+                this.stopRepository.Object,
                 this.jobRepository.Object, 
                 this.jobDetailRepository.Object, 
                 this.jobDetailDamageRepository.Object, 
                 this.exceptionEventRepository.Object,
                 this.mapper.Object, 
                 this.adamImportService.Object, 
+                this.podTransactionFactory.Object,
                 this.deliveryStatusService.Object,
                 this.userNameProvider.Object);
         }

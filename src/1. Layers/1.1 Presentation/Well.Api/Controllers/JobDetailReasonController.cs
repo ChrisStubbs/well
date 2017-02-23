@@ -39,5 +39,25 @@
             }
         }
 
+        //[HttpGet]
+        //[Route("pod-reasons")]
+        //public HttpResponseMessage GetPodReasons()
+        //{
+        //    try
+        //    {
+        //        var podReasons = Enum<PodReason>.GetValuesAndDescriptions().Select(x => new
+        //        {
+        //            id = (int)x.Key,
+        //            description = x.Value
+        //        });
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, podReasons);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting pod reasons");
+        //    }
+        //}
+
     }
 }

@@ -20,7 +20,7 @@
             to.ShortDeliveries = from.ShortDeliveries;
             to.DamagesRejected = from.DamagesRejected;
             to.DamagesAccepted = from.DamagesAccepted;
-            to.StartDepotCode = from.StartDepotCode;
+           // to.StartDepotCode = from.StartDepotCode;
             to.ActualStopsCompleted = from.ActualStopsCompleted;
         }
 

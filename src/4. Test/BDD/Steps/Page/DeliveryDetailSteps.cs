@@ -73,6 +73,9 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.DamagedQuantity), Is.EqualTo(table.Rows[i]["DamagedQuantity"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.ShortQuantity), Is.EqualTo(table.Rows[i]["ShortQuantity"]));
             }
+
+            // we should have 5 elements that are checked
+            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(5));
         }
 
         [When(@"I open the clean tab")]

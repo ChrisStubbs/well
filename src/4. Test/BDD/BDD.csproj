@@ -141,6 +141,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CleanPage.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\AdamImportPage.feature.cs">
+      <DependentUpon>AdamImportPage.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Features\Pages\HighValueItemsExceptionPage.feature.cs">
+      <DependentUpon>HighValueItemsExceptionPage.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Features\Pages\ExceptionPage.feature.cs">
       <DependentUpon>ExceptionPage.feature</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -150,11 +160,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NotificationsPage.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Pages\ResolvedPage.feature.cs">
-      <DependentUpon>ResolvedPage.feature</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Features\Pages\RoutesPage.feature.cs">
       <DependentUpon>RoutesPage.feature</DependentUpon>
@@ -291,6 +296,14 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
     </None>
+    <None Include="Features\Pages\AdamImportPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdamImportPage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\HighValueItemsExceptionPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>HighValueItemsExceptionPage.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Pages\ExceptionPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ExceptionPage.feature.cs</LastGenOutput>
@@ -354,6 +367,9 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD_HAY_Update.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD_one_exception.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -371,6 +387,16 @@
     <Content Include="Epod\ePOD_30062016_Update.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Xml\ePOD_HAY_Update.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ORDER_HAY_170207_2333.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ROUTE_30062016_82.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_30062016_03.xml">
       <SubType>Designer</SubType>

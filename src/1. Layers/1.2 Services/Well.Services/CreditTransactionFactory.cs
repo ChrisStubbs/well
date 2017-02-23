@@ -70,14 +70,14 @@ namespace PH.Well.Services
                         source = line.Source;
                     }
                     var creditLine =
-                        $"INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.CreditTransaction},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
+                        $"INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.Credit},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
 
                     lineDictionary.Add(lineCount, creditLine);
                 }
             }
 
             var creditHeader =
-                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{today}', '{now}', '{job.Id}', '{(int)EventAction.CreditTransaction}', '{initials}', {branchId}, {acno}, {job.InvoiceNumber}, {source}, {0}, '{account.ContactName}', '{job.CustomerRef}', {lineCount}, {groupCount});";
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{today}', '{now}', '{job.Id}', '{(int)EventAction.Credit}', '{initials}', {branchId}, {acno}, {job.InvoiceNumber}, {source}, {0}, '{account.ContactName}', '{job.CustomerRef}', {lineCount}, {groupCount});";
 
             var creditTransaction = new CreditTransaction
             {

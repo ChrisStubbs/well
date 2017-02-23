@@ -163,6 +163,7 @@
         {
             SetDeliveryStatus(PerformanceStatus.Incom, noOfDeliveries);
             this.MakeJobShortsToBeAdvised();
+            this.MakeJobDetailsShortsToBeAdvised();
         }
 
         [Given(@"All the deliveries are marked as exceptions")]
@@ -246,7 +247,12 @@
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
         }
-        
+
+        public void MakeJobDetailsShortsToBeAdvised()
+        {
+            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 0");
+        }
+
         public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
         {
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
@@ -288,14 +294,7 @@
 
         public User SetUpUser()
         {
-            this.logger.LogDebug("Calling create user");
-            var user = JsonConvert.DeserializeObject<User>(this.webClient.DownloadString(Configuration.WellApiUrl + "create-user-using-current-context"));
-
-            if (user == null) this.logger.LogDebug("User is null");
-
-            this.logger.LogDebug($"User created {user.Name}");
-
-            return user;
+            return SetUpUser($"{Environment.UserDomainName}\\{Environment.UserName}");
         }
 
         public User SetUpUser(string userIdentity)
@@ -303,9 +302,14 @@
             this.logger.LogDebug("Calling create user");
             var user = JsonConvert.DeserializeObject<User>(this.webClient.UploadString(Configuration.WellApiUrl + $"create-user?userIdentity={userIdentity}", "POST", ""));
 
-            if (user == null) this.logger.LogDebug("User is null");
-
-            this.logger.LogDebug($"User created {user.Name}");
+            if (user == null)
+            {
+                this.logger.LogDebug("User is null");
+            }
+            else
+            {
+                this.logger.LogDebug($"User created {user.Name}");
+            }
 
             return user;
         }

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Pages
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using Framework.WebElements;
@@ -28,6 +29,13 @@
         public SpanElement DeliveryTypeSpan { get; set; }
         public Button SubmitActionButton { get; set; }
         public Button ConfirmModalButton { get; set; }
+
+        public bool HasThisNumberOfHighvalueItems(int count)
+        {
+            var highValueItems = this.Driver.FindElements(By.ClassName("high-value"));
+
+            return highValueItems.Count == count;
+        }
 
         public void ClickCleanTab()
         {

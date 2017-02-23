@@ -6,7 +6,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
-
+    using Repositories.Read;
     using StructureMap;
 
     public class Program
@@ -44,6 +44,10 @@
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
                     x.For<IUserNameProvider>().Use<UserNameProvider>();
+                    x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+                    x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
+                    x.For<IDapperReadProxy>().Use<DapperReadProxy>();
+                    x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                 });
         }
     }

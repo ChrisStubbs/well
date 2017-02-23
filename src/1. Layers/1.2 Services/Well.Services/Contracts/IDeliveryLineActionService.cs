@@ -13,5 +13,9 @@
         //AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
 
         ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, int branchId);
+
+        void Pod(PodTransaction podTransaction, int eventId, AdamSettings adamSettings);
+
+        //ProcessDeliveryPodActionResult ProcessDeliveryPodActions(List<DeliveryLine> lines, AdamSettings adamSettings,string username, int branchId);
     }
 }

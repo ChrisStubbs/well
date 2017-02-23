@@ -22,14 +22,13 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IRouteMapper mapper;
         private readonly IAdamImportService adamImportService;
         private readonly IDeliveryStatusService deliveryStatusService;
         private readonly IUserNameProvider userNameProvider;
 
         private const string UpdatedBy = "EpodUpdate";
-
-        private List<int> ProofOfDeliveryList = new List<int> { 1 , 8}; 
 
         public EpodUpdateService(
             ILogger logger,
@@ -42,6 +41,7 @@
             IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
             IAdamImportService adamImportService,
+            IPodTransactionFactory podTransactionFactory,
             IDeliveryStatusService deliveryStatusService,
             IUserNameProvider userNameProvider)
         {
@@ -55,6 +55,7 @@
             this.exceptionEventRepository = exceptionEventRepository;
             this.mapper = mapper;
             this.adamImportService = adamImportService;
+            this.podTransactionFactory = podTransactionFactory;
             this.deliveryStatusService = deliveryStatusService;
             this.userNameProvider = userNameProvider;
 
@@ -84,7 +85,19 @@
 
                 this.routeHeaderRepository.Update(existingHeader);
 
-                this.UpdateStops(header.Stops, existingHeader.StartDepot);
+                int branchId;
+
+                if (int.TryParse(existingHeader.StartDepotCode, out branchId))
+                {
+                    this.UpdateStops(header.Stops, branchId);
+                }
+                else
+                {
+                    this.logger.LogDebug($"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})");
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport,
+                        $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})",
+                        9682);
+                }
             }
         }
 
@@ -167,25 +180,21 @@
                         Id = existingJob.Id,
                         BranchId = branchId
                     };
-
+                    
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
+
+                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
 
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
 
-                if (ProofOfDeliveryList.Contains(pod) && job.IsClean)
+                if (pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade)
                 {
-                    var podEvent = new PodEvent
-                    {
-                        Id = existingJob.Id,
-                        BranchId = branchId
-                    };
-
-                    this.exceptionEventRepository.InsertPodEvent(podEvent);
+                    //build pod transaction
+                    var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
+                    this.exceptionEventRepository.InsertPodEvent(podTransaction);
                 }
-                
-                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
 
                 this.jobRepository.Update(existingJob);
             }

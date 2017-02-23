@@ -18,14 +18,14 @@
     public class EventProcessor
     {
         private readonly IExceptionEventRepository exceptionEventRepository;
-        private readonly IDeliveryLineActionService exceptionEventService;
+        private readonly IDeliveryLineActionService deliveryLineActionService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
 
         public EventProcessor(IContainer container)
         {
             this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
-            this.exceptionEventService = container.GetInstance<IDeliveryLineActionService>();
+            this.deliveryLineActionService = container.GetInstance<IDeliveryLineActionService>();
             this.logger = container.GetInstance<ILogger>();
             this.eventLogger = container.GetInstance<IEventLogger>();
         }
@@ -39,25 +39,27 @@
 
             this.logger.LogDebug("Starting Well Adam Events!");
 
+            // create all pod events for deliveries over 24 hours old
+
             foreach (var eventToProcess in eventsToProcess)
             {
                 if (eventToProcess.DateCanBeProcessed < DateTime.Now)
                 {
                     switch (eventToProcess.EventAction)
                     {
-                        case EventAction.CreditTransaction:
+                        case EventAction.Credit:
                             var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
-                            this.exceptionEventService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
+                            this.deliveryLineActionService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
                                 GetAdamSettings(creditEventTransaction.BranchId));
                             break;
                         case EventAction.Grn:
                             var grnEvent = JsonConvert.DeserializeObject<GrnEvent>(eventToProcess.Event);
-                            this.exceptionEventService.Grn(grnEvent, eventToProcess.Id,
+                            this.deliveryLineActionService.Grn(grnEvent, eventToProcess.Id,
                                 GetAdamSettings(grnEvent.BranchId));
                             break;
                         case EventAction.Pod:
-                            var podEvent = JsonConvert.DeserializeObject<PodEvent>(eventToProcess.Event);
-                           // this.exceptionEventService.Pod(podEvent, eventToProcess.Id, GetAdamSettings(podEvent.BranchId), username);
+                            var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
+                            this.deliveryLineActionService.Pod(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
                     }
                 }

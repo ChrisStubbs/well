@@ -207,5 +207,22 @@
                 return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting delivery actions");
             }
         }
+
+        //[HttpGet]
+        //[Route("delivery-podactions")]
+        //public HttpResponseMessage GetPodAction()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<PodDeliveryAction> actions = Enum.GetValues(typeof(PodDeliveryAction)).Cast<PodDeliveryAction>();
+        //        var reasons = actions.Select(a => new { id = (int)a, description = StringExtensions.GetEnumDescription(a) });
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, reasons);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting pod delivery actions");
+        //    }
+        //}
     }
 }

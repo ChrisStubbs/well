@@ -129,5 +129,139 @@
                 this.dapperProxy.Verify(x => x.Query<ExceptionEvent>(), Times.Once);
             }
         }
+
+        public class TheInsertGrnMethod : ExceptionEventRepositoryTests
+        {
+            [Test]
+            public void ShouldInsertGrnEvent()
+            {
+                var grnEvent = new GrnEvent {BranchId = 2, Id = 1};
+                var grnEventJson = JsonConvert.SerializeObject(grnEvent);
+
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.EventInsert))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Event", grnEventJson, DbType.String, 2500))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                    x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "user", DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Execute());
+
+                this.repository.InsertGrnEvent(grnEvent);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.EventInsert), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Event", grnEventJson, DbType.String, 2500), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32, null),
+                    Times.Once);
+
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "user", DbType.String, 50), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50), Times.Once);
+
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+
+
+            }
+
+
+            public class TheInsertPodMethod : ExceptionEventRepositoryTests
+            {
+                [Test]
+                public void ShouldInsertPodEvent()
+                {
+                    var lines = new Dictionary<int, string>();
+
+                    lines.Add(1, "Thing 1");
+                    lines.Add(2, "Thing 2");
+
+                    var podTransaction = new PodTransaction {BranchId = 2, HeaderSql = "a sql string", LineSql = lines};
+                    var podTransactionJson = JsonConvert.SerializeObject(podTransaction);
+
+                    this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.EventInsert))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(x => x.AddParameter("Event", podTransactionJson, DbType.String, 2500))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", EventAction.Pod, DbType.Int32, null))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(
+                        x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "user", DbType.String, 50))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(
+                        x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(
+                        x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
+                        .Returns(this.dapperProxy.Object);
+
+                    this.dapperProxy.Setup(x => x.Execute());
+
+                    this.repository.InsertPodEvent(podTransaction);
+
+                    this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.EventInsert), Times.Once);
+
+                    this.dapperProxy.Verify(x => x.AddParameter("Event", podTransactionJson, DbType.String, 2500),
+                        Times.Once);
+
+                    this.dapperProxy.Verify(
+                        x => x.AddParameter("ExceptionActionId", EventAction.Pod, DbType.Int32, null), Times.Once);
+
+                    this.dapperProxy.Verify(
+                        x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null),
+                        Times.Once);
+
+                    this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "user", DbType.String, 50), Times.Once);
+
+                    this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50), Times.Once);
+
+                    this.dapperProxy.Verify(
+                        x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                    this.dapperProxy.Verify(
+                        x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+
+                    this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+                }
+            }
+        }
     }
 }

@@ -49,12 +49,15 @@
     <Compile Include="Enums\ActionStatus.cs" />
     <Compile Include="Enums\CommodityType.cs" />
     <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\PodDeliveryAction.cs" />
     <Compile Include="Enums\DeliveryAction.cs" />
+    <Compile Include="Enums\PodReason.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\AuditType.cs" />
     <Compile Include="Enums\JobDetailSource.cs" />
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
+    <Compile Include="Enums\ProofOfDelivery.cs" />
     <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -88,7 +91,9 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
+    <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
+    <Compile Include="ValueObjects\PodTransaction.cs" />
     <Compile Include="ValueObjects\CreditTransaction.cs" />
     <Compile Include="ValueObjects\CreditLines.cs" />
     <Compile Include="ValueObjects\DamageSource.cs" />
@@ -101,6 +106,7 @@
     <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
     <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\PodEvent.cs" />
+    <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />

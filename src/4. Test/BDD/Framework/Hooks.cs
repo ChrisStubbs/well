@@ -182,6 +182,7 @@
                                                 x.For<IRouteMapper>().Use<RouteMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                                 x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
+                                                x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                                                 x.For<IUserRepository>().Use<UserRepository>();
                                                 x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                                                 x.For<IBranchRepository>().Use<BranchRepository>();

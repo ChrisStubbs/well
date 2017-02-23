@@ -17,6 +17,6 @@
 
         void InsertGrnEvent(GrnEvent grnEvent);
 
-        void InsertPodEvent(PodEvent podEvent);
+        void InsertPodEvent(PodTransaction podTransaction);
     }
 }

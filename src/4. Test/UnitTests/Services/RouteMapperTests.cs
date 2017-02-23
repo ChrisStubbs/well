@@ -31,7 +31,7 @@
             from.ShortDeliveries = 3;
             from.DamagesRejected = 3;
             from.DamagesAccepted = 1;
-            from.StartDepotCode = "NIR";
+         //   from.StartDepotCode = "NIR";
             from.ActualStopsCompleted = 800;
 
             var to = new RouteHeader();
@@ -47,7 +47,7 @@
             Assert.That(to.ShortDeliveries, Is.EqualTo(from.ShortDeliveries));
             Assert.That(to.DamagesRejected, Is.EqualTo(from.DamagesRejected));
             Assert.That(to.DamagesAccepted, Is.EqualTo(from.DamagesAccepted));
-            Assert.That(to.StartDepotCode, Is.EqualTo(from.StartDepotCode));
+//            Assert.That(to.StartDepotCode, Is.EqualTo(from.StartDepotCode));
             Assert.That(to.ActualStopsCompleted, Is.EqualTo(from.ActualStopsCompleted));
         }
 

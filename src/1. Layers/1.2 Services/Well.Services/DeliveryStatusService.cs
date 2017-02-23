@@ -10,11 +10,11 @@
     {
         private readonly IJobRepository jobRepository;
 
+        private const string ExceptionReason = "Manual Delivery";
+
         public DeliveryStatusService(IJobRepository jobRepository)
         {
             this.jobRepository = jobRepository;
-
-            //////this.jobRepository.CurrentUser = Thread.CurrentPrincipal.Identity.Name;
         }
 
         public void SetStatus(Job job, int branchId)
@@ -56,8 +56,14 @@
                     job.HasException = true;
                 }
             }
+
             // Any damages are an exception or any shorts are an exception
             if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0)))
+            {
+                job.HasException = true;
+            }
+
+            if (job.JobByPassReason == ExceptionReason)
             {
                 job.HasException = true;
             }

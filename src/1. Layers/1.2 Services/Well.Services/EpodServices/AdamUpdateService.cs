@@ -24,8 +24,6 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IRouteMapper mapper;
 
-        private const string CurrentUser = "AdamUpdate";
-
         public AdamUpdateService(
             ILogger logger,
             IEventLogger eventLogger,
@@ -42,10 +40,6 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.mapper = mapper;
-
-            //////this.stopRepository.CurrentUser = CurrentUser;
-            //////this.jobRepository.CurrentUser = CurrentUser;
-            //////this.jobDetailRepository.CurrentUser = CurrentUser;
         }
 
         public void Update(RouteUpdates route)
@@ -118,24 +112,29 @@
             }
         }
 
-        private void Delete(StopUpdate stop)
+        private void Delete(StopUpdate stopUpdate)
         {
+            Stop stop = null;
+
             try
             {
                 using (var transactionScope = new TransactionScope())
                 {
-                    // TODO
-                    this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderRef);
+                    var job = stopUpdate.Jobs.First();
+
+                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+
+                    this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderReference);
 
                     transactionScope.Complete();
                 }
             }
             catch (Exception exception)
             {
-                this.logger.LogError($"Error on deletion of stop transport order reference ({stop.TransportOrderRef})", exception);
+                this.logger.LogError($"Error on deletion of stop transport order reference ({stop.TransportOrderReference})", exception);
                 this.eventLogger.TryWriteToEventLog(
                     EventSource.WellAdamXmlImport,
-                    $"Error on deletion of stop transport order reference ({stop.TransportOrderRef})",
+                    $"Error on deletion of stop transport order reference ({stop.TransportOrderReference})",
                     8332);
             }
         }
@@ -144,9 +143,7 @@
         {
             foreach (var job in jobs)
             {
-                // TODO do we need to add invoice to the get or not, lets investigate
                 var existingJob = this.jobRepository.GetJobByRefDetails(job.PhAccount, job.PickListRef, stopId);
-
 
                 if (existingJob != null)
                 {
@@ -176,7 +173,6 @@
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
-            // TODO get the stop via any jobs picklist account and invoice as we dont want to use the TOR anymore
             var job = stopInsert.Jobs.First();
             var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 

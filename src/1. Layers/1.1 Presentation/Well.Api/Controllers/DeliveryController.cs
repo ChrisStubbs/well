@@ -97,7 +97,7 @@
         {
             try
             {
-                List<Delivery> cleanDeliveries =
+                var cleanDeliveries =
                     this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()

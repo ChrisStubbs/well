@@ -135,8 +135,6 @@
             [Test]
             public void ShouldInsertGrnEvent()
             {
-
-                this.repository.CurrentUser = "foo";
                 var grnEvent = new GrnEvent {BranchId = 2, Id = 1};
                 var grnEventJson = JsonConvert.SerializeObject(grnEvent);
 
@@ -153,10 +151,10 @@
                     x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "foo", DbType.String, 50))
+                this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "user", DbType.String, 50))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", "foo", DbType.String, 50))
+                this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null))
@@ -179,9 +177,9 @@
                 this.dapperProxy.Verify(
                     x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "foo", DbType.String, 50), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "user", DbType.String, 50), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "foo", DbType.String, 50), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50), Times.Once);
 
                 this.dapperProxy.Verify(
                     x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
@@ -200,8 +198,6 @@
                 [Test]
                 public void ShouldInsertPodEvent()
                 {
-                    this.repository.CurrentUser = "foo";
-
                     var lines = new Dictionary<int, string>();
 
                     lines.Add(1, "Thing 1");
@@ -223,10 +219,10 @@
                         x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null))
                         .Returns(this.dapperProxy.Object);
 
-                    this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "foo", DbType.String, 50))
+                    this.dapperProxy.Setup(x => x.AddParameter("CreatedBy", "user", DbType.String, 50))
                         .Returns(this.dapperProxy.Object);
 
-                    this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", "foo", DbType.String, 50))
+                    this.dapperProxy.Setup(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50))
                         .Returns(this.dapperProxy.Object);
 
                     this.dapperProxy.Setup(
@@ -253,9 +249,9 @@
                         x => x.AddParameter("DateCanBeProcessed", It.IsAny<DateTime>(), DbType.DateTime, null),
                         Times.Once);
 
-                    this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "foo", DbType.String, 50), Times.Once);
+                    this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "user", DbType.String, 50), Times.Once);
 
-                    this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "foo", DbType.String, 50), Times.Once);
+                    this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "user", DbType.String, 50), Times.Once);
 
                     this.dapperProxy.Verify(
                         x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);

@@ -59,7 +59,7 @@
                             break;
                         case EventAction.Pod:
                             var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
-                            this.deliveryLineActionService.Pod(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId), username);
+                            this.deliveryLineActionService.Pod(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
                     }
                 }

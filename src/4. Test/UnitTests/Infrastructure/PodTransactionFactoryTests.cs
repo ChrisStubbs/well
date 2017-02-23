@@ -35,7 +35,7 @@
                 new JobDetail { Id = 2, PhProductCode = "22345", ShortQty = 0 , JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 } } }
             };
 
-               var account = new Account { Id = 1, Code = "12345"};
+            var account = new Account { Id = 1, Code = "12345", ContactName = "Donald"};
 
             this.accountRepository.Setup(x => x.GetAccountByAccountCode("12345", 1)).Returns(account);
 

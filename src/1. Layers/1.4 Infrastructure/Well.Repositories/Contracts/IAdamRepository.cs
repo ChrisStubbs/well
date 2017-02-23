@@ -21,7 +21,7 @@
 
         AdamResponse ReplanQueue(QueueEvent queue, AdamSettings adamSettings);
 
-        AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings, string username);
+        AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings);
 
         AdamResponse Pod (PodTransaction pod, AdamSettings adamSettings);
 

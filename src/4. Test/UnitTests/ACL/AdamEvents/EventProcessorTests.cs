@@ -123,7 +123,7 @@
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
-                    x => x.Grn(It.IsAny<GrnEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+                    x => x.Grn(It.IsAny<GrnEvent>(), exception.Id, It.IsAny<AdamSettings>()));
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
@@ -140,7 +140,7 @@
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 this.exceptionEventService.Verify(
-                    x => x.Grn(It.IsAny<GrnEvent>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
+                    x => x.Grn(It.IsAny<GrnEvent>(), exception.Id, It.IsAny<AdamSettings>()),
                     Times.Once);
             }
 
@@ -165,7 +165,7 @@
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
-                    x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username));
+                    x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()));
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
@@ -182,7 +182,7 @@
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 this.exceptionEventService.Verify(
-                    x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>(), this.username),
+                    x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
                     Times.Once);
             }
         }

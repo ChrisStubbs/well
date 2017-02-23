@@ -30,8 +30,6 @@
 
         private const string UpdatedBy = "EpodUpdate";
 
-        private List<int> proofOfDeliveryList = new List<int> { 1 , 8}; 
-
         public EpodUpdateService(
             ILogger logger,
             IEventLogger eventLogger,
@@ -43,7 +41,7 @@
             IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
             IAdamImportService adamImportService,
-            IPodTransactionFactory podTransactionFactory)
+            IPodTransactionFactory podTransactionFactory,
             IDeliveryStatusService deliveryStatusService,
             IUserNameProvider userNameProvider)
         {
@@ -196,8 +194,6 @@
                     //build pod transaction
                     var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
                     this.exceptionEventRepository.InsertPodEvent(podTransaction);
-                        BranchId = branchId
-                    };
                 }
 
                 this.jobRepository.Update(existingJob);

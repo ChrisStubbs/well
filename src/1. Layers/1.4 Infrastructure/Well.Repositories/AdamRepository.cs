@@ -155,11 +155,11 @@
             throw new System.NotImplementedException();
         }
 
-        public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings, string username)
+        public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings)
         {
             //  var job = this.jobRepository.GetById(grn.Id);
 
-            var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, username);
+            var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, this.jobRepository.CurrentUser);
 
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {

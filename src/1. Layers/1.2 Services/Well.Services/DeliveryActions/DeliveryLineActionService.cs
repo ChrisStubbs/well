@@ -51,13 +51,12 @@ namespace PH.Well.Services
 
         public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings, username);
+            var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
 
             this.MarkAsDone(eventId, adamResponse);
         }
 
-        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings,
-            string username, int branchId)
+        public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, int branchId)
         {
             var groupdLines = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>()
                 .Select(p => new
@@ -104,13 +103,13 @@ namespace PH.Well.Services
                 .ToList();
         }
 
-        public void Pod(PodTransaction podTransaction, int eventId, AdamSettings adamSettings, string username)
+        public void Pod(PodTransaction podTransaction, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Pod(podTransaction, adamSettings);
 
             this.MarkAsDone(eventId, adamResponse);
             this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
-            
+
         }
 
         //public ProcessDeliveryPodActionResult ProcessDeliveryPodActions(List<DeliveryLine> lines, AdamSettings adamSettings, string username, int branchId)
@@ -134,11 +133,10 @@ namespace PH.Well.Services
         //    return result;
         //}
 
-
+        private void MarkAsDone(int eventId, AdamResponse response)
         {
             if (response == AdamResponse.Success)
             {
-                //////this.eventRepository.CurrentUser = username;
                 this.eventRepository.MarkEventAsProcessed(eventId);
             }
         }

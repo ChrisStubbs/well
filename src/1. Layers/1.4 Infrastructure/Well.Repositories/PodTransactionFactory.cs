@@ -32,7 +32,7 @@
             var acno = (int) (Convert.ToDecimal(job.PhAccount)*1000);
             var today = DateTime.Now.ToString("dd/MM/yyyy");
             var now = DateTime.Now.ToShortTimeString();
-            var contact = account.ContactName.Substring(0, 16);
+            var contact = TruncateString(account.ContactName, 16); 
 
             var source = 0;
             var lineCount = 0;
@@ -82,30 +82,35 @@
             {
                 // is it short, is it damaged?
                 // if so create the pod line
-                var tryInt = 0;
-                var deliveredQuantity = 0;
-                if (int.TryParse(line.DeliveredQty, out tryInt))
-                {
-                    deliveredQuantity = tryInt;
-                }
 
                 if (line.JobDetailDamages.Any())
                 {
                     foreach (var damage in line.JobDetailDamages)
                     {
-                        var podLine = new PodDeliveryLineCredit { JobId = jobId, Reason = (int)PodReason.Damaged, ProductCode = line.PhProductCode, Quantity = deliveredQuantity };
+                        var podLine = new PodDeliveryLineCredit { JobId = jobId, Reason = (int)PodReason.Damaged, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
                         podLines.Add(podLine);
                     }
                 }
 
                 if (line.ShortQty > 0)
                 {
-                   var podLine = new PodDeliveryLineCredit { JobId = jobId, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.PhProductCode, Quantity = deliveredQuantity };
+                   var podLine = new PodDeliveryLineCredit { JobId = jobId, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
                     podLines.Add(podLine);
                 }
             }
 
             return podLines;
         }
+
+        private string TruncateString(string input, int maxLength)
+        {
+            if (!string.IsNullOrEmpty(input) && input.Length > maxLength)
+            {
+                return input.Substring(0, maxLength);
+            }
+
+            return input;
+        }
+
     }
 }

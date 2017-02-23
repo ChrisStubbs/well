@@ -33,6 +33,8 @@
 
         private Mock<IEventLogger> eventLogger;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         private AdamImportService service;
 
         [SetUp]
@@ -48,13 +50,15 @@
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            this.accountRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.stopRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.accountRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
 
             this.service = new AdamImportService(this.routeHeaderRepository.Object,
                 this.stopRepository.Object, this.accountRepository.Object,
@@ -110,6 +114,8 @@
             var stop = StopFactory.New.Build();
             var job = JobFactory.New.Build();
             var jobDetail = JobDetailFactory.New.Build();
+
+            jobDetail.JobDetailDamages.Add(new JobDetailDamage());
 
             job.JobDetails.Add(jobDetail);
             stop.Jobs.Add(job);

@@ -31,6 +31,7 @@
         private Mock<ILogger> logger;
         private Mock<IDeliveryService> deliveryService;
         private Mock<IExceptionEventRepository> exceptionEventRepository;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -42,6 +43,8 @@
             logger = new Mock<ILogger>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
             exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
             // deliveryReadRepository.SetupSet(r => r. = It.IsAny<string>())
 
@@ -49,10 +52,12 @@
                 this.deliveryReadRepository.Object,
                 this.serverErrorResponseHandler.Object,
                 this.deliveryToDetailMapper.Object,
-                logger.Object,
-                deliveryService.Object,
-                jobRepository.Object,
-                exceptionEventRepository.Object);
+                this.logger.Object,
+                this.deliveryService.Object,
+                this.jobRepository.Object,
+                this.exceptionEventRepository.Object,
+                this.userNameProvider.Object
+                );
 
             this.SetupController();
         }

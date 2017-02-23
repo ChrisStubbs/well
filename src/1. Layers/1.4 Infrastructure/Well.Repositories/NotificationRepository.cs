@@ -9,8 +9,8 @@
 
     public class NotificationRepository : DapperRepository<Notification, int>, INotificationRepository
     {
-        public NotificationRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public NotificationRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

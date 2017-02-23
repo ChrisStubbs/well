@@ -31,6 +31,7 @@
         private Mock<IJobRepository> jobRepository;
 
         private Mock<IBranchRepository> branchRepository;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -40,13 +41,16 @@
             this.deliveryLineActionService = new Mock<IDeliveryLineActionService>(MockBehavior.Strict);
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
             this.Controller = new ActionDeliveryLinesController(
                 this.deliveryReadRepository.Object, 
                 this.mapper.Object, 
                 this.deliveryLineActionService.Object,
                 this.jobRepository.Object,
-                this.branchRepository.Object);
+                this.branchRepository.Object,
+                this.userNameProvider.Object);
 
             this.SetupController();
         }
@@ -126,7 +130,7 @@
                 var processDeliveryActionResult = new ProcessDeliveryActionResult();
 
                 this.deliveryLineActionService.Setup(
-                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), It.IsAny<string>(), branchId)).Returns(processDeliveryActionResult);
+                    x => x.ProcessDeliveryActions(It.IsAny<List<DeliveryLine>>(), It.IsAny<AdamSettings>(), branchId)).Returns(processDeliveryActionResult);
 
                 var response = this.Controller.ConfirmDeliveryLines(jobId);
 

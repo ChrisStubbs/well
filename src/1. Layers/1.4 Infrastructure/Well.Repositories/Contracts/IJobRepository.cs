@@ -11,7 +11,7 @@
 
         Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId);
 
-        Job JobGetByRefDetails(string phAccount, string pickListRef, int stopId);
+        Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId);
 
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
 
@@ -32,5 +32,8 @@
         void SaveGrn(int jobId, string grn);
 
         void SetJobToSubmittedStatus(int jobId);
+
+        IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int branchId, string invoiceNumber);
+
     }
 }

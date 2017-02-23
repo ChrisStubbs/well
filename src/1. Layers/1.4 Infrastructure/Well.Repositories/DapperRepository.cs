@@ -14,17 +14,20 @@
     {
         public int? TotalRecords { get; private set; }
 
-        public string CurrentUser { get; set; }
+        public string CurrentUser { get; }
 
         protected readonly ILogger logger;
 
         protected readonly IDapperProxy dapperProxy;
+        private readonly IUserNameProvider userNameProvider;
 
 
-        protected DapperRepository(ILogger logger, IDapperProxy dapperProxy)
+        protected DapperRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
         {
             this.logger = logger;
             this.dapperProxy = dapperProxy;
+            this.userNameProvider = userNameProvider;
+            this.CurrentUser = this.userNameProvider.GetUserName();
         }
 
         protected virtual void SaveNew(TEntity entity)

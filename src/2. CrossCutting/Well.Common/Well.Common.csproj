@@ -68,6 +68,7 @@
     <Compile Include="Contracts\IFtpClient.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
+    <Compile Include="Contracts\IUserNameProvider.cs" />
     <Compile Include="Contracts\IUserRoleProvider.cs" />
     <Compile Include="Contracts\IWebClient.cs" />
     <Compile Include="EventLogger.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />
     <Compile Include="HttpWebRequestExtensions.cs" />
+    <Compile Include="UserNameProvider.cs" />
     <Compile Include="NLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\RoleProviderHelper.cs" />

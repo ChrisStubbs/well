@@ -29,6 +29,7 @@
         private readonly ILogger logger;
         private IAuditRepository auditRepo;
         private INotificationRepository notificationRepository;
+        private IUserNameProvider userNameProvider;
 
         public DatabaseSteps()
         {
@@ -36,6 +37,7 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
+            this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
             auditRepo = container.GetInstance<IAuditRepository>();
             notificationRepository = container.GetInstance<INotificationRepository>();
         }
@@ -180,7 +182,8 @@
         [Given(@"25 audit entries have been made")]
         public void InsertAudits()
         {
-            auditRepo.CurrentUser = "BDD.User";
+            //////auditRepo.CurrentUser = "BDD.User";
+            this.userNameProvider.ChangeUserName("BDD.User");
             for (int i = 0; i < 25; i++)
             {
                 var audit = new Audit()
@@ -197,7 +200,8 @@
         [Given(@"5 audit entries have been made")]
         public void Insert5Audits()
         {
-            auditRepo.CurrentUser = "BDD.User";
+            this.userNameProvider.ChangeUserName("BDD.User");
+            //auditRepo.CurrentUser = "BDD.User";
            
                 var audit = new Audit()
                 {
@@ -352,7 +356,8 @@
         [Given(@"(.*) notifications have been made")]
         public void InsertNotifications(int notifications)
         {
-            notificationRepository.CurrentUser = "BDD.User";
+            //////notificationRepository.CurrentUser = "BDD.User";
+            this.userNameProvider.ChangeUserName("BDD.User");
             for (int i = 0; i < notifications; i++)
             {
                 var accountNumber = 12345.001;

@@ -1,11 +1,13 @@
-﻿export class Damage {
+﻿export class Damage
+{
 
     constructor(
         index: number,
         quantity: number,
         jobDetailReasonId: number,
         jobDetailSourceId: number,
-        damageActionId: number) {
+        damageActionId: number)
+    {
         this.index = index;
         this.quantity = quantity;
         this.jobDetailReasonId = jobDetailReasonId;

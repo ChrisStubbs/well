@@ -24,7 +24,9 @@
         private readonly IActiveDirectoryService activeDirectoryService;
 
         public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService,
-            IUserRepository userRepository, ILogger logger)
+            IUserRepository userRepository, ILogger logger,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
@@ -69,7 +71,8 @@
                 // the threshold level to max for now
                 user.ThresholdLevelId = (int)ThresholdLevel.Level1;
 
-                this.userRepository.CurrentUser = userIdentity;
+                ////// DIJ - Why are we changing current user?
+                //////this.userRepository.CurrentUser = userIdentity;
 
                 this.userRepository.Save(user);
 
@@ -104,7 +107,7 @@
             {
                 if (userJob.UserId > 0 && userJob.JobId > 0)
                 {
-                    this.userRepository.CurrentUser = this.UserIdentityName;
+                    //////this.userRepository.CurrentUser = this.UserIdentityName;
                     this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
 
                     return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
@@ -125,7 +128,7 @@
         {
             try
             {
-                this.userRepository.CurrentUser = this.UserIdentityName;
+                //////this.userRepository.CurrentUser = this.UserIdentityName;
                 this.userRepository.UnAssignJobToUser(jobId);
 
                 return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });

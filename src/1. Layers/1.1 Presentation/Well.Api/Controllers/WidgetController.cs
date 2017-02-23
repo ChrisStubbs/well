@@ -32,8 +32,10 @@
             IWidgetRepository widgetRepository,
             IWidgetWarningMapper mapper,
             IWidgetWarningValidator validator,
+            IUserNameProvider userNameProvider,
             INotificationRepository notificationRepository,
             IDeliveryReadRepository deliveryReadRepository)
+            : base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.logger = logger;
@@ -44,7 +46,7 @@
             this.notificationRepository = notificationRepository;
             this.deliveryReadRepository = deliveryReadRepository;
 
-            this.widgetRepository.CurrentUser = this.UserIdentityName;
+            //////this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Authorize(Roles = SecurityPermissions.LandingPage)]

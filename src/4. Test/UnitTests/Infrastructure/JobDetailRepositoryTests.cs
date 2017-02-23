@@ -24,16 +24,19 @@
         private Mock<IWellDapperProxy> dapperProxy;
 
         private JobDetailRepository repository;
-        private string UserName = "TestUser";
+
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
 
-            this.repository = new JobDetailRepository(this.logger.Object, this.dapperProxy.Object);
-            this.repository.CurrentUser = UserName;
+            this.repository = new JobDetailRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
+            //////this.repository.CurrentUser = UserName;
         }
 
         public class TheGetByIdMethod : JobDetailRepositoryTests
@@ -236,7 +239,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("DeliveredQty", decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal, null))
+                        x => x.AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null))
@@ -323,7 +326,7 @@
                 this.dapperProxy.Verify(x => x.AddParameter("Id", jobDetail.Id, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("DeliveredQty", decimal.Parse(jobDetail.DeliveredQty), DbType.Decimal, null), Times.Once);
+                        x => x.AddParameter("DeliveredQty", jobDetail.DeliveredQty, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32, null), Times.Once);
 

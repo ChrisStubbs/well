@@ -145,7 +145,7 @@
             var from = new JobDetail();
 
             from.ShortQty = 3;
-            from.DeliveredQty = "5";
+            from.DeliveredQty = 5;
 
             var to = new JobDetail();
 

@@ -14,6 +14,9 @@
 
     public static class DependancyRegister
     {
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public static Container InitIoc()
         {
             return new Container(
@@ -39,7 +42,8 @@
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
-
+                    x.For<IDeliveryStatusService>().Use<DeliveryStatusService>();
+                    x.For<IUserNameProvider>().Use<UserNameProvider>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

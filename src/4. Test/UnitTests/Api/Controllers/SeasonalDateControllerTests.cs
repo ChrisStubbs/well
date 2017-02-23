@@ -25,6 +25,7 @@
         private Mock<ISeasonalDateRepository> seasonalDateRepository;
         private Mock<ISeasonalDateMapper> mapper;
         private Mock<ISeasonalDateValidator> validator;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -33,12 +34,16 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.mapper = new Mock<ISeasonalDateMapper>(MockBehavior.Strict);
             this.validator = new Mock<ISeasonalDateValidator>(MockBehavior.Strict);
-            this.seasonalDateRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+            this.userNameProvider = new Mock<IUserNameProvider>();
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(It.IsAny<string>());
+
+            //////this.seasonalDateRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
             this.Controller = new SeasonalDateController(
                 this.seasonalDateRepository.Object, 
                 this.logger.Object, 
                 this.mapper.Object,
-                this.validator.Object);
+                this.validator.Object,
+                this.userNameProvider.Object);
 
             this.SetupController();
         }

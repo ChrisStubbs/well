@@ -33,7 +33,9 @@
             IBranchRepository branchRepository, 
             IServerErrorResponseHandler serverErrorResponseHandler,
             IBranchService branchService,
-            IBranchModelMapper branchModelMapper)
+            IBranchModelMapper branchModelMapper,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.logger = logger;
             this.branchRespository = branchRepository;
@@ -148,7 +150,7 @@
             {
                 if (branches.Length > 0)
                 {
-                    this.branchService.SaveBranchesForUser(branches, this.UserIdentityName);
+                    this.branchService.SaveBranchesForUser(branches);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 
@@ -170,7 +172,7 @@
             {
                 if (branches.Length > 0)
                 {
-                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserIdentityName, domain);
+                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, domain);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 

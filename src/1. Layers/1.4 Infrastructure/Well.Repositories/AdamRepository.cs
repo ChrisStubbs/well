@@ -30,7 +30,7 @@
             this.podTransactionFactory = podTransactionFactory;
         }
 
-        public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings, string username)
+        public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings)
         {
             var linesToRemove = new Dictionary<int, string>();
 

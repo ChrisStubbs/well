@@ -9,7 +9,8 @@
 
     public class JobDetailDamageRepository : DapperRepository<JobDetailDamage, int>, IJobDetailDamageRepository
     {
-        public JobDetailDamageRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public JobDetailDamageRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

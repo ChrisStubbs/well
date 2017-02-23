@@ -427,22 +427,20 @@
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "INVALUE");
 
-                decimal total;
-                var result = decimal.TryParse(attribute?.Value, out total);
-
-                if (result)
-                {
-                    return total;
-                }
-                else
-                {
-                    return 0;
-                }
+                decimal total = 0;
+                decimal.TryParse(attribute?.Value, out total);
+                return total;
             }
         }
 
+        /// <summary>
+        /// </summary>
+        [XmlIgnore]
+        public bool HasException { get; set; }
+
         // TODO exception is a job with any details that has a short and or any damages
-        public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
+        ////public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
+        public bool IsException => this.HasException;
 
         // TODO clean is a job with all details without any damages and zero shorts
         public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;

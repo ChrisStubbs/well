@@ -29,14 +29,16 @@
             ISeasonalDateRepository seasonalDateRepository, 
             ILogger logger, 
             ISeasonalDateMapper mapper,
-            ISeasonalDateValidator validator)
+            ISeasonalDateValidator validator,
+            IUserNameProvider userNameProvider)
+            :base(userNameProvider)
         {
             this.seasonalDateRepository = seasonalDateRepository;
             this.logger = logger;
             this.mapper = mapper;
             this.validator = validator;
 
-            this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
+            //////this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
         }
         
         public HttpResponseMessage Get()

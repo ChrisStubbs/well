@@ -31,6 +31,9 @@
             monitorService.Monitor(Configuration.RootFolder);
         }
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         private static Container InitIoc()
         {
             return new Container(
@@ -53,6 +56,8 @@
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
+                    x.For<IDeliveryStatusService>().Use<DeliveryStatusService>();
+                    x.For<IUserNameProvider>().Use<UserNameProvider>();
                 });
         }
     }

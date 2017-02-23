@@ -33,6 +33,7 @@
         private ICreditThresholdRepository creditThresholdRepository;
         private IBranchRepository branchRepository;
         private IUserRepository userRepository;
+        private IUserNameProvider userNameProvider;
 
         public ApprovalsSteps()
         {
@@ -42,6 +43,7 @@
             creditThresholdRepository = container.GetInstance<ICreditThresholdRepository>();
             branchRepository = container.GetInstance<IBranchRepository>();
             userRepository = container.GetInstance<IUserRepository>();
+            userNameProvider = container.GetInstance<IUserNameProvider>();
         }
 
 
@@ -49,7 +51,8 @@
         public void GivenIHaveTheFollowingCreditThresholdsSetupForAllBranches(Table table)
         {
             var branches = branchRepository.GetAllValidBranches();
-            creditThresholdRepository.CurrentUser = "BDD";
+            //////creditThresholdRepository.CurrentUser = "BDD";
+            this.userNameProvider.ChangeUserName("BDD");
             foreach (var tableRow in table.Rows)
             {
                 var creditThreshold = new CreditThreshold()
@@ -118,6 +121,14 @@
             }
         }
 
+        [When(@"I filter for threshold level (.*)")]
+        [Then(@"I filter for threshold level (.*)")]
+        public void GivenIFilterForThresholdLevel(int level)
+        {
+            ApprovalsPage.ThresholdRadioGroup.Click("Level" + level);
+        }
+
+
         [When(@"I open the approval deliveries page")]
         public void WhenIOpenTheApprovalDeliveriesPage()
         {
@@ -137,11 +148,17 @@
             rows[row - 1].GetItemInRowByClass("contact-info").Click();
         }
 
+        [When(@"I click on approvals page (.*)")]
+        public void WhenIClickOnExceptionDeliveryPage(int pageNo)
+        {
+            this.ApprovalsPage.Pager.Click(pageNo);
+        }
+
         [Then(@"the following approval deliveries will be displayed")]
         public void ThenTheFollowingApprovalDeliveriesWillBeDisplayed(Table table)
         {
-            var result = this.ApprovalsPage.ApprovalsGrid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            ContainsSpecFlowTableResult result = this.ApprovalsPage.ApprovalsGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
         [Then(@"I can view the following account info details")]

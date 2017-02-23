@@ -25,6 +25,7 @@
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IDeliveryService> deliveryService;
         private Mock<IDeliveryLineToJobDetailMapper> deliveryLineToJobDetailMapper;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -33,14 +34,17 @@
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
             this.deliveryLineToJobDetailMapper = new Mock<IDeliveryLineToJobDetailMapper>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            jobDetailRepository.SetupSet(r => r.CurrentUser = It.IsAny<string>());
+            //////jobDetailRepository.SetupSet(r => r.CurrentUser = It.IsAny<string>());
 
             Controller = new DeliveryLineController(
                 serverErrorResponseHandler.Object,
                 jobDetailRepository.Object,
                 deliveryService.Object,
-                this.deliveryLineToJobDetailMapper.Object);
+                this.deliveryLineToJobDetailMapper.Object, 
+                this.userNameProvider.Object);
 
             SetupController();
         }

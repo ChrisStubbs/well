@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -26,6 +28,7 @@
         private Mock<IExceptionEventRepository> exceptionEventRepo;
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
         private Mock<IBranchRepository> branchRepository;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -40,6 +43,8 @@
             exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
+            userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
@@ -50,15 +55,16 @@
                 userRepo.Object,
                 exceptionEventRepo.Object,
                 deliveryReadRepository.Object,
-                branchRepository.Object);
+                branchRepository.Object,
+                userNameProvider.Object);
 
-            jobDetailRepository.SetupSet(x => x.CurrentUser = "user");
-            jobDetailDamageRepo.SetupSet(x => x.CurrentUser = "user");
-            jobRepo.SetupSet(x => x.CurrentUser = "user");
-            auditRepo.SetupSet(a => a.CurrentUser = "user");
-            stopRepo.SetupSet(a => a.CurrentUser = "user");
-            jobDetailActionRepo.SetupSet(a => a.CurrentUser = "user");
-            exceptionEventRepo.SetupSet(a => a.CurrentUser = "user");
+            //jobDetailRepository.SetupSet(x => x.CurrentUser = "user");
+            //jobDetailDamageRepo.SetupSet(x => x.CurrentUser = "user");
+            //jobRepo.SetupSet(x => x.CurrentUser = "user");
+            //auditRepo.SetupSet(a => a.CurrentUser = "user");
+            //stopRepo.SetupSet(a => a.CurrentUser = "user");
+            //jobDetailActionRepo.SetupSet(a => a.CurrentUser = "user");
+            //exceptionEventRepo.SetupSet(a => a.CurrentUser = "user");
         }
 
         public class UpdateDeliveryLineTests : DeliveryServiceTests
@@ -271,7 +277,7 @@
                                                 a.Quantity == 3 &&
                                                 a.Status == ActionStatus.Draft)), Times.Once);
                
-                jobDetailActionRepo.VerifySet(a => a.CurrentUser = "user");
+                //////jobDetailActionRepo.VerifySet(a => a.CurrentUser = "user");
             }                          
 
             [Test]
@@ -280,7 +286,7 @@
                 CommonArrangeAndAct();
 
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry == true)));
-                auditRepo.VerifySet(a => a.CurrentUser = "user");
+                //////auditRepo.VerifySet(a => a.CurrentUser = "user");
             }
         }
 
@@ -353,7 +359,7 @@
             {
                 CommonArrangeAct();
 
-                jobDetailActionRepo.VerifySet(r => r.CurrentUser = "user");
+                //////jobDetailActionRepo.VerifySet(r => r.CurrentUser = "user");
 
                 jobDetailActionRepo.Verify(r => r.Update(It.Is<JobDetailAction>(a => a.JobDetailId == 1 &&
                                                                                      a.Action == EventAction.Credit &&
@@ -418,7 +424,7 @@
                  $"'{string.Join(", ", submittedJobDetails[1].Actions.Select(d => d.GetString()))}'. ";
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.Entry == entry2)), Times.Once);
 
-                auditRepo.VerifySet(a => a.CurrentUser = "user");
+                //////auditRepo.VerifySet(a => a.CurrentUser = "user");
             }
         }
 

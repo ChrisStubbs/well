@@ -18,6 +18,9 @@
             new EventProcessor(container).Process();
         }
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public static Container InitIoc()
         {
             return new Container(
@@ -40,7 +43,7 @@
                     x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
-                    x.For<IEventLogger>().Use<EventLogger>();
+                    x.For<IUserNameProvider>().Use<UserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();

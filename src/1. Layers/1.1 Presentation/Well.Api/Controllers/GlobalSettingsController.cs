@@ -17,7 +17,8 @@
 
         private readonly IUserRoleProvider userRoleProvider;
 
-        public GlobalSettingsController(IUserRepository userRepository, IUserRoleProvider userRoleProvider)
+        public GlobalSettingsController(IUserRepository userRepository, IUserRoleProvider userRoleProvider, IUserNameProvider userNameProvider)
+            :base(userNameProvider)
         {
             this.userRepository = userRepository;
             this.userRoleProvider = userRoleProvider;

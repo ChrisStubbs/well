@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
 
@@ -22,6 +24,7 @@
         private Mock<IActiveDirectoryService> activeDirectoryService;
 
         private BranchService service;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
@@ -29,11 +32,13 @@
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
 
-            this.service = new BranchService(this.userRepository.Object, this.branchRepository.Object, this.activeDirectoryService.Object);
+            this.service = new BranchService(this.userRepository.Object, this.branchRepository.Object, this.activeDirectoryService.Object, this.userNameProvider.Object);
 
-            this.userRepository.SetupSet(x => x.CurrentUser = "foo");
-            this.branchRepository.SetupSet(x => x.CurrentUser = "foo");
+            //////this.userRepository.SetupSet(x => x.CurrentUser = "foo");
+            //////this.branchRepository.SetupSet(x => x.CurrentUser = "foo");
         }
 
         public class TheSaveBranchesForUserMethod : BranchServiceTests
@@ -51,7 +56,7 @@
 
                 this.activeDirectoryService.Setup(x => x.GetUser("foo")).Returns(new User());
 
-                this.service.SaveBranchesForUser(branches, username);
+                this.service.SaveBranchesForUser(branches);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
 
@@ -71,7 +76,7 @@
                 this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, user));
                 this.branchRepository.Setup(x => x.DeleteUserBranches(user));
 
-                this.service.SaveBranchesForUser(branches, username);
+                this.service.SaveBranchesForUser(branches);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, user), Times.Once);

@@ -14,8 +14,8 @@
 
     public class ExceptionEventRepository : DapperRepository<ExceptionEvent, int>, IExceptionEventRepository
     {
-        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy) 
-            : base(logger, dapperProxy)
+        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

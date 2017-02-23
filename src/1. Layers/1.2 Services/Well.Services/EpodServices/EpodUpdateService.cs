@@ -23,10 +23,10 @@
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IPodTransactionFactory podTransactionFactory;
-
         private readonly IRouteMapper mapper;
-
         private readonly IAdamImportService adamImportService;
+        private readonly IDeliveryStatusService deliveryStatusService;
+        private readonly IUserNameProvider userNameProvider;
 
         private const string UpdatedBy = "EpodUpdate";
 
@@ -44,6 +44,8 @@
             IRouteMapper mapper,
             IAdamImportService adamImportService,
             IPodTransactionFactory podTransactionFactory)
+            IDeliveryStatusService deliveryStatusService,
+            IUserNameProvider userNameProvider)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -56,13 +58,15 @@
             this.mapper = mapper;
             this.adamImportService = adamImportService;
             this.podTransactionFactory = podTransactionFactory;
+            this.deliveryStatusService = deliveryStatusService;
+            this.userNameProvider = userNameProvider;
 
-            this.routeHeaderRepository.CurrentUser = UpdatedBy;
-            this.stopRepository.CurrentUser = UpdatedBy;
-            this.jobRepository.CurrentUser = UpdatedBy;
-            this.jobDetailRepository.CurrentUser = UpdatedBy;
-            this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
-            this.exceptionEventRepository.CurrentUser = UpdatedBy;
+            //this.routeHeaderRepository.CurrentUser = UpdatedBy;
+            //this.stopRepository.CurrentUser = UpdatedBy;
+            //this.jobRepository.CurrentUser = UpdatedBy;
+            //this.jobDetailRepository.CurrentUser = UpdatedBy;
+            //this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
+            //this.exceptionEventRepository.CurrentUser = UpdatedBy;
         }
 
         public void Update(RouteDelivery route)
@@ -108,7 +112,8 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         // TODO
-                        var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderReference);
+                        var job = stop.Jobs.First();
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 
                         if (existingStop == null)
                         {
@@ -164,27 +169,19 @@
 
                 this.mapper.Map(job, existingJob);
 
-                var hasDamage = false;
+                this.deliveryStatusService.SetStatus(existingJob, branchId);
 
-                foreach (var detail in job.JobDetails)
-                {
-                    if (detail.JobDetailDamages.Any())
-                    {
-                        hasDamage = true;
-                        break;
-                    }
-                }
-
-                if (hasDamage)
                 {
                     // TODO think about this status do we need it, maybe for querying hmm not sure
-                    existingJob.PerformanceStatus = PerformanceStatus.Incom;
                 } 
-
                 // TODO refactor this
                 if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
                 {
-                    var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+                    var grnEvent = new GrnEvent
+                    {
+                        Id = existingJob.Id,
+                        BranchId = branchId
+                    };
                     
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
@@ -199,6 +196,8 @@
                     //build pod transaction
                     var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
                     this.exceptionEventRepository.InsertPodEvent(podTransaction);
+                        BranchId = branchId
+                    };
                 }
 
                 this.jobRepository.Update(existingJob);

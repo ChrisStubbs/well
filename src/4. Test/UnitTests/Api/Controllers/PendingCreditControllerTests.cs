@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Api.Controllers
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Api.Controllers
 {
     using System.Collections.Generic;
     using System.Net;
@@ -16,13 +18,16 @@
     public class PendingCreditControllerTests : BaseControllerTests<PendingCreditController>
     {
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
         {
             this.deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            this.Controller = new PendingCreditController(this.deliveryReadRepository.Object);
+            this.Controller = new PendingCreditController(this.deliveryReadRepository.Object, this.userNameProvider.Object);
             this.SetupController();
         }
 

@@ -9,7 +9,8 @@
 
     public class StopRepository : DapperRepository<Stop, int>, IStopRepository
     {
-        public StopRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public StopRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 
@@ -88,11 +89,13 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 
-        public Stop GetByTransportOrderReference(string transportOrderReference)
+        public Stop GetByJobDetails(string picklist, string account, string invoice)
         {
             return
-               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference)
-                   .AddParameter("TransportOrderReference", transportOrderReference, DbType.String)
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJob)
+                   .AddParameter("Picklist", picklist, DbType.String)
+                   .AddParameter("Account", account, DbType.String)
+                   .AddParameter("Invoice", invoice, DbType.String)
                    .Query<Stop>()
                    .FirstOrDefault();
         }

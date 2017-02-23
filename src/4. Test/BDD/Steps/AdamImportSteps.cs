@@ -39,6 +39,7 @@
         private IRouteHeaderRepository routeHeaderRepository;
         private IEpodUpdateService epodUpdateService;
         private AdamFileMonitorService adamFileMonitorService;
+        private IUserNameProvider userNameProvider;
         private readonly string currentUser = "epodBDDUser";
 
         public AdamImportSteps()
@@ -59,9 +60,10 @@
             this.adamUpdateService = this.container.GetInstance<IAdamUpdateService>();
             this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
-            
+            this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
 
-            this.routeHeaderRepository.CurrentUser = this.currentUser;
+            this.userNameProvider.ChangeUserName(this.currentUser);
+            //////this.routeHeaderRepository.CurrentUser = this.currentUser;
 
             this.logger.LogDebug("Calling file monitor service");
             adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);
@@ -195,7 +197,7 @@
             var jobRepository = container.GetInstance<IJobRepository>();
             var customerRoyalty = jobRepository.GetCustomerRoyaltyExceptionsByRoyalty(royaltyCode);
             customerRoyalty.ExceptionDays = exceptionDays;
-            jobRepository.CurrentUser = this.currentUser;
+            //////jobRepository.CurrentUser = this.currentUser;
             jobRepository.UpdateCustomerRoyaltyException(customerRoyalty);
         }
 
@@ -221,7 +223,7 @@
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
-            jobDetailrepositoryContainer.CurrentUser = currentUser;
+            //////jobDetailrepositoryContainer.CurrentUser = currentUser;
             jobDetailrepositoryContainer.Update(jobDetailToResolve);
         }
 
@@ -230,7 +232,7 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).Where(x => x.JobDetailStatusId == 2);
-            jobDetailrepositoryContainer.CurrentUser = currentUser;
+            //////jobDetailrepositoryContainer.CurrentUser = currentUser;
 
             foreach (var jobDetail in jobDetailToResolve)
             {

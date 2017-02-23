@@ -16,7 +16,9 @@
         public RouteHeaderRepository(ILogger logger,
             IWellDapperProxy dapperProxy,
             IStopRepository stopRepository,
-            IJobRepository jobRepository) : base(logger, dapperProxy)
+            IJobRepository jobRepository,
+            IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
             this.stopRepository = stopRepository;
             this.jobRepository = jobRepository;

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Api.Controllers
 {
     using System.Net;
     using System.Net.Http;
@@ -10,7 +12,8 @@
     {
         private readonly IDeliveryReadRepository deliveryReadRepository;
 
-        public PendingCreditController(IDeliveryReadRepository deliveryReadRepository)
+        public PendingCreditController(IDeliveryReadRepository deliveryReadRepository, IUserNameProvider userNameProvider)
+            :base(userNameProvider)
         {
             this.deliveryReadRepository = deliveryReadRepository;
         }

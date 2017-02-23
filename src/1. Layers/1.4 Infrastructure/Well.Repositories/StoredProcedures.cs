@@ -33,7 +33,7 @@
         public static string StopGetById = "Stop_GetById";
         public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public static string AccountInsert = "Account_Insert";
-        public static string StopGetByTransportOrderReference = "StopGetByTransportOrderReference";
+        public static string StopGetByJob = "StopGetByJob";
         public static string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
         public static string StopGetByJobId = "Stop_GetByJobId";
         public static string StopDeleteById = "Stop_DeleteById";
@@ -57,6 +57,7 @@
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
         public static string JobSetToStatus = "Job_SetToStatus";
+        public static string JobsGetByBranchAndInvoiceNumberWithFullObjectGraph = "Jobs_GetByBranchAndInvoiceNumber";
 
         //jobdetail
         public static string JobDetailGet = "JobDetail_Get";

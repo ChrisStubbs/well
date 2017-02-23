@@ -17,11 +17,13 @@
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public RoutesController(IRouteHeaderRepository routeRepository,
-                IServerErrorResponseHandler serverErrorResponseHandler)
+                IServerErrorResponseHandler serverErrorResponseHandler,
+                IUserNameProvider userNameProvider):
+            base(userNameProvider)
         {
             this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
-            this.routeRepository.CurrentUser = this.UserIdentityName;
+            //////this.routeRepository.CurrentUser = this.UserIdentityName;
         }
 
         public HttpResponseMessage Get(string searchField = null, string searchTerm = null)

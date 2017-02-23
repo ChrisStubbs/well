@@ -28,7 +28,10 @@ namespace PH.Well.Services
             }
         }
 
-        public ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, string username, int branchId)
+        public ProcessDeliveryActionResult Execute(
+            Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, 
+            AdamSettings adamSettings, 
+            int branchId)
         {
             var lines = deliveryLines(this.Action);
 

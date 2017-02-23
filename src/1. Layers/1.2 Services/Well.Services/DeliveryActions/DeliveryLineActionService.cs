@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +22,7 @@
         private readonly IUserThresholdService userThresholdService;
         private readonly IExceptionEventRepository eventRepository;
         private readonly IEnumerable<IDeliveryLinesAction> allActionHandlers;
+        private readonly IUserNameProvider userNameProvider;
 
         public DeliveryLineActionService(
             IAdamRepository adamRepository,
@@ -27,7 +30,8 @@
             IUserRepository userRepository,
             IUserThresholdService userThresholdService,
             IExceptionEventRepository eventRepository,
-            IEnumerable<IDeliveryLinesAction> allActionHandlers)
+            IEnumerable<IDeliveryLinesAction> allActionHandlers,
+            IUserNameProvider userNameProvider)
         {
             this.adamRepository = adamRepository;
             this.jobRepository = jobRepository;
@@ -35,20 +39,21 @@
             this.userThresholdService = userThresholdService;
             this.eventRepository = eventRepository;
             this.allActionHandlers = allActionHandlers;
+            this.userNameProvider = userNameProvider;
         }
 
-        public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings, string username)
+        public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings, username);
+            var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings);
 
-            this.MarkAsDone(eventId, adamResponse, username);
+            this.MarkAsDone(eventId, adamResponse);
         }
 
-        public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings, string username)
+        public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings, username);
 
-            this.MarkAsDone(eventId, adamResponse, username);
+            this.MarkAsDone(eventId, adamResponse);
         }
 
         public ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings,
@@ -67,7 +72,7 @@
             {
                 results = allActionHandlers
                     .OrderBy(p => p.Action)
-                    .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, username, branchId))
+                    .Select(p => p.Execute(delAction => groupdLines[delAction], adamSettings, branchId))
                     .ToList();
 
                 transactionScope.Complete();
@@ -103,7 +108,7 @@
         {
             var adamResponse = this.adamRepository.Pod(podTransaction, adamSettings);
 
-            this.MarkAsDone(eventId, adamResponse, username);
+            this.MarkAsDone(eventId, adamResponse);
             this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
             
         }
@@ -130,11 +135,10 @@
         //}
 
 
-        private void MarkAsDone(int eventId, AdamResponse response, string username)
         {
             if (response == AdamResponse.Success)
             {
-                this.eventRepository.CurrentUser = username;
+                //////this.eventRepository.CurrentUser = username;
                 this.eventRepository.MarkEventAsProcessed(eventId);
             }
         }

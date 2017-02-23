@@ -21,13 +21,15 @@
             IServerErrorResponseHandler serverErrorResponseHandler,
             IJobDetailRepository jobDetailRepository,
             IDeliveryService deliveryService,
-            IDeliveryLineToJobDetailMapper deliveryLineToJobDetailMapper)
+            IDeliveryLineToJobDetailMapper deliveryLineToJobDetailMapper,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.jobDetailRepository = jobDetailRepository;
             this.deliveryService = deliveryService;
             this.deliveryLineToJobDetailMapper = deliveryLineToJobDetailMapper;
-            this.jobDetailRepository.CurrentUser = UserIdentityName;
+            //////this.jobDetailRepository.CurrentUser = UserIdentityName;
         }
 
         public HttpResponseMessage Put(DeliveryLineModel model)
@@ -50,7 +52,7 @@
 
                 this.deliveryLineToJobDetailMapper.Map(model, jobDetail);
 
-                deliveryService.UpdateDeliveryLine(jobDetail, UserIdentityName);
+                deliveryService.UpdateDeliveryLine(jobDetail, UserNameProvider.GetUserName());
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

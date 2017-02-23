@@ -35,6 +35,8 @@
 
         private AdamUpdateService service;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
@@ -47,11 +49,13 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.stopRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobRepository.SetupSet(x => x.CurrentUser = user);
+            //////this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
 
             this.service = new AdamUpdateService(
                 this.logger.Object, this.eventLogger.Object,
@@ -131,6 +135,10 @@
                     TransportOrderRef = "BIR-000001"
                 };
 
+                var job = new JobUpdate { PickListRef = "12221", PhAccount = "55444.333", InvoiceNumber = "54444444" };
+
+                stopUpdate.Jobs.Add(job);
+
                 var routeUpdate = new RouteUpdates();
 
                 this.logger.Setup(
@@ -157,7 +165,7 @@
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
 
-                this.stopRepository.Setup(x => x.GetByTransportOrderReference(stopUpdate.TransportOrderRef))
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber))
                     .Returns(new Stop());
 
                 this.service.Update(routeUpdate);
@@ -200,7 +208,7 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                var jobUpdate = new JobUpdate { PhAccount = "12321", PickListRef = "42333" };
+                var jobUpdate = new JobUpdate { PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
 
                 var jobDetailUpdate = new JobDetailUpdate { LineNumber = 1 };
 
@@ -217,7 +225,7 @@
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
 
-                this.stopRepository.Setup(x => x.GetByTransportOrderReference(stopUpdate.TransportOrderRef))
+                this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount, jobUpdate.InvoiceNumber))
                     .Returns((Stop)null);
 
                 this.mapper.Setup(x => x.Map(stopUpdate, It.IsAny<Stop>()));
@@ -226,7 +234,7 @@
 
                 var existingJob = new Job();
 
-                this.jobRepository.Setup(x => x.JobGetByRefDetails(jobUpdate.PhAccount, jobUpdate.PickListRef, 0))
+                this.jobRepository.Setup(x => x.GetJobByRefDetails(jobUpdate.PhAccount, jobUpdate.PickListRef, 0))
                     .Returns(existingJob);
 
                 this.mapper.Setup(x => x.Map(jobUpdate, It.IsAny<Job>()));
@@ -250,8 +258,6 @@
                             stopUpdate.RouteNumber,
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode)), Times.Once);
-
-                this.stopRepository.Verify(x => x.GetByTransportOrderReference(stopUpdate.TransportOrderRef), Times.Once);
 
                 this.mapper.Verify(x => x.Map(stopUpdate, It.IsAny<Stop>()), Times.Once);
 
@@ -286,7 +292,11 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                this.stopRepository.Setup(x => x.GetByTransportOrderReference(stopUpdate.TransportOrderRef))
+                var job = new JobUpdate { PickListRef = "32222", PhAccount = "344333.222", InvoiceNumber = "1221212" };
+
+                stopUpdate.Jobs.Add(job);
+
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber))
                     .Returns((Stop)null);
 
                 this.logger.Setup(
@@ -302,7 +312,7 @@
 
                 this.service.Update(routeUpdate);
 
-                this.stopRepository.Verify(x => x.GetByTransportOrderReference(stopUpdate.TransportOrderRef), Times.Once);
+                this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber), Times.Once);
 
                 this.logger.Verify(
                     x =>
@@ -335,7 +345,13 @@
 
                 var stop = StopFactory.New.Build();
 
-                this.stopRepository.Setup(x => x.GetByTransportOrderReference(stopUpdate.TransportOrderRef)).Returns(stop);
+                var job = new JobUpdate { PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
+
+                stopUpdate.Jobs.Add(job);
+
+                this.jobRepository.Setup(x => x.GetJobByRefDetails(job.PhAccount, job.PickListRef, stop.Id)).Returns((Job)null);
+
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber)).Returns(stop);
 
                 this.mapper.Setup(x => x.Map(stopUpdate, stop));
 

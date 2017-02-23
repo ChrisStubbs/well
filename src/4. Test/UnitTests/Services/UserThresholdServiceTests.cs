@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
     using Moq;
@@ -15,13 +17,17 @@
         private Mock<IUserRepository> userRepository;
 
         private UserThresholdService service;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public void Setup()
         {
             this.creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            this.service = new UserThresholdService(this.creditThresholdRepository.Object, this.userRepository.Object);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
+
+            this.service = new UserThresholdService(this.creditThresholdRepository.Object, this.userRepository.Object, this.userNameProvider.Object);
         }
 
         public class TheCanUserCreditMethod : UserThresholdServiceTests
@@ -35,17 +41,17 @@
 
                 var thresholds = new List<CreditThreshold> { threshold, threshold2 };
 
-                var username = "foo";
+                //var username = "foo";
                 var creditValue = 100;
 
-                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
+                this.userRepository.Setup(x => x.GetByIdentity(It.IsAny<string>())).Returns(user);
                 this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
 
-                var thresholdResponse = this.service.CanUserCredit(username, creditValue);
+                var thresholdResponse = this.service.CanUserCredit(creditValue);
 
                 Assert.IsTrue(thresholdResponse.CanUserCredit);
 
-                this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
+                this.userRepository.Verify(x => x.GetByIdentity(It.IsAny<string>()), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);
             }
 
@@ -64,7 +70,7 @@
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
                 this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
 
-                var thresholdResponse = this.service.CanUserCredit(username, creditValue);
+                var thresholdResponse = this.service.CanUserCredit(creditValue);
 
                 Assert.IsFalse(thresholdResponse.CanUserCredit);
 
@@ -87,9 +93,9 @@
 
                 this.userRepository.Setup(x => x.GetUserByCreditThreshold(level2Threshold)).Returns(user);
 
-                this.creditThresholdRepository.Setup(x => x.PendingCreditInsert(1, "foo"));
+                this.creditThresholdRepository.Setup(x => x.PendingCreditInsert(1));
 
-                this.service.AssignPendingCredit(branchId, totalThresholdAmount, 1, "");
+                this.service.AssignPendingCredit(branchId, totalThresholdAmount, 1);
             }
 
             public void ShouldAssignLevel1ThresholdToUser()

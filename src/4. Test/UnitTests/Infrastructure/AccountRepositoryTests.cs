@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Infrastructure
+﻿using PH.Well.Common;
+
+namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Data;
     using PH.Well.Common.Contracts;
@@ -21,13 +23,17 @@
 
         private AccountRepository repository;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            this.repository = new AccountRepository(this.logger.Object, this.dapperProxy.Object);
+            this.repository = new AccountRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         [Test]

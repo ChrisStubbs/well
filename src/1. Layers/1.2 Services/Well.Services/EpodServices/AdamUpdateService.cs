@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Transactions;
 
     using PH.Well.Common;
@@ -22,6 +23,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IRouteMapper mapper;
+
         private const string CurrentUser = "AdamUpdate";
 
         public AdamUpdateService(
@@ -41,9 +43,9 @@
             this.jobDetailRepository = jobDetailRepository;
             this.mapper = mapper;
 
-            this.stopRepository.CurrentUser = CurrentUser;
-            this.jobRepository.CurrentUser = CurrentUser;
-            this.jobDetailRepository.CurrentUser = CurrentUser;
+            //////this.stopRepository.CurrentUser = CurrentUser;
+            //////this.jobRepository.CurrentUser = CurrentUser;
+            //////this.jobDetailRepository.CurrentUser = CurrentUser;
         }
 
         public void Update(RouteUpdates route)
@@ -89,8 +91,8 @@
 
         private void Update(StopUpdate stop)
         {
-            // TODO
-            var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderRef);
+            var job = stop.Jobs.First();
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 
             if (existingStop == null)
             {
@@ -143,7 +145,8 @@
             foreach (var job in jobs)
             {
                 // TODO do we need to add invoice to the get or not, lets investigate
-                var existingJob = this.jobRepository.JobGetByRefDetails(job.PhAccount, job.PickListRef, stopId);
+                var existingJob = this.jobRepository.GetJobByRefDetails(job.PhAccount, job.PickListRef, stopId);
+
 
                 if (existingJob != null)
                 {
@@ -174,7 +177,8 @@
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
             // TODO get the stop via any jobs picklist account and invoice as we dont want to use the TOR anymore
-            var existingStop = this.stopRepository.GetByTransportOrderReference(stopInsert.TransportOrderRef);
+            var job = stopInsert.Jobs.First();
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
 
             if (existingStop != null)
             {

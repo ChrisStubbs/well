@@ -231,7 +231,6 @@
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
-    <Content Include="app\menu.html" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />

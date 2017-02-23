@@ -1,6 +1,5 @@
 ﻿import {Component, ViewChild} from '@angular/core';
 import {Delivery} from './model/delivery';
-import {DeliveryIssuesComponent} from './deliveryIssuesComponent';
 import {DeliveryLine} from './model/deliveryLine';
 import {DeliveryService} from './deliveryService';
 import {ActivatedRoute} from '@angular/router';
@@ -13,14 +12,13 @@ import * as lodash from 'lodash';
 export class DeliveryUpdateComponent {
     public deliveryId: number;
     public lineNo: number;
-    public delivery: Delivery = new Delivery(undefined);
-    public deliveryLine: DeliveryLine = new DeliveryLine(undefined);
-
-    @ViewChild(DeliveryIssuesComponent) private deliveryIssues: DeliveryIssuesComponent;
+    public delivery: Delivery;
+    public deliveryLine: DeliveryLine;
 
     constructor(private deliveryService: DeliveryService, private route: ActivatedRoute) {
         route.params.subscribe(params => {
-            this.deliveryId = parseInt(params['id'], 10), this.lineNo = parseInt(params['line'], 10)
+            this.deliveryId = parseInt(params['id'], 10);
+            this.lineNo = parseInt(params['line'], 10);
         });
     }
 
@@ -33,16 +31,11 @@ export class DeliveryUpdateComponent {
         this.delivery = delivery;
 
         let line = lodash.find(this.delivery.exceptionDeliveryLines, { lineNo: this.lineNo });
-
         if (!line) {
-            line = lodash.find(this.delivery.cleanDeliveryLines, {
-                lineNo: this.lineNo
-            });
+            line = lodash.find(this.delivery.cleanDeliveryLines, { lineNo: this.lineNo });
         }
 
         this.deliveryLine = line;
-        this.deliveryIssues.delivery = this.delivery;
-        this.deliveryIssues.deliveryLine = this.deliveryLine;
     }
 
     public invalidShortDamagesQty(): boolean {

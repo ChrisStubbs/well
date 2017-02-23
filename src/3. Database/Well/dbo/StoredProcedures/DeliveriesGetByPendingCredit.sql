@@ -21,7 +21,8 @@ BEGIN
 		j.COD as CashOnDelivery,
 		j.TotalCreditValueForThreshold,
 		j.TotalOutersShort,
-		pc.CreatedBy as PendingCreditCreatedBy
+		pc.CreatedBy as PendingCreditCreatedBy,
+		j.ProofOfDelivery
 	FROM
 		RouteHeader rh 
 	INNER JOIN 

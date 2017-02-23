@@ -16,7 +16,6 @@ import {RefreshService}                             from '../shared/refreshServi
 import {OrderArrowComponent}                        from '../shared/orderbyArrow';
 import {SecurityService}                            from '../shared/security/securityService';
 import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
-import {CodComponent}                               from '../shared/codComponent';
 import * as lodash                                  from 'lodash';
 import 'rxjs/Rx';   // Load all features
 

@@ -23,7 +23,8 @@ BEGIN
 		j.COD as CashOnDelivery,
 		j.TotalCreditValueForThreshold,
 		j.TotalOutersShort,
-		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit
+		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
+		j.ProofOfDelivery
 	FROM
 		RouteHeader rh 
 	INNER JOIN 

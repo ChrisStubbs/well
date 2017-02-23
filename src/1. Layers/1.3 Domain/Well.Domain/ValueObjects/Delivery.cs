@@ -76,5 +76,8 @@
         public int TotalOutersShort { get; set; }
 
         public bool IsPendingCredit { get; set; }
+
+        public ProofOfDelivery? ProofOfDelivery { get; set; }
+        public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
     }
 }

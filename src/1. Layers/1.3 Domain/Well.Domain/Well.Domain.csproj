@@ -55,6 +55,7 @@
     <Compile Include="Enums\JobDetailSource.cs" />
     <Compile Include="Enums\GrnRefused.cs" />
     <Compile Include="Enums\ProductType.cs" />
+    <Compile Include="Enums\ProofOfDelivery.cs" />
     <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />

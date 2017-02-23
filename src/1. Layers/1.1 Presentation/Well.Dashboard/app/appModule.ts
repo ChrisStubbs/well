@@ -47,7 +47,7 @@ import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from './shared/orderByDatePipe';
 import {OutstandingPipe} from './shared/outstandingPipe';
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
-import {CodComponent} from './shared/codComponent';
+import {AccountFlagsComponent} from './shared/accountFlagsComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
 import {SpinnerComponent} from './shared/spinnerComponent';
@@ -99,7 +99,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, PendingCreditComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        CodComponent, ExceptionsConfirmModal
+        AccountFlagsComponent, ExceptionsConfirmModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule

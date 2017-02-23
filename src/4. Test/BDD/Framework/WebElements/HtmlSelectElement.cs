@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.BDD.Framework.WebElements
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
@@ -28,6 +29,16 @@
             {
                 option.Click();  
             }
+        }
+
+        public List<string> GetOptions()
+        {
+            IEnumerable<string> options = new List<string>();
+            var element = this.GetElement();
+            this.Driver.WaitForJavascript();
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+            wait.Until(d => options = element.FindElements(By.TagName("option")).Select(x => x.Text));
+            return options.ToList();
         }
     }
 }

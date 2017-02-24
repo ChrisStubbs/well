@@ -165,7 +165,7 @@
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber))
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                     .Returns(new Stop());
 
                 this.service.Update(routeUpdate);
@@ -225,7 +225,7 @@
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount, jobUpdate.InvoiceNumber))
+                this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount))
                     .Returns((Stop)null);
 
                 this.mapper.Setup(x => x.Map(stopUpdate, It.IsAny<Stop>()));
@@ -296,34 +296,35 @@
 
                 stopUpdate.Jobs.Add(job);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber))
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                     .Returns((Stop)null);
 
                 this.logger.Setup(
                     x =>
                         x.LogDebug(
-                            $"Existing stop not found for transport order reference ({stopUpdate.TransportOrderRef})"));
+                            $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})"));
+
                 this.eventLogger.Setup(
                     x =>
                         x.TryWriteToEventLog(
                             EventSource.WellAdamXmlImport,
-                            $"Existing stop not found for transport order reference ({stopUpdate.TransportOrderRef})",
+                            $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                             7222, EventLogEntryType.Error)).Returns(true);
 
                 this.service.Update(routeUpdate);
 
-                this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber), Times.Once);
+                this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
 
                 this.logger.Verify(
                     x =>
                         x.LogDebug(
-                            $"Existing stop not found for transport order reference ({stopUpdate.TransportOrderRef})"), Times.Once);
+                            $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})"), Times.Once);
 
                 this.eventLogger.Verify(
                     x =>
                         x.TryWriteToEventLog(
                             EventSource.WellAdamXmlImport,
-                            $"Existing stop not found for transport order reference ({stopUpdate.TransportOrderRef})",
+                            $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                             7222, EventLogEntryType.Error), Times.Once);
             }
 
@@ -351,7 +352,7 @@
 
                 this.jobRepository.Setup(x => x.GetJobByRefDetails(job.PhAccount, job.PickListRef, stop.Id)).Returns((Job)null);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber)).Returns(stop);
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount)).Returns(stop);
 
                 this.mapper.Setup(x => x.Map(stopUpdate, stop));
 

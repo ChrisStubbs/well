@@ -111,7 +111,7 @@
                     {
                         // TODO
                         var job = stop.Jobs.First();
-                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
                         if (existingStop == null)
                         {

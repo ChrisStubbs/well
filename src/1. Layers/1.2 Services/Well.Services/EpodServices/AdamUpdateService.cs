@@ -92,15 +92,15 @@
         private void Update(StopUpdate stop)
         {
             var job = stop.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
             if (existingStop == null)
             {
                 this.logger.LogDebug(
-                    $"Existing stop not found for transport order reference ({stop.TransportOrderRef})");
+                    $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})");
                 this.eventLogger.TryWriteToEventLog(
                     EventSource.WellAdamXmlImport,
-                    $"Existing stop not found for transport order reference ({stop.TransportOrderRef})",
+                    $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                     7222);
 
                 return;
@@ -176,9 +176,8 @@
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
-            // TODO get the stop via any jobs picklist account and invoice as we dont want to use the TOR anymore
             var job = stopInsert.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
             if (existingStop != null)
             {

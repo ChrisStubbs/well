@@ -129,7 +129,7 @@
 
             this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
 
-            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber))
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                 .Returns(existingStop);
 
             this.mapper.Setup(x => x.Map(stop, existingStop));
@@ -156,7 +156,7 @@
 
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
 
-            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber), Times.Once);
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
 
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
 

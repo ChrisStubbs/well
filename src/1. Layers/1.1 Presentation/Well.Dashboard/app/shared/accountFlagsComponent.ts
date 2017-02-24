@@ -6,13 +6,13 @@
 })
 export class AccountFlagsComponent implements OnInit {
 
-    @Input() public isCashOnDelivery: string;
+    @Input() public cashOnDelivery: string;
     @Input() public isProofOfDelivery: boolean; 
     public isCod: boolean;
     public isPod: boolean;
 
     public ngOnInit(): void {
-        this.isCod = this.isCashOnDelivery === 'Yes';
+        this.isCod = this.cashOnDelivery === 'CashOnly';
         this.isPod = this.isProofOfDelivery;
     }
 

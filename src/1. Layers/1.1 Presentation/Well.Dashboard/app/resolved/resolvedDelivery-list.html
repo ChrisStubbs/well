@@ -41,7 +41,7 @@
                                 <td (click)="deliverySelected(delivery)" id="resolved-drop-{{delivery.id}}">{{delivery.dropId}}</td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-invoice-{{delivery.id}}">{{delivery.invoiceNumber}}</td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-code-{{delivery.id}}">{{delivery.accountCode}}
-                                    <ow-account-flags [isCashOnDelivery]="delivery.cashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
+                                    <ow-account-flags [cashOnDelivery]="delivery.cashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
                                 </td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-name-{{delivery.id}}">{{delivery.accountName}}</td>
                                 <td>

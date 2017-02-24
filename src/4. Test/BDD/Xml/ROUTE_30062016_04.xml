@@ -150,7 +150,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1416,7 +1416,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cash</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1572,7 +1572,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1808,7 +1808,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cash</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2268,7 +2268,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2424,7 +2424,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3171,7 +3171,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3563,7 +3563,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cash</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4023,7 +4023,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4179,7 +4179,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4926,7 +4926,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>

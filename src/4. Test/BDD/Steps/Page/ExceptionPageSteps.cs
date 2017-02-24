@@ -334,6 +334,14 @@
             this.ExceptionDeliveriesPage.CreditModalComponent.ConfirmButton.Click();
         }
 
+        [Then(@"the first delivery line is COD \(Cash on Delivery\)")]
+        public void ThenTheFirstDeliveryLineIsCODCashOnDelivery()
+        {
+            var pageRow = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().First();
+            Assert.IsNotNull(pageRow.GetItemInRowById("isCod"));
+        }
+
+
         [Then(@"the exception cod delivery icon is not displayed in row (.*)")]
         public void ThenTheExceptionCodDeliveryIconIsNotDisplayedInRow(int firstRow)
         {
@@ -357,13 +365,6 @@
         {
             UserCreditThresholdPage.Open("/user-threshold-level/Gary.Williams");
         }
-
-
-//        [When(@"I select Level1 from the dropdown list")]
-//        public void WhenISelectLevelFromTheDropdownList()
-//        {
-//            this.UserCreditThresholdPage.dropdown.SelectLevel1();
-//        }
 
         [When(@"I click the Save button")]
         public void WhenIClickTheSaveButton()

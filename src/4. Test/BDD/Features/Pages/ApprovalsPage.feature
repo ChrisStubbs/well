@@ -7,7 +7,6 @@ Feature: Approvals Page
 
 Background: 
 	Given I have a clean database
-	And I have loaded the Adam route data
 	And I have loaded the MultiDate Adam route data
 	And I have the following credit thresholds setup for all branches
 	| Level | Threshold |

@@ -20,6 +20,7 @@
                 TotalOutersShort = detail.TotalOutersShort,
                 AccountName = detail.AccountName,
                 AccountAddress = detail.AccountAddress,
+                CashOnDelivery = detail.CashOnDelivery,
                 InvoiceNumber = detail.InvoiceNumber,
                 ContactName = detail.ContactName,
                 PhoneNumber = detail.PhoneNumber,
@@ -30,7 +31,8 @@
                 GrnNumber = detail.GrnNumber,
                 BranchId = detail.BranchId,
                 GrnProcessType = detail.GrnProcessType,
-                ProofOfDelivery = detail.ProofOfDelivery
+                ProofOfDelivery = detail.ProofOfDelivery,
+                IsProofOfDelivery = detail.IsProofOfDelivery
             };
 
             foreach (DeliveryLine line in lines.Where(x => x.IsClean))

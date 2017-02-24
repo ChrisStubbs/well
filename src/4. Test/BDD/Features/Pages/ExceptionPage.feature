@@ -171,7 +171,7 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	And I have selected branch '22'
 	When I open the exception deliveries
 	Then there are 0 exception deliveries will be displayed
-	Given  3 deliveries have been marked as exceptions
+	Given 3 deliveries have been marked as exceptions
 	When valid invoice numbers are assigned to jobs
 	When I open the exception deliveries
 	Then the following exception deliveries will be displayed
@@ -180,12 +180,11 @@ Scenario: A user cannot view Exception Delivery Information without a valid invo
 	| 001   | 22     | 1    | 92545470  | 2874.033  | CSG - must be CF van | Incomplete | 0   |
 	| 001   | 22     |2    | 92545470   | 2874.033  | RVS SHOP             | Incomplete | 0   |
 
-Scenario: A user can view Exception Delivery Information with cash on delivery icons displayed
+Scenario: View cash on delivery icon
 	Given I have selected branch '22'
-	And All the deliveries are marked as exceptions
-    And the first 'exception' delivery is not a cash on delivery customer
+	And 2 deliveries have been marked as exceptions
 	When I open the exception deliveries
-	Then the exception cod delivery icon is not displayed in row 1
+	Then the first delivery line is COD (Cash on Delivery)
 		
 #Scenario: A user can view Exception Delivery Information with shorts to be advised displayed
 #	Given I have selected branch '22'

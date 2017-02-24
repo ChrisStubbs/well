@@ -37,14 +37,13 @@
         public string IdentityName { get; set; }
 
         public string CashOnDelivery { get; set; }
+        public bool IsCashOnDelivery => string.IsNullOrWhiteSpace(CashOnDelivery) == false;
 
         public bool CanAction { get; private set; }
 
         public string TotalCredit { get; set; }
 
         public string PendingCreditCreatedBy { get; set; }
-
-        public string Cod { get; set; }
 
         public string FormattedPendingCreditCreatedBy {
             get
@@ -76,5 +75,8 @@
         public int TotalOutersShort { get; set; }
 
         public bool IsPendingCredit { get; set; }
+
+        public ProofOfDelivery? ProofOfDelivery { get; set; }
+        public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
     }
 }

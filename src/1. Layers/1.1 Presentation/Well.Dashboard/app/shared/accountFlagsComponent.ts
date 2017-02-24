@@ -4,16 +4,8 @@
     selector: 'ow-account-flags',
     templateUrl: 'app/shared/accountFlagsComponent.html'
 })
-export class AccountFlagsComponent implements OnInit {
+export class AccountFlagsComponent {
 
-    @Input() public isCashOnDelivery: string;
+    @Input() public isCashOnDelivery: boolean;
     @Input() public isProofOfDelivery: boolean; 
-    public isCod: boolean;
-    public isPod: boolean;
-
-    public ngOnInit(): void {
-        this.isCod = this.isCashOnDelivery === 'Yes';
-        this.isPod = this.isProofOfDelivery;
-    }
-
 }

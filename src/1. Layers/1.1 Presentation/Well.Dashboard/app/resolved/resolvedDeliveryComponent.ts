@@ -53,7 +53,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
                 new DropDownItem('Account', 'accountCode'),
                 new DropDownItem('Account Name', 'accountName'),
                 new DropDownItem('Status', 'jobStatus'),
-                new DropDownItem('Action', 'action'),
                 new DropDownItem('Assigned', 'assigned'),
                 new DropDownItem('Date', 'deliveryDate', false, 'date')
             ];

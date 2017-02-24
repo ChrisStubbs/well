@@ -105,7 +105,6 @@
     <Compile Include="ValueObjects\DirectoryListing.cs" />
     <Compile Include="ValueObjects\GrnEvent.cs" />
     <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
-    <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\PodEvent.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />

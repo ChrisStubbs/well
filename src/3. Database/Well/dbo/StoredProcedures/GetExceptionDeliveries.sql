@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[GetExceptionDeliveries]
+﻿CREATE PROCEDURE [dbo].[Deliveries_GetByPerformanceStatus]
+	@PerformanceStatusId INT,
 	@UserName VARCHAR(500)
 AS
 BEGIN
@@ -12,8 +13,7 @@ BEGIN
 		j.InvoiceNumber, 
 		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
-		jb.[Description] as JobStatus,
-		j.Cod,
+		ps.Description as JobStatus,
 		s.DeliveryDate,
 		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
@@ -22,7 +22,8 @@ BEGIN
 		j.COD as CashOnDelivery,
 		j.TotalCreditValueForThreshold,
 		j.TotalOutersShort,
-		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit
+		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
+		j.ProofOfDelivery
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -32,13 +33,14 @@ BEGIN
 	INNER JOIN 
 		dbo.Account a on s.Id = a.StopId
 	INNER JOIN
+		dbo.PerformanceStatus ps on ps.Id = j.PerformanceStatusId
+	INNER JOIN
+		--dbo.Branch b on rh.StartDepotCode = b.Id
 		dbo.Branch b on rh.RouteOwnerId = b.Id
 	INNER JOIN
 		dbo.UserBranch ub on b.Id = ub.BranchId
 	INNER JOIN
 		dbo.[User] u on u.Id = ub.UserId
-	INNER JOIN
-		dbo.JobStatus jb on jb.Id = j.JobStatusId
 	LEFT JOIN
 		dbo.UserJob uj on uj.JobId = j.Id 
 	LEFT JOIN
@@ -46,6 +48,8 @@ BEGIN
 	LEFT JOIN 
 		dbo.[PendingCredit] pc on pc.JobId = j.Id And pc.isDeleted = 0
 	WHERE
+		ps.Id =  @PerformanceStatusId
+	AND 
 		u.IdentityName = @UserName
 	AND 
 		j.InvoiceNumber IS NOT NULL
@@ -55,6 +59,8 @@ BEGIN
 		s.IsDeleted = 0
 	AND 
 		j.IsDeleted = 0
-	AND
-		j.JobStatusId = 4
+
+
+
+
 END

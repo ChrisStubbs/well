@@ -275,6 +275,7 @@
     <Build Include="dbo\StoredProcedures\Deliveries_GetByArrayPerformanceStatus.sql" />
     <Build Include="dbo\Types\IntTableType.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_GetByBranchAndInvoiceNumber.sql" />
+    <Build Include="dbo\StoredProcedures\GetRouteHeadersWithStopsAndJobs.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

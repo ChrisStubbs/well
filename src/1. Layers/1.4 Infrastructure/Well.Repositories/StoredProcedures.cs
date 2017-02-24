@@ -7,6 +7,7 @@
 
         //route header
         public static string RouteHeadersGet = "RouteHeaders_Get";
+        public static string RouteHeadersGetWithFullObjectGraph = "GetRouteHeadersWithStopsAndJobs";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public static string RouteInsert = "Route_Insert";
         public static string RoutesGetById = "Routes_GetById";

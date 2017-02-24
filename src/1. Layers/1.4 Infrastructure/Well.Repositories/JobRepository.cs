@@ -217,15 +217,15 @@ namespace PH.Well.Repositories
 
         private IEnumerable<Job> GetJobsByGrid(SqlMapper.GridReader gridReader)
         {
-            var jobs = gridReader.Read<Job>();
+            var jobs = gridReader.Read<Job>().ToList();
             var jobDetails = gridReader.Read<JobDetail>().ToList();
             var jobDetailsDamages = gridReader.Read<JobDetailDamage>().ToList();
             foreach (var job in jobs)
             {
-                foreach (JobDetail jobDetail in jobDetails.Where(x => x.JobId == job.Id))
+                job.JobDetails = jobDetails.Where(x => x.JobId == job.Id).ToList();
+                foreach (JobDetail jobDetail in job.JobDetails)
                 {
                     jobDetail.JobDetailDamages = jobDetailsDamages.Where(x => x.JobDetailId == jobDetail.Id).ToList();
-                    job.JobDetails.Add(jobDetail);
                 }
             }
             return jobs;

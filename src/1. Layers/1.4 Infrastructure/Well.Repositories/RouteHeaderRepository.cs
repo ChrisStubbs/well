@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using Dapper;
+
+namespace PH.Well.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -25,26 +27,56 @@
         }
 
         // TODO refactor to use query multiple
+        /// <summary>
+        /// Get RouteHeaders with its related stops preloaded
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
-            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
+            IEnumerable<RouteHeader> routes = new List<RouteHeader>();
+            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGetWithFullObjectGraph)
               .AddParameter("UserName", this.CurrentUser, DbType.String)
-              .Query<RouteHeader>();
+              .QueryMultiple(x=> routes = GetStopsByRoute(x));
+            return routes;
+        }
 
+        private IEnumerable<RouteHeader> GetStopsByRoute(SqlMapper.GridReader gridReader)
+        {
+            var routeHeaders = gridReader.Read<RouteHeader>().ToList();
+            var stops = gridReader.Read<Stop>().ToList();
+            var jobs = gridReader.Read<Job>().ToList();
             foreach (var routeHeader in routeHeaders)
             {
-                var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
-
-                foreach (var stop in stops)
+                routeHeader.Stops = stops.Where(x=>x.RouteHeaderId == routeHeader.Id).ToList();
+                foreach (var stop in routeHeader.Stops)
                 {
-                    stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
+                    stop.Jobs= jobs.Where(x => x.StopId == stop.Id).ToList();
                 }
-
-                routeHeader.Stops = stops.ToList();
             }
-        
             return routeHeaders;
         }
+
+        ////Old version
+        ////public IEnumerable<RouteHeader> GetRouteHeaders()
+        ////{
+        ////    var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
+        ////      .AddParameter("UserName", this.CurrentUser, DbType.String)
+        ////      .Query<RouteHeader>();
+
+        ////    foreach (var routeHeader in routeHeaders)
+        ////    {
+        ////        var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
+
+        ////        foreach (var stop in stops)
+        ////        {
+        ////            stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
+        ////        }
+
+        ////        routeHeader.Stops = stops.ToList();
+        ////    }
+
+        ////    return routeHeaders;
+        ////}
 
         public IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId)
         {

@@ -99,13 +99,5 @@
 
             return deliveryLines;
         }
-
-        public IEnumerable<PendingCreditDetail> GetPendingCreditDetail(int jobId)
-        {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.JobDetailActionsGet)
-                    .AddParameter("jobId", jobId, DbType.Int32)
-                    .Query<PendingCreditDetail>();
-        }
     }
 }

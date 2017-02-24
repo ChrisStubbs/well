@@ -94,28 +94,5 @@
                 this.dapperProxy.Verify(x => x.Query<Delivery>(), Times.Once);
             }
         }
-
-        public class TheGetPendingCreditDetailMethod : DeliveryReadRepositoryTests
-        {
-            [Test]
-            public void ShouldGetPendingCreditDetails()
-            {
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobDetailActionsGet))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("jobId", 1, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<PendingCreditDetail>()).Returns(new List<PendingCreditDetail>());
-
-                this.repository.GetPendingCreditDetail(1);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobDetailActionsGet), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("jobId", 1, DbType.Int32, null), Times.Once);
-
-                this.dapperProxy.Verify(x => x.Query<PendingCreditDetail>(), Times.Once);
-            }
-        }
     }
 }

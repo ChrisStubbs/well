@@ -309,6 +309,7 @@
                     x =>
                         x.LogDebug(
                             $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})"));
+
                 this.eventLogger.Setup(
                     x =>
                         x.TryWriteToEventLog(

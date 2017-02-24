@@ -78,7 +78,7 @@ export class DeliveryLine
         }
 
         return true;
-    }
+    }  
 
     public isDetailChecked(): boolean
     {

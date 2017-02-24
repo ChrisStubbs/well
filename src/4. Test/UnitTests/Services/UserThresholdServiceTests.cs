@@ -81,21 +81,26 @@ namespace PH.Well.UnitTests.Services
 
         public class TheAssignPendingCreditMethod : UserThresholdServiceTests
         {
+            [Test]
             public void ShouldAssignLevel2ThresholdToUser()
             {
                 var branchId = 22;
                 var totalThresholdAmount = 100;
-                var user = new User();
-
+                var jobId = 33;
+                
                 var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Threshold = 100 };
 
                 this.creditThresholdRepository.Setup(x => x.GetByBranch(branchId)).Returns(new List<CreditThreshold> { level2Threshold });
 
-                this.userRepository.Setup(x => x.GetUserByCreditThreshold(level2Threshold)).Returns(user);
+                this.creditThresholdRepository.Setup(x => x.PendingCreditInsert(jobId));
 
-                this.creditThresholdRepository.Setup(x => x.PendingCreditInsert(1));
+                this.userRepository.Setup(x => x.UnAssignJobToUser(jobId));
 
-                this.service.AssignPendingCredit(branchId, totalThresholdAmount, 1);
+                this.service.AssignPendingCredit(branchId, totalThresholdAmount, jobId);
+
+                this.creditThresholdRepository.Verify(x => x.GetByBranch(branchId), Times.Once);
+
+                this.creditThresholdRepository.Verify(x => x.PendingCreditInsert(jobId), Times.Once);
             }
 
             public void ShouldAssignLevel1ThresholdToUser()

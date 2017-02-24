@@ -79,8 +79,8 @@ namespace PH.Well.Services
             if (totalThresholdAmount <= threshold.Threshold)
             {
                 creditThresholdRepository.PendingCreditInsert(jobId);
-                this.creditThresholdRepository.PendingCreditInsert(jobId);
                 userRepository.UnAssignJobToUser(jobId);
+
                 return true;
             }
 

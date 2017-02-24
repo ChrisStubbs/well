@@ -28,7 +28,7 @@ Scenario: Add short qty and damages to clean delivery
 	And I save the delivery line updates
 	And I confirm the delivery line update
 	Then the line '1' Short Qty is '5' and Damaged Qty is '2' Del Qty is '13'
-	And the delivery status is 'Incomplete'
+	And the delivery status is 'Exception'
 	When I open the audits page
 	Then the following audit entries are shown
 	| Entry                                                                                                                                                 | Type               | InvoiceNo | Account                          | DeliveryDate |
@@ -92,3 +92,28 @@ Scenario: Add short qty and damages to exception delivery
 	And I can see the damage reason of 'Picking Error'
 	And I can see the damage source of 'Customer'
 	And I can see the damage action of 'Credit'
+
+Scenario: Crediting is disabled for deliveries with POD (Proof of delivery)
+	Given All the deliveries are marked as clean
+	And I open the clean deliveries
+	And I assign the POD delivery to myself
+	And I click on the first POD delivery
+	And I open the clean tab
+	When I click on the first delivery line
+	Then the available short actions are
+	| Action              |
+	| Not Defined         |
+	| Replan In Roadnet   |
+	| Replan In TranSend  |
+	| Replan In The Queue |
+	| Reject              |
+	| Close               |
+	When click add damage button
+	Then the available damage actions are
+	| Action              |
+	| Not Defined         |
+	| Replan In Roadnet   |
+	| Replan In TranSend  |
+	| Replan In The Queue |
+	| Reject              |
+	| Close               |

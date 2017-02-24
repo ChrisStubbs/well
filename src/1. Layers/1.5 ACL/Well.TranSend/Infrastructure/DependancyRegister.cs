@@ -42,7 +42,7 @@
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
-                    x.For<IDeliveryStatusService>().Use<DeliveryStatusService>();
+                    x.For<IJobStatusService>().Use<JobStatusService>();
                     x.For<IUserNameProvider>().Use<UserNameProvider>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();

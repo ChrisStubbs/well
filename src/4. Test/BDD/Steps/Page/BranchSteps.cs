@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
-    using System.Linq;
     using System.Threading;
 
     using NUnit.Framework;

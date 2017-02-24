@@ -13,6 +13,7 @@
             AddDamageButton = new Button { Locator = By.Id("add-damage-button") };
             FirstDamageQtyTextBox = new TextBox { Locator = By.Id("damage-qty-input0") };
             FirstDamageReasonSelect = new HtmlSelectElement() { Locator = By.Id("reason-select0") };
+            FirstDamageActionSelect = new HtmlSelectElement() { Locator = By.Id("damage-action-select0") };
             DamagesGrid = new Grid<DamagesGridCols> {Locator = By.Id("damageTable"), RowLocator = By.ClassName("editable") };
             SaveButton = new Button { Locator = By.Id("save-button") };
             ConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
@@ -29,6 +30,7 @@
         public readonly Button AddDamageButton;
         public readonly TextBox FirstDamageQtyTextBox;
         public readonly HtmlSelectElement FirstDamageReasonSelect;
+        public readonly HtmlSelectElement FirstDamageActionSelect;
         public readonly Button SaveButton;
         public readonly Button ConfirmButton;
         public readonly HtmlSelectElement ShortSourceSelect;

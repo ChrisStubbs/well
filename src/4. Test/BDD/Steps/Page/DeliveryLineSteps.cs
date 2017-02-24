@@ -181,6 +181,31 @@
             page.ConfirmButton.Click();
         }
 
+        [Then(@"the available short actions are")]
+        public void ThenTheAvailableShortActionsAre(Table table)
+        {
+            var options = page.ShortActionSelect.GetOptions();
+            Assert.AreEqual(table.RowCount, options.Count);
+
+            foreach (var tableRow in table.Rows)
+            {
+                Assert.Contains(tableRow[0], options);
+            }
+        }
+
+        [Then(@"the available damage actions are")]
+        public void ThenTheAvailableDamageActionsAre(Table table)
+        {
+            var options = page.FirstDamageActionSelect.GetOptions();
+            Assert.AreEqual(table.RowCount, options.Count);
+
+            foreach (var tableRow in table.Rows)
+            {
+                Assert.Contains(tableRow[0], options);
+            }
+        }
+
+
         [Then(@"the following actions are shown on the delivery items")]
         public void ThenTheFollowingActionsAreShownOnTheDeliveryItems(Table table)
         {

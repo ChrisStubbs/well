@@ -6,7 +6,6 @@
 
     using Dapper;
 
-    using PH.Well.Common.Contracts;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
 

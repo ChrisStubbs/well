@@ -15,6 +15,7 @@ export class ApprovalDelivery extends BaseDelivery {
     public  formattedDeliveryDate: string;
     public  formattedPendingCreditCreatedBy: string;
     public  cashOnDelivery: string;
+    public  isCashOnDelivery: boolean;
     public  totalCredit: string;
     public  isPending: boolean;
     public  totalOutersShort: number;

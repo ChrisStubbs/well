@@ -2,14 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using Framework.WebElements;
     using NUnit.Framework;
 
     using PH.Well.BDD.Pages;
 
     using TechTalk.SpecFlow;
-    using System;
     using Framework.Extensions;
 
     [Binding]

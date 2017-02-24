@@ -16,12 +16,14 @@ namespace PH.Well.UnitTests.Services
     using System.Text;
     using System.Threading.Tasks;
 
+    using PH.Well.Domain.Enums;
+
     [TestFixture]
     public class DeliveryStatusServiceTests
     {
         private Mock<IJobRepository> jobRepository;
 
-        private DeliveryStatusService service;
+        private JobStatusService service;
 
         private Mock<IUserNameProvider> userNameProvider;
 
@@ -38,7 +40,7 @@ namespace PH.Well.UnitTests.Services
 
             //////this.jobRepository.SetupSet(x => x.CurrentUser = "foo");
 
-            this.service = new DeliveryStatusService(this.jobRepository.Object);
+            this.service = new JobStatusService(this.jobRepository.Object);
 
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
         }
@@ -86,10 +88,10 @@ namespace PH.Well.UnitTests.Services
                 job2.JobDetails.Add(jobDetail2);
                 job3.JobDetails.Add(jobDetail3);
 
-                this.service.SetStatus(job1, branchNo);
-                Assert.IsTrue(job1.HasException);
-                Assert.IsTrue(job2.HasException);
-                Assert.IsTrue(job3.HasException);
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
+                Assert.IsTrue(job2.JobStatus == JobStatus.Exception);
+                Assert.IsTrue(job3.JobStatus == JobStatus.Exception);
 
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(branchNo, invoiceNumber), Times.Once);
                 this.jobRepository.Verify(x => x.Update(job2), Times.Once);
@@ -134,10 +136,10 @@ namespace PH.Well.UnitTests.Services
                 job2.JobDetails.Add(jobDetail2);
                 job3.JobDetails.Add(jobDetail3);
 
-                this.service.SetStatus(job1, branchNo);
-                Assert.IsFalse(job1.HasException);
-                Assert.IsFalse(job2.HasException);
-                Assert.IsFalse(job3.HasException);
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(branchNo, invoiceNumber), Times.Once);
             }
 
@@ -179,10 +181,10 @@ namespace PH.Well.UnitTests.Services
                 job2.JobDetails.Add(jobDetail2);
                 job3.JobDetails.Add(jobDetail3);
 
-                this.service.SetStatus(job1, branchNo);
-                Assert.IsFalse(job1.HasException);
-                Assert.IsFalse(job2.HasException);
-                Assert.IsFalse(job3.HasException);
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(branchNo, invoiceNumber), Times.Once);
             }
 
@@ -213,10 +215,10 @@ namespace PH.Well.UnitTests.Services
 
                 job1.JobDetails.Add(jobDetail1);
 
-                this.service.SetStatus(job1, branchNo);
-                Assert.IsTrue(job1.HasException);
-                Assert.IsFalse(job2.HasException);
-                Assert.IsFalse(job3.HasException);
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(branchNo, invoiceNumber), Times.Once);
             }
 
@@ -247,10 +249,10 @@ namespace PH.Well.UnitTests.Services
                 jobDetail1.JobDetailDamages.Clear();
                 job1.JobDetails.Add(jobDetail1);
 
-                this.service.SetStatus(job1, branchNo);
-                Assert.IsFalse(job1.HasException);
-                Assert.IsFalse(job2.HasException);
-                Assert.IsFalse(job3.HasException);
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(branchNo, invoiceNumber), Times.Once);
             }
 
@@ -282,10 +284,10 @@ namespace PH.Well.UnitTests.Services
 
                 jobDetail1.JobDetailDamages.Add(new JobDetailDamage());
 
-                this.service.SetStatus(job1, branchNo);
-                Assert.IsTrue(job1.HasException);
-                Assert.IsFalse(job2.HasException);
-                Assert.IsFalse(job3.HasException);
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
+                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(branchNo, invoiceNumber), Times.Once);
             }
         }

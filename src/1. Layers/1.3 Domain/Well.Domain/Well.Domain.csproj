@@ -49,6 +49,7 @@
     <Compile Include="Enums\ActionStatus.cs" />
     <Compile Include="Enums\CommodityType.cs" />
     <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\JobStatus.cs" />
     <Compile Include="Enums\PodDeliveryAction.cs" />
     <Compile Include="Enums\DeliveryAction.cs" />
     <Compile Include="Enums\PodReason.cs" />
@@ -104,7 +105,6 @@
     <Compile Include="ValueObjects\DirectoryListing.cs" />
     <Compile Include="ValueObjects\GrnEvent.cs" />
     <Compile Include="ValueObjects\JobDetailsWithAction.cs" />
-    <Compile Include="ValueObjects\PendingCreditDetail.cs" />
     <Compile Include="ValueObjects\PodEvent.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />

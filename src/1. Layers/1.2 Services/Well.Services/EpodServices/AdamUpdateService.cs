@@ -23,8 +23,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IRouteMapper mapper;
-
-        private const string CurrentUser = "AdamUpdate";
+        private readonly IJobStatusService jobStatusService;
 
         public AdamUpdateService(
             ILogger logger,
@@ -33,7 +32,8 @@
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
-            IRouteMapper mapper)
+            IRouteMapper mapper,
+            IJobStatusService jobStatusService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -42,10 +42,7 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.mapper = mapper;
-
-            //////this.stopRepository.CurrentUser = CurrentUser;
-            //////this.jobRepository.CurrentUser = CurrentUser;
-            //////this.jobDetailRepository.CurrentUser = CurrentUser;
+            this.jobStatusService = jobStatusService;
         }
 
         public void Update(RouteUpdates route)
@@ -92,15 +89,15 @@
         private void Update(StopUpdate stop)
         {
             var job = stop.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
             if (existingStop == null)
             {
                 this.logger.LogDebug(
-                    $"Existing stop not found for transport order reference ({stop.TransportOrderRef})");
+                    $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})");
                 this.eventLogger.TryWriteToEventLog(
                     EventSource.WellAdamXmlImport,
-                    $"Existing stop not found for transport order reference ({stop.TransportOrderRef})",
+                    $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                     7222);
 
                 return;
@@ -118,24 +115,29 @@
             }
         }
 
-        private void Delete(StopUpdate stop)
+        private void Delete(StopUpdate stopUpdate)
         {
+            Stop stop = null;
+
             try
             {
                 using (var transactionScope = new TransactionScope())
                 {
-                    // TODO
-                    this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderRef);
+                    var job = stopUpdate.Jobs.First();
+
+                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+
+                    this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderReference);
 
                     transactionScope.Complete();
                 }
             }
             catch (Exception exception)
             {
-                this.logger.LogError($"Error on deletion of stop transport order reference ({stop.TransportOrderRef})", exception);
+                this.logger.LogError($"Error on deletion of stop transport order reference ({stop.TransportOrderReference})", exception);
                 this.eventLogger.TryWriteToEventLog(
                     EventSource.WellAdamXmlImport,
-                    $"Error on deletion of stop transport order reference ({stop.TransportOrderRef})",
+                    $"Error on deletion of stop transport order reference ({stop.TransportOrderReference})",
                     8332);
             }
         }
@@ -144,13 +146,13 @@
         {
             foreach (var job in jobs)
             {
-                // TODO do we need to add invoice to the get or not, lets investigate
                 var existingJob = this.jobRepository.GetJobByRefDetails(job.PhAccount, job.PickListRef, stopId);
-
 
                 if (existingJob != null)
                 {
                     this.mapper.Map(job, existingJob);
+
+                    this.jobStatusService.SetIncompleteStatus(existingJob);
 
                     this.jobRepository.Update(existingJob);
 
@@ -176,9 +178,8 @@
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
-            // TODO get the stop via any jobs picklist account and invoice as we dont want to use the TOR anymore
             var job = stopInsert.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
             if (existingStop != null)
             {
@@ -216,6 +217,8 @@
             foreach (var update in jobs)
             {
                 var job = new Job { StopId = stopId };
+
+                this.jobStatusService.SetInitialStatus(job);
 
                 this.mapper.Map(update, job);
 

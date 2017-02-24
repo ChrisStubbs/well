@@ -107,7 +107,6 @@
             {
                 if (userJob.UserId > 0 && userJob.JobId > 0)
                 {
-                    //////this.userRepository.CurrentUser = this.UserIdentityName;
                     this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
 
                     return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
@@ -128,7 +127,6 @@
         {
             try
             {
-                //////this.userRepository.CurrentUser = this.UserIdentityName;
                 this.userRepository.UnAssignJobToUser(jobId);
 
                 return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });

@@ -63,9 +63,6 @@ namespace PH.Well.Services
 
         public void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string domain)
         {
-            //////this.branchRepository.CurrentUser = identityName;
-            //////this.userRepository.CurrentUser = identityName;
-
             username = username.Replace('-', ' ');
 
             var user = this.userRepository.GetByName(username);

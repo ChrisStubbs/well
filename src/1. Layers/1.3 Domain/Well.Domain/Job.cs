@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Xml.Serialization;
     using Enums;
-    using ValueObjects;
 
     [Serializable()]
     public class Job : Entity<int>
@@ -54,7 +53,7 @@
             return "Not found";
         }
 
-        [XmlElement("JobRef1")]                 // not sure we need this
+        [XmlElement("JobRef1")] // not sure we need this
         public string SiteBunId { get; set; }
 
         [XmlElement("JobRef2")]
@@ -204,7 +203,7 @@
             }
         }
 
-  
+
         /// <summary>
         /// Sub outer credit allowed
         /// </summary>
@@ -287,12 +286,15 @@
         [XmlElement("PerformanceStatusCode")]
         public string PerformanceStatusCode
         {
-            get { return PerformanceStatus.ToString(); }
+            get
+            {
+                return PerformanceStatus.ToString();
+            }
             set
             {
                 PerformanceStatus = string.IsNullOrEmpty(value)
                     ? PerformanceStatus.Notdef
-                    : (PerformanceStatus) Enum.Parse(typeof(PerformanceStatus), value, true);
+                    : (PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
             }
         }
 
@@ -374,11 +376,11 @@
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "DISCFOUND");
 
                 if (attribute != null)
-                  {
-                      return attribute.Value != "N";
-                  }
+                {
+                    return attribute.Value != "N";
+                }
 
-                    return false;
+                return false;
             }
         }
 
@@ -433,18 +435,7 @@
             }
         }
 
-        /// <summary>
-        /// </summary>
         [XmlIgnore]
-        public bool HasException { get; set; }
-
-        // TODO exception is a job with any details that has a short and or any damages
-        ////public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
-        public bool IsException => this.HasException;
-
-        // TODO clean is a job with all details without any damages and zero shorts
-        public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;
-
-        public bool IsResolved => PerformanceStatus == PerformanceStatus.Resolved;
+        public JobStatus JobStatus { get; set; }
     }
 }

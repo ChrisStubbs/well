@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Xml.Serialization;
 
+    using PH.Well.Domain.Enums;
+
     [Serializable()]
     public class Stop : Entity<int>
     {
@@ -150,8 +152,8 @@
         }
 
 
-        public int CleanJobs => Jobs.Count(j => j.IsClean);
+        public int CleanJobsCount => Jobs.Count(j => j.JobStatus == JobStatus.Clean);
 
-        public int ExceptionJobs => Jobs.Count(j => j.IsException);
+        public int ExceptionJobsCount => Jobs.Count(j => j.JobStatus == JobStatus.Exception);
     }
 }

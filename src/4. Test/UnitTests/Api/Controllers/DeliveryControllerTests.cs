@@ -42,11 +42,8 @@
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             logger = new Mock<ILogger>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
-            exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
-
-            // deliveryReadRepository.SetupSet(r => r. = It.IsAny<string>())
 
             this.Controller = new DeliveryController(
                 this.deliveryReadRepository.Object,
@@ -55,9 +52,7 @@
                 this.logger.Object,
                 this.deliveryService.Object,
                 this.jobRepository.Object,
-                this.exceptionEventRepository.Object,
-                this.userNameProvider.Object
-                );
+                this.userNameProvider.Object);
 
             this.SetupController();
         }
@@ -184,7 +179,7 @@
             [Test]
             public void ShouldGetResolvedDeliveries()
             {
-                var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
+                var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
 
                 this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Returns(deliveries);
 
@@ -350,70 +345,6 @@
 
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 Assert.AreEqual(expectedDeliveries[0].Id, responseModel[0].Id);
-            }
-        }
-
-        public class TheSubmitActionsMethod : DeliveryControllerTests
-        {
-            [Test]
-            public void HasPostAttribute()
-            {
-                MethodInfo controllerMethod = GetMethod(c => c.SubmitActions(1));
-
-                var routeAttribute = GetAttributes<HttpPostAttribute>(controllerMethod).FirstOrDefault();
-                Assert.IsNotNull(routeAttribute);
-            }
-
-            [Test]
-            public void HasCorrectRouteAttribute()
-            {
-                MethodInfo controllerMethod = GetMethod(c => c.SubmitActions(1));
-
-                var routeAttribute = GetAttributes<RouteAttribute>(controllerMethod).FirstOrDefault();
-                Assert.IsNotNull(routeAttribute);
-                Assert.AreEqual("deliveries/{id:int}/submit-actions", routeAttribute.Template);
-            }
-
-            [Test]
-            public void GivenNoMatchingJob_ThenReturnsBadRequest()
-            {
-                int deliveryId = 1;
-
-                jobRepository.Setup(r => r.GetById(deliveryId)).Returns((Job) null);
-
-                logger.Setup(l => l.LogError(It.IsAny<string>()));
-
-                HttpResponseMessage response = Controller.SubmitActions(deliveryId);
-                var responseModel = GetResponseObject<ErrorModel>(response);
-
-                Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-
-                Assert.AreEqual("Unable to submit delivery actions", responseModel.Message);
-                Assert.AreEqual($"No matching delivery found for Id: {deliveryId}.",
-                    responseModel.Errors[0]);
-
-                var expectedString =
-                    $"Unable to submit delivery actions. No matching delivery found for Id: {deliveryId}.";
-                logger.Verify(l => l.LogError(It.Is<string>(s => s == expectedString)));
-            }
-
-            [Test]
-            public void GivenMatchingJob_ThenSubmitActionsAndReturnOK()
-            {
-                int deliveryId = 1;
-
-                jobRepository.Setup(r => r.GetById(deliveryId)).Returns(new Job());
-
-                logger.Setup(l => l.LogError(It.IsAny<string>()));
-
-                deliveryService.Setup(d => d.SubmitActions(deliveryId, It.IsAny<string>()));
-
-                //ACT
-                HttpResponseMessage response = Controller.SubmitActions(deliveryId);
-
-                deliveryService.Verify(d => d.SubmitActions(deliveryId, It.IsAny<string>()), Times.Once);
-
-                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
         }
 

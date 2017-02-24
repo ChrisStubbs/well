@@ -114,7 +114,7 @@ this.FeatureBackground();
                         "001",
                         "1",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "CSG - must be CF van",
                         "Incomplete",
                         "0"});
@@ -122,7 +122,7 @@ this.FeatureBackground();
                         "001",
                         "2",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP",
                         "Incomplete",
                         "0"});
@@ -296,7 +296,7 @@ this.FeatureBackground();
                         "006",
                         "1",
                         "92544765",
-                        "2874.033",
+                        "02874.033",
                         "WB - SHOP",
                         "Incomplete",
                         "0"});
@@ -614,45 +614,45 @@ this.FeatureBackground();
                         "Choc Teacakes Tunnock",
                         "19.23",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "2",
                         "49179",
                         "Ginger Nuts 250g",
                         "4.88",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "3",
                         "21633",
                         "Kiddies Super Mix 220gPM",
                         "3.60",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "4",
                         "4244",
                         "Milkybar Btns Giant PM",
                         "5.60",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "5",
                         "7621",
                         "Fruit Past Tube 52.5g",
                         "8.40",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
 #line 104
  testRunner.Then("I am shown the exception detail", ((string)(null)), table10, "Then ");
 #line hidden
@@ -894,12 +894,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information with cash on delivery icons displa" +
-            "yed")]
-        public virtual void AUserCanViewExceptionDeliveryInformationWithCashOnDeliveryIconsDisplayed()
+        [NUnit.Framework.DescriptionAttribute("View cash on delivery icon")]
+        public virtual void ViewCashOnDeliveryIcon()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information with cash on delivery icons displa" +
-                    "yed", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View cash on delivery icon", ((string[])(null)));
 #line 183
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -907,13 +905,11 @@ this.FeatureBackground();
 #line 184
  testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 185
- testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("2 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 186
-    testRunner.And("the first \'exception\' delivery is not a cash on delivery customer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 187
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 188
- testRunner.Then("the exception cod delivery icon is not displayed in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 187
+ testRunner.Then("the first delivery line is COD (Cash on Delivery)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

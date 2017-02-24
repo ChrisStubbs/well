@@ -161,6 +161,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NotificationsPage.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\ResolvedPage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResolvedPage.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\RoutesPage.feature.cs">
       <DependentUpon>RoutesPage.feature</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -252,7 +257,6 @@
     <Compile Include="Steps\Page\CleanPageSteps.cs" />
     <Compile Include="Steps\Page\ResolvedPageSteps.cs" />
     <Compile Include="Steps\Page\RoutesPageSteps.cs" />
-    <Compile Include="Steps\TransendImportSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -388,7 +392,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Xml\ePOD_HAY_Update.xml">
+    <Content Include="Xml\ePOD_HAY_Update1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ORDER_HAY_170207_2333.xml">

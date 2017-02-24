@@ -29,7 +29,6 @@
             this.jobDetailRepository = jobDetailRepository;
             this.deliveryService = deliveryService;
             this.deliveryLineToJobDetailMapper = deliveryLineToJobDetailMapper;
-            //////this.jobDetailRepository.CurrentUser = UserIdentityName;
         }
 
         public HttpResponseMessage Put(DeliveryLineModel model)

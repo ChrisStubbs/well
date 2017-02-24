@@ -34,10 +34,6 @@ import {CleanPreferenceComponent} from './clean_preferences/cleanPreferenceCompo
 import {CleanPreferenceAddModalComponent} from './clean_preferences/cleanPreferenceAddModalComponent';
 import {CleanPreferenceRemoveModalComponent} from './clean_preferences/cleanPreferenceRemoveModalComponent';
 import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
-import { PendingCreditComponent } from './pending_credit/pendingCreditComponent';
-import { PendingCreditService } from './pending_credit/pendingCreditService';
-import { PendingCreditDetailModal } from './pending_credit/pendingCreditDetailModal';
-import { PendingCreditConfirmationModal } from './pending_credit/pendingCreditConfirmationModal';
 import {AssignModal} from './shared/assignModal';
 import {ConfirmModal} from './shared/confirmModal';
 import {ContactModal} from './shared/contactModal';
@@ -47,7 +43,7 @@ import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from './shared/orderByDatePipe';
 import {OutstandingPipe} from './shared/outstandingPipe';
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
-import {CodComponent} from './shared/codComponent';
+import {AccountFlagsComponent} from './shared/accountFlagsComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
 import {SpinnerComponent} from './shared/spinnerComponent';
@@ -89,17 +85,17 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
-        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, PendingCreditConfirmationModal,
+        AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,
-        DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent, PendingCreditDetailModal,
+        DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent, 
         AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, 
         ExceptionsComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, PendingCreditComponent,
+        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        CodComponent, ExceptionsConfirmModal
+        AccountFlagsComponent, ExceptionsConfirmModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
@@ -108,7 +104,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
         ApprovalsService, GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService,
-        CleanPreferenceService, UserService, PendingCreditService, ExceptionDeliveryService, NavigateQueryParametersService,
+        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

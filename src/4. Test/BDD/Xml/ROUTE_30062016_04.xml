@@ -150,7 +150,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Card</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -322,7 +322,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cheque</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -519,7 +519,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Card</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -688,7 +688,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Maybe</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -962,7 +962,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Perhaps</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1154,7 +1154,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Not sure</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1416,7 +1416,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cash</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1572,7 +1572,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -1808,7 +1808,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cash</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2006,7 +2006,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>foo</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2268,7 +2268,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2424,7 +2424,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2639,7 +2639,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>perhaps</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -2795,7 +2795,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>foo</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3006,7 +3006,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Please</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3171,7 +3171,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3346,7 +3346,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>no</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3563,7 +3563,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Cash</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -3761,7 +3761,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>foo</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4023,7 +4023,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4179,7 +4179,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4394,7 +4394,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>perhaps</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4550,7 +4550,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>foo</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4761,7 +4761,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Please</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -4926,7 +4926,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>Yes</Value1>
+                  <Value1>CashOnly</Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>
@@ -5101,7 +5101,7 @@
                 </Attribute>
                 <Attribute>
                   <Code>COD</Code>
-                  <Value1>no</Value1>
+                  <Value1></Value1>
                 </Attribute>
                 <Attribute>
                   <Code>ALLOWREORD</Code>

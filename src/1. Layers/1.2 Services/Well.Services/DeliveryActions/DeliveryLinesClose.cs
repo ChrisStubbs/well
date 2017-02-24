@@ -20,13 +20,7 @@ namespace PH.Well.Services
             this.userRepository = userRepository;
         }
 
-        public DeliveryAction Action
-        {
-            get
-            {
-                return DeliveryAction.Close;
-            }
-        }
+        public DeliveryAction Action => DeliveryAction.Close;
 
         public ProcessDeliveryActionResult Execute(
             Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, 

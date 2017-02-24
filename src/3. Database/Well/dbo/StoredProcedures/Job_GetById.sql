@@ -36,6 +36,7 @@ BEGIN
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
+	  ,[JobStatusId] as JobStatus
   FROM [dbo].[Job]
   WHERE [Id] = @Id
 END

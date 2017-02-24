@@ -16,8 +16,7 @@ import * as lodash from 'lodash';
     templateUrl: './app/delivery/delivery.html',
     providers: [DeliveryService]
 })
-export class DeliveryComponent implements OnInit
-{
+export class DeliveryComponent implements OnInit {
     public errorMessage: string;
     public delivery: Delivery = new Delivery(undefined);
     public rowCount: number = 10;

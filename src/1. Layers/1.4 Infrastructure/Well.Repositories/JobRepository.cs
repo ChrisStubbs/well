@@ -124,7 +124,7 @@ namespace PH.Well.Repositories
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
-                .AddParameter("HasException", entity.HasException, DbType.Boolean)
+                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -169,7 +169,7 @@ namespace PH.Well.Repositories
                 .AddParameter("AllowSoCrd", entity.AllowSoCrd, DbType.Boolean)
                 .AddParameter("Cod", entity.Cod, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
-                .AddParameter("HasException", entity.HasException, DbType.Boolean)
+                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
                 .Execute();
         }
 

@@ -189,9 +189,9 @@ this.FeatureBackground();
                         "Choc Teacakes Tunnock",
                         "19.23",
                         "1",
-                        "-1",
                         "0",
-                        "2",
+                        "0",
+                        "1",
                         "true"});
             table3.AddRow(new string[] {
                         "2",
@@ -199,9 +199,9 @@ this.FeatureBackground();
                         "Ginger Nuts 250g",
                         "4.88",
                         "1",
-                        "-1",
                         "0",
-                        "2",
+                        "0",
+                        "1",
                         "true"});
             table3.AddRow(new string[] {
                         "3",
@@ -209,9 +209,9 @@ this.FeatureBackground();
                         "Kiddies Super Mix 220gPM",
                         "3.60",
                         "1",
-                        "-1",
                         "0",
-                        "2",
+                        "0",
+                        "1",
                         "true"});
             table3.AddRow(new string[] {
                         "4",
@@ -219,9 +219,9 @@ this.FeatureBackground();
                         "Milkybar Btns Giant PM",
                         "5.60",
                         "1",
-                        "-1",
                         "0",
-                        "2",
+                        "0",
+                        "1",
                         "true"});
             table3.AddRow(new string[] {
                         "5",
@@ -229,12 +229,14 @@ this.FeatureBackground();
                         "Fruit Past Tube 52.5g",
                         "8.40",
                         "1",
-                        "-1",
                         "0",
-                        "2",
+                        "0",
+                        "1",
                         "true"});
 #line 34
  testRunner.Then("I am shown the exception detail", ((string)(null)), table3, "Then ");
+#line 41
+ testRunner.And("I am shown the high value check", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

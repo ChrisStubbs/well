@@ -28,7 +28,6 @@
     {
         private ApprovalsPage ApprovalsPage => new ApprovalsPage();
 
-
         private readonly IWebClientHelper webClientHelper;
         private ICreditThresholdRepository creditThresholdRepository;
         private IBranchRepository branchRepository;
@@ -51,8 +50,8 @@
         public void GivenIHaveTheFollowingCreditThresholdsSetupForAllBranches(Table table)
         {
             var branches = branchRepository.GetAllValidBranches();
-            //////creditThresholdRepository.CurrentUser = "BDD";
             this.userNameProvider.ChangeUserName("BDD");
+
             foreach (var tableRow in table.Rows)
             {
                 var creditThreshold = new CreditThreshold()

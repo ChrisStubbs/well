@@ -39,6 +39,7 @@ BEGIN
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
+	  ,[JobStatusId] as JobStatus
   FROM [dbo].[Job]
   WHERE [PHAccount] = @AccountId
   AND [PickListRef] = @PicklistId

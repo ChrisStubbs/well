@@ -26,7 +26,6 @@
         private readonly ILogger logger;
         private readonly IDeliveryService deliveryService;
         private readonly IJobRepository jobRepository;
-        private readonly IExceptionEventRepository exceptionEventRepository;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
@@ -35,7 +34,6 @@
             ILogger logger,
             IDeliveryService deliveryService,
             IJobRepository jobRepository,
-            IExceptionEventRepository exceptionEventRepository,
             IUserNameProvider userNameProvider) 
             : base(userNameProvider)
         {
@@ -45,9 +43,6 @@
             this.logger = logger;
             this.deliveryService = deliveryService;
             this.jobRepository = jobRepository;
-            this.exceptionEventRepository = exceptionEventRepository;
-
-            //////this.exceptionEventRepository.CurrentUser = this.UserIdentityName;
         }
 
         [HttpGet]
@@ -56,8 +51,9 @@
         {
             try
             {
-                List<Delivery> exceptionDeliveries =
+                var exceptionDeliveries =
                     this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
+
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
                 return !exceptionDeliveries.Any()
@@ -97,7 +93,7 @@
         {
             try
             {
-                List<Delivery> cleanDeliveries =
+                var cleanDeliveries =
                     this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()
@@ -156,7 +152,7 @@
             }
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("deliveries/{id:int}/submit-actions")]
         public HttpResponseMessage SubmitActions(int id)
         {
@@ -175,7 +171,7 @@
             deliveryService.SubmitActions(id, UserIdentityName);
 
             return Request.CreateResponse(HttpStatusCode.OK);
-        }
+        }*/
 
         [HttpPost]
         [Route("deliveries/grn")]

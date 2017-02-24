@@ -60,7 +60,6 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
         this.activatedRoute.queryParams.subscribe(params => {
             this.getRoutes();
         });
-        this.getRoutes();
     }
 
     public ngOnDestroy() {

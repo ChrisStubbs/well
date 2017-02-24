@@ -28,7 +28,7 @@ Scenario: Add short qty and damages to clean delivery
 	And I save the delivery line updates
 	And I confirm the delivery line update
 	Then the line '1' Short Qty is '5' and Damaged Qty is '2' Del Qty is '13'
-	And the delivery status is 'Incomplete'
+	And the delivery status is 'Exception'
 	When I open the audits page
 	Then the following audit entries are shown
 	| Entry                                                                                                                                                 | Type               | InvoiceNo | Account                          | DeliveryDate |

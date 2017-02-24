@@ -17,8 +17,8 @@ Scenario: A user can view Exception Delivery Information
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
 	| 001   | 1    | 94294343  | 49214.152 | CSG - must be CF van | Incomplete | 0   |
-	| 001   | 1    | 92545470  | 2874.033  | CSG - must be CF van | Incomplete | 0   |
-	| 001   | 2    | 92545470  | 2874.033  | RVS SHOP             | Incomplete | 0   |
+	| 001   | 1    | 92545470  | 02874.033  | CSG - must be CF van | Incomplete | 0   |
+	| 001   | 2    | 92545470  | 02874.033  | RVS SHOP             | Incomplete | 0   |
 	When I view the account info modal for exception row 2 
 	Then I can the following account info details
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
@@ -49,7 +49,7 @@ Scenario: A user can filter Exception Delivery information
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName | Status     | TBA |
 	| 006   | 1    | 91156028  | 43362.048 | WB - SHOP   | Incomplete | 0   |
-	| 006   | 1    | 92544765  | 2874.033  | WB - SHOP   | Incomplete | 0   |
+	| 006   | 1    | 92544765  | 02874.033  | WB - SHOP   | Incomplete | 0   |
 
 
 Scenario: A user can view Exception Delivery Information and sort on delivery date
@@ -103,11 +103,11 @@ Scenario: View exception details at lower level
 	And I click on exception row 4
 	Then I am shown the exception detail
 	| LineNo | Product | Description              | Value	 | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity |
-	| 1      | 6987    | Choc Teacakes Tunnock    | 19.23    | 1               | -1               | 0               | 2             |
-	| 2      | 49179   | Ginger Nuts 250g         | 4.88     | 1               | -1               | 0               | 2             |
-	| 3      | 21633   | Kiddies Super Mix 220gPM | 3.60     | 1               | -1               | 0               | 2             |
-	| 4      | 4244    | Milkybar Btns Giant PM   | 5.60     | 1               | -1               | 0               | 2             |
-	| 5      | 7621    | Fruit Past Tube 52.5g    | 8.40     | 1               | -1               | 0               | 2             |
+	| 1      | 6987    | Choc Teacakes Tunnock    | 19.23    | 1               | 0               | 0               | 1             |
+	| 2      | 49179   | Ginger Nuts 250g         | 4.88     | 1               | 0               | 0               | 1             |
+	| 3      | 21633   | Kiddies Super Mix 220gPM | 3.60     | 1               | 0               | 0               | 1             |
+	| 4      | 4244    | Milkybar Btns Giant PM   | 5.60     | 1               | 0               | 0               | 1             |
+	| 5      | 7621    | Fruit Past Tube 52.5g    | 8.40     | 1               | 0               | 0               | 1             |
 
 Scenario: Exception assigned to a user
 	Given I have selected branch '22'

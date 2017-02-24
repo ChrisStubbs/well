@@ -23,7 +23,6 @@
         {
             this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
-            //////this.routeRepository.CurrentUser = this.UserIdentityName;
         }
 
         public HttpResponseMessage Get(string searchField = null, string searchTerm = null)

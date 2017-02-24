@@ -114,7 +114,7 @@ this.FeatureBackground();
                         "001",
                         "1",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "CSG - must be CF van",
                         "Incomplete",
                         "0"});
@@ -122,7 +122,7 @@ this.FeatureBackground();
                         "001",
                         "2",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP",
                         "Incomplete",
                         "0"});
@@ -296,7 +296,7 @@ this.FeatureBackground();
                         "006",
                         "1",
                         "92544765",
-                        "2874.033",
+                        "02874.033",
                         "WB - SHOP",
                         "Incomplete",
                         "0"});
@@ -614,45 +614,45 @@ this.FeatureBackground();
                         "Choc Teacakes Tunnock",
                         "19.23",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "2",
                         "49179",
                         "Ginger Nuts 250g",
                         "4.88",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "3",
                         "21633",
                         "Kiddies Super Mix 220gPM",
                         "3.60",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "4",
                         "4244",
                         "Milkybar Btns Giant PM",
                         "5.60",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
             table10.AddRow(new string[] {
                         "5",
                         "7621",
                         "Fruit Past Tube 52.5g",
                         "8.40",
                         "1",
-                        "-1",
                         "0",
-                        "2"});
+                        "0",
+                        "1"});
 #line 104
  testRunner.Then("I am shown the exception detail", ((string)(null)), table10, "Then ");
 #line hidden

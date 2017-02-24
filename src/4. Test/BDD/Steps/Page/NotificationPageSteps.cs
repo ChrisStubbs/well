@@ -1,9 +1,5 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Framework.WebElements;
     using NUnit.Framework;
     using Pages;
     using TechTalk.SpecFlow;

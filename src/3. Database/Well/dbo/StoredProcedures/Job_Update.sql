@@ -17,7 +17,7 @@
 	@AllowSoCrd BIT,
 	@Cod VARCHAR(50),
 	@AllowReOrd BIT,
-	@HasException BIT
+	@JobStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -42,7 +42,7 @@ BEGIN
 		AllowSOCRD = @AllowSoCrd,
 		Cod = @Cod,
 		AllowReOrd = @AllowReOrd,
-		HasException = @HasException
+		JobStatusId = @JobStatusId
 	WHERE
 		Id = @Id
 END

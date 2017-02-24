@@ -12,7 +12,7 @@ SELECT j.[Id] AS [Id]
 	,a.ContactName
 	,a.ContactNumber AS PhoneNumber
 	,a.ContactNumber2 AS MobileNumber
-	,ps.[Description] AS DeliveryType
+	,js.[Description] AS DeliveryType
 	,u2.IdentityName
 	,j.OuterCount
 	,j.OuterDiscrepancyFound
@@ -20,6 +20,7 @@ SELECT j.[Id] AS [Id]
 	,rh.StartDepotCode AS BranchId
 	,j.GrnProcessType
 	,j.ProofOfDelivery
+	,j.JobStatusId as JobStatus
 FROM 
 	[dbo].RouteHeader rh
 JOIN
@@ -27,7 +28,7 @@ JOIN
 JOIN
 	[dbo].[Job] j on s.Id = j.StopId
 JOIN 
-	[dbo].PerformanceStatus ps on ps.Id = j.PerformanceStatusId
+	[dbo].JobStatus js on js.Id = j.JobStatusId
 JOIN 
 	[dbo].[Account] a on a.StopId = j.StopId
 LEFT JOIN

@@ -106,7 +106,6 @@
                 var job =
                     new JobFactory().With(x => x.PickListRef = "12221")
                         .With(x => x.PhAccount = "55444.333")
-                        .With(x => x.InvoiceNumber = "54444444")
                         .Build();
                 
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob))
@@ -118,20 +117,15 @@
                 this.dapperProxy.Setup(x => x.AddParameter("Account", job.PhAccount, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Invoice", job.InvoiceNumber, DbType.String, null))
-                    .Returns(this.dapperProxy.Object);
-
                 this.dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop> { new Stop() });
 
-                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("Picklist", job.PickListRef, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("Account", job.PhAccount, DbType.String, null), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("Invoice", job.InvoiceNumber, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Query<Stop>(), Times.Once);
             }

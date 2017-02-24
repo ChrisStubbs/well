@@ -89,13 +89,12 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 
-        public Stop GetByJobDetails(string picklist, string account, string invoice)
+        public Stop GetByJobDetails(string picklist, string account)
         {
             return
                dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJob)
                    .AddParameter("Picklist", picklist, DbType.String)
                    .AddParameter("Account", account, DbType.String)
-                   .AddParameter("Invoice", invoice, DbType.String)
                    .Query<Stop>()
                    .FirstOrDefault();
         }

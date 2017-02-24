@@ -39,7 +39,7 @@
         private Mock<IPodTransactionFactory> podTransactionFactory;
         private Mock<IUserNameProvider> userNameProvider;
 
-        private Mock<IDeliveryStatusService> deliveryStatusService;
+        private Mock<IJobStatusService> deliveryStatusService;
 
         [SetUp]
         public void Setup()
@@ -57,7 +57,7 @@
             this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
             this.podTransactionFactory = new Mock<IPodTransactionFactory>(MockBehavior.Strict);
-            this.deliveryStatusService = new Mock<IDeliveryStatusService>(MockBehavior.Strict);
+            this.deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
@@ -129,7 +129,7 @@
 
             this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
 
-            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber))
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                 .Returns(existingStop);
 
             this.mapper.Setup(x => x.Map(stop, existingStop));
@@ -145,7 +145,7 @@
 
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
-            this.deliveryStatusService.Setup(x => x.SetStatus(existingJob, branchId));
+            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId));
 
             this.service.Update(route);
 
@@ -156,7 +156,7 @@
 
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
 
-            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber), Times.Once);
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
 
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
 

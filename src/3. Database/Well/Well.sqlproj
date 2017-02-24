@@ -117,7 +117,6 @@
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <Build Include="dbo\Tables\PerformanceStatus.sql" />
-    <Build Include="dbo\StoredProcedures\Deliveries_GetByPerformanceStatus.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetByRouteNumberAndDate.sql" />
     <Build Include="dbo\StoredProcedures\StopGetByJob.sql" />
@@ -272,9 +271,11 @@
     <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
-    <Build Include="dbo\StoredProcedures\Deliveries_GetByArrayPerformanceStatus.sql" />
-    <Build Include="dbo\Types\IntTableType.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_GetByBranchAndInvoiceNumber.sql" />
+    <Build Include="dbo\StoredProcedures\GetCleanDeliveries.sql" />
+    <Build Include="dbo\StoredProcedures\GetExceptionDeliveries.sql" />
+    <Build Include="dbo\StoredProcedures\GetResolvedDeliveries.sql" />
+    <None Include="Post-Deployement\Populate-JobStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

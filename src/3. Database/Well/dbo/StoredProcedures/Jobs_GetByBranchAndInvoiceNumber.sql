@@ -36,6 +36,7 @@ BEGIN
       ,j.[UpdatedBy]
       ,j.[DateUpdated]
       ,j.[Version]
+	  ,j.[JobStatusId] as JobStatus
 	FROM [dbo].[Job] j
 	INNER JOIN Stop s ON j.StopId = s.Id 
 	INNER JOIN RouteHeader r ON s.RouteHeaderId = r.Id

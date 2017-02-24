@@ -33,6 +33,7 @@ AS
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
+	  ,[JobStatusId] as JobStatus
   FROM [dbo].[Job]
   WHERE [StopId] = @StopId
 

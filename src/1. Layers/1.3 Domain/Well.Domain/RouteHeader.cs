@@ -291,8 +291,8 @@
         [XmlIgnore]
         public int TotalDrops { get; set; }
 
-        public int CleanJobs => Stops.Sum(s => s.CleanJobs);
+        public int CleanJobs => Stops.Sum(s => s.CleanJobsCount);
 
-        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobs);
+        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobsCount);
     }
 }

@@ -55,6 +55,13 @@
             Assert.AreEqual("true", page.SubmitActionButton.GetElement().GetAttribute("disabled"));
         }
 
+        [Then(@"I am shown the high value check")]
+        public void ShownHighValue()
+        {   
+            // we should have 5 elements that are checked
+            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(5));
+        }
+
         [Then(@"I am shown the exception detail")]
         public void ShownExceptionDetail(Table table)
         {
@@ -73,9 +80,6 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.DamagedQuantity), Is.EqualTo(table.Rows[i]["DamagedQuantity"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int)DeliveryDetailsGrid.ShortQuantity), Is.EqualTo(table.Rows[i]["ShortQuantity"]));
             }
-
-            // we should have 5 elements that are checked
-            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(5));
         }
 
         [When(@"I open the clean tab")]

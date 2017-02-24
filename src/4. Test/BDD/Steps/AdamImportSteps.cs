@@ -2,7 +2,6 @@
 {
     using System.IO;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
 
@@ -63,7 +62,6 @@
             this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
 
             this.userNameProvider.ChangeUserName(this.currentUser);
-            //////this.routeHeaderRepository.CurrentUser = this.currentUser;
 
             this.logger.LogDebug("Calling file monitor service");
             adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);
@@ -130,7 +128,6 @@
         [When(@"I import the route file '(.*)' into the well")]
         public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
         {
-            var adamContainer = container.GetInstance<IAdamFileMonitorService>();
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
 
             adamFileMonitorService.Process(Path.Combine(filePath, routeFile));
@@ -197,7 +194,6 @@
             var jobRepository = container.GetInstance<IJobRepository>();
             var customerRoyalty = jobRepository.GetCustomerRoyaltyExceptionsByRoyalty(royaltyCode);
             customerRoyalty.ExceptionDays = exceptionDays;
-            //////jobRepository.CurrentUser = this.currentUser;
             jobRepository.UpdateCustomerRoyaltyException(customerRoyalty);
         }
 
@@ -223,7 +219,6 @@
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
-            //////jobDetailrepositoryContainer.CurrentUser = currentUser;
             jobDetailrepositoryContainer.Update(jobDetailToResolve);
         }
 
@@ -232,7 +227,6 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).Where(x => x.JobDetailStatusId == 2);
-            //////jobDetailrepositoryContainer.CurrentUser = currentUser;
 
             foreach (var jobDetail in jobDetailToResolve)
             {

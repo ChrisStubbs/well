@@ -34,7 +34,7 @@
 	@UpdatedBy VARCHAR(50),
 	@CreatedDate DATETIME,
 	@UpdatedDate DATETIME,
-	@HasException BIT = 0
+	@JobStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -74,7 +74,7 @@ BEGIN
 		[DateCreated],
 		[UpdatedBy],
 		[DateUpdated],
-		[HasException])
+		[JobStatusId])
 	VALUES (
 		@Sequence, 
 		@JobTypeCode, 
@@ -110,7 +110,7 @@ BEGIN
 		@CreatedDate,
 		@UpdatedBy,
 		@UpdatedDate,
-		@HasException)
+		@JobStatusId)
 
 	SELECT CAST(SCOPE_IDENTITY() as int);
 END

@@ -25,7 +25,7 @@
         private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IRouteMapper mapper;
         private readonly IAdamImportService adamImportService;
-        private readonly IDeliveryStatusService deliveryStatusService;
+        private readonly IJobStatusService jobStatusService;
         private readonly IUserNameProvider userNameProvider;
 
         private const string UpdatedBy = "EpodUpdate";
@@ -42,7 +42,7 @@
             IRouteMapper mapper,
             IAdamImportService adamImportService,
             IPodTransactionFactory podTransactionFactory,
-            IDeliveryStatusService deliveryStatusService,
+            IJobStatusService jobStatusService,
             IUserNameProvider userNameProvider)
         {
             this.logger = logger;
@@ -56,15 +56,8 @@
             this.mapper = mapper;
             this.adamImportService = adamImportService;
             this.podTransactionFactory = podTransactionFactory;
-            this.deliveryStatusService = deliveryStatusService;
+            this.jobStatusService = jobStatusService;
             this.userNameProvider = userNameProvider;
-
-            //this.routeHeaderRepository.CurrentUser = UpdatedBy;
-            //this.stopRepository.CurrentUser = UpdatedBy;
-            //this.jobRepository.CurrentUser = UpdatedBy;
-            //this.jobDetailRepository.CurrentUser = UpdatedBy;
-            //this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
-            //this.exceptionEventRepository.CurrentUser = UpdatedBy;
         }
 
         public void Update(RouteDelivery route)
@@ -109,9 +102,8 @@
                 {
                     using (var transactionScope = new TransactionScope())
                     {
-                        // TODO
                         var job = stop.Jobs.First();
-                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, job.InvoiceNumber);
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
                         if (existingStop == null)
                         {
@@ -148,7 +140,6 @@
         {
             foreach (var job in jobs)
             {
-                // TODO do we need the invoice here im thinking we dont as we have enough info already
                 var existingJob = this.jobRepository.GetByAccountPicklistAndStopId(
                     job.PhAccount,
                     job.PickListRef,
@@ -167,12 +158,8 @@
 
                 this.mapper.Map(job, existingJob);
 
-                this.deliveryStatusService.SetStatus(existingJob, branchId);
+                this.jobStatusService.DetermineStatus(existingJob, branchId);
 
-                {
-                    // TODO think about this status do we need it, maybe for querying hmm not sure
-                } 
-                // TODO refactor this
                 if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
                 {
                     var grnEvent = new GrnEvent

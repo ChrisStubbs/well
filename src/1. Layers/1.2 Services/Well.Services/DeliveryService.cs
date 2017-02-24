@@ -19,43 +19,33 @@ namespace PH.Well.Services
         private readonly IJobRepository jobRepository;
         private readonly IAuditRepository auditRepository;
         private readonly IStopRepository stopRepository;
-        private readonly IJobDetailActionRepository jobDetailActionRepository;
         private readonly IUserRepository userRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IBranchRepository branchRepository;
-        private readonly IUserNameProvider userNameProvider;
+        private readonly IJobStatusService jobStatusService;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
             IJobRepository jobRepository,
             IAuditRepository auditRepository,
             IStopRepository stopRepository,
-            IJobDetailActionRepository jobDetailActionRepository,
             IUserRepository userRepository,
             IExceptionEventRepository exceptionEventRepository,
             IDeliveryReadRepository deliveryReadRepository,
             IBranchRepository branchRepository,
-            IUserNameProvider userNameProvider)
+            IJobStatusService jobStatusService)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.jobRepository = jobRepository;
             this.auditRepository = auditRepository;
             this.stopRepository = stopRepository;
-            this.jobDetailActionRepository = jobDetailActionRepository;
             this.userRepository = userRepository;
             this.exceptionEventRepository = exceptionEventRepository;
             this.deliveryReadRepository = deliveryReadRepository;
             this.branchRepository = branchRepository;
-
-            //////var currentUser = Thread.CurrentPrincipal.Identity.Name;
-            //////this.jobDetailRepository.CurrentUser = currentUser;
-            //////this.jobDetailDamageRepository.CurrentUser = currentUser;
-            //////this.jobRepository.CurrentUser = currentUser;
-            //////this.auditRepository.CurrentUser = currentUser;
-            //////this.stopRepository.CurrentUser = currentUser;
-
+            this.jobStatusService = jobStatusService;
         }
 
         public IList<Delivery> GetApprovals(string username)
@@ -81,23 +71,31 @@ namespace PH.Well.Services
             return approvals.ToList();
         }
 
+        // TODO refactor and try to simplify
         public void UpdateDeliveryLine(JobDetail jobDetailUpdates, string username)
         {
             IEnumerable<JobDetail> jobDetails = this.jobDetailRepository.GetByJobId(jobDetailUpdates.JobId);
-            bool isCleanBeforeUpdate = jobDetails.All(jd => jd.IsClean());
 
             var jobDetail =
                 jobDetails.Single(j => j.JobId == jobDetailUpdates.JobId && j.LineNumber == jobDetailUpdates.LineNumber);
+
+            Job job = this.jobRepository.GetById(jobDetail.JobId);
+
+            var branchId = this.branchRepository.GetBranchIdForJob(job.Id);
+
+            bool isCleanBeforeUpdate = job.JobStatus == JobStatus.Clean;
+            
             jobDetail.ShortQty = jobDetailUpdates.ShortQty;
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
             jobDetail.JobDetailReasonId = jobDetailUpdates.JobDetailReasonId;
             jobDetail.JobDetailSourceId = jobDetailUpdates.JobDetailSourceId;
             jobDetail.ShortsActionId = jobDetailUpdates.ShortsActionId;
 
-            Job job = this.jobRepository.GetById(jobDetail.JobId);
             job.JobDetails = jobDetails.ToList();
+
             JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
             Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
+
             Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
                 stop.DeliveryDate);
 
@@ -105,23 +103,20 @@ namespace PH.Well.Services
             {
                 this.jobDetailRepository.Update(jobDetail);
                 this.jobDetailDamageRepository.Delete(jobDetail.Id);
+
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
                     this.jobDetailDamageRepository.Save(jobDetailDamage);
                 }
 
-                bool isClean = jobDetails.All(jd => jd.IsClean());
-                if (isCleanBeforeUpdate && isClean == false)
-                {
-                    //Make dirty
-                    job.PerformanceStatus = PerformanceStatus.Incom;
-                    this.jobRepository.Update(job);
-                }
+                this.jobStatusService.DetermineStatus(job, branchId);
+                this.jobRepository.Update(job);
 
-                if (isCleanBeforeUpdate == false && isClean)
+                // was originally dirty now clean so can be resolved
+                if (!isCleanBeforeUpdate && job.JobStatus == JobStatus.Clean)
                 {
-                    //Resolve
-                    job.PerformanceStatus = PerformanceStatus.Resolved;
+                    job.JobStatus = JobStatus.Resolved;
+
                     this.jobRepository.Update(job);
                     this.userRepository.UnAssignJobToUser(job.Id);
                 }
@@ -135,7 +130,7 @@ namespace PH.Well.Services
             }
         }
 
-        public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
+        /*public void UpdateDraftActions(JobDetail jobDetailUpdates, string username)
         {
             //////this.jobDetailActionRepository.CurrentUser = username;
             //////this.auditRepository.CurrentUser = username;
@@ -168,9 +163,6 @@ namespace PH.Well.Services
 
         public void SubmitActions(int jobId, string username)
         {
-            //////this.jobDetailActionRepository.CurrentUser = username;
-            //////this.auditRepository.CurrentUser = username;
-
             Job job = this.jobRepository.GetById(jobId);
             Stop stop = this.stopRepository.GetByJobId(jobId);
 
@@ -197,7 +189,7 @@ namespace PH.Well.Services
                 }
                 transactionScope.Complete();
             }
-        }
+        }*/
 
         public void SaveGrn(int jobId, string grn, int branchId, string username)
         {

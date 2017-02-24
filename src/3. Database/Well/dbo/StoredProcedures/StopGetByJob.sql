@@ -1,7 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[StopGetByJob]
 	@Picklist VARCHAR(50),
-	@Account VARCHAR(50),
-	@Invoice VARCHAR(50)
+	@Account VARCHAR(50)
 AS
 BEGIN
 SELECT s.[Id],
@@ -23,5 +22,5 @@ SELECT s.[Id],
 	  s.[TransportOrderReference]
   FROM [dbo].[Stop] s
   JOIN Job j on j.StopId = s.Id
-  WHERE j.PickListRef = @Picklist AND j.PHAccount = @Account AND j.InvoiceNumber = @Invoice
+  WHERE j.PickListRef = @Picklist AND j.PHAccount = @Account
 END

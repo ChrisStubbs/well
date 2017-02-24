@@ -56,7 +56,7 @@
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
-                    x.For<IDeliveryStatusService>().Use<DeliveryStatusService>();
+                    x.For<IJobStatusService>().Use<JobStatusService>();
                     x.For<IUserNameProvider>().Use<UserNameProvider>();
                 });
         }

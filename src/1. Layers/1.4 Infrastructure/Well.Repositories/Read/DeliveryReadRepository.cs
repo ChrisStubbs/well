@@ -24,20 +24,18 @@
 
         public IEnumerable<Delivery> GetCleanDeliveries(string username)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Compl, username);
-        }
-
-        private IEnumerable<Delivery> GetDeliveriesByStatus(PerformanceStatus status, string username)
-        {
-            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPerformanceStatus)
-                .AddParameter("PerformanceStatusId", status, DbType.Int32)
-                .AddParameter("UserName", username, DbType.String)
-                .Query<Delivery>();
+            return
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.GetCleanDeliveries)
+                    .AddParameter("username", username, DbType.String)
+                    .Query<Delivery>();
         }
 
         public IEnumerable<Delivery> GetResolvedDeliveries(string username)
         {
-            return GetDeliveriesByStatus(PerformanceStatus.Resolved, username);
+            return
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.GetResolvedDeliveries)
+                    .AddParameter("username", username, DbType.String)
+                    .Query<Delivery>();
         }
 
         //TODO - Refactor into a single sproc with parameters to filter those pending credit
@@ -51,10 +49,7 @@
 
         public IEnumerable<Delivery> GetExceptionDeliveries(string username, bool includePendingCredit = false)
         {
-            var intStatuses = ExceptionStatuses.Statuses.Select(p => (int)p).ToList();
-
-            var exceptionDeliveries = dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByArrayPerformanceStatus)
-                .AddParameter("PerformanceStatusIds", intStatuses.ToIntDataTables("Value"), DbType.Object)
+            var exceptionDeliveries = dapperReadProxy.WithStoredProcedure(StoredProcedures.GetExceptionDeliveries)
                 .AddParameter("UserName", username, DbType.String)
                 .Query<Delivery>().ToList();
 
@@ -64,6 +59,7 @@
             {
                 exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
             }
+
             return exceptionDeliveries;
         }
 

@@ -16,6 +16,7 @@ export class Delivery {
             this.mobileNumber = delivery.mobileNumber;
             this.deliveryType = delivery.deliveryType;
             this.cashOnDelivery = delivery.cashOnDelivery;
+            this.isCashOnDelivery = delivery.isCashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit; 
@@ -51,6 +52,7 @@ export class Delivery {
     public mobileNumber: string;
     public deliveryType: string;
     public cashOnDelivery: string;
+    public isCashOnDelivery: boolean;
     public isException: boolean;
     public canAction: boolean; 
     public canSubmit: boolean;

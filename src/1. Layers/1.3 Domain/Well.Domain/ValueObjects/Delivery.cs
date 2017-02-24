@@ -37,6 +37,7 @@
         public string IdentityName { get; set; }
 
         public string CashOnDelivery { get; set; }
+        public bool IsCashOnDelivery => string.IsNullOrWhiteSpace(CashOnDelivery) == false;
 
         public bool CanAction { get; private set; }
 

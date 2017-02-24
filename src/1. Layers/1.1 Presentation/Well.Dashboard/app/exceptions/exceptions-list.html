@@ -59,7 +59,7 @@
                                 <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
-                                    <ow-account-flags [cashOnDelivery]="delivery.cashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
+                                    <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
                                 </td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>

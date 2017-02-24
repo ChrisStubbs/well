@@ -245,7 +245,7 @@
 
         public void SetDeliveryStatusToResolved(int noOfDeliveries)
         {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 5, HasResolved = 1, InvoiceNumber =  '9' + PickListRef");
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 5, InvoiceNumber =  '9' + PickListRef");
         }
 
         public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)

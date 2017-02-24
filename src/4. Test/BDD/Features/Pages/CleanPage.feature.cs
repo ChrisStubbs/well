@@ -311,7 +311,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "1",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "CSG - must be CF van",
                         "08/01/2016"});
             table7.AddRow(new string[] {
@@ -319,7 +319,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "2",
                         "92545470",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP",
                         "08/01/2016"});
             table7.AddRow(new string[] {
@@ -327,7 +327,7 @@ this.ScenarioSetup(scenarioInfo);
                         "22",
                         "2",
                         "92545419",
-                        "2874.033",
+                        "02874.033",
                         "RVS SHOP",
                         "08/01/2016"});
             table7.AddRow(new string[] {

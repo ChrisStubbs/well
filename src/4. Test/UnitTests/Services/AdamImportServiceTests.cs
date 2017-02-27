@@ -34,8 +34,6 @@
 
         private Mock<IEventLogger> eventLogger;
 
-        private Mock<IUserNameProvider> userNameProvider;
-
         private Mock<IJobStatusService> jobStatusService;
 
         private AdamImportService service;
@@ -43,8 +41,6 @@
         [SetUp]
         public void Setup()
         {
-            var user = "AdamImport";
-
             this.routeHeaderRepository = new Mock<IRouteHeaderRepository>(MockBehavior.Strict);
             this.stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
             this.accountRepository = new Mock<IAccountRepository>(MockBehavior.Strict);
@@ -54,8 +50,6 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
             this.jobStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
-            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
             this.service = new AdamImportService(this.routeHeaderRepository.Object,
                 this.stopRepository.Object, 

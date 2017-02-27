@@ -14,9 +14,9 @@ Scenario: A user can view Route information
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |        |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     |        |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
+	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |   Not Started     |
+	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     |   Not Started     |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
 	
 	
 
@@ -30,27 +30,27 @@ Scenario: A user can filter Route information
 	And I filter the grid with the option 'Route' and value '011'
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
 	When I clear the filter 
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     |        |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     |        |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     |   Not Started     |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     |   Not Started     |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
 	When I filter the grid with the option 'Branch' and value '2'
 	Then The following routes will be displayed
     | Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-    | 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
+    | 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started       |
 	When I select 'Route' from the filter options
 	Then the the previous filter should be cleared 
 	And The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     |        |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     |        |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |        |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     |  Not Started      |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     |  Not Started      |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |  Not Started      |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |  Not Started      |
 
 
 Scenario: A user can view Route information and sort on route date
@@ -60,21 +60,21 @@ Scenario: A user can view Route information and sort on route date
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status | 
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |   Not Started     | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |   Not Started     | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |   Not Started     | 
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'asc' order
 	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started       | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started       | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started       | 
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'desc' order
 	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |        | 
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |        | 
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |        | 
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |   Not Started     | 
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |   Not Started     | 
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |   Not Started     | 
 
 
 #TODO Add more filter scenarios when the additional filters have been implemented

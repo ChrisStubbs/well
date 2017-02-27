@@ -7,12 +7,35 @@ Feature: AdamImportPage
 
 Background: 
 	Given I have a clean database
-	And I have loaded the Adam route data to check data to ADAM
+	And I have loaded the second Adam route data to check data to ADAM
 	And I have loaded the Adam order data to check data to ADAM
-	And I have imported a valid Epod update file named 'ePOD_Hay_Update.xml'
+	And I have imported a valid Epod update file named 'ePOD_Hay_Update2.xml'
 
 	Scenario: A user can view Exception Delivery Information
 	Given I have selected branch '82'
+	When I navigate to the branch parameters page
+	And I select the credit threshold tab
+	And I add a credit threshold
+	| Level  | Threshold |
+	| 3      | 100      |
+	And all branches are selected for the seasonal date
+	And I save the credit threshold
+	And I add a credit threshold
+	| Level  | Threshold |
+	| 2      | 1000      |
+	And all branches are selected for the seasonal date
+	And I save the credit threshold
+	And I add a credit threshold
+	| Level  | Threshold |
+	| 1      | 10000     |
+	And all branches are selected for the seasonal date
+	And I save the credit threshold
+
+
+
+
+
+
 	#And  3 deliveries have been marked as exceptions
 	#When I open the exception deliveries
 	#Then the following exception deliveries will be displayed

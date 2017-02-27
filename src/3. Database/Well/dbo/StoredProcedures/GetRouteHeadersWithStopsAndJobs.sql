@@ -89,6 +89,7 @@ SELECT TOP 1000 [j].[Id]
       ,[j].[UpdatedBy]
       ,[j].[DateUpdated]
       ,[j].[Version]
+	  ,[j].[JobStatusId] as JobStatus
   FROM [dbo].[Job] j
 	INNER JOIN [dbo].[Stop] s
 		on j.StopId = s.Id

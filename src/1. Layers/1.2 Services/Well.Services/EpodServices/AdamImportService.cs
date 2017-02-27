@@ -69,6 +69,7 @@
 
         public void ImportRouteHeader(RouteHeader header, int routeId)
         {
+            header.RouteStatusDescription = "Not Started";
             header.RoutesId = routeId;
             header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
                                     ? (int)Branches.NotDefined

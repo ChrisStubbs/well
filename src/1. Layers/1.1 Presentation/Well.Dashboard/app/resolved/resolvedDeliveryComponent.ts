@@ -13,7 +13,6 @@ import {AccountService}                             from '../account/accountServ
 import {IAccount}                                   from '../account/account';
 import {RefreshService}                             from '../shared/refreshService';
 import {OrderArrowComponent}                        from '../shared/orderbyArrow';
-import {CodComponent}                               from '../shared/codComponent';
 import {SecurityService}                            from '../shared/security/securityService';
 import {UnauthorisedComponent }                     from '../unauthorised/unauthorisedComponent';
 import * as lodash                                  from 'lodash';
@@ -54,7 +53,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
                 new DropDownItem('Account', 'accountCode'),
                 new DropDownItem('Account Name', 'accountName'),
                 new DropDownItem('Status', 'jobStatus'),
-                new DropDownItem('Action', 'action'),
                 new DropDownItem('Assigned', 'assigned'),
                 new DropDownItem('Date', 'deliveryDate', false, 'date')
             ];

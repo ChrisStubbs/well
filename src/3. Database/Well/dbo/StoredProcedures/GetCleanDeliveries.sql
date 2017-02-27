@@ -13,7 +13,6 @@ BEGIN
 		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
 		jb.[Description] as JobStatus,
-		j.Cod,
 		s.DeliveryDate,
 		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
@@ -22,7 +21,8 @@ BEGIN
 		j.COD as CashOnDelivery,
 		j.TotalCreditValueForThreshold,
 		j.TotalOutersShort,
-		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit
+		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
+		j.ProofOfDelivery
 	FROM
 		RouteHeader rh 
 	INNER JOIN 

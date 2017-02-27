@@ -14,10 +14,8 @@ export class DeliveryUpdateComponent
 {
     public deliveryId: number;
     public lineNo: number;
-    public delivery: Delivery = new Delivery(undefined);
-    public deliveryLine: DeliveryLine = new DeliveryLine(undefined);
-
-    @ViewChild(DeliveryIssuesComponent) private deliveryIssues: DeliveryIssuesComponent;
+    public delivery: Delivery;
+    public deliveryLine: DeliveryLine;
 
     constructor(private deliveryService: DeliveryService, private route: ActivatedRoute)
     {
@@ -38,17 +36,11 @@ export class DeliveryUpdateComponent
         this.delivery = delivery;
 
         let line = lodash.find(this.delivery.exceptionDeliveryLines, { lineNo: this.lineNo });
-
-        if (!line)
-        {
-            line = lodash.find(this.delivery.cleanDeliveryLines, {
-                lineNo: this.lineNo
-            });
+        if (!line) {
+            line = lodash.find(this.delivery.cleanDeliveryLines, { lineNo: this.lineNo });
         }
 
         this.deliveryLine = line;
-        this.deliveryIssues.delivery = this.delivery;
-        this.deliveryIssues.deliveryLine = this.deliveryLine;
     }
 
     public invalidShortDamagesQty(): boolean

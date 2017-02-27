@@ -5,6 +5,7 @@
         public static string AuditGet = "Audit_Get";
         public static string AuditInsert = "Audit_Insert";
         public static string RouteHeadersGet = "RouteHeaders_Get";
+        public static string RouteHeadersGetWithFullObjectGraph = "GetRouteHeadersWithStopsAndJobs";
         public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public static string RouteInsert = "Route_Insert";
         public static string RoutesGetById = "Routes_GetById";
@@ -58,7 +59,6 @@
         public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
         public static string JobDetailDeleteById = "JobDetail_DeleteById";
         public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
-        public static string JobDetailActionsGet = "JobDetailActionsGet";
         public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
         public static string JobDetailDamageInsert = "JobDetailDamage_Insert";
         public static string JobDetailDamageUpdate = "JobDetailDamage_Update";

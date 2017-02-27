@@ -53,21 +53,26 @@ Scenario: A user can filter Clean Delivery information
 
 Scenario: A user can view Clean Delivery Information and sort on updated date
 	Given I have a clean database
-	And I have loaded the Adam route data
+	And I have loaded the MultiDate Adam route data
 	And I have selected branch '22'
-	And  3 deliveries have been marked as clean
+	And 5 deliveries have been marked as clean
 	When I open the clean deliveries 
-	Then the following clean deliveries will be displayed
+	#Ascending Order
+	And I click on the orderby Triangle image in the clean deliveries grid
+	Then the following clean deliveries will be displayed		
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
-	| 001   | 22     | 1    | 92545470  | 2874.033  | CSG - must be CF van | 07/01/2016   |
-	| 001   | 22     | 2    | 92545470  | 2874.033  | RVS SHOP             | 07/01/2016   |
-	When I click on the orderby Triangle image in the clean deliveries grid
-	Then The following clean deliveries ordered by date will be displayed in 'desc' order
-	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 001   | 22     | 2    | 92545470  | 2874.033  | RVS SHOP             | 07/01/2016   |
-	| 001   | 22     | 1    | 92545470  | 2874.033  | CSG - must be CF van | 07/01/2016   |
-	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
+	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 08/01/2016   |
+	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 08/01/2016   |
+	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 08/01/2016   |
+	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 08/01/2016   |
+	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 06/01/2016   |
+	#Descending Order
+	#When I click on the orderby Triangle image in the clean deliveries grid
+	#Then the following clean deliveries will be displayed
+	#| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
+	#| 001   | 22     | 2    | 92545470  | 02874.033  | RVS SHOP             | 07/01/2016   |
+	#| 001   | 22     | 1    | 92545470  | 02874.033  | CSG - must be CF van | 07/01/2016   |
+	#| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
 
 Scenario: A user can page through Clean Delivery information
 	Given I have a clean database
@@ -82,12 +87,11 @@ Scenario: A user can page through Clean Delivery information
 	When I click on clean delivery page 1
 	Then '10' rows of clean delivery data will be displayed
 
-Scenario: A user can view Clean Delivery Information with cash on delivery icons displayed
+Scenario: View cash on delivery icon
 	Given I have a clean database
-	And I have loaded the Adam route data
+	And I have loaded the MultiDate Adam route data
 	And I have selected branch '22'
-	And  3 deliveries have been marked as clean
-	And the first 'clean' delivery is not a cash on delivery customer
+	And 3 deliveries have been marked as clean
 	When I open the clean deliveries 
-	Then the cod delivery icon is not displayed in row 1
+	Then the first clean delivery line is COD (Cash on Delivery)
 	

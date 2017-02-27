@@ -272,6 +272,7 @@
     <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_GetByBranchAndInvoiceNumber.sql" />
+    <Build Include="dbo\StoredProcedures\GetRouteHeadersWithStopsAndJobs.sql" />
     <Build Include="dbo\StoredProcedures\GetCleanDeliveries.sql" />
     <Build Include="dbo\StoredProcedures\GetExceptionDeliveries.sql" />
     <Build Include="dbo\StoredProcedures\GetResolvedDeliveries.sql" />

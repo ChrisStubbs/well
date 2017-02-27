@@ -77,7 +77,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             new DropDownItem('Account Name', 'accountName'),
             this.assigneeOption,
             new DropDownItem('Date', 'deliveryDate', false, 'date'),
-            new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
+            new DropDownItem('Credit Value', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
         ];
     }
 

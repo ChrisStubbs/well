@@ -894,12 +894,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information with cash on delivery icons displa" +
-            "yed")]
-        public virtual void AUserCanViewExceptionDeliveryInformationWithCashOnDeliveryIconsDisplayed()
+        [NUnit.Framework.DescriptionAttribute("View cash on delivery icon")]
+        public virtual void ViewCashOnDeliveryIcon()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information with cash on delivery icons displa" +
-                    "yed", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View cash on delivery icon", ((string[])(null)));
 #line 183
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -907,13 +905,11 @@ this.FeatureBackground();
 #line 184
  testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 185
- testRunner.And("All the deliveries are marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("2 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 186
-    testRunner.And("the first \'exception\' delivery is not a cash on delivery customer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 187
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 188
- testRunner.Then("the exception cod delivery icon is not displayed in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 187
+ testRunner.Then("the first delivery line is COD (Cash on Delivery)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

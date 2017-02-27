@@ -19,6 +19,7 @@ export class Delivery
             this.mobileNumber = delivery.mobileNumber;
             this.deliveryType = delivery.deliveryType;
             this.cashOnDelivery = delivery.cashOnDelivery;
+            this.isCashOnDelivery = delivery.isCashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit;
@@ -26,6 +27,7 @@ export class Delivery
             this.branchId = delivery.branchId;
             this.grnProcessType = delivery.grnProcessType;
             this.proofOfDelivery = delivery.proofOfDelivery;
+            this.isProofOfDelivery = delivery.isProofOfDelivery;
 
             if (delivery.exceptionDeliveryLines)
             {
@@ -57,6 +59,7 @@ export class Delivery
     public mobileNumber: string;
     public deliveryType: string;
     public cashOnDelivery: string;
+    public isCashOnDelivery: boolean;
     public isException: boolean;
     public canAction: boolean;
     public canSubmit: boolean;
@@ -65,6 +68,7 @@ export class Delivery
     public branchId: number;
     public grnProcessType: number;
     public proofOfDelivery: number;
+    public isProofOfDelivery: boolean;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
     public isCleanOnInit(): boolean

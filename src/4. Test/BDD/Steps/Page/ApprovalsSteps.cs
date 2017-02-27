@@ -50,7 +50,6 @@
         public void GivenIHaveTheFollowingCreditThresholdsSetupForAllBranches(Table table)
         {
             var branches = branchRepository.GetAllValidBranches();
-            this.userNameProvider.ChangeUserName("BDD");
 
             foreach (var tableRow in table.Rows)
             {

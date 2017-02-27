@@ -43,7 +43,7 @@
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
                     x.For<IJobStatusService>().Use<JobStatusService>();
-                    x.For<IUserNameProvider>().Use<UserNameProvider>();
+                    x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

@@ -57,7 +57,7 @@
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                     x.For<IJobStatusService>().Use<JobStatusService>();
-                    x.For<IUserNameProvider>().Use<UserNameProvider>();
+                    x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
                 });
         }
     }

@@ -108,7 +108,7 @@ Scenario: A user can drill into a Route to view exceptions
 	And All the deliveries are marked as exceptions
 	And I have selected branch '22'
 	When I open the routes page
-	And I select the first row of the route
+	And I select the first row of the route    
 	And I choose to view that routes exceptions
 	Then I can see that routes exceptions
 	And the filter should be preset to route and route number

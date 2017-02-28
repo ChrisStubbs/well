@@ -52,7 +52,7 @@ export class DeliveryComponent implements OnInit {
 
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(delivery => { this.delivery = new Delivery(delivery), console.log(delivery.branchId); },
-            error => this.errorMessage = <any>error);
+                error => this.errorMessage = <any>error);
     }
 
     public onShowAllClicked()

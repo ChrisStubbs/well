@@ -28,7 +28,6 @@
         private readonly ILogger logger;
         private IAuditRepository auditRepo;
         private INotificationRepository notificationRepository;
-        private IUserNameProvider userNameProvider;
 
         public DatabaseSteps()
         {
@@ -36,7 +35,6 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
-            this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
             auditRepo = container.GetInstance<IAuditRepository>();
             notificationRepository = container.GetInstance<INotificationRepository>();
         }
@@ -86,12 +84,6 @@
             this.SetDeliveryStatusToClean(noOfDeliveries);
 
             this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
-        }
-
-        [Given(@"the first delivery is not a cash on delivery customer")]
-        public void GivenTheFirstDeliveryIsNotACashOnDeliveryCustomer()
-        {
-            this.dapperProxy.ExecuteSql("update top(1) job set cod = 1 where PerformanceStatusId = 6");
         }
 
         [Given(@"All the deliveries are marked as clean")]

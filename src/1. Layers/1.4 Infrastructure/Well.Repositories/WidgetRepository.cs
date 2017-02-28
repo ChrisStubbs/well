@@ -14,8 +14,8 @@
 
     public class WidgetRepository : DapperRepository<WidgetWarning, int>, IWidgetRepository
     {
-        public WidgetRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public WidgetRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

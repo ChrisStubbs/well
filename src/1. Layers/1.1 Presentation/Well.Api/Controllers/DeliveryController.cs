@@ -26,7 +26,6 @@
         private readonly ILogger logger;
         private readonly IDeliveryService deliveryService;
         private readonly IJobRepository jobRepository;
-        private readonly IExceptionEventRepository exceptionEventRepository;
 
         public DeliveryController(
             IDeliveryReadRepository deliveryReadRepository,
@@ -35,7 +34,8 @@
             ILogger logger,
             IDeliveryService deliveryService,
             IJobRepository jobRepository,
-            IExceptionEventRepository exceptionEventRepository)
+            IUserNameProvider userNameProvider) 
+            : base(userNameProvider)
         {
             this.deliveryReadRepository = deliveryReadRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
@@ -43,9 +43,6 @@
             this.logger = logger;
             this.deliveryService = deliveryService;
             this.jobRepository = jobRepository;
-            this.exceptionEventRepository = exceptionEventRepository;
-
-            this.exceptionEventRepository.CurrentUser = this.UserIdentityName;
         }
 
         [HttpGet]
@@ -56,6 +53,7 @@
             {
                 var exceptionDeliveries =
                     this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
+
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
                 return !exceptionDeliveries.Any()
@@ -71,12 +69,31 @@
         }
 
         [HttpGet]
+        [Route("deliveries/approval")]
+        public HttpResponseMessage GetApprovals()
+        {
+            try
+            {
+                var approvals = deliveryService.GetApprovals(this.UserIdentityName);
+
+                return !approvals.Any()
+                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                    : this.Request.CreateResponse(HttpStatusCode.OK, approvals);
+            }
+            catch (Exception ex)
+            {
+                return this.serverErrorResponseHandler.HandleException(Request, ex,
+                    "An error occured when getting approvals");
+            }
+        }
+
+        [HttpGet]
         [Route("deliveries/clean")]
         public HttpResponseMessage GetCleanDeliveries()
         {
             try
             {
-                List<Delivery> cleanDeliveries =
+                var cleanDeliveries =
                     this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
 
                 return !cleanDeliveries.Any()
@@ -135,7 +152,7 @@
             }
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("deliveries/{id:int}/submit-actions")]
         public HttpResponseMessage SubmitActions(int id)
         {
@@ -154,7 +171,7 @@
             deliveryService.SubmitActions(id, UserIdentityName);
 
             return Request.CreateResponse(HttpStatusCode.OK);
-        }
+        }*/
 
         [HttpPost]
         [Route("deliveries/grn")]
@@ -172,14 +189,36 @@
             try
             {
                 IEnumerable<DeliveryAction> actions = Enum.GetValues(typeof(DeliveryAction)).Cast<DeliveryAction>();
-                var reasons = actions.Select(a => new { id = (int)a, description = StringExtensions.GetEnumDescription(a) });
+                var reasons = actions
+                    .Select(a => new
+                    {
+                        id = (int)a,
+                        description = StringExtensions.GetEnumDescription(a)
+                    });
 
                 return Request.CreateResponse(HttpStatusCode.OK, reasons);
             }
             catch (Exception ex)
             {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting delivery actions");
+                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting delivery actions");
             }
         }
+
+        //[HttpGet]
+        //[Route("delivery-podactions")]
+        //public HttpResponseMessage GetPodAction()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<PodDeliveryAction> actions = Enum.GetValues(typeof(PodDeliveryAction)).Cast<PodDeliveryAction>();
+        //        var reasons = actions.Select(a => new { id = (int)a, description = StringExtensions.GetEnumDescription(a) });
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, reasons);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting pod delivery actions");
+        //    }
+        //}
     }
 }

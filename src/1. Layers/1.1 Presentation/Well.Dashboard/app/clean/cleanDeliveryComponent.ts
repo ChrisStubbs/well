@@ -1,4 +1,5 @@
-﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
+﻿import { Dropdown } from '../shared/primeng/primeng';
+import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnInit, ViewChild, OnDestroy}   from '@angular/core';
 import {GlobalSettingsService}                      from '../shared/globalSettings';
@@ -15,7 +16,6 @@ import {RefreshService}                             from '../shared/refreshServi
 import {OrderArrowComponent}                        from '../shared/orderbyArrow';
 import {SecurityService}                            from '../shared/security/securityService';
 import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
-import {CodComponent}                               from '../shared/codComponent';
 import * as lodash                                  from 'lodash';
 import 'rxjs/Rx';   // Load all features
 
@@ -51,6 +51,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             super(nqps);
             this.options = [
                 this.routeOption,
+                new DropDownItem('Branch', 'branchId', false, 'number'),
                 new DropDownItem('Invoice No', 'invoiceNumber'),
                 new DropDownItem('Account', 'accountCode'),
                 new DropDownItem('Account Name', 'accountName'),

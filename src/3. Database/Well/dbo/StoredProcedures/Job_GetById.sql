@@ -30,11 +30,13 @@ BEGIN
 	  ,[Reason]
 	  ,[IsDeleted]
       ,[StopId]
+	  ,[GrnProcessType]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
+	  ,[JobStatusId] as JobStatus
   FROM [dbo].[Job]
   WHERE [Id] = @Id
 END

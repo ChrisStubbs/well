@@ -2,7 +2,6 @@
 {
     using System.IO;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
 
@@ -39,7 +38,7 @@
         private IRouteHeaderRepository routeHeaderRepository;
         private IEpodUpdateService epodUpdateService;
         private AdamFileMonitorService adamFileMonitorService;
-        private readonly string currentUser = "epodBDDUser";
+        private IUserNameProvider userNameProvider;
 
         public AdamImportSteps()
         {
@@ -59,9 +58,7 @@
             this.adamUpdateService = this.container.GetInstance<IAdamUpdateService>();
             this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
-            
-
-            this.routeHeaderRepository.CurrentUser = this.currentUser;
+            this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
 
             this.logger.LogDebug("Calling file monitor service");
             adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);
@@ -72,6 +69,32 @@
         {
             var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "xml\\ROUTE_30062016_02.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+        [Given(@"I have loaded the MultiDate Adam route data")]
+        public void LoadAdamRouteDataMultiDate()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_30062016_04.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
+        [Given(@"I have loaded the Adam route data to check data to ADAM")]
+        public void LoadAdamRouteDataToCheck()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_30062016_82.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
+        [Given(@"I have loaded the Adam order data to check data to ADAM")]
+        public void LoadAdamOrderDataToCheck()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ORDER_HAY_170207_2333.xml"));
 
             this.adamFileMonitorService.Process(importFilePath);
         }
@@ -102,7 +125,6 @@
         [When(@"I import the route file '(.*)' into the well")]
         public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
         {
-            var adamContainer = container.GetInstance<IAdamFileMonitorService>();
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
 
             adamFileMonitorService.Process(Path.Combine(filePath, routeFile));
@@ -169,7 +191,6 @@
             var jobRepository = container.GetInstance<IJobRepository>();
             var customerRoyalty = jobRepository.GetCustomerRoyaltyExceptionsByRoyalty(royaltyCode);
             customerRoyalty.ExceptionDays = exceptionDays;
-            jobRepository.CurrentUser = this.currentUser;
             jobRepository.UpdateCustomerRoyaltyException(customerRoyalty);
         }
 
@@ -195,7 +216,6 @@
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
             jobDetailToResolve.JobDetailStatusId = 1;
-            jobDetailrepositoryContainer.CurrentUser = currentUser;
             jobDetailrepositoryContainer.Update(jobDetailToResolve);
         }
 
@@ -204,7 +224,6 @@
         {
             var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
             var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).Where(x => x.JobDetailStatusId == 2);
-            jobDetailrepositoryContainer.CurrentUser = currentUser;
 
             foreach (var jobDetail in jobDetailToResolve)
             {

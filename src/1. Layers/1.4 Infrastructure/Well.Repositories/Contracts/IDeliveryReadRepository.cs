@@ -9,14 +9,12 @@
 
         IEnumerable<Delivery> GetResolvedDeliveries(string username);
 
-        IEnumerable<Delivery> GetExceptionDeliveries(string username);
+        IEnumerable<Delivery> GetExceptionDeliveries(string username, bool includePendingCredit = false);
 
         IEnumerable<DeliveryLine> GetDeliveryLinesByJobId(int id);
 
         DeliveryDetail GetDeliveryById(int id, string username);
 
-        IEnumerable<Delivery> GetPendingCreditDeliveries(string username);
-
-        IEnumerable<PendingCreditDetail> GetPendingCreditDetail(int jobId);
+        IEnumerable<Delivery> GetByPendingCredit(string username);
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
+    using Common.Extensions;
     using Enums;
 
     public class Delivery
@@ -36,14 +37,13 @@
         public string IdentityName { get; set; }
 
         public string CashOnDelivery { get; set; }
+        public bool IsCashOnDelivery => string.IsNullOrWhiteSpace(CashOnDelivery) == false;
 
         public bool CanAction { get; private set; }
 
         public string TotalCredit { get; set; }
 
         public string PendingCreditCreatedBy { get; set; }
-
-        public string Cod { get; set; }
 
         public string FormattedPendingCreditCreatedBy {
             get
@@ -59,6 +59,11 @@
 
         public decimal TotalCreditValueForThreshold { get; set; }
 
+        public ThresholdLevel? ThresholdLevel { get; set; }
+
+        public string CreditThresholdLevel
+            => ThresholdLevel != null ? Enum<ThresholdLevel>.GetDescription(ThresholdLevel) : "";
+
         public void SetCanAction(string username)
         {
             if (this.JobStatus == PerformanceStatus.Submitted.ToString())
@@ -69,5 +74,9 @@
 
         public int TotalOutersShort { get; set; }
 
+        public bool IsPendingCredit { get; set; }
+
+        public ProofOfDelivery? ProofOfDelivery { get; set; }
+        public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
     }
 }

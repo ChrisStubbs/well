@@ -6,40 +6,44 @@
     using System.Linq;
     using Common.Contracts;
     using Contracts;
+    using Dapper;
     using Domain;
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
-        private readonly IStopRepository stopRepository;
-        private readonly IJobRepository jobRepository;
-
         public RouteHeaderRepository(ILogger logger,
             IWellDapperProxy dapperProxy,
-            IStopRepository stopRepository,
-            IJobRepository jobRepository) : base(logger, dapperProxy)
+            IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
-            this.stopRepository = stopRepository;
-            this.jobRepository = jobRepository;
         }
 
+        /// <summary>
+        /// Get RouteHeaders with its related stops preloaded
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<RouteHeader> GetRouteHeaders()
         {
-            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
+            IEnumerable<RouteHeader> routes = new List<RouteHeader>();
+            var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGetWithFullObjectGraph)
               .AddParameter("UserName", this.CurrentUser, DbType.String)
-              .Query<RouteHeader>();
+              .QueryMultiple(x=> routes = GetStopsByRoute(x));
+            return routes;
+        }
 
+        private IEnumerable<RouteHeader> GetStopsByRoute(SqlMapper.GridReader gridReader)
+        {
+            var routeHeaders = gridReader.Read<RouteHeader>().ToList();
+            var stops = gridReader.Read<Stop>().ToList();
+            var jobs = gridReader.Read<Job>().ToList();
             foreach (var routeHeader in routeHeaders)
             {
-                var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
-
-                foreach (var stop in stops)
+                routeHeader.Stops = stops.Where(x=>x.RouteHeaderId == routeHeader.Id).ToList();
+                foreach (var stop in routeHeader.Stops)
                 {
-                    stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
+                    stop.Jobs= jobs.Where(x => x.StopId == stop.Id).ToList();
                 }
-
-                routeHeader.Stops = stops.ToList();
             }
-        
             return routeHeaders;
         }
 
@@ -130,8 +134,10 @@
                 .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16)
                 .AddParameter("ActualStopsCompleted", entity.ActualStopsCompleted, DbType.Int16)
                 .AddParameter("RoutesId", entity.RoutesId, DbType.Int32)
-                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
-                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("RouteStatusCode", entity.RouteStatusCode, DbType.String)
+                .AddParameter("RouteStatusDescription", entity.RouteStatusDescription, DbType.String)
+                .AddParameter("PerformanceStatusCode", entity.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusDescription", entity.PerformanceStatusDescription, DbType.String)
                 .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)
@@ -149,8 +155,10 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
-                .AddParameter("RouteStatusId", (int)entity.RouteStatus, DbType.Int16)
-                .AddParameter("RoutePerformanceStatusId", (int)entity.RoutePerformanceStatusId, DbType.Int16)
+                .AddParameter("RouteStatusCode", entity.RouteStatusCode, DbType.String)
+                .AddParameter("RouteStatusDescription", entity.RouteStatusDescription, DbType.String)
+                .AddParameter("PerformanceStatusCode", entity.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusDescription", entity.PerformanceStatusDescription, DbType.String)
                 .AddParameter("LastRouteUpdate", entity.LastRouteUpdate, DbType.DateTime)
                 .AddParameter("AuthByPass", entity.AuthByPass, DbType.Int32)
                 .AddParameter("NonAuthByPass", entity.NonAuthByPass, DbType.Int32)
@@ -173,7 +181,6 @@
 
         public IEnumerable<RouteAttributeException>  GetRouteAttributeException()
         {
-
             return dapperProxy.WithStoredProcedure(StoredProcedures.RouteAttributesGetExceptions)
                 .Query<RouteAttributeException>();
         }

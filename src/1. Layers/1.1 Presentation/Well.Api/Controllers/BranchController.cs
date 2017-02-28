@@ -7,13 +7,15 @@
     using System.Net.Http;
     using System.Web.Http;
     using Models;
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Common.Security;
-    using PH.Well.Domain;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services.Contracts;
+    using Mapper.Contracts;
+    using Common.Contracts;
+    using Common.Security;
+    using Domain;
+    using Repositories.Contracts;
+    using Services.Contracts;
+    using Validators;
 
+    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class BranchController : BaseApiController
     {
         private readonly ILogger logger;
@@ -31,7 +33,9 @@
             IBranchRepository branchRepository, 
             IServerErrorResponseHandler serverErrorResponseHandler,
             IBranchService branchService,
-            IBranchModelMapper branchModelMapper)
+            IBranchModelMapper branchModelMapper,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.logger = logger;
             this.branchRespository = branchRepository;
@@ -60,7 +64,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -85,7 +89,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -110,7 +114,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -135,7 +139,7 @@
             }
             catch (Exception ex)
             {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occcured when getting branches!");
+                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
             }
         }
 
@@ -146,7 +150,7 @@
             {
                 if (branches.Length > 0)
                 {
-                    this.branchService.SaveBranchesForUser(branches, this.UserIdentityName);
+                    this.branchService.SaveBranchesForUser(branches);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 
@@ -168,7 +172,7 @@
             {
                 if (branches.Length > 0)
                 {
-                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, this.UserIdentityName, domain);
+                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, domain);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 

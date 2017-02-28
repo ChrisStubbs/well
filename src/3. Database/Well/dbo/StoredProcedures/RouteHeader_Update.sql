@@ -1,7 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeader_Update]
 	@Id INT,
-	@RouteStatusId		    INT,
-	@RoutePerformanceStatusId INT,
+	@RouteStatusCode		    VARCHAR(50) = NULL,
+	@RouteStatusDescription VARCHAR(255) = NULL,
+	@PerformanceStatusCode VARCHAR(50) = NULL,
+	@PerformanceStatusDescription VARCHAR(255) = NULL,
 	@LastRouteUpdate			DATETIME,
 	@AuthByPass				INT,
 	@NonAuthByPass			INT,
@@ -15,8 +17,10 @@ BEGIN
 	SET NOCOUNT ON;
 
 	UPDATE RouteHeader SET 
-		RouteStatusId = @RouteStatusId,
-		RoutePerformanceStatusId = @RoutePerformanceStatusId,
+		RouteStatusCode = @RouteStatusCode,
+		RouteStatusDescription = @RouteStatusDescription,
+		PerformanceStatusCode = @PerformanceStatusCode,
+		PerformanceStatusDescription = @PerformanceStatusDescription,
 		LastRouteUpdate = @LastRouteUpdate,
 		AuthByPass = @AuthByPass,
 		ShortDeliveries = @ShortDeliveries,

@@ -4,27 +4,27 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-
+    using Dapper;
+    using Domain.ValueObjects;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
 
     public class BranchRepository : DapperRepository<Branch, int>, IBranchRepository
     {
-        public BranchRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public BranchRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 
         public IEnumerable<Branch> GetAll()
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).Query<Branch>();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).QueryMultiples(GetFromGrid);
         }
 
         public IEnumerable<Branch> GetAllValidBranches()
         {
-            var branches = this.dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).Query<Branch>().ToList();
-
+            var branches = GetAll();
             return branches.Where(x => x.Id != (int)Domain.Enums.Branch.NotDefined);
         }
 
@@ -88,6 +88,19 @@
                     .AddParameter("jobId", jobId, DbType.Int32)
                     .Query<int>()
                     .Single();
+        }
+
+        private IEnumerable<Branch> GetFromGrid(SqlMapper.GridReader grid)
+        {
+            var branches = grid.Read<Branch>().ToList();
+            var creditThresholds = grid.Read<BranchCreditThreshold>().ToList();
+
+            foreach (var branch in branches)
+            {
+                branch.CreditThresholds = creditThresholds.Where(c => c.BranchId == branch.Id).ToList();
+            }
+
+            return branches;
         }
     }
 }

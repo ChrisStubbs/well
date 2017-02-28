@@ -36,6 +36,11 @@
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
+        private Mock<IPodTransactionFactory> podTransactionFactory;
+        private Mock<IUserNameProvider> userNameProvider;
+
+        private Mock<IJobStatusService> deliveryStatusService;
+
         [SetUp]
         public void Setup()
         {
@@ -51,16 +56,24 @@
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
             this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
+            this.podTransactionFactory = new Mock<IPodTransactionFactory>(MockBehavior.Strict);
+            this.deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
-
-            this.service = new EpodUpdateService(this.logger.Object, this.eventLogger.Object, this.routeHeaderRepository.Object,
-                this.stopRepository.Object, this.jobRepository.Object, this.jobDetailRepository.Object, this.jobDetailDamageRepository.Object, this.exceptionEventRepository.Object,
-                this.mapper.Object, this.adamImportService.Object);
+            this.service = new EpodUpdateService(this.logger.Object, 
+                this.eventLogger.Object, 
+                this.routeHeaderRepository.Object,
+                this.stopRepository.Object,
+                this.jobRepository.Object, 
+                this.jobDetailRepository.Object, 
+                this.jobDetailDamageRepository.Object, 
+                this.exceptionEventRepository.Object,
+                this.mapper.Object, 
+                this.adamImportService.Object, 
+                this.podTransactionFactory.Object,
+                this.deliveryStatusService.Object,
+                this.userNameProvider.Object);
         }
 
         [Test]
@@ -86,13 +99,14 @@
         }
 
         [Test]
-        public void ShouldProcessCorrectly()
+        [TestCase(55)]
+        public void ShouldProcessCorrectly(int branchId)
         {
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
 
-            var existingRouteHeader = RouteHeaderFactory.New.Build();
+            var existingRouteHeader = RouteHeaderFactory.New.With(x=>x.StartDepotCode = branchId.ToString()).Build();
 
             var stop = StopFactory.New.Build();
 
@@ -115,7 +129,7 @@
 
             this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
 
-            this.stopRepository.Setup(x => x.GetByTransportOrderReference(stop.TransportOrderReference))
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                 .Returns(existingStop);
 
             this.mapper.Setup(x => x.Map(stop, existingStop));
@@ -129,6 +143,10 @@
 
             this.jobRepository.Setup(x => x.Update(existingJob));
 
+            // HACK: DIJ TOTAL HACK FOR NOW!!!
+
+            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId));
+
             this.service.Update(route);
 
             this.routeHeaderRepository.Verify(
@@ -138,7 +156,7 @@
 
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
 
-            this.stopRepository.Verify(x => x.GetByTransportOrderReference(stop.TransportOrderReference), Times.Once);
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
 
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
 

@@ -1,16 +1,14 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Globalization;
     using PH.Well.Common.Contracts;
-    using Domain;
-    using Factories;
     using Moq;
     using NUnit.Framework;
+
+    using PH.Well.UnitTests.Factories;
+
     using Well.Domain;
-    using Well.Domain.Enums;
     using Well.Repositories;
     using Well.Repositories.Contracts;
 
@@ -18,21 +16,20 @@
     public class StopRepositoryTests
     {
         private Mock<ILogger> logger;
-
         private Mock<IWellDapperProxy> dapperProxy;
+        private Mock<IUserNameProvider> userNameProvider;
 
         private StopRepository repository;
-
-        private string UserName = "TestUser";
 
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
 
-            this.repository = new StopRepository(this.logger.Object, this.dapperProxy.Object);
-            this.repository.CurrentUser = UserName;
+            this.repository = new StopRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         public class TheGetStopByRouteHeaderId : StopRepositoryTests
@@ -70,25 +67,6 @@
 
         }
 
-        public class TheGetStopByRouteNumberAndDropNumber : StopRepositoryTests
-        {
-            [Test]
-            public void ShouldGetStopRouteNumberAndDropNumber()
-            {
-                var transportOrderReference = "BRI-999911111";
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("TransportOrderReference", transportOrderReference, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop>());
-
-                var result = this.repository.GetByTransportOrderReference(transportOrderReference);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("TransportOrderReference", transportOrderReference, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Stop>(), Times.Once());
-            }
-        }
-
         public class TheDeleteStopByIdMethod : StopRepositoryTests
         {
             [Test]
@@ -120,5 +98,37 @@
             }
         }
 
+        public class TheGetByJobMethod : StopRepositoryTests
+        {
+            [Test]
+            public void ShouldGetTheStopByAJob()
+            {
+                var job =
+                    new JobFactory().With(x => x.PickListRef = "12221")
+                        .With(x => x.PhAccount = "55444.333")
+                        .Build();
+                
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Picklist", job.PickListRef, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.AddParameter("Account", job.PhAccount, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop> { new Stop() });
+
+                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount);
+
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Picklist", job.PickListRef, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.AddParameter("Account", job.PhAccount, DbType.String, null), Times.Once);
+
+                this.dapperProxy.Verify(x => x.Query<Stop>(), Times.Once);
+            }
+        }
     }
 }

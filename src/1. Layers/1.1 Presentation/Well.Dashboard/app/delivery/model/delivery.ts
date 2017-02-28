@@ -1,8 +1,11 @@
 ﻿import { DeliveryLine } from './deliveryLine';
 
-export class Delivery {
-    constructor(delivery: Delivery) {
-        if (delivery) {
+export class Delivery
+{
+    constructor(delivery: Delivery)
+    {
+        if (delivery)
+        {
             this.id = delivery.id;
             this.accountCode = delivery.accountCode;
             this.outerCount = delivery.outerCount;
@@ -16,22 +19,28 @@ export class Delivery {
             this.mobileNumber = delivery.mobileNumber;
             this.deliveryType = delivery.deliveryType;
             this.cashOnDelivery = delivery.cashOnDelivery;
+            this.isCashOnDelivery = delivery.isCashOnDelivery;
             this.isException = delivery.isException;
             this.canAction = delivery.canAction;
-            this.canSubmit = delivery.canSubmit; 
+            this.canSubmit = delivery.canSubmit;
             this.grnNumber = delivery.grnNumber;
             this.branchId = delivery.branchId;
             this.grnProcessType = delivery.grnProcessType;
             this.proofOfDelivery = delivery.proofOfDelivery;
+            this.isProofOfDelivery = delivery.isProofOfDelivery;
 
-            if (delivery.exceptionDeliveryLines) {
-                for (const line of delivery.exceptionDeliveryLines) {
+            if (delivery.exceptionDeliveryLines)
+            {
+                for (const line of delivery.exceptionDeliveryLines)
+                {
                     this.exceptionDeliveryLines.push(new DeliveryLine(line));
                 }
             }
 
-            if (delivery.cleanDeliveryLines) {
-                for (const line of delivery.cleanDeliveryLines) {
+            if (delivery.cleanDeliveryLines)
+            {
+                for (const line of delivery.cleanDeliveryLines)
+                {
                     this.cleanDeliveryLines.push(new DeliveryLine(line));
                 }
             }
@@ -50,27 +59,34 @@ export class Delivery {
     public mobileNumber: string;
     public deliveryType: string;
     public cashOnDelivery: string;
+    public isCashOnDelivery: boolean;
     public isException: boolean;
-    public canAction: boolean; 
+    public canAction: boolean;
     public canSubmit: boolean;
     public grnNumber: string;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public branchId: number;
     public grnProcessType: number;
     public proofOfDelivery: number;
+    public isProofOfDelivery: boolean;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
 
-    public isCleanOnInit(): boolean {
+    public isCleanOnInit(): boolean
+    {
         let clean = true;
 
-        for (const line of this.exceptionDeliveryLines) {
-            if (line.isCleanOnInit === false) {
+        for (const line of this.exceptionDeliveryLines)
+        {
+            if (line.isCleanOnInit === false)
+            {
                 clean = false;
             }
         }
 
-        for (const line of this.cleanDeliveryLines) {
-            if (line.isCleanOnInit === false) {
+        for (const line of this.cleanDeliveryLines)
+        {
+            if (line.isCleanOnInit === false)
+            {
                 clean = false;
             }
         }
@@ -78,21 +94,26 @@ export class Delivery {
         return clean;
     };
 
-    public isClean(): boolean {
+    public isClean(): boolean
+    {
         let clean = true;
 
-        for (const line of this.exceptionDeliveryLines) {
-            if (line.isClean() === false) {
+        for (const line of this.exceptionDeliveryLines)
+        {
+            if (line.isClean() === false)
+            {
                 clean = false;
             }
         }
 
-        for (const line of this.cleanDeliveryLines) {
-            if (line.isClean() === false) {
+        for (const line of this.cleanDeliveryLines)
+        {
+            if (line.isClean() === false)
+            {
                 clean = false;
             }
         }
-        
+
         return clean;
     }
 }

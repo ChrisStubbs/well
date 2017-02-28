@@ -1,15 +1,18 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
+    using System.Collections.Generic;
     using PH.Well.Domain.Enums;
 
     public class ProcessDeliveryActionResult
     {
-        public AdamResponse AdamResponse { get; set; }
+        public ProcessDeliveryActionResult()
+        {
+            this.Warnings = new List<string>();
+            this.AdamIsDown = false;
+        }
+        
+        public List<string> Warnings { get; set; }
 
-        public bool CreditThresholdLimitReached { get; set; }
-
-        public bool ThresholdError { get; set; }
-
-        public string ThresholdErrorMessage { get; set; }
+        public bool AdamIsDown { get; set; }
     }
 }

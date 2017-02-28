@@ -17,9 +17,9 @@ import { ConfirmModal }                             from '../shared/confirmModal
 import { IUser }                                    from '../shared/user';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
-import { Threshold } from '../shared/threshold';
-import { DeliveryLine } from '../delivery/model/deliveryLine'; 
-import { ExceptionsConfirmModal } from './exceptionsConfirmModal';
+import { Threshold }                                from '../shared/threshold';
+import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
+import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
 import * as lodash                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';   // Load all features
@@ -71,18 +71,19 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         this.options = [
             this.routeOption,
+            new DropDownItem('Branch', 'branchId', false, 'number'),
             new DropDownItem('Invoice No', 'invoiceNumber'),
             new DropDownItem('Account', 'accountCode'),
             new DropDownItem('Account Name', 'accountName'),
             this.assigneeOption,
             new DropDownItem('Date', 'deliveryDate', false, 'date'),
-            new DropDownItem('Credit Threshold', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
+            new DropDownItem('Credit Value', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
         ];
     }
 
     public ngOnInit(): void {
         super.ngOnInit();
-
+        
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions, 
             this.securityService.actionDeliveries);

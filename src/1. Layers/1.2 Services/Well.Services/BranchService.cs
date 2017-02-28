@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Text;
@@ -16,17 +18,22 @@
 
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public BranchService(IUserRepository userRepository, IBranchRepository branchRepository, IActiveDirectoryService activeDirectoryService)
+        private readonly IUserNameProvider userNameProvider;
+
+        public BranchService(IUserRepository userRepository, 
+            IBranchRepository branchRepository, 
+            IActiveDirectoryService activeDirectoryService, 
+            IUserNameProvider userNameProvider)
         {
             this.userRepository = userRepository;
             this.branchRepository = branchRepository;
             this.activeDirectoryService = activeDirectoryService;
+            this.userNameProvider = userNameProvider;
         }
 
-        public void SaveBranchesForUser(Branch[] branches, string identityName)
+        public void SaveBranchesForUser(Branch[] branches)
         {
-            this.branchRepository.CurrentUser = identityName;
-            this.userRepository.CurrentUser = identityName;
+            var identityName = userNameProvider.GetUserName();
 
             var user = this.userRepository.GetByIdentity(identityName);
 
@@ -54,11 +61,8 @@
             }
         }
 
-        public void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string identityName, string domain)
+        public void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string domain)
         {
-            this.branchRepository.CurrentUser = identityName;
-            this.userRepository.CurrentUser = identityName;
-
             username = username.Replace('-', ' ');
 
             var user = this.userRepository.GetByName(username);

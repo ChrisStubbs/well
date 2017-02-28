@@ -12,11 +12,15 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Services.Contracts;
     using Repositories.Read;
     using Services.EpodServices;
+    using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
     public class DefaultRegistry : Registry
     {
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public DefaultRegistry()
         {
             Scan(
@@ -25,6 +29,7 @@ namespace PH.Well.Api.DependencyResolution
                     scan.WithDefaultConventions();
                 });
 
+            For<IUserNameProvider>().Use<UserNameProvider>();
             For<IWellDbConfiguration>().Use<WellDbConfiguration>();
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
@@ -40,6 +45,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
+            For<IJobStatusService>().Use<JobStatusService>();
+
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
@@ -60,6 +67,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IUserThresholdService>().Use<UserThresholdService>();
             For<IEpodUpdateService>().Use<EpodUpdateService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
+            For<IPodTransactionFactory>().Use<PodTransactionFactory>();
 
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();
@@ -70,6 +78,10 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
+
+            //delivery lines
+            For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
+            For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();
         }
     }
 }

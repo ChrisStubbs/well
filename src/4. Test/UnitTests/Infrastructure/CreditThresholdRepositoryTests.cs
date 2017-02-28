@@ -23,12 +23,17 @@
 
         private CreditThresholdRepository repository;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
-            this.repository = new CreditThresholdRepository(this.logger.Object, this.dapperProxy.Object);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("me");
+
+            this.repository = new CreditThresholdRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         public class TheSaveMethod : CreditThresholdRepositoryTests
@@ -36,7 +41,7 @@
             [Test]
             public void ShouldSaveTheCreditThreshold()
             {
-                this.repository.CurrentUser = "me";
+                //////this.repository.CurrentUser = "me";
 
                 var creditThreshold = new CreditThreshold
                 {
@@ -125,7 +130,7 @@
 
             public void ShouldSaveTheCreditThresholdAndDeleteItselfIfTransient()
             {
-                this.repository.CurrentUser = "me";
+                //////this.repository.CurrentUser = "me";
 
                 var creditThreshold = new CreditThreshold
                 {
@@ -247,38 +252,33 @@
             }
         }
 
-        public class TheAssignPendingCreditToUserMethod : CreditThresholdRepositoryTests
+        public class ThePendingCreditInsertMethod : CreditThresholdRepositoryTests
         {
             [Test]
-            public void ShouldAssignPendingCreditToUser()
+            public void ShouldAddPendingCredit()
             {
                 var user = new User { Id = 67 };
 
                 var jobId = 45;
 
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("userId", user.Id, DbType.Int32, null))
+                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.PendingCreditInsert))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("jobId", jobId, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("originator", "foo", DbType.String, null))
-                    .Returns(this.dapperProxy.Object);
+                this.dapperProxy.Setup(x => x.AddParameter("originator", "me", DbType.String, null))
+                .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Execute());
 
-                this.repository.AssignPendingCreditToUser(user, jobId, "foo");
+                this.repository.PendingCreditInsert(jobId);
 
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("userId", user.Id, DbType.Int32, null), Times.Once);
+                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.PendingCreditInsert), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("jobId", jobId, DbType.Int32, null), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("originator", "foo", DbType.String, null), Times.Once);
+                //////this.dapperProxy.Verify(x => x.AddParameter("originator", "foo", DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }

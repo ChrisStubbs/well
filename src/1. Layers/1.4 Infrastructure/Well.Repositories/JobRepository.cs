@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using Dapper;
+
+namespace PH.Well.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
@@ -11,7 +13,8 @@
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
-        public JobRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public JobRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 
@@ -28,12 +31,12 @@
 
         public IEnumerable<Job> GetByStopId(int id)
         {
-             return    dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
-                    .AddParameter("StopId", id, DbType.Int32)
-                    .Query<Job>();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
+                   .AddParameter("StopId", id, DbType.Int32)
+                   .Query<Job>();
         }
 
-        public IEnumerable<CustomerRoyaltyException>  GetCustomerRoyaltyExceptions()
+        public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =
                 dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGet)
@@ -51,7 +54,7 @@
 
             return customerRoyaltyException.FirstOrDefault();
         }
-        
+
         public void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionInsert)
@@ -71,7 +74,7 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
-        public Job JobGetByRefDetails(string phAccount, string pickListRef, int stopId)
+        public Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId)
         {
             var job =
                dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
@@ -121,6 +124,7 @@
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -158,7 +162,15 @@
                 .AddParameter("GrnNumber", entity.GrnNumberUpdate, DbType.String)
                 .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
-                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("Picked", entity.Picked, DbType.Boolean)
+                .AddParameter("OrdOuters", entity.OrdOuters, DbType.Int32)
+                .AddParameter("InvOuters", entity.InvOuters, DbType.Int32)
+                .AddParameter("AllowSoCrd", entity.AllowSoCrd, DbType.Boolean)
+                .AddParameter("Cod", entity.Cod, DbType.String)
+                .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
+                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
+                .Execute();
         }
 
         public IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId)
@@ -180,7 +192,7 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.ResolveJobAndJobDetails)
                 .AddParameter("jobId", jobId, DbType.Int32)
-                .Execute();                
+                .Execute();
         }
 
         public void SetJobToSubmittedStatus(int jobId)
@@ -189,6 +201,34 @@
                 .AddParameter("jobId", jobId, DbType.Int32)
                 .AddParameter("status", PerformanceStatus.Submitted, DbType.Int16)
                 .Execute();
+        }
+
+        public IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int branchId, string invoiceNumber)
+        {
+            IEnumerable<Job> jobs = new List<Job>();
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph)
+                .AddParameter("branchId", branchId, DbType.Int32)
+                .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
+                .QueryMultiple(x => jobs = GetJobsByGrid(x));
+
+            return jobs;
+        }
+
+        private IEnumerable<Job> GetJobsByGrid(SqlMapper.GridReader gridReader)
+        {
+            var jobs = gridReader.Read<Job>().ToList();
+            var jobDetails = gridReader.Read<JobDetail>().ToList();
+            var jobDetailsDamages = gridReader.Read<JobDetailDamage>().ToList();
+            foreach (var job in jobs)
+            {
+                job.JobDetails = jobDetails.Where(x => x.JobId == job.Id).ToList();
+                foreach (JobDetail jobDetail in job.JobDetails)
+                {
+                    jobDetail.JobDetailDamages = jobDetailsDamages.Where(x => x.JobDetailId == jobDetail.Id).ToList();
+                }
+            }
+            return jobs;
         }
     }
 }

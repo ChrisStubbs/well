@@ -55,6 +55,13 @@
             Assert.AreEqual("true", page.SubmitActionButton.GetElement().GetAttribute("disabled"));
         }
 
+        [Then(@"I am shown the high value check")]
+        public void ShownHighValue()
+        {   
+            // we should have 5 elements that are checked
+            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(5));
+        }
+
         [Then(@"I am shown the exception detail")]
         public void ShownExceptionDetail(Table table)
         {
@@ -75,6 +82,7 @@
             }
         }
 
+        [Given(@"I open the clean tab")]
         [When(@"I open the clean tab")]
         public void OpenCleanTab()
         {

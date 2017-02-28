@@ -17,7 +17,8 @@
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
-    
+    using Branch = Domain.Branch;
+
     [Binding]
     public class DatabaseSteps
     {
@@ -27,6 +28,7 @@
         private readonly ILogger logger;
         private IAuditRepository auditRepo;
         private INotificationRepository notificationRepository;
+        private IUserNameProvider userNameProvider;
 
         public DatabaseSteps()
         {
@@ -34,6 +36,7 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
+            this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
             auditRepo = container.GetInstance<IAuditRepository>();
             notificationRepository = container.GetInstance<INotificationRepository>();
         }
@@ -41,6 +44,7 @@
         [Given("I have a clean database")]
         public void RemoveTestData()
         {
+            DeleteAndReseed("PendingCredit");
             DeleteAndReseed("JobDetailDamage");
             DeleteAndReseed("JobDetailAction");
             DeleteAndReseed("JobDetail");
@@ -51,7 +55,6 @@
             DeleteAndReseed("Stop");
             DeleteAndReseed("RouteHeader");
             DeleteAndReseed("Routes");
-            DeleteAndReseed("PendingCreditToUser");
             DeleteAndReseed("UserBranch");
             DeleteAndReseed("[User]");
             DeleteAndReseed("Audit");
@@ -80,7 +83,8 @@
         [Given(@"(.*) deliveries have been marked as clean")]
         public void MarkDeliveriesAsClean(int noOfDeliveries)
         {
-            SetDeliveryStatus(PerformanceStatus.Compl, noOfDeliveries);
+            this.SetDeliveryStatusToClean(noOfDeliveries);
+
             this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
@@ -90,32 +94,10 @@
             this.dapperProxy.ExecuteSql("update top(1) job set cod = 1 where PerformanceStatusId = 6");
         }
 
-        [Given(@"the first '(.*)' delivery is not a cash on delivery customer")]
-        public void GivenTheFirstDeliveryIsNotACashOnDeliveryCustomer(string deliveryType)
-        {
-            var status = 0;
-
-            switch (deliveryType)
-            {
-                case "clean":
-                    status = 6;
-                    break;
-                case "exception":
-                    status = 5;
-                    break;
-                default:
-                    status = 8;
-                    break;
-            }
-
-            this.dapperProxy.ExecuteSql($"update top(1) job set cod = 1 where PerformanceStatusId = {status}");
-        }
-
-
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
-            SetDeliveryStatus(PerformanceStatus.Compl, 10000);
+            this.SetDeliveryStatusToClean(10000);
             this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
@@ -139,33 +121,34 @@
         [Given(@"All the deliveries are marked as Resolved")]
         public void GivenAllTheDeliveriesAreMarkedAsResolved()
         {
-            SetDeliveryStatus(PerformanceStatus.Resolved, 10000);
+            this.SetDeliveryStatusToResolved(10000);
         }
 
         [Given(@"(.*) deliveries have been marked as Resolved")]
         public void GivenDeliveriesHaveBeenMarkedAsResolved(int noOfDeliveries)
         {
-            SetDeliveryStatus(PerformanceStatus.Resolved, noOfDeliveries);
+            this.SetDeliveryStatusToResolved(noOfDeliveries);
         }
 
         [Given(@"(.*) deliveries have been marked as exceptions")]
         public void MarkDeliveriesAsException(int noOfDeliveries)
         {
-            SetDeliveryStatus(PerformanceStatus.Incom, noOfDeliveries);
+            this.SetDeliveryStatusToException(noOfDeliveries);
         }
 
         [Given(@"(.*) deliveries have been marked as exceptions with shorts to be advised")]
         public void MarkDeliveriesAsExceptionWithShortsToBeAdvised(int noOfDeliveries)
         {
-            SetDeliveryStatus(PerformanceStatus.Incom, noOfDeliveries);
+            this.SetDeliveryStatusToException(noOfDeliveries);
+
             this.MakeJobShortsToBeAdvised();
+            this.MakeJobDetailsShortsToBeAdvised();
         }
 
         [Given(@"All the deliveries are marked as exceptions")]
         public void GivenAllTheDeliveriesAreMarkedAsExceptions()
         {
-            SetDeliveryStatus(PerformanceStatus.Incom, 10000);
-            this.MakeJobDetailsShort();
+            this.SetDeliveryStatusToException(10000);
         }
 
         [Given(@"All delivery lines are flagged with line delivery status 'Exception'")]
@@ -177,7 +160,6 @@
         [Given(@"25 audit entries have been made")]
         public void InsertAudits()
         {
-            auditRepo.CurrentUser = "BDD.User";
             for (int i = 0; i < 25; i++)
             {
                 var audit = new Audit()
@@ -194,16 +176,15 @@
         [Given(@"5 audit entries have been made")]
         public void Insert5Audits()
         {
-            auditRepo.CurrentUser = "BDD.User";
-           
-                var audit = new Audit()
-                {
-                    Entry = "Audit 123",
-                    Type = AuditType.DeliveryLineUpdate,
-                    AccountCode = "123456",
-                    InvoiceNumber = "987654",
-                    DeliveryDate = new DateTime(2016, 1, 20)
-                };
+            var audit = new Audit()
+            {
+                Entry = "Audit 123",
+                Type = AuditType.DeliveryLineUpdate,
+                AccountCode = "123456",
+                InvoiceNumber = "987654",
+                DeliveryDate = new DateTime(2016, 1, 20)
+            };
+
             auditRepo.Save(audit);
             auditRepo.Save(audit);
 
@@ -240,15 +221,27 @@
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
         }
-        
-        public void SetDeliveryStatus(PerformanceStatus status, int noOfDeliveries)
-        {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job " +
-                                     $"SET PerformanceStatusId = {(int)status}, " +
-                                     "    InvoiceNumber =  '9' + PickListRef  ");
 
-            if (status == PerformanceStatus.Incom)
-                this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) JobDetail SET ShortQty = 1");
+        public void MakeJobDetailsShortsToBeAdvised()
+        {
+            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 0");
+        }
+
+        public void SetDeliveryStatusToClean(int noOfDeliveries)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 3, InvoiceNumber =  '9' + PickListRef");
+        }
+
+        public void SetDeliveryStatusToException(int noOfDeliveries)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 4, InvoiceNumber =  '9' + PickListRef");
+
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) JobDetail SET ShortQty = 1");
+        }
+
+        public void SetDeliveryStatusToResolved(int noOfDeliveries)
+        {
+            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 5, InvoiceNumber =  '9' + PickListRef");
         }
 
         public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)
@@ -272,7 +265,6 @@
             SetUpUserBranch(user.Name, branch2);
         }
 
-
         [Given(@"I have selected branch (.*) for user identity: (.*)")]
         public void GivenIHaveSelectedBranch(int branch, string userIdentity)
         {
@@ -282,14 +274,7 @@
 
         public User SetUpUser()
         {
-            this.logger.LogDebug("Calling create user");
-            var user = JsonConvert.DeserializeObject<User>(this.webClient.DownloadString(Configuration.WellApiUrl + "create-user-using-current-context"));
-
-            if (user == null) this.logger.LogDebug("User is null");
-
-            this.logger.LogDebug($"User created {user.Name}");
-
-            return user;
+            return SetUpUser($"{Environment.UserDomainName}\\{Environment.UserName}");
         }
 
         public User SetUpUser(string userIdentity)
@@ -297,9 +282,14 @@
             this.logger.LogDebug("Calling create user");
             var user = JsonConvert.DeserializeObject<User>(this.webClient.UploadString(Configuration.WellApiUrl + $"create-user?userIdentity={userIdentity}", "POST", ""));
 
-            if (user == null) this.logger.LogDebug("User is null");
-
-            this.logger.LogDebug($"User created {user.Name}");
+            if (user == null)
+            {
+                this.logger.LogDebug("User is null");
+            }
+            else
+            {
+                this.logger.LogDebug($"User created {user.Name}");
+            }
 
             return user;
         }
@@ -318,18 +308,14 @@
 
             Assert.That(result, Is.EqualTo(0));
         }
-
-
-
+        
         [Then(@"the first (.*) rows are credited and no longer on the exceptions grid")]
         public void ThenTheFirstRowsAreCreditedAndNoLongerOnTheExceptionsGrid(int rows)
         {
-            var result = this.dapperProxy.SqlQuery<int>("select count(1) from job where PerformanceStatusId = 8").Single();
+            var result = this.dapperProxy.SqlQuery<int>("select count(1) from job where JobStatusId = 5").Single();
 
             Assert.That(result, Is.EqualTo(rows));
         }
-
-
 
         [Given(@"(.*) deliveries have been assigned starting with job (.*)")]
         public void AssignDeliveries(int deliveries, int jobId)
@@ -339,14 +325,10 @@
                 this.dapperProxy.ExecuteSql($"INSERT INTO UserJob (UserId, JobId, CreatedBy, DateCreated, UpdatedBy, DateUpdated) VALUES((SELECT TOP 1 Id FROM [User]), {jobId + i}, 'BDD', GETDATE(), 'BDD', GETDATE()); ");
             }
         }
-
-
-
-
+        
         [Given(@"(.*) notifications have been made")]
         public void InsertNotifications(int notifications)
         {
-            notificationRepository.CurrentUser = "BDD.User";
             for (int i = 0; i < notifications; i++)
             {
                 var accountNumber = 12345.001;
@@ -391,12 +373,11 @@
         {
             this.dapperProxy.ExecuteSql($"UPDATE [dbo].[User] SET ThresholdLevelId= {thresholdLevel}");
         }
-
-
+        
         [Then(@"I have (.*) resolved deliveries")]
         public void ThenIHaveResolvedDeliveries(int resolvedDeliveries)
         {
-            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 8";
+            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE JobStatusId = 5";
             var value = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
             Assert.That(value, Is.EqualTo(resolvedDeliveries));
         }
@@ -404,18 +385,15 @@
         [Then(@"I have (.*) pending and (.*) resolved delivery")]
         public void ThenIHavePendingAndResolvedDelivery(int pendingDelivery, int resolvedDelivery)
         {
-            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 9";
+            var sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE JobStatusId = 2";
             var pendingValue = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
 
-            sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE PerformanceStatusId = 8";
+            sql = $"SELECT COUNT(Id) FROM [dbo].[Job] WHERE JobStatusId = 5";
             var resolvedValue = this.dapperProxy.SqlQuery<int>(sql).FirstOrDefault();
 
             Assert.That(pendingValue, Is.EqualTo(pendingDelivery));
             Assert.That(resolvedValue, Is.EqualTo(resolvedDelivery));
         }
-
-
-
     }
 }
 

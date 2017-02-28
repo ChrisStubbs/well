@@ -29,23 +29,26 @@
             }
         }
 
-        public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action)
+        public TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                var x = action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
 
                 this.parameters = null;
+
+                return x;
             }
         }
 
-        public void QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action)
+        public IEnumerable<TEntity> QueryMultiples<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                var x = action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
 
                 this.parameters = null;
+                return x;
             }
         }
 

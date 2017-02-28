@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -17,16 +19,22 @@
         private readonly IJobRepository jobRepository;
         private readonly IAccountRepository accountRepository;
         private readonly IUserRepository userRepository;
+        private readonly IUserNameProvider userNameProvider;
 
-        public CreditTransactionFactory(IJobRepository jobRepository, IAccountRepository accountRepository, IUserRepository userRepository)
+        public CreditTransactionFactory(IJobRepository jobRepository,
+            IAccountRepository accountRepository,
+            IUserRepository userRepository,
+            IUserNameProvider userNameProvider)
         {
-             this.jobRepository = jobRepository;
-             this.accountRepository = accountRepository;
-             this.userRepository = userRepository;
+            this.jobRepository = jobRepository;
+            this.accountRepository = accountRepository;
+            this.userRepository = userRepository;
+            this.userNameProvider = userNameProvider;
         }
-        
-        public CreditTransaction Build(List<DeliveryLineCredit> deliveryLines, string username, int branchId)
+
+        public CreditTransaction Build(List<DeliveryLineCredit> deliveryLines, int branchId)
         {
+            var username = this.userNameProvider.GetUserName();
             var user = this.userRepository.GetByIdentity(username);
 
             var initials = user.FriendlyName.GetInitials();
@@ -62,17 +70,14 @@
                         source = line.Source;
                     }
                     var creditLine =
-                        string.Format(
-                            "INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({0}, {1},' {2} ', {3}, {4}, {5}, {6});",
-                            job.Id, (int)EventAction.CreditTransaction, lineCount, line.Reason, line.Quantity, line.ProductCode, endFlag);
+                        $"INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.Credit},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
 
                     lineDictionary.Add(lineCount, creditLine);
                 }
             }
 
-            var creditHeader = string.Format(
-                "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, {13});",
-                today, now, job.Id, (int)EventAction.CreditTransaction, initials, branchId, acno, job.InvoiceNumber, source, 0, account.ContactName, job.CustomerRef, lineCount, groupCount);
+            var creditHeader =
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{today}', '{now}', '{job.Id}', '{(int)EventAction.Credit}', '{initials}', {branchId}, {acno}, {job.InvoiceNumber}, {source}, {0}, '{account.ContactName}', '{job.CustomerRef}', {lineCount}, {groupCount});";
 
             var creditTransaction = new CreditTransaction
             {

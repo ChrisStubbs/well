@@ -25,14 +25,18 @@
 
         private UserRepository repository;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("Some user");
 
-            this.repository = new UserRepository(this.logger.Object, this.dapperProxy.Object);
-            this.repository.CurrentUser = "Some user";
+            this.repository = new UserRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
+            //////this.repository.CurrentUser = "Some user";
         }
 
         public class TheGetByIdentityMethod : UserRepositoryTests

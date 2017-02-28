@@ -22,14 +22,13 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
-
+        private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IRouteMapper mapper;
-
         private readonly IAdamImportService adamImportService;
+        private readonly IJobStatusService jobStatusService;
+        private readonly IUserNameProvider userNameProvider;
 
         private const string UpdatedBy = "EpodUpdate";
-
-        private List<int> ProofOfDeliveryList = new List<int> { 1 , 8}; 
 
         public EpodUpdateService(
             ILogger logger,
@@ -41,7 +40,10 @@
             IJobDetailDamageRepository jobDetailDamageRepository,
             IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
-            IAdamImportService adamImportService)
+            IAdamImportService adamImportService,
+            IPodTransactionFactory podTransactionFactory,
+            IJobStatusService jobStatusService,
+            IUserNameProvider userNameProvider)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -53,13 +55,9 @@
             this.exceptionEventRepository = exceptionEventRepository;
             this.mapper = mapper;
             this.adamImportService = adamImportService;
-
-            this.routeHeaderRepository.CurrentUser = UpdatedBy;
-            this.stopRepository.CurrentUser = UpdatedBy;
-            this.jobRepository.CurrentUser = UpdatedBy;
-            this.jobDetailRepository.CurrentUser = UpdatedBy;
-            this.jobDetailDamageRepository.CurrentUser = UpdatedBy;
-            this.exceptionEventRepository.CurrentUser = UpdatedBy;
+            this.podTransactionFactory = podTransactionFactory;
+            this.jobStatusService = jobStatusService;
+            this.userNameProvider = userNameProvider;
         }
 
         public void Update(RouteDelivery route)
@@ -80,7 +78,19 @@
 
                 this.routeHeaderRepository.Update(existingHeader);
 
-                this.UpdateStops(header.Stops, existingHeader.StartDepot);
+                int branchId;
+
+                if (int.TryParse(existingHeader.StartDepotCode, out branchId))
+                {
+                    this.UpdateStops(header.Stops, branchId);
+                }
+                else
+                {
+                    this.logger.LogDebug($"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})");
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport,
+                        $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})",
+                        9682);
+                }
             }
         }
 
@@ -92,7 +102,8 @@
                 {
                     using (var transactionScope = new TransactionScope())
                     {
-                        var existingStop = this.stopRepository.GetByTransportOrderReference(stop.TransportOrderReference);
+                        var job = stop.Jobs.First();
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
 
                         if (existingStop == null)
                         {
@@ -147,45 +158,32 @@
 
                 this.mapper.Map(job, existingJob);
 
-                var hasDamage = false;
+                this.jobStatusService.DetermineStatus(existingJob, branchId);
 
-                foreach (var detail in job.JobDetails)
+                if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
                 {
-                    if (detail.JobDetailDamages.Any())
+                    var grnEvent = new GrnEvent
                     {
-                        hasDamage = true;
-                        break;
-                    }
-                }
-
-                if (hasDamage)
-                    existingJob.PerformanceStatus = PerformanceStatus.Incom;
-
-                this.jobRepository.Update(existingJob);
-
-                if (job.GrnNumberUpdate != String.Empty && existingJob.GrnProcessType == 1)
-                {
-                    var grnEvent = new GrnEvent();
-                    grnEvent.Id = existingJob.Id;
-                    grnEvent.BranchId = branchId;
-
+                        Id = existingJob.Id,
+                        BranchId = branchId
+                    };
+                    
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
 
+                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
+
                 //TODO POD event
-                var pod = existingJob.ProofOfDelivery ?? 0;
-                if (ProofOfDeliveryList.Contains(pod) && job.IsClean)
+                var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
+
+                if (pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade)
                 {
-                    var podEvent = new PodEvent();
-                    podEvent.Id = existingJob.Id;
-                    podEvent.BranchId = branchId;
-
-                    this.exceptionEventRepository.InsertPodEvent(podEvent);
-
+                    //build pod transaction
+                    var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
+                    this.exceptionEventRepository.InsertPodEvent(podTransaction);
                 }
 
-
-                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
+                this.jobRepository.Update(existingJob);
             }
         }
 
@@ -203,8 +201,10 @@
 
                 this.mapper.Map(detail, existingJobDetail);
 
-                // TODO might need to set resolved unresolved status here and add in sub outer values
+                detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
 
+                // TODO might need to set resolved unresolved status here and add in sub outer values
+                // whole status thing im not sure about
                 if (invoiceOutstanding)
                     existingJobDetail.JobDetailStatusId = (int)JobDetailStatus.AwtInvNum;
 

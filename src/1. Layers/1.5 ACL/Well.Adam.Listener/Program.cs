@@ -31,6 +31,9 @@
             monitorService.Monitor(Configuration.RootFolder);
         }
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         private static Container InitIoc()
         {
             return new Container(
@@ -41,7 +44,6 @@
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
-                    x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
@@ -54,6 +56,8 @@
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
+                    x.For<IJobStatusService>().Use<JobStatusService>();
+                    x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
                 });
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PH.Well.BDD.Steps.Page
+﻿namespace PH.Well.BDD.Steps.Page
 {
     using NUnit.Framework;
     using Pages;
@@ -24,6 +18,5 @@ namespace PH.Well.BDD.Steps.Page
             Assert.AreEqual(table.Rows[0]["Alt Phone"], modal.AltPhone.Text);
             Assert.AreEqual(table.Rows[0]["Email"], modal.Email.Text);
         }
-
     }
 }

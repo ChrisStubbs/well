@@ -7,13 +7,14 @@
     using System.Net.Http;
     using System.Web.Http;
 
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Api.Models;
-    using PH.Well.Api.Validators.Contracts;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
-    using PH.Well.Repositories.Contracts;
+    using Mapper.Contracts;
+    using Models;
+    using Validators.Contracts;
+    using Common.Contracts;
+    using Repositories.Contracts;
+    using Validators;
 
+    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class SeasonalDateController : BaseApiController
     {
         private readonly ISeasonalDateRepository seasonalDateRepository;
@@ -28,17 +29,18 @@
             ISeasonalDateRepository seasonalDateRepository, 
             ILogger logger, 
             ISeasonalDateMapper mapper,
-            ISeasonalDateValidator validator)
+            ISeasonalDateValidator validator,
+            IUserNameProvider userNameProvider)
+            :base(userNameProvider)
         {
             this.seasonalDateRepository = seasonalDateRepository;
             this.logger = logger;
             this.mapper = mapper;
             this.validator = validator;
 
-            this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
+            //////this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
         }
-
-        [HttpGet]
+        
         public HttpResponseMessage Get()
         {
             var seasonalDates = this.seasonalDateRepository.GetAll().OrderBy(x => x.From).ToList();

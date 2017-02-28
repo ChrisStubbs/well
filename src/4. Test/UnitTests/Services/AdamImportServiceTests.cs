@@ -13,6 +13,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
+    using Well.Services.Contracts;
 
     [TestFixture]
     public class AdamImportServiceTests
@@ -33,13 +34,13 @@
 
         private Mock<IEventLogger> eventLogger;
 
+        private Mock<IJobStatusService> jobStatusService;
+
         private AdamImportService service;
 
         [SetUp]
         public void Setup()
         {
-            var user = "AdamImport";
-
             this.routeHeaderRepository = new Mock<IRouteHeaderRepository>(MockBehavior.Strict);
             this.stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
             this.accountRepository = new Mock<IAccountRepository>(MockBehavior.Strict);
@@ -48,18 +49,17 @@
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
-
-            this.routeHeaderRepository.SetupSet(x => x.CurrentUser = user);
-            this.stopRepository.SetupSet(x => x.CurrentUser = user);
-            this.accountRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailRepository.SetupSet(x => x.CurrentUser = user);
-            this.jobDetailDamageRepository.SetupSet(x => x.CurrentUser = user);
+            this.jobStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
 
             this.service = new AdamImportService(this.routeHeaderRepository.Object,
-                this.stopRepository.Object, this.accountRepository.Object,
-                this.jobRepository.Object, this.jobDetailRepository.Object,
-                this.jobDetailDamageRepository.Object, this.logger.Object, this.eventLogger.Object);
+                this.stopRepository.Object, 
+                this.accountRepository.Object,
+                this.jobRepository.Object, 
+                this.jobDetailRepository.Object,
+                this.jobDetailDamageRepository.Object, 
+                this.jobStatusService.Object,
+                this.logger.Object, 
+                this.eventLogger.Object);
         }
 
         [Test]
@@ -111,6 +111,8 @@
             var job = JobFactory.New.Build();
             var jobDetail = JobDetailFactory.New.Build();
 
+            jobDetail.JobDetailDamages.Add(new JobDetailDamage());
+
             job.JobDetails.Add(jobDetail);
             stop.Jobs.Add(job);
             routeHeader.Stops.Add(stop);
@@ -124,6 +126,7 @@
             this.jobRepository.Setup(x => x.Save(job));
             this.jobDetailRepository.Setup(x => x.Save(jobDetail));
             this.jobDetailDamageRepository.Setup(x => x.Save(jobDetail.JobDetailDamages[0]));
+            this.jobStatusService.Setup(x => x.SetInitialStatus(job));
 
             this.service.Import(route);
 
@@ -133,6 +136,7 @@
             this.jobRepository.Verify(x => x.Save(job), Times.Once);
             this.jobDetailRepository.Verify(x => x.Save(jobDetail), Times.Once);
             this.jobDetailDamageRepository.Verify(x => x.Save(jobDetail.JobDetailDamages[0]), Times.Once);
+            this.jobStatusService.Verify(x => x.SetInitialStatus(job), Times.Once);
         }
     }
 }

@@ -22,6 +22,8 @@
 
         private Mock<IDapperProxy> dapperProxy;
 
+        private Mock<IUserNameProvider> userNameProvider;
+
         private CleanPreferenceRepository repository;
 
         [SetUp]
@@ -29,8 +31,9 @@
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
-
-            this.repository = new CleanPreferenceRepository(this.logger.Object, this.dapperProxy.Object);
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
+            this.repository = new CleanPreferenceRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         public class TheGetAllMethod : CleanPreferenceRepositoryTests

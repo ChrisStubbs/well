@@ -33,7 +33,8 @@
 	@CreatedBy VARCHAR(50),
 	@UpdatedBy VARCHAR(50),
 	@CreatedDate DATETIME,
-	@UpdatedDate DATETIME
+	@UpdatedDate DATETIME,
+	@JobStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -72,7 +73,8 @@ BEGIN
 		[CreatedBy],
 		[DateCreated],
 		[UpdatedBy],
-		[DateUpdated])
+		[DateUpdated],
+		[JobStatusId])
 	VALUES (
 		@Sequence, 
 		@JobTypeCode, 
@@ -107,7 +109,8 @@ BEGIN
 		@CreatedBy,
 		@CreatedDate,
 		@UpdatedBy,
-		@UpdatedDate)
+		@UpdatedDate,
+		@JobStatusId)
 
 	SELECT CAST(SCOPE_IDENTITY() as int);
 END

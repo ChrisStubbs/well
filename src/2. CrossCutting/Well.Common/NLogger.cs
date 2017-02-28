@@ -4,7 +4,7 @@
 
     using NLog;
 
-    using ILogger = PH.Well.Common.Contracts.ILogger;
+    using ILogger = Contracts.ILogger;
 
     public class NLogger : ILogger
     {

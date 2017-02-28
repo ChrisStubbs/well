@@ -49,6 +49,10 @@
 
         public int GrnProcessType { get; set; }
 
-        public int ProofOfDelivery { get; set; }
+        public string CashOnDelivery { get; set; }
+
+        public ProofOfDelivery? ProofOfDelivery { get; set; }
+
+        public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
     }
 }

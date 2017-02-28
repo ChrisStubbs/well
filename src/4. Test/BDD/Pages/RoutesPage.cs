@@ -12,7 +12,7 @@
             this.Pager = new PagerControl();
             this.ExceptionButton = new Button { Locator = By.Id("btn-exceptions") };
             this.CleanButton = new Button { Locator = By.Id("btn-clean") };
-            this.OrderByButton = new Button {Locator = By.Id("sort-me") };
+            this.OrderByButton = new Button {Locator = By.Id("img-orderByArrow") };
         }
 
         protected override string UrlSuffix => "routes";
@@ -28,7 +28,22 @@
         public Button CleanButton { get; set; }
 
         public Button OrderByButton { get; set; }
+
+        public bool IsElementPresent(string elementName)
+        {
+            try
+            {
+                this.Driver.FindElement(By.Id(elementName));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
+
+
 
     public enum RoutesGrid
     {

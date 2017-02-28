@@ -4,12 +4,12 @@
     {
         Credit = 1,
         CreditAndReorder = 2,
-        ReplanInRoadnet = 3,
-        ReplanInTranSend = 4,
-        ReplanInTheQueue = 5,
-        Reject = 6,
-        Grn = 7,
-        CreditTransaction = 8,
-        Pod = 9
+        PodCredit = 3,
+        Grn = 4,
+        Pod = 5,
+        ReplanInRoadnet = 6,
+        ReplanInTranSend = 7,
+        ReplanInTheQueue = 8,
+        Reject = 9
     }
 }

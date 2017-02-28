@@ -11,8 +11,8 @@
     public class AccountRepository : DapperRepository<Account, int>, IAccountRepository
     {
 
-        public AccountRepository(ILogger logger, IWellDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public AccountRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 

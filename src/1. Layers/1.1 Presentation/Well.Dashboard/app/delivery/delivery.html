@@ -10,12 +10,11 @@
     <div class="row">
         <div class="col-md-6">
             <address>
-                <strong>{{delivery.branchId}}/{{delivery.accountCode}} {{delivery.contactName}}</strong><br/>
-                <abbr *ngIf="delivery.phoneNumber" title="Phone">Phone:</abbr> {{delivery.phoneNumber}}<br/>
-                <abbr *ngIf="delivery.mobileNumber" title="Mobile">Mobile:</abbr> {{delivery.mobileNumber}}<br/>
-                <abbr *ngIf="delivery.invoiceNumber" title="Invoice">Invoice:</abbr> {{delivery.invoiceNumber}}<br/>
-                <br/>
-                <strong><abbr *ngIf="delivery.outerDiscrepancyFound" title="Discrepancy">Outer count link: {{delivery.outerCount}} Discrepancy found: {{delivery.totalOutersShort}} shorts to be advised </abbr></strong><br/>
+                <div><strong>{{delivery.branchId}}/{{delivery.accountCode}} {{delivery.contactName}}</strong></div>
+                <div><span *ngIf="delivery.phoneNumber">Phone:</span> {{delivery.phoneNumber}}</div>
+                <div><span *ngIf="delivery.mobileNumber">Mobile:</span> {{delivery.mobileNumber}}</div>
+                <div><span *ngIf="delivery.invoiceNumber">Invoice:</span> {{delivery.invoiceNumber}}</div>
+                <div><strong><span *ngIf="delivery.outerDiscrepancyFound" title="Discrepancy">Outer count link: {{delivery.outerCount}} Discrepancy found: {{delivery.totalOutersShort}} shorts to be advised </span></strong></div>
             </address>
         </div>
         <div class="col-md-6">
@@ -23,102 +22,105 @@
                 <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
             </address>
             <div *ngIf="delivery.grnProcessType === 1">
-            <label>GRN</label>
-            <div class="input-group">
-                <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required/>
-                <span class="input-group-btn"><button class="btn btn-primary" (click)="saveGrn()" [disabled]="disableGrnSave()">Save</button></span>
-            </div>
+                <label>GRN</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required/>
+                    <span class="input-group-btn"><button class="btn btn-primary" (click)="saveGrn()" [disabled]="disableGrnSave()">Save</button></span>
+                </div>
             </div>
         </div>
     </div>
-    <tabset>
-        <tab title="Exceptions">
-            <div *ngIf="!delivery.exceptionDeliveryLines || delivery.exceptionDeliveryLines.length == 0">
-                <div class="table-responsive table-container">
-                    <div class="alert alert-info">
-                        <strong>No exceptions!</strong>
+    <div class="row">
+        <div class="col-md-12">
+            <tabset>
+                <tab title="Exceptions">
+                    <div *ngIf="!delivery.exceptionDeliveryLines || delivery.exceptionDeliveryLines.length == 0">
+                        <div class="table-responsive table-container">
+                            <div class="alert alert-info">
+                                <strong>No exceptions</strong>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="table-responsive table-container">
-                <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
-                    <thead>
-                    <tr>
-                        <th>Line No</th>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th>Value</th>
-                        <th>Inv Qty</th>
-                        <th>Del Qty</th>
-                        <th>Damaged Qty</th>
-                        <th>Short Qty</th>
-                        <th>Checked</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { id: 'exception-pager', itemsPerPage: rowCount, currentPage: p }"
-                        (click)="lineClicked(line)">
-                        <td>{{line.lineNo}}</td>
-                        <td>{{line.productCode}}</td>
-                        <td>{{line.productDescription}}</td>
-                        <td>{{line.value|number:'1.2-2' }}</td>
-                        <td>{{line.invoicedQuantity}}</td>
-                        <td>{{line.deliveredQuantity}}</td>
-                        <td>{{line.damagedQuantity}}</td>
-                        <td>{{line.shortQuantity}}</td>
-                        <td><span *ngIf="line.isDetailChecked()" class="glyphicon glyphicon-ok"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row pull-right" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
-                <pagination-controls id="exception-pager" (pageChange)="p = $event"></pagination-controls>
-            </div>
-        </tab>
-        <tab title="Clean">
-            <div *ngIf="!delivery.cleanDeliveryLines || delivery.cleanDeliveryLines.length == 0">
-                <div class="table-responsive table-container">
-                    <div class="alert alert-info">
-                        <strong>No clean deliveries!</strong>
+                    <div class="table-responsive table-container">
+                        <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
+                            <thead>
+                                <tr>
+                                    <th>Line No</th>
+                                    <th>Product</th>
+                                    <th>Description</th>
+                                    <th>Value</th>
+                                    <th>Inv Qty</th>
+                                    <th>Del Qty</th>
+                                    <th>Damaged Qty</th>
+                                    <th>Short Qty</th>
+                                    <th>Checked</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { id: 'exception-pager', itemsPerPage: rowCount, currentPage: p }"
+                                    (click)="lineClicked(line)">
+                                    <td>{{line.lineNo}}</td>
+                                    <td>{{line.productCode}}</td>
+                                    <td>{{line.productDescription}}</td>
+                                    <td>{{line.value|number:'1.2-2' }}</td>
+                                    <td>{{line.invoicedQuantity}}</td>
+                                    <td>{{line.deliveredQuantity}}</td>
+                                    <td>{{line.damagedQuantity}}</td>
+                                    <td>{{line.shortQuantity}}</td>
+                                    <td><span *ngIf="line.isDetailChecked()" class="glyphicon glyphicon-ok high-value"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-            <div class="table-responsive table-container">
-                <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
-                    <thead>
-                    <tr>
-                        <th>Line No</th>
-                        <th>Product</th>
-                        <th>Description</th>
-                        <th>Value</th>
-                        <th>Inv Qty</th>
-                        <th>Del Qty</th>
-                        <th>Damaged Qty</th>
-                        <th>Short Qty</th>
-                        <th>Checked</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="grid-row" *ngFor="let line of delivery.cleanDeliveryLines | paginate: { id: 'clean-pager', itemsPerPage: rowCount, currentPage: p }"
-                        (click)="lineClicked(line)">
-                        <td>{{line.lineNo}}</td>
-                        <td>{{line.productCode}}</td>
-                        <td>{{line.productDescription}}</td>
-                        <td>{{line.value|number:'1.2-2' }}</td>
-                        <td>{{line.invoicedQuantity}}</td>
-                        <td>{{line.deliveredQuantity}}</td>
-                        <td>{{line.damagedQuantity}}</td>
-                        <td>{{line.shortQuantity}}</td>
-                        <td><span *ngIf="line.isDetailChecked()" class="glyphicon glyphicon-ok"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row pull-right" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
-                <pagination-controls id="clean-pager" (pageChange)="p = $event"></pagination-controls>
-            </div>
-        </tab>
-    </tabset>
-    
+                    <div class="row pull-right" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
+                        <pagination-controls id="exception-pager" (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </tab>
+                <tab title="Clean">
+                    <div *ngIf="!delivery.cleanDeliveryLines || delivery.cleanDeliveryLines.length == 0">
+                        <div class="table-responsive table-container">
+                            <div class="alert alert-info">
+                                <strong>No clean deliveries</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-container">
+                        <table id="tableDelivery" class="table table-hover table-striped" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
+                            <thead>
+                                <tr>
+                                    <th>Line No</th>
+                                    <th>Product</th>
+                                    <th>Description</th>
+                                    <th>Value</th>
+                                    <th>Inv Qty</th>
+                                    <th>Del Qty</th>
+                                    <th>Damaged Qty</th>
+                                    <th>Short Qty</th>
+                                    <th>Checked</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="grid-row" *ngFor="let line of delivery.cleanDeliveryLines | paginate: { id: 'clean-pager', itemsPerPage: rowCount, currentPage: p }"
+                                    (click)="lineClicked(line)">
+                                    <td>{{line.lineNo}}</td>
+                                    <td>{{line.productCode}}</td>
+                                    <td>{{line.productDescription}}</td>
+                                    <td>{{line.value|number:'1.2-2' }}</td>
+                                    <td>{{line.invoicedQuantity}}</td>
+                                    <td>{{line.deliveredQuantity}}</td>
+                                    <td>{{line.damagedQuantity}}</td>
+                                    <td>{{line.shortQuantity}}</td>
+                                    <td><span *ngIf="line.isDetailChecked()" class="glyphicon glyphicon-ok"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row pull-right" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
+                        <pagination-controls id="clean-pager" (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
 </div>
 

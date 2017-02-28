@@ -4,8 +4,8 @@
 
     public interface IUserThresholdService
     {
-        ThresholdResponse CanUserCredit(string username, decimal creditValue);
+        ThresholdResponse CanUserCredit(decimal creditValue);
 
-        void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId, string originator);
+        void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId);
     }
 }

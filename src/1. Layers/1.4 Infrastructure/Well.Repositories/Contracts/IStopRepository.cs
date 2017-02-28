@@ -9,7 +9,7 @@
 
         Stop GetById(int id);
 
-        Stop GetByTransportOrderReference(string transportOrderReference);
+        Stop GetByJobDetails(string picklist, string account);
 
         Stop GetByOrderUpdateDetails(string transportOrderReference);
 

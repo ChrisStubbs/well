@@ -14,6 +14,6 @@
 
         void BulkCopyInsert(IEnumerable<TEntity> entities, string tableName, IEnumerable<string> mappings);
 
-        string CurrentUser { get; set; }
+        string CurrentUser { get; }
     }
 }

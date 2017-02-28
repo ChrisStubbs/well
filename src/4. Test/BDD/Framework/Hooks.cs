@@ -10,6 +10,7 @@
     using Common.Security;
     using Context;
     using Factories;
+    using Helpers;
     using Microsoft.SqlServer.Dac;
     using Microsoft.SqlServer.Management.Smo;
 
@@ -85,8 +86,16 @@
         [BeforeTestRun]
         public static void SetupDatabase()
         {
+            var x = new System.Diagnostics.Stopwatch();
+            x.Start();
+
             DropDatabase();
             RunDacpac();
+
+            x.Stop();
+            var e = x.Elapsed;
+
+            new NLogger().LogDebug(string.Format("SetupDatabase took: {0:00}:{1:00}.{2:00}", e.Minutes, e.Seconds, e.Milliseconds / 10));
         }
 
         [AfterTestRun]
@@ -140,6 +149,9 @@
 
         #endregion
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         private static void InitIoc()
         {
             var container = new Container(
@@ -170,6 +182,13 @@
                                                 x.For<IRouteMapper>().Use<RouteMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                                 x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
+                                                x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+                                                x.For<IUserRepository>().Use<UserRepository>();
+                                                x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+                                                x.For<IBranchRepository>().Use<BranchRepository>();
+                                                x.For<IWebClientHelper>().Use<WebClientHelper>();
+                                                x.For<IJobStatusService>().Use<JobStatusService>();
+                                                x.For<IUserNameProvider>().Use<UserNameProvider>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

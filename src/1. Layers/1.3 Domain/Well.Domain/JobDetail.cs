@@ -45,7 +45,8 @@
         [XmlIgnore]
         public int OriginalDespatchQty { get; set; }
 
-        //Workaround for nullable int element
+        // Workaround for nullable int element
+        // Invoice Quantity
         [XmlElement("OriginalDespatchQty")]
         public string OriginalDespatchQtyFromXml
         {
@@ -88,8 +89,26 @@
             }
         }
 
+        [XmlIgnore]
+        public int DeliveredQty { get; set; }
+
         [XmlElement("DeliveredQty")]
-        public string DeliveredQty { get; set; }
+        public string DeliveredQtyXml
+        {
+            get
+            {
+                return this.DeliveredQty.ToString();
+            }
+            set
+            {
+                int tryInt;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.DeliveredQty = tryInt;
+                }
+            }
+        }
 
         [XmlIgnore]
         public int ShortQty { get; set; }

@@ -1,4 +1,5 @@
-﻿export class Action {
+﻿export class Action
+{
     id: number;
     description: string;
 }

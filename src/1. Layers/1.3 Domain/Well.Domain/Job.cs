@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Xml.Serialization;
     using Enums;
-    using ValueObjects;
 
     [Serializable()]
     public class Job : Entity<int>
@@ -54,7 +53,7 @@
             return "Not found";
         }
 
-        [XmlElement("JobRef1")]                 // not sure we need this
+        [XmlElement("JobRef1")] // not sure we need this
         public string SiteBunId { get; set; }
 
         [XmlElement("JobRef2")]
@@ -204,7 +203,7 @@
             }
         }
 
-  
+
         /// <summary>
         /// Sub outer credit allowed
         /// </summary>
@@ -285,14 +284,17 @@
         public PerformanceStatus PerformanceStatus { get; set; }
 
         [XmlElement("PerformanceStatusCode")]
-        public string JobPerformanceStatusCode
+        public string PerformanceStatusCode
         {
-            get { return PerformanceStatus.ToString(); }
+            get
+            {
+                return PerformanceStatus.ToString();
+            }
             set
             {
                 PerformanceStatus = string.IsNullOrEmpty(value)
                     ? PerformanceStatus.Notdef
-                    : (PerformanceStatus) Enum.Parse(typeof(PerformanceStatus), value, true);
+                    : (PerformanceStatus)Enum.Parse(typeof(PerformanceStatus), value, true);
             }
         }
 
@@ -374,11 +376,11 @@
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "DISCFOUND");
 
                 if (attribute != null)
-                  {
-                      return attribute.Value != "N";
-                  }
+                {
+                    return attribute.Value != "N";
+                }
 
-                    return false;
+                return false;
             }
         }
 
@@ -427,24 +429,13 @@
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "INVALUE");
 
-                decimal total;
-                var result = decimal.TryParse(attribute?.Value, out total);
-
-                if (result)
-                {
-                    return total;
-                }
-                else
-                {
-                    return 0;
-                }
+                decimal total = 0;
+                decimal.TryParse(attribute?.Value, out total);
+                return total;
             }
         }
 
-        public bool IsException => ExceptionStatuses.Statuses.Contains(PerformanceStatus);
-
-        public bool IsClean => PerformanceStatus == PerformanceStatus.Compl;
-
-        public bool IsResolved => PerformanceStatus == PerformanceStatus.Resolved;
+        [XmlIgnore]
+        public JobStatus JobStatus { get; set; }
     }
 }

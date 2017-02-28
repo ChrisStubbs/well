@@ -9,7 +9,8 @@
 
     public class StopRepository : DapperRepository<Stop, int>, IStopRepository
     {
-        public StopRepository(ILogger logger, IWellDapperProxy dapperProxy) : base(logger, dapperProxy)
+        public StopRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 
@@ -56,8 +57,10 @@
                 .AddParameter("AllowOvers", entity.AllowOvers == "True", DbType.Boolean)
                 .AddParameter("CustUnatt", entity.CustUnatt == "True", DbType.Boolean)
                 .AddParameter("PHUnatt", entity.PHUnatt == "True", DbType.Boolean)
-                .AddParameter("StopStatusId", entity.StopStatusCodeId, DbType.Int16)
-                .AddParameter("StopPerformanceStatusId", entity.StopPerformanceStatusCodeId, DbType.Int16)
+                .AddParameter("StopStatusCode", entity.StopStatusCode, DbType.String)
+                .AddParameter("StopStatusDescription", entity.StopStatusDescription, DbType.String)
+                .AddParameter("PerformanceStatusCode", entity.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusDescription", entity.PerformanceStatusDescription, DbType.String)
                 .AddParameter("Reason", entity.StopByPassReason, DbType.String)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
@@ -73,8 +76,10 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.StopUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
-                .AddParameter("StopStatusCodeId", (int)entity.StopStatusCodeId, DbType.Int16)
-                .AddParameter("StopPerformanceStatusCodeId", (int)entity.StopPerformanceStatusCodeId, DbType.Int16)
+                .AddParameter("StopStatusCode", entity.StopStatusCode, DbType.String)
+                .AddParameter("StopStatusDescription", entity.StopStatusDescription, DbType.String)
+                .AddParameter("PerformanceStatusCode", entity.PerformanceStatusCode, DbType.String)
+                .AddParameter("PerformanceStatusDescription", entity.PerformanceStatusDescription, DbType.String)
                 .AddParameter("Reason", entity.StopByPassReason, DbType.String)
                 .AddParameter("ShellActionIndicator", entity.ShellActionIndicator, DbType.String)
                 .AddParameter("ActualPaymentCash", entity.ActualPaymentCash, DbType.Decimal)
@@ -84,11 +89,12 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 
-        public Stop GetByTransportOrderReference(string transportOrderReference)
+        public Stop GetByJobDetails(string picklist, string account)
         {
             return
-               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByTransportOrderReference)
-                   .AddParameter("TransportOrderReference", transportOrderReference, DbType.String)
+               dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJob)
+                   .AddParameter("Picklist", picklist, DbType.String)
+                   .AddParameter("Account", account, DbType.String)
                    .Query<Stop>()
                    .FirstOrDefault();
         }

@@ -124,7 +124,7 @@ this.FeatureBackground();
 #line 30
  testRunner.Then("the line \'1\' Short Qty is \'5\' and Damaged Qty is \'2\' Del Qty is \'13\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 31
- testRunner.And("the delivery status is \'Incomplete\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the delivery status is \'Exception\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 32
  testRunner.When("I open the audits page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
@@ -307,6 +307,67 @@ this.FeatureBackground();
  testRunner.And("I can see the damage source of \'Customer\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 94
  testRunner.And("I can see the damage action of \'Credit\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Crediting is disabled for deliveries with POD (Proof of delivery)")]
+        public virtual void CreditingIsDisabledForDeliveriesWithPODProofOfDelivery()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Crediting is disabled for deliveries with POD (Proof of delivery)", ((string[])(null)));
+#line 96
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 97
+ testRunner.Given("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 98
+ testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 99
+ testRunner.And("I assign the POD delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 100
+ testRunner.And("I click on the first POD delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 101
+ testRunner.And("I open the clean tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 102
+ testRunner.When("I click on the first delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Action"});
+            table3.AddRow(new string[] {
+                        "Not Defined"});
+            table3.AddRow(new string[] {
+                        "Replan In Roadnet"});
+            table3.AddRow(new string[] {
+                        "Replan In TranSend"});
+            table3.AddRow(new string[] {
+                        "Replan In The Queue"});
+            table3.AddRow(new string[] {
+                        "Reject"});
+            table3.AddRow(new string[] {
+                        "Close"});
+#line 103
+ testRunner.Then("the available short actions are", ((string)(null)), table3, "Then ");
+#line 111
+ testRunner.When("click add damage button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Action"});
+            table4.AddRow(new string[] {
+                        "Not Defined"});
+            table4.AddRow(new string[] {
+                        "Replan In Roadnet"});
+            table4.AddRow(new string[] {
+                        "Replan In TranSend"});
+            table4.AddRow(new string[] {
+                        "Replan In The Queue"});
+            table4.AddRow(new string[] {
+                        "Reject"});
+            table4.AddRow(new string[] {
+                        "Close"});
+#line 112
+ testRunner.Then("the available damage actions are", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -4,9 +4,9 @@
 
     public interface IBranchService
     {
-        void SaveBranchesForUser(Branch[] branches, string identityName);
+        void SaveBranchesForUser(Branch[] branches);
 
-        void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string identityName, string domain);
+        void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string domain);
 
         string GetUserBranchesFriendlyInformation(string username);
     }

@@ -1,16 +1,18 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Api.Controllers
 {
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web.Http;
 
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain.Enums;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services;
-    using PH.Well.Services.Contracts;
+    using Api.Mapper.Contracts;
+    using Domain.Enums;
+    using Repositories.Contracts;
+    using Services;
+    using Services.Contracts;
 
     public class ActionDeliveryLinesController : BaseApiController
     {
@@ -29,7 +31,9 @@
             IDeliveryLinesToModelMapper mapper,
             IDeliveryLineActionService deliveryLineActionService,
             IJobRepository jobRepository,
-            IBranchRepository branchRepository)
+            IBranchRepository branchRepository,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.deliveryRepository = deliveryRepository;
             this.mapper = mapper;
@@ -56,16 +60,20 @@
             var deliveryLines = this.deliveryRepository.GetDeliveryLinesByJobId(jobId);
 
             if (!deliveryLines.Any())
+            {
                 return this.Request.CreateResponse(
                     HttpStatusCode.OK,
                     new { notAcceptable = true, message = $"No delivery lines found for job id ({jobId})..." });
+            }
 
             var job = this.jobRepository.GetById(jobId);
 
             if (job == null)
+            {
                 return this.Request.CreateResponse(
                     HttpStatusCode.OK,
                     new { notAcceptable = true, message = $"No job found for Id ({jobId})..." });
+            }
 
             var branchId = this.branchRepository.GetBranchIdForJob(jobId);
 
@@ -74,26 +82,17 @@
             var response = this.deliveryLineActionService.ProcessDeliveryActions(
                 deliveryLines.ToList(),
                 settings,
-                this.UserIdentityName,
                 branchId);
 
-            if (response.CreditThresholdLimitReached)
-                return this.Request.CreateResponse(
-                    HttpStatusCode.OK,
-                    new
-                    {
-                        notAcceptable = true,
-                        message =
-                        "Your threshold level isn\'t high enough for the credit... It has been passed on for authorisation..."
-                    });
+            if (response.Warnings.Any())
+            {
+                return this.Request.CreateResponse(new { notAcceptable = true, message = response.Warnings });
+            }
 
-            if (response.ThresholdError)
-                return this.Request.CreateResponse(
-                    HttpStatusCode.OK,
-                    new { notAcceptable = true, message = response.ThresholdErrorMessage });
-
-            if (response.AdamResponse == AdamResponse.AdamDown)
+            if (response.AdamIsDown)
+            {
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { adamdown = true });
+            }
 
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }

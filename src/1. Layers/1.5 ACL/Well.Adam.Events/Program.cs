@@ -6,7 +6,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
-
+    using Repositories.Read;
     using StructureMap;
 
     public class Program
@@ -18,6 +18,9 @@
             new EventProcessor(container).Process();
         }
 
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public static Container InitIoc()
         {
             return new Container(
@@ -40,8 +43,20 @@
                     x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
-                    x.For<IEventLogger>().Use<EventLogger>();
+                    x.For<IUserNameProvider>().Use<AdamEventsUserNameProvider>();
+                    x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+                    x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
+                    x.For<IDapperReadProxy>().Use<DapperReadProxy>();
+                    x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                 });
+        }
+    }
+
+    public class AdamEventsUserNameProvider : IUserNameProvider
+    {
+        public string GetUserName()
+        {
+            return "AdamEventUpdater";
         }
     }
 }

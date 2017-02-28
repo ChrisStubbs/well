@@ -31,13 +31,20 @@
             this.routesPage.Filter.Apply(option, value);
         }
 
+        [When(@"I select '(.*)' from the filter options")]
+        public void WhenISelectRouteFromTheFilterOptions(string option)
+        {
+            this.routesPage.Filter.OptionDropDown.Select(option);
+        }
+
+
         [When(@"I clear the filter")]
         public void WhenIClearTheFilter()
         {
             this.routesPage.Filter.Clear();
         }
 
-        [When(@"I click on page (.*)")]
+        [When(@"I click on page '(.*)'")]
         public void WhenIClickOnPage(int pageNo)
         {
             this.routesPage.Pager.Click(pageNo);
@@ -48,6 +55,7 @@
         {
            this.routesPage.OrderByButton.Click();
         }
+
 
         [Then(@"The following routes will be displayed")]
         public void ThenTheFollowingRoutesWillBeDisplayed(Table table)
@@ -126,7 +134,7 @@
         {
             var rows = this.exceptionPage.ExceptionsGrid.ReturnAllRows().ToList();
 
-            Assert.That(rows.Count, Is.GreaterThan(1));
+            Assert.That(rows.Count, Is.GreaterThan(0));
 
             var routeNumberShouldBe = ScenarioContextWrapper.GetContextObject<string>(
                     ContextDescriptors.RouteNumber);
@@ -157,6 +165,13 @@
             }
         }
 
+        [Then(@"the clean deliveries page will be opened")]
+        public void ThenTheCleanDeliveriesPageWillBeOpened()
+        {
+            Assert.That(this.routesPage.IsElementPresent("CleanPage"));
+        }
+
+
         [Then(@"the filter should be preset to route and route number")]
         public void FilterShouldBePresetToRouteAndRouteNumber()
         {
@@ -171,5 +186,33 @@
 
             Assert.That(option, Is.EqualTo("Route"));
         }
+
+        [Then(@"the routes page will be displayed")]
+        public void ThenTheRoutesPageWillBeDisplayed()
+        {
+            Assert.That(this.routesPage.IsElementPresent("filter-option"));
+        }
+
+        [Then(@"page '(.*)' will be displayed")]
+        public void ThenPageWillBeDisplayed(int pageNo)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"I click the back button")]
+        public void WhenIClickTheBackButton()
+        {
+            this.routesPage.Back();
+            Thread.Sleep(1000);
+
+        }
+
+        [Then(@"the the previous filter should be cleared")]
+        public void ThenTheThePreviousFilterShouldBeCleared()
+        {
+            Assert.That(this.routesPage.Filter.GetFilterText(), Is.EqualTo(null));
+        }
+
+
     }
 }

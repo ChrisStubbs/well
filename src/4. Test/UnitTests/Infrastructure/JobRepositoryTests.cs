@@ -1,5 +1,8 @@
 ﻿
 
+using System;
+using Dapper;
+
 namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Collections.Generic;
@@ -22,6 +25,7 @@ namespace PH.Well.UnitTests.Infrastructure
         private Mock<ILogger> logger;
 
         private Mock<IWellDapperProxy> dapperProxy;
+        private Mock<IUserNameProvider> userNameProvider;
 
         private JobRepository repository;
         private string UserName = "TestUser";
@@ -31,9 +35,10 @@ namespace PH.Well.UnitTests.Infrastructure
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
-
-            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object);
-            this.repository.CurrentUser = UserName;
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
+            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object);
+            //////this.repository.CurrentUser = UserName;
         }
 
         public class TheGetByIdMethod : JobRepositoryTests
@@ -147,6 +152,31 @@ namespace PH.Well.UnitTests.Infrastructure
                 this.dapperProxy.Verify(x => x.AddParameter("Grn", grn, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+            }
+        }
+
+        public class TheGetJobsByBranchAndInvoiceNumberMethod : JobRepositoryTests
+        {
+            [Test]
+            public void ShouldCallTheStoredProcedureCorrectly()
+            {
+                const int branchId = 1;
+                const string invoiceNumber = "12345678";
+
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("branchId", branchId, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.AddParameter("invoiceNumber", invoiceNumber, DbType.String, null))
+                    .Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Job>>>())).Returns(new List<Job>());
+
+                this.repository.GetJobsByBranchAndInvoiceNumber(branchId, invoiceNumber);
+
+                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("branchId", branchId, DbType.Int32, null), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("invoiceNumber", invoiceNumber, DbType.String, null), Times.Once);
+                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Job>>>()));
             }
         }
     }

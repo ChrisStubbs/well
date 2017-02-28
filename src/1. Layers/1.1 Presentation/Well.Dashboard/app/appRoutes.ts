@@ -1,5 +1,6 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 import {AccountComponent} from './account/accountComponent';
+import {ApprovalsComponent} from './approvals/approvalsComponent';
 import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {CleanDeliveryComponent} from './clean/cleanDeliveryComponent';
@@ -15,12 +16,12 @@ import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
-import {PendingCreditComponent} from './pending_credit/pendingCreditComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
     { path: 'unauthorised', component: UnauthorisedComponent },
+    { path: 'approvals', component: ApprovalsComponent },
     { path: 'audits', component: AuditComponent },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
@@ -36,8 +37,7 @@ const routes: Routes = [
     { path: 'preferences', component: UserPreferenceComponent },
     { path: 'branch-role', component: BranchRoleComponent },
     { path: 'user-threshold', component: UserThresholdComponent },
-    { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
-    { path: 'pending-credit', component: PendingCreditComponent }
+    { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent }
 ];
 
 export const appRoutingProviders: any[] = [];

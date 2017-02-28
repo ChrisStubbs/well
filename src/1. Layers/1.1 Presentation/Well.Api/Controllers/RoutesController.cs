@@ -6,9 +6,6 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Common.Extensions;
-    using Domain;
-    using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Common.Security;
 
     using Repositories.Contracts;
@@ -20,11 +17,12 @@
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public RoutesController(IRouteHeaderRepository routeRepository,
-                IServerErrorResponseHandler serverErrorResponseHandler)
+                IServerErrorResponseHandler serverErrorResponseHandler,
+                IUserNameProvider userNameProvider):
+            base(userNameProvider)
         {
             this.routeRepository = routeRepository;
             this.serverErrorResponseHandler = serverErrorResponseHandler;
-            this.routeRepository.CurrentUser = this.UserIdentityName;
         }
 
         public HttpResponseMessage Get(string searchField = null, string searchTerm = null)
@@ -32,6 +30,7 @@
             try
             {
                 var routeHeaders = this.routeRepository.GetRouteHeaders();
+
                 if (!routeHeaders.Any())
                 {
                     return this.Request.CreateResponse(HttpStatusCode.NotFound);
@@ -45,7 +44,7 @@
                                         TotalDrops = p.TotalDrops,
                                         DeliveryCleanCount = p.CleanJobs,
                                         DeliveryExceptionCount = p.ExceptionJobs,
-                                        RouteStatus = StringExtensions.GetEnumDescription(p.RouteStatus),
+                                        RouteStatusDescription = p.RouteStatusDescription,
                                         DateTimeUpdated = p.DateUpdated,
                                         RouteOwnerId = p.RouteOwnerId,
                                         DriverName = p.DriverName

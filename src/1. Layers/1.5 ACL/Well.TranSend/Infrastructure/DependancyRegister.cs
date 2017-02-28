@@ -14,6 +14,9 @@
 
     public static class DependancyRegister
     {
+        /// <summary>
+        /// IOC Dependency Registration
+        /// </summary>
         public static Container InitIoc()
         {
             return new Container(
@@ -38,9 +41,16 @@
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IRouteMapper>().Use<RouteMapper>();
+                    x.For<IJobStatusService>().Use<JobStatusService>();
+                    x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+#if DEBUG
+                    x.For<IEpodProvider>().Use<EpodFileProvider>();
+#else
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
-                } );
+#endif
+                });
         }
     }
 }

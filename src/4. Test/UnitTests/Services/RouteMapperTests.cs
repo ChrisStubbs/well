@@ -22,28 +22,32 @@
         public void RouteHeaderMapper()
         {
             var from = new RouteHeader();
-            from.RouteStatus = RouteStatusCode.Compl;
-            from.RoutePerformanceStatusId = 4;
+            from.RouteStatusCode = "Compl";
+            from.RouteStatusDescription = "Completed";
+            from.PerformanceStatusCode = "InProg";
+            from.PerformanceStatusDescription = "In Progress";
             from.AuthByPass = 11;
             from.NonAuthByPass = 45;
             from.ShortDeliveries = 3;
             from.DamagesRejected = 3;
             from.DamagesAccepted = 1;
-            from.StartDepotCode = "NIR";
+         //   from.StartDepotCode = "NIR";
             from.ActualStopsCompleted = 800;
 
             var to = new RouteHeader();
 
             this.mapper.Map(from, to);
 
-            Assert.That(to.RouteStatus, Is.EqualTo(from.RouteStatus));
-            Assert.That(to.RoutePerformanceStatusId, Is.EqualTo(from.RoutePerformanceStatusId));
+            Assert.That(to.RouteStatusCode, Is.EqualTo(from.RouteStatusCode));
+            Assert.That(to.RouteStatusDescription, Is.EqualTo(from.RouteStatusDescription));
+            Assert.That(to.PerformanceStatusCode, Is.EqualTo(from.PerformanceStatusCode));
+            Assert.That(to.PerformanceStatusDescription, Is.EqualTo(from.PerformanceStatusDescription));
             Assert.That(to.AuthByPass, Is.EqualTo(from.AuthByPass));
             Assert.That(to.NonAuthByPass, Is.EqualTo(from.NonAuthByPass));
             Assert.That(to.ShortDeliveries, Is.EqualTo(from.ShortDeliveries));
             Assert.That(to.DamagesRejected, Is.EqualTo(from.DamagesRejected));
             Assert.That(to.DamagesAccepted, Is.EqualTo(from.DamagesAccepted));
-            Assert.That(to.StartDepotCode, Is.EqualTo(from.StartDepotCode));
+//            Assert.That(to.StartDepotCode, Is.EqualTo(from.StartDepotCode));
             Assert.That(to.ActualStopsCompleted, Is.EqualTo(from.ActualStopsCompleted));
         }
 
@@ -52,16 +56,20 @@
         {
             var from = new Stop();
 
-            from.StopStatusCodeId = 5;
-            from.StopPerformanceStatusCodeId = 9;
+            from.StopStatusCode = "summin";
+            from.StopStatusDescription = "summin else";
+            from.PerformanceStatusCode = "not sure";
+            from.PerformanceStatusDescription = "no i dont know";
             from.StopByPassReason = "Somethnig";
 
             var to = new Stop();
 
             this.mapper.Map(from, to);
 
-            Assert.That(to.StopStatusCodeId, Is.EqualTo(from.StopStatusCodeId));
-            Assert.That(to.StopPerformanceStatusCodeId, Is.EqualTo(from.StopPerformanceStatusCodeId));
+            Assert.That(to.StopStatusCode, Is.EqualTo(from.StopStatusCode));
+            Assert.That(to.StopStatusDescription, Is.EqualTo(from.StopStatusDescription));
+            Assert.That(to.PerformanceStatusCode, Is.EqualTo(from.PerformanceStatusCode));
+            Assert.That(to.PerformanceStatusDescription, Is.EqualTo(from.PerformanceStatusDescription));
             Assert.That(to.StopByPassReason, Is.EqualTo(from.StopByPassReason));
         }
 
@@ -79,8 +87,6 @@
 
             Assert.That(to.PlannedStopNumber, Is.EqualTo(from.PlannedStopNumber));
             Assert.That(to.ShellActionIndicator, Is.EqualTo(from.ShellActionIndicator));
-            Assert.That(to.StopStatusCodeId, Is.EqualTo((int)StopStatus.Notdef));
-            Assert.That(to.StopPerformanceStatusCodeId, Is.EqualTo((int)PerformanceStatus.Notdef));
         }
 
         [Test]
@@ -112,6 +118,13 @@
             from.PickListRef = "4433";
             from.InvoiceNumber = "223344";
             from.CustomerRef = "Ref";
+
+            from.EntityAttributes.Add(new EntityAttribute { Code = "PICKED" });
+            from.EntityAttributes.Add(new EntityAttribute { Code = "ORDOUTERS" });
+            from.EntityAttributes.Add(new EntityAttribute { Code = "INVOUTERS" });
+            from.EntityAttributes.Add(new EntityAttribute { Code = "ALLOWSOCRD" });
+            from.EntityAttributes.Add(new EntityAttribute { Code = "COD" });
+            from.EntityAttributes.Add(new EntityAttribute { Code = "ALLOWREORD" });
             
             var to = new Job();
 
@@ -132,7 +145,7 @@
             var from = new JobDetail();
 
             from.ShortQty = 3;
-            from.DeliveredQty = "5";
+            from.DeliveredQty = 5;
 
             var to = new JobDetail();
 

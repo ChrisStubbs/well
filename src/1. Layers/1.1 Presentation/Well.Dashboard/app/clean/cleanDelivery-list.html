@@ -1,6 +1,6 @@
 ﻿<div class="table-container">
     <ol class="breadcrumb">
-        <li class="active">Clean Deliveries</li>
+        <li id="CleanPage" class="active">Clean Deliveries</li>
     </ol>
 </div>
 
@@ -8,7 +8,7 @@
     <!--<ow-spinner [isRunning]="isLoading"></ow-spinner>-->
     <div class="content" *ngIf="!isLoading">
         <div *ngIf="!cleanDeliveries">
-            <div id="noDeliveries" class="alert alert-info"><strong>No clean deliveries!</strong>
+            <div id="noDeliveries" class="alert alert-info"><strong>No clean deliveries found</strong>
             </div>
         </div>
         <div *ngIf="cleanDeliveries && cleanDeliveries.length">
@@ -32,7 +32,6 @@
                                 <th style="width: 12%">Invoice No</th>
                                 <th style="width: 11%">Account</th>
                                 <th style="width: 27%">Account Name</th>
-                                <th style="width: 7%">COD</th>
                                 <th style="width: 5%">Contact</th>
                                 <th style="width: 11%">Assigned</th>
                                 <th style="width: 13%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
@@ -44,9 +43,10 @@
                                 <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
+                                    <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
+                               </td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                                <td class="cod"><ow-cod [isCashOnDelivery]="delivery.cashOnDelivery"></ow-cod></td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                                 </td>

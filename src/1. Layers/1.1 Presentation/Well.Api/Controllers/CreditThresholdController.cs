@@ -7,13 +7,14 @@
     using System.Net.Http;
     using System.Web.Http;
 
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Api.Models;
-    using PH.Well.Api.Validators.Contracts;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
-    using PH.Well.Repositories.Contracts;
+    using Mapper.Contracts;
+    using Models;
+    using Validators.Contracts;
+    using Common.Contracts;
+    using Repositories.Contracts;
+    using Validators;
 
+    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class CreditThresholdController : BaseApiController
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;
@@ -31,7 +32,9 @@
             ILogger logger, 
             ICreditThresholdMapper mapper,
             ICreditThresholdValidator validator,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IUserNameProvider userNameProvider)
+            : base(userNameProvider)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
@@ -39,7 +42,7 @@
             this.validator = validator;
             this.userRepository = userRepository;
 
-            this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
+            //////this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Route("credit-threshold")]
@@ -105,6 +108,7 @@
 
         [Route("credit-threshold/getByUser")]
         [HttpGet]
+        [AllowAnonymous]
         public HttpResponseMessage GetByUser()
         {
             try

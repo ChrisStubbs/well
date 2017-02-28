@@ -15,8 +15,8 @@
 
     public class CreditThresholdRepository : DapperRepository<CreditThreshold, int>, ICreditThresholdRepository
     {
-        public CreditThresholdRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public CreditThresholdRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy,userNameProvider)
         {
         }
 
@@ -78,12 +78,11 @@
                 .Query<CreditThreshold>();
         }
 
-        public void AssignPendingCreditToUser(User user, int jobId, string originator)
+        public void PendingCreditInsert(int jobId)
         {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.AssignPendingCreditToUser)
-                .AddParameter("userId", user.Id, DbType.Int32)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditInsert)
                 .AddParameter("jobId", jobId, DbType.Int32)
-                .AddParameter("originator", originator, DbType.String)
+                .AddParameter("originator", this.CurrentUser, DbType.String)
                 .Execute();
         }
     }

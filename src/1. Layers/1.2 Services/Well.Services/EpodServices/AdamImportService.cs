@@ -19,16 +19,19 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
-
+        private readonly IJobStatusService jobStatusService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
-        private const string CurrentUser = "AdamImport";
 
         public AdamImportService(IRouteHeaderRepository routeHeaderRepository, 
-            IStopRepository stopRepository, IAccountRepository accountRepository, 
-            IJobRepository jobRepository, IJobDetailRepository jobDetailRepository, 
+            IStopRepository stopRepository, 
+            IAccountRepository accountRepository, 
+            IJobRepository jobRepository, 
+            IJobDetailRepository jobDetailRepository, 
             IJobDetailDamageRepository jobDetailDamageRepository,
-            ILogger logger, IEventLogger eventLogger)
+            IJobStatusService jobStatusService,
+            ILogger logger, 
+            IEventLogger eventLogger)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.stopRepository = stopRepository;
@@ -36,14 +39,9 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.jobStatusService = jobStatusService;
             this.logger = logger;
             this.eventLogger = eventLogger;
-            this.routeHeaderRepository.CurrentUser = CurrentUser;
-            this.stopRepository.CurrentUser = CurrentUser;
-            this.accountRepository.CurrentUser = CurrentUser;
-            this.jobRepository.CurrentUser = CurrentUser;
-            this.jobDetailRepository.CurrentUser = CurrentUser;
-            this.jobDetailDamageRepository.CurrentUser = CurrentUser;
         }
 
         public void Import(RouteDelivery route)
@@ -71,6 +69,7 @@
 
         public void ImportRouteHeader(RouteHeader header, int routeId)
         {
+            header.RouteStatusDescription = "Not Started";
             header.RoutesId = routeId;
             header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
                                     ? (int)Branches.NotDefined
@@ -125,6 +124,7 @@
         {
             foreach (var job in jobs)
             {
+                this.jobStatusService.SetInitialStatus(job);
                 this.jobRepository.Save(job);
 
                 job.JobDetails.ForEach(

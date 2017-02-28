@@ -6,8 +6,8 @@
 
     public class PreferenceRepository : DapperRepository<Preference, int>, IPreferenceRepository
     {
-        public PreferenceRepository(ILogger logger, IDapperProxy dapperProxy)
-            : base(logger, dapperProxy)
+        public PreferenceRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
     }

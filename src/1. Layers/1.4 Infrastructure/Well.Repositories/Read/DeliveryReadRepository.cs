@@ -22,45 +22,12 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        public IEnumerable<Delivery> GetCleanDeliveries(string username)
+        public IEnumerable<Delivery> GetByStatus(string username, JobStatus jobStatus)
         {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.GetCleanDeliveries)
-                    .AddParameter("username", username, DbType.String)
-                    .Query<Delivery>();
-        }
-
-        public IEnumerable<Delivery> GetResolvedDeliveries(string username)
-        {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.GetResolvedDeliveries)
-                    .AddParameter("username", username, DbType.String)
-                    .Query<Delivery>();
-        }
-
-        //TODO - Refactor into a single sproc with parameters to filter those pending credit
-        public IEnumerable<Delivery> GetByPendingCredit(string username)
-        {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit)
-                    .AddParameter("UserName", username, DbType.String)
-                    .Query<Delivery>();
-        }
-
-        public IEnumerable<Delivery> GetExceptionDeliveries(string username, bool includePendingCredit = false)
-        {
-            var exceptionDeliveries = dapperReadProxy.WithStoredProcedure(StoredProcedures.GetExceptionDeliveries)
-                .AddParameter("UserName", username, DbType.String)
-                .Query<Delivery>().ToList();
-
-            var deliveriesPendingCredit = GetByPendingCredit(username);
-
-            if (includePendingCredit == false)
-            {
-                exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
-            }
-
-            return exceptionDeliveries;
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGet)
+                .AddParameter("username", username, DbType.String)
+                .AddParameter("JobStatus", jobStatus, DbType.Int32)
+                .Query<Delivery>();
         }
 
         public DeliveryDetail GetDeliveryById(int id, string username)

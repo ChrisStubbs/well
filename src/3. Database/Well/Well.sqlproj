@@ -234,7 +234,6 @@
     <Build Include="dbo\Tables\WidgetType.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <Build Include="dbo\Tables\PendingCredit.sql" />
-    <Build Include="dbo\StoredProcedures\DeliveriesGetByPendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
@@ -273,9 +272,7 @@
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_GetByBranchAndInvoiceNumber.sql" />
     <Build Include="dbo\StoredProcedures\GetRouteHeadersWithStopsAndJobs.sql" />
-    <Build Include="dbo\StoredProcedures\GetCleanDeliveries.sql" />
-    <Build Include="dbo\StoredProcedures\GetExceptionDeliveries.sql" />
-    <Build Include="dbo\StoredProcedures\GetResolvedDeliveries.sql" />
+    <Build Include="dbo\StoredProcedures\Deliveries_Get.sql" />
     <None Include="Post-Deployement\Populate-JobStatus.sql" />
   </ItemGroup>
   <ItemGroup>

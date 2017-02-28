@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using PH.Well.Common.Contracts;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -50,7 +47,8 @@ namespace PH.Well.Services
 
         public IList<Delivery> GetApprovals(string username)
         {
-            var approvals = deliveryReadRepository.GetByPendingCredit(username);
+            var approvals = deliveryReadRepository.GetByStatus(username, JobStatus.Exception);
+            approvals = approvals.Where(j => j.IsPendingCredit);
 
             //Populate Thresholds
             var branches = branchRepository.GetAllValidBranches();

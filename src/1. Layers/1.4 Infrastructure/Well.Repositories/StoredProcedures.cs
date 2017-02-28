@@ -72,7 +72,7 @@
         public static string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
         public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
-        public static string DeliveriesGetByPendingCredit = "DeliveriesGetByPendingCredit";
+        public static string DeliveriesGet = "Deliveries_Get";
         public static string BranchesGet = "BranchesGet";
         public static string DeleteUserBranches = "DeleteUserBranches";
         public static string SaveUserBranch = "UserBranchInsert";
@@ -127,8 +127,5 @@
         public static string RemovePendingCredit = "RemovePendingCredit";
         public static string UserGetCreditThreshold = "User_GetCreditThreshold";
         public static string GetBranchIdForJob = "GetBranchIdForJob";
-        public static string GetCleanDeliveries = "GetCleanDeliveries";
-        public static string GetExceptionDeliveries = "GetExceptionDeliveries";
-        public static string GetResolvedDeliveries = "GetResolvedDeliveries";
     }
 }

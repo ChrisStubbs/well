@@ -28,68 +28,6 @@
 
             this.repository = new DeliveryReadRepository(this.logger.Object, this.dapperProxy.Object);
         }
-
-        public class TheGetCleanDeliveriesMethod : DeliveryReadRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                var userName = "TheUser";
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.GetCleanDeliveries)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("username", userName, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());
-
-                var result = repository.GetCleanDeliveries(userName);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.GetCleanDeliveries), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("username", userName, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Delivery>(), Times.Once());
-            }
-        }
-
-        public class TheGetResolvedDeliveriesMethod : DeliveryReadRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                var userName = "TheUser";
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.GetResolvedDeliveries)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("username", userName, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());
-
-                var result = repository.GetResolvedDeliveries(userName);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.GetResolvedDeliveries), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("username", userName, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Delivery>(), Times.Once());
-            }
-        }
-
-        public class TheGetPendingCreditDeliveriesMethod : DeliveryReadRepositoryTests
-        {
-            [Test]
-            public void ShouldReturnAllExceptionsPendingCreditAuthorisation()
-            {
-                var username = "foo";
-
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("UserName", username, DbType.String, null))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<Delivery>()).Returns(new List<Delivery>());
-
-                this.repository.GetByPendingCredit(username);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("UserName", username, DbType.String, null), Times.Once);
-
-                this.dapperProxy.Verify(x => x.Query<Delivery>(), Times.Once);
-            }
-        }
+  
     }
 }

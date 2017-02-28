@@ -7,6 +7,7 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
+    using Domain.Enums;
     using Mapper.Contracts;
     using Models;
 
@@ -56,7 +57,7 @@
         {
             try
             {
-                var deliveries = deliveryReadRepository.GetExceptionDeliveries(UserIdentityName, includePendingCredit: true);
+                var deliveries = deliveryReadRepository.GetByStatus(UserIdentityName, JobStatus.Exception);
                 var assignedDeliveries = deliveries.Where(
                     d => string.Equals(d.IdentityName, UserIdentityName, StringComparison.OrdinalIgnoreCase));
                 var outstandingDeliveries = deliveries.Where(d => d.DeliveryDate.Date < DateTime.Today.Date);

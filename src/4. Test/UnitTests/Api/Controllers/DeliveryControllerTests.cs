@@ -17,6 +17,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.UnitTests.Factories;
     using Well.Domain;
+    using Well.Domain.Enums;
     using Well.Services.Contracts;
 
     [TestFixture]
@@ -56,7 +57,7 @@
             {
                 var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(It.IsAny<string>(), false)).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(), JobStatus.Exception)).Returns(deliveries);
 
                 var response = this.Controller.GetExceptions();
 
@@ -75,7 +76,7 @@
             {
                 var deliveries = new List<Delivery>();
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries("", false)).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus("", JobStatus.Exception)).Returns(deliveries);
 
                 var response = this.Controller.GetExceptions();
 
@@ -87,7 +88,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetExceptionDeliveries(It.IsAny<string>(), false))
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(), JobStatus.Exception))
                     .Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
@@ -115,7 +116,7 @@
             {
                 var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
 
-                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(), JobStatus.Clean)).Returns(deliveries);
 
                 var response = this.Controller.GetCleanDeliveries();
 
@@ -134,7 +135,7 @@
             {
                 var deliveries = new List<Delivery>();
 
-                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(),JobStatus.Clean)).Returns(deliveries);
 
                 var response = this.Controller.GetCleanDeliveries();
 
@@ -146,7 +147,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetCleanDeliveries(It.IsAny<string>())).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(),JobStatus.Clean)).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>
@@ -173,7 +174,7 @@
             {
                 var deliveries = new List<Delivery> { DeliveryFactory.New.Build() };
 
-                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(),JobStatus.Resolved)).Returns(deliveries);
 
                 var response = this.Controller.GetResolvedDeliveries();
 
@@ -192,7 +193,7 @@
             {
                 var deliveries = new List<Delivery>();
 
-                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Returns(deliveries);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(),JobStatus.Resolved)).Returns(deliveries);
 
                 var response = this.Controller.GetResolvedDeliveries();
 
@@ -204,7 +205,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetResolvedDeliveries(It.IsAny<string>())).Throws(exception);
+                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(),JobStatus.Resolved)).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                         x =>

@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[GetResolvedDeliveries]
-	@UserName VARCHAR(500)
+﻿CREATE PROCEDURE [dbo].[Deliveries_Get]
+	@UserName VARCHAR(500),
+	@JobStatus INT
 AS
 BEGIN
 
@@ -13,7 +14,6 @@ BEGIN
 		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
 		jb.[Description] as JobStatus,
-		j.Cod,
 		s.DeliveryDate,
 		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
@@ -22,7 +22,9 @@ BEGIN
 		j.COD as CashOnDelivery,
 		j.TotalCreditValueForThreshold,
 		j.TotalOutersShort,
-		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit
+		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
+		pc.CreatedBy as PendingCreditCreatedBy,
+		j.ProofOfDelivery
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -47,6 +49,8 @@ BEGIN
 		dbo.[PendingCredit] pc on pc.JobId = j.Id And pc.isDeleted = 0
 	WHERE
 		u.IdentityName = @UserName
+	AND 
+		j.InvoiceNumber IS NOT NULL
 	AND
 		rh.IsDeleted = 0
 	AND
@@ -54,5 +58,5 @@ BEGIN
 	AND 
 		j.IsDeleted = 0
 	AND
-		j.JobStatusId = 5
+		j.JobStatusId = @JobStatus
 END

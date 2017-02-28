@@ -6,6 +6,7 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
+    using Domain.Enums;
     using Domain.ValueObjects;
     using Models;
     using PH.Well.Api.Mapper.Contracts;
@@ -42,7 +43,8 @@
             try
             {
                 var exceptionDeliveries =
-                    this.deliveryReadRepository.GetExceptionDeliveries(this.UserIdentityName).ToList();
+                    this.deliveryReadRepository.GetByStatus(this.UserIdentityName, JobStatus.Exception).ToList();
+                exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
 
                 exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
 
@@ -84,7 +86,7 @@
             try
             {
                 var cleanDeliveries =
-                    this.deliveryReadRepository.GetCleanDeliveries(this.UserIdentityName).ToList();
+                    this.deliveryReadRepository.GetByStatus(this.UserIdentityName, JobStatus.Clean).ToList();
 
                 return !cleanDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
@@ -103,7 +105,7 @@
         {
             try
             {
-                var resolvedDeliveries = deliveryReadRepository.GetResolvedDeliveries(UserIdentityName).ToList();
+                var resolvedDeliveries = deliveryReadRepository.GetByStatus(UserIdentityName, JobStatus.Resolved).ToList();
 
                 return !resolvedDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)

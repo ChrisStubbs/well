@@ -57,7 +57,7 @@
             try
             {
                 var deliveries = deliveryReadRepository.GetExceptionDeliveries(UserIdentityName, includePendingCredit: true);
-                var assignedDeliveries = deliveries.Where(d => d.IdentityName == UserIdentityName);
+                var assignedDeliveries = deliveries.Where(d => (d.IdentityName?.ToLower() ?? "") == UserIdentityName.ToLower());
                 var outstandingDeliveries = deliveries.Where(d => d.DeliveryDate.Date < DateTime.Today.Date);
 
                 var warningLevels = this.userStatsRepository.GetWidgetWarningLevels(UserIdentityName);

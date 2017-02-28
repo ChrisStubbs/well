@@ -8,9 +8,7 @@
     using System.Reflection;
     using System.Web.Http;
     using Moq;
-
     using NUnit.Framework;
-
     using PH.Well.Api.Controllers;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
@@ -27,8 +25,6 @@
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
         private Mock<IDeliveryToDetailMapper> deliveryToDetailMapper;
-        private Mock<IJobRepository> jobRepository;
-        private Mock<ILogger> logger;
         private Mock<IDeliveryService> deliveryService;
         private Mock<IExceptionEventRepository> exceptionEventRepository;
         private Mock<IUserNameProvider> userNameProvider;
@@ -39,8 +35,6 @@
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Loose);
             serverErrorResponseHandler = new Mock<IServerErrorResponseHandler>(MockBehavior.Strict);
             deliveryToDetailMapper = new Mock<IDeliveryToDetailMapper>(MockBehavior.Strict);
-            jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
-            logger = new Mock<ILogger>(MockBehavior.Strict);
             deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
@@ -49,9 +43,7 @@
                 this.deliveryReadRepository.Object,
                 this.serverErrorResponseHandler.Object,
                 this.deliveryToDetailMapper.Object,
-                this.logger.Object,
                 this.deliveryService.Object,
-                this.jobRepository.Object,
                 this.userNameProvider.Object);
 
             this.SetupController();

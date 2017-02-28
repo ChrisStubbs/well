@@ -180,6 +180,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
+    <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />

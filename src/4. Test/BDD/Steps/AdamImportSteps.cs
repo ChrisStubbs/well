@@ -39,7 +39,6 @@
         private IEpodUpdateService epodUpdateService;
         private AdamFileMonitorService adamFileMonitorService;
         private IUserNameProvider userNameProvider;
-        private readonly string currentUser = "epodBDDUser";
 
         public AdamImportSteps()
         {
@@ -60,8 +59,6 @@
             this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
             this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
-
-            this.userNameProvider.ChangeUserName(this.currentUser);
 
             this.logger.LogDebug("Calling file monitor service");
             adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);

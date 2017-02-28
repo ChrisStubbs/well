@@ -160,8 +160,6 @@
         [Given(@"25 audit entries have been made")]
         public void InsertAudits()
         {
-            this.userNameProvider.ChangeUserName("BDD.User");
-
             for (int i = 0; i < 25; i++)
             {
                 var audit = new Audit()
@@ -178,8 +176,6 @@
         [Given(@"5 audit entries have been made")]
         public void Insert5Audits()
         {
-            this.userNameProvider.ChangeUserName("BDD.User");
-           
             var audit = new Audit()
             {
                 Entry = "Audit 123",
@@ -333,8 +329,6 @@
         [Given(@"(.*) notifications have been made")]
         public void InsertNotifications(int notifications)
         {
-            this.userNameProvider.ChangeUserName("BDD.User");
-
             for (int i = 0; i < notifications; i++)
             {
                 var accountNumber = 12345.001;

@@ -43,12 +43,20 @@
                     x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
-                    x.For<IUserNameProvider>().Use<UserNameProvider>();
+                    x.For<IUserNameProvider>().Use<AdamEventsUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                 });
+        }
+    }
+
+    public class AdamEventsUserNameProvider : IUserNameProvider
+    {
+        public string GetUserName()
+        {
+            return "AdamEventUpdater";
         }
     }
 }

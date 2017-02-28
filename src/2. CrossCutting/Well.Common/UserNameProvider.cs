@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using PH.Well.Common.Contracts;
-
-namespace PH.Well.Common
+﻿namespace PH.Well.Common
 {
+    using System.Security.Principal;
+    using System.Threading;
+
+    using PH.Well.Common.Contracts;
+
     public class UserNameProvider : IUserNameProvider
     {
         public string GetUserName()
@@ -22,6 +18,7 @@ namespace PH.Well.Common
             var identity = new GenericIdentity(userName);
             var principal = new GenericPrincipal(identity, new string[] {});
             Thread.CurrentPrincipal = principal;
+
             return lastName;
         }
     }

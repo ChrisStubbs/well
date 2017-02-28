@@ -79,7 +79,11 @@ namespace PH.Well.Services
             var jobDetail =
                 jobDetails.Single(j => j.JobId == jobDetailUpdates.JobId && j.LineNumber == jobDetailUpdates.LineNumber);
 
+            Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
             Job job = this.jobRepository.GetById(jobDetail.JobId);
+
+            Audit audit = jobDetailUpdates.CreateAuditEntry(jobDetail, job.InvoiceNumber, job.PhAccount,
+                stop.DeliveryDate);
 
             var branchId = this.branchRepository.GetBranchIdForJob(job.Id);
 
@@ -92,12 +96,6 @@ namespace PH.Well.Services
             jobDetail.ShortsActionId = jobDetailUpdates.ShortsActionId;
 
             job.JobDetails = jobDetails.ToList();
-
-            JobDetail originalJobDetail = this.jobDetailRepository.GetByJobLine(jobDetailUpdates.JobId, jobDetailUpdates.LineNumber);
-            Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
-
-            Audit audit = jobDetailUpdates.CreateAuditEntry(originalJobDetail, job.InvoiceNumber, job.PhAccount,
-                stop.DeliveryDate);
 
             using (var transactionScope = new TransactionScope())
             {

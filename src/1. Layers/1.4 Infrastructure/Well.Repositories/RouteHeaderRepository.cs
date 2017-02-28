@@ -1,6 +1,4 @@
-﻿using Dapper;
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -8,25 +6,18 @@ namespace PH.Well.Repositories
     using System.Linq;
     using Common.Contracts;
     using Contracts;
+    using Dapper;
     using Domain;
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int> , IRouteHeaderRepository
     {
-        private readonly IStopRepository stopRepository;
-        private readonly IJobRepository jobRepository;
-
         public RouteHeaderRepository(ILogger logger,
             IWellDapperProxy dapperProxy,
-            IStopRepository stopRepository,
-            IJobRepository jobRepository,
             IUserNameProvider userNameProvider) 
             : base(logger, dapperProxy, userNameProvider)
         {
-            this.stopRepository = stopRepository;
-            this.jobRepository = jobRepository;
         }
 
-        // TODO refactor to use query multiple
         /// <summary>
         /// Get RouteHeaders with its related stops preloaded
         /// </summary>
@@ -55,28 +46,6 @@ namespace PH.Well.Repositories
             }
             return routeHeaders;
         }
-
-        ////Old version
-        ////public IEnumerable<RouteHeader> GetRouteHeaders()
-        ////{
-        ////    var routeHeaders = dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGet)
-        ////      .AddParameter("UserName", this.CurrentUser, DbType.String)
-        ////      .Query<RouteHeader>();
-
-        ////    foreach (var routeHeader in routeHeaders)
-        ////    {
-        ////        var stops = stopRepository.GetStopByRouteHeaderId(routeHeader.Id);
-
-        ////        foreach (var stop in stops)
-        ////        {
-        ////            stop.Jobs = new List<Job>(jobRepository.GetByStopId(stop.Id));
-        ////        }
-
-        ////        routeHeader.Stops = stops.ToList();
-        ////    }
-
-        ////    return routeHeaders;
-        ////}
 
         public IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId)
         {
@@ -212,7 +181,6 @@ namespace PH.Well.Repositories
 
         public IEnumerable<RouteAttributeException>  GetRouteAttributeException()
         {
-
             return dapperProxy.WithStoredProcedure(StoredProcedures.RouteAttributesGetExceptions)
                 .Query<RouteAttributeException>();
         }

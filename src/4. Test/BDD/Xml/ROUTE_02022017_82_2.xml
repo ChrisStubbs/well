@@ -453,7 +453,6 @@
               <TextField1>770</TextField1>
               <TextField1Desc>
               </TextField1Desc>
-              <ProofDeliv>0</ProofDeliv>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -3647,7 +3646,6 @@
               <OrderDate>01-02-2017</OrderDate>
               <TextField1>1788</TextField1>
               <TextField1Desc></TextField1Desc>
-              <ProofDeliv>0</ProofDeliv>
               <OrdOuters>1</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>
@@ -3791,7 +3789,6 @@
               <OrderDate>01-02-2017</OrderDate>
               <TextField1>1788</TextField1>
               <TextField1Desc></TextField1Desc>
-              <ProofDeliv>0</ProofDeliv>
               <OrdOuters>36</OrdOuters>
               <InvOuters>36</InvOuters>
               <ColOuters>1</ColOuters>
@@ -6878,7 +6875,6 @@
               <OrderDate>01-02-2017</OrderDate>
               <TextField1>876</TextField1>
               <TextField1Desc></TextField1Desc>
-              <ProofDeliv>0</ProofDeliv>
               <OrdOuters>11</OrdOuters>
               <InvOuters>1</InvOuters>
               <ColOuters>1</ColOuters>

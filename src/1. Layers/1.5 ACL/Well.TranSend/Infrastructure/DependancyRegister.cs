@@ -38,6 +38,7 @@
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
                 } );
         }

@@ -34,15 +34,6 @@
 
         }
 
-        public Account GetAccountByAccountCode(string accountCode, int stopId)
-        {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountGetByAccountCode)
-                    .AddParameter("Code", accountCode, DbType.String)
-                    .AddParameter("StopId", stopId, DbType.Int32)
-                    .Query<Account>()
-                    .FirstOrDefault();
-        }
-
         protected override void SaveNew(Account entity)
         {
             entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountInsert)

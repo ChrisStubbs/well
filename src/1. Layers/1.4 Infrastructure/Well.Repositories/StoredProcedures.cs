@@ -67,7 +67,6 @@
         public static string JobDetailDamagesWithAction = "JobDetailDamages_WithAction";
         public static string AccountGetByStopId = "Account_GetByStopId";
         public static string AccountGetByAccountId = "Account_GetByAccountId";
-        public static string AccountGetByAccountCode = "Account_GetByAccountCode";
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
         public static string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";

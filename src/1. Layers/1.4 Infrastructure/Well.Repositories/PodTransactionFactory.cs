@@ -26,7 +26,7 @@
 
         public PodTransaction Build(Job job, int branchId)
         {
-            var account = this.accountRepository.GetAccountByAccountCode(job.PhAccount, job.StopId);
+            var account = this.accountRepository.GetAccountByStopId(job.StopId);
 
             var endFlag = 0;
             var acno = (int) (Convert.ToDecimal(job.PhAccount)*1000);

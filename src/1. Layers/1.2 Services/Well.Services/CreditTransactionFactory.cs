@@ -40,7 +40,7 @@ namespace PH.Well.Services
             var initials = user.FriendlyName.GetInitials();
 
             var job = this.jobRepository.GetById(deliveryLines[0].JobId);
-            var account = this.accountRepository.GetAccountByAccountCode(job.PhAccount, job.StopId);
+            var account = this.accountRepository.GetAccountByStopId(job.StopId);
 
             var endFlag = 0;
             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);

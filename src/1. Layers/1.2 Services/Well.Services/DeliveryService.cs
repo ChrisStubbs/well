@@ -63,7 +63,6 @@
                     .FirstOrDefault(t => t.Threshold >= approval.TotalCreditValueForThreshold);
 
                 approval.ThresholdLevel = threshold?.ThresholdLevel;
-                approval.SetCanAction(username);
             }
 
             return approvals.ToList();

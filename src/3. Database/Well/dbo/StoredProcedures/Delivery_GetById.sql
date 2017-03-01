@@ -14,6 +14,7 @@ SELECT j.[Id] AS [Id]
 	,a.ContactNumber2 AS MobileNumber
 	,js.[Description] AS DeliveryType
 	,u2.IdentityName
+	,@UserName as CurrentUserIdentity
 	,j.OuterCount
 	,j.OuterDiscrepancyFound
 	,j.TotalOutersShort

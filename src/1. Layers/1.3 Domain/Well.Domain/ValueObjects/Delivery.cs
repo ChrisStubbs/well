@@ -1,12 +1,21 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Common.Extensions;
     using Enums;
 
     public class Delivery
     {
+        public Delivery()
+        {
+            Lines = new List<DeliveryLine>();
+        }
+
         public int Id { get; set; } 
+
+        public IList<DeliveryLine> Lines { get; set; }
 
         public string RouteNumber { get; set; }
 
@@ -35,11 +44,14 @@
         public int BranchId { get; set; }
 
         public string IdentityName { get; set; }
+        public string CurrentUserIdentity { get; set; }
 
         public string CashOnDelivery { get; set; }
         public bool IsCashOnDelivery => string.IsNullOrWhiteSpace(CashOnDelivery) == false;
 
-        public bool CanAction { get; private set; }
+        public bool CanAction => string.Equals(CurrentUserIdentity, IdentityName, StringComparison.OrdinalIgnoreCase);
+
+        public bool CanSubmit => CanAction && Lines.All(l => l.CanSubmit);
 
         public string TotalCredit { get; set; }
 
@@ -65,18 +77,6 @@
 
         public string CreditThresholdLevel
             => ThresholdLevel != null ? Enum<ThresholdLevel>.GetDescription(ThresholdLevel) : "";
-
-        public void SetCanAction(string username)
-        {
-            if (this.JobStatus == PerformanceStatus.Submitted.ToString())
-            {
-                this.CanAction = false;
-            }
-            else
-            {
-                this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
-            }
-        }
 
         public bool ThresholdLevelValid => this.ThresholdAmount >= this.TotalCreditValueForThreshold;
 

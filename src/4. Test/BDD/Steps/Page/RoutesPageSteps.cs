@@ -61,7 +61,7 @@
         public void ThenTheFollowingRoutesWillBeDisplayed(Table table)
         {
             var result = this.routesPage.RoutesGrid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
         [Then(@"The following routes ordered by date will be displayed in '(.*)' order")]

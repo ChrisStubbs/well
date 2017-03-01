@@ -9,15 +9,14 @@
     using Newtonsoft.Json;
 
     using NUnit.Framework;
-
-    using PH.Well.BDD.Framework;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
-
+    using Repositories;
     using Repositories.Contracts;
     using StructureMap;
     using TechTalk.SpecFlow;
     using Branch = Domain.Branch;
+    using Configuration = Framework.Configuration;
 
     [Binding]
     public class DatabaseSteps
@@ -28,7 +27,6 @@
         private readonly ILogger logger;
         private IAuditRepository auditRepo;
         private INotificationRepository notificationRepository;
-        private IUserNameProvider userNameProvider;
 
         public DatabaseSteps()
         {
@@ -36,7 +34,6 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
-            this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
             auditRepo = container.GetInstance<IAuditRepository>();
             notificationRepository = container.GetInstance<INotificationRepository>();
         }
@@ -88,12 +85,6 @@
             this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
         }
 
-        [Given(@"the first delivery is not a cash on delivery customer")]
-        public void GivenTheFirstDeliveryIsNotACashOnDeliveryCustomer()
-        {
-            this.dapperProxy.ExecuteSql("update top(1) job set cod = 1 where PerformanceStatusId = 6");
-        }
-
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
@@ -133,22 +124,19 @@
         [Given(@"(.*) deliveries have been marked as exceptions")]
         public void MarkDeliveriesAsException(int noOfDeliveries)
         {
-            this.SetDeliveryStatusToException(noOfDeliveries);
+            this.SetDeliveryStatusToException(noOfDeliveries, false);
         }
 
         [Given(@"(.*) deliveries have been marked as exceptions with shorts to be advised")]
         public void MarkDeliveriesAsExceptionWithShortsToBeAdvised(int noOfDeliveries)
         {
-            this.SetDeliveryStatusToException(noOfDeliveries);
-
-            this.MakeJobShortsToBeAdvised();
-            this.MakeJobDetailsShortsToBeAdvised();
+            this.SetDeliveryStatusToException(noOfDeliveries, true);
         }
 
         [Given(@"All the deliveries are marked as exceptions")]
         public void GivenAllTheDeliveriesAreMarkedAsExceptions()
         {
-            this.SetDeliveryStatusToException(10000);
+            this.SetDeliveryStatusToException(10000, false);
         }
 
         [Given(@"All delivery lines are flagged with line delivery status 'Exception'")]
@@ -206,25 +194,10 @@
         {
             this.AssignInvoiceNumbers(JobDetailStatus.Res);
         }
-
-        public void MakeJobDetailsShort()
-        {
-            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 2");
-        }
-
-        public void MakeJobShortsToBeAdvised()
-        {
-            this.dapperProxy.ExecuteSql("UPDATE Job Set OuterCount = 10, OuterDiscrepancyFound = 1, TotalOutersShort = 2 ");
-        }
-
+        
         public void MakeJobDetailsLineDeliveryStatusException()
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
-        }
-
-        public void MakeJobDetailsShortsToBeAdvised()
-        {
-            this.dapperProxy.ExecuteSql("UPDATE JobDetail Set ShortQty = 0");
         }
 
         public void SetDeliveryStatusToClean(int noOfDeliveries)
@@ -232,11 +205,19 @@
             this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 3, InvoiceNumber =  '9' + PickListRef");
         }
 
-        public void SetDeliveryStatusToException(int noOfDeliveries)
+        public void SetDeliveryStatusToException(int noOfDeliveries, bool setJobToBeAdvised)
         {
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) Job SET JobStatusId = 4, InvoiceNumber =  '9' + PickListRef");
+            var jobIds = string.Join(",", this.dapperProxy.SqlQuery<int>($"Select TOP ({noOfDeliveries}) Id from Job"));
 
-            this.dapperProxy.ExecuteSql($"UPDATE TOP ({noOfDeliveries}) JobDetail SET ShortQty = 1");
+            var shortQty = setJobToBeAdvised ? "2" : "1";
+
+            var jobSql = "UPDATE Job SET JobStatusId = 4, InvoiceNumber =  '9' + PickListRef " +
+                         (setJobToBeAdvised ? $", OuterCount = 10, OuterDiscrepancyFound = 1, TotalOutersShort = {shortQty} " : "") +
+                         $"Where Id in ({jobIds})";
+
+            this.dapperProxy.ExecuteSql(jobSql);
+
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET ShortQty = {shortQty} Where JobId in ({jobIds})");
         }
 
         public void SetDeliveryStatusToResolved(int noOfDeliveries)

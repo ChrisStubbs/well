@@ -11,7 +11,7 @@ BEGIN
 		j.InvoiceNumber, 
 		j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 		a.Name as AccountName ,
-		ps.Description as JobStatus,
+		jb.[Description] as JobStatus,
 		s.DeliveryDate,
 		ISNULL(u2.Name, 'Unallocated') as Assigned,
 		a.Id as AccountId,  -- this is the main P&H account that is attached to the stop, needed for contact info 
@@ -21,7 +21,8 @@ BEGIN
 		j.TotalCreditValueForThreshold,
 		j.TotalOutersShort,
 		pc.CreatedBy as PendingCreditCreatedBy,
-		j.ProofOfDelivery
+		j.ProofOfDelivery,
+		ct.Threshold as ThresholdAmount
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -31,7 +32,7 @@ BEGIN
 	INNER JOIN 
 		dbo.Account a on s.Id = a.StopId
 	INNER JOIN
-		dbo.PerformanceStatus ps on ps.Id = j.PerformanceStatusId
+		dbo.JobStatus jb on jb.Id = j.JobStatusId
 	INNER JOIN
 		--dbo.Branch b on rh.StartDepotCode = b.Id
 		dbo.Branch b on rh.RouteOwnerId = b.Id
@@ -45,6 +46,10 @@ BEGIN
 		dbo.[User] u2 on u2.Id = uj.UserId
 	INNER JOIN
 		dbo.[PendingCredit] pc on pc.JobId = j.Id
+	INNER JOIN
+		dbo.[ThresholdLevel] tl on tl.Id = u.ThresholdLevelId
+	INNER JOIN
+		dbo.[CreditThreshold] ct on ct.ThresholdLevelId = tl.Id
 	WHERE
 		u.IdentityName = @UserName
 	AND 

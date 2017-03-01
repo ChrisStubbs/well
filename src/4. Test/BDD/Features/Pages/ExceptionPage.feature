@@ -17,8 +17,8 @@ Scenario: A user can view Exception Delivery Information
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
 	| 001   | 1    | 94294343  | 49214.152 | CSG - must be CF van | Incomplete | 0   |
-	| 001   | 1    | 92545470  | 02874.033  | CSG - must be CF van | Incomplete | 0   |
-	| 001   | 2    | 92545470  | 02874.033  | RVS SHOP             | Incomplete | 0   |
+	| 001   | 1    | 92545470  | 02874.033 | CSG - must be CF van | Incomplete | 0   |
+	| 001   | 2    | 92545470  | 02874.033 | RVS SHOP             | Incomplete | 0   |
 	When I view the account info modal for exception row 2 
 	Then I can the following account info details
 	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |

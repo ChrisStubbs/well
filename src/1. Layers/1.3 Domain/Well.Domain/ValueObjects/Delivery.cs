@@ -61,16 +61,24 @@
 
         public ThresholdLevel? ThresholdLevel { get; set; }
 
+        public decimal ThresholdAmount { get; set; }
+
         public string CreditThresholdLevel
             => ThresholdLevel != null ? Enum<ThresholdLevel>.GetDescription(ThresholdLevel) : "";
 
         public void SetCanAction(string username)
         {
             if (this.JobStatus == PerformanceStatus.Submitted.ToString())
+            {
                 this.CanAction = false;
+            }
             else
-            this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
+            {
+                this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
+            }
         }
+
+        public bool ThresholdLevelValid => this.ThresholdAmount >= this.TotalCreditValueForThreshold;
 
         public int TotalOutersShort { get; set; }
 

@@ -6,7 +6,7 @@ export class ApprovalDelivery extends BaseDelivery {
     public  invoiceNumber: number;
     public  accountName: string;
     public  jobStatus: string;
-    public  action: string;
+    public  action: string; 
     public  assigned: string;
     public  deliveryDate: Date;
     public  accountId: string;
@@ -19,5 +19,6 @@ export class ApprovalDelivery extends BaseDelivery {
     public  totalCredit: string;
     public  isPending: boolean;
     public  totalOutersShort: number;
-    public  creditThresholdLevel: string;
+    public creditThresholdLevel: string;
+    public thresholdLevelValid: boolean;
 }

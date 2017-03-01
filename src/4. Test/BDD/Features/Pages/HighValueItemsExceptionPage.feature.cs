@@ -144,9 +144,9 @@ this.FeatureBackground();
                         "Ind Potato Gratin 400g",
                         "39.95",
                         "1",
-                        "-1",
+                        "-3",
                         "2",
-                        "0"});
+                        "2"});
 #line 24
  testRunner.Then("I am shown the exception detail", ((string)(null)), table2, "Then ");
 #line hidden

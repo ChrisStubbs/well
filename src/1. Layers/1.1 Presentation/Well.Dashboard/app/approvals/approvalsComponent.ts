@@ -120,7 +120,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         this.thresholdFilterOption = new FilterOption(
             new DropDownItem('Level', 'creditThresholdLevel'),
             level == undefined ? '' : 'Level ' + level);
-    }
+    } 
 
     public openModal(accountId): void {
         this.accountService.getAccountByAccountId(accountId)

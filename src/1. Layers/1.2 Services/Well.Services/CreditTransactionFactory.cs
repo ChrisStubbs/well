@@ -1,6 +1,4 @@
-﻿using PH.Well.Common.Contracts;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +8,7 @@ namespace PH.Well.Services
     using Domain.Enums;
     using Domain.ValueObjects;
 
+    using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
 
     using Repositories.Contracts;

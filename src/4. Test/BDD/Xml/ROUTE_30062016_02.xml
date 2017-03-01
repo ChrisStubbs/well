@@ -211,31 +211,6 @@
                     </Attribute>
                   </EntityAttributes>
                 </JobDetail>
-                <JobDetail>
-                  <LineNumber>2</LineNumber>
-                  <Barcode>50035</Barcode>
-                  <OriginalDespatchQty>5</OriginalDespatchQty>
-                  <ProdDesc>Ind Potato Gratin 400g</ProdDesc>
-                  <OrderedQty>5</OrderedQty>
-                  <SkuWeight>2.65</SkuWeight>
-                  <SkuCube>7.51</SkuCube>
-                  <UnitMeasure>6</UnitMeasure>
-                  <PHProductType>15</PHProductType>
-                  <PackSize>6</PackSize>
-                  <SingleOrOuter>
-                  </SingleOrOuter>
-                  <TextField4 />
-                  <SSCCBarcode>
-                  </SSCCBarcode>
-                  <SkuGoodsValue>39.95</SkuGoodsValue>
-                  <NetPrice>7.99</NetPrice>
-                  <EntityAttributes>
-                    <Attribute>
-                      <Code>JD002</Code>
-                      <Value1>ACDS-103827-27-001</Value1>
-                    </Attribute>
-                  </EntityAttributes>
-                </JobDetail>
               </JobDetails>
             </Job>
             <Job>

@@ -58,7 +58,7 @@
         public void ThenTheFollowingExceptionDeliveriesWillBeDisplayed(Table table)
         {
             var result = this.ExceptionDeliveriesPage.ExceptionsGrid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
         [Then(@"there are (.*) exception deliveries will be displayed")]
@@ -80,7 +80,7 @@
         public void ThenTheFollowingExceptionsOrderedByDateWillBeDisplayedInOrder(string p0, Table table)
         {
             var result = this.ExceptionDeliveriesPage.ExceptionsGrid.ContainsSpecFlowTable(table);
-            Assert.That(result.HasError, Is.False);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
 

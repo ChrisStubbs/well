@@ -4,10 +4,8 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
-    using Common.Extensions;
     using Contracts;
     using Dapper;
-    using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -24,10 +22,13 @@
 
         public IEnumerable<Delivery> GetByStatus(string username, JobStatus jobStatus)
         {
-            return dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGet)
+            var deliveries = new List<Delivery>();
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGet)
                 .AddParameter("username", username, DbType.String)
                 .AddParameter("JobStatus", jobStatus, DbType.Int32)
-                .Query<Delivery>();
+                .QueryMultiple(x => deliveries = GetDeliveriesFromGrid(x));
+
+            return deliveries;
         }
 
         public DeliveryDetail GetDeliveryById(int id, string username)
@@ -61,6 +62,25 @@
             }
 
             return deliveryLines;
+        }
+
+        public List<Delivery> GetDeliveriesFromGrid(SqlMapper.GridReader grid)
+        {
+            var deliveries = grid.Read<Delivery>().ToList();
+            var deliveryLines = grid.Read<DeliveryLine>().ToList();
+            var damages = grid.Read<Damage>().ToList();
+
+            foreach (var line in deliveryLines)
+            {
+                line.Damages = damages.Where(d => d.JobDetailId == line.JobDetailId).ToList();
+            }
+
+            foreach (var delivery in deliveries)
+            {
+                delivery.Lines = deliveryLines.Where(l => l.JobId == delivery.Id).ToList();
+            }
+
+            return deliveries;
         }
     }
 }

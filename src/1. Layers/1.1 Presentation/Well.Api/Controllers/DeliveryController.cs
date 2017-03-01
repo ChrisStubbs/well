@@ -46,8 +46,6 @@
                     this.deliveryReadRepository.GetByStatus(this.UserIdentityName, JobStatus.Exception).ToList();
                 exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
 
-                exceptionDeliveries.ForEach(x => x.SetCanAction(this.UserIdentityName));
-
                 return !exceptionDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                     : this.Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);

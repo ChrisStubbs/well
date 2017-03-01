@@ -23,7 +23,7 @@ export class GlobalSettingsService {
         private http: Http,
         private httpErrorService: HttpErrorService,
         private logService: LogService,
-        private compiler: Compiler) {
+        private compiler: Compiler) { 
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();

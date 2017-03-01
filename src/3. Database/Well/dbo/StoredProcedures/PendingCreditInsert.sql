@@ -5,6 +5,9 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
+	if not exists(select Id from dbo.PendingCredit where JobId = @jobId)
+	begin
+
     INSERT INTO [dbo].[PendingCredit]
            ([JobId]
            ,[DateCreated]
@@ -17,4 +20,5 @@ BEGIN
            ,getdate()
            ,@originator
 		   ,@originator);
+	end
 END

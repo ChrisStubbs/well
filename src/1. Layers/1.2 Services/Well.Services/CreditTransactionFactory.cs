@@ -1,6 +1,4 @@
-﻿using PH.Well.Common.Contracts;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +8,7 @@ namespace PH.Well.Services
     using Domain.Enums;
     using Domain.ValueObjects;
 
+    using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
 
     using Repositories.Contracts;
@@ -40,7 +39,7 @@ namespace PH.Well.Services
             var initials = user.FriendlyName.GetInitials();
 
             var job = this.jobRepository.GetById(deliveryLines[0].JobId);
-            var account = this.accountRepository.GetAccountByAccountCode(job.PhAccount, job.StopId);
+            var account = this.accountRepository.GetAccountByStopId(job.StopId);
 
             var endFlag = 0;
             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);

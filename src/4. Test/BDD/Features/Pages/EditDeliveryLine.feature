@@ -50,7 +50,7 @@ Scenario: Remove short qty and damages from exception delivery
 	When I open the audits page
 	Then the following audit entries are shown
 	| Entry                                                                                                                                | Type               | InvoiceNo  | Account                          | DeliveryDate |
-	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 1 to 0. | DeliveryLineUpdate | 94294343 | 49214.152 - CSG - must be CF van | 07/01/2016   | 
+	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 1 to 0. | DeliveryLineUpdate | 976549 | 49214.152 - CSG - must be CF van | 07/01/2016   | 
 
 Scenario: Can not edit unassigned delivery line
 	Given I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'

@@ -24,7 +24,8 @@ BEGIN
 		j.TotalOutersShort,
 		Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
 		pc.CreatedBy as PendingCreditCreatedBy,
-		j.ProofOfDelivery
+		j.ProofOfDelivery,
+		ct.Threshold as ThresholdAmount
 	FROM
 		RouteHeader rh 
 	INNER JOIN 
@@ -41,6 +42,10 @@ BEGIN
 		dbo.[User] u on u.Id = ub.UserId
 	INNER JOIN
 		dbo.JobStatus jb on jb.Id = j.JobStatusId
+	LEFT JOIN
+		dbo.[ThresholdLevel] tl on tl.Id = u.ThresholdLevelId
+	LEFT JOIN
+		dbo.[CreditThreshold] ct on ct.ThresholdLevelId = tl.Id
 	LEFT JOIN
 		dbo.UserJob uj on uj.JobId = j.Id 
 	LEFT JOIN

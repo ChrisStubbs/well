@@ -212,8 +212,6 @@
             var shortQty = setJobToBeAdvised ? "2" : "1";
 
             var jobSql = "UPDATE Job SET JobStatusId = 4" +
-                //Don't know why the invoicenumber was being updated here?!         
-                //", InvoiceNumber =  '9' + PickListRef " +
                          (setJobToBeAdvised ? $", OuterCount = 10, OuterDiscrepancyFound = 1, TotalOutersShort = {shortQty} " : "") +
                          $"Where Id in ({jobIds})";
 

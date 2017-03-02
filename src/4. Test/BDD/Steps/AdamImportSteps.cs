@@ -210,28 +210,6 @@
             Assert.AreEqual(exceptionLines, jobDetailCount);
         }
 
-        [Given(@"I resolve one of the exceptions with a JobId of (.*)")]
-        public void GivenIResolveOneOfTheExceptionsWithAJobIdOf(int jobId)
-        {
-            var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).FirstOrDefault(x => x.JobDetailStatusId == 2);
-            jobDetailToResolve.JobDetailStatusId = 1;
-            jobDetailrepositoryContainer.Update(jobDetailToResolve);
-        }
-
-        [Given(@"I resolve all of the exceptions with a JobId of (.*)")]
-        public void GivenIResolveAllOfTheExceptionsWithAJobIdOf(int jobId)
-        {
-            var jobDetailrepositoryContainer = container.GetInstance<IJobDetailRepository>();
-            var jobDetailToResolve = jobDetailrepositoryContainer.GetByJobId(jobId).Where(x => x.JobDetailStatusId == 2);
-
-            foreach (var jobDetail in jobDetailToResolve)
-            {
-                jobDetail.JobDetailStatusId = 1;
-                jobDetailrepositoryContainer.Update(jobDetail);
-            }        
-        }
-
         private void ProcessImportFileWithNodeAdded(string resultFile, string parentNode, int nodePosition, string nodeToAdd, string nodeToAddValue,  string routeFileFolder, string currentRouteFile)
         {
             var sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, routeFileFolder + @"\" + currentRouteFile);

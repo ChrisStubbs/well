@@ -49,6 +49,7 @@
             this.AccountModal = new AccountModalComponent();
             this.AssignModal = new AssignModal(Driver);
             this.CreditModalComponent = new CreditModalComponent();
+            ConfirmModal = new ConfirmModal();
         }
 
         public SpanElement ShortReason { get; set; }
@@ -78,6 +79,7 @@
         public Button EnabledButton { get; set; }
 
         public CreditModalComponent CreditModalComponent { get; set; }
+        public ConfirmModal ConfirmModal { get; set; }
 
         public CheckBox CreditCheckBox { get; set; }
 

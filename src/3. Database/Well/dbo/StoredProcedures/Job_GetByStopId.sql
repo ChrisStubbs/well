@@ -1,40 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Job_GetByStopId]
 	@StopId int = 0
 AS
-	SELECT TOP 1000 [Id]
-      ,[Sequence]
-      ,[JobTypeCode]
-      ,[PHAccount]
-      ,[PickListRef]
-      ,[InvoiceNumber]
-      ,[CustomerRef]
-      ,[OrderDate]
-	  ,[RoyaltyCode]
-	  ,[RoyaltyCodeDesc] 
-	  ,[OrdOuters] 
-	  ,[InvOuters] 
-	  ,[ColOuters] 
-	  ,[ColBoxes] 
-	  ,[ReCallPrd] 
-	  ,[AllowSOCrd] 
-	  ,[COD] 
-	  ,[GrnNumber] 
-	  ,[GrnRefusedReason] 
-	  ,[GrnRefusedDesc] 
-	  ,[AllowReOrd] 
-	  ,[SandwchOrd] 
-	  ,[TotalCreditValueForThreshold]
-	  ,[PerformanceStatusId] as PerformanceStatus
-	  ,[Reason]
-	  ,[IsDeleted]
-      ,[StopId]
-      ,[CreatedBy]
-      ,[DateCreated]
-      ,[UpdatedBy]
-      ,[DateUpdated]
-      ,[Version]
-	  ,[JobStatusId] as JobStatus
-  FROM [dbo].[Job]
-  WHERE [StopId] = @StopId
-
+	SELECT [Id]
+	FROM [dbo].[Job]
+	WHERE [StopId] = @StopId
 RETURN 0

@@ -57,32 +57,20 @@ namespace PH.Well.Api.Controllers
         [HttpPost]
         public HttpResponseMessage ConfirmDeliveryLines(int jobId)
         {
-            var deliveryLines = this.deliveryRepository.GetDeliveryLinesByJobId(jobId);
-
-            if (!deliveryLines.Any())
-            {
-                return this.Request.CreateResponse(
-                    HttpStatusCode.OK,
-                    new { notAcceptable = true, message = $"No delivery lines found for job id ({jobId})..." });
-            }
-
             var job = this.jobRepository.GetById(jobId);
 
             if (job == null)
             {
-                return this.Request.CreateResponse(
-                    HttpStatusCode.OK,
-                    new { notAcceptable = true, message = $"No job found for Id ({jobId})..." });
+                return this.Request.CreateResponse(HttpStatusCode.OK,
+                    new {notAcceptable = true, message = $"No job found for Id ({jobId})..."});
+            }
+            if (!job.JobDetails.Any())
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK,
+                    new {notAcceptable = true, message = $"No delivery lines found for job id ({jobId})..."});
             }
 
-            var branchId = this.branchRepository.GetBranchIdForJob(jobId);
-
-            var settings = AdamSettingsFactory.GetAdamSettings((Branch)branchId);
-
-            var response = this.deliveryLineActionService.ProcessDeliveryActions(
-                deliveryLines.ToList(),
-                settings,
-                branchId);
+            var response = this.deliveryLineActionService.ProcessDeliveryActions(job);
 
             if (response.Warnings.Any())
             {

@@ -11,6 +11,7 @@ namespace PH.Well.Api.DependencyResolution
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using Repositories.Read;
+    using Services.DeliveryActions;
     using Services.EpodServices;
     using StructureMap;
     using StructureMap.Configuration.DSL;
@@ -77,7 +78,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
-            For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
+            For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();

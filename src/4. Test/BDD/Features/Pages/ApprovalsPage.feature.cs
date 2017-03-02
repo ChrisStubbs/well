@@ -331,7 +331,7 @@ this.FeatureBackground();
                         "Unallocated"});
 #line 50
  testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table5, "Then ");
-#line 57
+#line 56
  testRunner.And("I filter for threshold level 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -406,7 +406,7 @@ this.FeatureBackground();
                         "717.55",
                         "Level 1",
                         "Unallocated"});
-#line 58
+#line 57
  testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table6, "Then ");
 #line hidden
             this.ScenarioCleanup();

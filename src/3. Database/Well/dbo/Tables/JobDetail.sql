@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[SkuGoodsValue] FLOAT NOT NULL,
 	[NetPrice] FLOAT NULL,
 	[JobId] INT NOT NULL,
-	[JobDetailStatusId] INT NOT NULL,
+	[ShortsStatus] INT NOT NULL,
 	[LineDeliveryStatus] VARCHAR(20) NULL,
 	[IsHighValue]  BIT NOT NULL DEFAULT 0,
 	[DateLife] DATETIME NULL,
@@ -33,7 +33,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[Version] [TIMESTAMP] NOT NULL,
 	CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_JobDetail_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([JobDetailStatusId]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([ShortsStatus]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailSource] FOREIGN KEY ([JobDetailSourceId]) REFERENCES [dbo].JobDetailSource ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailReason] FOREIGN KEY ([JobDetailReasonId]) REFERENCES [dbo].JobDetailReason ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_DeliveryAction] FOREIGN KEY ([ShortsActionId]) REFERENCES [dbo].DeliveryAction ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION

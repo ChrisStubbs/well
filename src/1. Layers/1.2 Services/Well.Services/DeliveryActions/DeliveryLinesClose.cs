@@ -1,41 +1,44 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using PH.Well.Domain.ValueObjects;
-using PH.Well.Repositories.Contracts;
-using PH.Well.Services.Contracts;
-using System;
-using PH.Well.Domain.Enums;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services.DeliveryActions
 {
-    public class DeliveryLinesClose : IDeliveryLinesAction
+    using System.Collections.Generic;
+    using System.Linq;
+    using Contracts;
+    using Domain;
+    using Domain.Enums;
+    using Domain.ValueObjects;
+
+    public class DeliveryLinesClose : BaseDeliveryAction, IDeliveryLinesAction
     {
-        private readonly IJobRepository jobRepository;
-        private readonly IUserRepository userRepository;
-
-        public DeliveryLinesClose(IJobRepository jobRepository, IUserRepository userRepository)
-        {
-            this.jobRepository = jobRepository;
-            this.userRepository = userRepository;
-        }
-
         public DeliveryAction Action => DeliveryAction.Close;
 
-        public ProcessDeliveryActionResult Execute(
-            Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, 
-            AdamSettings adamSettings, 
-            int branchId)
+        public ProcessDeliveryActionResult Execute(Job job)
         {
-            var lines = deliveryLines(this.Action);
+            var lines = GetJobDetailsByAction(job, Action);
 
             if (lines.Any())
             {
-                this.jobRepository.ResolveJobAndJobDetails(lines[0].JobId);
-                this.userRepository.UnAssignJobToUser(lines[0].JobId);
+                UpdateJobDetailStatuses(lines);
             }
 
             return new ProcessDeliveryActionResult();
+        }
+
+        private void UpdateJobDetailStatuses(IEnumerable<JobDetail> jobDetails)
+        {
+            foreach (var jobDetail in jobDetails)
+            {
+                if (jobDetail.ShortsAction == DeliveryAction.Close)
+                {
+                    jobDetail.ShortsStatus = JobDetailStatus.Res;
+                }
+                foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
+                {
+                    if (jobDetailDamage.DamageAction == DeliveryAction.Close)
+                    {
+                        jobDetailDamage.DamageStatus = JobDetailStatus.Res;
+                    }
+                }
+            }
         }
     }
 }

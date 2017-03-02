@@ -82,7 +82,7 @@
             {
                 var jobId = 101;
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(jobId)).Returns(new List<DeliveryLine>());
+                jobRepository.Setup(j => j.GetById(101)).Returns(new Job());
 
                 var response = this.Controller.ConfirmDeliveryLines(jobId);
 

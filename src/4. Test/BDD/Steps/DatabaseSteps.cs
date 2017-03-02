@@ -82,14 +82,14 @@
         {
             this.SetDeliveryStatusToClean(noOfDeliveries);
 
-            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
+            this.dapperProxy.ExecuteSql("update jobdetail set ShortsStatus = 1");
         }
 
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
             this.SetDeliveryStatusToClean(10000);
-            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
+            this.dapperProxy.ExecuteSql("update jobdetail set ShortsStatus = 1");
         }
 
         [Given(@"The clean deliveries are '(.*)' days old")]
@@ -228,7 +228,7 @@
         public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)
         {
             this.dapperProxy.ExecuteSql($"UPDATE JobDetail " +
-                                     $"SET JobDetailStatusId = {(int)jobDetailStatus}");
+                                     $"SET ShortsStatus = {(int)jobDetailStatus}");
         }
 
         [Given(@"I have selected branch '(.*)'")]

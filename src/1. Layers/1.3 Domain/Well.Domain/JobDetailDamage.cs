@@ -17,6 +17,8 @@
         [XmlIgnore]
         public int DamageActionId { get; set; }
 
+        public DeliveryAction DamageAction => (DeliveryAction) DamageActionId;
+
         [XmlIgnore]
         public int Qty { get; set; }
 
@@ -55,6 +57,9 @@
 
         [XmlIgnore]
         public int JobDetailSourceId { get; set; }
+
+        [XmlIgnore]
+        public JobDetailStatus DamageStatus { get; set; }
 
         // TODO remove this as wont work
         [XmlIgnore]

@@ -26,7 +26,8 @@
                     JobDetailSourceId = damageUpdateModel.JobDetailSourceId,
                     DamageActionId = damageUpdateModel.DamageActionId,
                     JobDetailId = to.Id,
-                    Qty = damageUpdateModel.Quantity
+                    Qty = damageUpdateModel.Quantity,
+                    DamageStatus = damageUpdateModel.Quantity > 0 ? JobDetailStatus.UnRes : JobDetailStatus.Res
                 };
                 damages.Add(damage);
             }

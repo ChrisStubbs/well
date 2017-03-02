@@ -74,49 +74,8 @@
         [Given(@"(.*) deliveries are waiting credit approval")]
         public void SetDeliveriesToWaitingCredit(int noOfDeliveries)
         {
-            for (int jobId = 1; jobId <= noOfDeliveries; jobId++)
-            {
-                //assign user to job
-                var userJob = new UserJob()
-                {
-                    UserId = 1,
-                    JobId = jobId
-                };
-                var res = webClientHelper.Post($"{Configuration.WellApiUrl}assign-user-to-job",
-                    JsonConvert.SerializeObject(userJob));
-                var codes = new List<HttpStatusCode>() {HttpStatusCode.Created, HttpStatusCode.OK};
-                Assert.IsTrue(codes.Contains(webClientHelper.HttpWebResponse.StatusCode),
-                    $"Unable to assign user to job, response: {res}");
-
-                var deliverylineUpdate = new DeliveryLineModel()
-                {
-                    JobId = jobId,
-                    LineNo = 1,
-                    Damages = new List<DamageModel>()
-                    {
-                        new DamageModel()
-                        {
-                            DamageActionId = (int) DeliveryAction.Credit,
-                            JobDetailReasonId = 0,
-                            JobDetailSourceId = 0,
-                            Quantity = 1
-                        }
-                    }
-                };
-                var address = $"{Configuration.WellApiUrl}DeliveryLine";
-                var data = JsonConvert.SerializeObject(deliverylineUpdate);
-
-                var response = webClientHelper.Put(address, data);
-
-                Assert.AreEqual(HttpStatusCode.OK, webClientHelper.HttpWebResponse.StatusCode,
-                    $"Unable to set delivery to credit, response: {response}");
-
-                var confirmAddress = $"{Configuration.WellApiUrl}confirm-delivery-lines/{jobId}";
-                var response2 = webClientHelper.Post(confirmAddress, "");
-
-                Assert.AreEqual(HttpStatusCode.OK, webClientHelper.HttpWebResponse.StatusCode,
-                    $"Unable to confirm credit, response: {response}");
-            }
+            var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
+            setupDeliveryLineUpdate.SetDeliveriesToCredit(noOfDeliveries, true);
         }
 
         [When(@"I filter for threshold level (.*)")]

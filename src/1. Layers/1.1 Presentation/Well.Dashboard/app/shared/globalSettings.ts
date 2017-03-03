@@ -11,7 +11,7 @@ export class GlobalSettings {
     public identityName: string;
     public permissions: string[];
 }
-  
+    
 @Injectable() 
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;
@@ -27,7 +27,7 @@ export class GlobalSettingsService {
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
-        this.globalSettings.apiUrl = (configuredApiUrl[0] !== '#') ? configuredApiUrl : 'http://ho-nt-vmlgw2k81/well/api/';
+        this.globalSettings.apiUrl = (configuredApiUrl[0] !== '#') ? configuredApiUrl : 'http://localhost/well/api/';
         this.globalSettings.version = '';
         this.globalSettings.userName = '';
         this.globalSettings.identityName = '';

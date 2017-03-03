@@ -57,6 +57,7 @@ BEGIN
 			LEFT JOIN [User] u2 on u2.Id = uj.UserId
 			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
 			INNER JOIN #JobIdsTable jt on jt.Id = j.Id		
+	WHERE	u.IdentityName = @UserName
 
 	SELECT	jd.[Id] as JobDetailId
 			,jd.JobId

@@ -10,7 +10,7 @@ Background:
 	And I have loaded the MultiDate Adam route data
 	#And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
 
-Scenario: A user can view Exception Delivery Information
+Scenario: View Exceptions
 	Given I have selected branch '22'
 	And 3 deliveries have been marked as exceptions
 	When I open the exception deliveries
@@ -25,7 +25,7 @@ Scenario: A user can view Exception Delivery Information
 	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |
 
 
-Scenario: A user can filter Exception Delivery information
+Scenario: Filter exceptions
 	Given I have selected branches '22' and '2'
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
@@ -52,7 +52,7 @@ Scenario: A user can filter Exception Delivery information
 	| 006   | 1    | 223123123 | 02874.033 | WB - SHOP   | Incomplete | 0   |
 
 
-Scenario: A user can view Exception Delivery Information and sort on delivery date
+Scenario: Sort exceptions
 	Given I have selected branch '22'
 	And 9 deliveries have been marked as exceptions
 	When I open the exception deliveries	
@@ -81,7 +81,7 @@ Scenario: A user can view Exception Delivery Information and sort on delivery da
 	| 001   | 22     | 2    | 976541    | 02874.033 | RVS SHOP             | Incomplete | 0   | 08/01/2016   |
 	| 001   | 22     | 2    | 976542    | 02874.033 | RVS SHOP             | Incomplete | 0   | 08/01/2016   |
 
-Scenario: A user can page through Exception Delivery information
+Scenario: Page exceptions
 	Given I have selected branch '22'
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
@@ -92,7 +92,7 @@ Scenario: A user can page through Exception Delivery information
 	When I click on exception delivery page 1
 	Then '10' rows of exception delivery data will be displayed
 
-Scenario: View exception details at lower level
+Scenario: View exception details
 	Given I have selected branch '22'
 	And  All the deliveries are marked as exceptions
 	When I open the exception deliveries
@@ -112,7 +112,7 @@ Scenario: Exception assigned to a user
 	And I assign the delivery to myself
 	Then the user is assigned to that exception
 
-Scenario: Exception can be submitted once line actions are set
+Scenario: Submit an exception
 	Given I have selected branch '22'
 	And I have the following credit thresholds setup for all branches
 	| Level | Threshold |
@@ -127,7 +127,7 @@ Scenario: Exception can be submitted once line actions are set
 	And I confirm the exception submit
 	Then no exceptions are displayed
 
-Scenario: Assigned user to an exception drills to details and can update
+Scenario: Assigned user can update exception lines
 	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
@@ -135,7 +135,7 @@ Scenario: Assigned user to an exception drills to details and can update
 	And I select the exception row
 	Then All the exception detail rows can be updated
 
-Scenario: UnAssigned user to an exception drills to details and can not update
+Scenario: UnAssigned user can not update exception lines
 	Given I have selected branch '22'
 	And All the deliveries are marked as exceptions
 	When I open the exception deliveries
@@ -166,7 +166,7 @@ Scenario: Select all button will check all allocated job lines
 	When I click the 'selectAll' button
 	Then the first 2 checkboxes are checked
 	
-Scenario: A user cannot view Exception Delivery Information without a valid invoice number
+Scenario: Exceptions without invoice numbers are not shown
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And I have imported a valid Epod update file named 'ePOD__MissingInvoiceNumbers.xml'

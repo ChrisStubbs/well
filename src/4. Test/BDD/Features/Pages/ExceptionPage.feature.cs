@@ -79,10 +79,10 @@ namespace PH.Well.BDD.Features.Pages
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information")]
-        public virtual void AUserCanViewExceptionDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("View Exceptions")]
+        public virtual void ViewExceptions()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Exceptions", ((string[])(null)));
 #line 13
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -156,10 +156,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can filter Exception Delivery information")]
-        public virtual void AUserCanFilterExceptionDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("Filter exceptions")]
+        public virtual void FilterExceptions()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can filter Exception Delivery information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Filter exceptions", ((string[])(null)));
 #line 28
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -307,10 +307,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information and sort on delivery date")]
-        public virtual void AUserCanViewExceptionDeliveryInformationAndSortOnDeliveryDate()
+        [NUnit.Framework.DescriptionAttribute("Sort exceptions")]
+        public virtual void SortExceptions()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information and sort on delivery date", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sort exceptions", ((string[])(null)));
 #line 55
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -536,10 +536,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can page through Exception Delivery information")]
-        public virtual void AUserCanPageThroughExceptionDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("Page exceptions")]
+        public virtual void PageExceptions()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Exception Delivery information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Page exceptions", ((string[])(null)));
 #line 84
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -567,10 +567,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("View exception details at lower level")]
-        public virtual void ViewExceptionDetailsAtLowerLevel()
+        [NUnit.Framework.DescriptionAttribute("View exception details")]
+        public virtual void ViewExceptionDetails()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details at lower level", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View exception details", ((string[])(null)));
 #line 95
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -668,10 +668,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Exception can be submitted once line actions are set")]
-        public virtual void ExceptionCanBeSubmittedOnceLineActionsAreSet()
+        [NUnit.Framework.DescriptionAttribute("Submit an exception")]
+        public virtual void SubmitAnException()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Exception can be submitted once line actions are set", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Submit an exception", ((string[])(null)));
 #line 115
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -712,10 +712,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Assigned user to an exception drills to details and can update")]
-        public virtual void AssignedUserToAnExceptionDrillsToDetailsAndCanUpdate()
+        [NUnit.Framework.DescriptionAttribute("Assigned user can update exception lines")]
+        public virtual void AssignedUserCanUpdateExceptionLines()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Assigned user to an exception drills to details and can update", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Assigned user can update exception lines", ((string[])(null)));
 #line 130
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -737,10 +737,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("UnAssigned user to an exception drills to details and can not update")]
-        public virtual void UnAssignedUserToAnExceptionDrillsToDetailsAndCanNotUpdate()
+        [NUnit.Framework.DescriptionAttribute("UnAssigned user can not update exception lines")]
+        public virtual void UnAssignedUserCanNotUpdateExceptionLines()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("UnAssigned user to an exception drills to details and can not update", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("UnAssigned user can not update exception lines", ((string[])(null)));
 #line 138
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -826,10 +826,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user cannot view Exception Delivery Information without a valid invoice number")]
-        public virtual void AUserCannotViewExceptionDeliveryInformationWithoutAValidInvoiceNumber()
+        [NUnit.Framework.DescriptionAttribute("Exceptions without invoice numbers are not shown")]
+        public virtual void ExceptionsWithoutInvoiceNumbersAreNotShown()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user cannot view Exception Delivery Information without a valid invoice number", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Exceptions without invoice numbers are not shown", ((string[])(null)));
 #line 169
 this.ScenarioSetup(scenarioInfo);
 #line 8

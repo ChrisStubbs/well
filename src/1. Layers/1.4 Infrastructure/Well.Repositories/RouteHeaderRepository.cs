@@ -166,6 +166,7 @@
                 .AddParameter("DamagesRejected", entity.DamagesRejected, DbType.Int32)
                 .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("DriverName", entity.DriverName, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 

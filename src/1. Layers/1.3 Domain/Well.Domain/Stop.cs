@@ -56,8 +56,11 @@
             get { return DropId; }
             set
             {
-                string[] text = value.Split(' ');
-                this.DropId = text[1];
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    string[] text = value.Split(' ');
+                    this.DropId = text[1];
+                }
             }
         }
 

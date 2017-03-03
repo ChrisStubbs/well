@@ -22,6 +22,7 @@
             to.DamagesAccepted = from.DamagesAccepted;
            // to.StartDepotCode = from.StartDepotCode;
             to.ActualStopsCompleted = from.ActualStopsCompleted;
+            to.DriverName = from.DriverName;
         }
 
         public void Map(Stop from, Stop to)

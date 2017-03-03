@@ -12,7 +12,7 @@ export class GlobalSettings {
     public permissions: string[];
 }
   
-@Injectable()
+@Injectable() 
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;
     public jsonOptions: RequestOptions = new RequestOptions({
@@ -21,13 +21,13 @@ export class GlobalSettingsService {
 
     constructor(
         private http: Http,
-        private httpErrorService: HttpErrorService,
+        private httpErrorService: HttpErrorService, 
         private logService: LogService,
         private compiler: Compiler) { 
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
-        this.globalSettings.apiUrl = (configuredApiUrl[0] !== '#') ? configuredApiUrl : 'http://localhost/well/api/';
+        this.globalSettings.apiUrl = (configuredApiUrl[0] !== '#') ? configuredApiUrl : 'http://ho-nt-vmlgw2k81/well/api/';
         this.globalSettings.version = '';
         this.globalSettings.userName = '';
         this.globalSettings.identityName = '';

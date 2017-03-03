@@ -411,6 +411,51 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can approve credit as I have a credit threshold higher than the deliveries thresh" +
+            "old")]
+        public virtual void CanApproveCreditAsIHaveACreditThresholdHigherThanTheDeliveriesThreshold()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can approve credit as I have a credit threshold higher than the deliveries thresh" +
+                    "old", ((string[])(null)));
+#line 68
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 69
+ testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 70
+ testRunner.And("I am assigned to credit threshold \'Level 3\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 71
+ testRunner.And("1 deliveries are waiting credit approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 72
+ testRunner.When("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 73
+ testRunner.Then("I am not allowed to assign the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 74
+ testRunner.And("I cannot submit the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 75
+ testRunner.When("I am assigned to credit threshold \'Level 2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 76
+ testRunner.And("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 77
+ testRunner.Then("I am not allowed to assign the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 78
+ testRunner.And("I cannot submit the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 79
+ testRunner.When("I am assigned to credit threshold \'Level 1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 80
+ testRunner.And("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 81
+ testRunner.Then("I cannot submit the delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 82
+ testRunner.When("I assign the approved delivery to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 83
+ testRunner.Then("I can submit the approval delivery", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

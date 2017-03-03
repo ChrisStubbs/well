@@ -64,3 +64,20 @@ Scenario: Threshold Filtering
 	| 006   | 2    | 423123123 | 54107.000 | WB - SHELL FORECOURT | 644.18      | Level 1   | Unallocated |
 	| 011   | 1    | 976549    | 43362.048 | CSG - COSTCUTTER     | 329.02      | Level 1   | Unallocated |
 	| 011   | 1    | 976549    | 02874.033 | CSG - COSTCUTTER     | 717.55      | Level 1   | Unallocated |
+
+Scenario: Can approve credit as I have a credit threshold higher than the deliveries threshold
+	Given I have selected branch '22'
+	And I am assigned to credit threshold 'Level 3'
+	And 1 deliveries are waiting credit approval
+	When I open the approval deliveries page
+	Then I am not allowed to assign the delivery
+	And I cannot submit the delivery
+	When I am assigned to credit threshold 'Level 2'
+	And I open the approval deliveries page
+	Then I am not allowed to assign the delivery
+	And I cannot submit the delivery
+	When I am assigned to credit threshold 'Level 1'
+	And I open the approval deliveries page
+	Then I cannot submit the delivery
+	When I assign the approved delivery to myself
+	Then I can submit the approval delivery

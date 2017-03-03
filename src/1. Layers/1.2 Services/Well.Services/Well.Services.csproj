@@ -53,6 +53,7 @@
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
+    <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesClose.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
     <Compile Include="Contracts\IAdamImportService.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Contracts\IBranchService.cs" />
     <Compile Include="Contracts\ICleanDeliveryService.cs" />
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
-    <Compile Include="Contracts\IDeliverLineToDeliveryLineActionMapper.cs" />
+    <Compile Include="Contracts\IJobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\IDeliveryLinesAction.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
     <Compile Include="Contracts\IJobStatusService.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="Contracts\IUserThresholdService.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
     <Compile Include="CreditTransactionFactory.cs" />
-    <Compile Include="DeliverLineToDeliveryLineCreditMapper.cs" />
+    <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />
     <Compile Include="EpodServices\AdamImportService.cs" />

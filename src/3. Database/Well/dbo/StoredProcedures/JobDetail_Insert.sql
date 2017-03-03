@@ -17,7 +17,7 @@
 	@SkuGoodsValue			FLOAT,
 	@NetPrice				FLOAT,
 	@JobId					INT,
-	@JobDetailStatusId		INT,
+	@ShortsStatus			INT,
 	@LineDeliveryStatus		INT,
 	@IsHighValue			BIT = 0,
 	--@DateLife				DATETIME,
@@ -46,7 +46,7 @@ INSERT INTO [dbo].[JobDetail]
            ,[SkuGoodsValue]
 		   ,[NetPrice]
            ,[JobId]
-           ,[JobDetailStatusId]
+           ,[ShortsStatus]
 		   ,[LineDeliveryStatus]
 		   ,[IsHighValue]
 			,[JobDetailReasonId]
@@ -72,7 +72,7 @@ INSERT INTO [dbo].[JobDetail]
            ,@SkuGoodsValue
 		   ,@NetPrice
            ,@JobId
-           ,@JobDetailStatusId
+           ,@ShortsStatus
 		   ,@LineDeliveryStatus
 		   ,@IsHighValue
 		  ,@JobDetailReasonId

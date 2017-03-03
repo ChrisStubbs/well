@@ -131,7 +131,7 @@
                     x =>
                     {
                         x.JobId = job.Id;
-                        x.JobDetailStatusId = (int)JobDetailStatus.UnRes;
+                        x.ShortsStatus = JobDetailStatus.UnRes;
                         x.JobDetailReason = JobDetailReason.NotDefined;
                         x.JobDetailSource = JobDetailSource.NotDefined;
                     });

@@ -27,8 +27,6 @@
 
         CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
 
-        void ResolveJobAndJobDetails(int jobId);
-
         void SaveGrn(int jobId, string grn);
 
         void SetJobToSubmittedStatus(int jobId);

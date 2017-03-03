@@ -157,7 +157,7 @@
                 dapperProxy.Setup(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(
-                        x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null))
+                        x => x.AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String, null))
                     .Returns(dapperProxy.Object);
@@ -209,7 +209,7 @@
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("JobId", jobDetail.JobId, DbType.Int32, null), Times.Exactly(1));
                 dapperProxy.Verify(
-                    x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null),
+                    x => x.AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String, null),
                     Times.Exactly(1));
@@ -254,7 +254,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null))
+                        x => x.AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -337,7 +337,7 @@
                         x => x.AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32, null), Times.Once);
+                        x => x.AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32, null), Times.Once);

@@ -1,11 +1,11 @@
-﻿using Dapper;
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
+    using Dapper;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Domain;
     using Domain.Enums;
@@ -20,20 +20,16 @@ namespace PH.Well.Repositories
 
         public Job GetById(int id)
         {
-            var job =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetById)
-                   .AddParameter("Id", id, DbType.Int32)
-                   .Query<Job>()
-                   .FirstOrDefault();
-
-            return job;
+            return GetByIds(new List<int>() { id }).FirstOrDefault();
         }
 
         public IEnumerable<Job> GetByStopId(int id)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
+            var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
                    .AddParameter("StopId", id, DbType.Int32)
-                   .Query<Job>();
+                   .Query<int>();
+
+            return GetByIds(jobIds);
         }
 
         public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
@@ -76,15 +72,13 @@ namespace PH.Well.Repositories
 
         public Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId)
         {
-            var job =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
-                   .AddParameter("PHAccount", phAccount, DbType.String)
-                   .AddParameter("PickListRef", pickListRef, DbType.String)
-                   .AddParameter("StopId", stopId, DbType.Int32)
-                   .Query<Job>()
-                   .FirstOrDefault();
+            var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
+                .AddParameter("PHAccount", phAccount, DbType.String)
+                .AddParameter("PickListRef", pickListRef, DbType.String)
+                .AddParameter("StopId", stopId, DbType.Int32)
+                .Query<int>();
 
-            return job;
+            return GetByIds(jobIds).FirstOrDefault();
         }
 
         protected override void SaveNew(Job entity)
@@ -130,15 +124,13 @@ namespace PH.Well.Repositories
 
         public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
         {
-            var job =
-               dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)
+            IEnumerable<int> jobids = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)
                 .AddParameter("AccountId", accountId, DbType.String)
                 .AddParameter("PicklistId", picklistId, DbType.String)
                 .AddParameter("StopId", stopId, DbType.Int32)
-                .Query<Job>()
-                .FirstOrDefault();
+                .Query<int>();
 
-            return job;
+            return GetByIds(jobids).FirstOrDefault();
         }
 
         public void DeleteJobById(int id)
@@ -187,14 +179,7 @@ namespace PH.Well.Repositories
                 .AddParameter("Grn", grn, DbType.String)
                 .Execute();
         }
-
-        public void ResolveJobAndJobDetails(int jobId)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.ResolveJobAndJobDetails)
-                .AddParameter("jobId", jobId, DbType.Int32)
-                .Execute();
-        }
-
+        
         public void SetJobToSubmittedStatus(int jobId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobSetToStatus)
@@ -205,11 +190,20 @@ namespace PH.Well.Repositories
 
         public IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int branchId, string invoiceNumber)
         {
+            var ids = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByBranchAndInvoiceNumberWithFullObjectGraph)
+                    .AddParameter("branchId", branchId, DbType.Int32)
+                    .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
+                    .Query<int>();
+
+            return GetByIds(ids);
+        }
+
+        private IEnumerable<Job> GetByIds(IEnumerable<int> jobIds)
+        {
             IEnumerable<Job> jobs = new List<Job>();
 
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph)
-                .AddParameter("branchId", branchId, DbType.Int32)
-                .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByIds)
+                .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .QueryMultiple(x => jobs = GetJobsByGrid(x));
 
             return jobs;

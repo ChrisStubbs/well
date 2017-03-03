@@ -39,25 +39,28 @@ export class ExceptionsConfirmModal {
     public save() {
         this.disableSave = true;
         this.exceptionDeliveryService.submitExceptionConfirmation(this.deliveryLines[0].jobId)
-            .subscribe((res: Response) => {
+            .subscribe((res: Response) =>
+            {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
-
-                if (this.httpResponse.notAcceptable) {
+                if (this.httpResponse.failure)
+                {
                     this.toasterService.pop('error', this.httpResponse.message, '');
                 }
-                else if (this.httpResponse.adamdown) {
+                if (this.httpResponse.notAcceptable)
+                {
+                    this.toasterService.pop('warning', this.httpResponse.message, '');
+                } else if (this.httpResponse.adamdown)
+                {
                     this.toasterService.pop('info',
                         'ADAM is currently offline!',
                         'You will receive a notification once the credit has taken place!');
+                } else if (this.httpResponse.success)
+                {
+                    this.toasterService.pop('success', 'Delivery line actions completed!', '');
                 }
-                else if (this.httpResponse.success) {
-                    this.toasterService.pop('success',
-                        'Delivery line actions completed!',
-                        '');
 
-                    this.onSave.emit();
-                    this.hide();
-                }
+                this.onSave.emit();
+                this.hide();
             });
     }
 }

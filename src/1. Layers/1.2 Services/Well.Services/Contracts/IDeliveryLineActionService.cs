@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Domain;
     using Domain.ValueObjects;
 
     public interface IDeliveryLineActionService
@@ -12,7 +13,7 @@
 
         //AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
 
-        ProcessDeliveryActionResult ProcessDeliveryActions(List<DeliveryLine> lines, AdamSettings adamSettings, int branchId);
+        ProcessDeliveryActionResult ProcessDeliveryActions(Job job);
 
         void Pod(PodTransaction podTransaction, int eventId, AdamSettings adamSettings);
 

@@ -82,7 +82,7 @@
             {
                 var jobId = 101;
 
-                this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(jobId)).Returns(new List<DeliveryLine>());
+                jobRepository.Setup(j => j.GetById(101)).Returns(new Job());
 
                 var response = this.Controller.ConfirmDeliveryLines(jobId);
 
@@ -90,7 +90,7 @@
 
                 var content = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"No delivery lines found for job id (101)...\"}"));
+                Assert.That(content, Is.EqualTo("{\"failure\":true,\"message\":\"No delivery lines found for job id (101)...\"}"));
             }
 
             [Test]
@@ -108,7 +108,7 @@
 
                 var content = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"No job found for Id (101)...\"}"));
+                Assert.That(content, Is.EqualTo("{\"failure\":true,\"message\":\"No job found for Id (101)...\"}"));
             }
 
             [Test]

@@ -115,10 +115,8 @@
 
         public int JobDetailId { get; set; }
 
-        public JobDetailStatus JobDetailStatus => (JobDetailStatus)this.JobDetailStatusId;
-
-        public int JobDetailStatusId { get; set; }
-
+        public JobDetailStatus ShortsStatus { get; set; }
+        
         public List<JobDamageToRemove> JobDamages { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -127,13 +125,16 @@
 
         public void SetToDelete()
         {
-            if (this.JobDetailStatus == JobDetailStatus.Res)
+            if (this.ShortsStatus == JobDetailStatus.Res)
             {
                 this.IsDeleted = true;
 
                 foreach (var damage in this.JobDamages)
                 {
-                    damage.IsDeleted = true;
+                    if (damage.DamageStatus == JobDetailStatus.Res)
+                    {
+                        damage.IsDeleted = true;
+                    }
                 }
             }
         }
@@ -146,5 +147,7 @@
         public int JobDetailId { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public JobDetailStatus DamageStatus { get; set; }
     }
 }

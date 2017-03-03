@@ -3,6 +3,7 @@
     @JobDetailSourceId		TINYINT,
 	@JobDetailReasonId 		TINYINT,
 	@DamageActionId	INT,
+	@DamageStatus INT,
 	@Qty					INT,
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
@@ -18,6 +19,7 @@ BEGIN
 		   ,JobDetailSourceId
 		   ,JobDetailReasonId
 		   ,DamageActionId
+		   ,[DamageStatus]
            ,[Qty]
            ,[CreatedBy]
            ,[DateCreated]
@@ -28,6 +30,7 @@ BEGIN
 		   ,@JobDetailSourceId
 		   ,@JobDetailReasonId
 		   ,@DamageActionId
+		   ,@DamageStatus
            ,@Qty
            ,@CreatedBy
            ,@DateCreated

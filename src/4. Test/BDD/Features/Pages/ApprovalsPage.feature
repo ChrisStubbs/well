@@ -53,7 +53,6 @@ Scenario: Threshold Filtering
 	| 001   | 2    | 976542    | 02874.033 | RVS SHOP             | 41.71       | Level 2   | Unallocated |
 	| 006   | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | 13.52       | Level 2   | Unallocated |
 	| 011   | 2    | 976549    | 54107.000 | TESCO - EXPRESS      | 13.52       | Level 2   | Unallocated |
-
 	And I filter for threshold level 1 
 	Then the following approval deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Threshold | Assigned    |

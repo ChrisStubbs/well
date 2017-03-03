@@ -112,7 +112,6 @@
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
     <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\Job_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
@@ -239,7 +238,6 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
     <Build Include="dbo\StoredProcedures\UserByCreditThresholdGet.sql" />
     <Build Include="dbo\StoredProcedures\PendingCreditInsert.sql" />
-    <Build Include="dbo\StoredProcedures\ResolveJobAndJobDetails.sql" />
     <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\User_GetCreditThreshold.sql" />
     <Build Include="dbo\Functions\WidgetType_Exceptions.sql" />
@@ -263,17 +261,17 @@
     <Build Include="dbo\StoredProcedures\RouteheaderGetByNumberDateBranch.sql" />
     <Build Include="dbo\Tables\JobDetailSource.sql" />
     <None Include="Post-Deployement\Populate-JobDetailSource.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetails_WithAction.sql" />
     <Build Include="dbo\StoredProcedures\SaveGrn.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetailDamages_WithAction.sql" />
     <Build Include="dbo\Tables\DeliveryAction.sql" />
     <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
-    <Build Include="dbo\StoredProcedures\Jobs_GetByBranchAndInvoiceNumber.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetByBranchAndInvoiceNumber.sql" />
     <Build Include="dbo\StoredProcedures\GetRouteHeadersWithStopsAndJobs.sql" />
     <Build Include="dbo\StoredProcedures\Deliveries_Get.sql" />
     <None Include="Post-Deployement\Populate-JobStatus.sql" />
+    <Build Include="dbo\Types\IntTableType.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetByIds.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

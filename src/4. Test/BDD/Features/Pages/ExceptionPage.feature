@@ -112,14 +112,20 @@ Scenario: Exception assigned to a user
 	And I assign the delivery to myself
 	Then the user is assigned to that exception
 
-Scenario: Assigned user to an exception can action it
+Scenario: Exception can be submitted once line actions are set
 	Given I have selected branch '22'
-	And All the deliveries are marked as exceptions
-	When I open the exception deliveries
-	And I assign the delivery to myself
-	Then the user is assigned to that exception
-	And the user can action the exception
-	And all other actions are disabled
+	And I have the following credit thresholds setup for all branches
+	| Level | Threshold |
+	| 1     | 5000      |
+	| 2     | 50        |
+	| 3     | 5         |	
+	And I am assigned to credit threshold 'Level 1'
+	And 1 deliveries have been marked as exceptions
+	And 1 delivery has all its lines set to credit
+	And I open the exception deliveries
+	When I select the exception submit button
+	And I confirm the exception submit
+	Then no exceptions are displayed
 
 Scenario: Assigned user to an exception drills to details and can update
 	Given I have selected branch '22'

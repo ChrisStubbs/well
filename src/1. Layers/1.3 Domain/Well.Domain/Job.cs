@@ -437,5 +437,8 @@
 
         [XmlIgnore]
         public JobStatus JobStatus { get; set; }
+
+        public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
+                                                       jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
     }
 }

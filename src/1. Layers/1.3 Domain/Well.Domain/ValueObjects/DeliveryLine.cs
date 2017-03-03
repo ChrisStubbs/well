@@ -50,8 +50,8 @@
 
         public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
 
-        public bool CanSubmit => ShortsAction != DeliveryAction.NotDefined &&
-                                 Damages.All(d => d.DamageAction != DeliveryAction.NotDefined);
+        public bool CanSubmit => (ShortQuantity == 0 || ShortsAction != DeliveryAction.NotDefined) &&
+                                 Damages.All(d => d.Quantity == 0 || d.DamageAction != DeliveryAction.NotDefined);
 
         public decimal CreditValueForThreshold()
         {

@@ -1,106 +1,120 @@
-﻿namespace PH.Well.Services
+﻿namespace PH.Well.Services.DeliveryActions
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Contracts;
+    using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
     using Repositories.Contracts;
 
-    public class DeliveryLinesCredit : IDeliveryLinesAction
+    public class DeliveryLinesCredit : BaseDeliveryAction, IDeliveryLinesAction
     {
         private readonly IUserThresholdService userThresholdService;
-        private readonly IJobRepository jobRepository;
-        private readonly IDeliverLineToDeliveryLineCreditMapper mapper;
+        private readonly IJobDetailToDeliveryLineCreditMapper mapper;
         private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IAdamRepository adamRepository;
         private readonly IExceptionEventRepository eventRepository;
+        private readonly IBranchRepository branchRepository;
+        private readonly IDeliveryReadRepository deliveryReadRepository;
 
         public DeliveryLinesCredit(
             IUserThresholdService userThresholdService,
-            IJobRepository jobRepository,
-            IDeliverLineToDeliveryLineCreditMapper mapper,
+            IJobDetailToDeliveryLineCreditMapper mapper,
             ICreditTransactionFactory creditTransactionFactory,
             IAdamRepository adamRepository,
-            IExceptionEventRepository eventRepository)
+            IExceptionEventRepository eventRepository,
+            IBranchRepository branchRepository)
         {
             this.userThresholdService = userThresholdService;
-            this.jobRepository = jobRepository;
             this.mapper = mapper;
             this.creditTransactionFactory = creditTransactionFactory;
             this.adamRepository = adamRepository;
             this.eventRepository = eventRepository;
+            this.branchRepository = branchRepository;
         }
 
-        public DeliveryAction Action
+        public DeliveryAction Action => DeliveryAction.Credit;
+
+        public ProcessDeliveryActionResult Execute(Job job)
         {
-            get
+            var lines = GetJobDetailsByAction(job, Action);
+
+            if (lines.Any() == false)
             {
-                return DeliveryAction.Credit;
+                return new ProcessDeliveryActionResult();
             }
+
+            return CreditDeliveryLines(job.Id, lines);
         }
 
-        public ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, int branchId)
-        {
-            var lines = deliveryLines(this.Action);
-
-            return CreditDeliveryLines(lines, adamSettings, branchId);
-        }
-
-        private ProcessDeliveryActionResult CreditDeliveryLines(IList<DeliveryLine> creditLines, AdamSettings adamSettings, int branchId)
+        private ProcessDeliveryActionResult CreditDeliveryLines(int jobId, IEnumerable<JobDetail> creditLines)
         {
             var result = new ProcessDeliveryActionResult();
 
-            if (creditLines.Any())
+            var branchId = this.branchRepository.GetBranchIdForJob(jobId);
+            AdamSettings adamSettings = AdamSettingsFactory.GetAdamSettings((Domain.Enums.Branch) branchId);
+
+            var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
+
+            // is the user allowed to credit this amount or does it need to go to the next threshold user
+            var thresholdResponse = this.userThresholdService.CanUserCredit(totalThresholdValue);
+
+            if (thresholdResponse.IsInError)
             {
-                var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
-
-                // is the user allowed to credit this amount or does it need to go to the next threshold user
-                var thresholdResponse = this.userThresholdService.CanUserCredit(totalThresholdValue);
-
-                if (thresholdResponse.IsInError)
+                result.Warnings.Add(thresholdResponse.ErrorMessage);
+            }
+            else
+            {
+                if (!thresholdResponse.CanUserCredit)
                 {
-                    result.Warnings.Add(thresholdResponse.ErrorMessage);
+                    result.Warnings.Add(
+                        "Your threshold level is not high enough to credit this order. It has been passed on for authorisation.");
+                    this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue,
+                        creditLines.First().JobId);
                 }
                 else
                 {
-                    if (!thresholdResponse.CanUserCredit)
-                    {
-                        result.Warnings.Add("Your threshold level is not high enough to credit this order. It has been passed on for authorisation.");
-                        this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, creditLines[0].JobId);
-                    }
-                    else
-                    {
-                        result.AdamIsDown = this.Credit(creditLines, adamSettings, branchId) != AdamResponse.Success;
-                    }
+                    result.AdamIsDown = this.Credit(creditLines, adamSettings, branchId) != AdamResponse.Success;
                 }
             }
+
 
             return result;
         }
 
-        private AdamResponse Credit(IList<DeliveryLine> creditLines, AdamSettings adamSettings, int branchId)
+        private AdamResponse Credit(IEnumerable<JobDetail> creditLines, AdamSettings adamSettings, int branchId)
         {
-            var job = this.jobRepository.GetById(creditLines[0].JobId);
+            var jobId = creditLines.First().JobId;
 
             var credits = this.mapper.Map(creditLines);
 
             var creditEventTransaction = this.creditTransactionFactory.Build(credits, branchId);
 
             var response = this.adamRepository.Credit(creditEventTransaction, adamSettings);
+            
+            foreach (var creditLine in creditLines)
+            {
+                if (creditLine.ShortsAction == DeliveryAction.Credit)
+                {
+                    creditLine.ShortsStatus = JobDetailStatus.Res;
+                }
+                foreach (var jobDetailDamage in creditLine.JobDetailDamages)
+                {
+                    if (jobDetailDamage.DamageAction == DeliveryAction.Credit)
+                    {
+                        jobDetailDamage.DamageStatus = JobDetailStatus.Res;
+                    }
+                }
+            }
 
             if (response == AdamResponse.AdamDown || response == AdamResponse.Unknown)
             {
-                //////this.eventRepository.CurrentUser = username;
                 this.eventRepository.InsertCreditEventTransaction(creditEventTransaction);
-                // update job here to show that the job has been actioned
-                this.jobRepository.SetJobToSubmittedStatus(job.Id);
-
                 return response;
             }
 
-            this.eventRepository.RemovedPendingCredit(job.Id);
+            this.eventRepository.RemovedPendingCredit(jobId);
 
             return AdamResponse.Success;
         }

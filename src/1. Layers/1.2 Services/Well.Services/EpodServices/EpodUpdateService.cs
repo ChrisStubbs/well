@@ -203,16 +203,13 @@
 
                 detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
 
-                // TODO might need to set resolved unresolved status here and add in sub outer values
-                // whole status thing im not sure about
-                if (invoiceOutstanding)
-                    existingJobDetail.JobDetailStatusId = (int)JobDetailStatus.AwtInvNum;
-
                 if (detail.ShortQty > 0)
                 {
                     detail.JobDetailReason = JobDetailReason.NotDefined;
                     detail.JobDetailSource = JobDetailSource.NotDefined;
+                    
                 }
+                detail.ShortsStatus = detail.ShortQty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
 
                 this.jobDetailRepository.Update(existingJobDetail);
 
@@ -227,6 +224,7 @@
             foreach (var damage in damages)
             {
                 damage.JobDetailReason = JobDetailReason.NotDefined;
+                damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
                 this.jobDetailDamageRepository.Save(damage);
             }
         }

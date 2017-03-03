@@ -90,7 +90,7 @@
 
                 var content = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"No delivery lines found for job id (101)...\"}"));
+                Assert.That(content, Is.EqualTo("{\"failure\":true,\"message\":\"No delivery lines found for job id (101)...\"}"));
             }
 
             [Test]
@@ -108,7 +108,7 @@
 
                 var content = response.Content.ReadAsStringAsync().Result;
 
-                Assert.That(content, Is.EqualTo("{\"notAcceptable\":true,\"message\":\"No job found for Id (101)...\"}"));
+                Assert.That(content, Is.EqualTo("{\"failure\":true,\"message\":\"No job found for Id (101)...\"}"));
             }
 
             [Test]

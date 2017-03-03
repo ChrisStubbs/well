@@ -217,7 +217,7 @@
 
             this.dapperProxy.ExecuteSql(jobSql);
 
-            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET ShortQty = {shortQty} Where JobId in ({jobIds})");
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET ShortQty = {shortQty}, ShortsStatus = 2 Where JobId in ({jobIds})");
         }
 
         public void SetDeliveryStatusToResolved(int noOfDeliveries)

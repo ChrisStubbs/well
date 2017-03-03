@@ -127,7 +127,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
             .subscribe(account => {
                     this.account = account;
                     this.contactModal.show(this.account);
-                },
+                }, 
                 error => this.errorMessage = <any>error);
     }
 

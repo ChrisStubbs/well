@@ -15,7 +15,13 @@
 
             this.AccountModal = new AccountModalComponent();
             this.Pager = new PagerControl();
-            ThresholdRadioGroup = new RadioGroup("thresholdToggle");
+            this.ThresholdRadioGroup = new RadioGroup("thresholdToggle");
+            this.ReadOnlyAssigned = new SpanElement() { Locator = By.ClassName("read-only-assigned") };
+            this.EnabledAction = new Button() { Locator = By.ClassName("enabled-action") };
+            this.DisabledAction = new Button() { Locator = By.ClassName("disabled-action") };
+            this.AssignedLink = new Button() { Locator = By.ClassName("assign") };
+            this.CurrentUserName = new SpanElement() { Locator = By.Id("current-user-name") };
+            this.AssignModal = new AssignModal(Driver);
         }
 
         protected override string UrlSuffix => "approvals";
@@ -27,6 +33,23 @@
         public PagerControl Pager { get; set; }
 
         public RadioGroup ThresholdRadioGroup { get; set; }
+
+        public SpanElement ReadOnlyAssigned { get; set; }
+
+        public Button EnabledAction { get; set; }
+
+        public Button DisabledAction { get; set; }
+
+        public Button AssignedLink { get; set; }
+
+        public AssignModal AssignModal { get; set; }
+
+        public SpanElement CurrentUserName { get; set; }
+
+        public IWebElement GetLoggedInAssignUserFromModal()
+        {
+            return AssignModal.GetUserFromModal(CurrentUserName.Text);
+        }
 
         public enum ApprovalDeliveriesGrid
         {

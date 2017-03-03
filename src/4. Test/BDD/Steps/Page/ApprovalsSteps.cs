@@ -11,6 +11,8 @@
     using System.Linq;
     using System.Net;
     using System.Security.Principal;
+    using System.Threading;
+
     using Api.Models;
     using Domain.Enums;
     using Domain.Extensions;
@@ -64,6 +66,7 @@
         }
 
         [Given(@"I am assigned to credit threshold '(.*)'")]
+        [When(@"I am assigned to credit threshold '(.*)'")]
         public void GivenIAmAssignedToCreditThresholdLevel(string level)
         {
             var user = userRepository.GetByIdentity(WindowsIdentity.GetCurrent().Name);
@@ -129,6 +132,51 @@
         public void ThenIGoBack()
         {
             ApprovalsPage.Back();
+        }
+
+        [Then(@"I am not allowed to assign the delivery")]
+        public void NotAllowedToAssignTheDelivery()
+        {
+            var disabledAssignedLink = this.ApprovalsPage.ReadOnlyAssigned;
+
+            Assert.That(disabledAssignedLink, Is.Not.Null);
+        }
+
+        [Then(@"I cannot submit the delivery")]
+        public void CantSubmitTheApprovedDelivery()
+        {
+            var disabledButton = this.ApprovalsPage.DisabledAction;
+
+            var disabledAttribute = disabledButton.GetElement().GetAttribute("disabled");
+
+            Assert.That(disabledAttribute, Is.EqualTo("true"));
+        }
+
+        [Then(@"I can submit the approval delivery")]
+        public void CanSubmitTheApprovedDelivery()
+        {
+            var button = this.ApprovalsPage.EnabledAction;
+
+            var disabledAttribute = button.GetElement().GetAttribute("disabled");
+
+            Assert.That(disabledAttribute, Is.Null);
+
+            button.Click();
+        }
+
+        [When(@"I assign the approved delivery to myself")]
+        public void AssignApprovedDeliveryToMe()
+        {
+            var button = this.ApprovalsPage.AssignedLink;
+
+            button.Click();
+
+            Thread.Sleep(1000);
+            var element = this.ApprovalsPage.GetLoggedInAssignUserFromModal();
+
+            ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
+
+            element.Click();
         }
     }
 }

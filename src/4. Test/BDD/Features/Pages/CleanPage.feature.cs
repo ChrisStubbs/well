@@ -69,10 +69,10 @@ namespace PH.Well.BDD.Features.Pages
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Clean Delivery Information")]
-        public virtual void AUserCanViewCleanDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("View Clean Deliveries")]
+        public virtual void ViewCleanDeliveries()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Clean Delivery Information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Clean Deliveries", ((string[])(null)));
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 10
@@ -144,10 +144,10 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can filter Clean Delivery information")]
-        public virtual void AUserCanFilterCleanDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("Filter Clean Deliveries")]
+        public virtual void FilterCleanDeliveries()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can filter Clean Delivery information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Filter Clean Deliveries", ((string[])(null)));
 #line 26
 this.ScenarioSetup(scenarioInfo);
 #line 27
@@ -271,10 +271,10 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can view Clean Delivery Information and sort on updated date")]
-        public virtual void AUserCanViewCleanDeliveryInformationAndSortOnUpdatedDate()
+        [NUnit.Framework.DescriptionAttribute("Sort Clean Deliveries")]
+        public virtual void SortCleanDeliveries()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Clean Delivery Information and sort on updated date", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sort Clean Deliveries", ((string[])(null)));
 #line 54
 this.ScenarioSetup(scenarioInfo);
 #line 55
@@ -345,10 +345,10 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user can page through Clean Delivery information")]
-        public virtual void AUserCanPageThroughCleanDeliveryInformation()
+        [NUnit.Framework.DescriptionAttribute("Page Clean Deliveries")]
+        public virtual void PageCleanDeliveries()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can page through Clean Delivery information", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Page Clean Deliveries", ((string[])(null)));
 #line 77
 this.ScenarioSetup(scenarioInfo);
 #line 78

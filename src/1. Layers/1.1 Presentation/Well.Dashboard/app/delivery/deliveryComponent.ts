@@ -1,6 +1,6 @@
-﻿import { Component, OnInit, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TabsModule } from 'ng2-tabs';
+import { TabsModule, Tabset, Tab} from 'ng2-tabs';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 import {Delivery} from './model/delivery';  
@@ -16,12 +16,13 @@ import * as lodash from 'lodash';
     templateUrl: './app/delivery/delivery.html',
     providers: [DeliveryService]
 })
-export class DeliveryComponent implements OnInit {
+export class DeliveryComponent implements OnInit, AfterViewInit {
     public errorMessage: string;
     public delivery: Delivery = new Delivery(undefined);
     public rowCount: number = 10;
     public showAll: boolean = false;
     public deliveryId: number;
+    private defaultTab = 'Exceptions';
 
     public options: DropDownItem[] = [
         new DropDownItem('Exceptions', 'isException'),
@@ -32,6 +33,9 @@ export class DeliveryComponent implements OnInit {
         new DropDownItem('Status', 'status'),
         new DropDownItem('Action', 'action')
     ];
+
+    @ViewChild(Tabset)
+    private tabset: Tabset;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -48,11 +52,24 @@ export class DeliveryComponent implements OnInit {
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
             this.securityService.actionDeliveries);
-        this.route.params.subscribe(params => { this.deliveryId = params['id'] });
+        this.route.params.subscribe(params =>
+        {
+            this.deliveryId = params['id'];
+            if (params['tab'])
+            {
+                this.defaultTab = params['tab'];
+            }
+        });
 
         this.deliveryService.getDelivery(this.deliveryId)
             .subscribe(delivery => { this.delivery = new Delivery(delivery), console.log(delivery.branchId); },
                 error => this.errorMessage = <any>error);
+    }
+
+    public ngAfterViewInit(): void
+    {
+        const tab:Tab = this.tabset.tabs.find(t => t.title === this.defaultTab);
+        tab.active = true;
     }
 
     public onShowAllClicked()

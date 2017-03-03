@@ -48,9 +48,7 @@
                                     <button id="resolved-contact-{{delivery.id}}" type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                                 </td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-job-{{delivery.id}}">{{delivery.jobStatus}}</td>
-                                <td id="resolved-assigned-{{delivery.id}}">
-                                    <a class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
-                                </td>
+                                <td id="resolved-assigned-{{delivery.id}}">{{delivery.assigned}}</td>
                                 <td (click)="deliverySelected(delivery)" id="resolved-date-{{delivery.id}}">{{delivery.deliveryDate | date:'dd/MM/y'}}</td>
                             </tr>
                         </tbody>

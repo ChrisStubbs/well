@@ -105,7 +105,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     }
 
     public deliverySelected(delivery): void {
-        this.router.navigate(['/delivery', delivery.id]);
+        this.router.navigate(['/delivery', delivery.id, { 'tab': 'Clean' }]);
     }
 
     public openModal(accountId): void {

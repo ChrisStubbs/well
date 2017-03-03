@@ -24,16 +24,6 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     public deliveryId: number;
     private defaultTab = 'Exceptions';
 
-    public options: DropDownItem[] = [
-        new DropDownItem('Exceptions', 'isException'),
-        new DropDownItem('Line', 'lineNo'),
-        new DropDownItem('Product', 'productCode'),
-        new DropDownItem('Description', 'productDescription'),
-        new DropDownItem('Reason', 'reason'),
-        new DropDownItem('Status', 'status'),
-        new DropDownItem('Action', 'action')
-    ];
-
     @ViewChild(Tabset)
     private tabset: Tabset;
 

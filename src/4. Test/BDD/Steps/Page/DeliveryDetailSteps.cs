@@ -106,7 +106,7 @@
         [Then(@"the delivery status is '(.*)'")]
         public void ThenTheDeliveryStatusIs(string status)
         {
-            Assert.AreEqual(status, page.DeliveryTypeSpan.Text);
+            Assert.AreEqual(status, page.JobStatusSpan.Text);
         }
     }
 }

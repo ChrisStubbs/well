@@ -124,7 +124,6 @@
             try
             {
                 DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
-                deliveryDetail.SetCanAction(this.UserIdentityName);
 
                 var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
                 DeliveryDetailModel delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);

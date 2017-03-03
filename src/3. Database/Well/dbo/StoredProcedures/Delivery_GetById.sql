@@ -12,7 +12,7 @@ SELECT j.[Id] AS [Id]
 	,a.ContactName
 	,a.ContactNumber AS PhoneNumber
 	,a.ContactNumber2 AS MobileNumber
-	,js.[Description] AS DeliveryType
+	,js.[Description] AS JobStatus
 	,u2.IdentityName
 	,@UserName as CurrentUserIdentity
 	,j.OuterCount
@@ -22,26 +22,18 @@ SELECT j.[Id] AS [Id]
 	,j.GrnProcessType
 	,j.COD as CashOnDelivery
 	,j.ProofOfDelivery
-	,j.JobStatusId as JobStatus
-FROM 
-	[dbo].RouteHeader rh
-JOIN
-	[dbo].[Stop] s on rh.Id = s.RouteHeaderId
-JOIN
-	[dbo].[Job] j on s.Id = j.StopId
-JOIN 
-	[dbo].JobStatus js on js.Id = j.JobStatusId
-JOIN 
-	[dbo].[Account] a on a.StopId = j.StopId
-LEFT JOIN
-	[dbo].[UserJob] uj on uj.JobId = j.Id 
-LEFT JOIN
-	dbo.[User] u2 on u2.Id = uj.UserId
-WHERE 
-	j.Id = @Id
-AND
-	j.IsDeleted = 0
-AND
-	s.IsDeleted = 0
-AND
-	rh.IsDeleted = 0
+	,jb.[Description] as JobStatus
+	,Case When pc.JobId is null Then 0 else 1 End IsPendingCredit
+FROM	[dbo].RouteHeader rh
+		JOIN [dbo].[Stop] s on rh.Id = s.RouteHeaderId
+		JOIN [dbo].[Job] j on s.Id = j.StopId
+		JOIN [dbo].JobStatus js on js.Id = j.JobStatusId
+		JOIN [dbo].[Account] a on a.StopId = j.StopId
+		inner join JobStatus jb on jb.Id = j.JobStatusId
+		LEFT JOIN [dbo].[UserJob] uj on uj.JobId = j.Id
+		LEFT JOIN dbo.[User] u2 on u2.Id = uj.UserId
+		LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
+WHERE	j.Id = @Id
+		AND j.IsDeleted = 0
+		AND	s.IsDeleted = 0
+		AND	rh.IsDeleted = 0

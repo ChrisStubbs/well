@@ -13,9 +13,8 @@
     using Domain;
     using Repositories.Contracts;
     using Services.Contracts;
-    using Validators;
 
-    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+    [Authorize]
     public class BranchController : BaseApiController
     {
         private readonly ILogger logger;
@@ -143,6 +142,7 @@
             }
         }
 
+        [Authorize(Roles = SecurityPermissions.BranchSelection)]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches)
         {

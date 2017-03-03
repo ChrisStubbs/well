@@ -35,7 +35,6 @@
             this.CreditButton = new Button { Locator = By.Id("credit") };
             this.SelectAllButton = new Button { Locator = By.Id("selectAll") };
             this.ModalConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
-            this.SubmitButton = new Button { Locator = By.Id("submit1") };
             this.ProductInformation = new SpanElement { Locator = By.Id("product-information") };
             this.ShortQty = new SpanElement { Locator = By.Id("short-qty") };
             this.ShortReason = new SpanElement { Locator = By.Id("short-reason") };
@@ -95,7 +94,8 @@
 
         public readonly Button ModalConfirmButton;
 
-        public readonly Button SubmitButton;
+        public IWebElement SubmitButton
+            => ExceptionsGrid.ReturnAllRows().First().GetItemInRowById("submit1");
     
         public Div NoExceptionsDiv { get; set; }
 

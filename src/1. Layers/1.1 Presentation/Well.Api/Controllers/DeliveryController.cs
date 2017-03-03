@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -103,7 +104,7 @@
         {
             try
             {
-                var resolvedDeliveries = deliveryReadRepository.GetByStatus(UserIdentityName, JobStatus.Resolved).ToList();
+                List<Delivery> resolvedDeliveries = deliveryReadRepository.GetByStatus(UserIdentityName, JobStatus.Resolved).ToList();
 
                 return !resolvedDeliveries.Any()
                     ? this.Request.CreateResponse(HttpStatusCode.NotFound)

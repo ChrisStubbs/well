@@ -51,7 +51,7 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
 
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+            this.securityService.readOnly);
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params => {

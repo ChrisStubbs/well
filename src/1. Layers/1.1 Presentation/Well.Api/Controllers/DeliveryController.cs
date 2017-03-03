@@ -15,7 +15,6 @@
     using Repositories.Contracts;
     using Services.Contracts;
 
-    [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
     public class DeliveryController : BaseApiController
     {
         private readonly IDeliveryReadRepository deliveryReadRepository;

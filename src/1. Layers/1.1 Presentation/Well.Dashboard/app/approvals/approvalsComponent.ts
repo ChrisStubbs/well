@@ -70,7 +70,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         super.ngOnInit();
 
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+            this.securityService.readOnly);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
 
         this.activatedRoute.queryParams.subscribe(params => {
@@ -141,6 +141,13 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
     public deliverySelected(delivery): void {
         this.router.navigate(['/delivery', delivery.id]);
+    }
+
+    public canSubmit(canSubmitDelivery: boolean): boolean
+    {
+        return canSubmitDelivery &&
+            this.securityService.hasPermission(this.globalSettingsService.globalSettings.permissions,
+                this.securityService.actionDeliveries);
     }
 
     public submit(delivery: BaseDelivery): void {

@@ -65,7 +65,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         super.ngOnInit();
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+            this.securityService.readOnly);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
             this.getDeliveries();

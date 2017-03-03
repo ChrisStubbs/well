@@ -5,6 +5,7 @@ namespace PH.Well.Api.Controllers
     using System.Threading;
     using System.Web.Http;
 
+    [Authorize]
     public class BaseApiController : ApiController
     {
         protected IUserNameProvider UserNameProvider { get; }

@@ -41,7 +41,7 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     {
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+            this.securityService.readOnly);
         this.route.params.subscribe(params =>
         {
             this.deliveryId = params['id'];

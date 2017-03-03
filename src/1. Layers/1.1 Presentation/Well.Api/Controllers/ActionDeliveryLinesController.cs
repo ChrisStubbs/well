@@ -9,6 +9,7 @@ namespace PH.Well.Api.Controllers
     using System.Web.Http;
 
     using Api.Mapper.Contracts;
+    using Common.Security;
     using Domain.Enums;
     using Repositories.Contracts;
     using Services;
@@ -53,6 +54,7 @@ namespace PH.Well.Api.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
+        [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
         [Route("confirm-delivery-lines/{jobId:int}")]
         [HttpPost]
         public HttpResponseMessage ConfirmDeliveryLines(int jobId)

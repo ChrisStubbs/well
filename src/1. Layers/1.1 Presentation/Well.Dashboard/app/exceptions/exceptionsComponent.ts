@@ -90,7 +90,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+            this.securityService.readOnly);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params =>
         {
@@ -364,5 +364,12 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             {
                 this.exceptionConfirmModal.show(deliveryLines);
             });
+    }
+
+    public canSubmit(canSubmitDelivery: boolean): boolean
+    {
+        return canSubmitDelivery &&
+            this.securityService.hasPermission(this.globalSettingsService.globalSettings.permissions,
+                this.securityService.actionDeliveries);
     }
 }

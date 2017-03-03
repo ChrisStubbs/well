@@ -50,7 +50,7 @@
         public bool IsCashOnDelivery => string.IsNullOrWhiteSpace(CashOnDelivery) == false;
 
         public bool CanAction => string.Equals(CurrentUserIdentity, IdentityName, StringComparison.OrdinalIgnoreCase) &&
-            JobStatus != Enums.JobStatus.Resolved.ToString();
+                                 JobStatus != Enums.JobStatus.Resolved.ToString();
 
         public bool CanSubmit => CanAction && Lines.All(l => l.CanSubmit);
 

@@ -93,9 +93,6 @@
         public AccountModalComponent AccountModal { get; set; }
 
         public readonly Button ModalConfirmButton;
-
-        public IWebElement SubmitButton
-            => ExceptionsGrid.ReturnAllRows().First().GetItemInRowById("submit1");
     
         public Div NoExceptionsDiv { get; set; }
 

@@ -390,7 +390,10 @@
         [When(@"I select the exception submit button")]
         public void SelectExceptionSubmitButton()
         {
-            this.ExceptionDeliveriesPage.SubmitButton.Click();
+            Thread.Sleep(2000);
+            var exceptionGrid = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var submitButton = exceptionGrid[0].GetItemInRowById("submit1");
+            submitButton.Click();
         }
 
         [When(@"I confirm the exception submit")]

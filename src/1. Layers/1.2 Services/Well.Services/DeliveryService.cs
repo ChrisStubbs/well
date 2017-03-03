@@ -113,7 +113,6 @@
                     job.JobStatus = JobStatus.Resolved;
 
                     this.jobRepository.Update(job);
-                    this.userRepository.UnAssignJobToUser(job.Id);
                 }
 
                 if (audit.HasEntry)

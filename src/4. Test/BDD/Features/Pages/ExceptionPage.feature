@@ -125,7 +125,7 @@ Scenario: Exception can be submitted once line actions are set
 	And I open the exception deliveries
 	When I select the exception submit button
 	And I confirm the exception submit
-	Then '0' rows of exception delivery data will be displayed
+	Then no exceptions are displayed
 
 Scenario: Assigned user to an exception drills to details and can update
 	Given I have selected branch '22'

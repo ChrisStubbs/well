@@ -62,12 +62,12 @@ namespace PH.Well.Api.Controllers
             if (job == null)
             {
                 return this.Request.CreateResponse(HttpStatusCode.OK,
-                    new {notAcceptable = true, message = $"No job found for Id ({jobId})..."});
+                    new { failure = true, message = $"No job found for Id ({jobId})..."});
             }
             if (!job.JobDetails.Any())
             {
                 return this.Request.CreateResponse(HttpStatusCode.OK,
-                    new {notAcceptable = true, message = $"No delivery lines found for job id ({jobId})..."});
+                    new { failure = true, message = $"No delivery lines found for job id ({jobId})..."});
             }
 
             var response = this.deliveryLineActionService.ProcessDeliveryActions(job);

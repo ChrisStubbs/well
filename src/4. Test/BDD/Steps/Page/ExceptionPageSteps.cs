@@ -110,6 +110,14 @@
             Assert.That(pageRows.Count, Is.EqualTo(noOfRowsExpected));
         }
 
+        [Then(@"no exceptions are displayed")]
+        public void ThenNoExceptionsAreDisplayed()
+        {
+            var noExceptions = ExceptionDeliveriesPage.NoExceptionsDiv.GetElement();
+            Assert.IsNotNull(noExceptions);
+        }
+
+
         [Then(@"I will have (.*) pages of exception delivery data")]
         public void CheckNoOfPages(int noOfPages)
         {

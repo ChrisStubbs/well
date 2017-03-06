@@ -35,7 +35,7 @@ export class NotificationsComponent implements OnInit {
     public ngOnInit() {
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
-            this.securityService.readOnly);
+            this.securityService.actionDeliveries);
         this.getNotifications();
     }
         

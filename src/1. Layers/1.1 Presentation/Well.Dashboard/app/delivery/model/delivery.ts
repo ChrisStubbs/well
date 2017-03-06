@@ -31,6 +31,7 @@ export class Delivery
 
             if (delivery.exceptionDeliveryLines)
             {
+                delivery.jobStatus = 'Exception';
                 for (const line of delivery.exceptionDeliveryLines)
                 {
                     this.exceptionDeliveryLines.push(new DeliveryLine(line));
@@ -39,6 +40,7 @@ export class Delivery
 
             if (delivery.cleanDeliveryLines)
             {
+                delivery.jobStatus = 'Clean';
                 for (const line of delivery.cleanDeliveryLines)
                 {
                     this.cleanDeliveryLines.push(new DeliveryLine(line));
@@ -48,7 +50,7 @@ export class Delivery
     }
     public id: number;
     public accountCode: string;
-    public outerCount: number;
+    public outerCount: number;  
     public outerDiscrepancyFound: boolean;
     public totalOutersShort: number;
     public accountName: string;

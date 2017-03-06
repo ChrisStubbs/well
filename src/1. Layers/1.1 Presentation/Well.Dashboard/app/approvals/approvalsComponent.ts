@@ -70,7 +70,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         super.ngOnInit();
 
         this.securityService.validateUser(this.globalSettingsService.globalSettings.permissions,
-            this.securityService.readOnly);
+            this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
 
         this.activatedRoute.queryParams.subscribe(params => {

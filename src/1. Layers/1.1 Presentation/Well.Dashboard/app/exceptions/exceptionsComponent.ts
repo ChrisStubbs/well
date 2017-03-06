@@ -90,7 +90,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
-            this.securityService.readOnly);
+            this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params =>
         {

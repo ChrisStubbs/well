@@ -242,6 +242,11 @@
 
             foreach (var damage in damages)
             {
+                if (damage.Source.Description.ToLower().Contains("short"))
+                {
+                    continue;
+                }
+
                 damage.JobDetailReason = JobDetailReason.NotDefined;
                 damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
                 this.jobDetailDamageRepository.Save(damage);

@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[SkuGoodsValue] FLOAT NOT NULL,
 	[NetPrice] FLOAT NULL,
 	[JobId] INT NOT NULL,
-	[ShortsStatus] INT NOT NULL,
+	[ShortsStatus] INT NOT NULL DEFAULT 2,
 	[LineDeliveryStatus] VARCHAR(20) NULL,
 	[IsHighValue]  BIT NOT NULL DEFAULT 0,
 	[DateLife] DATETIME NULL,

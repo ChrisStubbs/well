@@ -31,7 +31,7 @@
 
         void SetJobToSubmittedStatus(int jobId);
 
-        IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int branchId, string invoiceNumber);
+        IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int jobId, int branchId, string invoiceNumber);
 
     }
 }

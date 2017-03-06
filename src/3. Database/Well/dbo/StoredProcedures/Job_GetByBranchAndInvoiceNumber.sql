@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Job_GetByBranchAndInvoiceNumber]
+	@jobId INT,
 	@BranchId INT,
 	@InvoiceNumber VARCHAR(40)
 AS
@@ -8,7 +9,8 @@ BEGIN
 	INNER JOIN Stop s ON j.StopId = s.Id 
 	INNER JOIN RouteHeader r ON s.RouteHeaderId = r.Id
 	where r.RouteOwnerId = @BranchId and
-	j.InvoiceNumber = @InvoiceNumber;
+	j.InvoiceNumber = @InvoiceNumber and
+	j.Id <> @jobId;
 
 END
 

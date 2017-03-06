@@ -188,9 +188,10 @@
                 .Execute();
         }
 
-        public IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int branchId, string invoiceNumber)
+        public IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int jobId, int branchId, string invoiceNumber)
         {
             var ids = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByBranchAndInvoiceNumberWithFullObjectGraph)
+                    .AddParameter("jobId", jobId, DbType.Int32)
                     .AddParameter("branchId", branchId, DbType.Int32)
                     .AddParameter("invoiceNumber", invoiceNumber, DbType.String)
                     .Query<int>();

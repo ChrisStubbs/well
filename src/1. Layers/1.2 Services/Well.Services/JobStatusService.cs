@@ -28,7 +28,7 @@
             const string ExceptionReason = "Manual Delivery";
 
             // Fetch all jobs associated with the current job's invoice and branch
-            var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(branchId, job.InvoiceNumber).ToList();
+            var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(job.Id, branchId, job.InvoiceNumber).ToList();
 
             var hasException = false;
 

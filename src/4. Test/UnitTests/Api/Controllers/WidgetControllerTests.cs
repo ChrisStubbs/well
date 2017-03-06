@@ -24,6 +24,7 @@ namespace PH.Well.UnitTests.Api.Controllers
     using Well.Api.Mapper.Contracts;
     using Well.Api.Models;
     using Well.Api.Validators.Contracts;
+    using Well.Domain.Enums;
 
     [TestFixture]
     public class WidgetControllerTests : BaseControllerTests<WidgetController>
@@ -101,7 +102,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                     NotificationsWarningLevel = 2
                 };
 
-                deliveryReadRepository.Setup(d => d.GetExceptionDeliveries(userIdentity, true))
+                deliveryReadRepository.Setup(d => d.GetByStatus(userIdentity, JobStatus.Exception))
                     .Returns(new List<Delivery>());
                 notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>());
 
@@ -135,7 +136,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
                 exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
 
-                deliveryReadRepository.Setup(d => d.GetExceptionDeliveries(userIdentity, true)).Returns(exceptions);
+                deliveryReadRepository.Setup(d => d.GetByStatus(userIdentity, JobStatus.Exception)).Returns(exceptions);
                 notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>() {new Notification()});
 
                 this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(new WidgetWarningLevels());

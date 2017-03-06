@@ -127,7 +127,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
             .subscribe(account => {
                     this.account = account;
                     this.contactModal.show(this.account);
-                },
+                }, 
                 error => this.errorMessage = <any>error);
     }
 
@@ -141,6 +141,13 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
     public deliverySelected(delivery): void {
         this.router.navigate(['/delivery', delivery.id]);
+    }
+
+    public canSubmit(canSubmitDelivery: boolean): boolean
+    {
+        return canSubmitDelivery &&
+            this.securityService.hasPermission(this.globalSettingsService.globalSettings.permissions,
+                this.securityService.actionDeliveries);
     }
 
     public submit(delivery: BaseDelivery): void {

@@ -19,7 +19,7 @@ Scenario: Add short qty and damages to clean delivery
 	When I enter a short quantity of '5'
 	And I select a short source of 'Checker'
 	And I select a short reason of 'Minimum Drop Charge'
-	And I select a short action of 'Reject'
+	And I select a short action of 'Credit'
 	And click add damage button
 	And I enter a damage qty of '2' for id '0'
 	And I enter a damage reason of 'Picking Error' for id '0'
@@ -50,7 +50,7 @@ Scenario: Remove short qty and damages from exception delivery
 	When I open the audits page
 	Then the following audit entries are shown
 	| Entry                                                                                                                                | Type               | InvoiceNo  | Account                          | DeliveryDate |
-	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 1 to 0. | DeliveryLineUpdate | 94294343 | 49214.152 - CSG - must be CF van | 07/01/2016   | 
+	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 1 to 0. | DeliveryLineUpdate | 976549 | 49214.152 - CSG - must be CF van | 07/01/2016   | 
 
 Scenario: Can not edit unassigned delivery line
 	Given I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
@@ -74,7 +74,7 @@ Scenario: Add short qty and damages to exception delivery
 	When I enter a short quantity of '5'
 	And I select a short source of 'Checker'
 	And I select a short reason of 'Minimum Drop Charge'
-	And I select a short action of 'Reject'
+	And I select a short action of 'Credit'
 	And click add damage button
 	And I enter a damage qty of '2' for id '0'
 	And I enter a damage reason of 'Picking Error' for id '0'
@@ -87,7 +87,7 @@ Scenario: Add short qty and damages to exception delivery
 	And I can see the shortage quantity of '5'
 	And I can see the shortage reason of 'Minimum Drop Charge'
 	And I can see the shortage source of 'Checker'
-	And I can see the shortage action of 'Reject'
+	And I can see the shortage action of 'Credit'
 	And I can see the damage quantity of '2'
 	And I can see the damage reason of 'Picking Error'
 	And I can see the damage source of 'Customer'
@@ -103,17 +103,9 @@ Scenario: Crediting is disabled for deliveries with POD (Proof of delivery)
 	Then the available short actions are
 	| Action              |
 	| Not Defined         |
-	| Replan In Roadnet   |
-	| Replan In TranSend  |
-	| Replan In The Queue |
-	| Reject              |
 	| Close               |
 	When click add damage button
 	Then the available damage actions are
 	| Action              |
 	| Not Defined         |
-	| Replan In Roadnet   |
-	| Replan In TranSend  |
-	| Replan In The Queue |
-	| Reject              |
 	| Close               |

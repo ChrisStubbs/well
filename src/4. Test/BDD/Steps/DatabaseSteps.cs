@@ -82,14 +82,14 @@
         {
             this.SetDeliveryStatusToClean(noOfDeliveries);
 
-            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
+            this.dapperProxy.ExecuteSql("update jobdetail set ShortsStatus = 1");
         }
 
         [Given(@"All the deliveries are marked as clean")]
         public void GivenAllTheDeliveriesAreMarkedAsClean()
         {
             this.SetDeliveryStatusToClean(10000);
-            this.dapperProxy.ExecuteSql("update jobdetail set JobDetailStatusId = 1");
+            this.dapperProxy.ExecuteSql("update jobdetail set ShortsStatus = 1");
         }
 
         [Given(@"The clean deliveries are '(.*)' days old")]
@@ -211,13 +211,13 @@
 
             var shortQty = setJobToBeAdvised ? "2" : "1";
 
-            var jobSql = "UPDATE Job SET JobStatusId = 4, InvoiceNumber =  '9' + PickListRef " +
+            var jobSql = "UPDATE Job SET JobStatusId = 4" +
                          (setJobToBeAdvised ? $", OuterCount = 10, OuterDiscrepancyFound = 1, TotalOutersShort = {shortQty} " : "") +
                          $"Where Id in ({jobIds})";
 
             this.dapperProxy.ExecuteSql(jobSql);
 
-            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET ShortQty = {shortQty} Where JobId in ({jobIds})");
+            this.dapperProxy.ExecuteSql($"UPDATE JobDetail SET ShortQty = {shortQty}, ShortsStatus = 2 Where JobId in ({jobIds})");
         }
 
         public void SetDeliveryStatusToResolved(int noOfDeliveries)
@@ -228,7 +228,7 @@
         public void AssignInvoiceNumbers(JobDetailStatus jobDetailStatus)
         {
             this.dapperProxy.ExecuteSql($"UPDATE JobDetail " +
-                                     $"SET JobDetailStatusId = {(int)jobDetailStatus}");
+                                     $"SET ShortsStatus = {(int)jobDetailStatus}");
         }
 
         [Given(@"I have selected branch '(.*)'")]

@@ -14,8 +14,16 @@
     [Serializable()]
     public class JobDetailDamage : Entity<int>, IEquatable<JobDetailDamage>
     {
+        public JobDetailDamage()
+        {
+            this.Source = new DamageSource();
+            this.Reason = new Reason();
+        }
+
         [XmlIgnore]
         public int DamageActionId { get; set; }
+
+        public DeliveryAction DamageAction => (DeliveryAction) DamageActionId;
 
         [XmlIgnore]
         public int Qty { get; set; }
@@ -44,10 +52,10 @@
         [XmlIgnore]
         public int JobDetailId { get; set; }
 
-        [XmlIgnore]
+        [XmlElement("Reason")]
         public Reason Reason { get; set; }
 
-        [XmlIgnore]
+        [XmlElement("Source")]
         public DamageSource Source { get; set; }
 
         [XmlIgnore]
@@ -56,7 +64,9 @@
         [XmlIgnore]
         public int JobDetailSourceId { get; set; }
 
-        // TODO remove this as wont work
+        [XmlIgnore]
+        public JobDetailStatus DamageStatus { get; set; }
+
         [XmlIgnore]
         public JobDetailReason JobDetailReason
         {

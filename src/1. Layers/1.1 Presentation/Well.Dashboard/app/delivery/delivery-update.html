@@ -1,9 +1,10 @@
 ﻿<div *ngIf="delivery" class="table-container">
     <ol class="breadcrumb">
-        <li *ngIf="delivery.isException"><a routerLink="/exceptions">Exceptions</a></li>
-        <li *ngIf="delivery.deliveryType == 'Complete'"><a routerLink="/clean">Clean</a></li>
-        <li *ngIf="delivery.deliveryType == 'Resolved'"><a routerLink="/resolved">Resolved</a></li>
-        <li><a routerLink="/delivery/{{delivery.id}}">{{delivery.deliveryType}} Delivery {{delivery.id}}</a></li>
+        <li *ngIf="delivery.jobStatus == 'Exception' && !delivery.isPendingCredit"><a routerLink="/exceptions">Exceptions</a></li>
+        <li *ngIf="delivery.isPendingCredit"><a routerLink="/approvals">Approvals</a></li>
+        <li *ngIf="delivery.jobStatus == 'Clean'"><a routerLink="/clean">Clean</a></li>
+        <li *ngIf="delivery.jobStatus == 'Resolved'"><a routerLink="/resolved">Resolved</a></li>
+        <li><a routerLink="/delivery/{{delivery.id}}">Delivery {{delivery.id}}</a></li>
         <li class="active">Update delivery line</li>
     </ol>
 </div>

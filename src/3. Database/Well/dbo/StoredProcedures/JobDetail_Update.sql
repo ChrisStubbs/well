@@ -2,7 +2,7 @@
 	@Id						Int,
 	@DeliveredQty			DECIMAL(8,3) ,
 	@ShortQty				INT,
-	@JobDetailStatusId		INT,
+	@ShortsStatus		INT,
 	@JobDetailReasonId		TINYINT,
 	@JobDetailSourceId		TINYINT,
 	@ShortsActionId INT,
@@ -30,7 +30,7 @@ UPDATE
    SET 
 	   [DeliveredQty] = @DeliveredQty
       ,[ShortQty] = @ShortQty    
-      ,[JobDetailStatusId] = @JobDetailStatusId
+      ,[ShortsStatus] = @ShortsStatus
 	  ,[JobDetailReasonId] = @JobDetailReasonId
 	  ,[JobDetailSourceId] = @JobDetailSourceId
 	  ,[ShortsActionId] = @ShortsActionId

@@ -7,6 +7,7 @@
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using Repositories.Read;
+    using Services.DeliveryActions;
     using StructureMap;
 
     public class Program
@@ -42,7 +43,7 @@
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
                     x.For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
-                    x.For<IDeliverLineToDeliveryLineCreditMapper>().Use<DeliverLineToDeliveryLineCreditMapper>();
+                    x.For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
                     x.For<IUserNameProvider>().Use<AdamEventsUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();

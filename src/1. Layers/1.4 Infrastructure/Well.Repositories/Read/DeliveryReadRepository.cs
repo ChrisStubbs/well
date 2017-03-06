@@ -4,10 +4,8 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
-    using Common.Extensions;
     using Contracts;
     using Dapper;
-    using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -22,45 +20,15 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        public IEnumerable<Delivery> GetCleanDeliveries(string username)
+        public IEnumerable<Delivery> GetByStatus(string username, JobStatus jobStatus)
         {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.GetCleanDeliveries)
-                    .AddParameter("username", username, DbType.String)
-                    .Query<Delivery>();
-        }
+            var deliveries = new List<Delivery>();
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGet)
+                .AddParameter("username", username, DbType.String)
+                .AddParameter("JobStatus", jobStatus, DbType.Int32)
+                .QueryMultiple(x => deliveries = GetDeliveriesFromGrid(x));
 
-        public IEnumerable<Delivery> GetResolvedDeliveries(string username)
-        {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.GetResolvedDeliveries)
-                    .AddParameter("username", username, DbType.String)
-                    .Query<Delivery>();
-        }
-
-        //TODO - Refactor into a single sproc with parameters to filter those pending credit
-        public IEnumerable<Delivery> GetByPendingCredit(string username)
-        {
-            return
-                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGetByPendingCredit)
-                    .AddParameter("UserName", username, DbType.String)
-                    .Query<Delivery>();
-        }
-
-        public IEnumerable<Delivery> GetExceptionDeliveries(string username, bool includePendingCredit = false)
-        {
-            var exceptionDeliveries = dapperReadProxy.WithStoredProcedure(StoredProcedures.GetExceptionDeliveries)
-                .AddParameter("UserName", username, DbType.String)
-                .Query<Delivery>().ToList();
-
-            var deliveriesPendingCredit = GetByPendingCredit(username);
-
-            if (includePendingCredit == false)
-            {
-                exceptionDeliveries.RemoveAll(d => deliveriesPendingCredit.Any(c => c.Id == d.Id));
-            }
-
-            return exceptionDeliveries;
+            return deliveries;
         }
 
         public DeliveryDetail GetDeliveryById(int id, string username)
@@ -94,6 +62,25 @@
             }
 
             return deliveryLines;
+        }
+
+        public List<Delivery> GetDeliveriesFromGrid(SqlMapper.GridReader grid)
+        {
+            var deliveries = grid.Read<Delivery>().ToList();
+            var deliveryLines = grid.Read<DeliveryLine>().ToList();
+            var damages = grid.Read<Damage>().ToList();
+
+            foreach (var line in deliveryLines)
+            {
+                line.Damages = damages.Where(d => d.JobDetailId == line.JobDetailId).ToList();
+            }
+
+            foreach (var delivery in deliveries)
+            {
+                delivery.Lines = deliveryLines.Where(l => l.JobId == delivery.Id).ToList();
+            }
+
+            return deliveries;
         }
     }
 }

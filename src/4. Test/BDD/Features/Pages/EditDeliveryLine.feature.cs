@@ -106,7 +106,7 @@ this.FeatureBackground();
 #line 21
  testRunner.And("I select a short reason of \'Minimum Drop Charge\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
- testRunner.And("I select a short action of \'Reject\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select a short action of \'Credit\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 23
  testRunner.And("click add damage button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 24
@@ -192,7 +192,7 @@ this.FeatureBackground();
             table2.AddRow(new string[] {
                         "Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 1 to 0.",
                         "DeliveryLineUpdate",
-                        "94294343",
+                        "976549",
                         "49214.152 - CSG - must be CF van",
                         "07/01/2016"});
 #line 51
@@ -272,7 +272,7 @@ this.FeatureBackground();
 #line 76
  testRunner.And("I select a short reason of \'Minimum Drop Charge\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 77
- testRunner.And("I select a short action of \'Reject\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select a short action of \'Credit\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 78
  testRunner.And("click add damage button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 79
@@ -298,7 +298,7 @@ this.FeatureBackground();
 #line 89
  testRunner.And("I can see the shortage source of \'Checker\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 90
- testRunner.And("I can see the shortage action of \'Reject\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I can see the shortage action of \'Credit\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 91
  testRunner.And("I can see the damage quantity of \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 92
@@ -338,18 +338,10 @@ this.FeatureBackground();
             table3.AddRow(new string[] {
                         "Not Defined"});
             table3.AddRow(new string[] {
-                        "Replan In Roadnet"});
-            table3.AddRow(new string[] {
-                        "Replan In TranSend"});
-            table3.AddRow(new string[] {
-                        "Replan In The Queue"});
-            table3.AddRow(new string[] {
-                        "Reject"});
-            table3.AddRow(new string[] {
                         "Close"});
 #line 103
  testRunner.Then("the available short actions are", ((string)(null)), table3, "Then ");
-#line 111
+#line 107
  testRunner.When("click add damage button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -357,16 +349,8 @@ this.FeatureBackground();
             table4.AddRow(new string[] {
                         "Not Defined"});
             table4.AddRow(new string[] {
-                        "Replan In Roadnet"});
-            table4.AddRow(new string[] {
-                        "Replan In TranSend"});
-            table4.AddRow(new string[] {
-                        "Replan In The Queue"});
-            table4.AddRow(new string[] {
-                        "Reject"});
-            table4.AddRow(new string[] {
                         "Close"});
-#line 112
+#line 108
  testRunner.Then("the available damage actions are", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();

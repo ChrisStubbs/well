@@ -53,6 +53,12 @@
             SelectUserToAssign(userName);
         }
 
+        [Given(@"(.*) delivery has all its lines set to credit")]
+        public void GivenDeliveryHasAllItsLinesSetToCredit(int noOfDeliveries)
+        {
+            var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
+            setupDeliveryLineUpdate.SetDeliveriesToCredit(noOfDeliveries, false);
+        }
 
         [Then(@"the following exception deliveries will be displayed")]
         public void ThenTheFollowingExceptionDeliveriesWillBeDisplayed(Table table)
@@ -103,6 +109,14 @@
             var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             Assert.That(pageRows.Count, Is.EqualTo(noOfRowsExpected));
         }
+
+        [Then(@"no exceptions are displayed")]
+        public void ThenNoExceptionsAreDisplayed()
+        {
+            var noExceptions = ExceptionDeliveriesPage.NoExceptionsDiv.GetElement();
+            Assert.IsNotNull(noExceptions);
+        }
+
 
         [Then(@"I will have (.*) pages of exception delivery data")]
         public void CheckNoOfPages(int noOfPages)
@@ -260,22 +274,13 @@
             Assert.That(assignAnchor.Text, Is.Not.EqualTo("Unallocated"));
         }
 
-        [Then(@"the user can action the exception")]
+        [When(@"I submit the exception")]
         public void UserCanActionTheException()
         {
             var element = this.ExceptionDeliveriesPage.EnabledButton;
+            element.Click();
 
-            Assert.IsNotNull(element);
-        }
-
-        [Then(@"all other actions are disabled")]
-        public void AllOtherActionsDisabled()
-        {
-            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-
-            var disabledCount = this.ExceptionDeliveriesPage.GetCountOfElements("disabled-action");
-
-            Assert.That(rows.Count() - 1, Is.EqualTo(disabledCount));
+           
         }
 
         [Then(@"the '(.*)' and '(.*)' button is not visible")]
@@ -360,12 +365,6 @@
             Assert.That(deliveryCheckedIcon, !Is.Empty );
         }
 
-        [Then(@"the user credit threshold page is opened")]
-        public void ThenTheUserCreditThresholdPageIsOpened()
-        {
-            UserCreditThresholdPage.Open("/user-threshold-level/Gary.Williams");
-        }
-
         [When(@"I click the Save button")]
         public void WhenIClickTheSaveButton()
         {
@@ -391,7 +390,16 @@
         [When(@"I select the exception submit button")]
         public void SelectExceptionSubmitButton()
         {
-            this.ExceptionDeliveriesPage.SubmitButton.Click();
+            Thread.Sleep(2000);
+            var exceptionGrid = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var submitButton = exceptionGrid[0].GetItemInRowById("submit1");
+            submitButton.Click();
+        }
+
+        [When(@"I confirm the exception submit")]
+        public void ConfirmSubmitButton()
+        {
+            this.ExceptionDeliveriesPage.ConfirmModal.ConfirmButton.Click();
         }
 
         [Then(@"I can see the product information '(.*)'")]

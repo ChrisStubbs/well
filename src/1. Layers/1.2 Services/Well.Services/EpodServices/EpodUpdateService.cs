@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
+
     using Domain.ValueObjects;
+
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -15,17 +17,29 @@
     public class EpodUpdateService : IEpodUpdateService
     {
         private readonly ILogger logger;
+
         private readonly IEventLogger eventLogger;
+
         private readonly IRouteHeaderRepository routeHeaderRepository;
+
         private readonly IStopRepository stopRepository;
+
         private readonly IJobRepository jobRepository;
+
         private readonly IJobDetailRepository jobDetailRepository;
+
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
+
         private readonly IExceptionEventRepository exceptionEventRepository;
+
         private readonly IPodTransactionFactory podTransactionFactory;
+
         private readonly IRouteMapper mapper;
+
         private readonly IAdamImportService adamImportService;
+
         private readonly IJobStatusService jobStatusService;
+
         private readonly IUserNameProvider userNameProvider;
 
         private const string UpdatedBy = "EpodUpdate";
@@ -86,8 +100,10 @@
                 }
                 else
                 {
-                    this.logger.LogDebug($"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport,
+                    this.logger.LogDebug(
+                        $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})");
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
                         $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})",
                         9682);
                 }
@@ -107,7 +123,8 @@
 
                         if (existingStop == null)
                         {
-                            this.logger.LogDebug($"Existing stop not found with transport order reference {stop.TransportOrderReference}");
+                            this.logger.LogDebug(
+                                $"Existing stop not found with transport order reference {stop.TransportOrderReference}");
                             this.eventLogger.TryWriteToEventLog(
                                 EventSource.WellAdamXmlImport,
                                 $"Existing stop not found with transport order reference {stop.TransportOrderReference}",
@@ -127,7 +144,9 @@
                 }
                 catch (Exception exception)
                 {
-                    this.logger.LogError($"Stop has an error on Epod update! Stop Id ({stop.Id}), Transport order reference ({stop.TransportOrderReference})", exception);
+                    this.logger.LogError(
+                        $"Stop has an error on Epod update! Stop Id ({stop.Id}), Transport order reference ({stop.TransportOrderReference})",
+                        exception);
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Stop has an error on Epod update! Stop Id ({stop.Id}), Transport order reference ({stop.TransportOrderReference})",
@@ -147,7 +166,8 @@
 
                 if (existingJob == null)
                 {
-                    this.logger.LogDebug($"Existing job not found for stop id ({stopId}), Account ({job.PhAccount}), Picklist ({job.PickListRef})");
+                    this.logger.LogDebug(
+                        $"Existing job not found for stop id ({stopId}), Account ({job.PhAccount}), Picklist ({job.PickListRef})");
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Existing job not found for stop id ({stopId}), Account ({job.PhAccount}), Picklist ({job.PickListRef})",
@@ -162,16 +182,15 @@
 
                 if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
                 {
-                    var grnEvent = new GrnEvent
-                    {
-                        Id = existingJob.Id,
-                        BranchId = branchId
-                    };
-                    
+                    var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+
                     this.exceptionEventRepository.InsertGrnEvent(grnEvent);
                 }
 
-                this.UpdateJobDetails(job.JobDetails, existingJob.Id, string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
+                this.UpdateJobDetails(
+                    job.JobDetails,
+                    existingJob.Id,
+                    string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
 
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
@@ -203,16 +222,13 @@
 
                 detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
 
-                // TODO might need to set resolved unresolved status here and add in sub outer values
-                // whole status thing im not sure about
-                if (invoiceOutstanding)
-                    existingJobDetail.JobDetailStatusId = (int)JobDetailStatus.AwtInvNum;
-
                 if (detail.ShortQty > 0)
                 {
                     detail.JobDetailReason = JobDetailReason.NotDefined;
                     detail.JobDetailSource = JobDetailSource.NotDefined;
+
                 }
+                detail.ShortsStatus = detail.ShortQty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
 
                 this.jobDetailRepository.Update(existingJobDetail);
 
@@ -226,7 +242,13 @@
 
             foreach (var damage in damages)
             {
+                if (damage.Source.Description.ToLower().Contains("short"))
+                {
+                    continue;
+                }
+
                 damage.JobDetailReason = JobDetailReason.NotDefined;
+                damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
                 this.jobDetailDamageRepository.Save(damage);
             }
         }

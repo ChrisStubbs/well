@@ -10,9 +10,9 @@ export class ApprovalDelivery extends BaseDelivery {
     public  assigned: string;
     public  deliveryDate: Date;
     public  accountId: string;
-    public  canAction: boolean;
+    public  canAction: boolean;  
     public  totalCreditValueForThreshold: number;
-    public  formattedDeliveryDate: string;
+    public  formattedDeliveryDate: string; 
     public  formattedPendingCreditCreatedBy: string;
     public  cashOnDelivery: string;
     public  isCashOnDelivery: boolean;

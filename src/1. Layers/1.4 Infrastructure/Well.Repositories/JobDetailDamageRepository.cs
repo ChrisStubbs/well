@@ -1,39 +1,49 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+
     using Common.Contracts;
+
     using Contracts;
+
     using Domain;
 
     public class JobDetailDamageRepository : DapperRepository<JobDetailDamage, int>, IJobDetailDamageRepository
     {
-        public JobDetailDamageRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+        public JobDetailDamageRepository(
+            ILogger logger,
+            IWellDapperProxy dapperProxy,
+            IUserNameProvider userNameProvider)
             : base(logger, dapperProxy, userNameProvider)
         {
         }
 
         public IEnumerable<JobDetailDamage> GetJobDamagesByJobDetailId(int jobDetailId)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageGetByJobDetailId)
-                .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
-                .Query<JobDetailDamage>().ToList();
+            return
+                dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageGetByJobDetailId)
+                    .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
+                    .Query<JobDetailDamage>()
+                    .ToList();
         }
 
         protected override void SaveNew(JobDetailDamage entity)
         {
             entity.Id = dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDamageInsert)
-                .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
-                .AddParameter("JobDetailSourceId", entity.JobDetailSourceId, DbType.Int16)
-                .AddParameter("JobDetailReasonId", entity.JobDetailReasonId, DbType.Int16)
-                .AddParameter("DamageActionId", entity.DamageActionId, DbType.Int32)
-                .AddParameter("Qty", entity.Qty, DbType.Int32)
-                .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
-                .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
-                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
-                .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
-                .Query<int>().FirstOrDefault();
+            .AddParameter("JobDetailId", entity.JobDetailId, DbType.Int32)
+            .AddParameter("JobDetailSourceId", entity.JobDetailSourceId, DbType.Int16)
+            .AddParameter("JobDetailReasonId", entity.JobDetailReasonId, DbType.Int16)
+            .AddParameter("DamageActionId", entity.DamageActionId, DbType.Int32)
+            .AddParameter("DamageStatus", entity.DamageStatus, DbType.Int32)
+            .AddParameter("Qty", entity.Qty, DbType.Int32)
+            .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
+            .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
+            .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+            .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+            .Query<int>().FirstOrDefault();
         }
 
         protected override void UpdateExisting (JobDetailDamage entity)
@@ -45,6 +55,7 @@
                 .AddParameter("JobDetailSourceId", entity.JobDetailSource, DbType.Int16)
                 .AddParameter("JobDetailReasonId", entity.JobDetailReason, DbType.Int16)
                 .AddParameter("DamageActionId", entity.DamageActionId, DbType.Int16)
+                .AddParameter("DamageStatus", entity.DamageStatus, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                 .Execute();

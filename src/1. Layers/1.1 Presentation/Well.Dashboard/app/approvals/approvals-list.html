@@ -70,13 +70,13 @@
                                 <td><button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button></td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.creditThresholdLevel}}</td>
                                 <td>
-                                    <span *ngIf="isReadOnlyUser || !delivery.thresholdLevelValid">{{delivery.assigned}}</span>
-                                    <a *ngIf="!isReadOnlyUser && delivery.canAction && delivery.thresholdLevelValid" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                    <span class="read-only-assigned" *ngIf="isReadOnlyUser || !delivery.thresholdLevelValid">{{delivery.assigned}}</span>
+                                    <a class="assign" *ngIf="!isReadOnlyUser && delivery.thresholdLevelValid" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button *ngIf="delivery.canAction && delivery.thresholdLevelValid" class="btn btn-primary btn-sm enabled-action" type="button" id="submit{{delivery.id}}" (click)="submit(delivery)">Submit</button>
-                                        <button *ngIf="!delivery.canAction || !delivery.thresholdLevelValid" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
+                                        <button *ngIf="canSubmit(delivery.canAction) && delivery.thresholdLevelValid" class="btn btn-primary btn-sm enabled-action" type="button" id="submit{{delivery.id}}" (click)="submit(delivery)">Submit</button>
+                                        <button *ngIf="!canSubmit(delivery.canAction) || !delivery.thresholdLevelValid" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
 
                                     </div>
                                 </td>

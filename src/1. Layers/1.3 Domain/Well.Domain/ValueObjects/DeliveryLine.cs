@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Enums;
 
     public class DeliveryLine
     {
@@ -29,6 +30,8 @@
 
         public int ShortsActionId { get; set; }
 
+        public DeliveryAction ShortsAction => (DeliveryAction) ShortsActionId;
+
         public string LineDeliveryStatus { get; set; }
 
         public string Reason { get; set; }
@@ -46,6 +49,9 @@
         public int DeliveredQuantity => InvoicedQuantity - ShortQuantity - DamagedQuantity;
 
         public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
+
+        public bool CanSubmit => (ShortQuantity == 0 || ShortsAction != DeliveryAction.NotDefined) &&
+                                 Damages.All(d => d.Quantity == 0 || d.DamageAction != DeliveryAction.NotDefined);
 
         public decimal CreditValueForThreshold()
         {

@@ -193,6 +193,7 @@
     <Compile Include="Helpers\IWebClientHelper.cs" />
     <Compile Include="Helpers\WebClientHelper.cs" />
     <Compile Include="Pages\ApprovalsPage.cs" />
+    <Compile Include="Pages\ConfirmModal.cs" />
     <Compile Include="Steps\Page\ApprovalsSteps.cs" />
     <Compile Include="Helpers\RouteFileExtensions.cs" />
     <Compile Include="Framework\Extensions\WebDriverExtensions.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Steps\Page\CleanPageSteps.cs" />
     <Compile Include="Steps\Page\ResolvedPageSteps.cs" />
     <Compile Include="Steps\Page\RoutesPageSteps.cs" />
+    <Compile Include="Steps\SetupDeliveryLineUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

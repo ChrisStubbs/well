@@ -41,24 +41,6 @@ namespace PH.Well.UnitTests.Infrastructure
             //////this.repository.CurrentUser = UserName;
         }
 
-        public class TheGetByIdMethod : JobRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                const int id = 1;
-                dapperProxy.Setup(x => x.WithStoredProcedure("Job_GetById")).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Job>()).Returns(new List<Job>());
-
-                var result = repository.GetById(id);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure("Job_GetById"), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Job>(), Times.Once());
-            }
-        }
-
         public class TheGetCreditActionReasonsByIdMethod : JobRepositoryTests
         {
             [Test]
@@ -74,33 +56,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobGetCreditActionReasons), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("PDACreditReasonId", id, DbType.Int32, null), Times.Once);
                 dapperProxy.Verify(x => x.Query<PodActionReasons>(), Times.Once());
-            }
-        }
-
-
-        public class TheGetByAccountPicklistAndStopId : JobRepositoryTests
-        {
-            [Test]
-            public void ShouldGetByAccountPicklistAndStopId()
-            {
-                const int stopId = 1;
-                const string accountId = "AC001";
-                const string picklistId = "PKL001";
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("AccountId", accountId, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("PicklistId", picklistId, DbType.String, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("StopId", stopId, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-
-                dapperProxy.Setup(x => x.Query<Job>()).Returns(new List<Job>());
-
-                var result = this.repository.GetByAccountPicklistAndStopId(accountId, picklistId, stopId);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("AccountId", accountId, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("PicklistId", picklistId, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("StopId", stopId, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Job>(), Times.Once());
             }
         }
 
@@ -152,31 +107,6 @@ namespace PH.Well.UnitTests.Infrastructure
                 this.dapperProxy.Verify(x => x.AddParameter("Grn", grn, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
-            }
-        }
-
-        public class TheGetJobsByBranchAndInvoiceNumberMethod : JobRepositoryTests
-        {
-            [Test]
-            public void ShouldCallTheStoredProcedureCorrectly()
-            {
-                const int branchId = 1;
-                const string invoiceNumber = "12345678";
-
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("branchId", branchId, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("invoiceNumber", invoiceNumber, DbType.String, null))
-                    .Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Job>>>())).Returns(new List<Job>());
-
-                this.repository.GetJobsByBranchAndInvoiceNumber(branchId, invoiceNumber);
-
-                dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.JobsGetByBranchAndInvoiceNumberWithFullObjectGraph), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("branchId", branchId, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("invoiceNumber", invoiceNumber, DbType.String, null), Times.Once);
-                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IEnumerable<Job>>>()));
             }
         }
     }

@@ -131,7 +131,7 @@
                     x =>
                     {
                         x.JobId = job.Id;
-                        x.JobDetailStatusId = (int)JobDetailStatus.UnRes;
+                        x.ShortsStatus = JobDetailStatus.Res;
                         x.JobDetailReason = JobDetailReason.NotDefined;
                         x.JobDetailSource = JobDetailSource.NotDefined;
                     });
@@ -146,7 +146,12 @@
             {
                 this.jobDetailRepository.Save(detail);
 
-                detail.JobDetailDamages.ForEach(x => x.JobDetailId = detail.Id);
+                detail.JobDetailDamages.ForEach(
+                    x =>
+                    {
+                        x.JobDetailId = detail.Id;
+                        x.DamageStatus = x.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
+                    });
 
                 this.ImportJobDetailDamages(detail.JobDetailDamages);
             }

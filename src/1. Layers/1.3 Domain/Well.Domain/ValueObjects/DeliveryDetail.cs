@@ -30,20 +30,18 @@
 
         public string MobileNumber { get; set; }
 
-        public string DeliveryType { get; set; }
-
-        public bool CanAction { get; set; }
+        public string JobStatus { get; set; }
 
         public string GrnNumber { get; set; }
 
         public string IdentityName { get; set; }
 
-        public bool IsException => ExceptionStatuses.Statuses.Contains(Status);
+        public string CurrentUserIdentity { get; set; }
 
-        public void SetCanAction(string username)
-        {
-            this.CanAction = username.Equals(this.IdentityName, StringComparison.OrdinalIgnoreCase);
-        }
+        public bool CanAction => string.Equals(CurrentUserIdentity, IdentityName, StringComparison.OrdinalIgnoreCase) &&
+                                 JobStatus != Enums.JobStatus.Resolved.ToString();
+
+        public bool IsPendingCredit { get; set; }
 
         public int BranchId { get; set; }
 

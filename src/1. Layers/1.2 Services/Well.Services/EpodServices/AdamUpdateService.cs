@@ -232,7 +232,7 @@
         {
             foreach (var detail in jobDetails)
             {
-                var jobDetail = new JobDetail { JobId = jobId, JobDetailStatusId = (int)JobDetailStatus.UnRes };
+                var jobDetail = new JobDetail { JobId = jobId, ShortsStatus = JobDetailStatus.UnRes };
 
                 this.mapper.Map(detail, jobDetail);
 

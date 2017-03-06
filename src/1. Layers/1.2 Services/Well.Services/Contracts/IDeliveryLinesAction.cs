@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using PH.Well.Domain.Enums;
-using PH.Well.Domain.ValueObjects;
-
-namespace PH.Well.Services.Contracts
+﻿namespace PH.Well.Services.Contracts
 {
+    using Domain;
+    using Domain.Enums;
+    using Domain.ValueObjects;
+
     public interface IDeliveryLinesAction
     {
-        ProcessDeliveryActionResult Execute(Func<DeliveryAction, IList<DeliveryLine>> deliveryLines, AdamSettings adamSettings, int branchId);
+        ProcessDeliveryActionResult Execute(Job job);
         DeliveryAction Action { get; }
     }
 }

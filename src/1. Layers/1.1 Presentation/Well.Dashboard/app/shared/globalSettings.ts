@@ -11,8 +11,8 @@ export class GlobalSettings {
     public identityName: string;
     public permissions: string[];
 }
-  
-@Injectable()
+    
+@Injectable() 
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;
     public jsonOptions: RequestOptions = new RequestOptions({
@@ -21,7 +21,7 @@ export class GlobalSettingsService {
 
     constructor(
         private http: Http,
-        private httpErrorService: HttpErrorService,
+        private httpErrorService: HttpErrorService, 
         private logService: LogService,
         private compiler: Compiler) { 
 

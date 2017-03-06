@@ -11,6 +11,7 @@ export class ExceptionDelivery extends BaseDelivery {
     public  deliveryDate: Date;
     public  accountId: string;
     public  canAction: boolean;
+    public  canSubmit: boolean;
     public  totalCreditValueForThreshold: number;
     public  formattedDeliveryDate: string;
     public  formattedPendingCreditCreatedBy: string;

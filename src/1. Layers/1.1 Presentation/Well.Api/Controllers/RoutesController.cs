@@ -4,13 +4,9 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Web.Http;
     using Common.Contracts;
-    using PH.Well.Common.Security;
-
     using Repositories.Contracts;
 
-    [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
     public class RoutesController : BaseApiController
     {
         private readonly IRouteHeaderRepository routeRepository;

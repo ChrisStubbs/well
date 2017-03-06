@@ -16,7 +16,7 @@
             this.Entity.ContactName = "Mr Mars";
             this.Entity.PhoneNumber = "01444 222333";
             this.Entity.MobileNumber = "0780 143222";
-            this.Entity.DeliveryType = "Uplift";
+            this.Entity.JobStatus = "Exception";
             this.Entity.GrnNumber = "231211221";
         }
     }

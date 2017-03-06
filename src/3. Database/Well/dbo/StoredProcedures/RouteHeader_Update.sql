@@ -10,6 +10,7 @@
 	@ShortDeliveries		INT,
 	@DamagesRejected		INT, 
 	@DamagesAccepted		INT,
+	@DriverName VARCHAR(255),
 	@UpdatedBy VARCHAR(50),
 	@UpdatedDate DATETIME
 AS
@@ -26,6 +27,7 @@ BEGIN
 		ShortDeliveries = @ShortDeliveries,
 		DamagesRejected = @DamagesRejected,
 		DamagesAccepted = @DamagesAccepted,
+		DriverName = @DriverName,
 		UpdatedBy = @UpdatedBy,
 		DateUpdated = @UpdatedDate
 	WHERE Id = @Id

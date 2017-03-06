@@ -17,12 +17,12 @@ export class Delivery
             this.contactName = delivery.contactName;
             this.phoneNumber = delivery.phoneNumber;
             this.mobileNumber = delivery.mobileNumber;
-            this.deliveryType = delivery.deliveryType;
+            this.jobStatus = delivery.jobStatus;
             this.cashOnDelivery = delivery.cashOnDelivery;
             this.isCashOnDelivery = delivery.isCashOnDelivery;
-            this.isException = delivery.isException;
             this.canAction = delivery.canAction;
             this.canSubmit = delivery.canSubmit;
+            this.isPendingCredit = delivery.isPendingCredit;
             this.grnNumber = delivery.grnNumber;
             this.branchId = delivery.branchId;
             this.grnProcessType = delivery.grnProcessType;
@@ -31,6 +31,7 @@ export class Delivery
 
             if (delivery.exceptionDeliveryLines)
             {
+                delivery.jobStatus = 'Exception';
                 for (const line of delivery.exceptionDeliveryLines)
                 {
                     this.exceptionDeliveryLines.push(new DeliveryLine(line));
@@ -39,6 +40,7 @@ export class Delivery
 
             if (delivery.cleanDeliveryLines)
             {
+                delivery.jobStatus = 'Clean';
                 for (const line of delivery.cleanDeliveryLines)
                 {
                     this.cleanDeliveryLines.push(new DeliveryLine(line));
@@ -48,7 +50,7 @@ export class Delivery
     }
     public id: number;
     public accountCode: string;
-    public outerCount: number;
+    public outerCount: number;  
     public outerDiscrepancyFound: boolean;
     public totalOutersShort: number;
     public accountName: string;
@@ -57,12 +59,12 @@ export class Delivery
     public contactName: string;
     public phoneNumber: string;
     public mobileNumber: string;
-    public deliveryType: string;
+    public jobStatus: string;
     public cashOnDelivery: string;
     public isCashOnDelivery: boolean;
-    public isException: boolean;
     public canAction: boolean;
     public canSubmit: boolean;
+    public isPendingCredit: boolean;
     public grnNumber: string;
     public exceptionDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public branchId: number;

@@ -4,9 +4,11 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Dapper;
     using Domain;
+    using Domain.Enums;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
@@ -76,7 +78,7 @@
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
-                .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean)
                 .AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String)
@@ -94,7 +96,7 @@
                 .AddParameter("ShortQty", jobDetail.ShortQty, DbType.Int32)
                 .AddParameter("JobDetailReasonId", jobDetail.JobDetailReasonId, DbType.Int32)
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32)
-                .AddParameter("JobDetailStatusId", jobDetail.JobDetailStatusId, DbType.Int32)
+                .AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32)
                 .AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32)
                 .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
@@ -126,13 +128,6 @@
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailDeleteDamageReasonsByJobDetailId)
                  .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
-                .Execute();
-        }
-
-        public void CreditLines(DataTable creditLinesTable)
-        {
-            dapperProxy.WithStoredProcedure("JobDetail_CreditLines")
-                .AddParameter("CreditLines", creditLinesTable, DbType.Object)
                 .Execute();
         }
     }

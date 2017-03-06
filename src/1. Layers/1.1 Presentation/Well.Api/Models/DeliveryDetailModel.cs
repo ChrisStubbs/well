@@ -34,9 +34,7 @@
 
         public string MobileNumber { get; set; }
 
-        public string DeliveryType { get; set; } 
-
-        public bool IsException { get; set; }
+        public string JobStatus { get; set; } 
 
         public string GrnNumber { get; set; }
 
@@ -53,6 +51,8 @@
         public bool CanAction { get; set; }
 
         public bool CanSubmit { get {return CanAction && ExceptionDeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }
+
+        public bool IsPendingCredit { get; set; }
 
         public List<DeliveryLineModel> ExceptionDeliveryLines { get; set; }
 

@@ -52,7 +52,8 @@
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
         public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
         public static string JobSetToStatus = "Job_SetToStatus";
-        public static string JobsGetByBranchAndInvoiceNumberWithFullObjectGraph = "Jobs_GetByBranchAndInvoiceNumber";
+        public static string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
+        public static string JobGetByIds = "Job_GetByIds";
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailInsert = "JobDetail_Insert";
         public static string JobDetailUpdate = "JobDetail_Update";
@@ -63,15 +64,13 @@
         public static string JobDetailDamageInsert = "JobDetailDamage_Insert";
         public static string JobDetailDamageUpdate = "JobDetailDamage_Update";
         public static string JobDetailDamageDelete = "JobDetailDamage_Delete";
-        public static string JobDetailsWithAction = "JobDetails_WithAction";
-        public static string JobDetailDamagesWithAction = "JobDetailDamages_WithAction";
         public static string AccountGetByStopId = "Account_GetByStopId";
         public static string AccountGetByAccountId = "Account_GetByAccountId";
         public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
         public static string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
         public static string DeliveryGetById = "Delivery_GetById";
         public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
-        public static string DeliveriesGetByPendingCredit = "DeliveriesGetByPendingCredit";
+        public static string DeliveriesGet = "Deliveries_Get";
         public static string BranchesGet = "BranchesGet";
         public static string DeleteUserBranches = "DeleteUserBranches";
         public static string SaveUserBranch = "UserBranchInsert";
@@ -121,13 +120,9 @@
         public static string WidgetWarningDelete = "WidgetWarningDelete";
         public static string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
         public static string PendingCreditInsert = "PendingCreditInsert";
-        public static string ResolveJobAndJobDetails = "ResolveJobAndJobDetails";
         public static string CreditJob = "Job_CreditLines";
         public static string RemovePendingCredit = "RemovePendingCredit";
         public static string UserGetCreditThreshold = "User_GetCreditThreshold";
         public static string GetBranchIdForJob = "GetBranchIdForJob";
-        public static string GetCleanDeliveries = "GetCleanDeliveries";
-        public static string GetExceptionDeliveries = "GetExceptionDeliveries";
-        public static string GetResolvedDeliveries = "GetResolvedDeliveries";
     }
 }

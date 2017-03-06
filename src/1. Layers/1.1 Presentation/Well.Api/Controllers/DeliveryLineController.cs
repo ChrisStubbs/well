@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Web.Http;
     using Common.Contracts;
+    using Common.Security;
     using Models;
     using Mapper.Contracts;
     using Repositories.Contracts;
@@ -31,6 +33,8 @@
             this.deliveryLineToJobDetailMapper = deliveryLineToJobDetailMapper;
         }
 
+        [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
+        [HttpPut]
         public HttpResponseMessage Put(DeliveryLineModel model)
         {
             try

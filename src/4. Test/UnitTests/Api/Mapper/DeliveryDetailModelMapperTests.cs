@@ -41,8 +41,7 @@
             Assert.That(model.ContactName, Is.EqualTo(deliveryDetail.ContactName));
             Assert.That(model.PhoneNumber, Is.EqualTo(deliveryDetail.PhoneNumber));
             Assert.That(model.MobileNumber, Is.EqualTo(deliveryDetail.MobileNumber));
-            Assert.That(model.DeliveryType, Is.EqualTo(deliveryDetail.DeliveryType));
-            Assert.That(model.IsException, Is.EqualTo(deliveryDetail.IsException));
+            Assert.That(model.JobStatus, Is.EqualTo(deliveryDetail.JobStatus));
             Assert.That(model.CanAction, Is.EqualTo(deliveryDetail.CanAction));
             Assert.That(model.GrnNumber, Is.EqualTo(deliveryDetail.GrnNumber));
 

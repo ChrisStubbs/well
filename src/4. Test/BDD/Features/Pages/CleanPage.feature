@@ -6,7 +6,7 @@ Feature: CleanPage
 	so that I can determine which deliveries have been succesful
 
 
-Scenario: A user can view Clean Delivery Information
+Scenario: View Clean Deliveries
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And I have selected branch '22'
@@ -23,7 +23,7 @@ Scenario: A user can view Clean Delivery Information
 	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |
 
 
-Scenario: A user can filter Clean Delivery information
+Scenario: Filter Clean Deliveries
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And I have selected branch '22'
@@ -51,7 +51,7 @@ Scenario: A user can filter Clean Delivery information
 	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP   |
 	| 006   | 22     | 1    | 92544765  | 2874.033 | WB - SHOP   | 
 
-Scenario: A user can view Clean Delivery Information and sort on updated date
+Scenario: Sort Clean Deliveries
 	Given I have a clean database
 	And I have loaded the MultiDate Adam route data
 	And I have selected branch '22'
@@ -74,7 +74,7 @@ Scenario: A user can view Clean Delivery Information and sort on updated date
 	#| 001   | 22     | 1    | 92545470  | 02874.033  | CSG - must be CF van | 07/01/2016   |
 	#| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
 
-Scenario: A user can page through Clean Delivery information
+Scenario: Page Clean Deliveries
 	Given I have a clean database
 	And I have loaded the Adam route data
 	And I have selected branch '22'

@@ -213,7 +213,7 @@
         public int JobId { get; set; }
 
         [XmlIgnore]
-        public int JobDetailStatusId { get; set; }
+        public JobDetailStatus ShortsStatus { get; set; }
         
         public decimal CreditValueForThreshold()
         {
@@ -267,6 +267,8 @@
 
             return !this.JobDetailDamages.Any(d => d.Qty > 0);
         }
+
+
 
         public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)
         {

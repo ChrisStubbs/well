@@ -102,7 +102,7 @@ export class DeliveryIssuesComponent {
 
         const hasPermission = this.securityService.hasPermission(
              this.globalSettingsService.globalSettings.permissions, 
-             'CanSetActionsOnExceptions');
+             this.securityService.actionDeliveries);
 
         return !(this.delivery.canAction && hasPermission);
     }

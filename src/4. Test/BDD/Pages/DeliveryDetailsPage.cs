@@ -15,7 +15,7 @@
             this.Grid = new Grid<DeliveryDetailsGrid> { Locator = By.Id("tableDelivery"), RowLocator = By.ClassName("grid-row") };
             this.Filter = new FilterControl();
             this.Pager = new PagerControl();
-            DeliveryTypeSpan = new SpanElement() { Locator = By.Id("delivery-type") };
+            JobStatusSpan = new SpanElement() { Locator = By.Id("job-status") };
             SubmitActionButton = new Button() {Locator = By.Id("submit-button")};
             ConfirmModalButton = new Button() {Locator = By.Id("confirm-modal-button")};
 
@@ -26,7 +26,7 @@
         public Grid<DeliveryDetailsGrid> Grid { get; set; }
         public FilterControl Filter { get; set; }
         public PagerControl Pager { get; set; }
-        public SpanElement DeliveryTypeSpan { get; set; }
+        public SpanElement JobStatusSpan { get; set; }
         public Button SubmitActionButton { get; set; }
         public Button ConfirmModalButton { get; set; }
 

@@ -12,20 +12,14 @@
             [Test]
             public void ShouldSetCanActionToTrueWhenNamesMatch()
             {
-                var delivery = new Delivery { IdentityName = "foo" };
-
-                delivery.SetCanAction("foo");
-
+                var delivery = new Delivery { IdentityName = "foo", CurrentUserIdentity = "foo"};
                 Assert.IsTrue(delivery.CanAction);
             }
 
             [Test]
-            public void ShouldSetCanActionToFalseWhenNamesMatch()
+            public void ShouldSetCanActionToFalseWhenNamesDONTMatch()
             {
-                var delivery = new Delivery { IdentityName = "bar" };
-
-                delivery.SetCanAction("foo");
-
+                var delivery = new Delivery { IdentityName = "bar", CurrentUserIdentity = "foo"};
                 Assert.IsFalse(delivery.CanAction);
             }
         }

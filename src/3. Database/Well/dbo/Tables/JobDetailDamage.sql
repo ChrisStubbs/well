@@ -7,6 +7,7 @@
 	JobDetailSourceId TINYINT NULL CONSTRAINT FK_JobDetailDamage_JobDetailSource REFERENCES [dbo].JobDetailSource (Id),
 	JobDetailReasonId TINYINT NULL CONSTRAINT FK_JobDetailDamage_JobDetailReason REFERENCES [dbo].[JobDetailReason] (Id),
 	DamageActionId INT NULL CONSTRAINT FK_JobDetailDamage_DeliveryAction REFERENCES [dbo].[DeliveryAction] (Id),
+	DamageStatus INT NULL  CONSTRAINT FK_JobDetailDamage_Status REFERENCES [dbo].[JobDetailStatus] (Id),
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

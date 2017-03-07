@@ -212,12 +212,17 @@
             {
                 var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
 
+                detail.ShortsStatus = detail.ShortQty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
+
                 if (existingJobDetail == null)
                 {
-                    this.logger.LogDebug($"Existing job detail not found for job id ({jobId}), line number ({detail.LineNumber})");
+                    detail.JobId = jobId;
+
+                    this.jobDetailRepository.Save(detail);
+
                     continue;
                 }
-
+                
                 this.mapper.Map(detail, existingJobDetail);
 
                 detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
@@ -228,8 +233,7 @@
                     detail.JobDetailSource = JobDetailSource.NotDefined;
 
                 }
-                detail.ShortsStatus = detail.ShortQty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
-
+                
                 this.jobDetailRepository.Update(existingJobDetail);
 
                 this.UpdateJobDamages(detail.JobDetailDamages, existingJobDetail.Id);

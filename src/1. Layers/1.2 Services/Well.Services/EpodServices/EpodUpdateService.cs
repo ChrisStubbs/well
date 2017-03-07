@@ -246,7 +246,7 @@
 
             foreach (var damage in damages)
             {
-                if (damage.Source.Description.ToLower().Contains("short"))
+                if (damage.Reason.Description.ToLower().Contains("short"))
                 {
                     continue;
                 }

@@ -287,6 +287,65 @@
             </Job>
           </Jobs>
         </Stop>
+        <Stop>
+          <StopID>88638</StopID>
+          <RouteHeaderID>683</RouteHeaderID>
+          <ByPassReasonID />
+          <PlannedStopNumber>04</PlannedStopNumber>
+          <TransportOrderRef>HAY-0000000000000000004</TransportOrderRef>
+          <StopStatusCode>DEPAR</StopStatusCode>
+          <StopStatusDescription>Departed</StopStatusDescription>
+          <PerformanceStatusCode>INCOM</PerformanceStatusCode>
+          <PerformanceStatusDescription>InComplete</PerformanceStatusDescription>
+          <ShellActionIndicator>N</ShellActionIndicator>
+          <CustomerShopReference>Shopreference</CustomerShopReference>
+          <AllowOvers>true</AllowOvers>
+          <CustUnatt>true</CustUnatt>
+          <PHUnatt>true</PHUnatt>
+          <Jobs>
+            <Job>
+              <JobID>110679</JobID>
+              <StopID>88638</StopID>
+              <ByPassReasonID />
+              <Sequence>1</Sequence>
+              <JobRef4>48872.001</JobRef4>
+              <JobRef2>2214622</JobRef2>
+              <JobRef3>2214470</JobRef3>
+              <CustomerRef>10217</CustomerRef>
+              <GrnNumber></GrnNumber>
+              <GrnRefusedReason></GrnRefusedReason>
+              <GrnRefusedDesc></GrnRefusedDesc>
+              <PerformanceStatusCode>INCOM</PerformanceStatusCode>
+              <PerformanceStatusDescription>InComplete</PerformanceStatusDescription>
+              <OrderDate>30-05-2016</OrderDate>
+              <JobTypeCode>DEL-AMB</JobTypeCode>
+              <Reason_ReasonCode>F</Reason_ReasonCode>
+              <JobDetails>
+                <JobDetail>
+                  <JobDetailID>195269</JobDetailID>
+                  <JobID>110679</JobID>
+                  <Barcode>5785</Barcode>
+                  <UnitMeasure>1</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>1</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>Mobil 1 5W30 GSP 5LEU SW</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty>0</DeliveredQty>
+                  <ShortQty>1</ShortQty>
+                  <PHProductType>8</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal></SubOuterDamageTotal>
+                  <SkuGoodsValue>2.75</SkuGoodsValue>
+                </JobDetail>
+              </JobDetails>
+            </Job>
+          </Jobs>
+        </Stop>
       </Stops>
     </RouteHeader>
   </Routes>

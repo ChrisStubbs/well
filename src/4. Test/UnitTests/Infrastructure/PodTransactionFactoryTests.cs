@@ -37,7 +37,7 @@
 
             var account = new Account { Id = 1, Code = "12345", ContactName = "Donald"};
 
-            this.accountRepository.Setup(x => x.GetAccountByAccountCode("12345", 1)).Returns(account);
+            this.accountRepository.Setup(x => x.GetAccountByStopId(1)).Returns(account);
 
             this.jobDetailRepository.Setup(x => x.GetByJobId(1)).Returns(jobDetails);
             
@@ -49,7 +49,7 @@
 
             var podTransaction = this.factory.Build(job, 22);
 
-            this.accountRepository.Verify(x => x.GetAccountByAccountCode("12345", 1), Times.Once);
+            this.accountRepository.Verify(x => x.GetAccountByStopId(1), Times.Once);
             this.jobDetailRepository.Verify(x => x.GetByJobId(1), Times.Once);
 
             Assert.That(podTransaction.LineSql.Count, Is.EqualTo(2));

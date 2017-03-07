@@ -7,7 +7,5 @@
         Account GetAccountByStopId(int stopId);
 
         Account GetAccountByAccountId(int accountId);
-
-        Account GetAccountByAccountCode(string accountCode, int stopId);
     }
 }

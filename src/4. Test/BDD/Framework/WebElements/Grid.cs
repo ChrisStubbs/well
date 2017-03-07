@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.UI;
     using Well.BDD.Framework.Extensions;
 
     public class Grid<T> : WebElement
@@ -19,11 +20,8 @@
 
         public IEnumerable<IWebElement> RowElements()
         {
-            this.Driver.WaitForJavascript();
-
-            this.rowElements = this.GetElement().FindElements(this.RowLocator);
-
-            return this.rowElements;
+            rowElements = GetElements(RowLocator);
+            return rowElements;
         }
 
         public IEnumerable<GridRow<T>> ReturnAllRows()

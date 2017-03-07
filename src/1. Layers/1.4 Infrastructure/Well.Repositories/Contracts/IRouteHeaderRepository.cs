@@ -22,8 +22,6 @@
 
         void RoutesDeleteById(int id);
 
-        IEnumerable<RouteHeader> GetRouteHeadersForDelete();
-
         IEnumerable<Routes> GetRoutes();
 
         void DeleteRouteHeaderById(int id);

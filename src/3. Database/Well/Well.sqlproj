@@ -105,7 +105,6 @@
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
     <Build Include="dbo\Tables\ExceptionAction.sql" />
     <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeaders_Get.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
     <Build Include="dbo\StoredProcedures\Route_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
@@ -156,7 +155,6 @@
     <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeaders_GetForDelete.sql" />
     <Build Include="dbo\StoredProcedures\Routes_Get.sql" />
     <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_DeleteDamageReasonsByJobDetailId.sql" />
@@ -267,7 +265,7 @@
     <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByBranchAndInvoiceNumber.sql" />
-    <Build Include="dbo\StoredProcedures\GetRouteHeadersWithStopsAndJobs.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetAll.sql" />
     <Build Include="dbo\StoredProcedures\Deliveries_Get.sql" />
     <None Include="Post-Deployement\Populate-JobStatus.sql" />
     <Build Include="dbo\Types\IntTableType.sql" />

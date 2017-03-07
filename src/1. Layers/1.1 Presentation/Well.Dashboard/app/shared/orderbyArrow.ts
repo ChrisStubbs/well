@@ -5,7 +5,7 @@ import {Component, OnInit, EventEmitter, Output}    from '@angular/core';
     templateUrl: 'app/shared/orderby-arrow.html'
 })
 export class OrderArrowComponent implements OnInit {
-    public isDesc: boolean = false;
+    public isDesc: boolean = true;
     @Output() public onSortDirectionChanged = new EventEmitter<boolean>();
 
     public ngOnInit(): void {

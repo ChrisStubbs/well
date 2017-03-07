@@ -57,7 +57,7 @@ namespace PH.Well.UnitTests.Infrastructure
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
-                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeadersGetWithFullObjectGraph))
+                dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetAll))
                     .Returns(this.dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("UserName", UserName, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
@@ -67,7 +67,7 @@ namespace PH.Well.UnitTests.Infrastructure
                 repository.GetRouteHeaders();
 
                 dapperProxy.Verify(
-                    x => x.WithStoredProcedure(StoredProcedures.RouteHeadersGetWithFullObjectGraph),
+                    x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetAll),
                     Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("UserName", UserName, DbType.String, null), Times.Once);
                 dapperProxy.Verify(

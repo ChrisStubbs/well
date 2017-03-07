@@ -38,9 +38,9 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
             .subscribe(p => this.navigateQueryParametersService.Navigate(this));
     }
 
-    public SetCurrentPage(pageNumber: number): void {
-        this.currentPage = pageNumber
-
+    public SetCurrentPage(pageNumber: number): void
+    {
+        this.currentPage = pageNumber;
         const item = new NavigateQueryParameters(undefined, this.currentPage);
         NavigateQueryParametersService.SavePageNumber(item);
     }

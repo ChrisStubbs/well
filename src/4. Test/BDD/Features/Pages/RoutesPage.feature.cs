@@ -345,20 +345,20 @@ this.ScenarioSetup(scenarioInfo);
                         "0",
                         "Not Started"});
             table6.AddRow(new string[] {
-                        "006",
-                        "22",
-                        "Jan 6, 2016",
-                        "RENTON MARK",
-                        "2",
-                        "0",
-                        "0",
-                        "Not Started"});
-            table6.AddRow(new string[] {
                         "011",
                         "22",
                         "Jan 7, 2016",
                         "DUGDALE STEVEN",
                         "4",
+                        "0",
+                        "0",
+                        "Not Started"});
+            table6.AddRow(new string[] {
+                        "006",
+                        "22",
+                        "Jan 6, 2016",
+                        "RENTON MARK",
+                        "2",
                         "0",
                         "0",
                         "Not Started"});

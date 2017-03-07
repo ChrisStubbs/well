@@ -69,8 +69,6 @@
         {
             var pageRows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
 
-            pageRows.Reverse(0, pageRows.Count);
-
             Assert.That(pageRows.Count, Is.EqualTo(table.RowCount));
             for (int i = 0; i < table.RowCount; i++)
             {

@@ -28,7 +28,7 @@
         {
             IEnumerable<RouteHeader> routes = new List<RouteHeader>();
             var routeHeaders =
-                dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGetWithFullObjectGraph)
+                dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetAll)
                     .AddParameter("UserName", this.CurrentUser, DbType.String)
                     .QueryMultiple(x => routes = GetStopsByRoute(x));
             return routes;
@@ -79,11 +79,6 @@
         public IEnumerable<Routes> GetRoutes()
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.RoutesGet).Query<Routes>();
-        }
-
-        public IEnumerable<RouteHeader> GetRouteHeadersForDelete()
-        {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeadersGetForDelete).Query<RouteHeader>();
         }
 
         public Routes Create(Routes route)

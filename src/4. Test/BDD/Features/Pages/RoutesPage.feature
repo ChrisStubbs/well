@@ -59,22 +59,22 @@ Scenario: A user can view Route information and sort on route date
 	And I have selected branch '22'
 	When I open the routes page
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status | 
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |   Not Started     | 
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |   Not Started     | 
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |   Not Started     | 
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started |
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'asc' order
-	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started       | 
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started       | 
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started       | 
+	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started | 
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'desc' order
-	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status | 
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     |   Not Started     | 
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     |   Not Started     | 
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     |   Not Started     | 
+	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started | 
 
 
 #TODO Add more filter scenarios when the additional filters have been implemented

@@ -34,11 +34,11 @@ Scenario: A user can filter Route information
 	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
 	When I clear the filter 
 	Then The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     |   Not Started     |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     |   Not Started     |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     | Not Started |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
 	When I filter the grid with the option 'Branch' and value '2'
 	Then The following routes will be displayed
     | Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
@@ -46,12 +46,11 @@ Scenario: A user can filter Route information
 	When I select 'Route' from the filter options
 	Then the the previous filter should be cleared 
 	And The following routes will be displayed
-	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     |  Not Started      |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     |  Not Started      |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |  Not Started      |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |  Not Started      |
-
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
+	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     | Not Started |
+	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
 
 Scenario: A user can view Route information and sort on route date
 	Given I have a clean database
@@ -98,7 +97,7 @@ Scenario: A user can page through Route information
 	Then the clean deliveries page will be opened
 	When I click the back button
 	Then the routes page will be displayed
-	And '1' rows of data will be displayed
+	And '10' rows of data will be displayed
 
 
  

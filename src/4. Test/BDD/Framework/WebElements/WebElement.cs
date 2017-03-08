@@ -52,23 +52,6 @@
             }
         }
 
-        public IEnumerable<IWebElement> GetElements(By locator)
-        {
-            try
-            {
-                this.Driver.WaitForJavascript();
-                var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-                wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
-                var elements = wait.Until(d => d.FindElements(locator));
-                return elements;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError($"Could Not Find elements {Locator}", ex);
-                return new List<IWebElement>();
-            }
-        }
-
 
         private bool DoClick()
         {

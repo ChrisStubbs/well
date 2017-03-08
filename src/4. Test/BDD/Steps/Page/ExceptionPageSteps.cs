@@ -391,9 +391,7 @@
         public void SelectExceptionSubmitButton()
         {
             Thread.Sleep(2000);
-            var exceptionGrid = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            var submitButton = exceptionGrid[0].GetItemInRowById("submit1");
-            submitButton.Click();
+            ExceptionDeliveriesPage.FirstRowSubmitButton.Click();
         }
 
         [When(@"I confirm the exception submit")]

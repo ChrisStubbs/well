@@ -1,6 +1,4 @@
-﻿
-
-namespace PH.Well.Domain.ValueObjects
+﻿namespace PH.Well.Domain.ValueObjects
 {
     using System;
     using System.Xml.Serialization;

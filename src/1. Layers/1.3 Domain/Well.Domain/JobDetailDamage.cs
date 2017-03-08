@@ -17,6 +17,7 @@
         public JobDetailDamage()
         {
             this.Source = new DamageSource();
+
             this.Reason = new Reason();
         }
 

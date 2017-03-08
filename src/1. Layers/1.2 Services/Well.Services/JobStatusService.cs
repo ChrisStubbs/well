@@ -18,6 +18,11 @@
 
         public void DetermineStatus(Job job, int branchId)
         {
+            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
+            {
+                job.JobStatus = JobStatus.InComplete;
+            }
+
             switch (job.JobStatus)
             {
                 case JobStatus.AwaitingInvoice:

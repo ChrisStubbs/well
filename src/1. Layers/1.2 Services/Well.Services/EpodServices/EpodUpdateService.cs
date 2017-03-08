@@ -166,14 +166,9 @@
 
                 if (existingJob == null)
                 {
-                    this.logger.LogDebug(
-                        $"Existing job not found for stop id ({stopId}), Account ({job.PhAccount}), Picklist ({job.PickListRef})");
-                    this.eventLogger.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"Existing job not found for stop id ({stopId}), Account ({job.PhAccount}), Picklist ({job.PickListRef})",
-                        7669);
-
-                    continue;
+                    job.StopId = stopId;
+                    this.jobRepository.Save(job);
+                    existingJob.Id = job.Id;
                 }
 
                 this.mapper.Map(job, existingJob);
@@ -246,7 +241,8 @@
 
             foreach (var damage in damages)
             {
-                if (damage.Reason.Description.ToLower().Contains("short"))
+                if (!string.IsNullOrWhiteSpace(damage.Reason.Description) &&
+                    damage.Reason.Description.ToLower().Contains("short"))
                 {
                     continue;
                 }

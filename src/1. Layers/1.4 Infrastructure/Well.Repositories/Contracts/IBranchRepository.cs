@@ -23,5 +23,7 @@
         IEnumerable<Branch> GetBranchesForCleanPreference(int cleanPreferenceId);
 
         int GetBranchIdForJob(int jobId);
+
+        int GetBranchIdForStop(int stopId);
     }
 }

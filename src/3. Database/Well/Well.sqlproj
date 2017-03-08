@@ -270,6 +270,7 @@
     <None Include="Post-Deployement\Populate-JobStatus.sql" />
     <Build Include="dbo\Types\IntTableType.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByIds.sql" />
+    <Build Include="dbo\StoredProcedures\GetBranchIdForStop.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

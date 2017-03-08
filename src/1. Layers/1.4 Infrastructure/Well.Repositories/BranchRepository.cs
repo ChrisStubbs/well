@@ -90,6 +90,16 @@
                     .Single();
         }
 
+        public int GetBranchIdForStop(int stopId)
+        {
+            return
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchIdForStop)
+                    .AddParameter("stopId", stopId, DbType.Int32)
+                    .Query<int>()
+                    .Single();
+        }
+
+
         private IEnumerable<Branch> GetFromGrid(SqlMapper.GridReader grid)
         {
             var branches = grid.Read<Branch>().ToList();

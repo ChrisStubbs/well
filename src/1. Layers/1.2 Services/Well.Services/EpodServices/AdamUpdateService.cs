@@ -158,6 +158,14 @@
 
                     this.UpdateJobDetails(job.JobDetails, existingJob.Id);
                 }
+                else
+                {
+                    var newJob = new Job();
+                    this.mapper.Map(job, newJob);
+                    newJob.StopId = stopId;
+                    this.jobStatusService.SetIncompleteStatus(newJob);
+                    this.jobRepository.Save(newJob);
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Services.EpodServices
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using PH.Well.Domain;
@@ -59,13 +60,12 @@
             to.CustomerRef = from.CustomerRef;
             to.PerformanceStatus = PerformanceStatus.Notdef;
 
-            // TODO refactor to check that we have these attributes else will throw an error
-            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "PICKED"));
-            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ORDOUTERS"));
-            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "INVOUTERS"));
-            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWSOCRD"));
-            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "COD"));
-            to.EntityAttributes.Add(from.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWREORD"));
+            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "PICKED");
+            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ORDOUTERS");
+            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "INVOUTERS");
+            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ALLOWSOCRD");
+            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "COD");
+            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ALLOWREORD");
         }
 
         public void Map(JobDetail from, JobDetail to)
@@ -88,6 +88,17 @@
             to.SsccBarcode = from.SsccBarcode;
             to.SkuGoodsValue = from.SkuGoodsValue;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
+        }
+
+        private void AddAttribute(List<EntityAttribute> jobAttributes, List<EntityAttribute> jobUpdateAttributes,
+            string name)
+        {
+            var attribute = jobUpdateAttributes.FirstOrDefault(x => x.Code == name);
+
+            if (attribute != null)
+            {
+                jobAttributes.Add(attribute);
+            }
         }
     }
 }

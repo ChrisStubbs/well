@@ -122,5 +122,6 @@
         public static string RemovePendingCredit = "RemovePendingCredit";
         public static string UserGetCreditThreshold = "User_GetCreditThreshold";
         public static string GetBranchIdForJob = "GetBranchIdForJob";
+        public static string GetBranchIdForStop = "GetBranchIdForStop";
     }
 }

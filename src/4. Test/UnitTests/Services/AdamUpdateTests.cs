@@ -56,12 +56,12 @@
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
             this.service = new AdamUpdateService(
-                this.logger.Object, 
+                this.logger.Object,
                 this.eventLogger.Object,
-                this.routeHeaderRepository.Object, 
+                this.routeHeaderRepository.Object,
                 this.stopRepository.Object,
-                this.jobRepository.Object, 
-                this.jobDetailRepository.Object, 
+                this.jobRepository.Object,
+                this.jobDetailRepository.Object,
                 this.mapper.Object,
                 this.jobStatusService.Object);
         }

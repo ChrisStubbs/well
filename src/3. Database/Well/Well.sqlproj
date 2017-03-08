@@ -127,7 +127,6 @@
     <Build Include="dbo\StoredProcedures\BranchesGet.sql" />
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserBranch.sql" />
-    <Build Include="dbo\StoredProcedures\UserGetByIdentity.sql" />
     <Build Include="dbo\StoredProcedures\UserSave.sql" />
     <Build Include="dbo\StoredProcedures\DeleteUserBranches.sql" />
     <Build Include="dbo\StoredProcedures\UserBranchInsert.sql" />
@@ -139,7 +138,6 @@
     <Build Include="dbo\StoredProcedures\UserJob_Delete.sql" />
     <Build Include="dbo\StoredProcedures\EventGetUnprocessed.sql" />
     <Build Include="dbo\StoredProcedures\MarkEventAsProcessed.sql" />
-    <Build Include="dbo\StoredProcedures\Users_GetByBranchId.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByRefDetails.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByAccountCode.sql" />
     <Build Include="dbo\Tables\JobDetailStatus.sql" />
@@ -181,7 +179,6 @@
     <Build Include="dbo\StoredProcedures\Notification_Save.sql" />
     <Build Include="dbo\StoredProcedures\Notifications_Get.sql" />
     <Build Include="dbo\StoredProcedures\Notification_Archive.sql" />
-    <Build Include="dbo\StoredProcedures\UserGetByName.sql" />
     <Build Include="dbo\StoredProcedures\Audit_Get.sql" />
     <Build Include="dbo\Tables\Audit.sql" />
     <Build Include="dbo\Tables\SeasonalDate.sql" />
@@ -234,7 +231,6 @@
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
-    <Build Include="dbo\StoredProcedures\UserByCreditThresholdGet.sql" />
     <Build Include="dbo\StoredProcedures\PendingCreditInsert.sql" />
     <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\User_GetCreditThreshold.sql" />
@@ -270,6 +266,7 @@
     <None Include="Post-Deployement\Populate-JobStatus.sql" />
     <Build Include="dbo\Types\IntTableType.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByIds.sql" />
+    <Build Include="dbo\StoredProcedures\Users_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -18,19 +18,20 @@
     {
         private readonly IBranchService branchService;
         private readonly IUserRepository userRepository;
-
         private readonly ILogger logger;
-
+        private readonly IJobRepository jobRepository;
         private readonly IActiveDirectoryService activeDirectoryService;
 
         public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService,
             IUserRepository userRepository, ILogger logger,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IJobRepository jobRepository)
             : base(userNameProvider)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
             this.logger = logger;
+            this.jobRepository = jobRepository;
             this.activeDirectoryService = activeDirectoryService;
         }
 
@@ -105,10 +106,11 @@
         {
             try
             {
-                if (userJob.UserId > 0 && userJob.JobId > 0)
+                var user = userRepository.GetById(userJob.UserId);
+                var job = jobRepository.GetById(userJob.JobId);
+                if (user != null && job != null)
                 {
                     this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
-
                     return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
                 }
 

@@ -118,7 +118,7 @@
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
-                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Boolean)
+                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
                 .Query<int>().FirstOrDefault();
         }
 

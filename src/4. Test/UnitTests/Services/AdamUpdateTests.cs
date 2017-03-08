@@ -364,6 +364,12 @@
 
                 this.stopRepository.Setup(x => x.Update(stop));
 
+                this.mapper.Setup(x => x.Map(It.IsAny<JobUpdate>(), It.IsAny<Job>()));
+
+                this.jobStatusService.Setup(x => x.SetIncompleteStatus(It.IsAny<Job>()));
+
+                this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
+
                 this.service.Update(routeUpdate);
             }
         }

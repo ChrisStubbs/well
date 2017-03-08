@@ -22,15 +22,21 @@
     public class DatabaseSteps
     {
         private readonly IContainer container;
+
         private readonly IWellDapperProxy dapperProxy;
+
         private readonly IWebClient webClient;
+
         private readonly ILogger logger;
+
         private IAuditRepository auditRepo;
+
         private INotificationRepository notificationRepository;
 
         public DatabaseSteps()
         {
-            this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);
+            this.container = FeatureContextWrapper.GetContextObject<IContainer>(
+                ContextDescriptors.StructureMapContainer);
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
@@ -67,8 +73,7 @@
 
         private void DeleteAndReseed(string tableName)
         {
-            var script = 
-                $@"DELETE FROM {tableName}
+            var script = $@"DELETE FROM {tableName}
 
                 -- Use sys.identity_columns to see if there was a last known identity value
                 -- for the Table. If there was one, the Table is not new and needs a reset
@@ -194,10 +199,16 @@
         {
             this.AssignInvoiceNumbers(JobDetailStatus.Res);
         }
-        
+
         public void MakeJobDetailsLineDeliveryStatusException()
         {
             this.dapperProxy.ExecuteSql("UPDATE JobDetail Set LineDeliveryStatus = 'Exception'");
+        }
+
+        [Given(@"there are no proof of deliveries")]
+        public void RemoveAllProofOfDeliveries()
+        {
+            this.dapperProxy.ExecuteSql("update job set proofofdelivery = null");
         }
 
         public void SetDeliveryStatusToClean(int noOfDeliveries)

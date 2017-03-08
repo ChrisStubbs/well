@@ -190,8 +190,9 @@
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
 
-                if (pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade)
+                if (pod == (int)ProofOfDelivery.CocaCola)
                 {
+                    //TODO LRS customer (lucozade) 
                     //build pod transaction
                     var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
                     this.exceptionEventRepository.InsertPodEvent(podTransaction);

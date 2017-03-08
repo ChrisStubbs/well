@@ -141,11 +141,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CleanPage.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\AdamImportPage.feature.cs">
-      <DependentUpon>AdamImportPage.feature</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Features\Pages\HighValueItemsExceptionPage.feature.cs">
       <DependentUpon>HighValueItemsExceptionPage.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -301,10 +296,6 @@
     <None Include="Features\Pages\CleanPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CleanPage.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\AdamImportPage.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>AdamImportPage.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\HighValueItemsExceptionPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

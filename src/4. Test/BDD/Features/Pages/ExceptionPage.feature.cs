@@ -915,6 +915,54 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information with shorts to be advised displaye" +
+            "d")]
+        public virtual void AUserCanViewExceptionDeliveryInformationWithShortsToBeAdvisedDisplayed()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information with shorts to be advised displaye" +
+                    "d", ((string[])(null)));
+#line 191
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 192
+ testRunner.Given("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 193
+ testRunner.And("2 deliveries have been marked as exceptions with shorts to be advised", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 194
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "TBA"});
+            table12.AddRow(new string[] {
+                        "001",
+                        "1",
+                        "976549",
+                        "49214.152",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "2"});
+            table12.AddRow(new string[] {
+                        "001",
+                        "1",
+                        "976549",
+                        "02874.033",
+                        "CSG - must be CF van",
+                        "Incomplete",
+                        "2"});
+#line 195
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table12, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

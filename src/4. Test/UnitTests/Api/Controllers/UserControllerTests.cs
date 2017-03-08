@@ -26,6 +26,7 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<ILogger> logger;
         private Mock<IActiveDirectoryService> activeDirectoryService;
         private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IJobRepository> jobRepository;
 
         [SetUp]
         public void Setup()
@@ -36,6 +37,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
+            jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
 
             //////this.userRepository.SetupSet(x => x.CurrentUser = "foo");
 
@@ -43,7 +45,8 @@ namespace PH.Well.UnitTests.Api.Controllers
                 this.activeDirectoryService.Object,
                 this.userRepository.Object,
                 this.logger.Object,
-                this.userNameProvider.Object);
+                this.userNameProvider.Object,
+                jobRepository.Object);
             SetupController();
         }
 
@@ -91,8 +94,10 @@ namespace PH.Well.UnitTests.Api.Controllers
             {
                 var job = new UserJob { JobId = 2, UserId = 5 };
 
-                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
+                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns(new User());
                 this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId));
+
+                jobRepository.Setup(j => j.GetById(job.JobId)).Returns(new Job());
 
                 var response = this.Controller.Assign(job);
            
@@ -103,9 +108,30 @@ namespace PH.Well.UnitTests.Api.Controllers
             }
 
             [Test]
-            public void ShouldReturnNotAcceptableIfNoIds()
+            public void ShouldReturnNotAcceptableIfNoUser()
             {
-                var job = new UserJob { JobId = 0, UserId = 0 };
+                var job = new UserJob { JobId = 2, UserId = 5 };
+
+                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns((User) null);
+                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId));
+
+                jobRepository.Setup(j => j.GetById(job.JobId)).Returns(new Job());
+
+                var response = this.Controller.Assign(job);
+
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
+            }
+
+            [Test]
+            public void ShouldReturnNotAcceptableIfNoJob()
+            {
+                var job = new UserJob { JobId = 2, UserId = 5 };
+
+                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns(new User());
+                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId));
+
+                jobRepository.Setup(j => j.GetById(job.JobId)).Returns((Job) null);
 
                 var response = this.Controller.Assign(job);
 
@@ -119,8 +145,9 @@ namespace PH.Well.UnitTests.Api.Controllers
                 var job = new UserJob { JobId = 2, UserId = 5 };
 
                 var exception = new Exception();
+                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns(new User());
+                jobRepository.Setup(j => j.GetById(job.JobId)).Returns(new Job());
 
-                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
                 this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobId)).Throws(exception);
 
                 this.logger.Setup(x => x.LogError("Error when trying to assign job for the user", exception));

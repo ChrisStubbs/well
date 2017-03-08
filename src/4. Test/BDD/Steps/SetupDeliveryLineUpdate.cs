@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace PH.Well.BDD.Steps
 {
     using System.Net;
+    using System.Security.Principal;
     using Api.Models;
     using Domain.Enums;
     using Domain.ValueObjects;
@@ -23,6 +24,7 @@ namespace PH.Well.BDD.Steps
     {
         private IWebClientHelper webClientHelper;
         private IJobRepository jobRepository;
+        private IUserRepository userRepository;
 
         public SetupDeliveryLineUpdate()
         {
@@ -30,17 +32,22 @@ namespace PH.Well.BDD.Steps
 
             webClientHelper = container.GetInstance<IWebClientHelper>();
             jobRepository = container.GetInstance<IJobRepository>();
+            userRepository = container.GetInstance<IUserRepository>();
         }
 
 
         public void SetDeliveriesToCredit(int noOfDeliveries, bool confirmLines)
         {
+            string userIdentity = WindowsIdentity.GetCurrent().Name;
+            var user = userRepository.GetByIdentity(userIdentity);
+
+
             for (int jobId = 1; jobId <= noOfDeliveries; jobId++)
             {
                 //assign user to job
                 var userJob = new UserJob()
                 {
-                    UserId = 1,
+                    UserId = user.Id,
                     JobId = jobId
                 };
                 var res = webClientHelper.Post($"{Configuration.WellApiUrl}assign-user-to-job",

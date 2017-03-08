@@ -227,32 +227,6 @@ Scenario: Credit threshold applied all levels
 	And I select all the branches
 	And I save the branch selection
 	Then all the branches are saved
-	#When I navigate to the user threshold levels page
-	#And I search for the current user
-	#And I select the current user from the results
-	#And I select Level '2' from the dropdown list
-	#And save the user threshold level
-	#Then the threshold level is saved   
-	#When I open the exception deliveries
-	#When I assign the delivery on row 1 to myself
-	#Then Only the execption within the threshold tolerance will be actionable
-	#When I navigate to user threshold levels
-	#And I search for the current user
-	#And I select the current user from the results
-	#And I select Level2 from the dropdown list
-	#And save the user threshold level
-	#Then the threshold level is saved
-	#When I open the exception deliveries
-	#Then Only the execption within the threshold tolerance will be actionable
-	#When I navigate to user threshold levels
-	#And I search for the current user
-	#And I select the current user from the results
-	#And I select Level3 from the dropdown list
-	#And save the user threshold level
-	#Then the threshold level is saved
-	#When I open the exception deliveries
-	#Then Only the execption within the threshold tolerance will be actionable
-
 
 Scenario: Clean parameters applied all branches
 #Add, edit

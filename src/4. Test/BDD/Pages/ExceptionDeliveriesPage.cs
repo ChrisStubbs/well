@@ -49,6 +49,8 @@
             this.AssignModal = new AssignModal(Driver);
             this.CreditModalComponent = new CreditModalComponent();
             ConfirmModal = new ConfirmModal();
+
+            FirstRowSubmitButton = new Button() {Locator = By.Id("submit1")};
         }
 
         public SpanElement ShortReason { get; set; }
@@ -103,6 +105,8 @@
         public SpanElement ProductInformation { get; set; }
 
         public SpanElement ShortQty { get; set; }
+
+        public Button FirstRowSubmitButton { get; set; }
 
         public IWebElement GetFirstCell()
         {

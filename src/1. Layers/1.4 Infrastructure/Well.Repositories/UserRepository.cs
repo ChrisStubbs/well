@@ -17,28 +17,24 @@
         {
         }
 
+        public User GetById(int id)
+        {
+            return Get(id, null, null, null, null).SingleOrDefault();
+        }
+
         public User GetByIdentity(string identity)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByIdentity)
-                .AddParameter("Identity", identity, DbType.String, size: 255)
-                .Query<User>()
-                .SingleOrDefault();
+            return Get(null, identity, null, null, null).SingleOrDefault();
         }
 
         public User GetByName(string name)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetByName)
-                .AddParameter("Name", name, DbType.String, size: 255)
-                .Query<User>()
-                .SingleOrDefault();
+            return Get(null, null, name, null, null).SingleOrDefault();
         }
 
         public IEnumerable<User> GetByBranchId(int branchId)
         {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGetByBranchId)
-                    .AddParameter("BranchId", branchId, DbType.Int32)
-                    .Query<User>();
+            return Get(null, null, null, null, branchId);
         }
 
         public IEnumerable<decimal> GetCreditThresholds(string user)
@@ -95,11 +91,19 @@
 
         public User GetUserByCreditThreshold(CreditThreshold creditThreshold)
         {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserByCreditThresholdGet)
-                    .AddParameter("creditThresholdId", creditThreshold.Id, DbType.Int32)
-                    .Query<User>()
-                    .FirstOrDefault();
+            return Get(null, null, null, creditThreshold.Id, null).FirstOrDefault();
+        }
+
+        private IEnumerable<User> Get(int? id, string identity, string name, int? creditThresholdId, int? branchId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGet)
+                .AddParameter("UserId", id, DbType.Int32)
+                .AddParameter("Identity", identity, DbType.String, size: 255)
+                .AddParameter("Name", name, DbType.String, size: 255)
+                .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
+                .AddParameter("BranchId", branchId, DbType.Int32)
+                .Query<User>();
+
         }
     }
 }

@@ -35,35 +35,9 @@
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("Some user");
 
-            this.repository = new UserRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
+            this.repository = new UserRepository(this.logger.Object, this.dapperProxy.Object,
+                this.userNameProvider.Object);
             //////this.repository.CurrentUser = "Some user";
-        }
-
-        public class TheGetByIdentityMethod : UserRepositoryTests
-        {
-            [Test]
-            public void ShouldGetTheUserByIdentity()
-            {
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserGetByIdentity))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("Identity", "Leeroy", DbType.String, 255))
-                    .Returns(this.dapperProxy.Object);
-
-                var users = new List<User> { UserFactory.New.Build() };
-
-                this.dapperProxy.Setup(x => x.Query<User>()).Returns(users);
-
-                var result = this.repository.GetByIdentity("Leeroy");
-
-                Assert.That(result.Name, Is.EqualTo(users.First().Name));
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserGetByIdentity), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("Identity", "Leeroy", DbType.String, 255), Times.Once);
-
-                this.dapperProxy.Verify(x => x.Query<User>(), Times.Once);
-            }
         }
 
         public class TheSaveMethod : UserRepositoryTests
@@ -100,7 +74,7 @@
                 this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] {1});
 
                 this.repository.Save(user);
 
@@ -110,19 +84,25 @@
 
                 this.dapperProxy.Verify(x => x.AddParameter("Name", user.Name, DbType.String, 255), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("JobDescription", user.JobDescription, DbType.String, 500), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("JobDescription", user.JobDescription, DbType.String, 500),
+                    Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("Domain", user.Domain, DbType.String, 50), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("IdentityName", user.IdentityName, DbType.String, 255), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("IdentityName", user.IdentityName, DbType.String, 255),
+                    Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("CreatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("UpdatedBy", this.repository.CurrentUser, DbType.String, 50), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Once);
             }
@@ -169,11 +149,13 @@
 
                 this.dapperProxy.Verify(x => x.AddParameter("CreatedBy", "Some user", DbType.String, 50), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("UpdatedBy", "Some user", DbType.String, 50), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
@@ -215,7 +197,7 @@
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.ThresholdLevelSave))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("ThresholdLevelId", (int)thresholdLevel, DbType.Int32, null))
+                this.dapperProxy.Setup(x => x.AddParameter("ThresholdLevelId", (int) thresholdLevel, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("UserId", user.Id, DbType.Int32, null))
@@ -227,36 +209,12 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.ThresholdLevelSave), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("ThresholdLevelId", (int)thresholdLevel, DbType.Int32, null), Times.Once);
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("ThresholdLevelId", (int) thresholdLevel, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("UserId", user.Id, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
-            }
-        }
-
-        public class TheGetUserByCreditThresholdMethod : UserRepositoryTests
-        {
-            [Test]
-            public void ShouldGetUserByCreditThreshold()
-            {
-                var creditThreshold = new CreditThreshold { Id = 4 };
-
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.UserByCreditThresholdGet))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("creditThresholdId", creditThreshold.Id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Query<User>()).Returns(new List<User>());
-
-                this.repository.GetUserByCreditThreshold(creditThreshold);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UserByCreditThresholdGet), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("creditThresholdId", creditThreshold.Id, DbType.Int32, null), Times.Once);
-
-                this.dapperProxy.Verify(x => x.Query<User>(), Times.Once);
             }
         }
     }

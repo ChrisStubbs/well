@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.BDD.Framework.WebElements
 {
     using System;
+    using System.Collections.Generic;
     using Common.Contracts;
+    using Microsoft.SqlServer.Management.Sdk.Sfc;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
     using StructureMap;
@@ -30,7 +32,7 @@
                 this.Driver.WaitForJavascript();
 
                 var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
-
+                wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 var element = wait.Until(d => d.FindElement(this.Locator));
 
                 this.Driver.ExecuteJavaScript($"window.scrollTo(0, {element.Location.Y});");
@@ -49,6 +51,7 @@
                 return null;
             }
         }
+
 
         private bool DoClick()
         {

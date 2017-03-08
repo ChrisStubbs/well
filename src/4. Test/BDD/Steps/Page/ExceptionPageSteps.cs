@@ -147,7 +147,6 @@
 
         public void SelectAssignLink(int row)
         {
-            Thread.Sleep(100);
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var assignAnchor = rows[row].GetItemInRowByClass("assign");
             assignAnchor.Click();
@@ -172,8 +171,6 @@
         [Then(@"All the exception detail rows can not be updated")]
         public void TheExceptionDetailRowsCanNotBeUpdated()
         {
-            Thread.Sleep(1000);
-
             var updateableRows = this.ExceptionDeliveriesPage.GetCountOfElements("update-enabled");
 
             Assert.That(updateableRows, Is.EqualTo(0));
@@ -182,8 +179,6 @@
         [Then(@"All the exception detail rows can be updated")]
         public void TheExceptionDetailRowsCanBeUpdated()
         {
-            Thread.Sleep(1000);
-
             var rows = this.ExceptionDeliveriesPage.ExceptionsDrillDownGrid.ReturnAllRows().ToList();
 
             rows[0].Click();
@@ -200,7 +195,6 @@
             var firstRow = 0;
             SelectAssignLink(firstRow);
 
-            Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
@@ -213,13 +207,10 @@
             var selectedRow = row - 1;
             SelectAssignLink(selectedRow);
 
-            Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
-
-            Thread.Sleep(1000);
         }
 
         [When(@"I assign the delivery on rows (.*) and (.*) to myself")]
@@ -231,7 +222,6 @@
             selectedRow = secondRow - 1;
             SelectAssignLink(selectedRow);
 
-            Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
@@ -244,7 +234,6 @@
             var firstRow = 0;
             SelectAssignLink(firstRow);
 
-            Thread.Sleep(1000);
             var element = this.ExceptionDeliveriesPage.AssignModal.GetUserFromModal(username);
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
@@ -293,7 +282,6 @@
         [When(@"click the first credit checkbox")]
         public void WhenClickTheFirstCreditCheckbox()
         {
-            Thread.Sleep(1000);
              var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
              firstCheckbox.Click();
         }
@@ -384,16 +372,12 @@
         {
             var modal = ExceptionDeliveriesPage.CreditModalComponent;
             modal.ConfirmButton.Click();
-            Thread.Sleep(2000);
         }
 
         [When(@"I select the exception submit button")]
         public void SelectExceptionSubmitButton()
         {
-            Thread.Sleep(2000);
-            var exceptionGrid = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            var submitButton = exceptionGrid[0].GetItemInRowById("submit1");
-            submitButton.Click();
+            ExceptionDeliveriesPage.FirstRowSubmitButton.Click();
         }
 
         [When(@"I confirm the exception submit")]

@@ -7,6 +7,7 @@
 
     public interface IUserRepository : IRepository<User, int>
     {
+        User GetById(int id);
         User GetByIdentity(string identity);
         User GetByName(string name);
 

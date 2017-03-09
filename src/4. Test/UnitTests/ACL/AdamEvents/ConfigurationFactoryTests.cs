@@ -17,7 +17,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerMedway));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsMedway));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortMedway));
         }
@@ -29,7 +29,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerCoventry));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsCoventry));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortCoventry));
         }
@@ -41,7 +41,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerFareham));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsFareham));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortFareham));
         }
@@ -53,7 +53,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerDunfermline));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsDunfermline));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortDunfermline));
         }
@@ -65,7 +65,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerLeeds));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsLeeds));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortLeeds));
         }
@@ -77,7 +77,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerHemel));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsHemel));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortHemel));
         }
@@ -89,7 +89,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBirtley));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBirtley));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortBirtley));
         }
@@ -101,7 +101,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBelfast));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBelfast));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortBelfast));
         }
@@ -113,7 +113,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBrandon));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBrandon));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortBrandon));
         }
@@ -125,7 +125,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerPlymouth));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsPlymouth));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortPlymouth));
         }
@@ -137,7 +137,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBristol));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBristol));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortBristol));
         }
@@ -149,7 +149,7 @@
 
             Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
             Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServer));
+            Assert.That(config.Server, Is.EqualTo(Config.AdamServerHaydock));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsHaydock));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortHaydock));
         }

@@ -22,6 +22,7 @@
             this.AssignedLink = new Button() { Locator = By.ClassName("assign") };
             this.CurrentUserName = new SpanElement() { Locator = By.Id("current-user-name") };
             this.AssignModal = new AssignModal(Driver);
+            OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
         }
 
         protected override string UrlSuffix => "approvals";
@@ -45,6 +46,8 @@
         public AssignModal AssignModal { get; set; }
 
         public SpanElement CurrentUserName { get; set; }
+
+        public Image OrderByButton { get; set; }
 
         public IWebElement GetLoggedInAssignUserFromModal()
         {

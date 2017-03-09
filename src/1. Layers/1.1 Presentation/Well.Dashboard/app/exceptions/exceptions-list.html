@@ -7,12 +7,12 @@
 <div class="jumbotron">
     <ow-spinner [isRunning]="isLoading"></ow-spinner>
     <div *ngIf="!isLoading">
-        <div *ngIf="!exceptions">
+        <div *ngIf="exceptions.length == 0">
             <div ID="no-exceptions" class="alert alert-info">
                 <strong>No exceptions found</strong>
             </div>
         </div>
-        <div *ngIf="exceptions">
+        <div *ngIf="exceptions.length > 0">
             <div class="row">
                 <div class="col-md-8">
                     <ow-optionfilter [options]="options"
@@ -83,20 +83,21 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="row credit">
-            <div class="col-md-12" *ngIf="exceptions && exceptions.length  && creditListlength() > 0">
-                <span class="pull-right">
-                    <button class="btn btn-success btn-sm" (click)="checkExceptionsForCredit()" id="credit" type="button">Bulk Credit</button>
-                </span>
-            </div>         
-        </div>
-        <div class="row">
-            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
-            <div class="col-md-6" *ngIf="exceptions && exceptions.length">
-                <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
+            <div class="row credit">
+                <div class="col-md-12" *ngIf="creditListlength() > 0">
+                    <span class="pull-right">
+                        <button class="btn btn-success btn-sm" (click)="checkExceptionsForCredit()" id="credit" type="button">Bulk Credit</button>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+                <div class="col-md-6">
+                    <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 <contact-modal></contact-modal>

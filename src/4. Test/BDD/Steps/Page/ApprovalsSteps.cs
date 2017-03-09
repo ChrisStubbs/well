@@ -108,6 +108,13 @@
             rows[row - 1].GetItemInRowByClass("contact-info").Click();
         }
 
+        [When(@"I click on the orderby Triangle image in the approval deliveries grid")]
+        public void WhenIClickOnTheOrderbyTriangleImageInTheApprovalDeliveriesGrid()
+        {
+            ApprovalsPage.OrderByButton.Click();
+        }
+
+
         [When(@"I click on approvals page (.*)")]
         public void WhenIClickOnExceptionDeliveryPage(int pageNo)
         {

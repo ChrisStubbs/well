@@ -21,25 +21,38 @@ Scenario: Approvals Browsing and Paging
 	And 11 deliveries are waiting credit approval
 	When I open the approval deliveries page
 	Then the following approval deliveries will be displayed
-	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Threshold | Assigned    |
-	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | 79.9        | Level 1   | Unallocated |
-	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | 44.82       | Level 2   | Unallocated |
-	| 001   | 2    | 976541    | 02874.033 | RVS SHOP             | 79.9        | Level 1   | Unallocated |
-	| 001   | 2    | 976542    | 02874.033 | RVS SHOP             | 41.71       | Level 2   | Unallocated |
-	| 006   | 1    | 123123123 | 43362.048 | WB - SHOP            | 329.02      | Level 1   | Unallocated |
-	| 006   | 1    | 223123123 | 02874.033 | WB - SHOP            | 717.55      | Level 1   | Unallocated |
-	| 006   | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | 13.52       | Level 2   | Unallocated |
-	| 006   | 2    | 423123123 | 54107.000 | WB - SHELL FORECOURT | 644.18      | Level 1   | Unallocated |
-	| 011   | 1    | 976549    | 43362.048 | CSG - COSTCUTTER     | 329.02      | Level 1   | Unallocated |
-	| 011   | 1    | 976549    | 02874.033 | CSG - COSTCUTTER     | 717.55      | Level 1   | Unallocated |
-	When I view the account info modal for approval row 2 
-	Then I can view the following account info details
-	| Account name         | Street              | Town   | Postcode | Contact name  | Phone       | Alt Phone   | Email           |
-	| CSG - must be CF van | 112-114 Barrow Road | SILEBY | LE12 7LP | CSG Contact 1 | 01509815739 | 01234987654 | contact@csg.com |
+	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Threshold | Assigned    | DeliveryDate |
+	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | 79.9        | Level 1   | Unallocated | 08/01/2016    |
+	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | 44.82       | Level 2   | Unallocated | 08/01/2016    |
+	| 001   | 2    | 976541    | 02874.033 | RVS SHOP             | 79.9        | Level 1   | Unallocated | 08/01/2016    |
+	| 001   | 2    | 976542    | 02874.033 | RVS SHOP             | 41.71       | Level 2   | Unallocated | 08/01/2016    |
+	| 011   | 1    | 976549    | 43362.048 | CSG - COSTCUTTER     | 329.02      | Level 1   | Unallocated | 07/01/2016    |
+	| 011   | 1    | 976549    | 02874.033 | CSG - COSTCUTTER     | 717.55      | Level 1   | Unallocated | 07/01/2016    |
+	| 011   | 2    | 976549    | 54107.000 | TESCO - EXPRESS      | 13.52       | Level 2   | Unallocated | 07/01/2016    |
+	| 006   | 1    | 123123123 | 43362.048 | WB - SHOP            | 329.02      | Level 1   | Unallocated | 06/01/2016    |
+	| 006   | 1    | 223123123 | 02874.033 | WB - SHOP            | 717.55      | Level 1   | Unallocated | 06/01/2016    |
+	| 006   | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | 13.52       | Level 2   | Unallocated | 06/01/2016    |
+	When I click on the orderby Triangle image in the approval deliveries grid
+	Then the following approval deliveries will be displayed
+	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Threshold | Assigned    | DeliveryDate |
+	| 006   | 1    | 123123123 | 43362.048 | WB - SHOP            | 329.02      | Level 1   | Unallocated | 06/01/2016    |
+	| 006   | 1    | 223123123 | 02874.033 | WB - SHOP            | 717.55      | Level 1   | Unallocated | 06/01/2016    |
+	| 006   | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | 13.52       | Level 2   | Unallocated | 06/01/2016    |
+	| 006   | 2    | 423123123 | 54107.000 | WB - SHELL FORECOURT | 644.18      | Level 1   | Unallocated | 06/01/2016    |
+	| 011   | 1    | 976549    | 43362.048 | CSG - COSTCUTTER     | 329.02      | Level 1   | Unallocated | 07/01/2016    |
+	| 011   | 1    | 976549    | 02874.033 | CSG - COSTCUTTER     | 717.55      | Level 1   | Unallocated | 07/01/2016    |
+	| 011   | 2    | 976549    | 54107.000 | TESCO - EXPRESS      | 13.52       | Level 2   | Unallocated | 07/01/2016    |
+	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | 79.9        | Level 1   | Unallocated | 08/01/2016    |
+	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | 44.82       | Level 2   | Unallocated | 08/01/2016    |
+	| 001   | 2    | 976541    | 02874.033 | RVS SHOP             | 79.9        | Level 1   | Unallocated | 08/01/2016    |
 	When I click on approvals page 2
 	Then the following approval deliveries will be displayed
-	| Route | Drop | InvoiceNo | Account   | AccountName     | CreditValue | Threshold | Assigned    |
-	| 011   | 2    | 976549    | 54107.000 | TESCO - EXPRESS | 13.52       | Level 2   | Unallocated |
+	| Route | Drop | InvoiceNo | Account   | AccountName | CreditValue | Threshold | Assigned    | DeliveryDate |
+	| 001   | 2    | 976542    | 02874.033 | RVS SHOP    | 41.71       | Level 2   | Unallocated | 08/01/2016    |
+	When I view the account info modal for approval row 1 
+	Then I can view the following account info details
+	| Account name | Street       | Town      | Postcode | Contact name | Phone       | Alt Phone | Email |
+	| RVS SHOP     | BROAD AVENUE | LEICESTER | LE5 4PW  | GEN HOSPITAL | 01162584229 |           |       |
 
 Scenario: Threshold Filtering
 	Given I have selected branch '22'
@@ -51,18 +64,19 @@ Scenario: Threshold Filtering
 	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Threshold | Assigned    |
 	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | 44.82       | Level 2   | Unallocated |
 	| 001   | 2    | 976542    | 02874.033 | RVS SHOP             | 41.71       | Level 2   | Unallocated |
-	| 006   | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | 13.52       | Level 2   | Unallocated |
 	| 011   | 2    | 976549    | 54107.000 | TESCO - EXPRESS      | 13.52       | Level 2   | Unallocated |
+	| 006   | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | 13.52       | Level 2   | Unallocated |
 	And I filter for threshold level 1 
 	Then the following approval deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | CreditValue | Threshold | Assigned    |
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | 79.9        | Level 1   | Unallocated |
 	| 001   | 2    | 976541    | 02874.033 | RVS SHOP             | 79.9        | Level 1   | Unallocated |
+	| 011   | 1    | 976549    | 43362.048 | CSG - COSTCUTTER     | 329.02      | Level 1   | Unallocated |
+	| 011   | 1    | 976549    | 02874.033 | CSG - COSTCUTTER     | 717.55      | Level 1   | Unallocated |
 	| 006   | 1    | 123123123 | 43362.048 | WB - SHOP            | 329.02      | Level 1   | Unallocated |
 	| 006   | 1    | 223123123 | 02874.033 | WB - SHOP            | 717.55      | Level 1   | Unallocated |
 	| 006   | 2    | 423123123 | 54107.000 | WB - SHELL FORECOURT | 644.18      | Level 1   | Unallocated |
-	| 011   | 1    | 976549    | 43362.048 | CSG - COSTCUTTER     | 329.02      | Level 1   | Unallocated |
-	| 011   | 1    | 976549    | 02874.033 | CSG - COSTCUTTER     | 717.55      | Level 1   | Unallocated |
+
 
 Scenario: Can approve credit as I have a credit threshold higher than the deliveries threshold
 	Given I have selected branch '22'

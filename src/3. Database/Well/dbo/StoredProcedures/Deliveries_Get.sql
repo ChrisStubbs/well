@@ -58,6 +58,7 @@ BEGIN
 			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
 			INNER JOIN #JobIdsTable jt on jt.Id = j.Id		
 	WHERE	u.IdentityName = @UserName
+	Order By s.DeliveryDate DESC
 
 	SELECT	jd.[Id] as JobDetailId
 			,jd.JobId

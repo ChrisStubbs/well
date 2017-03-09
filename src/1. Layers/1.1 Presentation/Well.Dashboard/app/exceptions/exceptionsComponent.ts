@@ -33,7 +33,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public isLoading: boolean = true;
     private refreshSubscription: any;
     public errorMessage: string;
-    public exceptions: ExceptionDelivery[];
+    public exceptions = new Array<ExceptionDelivery>();
     public routeOption = new DropDownItem('Route', 'routeNumber');
     public assigneeOption = new DropDownItem('Assignee', 'assigned');
     public account: IAccount;
@@ -58,6 +58,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     @ViewChild(ExceptionsConfirmModal)
     private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
+    public sort = 'desc';
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -95,6 +96,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.activatedRoute.queryParams.subscribe(params =>
         {
             this.outstandingFilter = params['outstanding'] === 'true';
+            this.sort = params['sort'] || 'desc';
             this.getExceptions();
             this.getThresholdLimit();
             this.bulkCredits = new Array<ExceptionDelivery>();
@@ -120,7 +122,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData =>
                 {
-                    this.exceptions = responseData;
+                    this.exceptions = responseData || new Array<ExceptionDelivery>();
+                    this.sortDirection();
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -143,16 +146,17 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             });
     }
 
-    private sortDirection(sortDirection): void
+    private sortDirection(): void
     {
-        const sortString = sortDirection ? 'asc' : 'desc';
-        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [sortString]);
-        super.onSortDirectionChanged(sortDirection);
+        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [this.sort]);
+        const isDesc = this.sort === 'desc';
+        super.onSortDirectionChanged(isDesc);
     }
 
     public onSortDirectionChanged(isDesc: boolean)
     {
-        this.sortDirection(isDesc);
+        this.sort = isDesc ? 'desc' : 'asc';
+        this.sortDirection();
     }
 
     public onFilterClicked(filterOption: FilterOption)

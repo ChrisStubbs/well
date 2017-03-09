@@ -55,8 +55,7 @@ Scenario: Filter exceptions
 Scenario: Sort exceptions
 	Given I have selected branch '22'
 	And 9 deliveries have been marked as exceptions
-	When I open the exception deliveries	
-	And I click on the orderby Triangle image in the exceptions deliveries grid
+	When I open the exception deliveries
 	Then The following exceptions ordered by date will be displayed in 'desc' order
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA | DeliveryDate |
 	| 001   | 22     | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 0   | 08/01/2016   |

@@ -30,7 +30,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     public isLoading: boolean = true;
     private refreshSubscription: any;
     public errorMessage: string;
-    public approvals: ApprovalDelivery[];
+    public approvals = new Array<ApprovalDelivery>();
     public level: number;
     public assigneeOption = new DropDownItem('Assignee', 'assigned');
     public account: IAccount;
@@ -46,6 +46,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
+    public sort: string;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -73,7 +74,9 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
 
-        this.activatedRoute.queryParams.subscribe(params => {
+        this.activatedRoute.queryParams.subscribe(params =>
+        {
+            this.sort = params['sort'] || 'desc';
             this.getApprovals();
         });
 
@@ -89,7 +92,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     public getApprovals() {
         this.approvalsService.getApprovals()
             .subscribe(responseData => {
-                    this.approvals = responseData;
+                    this.approvals = responseData || new Array<ApprovalDelivery>();
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -101,14 +104,16 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
                 });
     }
 
-    private sortDirection(sortDirection): void {
-        const sortString = sortDirection ? 'asc' : 'desc';
-        this.approvals = lodash.orderBy(this.approvals, ['deliveryDate'], [sortString]);
-        super.onSortDirectionChanged(sortDirection);
+    private sortDirection(): void {
+        this.approvals = lodash.orderBy(this.approvals, ['deliveryDate'], [this.sort]);
+        const isDesc = this.sort === 'desc';
+        super.onSortDirectionChanged(isDesc);
     }
 
-    public onSortDirectionChanged(isDesc: boolean) {
-        this.sortDirection(isDesc);
+    public onSortDirectionChanged(isDesc: boolean)
+    {
+        this.sort = isDesc ? 'desc' : 'asc';
+        this.sortDirection();
     }
     
     public onFilterClicked(filterOption: FilterOption) {

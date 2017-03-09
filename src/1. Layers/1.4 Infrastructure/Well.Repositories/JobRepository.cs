@@ -113,7 +113,7 @@
                 .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int16)
                 .AddParameter("Picked", entity.Picked, DbType.Boolean)
                 .AddParameter("InvoiceValue", entity.InvoiceValue, DbType.Decimal)
-                .AddParameter("ProofOfDelivery", entity.ProofOfDelivery ?? 0, DbType.Int16)
+                .AddParameter("ProofOfDelivery", entity.ProofOfDelivery, DbType.Int16)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)

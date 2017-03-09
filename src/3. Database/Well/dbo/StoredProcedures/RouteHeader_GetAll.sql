@@ -58,7 +58,7 @@ FROM
 		[User] u on u.Id = ub.UserId
 WHERE u.IdentityName = @UserName
 
-SELECT TOP 1000 [j].[Id]
+SELECT [j].[Id]
       ,[Sequence]
       ,[JobTypeCode]
       ,[PHAccount]

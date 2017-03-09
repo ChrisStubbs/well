@@ -1,10 +1,11 @@
-﻿using PH.Well.Common.Contracts;
-
-namespace PH.Well.UnitTests.Services
+﻿namespace PH.Well.UnitTests.Services
 {
+    using System;
     using System.Collections.Generic;
     using Moq;
     using NUnit.Framework;
+
+    using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Repositories.Contracts;

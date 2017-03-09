@@ -12,6 +12,7 @@ Background:
 
 Scenario: Add short qty and damages to clean delivery
 	Given 1 deliveries have been marked as clean	
+	And there are no proof of deliveries
 	And I open the clean deliveries
 	And I assign the clean delivery to myself
 	And I open the clean delivery '1'
@@ -67,6 +68,7 @@ Scenario: Can not edit delivery line assigned to another user
 
 Scenario: Add short qty and damages to exception delivery
 	Given 1 deliveries have been marked as exceptions	
+	And there are no proof of deliveries
 	And I open the exception deliveries
 	And I assign the delivery to myself
 	And I open the exception delivery '1'

@@ -166,9 +166,7 @@
 
                 if (existingJob == null)
                 {
-                    job.StopId = stopId;
-                    this.jobRepository.Save(job);
-                    existingJob.Id = job.Id;
+                    continue;
                 }
 
                 this.mapper.Map(job, existingJob);

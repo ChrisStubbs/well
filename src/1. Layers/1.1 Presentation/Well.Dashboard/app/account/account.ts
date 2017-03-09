@@ -1,5 +1,5 @@
-﻿export interface IAccount {
-
+﻿export interface IAccount {  
+     
     code: string;
     name: string;
     address1: string;

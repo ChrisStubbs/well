@@ -58,7 +58,6 @@ Scenario: Sort Clean Deliveries
 	And 5 deliveries have been marked as clean
 	When I open the clean deliveries 
 	#Ascending Order
-	And I click on the orderby Triangle image in the clean deliveries grid
 	Then the following clean deliveries will be displayed		
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
 	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 08/01/2016   |
@@ -67,12 +66,14 @@ Scenario: Sort Clean Deliveries
 	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 08/01/2016   |
 	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 06/01/2016   |
 	#Descending Order
-	#When I click on the orderby Triangle image in the clean deliveries grid
-	#Then the following clean deliveries will be displayed
-	#| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	#| 001   | 22     | 2    | 92545470  | 02874.033  | RVS SHOP             | 07/01/2016   |
-	#| 001   | 22     | 1    | 92545470  | 02874.033  | CSG - must be CF van | 07/01/2016   |
-	#| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 07/01/2016   |
+	When I click on the orderby Triangle image in the clean deliveries grid
+	Then the following clean deliveries will be displayed
+	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
+	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 06/01/2016   |
+	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 08/01/2016   |
+	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 08/01/2016   |
+	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 08/01/2016   |
+	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 08/01/2016   |
 
 Scenario: Page Clean Deliveries
 	Given I have a clean database

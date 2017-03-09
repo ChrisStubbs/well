@@ -7,11 +7,11 @@
 <div class="jumbotron">
     <!--<ow-spinner [isRunning]="isLoading"></ow-spinner>-->
     <div class="content" *ngIf="!isLoading">
-        <div *ngIf="!cleanDeliveries">
+        <div *ngIf="cleanDeliveries.length == 0">
             <div id="noDeliveries" class="alert alert-info"><strong>No clean deliveries found</strong>
             </div>
         </div>
-        <div *ngIf="cleanDeliveries && cleanDeliveries.length">
+        <div *ngIf="cleanDeliveries.length > 0">
             <div class="row">
                 <div class="col-md-8">
                     <ow-optionfilter [options]="options"
@@ -25,49 +25,50 @@
                 <div class="table-responsive table-container col-md-12">
                     <table id="tableCleanDeliveries" class="table table-hover table-striped">
                         <thead>
-                            <tr>
-                                <th style="width: 5%">Route</th>
-                                <th style="width: 5%">Branch</th>
-                                <th style="width: 5%">Drop</th>
-                                <th style="width: 12%">Invoice No</th>
-                                <th style="width: 11%">Account</th>
-                                <th style="width: 27%">Account Name</th>
-                                <th style="width: 5%">Contact</th>
-                                <th style="width: 11%">Assigned</th>
-                                <th style="width: 13%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                            </tr>
+                        <tr>
+                            <th style="width: 5%">Route</th>
+                            <th style="width: 5%">Branch</th>
+                            <th style="width: 5%">Drop</th>
+                            <th style="width: 12%">Invoice No</th>
+                            <th style="width: 11%">Account</th>
+                            <th style="width: 27%">Account Name</th>
+                            <th style="width: 5%">Contact</th>
+                            <th style="width: 11%">Assigned</th>
+                            <th style="width: 13%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
-                                <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
-                                    <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
-                               </td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
-                                </td>
-                                <td>
-                                    <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                                    <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
-                                </td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
-                            </tr>
+                        <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
+                            <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
+                                <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
+                            </td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
+                            </td>
+                            <td>
+                                <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                                <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                            </td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
-            <div class="col-md-6" *ngIf="cleanDeliveries && cleanDeliveries.length">
-                <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
+            <div class="row">
+                <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+                <div class="col-md-6">
+                    <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
+                </div>
             </div>
         </div>
+
+
     </div>
 </div>
 <contact-modal></contact-modal>

@@ -30,10 +30,11 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public lastRefresh = Date.now();
     public refreshSubscription: any;
     public errorMessage: string;
-    public cleanDeliveries: CleanDelivery[];
+    public cleanDeliveries = new Array<CleanDelivery>();
     public routeOption = new DropDownItem('Route', 'routeNumber');
     public account: IAccount;
     public isReadOnlyUser: boolean = false;
+    public sort: string;
 
     @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
@@ -68,6 +69,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
+            this.sort = params['sort'] || 'desc';
             this.getDeliveries();
         });
 
@@ -83,7 +85,8 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public getDeliveries() {
         this.cleanDeliveryService.getCleanDeliveries()
             .subscribe(cleanDeliveries => {
-                this.cleanDeliveries = cleanDeliveries;
+                this.cleanDeliveries = cleanDeliveries || new Array<CleanDelivery>();
+                this.sortDirection();
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
             },
@@ -93,15 +96,16 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             });
     }
 
-    public sortDirection(sortDirection): void {
-        const sortString = sortDirection ? 'asc' : 'desc';
-        this.cleanDeliveries = lodash.orderBy(this.cleanDeliveries, ['deliveryDate'], [sortString]);
+    public sortDirection(): void {
         
-        super.onSortDirectionChanged(sortDirection);
+        this.cleanDeliveries = lodash.orderBy(this.cleanDeliveries, ['deliveryDate'], [this.sort]);
+        const isDesc = this.sort === 'desc';
+        super.onSortDirectionChanged(isDesc);
     }
 
     public onSortDirectionChanged(isDesc: boolean) {
-        this.sortDirection(isDesc);
+        this.sort = isDesc ? 'desc' : 'asc';
+        this.sortDirection();
     }
 
     public deliverySelected(delivery): void {

@@ -29,8 +29,12 @@
                 case JobStatus.Resolved:
                     return;
             }
-            
-            const string ExceptionReason = "Manual Delivery";
+
+            if (job.JobByPassReason == "Manual Delivery")
+            {
+                job.JobStatus = JobStatus.ManualDelivery;
+                return;
+            }
 
             // Fetch all jobs associated with the current job's invoice and branch
             var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(job.Id, branchId, job.InvoiceNumber).ToList();
@@ -75,11 +79,6 @@
 
             // Any damages are an exception or any shorts are an exception
             if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0)))
-            {
-                hasException = true;
-            }
-
-            if (!hasException && job.JobByPassReason == ExceptionReason)
             {
                 hasException = true;
             }

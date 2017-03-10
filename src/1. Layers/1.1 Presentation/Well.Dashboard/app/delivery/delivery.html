@@ -58,7 +58,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { id: 'exception-pager', itemsPerPage: rowCount, currentPage: p }"
+                                <tr class="grid-row" *ngFor="let line of delivery.exceptionDeliveryLines | paginate: { id: 'exception-pager', itemsPerPage: rowCount, currentPage: exceptionsPage }"
                                     (click)="lineClicked(line)">
                                     <td>{{line.lineNo}}</td>
                                     <td>{{line.productCode}}</td>
@@ -74,7 +74,7 @@
                         </table>
                     </div>
                     <div class="row pull-right" *ngIf="delivery.exceptionDeliveryLines && delivery.exceptionDeliveryLines.length">
-                        <pagination-controls id="exception-pager" (pageChange)="p = $event"></pagination-controls>
+                        <pagination-controls id="exception-pager" (pageChange)="exceptionsPage = $event"></pagination-controls>
                     </div>
                 </tab>
                 <tab title="Clean">
@@ -101,7 +101,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="grid-row" *ngFor="let line of delivery.cleanDeliveryLines | paginate: { id: 'clean-pager', itemsPerPage: rowCount, currentPage: p }"
+                                <tr class="grid-row" *ngFor="let line of delivery.cleanDeliveryLines | paginate: { id: 'clean-pager', itemsPerPage: rowCount, currentPage: cleanPage }"
                                     (click)="lineClicked(line)">
                                     <td>{{line.lineNo}}</td>
                                     <td>{{line.productCode}}</td>
@@ -117,7 +117,7 @@
                         </table>
                     </div>
                     <div class="row pull-right" *ngIf="delivery.cleanDeliveryLines && delivery.cleanDeliveryLines.length">
-                        <pagination-controls id="clean-pager" (pageChange)="p = $event"></pagination-controls>
+                        <pagination-controls id="clean-pager" (pageChange)="cleanPage = $event"></pagination-controls>
                     </div>
                 </tab>
             </tabset>

@@ -23,6 +23,8 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     public showAll: boolean = false;
     public deliveryId: number;
     private defaultTab = 'Exceptions';
+    public exceptionsPage: 0;
+    public cleanPage: 0;
 
     @ViewChild(Tabset)
     private tabset: Tabset;

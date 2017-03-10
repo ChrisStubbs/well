@@ -22,6 +22,11 @@
         /// <summary>
         /// Exception has been fully actioned (credit, closed)
         /// </summary>
-        Resolved = 5
+        Resolved = 5,
+
+        //<summary>
+        //Job contains document deliveries only
+        //</summary>
+        ManualDelivery = 6
     }
 }

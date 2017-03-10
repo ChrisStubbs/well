@@ -73,12 +73,11 @@
 
         private void DeleteAndReseed(string tableName)
         {
-            var script = $@"DELETE FROM {tableName}
-
-                -- Use sys.identity_columns to see if there was a last known identity value
-                -- for the Table. If there was one, the Table is not new and needs a reset
-                IF EXISTS (SELECT * FROM sys.identity_columns WHERE OBJECT_NAME(OBJECT_ID) = '{tableName}' AND last_value IS NOT NULL) 
-                    DBCC CHECKIDENT ({tableName}, RESEED, 0);";
+            //Use sys.identity_columns to see if there was a last known identity value
+            //for the Table. If there was one, the Table is not new and needs a reset
+            var script = $@"DELETE FROM {tableName}; ";
+            script += $@"IF EXISTS (SELECT * FROM sys.identity_columns WHERE OBJECT_NAME(OBJECT_ID) = '{tableName}' AND last_value IS NOT NULL) 
+                            DBCC CHECKIDENT ({tableName}, RESEED, 0);";
             this.dapperProxy.ExecuteSql(script);
         }
 

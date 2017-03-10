@@ -182,6 +182,7 @@
         }
 
         [Given(@"I have imported a valid Epod update file named '(.*)'")]
+        [When(@"I have imported a valid Epod update file named '(.*)'")]
         public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
         {
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");

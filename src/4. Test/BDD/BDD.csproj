@@ -151,6 +151,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Features\Pages\ManualDeliveries.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManualDeliveries.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\NotificationsPage.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -305,6 +310,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ExceptionPage.feature.cs</LastGenOutput>
     </None>
+    <None Include="Features\Pages\ManualDeliveries.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ManualDeliveries.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Pages\NotificationsPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NotificationsPage.feature.cs</LastGenOutput>
@@ -364,14 +373,14 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD_30062016_ManualDelivery.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD_HAY_Update.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD_HAY_Update2.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Epod\ePOD_one_exception.xml">
-      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">

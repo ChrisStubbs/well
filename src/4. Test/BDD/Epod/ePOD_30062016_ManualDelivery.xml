@@ -54,7 +54,7 @@
           <RouteHeaderID>1</RouteHeaderID>
           <ByPassReasonID />
           <PlannedStopNumber>01</PlannedStopNumber>
-          <TransportOrderRef>BIR-0000000000000000005</TransportOrderRef>
+          <TransportOrderRef>BIR-0000000000000000001</TransportOrderRef>
           <StopStatusCode>DEPAR</StopStatusCode>
           <StopStatusDescription>Departed</StopStatusDescription>
           <PerformanceStatusCode>COMPL</PerformanceStatusCode>
@@ -70,9 +70,10 @@
               <StopID>88638</StopID>
               <ByPassReasonID />
               <Sequence>1</Sequence>
-              <PHAccount>49214.152</PHAccount>
-              <PickListRef>4294343</PickListRef>
-              <InvoiceNumber>12345678</InvoiceNumber>
+              <JobRef1>123</JobRef1>
+              <JobRef2>4294343</JobRef2>
+              <JobRef3>94294343</JobRef3>
+              <JobRef4>49214.152</JobRef4>
               <CustomerRef>946941</CustomerRef>
               <GrnNumber>1234567896541236547896</GrnNumber>
               <GrnRefusedReason>Inv</GrnRefusedReason>
@@ -82,6 +83,73 @@
               <OrderDate>30-05-2016</OrderDate>
               <JobType_Code>DEL-TOB</JobType_Code>
               <Reason_ReasonCode>F</Reason_ReasonCode>
+              <Reason_Description>Manual Delivery</Reason_Description>
+              <EntityAttributeValues>
+                <EntityAttributeValue>
+                  <EntityAttributeValueID>6504243</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>3</EntityAttributeID>
+                  <EntityID>139666</EntityID>
+                  <Value1>56</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>06/01/2017 09:25:46</CreatedDate>
+                  <UpdatedDate>06/01/2017 09:25:46</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>3</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>2</Sequence>
+                    <Code>ORDOUTERS</Code>
+                    <Description>Ordered outers total quantity for Job</Description>
+                    <Label>Ordered outers total quantity for Job</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>True</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>01/07/2016 08:29:03</CreatedDate>
+                    <UpdatedDate>06/09/2016 10:45:33</UpdatedDate>
+                    <UserIDLastUpdate>196</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
+                <EntityAttributeValue>
+                  <EntityAttributeValueID>6504244</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>4</EntityAttributeID>
+                  <EntityID>139666</EntityID>
+                  <Value1>1212121212212</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>06/01/2017 09:25:46</CreatedDate>
+                  <UpdatedDate>06/01/2017 09:25:46</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>4</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>3</Sequence>
+                    <Code>GRNNO</Code>
+                    <Description>Invoiced outers total quantity for Job</Description>
+                    <Label>Invoiced outers total quantity for Job</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>True</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>01/07/2016 08:29:46</CreatedDate>
+                    <UpdatedDate>06/09/2016 10:46:41</UpdatedDate>
+                    <UserIDLastUpdate>196</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
+                </EntityAttributeValues>
               <JobDetails>
                 <JobDetail>
                   <JobDetailID>195269</JobDetailID>

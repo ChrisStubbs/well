@@ -49,6 +49,7 @@
                     x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                 });
         }
     }

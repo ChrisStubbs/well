@@ -27,6 +27,6 @@
         //<summary>
         //Job contains document deliveries only
         //</summary>
-        ManualDelivery = 6
+        DocumentDelivery = 6
     }
 }

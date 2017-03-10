@@ -18,23 +18,22 @@ namespace PH.Well.BDD.Features.Pages
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("ManualDeliveries")]
+    [NUnit.Framework.DescriptionAttribute("DocumentDeliveries")]
     [NUnit.Framework.CategoryAttribute("WebDriverFeature")]
     [NUnit.Framework.CategoryAttribute("RoleSuperUser")]
-    public partial class ManualDeliveriesFeature
+    public partial class DocumentDeliveriesFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "ManualDeliveries.feature"
+#line 1 "DocumentDeliveries.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ManualDeliveries", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "DocumentDeliveries", null, ProgrammingLanguage.CSharp, new string[] {
                         "WebDriverFeature",
                         "RoleSuperUser"});
             testRunner.OnFeatureStart(featureInfo);
@@ -70,28 +69,29 @@ namespace PH.Well.BDD.Features.Pages
         
         public virtual void FeatureBackground()
         {
-#line 8
-#line 9
+#line 5
+#line 6
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 10
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 11
+#line 7
+ testRunner.And("I have loaded the Adam document delivery route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
+ testRunner.And("I have imported a valid Epod update file named \'ePOD_30062016_DocumentDelivery.xm" +
+                    "l\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 9
  testRunner.And("I have selected branch \'22\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Standard Delivery with shorts shown as exception")]
-        public virtual void StandardDeliveryWithShortsShownAsException()
+        [NUnit.Framework.DescriptionAttribute("Document Delivery NOT shown")]
+        public virtual void DocumentDeliveryNOTShown()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Standard Delivery with shorts shown as exception", ((string[])(null)));
-#line 14
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Document Delivery NOT shown", ((string[])(null)));
+#line 11
 this.ScenarioSetup(scenarioInfo);
-#line 8
+#line 5
 this.FeatureBackground();
-#line 15
- testRunner.Given("I have imported a valid Epod update file named \'ePOD_30062016_Update.xml\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 16
+#line 12
  testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -105,33 +105,13 @@ this.FeatureBackground();
             table1.AddRow(new string[] {
                         "001",
                         "1",
-                        "94294343",
-                        "49214.152",
+                        "976549",
+                        "2874.033",
                         "CSG - must be CF van",
                         "Incomplete",
                         "0"});
-#line 17
+#line 13
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table1, "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Manual Delivery with shorts NOT shown as exception")]
-        public virtual void ManualDeliveryWithShortsNOTShownAsException()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Manual Delivery with shorts NOT shown as exception", ((string[])(null)));
-#line 22
-this.ScenarioSetup(scenarioInfo);
-#line 8
-this.FeatureBackground();
-#line 23
- testRunner.Given("I have imported a valid Epod update file named \'ePOD_30062016_ManualDelivery.xml\'" +
-                    "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 24
- testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 25
- testRunner.Then("no exceptions are displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

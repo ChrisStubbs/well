@@ -36,8 +36,7 @@ Scenario: Add short qty and damages to clean delivery
 	| Product: 50035 - Ind Potato Gratin 400g. Short Qty changed from 0 to 5. Damages added Reason - Picking Error, Source - Customer, Action - Credit - 2. | DeliveryLineUpdate | 94294343  | 49214.152 - CSG - must be CF van | 07/01/2016   |
 	
 Scenario: Remove short qty and damages from exception delivery
-	Given I have imported a valid Epod update file named 'ePOD_one_exception.xml'
-	And 1 deliveries have been marked as exceptions
+	Given 1 deliveries have been marked as exceptions
 	And I open the exception deliveries
 	And I assign the delivery to myself
 	And I open the exception delivery '1'

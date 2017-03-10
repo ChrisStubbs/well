@@ -58,7 +58,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     @ViewChild(ExceptionsConfirmModal)
     private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
-    public sort = 'desc';
+    //public sort = 'desc';
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -96,7 +96,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.activatedRoute.queryParams.subscribe(params =>
         {
             this.outstandingFilter = params['outstanding'] === 'true';
-            this.sort = params['sort'] || 'desc';
             this.getExceptions();
             this.getThresholdLimit();
             this.bulkCredits = new Array<ExceptionDelivery>();
@@ -123,7 +122,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             .subscribe(responseData =>
                 {
                     this.exceptions = responseData || new Array<ExceptionDelivery>();
-                    this.sortDirection();
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -145,18 +143,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 this.threshold = responseData[0];
             });
     }
-
-    private sortDirection(): void
-    {
-        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [this.sort]);
-        const isDesc = this.sort === 'desc';
-        super.onSortDirectionChanged(isDesc);
-    }
-
+   
     public onSortDirectionChanged(isDesc: boolean)
-    {
-        this.sort = isDesc ? 'desc' : 'asc';
-        this.sortDirection();
+    {   
+        super.onSortDirectionChanged(isDesc);
+        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
     }
 
     public onFilterClicked(filterOption: FilterOption)

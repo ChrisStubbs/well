@@ -60,7 +60,7 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
 
     public ngAfterViewInit(): void
     {
-        const tab:Tab = this.tabset.tabs.find(t => t.title === this.defaultTab);
+        const tab: Tab = this.tabset.tabs.find(t => t.title === this.defaultTab);
         tab.active = true;
     }
 

@@ -37,8 +37,6 @@ export class DeliveryIssuesComponent {
     }
 
     public ngOnInit(): void {
-
-
         this.deliveryService.getDamageReasons()
             .subscribe(r => { this.reasons = r; });
 

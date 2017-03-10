@@ -11,13 +11,16 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
     public selectedOption: DropDownItem;
     public selectedFilter: string;
     public currentPage: number;
+    public sort: string;
     private navigationSubscriber: any;
     public readonly rowCount: number = 10;
 
     constructor(private navigateQueryParametersService: NavigateQueryParametersService) {}
 
-    public onSortDirectionChanged(isDesc: boolean): void {
-        const item = new NavigateQueryParameters(undefined, 1, isDesc ? 'desc' : 'asc');
+    public onSortDirectionChanged(isDesc: boolean): void
+    {
+        this.sort = isDesc ? 'desc' : 'asc';
+        const item = new NavigateQueryParameters(undefined, 1, this.sort);
         NavigateQueryParametersService.SaveSort(item);
         this.navigateQueryParametersService.Navigate(this);
     }
@@ -43,5 +46,10 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
         this.currentPage = pageNumber;
         const item = new NavigateQueryParameters(undefined, this.currentPage);
         NavigateQueryParametersService.SavePageNumber(item);
+    }
+
+    public getSort(): string
+    {
+        return this.sort;
     }
 }

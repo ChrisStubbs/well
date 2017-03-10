@@ -31,7 +31,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     public deliveries = new Array<ResolvedDelivery>();
     public currentConfigSort: string;
     public account: IAccount;
-    public sort: string;
 
     @ViewChild(ContactModal) public contactModal: ContactModal;
     @ViewChild(AssignModal) public assignModal: AssignModal;
@@ -66,7 +65,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
-            this.sort = params['sort'] || 'desc';
             this.getDeliveries();
         });
         
@@ -81,7 +79,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
         this.resolvedDeliveryService.getResolvedDeliveries()
             .subscribe(deliveries => {
                     this.deliveries = deliveries || new Array<ResolvedDelivery>();
-                    this.sortDirection();
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -95,15 +92,10 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
         this.router.navigate(['/delivery', delivery.id]);
     }
 
-    public sortDirection(): void { 
-        this.deliveries = lodash.orderBy(this.deliveries, ['deliveryDate'], [this.sort]);
-        const isDesc = this.sort === 'desc';
+    public onSortDirectionChanged(isDesc: boolean)
+    {   
         super.onSortDirectionChanged(isDesc);
-    }
-
-    public onSortDirectionChanged(isDesc: boolean) {  
-        this.sort = isDesc ? 'desc' : 'asc';    
-        this.sortDirection();
+        this.deliveries = lodash.orderBy(this.deliveries, ['deliveryDate'], [super.getSort()]);
     }
 
     public openModal(accountId): void {

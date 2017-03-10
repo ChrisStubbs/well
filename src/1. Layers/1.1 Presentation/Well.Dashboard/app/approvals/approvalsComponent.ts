@@ -46,7 +46,6 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
-    public sort: string;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -76,7 +75,6 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
         this.activatedRoute.queryParams.subscribe(params =>
         {
-            this.sort = params['sort'] || 'desc';
             this.getApprovals();
         });
 
@@ -104,18 +102,12 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
                 });
     }
 
-    private sortDirection(): void {
-        this.approvals = lodash.orderBy(this.approvals, ['deliveryDate'], [this.sort]);
-        const isDesc = this.sort === 'desc';
-        super.onSortDirectionChanged(isDesc);
-    }
-
     public onSortDirectionChanged(isDesc: boolean)
     {
-        this.sort = isDesc ? 'desc' : 'asc';
-        this.sortDirection();
+        super.onSortDirectionChanged(isDesc);
+        this.approvals = lodash.orderBy(this.approvals, ['deliveryDate'], [super.getSort()]);
     }
-    
+
     public onFilterClicked(filterOption: FilterOption) {
         super.onFilterClicked(filterOption);
     }

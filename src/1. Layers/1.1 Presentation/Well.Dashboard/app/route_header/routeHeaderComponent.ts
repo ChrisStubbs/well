@@ -27,7 +27,6 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public routes: Route[];
     public lastRefresh = Date.now();
     public isReadOnlyUser: boolean = false;
-    public sort: string;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -57,7 +56,6 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>
         {
-            this.sort = params['sort'] || 'desc';
             this.getRoutes();
         });
     }
@@ -67,22 +65,16 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
         this.refreshSubscription.unsubscribe();
     }
 
-    private sortDirection(): void {
-        this.routes = lodash.orderBy(this.routes, ['routeDate'], [this.sort]);
-        const isDesc = this.sort === 'desc';
+    public onSortDirectionChanged(isDesc: boolean)
+    {
         super.onSortDirectionChanged(isDesc);
-    }
-
-    public onSortDirectionChanged(isDesc: boolean) {
-        this.sort = isDesc ? 'desc' : 'asc';
-        this.sortDirection();
+        this.routes = lodash.orderBy(this.routes, ['routeDate'], [super.getSort()]);
     }
 
     public getRoutes(): void {
         this.routerHeaderService.getRouteHeaders()
             .subscribe(routes => {
                     this.routes = routes;
-                    this.sortDirection();
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },

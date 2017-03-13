@@ -163,7 +163,14 @@
                     var newJob = new Job();
                     this.mapper.Map(job, newJob);
                     newJob.StopId = stopId;
-                    this.jobStatusService.SetIncompleteStatus(newJob);
+                    if (newJob.JobTypeCode == "DEL-DOC")
+                    {
+                        this.jobStatusService.SetInitialStatus(newJob);
+                    }
+                    else
+                    {
+                        this.jobStatusService.SetIncompleteStatus(newJob);
+                    }
                     this.jobRepository.Save(newJob);
                 }
             }

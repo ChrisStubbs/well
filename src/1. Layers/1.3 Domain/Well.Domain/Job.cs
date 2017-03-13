@@ -370,7 +370,8 @@
             }
         }
 
-        public string OuterDiscrepancyUpdate { get; set; }
+        public bool OuterDiscrepancyUpdate { get; set; }
+
         [XmlIgnore]
         public bool OuterDiscrepancyFound
         {

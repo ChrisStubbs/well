@@ -49,6 +49,7 @@
             to.JobDetails = from.JobDetails;
             to.GrnNumberUpdate = from.GrnNumber;
             to.OuterCountUpdate = from.OuterCount;
+            to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
             to.TotalOutersOverUpdate = from.TotalOutersOver;
             to.TotalOutersShortUpdate = from.TotalOutersShort;
         }

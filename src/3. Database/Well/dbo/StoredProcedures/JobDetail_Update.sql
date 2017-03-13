@@ -6,7 +6,7 @@
 	@JobDetailReasonId		TINYINT,
 	@JobDetailSourceId		TINYINT,
 	@ShortsActionId INT,
-	@LineDeliveryStatus		INT,
+	@LineDeliveryStatus		VARCHAR(20),
 	@SubOuterDamageQty		INT,
 	@ProductCode			VARCHAR(60),
 	@ProductDescription		VARCHAR(100),

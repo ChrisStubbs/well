@@ -16,6 +16,7 @@
             this.JobDetailDamages = new List<JobDetailDamage>();
             this.Actions = new List<JobDetailAction>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
         [XmlIgnore]
@@ -199,11 +200,12 @@
             }
         }
 
+        [XmlIgnore]
         public string LineDeliveryStatus
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "LINESTATUS");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "LINESTATUS");
 
                 return attribute?.Value;
             }
@@ -233,6 +235,10 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
+
+        [XmlArray("EntityAttributeValues")]
+        [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
+        public List<EntityAttributeValue> EntityAttributeValues { get; set; }
 
         public int JobDetailReasonId { get; set; }
 

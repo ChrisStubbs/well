@@ -357,23 +357,26 @@
             }
         }
 
+        public string OuterCountUpdate { get; set; }
+
         [XmlIgnore]
         public string OuterCount
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "OUTERCOUNT");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "OUTERCOUNT");
 
                 return attribute?.Value;
             }
         }
 
+        public string OuterDiscrepancyUpdate { get; set; }
         [XmlIgnore]
         public bool OuterDiscrepancyFound
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "DISCFOUND");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DISCFOUND");
 
                 if (attribute != null)
                 {
@@ -384,23 +387,27 @@
             }
         }
 
+        public string TotalOutersOverUpdate { get; set; }
+
         [XmlIgnore]
         public string TotalOutersOver
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "TOTOVER");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "TOTOVER");
 
                 return attribute?.Value;
             }
         }
+
+        public string TotalOutersShortUpdate { get; set; }
 
         [XmlIgnore]
         public string TotalOutersShort
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "TOTSHORT");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "TOTSHORT");
 
                 return attribute?.Value;
             }
@@ -411,7 +418,7 @@
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "PICKED");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "PICKED");
 
                 if (attribute != null)
                 {
@@ -422,12 +429,14 @@
             }
         }
 
+        public decimal InvoiceValueUpdate { get; set; }
+
         [XmlIgnore]
         public decimal InvoiceValue
         {
             get
             {
-                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "INVALUE");
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "INVALUE");
 
                 decimal total = 0;
                 decimal.TryParse(attribute?.Value, out total);

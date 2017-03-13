@@ -48,6 +48,9 @@
             to.InvoiceNumber = from.InvoiceNumber;
             to.JobDetails = from.JobDetails;
             to.GrnNumberUpdate = from.GrnNumber;
+            to.OuterCountUpdate = from.OuterCount;
+            to.TotalOutersOverUpdate = from.TotalOutersOver;
+            to.TotalOutersShortUpdate = from.TotalOutersShort;
         }
 
         public void Map(JobUpdate from, Job to)
@@ -66,6 +69,7 @@
             this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ALLOWSOCRD");
             this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "COD");
             this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ALLOWREORD");
+
         }
 
         public void Map(JobDetail from, JobDetail to)
@@ -73,6 +77,8 @@
             to.ShortQty = from.ShortQty;
             to.DeliveredQty = from.DeliveredQty;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
+
+            this.AddAttributeValues(to.EntityAttributeValues, from.EntityAttributeValues, "LINESTATUS");
         }
 
         public void Map(JobDetailUpdate from, JobDetail to)
@@ -94,6 +100,17 @@
             string name)
         {
             var attribute = jobUpdateAttributes.FirstOrDefault(x => x.Code == name);
+
+            if (attribute != null)
+            {
+                jobAttributes.Add(attribute);
+            }
+        }
+
+        private void AddAttributeValues(List<EntityAttributeValue> jobAttributes, List<EntityAttributeValue> jobUpdateAttributes,
+          string name)
+        {
+            var attribute = jobUpdateAttributes.FirstOrDefault(x => x.EntityAttribute.Code == name);
 
             if (attribute != null)
             {

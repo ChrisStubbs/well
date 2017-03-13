@@ -18,7 +18,7 @@
 	@NetPrice				FLOAT,
 	@JobId					INT,
 	@ShortsStatus			INT,
-	@LineDeliveryStatus		INT,
+	@LineDeliveryStatus		VARCHAR(20),
 	@IsHighValue			BIT = 0,
 	--@DateLife				DATETIME,
 	@CreatedBy				VARCHAR(50),

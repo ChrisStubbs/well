@@ -162,6 +162,11 @@
                 .AddParameter("Cod", entity.Cod, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
+                .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int16)
+                .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyUpdate, DbType.Boolean)
+                .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int16)
+                .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int16)
+                .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .Execute();
         }
 

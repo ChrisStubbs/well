@@ -17,7 +17,12 @@
 	@AllowSoCrd BIT,
 	@Cod VARCHAR(50),
 	@AllowReOrd BIT,
-	@JobStatusId TINYINT
+	@JobStatusId TINYINT,
+	@OuterCount INT,
+	@OuterDiscrepancyFound BIT,
+	@TotalOutersOver INT,
+	@TotalOutersShort INT,
+	@InvoiceValue DECIMAL(8,2)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -42,7 +47,12 @@ BEGIN
 		AllowSOCRD = @AllowSoCrd,
 		Cod = @Cod,
 		AllowReOrd = @AllowReOrd,
-		JobStatusId = @JobStatusId
+		JobStatusId = @JobStatusId,
+		OuterCount = @OuterCount,
+		OuterDiscrepancyFound = @OuterDiscrepancyFound,
+		TotalOutersOver = @TotalOutersOver,
+		TotalOutersShort = @TotalOutersShort,
+		InvoiceValue = @InvoiceValue
 	WHERE
 		Id = @Id
 END

@@ -81,9 +81,8 @@
               <PerformanceStatusCode>INCOM</PerformanceStatusCode>
               <PerformanceStatusDescription>Incomplete</PerformanceStatusDescription>
               <OrderDate>30-05-2016</OrderDate>
-              <JobType_Code>DEL-TOB</JobType_Code>
+              <JobType_Code>DEL-DOC</JobType_Code>
               <Reason_ReasonCode>F</Reason_ReasonCode>
-              <Reason_Description>Manual Delivery</Reason_Description>
               <EntityAttributeValues>
                 <EntityAttributeValue>
                   <EntityAttributeValueID>6504243</EntityAttributeValueID>
@@ -150,6 +149,138 @@
                   </EntityAttribute>
                 </EntityAttributeValue>
                 </EntityAttributeValues>
+              <JobDetails>
+                <JobDetail>
+                  <JobDetailID>195269</JobDetailID>
+                  <JobID>110679</JobID>
+                  <Barcode>50035</Barcode>
+                  <UnitMeasure>10</UnitMeasure>
+                  <OriginalDespatchQty>1</OriginalDespatchQty>
+                  <LineNumber>1</LineNumber>
+                  <LineStatus>1</LineStatus>
+                  <ProdDesc>A.Leaf 12.5g Flip Top</ProdDesc>
+                  <OrderedQty>1</OrderedQty>
+                  <DeliveredQty>1</DeliveredQty>
+                  <ShortQty>3</ShortQty>
+                  <PHProductType>5</PHProductType>
+                  <PackSize>10</PackSize>
+                  <SingleOrOuter>
+                  </SingleOrOuter>
+                  <SSCCBarcode>
+                  </SSCCBarcode>
+                  <SubOuterDamageTotal>100</SubOuterDamageTotal>
+                  <SkuGoodsValue>24.72</SkuGoodsValue>
+                  <JobDetailDamages>
+                    <JobDetailDamage>
+                      <Qty>1</Qty>
+                      <Reason>
+                        <ReasonCode>CAR01</ReasonCode>
+                        <Description>Dented</Description>
+                      </Reason>
+                      <Source>
+                        <ReasonCode>PSTDIS001</ReasonCode>
+                        <Description>The Warehouse</Description>
+                      </Source>
+                    </JobDetailDamage>
+                    <JobDetailDamage>
+                      <Qty>1</Qty>
+                      <Reason>
+                        <ReasonCode>DAR08</ReasonCode>
+                        <Description>Wrong Colour / Product</Description>
+                      </Reason>
+                      <Source>
+                        <ReasonCode>PSTDIS001</ReasonCode>
+                        <Description>The Warehouse</Description>
+                      </Source>
+                    </JobDetailDamage>
+                  </JobDetailDamages>
+                </JobDetail>
+              </JobDetails>
+            </Job>
+            <Job>
+              <JobID>110679</JobID>
+              <StopID>88638</StopID>
+              <ByPassReasonID />
+              <Sequence>1</Sequence>
+              <JobRef1>456</JobRef1>
+              <JobRef2>2545470</JobRef2>
+              <JobRef3>976549</JobRef3>
+              <JobRef4>2874.033</JobRef4>
+              <CustomerRef>946941</CustomerRef>
+              <GrnNumber>1234567896541236547896</GrnNumber>
+              <GrnRefusedReason>Inv</GrnRefusedReason>
+              <GrnRefusedDesc>Invalid</GrnRefusedDesc>
+              <PerformanceStatusCode>INCOM</PerformanceStatusCode>
+              <PerformanceStatusDescription>Incomplete</PerformanceStatusDescription>
+              <OrderDate>30-05-2016</OrderDate>
+              <JobType_Code>DEL-TOB</JobType_Code>
+              <Reason_ReasonCode>F</Reason_ReasonCode>
+              <EntityAttributeValues>
+                <EntityAttributeValue>
+                  <EntityAttributeValueID>6504243</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>3</EntityAttributeID>
+                  <EntityID>139666</EntityID>
+                  <Value1>56</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>06/01/2017 09:25:46</CreatedDate>
+                  <UpdatedDate>06/01/2017 09:25:46</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>3</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>2</Sequence>
+                    <Code>ORDOUTERS</Code>
+                    <Description>Ordered outers total quantity for Job</Description>
+                    <Label>Ordered outers total quantity for Job</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>True</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>01/07/2016 08:29:03</CreatedDate>
+                    <UpdatedDate>06/09/2016 10:45:33</UpdatedDate>
+                    <UserIDLastUpdate>196</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
+                <EntityAttributeValue>
+                  <EntityAttributeValueID>6504244</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>4</EntityAttributeID>
+                  <EntityID>139666</EntityID>
+                  <Value1>1212121212212</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>06/01/2017 09:25:46</CreatedDate>
+                  <UpdatedDate>06/01/2017 09:25:46</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>4</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>3</Sequence>
+                    <Code>GRNNO</Code>
+                    <Description>Invoiced outers total quantity for Job</Description>
+                    <Label>Invoiced outers total quantity for Job</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>True</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>01/07/2016 08:29:46</CreatedDate>
+                    <UpdatedDate>06/09/2016 10:46:41</UpdatedDate>
+                    <UserIDLastUpdate>196</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
+              </EntityAttributeValues>
               <JobDetails>
                 <JobDetail>
                   <JobDetailID>195269</JobDetailID>

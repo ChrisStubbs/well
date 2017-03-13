@@ -151,10 +151,10 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Features\Pages\ManualDeliveries.feature.cs">
+    <Compile Include="Features\Pages\DocumentDeliveries.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ManualDeliveries.feature</DependentUpon>
+      <DependentUpon>DocumentDeliveries.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Pages\NotificationsPage.feature.cs">
       <AutoGen>True</AutoGen>
@@ -310,9 +310,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ExceptionPage.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Pages\ManualDeliveries.feature">
+    <None Include="Features\Pages\DocumentDeliveries.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ManualDeliveries.feature.cs</LastGenOutput>
+      <LastGenOutput>DocumentDeliveries.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\NotificationsPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -373,7 +373,7 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Epod\ePOD_30062016_ManualDelivery.xml">
+    <Content Include="Epod\ePOD_30062016_DocumentDelivery.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -410,6 +410,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_02022017_82_2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ROUTE_DocumentDelivery.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_30062016_82.xml">

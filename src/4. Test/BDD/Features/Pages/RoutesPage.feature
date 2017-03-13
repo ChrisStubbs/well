@@ -97,7 +97,7 @@ Scenario: A user can page through Route information
 	Then the clean deliveries page will be opened
 	When I click the back button
 	Then the routes page will be displayed
-	And '10' rows of data will be displayed
+	And '1' rows of data will be displayed
 
 
  

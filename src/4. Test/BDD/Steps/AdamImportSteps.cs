@@ -72,6 +72,15 @@
 
             this.adamFileMonitorService.Process(importFilePath);
         }
+        [Given(@"I have loaded the Adam document delivery route data")]
+        public void LoadAdamDocDelData()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_DocumentDelivery.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
         [Given(@"I have loaded the MultiDate Adam route data")]
         public void LoadAdamRouteDataMultiDate()
         {
@@ -132,6 +141,7 @@
             ProcessImportFile(resultFile, parentNode, nodePosition, nodeToRemove, fileFolder, currentEpodRouteFile);
         }
         
+        [Given(@"I import the route file '(.*)' into the well")]
         [When(@"I import the route file '(.*)' into the well")]
         public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
         {

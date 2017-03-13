@@ -290,20 +290,6 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
             }
-
-            [Test]
-            public void BypassReaonOfManualDeliverySetsStatusToManualDelivery()
-            {
-                var branchNo = 55;
-                var invoiceNumber = "12345678";
-
-                var job1 = JobFactory.New
-                    .With(x => x.JobByPassReason = "Manual Delivery")
-                    .Build();
-
-                this.service.DetermineStatus(job1, branchNo);
-                Assert.AreEqual(JobStatus.ManualDelivery, job1.JobStatus);
-            }
         }
     }
 }

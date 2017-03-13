@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Services
 {
+    using System;
     using System.Linq;
     using System.Transactions;
     using PH.Well.Domain;
@@ -27,13 +28,8 @@
             {
                 case JobStatus.AwaitingInvoice:
                 case JobStatus.Resolved:
+                case JobStatus.DocumentDelivery:
                     return;
-            }
-
-            if (job.JobByPassReason == "Manual Delivery")
-            {
-                job.JobStatus = JobStatus.ManualDelivery;
-                return;
             }
 
             // Fetch all jobs associated with the current job's invoice and branch
@@ -88,7 +84,9 @@
 
         public void SetInitialStatus(Job job)
         {
-            job.JobStatus = JobStatus.AwaitingInvoice;
+            job.JobStatus = string.Equals(job.JobTypeCode, "DEL-DOC", StringComparison.OrdinalIgnoreCase)
+                ? JobStatus.DocumentDelivery
+                : JobStatus.AwaitingInvoice;
         }
 
         public void SetIncompleteStatus(Job job)

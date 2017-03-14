@@ -8,6 +8,6 @@ namespace PH.Well.Services.Contracts
 
         void SetIncompleteStatus(Job job);
 
-        void DetermineStatus(Job job, int branchId);
+        Job DetermineStatus(Job job, int branchId);
     }
 }

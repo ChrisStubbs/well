@@ -45,9 +45,18 @@
             this.jobStatusService = jobStatusService;
         }
 
+        public IList<Delivery> GetExceptions(string username)
+        {
+            var statuses = new List<JobStatus>() { JobStatus.Exception, JobStatus.CompletedOnPaper };
+            var exceptionDeliveries = deliveryReadRepository.GetByStatuses(username, statuses).ToList();
+            exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
+            return exceptionDeliveries;
+        }
+
         public IList<Delivery> GetApprovals(string username)
         {
-            var approvals = deliveryReadRepository.GetByStatus(username, JobStatus.Exception);
+            var statuses = new List<JobStatus>() { JobStatus.Exception, JobStatus.CompletedOnPaper };
+            var approvals = deliveryReadRepository.GetByStatuses(username, statuses);
             approvals = approvals.Where(j => j.IsPendingCredit);
 
             //Populate Thresholds
@@ -96,28 +105,25 @@
 
             using (var transactionScope = new TransactionScope())
             {
-                this.jobDetailRepository.Update(jobDetail);
-                this.jobDetailDamageRepository.Delete(jobDetail.Id);
+                jobDetailRepository.Update(jobDetail);
+                jobDetailDamageRepository.Delete(jobDetail.Id);
 
                 foreach (var jobDetailDamage in jobDetail.JobDetailDamages)
                 {
-                    this.jobDetailDamageRepository.Save(jobDetailDamage);
+                    jobDetailDamageRepository.Save(jobDetailDamage);
                 }
 
-                this.jobStatusService.DetermineStatus(job, branchId);
-                this.jobRepository.Update(job);
-
+                job = jobStatusService.DetermineStatus(job, branchId);
                 // was originally dirty now clean so can be resolved
                 if (!isCleanBeforeUpdate && job.JobStatus == JobStatus.Clean)
                 {
                     job.JobStatus = JobStatus.Resolved;
-
-                    this.jobRepository.Update(job);
                 }
+                jobRepository.Update(job);
 
                 if (audit.HasEntry)
                 {
-                    this.auditRepository.Save(audit);
+                    auditRepository.Save(audit);
                 }
 
                 transactionScope.Complete();

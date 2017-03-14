@@ -38,7 +38,7 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<IUserNameProvider> userNameProvider;
         private string userIdentity = "bob";
         private Mock<INotificationRepository> notificationsRepository;
-        private Mock<IDeliveryReadRepository> deliveryReadRepository;
+        private Mock<IDeliveryService> deliveryService;
 
         [SetUp]
         public void Setup()
@@ -54,7 +54,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("bob");
 
             notificationsRepository = new Mock<INotificationRepository>(MockBehavior.Strict);
-            deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
+            deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
 
             this.Controller = new WidgetController(serverErrorResponseHandler.Object,
                 this.logger.Object,
@@ -64,7 +64,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 this.validator.Object,
                 this.userNameProvider.Object,
                 this.notificationsRepository.Object,
-                this.deliveryReadRepository.Object);
+                this.deliveryService.Object);
             SetupController();
         }
 
@@ -102,8 +102,8 @@ namespace PH.Well.UnitTests.Api.Controllers
                     NotificationsWarningLevel = 2
                 };
 
-                deliveryReadRepository.Setup(d => d.GetByStatus(userIdentity, JobStatus.Exception))
-                    .Returns(new List<Delivery>());
+                deliveryService.Setup(d => d.GetExceptions(userIdentity)).Returns(new List<Delivery>());
+                deliveryService.Setup(d => d.GetApprovals(userIdentity)).Returns(new List<Delivery>());
                 notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>());
 
                 this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(warnings);
@@ -131,12 +131,14 @@ namespace PH.Well.UnitTests.Api.Controllers
                 exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
                 exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
                 exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
-                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
-                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
-                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
-                exceptions.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+                var approvals = new List<Delivery>();
+                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
+                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
+                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
 
-                deliveryReadRepository.Setup(d => d.GetByStatus(userIdentity, JobStatus.Exception)).Returns(exceptions);
+                deliveryService.Setup(d => d.GetExceptions(userIdentity)).Returns(exceptions);
+                deliveryService.Setup(d => d.GetApprovals(userIdentity)).Returns(approvals);
                 notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>() {new Notification()});
 
                 this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(new WidgetWarningLevels());

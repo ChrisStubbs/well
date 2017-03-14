@@ -6,14 +6,9 @@
 
     public interface IDeliveryService
     {
+        IList<Delivery> GetExceptions(string username);
         IList<Delivery> GetApprovals(string username);
-
         void UpdateDeliveryLine(JobDetail jobDetail, string username);
-
-        /*void UpdateDraftActions(JobDetail jobDetailUpdates, string username);
-
-        void SubmitActions(int jobId, string username);*/
-
         void SaveGrn(int jobId, string grn, int branchId, string username);
     }
 }

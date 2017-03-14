@@ -13,4 +13,4 @@ Scenario: Deliveries completed on paper are shown as exceptions
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status             | TBA |
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Completed On Paper | 0   |
-	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | Completed On Paper | 0   |
+	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Completed On Paper | 0   |

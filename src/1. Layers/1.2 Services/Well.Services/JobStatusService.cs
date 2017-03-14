@@ -17,7 +17,7 @@
             this.jobRepository = jobRepository;
         }
 
-        public void DetermineStatus(Job job, int branchId)
+        public Job DetermineStatus(Job job, int branchId)
         {
             if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
             {
@@ -29,13 +29,14 @@
                 case JobStatus.AwaitingInvoice:
                 case JobStatus.Resolved:
                 case JobStatus.DocumentDelivery:
-                    return;
+                case JobStatus.CompletedOnPaper:
+                    return job;
             }
 
             if (job.JobByPassReason == "Manual Delivery")
             {
                 job.JobStatus = JobStatus.CompletedOnPaper;
-                return;
+                return job;
             }
 
             // Fetch all jobs associated with the current job's invoice and branch
@@ -86,6 +87,7 @@
             }
 
             job.JobStatus = hasException ? JobStatus.Exception : JobStatus.Clean;
+            return job;
         }
 
         public void SetInitialStatus(Job job)

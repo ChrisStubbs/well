@@ -42,9 +42,7 @@
         {
             try
             {
-                var statuses = new List<JobStatus>() {JobStatus.Exception, JobStatus.CompletedOnPaper};
-                var exceptionDeliveries = deliveryReadRepository.GetByStatuses(UserIdentityName, statuses).ToList();
-                exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
+                var exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
 
                 return !exceptionDeliveries.Any()
                     ? Request.CreateResponse(HttpStatusCode.NotFound)

@@ -87,5 +87,12 @@
 
         public ProofOfDelivery? ProofOfDelivery { get; set; }
         public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
+
+        public bool IsAssignedTo(string identityName)
+        {
+            return string.Equals(IdentityName, identityName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public bool IsOutstanding => DeliveryDate.Date < DateTime.Today.Date;
     }
 }

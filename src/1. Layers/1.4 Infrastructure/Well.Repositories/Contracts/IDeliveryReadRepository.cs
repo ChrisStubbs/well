@@ -7,6 +7,7 @@
     public interface IDeliveryReadRepository
     {
         IEnumerable<Delivery> GetByStatus(string username, JobStatus jobStatus);
+        IEnumerable<Delivery> GetByStatuses(string username, IList<JobStatus> jobStatuses);
 
         IEnumerable<DeliveryLine> GetDeliveryLinesByJobId(int id);
 

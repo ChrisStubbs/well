@@ -131,6 +131,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Branch.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\CompletedOnPaperDelivery.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompletedOnPaperDelivery.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\EditDeliveryLine.feature.cs">
       <DependentUpon>EditDeliveryLine.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -294,6 +299,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Branch.feature.cs</LastGenOutput>
     </None>
+    <None Include="Features\Pages\CompletedOnPaperDelivery.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CompletedOnPaperDelivery.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Pages\EditDeliveryLine.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EditDeliveryLine.feature.cs</LastGenOutput>
@@ -371,6 +380,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD_30062016_CompletedOnPaperDelivery.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD_30062016_DocumentDelivery.xml">

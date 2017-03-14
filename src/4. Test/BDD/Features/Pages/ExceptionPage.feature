@@ -195,3 +195,4 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
 	| 001   | 1    | 976549    | 02874.033 | CSG - must be CF van | Incomplete | 2   |
+

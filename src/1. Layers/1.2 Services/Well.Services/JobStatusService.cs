@@ -32,6 +32,12 @@
                     return;
             }
 
+            if (job.JobByPassReason == "Manual Delivery")
+            {
+                job.JobStatus = JobStatus.CompletedOnPaper;
+                return;
+            }
+
             // Fetch all jobs associated with the current job's invoice and branch
             var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(job.Id, branchId, job.InvoiceNumber).ToList();
 

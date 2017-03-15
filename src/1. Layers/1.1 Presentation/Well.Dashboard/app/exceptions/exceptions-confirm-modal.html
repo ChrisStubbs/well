@@ -2,10 +2,10 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Please confirm your actions <br /> <small>Amount you can credit per delivery is {{userThreshold | currency:'GBP':true}} The total credit value for this delivery is <span class="badge">{{deliveryLines[0].totalCreditThreshold | currency:'GBP':true}}</span></small></h4>
+                <h4 class="modal-title">Please confirm your actions <br /> <small>Amount you can credit per delivery is {{userThreshold | currency:'GBP':true}} The total credit value for this delivery is <span class="badge">{{deliveryAction.totalCreditThreshold | currency:'GBP':true}}</span></small></h4>
             </div>
             <div class="modal-body">
-                <div class="panel panel-default" *ngFor="let line of deliveryLines">
+                <div class="panel panel-default" *ngFor="let line of deliveryAction.lines">
                     <div class="panel-heading">
                         <h5><strong id="product-information">{{line.productCode}} {{line.productDescription}}</strong></h5>
                     </div>
@@ -20,33 +20,39 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr class="grid-row">
-                                    <td><span class="badge" id="short-qty">{{line.shortQuantity}}</span></td>
-                                    <td id="short-reason">{{line.jobDetailReason}}</td>
-                                    <td id="short-source">{{line.jobDetailSource}}</td>
-                                    <td id="short-action">{{line.shortsAction}}</td>
-                                </tr>
+                            <tr class="grid-row">
+                                <td><span class="badge" id="short-qty">{{line.shortQuantity}}</span></td>
+                                <td id="short-reason">{{line.jobDetailReason}}</td>
+                                <td id="short-source">{{line.jobDetailSource}}</td>
+                                <td id="short-action">{{line.shortsAction}}</td>
+                            </tr>
                             </tbody>
                         </table>
                         
                         <table class="table table-hover table-striped">
                             <thead>
-                                <tr>
-                                    <th style="width: 100px;">Damage Qty</th>
-                                    <th style="width: 260px;">Reason</th>
-                                    <th style="width: 260px;">Source</th>
-                                    <th style="width: 200px;">Action</th>
-                                </tr>
+                            <tr>
+                                <th style="width: 100px;">Damage Qty</th>
+                                <th style="width: 260px;">Reason</th>
+                                <th style="width: 260px;">Source</th>
+                                <th style="width: 200px;">Action</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr class="grid-row" *ngFor="let damage of line.damages; let i = index">
-                                    <td><span class="badge" id="damage-qty{{i}}">{{damage.quantity}}</span></td>
-                                    <td id="damage-reason{{i}}">{{damage.jobDetailReason}}</td>
-                                    <td id="damage-source{{i}}">{{damage.jobDetailSource}}</td>
-                                    <td id="damage-action{{i}}">{{damage.damageAction}}</td>
-                                </tr>
+                            <tr class="grid-row" *ngFor="let damage of line.damages; let i = index">
+                                <td><span class="badge" id="damage-qty{{i}}">{{damage.quantity}}</span></td>
+                                <td id="damage-reason{{i}}">{{damage.jobDetailReason}}</td>
+                                <td id="damage-source{{i}}">{{damage.jobDetailSource}}</td>
+                                <td id="damage-action{{i}}">{{damage.damageAction}}</td>
+                            </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div *ngIf="deliveryAction.lines.length == 0" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h5>Resolve exception?</h5>
+                        <p>There are no outstanding shorts or damagages for this delivery.<br/>Please submit the exception if you would like to resolve it.</p>
                     </div>
                 </div>
             </div>

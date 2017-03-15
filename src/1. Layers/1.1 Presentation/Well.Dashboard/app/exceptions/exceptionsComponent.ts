@@ -22,7 +22,8 @@ import { DeliveryLine }                             from '../delivery/model/deli
 import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
 import * as lodash                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
-import 'rxjs/Rx';   // Load all features
+import 'rxjs/Rx';
+import {DeliveryAction} from '../delivery/model/deliveryAction'; // Load all features
 
 @Component({
     selector: 'ow-exceptions',
@@ -355,9 +356,9 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public submit(delivery: ExceptionDelivery): void
     {
         this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
-            .subscribe((deliveryLines: DeliveryLine[]) =>
+            .subscribe((deliveryAction: DeliveryAction) =>
             {
-                this.exceptionConfirmModal.show(deliveryLines);
+                this.exceptionConfirmModal.show(deliveryAction);
             });
     }
 

@@ -10,9 +10,9 @@
             this.Actions = new List<ActionModel>();
         }
 
-        public int JobDetailId { get; set; }
-
         public int JobId { get; set; }
+
+        public int JobDetailId { get; set; }
 
         public int LineNo { get; set; }
 
@@ -43,8 +43,6 @@
         public string JobDetailSource { get; set; }
 
         public string ShortsAction { get; set; }
-
-        public decimal TotalCreditThreshold { get; set; }
 
         public List<DamageModel> Damages { get; set; }
 

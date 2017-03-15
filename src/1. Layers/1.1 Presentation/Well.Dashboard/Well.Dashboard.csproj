@@ -765,6 +765,7 @@
     <Content Include="app\approvals\approvalsComponent.ts" />
     <Content Include="app\approvals\approvalDelivery.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
+    <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />

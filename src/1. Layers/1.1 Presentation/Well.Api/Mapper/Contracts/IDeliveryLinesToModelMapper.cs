@@ -7,6 +7,6 @@
 
     public interface IDeliveryLinesToModelMapper
     {
-        List<DeliveryLineModel> Map(IEnumerable<DeliveryLine> deliveryLines);
+        DeliveryActionModel Map(IEnumerable<DeliveryLine> deliveryLines);
     }
 }

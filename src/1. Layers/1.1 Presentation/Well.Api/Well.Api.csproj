@@ -231,6 +231,7 @@
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
     <Compile Include="Models\ActionModel.cs" />
+    <Compile Include="Models\DeliveryActionModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\ExceptionModel.cs" />

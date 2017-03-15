@@ -9,6 +9,7 @@ import {IUser} from '../shared/user';
 import {LogService} from '../shared/logService';
 import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine';
+import {DeliveryAction} from '../delivery/model/deliveryAction';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -41,7 +42,7 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getConfirmationDetails(jobId: number): Observable<DeliveryLine[]> {
+    public getConfirmationDetails(jobId: number): Observable<DeliveryAction> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line-actions/' + jobId)
             .map(res => res.json());  
     }

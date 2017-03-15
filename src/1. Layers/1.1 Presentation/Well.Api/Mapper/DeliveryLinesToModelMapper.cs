@@ -11,9 +11,11 @@
 
     public class DeliveryLinesToModelMapper : IDeliveryLinesToModelMapper
     {
-        public List<DeliveryLineModel> Map(IEnumerable<DeliveryLine> deliveryLines)
+        public DeliveryActionModel Map(IEnumerable<DeliveryLine> deliveryLines)
         {
-            var model = new List<DeliveryLineModel>();
+            var model = new DeliveryActionModel();
+            model.JobId = deliveryLines.First().JobId;
+            model.TotalCreditThreshold = deliveryLines.Sum(x => x.CreditValueForThreshold());
 
             foreach (var line in deliveryLines)
             {
@@ -22,9 +24,9 @@
                 var deliveryLineModel = new DeliveryLineModel
                 {
                     JobId = line.JobId,
+                    JobDetailId = line.JobDetailId,
                     ProductCode = line.ProductCode,
                     ProductDescription = line.ProductDescription,
-                    TotalCreditThreshold = deliveryLines.Sum(x => x.CreditValueForThreshold()),
                     ShortQuantity = line.ShortQuantity,
                     ShortsAction = Enum<DeliveryAction>.GetDescription((DeliveryAction)line.ShortsActionId),
                     JobDetailReason = Enum<JobDetailReason>.GetDescription((JobDetailReason)line.JobDetailReasonId),
@@ -46,7 +48,7 @@
                     deliveryLineModel.Damages.Add(damageModel);
                 }
 
-                model.Add(deliveryLineModel);
+                model.Lines.Add(deliveryLineModel);
             }
 
             return model;

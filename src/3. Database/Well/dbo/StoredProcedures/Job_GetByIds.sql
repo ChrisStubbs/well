@@ -24,7 +24,6 @@ BEGIN
 	  ,j.[GrnRefusedDesc] 
 	  ,j.[AllowReOrd] 
 	  ,j.[SandwchOrd] 
-	  ,j.[TotalCreditValueForThreshold]
 	  ,j.[PerformanceStatusId] as PerformanceStatus
 	  ,j.[Reason]
 	  ,j.[IsDeleted]

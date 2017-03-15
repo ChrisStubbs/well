@@ -147,7 +147,6 @@
                 .AddParameter("Reason", entity.JobByPassReason, DbType.String)
                 .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int16)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
-                .AddParameter("CreditValue", entity.TotalCreditValueForThreshold(), DbType.Decimal)
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
                 .AddParameter("JobTypeCode", entity.GetJobTypeCode(), DbType.String)
                 .AddParameter("PhAccount", entity.PhAccount, DbType.String)

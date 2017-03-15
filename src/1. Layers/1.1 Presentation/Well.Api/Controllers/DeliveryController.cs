@@ -42,7 +42,7 @@
         {
             try
             {
-                var exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
+                IList<Delivery> exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
 
                 return !exceptionDeliveries.Any()
                     ? Request.CreateResponse(HttpStatusCode.NotFound)

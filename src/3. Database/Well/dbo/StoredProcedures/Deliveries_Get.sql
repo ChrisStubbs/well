@@ -37,7 +37,6 @@ BEGIN
 			b.Id as BranchId,
 			u2.IdentityName,
 			j.COD as CashOnDelivery,
-			j.TotalCreditValueForThreshold,
 			j.TotalOutersShort,
 			Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
 			pc.CreatedBy as PendingCreditCreatedBy,

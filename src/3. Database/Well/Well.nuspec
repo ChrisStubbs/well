@@ -10,6 +10,7 @@
 	<files>
 		<file src="\bin\Release\Well.dacpac" target="Content\Deploy" />
 		<file src="\bin\Release\Well.xml" target="Content\Deploy" />
+		<file src="\bin\Release\ManualStep\**" target="Content\ManualStep" />
 		<file src="Deploy.ps1" />
 	</files>
 </package>

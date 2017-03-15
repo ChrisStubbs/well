@@ -70,7 +70,7 @@
             }
         }
 
-        public decimal TotalCreditValueForThreshold { get; set; }
+        public decimal TotalCreditValueForThreshold => Lines.Sum(d => d.CreditValueForThreshold());
 
         public ThresholdLevel? ThresholdLevel { get; set; }
 

@@ -36,7 +36,7 @@ namespace PH.Well.BDD.Steps
         }
 
 
-        public void SetDeliveriesToCredit(int noOfDeliveries, bool confirmLines)
+        public void SetDeliveriesToAction(int noOfDeliveries, bool confirmLines, DeliveryAction action)
         {
             string userIdentity = WindowsIdentity.GetCurrent().Name;
             var user = userRepository.GetByIdentity(userIdentity);
@@ -60,7 +60,7 @@ namespace PH.Well.BDD.Steps
 
                 foreach (var jobDetail in job.JobDetails)
                 {
-                    SetDeliveryLineActionToCredit(jobId, jobDetail.LineNumber);
+                    SetDeliveryLineActionToAction(jobId, jobDetail.LineNumber, action);
                 }
 
                 if (confirmLines)
@@ -69,18 +69,18 @@ namespace PH.Well.BDD.Steps
                     var response2 = webClientHelper.Post(confirmAddress, "");
 
                     Assert.AreEqual(HttpStatusCode.OK, webClientHelper.HttpWebResponse.StatusCode,
-                        $"Unable to confirm credit, response: {response2}");
+                        $"Unable to confirm complete action, response: {response2}");
                 }
             }
         }
 
-        public void SetDeliveryLineActionToCredit(int jobId, int lineNo)
+        public void SetDeliveryLineActionToAction(int jobId, int lineNo, DeliveryAction action)
         {
             var deliverylineUpdate = new DeliveryLineModel()
             {
                 JobId = jobId,
                 LineNo = lineNo,
-                ShortsActionId = (int)DeliveryAction.Credit,
+                ShortsActionId = (int)action,
                 ShortQuantity = 1
             };
             var address = $"{Configuration.WellApiUrl}DeliveryLine";
@@ -88,7 +88,7 @@ namespace PH.Well.BDD.Steps
             var response = webClientHelper.Put(address, data);
 
             Assert.AreEqual(HttpStatusCode.OK, webClientHelper.HttpWebResponse.StatusCode,
-                $"Unable to set delivery to credit, response: {response}");
+                $"Unable to set delivery to {action}, response: {response}");
         }
     }
 }

@@ -123,6 +123,86 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Deliveries completed on paper with exceptions can be resolved")]
+        public virtual void DeliveriesCompletedOnPaperWithExceptionsCanBeResolved()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deliveries completed on paper with exceptions can be resolved", ((string[])(null)));
+#line 18
+this.ScenarioSetup(scenarioInfo);
+#line 5
+this.FeatureBackground();
+#line 19
+ testRunner.Given("1 delivery has all its lines set to close", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 20
+ testRunner.And("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.When("I select the exception submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
+ testRunner.And("I confirm the exception submit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "TBA"});
+            table2.AddRow(new string[] {
+                        "001",
+                        "1",
+                        "1000123",
+                        "02874.033",
+                        "CSG - must be CF van",
+                        "Completed On Paper",
+                        "0"});
+#line 23
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table2, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Deliveries completed on paper without exceptions can be resolved")]
+        public virtual void DeliveriesCompletedOnPaperWithoutExceptionsCanBeResolved()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deliveries completed on paper without exceptions can be resolved", ((string[])(null)));
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 5
+this.FeatureBackground();
+#line 28
+ testRunner.Given("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 29
+ testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 30
+ testRunner.And("I select the exception submit button on Row \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+ testRunner.And("I confirm the exception submit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status",
+                        "TBA"});
+            table3.AddRow(new string[] {
+                        "001",
+                        "1",
+                        "976549",
+                        "49214.152",
+                        "CSG - must be CF van",
+                        "Completed On Paper",
+                        "0"});
+#line 32
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table3, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

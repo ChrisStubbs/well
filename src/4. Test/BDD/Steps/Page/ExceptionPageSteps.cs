@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading;
+    using Domain.Enums;
     using NUnit.Framework;
     using OpenQA.Selenium;
     using Pages;
@@ -57,7 +58,14 @@
         public void GivenDeliveryHasAllItsLinesSetToCredit(int noOfDeliveries)
         {
             var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
-            setupDeliveryLineUpdate.SetDeliveriesToCredit(noOfDeliveries, false);
+            setupDeliveryLineUpdate.SetDeliveriesToAction(noOfDeliveries, false, DeliveryAction.Credit);
+        }
+
+        [Given(@"(.*) delivery has all its lines set to close")]
+        public void GivenDeliveryHasAllItsLinesSetToClose(int noOfDeliveries)
+        {
+            var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
+            setupDeliveryLineUpdate.SetDeliveriesToAction(noOfDeliveries, false, DeliveryAction.Close);
         }
 
         [Then(@"the following exception deliveries will be displayed")]
@@ -378,6 +386,14 @@
         public void SelectExceptionSubmitButton()
         {
             ExceptionDeliveriesPage.FirstRowSubmitButton.Click();
+        }
+
+        [When(@"I select the exception submit button on Row '(.*)'")]
+        public void SelectExceptionSubmitButtonRowX(int rowNumber)
+        {
+            var row = ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList()[rowNumber - 1];
+            var button = row.GetItemInRowById($"submit{rowNumber}");
+            button.Click();
         }
 
         [When(@"I confirm the exception submit")]

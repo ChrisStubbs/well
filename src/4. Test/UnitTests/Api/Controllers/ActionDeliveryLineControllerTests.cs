@@ -64,7 +64,7 @@
                 var jobId = 44;
 
                 this.deliveryReadRepository.Setup(x => x.GetDeliveryLinesByJobId(jobId)).Returns(deliveryLines);
-                this.mapper.Setup(x => x.Map(deliveryLines)).Returns(new List<DeliveryLineModel>());
+                this.mapper.Setup(x => x.Map(deliveryLines)).Returns(new DeliveryActionModel());
 
                 var response = this.Controller.DeliveryLineActions(jobId);
 

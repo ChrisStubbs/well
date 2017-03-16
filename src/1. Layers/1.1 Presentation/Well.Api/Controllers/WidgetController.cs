@@ -13,6 +13,7 @@
 
     using PH.Well.Common.Security;
     using Repositories.Contracts;
+    using Services.Contracts;
     using Validators;
     using Validators.Contracts;
 
@@ -25,7 +26,7 @@
         private readonly IWidgetWarningMapper mapper;
         private readonly IWidgetWarningValidator validator;
         private readonly INotificationRepository notificationRepository;
-        private readonly IDeliveryReadRepository deliveryReadRepository;
+        private readonly IDeliveryService deliveryService;
 
         public WidgetController(IServerErrorResponseHandler serverErrorResponseHandler,
             ILogger logger,
@@ -35,7 +36,7 @@
             IWidgetWarningValidator validator,
             IUserNameProvider userNameProvider,
             INotificationRepository notificationRepository,
-            IDeliveryReadRepository deliveryReadRepository)
+            IDeliveryService deliveryService)
             : base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
@@ -45,7 +46,7 @@
             this.mapper = mapper;
             this.validator = validator;
             this.notificationRepository = notificationRepository;
-            this.deliveryReadRepository = deliveryReadRepository;
+            this.deliveryService = deliveryService;
 
             //////this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
@@ -57,10 +58,8 @@
         {
             try
             {
-                var deliveries = deliveryReadRepository.GetByStatus(UserIdentityName, JobStatus.Exception);
-                var assignedDeliveries = deliveries.Where(
-                    d => string.Equals(d.IdentityName, UserIdentityName, StringComparison.OrdinalIgnoreCase));
-                var outstandingDeliveries = deliveries.Where(d => d.DeliveryDate.Date < DateTime.Today.Date);
+                var exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
+                var approvalDeliveries = deliveryService.GetApprovals(this.UserIdentityName);
 
                 var warningLevels = this.userStatsRepository.GetWidgetWarningLevels(UserIdentityName);
                 var notifications = notificationRepository.GetNotifications();
@@ -78,7 +77,7 @@
                         {
                             new WidgetLinkModel()
                             {
-                                Count = deliveries.Count(d => d.IsPendingCredit == false),
+                                Count = exceptionDeliveries.Count(),
                                 CountName = "unsubmitted-exceptions",
                                 Link = "/exceptions",
                                 LinkText = "unsubmitted"
@@ -86,7 +85,7 @@
                             },
                             new WidgetLinkModel()
                             {
-                                Count = deliveries.Count(d => d.IsPendingCredit),
+                                Count = approvalDeliveries.Count(),
                                 CountName = "approval-exceptions",
                                 Link = "/approvals",
                                 LinkText = "pending approval"
@@ -104,14 +103,14 @@
                         {
                             new WidgetLinkModel()
                             {
-                                Count = assignedDeliveries.Count(d => d.IsPendingCredit == false),
+                                Count = exceptionDeliveries.Count(d => d.IsAssignedTo(UserIdentityName)),
                                 CountName = "my-unsubmitted-exceptions",
                                 Link = "/exceptions",
                                 LinkText = "assigned unsubmitted"
                             },
                             new WidgetLinkModel()
                             {
-                                Count = assignedDeliveries.Count(d => d.IsPendingCredit),
+                                Count = approvalDeliveries.Count(d => d.IsAssignedTo(UserIdentityName)),
                                 CountName = "my-approval-exceptions",
                                 Link = "/approvals",
                                 LinkText = "assigned pending approval"
@@ -129,14 +128,14 @@
                         {
                             new WidgetLinkModel()
                             {
-                                Count = outstandingDeliveries.Count(d => d.IsPendingCredit == false),
+                                Count = exceptionDeliveries.Count(d => d.IsOutstanding),
                                 CountName = "outstanding-unsubmitted-exceptions",
                                 Link = "/exceptions",
                                 LinkText = "outstanding unsubmitted"
                             },
                             new WidgetLinkModel()
                             {
-                                Count = outstandingDeliveries.Count(d => d.IsPendingCredit),
+                                Count = approvalDeliveries.Count(d => d.IsOutstanding),
                                 CountName = "outstanding-approval-exceptions",
                                 Link = "/approvals",
                                 LinkText = "outstanding pending approval"

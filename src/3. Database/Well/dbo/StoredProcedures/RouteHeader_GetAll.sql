@@ -80,7 +80,6 @@ SELECT [j].[Id]
 	  ,[GrnRefusedDesc] 
 	  ,[AllowReOrd] 
 	  ,[SandwchOrd] 
-	  ,[TotalCreditValueForThreshold]
 	  ,[PerformanceStatusId] as PerformanceStatus
 	  ,[j].[Reason]
 	  ,[j].[IsDeleted]

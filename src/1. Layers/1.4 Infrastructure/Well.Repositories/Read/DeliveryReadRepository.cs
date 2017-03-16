@@ -4,6 +4,7 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Dapper;
     using Domain.Enums;
@@ -22,10 +23,17 @@
 
         public IEnumerable<Delivery> GetByStatus(string username, JobStatus jobStatus)
         {
+            return GetByStatuses(username, new List<JobStatus>() {jobStatus});
+        }
+
+        public IEnumerable<Delivery> GetByStatuses(string username, IList<JobStatus> jobStatuses)
+        {
             var deliveries = new List<Delivery>();
+
+            var statuses = jobStatuses.Select(j => (int) j).ToList();
             dapperReadProxy.WithStoredProcedure(StoredProcedures.DeliveriesGet)
                 .AddParameter("username", username, DbType.String)
-                .AddParameter("JobStatus", jobStatus, DbType.Int32)
+                .AddParameter("JobStatuses", statuses.ToIntDataTables("JobStatuses"), DbType.Object)
                 .QueryMultiple(x => deliveries = GetDeliveriesFromGrid(x));
 
             return deliveries;

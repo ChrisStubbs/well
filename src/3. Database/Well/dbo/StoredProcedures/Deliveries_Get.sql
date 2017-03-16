@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Deliveries_Get]
 	@UserName VARCHAR(500),
-	@JobStatus INT
+	@JobStatuses dbo.IntTableType READONLY
 AS
 BEGIN
 
@@ -16,12 +16,12 @@ BEGIN
 			INNER JOIN Branch b on rh.RouteOwnerId = b.Id
 			INNER JOIN UserBranch ub on b.Id = ub.BranchId
 			INNER JOIN [User] u on u.Id = ub.UserId
+			Inner Join @JobStatuses js on js.Value = j.JobStatusId
 	WHERE	u.IdentityName = @UserName
 			AND j.InvoiceNumber IS NOT NULL
 			AND	rh.IsDeleted = 0
 			AND	s.IsDeleted = 0
 			AND j.IsDeleted = 0
-			AND	j.JobStatusId = @JobStatus
 
 	SELECT	j.Id,
 			rh.RouteNumber, 
@@ -37,7 +37,6 @@ BEGIN
 			b.Id as BranchId,
 			u2.IdentityName,
 			j.COD as CashOnDelivery,
-			j.TotalCreditValueForThreshold,
 			j.TotalOutersShort,
 			Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
 			pc.CreatedBy as PendingCreditCreatedBy,

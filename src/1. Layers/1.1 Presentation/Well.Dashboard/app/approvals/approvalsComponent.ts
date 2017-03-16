@@ -22,6 +22,7 @@ import { BaseComponent }                            from '../shared/BaseComponen
 import 'rxjs/Rx';
 import {DeliveryLine} from '../delivery/model/deliveryLine';
 import {BaseDelivery} from '../shared/baseDelivery';
+import {DeliveryAction} from '../delivery/model/deliveryAction';
 
 @Component({
     templateUrl: './app/approvals/approvals-list.html'
@@ -149,8 +150,8 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
     public submit(delivery: BaseDelivery): void {
         this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
-            .subscribe((deliveryLines: DeliveryLine[]) => {
-                this.exceptionConfirmModal.show(deliveryLines);
+            .subscribe((deliveryAction: DeliveryAction) => {
+                this.exceptionConfirmModal.show(deliveryAction);
             });
     }
 }

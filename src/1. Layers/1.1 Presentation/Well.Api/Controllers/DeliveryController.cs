@@ -42,13 +42,11 @@
         {
             try
             {
-                var exceptionDeliveries =
-                    this.deliveryReadRepository.GetByStatus(this.UserIdentityName, JobStatus.Exception).ToList();
-                exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
+                IList<Delivery> exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
 
                 return !exceptionDeliveries.Any()
-                    ? this.Request.CreateResponse(HttpStatusCode.NotFound)
-                    : this.Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);
+                    ? Request.CreateResponse(HttpStatusCode.NotFound)
+                    : Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);
 
             }
             catch (Exception ex)

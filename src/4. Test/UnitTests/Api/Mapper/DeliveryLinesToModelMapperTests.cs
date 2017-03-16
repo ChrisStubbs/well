@@ -63,16 +63,16 @@
 
             var model = this.mapper.Map(lines);
 
-            Assert.That(model.Count, Is.EqualTo(2));
+            Assert.That(model.Lines.Count, Is.EqualTo(2));
 
-            Assert.That(model[0].ShortQuantity, Is.EqualTo(line1.ShortQuantity));
-            Assert.That(model[1].ShortQuantity, Is.EqualTo(line2.ShortQuantity));
-            Assert.That(model[0].JobDetailReason, Is.EqualTo(Enum<JobDetailReason>.GetDescription((JobDetailReason)line1.JobDetailReasonId)));
-            Assert.That(model[1].JobDetailReason, Is.EqualTo(Enum<JobDetailReason>.GetDescription((JobDetailReason)line2.JobDetailReasonId)));
-            Assert.That(model[0].JobDetailSource, Is.EqualTo(Enum<JobDetailSource>.GetDescription((JobDetailSource)line1.JobDetailSourceId)));
-            Assert.That(model[1].JobDetailSource, Is.EqualTo(Enum<JobDetailSource>.GetDescription((JobDetailSource)line2.JobDetailSourceId)));
-            Assert.That(model[0].ShortsAction, Is.EqualTo(Enum<DeliveryAction>.GetDescription((DeliveryAction)line1.ShortsActionId)));
-            Assert.That(model[1].ShortsAction, Is.EqualTo(Enum<DeliveryAction>.GetDescription((DeliveryAction)line2.ShortsActionId)));
+            Assert.That(model.Lines[0].ShortQuantity, Is.EqualTo(line1.ShortQuantity));
+            Assert.That(model.Lines[1].ShortQuantity, Is.EqualTo(line2.ShortQuantity));
+            Assert.That(model.Lines[0].JobDetailReason, Is.EqualTo(Enum<JobDetailReason>.GetDescription((JobDetailReason)line1.JobDetailReasonId)));
+            Assert.That(model.Lines[1].JobDetailReason, Is.EqualTo(Enum<JobDetailReason>.GetDescription((JobDetailReason)line2.JobDetailReasonId)));
+            Assert.That(model.Lines[0].JobDetailSource, Is.EqualTo(Enum<JobDetailSource>.GetDescription((JobDetailSource)line1.JobDetailSourceId)));
+            Assert.That(model.Lines[1].JobDetailSource, Is.EqualTo(Enum<JobDetailSource>.GetDescription((JobDetailSource)line2.JobDetailSourceId)));
+            Assert.That(model.Lines[0].ShortsAction, Is.EqualTo(Enum<DeliveryAction>.GetDescription((DeliveryAction)line1.ShortsActionId)));
+            Assert.That(model.Lines[1].ShortsAction, Is.EqualTo(Enum<DeliveryAction>.GetDescription((DeliveryAction)line2.ShortsActionId)));
         }
     }
 }

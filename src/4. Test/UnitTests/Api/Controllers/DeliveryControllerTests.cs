@@ -57,7 +57,7 @@
             {
                 var deliveries = new List<Delivery> {DeliveryFactory.New.Build()};
 
-                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(), JobStatus.Exception)).Returns(deliveries);
+                deliveryService.Setup(d => d.GetExceptions(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetExceptions();
 
@@ -75,8 +75,8 @@
             public void ShouldReturnNotFoundWhenNoExceptions()
             {
                 var deliveries = new List<Delivery>();
-
-                this.deliveryReadRepository.Setup(x => x.GetByStatus("", JobStatus.Exception)).Returns(deliveries);
+  
+                deliveryService.Setup(d => d.GetExceptions(It.IsAny<string>())).Returns(deliveries);
 
                 var response = this.Controller.GetExceptions();
 
@@ -88,8 +88,7 @@
             {
                 var exception = new Exception();
 
-                this.deliveryReadRepository.Setup(x => x.GetByStatus(It.IsAny<string>(), JobStatus.Exception))
-                    .Throws(exception);
+                deliveryService.Setup(d => d.GetExceptions(It.IsAny<string>())).Throws(exception);
 
                 this.serverErrorResponseHandler.Setup(
                     x =>

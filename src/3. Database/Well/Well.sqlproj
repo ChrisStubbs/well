@@ -64,6 +64,12 @@
     <Folder Include="Post-Deployement" />
     <Folder Include="dbo\Types" />
     <Folder Include="dbo\Functions" />
+    <Folder Include="ManualStep" />
+    <Folder Include="ManualStep\roundhouse.0.8.6" />
+    <Folder Include="ManualStep\roundhouse.0.8.6\bin" />
+    <Folder Include="ManualStep\scripts" />
+    <Folder Include="ManualStep\scripts\runBeforeUp" />
+    <Folder Include="ManualStep\scripts\up" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deploy.ps1">
@@ -83,6 +89,12 @@
     <None Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
     <None Include="Post-Deployement\Populate-PDACreditReasons.sql" />
     <Build Include="dbo\Tables\JobDetailReason.sql" />
+    <None Include="ManualStep\roundhouse.0.8.6\bin\rh.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\runRoundhouse.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -267,6 +279,9 @@
     <Build Include="dbo\Types\IntTableType.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByIds.sql" />
     <Build Include="dbo\StoredProcedures\Users_Get.sql" />
+    <None Include="ManualStep\scripts\up\001_DropTotalCreditValueForThreshold.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

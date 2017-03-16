@@ -27,6 +27,11 @@
         //<summary>
         //Job contains document deliveries only
         //</summary>
-        DocumentDelivery = 6
+        DocumentDelivery = 6,
+
+        //<summary>
+        //Job completed on paper
+        //</summary>
+        CompletedOnPaper = 7
     }
 }

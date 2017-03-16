@@ -78,7 +78,7 @@
         public void SetDeliveriesToWaitingCredit(int noOfDeliveries)
         {
             var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
-            setupDeliveryLineUpdate.SetDeliveriesToCredit(noOfDeliveries, true);
+            setupDeliveryLineUpdate.SetDeliveriesToAction(noOfDeliveries, true, DeliveryAction.Credit);
         }
 
         [When(@"I filter for threshold level (.*)")]

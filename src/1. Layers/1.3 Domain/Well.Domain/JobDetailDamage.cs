@@ -75,7 +75,10 @@
             {
                 if (Reason != null)
                 {
-                    return (JobDetailReason)Enum.Parse(typeof(JobDetailReason), Reason.Code);
+                    JobDetailReason jdReason;
+                    return Enum.TryParse<JobDetailReason>(Reason.Code, out jdReason)
+                        ? jdReason
+                        : JobDetailReason.NotDefined;
                 }
 
                 return JobDetailReason.NotDefined;
@@ -98,9 +101,10 @@
             {
                 if (Source != null)
                 {
-                    var damageReason =  (JobDetailSource)Enum.Parse(typeof(JobDetailSource), Source.Code);
-
-                    return damageReason;
+                    JobDetailSource source;
+                    return Enum.TryParse<JobDetailSource>(Source.Code, out source)
+                        ? source
+                        : JobDetailSource.NotDefined;
                 }
 
                 return JobDetailSource.NotDefined;

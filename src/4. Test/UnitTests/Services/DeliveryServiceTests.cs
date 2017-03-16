@@ -60,8 +60,45 @@ namespace PH.Well.UnitTests.Services
                 this.deliveryStatusService.Object);
         }
 
+        public class GetExceptionsTests : DeliveryServiceTests
+        {
+            [Test]
+            public void WhenGettingExceptions_ThenExceptionAndCompletedOnPaperStatusesIncluded()
+            {
+                string user = "Bob";
+
+                deliveryReadRepository.Setup(d => d.GetByStatuses(It.IsAny<string>(),
+                    It.IsAny<IList<JobStatus>>())).Returns(new List<Delivery>());
+
+                service.GetExceptions(user);
+
+                deliveryReadRepository.Verify(d => d.GetByStatuses(user,
+                    It.Is<IList<JobStatus>>(j => j.Contains(JobStatus.Exception)
+                                                 && j.Contains(JobStatus.CompletedOnPaper))), Times.Once);
+            }
+
+            [Test]
+            public void WhenGettingExceptions_ThenApprovalsAreExcluded()
+            {
+                string user = "Bob";
+
+                deliveryReadRepository.Setup(d => d.GetByStatuses(It.IsAny<string>(), It.IsAny<IList<JobStatus>>()))
+                    .Returns(new List<Delivery>()
+                    {
+                        new Delivery() {Id = 1, IsPendingCredit = true},
+                        new Delivery() {Id = 2, IsPendingCredit = false}
+                    });
+
+                var actualDeliveries = service.GetExceptions(user);
+
+                Assert.AreEqual(1, actualDeliveries.Count);
+                Assert.AreEqual(2, actualDeliveries[0].Id);
+            }
+        }
+
         public class UpdateDeliveryLineTests : DeliveryServiceTests
         {
+            [Test]
             public void GivenDirtyJob_WhenShortsAndDamagesRemoved_ThenJobSetToResolved()
             {
                 var jobDetail = new JobDetail()
@@ -90,7 +127,8 @@ namespace PH.Well.UnitTests.Services
                 jobDetailRepository.Setup(j => j.Update(It.IsAny<JobDetail>()));
                 jobDetailDamageRepo.Setup(d => d.Delete(jobDetail.Id));
 
-                jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(new Job());
+                var job = new Job { Id = 1, JobStatus = JobStatus.Exception};
+                jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(job);
                 jobRepo.Setup(j => j.Update(It.IsAny<Job>()));
 
                 jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
@@ -100,10 +138,10 @@ namespace PH.Well.UnitTests.Services
 
                 this.userRepo.Setup(x => x.UnAssignJobToUser(0));
 
-                var job = new Job { Id = 1 };
+                
                 this.branchRepository.Setup(x => x.GetBranchIdForJob(job.Id)).Returns(22);
 
-                this.deliveryStatusService.Setup(x => x.DetermineStatus(job, 22));
+                this.deliveryStatusService.Setup(x => x.DetermineStatus(job, 22)).Returns(new Job { Id = 1, JobStatus = JobStatus.Clean });
 
                 //ACT
                 service.UpdateDeliveryLine(jobDetail, "user");

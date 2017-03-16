@@ -145,7 +145,7 @@
 
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId));
+            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
 
             this.service.Update(route);
 

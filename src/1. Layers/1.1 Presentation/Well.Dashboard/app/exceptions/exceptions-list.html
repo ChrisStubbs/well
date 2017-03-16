@@ -65,7 +65,7 @@
                                 <td (click)="deliverySelected(delivery)">{{delivery.totalCreditValueForThreshold}}</td>
                                 <td><button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button></td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.jobStatus == 'Exception' ? 'Incomplete' : delivery.jobStatus}}</td>
-                                <td (click)="deliverySelected(delivery)">{{delivery.totalOutersShort}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.toBeAdvisedCount}}</td>
                                 <td>
                                     <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
                                     <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>

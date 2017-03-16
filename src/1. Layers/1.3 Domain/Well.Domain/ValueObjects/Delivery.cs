@@ -94,5 +94,9 @@
         }
 
         public bool IsOutstanding => DeliveryDate.Date < DateTime.Today.Date;
+
+        public bool OuterDiscrepancyFound { get; set; }
+
+        public int ToBeAdvisedCount => OuterDiscrepancyFound ? TotalOutersShort : 0;
     }
 }

@@ -20,4 +20,6 @@ export class ExceptionDelivery extends BaseDelivery {
     public  totalCredit: string;
     public  isPending: boolean;
     public  totalOutersShort: number;
+    public  toBeAdvisedCount: number;
+
 }

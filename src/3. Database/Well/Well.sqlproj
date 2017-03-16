@@ -282,6 +282,12 @@
     <None Include="ManualStep\scripts\up\001_DropTotalCreditValueForThreshold.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\002_Rename_JobStatus6_to_DocumentDelivery.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\003_Update_Incorrect_JobStatus_DocumentDelivery.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

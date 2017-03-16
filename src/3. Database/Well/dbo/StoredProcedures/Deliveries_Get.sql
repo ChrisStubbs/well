@@ -41,7 +41,8 @@ BEGIN
 			Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
 			pc.CreatedBy as PendingCreditCreatedBy,
 			j.ProofOfDelivery,
-			ct.Threshold as ThresholdAmount
+			ct.Threshold as ThresholdAmount,
+			j.OuterDiscrepancyFound
 	FROM	RouteHeader rh 
 			INNER JOIN [Stop] s on rh.Id = s.RouteHeaderId
 			INNER JOIN Job j on s.Id = j.StopId	

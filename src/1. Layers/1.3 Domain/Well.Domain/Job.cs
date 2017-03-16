@@ -333,6 +333,7 @@
             }
         }
 
+        [XmlIgnore]
         public string GrnNumberUpdate { get; set; }
 
         [XmlIgnore]
@@ -357,6 +358,7 @@
             }
         }
 
+        [XmlIgnore]
         public string OuterCountUpdate { get; set; }
 
         [XmlIgnore]
@@ -370,6 +372,7 @@
             }
         }
 
+        [XmlIgnore]
         public bool OuterDiscrepancyUpdate { get; set; }
 
         [XmlIgnore]
@@ -388,6 +391,7 @@
             }
         }
 
+        [XmlIgnore]
         public string TotalOutersOverUpdate { get; set; }
 
         [XmlIgnore]
@@ -401,6 +405,7 @@
             }
         }
 
+        [XmlIgnore]
         public string TotalOutersShortUpdate { get; set; }
 
         [XmlIgnore]
@@ -430,6 +435,7 @@
             }
         }
 
+        [XmlIgnore]
         public decimal InvoiceValueUpdate { get; set; }
 
         [XmlIgnore]

@@ -21,5 +21,6 @@ export class ExceptionDelivery extends BaseDelivery {
     public  isPending: boolean;
     public  totalOutersShort: number;
     public  toBeAdvisedCount: number;
+    public canBulkCredit: boolean;
 
 }

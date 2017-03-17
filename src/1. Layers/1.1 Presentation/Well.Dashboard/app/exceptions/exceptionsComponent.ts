@@ -211,10 +211,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     {
         const exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
 
-        if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName)
+        if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName && exceptionDelivery.canBulkCredit)
         {
             return '';
         }
+
 
         return 'disabled';
     }
@@ -236,7 +237,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public creditExceptions()
     {
         this.bulkCreditConfirmModal.isVisible = true;
-        return;
     }
 
     public creditConfirmed(model: any)

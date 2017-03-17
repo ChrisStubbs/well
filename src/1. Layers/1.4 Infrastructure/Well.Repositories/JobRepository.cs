@@ -203,7 +203,7 @@
             return GetByIds(ids);
         }
 
-        private IEnumerable<Job> GetByIds(IEnumerable<int> jobIds)
+        public IEnumerable<Job> GetByIds(IEnumerable<int> jobIds)
         {
             IEnumerable<Job> jobs = new List<Job>();
 

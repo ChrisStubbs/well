@@ -41,15 +41,16 @@
                                 <th style="width: 6%">Branch</th>
                                 <th style="width: 5%">Drop</th>
                                 <th style="width: 9%">Invoice No</th>
-                                <th style="width: 12%">Account</th>
-                                <th style="width: 12%">Account Name</th>
+                                <th style="width: 10%">Account</th>
+                                <th style="width: 10%">Account Name</th>
                                 <th style="width: 5%">Credit Value</th>
                                 <th style="width: 5%">Contact</th>
                                 <th style="width: 8%">Status</th>
                                 <th style="width: 4%">TBA</th>
                                 <th style="width: 8%">Assigned</th>
                                 <th style="width: 7%">Action</th>
-                                <th style="width: 11%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th style="width: 12%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th style="width: 6%">Credit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,8 +77,9 @@
                                         <button *ngIf="!canSubmit(delivery.canSubmit)" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
 
                                     </div>
-                                </td>
+                                </td>                                
                                 <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                                <td class="gridCheckbox"><input type="checkbox" class="exceptionCheckbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)" [checked]="isChecked(delivery.id)" (click)="onCheck(delivery)" value="{{delivery.id}}" id="{{delivery.id}}"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,5 +104,5 @@
 </div>
 <contact-modal></contact-modal>
 <assign-modal (onAssigned)="onAssigned($event)"></assign-modal>
-<confirmModal heading="Confirm changes" (confirmed)="creditConfirmed()"></confirmModal>
 <ow-exceptions-confirm-modal (onSave)="deliveryLinesSaved()"></ow-exceptions-confirm-modal>
+<bulk-credit-confirm-modal (confirmed)="creditConfirmed($event)"></bulk-credit-confirm-modal>

@@ -230,6 +230,7 @@
     <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
+    <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
@@ -766,6 +767,8 @@
     <Content Include="app\approvals\approvalDelivery.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
+    <TypeScriptCompile Include="app\exceptions\bulkCredit.ts" />
+    <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />

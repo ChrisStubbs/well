@@ -10,6 +10,7 @@ import {LogService} from '../shared/logService';
 import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine';
 import {DeliveryAction} from '../delivery/model/deliveryAction';
+import {BulkCredit} from './bulkCredit';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -56,10 +57,12 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public creditLines(creditlines: any[]): Observable<any> {
-        
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit-bulk/{creditlines}',
-            JSON.stringify(creditlines),
+    public creditLines(bulkCredit: BulkCredit): Observable<any>
+    {
+        const body = JSON.stringify(bulkCredit);
+            
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'bulk-credit/',
+            body,
             this.options)
             .map(res => res.json())
             .do (data => this.logService.log('All: ' + JSON.stringify(data)))

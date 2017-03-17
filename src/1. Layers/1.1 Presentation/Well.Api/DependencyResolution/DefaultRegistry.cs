@@ -47,6 +47,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobStatusService>().Use<JobStatusService>();
+            For<IBulkCreditService>().Use<BulkCreditService>();
 
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();

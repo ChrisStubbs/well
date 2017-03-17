@@ -1,4 +1,7 @@
 ﻿import {Component, Input, OnDestroy} from '@angular/core';
+import {GlobalSettingsService} from './globalSettings';
+import {HttpService} from './httpService';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'ow-spinner',
@@ -7,6 +10,22 @@
 export class SpinnerComponent implements OnDestroy {
     private currentTimeout: number;
     private isItRunning: boolean = false;
+    private isHttpLoading: boolean = false;
+    private isLoadingSubscription: Subscription;
+
+    constructor(private httpService : HttpService)
+    {
+       
+    }
+
+    public ngOnInit()
+    {
+        this.isLoadingSubscription = this.httpService.isHttpLoading
+            .subscribe(isHttpLoading =>
+            {
+                this.isHttpLoading = isHttpLoading;
+            });
+    }
 
     @Input()
     public delay: number = 0;
@@ -36,5 +55,6 @@ export class SpinnerComponent implements OnDestroy {
 
     public ngOnDestroy(): void {
         this.cancelTimeout();
+        this.isLoadingSubscription.unsubscribe();
     }
 }

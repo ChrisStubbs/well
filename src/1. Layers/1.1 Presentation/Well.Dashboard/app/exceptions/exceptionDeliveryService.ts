@@ -10,6 +10,7 @@ import {LogService} from '../shared/logService';
 import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine';
 import {DeliveryAction} from '../delivery/model/deliveryAction';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -18,7 +19,7 @@ export class ExceptionDeliveryService {
    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {

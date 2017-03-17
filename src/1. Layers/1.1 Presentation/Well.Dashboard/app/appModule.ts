@@ -65,6 +65,7 @@ import {ApprovalsService} from './approvals/approvalsService';
 import {AccountService} from './account/accountService';
 import {BranchService} from './shared/branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
+import {HttpService} from './shared/httpService';
 import {HttpErrorService} from './shared/httpErrorService';
 import {LogService} from './shared/logService';
 import {RefreshService} from './shared/refreshService';
@@ -101,7 +102,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
     ],
     providers: [
-        ApprovalsService, GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
+        ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService,
         CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService,

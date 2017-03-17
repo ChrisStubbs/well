@@ -254,18 +254,13 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 if (this.httpResponse.success)
                 {
                     this.toasterService.pop('success', this.bulkCredits.length + ' Delivery line(s) credited', '');
-
-                    this.getExceptions();
-                    this.bulkCredits = [];
-                } else if (this.httpResponse.adamdown)
-                {
-                    this.toasterService.pop('error',
-                        'ADAM is currently offline!',
-                        'You will receive a notification once the credit has taken place!');
                 } else if (this.httpResponse.notAcceptable)
                 {
                     this.toasterService.pop('error', this.httpResponse.message, '');
                 }
+
+                this.getExceptions();
+                this.bulkCredits = [];
             });
     }
 

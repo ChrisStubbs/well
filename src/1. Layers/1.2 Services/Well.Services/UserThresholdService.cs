@@ -1,8 +1,5 @@
-﻿using PH.Well.Common.Contracts;
-
-namespace PH.Well.Services
+﻿namespace PH.Well.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using PH.Well.Domain;
@@ -10,7 +7,7 @@ namespace PH.Well.Services
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
-    using Repositories;
+    using PH.Well.Common.Contracts;
 
     public class UserThresholdService : IUserThresholdService
     {
@@ -55,7 +52,7 @@ namespace PH.Well.Services
             return response;
         }
 
-        public void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId)
+        public string AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId)
         {
             var branchSpecificThresholds = this.creditThresholdRepository.GetByBranch(branchId);
 
@@ -63,10 +60,10 @@ namespace PH.Well.Services
             {
                 if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, branchId, totalThresholdAmount, jobId))
                 {
-                    throw new ApplicationException(
-                        $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})");
+                    return $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})";
                 }
             }
+            return string.Empty;
         }
 
         private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)
@@ -74,7 +71,7 @@ namespace PH.Well.Services
             var threshold = branchThresholds.FirstOrDefault(x => x.ThresholdLevel == level);
 
             if (threshold == null)
-                throw new ApplicationException($"Threshold not found for branch ({branchId})");
+                return false;
 
             if (totalThresholdAmount <= threshold.Threshold)
             {

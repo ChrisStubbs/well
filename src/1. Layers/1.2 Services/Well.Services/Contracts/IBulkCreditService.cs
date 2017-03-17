@@ -6,6 +6,6 @@
 
     public interface IBulkCreditService
     {
-        void BulkCredit(IEnumerable<Job> jobs, JobDetailReason reason, JobDetailSource source);
+        IEnumerable<string> BulkCredit(IEnumerable<Job> jobs, JobDetailReason reason, JobDetailSource source);
     }
 }

@@ -37,7 +37,11 @@
                 return this.Request.CreateResponse(new { notAcceptable = true, message = new List<string>() {"Unable to find deliveries to bulk credit"} });
             }
 
-            bulkCreditService.BulkCredit(jobs, model.Reason, model.Source);
+            var warnings = bulkCreditService.BulkCredit(jobs, model.Reason, model.Source);
+            if (warnings.Any())
+            {
+                return this.Request.CreateResponse(new { notAcceptable = true, message = warnings });
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

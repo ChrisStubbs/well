@@ -6,6 +6,6 @@
     {
         ThresholdResponse CanUserCredit(decimal creditValue);
 
-        void AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId);
+        string AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId);
     }
 }

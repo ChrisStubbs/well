@@ -81,7 +81,7 @@
             }
 
             // Any damages are an exception or any shorts are an exception
-            if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0)))
+            if (!hasException && job.JobDetails.Any(x => x.IsClean() == false))
             {
                 hasException = true;
             }

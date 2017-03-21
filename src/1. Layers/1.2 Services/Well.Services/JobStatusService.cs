@@ -19,10 +19,7 @@
 
         public Job DetermineStatus(Job job, int branchId)
         {
-            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
-            {
-                job.JobStatus = JobStatus.InComplete;
-            }
+            SetIncompleteStatus(job);
 
             switch (job.JobStatus)
             {
@@ -99,7 +96,7 @@
 
         public void SetIncompleteStatus(Job job)
         {
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber))
+            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
             {
                 job.JobStatus = JobStatus.InComplete;
             }

@@ -45,7 +45,7 @@ namespace PH.Well.UnitTests.Services
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
         }
 
-        public class TheSetStatusMethod : JobStatusServiceTests
+        public class TheDetermineStatusMethod : JobStatusServiceTests
         {
             /// <summary>
             /// Multiple jobs with same product and delivered QTY > despatched/invoiced QTY
@@ -318,6 +318,50 @@ namespace PH.Well.UnitTests.Services
                 this.service.DetermineStatus(job1, branchNo);
                 Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+            }
+        }
+
+        public class TheSetIncompleteStatusMethod : JobStatusServiceTests
+        {
+            [Test]
+            public void GivenAwaitingInvoiceAndHasInvoiceNumber_ThenSetInComplete()
+            {
+                var job = new Job()
+                {
+                    JobStatus = JobStatus.AwaitingInvoice,
+                    InvoiceNumber = "123"
+                };
+
+                service.SetIncompleteStatus(job);
+
+                Assert.AreEqual(JobStatus.InComplete, job.JobStatus);
+            }
+
+            [Test]
+            public void GivenAwaitingInvoiceAndHasNoInvoiceNumber_ThenNotSetInComplete()
+            {
+                var job = new Job()
+                {
+                    JobStatus = JobStatus.AwaitingInvoice
+                };
+
+                service.SetIncompleteStatus(job);
+
+                Assert.AreEqual(JobStatus.AwaitingInvoice, job.JobStatus);
+            }
+
+            [Test]
+            public void GivenDocDeliveryAndHasInvoiceNumber_ThenNotSetInComplete()
+            {
+                var job = new Job()
+                {
+                    JobStatus = JobStatus.DocumentDelivery,
+                    InvoiceNumber = "99999999"
+                };
+
+                service.SetIncompleteStatus(job);
+
+                Assert.AreEqual(JobStatus.DocumentDelivery, job.JobStatus);
             }
         }
     }

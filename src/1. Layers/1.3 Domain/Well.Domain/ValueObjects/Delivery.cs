@@ -83,6 +83,8 @@
 
         public int TotalOutersShort { get; set; }
 
+        public int DetailOutersShort { get; set; }
+
         public bool IsPendingCredit { get; set; }
 
         public ProofOfDelivery? ProofOfDelivery { get; set; }
@@ -97,6 +99,6 @@
 
         public bool OuterDiscrepancyFound { get; set; }
 
-        public int ToBeAdvisedCount => OuterDiscrepancyFound ? TotalOutersShort : 0;
+        public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort - DetailOutersShort) : 0;
     }
 }

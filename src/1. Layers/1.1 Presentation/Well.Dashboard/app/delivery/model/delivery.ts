@@ -1,11 +1,8 @@
 ﻿import { DeliveryLine } from './deliveryLine';
 
-export class Delivery
-{
-    constructor(delivery: Delivery)
-    {
-        if (delivery)
-        {
+export class Delivery {
+    constructor(delivery: Delivery) {
+        if (delivery) {
             this.id = delivery.id;
             this.accountCode = delivery.accountCode;
             this.outerCount = delivery.outerCount;
@@ -28,29 +25,27 @@ export class Delivery
             this.grnProcessType = delivery.grnProcessType;
             this.proofOfDelivery = delivery.proofOfDelivery;
             this.isProofOfDelivery = delivery.isProofOfDelivery;
+            this.toBeAdvisedCount = delivery.toBeAdvisedCount;  
 
-            if (delivery.exceptionDeliveryLines)
-            {
+            if (delivery.exceptionDeliveryLines) {
                 delivery.jobStatus = 'Exception';
-                for (const line of delivery.exceptionDeliveryLines)
-                {
+                for (const line of delivery.exceptionDeliveryLines) {
                     this.exceptionDeliveryLines.push(new DeliveryLine(line));
                 }
             }
 
-            if (delivery.cleanDeliveryLines)
-            {
+            if (delivery.cleanDeliveryLines) {
                 delivery.jobStatus = 'Clean';
-                for (const line of delivery.cleanDeliveryLines)
-                {
+                for (const line of delivery.cleanDeliveryLines) {
                     this.cleanDeliveryLines.push(new DeliveryLine(line));
                 }
             }
         }
     }
+
     public id: number;
     public accountCode: string;
-    public outerCount: number;  
+    public outerCount: number;
     public outerDiscrepancyFound: boolean;
     public totalOutersShort: number;
     public accountName: string;
@@ -71,24 +66,20 @@ export class Delivery
     public grnProcessType: number;
     public proofOfDelivery: number;
     public isProofOfDelivery: boolean;
+    public toBeAdvisedCount: number;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
-
-    public isCleanOnInit(): boolean
-    {
+   
+    public isCleanOnInit(): boolean {
         let clean = true;
 
-        for (const line of this.exceptionDeliveryLines)
-        {
-            if (line.isCleanOnInit === false)
-            {
+        for (const line of this.exceptionDeliveryLines) {
+            if (line.isCleanOnInit === false) {
                 clean = false;
             }
         }
 
-        for (const line of this.cleanDeliveryLines)
-        {
-            if (line.isCleanOnInit === false)
-            {
+        for (const line of this.cleanDeliveryLines) {
+            if (line.isCleanOnInit === false) {
                 clean = false;
             }
         }
@@ -96,26 +87,22 @@ export class Delivery
         return clean;
     };
 
-    public isClean(): boolean
-    {
+    public isClean(): boolean {
         let clean = true;
 
-        for (const line of this.exceptionDeliveryLines)
-        {
-            if (line.isClean() === false)
-            {
+        for (const line of this.exceptionDeliveryLines) {
+            if (line.isClean() === false) {
                 clean = false;
             }
         }
 
-        for (const line of this.cleanDeliveryLines)
-        {
-            if (line.isClean() === false)
-            {
+        for (const line of this.cleanDeliveryLines) {
+            if (line.isClean() === false) {
                 clean = false;
             }
         }
 
         return clean;
     }
+
 }

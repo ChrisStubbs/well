@@ -380,11 +380,27 @@
         {
             get
             {
-                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DISCFOUND");
+                //var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DISCFOUND");
 
-                if (attribute != null)
+                //if (attribute != null)
+                //{
+                //    return attribute.Value != "N";
+                //}
+
+                //return false;
+
+                int totalShort;
+                int detailShort;
+
+                int.TryParse(TotalOutersShort, out totalShort);
+
+                int.TryParse(DetailOutersShort, out detailShort);
+
+                var discrepancy = (totalShort - detailShort);
+
+                if (discrepancy > 0)
                 {
-                    return attribute.Value != "N";
+                    return true;
                 }
 
                 return false;
@@ -414,6 +430,34 @@
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "TOTSHORT");
+
+                return attribute?.Value;
+            }
+        }
+
+        [XmlIgnore]
+        public string DetailOutersOverUpdate { get; set; }
+
+        [XmlIgnore]
+        public string DetailOutersOver
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETOVER");
+
+                return attribute?.Value;
+            }
+        }
+
+        [XmlIgnore]
+        public string DetailOutersShortUpdate { get; set; }
+
+        [XmlIgnore]
+        public string DetailOutersShort
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETSHORT");
 
                 return attribute?.Value;
             }
@@ -456,5 +500,6 @@
 
         public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
                                                        jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
+
     }
 }

@@ -32,7 +32,9 @@
                 BranchId = detail.BranchId,
                 GrnProcessType = detail.GrnProcessType,
                 ProofOfDelivery = detail.ProofOfDelivery,
-                IsProofOfDelivery = detail.IsProofOfDelivery
+                IsProofOfDelivery = detail.IsProofOfDelivery,
+                DetailOutersShort = detail.DetailOutersShort,
+                ToBeAdvisedCount = detail.ToBeAdvisedCount
             };
 
             foreach (DeliveryLine line in lines.Where(x => x.IsClean))

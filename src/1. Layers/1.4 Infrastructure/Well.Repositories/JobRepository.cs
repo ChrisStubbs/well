@@ -166,6 +166,8 @@
                 .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int16)
                 .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int16)
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
+                .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
+                .AddParameter("DetailOutersShort", entity.DetailOutersShortUpdate, DbType.Int16)
                 .Execute();
         }
 

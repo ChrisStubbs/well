@@ -38,6 +38,7 @@ BEGIN
 			u2.IdentityName,
 			j.COD as CashOnDelivery,
 			j.TotalOutersShort,
+			j.DetailOutersShort,
 			Case When pc.JobId is null Then 0 else 1 End IsPendingCredit,
 			pc.CreatedBy as PendingCreditCreatedBy,
 			j.ProofOfDelivery,

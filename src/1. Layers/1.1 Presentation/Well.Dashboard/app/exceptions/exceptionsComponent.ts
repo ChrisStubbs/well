@@ -20,7 +20,7 @@ import { SecurityService }                          from '../shared/security/sec
 import { Threshold }                                from '../shared/threshold';
 import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
-import * as lodash                                  from 'lodash';
+import * as _                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';
 import {DeliveryAction} from '../delivery/model/deliveryAction'; // Load all features
@@ -59,6 +59,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     @ViewChild(ExceptionsConfirmModal)
     private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
+    public routeDate: Date;
     //public sort = 'desc';
 
     constructor(
@@ -96,6 +97,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params =>
         {
+            this.routeDate = params['routeDate'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
@@ -122,7 +124,16 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData =>
                 {
-                    this.exceptions = responseData || new Array<ExceptionDelivery>();
+                this.exceptions = responseData || new Array<ExceptionDelivery>();
+
+                if (!_.isUndefined(this.routeDate)) {
+                    this.exceptions = _.filter(this.exceptions,
+                        x => {
+                            return x.routeDate === this.routeDate;
+                        }
+                    );
+                }
+                    
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -148,7 +159,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public onSortDirectionChanged(isDesc: boolean)
     {   
         super.onSortDirectionChanged(isDesc);
-        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
+        this.exceptions = _.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
     }
 
     public onFilterClicked(filterOption: FilterOption)
@@ -197,7 +208,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public getCreditListIndex(exceptionid)
     {
-        return lodash.findIndex(this.bulkCredits, { id: exceptionid });
+        return _.findIndex(this.bulkCredits, { id: exceptionid });
     }
 
     public addToCreditList(exception, index)
@@ -219,7 +230,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public isGridCheckBoxDisabled(exceptionid)
     {
-        const exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
+        const exceptionDelivery = _.find(this.exceptions, ['id', exceptionid]);
 
         if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName)
         {
@@ -245,7 +256,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public creditExceptions()
     {
-        const pendingLength = lodash.filter(this.bulkCredits,
+        const pendingLength = _.filter(this.bulkCredits,
             o =>
             {
                 if (o.isPending === true)
@@ -254,7 +265,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 }
             }).length;
 
-        const creditLength = lodash.filter(this.bulkCredits,
+        const creditLength = _.filter(this.bulkCredits,
             o =>
             {
                 if (o.isPending === false)

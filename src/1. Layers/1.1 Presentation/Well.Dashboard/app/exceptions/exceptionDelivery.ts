@@ -1,7 +1,8 @@
 ﻿import {BaseDelivery} from '../shared/baseDelivery';
  
 export class ExceptionDelivery extends BaseDelivery {
-    public  routeNumber: string;
+    public routeNumber: string;
+    public routeDate: Date;
     public  dropId: string;
     public  invoiceNumber: number;
     public  accountName: string;

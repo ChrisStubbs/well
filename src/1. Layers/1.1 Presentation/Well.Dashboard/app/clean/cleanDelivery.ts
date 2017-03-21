@@ -2,6 +2,7 @@
 
 export class CleanDelivery extends BaseDelivery {
     routeNumber: string;
+    routeDate: Date;
     dropId: string;
     invoiceNumber: number;
     accountName: string;

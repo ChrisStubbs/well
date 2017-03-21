@@ -44,6 +44,8 @@
 
         public string ShortsAction { get; set; }
 
+        public bool IsHighValue { get; set; }
+
         public List<DamageModel> Damages { get; set; }
 
         public List<ActionModel> Actions { get; set; }

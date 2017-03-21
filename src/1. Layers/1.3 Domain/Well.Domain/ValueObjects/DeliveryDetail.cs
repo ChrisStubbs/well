@@ -52,5 +52,6 @@
         public ProofOfDelivery? ProofOfDelivery { get; set; }
 
         public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
+
     }
 }

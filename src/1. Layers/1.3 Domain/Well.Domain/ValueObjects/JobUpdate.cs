@@ -32,7 +32,7 @@
         [XmlElement("JobRef3")]
         public string InvoiceNumber { get; set; }
 
-        [XmlElement("TextField1")]
+        [XmlElement("TextField3")]
         public string CustomerRef { get; set; }
 
         [XmlArray("OrderJobDetails")]

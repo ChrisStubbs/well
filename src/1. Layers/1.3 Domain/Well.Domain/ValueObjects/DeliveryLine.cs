@@ -61,5 +61,7 @@
             return c;
         }
 
+        public bool IsHighValue { get; set; }
+
     }
 }

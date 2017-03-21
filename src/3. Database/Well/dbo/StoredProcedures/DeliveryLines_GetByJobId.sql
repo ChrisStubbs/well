@@ -15,6 +15,7 @@ BEGIN
 			,jd.JobDetailReasonId
 			,jd.JobDetailSourceId
 			,jd.ShortsActionId
+			,jd.IsHighValue
 	FROM	[dbo].[JobDetail] jd
 	WHERE	jd.JobId = @JobId and jd.IsDeleted = 0
 

@@ -80,8 +80,8 @@
                 }
             }
 
-            // Any damages are an exception or any shorts are an exception
-            if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0)))
+            // Any damages are an exception or any shorts are an exception or outer discrepancy found is an exception
+            if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0) || job.OuterDiscrepancyUpdate))
             {
                 hasException = true;
             }

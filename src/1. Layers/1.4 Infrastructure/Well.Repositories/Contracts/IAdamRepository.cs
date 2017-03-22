@@ -23,7 +23,9 @@
 
         AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings);
 
-        AdamResponse Pod (PodTransaction pod, AdamSettings adamSettings);
+        AdamResponse Pod (PodEvent podEvent, AdamSettings adamSettings);
+
+        AdamResponse PodTransaction(PodTransaction podTransaction, AdamSettings adamSettings);
 
     }
 }

@@ -10,7 +10,7 @@ Background:
 	And I have loaded the Adam route data
 	And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
 
-	
+	#todo new file format expected from TranSend which affects the shorts to be advised
 Scenario: A user can view Exception Delivery Information with shorts to be advised displayed
 	Given I have selected branch '22'
 	And  2 deliveries have been marked as exceptions with shorts to be advised

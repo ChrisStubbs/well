@@ -144,47 +144,47 @@
                     Times.Once);
             }
 
-            [Test]
-            public void Pod()
-            {
-                var lineDictionary = new Dictionary<int, string>();
-                var line = "poddy pod pod";
-                lineDictionary.Add(1, line);
-                var podTransaction = new PodTransaction { BranchId = 22, HeaderSql = "20011.110", LineSql = lineDictionary };
+            //[Test]
+            //public void Pod()
+            //{
+            //    var lineDictionary = new Dictionary<int, string>();
+            //    var line = "poddy pod pod";
+            //    lineDictionary.Add(1, line);
+            //    var podTransaction = new PodTransaction { BranchId = 22, HeaderSql = "20011.110", LineSql = lineDictionary };
 
-                var json = JsonConvert.SerializeObject(podTransaction);
+            //    var json = JsonConvert.SerializeObject(podTransaction);
 
-                var exception = new ExceptionEvent
-                {
-                    Id = 501,
-                    Event = json,
-                    ExceptionActionId = (int)EventAction.Pod
-                };
+            //    var exception = new ExceptionEvent
+            //    {
+            //        Id = 501,
+            //        Event = json,
+            //        ExceptionActionId = (int)EventAction.Pod
+            //    };
 
-                var events = new List<ExceptionEvent> { exception };
+            //    var events = new List<ExceptionEvent> { exception };
 
-                this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
-                this.exceptionEventService.Setup(
-                    x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()));
+            //    this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
+            //    this.exceptionEventService.Setup(
+            //        x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()));
 
-                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
-                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
+            //    this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+            //    this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
 
-                this.eventLogger.Setup(
-                    x =>
-                        x.TryWriteToEventLog(
-                            EventSource.WellTaskRunner,
-                            "Processing ADAM tasks...",
-                            5655,
-                            EventLogEntryType.Information)).Returns(true);
+            //    this.eventLogger.Setup(
+            //        x =>
+            //            x.TryWriteToEventLog(
+            //                EventSource.WellTaskRunner,
+            //                "Processing ADAM tasks...",
+            //                5655,
+            //                EventLogEntryType.Information)).Returns(true);
 
-                this.processor.Process();
+            //    this.processor.Process();
 
-                this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(
-                    x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
-                    Times.Once);
-            }
+            //    this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
+            //    this.exceptionEventService.Verify(
+            //        x => x.Pod(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
+            //        Times.Once);
+            //}
         }
     }
 }

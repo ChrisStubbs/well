@@ -319,6 +319,27 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
             }
+
+            [Test]
+            [TestCase(PerformanceStatus.Abypa)]
+            [TestCase(PerformanceStatus.Nbypa)]
+            public void TestCasesShouldSetToBypass(PerformanceStatus status)
+            {
+                var branchNo = 55;
+                var invoiceNumber = "12345678";
+
+                var job1 = JobFactory.New
+                    .With(x => x.InvoiceNumber = invoiceNumber)
+                    .With(x => x.PerformanceStatus = status)
+                    .Build();
+
+                this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
+                    .Returns(new List<Job>() {});
+
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.AreEqual(JobStatus.Bypassed, job1.JobStatus);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Never);
+            }
         }
 
         public class TheSetIncompleteStatusMethod : JobStatusServiceTests

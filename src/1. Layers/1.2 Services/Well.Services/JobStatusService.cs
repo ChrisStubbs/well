@@ -35,6 +35,12 @@
                 job.JobStatus = JobStatus.CompletedOnPaper;
                 return job;
             }
+            if (job.PerformanceStatus == PerformanceStatus.Abypa || job.PerformanceStatus == PerformanceStatus.Nbypa)
+            {
+                job.JobStatus = JobStatus.Bypassed;
+                return job;
+            }
+
 
             // Fetch all jobs associated with the current job's invoice and branch
             var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(job.Id, branchId, job.InvoiceNumber).ToList();

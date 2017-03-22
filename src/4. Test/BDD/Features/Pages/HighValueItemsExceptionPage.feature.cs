@@ -144,7 +144,7 @@ this.FeatureBackground();
                         "Ind Potato Gratin 400g",
                         "39.95",
                         "1",
-                        "-3",
+                        "1",
                         "2",
                         "2"});
 #line 24

@@ -25,6 +25,7 @@ BEGIN
 
 	SELECT	j.Id,
 			rh.RouteNumber, 
+			rh.RouteDate,
 			s.PlannedStopNumber as DropId,
 			j.InvoiceNumber, 
 			j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice

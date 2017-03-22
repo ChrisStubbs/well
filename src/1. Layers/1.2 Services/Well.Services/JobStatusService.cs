@@ -19,10 +19,7 @@
 
         public Job DetermineStatus(Job job, int branchId)
         {
-            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
-            {
-                job.JobStatus = JobStatus.InComplete;
-            }
+            SetIncompleteStatus(job);
 
             switch (job.JobStatus)
             {
@@ -81,7 +78,7 @@
             }
 
             // Any damages are an exception or any shorts are an exception or outer discrepancy found is an exception
-            if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0) || job.OuterDiscrepancyUpdate))
+            if (!hasException && (job.JobDetails.Any(x => x.IsClean() == false) || job.OuterDiscrepancyUpdate))
             {
                 hasException = true;
             }
@@ -99,7 +96,7 @@
 
         public void SetIncompleteStatus(Job job)
         {
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber))
+            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
             {
                 job.JobStatus = JobStatus.InComplete;
             }

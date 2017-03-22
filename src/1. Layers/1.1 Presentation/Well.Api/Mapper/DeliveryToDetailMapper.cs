@@ -68,7 +68,6 @@
                     deliveryDetail.CleanDeliveryLines.Add(newItem);
                 }
                 else
-                    IsHighValue = line.IsHighValue,
                 {
                     deliveryDetail.ExceptionDeliveryLines.Add(newItem);
                 }

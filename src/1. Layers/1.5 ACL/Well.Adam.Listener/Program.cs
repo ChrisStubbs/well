@@ -1,7 +1,8 @@
 ﻿namespace PH.Well.Adam.Listener
 {
     using System.Diagnostics;
-
+    using System.Globalization;
+    using System.Threading;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Repositories;
@@ -25,6 +26,8 @@
                 "Processing ADAM imports...",
                 5422,
                 EventLogEntryType.Information);
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             var monitorService = container.GetInstance<IAdamFileMonitorService>();
 

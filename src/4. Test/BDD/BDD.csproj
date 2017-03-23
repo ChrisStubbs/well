@@ -266,7 +266,9 @@
     <Compile Include="Steps\SetupDeliveryLineUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ConfigurationSections\app-staging1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -396,6 +398,9 @@
     <Content Include="Epod\ePOD_HAY_Update2.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD__20170317_HIGHVALUE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -417,6 +422,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ORDER_HAY_170207_2333_2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ORDER_PLY_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_02022017_82.xml">
@@ -442,6 +450,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Xml\ROUTE_30062016_04.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ROUTE_PLY_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

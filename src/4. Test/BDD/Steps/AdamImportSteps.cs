@@ -72,6 +72,16 @@
 
             this.adamFileMonitorService.Process(importFilePath);
         }
+
+        [Given(@"I have loaded the Adam high value route data")]
+        public void LoadAdamHighValueData()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_PLY_HIGHVALUE.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
         [Given(@"I have loaded the Adam document delivery route data")]
         public void LoadAdamDocDelData()
         {
@@ -114,6 +124,15 @@
         {
             var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "xml\\ORDER_HAY_170207_2333_2.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
+        [Given(@"I have loaded the Adam order data with high value lines")]
+        public void LoadAdamOrderDataWithHighValueLines()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ORDER_PLY_HIGHVALUE.xml"));
 
             this.adamFileMonitorService.Process(importFilePath);
         }

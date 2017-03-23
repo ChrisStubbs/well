@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
+    using System.Threading;
     using System.Transactions;
 
     using Domain.ValueObjects;
@@ -76,6 +78,8 @@
 
         public void Update(RouteDelivery route)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+
             foreach (var header in route.RouteHeaders)
             {
                 var existingHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(

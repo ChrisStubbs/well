@@ -303,7 +303,7 @@ this.ScenarioSetup(scenarioInfo);
                         "94294343",
                         "49214.152",
                         "CSG - must be CF van",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table7.AddRow(new string[] {
                         "001",
                         "22",
@@ -311,7 +311,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92545470",
                         "02874.033",
                         "CSG - must be CF van",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table7.AddRow(new string[] {
                         "001",
                         "22",
@@ -319,7 +319,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92545470",
                         "02874.033",
                         "RVS SHOP",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table7.AddRow(new string[] {
                         "001",
                         "22",
@@ -327,7 +327,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92545419",
                         "02874.033",
                         "RVS SHOP",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table7.AddRow(new string[] {
                         "006",
                         "22",
@@ -335,7 +335,7 @@ this.ScenarioSetup(scenarioInfo);
                         "91156028",
                         "43362.048",
                         "WB - SHOP",
-                        "06/01/2016"});
+                        "01/06/2016"});
 #line 61
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table7, "Then ");
 #line 69
@@ -356,7 +356,7 @@ this.ScenarioSetup(scenarioInfo);
                         "91156028",
                         "43362.048",
                         "WB - SHOP",
-                        "06/01/2016"});
+                        "06/06/2016"});
             table8.AddRow(new string[] {
                         "001",
                         "22",
@@ -364,7 +364,7 @@ this.ScenarioSetup(scenarioInfo);
                         "94294343",
                         "49214.152",
                         "CSG - must be CF van",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table8.AddRow(new string[] {
                         "001",
                         "22",
@@ -372,7 +372,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92545470",
                         "02874.033",
                         "CSG - must be CF van",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table8.AddRow(new string[] {
                         "001",
                         "22",
@@ -380,7 +380,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92545470",
                         "02874.033",
                         "RVS SHOP",
-                        "08/01/2016"});
+                        "01/08/2016"});
             table8.AddRow(new string[] {
                         "001",
                         "22",
@@ -388,7 +388,7 @@ this.ScenarioSetup(scenarioInfo);
                         "92545419",
                         "02874.033",
                         "RVS SHOP",
-                        "08/01/2016"});
+                        "01/08/2016"});
 #line 70
  testRunner.Then("the following clean deliveries will be displayed", ((string)(null)), table8, "Then ");
 #line hidden

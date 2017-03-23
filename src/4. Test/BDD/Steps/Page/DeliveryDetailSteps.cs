@@ -58,8 +58,8 @@
         [Then(@"I am shown the high value check")]
         public void ShownHighValue()
         {   
-            // we should have 5 elements that are checked
-            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(5));
+            // we should have 1 elements that are checked
+            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(1));
         }
 
         [Then(@"I am shown the exception detail")]

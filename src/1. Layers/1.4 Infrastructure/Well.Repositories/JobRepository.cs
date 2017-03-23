@@ -145,7 +145,7 @@
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
                 .AddParameter("Reason", entity.JobByPassReason, DbType.String)
-                .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int16)
+                .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int32)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
                 .AddParameter("JobTypeCode", entity.GetJobTypeCode(), DbType.String)
@@ -161,10 +161,10 @@
                 .AddParameter("Cod", entity.Cod, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
-                .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int16)
+                .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int32)
                 .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyUpdate, DbType.Boolean)
-                .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int16)
-                .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int16)
+                .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int32)
+                .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .Execute();
         }

@@ -15,12 +15,15 @@
         private readonly IEpodUpdateService epodUpdateService;
         private readonly ILogger logger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IFileModule fileModule;
 
-        public EpodFileProvider(IEpodUpdateService epodUpdateService, ILogger logger, IRouteHeaderRepository routeHeaderRepository)
+        public EpodFileProvider(IEpodUpdateService epodUpdateService, ILogger logger, IRouteHeaderRepository routeHeaderRepository,
+            IFileModule fileModule)
         {
             this.epodUpdateService = epodUpdateService;
             this.logger = logger;
             this.routeHeaderRepository = routeHeaderRepository;
+            this.fileModule = fileModule;
         }
 
         public void Import()
@@ -38,7 +41,7 @@
                     using (var streamReader = new StreamReader(file))
                     {
                         var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
-
+                       
                         var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
                         routes.RouteId = route.Id;
@@ -46,6 +49,8 @@
                         this.epodUpdateService.Update(routes);
                     }
 
+
+                    fileModule.MoveFile(file, Configuration.ArchiveLocation);
                     logger.LogDebug($"File {file} imported!");
                 }
                 catch (Exception exception)

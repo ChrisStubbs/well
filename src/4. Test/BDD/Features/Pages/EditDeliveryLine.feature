@@ -28,7 +28,7 @@ Scenario: Add short qty and damages to clean delivery
 	And I enter a damage action of 'Credit' for id '0'
 	And I save the delivery line updates
 	And I confirm the delivery line update
-	Then the line '1' Short Qty is '5' and Damaged Qty is '2' Del Qty is '13'
+	Then the line '1' Short Qty is '5' and Damaged Qty is '2'
 	And the delivery status is 'Exception'
 	When I open the audits page
 	Then the following audit entries are shown
@@ -45,7 +45,7 @@ Scenario: Remove short qty and damages from exception delivery
 	And I save the delivery line updates
 	And I confirm the delivery line update
 	And I open the clean tab
-	Then the line '1' Short Qty is '0' and Damaged Qty is '0' Del Qty is '20'
+	Then the line '1' Short Qty is '0' and Damaged Qty is '0'
 	And the delivery status is 'Resolved'
 	When I open the audits page
 	Then the following audit entries are shown

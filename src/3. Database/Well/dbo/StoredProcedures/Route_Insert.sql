@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Route_Insert]
-	@FileName				VARCHAR(50),
+	@FileName				VARCHAR(255),
 	@Username				VARCHAR(50)
 
 AS

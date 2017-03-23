@@ -307,8 +307,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 } else if (this.httpResponse.adamdown)
                 {
                     this.toasterService.pop('error',
-                        'ADAM is currently offline!',
-                        'You will receive a notification once the credit has taken place!');
+                        'ADAM is currently offline',
+                        'You will receive a notification once the credit has taken place');
                 } else if (this.httpResponse.notAcceptable)
                 {
                     this.toasterService.pop('error', this.httpResponse.message, '');

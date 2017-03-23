@@ -4,7 +4,7 @@
         <div class="modal-header">
             <h4 class="modal-title">Route {{route.route}}</h4>
         </div>
-        <div class="modal-body">What delivery type would you like to view for route <strong>{{route.route}}</strong></div>
+        <div class="modal-body">What would you like to view for route <strong>{{route.route}}</strong></div>
         <div class="modal-footer">
             <div class="btn-group">
                 <button id="btn-exceptions" type="button" class="btn btn-primary" routerLink="/exceptions" [queryParams]="{'filter.routeNumber':route.route, 'routeDate':route.routeDate}">Exceptions</button>

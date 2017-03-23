@@ -43,14 +43,14 @@ export class CreditThresholdEditModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Credit threshold has been updated!', '');
+                    this.toasterService.pop('success', 'Credit threshold has been updated', '');
                     this.isVisible = false;
                     this.onCreditThresholdUpdate.emit(this.creditThreshold);
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Credit threshold could not be updated at this time!',
+                        'Credit threshold could not be updated at this time',
                         'Please try again later!');
                     this.isVisible = false;
                 }

@@ -36,12 +36,12 @@ export class UserThresholdLevelComponent implements OnInit {
             this.httpResponse = JSON.parse(JSON.stringify(res));
 
             if (this.httpResponse.success) {
-                this.toasterService.pop('success', 'Threshold level has been saved!', '');
+                this.toasterService.pop('success', 'Threshold level has been saved', '');
             }
             if (this.httpResponse.failure) {
                 this.toasterService.pop(
                     'error',
-                    'Threshold level could not be saved at this time!',
+                    'Threshold level could not be saved at this time',
                     'Please try again later!');
             }
             if (this.httpResponse.notAcceptable) {

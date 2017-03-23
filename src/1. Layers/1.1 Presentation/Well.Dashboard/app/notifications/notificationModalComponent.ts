@@ -31,16 +31,16 @@ export class NotificationModalComponent {
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Notification has been archived!', '');
+                    this.toasterService.pop('success', 'Notification has been archived', '');
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Notification could not be archived at this time!',
+                        'Notification could not be archived at this time',
                         'Please try again later!');
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', 'Notification id is incorrect, contact support!', '');
+                    this.toasterService.pop('warning', 'Notification id is incorrect, contact support', '');
                 }
 
                 this.isVisible = false;

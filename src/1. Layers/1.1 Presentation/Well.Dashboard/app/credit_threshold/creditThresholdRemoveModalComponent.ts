@@ -32,12 +32,12 @@ export class CreditThresholdRemoveModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Credit threshold has been removed!', '');
+                    this.toasterService.pop('success', 'Credit threshold has been removed', '');
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Credit threshold could not be deleted at this time!',
+                        'Credit threshold could not be deleted at this time',
                         'Please try again later!');
                 }
 

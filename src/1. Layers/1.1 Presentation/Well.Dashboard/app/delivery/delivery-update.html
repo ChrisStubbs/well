@@ -20,10 +20,10 @@
             </div>
             <div class="form-group">
                 <div class="alert alert-danger" *ngIf="invalidShortDamagesQty()">
-                    <strong>Total number of short and damages can not exceed total invoiced!</strong>
+                    <strong>Total number of shorts and damages can not exceed total invoiced</strong>
                 </div>
                 <div class="alert alert-danger" *ngIf="invalidDeliveryQty()">
-                    <strong>Total damaged / short cannot exceed invoice quantity!</strong>
+                    <strong>Total damaged and short cannot exceed invoice quantity</strong>
                 </div>
                 <label>Product</label>
                 <div class="form-label">{{deliveryLine.productCode}} - {{deliveryLine.productDescription}} - Invoiced Qty {{deliveryLine.invoicedQuantity}} - Delivered Qty {{deliveryLine.deliveredQuantity}}</div>

@@ -14,7 +14,7 @@ import { RefreshService }                           from '../shared/refreshServi
 import { HttpResponse }                             from '../shared/httpResponse';
 import { AssignModal }                              from '../shared/assignModal';
 import { ConfirmModal }                             from '../shared/confirmModal';
-import { IUser }                                    from '../shared/user';
+import { IUser }                                    from '../shared/iuser';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
 import { Threshold }                                from '../shared/threshold';
@@ -211,11 +211,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     {
         const exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
 
-        if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName && exceptionDelivery.canBulkCredit)
+        if (exceptionDelivery.assigned == this.globalSettingsService.globalSettings.userName
+            && exceptionDelivery.canBulkCredit)
         {
             return '';
         }
-
 
         return 'disabled';
     }

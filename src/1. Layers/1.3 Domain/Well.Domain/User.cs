@@ -13,5 +13,6 @@
         public string Domain { get; set; }
 
         public int ThresholdLevelId { get; set; }
+
     }
 }

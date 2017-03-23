@@ -5,5 +5,5 @@
     friendlyName: string;
     jobDescription: string;
     domain: string;  
-
+    thresholdLevelId: number;
 }

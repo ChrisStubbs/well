@@ -31,6 +31,12 @@ export class CreditThresholdService {
             .map(res => res.json());
     }
 
+    public getUserThreshold(userName: string): Observable<any> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl
+            + 'users/' + userName + '/credit-threshold')
+            .map((res: Response) => <CreditThreshold>res.json());
+    }
+
     public saveThresholdLevel(threshold: string, username: string): Observable<any> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl +
                 'threshold-level?threshold=' +

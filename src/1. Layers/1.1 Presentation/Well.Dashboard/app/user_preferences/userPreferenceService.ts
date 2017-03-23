@@ -21,4 +21,11 @@ export class UserPreferenceService {
             .catch(e => this.httpErrorService.handleError(e));
 
     }
+
+    public getUser(name: string): Observable<User>
+    {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'user/' + name)
+            .map((response: Response) => <User>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
 }

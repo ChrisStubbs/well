@@ -63,7 +63,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Int32, null))
+                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Decimal, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -103,7 +103,7 @@
                     x => x.AddParameter("ThresholdLevelId", creditThreshold.ThresholdLevelId, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Int32, null), Times.Once);
+                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Decimal, null), Times.Once);
 
                 this.dapperProxy.Verify(
                     x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
@@ -159,7 +159,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Int32, null))
+                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Decimal, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -199,7 +199,7 @@
                     x => x.AddParameter("ThresholdLevelId", creditThreshold.ThresholdLevelId, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Int32, null), Times.Once);
+                    x => x.AddParameter("Threshold", creditThreshold.Threshold, DbType.Decimal, null), Times.Once);
 
                 this.dapperProxy.Verify(
                     x => x.AddParameter("DateCreated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
@@ -283,5 +283,6 @@
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
         }
+
     }
 }

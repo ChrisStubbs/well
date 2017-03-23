@@ -730,7 +730,7 @@
     <Content Include="app\shared\security\securityService.ts" />
     <Content Include="app\shared\spinnerComponent.ts" />
     <Content Include="app\shared\threshold.ts" />
-    <Content Include="app\shared\user.ts" />
+    <Content Include="app\shared\iuser.ts" />
     <Content Include="app\shared\userJob.ts" />
     <Content Include="app\shared\userService.ts" />
     <Content Include="app\shared\confirmModal.ts" />

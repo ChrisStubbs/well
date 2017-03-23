@@ -83,6 +83,8 @@ import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 import {BulkCreditConfirmModal} from './exceptions/bulkCreditConfirmModal';
+import { UserPreferenceService } from './user_preferences/userPreferenceService';
+
 @NgModule({
     declarations: [SpinnerComponent,
         OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
@@ -105,7 +107,7 @@ import {BulkCreditConfirmModal} from './exceptions/bulkCreditConfirmModal';
         ApprovalsService, GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService,
-        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService,
+        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

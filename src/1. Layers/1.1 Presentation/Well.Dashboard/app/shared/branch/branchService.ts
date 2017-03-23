@@ -2,7 +2,7 @@
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch';
-import {IUser} from '../user';
+import {IUser} from '../iuser';
 import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../httpErrorService';

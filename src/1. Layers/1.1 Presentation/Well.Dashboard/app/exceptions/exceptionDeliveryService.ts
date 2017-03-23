@@ -5,7 +5,7 @@ import {ExceptionDelivery} from './exceptionDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {IUser} from '../shared/user';
+import {IUser} from '../shared/iuser';
 import {LogService} from '../shared/logService';
 import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine';

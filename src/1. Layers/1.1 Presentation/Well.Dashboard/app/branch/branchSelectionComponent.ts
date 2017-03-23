@@ -44,16 +44,16 @@ export class BranchSelectionComponent implements OnInit {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Branches have been saved!', '');
+                    this.toasterService.pop('success', 'Branches have been saved', '');
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Branches could not be saved at this time!',
+                        'Branches could not be saved at this time',
                         'Please try again later!');
                 }
                 if (this.httpResponse.notAcceptable) {
-                    this.toasterService.pop('warning', 'Please select at least one branch!', '');
+                    this.toasterService.pop('warning', 'Please select at least one branch', '');
                 }
             });
     }

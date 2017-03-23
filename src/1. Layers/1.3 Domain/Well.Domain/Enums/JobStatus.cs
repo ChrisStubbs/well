@@ -32,6 +32,11 @@
         //<summary>
         //Job completed on paper
         //</summary>
-        CompletedOnPaper = 7
+        CompletedOnPaper = 7,
+
+        //<summary>
+        //Delivery bypassed
+        //</summary>
+        Bypassed = 8
     }
 }

@@ -43,7 +43,7 @@ export class SeasonalDatesAddModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Seasonal date has been saved!', '');
+                    this.toasterService.pop('success', 'Seasonal date has been saved', '');
                     this.isVisible = false;
                     this.clear();
                     this.onSave.emit(this.seasonalDate);
@@ -51,7 +51,7 @@ export class SeasonalDatesAddModalComponent {
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Seasonal date could not be saved at this time!',
+                        'Seasonal date could not be saved at this time',
                         'Please try again later!');
                     this.isVisible = false;
                 }

@@ -28,6 +28,8 @@
 
         public int ShortQuantity { get; set; }
 
+        public int DeliveredQuantity { get; set; }
+
         public int ShortsActionId { get; set; }
 
         public DeliveryAction ShortsAction => (DeliveryAction) ShortsActionId;
@@ -45,8 +47,6 @@
         public int JobDetailSourceId { get; set; }
 
         public int DamagedQuantity => Damages.Sum(d => d.Quantity);
-
-        public int DeliveredQuantity => InvoicedQuantity - ShortQuantity - DamagedQuantity;
 
         public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
 

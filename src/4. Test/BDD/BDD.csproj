@@ -131,6 +131,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Branch.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\BypassedDeliveries.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BypassedDeliveries.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\CompletedOnPaperDelivery.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -301,6 +306,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Branch.feature.cs</LastGenOutput>
     </None>
+    <None Include="Features\Pages\BypassedDeliveries.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BypassedDeliveries.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Pages\CompletedOnPaperDelivery.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CompletedOnPaperDelivery.feature.cs</LastGenOutput>
@@ -385,6 +394,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD_30062016_CompletedOnPaperDelivery.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD_30062016_BypassedDelivery.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

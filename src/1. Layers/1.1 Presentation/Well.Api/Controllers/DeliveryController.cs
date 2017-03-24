@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Web.Http;
     using Common.Contracts;
     using Domain.Enums;
@@ -43,6 +44,8 @@
             try
             {
                 IList<Delivery> exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
+
+                Thread.Sleep(5000);
 
                 return !exceptionDeliveries.Any()
                     ? Request.CreateResponse(HttpStatusCode.NotFound)

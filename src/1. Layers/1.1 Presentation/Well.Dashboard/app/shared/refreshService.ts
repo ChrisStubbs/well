@@ -9,7 +9,7 @@ export class RefreshService {
     constructor(
         private zone: NgZone,
         private logService: LogService) {
-        this.initSignalr();
+        //this.initSignalr();
     }
 
     public initSignalr(): void {

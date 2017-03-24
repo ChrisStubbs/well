@@ -2,6 +2,7 @@
 import {GlobalSettingsService} from './globalSettings';
 import {HttpService} from './httpService';
 import {Subscription} from 'rxjs/Subscription';
+import {LogService} from './logService';
 
 @Component({
     selector: 'ow-spinner',
@@ -13,7 +14,7 @@ export class SpinnerComponent implements OnDestroy {
     private isHttpLoading: boolean = false;
     private isLoadingSubscription: Subscription;
 
-    constructor(private httpService : HttpService)
+    constructor(private httpService : HttpService, private logService : LogService)
     {
        
     }
@@ -23,7 +24,9 @@ export class SpinnerComponent implements OnDestroy {
         this.isLoadingSubscription = this.httpService.isHttpLoading
             .subscribe(isHttpLoading =>
             {
+                this.logService.log("IsHttpLoading: " + isHttpLoading);
                 this.isHttpLoading = isHttpLoading;
+                var x = (window as any).getAllAngularTestabilities();
             });
     }
 

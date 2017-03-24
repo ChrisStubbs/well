@@ -20,7 +20,7 @@ import { SecurityService }                          from '../shared/security/sec
 import { Threshold }                                from '../shared/threshold';
 import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
-import * as _                                  from 'lodash';
+import * as _ from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';
 import {DeliveryAction} from '../delivery/model/deliveryAction';
@@ -218,22 +218,12 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         }
     }
 
-    }
-
     public addToCreditList(exception, index)
     {
         if (index === -1)
         {
             exception.isPending = this.isAboveThresholdLimit(exception.totalCreditValueForThreshold);
             this.bulkCredits.push(exception);
-        }
-    }
-
-    public removeFromCreditList(index)
-    {
-        if (index !== -1)
-        {
-            this.bulkCredits.splice(index, 1);
         }
     }
 
@@ -352,7 +342,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public getCreditListIndex(exceptionid)
     {
-        return lodash.findIndex(this.bulkCredits, { id: exceptionid });
+        return _.findIndex(this.bulkCredits, { id: exceptionid });
     }
 
     public removeFromCreditList(index)

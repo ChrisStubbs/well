@@ -2,6 +2,7 @@
  
 export class ExceptionDelivery extends BaseDelivery {
     public  routeNumber: string;
+    public  routeDate: Date;
     public  dropId: string;
     public  invoiceNumber: number;
     public  accountName: string;

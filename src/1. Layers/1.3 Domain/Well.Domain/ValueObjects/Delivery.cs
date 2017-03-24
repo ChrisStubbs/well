@@ -19,6 +19,8 @@
 
         public string RouteNumber { get; set; }
 
+        public DateTime RouteDate { get; set; }
+
         public int DropId { get; set; }
 
         public string InvoiceNumber { get; set; }

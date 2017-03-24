@@ -20,7 +20,7 @@ import { SecurityService }                          from '../shared/security/sec
 import { Threshold }                                from '../shared/threshold';
 import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
-import * as lodash                                  from 'lodash';
+import * as _                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';
 import {DeliveryAction} from '../delivery/model/deliveryAction';
@@ -66,6 +66,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public isReadOnlyUser: boolean = false;
     @ViewChild(BulkCreditConfirmModal)
     private bulkCreditConfirmModal: BulkCreditConfirmModal;
+    public routeDate: Date;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -103,6 +104,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params =>
         {
+            this.routeDate = params['routeDate'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
@@ -134,7 +136,16 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData =>
                 {
-                    this.exceptions = responseData || new Array<ExceptionDelivery>();
+                this.exceptions = responseData || new Array<ExceptionDelivery>();
+
+                if (!_.isUndefined(this.routeDate)) {
+                    this.exceptions = _.filter(this.exceptions,
+                        x => {
+                            return x.routeDate === this.routeDate;
+                        }
+                    );
+                }
+                    
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -160,7 +171,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public onSortDirectionChanged(isDesc: boolean)
     {   
         super.onSortDirectionChanged(isDesc);
-        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
+        this.exceptions = _.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
     }
 
     public onFilterClicked(filterOption: FilterOption)
@@ -207,9 +218,28 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         }
     }
 
+    }
+
+    public addToCreditList(exception, index)
+    {
+        if (index === -1)
+        {
+            exception.isPending = this.isAboveThresholdLimit(exception.totalCreditValueForThreshold);
+            this.bulkCredits.push(exception);
+        }
+    }
+
+    public removeFromCreditList(index)
+    {
+        if (index !== -1)
+        {
+            this.bulkCredits.splice(index, 1);
+        }
+    }
+
     public isGridCheckBoxDisabled(exceptionid)
     {
-        const exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
+        const exceptionDelivery = _.find(this.exceptions, ['id', exceptionid]);
 
         if (exceptionDelivery.assigned == this.globalSettingsService.globalSettings.userName
             && exceptionDelivery.canBulkCredit)

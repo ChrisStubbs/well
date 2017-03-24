@@ -32,12 +32,12 @@ export class CleanPreferenceRemoveModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Clean preference has been removed!', '');
+                    this.toasterService.pop('success', 'Clean preference has been removed', '');
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Clean preference could not be deleted at this time!',
+                        'Clean preference could not be deleted at this time',
                         'Please try again later!');
                 }
                 this.isVisible = false;

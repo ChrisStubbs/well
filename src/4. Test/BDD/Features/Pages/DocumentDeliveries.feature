@@ -13,5 +13,3 @@ Scenario: Document Delivery NOT shown
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account  | AccountName          | Status     | TBA |
 	| 001   | 1    | 976549    | 2874.033 | CSG - must be CF van | Incomplete | 0   |
-
-

@@ -72,14 +72,29 @@
         }
 
 
-        public void InsertPodEvent(PodTransaction podTransaction)
+        public void InsertPodTransaction(PodTransaction podTransaction)
         {
             var podEventJson = JsonConvert.SerializeObject(podTransaction);
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", podEventJson, DbType.String, size: 2500)
+                .AddParameter("ExceptionActionId", EventAction.PodTransaction, DbType.Int32)
+                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
+
+        public void InsertPodEvent(PodEvent podEvent)
+        {
+            var podEventJson = JsonConvert.SerializeObject(podEvent);
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+                .AddParameter("Event", podEventJson, DbType.String, size: 2500)
                 .AddParameter("ExceptionActionId", EventAction.Pod, DbType.Int32)
-              //  .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
+                //  .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
                 .AddParameter("DateCanBeProcessed", DateTime.Now.Date.AddDays(1), DbType.DateTime)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)

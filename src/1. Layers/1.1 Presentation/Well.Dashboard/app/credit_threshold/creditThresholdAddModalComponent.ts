@@ -45,7 +45,7 @@ export class CreditThresholdAddModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Credit threshold has been saved!', '');
+                    this.toasterService.pop('success', 'Credit threshold has been saved', '');
                     this.isVisible = false;
                     this.clear();
                     this.onCreditThresholdSave.emit(this.creditThreshold);
@@ -53,7 +53,7 @@ export class CreditThresholdAddModalComponent {
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Credit threshold could not be saved at this time!',
+                        'Credit threshold could not be saved at this time',
                         'Please try again later!');
                     this.isVisible = false;
                 }

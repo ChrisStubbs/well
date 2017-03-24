@@ -5,8 +5,8 @@
 </div>
 <div class="jumbotron">
     <div class="alert alert-info">
-        <strong *ngIf="!username">Select the branches you want to see information about using the checkboxes below!</strong>
-        <strong *ngIf="username">Select the branches to set up for {{username}}</strong>
+        <strong *ngIf="!username">Select the branches you want to access</strong>
+        <strong *ngIf="username">Select the branches for {{username}}</strong>
     </div>
     <div class="well">
         <ow-branch-select [username]="username"></ow-branch-select>

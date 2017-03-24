@@ -325,7 +325,7 @@ namespace PH.Well.BDD.Steps.Page
         [Then("it is removed from the credit threshold grid")]
         public void CreditThresholdHasGoneFromGrid()
         {
-            Assert.That(this.creditThresholdPage.NoResults.Text, Is.EqualTo("No Credit Thresholds"));
+            Assert.That(this.creditThresholdPage.NoResults.Text, Is.EqualTo("No credit thresholds"));
         }
 
         [When("I remove the clean parameter")]
@@ -342,7 +342,7 @@ namespace PH.Well.BDD.Steps.Page
         [Then("the clean parameter is not saved")]
         public void CleanParameterHasGoneFromGrid()
         {
-            Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No Clean Preferences"));
+            Assert.That(this.cleanPage.NoResults.Text, Is.EqualTo("No clean preferences"));
         }
 
         [When("I add a widget warning parameter")]

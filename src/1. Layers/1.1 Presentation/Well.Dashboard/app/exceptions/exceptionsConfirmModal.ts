@@ -53,11 +53,11 @@ export class ExceptionsConfirmModal {
                 } else if (this.httpResponse.adamdown)
                 {
                     this.toasterService.pop('info',
-                        'ADAM is currently offline!',
-                        'You will receive a notification once the credit has taken place!');
+                        'ADAM is currently offline',
+                        'You will receive a notification once the credit has taken place');
                 } else if (this.httpResponse.success)
                 {
-                    this.toasterService.pop('success', 'Delivery line actions completed!', '');
+                    this.toasterService.pop('success', 'Delivery line actions completed', '');
                 }
 
                 this.onSave.emit();

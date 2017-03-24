@@ -43,14 +43,14 @@ export class WidgetWarningEditModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Widget Warning has been updated!', '');
+                    this.toasterService.pop('success', 'Widget Warning has been updated', '');
                     this.isVisible = false;
                     this.onWidgetWarningUpdate.emit(this.widgetWarning);
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Widget warning could not be updated at this time!',
+                        'Widget warning could not be updated at this time',
                         'Please try again later!');
                     this.isVisible = false;
                 }

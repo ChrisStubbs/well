@@ -120,10 +120,9 @@
         {
             try
             {
-                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
-
+                var deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
                 var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
-                DeliveryDetailModel delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
+                var delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {

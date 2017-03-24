@@ -21,6 +21,7 @@
 
         public void SetToDelete()
         {
+            // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.RouteHeaders.Any(x => !x.IsDeleted);
             if (this.RouteHeaders.All(x => x.IsDeleted))
             {
                 this.IsDeleted = true;
@@ -47,6 +48,7 @@
 
         public void SetToDelete()
         {
+            // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.Stops.Any(x => !x.IsDeleted);
             if (this.Stops.All(x => x.IsDeleted))
             {
                 this.IsDeleted = true;
@@ -71,6 +73,7 @@
 
         public void SetToDelete()
         {
+            // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.Jobs.Any(x => !x.IsDeleted);
             if (this.Jobs.All(x => x.IsDeleted))
             {
                 this.IsDeleted = true;
@@ -97,6 +100,7 @@
 
         public void SetToDelete()
         {
+            // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.JobDetails.Any(x => !x.IsDeleted);
             if (this.JobDetails.All(x => x.IsDeleted))
             {
                 this.IsDeleted = true;

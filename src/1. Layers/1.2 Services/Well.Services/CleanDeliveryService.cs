@@ -13,12 +13,19 @@
     public class CleanDeliveryService : ICleanDeliveryService
     {
         private readonly ILogger logger;
+
         private readonly IRouteHeaderRepository routeHeaderRepository;
+
         private readonly IStopRepository stopRepository;
+
         private readonly IJobRepository jobRepository;
+
         private readonly IJobDetailRepository jobDetailRepository;
+
         private readonly IRouteToRemoveRepository routeToRemoveRepository;
+
         private readonly ICleanPreferenceRepository cleanPreferenceRepository;
+
         private readonly ISeasonalDateRepository seasonalDateRepository;
 
         public CleanDeliveryService(
@@ -63,8 +70,7 @@
                         foreach (var job in stop.Jobs)
                         {
                             var royaltyException = this.GetCustomerRoyaltyException(job.RoyaltyCode);
-                            var cleanPreference =
-                                this.cleanPreferenceRepository.GetByBranchId(routeHeader.BranchId);
+                            var cleanPreference = this.cleanPreferenceRepository.GetByBranchId(routeHeader.BranchId);
                             var seasonalDates = this.seasonalDateRepository.GetByBranchId(routeHeader.BranchId).ToList();
 
                             foreach (var detail in job.JobDetails)
@@ -88,11 +94,11 @@
 
                 try
                 {
-                    using (var transaction = new TransactionScope())
+                    foreach (var routeHeader in route.RouteHeaders)
                     {
-                        foreach (var routeHeader in route.RouteHeaders)
+                        foreach (var stop in routeHeader.Stops)
                         {
-                            foreach (var stop in routeHeader.Stops)
+                            using (var transaction = new TransactionScope())
                             {
                                 foreach (var job in stop.Jobs)
                                 {
@@ -114,9 +120,12 @@
                                 {
                                     this.stopRepository.DeleteStopById(stop.StopId);
                                 }
-                            }
 
-                            if (routeHeader.IsDeleted)
+                                transaction.Complete();
+                            }
+                        }
+                         
+                        if (routeHeader.IsDeleted)
                             {
                                 this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
                             }
@@ -127,8 +136,7 @@
                             this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
                         }
 
-                        transaction.Complete();
-                    }
+                     
                 }
                 catch (Exception exception)
                 {
@@ -139,7 +147,11 @@
             this.logger.LogDebug("Finished cleaning the Well...");
         }
 
-        public bool CanDelete(CustomerRoyaltyException royaltyException, CleanPreference cleanPreference, IEnumerable<SeasonalDate> seasonalDates, DateTime dateUpdated)
+        public bool CanDelete(
+            CustomerRoyaltyException royaltyException,
+            CleanPreference cleanPreference,
+            IEnumerable<SeasonalDate> seasonalDates,
+            DateTime dateUpdated)
         {
             var now = DateTime.Now.Date;
 
@@ -183,15 +195,20 @@
 
         public CustomerRoyaltyException GetCustomerRoyaltyException(string royaltyCode)
         {
-            var royaltyParts = royaltyCode.Split(' ');
-
-            int tryParseCode = 0;
-
-            if (int.TryParse(royaltyParts[0], out tryParseCode))
+            if (!string.IsNullOrWhiteSpace(royaltyCode))
             {
-                var royaltyException = this.jobRepository.GetCustomerRoyaltyExceptions().FirstOrDefault(x => x.RoyaltyId == tryParseCode);
+                var royaltyParts = royaltyCode.Split(' ');
 
-                return royaltyException;
+                int tryParseCode = 0;
+
+                if (int.TryParse(royaltyParts[0], out tryParseCode))
+                {
+                    var royaltyException =
+                        this.jobRepository.GetCustomerRoyaltyExceptions()
+                            .FirstOrDefault(x => x.RoyaltyId == tryParseCode);
+
+                    return royaltyException;
+                }
             }
 
             return null;

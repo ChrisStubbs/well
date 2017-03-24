@@ -84,16 +84,14 @@ export class DeliveryLine
 
     public isDetailChecked(): boolean
     {
-        if (this.isHighValue) {
-            if (this.lineDeliveryStatus === 'Exception') {
-                return true;
-            }
-            if (this.lineDeliveryStatus === 'Delivered') {
-                return true;
-            }
-            if (this.lineDeliveryStatus === 'Unknown') {
-                return false;
-            }
+        if (this.lineDeliveryStatus === 'Exception') {
+            return true;
+        }
+        if (this.lineDeliveryStatus === 'Delivered') {
+           return true;
+        }
+        if (this.lineDeliveryStatus === 'Unknown') {
+           return false;
         }
           
         return false;

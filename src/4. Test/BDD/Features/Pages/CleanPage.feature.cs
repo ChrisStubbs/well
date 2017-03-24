@@ -356,7 +356,7 @@ this.ScenarioSetup(scenarioInfo);
                         "91156028",
                         "43362.048",
                         "WB - SHOP",
-                        "06/06/2016"});
+                        "01/06/2016"});
             table8.AddRow(new string[] {
                         "001",
                         "22",

@@ -37,6 +37,7 @@
             var user = this.userRepository.GetByIdentity(username);
 
             var initials = user.FriendlyName.GetInitials();
+            var wellName = "The Well";
 
             var job = this.jobRepository.GetById(deliveryLines[0].JobId);
             var account = this.accountRepository.GetAccountByStopId(job.StopId);
@@ -76,7 +77,7 @@
             }
 
             var creditHeader =
-                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT, WELLHDCRDNUMREAS) VALUES('{today}', '{now}', '{job.Id}', '{(int)EventAction.Credit}', '{initials}', {branchId}, {acno}, {job.InvoiceNumber}, {source}, {0}, '{account.ContactName}', '{job.CustomerRef}', {lineCount}, {groupCount});";
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDCONTACT, WELLHDLINECOUNT, WELLHDCRDNUMREAS, WELLHDCUSTREF) VALUES('{today}', '{now}', '{job.Id}', '{(int)EventAction.Credit}', '{initials}', {branchId}, {acno}, {job.InvoiceNumber}, {source}, {0}, '{account.ContactName}', {lineCount}, {groupCount}, '{wellName}');";
 
             var creditTransaction = new CreditTransaction
             {

@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.TranSend.Infrastructure
 {
     using System;
+    using System.Globalization;
     using System.IO;
+    using System.Threading;
     using System.Xml.Serialization;
 
     using PH.Well.Common.Contracts;
@@ -28,6 +30,7 @@
 
         public void Import()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             var files = Directory.GetFiles(Configuration.DownloadFilePath);
 
             foreach (var file in files)

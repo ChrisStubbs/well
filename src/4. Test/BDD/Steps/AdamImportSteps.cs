@@ -2,7 +2,9 @@
 {
     using System.IO;
     using System;
+    using System.Globalization;
     using System.Linq;
+    using System.Threading;
     using System.Xml.Serialization;
 
     using Framework.Context;
@@ -214,6 +216,7 @@
         [When(@"I have imported a valid Epod update file named '(.*)'")]
         public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
 
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));

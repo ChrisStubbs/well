@@ -78,8 +78,6 @@
 
         public void Update(RouteDelivery route)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
-
             foreach (var header in route.RouteHeaders)
             {
                 var existingHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(

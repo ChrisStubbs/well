@@ -29,7 +29,7 @@ Background:
 Scenario: View exception details at lower level with delivery check icon displayed
 	Given I have selected branch '55'
 	When I open the exception deliveries
-	And I click on exception row 2
+	And I click on exception row 3
 	Then I am shown the exception detail
 	| LineNo | Product | Description              | Value | InvoiceQuantity | DeliveryQuantity | DamagedQuantity | ShortQuantity | Checked |
 	| 1      | 69603   | Carlsberg Exp 4.8% 4Pk   | 23.33 | 1               | 0                | 0               | 1             | true    |

@@ -32,7 +32,8 @@
             var acno = (int) (Convert.ToDecimal(job.PhAccount)*1000);
             var today = DateTime.Now.ToString("dd/MM/yyyy");
             var now = DateTime.Now.ToShortTimeString();
-            var contact = TruncateString(account.ContactName, 16); 
+            var contact = TruncateString(account.ContactName, 16);
+            var wellName = "The Well";
 
             var source = 0;
             var lineCount = 0;
@@ -59,8 +60,8 @@
             }
 
             var creditHeader = string.Format(
-                "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDPODCODE, WELLHDCONTACT, WELLHDCUSTREF, WELLHDLINECOUNT) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, {13});",
-                today, now, job.Id, (int) EventAction.Pod, "Well", branchId, acno, job.InvoiceNumber, source, 0, job.ProofOfDelivery, contact, job.CustomerRef, lineCount);
+                "INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDSRCERROR, WELLHDFLAG, WELLHDPODCODE, WELLHDCONTACT, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, '{10}', '{11}', {12}, '{13}');",
+                today, now, job.Id, (int) EventAction.Pod, "Well", branchId, acno, job.InvoiceNumber, source, 0, job.ProofOfDelivery, contact, lineCount, wellName);
 
             var podTransaction = new PodTransaction
             {

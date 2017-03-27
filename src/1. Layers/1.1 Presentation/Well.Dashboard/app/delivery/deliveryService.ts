@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -9,13 +9,14 @@ import { JobDetailReason } from './model/jobDetailReason';
 import { JobDetailSource } from './model/jobDetailSource';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { HttpErrorService } from '../shared/httpErrorService';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class DeliveryService
 {
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService)
     {

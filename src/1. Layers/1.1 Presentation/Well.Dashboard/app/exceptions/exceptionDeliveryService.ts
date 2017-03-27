@@ -1,5 +1,5 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {ExceptionDelivery} from './exceptionDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
@@ -11,6 +11,7 @@ import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine';
 import {DeliveryAction} from '../delivery/model/deliveryAction';
 import {BulkCredit} from './bulkCredit';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -19,7 +20,7 @@ export class ExceptionDeliveryService {
    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {

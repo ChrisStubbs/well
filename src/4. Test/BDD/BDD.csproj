@@ -131,6 +131,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Branch.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\BulkCredit.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BulkCredit.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\CompletedOnPaperDelivery.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -299,6 +304,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Branch.feature.cs</LastGenOutput>
     </None>
+    <None Include="Features\Pages\BulkCredit.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BulkCredit.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Pages\CompletedOnPaperDelivery.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CompletedOnPaperDelivery.feature.cs</LastGenOutput>
@@ -396,6 +405,18 @@
     <Content Include="Epod\ePOD_HAY_Update2.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD__BulkCredit1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__BulkCredit2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__BulKCredit3.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__BulKCredit4.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -417,6 +438,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ORDER_HAY_170207_2333_2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ORDER_PLY_BulkCredit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_02022017_82.xml">
@@ -442,6 +466,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Xml\ROUTE_30062016_04.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ROUTE_PLYM_BulkCredit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

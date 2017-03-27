@@ -36,6 +36,13 @@
                 response.ErrorMessage = $"User not found ({username})";
             }
 
+            if (user.ThresholdLevelId == null)
+            {
+                response.IsInError = true;
+                response.ErrorMessage = $"You must be assigned a threshold level before crediting.";
+                return response;
+            }
+
             var threshold =
                 this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
 

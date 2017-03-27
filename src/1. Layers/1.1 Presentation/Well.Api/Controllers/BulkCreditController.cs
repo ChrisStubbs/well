@@ -43,7 +43,7 @@
                 return this.Request.CreateResponse(new { notAcceptable = true, message = warnings });
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, new { });
         }
     }
 }

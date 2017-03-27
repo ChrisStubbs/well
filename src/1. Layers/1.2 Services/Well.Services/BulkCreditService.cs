@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
+    using Common.Contracts;
     using Contracts;
     using Domain;
     using Domain.Enums;
@@ -16,13 +17,19 @@
         private readonly IJobDetailToDeliveryLineCreditMapper jobDetailToDeliveryLineCreditMapper;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IJobRepository jobRepository;
+        private readonly IUserNameProvider userNameProvider;
+        private readonly IUserRepository userRepository;
+        private readonly IJobDetailRepository jobDetailRepository;
 
         public BulkCreditService(IUserThresholdService userThresholdService, 
             IBranchRepository branchRepository,
             ICreditTransactionFactory creditTransactionFactory,
             IJobDetailToDeliveryLineCreditMapper jobDetailToDeliveryLineCreditMapper,
             IExceptionEventRepository exceptionEventRepository,
-            IJobRepository jobRepository)
+            IJobRepository jobRepository,
+            IUserNameProvider userNameProvider,
+            IUserRepository userRepository,
+            IJobDetailRepository jobDetailRepository)
         {
             this.userThresholdService = userThresholdService;
             this.branchRepository = branchRepository;
@@ -30,10 +37,19 @@
             this.jobDetailToDeliveryLineCreditMapper = jobDetailToDeliveryLineCreditMapper;
             this.exceptionEventRepository = exceptionEventRepository;
             this.jobRepository = jobRepository;
+            this.userNameProvider = userNameProvider;
+            this.userRepository = userRepository;
+            this.jobDetailRepository = jobDetailRepository;
         }
 
         public IEnumerable<string> BulkCredit(IEnumerable<Job> jobs, JobDetailReason reason, JobDetailSource source)
         {
+            var warning = ValidateUserForCrediting();
+            if (string.IsNullOrWhiteSpace(warning) == false)
+            {
+                return new List<string>() {warning};
+            }
+
             var jobsList = jobs.ToList();
             SetCreditActions(jobsList, reason, source);
 
@@ -41,7 +57,14 @@
             using (var transactionScope = new TransactionScope())
             {
                 jobsList.ForEach(j => warnings.AddRange(CreditJob(j)));
-                jobsList.ForEach(jobRepository.Update);
+                foreach (var job in jobsList)
+                {
+                    jobRepository.Update(job);
+                    foreach (var jobDetail in job.JobDetails)
+                    {
+                        jobDetailRepository.Update(jobDetail);
+                    }
+                }
                 transactionScope.Complete();
             }
 
@@ -134,6 +157,24 @@
             {
                 job.JobStatus = JobStatus.Resolved;
             }
+        }
+
+        private string ValidateUserForCrediting()
+        {
+            var username = this.userNameProvider.GetUserName();
+            var user = this.userRepository.GetByIdentity(username);
+
+            if (user == null)
+            {
+                return $"User not found ({username})";
+            }
+
+            if (user.ThresholdLevelId == null)
+            {
+                return $"You must be assigned a threshold level before crediting.";
+            }
+
+            return string.Empty;
         }
 
 

@@ -30,9 +30,9 @@
             this.DeliveryUpdateDrillDown = new Heading { Locator = By.Id("delivery-update") };
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             this.NoExceptionsDiv = new Div { Locator = By.Id("no-exceptions") };
-            this.CreditCheckBox = new CheckBox { Locator = By.Id("1") };
+         
             this.CurrentUserName = new SpanElement() { Locator = By.Id("current-user-name") };
-            this.CreditButton = new Button { Locator = By.Id("credit") };
+            this.BulkCreditButton = new Button { Locator = By.Id("bulk-credit") };
             this.SelectAllButton = new Button { Locator = By.Id("selectAll") };
             this.ModalConfirmButton = new Button { Locator = By.Id("confirm-modal-button") };
             this.ProductInformation = new SpanElement { Locator = By.Id("product-information") };
@@ -47,7 +47,7 @@
 
             this.AccountModal = new AccountModalComponent();
             this.AssignModal = new AssignModal(Driver);
-            this.CreditModalComponent = new CreditModalComponent();
+            this.BulkModalComponent = new BulkModalComponent();
             ConfirmModal = new ConfirmModal();
 
             FirstRowSubmitButton = new Button() {Locator = By.Id("submit1")};
@@ -79,12 +79,17 @@
 
         public Button EnabledButton { get; set; }
 
-        public CreditModalComponent CreditModalComponent { get; set; }
+        public BulkModalComponent BulkModalComponent { get; set; }
+
         public ConfirmModal ConfirmModal { get; set; }
 
-        public CheckBox CreditCheckBox { get; set; }
+        
+        public CheckBox CreditCheckBox(int lineIdx)
+        {
+          return  new CheckBox { Locator = By.Id($"checkbox-credit-{lineIdx}") };
+        }
 
-        public Button CreditButton { get; set; }
+        public Button BulkCreditButton { get; set; }
 
         public Button SelectAllButton { get; set; }
 

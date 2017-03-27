@@ -33,6 +33,8 @@
 
         private INotificationRepository notificationRepository;
 
+        private ICreditThresholdRepository creditThresholdRepository;
+
         public DatabaseSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(
@@ -40,8 +42,9 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
-            auditRepo = container.GetInstance<IAuditRepository>();
-            notificationRepository = container.GetInstance<INotificationRepository>();
+            this.auditRepo = this.container.GetInstance<IAuditRepository>();
+            this.notificationRepository = this.container.GetInstance<INotificationRepository>();
+            this.creditThresholdRepository = this.container.GetInstance<ICreditThresholdRepository>();
         }
 
         [Given("I have a clean database")]
@@ -385,6 +388,23 @@
             Assert.That(pendingValue, Is.EqualTo(pendingDelivery));
             Assert.That(resolvedValue, Is.EqualTo(resolvedDelivery));
         }
+
+        [Given(@"I have the following credit threshold levels set in the database")]
+        public void GivenIHaveTheFollowingCreditThresholdLevelsSetInTheDatabase(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                var ct = new CreditThreshold
+                {
+                    ThresholdLevelId =  int.Parse(row["Level"]),
+                    Value =   decimal.Parse(row["Value"]),
+                };
+
+                ct.Branches.Add(new Branch {Id = int.Parse(row["Branch"])});
+                creditThresholdRepository.Save(ct);
+            }
+        }
+
     }
 }
 

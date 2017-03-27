@@ -1,6 +1,6 @@
 ﻿Create PROCEDURE [dbo].[CreditThresholdSave]
 	@ThresholdLevelId INT,
-	@Threshold DECIMAL(10,2),
+	@Value DECIMAL(10,2),
 	@DateCreated DATETIME,
 	@DateUpdated DATETIME,
 	@CreatedBy VARCHAR(50),
@@ -11,14 +11,14 @@ BEGIN
 
     INSERT INTO [dbo].[CreditThreshold]
            ([ThresholdLevelId]
-		   ,[Threshold]
+		   ,[Value]
 		   ,[CreatedDate]
            ,[LastUpdatedDate]
            ,[CreatedBy]
            ,[LastUpdatedBy])
      VALUES
            (@ThresholdLevelId
-		   ,@Threshold
+		   ,@Value
 		   ,@DateCreated
            ,@DateUpdated
            ,@CreatedBy

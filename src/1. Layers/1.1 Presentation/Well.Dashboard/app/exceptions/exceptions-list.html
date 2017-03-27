@@ -54,7 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
+                            <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }; let i = index">
                                 <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
@@ -82,7 +82,7 @@
                                 <td class="gridCheckbox">
                                     <input type="checkbox" class="exceptionCheckbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)"
                                            [title]="isGridCheckBoxDisabled(delivery.id) ? 'Can only credit un-actioned assigned deliveries' : ''" 
-                                           [checked]="isChecked(delivery.id)" (click)="onCheck(delivery)" value="{{delivery.id}}" id="{{delivery.id}}">
+                                           [checked]="isChecked(delivery.id)" (click)="onCheck(delivery)" value="{{delivery.id}}" id="checkbox-credit-{{i}}">
                                 </td>
                             </tr>
                         </tbody>
@@ -92,7 +92,7 @@
             <div class="row credit">
                 <div class="col-md-12" *ngIf="creditListlength() > 0">
                     <span class="pull-right">
-                        <button class="btn btn-success btn-sm" (click)="checkExceptionsForCredit()" id="credit" type="button">Bulk Credit</button>
+                        <button class="btn btn-success btn-sm" (click)="checkExceptionsForCredit()" id="bulk-credit" type="button">Bulk Credit</button>
                     </span>
                 </div>
             </div>

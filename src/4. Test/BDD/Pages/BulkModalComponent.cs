@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace PH.Well.BDD.Pages
+﻿namespace PH.Well.BDD.Pages
 {
     using Framework.WebElements;
     using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.UI;
 
-    public class CreditModalComponent
+    public class BulkModalComponent
     {
-        public CreditModalComponent()
+        public BulkModalComponent()
         {
             ModalTitle = new Heading() { Locator = By.ClassName("modal-title") };
             ModalBody = new Div() { Locator = By.ClassName("modal-body") };
@@ -20,5 +18,16 @@ namespace PH.Well.BDD.Pages
         public Button ConfirmButton { get; set; }
         public Button CancelButton { get; set; }
         public Div ModalBody { get; set; }
+
+        public SpanElement Source(int index)
+        {
+            return new SpanElement() { Locator = By.Id($"source{index}") };
+        }
+
+        public SpanElement Reason(int index)
+        {
+            return new SpanElement() { Locator = By.Id($"reason{index}") };
+        }
+        
     }
 }

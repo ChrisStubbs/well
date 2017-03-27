@@ -33,9 +33,9 @@ Scenario: Filter exceptions
 	Then the following exception deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
 	| 006   | 22     | 1    | 123123123 | 43362.048 | WB - SHOP            | Incomplete | 0   |
-	| 006   | 22     | 1    | 223123123  | 02874.033 | WB - SHOP            | Incomplete | 0   |
-	| 006   | 22     | 2    | 323123123  | 54107.000 | WB - SHELL FORECOURT | Incomplete | 0   |
-	| 006   | 22     | 2    | 423123123  | 54107.000 | WB - SHELL FORECOURT | Incomplete | 0   |
+	| 006   | 22     | 1    | 223123123 | 02874.033 | WB - SHOP            | Incomplete | 0   |
+	| 006   | 22     | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | Incomplete | 0   |
+	| 006   | 22     | 2    | 423123123 | 54107.000 | WB - SHELL FORECOURT | Incomplete | 0   |
 	When I filter the exception delivery grid with the option 'Invoice No' and value '423123123'
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
@@ -74,9 +74,9 @@ Scenario: Sort exceptions
 	| 006   | 22     | 1    | 223123123 | 02874.033 | WB - SHOP            | Incomplete | 0   | 01/06/2016   |
 	| 006   | 22     | 2    | 323123123 | 54107.000 | WB - SHELL FORECOURT | Incomplete | 0   | 01/06/2016   |
 	| 006   | 22     | 2    | 423123123 | 54107.000 | WB - SHELL FORECOURT | Incomplete | 0   | 01/06/2016   |
-	| 011   | 22     | 1    | 1000124    | 43362.048 | CSG - COSTCUTTER     | Incomplete | 0   | 01/07/2016   |
+	| 011   | 22     | 1    | 1000124   | 43362.048 | CSG - COSTCUTTER     | Incomplete | 0   | 01/07/2016   |
 	| 001   | 22     | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 0   | 01/08/2016   |
-	| 001   | 22     | 1    | 1000123    | 02874.033 | CSG - must be CF van | Incomplete | 0   | 01/08/2016   |
+	| 001   | 22     | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 0   | 01/08/2016   |
 	| 001   | 22     | 2    | 976541    | 02874.033 | RVS SHOP             | Incomplete | 0   | 01/08/2016   |
 	| 001   | 22     | 2    | 976542    | 02874.033 | RVS SHOP             | Incomplete | 0   | 01/08/2016   |
 
@@ -194,5 +194,5 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	Then the following exception deliveries will be displayed
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
-	| 001   | 1    | 1000123    | 02874.033 | CSG - must be CF van | Incomplete | 2   |
+	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
 

@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" (click)="hide()">&times;</button>
-                <h4 class="modal-title text-danger">Bulk credit exceptions</h4>
+                <h4 class="modal-title text-danger">Bulk Actions</h4>
             </div>
             <div class="modal-body">
                 
@@ -18,14 +18,14 @@
                                 <label>Source</label>
                                 <select id="source-select" class="form-control"
                                         [(ngModel)]="source" name="source">
-                                    <option *ngFor="let r of sources" [value]="r.id">{{r.description}}</option>
+                                    <option *ngFor="let r of sources; let i = index" [value]="r.id" id="source{{i}}">{{r.description}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Reason</label>
                                 <select id="reason-select" class="form-control"
                                         [(ngModel)]="reason" name="reason">
-                                    <option *ngFor="let r of reasons" [value]="r.id">{{r.description}}</option>
+                                    <option *ngFor="let r of reasons ; let i = index" [value]="r.id" id="reason{{i}}">{{r.description}}</option>
                                 </select>
                             </div>
                         </div>

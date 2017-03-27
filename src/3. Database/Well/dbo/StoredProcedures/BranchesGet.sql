@@ -14,7 +14,7 @@ BEGIN
 	  FROM [dbo].[Branch]
 	  
 	  SELECT  ct.Id,
-			  ct.Threshold,
+			  ct.Value,
 			  tl.Id as ThresholdLevelId,
 			  ctb.BranchId
 		from [dbo].[CreditThresholdToBranch] ctb

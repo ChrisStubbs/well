@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Threading;
     using Domain.Enums;
     using NUnit.Framework;
@@ -21,11 +23,24 @@
         private IJobRepository jobRepository;
         private readonly IContainer container;
 
+        private Dictionary<string,int> bulkSourceMap = new Dictionary<string, int>
+        {
+            {"Not Defined", 0},
+            {"Input", 1 }
+        };
+
+        private Dictionary<string, int> bulkReasonMap = new Dictionary<string, int>
+        {
+            {"Not Defined", 0},
+            {"No Credit", 1 }
+        };
+
+
         [Given(@"I open the exception deliveries")]
         [When(@"I open the exception deliveries")]
         public void WhenIOpenTheExceptionDeliveries()
         {
-            ExceptionDeliveriesPage.Open();
+           ExceptionDeliveriesPage.Open();
         }
 
         [Given(@"an exception with 20 invoiced items")]
@@ -200,14 +215,30 @@
         [When(@"I assign the delivery to myself")]
         public void AssignToMe()
         {
-            var firstRow = 0;
-            SelectAssignLink(firstRow);
+            const int firstRow = 0;
+            AssignException(firstRow);
+        }
 
+        public void AssignException(int rowIndex)
+        {
+            SelectAssignLink(rowIndex);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
         }
+
+        [Given(@"I assign the following exception lines to myself")]
+        public void GivenIAssignTheFollowingExceptionLinesToMyself(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                var rowIndex = int.Parse(row["LineNo"]) - 1;
+                AssignException(rowIndex);
+                Thread.Sleep(100);
+            }
+        }
+
 
         [When(@"I assign the delivery on row (.*) to myself")]
         public void WhenIAssignTheDeliveryOnRowToMyself(int row)
@@ -290,25 +321,46 @@
         [When(@"click the first credit checkbox")]
         public void WhenClickTheFirstCreditCheckbox()
         {
-             var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
+            var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox(0).GetElement();
              firstCheckbox.Click();
         }
+
+        [Given(@"I click the credit checkbox on the following lines")]
+        public void GivenIClickTheCreditCheckboxOnTheFollowingLines(Table table)
+        {
+            foreach (var row in table.Rows)
+            { 
+                var lineIdx = int.Parse(row["LineNo"]) - 1;
+                var chkBox =   this.ExceptionDeliveriesPage.CreditCheckBox(lineIdx).GetElement();
+                chkBox.Click();
+            }
+        }
+
 
         [When(@"I click the '(.*)' button")]
         public void WhenIClickTheButton(string buttonName)
         {
-            if (buttonName == "credit")
+            IWebElement button;
+            switch (buttonName.ToLower())
             {
-                var creditButton = this.ExceptionDeliveriesPage.CreditButton.GetElement().FindElement(By.Id(buttonName));
-                creditButton.Click();
+                case "bulk credit":
+                    button = this.ExceptionDeliveriesPage.BulkCreditButton.GetElement();
+                    break;
+                default:
+                    button = this.ExceptionDeliveriesPage.SelectAllButton.GetElement().FindElement(By.Id(buttonName));
+                    break;
+
             }
-            else
-            {
-                var selectAllButton = this.ExceptionDeliveriesPage.SelectAllButton.GetElement().FindElement(By.Id(buttonName));
-                selectAllButton.Click();
-            }
-           
+            button.Click();
+
         }
+
+        [Then(@"the exception deliveries page will show No exceptions found")]
+        public void ThenTheExceptionDeliveriesPageWillShowNoExceptionsFound()
+        {
+            Assert.That(this.ExceptionDeliveriesPage.IsElementPresent("no-exceptions"), Is.EqualTo(true));
+        }
+
 
         [Then(@"the '(.*)' and '(.*)' button are visible")]
         public void ThenTheAndButtonAreVisible(string creditButton, string selectAllButton)
@@ -332,8 +384,20 @@
         [When(@"click the confirm button on the modal popup")]
         public void WhenClickTheConfirmButtonOnTheModalPopup()
         {
-            this.ExceptionDeliveriesPage.CreditModalComponent.ConfirmButton.Click();
+            this.ExceptionDeliveriesPage.BulkModalComponent.ConfirmButton.Click();
         }
+
+
+        [When(@"Select the Sources as '(.*)' and reason as '(.*)'")]
+        public void WhenSelectTheSourcesAsAndReasonAs(string source, string reason)
+        {
+            var sourceSelection = this.ExceptionDeliveriesPage.BulkModalComponent.Source(bulkSourceMap[source]);
+            sourceSelection.Click();
+
+            var reasonSelection = this.ExceptionDeliveriesPage.BulkModalComponent.Reason(bulkReasonMap[reason]);
+            reasonSelection.Click();
+        }
+        
 
         [Then(@"the first delivery line is COD \(Cash on Delivery\)")]
         public void ThenTheFirstDeliveryLineIsCODCashOnDelivery()
@@ -371,14 +435,14 @@
         [Then(@"the Credit Confirm modal is displayed")]
         public void ThenTheCreditConfirmModalIsDisplayed(Table table)
         {
-            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            var modal = ExceptionDeliveriesPage.BulkModalComponent;
             CreditModalSteps.CompareModal(table, modal);
         }
 
         [When(@"I click the save button on the modal")]
         public void WhenIClickTheSaveButtonOnTheModal()
         {
-            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            var modal = ExceptionDeliveriesPage.BulkModalComponent;
             modal.ConfirmButton.Click();
         }
 

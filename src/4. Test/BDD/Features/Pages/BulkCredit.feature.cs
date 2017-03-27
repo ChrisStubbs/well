@@ -19,6 +19,8 @@ namespace PH.Well.BDD.Features.Pages
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Bulk Credit Feature")]
+    [NUnit.Framework.CategoryAttribute("WebDriverFeature")]
+    [NUnit.Framework.CategoryAttribute("RoleSuperUser")]
     public partial class BulkCreditFeatureFeature
     {
         
@@ -31,7 +33,9 @@ namespace PH.Well.BDD.Features.Pages
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Bulk Credit Feature", "\tAs a user I need to be able to bulk credit Delievry Exceptions", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Bulk Credit Feature", "\tAs a user I need to be able to bulk credit Delievry Exceptions", ProgrammingLanguage.CSharp, new string[] {
+                        "WebDriverFeature",
+                        "RoleSuperUser"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,38 +69,193 @@ namespace PH.Well.BDD.Features.Pages
         
         public virtual void FeatureBackground()
         {
-#line 4
-#line 5
- testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.And("I import the route file \'ROUTE_PLYM_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 7
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.And("I have selected branch \'55\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 9
+ testRunner.And("I import the route file \'ROUTE_PLYM_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 10
  testRunner.And("I have loaded the order file \'ORDER_PLY_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Filename"});
             table1.AddRow(new string[] {
-                        "ePOD__BulkCredit4.xml"});
-            table1.AddRow(new string[] {
-                        "ePOD__BulkCredit3.xml"});
+                        "ePOD__BulkCredit1.xml"});
             table1.AddRow(new string[] {
                         "ePOD__BulkCredit2.xml"});
             table1.AddRow(new string[] {
-                        "ePOD__BulkCredit1.xml"});
-#line 8
+                        "ePOD__BulkCredit3.xml"});
+#line 11
  testRunner.And("I have imported the following valid Epod files", ((string)(null)), table1, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Level",
+                        "Value",
+                        "Branch"});
+            table2.AddRow(new string[] {
+                        "1",
+                        "1000",
+                        "55"});
+            table2.AddRow(new string[] {
+                        "2",
+                        "30",
+                        "55"});
+            table2.AddRow(new string[] {
+                        "3",
+                        "10",
+                        "55"});
+#line 16
+ testRunner.And("I have the following credit threshold levels set in the database", ((string)(null)), table2, "And ");
+#line 21
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Branch",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "CreditValue",
+                        "Status",
+                        "TBA"});
+            table3.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "1",
+                        "4800011",
+                        "45649.000",
+                        "SHELL - TRERULEFOOT",
+                        "5.4",
+                        "Incomplete",
+                        "0"});
+            table3.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "3",
+                        "4800013",
+                        "37432.000",
+                        "SHELL - KINGSLEY VIL",
+                        "5.4",
+                        "Incomplete",
+                        "0"});
+            table3.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "2845610",
+                        "47020.053",
+                        "COSTCUTTER",
+                        "158.46",
+                        "Incomplete",
+                        "0"});
+            table3.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "4800016",
+                        "47663.040",
+                        "COSTCUTTER",
+                        "25.32",
+                        "Incomplete",
+                        "0"});
+#line 22
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table3, "Then ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user with sufficient credit threshold set can bulk credit")]
-        public virtual void AUserWithSufficientCreditThresholdSetCanBulkCredit()
+        [NUnit.Framework.DescriptionAttribute("A user with sufficient credit threshold set can bulk credit multiple")]
+        public virtual void AUserWithSufficientCreditThresholdSetCanBulkCreditMultiple()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user with sufficient credit threshold set can bulk credit", ((string[])(null)));
-#line 15
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user with sufficient credit threshold set can bulk credit multiple", ((string[])(null)));
+#line 30
  this.ScenarioSetup(scenarioInfo);
-#line 4
+#line 6
 this.FeatureBackground();
+#line 31
+ testRunner.Given("I am assigned to credit threshold \'Level 1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo"});
+            table4.AddRow(new string[] {
+                        "1"});
+            table4.AddRow(new string[] {
+                        "2"});
+            table4.AddRow(new string[] {
+                        "3"});
+            table4.AddRow(new string[] {
+                        "4"});
+#line 32
+ testRunner.And("I assign the following exception lines to myself", ((string)(null)), table4, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo"});
+            table5.AddRow(new string[] {
+                        "1"});
+            table5.AddRow(new string[] {
+                        "2"});
+            table5.AddRow(new string[] {
+                        "3"});
+            table5.AddRow(new string[] {
+                        "4"});
+#line 38
+ testRunner.And("I click the credit checkbox on the following lines", ((string)(null)), table5, "And ");
+#line 44
+ testRunner.When("I click the \'Bulk Credit\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 45
+ testRunner.And("Select the Sources as \'Not Defined\' and reason as \'Not Defined\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 46
+ testRunner.And("I click the \'confirm-modal-button\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 47
+ testRunner.Then("the exception deliveries page will show No exceptions found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+ testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Branch",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status"});
+            table6.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "1",
+                        "4800011",
+                        "45649.000",
+                        "SHELL - TRERULEFOOT",
+                        "Resolved"});
+            table6.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "3",
+                        "4800013",
+                        "37432.000",
+                        "SHELL - KINGSLEY VIL",
+                        "Resolved"});
+            table6.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "2845610",
+                        "47020.053",
+                        "COSTCUTTER",
+                        "Resolved"});
+            table6.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "4800016",
+                        "47663.040",
+                        "COSTCUTTER",
+                        "Resolved"});
+#line 49
+ testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table6, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

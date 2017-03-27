@@ -136,7 +136,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BulkCredit.feature</DependentUpon>
     </Compile>
-     <Compile Include="Features\Pages\BypassedDeliveries.feature.cs">
+    <Compile Include="Features\Pages\BypassedDeliveries.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BypassedDeliveries.feature</DependentUpon>
@@ -236,7 +236,7 @@
     <Compile Include="Pages\AssignModal.cs" />
     <Compile Include="Pages\AuditPage.cs" />
     <Compile Include="Pages\CleanPreferencePage.cs" />
-    <Compile Include="Pages\CreditModalComponent.cs" />
+    <Compile Include="Pages\BulkModalComponent.cs" />
     <Compile Include="Pages\CreditThresholdPage.cs" />
     <Compile Include="Pages\SeasonalDatesPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
@@ -315,7 +315,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BulkCredit.feature.cs</LastGenOutput>
     </None>
-     <None Include="Features\Pages\BypassedDeliveries.feature">
+    <None Include="Features\Pages\BypassedDeliveries.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BypassedDeliveries.feature.cs</LastGenOutput>
     </None>
@@ -432,9 +432,6 @@
     <Content Include="Epod\ePOD__BulKCredit3.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Epod\ePOD__BulKCredit4.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -461,7 +458,7 @@
     <Content Include="Xml\ORDER_PLY_BulkCredit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-     <Content Include="Xml\ORDER_PLY_HIGHVALUE.xml">
+    <Content Include="Xml\ORDER_PLY_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_02022017_82.xml">
@@ -492,7 +489,7 @@
     <Content Include="Xml\ROUTE_PLYM_BulkCredit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-     <Content Include="Xml\ROUTE_PLY_HIGHVALUE.xml">
+    <Content Include="Xml\ROUTE_PLY_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -36,12 +36,12 @@
         public readonly HtmlSelectElement ShortSourceSelect;
         public readonly HtmlSelectElement ShortReasonSelect;
         public readonly HtmlSelectElement ShortActionSelect;
-
-        public TextBox DamageQtyInput(int id)
+ public TextBox DamageQtyInput(int id)
         {
             return new TextBox() { Locator = By.Id("damage-qty-input" + id) };
         }
 
+       
         public HtmlSelectElement DamageReasonSelect(int id)
         {
             return new HtmlSelectElement() { Locator = By.Id("damage-reason-select" + id) };

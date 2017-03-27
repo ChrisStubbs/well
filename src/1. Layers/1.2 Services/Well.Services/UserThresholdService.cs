@@ -47,7 +47,7 @@
                 return response;
             }
 
-            if (creditValue <= threshold.Threshold) response.CanUserCredit = true;
+            if (creditValue <= threshold.Value) response.CanUserCredit = true;
 
             return response;
         }
@@ -73,7 +73,7 @@
             if (threshold == null)
                 return false;
 
-            if (totalThresholdAmount <= threshold.Threshold)
+            if (totalThresholdAmount <= threshold.Value)
             {
                 creditThresholdRepository.PendingCreditInsert(jobId);
                 userRepository.UnAssignJobToUser(jobId);

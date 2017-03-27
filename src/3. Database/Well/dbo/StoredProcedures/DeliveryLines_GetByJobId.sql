@@ -11,10 +11,12 @@ BEGIN
 			,jd.[SkuGoodsValue] AS [Value]
 			,jd.[OriginalDespatchQty] AS InvoicedQuantity
 			,jd.[ShortQty] AS ShortQuantity
+			,jd.[DeliveredQty] As DeliveredQuantity
 			,jd.LineDeliveryStatus
 			,jd.JobDetailReasonId
 			,jd.JobDetailSourceId
 			,jd.ShortsActionId
+			,jd.IsHighValue
 	FROM	[dbo].[JobDetail] jd
 	WHERE	jd.JobId = @JobId and jd.IsDeleted = 0
 

@@ -12,11 +12,11 @@ import {DropDownItem}                               from '../shared/dropDownItem
 import {ContactModal}                               from '../shared/contactModal';
 import {AccountService}                             from '../account/accountService';
 import {IAccount}                                   from '../account/account';
-import {RefreshService}                             from '../shared/refreshService';
+import {RefreshService}                            from '../shared/refreshService';
 import {OrderArrowComponent}                        from '../shared/orderbyArrow';
 import {SecurityService}                            from '../shared/security/securityService';
 import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
-import * as lodash                                  from 'lodash';
+import * as _                                  from 'lodash';
 import 'rxjs/Rx';   // Load all features
 
 @Component({
@@ -34,6 +34,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public routeOption = new DropDownItem('Route', 'routeNumber');
     public account: IAccount;
     public isReadOnlyUser: boolean = false;
+    public routeDate: Date;
 
     @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
@@ -68,6 +69,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
+            this.routeDate = params['routeDate'];
             this.getDeliveries();
         });
 
@@ -80,10 +82,18 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         this.refreshSubscription.unsubscribe();
     }
 
-    public getDeliveries() {
+    public getDeliveries() {  
         this.cleanDeliveryService.getCleanDeliveries()
             .subscribe(cleanDeliveries => {
                 this.cleanDeliveries = cleanDeliveries || new Array<CleanDelivery>();
+
+                if (!_.isUndefined(this.routeDate)) {
+                    this.cleanDeliveries = _.filter(this.cleanDeliveries,
+                        x => {
+                            return x.routeDate === this.routeDate;
+                        });
+                }
+                
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
             },
@@ -96,7 +106,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public onSortDirectionChanged(isDesc: boolean)
     {
         super.onSortDirectionChanged(isDesc);
-        this.cleanDeliveries = lodash.orderBy(this.cleanDeliveries, ['deliveryDate'], [super.getSort()]);
+        this.cleanDeliveries = _.orderBy(this.cleanDeliveries, ['deliveryDate'], [super.getSort()]);
     }
 
     public deliverySelected(delivery): void {

@@ -43,14 +43,14 @@ export class CleanPreferenceEditModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Clean preference has been updated!', '');
+                    this.toasterService.pop('success', 'Clean preference has been updated', '');
                     this.isVisible = false;
                     this.onCleanPreferenceUpdate.emit(this.cleanPreference);
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Clean preference could not be updated at this time!',
+                        'Clean preference could not be updated at this time',
                         'Please try again later!');
                     this.isVisible = false;
                 }

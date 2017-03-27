@@ -58,8 +58,8 @@
         [Then(@"I am shown the high value check")]
         public void ShownHighValue()
         {   
-            // we should have 5 elements that are checked
-            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(5));
+            // we should have 1 elements that are checked
+            Assert.IsTrue(this.page.HasThisNumberOfHighvalueItems(1));
         }
 
         [Then(@"I am shown the exception detail")]
@@ -90,17 +90,14 @@
             page.ClickCleanTab();
         }
 
-        [Then(@"the line '(.*)' Short Qty is '(.*)' and Damaged Qty is '(.*)' Del Qty is '(.*)'")]
-        public void ThenTheLineShortQtyIsAndDamagedQtyIsDelQtyIs(int line, string shortQty, string damagedQty, string deliveredQty)
+        [Then(@"the line '(.*)' Short Qty is '(.*)' and Damaged Qty is '(.*)'")]
+        public void ThenTheLineShortQtyIsAndDamagedQtyIsDelQtyIs(int line, string shortQty, string damagedQty)
         {
             var pageRows = this.page.Grid.ReturnAllRows().ToList();
 
             var row = line - 1;
             Assert.AreEqual(shortQty, pageRows[row].GetColumnValueByIndex((int) DeliveryDetailsGrid.ShortQuantity));
             Assert.AreEqual(damagedQty, pageRows[row].GetColumnValueByIndex((int) DeliveryDetailsGrid.DamagedQuantity));
-            Assert.AreEqual(deliveredQty,
-                pageRows[row].GetColumnValueByIndex((int) DeliveryDetailsGrid.DeliveryQuantity));
-
         }
 
         [Then(@"the delivery status is '(.*)'")]

@@ -38,7 +38,7 @@ Scenario: A user can archive a notification
 	When I archive the notification 1 from rowcount 1 on page 1
 	Then I can see the following notification detail
 	| ModalTitle											                |
-	| Are you sure you want to archive the notification for 55/12345.001 ?  | 
+	| Are you sure you want to archive the notification for 55/12345.001?  | 
 	When I click 'Yes' on the archive modal
 	Then '0' rows of notification data will be displayed on page 1
 

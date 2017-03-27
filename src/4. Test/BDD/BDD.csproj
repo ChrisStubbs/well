@@ -136,6 +136,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BulkCredit.feature</DependentUpon>
     </Compile>
+     <Compile Include="Features\Pages\BypassedDeliveries.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BypassedDeliveries.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\CompletedOnPaperDelivery.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -271,7 +276,9 @@
     <Compile Include="Steps\SetupDeliveryLineUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ConfigurationSections\app-staging1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -307,6 +314,10 @@
     <None Include="Features\Pages\BulkCredit.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BulkCredit.feature.cs</LastGenOutput>
+    </None>
+     <None Include="Features\Pages\BypassedDeliveries.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BypassedDeliveries.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\CompletedOnPaperDelivery.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -395,6 +406,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD_30062016_BypassedDelivery.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD_30062016_DocumentDelivery.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -403,6 +418,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD_HAY_Update2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__20170317_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD__BulkCredit1.xml">
@@ -443,6 +461,9 @@
     <Content Include="Xml\ORDER_PLY_BulkCredit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+     <Content Include="Xml\ORDER_PLY_HIGHVALUE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Xml\ROUTE_02022017_82.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -469,6 +490,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Xml\ROUTE_PLYM_BulkCredit.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+     <Content Include="Xml\ROUTE_PLY_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

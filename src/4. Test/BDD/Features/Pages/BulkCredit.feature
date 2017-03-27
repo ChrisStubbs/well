@@ -41,12 +41,12 @@ Background:
 	| 2      |
 	| 3      |
 	| 4      |
-	When I click the 'Bulk Credit' button
+	When I click the Bulk Credit button
 	And Select the Sources as 'Not Defined' and reason as 'Not Defined'
-	And I click the 'confirm-modal-button' button
+	And I click the bulk modal Confirm button
 	Then the exception deliveries page will show No exceptions found
 	When I open the resolved deliveries page
-	Then the following resolved deliveries will be displayed
+	Then the following resolved deliveries grid will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | Status   |
 	| 111   | 55     | 1    | 4800011   | 45649.000 | SHELL - TRERULEFOOT  | Resolved |
 	| 111   | 55     | 3    | 4800013   | 37432.000 | SHELL - KINGSLEY VIL | Resolved |

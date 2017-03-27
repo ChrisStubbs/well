@@ -145,6 +145,7 @@
             try
             {
                 this.Driver.FindElement(By.Id(elementName));
+               
                 return true;
             }
             catch (NoSuchElementException)

@@ -204,11 +204,11 @@ this.FeatureBackground();
 #line 38
  testRunner.And("I click the credit checkbox on the following lines", ((string)(null)), table5, "And ");
 #line 44
- testRunner.When("I click the \'Bulk Credit\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I click the Bulk Credit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 45
  testRunner.And("Select the Sources as \'Not Defined\' and reason as \'Not Defined\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 46
- testRunner.And("I click the \'confirm-modal-button\' button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I click the bulk modal Confirm button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 47
  testRunner.Then("the exception deliveries page will show No exceptions found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 48
@@ -255,7 +255,7 @@ this.FeatureBackground();
                         "COSTCUTTER",
                         "Resolved"});
 #line 49
- testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table6, "Then ");
+ testRunner.Then("the following resolved deliveries grid will be displayed", ((string)(null)), table6, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

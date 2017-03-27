@@ -162,7 +162,7 @@ Scenario: Select all button will check all allocated job lines
 	When I assign the delivery on row 2 to myself
 	And click the first credit checkbox
 	Then the 'credit' and 'selectAll' button are visible
-	When I click the 'selectAll' button
+	When I click the Select All button
 	Then the first 2 checkboxes are checked
 	
 Scenario: Exceptions without invoice numbers are not shown

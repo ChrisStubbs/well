@@ -231,6 +231,7 @@
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\shared\loading.html" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
@@ -388,7 +389,6 @@
     <Content Include="app\shared\primeng\resources\themes\bootstrap\images\ui-icons_333333_256x240.png" />
     <Content Include="app\shared\primeng\resources\themes\bootstrap\images\ui-icons_ffffff_256x240.png" />
     <Content Include="app\shared\primeng\resources\themes\bootstrap\theme.css" />
-    <Content Include="app\shared\spinner.html" />
     <Content Include="app\unauthorised\unauthorised.html" />
     <Content Include="app\user_preferences\user-preference-modal.html" />
     <Content Include="app\user_preferences\user-preferences.html" />
@@ -398,7 +398,6 @@
     <Content Include="app\widget_warnings\widget-warning-edit-modal.html" />
     <Content Include="app\widget_warnings\widget-warning-remove-modal.html" />
     <Content Include="app\widget_warnings\widget-warnings-view.html" />
-    <Content Include="Content\css\6-chasing-dots.css" />
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap.css" />
@@ -727,7 +726,6 @@
     <Content Include="app\shared\orderByDatePipe.ts" />
     <Content Include="app\shared\refreshService.ts" />
     <Content Include="app\shared\security\securityService.ts" />
-    <Content Include="app\shared\spinnerComponent.ts" />
     <Content Include="app\shared\threshold.ts" />
     <Content Include="app\shared\user.ts" />
     <Content Include="app\shared\userJob.ts" />
@@ -773,6 +771,7 @@
     <TypeScriptCompile Include="app\shared\httpService.ts" />
     <TypeScriptCompile Include="app\shared\NavigateQueryParameters.ts" />
     <TypeScriptCompile Include="app\shared\NavigateQueryParametersService.ts" />
+    <Content Include="app\shared\loadingComponent.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

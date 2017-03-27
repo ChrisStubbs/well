@@ -18,6 +18,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
+import {LoadingComponent} from './shared/loadingComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
@@ -46,7 +47,6 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {AccountFlagsComponent} from './shared/accountFlagsComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
-import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
@@ -84,7 +84,7 @@ import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 
 @NgModule({
-    declarations: [SpinnerComponent,
+    declarations: [LoadingComponent,
         OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,

@@ -1,15 +1,16 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { WidgetWarning } from './widgetWarning';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class WidgetWarningService {
     public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
     public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
-    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
+    constructor(private http: HttpService, private globalSettingsService: GlobalSettingsService) { }
     
     public getWidgetWarnings(): Observable<WidgetWarning[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'widgetsWarnings')

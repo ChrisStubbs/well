@@ -1,15 +1,16 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {SeasonalDate} from './seasonalDate';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class SeasonalDateService {
     public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
     public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
-    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
+    constructor(private http: HttpService, private globalSettingsService: GlobalSettingsService) { }
 
     public getSeasonalDates(): Observable<SeasonalDate[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'seasonaldate')

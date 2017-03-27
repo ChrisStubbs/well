@@ -45,8 +45,6 @@
             {
                 IList<Delivery> exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
 
-                Thread.Sleep(5000);
-
                 return !exceptionDeliveries.Any()
                     ? Request.CreateResponse(HttpStatusCode.NotFound)
                     : Request.CreateResponse(HttpStatusCode.OK, exceptionDeliveries);

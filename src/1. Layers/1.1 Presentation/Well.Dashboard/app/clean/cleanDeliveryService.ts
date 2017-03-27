@@ -1,15 +1,16 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {CleanDelivery} from './cleanDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class CleanDeliveryService {
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService) {
     }

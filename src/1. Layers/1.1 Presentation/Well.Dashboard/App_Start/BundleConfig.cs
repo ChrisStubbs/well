@@ -31,8 +31,7 @@
                 "~/Content/css/bootstrap-flatten.css",
                 "~/Content/css/toastr.min.css",
                 "~/Content/css/jquery-ui.min.css",
-                 "~/Content/css/site.css",
-                "~/Content/css/6-chasing-dots.css");
+                "~/Content/css/site.css");
 
             cssBundle.Orderer = new DefinedBundlerOrderer();
             bundles.Add(cssBundle);

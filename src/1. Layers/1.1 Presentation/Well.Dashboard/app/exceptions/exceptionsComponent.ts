@@ -47,8 +47,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public httpResponse: HttpResponse = new HttpResponse();
     public users: IUser[];
     public delivery: ExceptionDelivery;
-    // public routeId: string;
-    // public assignee: string;
     public outstandingFilter: boolean = false;
     public bulkCredits = new Array<number>();
     public threshold: number;

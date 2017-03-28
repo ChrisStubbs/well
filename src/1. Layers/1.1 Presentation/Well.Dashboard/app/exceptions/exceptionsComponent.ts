@@ -23,12 +23,12 @@ import { ExceptionsConfirmModal }                   from './exceptionsConfirmMod
 import * as _ from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';
-import {DeliveryAction} from '../delivery/model/deliveryAction';
-import {BulkCredit} from './bulkCredit';
-import {JobDetailReason} from '../delivery/model/jobDetailReason';
-import {JobDetailSource} from '../delivery/model/jobDetailSource';
-import {DeliveryService} from '../delivery/deliveryService'; // Load all features
-import {BulkCreditConfirmModal} from './bulkCreditConfirmModal';
+import {DeliveryAction}                             from '../delivery/model/deliveryAction';
+import {BulkCredit}                                 from './bulkCredit';
+import {JobDetailReason}                            from '../delivery/model/jobDetailReason';
+import {JobDetailSource}                            from '../delivery/model/jobDetailSource';
+import {DeliveryService}                            from '../delivery/deliveryService'; // Load all features
+import {BulkCreditConfirmModal}                     from './bulkCreditConfirmModal';
 
 @Component({
     selector: 'ow-exceptions',
@@ -134,15 +134,15 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData =>
                 {
-                this.exceptions = responseData || new Array<ExceptionDelivery>();
+                    this.exceptions = responseData || new Array<ExceptionDelivery>();
 
-                if (!_.isUndefined(this.routeDate)) {
-                    this.exceptions = _.filter(this.exceptions,
-                        x => {
-                            return x.routeDate === this.routeDate;
-                        }
-                    );
-                }
+                    if (!_.isUndefined(this.routeDate)) {
+                        this.exceptions = _.filter(this.exceptions,
+                            x => {
+                                return x.routeDate === this.routeDate;
+                            }
+                        );
+                    }
                     
                     this.lastRefresh = Date.now();
                     this.isLoading = false;

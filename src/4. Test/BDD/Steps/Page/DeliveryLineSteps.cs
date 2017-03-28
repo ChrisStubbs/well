@@ -97,24 +97,28 @@
         }
 
         [When(@"I enter a short quantity of '(.*)'")]
+        [Then(@"I enter a short quantity of '(.*)'")]
         public void WhenIEnterAShortQuantityOf(string shortQty)
         {
             page.ShortQtyTextBox.EnterText(shortQty);
         }
 
         [When(@"I select a short action of '(.*)'")]
+        [Then(@"I select a short action of '(.*)'")]
         public void SelectShortAction(string shortsAction)
         {
             this.page.ShortActionSelect.Select(shortsAction);
         }
 
         [When(@"I select a short reason of '(.*)'")]
+        [Then(@"I select a short reason of '(.*)'")]
         public void SelectShortReason(string shortsReason)
         {
             this.page.ShortReasonSelect.Select(shortsReason);
         }
 
         [When(@"I select a short source of '(.*)'")]
+        [Then(@"I select a short source of '(.*)'")]
         public void SelectShortSource(string shortsSource)
         {
             this.page.ShortSourceSelect.Select(shortsSource);
@@ -169,6 +173,7 @@
         }
 
         [When(@"I save the delivery line updates")]
+        [Then(@"I save the delivery line updates")]
         public void WhenISaveTheDeliveryLineUpdates()
         {
             page.SaveButton.Click();
@@ -176,6 +181,7 @@
         }
 
         [When(@"I confirm the delivery line update")]
+        [Then(@"I confirm the delivery line update")]
         public void WhenIConfirmTheDeliveryLineUpdate()
         {
             page.ConfirmButton.Click();

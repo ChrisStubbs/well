@@ -154,6 +154,7 @@
             AccountModalSteps.CompareModal(table, modal);
         }
 
+        [Then(@"I click on exception row (.*)")]
         [When(@"I click on exception row (.*)")]
         public void ClickExceptionDetail(int row)
         {
@@ -334,6 +335,14 @@
             }
         }
 
+        [Then(@"The credit check box on line (.*) is disabled")]
+        public void ThenTheCreditCheckBoxOnLineIsDisabled(int lineNo)
+        {
+            var lineIdx = lineNo - 1;
+            var chkBox = this.ExceptionDeliveriesPage.CreditCheckBox(lineIdx).GetElement();
+            Assert.IsFalse(chkBox.Enabled);
+        }
+        
         [When(@"I click the Bulk Credit button")]
         public void WhenIClickTheBulkCreditButton()
         {

@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.Globalization;
     using System.IO;
+    using System.Threading;
     using System.Xml.Serialization;
 
     using PH.Well.Common;
@@ -63,6 +65,8 @@
         {
             var filename = Path.GetFileName(filePath);
             var fileType = this.fileTypeService.DetermineFileType(filename);
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             switch (fileType)
             {

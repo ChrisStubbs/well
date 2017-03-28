@@ -47,7 +47,7 @@
 
         public IList<Delivery> GetExceptions(string username)
         {
-            var statuses = new List<JobStatus>() { JobStatus.Exception, JobStatus.CompletedOnPaper };
+            var statuses = new List<JobStatus>() { JobStatus.Exception, JobStatus.CompletedOnPaper, JobStatus.Bypassed };
             var exceptionDeliveries = deliveryReadRepository.GetByStatuses(username, statuses).ToList();
             exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
             return exceptionDeliveries;

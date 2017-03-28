@@ -63,7 +63,7 @@ namespace PH.Well.UnitTests.Services
         public class GetExceptionsTests : DeliveryServiceTests
         {
             [Test]
-            public void WhenGettingExceptions_ThenExceptionAndCompletedOnPaperStatusesIncluded()
+            public void WhenGettingExceptions_ThenAllExceptionCompletedOnPaperAndBypassedStatusesIncluded()
             {
                 string user = "Bob";
 
@@ -74,7 +74,8 @@ namespace PH.Well.UnitTests.Services
 
                 deliveryReadRepository.Verify(d => d.GetByStatuses(user,
                     It.Is<IList<JobStatus>>(j => j.Contains(JobStatus.Exception)
-                                                 && j.Contains(JobStatus.CompletedOnPaper))), Times.Once);
+                                                 && j.Contains(JobStatus.CompletedOnPaper)
+                                                 && j.Contains(JobStatus.Bypassed))), Times.Once);
             }
 
             [Test]

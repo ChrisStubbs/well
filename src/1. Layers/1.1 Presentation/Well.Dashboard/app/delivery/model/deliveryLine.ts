@@ -21,6 +21,7 @@ export class DeliveryLine
             this.jobDetailReasonId = line.jobDetailReasonId;
             this.jobDetailSourceId = line.jobDetailSourceId;
             this.shortsActionId = line.shortsActionId;
+            this.isHighValue = line.isHighValue;
 
             if (line.damages)
             {
@@ -55,6 +56,7 @@ export class DeliveryLine
     public jobDetailReasonId: number;
     public jobDetailSourceId: number;
     public shortsActionId: number;
+    public isHighValue: boolean;
     public jobDetailReason: string;
     public jobDetailSource: string;
     public shortsAction: string;
@@ -78,26 +80,22 @@ export class DeliveryLine
         }
 
         return true;
-    }  
+    }   
 
     public isDetailChecked(): boolean
     {
-
-        if (this.lineDeliveryStatus === 'Exception')
-        {
+        if (this.lineDeliveryStatus === 'Exception') {
             return true;
         }
-        if (this.lineDeliveryStatus === 'Delivered')
-        {
-            return true;
+        if (this.lineDeliveryStatus === 'Delivered') {
+           return true;
         }
-        if (this.lineDeliveryStatus === 'Unknown')
-        {
-            return false;
+        if (this.lineDeliveryStatus === 'Unknown') {
+           return false;
         }
-
+          
         return false;
-    }
+    } 
 
     public totalQtyOfShortsAndDamages(): number
     {

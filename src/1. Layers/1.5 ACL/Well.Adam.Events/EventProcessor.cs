@@ -58,8 +58,12 @@
                                 GetAdamSettings(grnEvent.BranchId));
                             break;
                         case EventAction.Pod:
+                            var podEvent = JsonConvert.DeserializeObject<PodEvent>(eventToProcess.Event);
+                            this.deliveryLineActionService.Pod(podEvent, eventToProcess.Id, GetAdamSettings(podEvent.BranchId));
+                            break;
+                        case EventAction.PodTransaction:
                             var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
-                            this.deliveryLineActionService.Pod(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
+                            this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
                     }
                 }

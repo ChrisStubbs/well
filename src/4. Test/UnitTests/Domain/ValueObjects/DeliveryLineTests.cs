@@ -25,23 +25,6 @@
             }
         }
 
-        public class TheDeliveredQuantityProperty : DeliveryLineTests
-        {
-            [Test]
-            public void ShouldCalculateTheDeliveredQuantity()
-            {
-                var deliveryLine = new DeliveryLine { InvoicedQuantity = 20, ShortQuantity = 3 };
-
-                var damage1 = new Damage { Quantity = 5 };
-                var damage2 = new Damage { Quantity = 2 };
-
-                deliveryLine.Damages.Add(damage1);
-                deliveryLine.Damages.Add(damage2);
-
-                Assert.That(deliveryLine.DeliveredQuantity, Is.EqualTo(10));
-            }
-        }
-
         public class TheIsCleanProperty : DeliveryLineTests
         {
             [Test]

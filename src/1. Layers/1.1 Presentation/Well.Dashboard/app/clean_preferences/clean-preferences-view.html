@@ -9,7 +9,7 @@
         </thead>
         <tbody>
         <tr *ngIf="cleanPreferences && cleanPreferences.length === 0">
-            <td id="clean-no-results" colspan="3">No Clean Preferences</td>
+            <td id="clean-no-results" colspan="3">No clean preferences</td>
         </tr>
         <tr class="grid-row" *ngFor="let x of cleanPreferences">
             <td id="clean-days-{{x.id}}" (click)="selectCleanPreference(x)">{{x.days}}</td>

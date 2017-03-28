@@ -53,6 +53,7 @@
                     JobDetailReasonId = line.JobDetailReasonId,
                     JobDetailSourceId = line.JobDetailSourceId,
                     ShortsActionId = line.ShortsActionId,
+                    IsHighValue = line.IsHighValue,
                     Damages = line.Damages.Select(d => new DamageModel()
                     {
                         Quantity = d.Quantity,

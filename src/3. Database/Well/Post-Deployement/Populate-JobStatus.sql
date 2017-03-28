@@ -7,7 +7,8 @@ USING	(VALUES	(1,'Awaiting Invoice'),
 				(4,'Exception'),
 				(5,'Resolved'),
 				(6, 'Document Delivery'),
-				(7, 'Completed On Paper')
+				(7, 'Completed On Paper'),
+				(8, 'Bypassed')
 		)
 AS Source ([Id],[Description])
 	ON Target.[Id] = Source.[Id]

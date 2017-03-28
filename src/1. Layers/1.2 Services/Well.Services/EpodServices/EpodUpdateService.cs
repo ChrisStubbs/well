@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
+    using System.Threading;
     using System.Transactions;
 
     using Domain.ValueObjects;
@@ -173,7 +175,7 @@
 
                 this.jobStatusService.DetermineStatus(existingJob, branchId);
 
-                if (!string.IsNullOrWhiteSpace(job.GrnNumberUpdate) && existingJob.GrnProcessType == 1)
+                if (!string.IsNullOrWhiteSpace(job.GrnNumber) && existingJob.GrnProcessType == 1)
                 {
                     var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
@@ -192,8 +194,12 @@
                 {
                     //TODO LRS customer (lucozade) 
                     //build pod transaction
-                    var podTransaction = this.podTransactionFactory.Build(existingJob, branchId);
-                    this.exceptionEventRepository.InsertPodEvent(podTransaction);
+                    var podEvent = new PodEvent
+                    {
+                        BranchId = branchId,
+                        Id = existingJob.Id
+                    };
+                    this.exceptionEventRepository.InsertPodEvent(podEvent);
                 }
 
                 this.jobRepository.Update(existingJob);

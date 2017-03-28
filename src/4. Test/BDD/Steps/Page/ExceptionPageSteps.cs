@@ -20,6 +20,8 @@
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
         private UserCreditThresholdPage UserCreditThresholdPage => new UserCreditThresholdPage();
+        private DeliveryDetailsPage DeliveryDetailsPage => new DeliveryDetailsPage();
+
         private IJobRepository jobRepository;
         private readonly IContainer container;
 
@@ -342,7 +344,7 @@
             var chkBox = this.ExceptionDeliveriesPage.CreditCheckBox(lineIdx).GetElement();
             Assert.IsFalse(chkBox.Enabled);
         }
-        
+
         [When(@"I click the Bulk Credit button")]
         public void WhenIClickTheBulkCreditButton()
         {
@@ -523,5 +525,25 @@
         {
             Assert.AreEqual(this.ExceptionDeliveriesPage.DamageAction.Text, action);
         }
+
+        [Then(@"I click on each of the deliveries on page (.*) there will be at least one delivery line")]
+        public void WhenIClickOnEachOfTheDeliveriesOnPageThereWillBeAtLeastOneDeliveryLine(int pageNo)
+        {
+            this.ExceptionDeliveriesPage.Pager.Click(pageNo);
+            var initialPageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var totalRowCount = initialPageRows.Count;
+
+            for (int i = 0; i < totalRowCount; i++)
+            {
+                var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+                var row = rows[i];
+                row.GetItemInRowByClass("first-cell").Click();
+                this.DeliveryDetailsPage.ClickExceptionsTab();
+                Assert.That(this.DeliveryDetailsPage.Grid.ReturnAllRows().Count, Is.GreaterThan(0));
+                this.DeliveryDetailsPage.Back();
+            }
+        }
+
+
     }
 }

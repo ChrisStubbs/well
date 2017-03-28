@@ -526,7 +526,7 @@
             Assert.AreEqual(this.ExceptionDeliveriesPage.DamageAction.Text, action);
         }
 
-        [Then(@"I click on each of the deliveries on page (.*) there will be at least one delivery line")]
+        [When(@"I click on each of the deliveries on page (.*) there will be at least one exception delivery line")]
         public void WhenIClickOnEachOfTheDeliveriesOnPageThereWillBeAtLeastOneDeliveryLine(int pageNo)
         {
             this.ExceptionDeliveriesPage.Pager.Click(pageNo);

@@ -95,4 +95,13 @@ Scenario: View cash on delivery icon
 	And 3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the first clean delivery line is COD (Cash on Delivery)
+
+Scenario: Clean deliveries wil have no exception delivery lines
+	Given I have a clean database
+	And I have loaded the MultiDate Adam route data
+	And I have loaded the Adam route data
+	And I have selected branches '22' and '2'
+	And  All the deliveries are marked as clean
+	And I open the clean deliveries 
+	When I click on each of the clean deliveries on each page there will be no exception delivery lines
 	

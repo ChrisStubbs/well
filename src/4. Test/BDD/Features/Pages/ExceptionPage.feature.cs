@@ -980,13 +980,13 @@ this.FeatureBackground();
 #line 203
    testRunner.And("20 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 204
-   testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+   testRunner.And("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 205
-   testRunner.Then("I click on each of the deliveries on page 1 there will be at least one delivery l" +
-                    "ine", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+   testRunner.When("I click on each of the deliveries on page 1 there will be at least one exception " +
+                    "delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 206
-   testRunner.Then("I click on each of the deliveries on page 2 there will be at least one delivery l" +
-                    "ine", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+   testRunner.And("I click on each of the deliveries on page 1 there will be at least one exception " +
+                    "delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

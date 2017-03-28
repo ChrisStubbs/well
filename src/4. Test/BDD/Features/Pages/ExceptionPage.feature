@@ -201,7 +201,7 @@ Scenario: Each exception delivery should have at least one exception delivery li
    And I have selected branches '22' and '2'
    And  All the deliveries are marked as clean
    And 20 deliveries have been marked as exceptions
-   When I open the exception deliveries
-   Then I click on each of the deliveries on page 1 there will be at least one delivery line
-   Then I click on each of the deliveries on page 2 there will be at least one delivery line
+   And I open the exception deliveries
+   When I click on each of the deliveries on page 1 there will be at least one exception delivery line
+   And I click on each of the deliveries on page 1 there will be at least one exception delivery line
 

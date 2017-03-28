@@ -24,6 +24,13 @@
             this.userPreferencesPage.UserPreferencesDropDown.Select();
         }
 
+        [When(@"I navigate to the user threshold level page")]
+        public void WhenINavigateToTheUserThresholdLevelPage()
+        {
+            this.userCreditThresholdPage.Open();
+            this.userCreditThresholdPage.UserThresholdNavigation.Select();
+        }
+
 
         [When("I search for user (.*)")]
         public void SearchForUser(string user)
@@ -81,7 +88,7 @@
         public void WhenISearchForTheCurrentUser()
         {
             var username = this.userCreditThresholdPage.Username.GetElement().Text;
-            this.userCreditThresholdPage.SearchTextBox.EnterText(username.Substring(0, username.IndexOf(" ")));
+            this.userCreditThresholdPage.SearchTextBox.EnterText(username.Split(' ').Last());
             this.userCreditThresholdPage.FindButton.Click();
 
         }
@@ -115,10 +122,25 @@
 
         }
 
+        [When(@"I select Level '(.*)' from the user threshold level dropdown list")]
+        public void WhenISelectLevelFromTheUserThresholdLevelDropdownList(string level)
+        {
+            var thresholdLevel = (ThresholdLevel)int.Parse(level);
+            this.userCreditThresholdPage.ThresholdLevelDropDown.SelectThresholdLevel(thresholdLevel);
+        }
+
         [When(@"save the user threshold level")]
+        [When(@"I save the user threshold level")]
         public void WhenSaveTheUserThresholdLevel()
         {
             this.userCreditThresholdPage.SaveButton.Click();
+        }
+
+        [Then(@"the user threshold level is saved")]
+        public void ThenTheUserThresholdLevelIsSaved()
+        {
+            var text = this.userCreditThresholdPage.ToasterSucess.GetElement().Text;
+            StringAssert.Contains("Threshold level has been saved", text);
         }
 
         [Then(@"the threshold level is saved")]
@@ -128,6 +150,13 @@
             StringAssert.Contains("Threshold level has been saved", text);
         }
 
+        [Then(@"the Level '(.*)' threhold level should be selected in the dropdown")]
+        public void ThenTheLevelThreholdLevelShouldBeSelectedInTheDropdown(string level)
+        {
+            var selectButton = this.userCreditThresholdPage.ThresholdLevelDropDown.SelectButton;
+            Assert.That(selectButton.GetElement().Text,Is.EqualTo($"Level {level}"));
+            
+        }
 
     }
 }

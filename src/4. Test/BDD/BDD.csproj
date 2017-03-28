@@ -204,6 +204,7 @@
     <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="Framework\WebElements\RadioGroup.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
+    <Compile Include="Framework\WebElements\UserThresholdNavDropDown.cs" />
     <Compile Include="Framework\WebElements\WebElementList.cs" />
     <Compile Include="Helpers\IWebClientHelper.cs" />
     <Compile Include="Helpers\WebClientHelper.cs" />

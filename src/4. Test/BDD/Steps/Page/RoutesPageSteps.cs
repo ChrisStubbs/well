@@ -64,6 +64,66 @@
             Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
+        [Then(@"The exceptions count matches the exceptions page for that route")]
+        public void TheExceptionsCountMatchesTheExceptionsForThatRoute()
+        {
+            var initialPageRows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
+            var totalRowCount = initialPageRows.Count;
+
+            for (int i = 0; i < totalRowCount; i++)
+            {
+                var rows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
+
+                var expectedExceptionsCount = rows[i].GetColumnValueByIndex((int)RoutesGrid.Exceptions);
+
+                if (int.Parse(expectedExceptionsCount) == 0)
+                {
+                    continue;
+                }
+
+                rows[i].Click();
+                Thread.Sleep(500);
+                this.routesPage.ExceptionButton.Click();
+                Thread.Sleep(500);
+                var exceptionsRows = this.exceptionPage.ExceptionsGrid.ReturnAllRows().ToList();
+
+                Assert.That(exceptionsRows.Count, Is.EqualTo(int.Parse(expectedExceptionsCount)));
+
+                this.routesPage.Back();
+                Thread.Sleep(500);
+            }
+        }
+
+        [Then(@"The clean count matches the clean page for that route")]
+        public void TheCleanCountMatchesTheCleanForThatRoute()
+        {
+            var initialPageRows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
+            var totalRowCount = initialPageRows.Count;
+
+            for (int i = 0; i < totalRowCount; i++)
+            {
+                var rows = this.routesPage.RoutesGrid.ReturnAllRows().ToList();
+
+                var expectedCount = rows[i].GetColumnValueByIndex((int)RoutesGrid.Clean);
+
+                if (int.Parse(expectedCount) == 0)
+                {
+                    continue;
+                }
+
+                rows[i].Click();
+                Thread.Sleep(500);
+                this.routesPage.CleanButton.Click();
+                Thread.Sleep(500);
+                var cleanRows = this.cleanPage.Grid.ReturnAllRows().ToList();
+
+                Assert.That(cleanRows.Count, Is.EqualTo(int.Parse(expectedCount)));
+
+                this.routesPage.Back();
+                Thread.Sleep(500);
+            }
+        }
+
         [Then(@"The following routes ordered by date will be displayed in '(.*)' order")]
         public void ThenTheFollowingRoutesOrderedByDateWillBeDisplayedInOrder(string direction, Table table)
         {

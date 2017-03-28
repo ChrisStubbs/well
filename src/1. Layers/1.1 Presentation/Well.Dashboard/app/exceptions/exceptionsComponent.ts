@@ -60,6 +60,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
     public routeDate: Date;
+    public branchId: number;
+    public routeNumber: string;
     //public sort = 'desc';
 
     constructor(
@@ -90,7 +92,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public ngOnInit(): void
     {
         super.ngOnInit();
-
+         
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
             this.securityService.actionDeliveries);
@@ -98,6 +100,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.activatedRoute.queryParams.subscribe(params =>
         {
             this.routeDate = params['routeDate'];
+            this.branchId = params['branchId'];
+            this.routeNumber = params['filter.routeNumber'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
@@ -121,7 +125,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public getExceptions()
     {
-        this.exceptionDeliveryService.getExceptions()
+        this.exceptionDeliveryService.getExceptions() 
             .subscribe(responseData =>
                 {
                 this.exceptions = responseData || new Array<ExceptionDelivery>();
@@ -129,7 +133,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 if (!_.isUndefined(this.routeDate)) {
                     this.exceptions = _.filter(this.exceptions,
                         x => {
-                            return x.routeDate === this.routeDate;
+                            return x.routeDate === this.routeDate && x.branchId === Number(this.branchId) && x.routeNumber === this.routeNumber;
                         }
                     );
                 }

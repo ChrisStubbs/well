@@ -30,7 +30,7 @@
                     return job;
             }
 
-            if (job.JobByPassReason.Trim().ToLower() == "manual delivery")
+            if (!string.IsNullOrWhiteSpace(job.JobByPassReason) && job.JobByPassReason.Trim().ToLower() == "manual delivery")
             {
                 job.JobStatus = JobStatus.CompletedOnPaper;
                 return job;

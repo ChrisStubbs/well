@@ -23,7 +23,7 @@ export class UserThresholdLevelComponent implements OnInit {
     public ngOnInit(): void {
         this.route.params.subscribe(params => {
             this.username = params['name'];
-        });
+        }); 
     }
 
     public setSelectedLevel(level) {

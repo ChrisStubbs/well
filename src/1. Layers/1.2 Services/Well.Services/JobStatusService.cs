@@ -33,7 +33,7 @@
                     return job;
             }
 
-            if (job.JobByPassReason == "Manual Delivery")
+            if (job.JobByPassReason.Trim().ToLower() == "manual delivery")
             {
                 job.JobStatus = JobStatus.CompletedOnPaper;
                 return job;
@@ -92,7 +92,7 @@
 
         public void SetInitialStatus(Job job)
         {
-            job.JobStatus = string.Equals(job.JobTypeCode, "DEL-DOC", StringComparison.OrdinalIgnoreCase)
+            job.JobStatus = string.Equals(job.JobTypeCode.Trim().ToLower(), "del-doc", StringComparison.OrdinalIgnoreCase)
                 ? JobStatus.DocumentDelivery
                 : JobStatus.AwaitingInvoice;
         }

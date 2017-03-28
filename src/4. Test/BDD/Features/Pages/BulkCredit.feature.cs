@@ -167,15 +167,17 @@ namespace PH.Well.BDD.Features.Pages
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A user with sufficient credit threshold set can bulk credit multiple")]
-        public virtual void AUserWithSufficientCreditThresholdSetCanBulkCreditMultiple()
+        [NUnit.Framework.DescriptionAttribute("A user with sufficient credit threshold can bulk credit multiple delivery excepti" +
+            "ons and upon")]
+        public virtual void AUserWithSufficientCreditThresholdCanBulkCreditMultipleDeliveryExceptionsAndUpon()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user with sufficient credit threshold set can bulk credit multiple", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user with sufficient credit threshold can bulk credit multiple delivery excepti" +
+                    "ons and upon", ((string[])(null)));
 #line 30
  this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 31
+#line 32
  testRunner.Given("I am assigned to credit threshold \'Level 1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -188,7 +190,7 @@ this.FeatureBackground();
                         "3"});
             table4.AddRow(new string[] {
                         "4"});
-#line 32
+#line 33
  testRunner.And("I assign the following exception lines to myself", ((string)(null)), table4, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -201,17 +203,17 @@ this.FeatureBackground();
                         "3"});
             table5.AddRow(new string[] {
                         "4"});
-#line 38
+#line 39
  testRunner.And("I click the credit checkbox on the following lines", ((string)(null)), table5, "And ");
-#line 44
- testRunner.When("I click the Bulk Credit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 45
- testRunner.And("Select the Sources as \'Not Defined\' and reason as \'Not Defined\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I click the Bulk Credit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 46
- testRunner.And("I click the bulk modal Confirm button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Select the Sources as \'Not Defined\' and reason as \'Not Defined\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 47
- testRunner.Then("the exception deliveries page will show No exceptions found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I click the bulk modal Confirm button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 48
+ testRunner.Then("the exception deliveries page will show No exceptions found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 49
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -254,8 +256,165 @@ this.FeatureBackground();
                         "47663.040",
                         "COSTCUTTER",
                         "Resolved"});
-#line 49
+#line 50
  testRunner.Then("the following resolved deliveries grid will be displayed", ((string)(null)), table6, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user with insufficient credit threshold can bulk credit multiple delivery excep" +
+            "tions and upon")]
+        public virtual void AUserWithInsufficientCreditThresholdCanBulkCreditMultipleDeliveryExceptionsAndUpon()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user with insufficient credit threshold can bulk credit multiple delivery excep" +
+                    "tions and upon", ((string[])(null)));
+#line 57
+ this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 59
+ testRunner.Given("I am assigned to credit threshold \'Level 2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo"});
+            table7.AddRow(new string[] {
+                        "1"});
+            table7.AddRow(new string[] {
+                        "2"});
+            table7.AddRow(new string[] {
+                        "3"});
+            table7.AddRow(new string[] {
+                        "4"});
+#line 60
+ testRunner.And("I assign the following exception lines to myself", ((string)(null)), table7, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo"});
+            table8.AddRow(new string[] {
+                        "1"});
+            table8.AddRow(new string[] {
+                        "2"});
+            table8.AddRow(new string[] {
+                        "3"});
+            table8.AddRow(new string[] {
+                        "4"});
+#line 66
+ testRunner.And("I click the credit checkbox on the following lines", ((string)(null)), table8, "And ");
+#line 72
+ testRunner.When("I click the Bulk Credit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 73
+ testRunner.And("Select the Sources as \'Not Defined\' and reason as \'Not Defined\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 74
+ testRunner.And("I click the bulk modal Confirm button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 75
+ testRunner.Then("the exception deliveries page will show No exceptions found", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 76
+ testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Branch",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "Status"});
+            table9.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "1",
+                        "4800011",
+                        "45649.000",
+                        "SHELL - TRERULEFOOT",
+                        "Resolved"});
+            table9.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "3",
+                        "4800013",
+                        "37432.000",
+                        "SHELL - KINGSLEY VIL",
+                        "Resolved"});
+            table9.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "4800016",
+                        "47663.040",
+                        "COSTCUTTER",
+                        "Resolved"});
+#line 77
+ testRunner.Then("the following resolved deliveries grid will be displayed", ((string)(null)), table9, "Then ");
+#line 82
+ testRunner.When("I open the approval deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Branch",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "CreditValue",
+                        "Threshold",
+                        "Assigned"});
+            table10.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "2845610",
+                        "47020.053",
+                        "COSTCUTTER",
+                        "158.46",
+                        "Level 1",
+                        "Unallocated"});
+#line 83
+ testRunner.Then("the following approval deliveries will be displayed", ((string)(null)), table10, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A user will be unable to credit a delivery where a delivery line has an action on" +
+            " it.")]
+        public virtual void AUserWillBeUnableToCreditADeliveryWhereADeliveryLineHasAnActionOnIt_()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user will be unable to credit a delivery where a delivery line has an action on" +
+                    " it.", ((string[])(null)));
+#line 88
+ this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 89
+ testRunner.Given("I am assigned to credit threshold \'Level 1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "LineNo"});
+            table11.AddRow(new string[] {
+                        "1"});
+#line 90
+ testRunner.And("I assign the following exception lines to myself", ((string)(null)), table11, "And ");
+#line 93
+ testRunner.Then("I click on exception row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 94
+ testRunner.And("I open the clean delivery \'7\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 95
+ testRunner.And("I click on the first delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 96
+ testRunner.And("I enter a short quantity of \'5\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 97
+ testRunner.And("I select a short source of \'Checker\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 98
+ testRunner.And("I select a short reason of \'Minimum Drop Charge\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 99
+ testRunner.And("I select a short action of \'Credit\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 100
+ testRunner.Then("I save the delivery line updates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 101
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 102
+ testRunner.Then("The credit check box on line 1 is disabled", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -17,6 +17,7 @@
     
         [Given(@"I open the clean delivery '(.*)'")]
         [When(@"I open the clean delivery '(.*)'")]
+        [Then(@"I open the clean delivery '(.*)'")]
         public void WhenIOpenTheCleanDelivery(int deliveryId)
         {
             string routing = "/" + deliveryId;
@@ -37,6 +38,7 @@
 
         [Given(@"I click on the first delivery line")]
         [When(@"I click on the first delivery line")]
+        [Then(@"I click on the first delivery line")]
         public void ClickExceptionDetail()
         {
             IEnumerable<GridRow<DeliveryDetailsGrid>> rows = this.page.Grid.ReturnAllRows();

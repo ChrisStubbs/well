@@ -74,7 +74,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
 
-        this.activatedRoute.queryParams.subscribe(params =>
+        this.activatedRoute.queryParams.subscribe(params => 
         {
             this.getApprovals();
         });

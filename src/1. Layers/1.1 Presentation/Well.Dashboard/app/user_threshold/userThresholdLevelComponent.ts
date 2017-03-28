@@ -6,7 +6,7 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { UserPreferenceService } from '../user_preferences/userPreferenceService';
 import { CreditThresholdService } from '../credit_threshold/creditThresholdService';
 import { HttpResponse } from '../shared/httpResponse';
-import {User} from "../user_preferences/User";
+import {User} from '../user_preferences/User';
 
 @Component({
     selector: 'ow-user-threshold-level',

@@ -35,6 +35,7 @@ BEGIN
       ,j.[Version]
 	  ,j.[JobStatusId] as JobStatus
 	  ,j.ProofOfDelivery
+	  ,j.GrnProcessType
 	FROM [dbo].[Job] j
 	INNER JOIN @Ids ids ON ids.Value = j.Id
 

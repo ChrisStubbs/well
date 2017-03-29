@@ -10,6 +10,14 @@ namespace PH.Well.BDD.Framework.WebElements
 
     public class CreditThresholdButtonDropDown : WebElement
     {
+        public Button SelectButton { get; set; }
+
+        public CreditThresholdButtonDropDown()
+        {
+            SelectButton = new Button() { Locator = By.Id("credit-threshold-dropdown") };
+        }
+
+
         public void SelectThresholdLevel(ThresholdLevel level)
         {
             this.Driver.WaitForJavascript();

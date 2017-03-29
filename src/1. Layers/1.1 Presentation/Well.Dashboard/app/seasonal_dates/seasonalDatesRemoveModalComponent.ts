@@ -32,12 +32,12 @@ export class SeasonalDatesRemoveModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Seasonal date has been removed!', '');
+                    this.toasterService.pop('success', 'Seasonal date has been removed', '');
                 }
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Seasonal date could not be deleted at this time!',
+                        'Seasonal date could not be deleted at this time',
                         'Please try again later!');
                 }
                 this.isVisible = false;

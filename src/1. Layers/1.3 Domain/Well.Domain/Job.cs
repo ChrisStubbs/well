@@ -359,16 +359,21 @@
         }
 
         [XmlIgnore]
-        public string OuterCountUpdate { get; set; }
+        public int? OuterCountUpdate { get; set; }
 
         [XmlIgnore]
-        public string OuterCount
+        public int? OuterCount
         {
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "OUTERCOUNT");
-
-                return attribute?.Value;
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int outerCount = 0;
+                int.TryParse(attribute?.Value, out outerCount);
+                return outerCount;
             }
         }
 
@@ -408,30 +413,40 @@
         }
 
         [XmlIgnore]
-        public string TotalOutersOverUpdate { get; set; }
+        public int? TotalOutersOverUpdate { get; set; }
 
         [XmlIgnore]
-        public string TotalOutersOver
+        public int? TotalOutersOver
         {
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "TOTOVER");
-
-                return attribute?.Value;
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int totalOutersOver = 0;
+                int.TryParse(attribute?.Value, out totalOutersOver);
+                return totalOutersOver;
             }
         }
 
         [XmlIgnore]
-        public string TotalOutersShortUpdate { get; set; }
+        public int? TotalOutersShortUpdate { get; set; }
 
         [XmlIgnore]
-        public string TotalOutersShort
+        public int? TotalOutersShort
         {
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "TOTSHORT");
-
-                return attribute?.Value;
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int totalOutersShort = 0;
+                int.TryParse(attribute?.Value, out totalOutersShort);
+                return totalOutersShort;
             }
         }
 

@@ -31,6 +31,7 @@ BEGIN
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
    WHERE u.IdentityName = @UserName
+   AND rh.IsDeleted = 0
    Order By rh.RouteDate DESC
 
 SELECT 
@@ -57,6 +58,7 @@ FROM
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
 WHERE u.IdentityName = @UserName
+AND s.IsDeleted = 0
 
 SELECT [j].[Id]
       ,[Sequence]
@@ -102,4 +104,5 @@ SELECT [j].[Id]
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
 	WHERE u.IdentityName = @UserName
+	AND j.IsDeleted = 0
 END

@@ -4,7 +4,7 @@
     {
         Credit = 1,
         CreditAndReorder = 2,
-        PodCredit = 3,
+        PodTransaction = 3,
         Grn = 4,
         Pod = 5,
         ReplanInRoadnet = 6,

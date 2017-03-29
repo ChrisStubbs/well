@@ -44,7 +44,7 @@ export class CleanPreferenceAddModalComponent {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Clean preference has been saved!', '');
+                    this.toasterService.pop('success', 'Clean preference has been saved', '');
                     this.isVisible = false;
                     this.clear();
                     this.onCleanPreferenceSave.emit(this.cleanPreference);
@@ -52,7 +52,7 @@ export class CleanPreferenceAddModalComponent {
                 if (this.httpResponse.failure) {
                     this.toasterService.pop(
                         'error',
-                        'Clean preference could not be saved at this time!',
+                        'Clean preference could not be saved at this time',
                         'Please try again later!');
                     this.isVisible = false;
                 }

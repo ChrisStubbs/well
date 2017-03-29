@@ -14,16 +14,21 @@ import { RefreshService }                           from '../shared/refreshServi
 import { HttpResponse }                             from '../shared/httpResponse';
 import { AssignModal }                              from '../shared/assignModal';
 import { ConfirmModal }                             from '../shared/confirmModal';
-import { IUser }                                    from '../shared/user';
+import { IUser }                                    from '../shared/iuser';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
 import { Threshold }                                from '../shared/threshold';
 import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
-import * as lodash                                  from 'lodash';
+import * as _ from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import 'rxjs/Rx';
-import {DeliveryAction} from '../delivery/model/deliveryAction'; // Load all features
+import {DeliveryAction}                             from '../delivery/model/deliveryAction';
+import {BulkCredit}                                 from './bulkCredit';
+import {JobDetailReason}                            from '../delivery/model/jobDetailReason';
+import {JobDetailSource}                            from '../delivery/model/jobDetailSource';
+import {DeliveryService}                            from '../delivery/deliveryService'; // Load all features
+import {BulkCreditConfirmModal}                     from './bulkCreditConfirmModal';
 
 @Component({
     selector: 'ow-exceptions',
@@ -42,10 +47,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public httpResponse: HttpResponse = new HttpResponse();
     public users: IUser[];
     public delivery: ExceptionDelivery;
-    // public routeId: string;
-    // public assignee: string;
     public outstandingFilter: boolean = false;
-    public bulkCredits: ExceptionDelivery[];
+    public bulkCredits = new Array<number>();
     public threshold: number;
     @ViewChild(AssignModal)
     private assignModal: AssignModal;
@@ -59,7 +62,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     @ViewChild(ExceptionsConfirmModal)
     private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
-    //public sort = 'desc';
+    @ViewChild(BulkCreditConfirmModal)
+    private bulkCreditConfirmModal: BulkCreditConfirmModal;
+    public routeDate: Date;
+    public branchId: number;
+    public routeNumber: string;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -70,7 +77,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         private refreshService: RefreshService,
         private toasterService: ToasterService,
         private securityService: SecurityService,
-        private nqps: NavigateQueryParametersService)
+        private nqps: NavigateQueryParametersService,
+        private deliveryService: DeliveryService)
     {
         super(nqps);
 
@@ -89,21 +97,29 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public ngOnInit(): void
     {
         super.ngOnInit();
-
+         
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
             this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params =>
         {
+            this.routeDate = params['routeDate'];
+            this.branchId = params['branchId'];
+            this.routeNumber = params['filter.routeNumber'];
             this.outstandingFilter = params['outstanding'] === 'true';
             this.getExceptions();
             this.getThresholdLimit();
-            this.bulkCredits = new Array<ExceptionDelivery>();
         });
 
         this.isReadOnlyUser = this.securityService
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+        
+        this.deliveryService.getDamageReasons()
+            .subscribe(r => { this.bulkCreditConfirmModal.reasons = r; });
+
+        this.deliveryService.getSources()
+            .subscribe(s => { this.bulkCreditConfirmModal.sources = s });
     }
 
     public ngOnDestroy()
@@ -119,10 +135,20 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public getExceptions()
     {
-        this.exceptionDeliveryService.getExceptions()
+        this.exceptionDeliveryService.getExceptions() 
             .subscribe(responseData =>
                 {
                     this.exceptions = responseData || new Array<ExceptionDelivery>();
+
+                    if (!_.isUndefined(this.routeDate)) {
+                        this.exceptions = _.filter(this.exceptions,
+                            x => {
+                                return x.routeDate === this.routeDate && x.branchId === Number(this.branchId)
+                                    && x.routeNumber === this.routeNumber;
+                            }
+                        );
+                    }
+                    
                     this.lastRefresh = Date.now();
                     this.isLoading = false;
                 },
@@ -148,12 +174,12 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public onSortDirectionChanged(isDesc: boolean)
     {   
         super.onSortDirectionChanged(isDesc);
-        this.exceptions = lodash.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
+        this.exceptions = _.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
     }
 
     public onFilterClicked(filterOption: FilterOption)
     {
-        this.bulkCredits = [];
+        this.bulkCredits = new Array<number>();
         super.onFilterClicked(filterOption);
     }
 
@@ -188,16 +214,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         if (creditListIndex === -1)
         {
-            this.addToCreditList(exception, creditListIndex);
+            this.bulkCredits.push(exception.id);
         } else
         {
-            this.removeFromCreditList(exception);
+            this.removeFromCreditList(creditListIndex);
         }
-    }
-
-    public getCreditListIndex(exceptionid)
-    {
-        return lodash.findIndex(this.bulkCredits, { id: exceptionid });
     }
 
     public addToCreditList(exception, index)
@@ -209,19 +230,12 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         }
     }
 
-    public removeFromCreditList(index)
-    {
-        if (index !== -1)
-        {
-            this.bulkCredits.splice(index, 1);
-        }
-    }
-
     public isGridCheckBoxDisabled(exceptionid)
     {
-        const exceptionDelivery = lodash.find(this.exceptions, ['id', exceptionid]);
+        const exceptionDelivery = _.find(this.exceptions, ['id', exceptionid]);
 
-        if (exceptionDelivery.assigned === this.globalSettingsService.globalSettings.userName)
+        if (exceptionDelivery.assigned == this.globalSettingsService.globalSettings.userName
+            && exceptionDelivery.canBulkCredit)
         {
             return '';
         }
@@ -245,44 +259,17 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public creditExceptions()
     {
-        const pendingLength = lodash.filter(this.bulkCredits,
-            o =>
-            {
-                if (o.isPending === true)
-                {
-                    return o
-                }
-            }).length;
-
-        const creditLength = lodash.filter(this.bulkCredits,
-            o =>
-            {
-                if (o.isPending === false)
-                {
-                    return o
-                }
-            }).length;
-
-        const approvalConfirm = pendingLength > 0
-            ? ' and ' + pendingLength + ' pending exceptions '
-            : '';
-
-        this.confirmModal.isVisible = true;
-        this.confirmModal.heading = 'Bulk credit exceptions?';
-        this.confirmModal.messageHtml =
-            'You are about to bulk credit the exceptions of ' +
-            creditLength +
-            ' invoices ' +
-            approvalConfirm +
-            'Are you sure you want to continue?';
-        return;
+        this.bulkCreditConfirmModal.isVisible = true;
     }
 
-    public creditConfirmed()
+    public creditConfirmed(model: any)
     {
-        this.paginationCount();
+        const bulkCredit = new BulkCredit();
+        bulkCredit.jobIds = this.bulkCredits;
+        bulkCredit.reason = model.reason;
+        bulkCredit.source = model.source;
 
-        this.exceptionDeliveryService.creditLines(this.bulkCredits)
+        this.exceptionDeliveryService.creditLines(bulkCredit)
             .subscribe((res: Response) =>
             {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -290,18 +277,13 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 if (this.httpResponse.success)
                 {
                     this.toasterService.pop('success', this.bulkCredits.length + ' Delivery line(s) credited', '');
-
-                    this.getExceptions();
-                    this.bulkCredits = [];
-                } else if (this.httpResponse.adamdown)
-                {
-                    this.toasterService.pop('error',
-                        'ADAM is currently offline!',
-                        'You will receive a notification once the credit has taken place!');
                 } else if (this.httpResponse.notAcceptable)
                 {
                     this.toasterService.pop('error', this.httpResponse.message, '');
                 }
+
+                this.getExceptions();
+                this.bulkCredits = [];
             });
     }
 
@@ -345,14 +327,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         this.getExceptions();
     }
 
-    public paginationCount()
-    {
-        if (this.exceptions.length % this.rowCount === 1)
-        {
-            location.reload();
-        }
-    }
-
     public submit(delivery: ExceptionDelivery): void
     {
         this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
@@ -367,5 +341,18 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
         return canSubmitDelivery &&
             this.securityService.hasPermission(this.globalSettingsService.globalSettings.permissions,
                 this.securityService.actionDeliveries);
+    }
+
+    public getCreditListIndex(exceptionid)
+    {
+        return _.findIndex(this.bulkCredits, { id: exceptionid });
+    }
+
+    public removeFromCreditList(index)
+    {
+        if (index !== -1)
+        {
+            this.bulkCredits.splice(index, 1);
+        }
     }
 }

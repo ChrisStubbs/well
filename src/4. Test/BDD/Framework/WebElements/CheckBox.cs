@@ -8,6 +8,9 @@
     {
         public void Check()
         {
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(Configuration.DriverTimeoutSeconds));
+            wait.Until(d => this.GetElement().Displayed);
+
             GetElement().Click();
         }
 

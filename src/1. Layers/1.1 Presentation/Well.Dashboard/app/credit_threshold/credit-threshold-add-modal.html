@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label>Threshold</label>
-                            <input id="threshold" type="text" class="form-control" placeholder="Threshold" [(ngModel)]="creditThreshold.threshold"/>
+                            <input id="threshold" type="number" class="form-control" [(ngModel)]="creditThreshold.threshold" min="1" max="1000000"/>
                         </div>
                     </div>
                     <div class="col-md-4">

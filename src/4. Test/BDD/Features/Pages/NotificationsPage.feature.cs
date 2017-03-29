@@ -180,7 +180,7 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "ModalTitle"});
             table3.AddRow(new string[] {
-                        "Are you sure you want to archive the notification for 55/12345.001 ?"});
+                        "Are you sure you want to archive the notification for 55/12345.001?"});
 #line 39
  testRunner.Then("I can see the following notification detail", ((string)(null)), table3, "Then ");
 #line 42

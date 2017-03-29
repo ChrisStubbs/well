@@ -2,6 +2,7 @@
 
 export class CleanDelivery extends BaseDelivery {
     routeNumber: string;
+    routeDate: Date;
     dropId: string;
     invoiceNumber: number;
     accountName: string;
@@ -11,4 +12,4 @@ export class CleanDelivery extends BaseDelivery {
     deliveryDate: Date;
     accountId: string;
     canAction: boolean;
-}
+} 

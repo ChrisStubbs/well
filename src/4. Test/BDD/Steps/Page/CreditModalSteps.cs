@@ -7,7 +7,7 @@
     public static class CreditModalSteps
     {
 
-        public static void CompareModal(Table table, CreditModalComponent modal)
+        public static void CompareModal(Table table, BulkModalComponent modal)
         {
             Assert.AreEqual(table.Rows[0]["ModalTitle"], modal.ModalTitle.Content);
             Assert.AreEqual(table.Rows[0]["ModalMessage"], modal.ModalBody.GetElement().Text);

@@ -7,8 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as lodash from 'lodash';
 
 @Component({
-    templateUrl: './app/delivery/delivery-update.html',
-    providers: [DeliveryService]
+    templateUrl: './app/delivery/delivery-update.html'
 })
 export class DeliveryUpdateComponent
 {

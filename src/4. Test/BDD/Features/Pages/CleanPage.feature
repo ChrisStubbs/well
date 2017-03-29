@@ -60,20 +60,20 @@ Scenario: Sort Clean Deliveries
 	#Ascending Order
 	Then the following clean deliveries will be displayed		
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 08/01/2016   |
-	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 08/01/2016   |
-	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 08/01/2016   |
-	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 08/01/2016   |
-	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 06/01/2016   |
+	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 01/08/2016   |
+	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 01/08/2016   |
+	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 01/08/2016   |
+	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 01/08/2016   |
+	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 01/06/2016   |
 	#Descending Order
 	When I click on the orderby Triangle image in the clean deliveries grid
 	Then the following clean deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 06/01/2016   |
-	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 08/01/2016   |
-	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 08/01/2016   |
-	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 08/01/2016   |
-	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 08/01/2016   |
+	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 01/06/2016   |
+	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 01/08/2016   |
+	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 01/08/2016   |
+	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 01/08/2016   |
+	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 01/08/2016   |
 
 Scenario: Page Clean Deliveries
 	Given I have a clean database
@@ -95,4 +95,13 @@ Scenario: View cash on delivery icon
 	And 3 deliveries have been marked as clean
 	When I open the clean deliveries 
 	Then the first clean delivery line is COD (Cash on Delivery)
+
+Scenario: Clean deliveries wil have no exception delivery lines
+	Given I have a clean database
+	And I have loaded the MultiDate Adam route data
+	And I have loaded the Adam route data
+	And I have selected branches '22' and '2'
+	And  All the deliveries are marked as clean
+	And I open the clean deliveries 
+	When I click on each of the clean deliveries on each page there will be no exception delivery lines
 	

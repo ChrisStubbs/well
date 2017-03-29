@@ -27,7 +27,7 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<IActiveDirectoryService> activeDirectoryService;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IJobRepository> jobRepository;
-
+        private Mock<ICreditThresholdRepository> creditThresholdRepository;
         [SetUp]
         public void Setup()
         {
@@ -37,7 +37,8 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
-            jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
 
             //////this.userRepository.SetupSet(x => x.CurrentUser = "foo");
 
@@ -46,7 +47,8 @@ namespace PH.Well.UnitTests.Api.Controllers
                 this.userRepository.Object,
                 this.logger.Object,
                 this.userNameProvider.Object,
-                jobRepository.Object);
+                this.jobRepository.Object
+                );
             SetupController();
         }
 
@@ -199,6 +201,37 @@ namespace PH.Well.UnitTests.Api.Controllers
 
                 this.userRepository.Verify(x => x.UnAssignJobToUser(jobId), Times.Once);
                 this.logger.Verify(x => x.LogError("Error when trying to unassign the user from the job", exception), Times.Once);
+            }
+        }
+
+        public class TheUserByNameMethod : UserControllerTests
+        {
+            [Test]
+            public void ShouldReturnUserCreditThreshold()
+            {
+                var user = new User {Id = 227};
+                this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns(user);
+
+                var response = this.Controller.UserByName("lee grunion");
+                
+                var returnedUser = new User();
+                response.TryGetContentValue(out returnedUser);
+
+                Assert.That(returnedUser, Is.Not.Null);
+                Assert.That(returnedUser.Id, Is.EqualTo(227));
+            }
+
+            [Test]
+            public void ShouldReturnNullCreditThresholdIfNoUserThreshold()
+            {
+                
+                this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns((User)null);
+                var response = this.Controller.UserByName("lee grunion");
+
+                var returnedUser = new User();
+                response.TryGetContentValue(out returnedUser);
+
+                Assert.That(returnedUser, Is.Null);
             }
         }
     }

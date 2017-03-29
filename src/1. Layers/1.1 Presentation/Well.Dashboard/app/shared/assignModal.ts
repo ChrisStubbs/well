@@ -1,5 +1,5 @@
 ﻿import {Component, EventEmitter, Output} from '@angular/core';
-import {IUser} from '../shared/user';
+import {IUser} from '../shared/iuser';
 import {BaseDelivery} from '../shared/baseDelivery';
 import {Router} from '@angular/router';
 import {Response} from '@angular/http';
@@ -51,7 +51,7 @@ export class AssignModal {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Delivery has been assigned!', '');
+                    this.toasterService.pop('success', 'Delivery has been assigned', '');
                     this.assigned = true;
                 }
                 if (this.httpResponse.failure) {
@@ -69,7 +69,7 @@ export class AssignModal {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 
                 if (this.httpResponse.success) {
-                    this.toasterService.pop('success', 'Delivery has been unassigned!', '');
+                    this.toasterService.pop('success', 'Delivery has been unassigned', '');
                     this.assigned = true;
                 }
                 if (this.httpResponse.failure) {

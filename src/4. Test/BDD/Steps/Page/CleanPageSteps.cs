@@ -13,6 +13,7 @@
     public class CleanPageSteps
     {
         private CleanDeliveriesPage Page => new CleanDeliveriesPage();
+        private DeliveryDetailsPage DeliveryDetailsPage => new DeliveryDetailsPage();
 
         [Given(@"I open the clean deliveries")]
         [When(@"I open the clean deliveries")]
@@ -149,6 +150,34 @@
         {
             var rows = Page.Grid.ReturnAllRows();
             return rows.FirstOrDefault(r => r.GetItemInRowById("isPod") != null);
-        } 
+        }
+
+        [When(@"I click on each of the clean deliveries on each page there will be no exception delivery lines")]
+        public void WhenIClickOnEachOfTheCleanDeliveriesOnPageThereWillBeNoExceptionDeliveryLines()
+        {
+            var noOfPages = this.Page.Pager.NoOfPages();
+            for (int pageNo = 1; pageNo <= noOfPages; pageNo++)
+            {
+
+                this.Page.Pager.Click(pageNo);
+
+                var initialPageRows = this.Page.Grid.ReturnAllRows().ToList();
+                var totalRowCount = initialPageRows.Count;
+
+                for (int i = 0; i < totalRowCount; i++)
+                {
+                    var rows = this.Page.Grid.ReturnAllRows().ToList();
+                    var row = rows[i];
+                    row.GetItemInRowByClass("first-cell").Click();
+                    this.DeliveryDetailsPage.ClickExceptionsTab();
+                       
+                    Assert.IsTrue(this.DeliveryDetailsPage.NoExceptions.GetElement().Text.Contains("No exceptions"));
+                    this.DeliveryDetailsPage.Back();
+                }
+
+            }
+
+        }
+
     }
 }

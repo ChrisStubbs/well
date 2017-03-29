@@ -1,11 +1,12 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {LogService} from '../shared/logService';
 import {ApprovalDelivery} from './approvalDelivery';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class ApprovalsService {
@@ -14,7 +15,7 @@ export class ApprovalsService {
    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {

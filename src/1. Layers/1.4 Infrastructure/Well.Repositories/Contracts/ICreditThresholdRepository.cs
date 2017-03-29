@@ -13,5 +13,6 @@
         IEnumerable<CreditThreshold> GetByBranch(int branchId);
 
         void PendingCreditInsert(int jobId);
+
     }
 }

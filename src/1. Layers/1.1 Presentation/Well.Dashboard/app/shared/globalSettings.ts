@@ -1,8 +1,9 @@
-﻿import {Injectable, Inject, Compiler} from '@angular/core';
-import {Http, Response, RequestOptions, Headers} from '@angular/http'
+﻿import {Injectable, Inject, Compiler, EventEmitter} from '@angular/core';
+import {Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {LogService} from './logService';
+import {HttpService} from './httpService';
 
 export class GlobalSettings {
     public apiUrl: string;
@@ -15,12 +16,13 @@ export class GlobalSettings {
 @Injectable() 
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;
+
     public jsonOptions: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
     });
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private httpErrorService: HttpErrorService, 
         private logService: LogService,
         private compiler: Compiler) { 

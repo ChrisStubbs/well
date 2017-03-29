@@ -19,10 +19,7 @@
 
         public Job DetermineStatus(Job job, int branchId)
         {
-            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
-            {
-                job.JobStatus = JobStatus.InComplete;
-            }
+            SetIncompleteStatus(job);
 
             switch (job.JobStatus)
             {
@@ -33,12 +30,18 @@
                     return job;
             }
 
-            if (job.JobByPassReason == "Manual Delivery")
+            if (!string.IsNullOrWhiteSpace(job.JobByPassReason) && job.JobByPassReason.Trim().ToLower() == "manual delivery")
             {
                 job.JobStatus = JobStatus.CompletedOnPaper;
                 return job;
             }
 
+            if (job.PerformanceStatus == PerformanceStatus.Abypa || job.PerformanceStatus == PerformanceStatus.Nbypa)
+            {
+                job.JobStatus = JobStatus.Bypassed;
+                return job;
+            }
+            
             // Fetch all jobs associated with the current job's invoice and branch
             var jobs = this.jobRepository.GetJobsByBranchAndInvoiceNumber(job.Id, branchId, job.InvoiceNumber).ToList();
 
@@ -81,7 +84,7 @@
             }
 
             // Any damages are an exception or any shorts are an exception or outer discrepancy found is an exception
-            if (!hasException && (job.JobDetails.Any(x => x.JobDetailDamages.Any()) || job.JobDetails.Any(x => x.ShortQty > 0) || job.OuterDiscrepancyUpdate))
+            if (!hasException && (job.JobDetails.Any(x => x.IsClean() == false) || job.OuterDiscrepancyUpdate))
             {
                 hasException = true;
             }
@@ -92,14 +95,14 @@
 
         public void SetInitialStatus(Job job)
         {
-            job.JobStatus = string.Equals(job.JobTypeCode, "DEL-DOC", StringComparison.OrdinalIgnoreCase)
+            job.JobStatus = string.Equals(job.JobTypeCode.Trim().ToLower(), "del-doc", StringComparison.OrdinalIgnoreCase)
                 ? JobStatus.DocumentDelivery
                 : JobStatus.AwaitingInvoice;
         }
 
         public void SetIncompleteStatus(Job job)
         {
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber))
+            if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
             {
                 job.JobStatus = JobStatus.InComplete;
             }

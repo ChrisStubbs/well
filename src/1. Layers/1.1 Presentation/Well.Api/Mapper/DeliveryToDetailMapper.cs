@@ -37,9 +37,9 @@
                 ToBeAdvisedCount = detail.ToBeAdvisedCount
             };
 
-            foreach (DeliveryLine line in lines.Where(x => x.IsClean))
+            foreach (var line in lines)
             {
-                deliveryDetail.CleanDeliveryLines.Add(new DeliveryLineModel
+                var newItem = new DeliveryLineModel
                 {
                     JobDetailId = line.JobDetailId,
                     JobId = line.JobId,
@@ -63,37 +63,20 @@
                         JobDetailSourceId = d.JobDetailSourceId,
                         DamageActionId = d.DamageActionId
                     }).ToList()
-                });
+                };
+
+                if (line.IsClean)
+                {
+                    deliveryDetail.CleanDeliveryLines.Add(newItem);
+                }
+                else
+                {
+                    deliveryDetail.ExceptionDeliveryLines.Add(newItem);
+                }
             }
 
-            foreach (DeliveryLine line in lines.Where(x => !x.IsClean))
-            {
-                deliveryDetail.ExceptionDeliveryLines.Add(new DeliveryLineModel
-                {
-                    JobDetailId = line.JobDetailId,
-                    JobId = line.JobId,
-                    LineNo = line.LineNo,
-                    ProductCode = line.ProductCode,
-                    ProductDescription = line.ProductDescription,
-                    Value = line.Value.ToString(),
-                    InvoicedQuantity = line.InvoicedQuantity,
-                    DeliveredQuantity = line.DeliveredQuantity,
-                    DamagedQuantity = line.DamagedQuantity,
-                    ShortQuantity = line.ShortQuantity,
-                    LineDeliveryStatus = line.LineDeliveryStatus,
-                    JobDetailReasonId = line.JobDetailReasonId,
-                    JobDetailSourceId = line.JobDetailSourceId,
-                    ShortsActionId = line.ShortsActionId,
-                    IsHighValue = line.IsHighValue,
-                    Damages = line.Damages.Select(d => new DamageModel()
-                    {
-                        Quantity = d.Quantity,
-                        JobDetailReasonId = d.JobDetailReasonId,
-                        JobDetailSourceId = d.JobDetailSourceId,
-                        DamageActionId = d.DamageActionId 
-                    }).ToList()
-                });
-            }
+            deliveryDetail.CleanDeliveryLines = deliveryDetail.CleanDeliveryLines.OrderBy(p => p.LineNo).ToList();
+            deliveryDetail.ExceptionDeliveryLines = deliveryDetail.ExceptionDeliveryLines.OrderBy(p => p.LineNo).ToList();
 
             return deliveryDetail;
         }

@@ -28,7 +28,7 @@
 	[IsDeleted] BIT NOT NULL DEFAULT 0,
 	[StopId] INT NOT NULL,
 	[ActionLogNumber] VARCHAR(50) NULL,
-	[OuterCount] TINYINT NULL,
+	[OuterCount] INT NULL,
 	[OuterDiscrepancyFound] BIT DEFAULT 0,
 	[TotalOutersOver] INT NULL,
 	[TotalOutersShort] INT NULL,

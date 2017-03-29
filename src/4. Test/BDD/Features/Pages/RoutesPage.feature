@@ -14,11 +14,28 @@ Scenario: A user can view Route information
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 001   | 22     | Jan 7, 2016 | HALL IAN       | 2         | 3          | 1     |   Not Started     |
-	| 006   | 22     | Jan 7, 2016 | RENTON MARK    | 2         | 0          | 4     |   Not Started     |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
+	| 001   | 22     | Jul 1, 2016 | HALL IAN       | 2         | 3          | 1     |   Not Started     |
+	| 006   | 22     | Jul 1, 2016 | RENTON MARK    | 2         | 0          | 4     |   Not Started     |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
 	
-	
+Scenario: Routes with same route number spanning different dates once clicked only show the correct details for that route
+	Given I have a clean database
+	And I have loaded the MultiDate Adam route data
+	And I have loaded the Adam route data
+	And I have selected branches '22' and '2'
+	And  All the deliveries are marked as clean
+	And 20 deliveries have been marked as exceptions
+	When I open the routes page
+	Then The following routes will be displayed
+	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
+	| 001   | 22     | Aug 1, 2016 | HALL IAN       | 2         | 4          | 0     | Not Started |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 9          | 0     | Not Started |
+	| 011   | 2      | Jul 1, 2016 | DUGDALE STEVEN | 4         | 3          | 6     | Not Started |
+	| 001   | 22     | Jul 1, 2016 | HALL IAN       | 2         | 0          | 4     | Not Started |
+	| 006   | 22     | Jul 1, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
+	| 006   | 22     | Jun 1, 2016 | RENTON MARK    | 2         | 4          | 0     | Not Started |
+	And The exceptions count matches the exceptions page for that route
+	And The clean count matches the clean page for that route
 
 Scenario: A user can filter Route information
 	Given I have a clean database
@@ -30,27 +47,27 @@ Scenario: A user can filter Route information
 	And I filter the grid with the option 'Route' and value '011'
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
+	| 011   | 2      | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     |   Not Started     |
 	When I clear the filter 
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     | Not Started |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
+	| 001   | 22     | Aug 1, 2016 | HALL IAN       | 2         | 3          | 1     | Not Started |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 011   | 2      | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 006   | 22     | Jun 1, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
 	When I filter the grid with the option 'Branch' and value '2'
 	Then The following routes will be displayed
     | Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status |
-    | 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started       |
+    | 011   | 2      | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started       |
 	When I select 'Route' from the filter options
 	Then the the previous filter should be cleared 
 	And The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 3          | 1     | Not Started |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
-	| 011   | 2      | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
+	| 001   | 22     | Aug 1, 2016 | HALL IAN       | 2         | 3          | 1     | Not Started |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 011   | 2      | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 9     | Not Started |
+	| 006   | 22     | Jun 1, 2016 | RENTON MARK    | 2         | 0          | 4     | Not Started |
 
 Scenario: A user can view Route information and sort on route date
 	Given I have a clean database
@@ -59,21 +76,21 @@ Scenario: A user can view Route information and sort on route date
 	When I open the routes page
 	Then The following routes will be displayed
 	| Route | Branch | RouteDate   | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started |
+	| 001   | 22     | Aug 1, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
+	| 006   | 22     | Jun 1, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started |
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'asc' order
 	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started | 
+	| 006   | 22     | Jun 1, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
+	| 001   | 22     | Aug 1, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started | 
 	When I click on the orderby Triangle image
 	Then The following routes ordered by date will be displayed in 'desc' order
 	| Route | Branch | Route Date  | Driver         | NoOfDrops | Exceptions | Clean | Status      |
-	| 001   | 22     | Jan 8, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started |
-	| 011   | 22     | Jan 7, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
-	| 006   | 22     | Jan 6, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started | 
+	| 001   | 22     | Aug 1, 2016 | HALL IAN       | 2         | 0          | 0     | Not Started |
+	| 011   | 22     | Jul 1, 2016 | DUGDALE STEVEN | 4         | 0          | 0     | Not Started |
+	| 006   | 22     | Jun 1, 2016 | RENTON MARK    | 2         | 0          | 0     | Not Started | 
 
 
 #TODO Add more filter scenarios when the additional filters have been implemented

@@ -52,7 +52,7 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users);
         }
-        
+
         [Route("create-user-using-current-context")]
         [HttpGet]
         public HttpResponseMessage CreateUserUsingCurrentContext()
@@ -95,10 +95,32 @@
             var users =
                 this.activeDirectoryService.FindUsers(name.Trim(), PH.Well.Api.Configuration.DomainsToSearch).ToList();
 
-            if (!users.Any()) users.Add(new User {Id = -1, Name = "No users found!"});
+            if (!users.Any()) users.Add(new User { Id = -1, Name = "No users found!" });
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
+
+
+        [Route("user/{name}")]
+        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        [HttpGet]
+        public HttpResponseMessage UserByName(string name)
+        {
+            try
+            {
+                var user = userRepository.GetByName(name);
+                return this.Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError($"Error when trying to get user by name {name}", exception);
+
+                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+
+
+
 
         [Route("assign-user-to-job")]
         [HttpPost]
@@ -111,15 +133,15 @@
                 if (user != null && job != null)
                 {
                     this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new {notAcceptable = true});
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
             }
             catch (Exception exception)
             {
                 this.logger.LogError("Error when trying to assign job for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new {failure = true});
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
 

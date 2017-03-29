@@ -2,6 +2,7 @@
  
 export class ExceptionDelivery extends BaseDelivery {
     public  routeNumber: string;
+    public  routeDate: Date;
     public  dropId: string;
     public  invoiceNumber: number;
     public  accountName: string;
@@ -21,5 +22,6 @@ export class ExceptionDelivery extends BaseDelivery {
     public  isPending: boolean;
     public  totalOutersShort: number;
     public  toBeAdvisedCount: number;
+    public canBulkCredit: boolean;
 
 }

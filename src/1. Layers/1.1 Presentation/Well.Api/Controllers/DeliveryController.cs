@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Web.Http;
     using Common.Contracts;
     using Domain.Enums;
@@ -120,10 +121,9 @@
         {
             try
             {
-                DeliveryDetail deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
-
+                var deliveryDetail = deliveryReadRepository.GetDeliveryById(id, this.UserIdentityName);
                 var deliveryLines = deliveryReadRepository.GetDeliveryLinesByJobId(id);
-                DeliveryDetailModel delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
+                var delivery = this.deliveryToDetailMapper.Map(deliveryLines, deliveryDetail);
 
                 if (delivery.AccountCode.Length <= 0)
                 {

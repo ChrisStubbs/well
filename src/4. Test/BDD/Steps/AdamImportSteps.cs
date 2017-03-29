@@ -2,7 +2,9 @@
 {
     using System.IO;
     using System;
+    using System.Globalization;
     using System.Linq;
+    using System.Threading;
     using System.Xml.Serialization;
 
     using Framework.Context;
@@ -72,6 +74,16 @@
 
             this.adamFileMonitorService.Process(importFilePath);
         }
+
+        [Given(@"I have loaded the Adam high value route data")]
+        public void LoadAdamHighValueData()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ROUTE_PLY_HIGHVALUE.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
         [Given(@"I have loaded the Adam document delivery route data")]
         public void LoadAdamDocDelData()
         {
@@ -118,6 +130,24 @@
             this.adamFileMonitorService.Process(importFilePath);
         }
 
+        [Given(@"I have loaded the order file '(.*)' into the well")]
+        public void GivenIHaveLoadedTheOrderFileIntoTheWell(string fileName)
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+               $"xml\\{fileName}"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+	
+        [Given(@"I have loaded the Adam order data with high value lines")]
+        public void LoadAdamOrderDataWithHighValueLines()
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "xml\\ORDER_PLY_HIGHVALUE.xml"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+
         [Given(@"I have loaded the Adam route data that has 21 lines")]
         public void GivenIHaveLoadedTheAdamRouteDataThatHasLines()
         {
@@ -145,7 +175,7 @@
         [When(@"I import the route file '(.*)' into the well")]
         public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
         {
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Xml");
 
             adamFileMonitorService.Process(Path.Combine(filePath, routeFile));
         }
@@ -195,6 +225,7 @@
         [When(@"I have imported a valid Epod update file named '(.*)'")]
         public void GivenIHaveImportedAValidEpodUpdateFile(string epodFile)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Epod");
 
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
@@ -205,6 +236,16 @@
                 this.epodUpdateService.Update(routes);
             }
         }
+
+        [Given(@"I have imported the following valid Epod files")]
+        public void GivenIHaveImportedTheFollowingValidEpodFiles(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                GivenIHaveImportedAValidEpodUpdateFile(row["Filename"]);
+            }
+        }
+
 
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
         public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(int exceptionDays, int royaltyCode)

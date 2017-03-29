@@ -131,6 +131,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Branch.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Pages\BulkCredit.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BulkCredit.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Pages\BypassedDeliveries.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BypassedDeliveries.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Pages\CompletedOnPaperDelivery.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -194,6 +204,7 @@
     <Compile Include="Framework\FakeFileModule.cs" />
     <Compile Include="Framework\WebElements\RadioGroup.cs" />
     <Compile Include="Framework\WebElements\PrimengCalendar.cs" />
+    <Compile Include="Framework\WebElements\UserThresholdNavDropDown.cs" />
     <Compile Include="Framework\WebElements\WebElementList.cs" />
     <Compile Include="Helpers\IWebClientHelper.cs" />
     <Compile Include="Helpers\WebClientHelper.cs" />
@@ -226,7 +237,7 @@
     <Compile Include="Pages\AssignModal.cs" />
     <Compile Include="Pages\AuditPage.cs" />
     <Compile Include="Pages\CleanPreferencePage.cs" />
-    <Compile Include="Pages\CreditModalComponent.cs" />
+    <Compile Include="Pages\BulkModalComponent.cs" />
     <Compile Include="Pages\CreditThresholdPage.cs" />
     <Compile Include="Pages\SeasonalDatesPage.cs" />
     <Compile Include="Pages\DeliveryLinePage.cs" />
@@ -266,7 +277,9 @@
     <Compile Include="Steps\SetupDeliveryLineUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ConfigurationSections\app-staging1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -298,6 +311,14 @@
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Branch.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\BulkCredit.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BulkCredit.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Pages\BypassedDeliveries.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BypassedDeliveries.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\CompletedOnPaperDelivery.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -386,6 +407,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD_30062016_BypassedDelivery.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD_30062016_DocumentDelivery.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -394,6 +419,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD_HAY_Update2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__20170317_HIGHVALUE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__BulkCredit1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__BulkCredit2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Epod\ePOD__BulKCredit3.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Epod\ePOD__MissingInvoiceNumbers.xml">
@@ -419,6 +456,12 @@
     <Content Include="Xml\ORDER_HAY_170207_2333_2.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Xml\ORDER_PLY_BulkCredit.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ORDER_PLY_HIGHVALUE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Xml\ROUTE_02022017_82.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -442,6 +485,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Xml\ROUTE_30062016_04.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ROUTE_PLYM_BulkCredit.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\ROUTE_PLY_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

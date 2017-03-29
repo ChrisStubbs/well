@@ -8,7 +8,6 @@
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
-    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
 
     using WebGrease.Css.Extensions;
@@ -16,7 +15,7 @@
     public class CreditThresholdRepository : DapperRepository<CreditThreshold, int>, ICreditThresholdRepository
     {
         public CreditThresholdRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
-            : base(logger, dapperProxy,userNameProvider)
+            : base(logger, dapperProxy, userNameProvider)
         {
         }
 
@@ -31,7 +30,7 @@
 
                 entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
                     .AddParameter("ThresholdLevelId", entity.ThresholdLevelId, DbType.Int32)
-                    .AddParameter("Threshold", entity.Threshold, DbType.Int32)
+                    .AddParameter("Value", entity.Threshold, DbType.Decimal)
                     .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                     .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                     .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)
@@ -85,5 +84,6 @@
                 .AddParameter("originator", this.CurrentUser, DbType.String)
                 .Execute();
         }
+
     }
 }

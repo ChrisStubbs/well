@@ -20,14 +20,16 @@
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IEventLogger eventLogger;
         private readonly IPodTransactionFactory podTransactionFactory;
+        private readonly IExceptionEventRepository eventRepository;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
             this.deliveryReadRepository = deliveryReadRepository;
             this.eventLogger = eventLogger;
             this.podTransactionFactory = podTransactionFactory;
+            this.eventRepository = eventRepository;
         }
 
         public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings)
@@ -198,8 +200,9 @@
             return AdamResponse.Unknown;
         }
 
-        public AdamResponse Pod(PodTransaction pod, AdamSettings adamSettings)
+        public AdamResponse PodTransaction(PodTransaction pod, AdamSettings adamSettings)
         {
+            var job = this.jobRepository.GetById(pod.JobId);
             var linesToRemove = new Dictionary<int, string>();
 
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
@@ -260,6 +263,79 @@
             }
             else
             {
+                this.logger.LogError("ADAM error occurred writing pod! Remaining pod details recorded.");
+                return AdamResponse.AdamDown;
+            }
+
+            return AdamResponse.Unknown;
+        }
+
+        public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings)
+        {
+            var job = this.jobRepository.GetById(podEvent.Id);
+            var pod = podTransactionFactory.Build(job, podEvent.BranchId);
+            var linesToRemove = new Dictionary<int, string>();
+
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new AdamCommand(connection))
+                    {
+                        foreach (var line in pod.LineSql.OrderBy(x => x.Key))
+                        {
+                            command.CommandText = line.Value;
+                            command.ExecuteNonQuery();
+                            linesToRemove.Add(line.Key, line.Value);
+                        }
+                    }
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred writing credit line!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        $"Adam exception {adamException} when writing pod credit line for pod transaction {pod.HeaderSql}",
+                        2010);
+                }
+            }
+
+            foreach (var line in linesToRemove)
+            {
+                pod.LineSql.Remove(line.Key);
+            }
+
+            if (pod.CanWriteHeader)
+            {
+                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        using (var command = new AdamCommand(connection))
+                        {
+                            command.CommandText = pod.HeaderSql;
+                            command.ExecuteNonQuery();
+
+                            return AdamResponse.Success;
+                        }
+                    }
+                    catch (AdamProviderException adamException)
+                    {
+                        this.eventRepository.InsertPodTransaction(pod);
+                        this.logger.LogError("ADAM error occurred writing pod header!", adamException);
+
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                       $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
+                       2020);
+                    }
+                }
+            }
+            else
+            {
+                this.eventRepository.InsertPodTransaction(pod);
                 this.logger.LogError("ADAM error occurred writing pod! Remaining pod details recorded.");
                 return AdamResponse.AdamDown;
             }

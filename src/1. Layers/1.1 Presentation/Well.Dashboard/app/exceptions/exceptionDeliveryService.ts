@@ -1,15 +1,17 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {ExceptionDelivery} from './exceptionDelivery';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {IUser} from '../shared/user';
+import {IUser} from '../shared/iuser';
 import {LogService} from '../shared/logService';
 import { Threshold } from '../shared/threshold';
 import { DeliveryLine } from '../delivery/model/deliveryLine';
 import {DeliveryAction} from '../delivery/model/deliveryAction';
+import {BulkCredit} from './bulkCredit';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class ExceptionDeliveryService {
@@ -18,7 +20,7 @@ export class ExceptionDeliveryService {
    public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {
@@ -56,10 +58,12 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public creditLines(creditlines: any[]): Observable<any> {
-        
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'credit-bulk/{creditlines}',
-            JSON.stringify(creditlines),
+    public creditLines(bulkCredit: BulkCredit): Observable<any>
+    {
+        const body = JSON.stringify(bulkCredit);
+            
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'bulk-credit/',
+            body,
             this.options)
             .map(res => res.json())
             .do (data => this.logService.log('All: ' + JSON.stringify(data)))

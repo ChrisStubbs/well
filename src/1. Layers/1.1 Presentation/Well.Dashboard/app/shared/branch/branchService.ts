@@ -1,19 +1,20 @@
 ﻿import {Injectable, EventEmitter} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch';
-import {IUser} from '../user';
+import {IUser} from '../iuser';
 import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../httpErrorService';
 import {LogService} from '../logService';
+import {HttpService} from '../httpService';
 
 @Injectable()
 export class BranchService {
     public userBranchesChanged$ = new EventEmitter<Branch[]>();
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {

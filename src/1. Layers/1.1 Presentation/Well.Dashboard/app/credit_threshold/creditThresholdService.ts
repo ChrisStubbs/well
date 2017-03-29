@@ -1,15 +1,16 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {CreditThreshold} from './creditThreshold';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class CreditThresholdService {
     public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
     public options: RequestOptions = new RequestOptions({ headers: this.headers });
 
-    constructor(private http: Http, private globalSettingsService: GlobalSettingsService) { }
+    constructor(private http: HttpService, private globalSettingsService: GlobalSettingsService) { }
 
     public getCreditThresholds(): Observable<CreditThreshold[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'credit-threshold')
@@ -29,6 +30,12 @@ export class CreditThresholdService {
             body,
             this.options)
             .map(res => res.json());
+    }
+
+    public getUserThreshold(userName: string): Observable<any> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl
+            + 'users/' + userName + '/credit-threshold')
+            .map((res: Response) => <CreditThreshold>res.json());
     }
 
     public saveThresholdLevel(threshold: string, username: string): Observable<any> {

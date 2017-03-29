@@ -76,13 +76,21 @@
             };
         }
 
-        public void Pod(PodTransaction podTransaction, int eventId, AdamSettings adamSettings)
+        public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = this.adamRepository.Pod(podTransaction, adamSettings);
+            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
+
+            //Mark the podevent as processed, even if it failed - there will be a PodTransaction instead
+            this.eventRepository.MarkEventAsProcessed(eventId);
+            this.MarkPodAsResolved(podEvent.Id, adamResponse);
+        }
+
+        public void PodTransaction(PodTransaction podTransaction, int eventId, AdamSettings adamSettings)
+        {
+            var adamResponse = this.adamRepository.PodTransaction(podTransaction, adamSettings);
 
             this.MarkAsDone(eventId, adamResponse);
             this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
-
         }
 
         private void MarkAsDone(int eventId, AdamResponse response)

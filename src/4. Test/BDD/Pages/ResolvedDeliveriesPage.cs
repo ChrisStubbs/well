@@ -11,6 +11,13 @@
             this.Pager = new PagerControl();
             this.OrderByButton = new Image { Locator = By.Id("img-orderByArrow") };
             AccountModal = new AccountModalComponent();
+
+            DeliveriesGrid = new Grid<ResolvedDeliveriesGrid>
+            {
+                Locator = By.Id("tableResolvedDeliveries"),
+                RowLocator = By.ClassName("grid-row")
+            };
+
         }
         protected override string UrlSuffix => "resolved";
 
@@ -23,6 +30,8 @@
         {
             return new ResolvedGridRow(id);
         }
+
+        public Grid<ResolvedDeliveriesGrid> DeliveriesGrid { get; set; }
     }
 
     public class ResolvedGridRow
@@ -71,5 +80,20 @@
         public SpanElement Date { get; set; }
 
         public Button Contact { get; set; }
+    }
+
+    public enum ResolvedDeliveriesGrid
+    {
+        Route = 0,
+        Branch = 1,
+        Drop = 2,
+        InvoiceNo = 3,
+        Account = 4,
+        AccountName = 5,
+        Contact = 6,
+        Status = 7,
+        Assigned = 8,
+        Action = 9,
+        LastUpdatedDateTime = 10
     }
 }

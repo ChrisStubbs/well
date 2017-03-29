@@ -196,7 +196,7 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
 
 
-Scenario: A user can view Exception Delivery Information with shorts to be advised displayed2
+Scenario: A user can view Exception Delivery Information with shorts to be advised when DETSHORT and TOTSHORT are set in epod files
 	Given I have a clean database
 	And I have selected branch '55'
 	And I import the route file 'ROUTE_PLYM_BulkCredit.xml' into the well
@@ -205,6 +205,7 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| Filename       |
 	| ePOD__TBA1.xml |
 	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName | CreditValue | Status     | TBA |
 	| 111   | 55     | 4    | 1715069   | 47020.053 | COSTCUTTER  | 0           | Incomplete | 3   |
 	| 111   | 55     | 4    | 2845610   | 47020.053 | COSTCUTTER  | 158.46      | Incomplete | 0   |

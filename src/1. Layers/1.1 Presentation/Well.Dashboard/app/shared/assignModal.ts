@@ -1,12 +1,13 @@
-﻿import {Component, EventEmitter, Output} from '@angular/core';
-import {IUser} from '../shared/iuser';
-import {BaseDelivery} from '../shared/baseDelivery';
-import {Router} from '@angular/router';
-import {Response} from '@angular/http';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
-import {HttpResponse} from '../shared/httpResponse';
-import {UserJob} from '../shared/userJob';
-import {UserService}  from './userService';
+﻿import {Component, EventEmitter, Output}    from '@angular/core';
+import {IUser}                              from '../shared/iuser';
+import {BaseDelivery}                       from '../shared/baseDelivery';
+import {Router}                             from '@angular/router';
+import {Response}                           from '@angular/http';
+import {ToasterService}                     from 'angular2-toaster/angular2-toaster';
+import {HttpResponse}                       from '../shared/httpResponse';
+import {UserJob}                            from '../shared/userJob';
+import {UserService}                        from './userService';
+import * as _                               from 'lodash';
 
 @Component({
     selector: 'assign-modal',
@@ -33,7 +34,7 @@ export class AssignModal {
 
         this.userService.getUsersForBranch(this.delivery.branchId)
             .subscribe(users => {
-                this.users = users;
+                this.users = _.filter(users, current => current.name != delivery.assigned);
                 this.isVisible = true;
             });
     }

@@ -1,15 +1,15 @@
 ﻿import {BaseDelivery} from '../shared/baseDelivery' 
 
-export class ResolvedDelivery extends BaseDelivery{
-    routeNumber: string;
-    dropId: string;
-    invoiceNumber: number;
-    accountName: string;
-    jobStatus: string;
-    action: string;
-    assigned: string;
-    deliveryDate: Date;
-    accountId: string;
-    canAction: boolean;
-    cod: string;
+export class ResolvedDelivery extends BaseDelivery
+{
+    public routeNumber: string;
+    public dropId: string;
+    public invoiceNumber: number;
+    public accountName: string;
+    public jobStatus: string;
+    public action: string;
+    public deliveryDate: Date;
+    public accountId: string;
+    public canAction: boolean;
+    public cod: string;
 }

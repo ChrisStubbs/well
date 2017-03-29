@@ -116,7 +116,7 @@
         [Test]
         public void ThresholdUniqueToBranch()
         {
-            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Value = 100 };
+            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Threshold = 100 };
             var thresholds = new List<CreditThreshold> { existingThreshold };
 
             var model = new CreditThresholdModel { ThresholdLevel = "Level 1", Threshold = 100 };
@@ -138,7 +138,7 @@
         [Test]
         public void ThresholdUniqueToMultipleBranch()
         {
-            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Value = 100 };
+            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Threshold = 100 };
             var thresholds = new List<CreditThreshold> { existingThreshold };
 
             var model = new CreditThresholdModel { ThresholdLevel = "Level 1", Threshold = 100 };
@@ -162,7 +162,7 @@
         [Test]
         public void ThresholdUniqueToMultipleBranches()
         {
-            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Value = 100 };
+            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Threshold = 100 };
             var thresholds = new List<CreditThreshold> { existingThreshold };
 
             var model = new CreditThresholdModel { ThresholdLevel = "Level 1", Threshold = 100 };
@@ -186,7 +186,7 @@
         [Test]
         public void ThresholdUniqueToBranchesValid()
         {
-            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Value = 100 };
+            var existingThreshold = new CreditThreshold { ThresholdLevelId = 1, Threshold = 100 };
             var thresholds = new List<CreditThreshold> { existingThreshold };
 
             var model = new CreditThresholdModel { ThresholdLevel = "Level 1", Threshold = 100 };

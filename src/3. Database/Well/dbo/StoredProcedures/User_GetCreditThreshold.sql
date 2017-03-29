@@ -6,11 +6,11 @@ SET NOCOUNT ON;
 
  BEGIN
 
-	SELECT ch.Value
+	SELECT ch.Threshold
 	FROM CreditThreshold ch
 	INNER JOIN [User] u
 	ON u.ThresholdLevelId = ch.ThresholdLevelId
 	WHERE U.IdentityName = @Username
-	ORDER BY ch.Value DESC
+	ORDER BY ch.Threshold DESC
 
 END

@@ -15,7 +15,7 @@
             var creditThreshold = new CreditThreshold
             {
                 Id = model.Id,
-                Value = model.Threshold.Value,
+                Threshold = model.Threshold.Value,
                 ThresholdLevelId = (int)EnumExtensions.GetValueFromDescription<ThresholdLevel>(model.ThresholdLevel)
             };
 
@@ -30,7 +30,7 @@
             {
                 Id = creditThreshold.Id,
                 ThresholdLevel = EnumExtensions.GetDescription(creditThreshold.ThresholdLevel),
-                Threshold = creditThreshold.Value
+                Threshold = creditThreshold.Threshold
             };
 
             foreach (var branch in creditThreshold.Branches)

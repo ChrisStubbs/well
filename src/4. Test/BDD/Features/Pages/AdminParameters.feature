@@ -399,6 +399,20 @@ Scenario: Widget warning parameter edit
 	| 2     | med, cov, far, dun, lee, hem, bir, bel, bra, ply, bri, hay |
 
 
+	Scenario: As a Admin user I should be able to set up user threshold levels
+	Given I have a clean database
+	And I have selected branch '55'
+	When I navigate to the user threshold level page
+	And I search for the current user
+	And I select the current user from the results
+	And I select Level '1' from the user threshold level dropdown list
+	When I save the user threshold level
+	Then the user threshold level is saved
+	And the Level '1' threhold level should be selected in the dropdown
+	When I navigate to the user threshold level page
+	And I search for the current user
+	And I select the current user from the results
+	Then the Level '1' threhold level should be selected in the dropdown
 
 
 

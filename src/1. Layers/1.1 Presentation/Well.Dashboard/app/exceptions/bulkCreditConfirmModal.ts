@@ -11,8 +11,8 @@ export class BulkCreditConfirmModal {
     @Output() public confirmed = new EventEmitter<any>();
     public reasons: DetailReason.JobDetailReason[] = new Array<DetailReason.JobDetailReason>();
     public sources: DetailSource.JobDetailSource[] = new Array<DetailSource.JobDetailSource>();
-    public source: number;
-    public reason: number;
+    public source: number = 0;
+    public reason: number = 0;
 
     public show() {
         this.isVisible = true;

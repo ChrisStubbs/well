@@ -18,6 +18,7 @@
             JobStatusSpan = new SpanElement() { Locator = By.Id("job-status") };
             SubmitActionButton = new Button() {Locator = By.Id("submit-button")};
             ConfirmModalButton = new Button() {Locator = By.Id("confirm-modal-button")};
+            NoExceptions = new Div() { Locator = By.Id("no-exceptions") };
 
         }
 
@@ -29,7 +30,7 @@
         public SpanElement JobStatusSpan { get; set; }
         public Button SubmitActionButton { get; set; }
         public Button ConfirmModalButton { get; set; }
-
+        public Div NoExceptions { get; set; }
         public bool HasThisNumberOfHighvalueItems(int count)
         {
             var highValueItems = this.Driver.FindElements(By.ClassName("high-value"));
@@ -41,7 +42,7 @@
         {
             var btnElements = this.Driver.FindElements(By.ClassName("btn"));
 
-            var button = btnElements.Where(x => x.Text == "Clean").FirstOrDefault();
+            var button = btnElements.FirstOrDefault(x => x.Text == "Clean");
             button.Click();
         }
 
@@ -49,7 +50,7 @@
         {
             var btnElements = this.Driver.FindElements(By.ClassName("btn"));
 
-            var button = btnElements.Where(x => x.Text == "Exceptions").FirstOrDefault();
+            var button = btnElements.FirstOrDefault(x => x.Text == "Exceptions");
             button.Click();
         }
     }

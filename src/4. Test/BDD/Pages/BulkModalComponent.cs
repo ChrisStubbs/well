@@ -2,7 +2,6 @@
 {
     using Framework.WebElements;
     using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
 
     public class BulkModalComponent
     {

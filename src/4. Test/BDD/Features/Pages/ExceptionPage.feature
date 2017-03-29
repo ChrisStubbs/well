@@ -8,7 +8,6 @@ Feature: ExceptionPage
 Background: 
 	Given I have a clean database
 	And I have loaded the MultiDate Adam route data
-	#And I have imported a valid Epod update file named 'ePOD_30062016_Update.xml'
 
 Scenario: View Exceptions
 	Given I have selected branch '22'
@@ -195,4 +194,14 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
 	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
+
+
+Scenario: Each exception delivery should have at least one exception delivery line
+   Given I have loaded the Adam route data
+   And I have selected branches '22' and '2'
+   And  All the deliveries are marked as clean
+   And 20 deliveries have been marked as exceptions
+   And I open the exception deliveries
+   When I click on each of the deliveries on page 1 there will be at least one exception delivery line
+   And I click on each of the deliveries on page 1 there will be at least one exception delivery line
 

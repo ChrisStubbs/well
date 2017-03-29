@@ -143,7 +143,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                     if (!_.isUndefined(this.routeDate)) {
                         this.exceptions = _.filter(this.exceptions,
                             x => {
-                            return x.routeDate === this.routeDate && x.branchId === Number(this.branchId) && x.routeNumber === this.routeNumber;
+                                return x.routeDate === this.routeDate && x.branchId === Number(this.branchId)
+                                    && x.routeNumber === this.routeNumber;
                             }
                         );
                     }

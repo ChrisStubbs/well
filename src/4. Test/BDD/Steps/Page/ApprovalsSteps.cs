@@ -58,7 +58,7 @@
                 var creditThreshold = new CreditThreshold()
                 {
                     ThresholdLevelId = int.Parse(tableRow["Level"]),
-                    Value = decimal.Parse(tableRow["Threshold"]),
+                    Threshold = decimal.Parse(tableRow["Threshold"]),
                     Branches = new Collection<Branch>(branches.ToList())
                 };
                 creditThresholdRepository.Save(creditThreshold);

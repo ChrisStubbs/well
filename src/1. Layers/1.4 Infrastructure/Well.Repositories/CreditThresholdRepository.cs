@@ -30,7 +30,7 @@
 
                 entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
                     .AddParameter("ThresholdLevelId", entity.ThresholdLevelId, DbType.Int32)
-                    .AddParameter("Value", entity.Value, DbType.Decimal)
+                    .AddParameter("Value", entity.Threshold, DbType.Decimal)
                     .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                     .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                     .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)

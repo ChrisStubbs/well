@@ -1,16 +1,17 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http'
+import {Response} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {Route} from './route';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {HttpErrorService} from '../shared/httpErrorService';
 import {LogService} from '../shared/logService';
+import {HttpService} from '../shared/httpService';
 
 @Injectable()
 export class RouteHeaderService {
 
     constructor(
-        private http: Http,
+        private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService,
         private logService: LogService) {

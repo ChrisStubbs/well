@@ -11,8 +11,7 @@ import {UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 
 @Component({
     selector: 'ow-user-preferences',
-    templateUrl: './app/user_preferences/user-preferences.html',
-    providers: [UserPreferenceService]
+    templateUrl: './app/user_preferences/user-preferences.html'
 }
 )
 export class UserPreferenceComponent {

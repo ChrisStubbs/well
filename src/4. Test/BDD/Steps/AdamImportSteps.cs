@@ -130,6 +130,15 @@
             this.adamFileMonitorService.Process(importFilePath);
         }
 
+        [Given(@"I have loaded the order file '(.*)' into the well")]
+        public void GivenIHaveLoadedTheOrderFileIntoTheWell(string fileName)
+        {
+            var importFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+               $"xml\\{fileName}"));
+
+            this.adamFileMonitorService.Process(importFilePath);
+        }
+	
         [Given(@"I have loaded the Adam order data with high value lines")]
         public void LoadAdamOrderDataWithHighValueLines()
         {
@@ -166,7 +175,7 @@
         [When(@"I import the route file '(.*)' into the well")]
         public void WhenIImportTheRouteFileIntoTheWell(string routeFile)
         {
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RouteFiles");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Xml");
 
             adamFileMonitorService.Process(Path.Combine(filePath, routeFile));
         }
@@ -227,6 +236,16 @@
                 this.epodUpdateService.Update(routes);
             }
         }
+
+        [Given(@"I have imported the following valid Epod files")]
+        public void GivenIHaveImportedTheFollowingValidEpodFiles(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                GivenIHaveImportedAValidEpodUpdateFile(row["Filename"]);
+            }
+        }
+
 
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
         public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(int exceptionDays, int royaltyCode)

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using Framework.Extensions;
     using NUnit.Framework;
     using Pages;
     using TechTalk.SpecFlow;
@@ -60,6 +61,14 @@
                 Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
             }
         }
+
+        [Then(@"the following resolved deliveries grid will be displayed")]
+        public void ThenTheFollowingResolvedDeliveriesGridWillBeDisplayed(Table table)
+        {
+            var result = this.ResolvedDeliveriesPage.DeliveriesGrid.ContainsSpecFlowTable(table);
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
+        }
+
 
         [When(@"I view the account info modal for resolved row (.*)")]
         public void WhenIViewTheAccountInfoModalForResolvedRow(int row)

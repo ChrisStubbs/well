@@ -5,7 +5,6 @@
 </div>
 
 <div class="jumbotron">
-    <!--<ow-spinner [isRunning]="isLoading"></ow-spinner>-->
     <div class="content" *ngIf="!isLoading">
         <div *ngIf="cleanDeliveries.length == 0">
             <div id="noDeliveries" class="alert alert-info"><strong>No clean deliveries</strong>
@@ -39,7 +38,7 @@
                         </thead>
                         <tbody>
                         <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
-                            <td (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
+                            <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>

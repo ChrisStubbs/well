@@ -1,13 +1,14 @@
 ﻿import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Branch} from './branch/branch';
-import {IUser} from './user';
+import {IUser} from './iuser';
 import {GlobalSettingsService} from './globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from './httpErrorService';
 import {LogService} from './logService';
 import {UserJob} from './userJob';
+import {HttpService} from './httpService';
 
 @Injectable()
 export class UserService {
@@ -16,7 +17,7 @@ export class UserService {
         public globalSettingsService: GlobalSettingsService,
         private logService: LogService,
         private httpErrorService: HttpErrorService,
-        private http: Http) {
+        private http: HttpService) {
     }
 
     public getUsersForBranch(branchId): Observable<IUser[]> {

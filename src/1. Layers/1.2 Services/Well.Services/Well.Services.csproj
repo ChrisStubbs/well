@@ -52,6 +52,7 @@
     <Compile Include="AdamConfiguration.cs" />
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesClose.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Contracts\IUserThresholdService.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
     <Compile Include="CreditTransactionFactory.cs" />
+    <Compile Include="Contracts\IBulkCreditService.cs" />
     <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />

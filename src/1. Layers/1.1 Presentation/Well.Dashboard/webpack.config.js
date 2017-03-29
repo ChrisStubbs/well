@@ -38,6 +38,10 @@ module.exports = {
         //     }
         // ]
     },
+    tslint: {
+        failOnHint: true,
+        configuration: require('./tslint.json')
+    },
     resolve: {
         extensions: ['', '.ts', '.js']
     }

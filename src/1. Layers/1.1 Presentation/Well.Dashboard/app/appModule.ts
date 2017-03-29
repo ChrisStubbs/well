@@ -18,6 +18,7 @@ import {DeliveryComponent} from './delivery/deliveryComponent';
 import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {DeliveryIssuesComponent} from './delivery/deliveryIssuesComponent';
 import {ExceptionsComponent} from './exceptions/exceptionsComponent';
+import {LoadingComponent} from './shared/loadingComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
@@ -46,7 +47,6 @@ import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {AccountFlagsComponent} from './shared/accountFlagsComponent';
 import {OrderArrowComponent} from './shared/orderbyArrow';
 import {SeasonalDatesEditModalComponent} from './seasonal_dates/seasonalDatesEditModalComponent';
-import {SpinnerComponent} from './shared/spinnerComponent';
 import {SeasonalDatesAddModalComponent} from './seasonal_dates/seasonalDatesAddModalComponent';
 import {SeasonalDatesRemoveModalComponent} from './seasonal_dates/seasonalDatesRemoveModalComponent';
 import {SeasonalDatesViewComponent} from './seasonal_dates/seasonalDatesViewComponent';
@@ -65,6 +65,7 @@ import {ApprovalsService} from './approvals/approvalsService';
 import {AccountService} from './account/accountService';
 import {BranchService} from './shared/branch/branchService';
 import {GlobalSettingsService} from './shared/globalSettings';
+import {HttpService} from './shared/httpService';
 import {HttpErrorService} from './shared/httpErrorService';
 import {LogService} from './shared/logService';
 import {RefreshService} from './shared/refreshService';
@@ -76,14 +77,17 @@ import {CleanPreferenceService} from './clean_preferences/cleanPreferenceService
 import { UserService } from './shared/userService';
 import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
+import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
 import {CalendarModule } from './shared/primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
+import {BulkCreditConfirmModal} from './exceptions/bulkCreditConfirmModal';
+import { UserPreferenceService } from './user_preferences/userPreferenceService';
 
 @NgModule({
-    declarations: [SpinnerComponent,
+    declarations: [LoadingComponent,
         OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
@@ -95,16 +99,16 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, ExceptionsConfirmModal
+        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal
     ],
-    imports: [
+    imports: [ 
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
     ],
     providers: [
-        ApprovalsService, GlobalSettingsService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
+        ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService, WidgetWarningService,
-        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService,
+        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService,
+        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService,
     {
         provide: APP_INITIALIZER,
         useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

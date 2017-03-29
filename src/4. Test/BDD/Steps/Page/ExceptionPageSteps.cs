@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Threading;
     using Domain.Enums;
     using NUnit.Framework;
@@ -18,8 +20,23 @@
     {
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
         private UserCreditThresholdPage UserCreditThresholdPage => new UserCreditThresholdPage();
+        private DeliveryDetailsPage DeliveryDetailsPage => new DeliveryDetailsPage();
+
         private IJobRepository jobRepository;
         private readonly IContainer container;
+
+        private Dictionary<string, int> bulkSourceMap = new Dictionary<string, int>
+        {
+            {"Not Defined", 0},
+            {"Input", 1 }
+        };
+
+        private Dictionary<string, int> bulkReasonMap = new Dictionary<string, int>
+        {
+            {"Not Defined", 0},
+            {"No Credit", 1 }
+        };
+
 
         [Given(@"I open the exception deliveries")]
         [When(@"I open the exception deliveries")]
@@ -47,7 +64,7 @@
         [Given(@"the exception is assigned to identity: '(.*)', name: '(.*)'")]
         public void GivenTheExceptionIsAssignedToIdentityName(string userIdentity, string userName)
         {
-            
+
             var dbSteps = new DatabaseSteps();
             dbSteps.GivenIHaveSelectedBranch(22, userIdentity);
             WhenIOpenTheExceptionDeliveries();
@@ -110,7 +127,7 @@
         {
             this.ExceptionDeliveriesPage.Pager.Click(pageNo);
         }
-        
+
         [Then(@"'(.*)' rows of exception delivery data will be displayed")]
         public void ThenRowsOfExceptionDeliveryDataWillBeDisplayed(int noOfRowsExpected)
         {
@@ -139,18 +156,19 @@
             AccountModalSteps.CompareModal(table, modal);
         }
 
+        [Then(@"I click on exception row (.*)")]
         [When(@"I click on exception row (.*)")]
         public void ClickExceptionDetail(int row)
         {
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            rows[row-1].GetItemInRowByClass("first-cell").Click();
+            rows[row - 1].GetItemInRowByClass("first-cell").Click();
         }
 
         [When(@"I view the account info modal for exception row (.*)")]
         public void ViewAccountModal(int row)
         {
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
-            rows[row-1].GetItemInRowByClass("contact-info").Click();
+            rows[row - 1].GetItemInRowByClass("contact-info").Click();
         }
 
         public void SelectAssignLink(int row)
@@ -200,13 +218,28 @@
         [When(@"I assign the delivery to myself")]
         public void AssignToMe()
         {
-            var firstRow = 0;
-            SelectAssignLink(firstRow);
+            const int firstRow = 0;
+            AssignException(firstRow);
+        }
 
+        public void AssignException(int rowIndex)
+        {
+            SelectAssignLink(rowIndex);
             var element = this.ExceptionDeliveriesPage.GetLoggedInAssignUserFromModal();
             ScenarioContextWrapper.SetContextObject(ContextDescriptors.AssignName, element.Text);
 
             element.Click();
+        }
+
+        [Given(@"I assign the following exception lines to myself")]
+        public void GivenIAssignTheFollowingExceptionLinesToMyself(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                var rowIndex = int.Parse(row["LineNo"]) - 1;
+                AssignException(rowIndex);
+                Thread.Sleep(100);
+            }
         }
 
         [When(@"I assign the delivery on row (.*) to myself")]
@@ -235,7 +268,6 @@
 
             element.Click();
         }
-
 
         public void SelectUserToAssign(string username)
         {
@@ -277,7 +309,7 @@
             var element = this.ExceptionDeliveriesPage.EnabledButton;
             element.Click();
 
-           
+
         }
 
         [Then(@"the '(.*)' and '(.*)' button is not visible")]
@@ -290,25 +322,55 @@
         [When(@"click the first credit checkbox")]
         public void WhenClickTheFirstCreditCheckbox()
         {
-             var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox.GetElement().FindElement(By.Id("1"));
-             firstCheckbox.Click();
+            var firstCheckbox = this.ExceptionDeliveriesPage.CreditCheckBox(0).GetElement();
+            firstCheckbox.Click();
         }
 
-        [When(@"I click the '(.*)' button")]
-        public void WhenIClickTheButton(string buttonName)
+        [Given(@"I click the credit checkbox on the following lines")]
+        public void GivenIClickTheCreditCheckboxOnTheFollowingLines(Table table)
         {
-            if (buttonName == "credit")
+            foreach (var row in table.Rows)
             {
-                var creditButton = this.ExceptionDeliveriesPage.CreditButton.GetElement().FindElement(By.Id(buttonName));
-                creditButton.Click();
+                var lineIdx = int.Parse(row["LineNo"]) - 1;
+                var chkBox = this.ExceptionDeliveriesPage.CreditCheckBox(lineIdx).GetElement();
+                chkBox.Click();
             }
-            else
-            {
-                var selectAllButton = this.ExceptionDeliveriesPage.SelectAllButton.GetElement().FindElement(By.Id(buttonName));
-                selectAllButton.Click();
-            }
-           
         }
+
+        [Then(@"The credit check box on line (.*) is disabled")]
+        public void ThenTheCreditCheckBoxOnLineIsDisabled(int lineNo)
+        {
+            var lineIdx = lineNo - 1;
+            var chkBox = this.ExceptionDeliveriesPage.CreditCheckBox(lineIdx).GetElement();
+            Assert.IsFalse(chkBox.Enabled);
+        }
+
+        [When(@"I click the Bulk Credit button")]
+        public void WhenIClickTheBulkCreditButton()
+        {
+            var button = this.ExceptionDeliveriesPage.BulkCreditButton.GetElement();
+            button.Click();
+        }
+
+        [When(@"I click the Select All button")]
+        public void WhenIClickTheSelectAllButton()
+        {
+            var button = this.ExceptionDeliveriesPage.SelectAllButton.GetElement().FindElement(By.Id("selectAll"));
+            button.Click();
+        }
+
+        [When(@"I click the bulk modal Confirm button")]
+        public void WhenIClickTheBulkModalConfirmButton()
+        {
+            this.ExceptionDeliveriesPage.BulkModalComponent.ConfirmButton.Click();
+        }
+
+        [Then(@"the exception deliveries page will show No exceptions found")]
+        public void ThenTheExceptionDeliveriesPageWillShowNoExceptionsFound()
+        {
+            Assert.IsNotNull(this.ExceptionDeliveriesPage.NoExceptionsDiv);
+        }
+
 
         [Then(@"the '(.*)' and '(.*)' button are visible")]
         public void ThenTheAndButtonAreVisible(string creditButton, string selectAllButton)
@@ -322,9 +384,9 @@
         {
             var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
 
-            for (var i = 0; i < numberofCheckboxes-1; i++)
+            for (var i = 0; i < numberofCheckboxes - 1; i++)
             {
-                var creditCheckbox = rows[i].GetItemInRowByClass("exceptionCheckbox");                
+                var creditCheckbox = rows[i].GetItemInRowByClass("exceptionCheckbox");
                 Assert.That(creditCheckbox.Selected, Is.EqualTo(true));
             }
         }
@@ -332,7 +394,17 @@
         [When(@"click the confirm button on the modal popup")]
         public void WhenClickTheConfirmButtonOnTheModalPopup()
         {
-            this.ExceptionDeliveriesPage.CreditModalComponent.ConfirmButton.Click();
+            this.ExceptionDeliveriesPage.BulkModalComponent.ConfirmButton.Click();
+        }
+
+        [When(@"Select the Sources as '(.*)' and reason as '(.*)'")]
+        public void WhenSelectTheSourcesAsAndReasonAs(string source, string reason)
+        {
+            var sourceSelection = this.ExceptionDeliveriesPage.BulkModalComponent.Source(bulkSourceMap[source]);
+            sourceSelection.Click();
+
+            var reasonSelection = this.ExceptionDeliveriesPage.BulkModalComponent.Reason(bulkReasonMap[reason]);
+            reasonSelection.Click();
         }
 
         [Then(@"the first delivery line is COD \(Cash on Delivery\)")]
@@ -341,7 +413,6 @@
             var pageRow = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().First();
             Assert.IsNotNull(pageRow.GetItemInRowById("isCod"));
         }
-
 
         [Then(@"the exception cod delivery icon is not displayed in row (.*)")]
         public void ThenTheExceptionCodDeliveryIconIsNotDisplayedInRow(int firstRow)
@@ -358,7 +429,7 @@
             var row = firstRow - 1;
             var pageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
             var deliveryCheckedIcon = pageRows[row].GetColumnValueByIndex(8);
-            Assert.That(deliveryCheckedIcon, !Is.Empty );
+            Assert.That(deliveryCheckedIcon, !Is.Empty);
         }
 
         [When(@"I click the Save button")]
@@ -367,18 +438,17 @@
             this.UserCreditThresholdPage.SaveButton.Click();
         }
 
-
         [Then(@"the Credit Confirm modal is displayed")]
         public void ThenTheCreditConfirmModalIsDisplayed(Table table)
         {
-            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            var modal = ExceptionDeliveriesPage.BulkModalComponent;
             CreditModalSteps.CompareModal(table, modal);
         }
 
         [When(@"I click the save button on the modal")]
         public void WhenIClickTheSaveButtonOnTheModal()
         {
-            var modal = ExceptionDeliveriesPage.CreditModalComponent;
+            var modal = ExceptionDeliveriesPage.BulkModalComponent;
             modal.ConfirmButton.Click();
         }
 
@@ -455,5 +525,25 @@
         {
             Assert.AreEqual(this.ExceptionDeliveriesPage.DamageAction.Text, action);
         }
+
+        [When(@"I click on each of the deliveries on page (.*) there will be at least one exception delivery line")]
+        public void WhenIClickOnEachOfTheDeliveriesOnPageThereWillBeAtLeastOneDeliveryLine(int pageNo)
+        {
+            this.ExceptionDeliveriesPage.Pager.Click(pageNo);
+            var initialPageRows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            var totalRowCount = initialPageRows.Count;
+
+            for (int i = 0; i < totalRowCount; i++)
+            {
+                var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+                var row = rows[i];
+                row.GetItemInRowByClass("first-cell").Click();
+                this.DeliveryDetailsPage.ClickExceptionsTab();
+                Assert.That(this.DeliveryDetailsPage.Grid.ReturnAllRows().Count, Is.GreaterThan(0));
+                this.DeliveryDetailsPage.Back();
+            }
+        }
+
+
     }
 }

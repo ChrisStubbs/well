@@ -63,5 +63,7 @@
 
         public bool IsHighValue { get; set; }
 
+        public bool HasNoActions => ShortsAction == DeliveryAction.NotDefined &&
+                                    Damages.All(d => d.DamageAction == DeliveryAction.NotDefined);
     }
 }

@@ -28,6 +28,7 @@ export class Delivery
             this.grnProcessType = delivery.grnProcessType;
             this.proofOfDelivery = delivery.proofOfDelivery;
             this.isProofOfDelivery = delivery.isProofOfDelivery;
+            this.canBulkCredit = delivery.canBulkCredit;
 
             if (delivery.exceptionDeliveryLines)
             {
@@ -72,6 +73,7 @@ export class Delivery
     public proofOfDelivery: number;
     public isProofOfDelivery: boolean;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
+    public canBulkCredit: boolean;
 
     public isCleanOnInit(): boolean
     {

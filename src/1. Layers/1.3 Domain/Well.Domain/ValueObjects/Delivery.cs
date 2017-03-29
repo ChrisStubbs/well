@@ -100,5 +100,7 @@
         public bool OuterDiscrepancyFound { get; set; }
 
         public int ToBeAdvisedCount => OuterDiscrepancyFound ? TotalOutersShort : 0;
+
+        public bool CanBulkCredit => Lines.All(l => l.HasNoActions);
     }
 }

@@ -52,9 +52,6 @@
         {
             var result = new ProcessDeliveryActionResult();
 
-            var branchId = this.branchRepository.GetBranchIdForJob(jobId);
-            AdamSettings adamSettings = AdamSettingsFactory.GetAdamSettings((Domain.Enums.Branch) branchId);
-
             var totalThresholdValue = creditLines.Sum(x => x.CreditValueForThreshold());
 
             // is the user allowed to credit this amount or does it need to go to the next threshold user
@@ -66,12 +63,17 @@
             }
             else
             {
+                var branchId = this.branchRepository.GetBranchIdForJob(jobId);
+                AdamSettings adamSettings = AdamSettingsFactory.GetAdamSettings((Domain.Enums.Branch)branchId);
+
                 if (!thresholdResponse.CanUserCredit)
                 {
-                    result.Warnings.Add(
-                        "Your threshold level is not high enough to credit this order. It has been passed on for authorisation.");
-                    this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue,
-                        creditLines.First().JobId);
+                    result.Warnings.Add("Your threshold level is not high enough to credit this order. It has been passed on for authorisation.");
+                    string assignedWarning = this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, jobId);
+                    if (string.IsNullOrWhiteSpace(assignedWarning) == false)
+                    {
+                        result.Warnings.Add(assignedWarning);
+                    }
                 }
                 else
                 {

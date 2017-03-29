@@ -385,22 +385,9 @@
         {
             get
             {
-                //var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DISCFOUND");
-
-                //if (attribute != null)
-                //{
-                //    return attribute.Value != "N";
-                //}
-
-                //return false;
-
-                int totalShort;
-                int detailShort;
-
-                int.TryParse(TotalOutersShort, out totalShort);
-
-                int.TryParse(DetailOutersShort, out detailShort);
-
+                int totalShort = TotalOutersShort??0;
+                int detailShort = DetailOutersShort ?? 0;
+                
                 var discrepancy = (totalShort - detailShort);
 
                 if (discrepancy > 0)
@@ -451,30 +438,41 @@
         }
 
         [XmlIgnore]
-        public string DetailOutersOverUpdate { get; set; }
+        public int? DetailOutersOverUpdate { get; set; }
 
         [XmlIgnore]
-        public string DetailOutersOver
+        public int? DetailOutersOver
         {
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETOVER");
-
-                return attribute?.Value;
+                   if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int detailOutersOver = 0;
+                int.TryParse(attribute?.Value, out detailOutersOver);
+                return detailOutersOver;
             }
         }
 
         [XmlIgnore]
-        public string DetailOutersShortUpdate { get; set; }
+        public int? DetailOutersShortUpdate { get; set; }
 
         [XmlIgnore]
-        public string DetailOutersShort
+        public int? DetailOutersShort
         {
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETSHORT");
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int detailOutersShort = 0;
+                int.TryParse(attribute?.Value, out detailOutersShort);
+                return detailOutersShort;
 
-                return attribute?.Value;
             }
         }
 

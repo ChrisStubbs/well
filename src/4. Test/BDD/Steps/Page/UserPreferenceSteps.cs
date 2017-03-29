@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using System;
     using System.Linq;
     using System.Threading;
 
@@ -103,7 +104,7 @@
             {
                 var name = row.GetColumnValueByIndex((int)UserPreferenceGrid.Name);
 
-                if (name == username)
+                if (string.Equals(name, username, StringComparison.OrdinalIgnoreCase))
                 {
                     row.Click();
                     break;
@@ -111,7 +112,6 @@
             }
 
             this.userPreferencesPage.ModalPreferenceYesButton.Click();
-
         }
 
         [When(@"I select Level '(.*)' from the dropdown list")]

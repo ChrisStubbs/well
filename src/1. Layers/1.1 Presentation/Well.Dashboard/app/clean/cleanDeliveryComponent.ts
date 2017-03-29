@@ -94,7 +94,9 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
                 if (!_.isUndefined(this.routeDate)) {
                     this.cleanDeliveries = _.filter(this.cleanDeliveries,
                         x => {
-                            return x.routeDate === this.routeDate && x.branchId === Number(this.branchId) && x.routeNumber === this.routeNumber;
+                            return x.routeDate === this.routeDate &&
+                                x.branchId === Number(this.branchId) &&
+                                x.routeNumber === this.routeNumber;
                         });
                 }
                 

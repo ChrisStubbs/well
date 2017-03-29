@@ -405,7 +405,6 @@
     <Content Include="Content\css\bootstrap.flatten.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\imports.css" />
-    <Content Include="Content\css\jquery-ui.min.css" />
     <Content Include="Content\css\primeng.css" />
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\css\ngprime-theme.css" />

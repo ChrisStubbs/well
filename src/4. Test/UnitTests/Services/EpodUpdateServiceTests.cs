@@ -10,6 +10,8 @@
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
+    using Well.Domain.Enums;
+    using Well.Domain.ValueObjects;
 
     [TestFixture]
     public class EpodUpdateServiceTests
@@ -55,7 +57,7 @@
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
             this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
-            this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Loose);
+            this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             this.podTransactionFactory = new Mock<IPodTransactionFactory>(MockBehavior.Strict);
             this.deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
@@ -167,6 +169,154 @@
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
+        }
+
+        [Test]
+        public void ShouldProcessPodCorrectly()
+        {
+            var branchId = 55;
+            var route = new RouteDelivery();
+
+            var routeHeader = RouteHeaderFactory.New.Build();
+
+            var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
+
+            var stop = StopFactory.New.Build();
+
+            routeHeader.Stops.Add(stop);
+
+            var existingStop = new Stop();
+
+            route.RouteHeaders.Add(routeHeader);
+
+            var job = JobFactory.New.Build();
+
+            stop.Jobs.Add(job);
+
+            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola} ;
+
+            this.exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
+
+            this.routeHeaderRepository.Setup(
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
+
+            this.mapper.Setup(x => x.Map(routeHeader, existingRouteHeader));
+
+            this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
+
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+                .Returns(existingStop);
+
+            this.mapper.Setup(x => x.Map(stop, existingStop));
+
+            this.stopRepository.Setup(x => x.Update(existingStop));
+
+            this.jobRepository.Setup(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0))
+                .Returns(existingJob);
+
+            this.mapper.Setup(x => x.Map(job, existingJob));
+
+            this.jobRepository.Setup(x => x.Update(existingJob));
+
+            // HACK: DIJ TOTAL HACK FOR NOW!!!
+
+            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+
+            this.service.Update(route);
+
+            this.routeHeaderRepository.Verify(
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
+
+            this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
+
+            this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
+
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
+
+            this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
+
+            this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
+
+            this.jobRepository.Verify(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0), Times.Once);
+
+            this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
+
+            this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
+
+            this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
+
+        }
+
+        [Test]
+        public void ShouldNotProcessCompletedOnPaperPod()
+        {
+            var branchId = 55;
+            var route = new RouteDelivery();
+
+            var routeHeader = RouteHeaderFactory.New.Build();
+
+            var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
+
+            var stop = StopFactory.New.Build();
+
+            routeHeader.Stops.Add(stop);
+
+            var existingStop = new Stop();
+
+            route.RouteHeaders.Add(routeHeader);
+
+            var job = JobFactory.New.Build();
+
+            stop.Jobs.Add(job);
+
+            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, JobStatus = JobStatus.CompletedOnPaper};
+
+            this.routeHeaderRepository.Setup(
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
+
+            this.mapper.Setup(x => x.Map(routeHeader, existingRouteHeader));
+
+            this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
+
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+                .Returns(existingStop);
+
+            this.mapper.Setup(x => x.Map(stop, existingStop));
+
+            this.stopRepository.Setup(x => x.Update(existingStop));
+
+            this.jobRepository.Setup(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0))
+                .Returns(existingJob);
+
+            this.mapper.Setup(x => x.Map(job, existingJob));
+
+            this.jobRepository.Setup(x => x.Update(existingJob));
+
+            // HACK: DIJ TOTAL HACK FOR NOW!!!
+
+            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+
+            this.service.Update(route);
+
+            this.routeHeaderRepository.Verify(
+                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
+
+            this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
+
+            this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
+
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
+
+            this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
+
+            this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
+
+            this.jobRepository.Verify(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0), Times.Once);
+
+            this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
+
+            this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
+
         }
     }
 }

@@ -190,7 +190,7 @@
                 //TODO POD event
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
 
-                if (pod == (int)ProofOfDelivery.CocaCola)
+                if (pod == (int)ProofOfDelivery.CocaCola && existingJob.JobStatus != JobStatus.CompletedOnPaper)
                 {
                     //TODO LRS customer (lucozade) 
                     //build pod transaction

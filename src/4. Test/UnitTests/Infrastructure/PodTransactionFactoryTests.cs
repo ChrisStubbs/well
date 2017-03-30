@@ -7,6 +7,7 @@
     using Repositories;
     using Repositories.Contracts;
     using Well.Domain;
+    using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
 
     [TestFixture]
@@ -70,7 +71,7 @@
 
             this.jobDetailRepository.Setup(x => x.GetByJobId(1)).Returns(jobDetails);
 
-            var podLines = this.factory.GetPodDeliveryLineCredits(1);
+            var podLines = this.factory.GetPodDeliveryLineCredits(1, (int)JobStatus.Exception);
 
             this.jobDetailRepository.Verify(x => x.GetByJobId(1), Times.Once );
 

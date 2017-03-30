@@ -40,7 +40,7 @@
 
             var lineDictionary = new Dictionary<int, string>();
 
-            var podLines = GetPodDeliveryLineCredits(job.Id).ToList();
+            var podLines = GetPodDeliveryLineCredits(job.Id, (int)job.JobStatus).ToList();
 
             var podCount = podLines.Count();
 
@@ -74,14 +74,14 @@
             return podTransaction;
         }
 
-        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCredits(int jobId)
+        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCredits(int jobId, int jobStatus)
         {
             var jobDetails = this.jobDetailRepository.GetByJobId(jobId);
             var podLines = new List<PodDeliveryLineCredit>();
 
             foreach (var line in jobDetails)
             {
-                // is it short, is it damaged?
+                // is it short, is it damaged, or bypassed?
                 // if so create the pod line
 
                 if (line.JobDetailDamages.Any())
@@ -93,7 +93,7 @@
                     }
                 }
 
-                if (line.ShortQty > 0)
+                if (line.ShortQty > 0 || jobStatus == (int)JobStatus.Bypassed)
                 {
                    var podLine = new PodDeliveryLineCredit { JobId = jobId, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
                     podLines.Add(podLine);

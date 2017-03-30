@@ -77,7 +77,7 @@
                 Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Driver),
                     Is.EqualTo(table.Rows[i]["Driver"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.NoOfDrops),
-                    Is.EqualTo(table.Rows[i]["NoOfDrops"]));
+                    Is.EqualTo(table.Rows[i]["Drops"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Exceptions),
                     Is.EqualTo(table.Rows[i]["Exceptions"]));
                 Assert.That(pageRows[i].GetColumnValueByIndex((int) RoutesGrid.Clean),

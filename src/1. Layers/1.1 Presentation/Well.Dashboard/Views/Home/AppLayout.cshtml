@@ -13,7 +13,8 @@
                 <div class="logo"><img src="" /></div>
             </a>
             <div id="headerHolder">
-                <span style="color: white; font-weight: bold">{{version}}</span> &nbsp; <span style="color: white; font-weight: bold">{{branches}}</span>
+                <a id="branch-selection" routerLink="/branch" routerLinkActive="active" class="btn btn-default">Branch</a>
+                <span style="color: white; font-weight: bold">{{branches}}</span>
             </div>
             <div id="user-details" class="pull-right">
                 <div>Logged in as <span id="current-user-name">@Html.EmployeeDisplayName()</span></div>
@@ -32,7 +33,6 @@
                 <li><a routerLink="/resolved" routerLinkActive="active">Resolved</a></li>
                 <li><a routerLink="/notifications" routerLinkActive="active">Notifications</a></li>
                 <li><a routerLink="/audits" routerLinkActive="active">Audits</a></li>
-                <li><a id="branch-selection" routerLink="/branch" routerLinkActive="active">Your Branch Selection</a></li>
                 <li *ngIf="IsWellAdmin" class="dropdown pull-right" style="margin-right: 125px;" id="admin-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="admin-dropdown-anchor">
                         Admin <span class="caret"></span>
@@ -53,3 +53,10 @@
     <router-outlet></router-outlet>
 </div>
 <input type="hidden" value="loaded" id="page-loaded" />
+<footer class="navbar-inverse navbar-fixed-bottom hidden-print">
+    <div class="container">
+        <div class="pull-right">
+            <span>{{version}}</span>
+        </div>
+    </div>
+</footer>

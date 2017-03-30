@@ -52,8 +52,8 @@
 
     public enum CleanDeliveriesGrid
     {
-        Route = 0,
-        Branch = 1,
+        Branch = 0,
+        Route = 1,
         Drop = 2,
         InvoiceNo = 3,
         Account = 4,

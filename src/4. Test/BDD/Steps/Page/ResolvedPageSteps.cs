@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.BDD.Steps.Page
 {
+    using System;
     using Framework.Extensions;
     using NUnit.Framework;
     using Pages;
@@ -31,35 +32,41 @@
         [Then(@"The following resolved deliveries ordered by date will be displayed in '(.*)' order")]
         public void ThenTheFollowingResolvedDeliveriesOrderedByDateWillBeDisplayedInOrder(string direction, Table table)
         {
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
+            var result = this.ResolvedDeliveriesPage.DeliveriesGrid.ContainsSpecFlowTable(table, (left, right) => left.Equals(right, StringComparison.InvariantCultureIgnoreCase));
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
 
-                Assert.That(row.Route.Text, Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(row.Drop.Text, Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(row.Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(row.Code.Text, Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(row.Name.Text, Is.EqualTo(table.Rows[i]["AccountName"]));
-                Assert.That(row.Job.Text, Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
-            }
+            //for (int i = 0; i < table.RowCount; i++)
+            //{
+            //    var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
+
+            //    Assert.That(row.Route.Text, Is.EqualTo(table.Rows[i]["Route"]));
+            //    Assert.That(row.Drop.Text, Is.EqualTo(table.Rows[i]["Drop"]));
+            //    Assert.That(row.Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+            //    Assert.That(row.Code.Text, Is.EqualTo(table.Rows[i]["Account"]));
+            //    Assert.That(row.Name.Text, Is.EqualTo(table.Rows[i]["AccountName"]));
+            //    Assert.That(row.Job.Text, Is.EqualTo(table.Rows[i]["Status"]));
+            //    Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
+            //}
         }
         
         [Then(@"the following resolved deliveries will be displayed")]
         public void ThenTheFollowingResolvedDeliveriesWillBeDisplayed(Table table)
         {
-            for (int i = 0; i < table.RowCount; i++)
-            {
-                var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
+            var result = this.ResolvedDeliveriesPage.DeliveriesGrid.ContainsSpecFlowTable(table, (left, right) => left.Equals(right, StringComparison.InvariantCultureIgnoreCase));
+            Assert.That(result.HasError, Is.False, result.ErrorsDesc);
 
-                Assert.That(row.Route.Text, Is.EqualTo(table.Rows[i]["Route"]));
-                Assert.That(row.Drop.Text, Is.EqualTo(table.Rows[i]["Drop"]));
-                Assert.That(row.Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
-                Assert.That(row.Code.Text, Is.EqualTo(table.Rows[i]["Account"]));
-                Assert.That(row.Name.Text, Is.EqualTo(table.Rows[i]["AccountName"]));
-                Assert.That(row.Job.Text, Is.EqualTo(table.Rows[i]["Status"]));
-                Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
-            }
+            //for (int i = 0; i < table.RowCount; i++)
+            //{
+            //    var row = this.ResolvedDeliveriesPage.GetGridRow(int.Parse(table.Rows[i]["Id"]));
+
+            //    Assert.That(row.Route.Text, Is.EqualTo(table.Rows[i]["Route"]));
+            //    Assert.That(row.Drop.Text, Is.EqualTo(table.Rows[i]["Drop"]));
+            //    Assert.That(row.Invoice.Text, Is.EqualTo(table.Rows[i]["InvoiceNo"]));
+            //    Assert.That(row.Code.Text, Is.EqualTo(table.Rows[i]["Account"]));
+            //    Assert.That(row.Name.Text, Is.EqualTo(table.Rows[i]["AccountName"]));
+            //    Assert.That(row.Job.Text, Is.EqualTo(table.Rows[i]["Status"]));
+            //    Assert.That(row.Assigned.Text, Is.EqualTo(table.Rows[i]["Assigned"]));
+            //}
         }
 
         [Then(@"the following resolved deliveries grid will be displayed")]

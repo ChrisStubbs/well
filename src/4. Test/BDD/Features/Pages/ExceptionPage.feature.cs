@@ -963,28 +963,103 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Each exception delivery should have at least one exception delivery line")]
-        public virtual void EachExceptionDeliveryShouldHaveAtLeastOneExceptionDeliveryLine()
+        [NUnit.Framework.DescriptionAttribute("A user can view Exception Delivery Information with shorts to be advised when DET" +
+            "SHORT and TOTSHORT are set in epod files")]
+        public virtual void AUserCanViewExceptionDeliveryInformationWithShortsToBeAdvisedWhenDETSHORTAndTOTSHORTAreSetInEpodFiles()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Each exception delivery should have at least one exception delivery line", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user can view Exception Delivery Information with shorts to be advised when DET" +
+                    "SHORT and TOTSHORT are set in epod files", ((string[])(null)));
 #line 199
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line 200
-   testRunner.Given("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 201
-   testRunner.And("I have selected branches \'22\' and \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'55\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 202
-   testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I import the route file \'ROUTE_PLYM_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 203
-   testRunner.And("20 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the order file \'ORDER_PLY_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Filename"});
+            table13.AddRow(new string[] {
+                        "ePOD__TBA1.xml"});
 #line 204
+ testRunner.And("I have imported the following valid Epod files", ((string)(null)), table13, "And ");
+#line 207
+ testRunner.When("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Route",
+                        "Branch",
+                        "Drop",
+                        "InvoiceNo",
+                        "Account",
+                        "AccountName",
+                        "CreditValue",
+                        "Status",
+                        "TBA"});
+            table14.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "1715069",
+                        "47020.053",
+                        "COSTCUTTER",
+                        "0",
+                        "Incomplete",
+                        "3"});
+            table14.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "2845610",
+                        "47020.053",
+                        "COSTCUTTER",
+                        "158.46",
+                        "Incomplete",
+                        "0"});
+            table14.AddRow(new string[] {
+                        "111",
+                        "55",
+                        "4",
+                        "4800016",
+                        "47663.040",
+                        "COSTCUTTER",
+                        "25.32",
+                        "Incomplete",
+                        "0"});
+#line 208
+ testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table14, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Each exception delivery should have at least one exception delivery line")]
+        public virtual void EachExceptionDeliveryShouldHaveAtLeastOneExceptionDeliveryLine()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Each exception delivery should have at least one exception delivery line", ((string[])(null)));
+#line 214
+this.ScenarioSetup(scenarioInfo);
+#line 8
+this.FeatureBackground();
+#line 215
+   testRunner.Given("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 216
+   testRunner.And("I have selected branches \'22\' and \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 217
+   testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 218
+   testRunner.And("20 deliveries have been marked as exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 219
    testRunner.And("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 205
+#line 220
    testRunner.When("I click on each of the deliveries on page 1 there will be at least one exception " +
                     "delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 206
+#line 221
    testRunner.And("I click on each of the deliveries on page 1 there will be at least one exception " +
                     "delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden

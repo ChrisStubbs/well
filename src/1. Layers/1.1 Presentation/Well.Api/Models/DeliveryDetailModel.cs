@@ -48,6 +48,10 @@
 
         public bool IsProofOfDelivery { get; set; }
 
+        public int ToBeAdvisedCount { get; set; }
+
+        public int DetailOutersShort { get; set; }
+
         public bool CanAction { get; set; }
 
         public bool CanSubmit { get {return CanAction && ExceptionDeliveryLines.Any(dl => dl.Actions.Any(a => a.Status == ActionStatus.Draft)); } }

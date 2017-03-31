@@ -12,14 +12,15 @@
             <button id="find-user" type="button" class="btn btn-success btn-sm" (click)="find()">Find</button>
         </div>
     </div>
+
     <div *ngIf="users && users.length">
         <div class="table-responsive table-container" style="min-height: 200px;">
             <table class="table table-hover table-striped" *ngIf="users.length > 0" id="table-user-preferences">
                 <thead>
                     <tr>
-                        <td>Name</td>
-                        <td>Job Description</td>
-                        <td>Domain</td>
+                        <th>Name</th>
+                        <th>Job Description</th>
+                        <th>Domain</th>
                     </tr>
                 </thead>
                 <tbody>

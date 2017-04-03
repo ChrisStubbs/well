@@ -1,13 +1,24 @@
 import { DropDownItem }     from "./dropDownItem";
 import {FilterOption}       from '../shared/filterOption';
 
-export interface IOptionFilter {
+export interface ISort
+{
+    sortField: string;
+    sortDirection: string;
+    //onSortDirectionChanged(isDesc: boolean);
+}
+
+export interface IPaging
+{
+    currentPage: number;
+}
+
+export interface IOptionFilter extends ISort, IPaging
+{
     options: DropDownItem[];
     filterOption: FilterOption;
     selectedOption: DropDownItem;
     selectedFilter: string;
-    currentPage: number;
-    onSortDirectionChanged(isDesc: boolean);
 }
 
 export interface INavigationPager {

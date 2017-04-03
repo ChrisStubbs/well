@@ -17,18 +17,15 @@ import { ConfirmModal }                             from '../shared/confirmModal
 import { IUser }                                    from '../shared/iuser';
 import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
 import { SecurityService }                          from '../shared/security/securityService';
-import { Threshold }                                from '../shared/threshold';
-import { DeliveryLine }                             from '../delivery/model/deliveryLine'; 
 import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
-import * as _ from 'lodash';
+import * as _                                       from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
-import 'rxjs/Rx';
 import {DeliveryAction}                             from '../delivery/model/deliveryAction';
 import {BulkCredit}                                 from './bulkCredit';
-import {JobDetailReason}                            from '../delivery/model/jobDetailReason';
-import {JobDetailSource}                            from '../delivery/model/jobDetailSource';
-import {DeliveryService}                            from '../delivery/deliveryService'; // Load all features
+import {DeliveryService}                            from '../delivery/deliveryService';
 import {BulkCreditConfirmModal}                     from './bulkCreditConfirmModal';
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'ow-exceptions',
@@ -56,7 +53,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public confirmModalIsVisible: boolean = false;
     public selectGridBox: boolean = false;
     @ViewChild(ConfirmModal)
-    private confirmModal: ConfirmModal;
+    //private confirmModal: ConfirmModal;
     @ViewChild(ContactModal)
     private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal)
@@ -65,6 +62,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     @ViewChild(BulkCreditConfirmModal)
     private bulkCreditConfirmModal: BulkCreditConfirmModal;
     public routeDate: Date;
+    private orderBy: OrderByExecutor;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -90,6 +88,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             new DropDownItem('Date', 'deliveryDate', false, 'date'),
             new DropDownItem('Credit Value', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
         ];
+        this.sortField = 'deliveryDate'
+        this.orderBy = new OrderByExecutor();
     }
 
     public ngOnInit(): void
@@ -165,11 +165,10 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 this.threshold = responseData[0];
             });
     }
-   
     public onSortDirectionChanged(isDesc: boolean)
     {   
         super.onSortDirectionChanged(isDesc);
-        this.exceptions = _.orderBy(this.exceptions, ['deliveryDate'], [super.getSort()]);
+        this.exceptions = this.orderBy.Order(this.exceptions, this);
     }
 
     public onFilterClicked(filterOption: FilterOption)

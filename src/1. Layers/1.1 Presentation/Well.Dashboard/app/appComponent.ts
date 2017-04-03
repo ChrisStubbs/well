@@ -3,7 +3,6 @@ import {GlobalSettingsService}                  from './shared/globalSettings';
 import {BranchService}                          from './shared/branch/branchService';
 import {SecurityService}                        from './shared/security/securityService'
 import 'rxjs/Rx';   // Load all features
-import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
     selector: 'ow-app',

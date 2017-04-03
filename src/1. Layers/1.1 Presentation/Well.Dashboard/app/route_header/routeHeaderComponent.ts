@@ -6,15 +6,12 @@ import {GlobalSettingsService}                      from '../shared/globalSettin
 import {Route}                                      from './route';
 import {RouteHeaderService}                         from './routeHeaderService';
 import {DropDownItem}                               from '../shared/dropDownItem';
-import { FilterOption }                             from '../shared/filterOption';
 import {RefreshService}                             from '../shared/refreshService';
 import {DeliverySelectionModal}                     from './delivery-selection-modal';
-import {OrderArrowComponent}                        from '../shared/orderbyArrow';
 import {SecurityService}                            from '../shared/security/securityService';
-import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
-import * as lodash                                  from 'lodash';
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
 import 'rxjs/Rx';
- 
+
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
@@ -27,16 +24,16 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public routes: Route[];
     public lastRefresh = Date.now();
     public isReadOnlyUser: boolean = false;
+    private orderBy: OrderByExecutor;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
         private routerHeaderService: RouteHeaderService,
         private refreshService: RefreshService,
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private securityService: SecurityService,
-        private nqps: NavigateQueryParametersService ) {
-
+        private nqps: NavigateQueryParametersService )
+    {
             super(nqps);
             this.options = [
                 new DropDownItem('Route', 'route'),
@@ -68,7 +65,7 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public onSortDirectionChanged(isDesc: boolean)
     {
         super.onSortDirectionChanged(isDesc);
-        this.routes = lodash.orderBy(this.routes, ['routeDate'], [super.getSort()]);
+        this.routes = this.orderBy.Order(this.routes, this);
     }
 
     public getRoutes(): void {

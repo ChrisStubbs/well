@@ -4,23 +4,28 @@ import { NavigateQueryParameters }          from './NavigateQueryParameters';
 import { IOptionFilter, INavigationPager }  from './IOptionFilter';
 import { FilterOption }                     from './filterOption';
 import { DropDownItem }                     from './dropDownItem';
- 
+
 export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy, INavigationPager {
     public options: DropDownItem[];
     public filterOption: FilterOption = new FilterOption();
     public selectedOption: DropDownItem;
     public selectedFilter: string;
     public currentPage: number;
-    public sort: string;
+    public sortDirection: string;
+    public sortField: string;
     private navigationSubscriber: any;
     public readonly rowCount: number = 10;
 
-    constructor(private navigateQueryParametersService: NavigateQueryParametersService) {}
+    constructor(private navigateQueryParametersService: NavigateQueryParametersService)
+    {
+        this.sortField = '';
+        this.sortDirection = 'asc'
+    }
 
     public onSortDirectionChanged(isDesc: boolean): void
     {
-        this.sort = isDesc ? 'desc' : 'asc';
-        const item = new NavigateQueryParameters(undefined, 1, this.sort);
+        this.sortDirection = isDesc ? 'desc' : 'asc';
+        const item = new NavigateQueryParameters(undefined, 1, this.sortDirection);
         NavigateQueryParametersService.SaveSort(item);
         this.navigateQueryParametersService.Navigate(this);
     }
@@ -35,7 +40,8 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
     };
 
     public ngOnInit(): void {
-        this.navigateQueryParametersService.Navigate(this);
+        const that = this;
+        this.navigateQueryParametersService.Navigate(that);
 
         this.navigationSubscriber = this.navigateQueryParametersService.BrowserNavigation
             .subscribe(p => this.navigateQueryParametersService.Navigate(this));
@@ -50,6 +56,6 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
 
     public getSort(): string
     {
-        return this.sort;
+        return this.sortDirection;
     }
 }

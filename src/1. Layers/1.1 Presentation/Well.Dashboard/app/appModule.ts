@@ -42,6 +42,7 @@ import {OptionFilterComponent} from './shared/optionFilterComponent';
 import {CustomDatePipe} from './shared/customDatePipe';
 import {OptionFilterPipe} from './shared/optionFilterPipe';
 import {OrderByDatePipe} from './shared/orderByDatePipe';
+import {OrderByPipe } from './shared/orderByPipe';
 import {OutstandingPipe} from './shared/outstandingPipe';
 import {DeliverySelectionModal} from './route_header/delivery-selection-modal';
 import {AccountFlagsComponent} from './shared/accountFlagsComponent';
@@ -88,7 +89,7 @@ import { UserPreferenceService } from './user_preferences/userPreferenceService'
 
 @NgModule({
     declarations: [LoadingComponent,
-        OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe,
+        OptionFilterComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent, 
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,

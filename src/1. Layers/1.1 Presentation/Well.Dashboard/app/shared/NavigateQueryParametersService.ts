@@ -96,6 +96,7 @@ export  class NavigateQueryParametersService {
         let selectedOption = DropDownItem.CreateDefaultOption();
         let filterText = '';
         let currentPage = 1;
+        let currentSort = '';
 
         if (!_.isUndefined(qs)) {
             //lets get the filter
@@ -118,6 +119,8 @@ export  class NavigateQueryParametersService {
             //now lets get the page
             currentPage = NavigateQueryParametersService.GetCurrentPage(qs);
 
+            // and finally lets get the sort
+            currentSort = NavigateQueryParametersService.GetCurrentSort(qs);
         }
 
         optionFilter.filterOption.filterText = filterText;
@@ -126,6 +129,7 @@ export  class NavigateQueryParametersService {
         optionFilter.selectedFilter = filterText;
         optionFilter.selectedOption = selectedOption;
         optionFilter.currentPage = currentPage;
+        optionFilter.sortDirection = currentSort;
     }
 
     private static GetQueryStringObject() {
@@ -222,6 +226,18 @@ export  class NavigateQueryParametersService {
         }
 
         return 1;
+    }
+
+    private static GetCurrentSort(qs: any): string
+    {
+        return qs[NavigateQueryParametersService.paramSort] || 'desc';
+    }
+
+    public static GetCurrentSorting(): string
+    {
+        const qs = NavigateQueryParametersService.GetQueryStringObject();
+
+        return this.GetCurrentSort(qs);
     }
 
     private static SerializeQueryParams(params: any): string {

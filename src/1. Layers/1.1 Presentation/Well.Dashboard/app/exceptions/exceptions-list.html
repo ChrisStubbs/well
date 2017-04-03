@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }; let i = index">
+                            <tr class="grid-row" *ngFor="let delivery of exceptions | outstanding: [outstandingFilter, 'deliveryDate'] | optionFilter:filterOption | orderBy: this | paginate: { itemsPerPage: rowCount, currentPage: currentPage }; let i = index">
                                 <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                                 <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>

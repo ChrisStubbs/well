@@ -37,7 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage } " (click)="routeSelected(route)">
+                            <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | orderBy: this |  paginate: { itemsPerPage: rowCount, currentPage: currentPage } " (click)="routeSelected(route)">
                                 <td>{{route.routeOwnerId}}</td>
                                 <td>{{route.route}}</td>
                                 <td>{{route.routeDate | date:'yMMMd'}}</td>

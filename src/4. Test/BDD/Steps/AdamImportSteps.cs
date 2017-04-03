@@ -233,7 +233,7 @@
             using (var reader = new StreamReader(Path.Combine(filePath, epodFile)))
             {
                 var routes = (RouteDelivery)xmlSerializer.Deserialize(reader);
-                this.epodUpdateService.Update(routes);
+                this.epodUpdateService.Update(routes, epodFile);
             }
         }
 

@@ -13,7 +13,7 @@
         public static string RouteHeaderUpdate = "RouteHeader_Update";
         public static string RouteHeaderGetById = "RouteHeader_GetById";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
-        public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
+        public static string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
         public static string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
         public static string RouteHeaderDeleteById = "RouteHeader_DeleteById";
         public static string RoutesGet = "Routes_Get";

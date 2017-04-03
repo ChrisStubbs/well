@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
+    using System.Diagnostics;
     using Moq;
 
     using NUnit.Framework;
@@ -10,6 +11,7 @@
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
+    using Well.Common;
     using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
 
@@ -63,52 +65,67 @@
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
 
-            this.service = new EpodUpdateService(this.logger.Object, 
-                this.eventLogger.Object, 
+            this.service = new EpodUpdateService(this.logger.Object,
+                this.eventLogger.Object,
                 this.routeHeaderRepository.Object,
                 this.stopRepository.Object,
-                this.jobRepository.Object, 
-                this.jobDetailRepository.Object, 
-                this.jobDetailDamageRepository.Object, 
+                this.jobRepository.Object,
+                this.jobDetailRepository.Object,
+                this.jobDetailDamageRepository.Object,
                 this.exceptionEventRepository.Object,
-                this.mapper.Object, 
-                this.adamImportService.Object, 
+                this.mapper.Object,
+                this.adamImportService.Object,
                 this.podTransactionFactory.Object,
                 this.deliveryStatusService.Object,
                 this.userNameProvider.Object);
         }
 
         [Test]
-        public void ShouldAddNewHeaderWhenHeaderDoesNotExist()
+        public void ShouldNotUpdateRouteHeaderAndLogIfHeaderDoesNotExist()
         {
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
-
+            var branchId = 0;
+            routeHeader.TryParseBranchIdFromRouteNumber(out branchId);
             route.RouteHeaders.Add(routeHeader);
 
             this.routeHeaderRepository.Setup(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
+                x => x.GetRouteHeaderByRoute(branchId,
+                    routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
+            this.logger.Setup(x => x.LogDebug(It.IsAny<string>()));
             this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
+            this.eventLogger.Setup(x => x.TryWriteToEventLog(It.IsAny<EventSource>(), It.IsAny<string>(), It.IsAny<int>(), EventLogEntryType.Error)).Returns(true);
 
-            this.service.Update(route);
+            const string filename = "epod_file.xml";
+
+            this.service.Update(route, filename);
 
             this.routeHeaderRepository.Verify(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
-            this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Once);
+            this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Never);
+            var logError = $"RouteDelivery Ignored could not find matching RouteHeader," +
+                            $"Branch: {branchId} " +
+                            $"RouteNumber: {routeHeader.RouteNumber.Substring(2)} " +
+                            $"RouteDate: {routeHeader.RouteDate} " +
+                            $"FileName: {filename}";
+
+            this.logger.Verify(x => x.LogDebug(logError), Times.Once);
+
+            this.eventLogger.Verify(x => x.TryWriteToEventLog(EventSource.WellAdamXmlImport, logError, 9682, EventLogEntryType.Error), Times.Once);
         }
 
         [Test]
-        [TestCase(55)]
+        [TestCase(20)]
         public void ShouldProcessCorrectly(int branchId)
         {
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
 
-            var existingRouteHeader = RouteHeaderFactory.New.With(x=>x.StartDepotCode = branchId.ToString()).Build();
+            var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
 
             var stop = StopFactory.New.Build();
 
@@ -125,7 +142,7 @@
             var existingJob = new Job();
 
             this.routeHeaderRepository.Setup(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
 
             this.mapper.Setup(x => x.Map(routeHeader, existingRouteHeader));
 
@@ -148,11 +165,12 @@
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            const string filename = "epod_file.xml";
 
-            this.service.Update(route);
+            this.service.Update(route, filename);
 
             this.routeHeaderRepository.Verify(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
             this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
 
@@ -174,10 +192,12 @@
         [Test]
         public void ShouldProcessPodCorrectly()
         {
-            var branchId = 55;
+          
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
+            var branchId = 0;
+            routeHeader.TryParseBranchIdFromRouteNumber(out branchId);
 
             var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
 
@@ -193,12 +213,12 @@
 
             stop.Jobs.Add(job);
 
-            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola} ;
+            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola };
 
             this.exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
 
             this.routeHeaderRepository.Setup(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
 
             this.mapper.Setup(x => x.Map(routeHeader, existingRouteHeader));
 
@@ -221,11 +241,12 @@
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            const string filename = "epod_file.xml";
 
-            this.service.Update(route);
+            this.service.Update(route, filename);
 
             this.routeHeaderRepository.Verify(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
             this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
 
@@ -250,10 +271,11 @@
         [Test]
         public void ShouldNotProcessCompletedOnPaperPod()
         {
-            var branchId = 55;
+            
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
+            var branchId = 20;
 
             var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
 
@@ -269,10 +291,10 @@
 
             stop.Jobs.Add(job);
 
-            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, JobStatus = JobStatus.CompletedOnPaper};
+            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, JobStatus = JobStatus.CompletedOnPaper };
 
             this.routeHeaderRepository.Setup(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
 
             this.mapper.Setup(x => x.Map(routeHeader, existingRouteHeader));
 
@@ -295,11 +317,12 @@
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            const string filename = "epod_file.xml";
 
-            this.service.Update(route);
+            this.service.Update(route, filename);
 
             this.routeHeaderRepository.Verify(
-                x => x.GetRouteHeaderByRoute(routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
+                x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
             this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
 

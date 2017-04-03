@@ -128,7 +128,7 @@
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <Build Include="dbo\Tables\PerformanceStatus.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_GetByRouteNumberAndDate.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetByBranchRouteNumberAndDate.sql" />
     <Build Include="dbo\StoredProcedures\StopGetByJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />

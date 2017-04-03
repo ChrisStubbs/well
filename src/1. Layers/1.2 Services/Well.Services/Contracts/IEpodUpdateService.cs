@@ -4,6 +4,6 @@
 
     public interface IEpodUpdateService
     {
-        void Update(RouteDelivery route);
+        void Update(RouteDelivery route, string fileName);
     }
 }

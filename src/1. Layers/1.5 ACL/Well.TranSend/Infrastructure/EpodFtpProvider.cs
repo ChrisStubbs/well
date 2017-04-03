@@ -28,7 +28,7 @@
         private readonly IEpodUpdateService epodUpdateService;
 
         public EpodFtpProvider(
-            ILogger logger, 
+            ILogger logger,
             IEpodUpdateService epodUpdateService,
             IFtpClient ftpClient,
             IWebClient webClient,
@@ -95,7 +95,7 @@
 
                         routes.RouteId = route.Id;
 
-                        this.epodUpdateService.Update(routes);
+                        this.epodUpdateService.Update(routes, filename);
                     }
 
                     this.ftpClient.DeleteFile(filename);

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Threading;
@@ -43,8 +44,7 @@
         private readonly IJobStatusService jobStatusService;
 
         private readonly IUserNameProvider userNameProvider;
-
-        private const string UpdatedBy = "EpodUpdate";
+        private const int EventLogErrorId = 9682;
 
         public EpodUpdateService(
             ILogger logger,
@@ -76,39 +76,45 @@
             this.userNameProvider = userNameProvider;
         }
 
-        public void Update(RouteDelivery route)
+        public void Update(RouteDelivery route, string fileName)
         {
             foreach (var header in route.RouteHeaders)
             {
-                var existingHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(
-                    header.RouteNumber.Substring(2),
-                    header.RouteDate);
-
-                if (existingHeader == null)
-                {
-                    this.adamImportService.ImportRouteHeader(header, route.RouteId);
-                    continue;
-                }
-
-                this.mapper.Map(header, existingHeader);
-
-                this.routeHeaderRepository.Update(existingHeader);
-
                 int branchId;
-
-                if (int.TryParse(existingHeader.StartDepotCode, out branchId))
+                if (header.TryParseBranchIdFromRouteNumber(out branchId))
                 {
+                    var existingHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(
+                        branchId,
+                        header.RouteNumber.Substring(2),
+                        header.RouteDate);
+
+                    if (existingHeader == null)
+                    {
+                        var message = $"RouteDelivery Ignored could not find matching RouteHeader," +
+                                      $"Branch: {branchId} " +
+                                      $"RouteNumber: {header.RouteNumber.Substring(2)} " +
+                                      $"RouteDate: {header.RouteDate} " +
+                                      $"FileName: {fileName}";
+                        logger.LogDebug(message);
+                        eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
+
+                        //this.adamImportService.ImportRouteHeader(header, route.RouteId);
+                        continue;
+                    }
+
+                    this.mapper.Map(header, existingHeader);
+
+                    this.routeHeaderRepository.Update(existingHeader);
+
                     this.UpdateStops(header.Stops, branchId);
                 }
                 else
                 {
-                    this.logger.LogDebug(
-                        $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})");
-                    this.eventLogger.TryWriteToEventLog(
-                        EventSource.WellAdamXmlImport,
-                        $"Start depot code is not an int... Depot code passed in from transend is ({existingHeader.StartDepotCode})",
-                        9682);
+                    var message = $" Route Number Depot Indicator is not an int... Route Number Depot passed in from from transend is ({header.RouteNumber}) file {fileName}";
+                    this.logger.LogDebug(message);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
                 }
+
             }
         }
 
@@ -222,7 +228,7 @@
 
                     continue;
                 }
-                
+
                 this.mapper.Map(detail, existingJobDetail);
 
                 detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
@@ -233,7 +239,7 @@
                     detail.JobDetailSource = JobDetailSource.NotDefined;
 
                 }
-                
+
                 this.jobDetailRepository.Update(existingJobDetail);
 
                 this.UpdateJobDamages(detail.JobDetailDamages, existingJobDetail.Id);

@@ -65,5 +65,6 @@
 
         public bool HasNoActions => ShortsAction == DeliveryAction.NotDefined &&
                                     Damages.All(d => d.DamageAction == DeliveryAction.NotDefined);
+
     }
 }

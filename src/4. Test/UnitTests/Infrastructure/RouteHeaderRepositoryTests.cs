@@ -138,20 +138,24 @@ namespace PH.Well.UnitTests.Infrastructure
                 [Test]
                 public void ShouldCallTheStoredProcedureCorrectly()
                 {
+                    var branchId = 1;
                     var routeNumber = "001";
                     var routeDate = DateTime.Now;
-                    dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetByRouteNumberAndDate))
+                    dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetByBranchRouteNumberAndDate))
+                        .Returns(this.dapperProxy.Object);
+                    dapperProxy.Setup(x => x.AddParameter("BranchId", branchId, DbType.Int32, null))
                         .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.AddParameter("RouteNumber", routeNumber, DbType.String, null))
                         .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.AddParameter("RouteDate", routeDate, DbType.DateTime, null))
                         .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.Query<RouteHeader>()).Returns(new List<RouteHeader>());
-                    repository.GetRouteHeaderByRoute(routeNumber, routeDate);
+                    repository.GetRouteHeaderByRoute(branchId,routeNumber, routeDate);
 
                     dapperProxy.Verify(
-                        x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetByRouteNumberAndDate),
+                        x => x.WithStoredProcedure(StoredProcedures.RouteHeaderGetByBranchRouteNumberAndDate),
                         Times.Once);
+                    dapperProxy.Verify(x => x.AddParameter("BranchId", branchId, DbType.Int32, null), Times.Once);
                     dapperProxy.Verify(x => x.AddParameter("RouteNumber", routeNumber, DbType.String, null), Times.Once);
                     dapperProxy.Verify(x => x.AddParameter("RouteDate", routeDate, DbType.DateTime, null), Times.Once);
                     dapperProxy.Verify(x => x.Query<RouteHeader>(), Times.Once);

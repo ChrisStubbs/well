@@ -213,7 +213,7 @@
               <PerformanceStatusCode>INCOM</PerformanceStatusCode>
               <PerformanceStatusDescription>Incomplete</PerformanceStatusDescription>
               <OrderDate>30-05-2016</OrderDate>
-              <JobType_Code>DEL-TOB</JobType_Code>
+              <JobType_Code>DEL-AMB</JobType_Code>
               <Reason_ReasonCode>F</Reason_ReasonCode>
               <EntityAttributeValues>
                 <EntityAttributeValue>

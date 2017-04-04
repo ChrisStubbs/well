@@ -2,10 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
     using System.Linq;
-    using System.Threading;
     using System.Transactions;
 
     using Domain.ValueObjects;
@@ -167,7 +164,8 @@
         {
             foreach (var job in jobs)
             {
-                var existingJob = this.jobRepository.GetByAccountPicklistAndStopId(
+                var existingJob = this.jobRepository.GetJobByRefDetails(
+                    job.JobTypeCodeTransend,
                     job.PhAccount,
                     job.PickListRef,
                     stopId);

@@ -13,7 +13,7 @@
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
-        public JobRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+        public JobRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider)
             : base(logger, dapperProxy, userNameProvider)
         {
         }
@@ -64,21 +64,22 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionUpdate)
                 .AddParameter("Id", royaltyException.Id, DbType.Int32)
-               .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
-               .AddParameter("Customer", royaltyException.Customer, DbType.String)
-               .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
+                .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
+                .AddParameter("Customer", royaltyException.Customer, DbType.String)
+                .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
-        public Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId)
+        public Job GetJobByRefDetails(string jobTypeCode, string phAccount, string pickListRef, int stopId)
         {
             var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
+                .AddParameter("JobTypeCode", jobTypeCode, DbType.String)
                 .AddParameter("PHAccount", phAccount, DbType.String)
                 .AddParameter("PickListRef", pickListRef, DbType.String)
                 .AddParameter("StopId", stopId, DbType.Int32)
                 .Query<int>();
 
-            return GetByIds(jobIds).FirstOrDefault();
+            return GetByIds(jobIds).SingleOrDefault();
         }
 
         protected override void SaveNew(Job entity)
@@ -122,16 +123,17 @@
                 .Query<int>().FirstOrDefault();
         }
 
-        public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
-        {
-            IEnumerable<int> jobids = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)
-                .AddParameter("AccountId", accountId, DbType.String)
-                .AddParameter("PicklistId", picklistId, DbType.String)
-                .AddParameter("StopId", stopId, DbType.Int32)
-                .Query<int>();
+        //public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
+        //{
+        //    IEnumerable<int> jobids = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)
+        //        .AddParameter("jobTypeID", accountId, DbType.String)
+        //        .AddParameter("AccountId", accountId, DbType.String)
+        //        .AddParameter("PicklistId", picklistId, DbType.String)
+        //        .AddParameter("StopId", stopId, DbType.Int32)
+        //        .Query<int>();
 
-            return GetByIds(jobids).FirstOrDefault();
-        }
+        //    return GetByIds(jobids).FirstOrDefault();
+        //}
 
         public void DeleteJobById(int id)
         {
@@ -185,7 +187,7 @@
                 .AddParameter("Grn", grn, DbType.String)
                 .Execute();
         }
-        
+
         public void SetJobToSubmittedStatus(int jobId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobSetToStatus)

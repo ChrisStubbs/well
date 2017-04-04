@@ -41,7 +41,6 @@
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public static string JobDeleteById = "Job_DeleteById";
         public static string SaveGrn = "SaveGrn";
-        public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";

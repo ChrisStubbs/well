@@ -11,9 +11,7 @@
 
         IEnumerable<Job> GetByIds(IEnumerable<int> jobIds);
 
-        Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId);
-
-        Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId);
+        Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
 
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
 

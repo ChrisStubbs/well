@@ -21454,7 +21454,7 @@
                   <EntityName>Job</EntityName>
                   <EntityAttributeID>27</EntityAttributeID>
                   <EntityID>10409837</EntityID>
-                  <Value1>5</Value1>
+                  <Value1>0</Value1>
                   <Value2></Value2>
                   <Deleted>False</Deleted>
                   <CreatedDate>24/03/2017 10:09:57</CreatedDate>
@@ -21486,7 +21486,7 @@
                   <EntityName>Job</EntityName>
                   <EntityAttributeID>113</EntityAttributeID>
                   <EntityID>226677</EntityID>
-                  <Value1>2</Value1>
+                  <Value1>0</Value1>
                   <Value2></Value2>
                   <Deleted>False</Deleted>
                   <CreatedDate>17/03/2017 14:27:55</CreatedDate>

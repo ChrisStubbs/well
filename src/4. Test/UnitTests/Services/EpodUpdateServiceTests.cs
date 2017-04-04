@@ -155,7 +155,7 @@
 
             this.stopRepository.Setup(x => x.Update(existingStop));
 
-            this.jobRepository.Setup(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0))
+            this.jobRepository.Setup(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0))
                 .Returns(existingJob);
 
             this.mapper.Setup(x => x.Map(job, existingJob));
@@ -182,7 +182,7 @@
 
             this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
 
-            this.jobRepository.Verify(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0), Times.Once);
+            this.jobRepository.Verify(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0), Times.Once);
 
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 
@@ -192,7 +192,7 @@
         [Test]
         public void ShouldProcessPodCorrectly()
         {
-          
+
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
@@ -231,7 +231,7 @@
 
             this.stopRepository.Setup(x => x.Update(existingStop));
 
-            this.jobRepository.Setup(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0))
+            this.jobRepository.Setup(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0))
                 .Returns(existingJob);
 
             this.mapper.Setup(x => x.Map(job, existingJob));
@@ -258,7 +258,7 @@
 
             this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
 
-            this.jobRepository.Verify(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0), Times.Once);
+            this.jobRepository.Verify(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0), Times.Once);
 
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 
@@ -271,7 +271,7 @@
         [Test]
         public void ShouldNotProcessCompletedOnPaperPod()
         {
-            
+
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
@@ -307,7 +307,7 @@
 
             this.stopRepository.Setup(x => x.Update(existingStop));
 
-            this.jobRepository.Setup(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0))
+            this.jobRepository.Setup(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0))
                 .Returns(existingJob);
 
             this.mapper.Setup(x => x.Map(job, existingJob));
@@ -334,7 +334,7 @@
 
             this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
 
-            this.jobRepository.Verify(x => x.GetByAccountPicklistAndStopId(job.PhAccount, job.PickListRef, 0), Times.Once);
+            this.jobRepository.Verify(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0), Times.Once);
 
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 

@@ -94,7 +94,7 @@
           <Jobs>
             <Job>
               <Sequence>1</Sequence>
-              <JobTypeCode>DEL-TOB</JobTypeCode>
+              <JobType_Code>DEL-TOB</JobType_Code>
               <JobRef1>123</JobRef1>
               <JobRef2>4294343</JobRef2>
               <JobRef3>976549</JobRef3>
@@ -271,7 +271,7 @@
             </Job>
             <Job>
               <Sequence>2</Sequence>
-              <JobTypeCode>DEL-AMB</JobTypeCode>
+              <JobType_Code>DEL-AMB</JobType_Code>
               <JobRef1></JobRef1>
               <JobRef2>2545470</JobRef2>
               <JobRef3>1000123</JobRef3>

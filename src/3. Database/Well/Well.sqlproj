@@ -130,7 +130,6 @@
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetByBranchRouteNumberAndDate.sql" />
     <Build Include="dbo\StoredProcedures\StopGetByJob.sql" />
-    <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />
     <Build Include="dbo\Tables\Reason.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByAccountId.sql" />

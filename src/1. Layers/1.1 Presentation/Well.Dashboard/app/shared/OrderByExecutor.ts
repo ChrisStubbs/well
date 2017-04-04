@@ -5,6 +5,6 @@ export class OrderByExecutor
 {
     public Order(value: any[], args: ISort): any[]
     {
-        return _.orderBy(value, [args.sortField], [!args.sortDirection ? 'asc' : args.sortDirection]);
+        return _.orderBy(value, [args.sortField], [args.sortDirection]);
     }
 }

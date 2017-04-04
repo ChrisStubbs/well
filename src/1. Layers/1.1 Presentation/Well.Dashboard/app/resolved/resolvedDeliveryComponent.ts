@@ -6,17 +6,14 @@ import { Router, ActivatedRoute}                    from '@angular/router';
 import {ResolvedDelivery}                           from './resolvedDelivery';
 import {ResolvedDeliveryService}                    from './ResolvedDeliveryService';
 import {DropDownItem}                               from '../shared/dropDownItem';
-import { FilterOption }                             from '../shared/filterOption';
 import {AssignModal}                                from '../shared/assignModal';
 import {ContactModal}                               from '../shared/contactModal';
 import {AccountService}                             from '../account/accountService';
 import {IAccount}                                   from '../account/account';
 import {RefreshService}                             from '../shared/refreshService';
-import {OrderArrowComponent}                        from '../shared/orderbyArrow';
 import {SecurityService}                            from '../shared/security/securityService';
-import {UnauthorisedComponent }                     from '../unauthorised/unauthorisedComponent';
-import * as lodash                                  from 'lodash';
-import 'rxjs/Rx';   // Load all features
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'ow-resolved',
@@ -31,6 +28,7 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     public deliveries = new Array<ResolvedDelivery>();
     public currentConfigSort: string;
     public account: IAccount;
+    private orderBy: OrderByExecutor = new OrderByExecutor();
 
     @ViewChild(ContactModal) public contactModal: ContactModal;
     @ViewChild(AssignModal) public assignModal: AssignModal;
@@ -56,6 +54,7 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
                 new DropDownItem('Assigned', 'assigned'),
                 new DropDownItem('Date', 'deliveryDate', false, 'date')
             ];
+            this.sortField = 'deliveryDate';
         }
 
     public ngOnInit() {
@@ -95,7 +94,7 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     public onSortDirectionChanged(isDesc: boolean)
     {   
         super.onSortDirectionChanged(isDesc);
-        this.deliveries = lodash.orderBy(this.deliveries, ['deliveryDate'], [super.getSort()]);
+        this.deliveries = this.orderBy.Order(this.deliveries, this);
     }
 
     public openModal(accountId): void {

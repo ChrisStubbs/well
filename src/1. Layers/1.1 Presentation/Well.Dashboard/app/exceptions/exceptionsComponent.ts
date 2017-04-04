@@ -88,7 +88,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             new DropDownItem('Date', 'deliveryDate', false, 'date'),
             new DropDownItem('Credit Value', 'totalCreditValueForThreshold', false, 'numberLessThanOrEqual')
         ];
-        this.sortField = 'deliveryDate'
+        this.sortField = 'deliveryDate';
         this.orderBy = new OrderByExecutor();
     }
 

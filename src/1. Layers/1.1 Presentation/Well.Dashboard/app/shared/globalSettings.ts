@@ -44,7 +44,6 @@ export class GlobalSettingsService {
         return this.http.get(this.globalSettings.apiUrl + 'GlobalSettings')
             .map((response: Response) => {
                 this.mapSettings(<GlobalSettings>response.json());
-                this.logService.log('Settings: ' + JSON.stringify(this.globalSettings));
                 return this.globalSettings;
             })
             .catch(e => this.httpErrorService.handleError(e))

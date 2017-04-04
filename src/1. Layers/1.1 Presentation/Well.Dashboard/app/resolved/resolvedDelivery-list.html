@@ -34,7 +34,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
+                        <tr class="grid-row" *ngFor="let delivery of deliveries | optionFilter:filterOption | orderBy: this | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
                             <td (click)="deliverySelected(delivery)" id="resolved-route-{{delivery.id}}">{{delivery.branchId}}</td>
                             <td (click)="deliverySelected(delivery)" id="resolved-route-{{delivery.id}}">{{delivery.routeNumber}}</td>
                             <td (click)="deliverySelected(delivery)" id="resolved-drop-{{delivery.id}}">{{delivery.dropId}}</td>

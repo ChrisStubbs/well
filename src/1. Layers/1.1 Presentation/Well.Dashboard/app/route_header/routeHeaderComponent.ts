@@ -1,7 +1,7 @@
 ﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnDestroy, OnInit, ViewChild }  from '@angular/core';
-import { Router, ActivatedRoute }                   from '@angular/router';
+import { ActivatedRoute }                           from '@angular/router';
 import {GlobalSettingsService}                      from '../shared/globalSettings';
 import {Route}                                      from './route';
 import {RouteHeaderService}                         from './routeHeaderService';
@@ -24,7 +24,7 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public routes: Route[];
     public lastRefresh = Date.now();
     public isReadOnlyUser: boolean = false;
-    private orderBy: OrderByExecutor;
+    private orderBy: OrderByExecutor = new OrderByExecutor();
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -34,11 +34,12 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
         private securityService: SecurityService,
         private nqps: NavigateQueryParametersService )
     {
-            super(nqps);
-            this.options = [
-                new DropDownItem('Route', 'route'),
-                new DropDownItem('Branch', 'routeOwnerId', false, 'number')
-            ];
+        super(nqps);
+        this.options = [
+            new DropDownItem('Route', 'route'),
+            new DropDownItem('Branch', 'routeOwnerId', false, 'number')
+        ];
+        this.sortField = 'routeDate';
     }
 
     @ViewChild(DeliverySelectionModal) public deliverySelectionModal: DeliverySelectionModal;

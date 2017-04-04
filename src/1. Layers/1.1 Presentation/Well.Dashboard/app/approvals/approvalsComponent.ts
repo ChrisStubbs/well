@@ -19,10 +19,11 @@ import { ToasterService }                           from 'angular2-toaster/angul
 import { SecurityService }                          from '../shared/security/securityService';
 import * as lodash                                  from 'lodash';
 import { BaseComponent }                            from '../shared/BaseComponent';
+import {DeliveryLine}                               from '../delivery/model/deliveryLine';
+import { BaseDelivery }                             from '../shared/baseDelivery';
+import { DeliveryAction }                           from '../delivery/model/deliveryAction';
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
 import 'rxjs/Rx';
-import {DeliveryLine} from '../delivery/model/deliveryLine';
-import {BaseDelivery} from '../shared/baseDelivery';
-import {DeliveryAction} from '../delivery/model/deliveryAction';
 
 @Component({
     templateUrl: './app/approvals/approvals-list.html'
@@ -47,6 +48,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
     public isReadOnlyUser: boolean = false;
+    private orderBy: OrderByExecutor = new OrderByExecutor();
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -65,6 +67,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         this.options = [
             this.assigneeOption
         ];
+        this.sortField = 'deliveryDate';
     }
 
     public ngOnInit(): void {
@@ -106,7 +109,7 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
     public onSortDirectionChanged(isDesc: boolean)
     {
         super.onSortDirectionChanged(isDesc);
-        this.approvals = lodash.orderBy(this.approvals, ['deliveryDate'], [super.getSort()]);
+        this.approvals = this.orderBy.Order(this.approvals, this);
     }
 
     public onFilterClicked(filterOption: FilterOption) {

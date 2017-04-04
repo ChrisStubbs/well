@@ -7,16 +7,14 @@ import {Router, ActivatedRoute}                     from '@angular/router';
 import {CleanDelivery}                              from './cleanDelivery';
 import {CleanDeliveryService}                       from './cleanDeliveryService';
 import {AssignModal}                                from '../shared/assignModal';
-import {FilterOption}                               from '../shared/filterOption';
 import {DropDownItem}                               from '../shared/dropDownItem';
 import {ContactModal}                               from '../shared/contactModal';
 import {AccountService}                             from '../account/accountService';
 import {IAccount}                                   from '../account/account';
-import {RefreshService}                            from '../shared/refreshService';
-import {OrderArrowComponent}                        from '../shared/orderbyArrow';
+import {RefreshService}                             from '../shared/refreshService';
 import {SecurityService}                            from '../shared/security/securityService';
-import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
-import * as _                                  from 'lodash';
+import * as _                                       from 'lodash';
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
 import 'rxjs/Rx';   // Load all features
 
 @Component({
@@ -35,6 +33,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public account: IAccount;
     public isReadOnlyUser: boolean = false;
     public routeDate: Date;
+    private orderBy: OrderByExecutor = new OrderByExecutor();
 
     @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
@@ -59,6 +58,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
                 new DropDownItem('Assignee', 'assigned'),
                 new DropDownItem('Date', 'deliveryDate', false, 'date')
             ];
+            this.sortField = 'deliveryDate';
 
          }
 
@@ -106,7 +106,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public onSortDirectionChanged(isDesc: boolean)
     {
         super.onSortDirectionChanged(isDesc);
-        this.cleanDeliveries = _.orderBy(this.cleanDeliveries, ['deliveryDate'], [super.getSort()]);
+        this.cleanDeliveries = this.orderBy.Order(this.cleanDeliveries, this);
     }
 
     public deliverySelected(delivery): void {

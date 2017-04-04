@@ -22,7 +22,7 @@
             <address> 
                 <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
             </address>
-            <div *ngIf="delivery.grnProcessType === 1">
+            <div>
                 <label>GRN</label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required/>

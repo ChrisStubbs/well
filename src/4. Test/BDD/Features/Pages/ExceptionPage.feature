@@ -195,6 +195,23 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
 	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
 
+Scenario: Add damage to exception does not cleam the TBA
+	Given I have selected branch '22'
+	And  2 deliveries have been marked as exceptions with shorts to be advised
+	And I open the exception deliveries
+	And I assign the delivery to myself
+	And I click on exception row 1
+	And I click on the first delivery line
+	And click add damage button
+	And I enter a damage qty of '1' for id '0'
+	And I enter a damage reason of 'Picking Error' for id '0'
+	And I enter a damage source of 'Customer' for id '0'
+	And I save the delivery line updates
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
+	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
+	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
 
 Scenario: A user can view Exception Delivery Information with shorts to be advised when DETSHORT and TOTSHORT are set in epod files
 	Given I have a clean database

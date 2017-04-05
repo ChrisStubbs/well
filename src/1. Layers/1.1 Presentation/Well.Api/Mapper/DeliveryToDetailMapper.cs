@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using Domain.Enums;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
     using PH.Well.Domain.ValueObjects;
@@ -65,7 +65,7 @@
                     }).ToList()
                 };
 
-                if (line.IsClean)
+                if (deliveryDetail.JobStatus == JobStatus.Clean.ToString() || line.IsClean)
                 {
                     deliveryDetail.CleanDeliveryLines.Add(newItem);
                 }

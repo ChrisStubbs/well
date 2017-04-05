@@ -461,16 +461,21 @@ this.ScenarioSetup(scenarioInfo);
 #line 100
  testRunner.Given("I have a clean database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 101
- testRunner.And("I have loaded the MultiDate Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have selected branch \'55\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 102
- testRunner.And("I have loaded the Adam route data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I import the route file \'ROUTE_PLYM_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 103
- testRunner.And("I have selected branches \'22\' and \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have loaded the order file \'ORDER_PLY_BulkCredit.xml\' into the well", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Filename"});
+            table9.AddRow(new string[] {
+                        "ePOD__BulkCredit1.xml"});
 #line 104
- testRunner.And("All the deliveries are marked as clean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 105
+ testRunner.And("I have imported the following valid Epod files", ((string)(null)), table9, "And ");
+#line 107
  testRunner.And("I open the clean deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 106
+#line 108
  testRunner.When("I click on each of the clean deliveries on each page there will be no exception d" +
                     "elivery lines", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden

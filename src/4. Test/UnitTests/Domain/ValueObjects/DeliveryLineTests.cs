@@ -54,6 +54,14 @@
 
                 Assert.IsTrue(deliveryLine.IsClean);
             }
+
+            [Test]
+            public void IfNoDamageOrShortButInvoiceNotEqualToDeliverdTheNotClean()
+            {
+                var deliveryLine = new DeliveryLine { ShortQuantity = 0, InvoicedQuantity = 3, DeliveredQuantity = 2 };
+                Assert.IsFalse(deliveryLine.IsClean);
+            }
+
         }
 
         public class TheCanSubmitProperty : DeliveryLineTests
@@ -61,17 +69,17 @@
             [Test]
             public void GivenShortActionUndefined_ThenCanNOTSubmit()
             {
-                var deliveryLine = new DeliveryLine {ShortsActionId = (int)DeliveryAction.NotDefined, ShortQuantity = 1};
+                var deliveryLine = new DeliveryLine { ShortsActionId = (int)DeliveryAction.NotDefined, ShortQuantity = 1 };
                 Assert.IsFalse(deliveryLine.CanSubmit);
             }
 
             [Test]
             public void GivenDamageActionUndefined_ThenCanNOTSubmit()
             {
-                var deliveryLine = new DeliveryLine { ShortsActionId = (int)DeliveryAction.Credit, ShortQuantity = 1};
+                var deliveryLine = new DeliveryLine { ShortsActionId = (int)DeliveryAction.Credit, ShortQuantity = 1 };
 
-                var damage1 = new Damage { DamageActionId = (int) DeliveryAction.NotDefined , Quantity = 1};
-                var damage2 = new Damage { DamageActionId = (int)DeliveryAction.Credit, Quantity = 1};
+                var damage1 = new Damage { DamageActionId = (int)DeliveryAction.NotDefined, Quantity = 1 };
+                var damage2 = new Damage { DamageActionId = (int)DeliveryAction.Credit, Quantity = 1 };
                 deliveryLine.Damages.Add(damage1);
                 deliveryLine.Damages.Add(damage2);
 

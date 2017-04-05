@@ -98,10 +98,19 @@ Scenario: View cash on delivery icon
 
 Scenario: Clean deliveries wil have no exception delivery lines
 	Given I have a clean database
-	And I have loaded the MultiDate Adam route data
-	And I have loaded the Adam route data
-	And I have selected branches '22' and '2'
-	And  All the deliveries are marked as clean
+	And I have selected branch '55'
+	And I import the route file 'ROUTE_PLYM_BulkCredit.xml' into the well
+	And I have loaded the order file 'ORDER_PLY_BulkCredit.xml' into the well
+	And I have imported the following valid Epod files
+	| Filename              |
+	| ePOD__BulkCredit1.xml |
 	And I open the clean deliveries 
 	When I click on each of the clean deliveries on each page there will be no exception delivery lines
+	
+	#Given I have a clean database
+	#And I have loaded the MultiDate Adam route data
+	#And I have selected branches '22' and '2'
+	#And  All the deliveries are marked as clean
+	#And I open the clean deliveries 
+	#When I click on each of the clean deliveries on each page there will be no exception delivery lines
 	

@@ -119,7 +119,7 @@
                 {
                     job.JobStatus = JobStatus.Resolved;
                 }
-                jobRepository.Update(job);
+                jobRepository.UpdateStatus(job.Id, job.JobStatus);
 
                 if (audit.HasEntry)
                 {

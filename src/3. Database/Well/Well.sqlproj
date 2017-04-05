@@ -290,6 +290,7 @@
     <None Include="ManualStep\scripts\up\004_Update_Incorrect_JobStatus_DocumentDelivery.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\Job_UpdateStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

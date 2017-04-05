@@ -34,7 +34,6 @@
         }
 
         [Authorize(Roles = SecurityPermissions.ActionDeliveries)]
-        [HttpPut]
         public HttpResponseMessage Put(DeliveryLineModel model)
         {
             try
@@ -64,6 +63,5 @@
                 return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when updating DeliveryLine");
             }
         }
-
     }
 }

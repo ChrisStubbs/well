@@ -233,5 +233,14 @@
             }
             return jobs;
         }
+
+        public void UpdateStatus(int jobId, JobStatus status)
+        {
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.Job_UpdateStatus)
+                .AddParameter("Id", jobId, DbType.Int32)
+                .AddParameter("StatusId", (int)status, DbType.Int16)
+                .Execute();
+        }
     }
 }

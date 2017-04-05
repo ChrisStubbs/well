@@ -21,6 +21,7 @@
         private ExceptionDeliveriesPage ExceptionDeliveriesPage => new ExceptionDeliveriesPage();
         private UserCreditThresholdPage UserCreditThresholdPage => new UserCreditThresholdPage();
         private DeliveryDetailsPage DeliveryDetailsPage => new DeliveryDetailsPage();
+        private DeliveryLinePage deliveryLinePage => new DeliveryLinePage();
 
         private IJobRepository jobRepository;
         private readonly IContainer container;
@@ -114,8 +115,6 @@
             Assert.That(result.HasError, Is.False, result.ErrorsDesc);
         }
 
-
-
         [When(@"I filter the exception delivery grid with the option '(.*)' and value '(.*)'")]
         public void WhenIFilterTheExceptionDeliveryGridWithTheOptionAndValue(string option, string value)
         {
@@ -141,7 +140,6 @@
             var noExceptions = ExceptionDeliveriesPage.NoExceptionsDiv.GetElement();
             Assert.IsNotNull(noExceptions);
         }
-
 
         [Then(@"I will have (.*) pages of exception delivery data")]
         public void CheckNoOfPages(int noOfPages)
@@ -220,6 +218,49 @@
         {
             const int firstRow = 0;
             AssignException(firstRow);
+        }
+
+        [Given(@"I click on exception row (.*)")]
+        public void GivenIClickOnExceptionRow(int row)
+        {
+            var rows = this.ExceptionDeliveriesPage.ExceptionsGrid.ReturnAllRows().ToList();
+            rows[row - 1].GetItemInRowByClass("first-cell").Click();
+        }
+
+        [Given(@"click add damage button")]
+        public void GivenClickAddDamageButton()
+        {
+            this.deliveryLinePage.AddDamageButton.Click();
+        }
+
+        [Given(@"I enter a damage qty of '(.*)' for id '(.*)'")]
+        public void GivenIEnterADamageQtyOfForId(string qty, int id)
+        {
+            this.deliveryLinePage.DamageQtyInput(id).EnterText(qty);
+        }
+
+        [Given(@"I enter a damage reason of '(.*)' for id '(.*)'")]
+        public void EnterDamageReason(string reason, int id)
+        {
+            this.deliveryLinePage.DamageReasonSelect(id).Select(reason);
+        }
+
+        [Given(@"I enter a damage source of '(.*)' for id '(.*)'")]
+        public void EnterDamageSource(string source, int id)
+        {
+            this.deliveryLinePage.DamageSourceSelect(id).Select(source);
+        }
+
+        [Given(@"I enter a damage action of '(.*)' for id '(.*)'")]
+        public void EnterDamageAction(string action, int id)
+        {
+            this.deliveryLinePage.DamageActionSelect(id).Select(action);
+        }
+
+        [Given(@"I save the delivery line updates")]
+        public void WhenISaveTheDeliveryLineUpdates()
+        {
+            this.deliveryLinePage.SaveButton.Click();
         }
 
         public void AssignException(int rowIndex)

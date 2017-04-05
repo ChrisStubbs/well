@@ -36,6 +36,9 @@ BEGIN
 	  ,j.[JobStatusId] as JobStatus
 	  ,j.ProofOfDelivery
 	  ,j.GrnProcessType
+	  ,j.TotalOutersShort
+	  ,j.DetailOutersShort
+	  ,j.OuterDiscrepancyFound
 	FROM [dbo].[Job] j
 	INNER JOIN @Ids ids ON ids.Value = j.Id
 

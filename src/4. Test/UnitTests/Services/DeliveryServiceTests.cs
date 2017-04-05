@@ -131,7 +131,7 @@ namespace PH.Well.UnitTests.Services
                 var job = new Job { Id = 1, JobStatus = JobStatus.Exception};
                 jobRepo.Setup(j => j.GetById(jobDetail.JobId)).Returns(job);
                 jobRepo.Setup(j => j.Update(It.IsAny<Job>()));
-
+                jobRepo.Setup(p => p.UpdateStatus(It.IsAny<int>(), It.IsAny<JobStatus>()));
                 jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
                     .Returns(new JobDetail() {ShortQty = 3});
                 stopRepo.Setup(r => r.GetByJobId(jobDetail.JobId)).Returns(new Stop());
@@ -151,8 +151,8 @@ namespace PH.Well.UnitTests.Services
                     jd => jd.Id == jobDetail.Id &&
                           jd.ShortQty == jobDetail.ShortQty)));
 
-                jobRepo.Verify(j => j.Update(
-                    It.Is<Job>(jo => jo.JobStatus == JobStatus.Resolved)));
+                jobRepo.Verify(j => j.UpdateStatus(It.IsAny<int>(),
+                    It.Is<JobStatus>(jo => jo == JobStatus.Resolved)));
 
                 auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
             }

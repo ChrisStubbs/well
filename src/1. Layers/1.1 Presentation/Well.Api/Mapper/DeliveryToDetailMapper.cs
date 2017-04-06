@@ -9,6 +9,7 @@
 
     public class DeliveryToDetailMapper : IDeliveryToDetailMapper
     {
+
         public DeliveryDetailModel Map(IEnumerable<DeliveryLine> lines, DeliveryDetail detail)
         {
             var deliveryDetail = new DeliveryDetailModel
@@ -65,7 +66,8 @@
                     }).ToList()
                 };
 
-                if (deliveryDetail.JobStatus == JobStatus.Clean.ToString() || line.IsClean)
+                if (deliveryDetail.JobStatus == JobStatus.Clean.ToString() 
+                    || (line.IsClean && deliveryDetail.JobStatus != JobStatus.Bypassed.ToString()))
                 {
                     deliveryDetail.CleanDeliveryLines.Add(newItem);
                 }

@@ -55,13 +55,6 @@
                 Assert.IsTrue(deliveryLine.IsClean);
             }
 
-            [Test]
-            public void IfNoDamageOrShortButInvoiceNotEqualToDeliverdTheNotClean()
-            {
-                var deliveryLine = new DeliveryLine { ShortQuantity = 0, InvoicedQuantity = 3, DeliveredQuantity = 2 };
-                Assert.IsFalse(deliveryLine.IsClean);
-            }
-
         }
 
         public class TheCanSubmitProperty : DeliveryLineTests

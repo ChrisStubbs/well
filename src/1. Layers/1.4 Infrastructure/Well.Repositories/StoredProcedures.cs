@@ -36,7 +36,7 @@
         public static string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobInsert = "Job_Insert";
-        public static string Job_UpdateStatus = "Job_UpdateStatus";
+        public static string JobUpdateStatus = "Job_UpdateStatus";
         public static string JobUpdate = "Job_Update";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";

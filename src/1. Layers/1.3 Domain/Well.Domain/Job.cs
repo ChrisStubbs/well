@@ -514,5 +514,8 @@
         public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
                                                        jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
 
+        public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
+
+        public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
     }
 }

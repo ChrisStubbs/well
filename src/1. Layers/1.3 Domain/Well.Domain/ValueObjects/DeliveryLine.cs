@@ -50,7 +50,7 @@
 
         public bool IsClean => !IsException;
 
-        private bool IsException => (DamagedQuantity + ShortQuantity > 0); //|| (InvoicedQuantity != DeliveredQuantity);
+        private bool IsException => (DamagedQuantity + ShortQuantity > 0); 
 
         public bool CanSubmit => (ShortQuantity == 0 || ShortsAction != DeliveryAction.NotDefined) &&
                                  Damages.All(d => d.Quantity == 0 || d.DamageAction != DeliveryAction.NotDefined);

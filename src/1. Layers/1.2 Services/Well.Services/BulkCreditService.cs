@@ -21,7 +21,7 @@
         private readonly IUserRepository userRepository;
         private readonly IJobDetailRepository jobDetailRepository;
 
-        public BulkCreditService(IUserThresholdService userThresholdService, 
+        public BulkCreditService(IUserThresholdService userThresholdService,
             IBranchRepository branchRepository,
             ICreditTransactionFactory creditTransactionFactory,
             IJobDetailToDeliveryLineCreditMapper jobDetailToDeliveryLineCreditMapper,
@@ -47,7 +47,7 @@
             var warning = ValidateUserForCrediting();
             if (string.IsNullOrWhiteSpace(warning) == false)
             {
-                return new List<string>() {warning};
+                return new List<string>() { warning };
             }
 
             var jobsList = jobs.ToList();
@@ -56,13 +56,15 @@
             var warnings = new List<string>();
             using (var transactionScope = new TransactionScope())
             {
-                jobsList.ForEach(j => warnings.AddRange(CreditJob(j)));
                 foreach (var job in jobsList)
                 {
-                    jobRepository.Update(job);
-                    foreach (var jobDetail in job.JobDetails)
+                    if (CreditJob(job, warnings))
                     {
-                        jobDetailRepository.Update(jobDetail);
+                        jobRepository.Update(job);
+                        foreach (var jobDetail in job.JobDetails)
+                        {
+                            jobDetailRepository.Update(jobDetail);
+                        }
                     }
                 }
                 transactionScope.Complete();
@@ -80,8 +82,8 @@
                     if (jobDetail.ShortQty > 0)
                     {
                         jobDetail.ShortsActionId = (int)DeliveryAction.Credit;
-                        jobDetail.JobDetailReasonId = (int) reason;
-                        jobDetail.JobDetailSourceId = (int) source;
+                        jobDetail.JobDetailReasonId = (int)reason;
+                        jobDetail.JobDetailSourceId = (int)source;
                     }
                     foreach (var damage in jobDetail.JobDetailDamages)
                     {
@@ -96,43 +98,51 @@
             }
         }
 
-        public IEnumerable<string> CreditJob(Job job)
+        public bool CreditJob(Job job, List<string> warnings)
         {
             IEnumerable<JobDetail> jobDetailsToCredit = job.JobDetails.Where(l => l.ShortsAction == DeliveryAction.Credit ||
                                                                l.JobDetailDamages.Any(d => d.DamageAction == DeliveryAction.Credit));
+
+
+            if (!job.HasDamages && !job.HasShorts)
+            {
+                warnings.Add($"Invoice no: {job.InvoiceNumber} has no Damages or Shorts");
+                return false;
+            }
 
             var totalThresholdValue = jobDetailsToCredit.Sum(x => x.CreditValueForThreshold());
 
             // is the user allowed to credit this amount or does it need to go to the next threshold user
             var thresholdResponse = this.userThresholdService.CanUserCredit(totalThresholdValue);
 
-            var warnings = new List<string>();
+
             if (thresholdResponse.IsInError)
             {
                 warnings.Add(thresholdResponse.ErrorMessage);
+                return false;
             }
-            else
+
+            var branchId = this.branchRepository.GetBranchIdForJob(job.Id);
+            if (!thresholdResponse.CanUserCredit)
             {
-                var branchId = this.branchRepository.GetBranchIdForJob(job.Id);
-                if (!thresholdResponse.CanUserCredit)
+                warnings.Add($"Your threshold level is not high enough to credit delivery for invoice no: {job.InvoiceNumber}. " +
+                    $"It has been passed on for authorisation.");
+                string assignedWarning = this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, job.Id);
+                if (string.IsNullOrEmpty(assignedWarning) == false)
                 {
-                    warnings.Add($"Your threshold level is not high enough to credit delivery for invoice no: {job.InvoiceNumber}. " +
-                        $"It has been passed on for authorisation.");
-                    string assignedWarning = this.userThresholdService.AssignPendingCredit(branchId, totalThresholdValue, job.Id);
-                    if (string.IsNullOrEmpty(assignedWarning) == false)
-                    {
-                        warnings.Add(assignedWarning);
-                    }
+                    warnings.Add(assignedWarning);
                 }
-                else
-                {
-                    var credits = jobDetailToDeliveryLineCreditMapper.Map(jobDetailsToCredit);
-                    var creditEventTransaction = this.creditTransactionFactory.Build(credits, branchId);
-                    exceptionEventRepository.InsertCreditEventTransaction(creditEventTransaction);
-                    ResolveJob(job);
-                }
+                return false;
             }
-            return warnings;
+
+
+            var credits = jobDetailToDeliveryLineCreditMapper.Map(jobDetailsToCredit);
+            var creditEventTransaction = this.creditTransactionFactory.Build(credits, branchId);
+            exceptionEventRepository.InsertCreditEventTransaction(creditEventTransaction);
+            ResolveJob(job);
+            return true;
+
+
         }
 
         public void ResolveJob(Job job)

@@ -340,7 +340,7 @@ this.ScenarioSetup(scenarioInfo);
                         "CSG - must be CF van",
                         "Resolved",
                         "Unallocated",
-                        "01/07/2016 01:00"});
+                        "01/07/2016 01:00:00"});
             table7.AddRow(new string[] {
                         "001",
                         "22",
@@ -350,7 +350,7 @@ this.ScenarioSetup(scenarioInfo);
                         "CSG - must be CF van",
                         "Resolved",
                         "Unallocated",
-                        "01/07/2016 01:00"});
+                        "01/07/2016 01:00:00"});
             table7.AddRow(new string[] {
                         "001",
                         "22",
@@ -360,7 +360,7 @@ this.ScenarioSetup(scenarioInfo);
                         "RVS SHOP",
                         "Resolved",
                         "Unallocated",
-                        "01/07/2016 01:00"});
+                        "01/07/2016 01:00:00"});
 #line 57
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table7, "Then ");
 #line hidden

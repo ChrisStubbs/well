@@ -55,10 +55,10 @@ Scenario: A user can view Resolved Delivery Information and sort on updated date
 	And  3 deliveries have been marked as Resolved
 	When I open the resolved deliveries page
 	Then the following resolved deliveries will be displayed
-	| Route | Branch | Drop | Invoice No | Account   | Account Name         | Status   | Assigned    | Date/Time        |
-	| 001   | 22     | 1    | 94294343   | 49214.152 | CSG - must be CF van | Resolved | Unallocated | 01/07/2016 01:00 |
-	| 001   | 22     | 1    | 92545470   | 2874.033  | CSG - must be CF van | Resolved | Unallocated | 01/07/2016 01:00 |
-	| 001   | 22     | 2    | 92545470   | 2874.033  | RVS SHOP             | Resolved | Unallocated | 01/07/2016 01:00 |
+	| Route | Branch | Drop | Invoice No | Account   | Account Name         | Status   | Assigned    | Date/Time           |
+	| 001   | 22     | 1    | 94294343   | 49214.152 | CSG - must be CF van | Resolved | Unallocated | 01/07/2016 01:00:00 |
+	| 001   | 22     | 1    | 92545470   | 2874.033  | CSG - must be CF van | Resolved | Unallocated | 01/07/2016 01:00:00 |
+	| 001   | 22     | 2    | 92545470   | 2874.033  | RVS SHOP             | Resolved | Unallocated | 01/07/2016 01:00:00 |
 	#When I click on the orderby Triangle image in the resolved deliveries grid
 	#Then The following resolved deliveries ordered by date will be displayed in 'desc' order
 	#| Route | Branch | Drop | Invoice No | Account   | Account Name         | Status   | Assigned    | Date/Time        |

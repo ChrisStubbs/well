@@ -49,7 +49,7 @@ Scenario: Filter Clean Deliveries
 	Then the following clean deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName |
 	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP   |
-	| 006   | 22     | 1    | 92544765  | 2874.033 | WB - SHOP   | 
+	| 006   | 22     | 1    | 92544765  | 2874.033  | WB - SHOP   | 
 
 Scenario: Sort Clean Deliveries
 	Given I have a clean database
@@ -60,20 +60,20 @@ Scenario: Sort Clean Deliveries
 	#Ascending Order
 	Then the following clean deliveries will be displayed		
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 01/08/2016   |
-	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 01/08/2016   |
-	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 01/08/2016   |
-	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 01/08/2016   |
-	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 01/06/2016   |
+	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 01/Aug/2016  |
+	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 01/Aug/2016  |
+	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 01/Aug/2016  |
+	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 01/Aug/2016  |
+	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 01/Jun/2016  |
 	#Descending Order
 	When I click on the orderby Triangle image in the clean deliveries grid
 	Then the following clean deliveries will be displayed
 	| Route | Branch | Drop | InvoiceNo | Account   | AccountName          | DeliveryDate |
-	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 01/06/2016   |
-	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 01/08/2016   |
-	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 01/08/2016   |
-	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 01/08/2016   |
-	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 01/08/2016   |
+	| 006   | 22     | 1    | 91156028  | 43362.048 | WB - SHOP            | 01/Jun/2016  |
+	| 001   | 22     | 1    | 94294343  | 49214.152 | CSG - must be CF van | 01/Aug/2016  |
+	| 001   | 22     | 1    | 92545470  | 02874.033 | CSG - must be CF van | 01/Aug/2016  |
+	| 001   | 22     | 2    | 92545470  | 02874.033 | RVS SHOP             | 01/Aug/2016  |
+	| 001   | 22     | 2    | 92545419  | 02874.033 | RVS SHOP             | 01/Aug/2016  |
 
 Scenario: Page Clean Deliveries
 	Given I have a clean database

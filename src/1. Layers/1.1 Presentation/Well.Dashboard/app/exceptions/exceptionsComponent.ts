@@ -165,6 +165,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
                 this.threshold = responseData[0];
             });
     }
+
     public onSortDirectionChanged(isDesc: boolean)
     {   
         super.onSortDirectionChanged(isDesc);

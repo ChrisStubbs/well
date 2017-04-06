@@ -79,7 +79,7 @@
                                         <button *ngIf="!canSubmit(delivery.canSubmit)" disabled="disabled" class="btn btn-primary btn-sm disabled-action" type="button" id="filter-option">Submit</button>
                                     </div>
                                 </td>                                
-                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MMM/yyyy' }}</td>
                                 <td class="gridCheckbox">
                                     <input type="checkbox" class="exceptionCheckbox" name="{{delivery.id}}" [disabled]="isGridCheckBoxDisabled(delivery.id)"
                                            [title]="isGridCheckBoxDisabled(delivery.id) ? 'Can only credit un-actioned assigned deliveries' : ''" 

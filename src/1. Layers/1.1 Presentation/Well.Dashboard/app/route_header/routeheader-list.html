@@ -40,13 +40,13 @@
                             <tr class="grid-row" *ngFor="let route of routes | optionFilter:filterOption | orderBy: this |  paginate: { itemsPerPage: rowCount, currentPage: currentPage } " (click)="routeSelected(route)">
                                 <td>{{route.routeOwnerId}}</td>
                                 <td>{{route.route}}</td>
-                                <td>{{route.routeDate | date:'yMMMd'}}</td>
+                                <td>{{route.routeDate | date:'dd/MMM/yyyy'}}</td>
                                 <td>{{route.driverName}}</td>
                                 <td>{{route.totalDrops}}</td>
                                 <td>{{route.deliveryExceptionCount}}</td>
                                 <td>{{route.deliveryCleanCount}}</td>
                                 <td>{{route.routeStatusDescription}}</td>
-                                <td>{{route.dateTimeUpdated | date:'medium'}}</td>
+                                <td>{{route.dateTimeUpdated | date:'dd/MMM/yyyy HH:mm'}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -53,14 +53,14 @@
                                 <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
                                 <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
                             </td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MM/y' }}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MMM/yyyy' }}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
+                <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'dd/MMM/yyyy HH:mm'}}</span></div>
                 <div class="col-md-6">
                     <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
                 </div>

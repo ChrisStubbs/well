@@ -28,9 +28,10 @@
                             <th style="width: 5%">Route</th>
                             <th style="width: 5%">Branch</th>
                             <th style="width: 5%">Drop</th>
+                            <th style="width: 8%">Delivery Type</th>
                             <th style="width: 12%">Invoice No</th>
                             <th style="width: 11%">Account</th>
-                            <th style="width: 27%">Account Name</th>
+                            <th style="width: 19%">Account Name</th>
                             <th style="width: 5%">Contact</th>
                             <th style="width: 11%">Assigned</th>
                             <th style="width: 13%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
@@ -41,6 +42,7 @@
                             <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                            <td (click)="deliverySelected(delivery)">{{delivery.deliveryType}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
                             <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
                                 <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>

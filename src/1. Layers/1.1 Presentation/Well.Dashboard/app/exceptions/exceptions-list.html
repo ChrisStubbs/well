@@ -37,8 +37,9 @@
                         <thead>
                             <tr>
                                 <th style="width: 5%">Route</th>
-                                <th style="width: 6%">Branch</th>
+                                <th style="width: 4%">Branch</th>
                                 <th style="width: 5%">Drop</th>
+                                <th style="width: 8%">Delivery Type</th>
                                 <th style="width: 9%">Invoice No</th>
                                 <th style="width: 10%">Account</th>
                                 <th style="width: 10%">Account Name</th>
@@ -48,7 +49,7 @@
                                 <th style="width: 4%">TBA</th>
                                 <th style="width: 8%">Assigned</th>
                                 <th style="width: 7%">Action</th>
-                                <th style="width: 12%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th style="width: 6%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
                                 <th style="width: 6%">Credit</th>
                             </tr>
                         </thead>
@@ -57,6 +58,7 @@
                                 <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
+                                <td (click)="deliverySelected(delivery)">{{delivery.deliveryType}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
                                     <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>

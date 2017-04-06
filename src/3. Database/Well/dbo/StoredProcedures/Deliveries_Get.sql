@@ -27,6 +27,7 @@ BEGIN
 			rh.RouteNumber, 
 			rh.RouteDate,
 			s.PlannedStopNumber as DropId,
+			IsNull(jbt.Description,'Unknown') as DeliveryType,
 			j.InvoiceNumber, 
 			j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 			a.Name as AccountName ,
@@ -58,6 +59,7 @@ BEGIN
 			LEFT JOIN UserJob uj on uj.JobId = j.Id 
 			LEFT JOIN [User] u2 on u2.Id = uj.UserId
 			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
+			LEFT JOIN JobType jbt on jbt.Code = j.JobTypeCode
 			INNER JOIN #JobIdsTable jt on jt.Id = j.Id		
 	WHERE	u.IdentityName = @UserName
 	Order By s.DeliveryDate DESC

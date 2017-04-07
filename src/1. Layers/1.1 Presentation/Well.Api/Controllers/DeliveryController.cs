@@ -5,14 +5,12 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Threading;
     using System.Web.Http;
     using Common.Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
     using Models;
     using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Common.Security;
     using Repositories.Contracts;
     using Services.Contracts;
 

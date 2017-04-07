@@ -211,7 +211,7 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                var jobUpdate = new JobUpdate { PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
+                var jobUpdate = new JobUpdate {JobTypeCode = "DEL-DOC", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
 
                 var jobDetailUpdate = new JobDetailUpdate { LineNumber = 1 };
 
@@ -237,7 +237,7 @@
 
                 var existingJob = new Job();
 
-                this.jobRepository.Setup(x => x.GetJobByRefDetails(jobUpdate.PhAccount, jobUpdate.PickListRef, 0))
+                this.jobRepository.Setup(x => x.GetJobByRefDetails(jobUpdate.JobTypeCode, jobUpdate.PhAccount, jobUpdate.PickListRef, 0))
                     .Returns(existingJob);
 
                 this.mapper.Setup(x => x.Map(jobUpdate, It.IsAny<Job>()));
@@ -352,11 +352,11 @@
 
                 var stop = StopFactory.New.Build();
 
-                var job = new JobUpdate { PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
+                var job = new JobUpdate { JobTypeCode = "DEL_FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
 
                 stopUpdate.Jobs.Add(job);
 
-                this.jobRepository.Setup(x => x.GetJobByRefDetails(job.PhAccount, job.PickListRef, stop.Id)).Returns((Job)null);
+                this.jobRepository.Setup(x => x.GetJobByRefDetails(job.JobTypeCode, job.PhAccount, job.PickListRef, stop.Id)).Returns((Job)null);
 
                 this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount)).Returns(stop);
 

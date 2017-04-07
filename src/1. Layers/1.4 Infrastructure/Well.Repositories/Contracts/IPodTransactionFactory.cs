@@ -7,6 +7,6 @@
     public interface IPodTransactionFactory
     {
         PodTransaction Build(Job job, int branchId);
-        IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCredits(int jobId);
+        IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCredits(int jobId, int jobStatus);
     }
 }

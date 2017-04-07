@@ -921,6 +921,70 @@
                     <UserIDLastUpdate>19</UserIDLastUpdate>
                   </EntityAttribute>
                 </EntityAttributeValue>
+				                <EntityAttributeValue>
+                  <EntityAttributeValueID>2620106</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>27</EntityAttributeID>
+                  <EntityID>10409837</EntityID>
+                  <Value1>5</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>24/03/2017 10:09:57</CreatedDate>
+                  <UpdatedDate>24/03/2017 10:09:57</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>27</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>22</Sequence>
+                    <Code>TOTSHORT</Code>
+                    <Description>Total Short</Description>
+                    <Label>Total Short</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>False</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>09/03/2017 21:06:55</CreatedDate>
+                    <UpdatedDate>09/03/2017 21:06:55</UpdatedDate>
+                    <UserIDLastUpdate>19</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
+                <EntityAttributeValue>
+                  <EntityAttributeValueID>29104053</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>113</EntityAttributeID>
+                  <EntityID>226677</EntityID>
+                  <Value1>2</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>17/03/2017 14:27:55</CreatedDate>
+                  <UpdatedDate>17/03/2017 14:27:55</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>113</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>42</Sequence>
+                    <Code>DETSHORT</Code>
+                    <Description>Discrepancy found</Description>
+                    <Label>Discrepancy found</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>False</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>04/01/2017 06:31:03</CreatedDate>
+                    <UpdatedDate>06/01/2017 12:23:33</UpdatedDate>
+                    <UserIDLastUpdate>196</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
               </EntityAttributeValues>
               <JobDetails>
                 <JobDetail>
@@ -21415,6 +21479,38 @@
                     <CreatedDate>09/03/2017 21:06:55</CreatedDate>
                     <UpdatedDate>09/03/2017 21:06:55</UpdatedDate>
                     <UserIDLastUpdate>19</UserIDLastUpdate>
+                  </EntityAttribute>
+                </EntityAttributeValue>
+                <EntityAttributeValue>
+                  <EntityAttributeValueID>29104053</EntityAttributeValueID>
+                  <EntityName>Job</EntityName>
+                  <EntityAttributeID>113</EntityAttributeID>
+                  <EntityID>226677</EntityID>
+                  <Value1>0</Value1>
+                  <Value2></Value2>
+                  <Deleted>False</Deleted>
+                  <CreatedDate>17/03/2017 14:27:55</CreatedDate>
+                  <UpdatedDate>17/03/2017 14:27:55</UpdatedDate>
+                  <UserIDLastUpdate>0</UserIDLastUpdate>
+                  <EntityAttribute>
+                    <EntityAttributeID>113</EntityAttributeID>
+                    <CompanyID>3</CompanyID>
+                    <EntityName>Job</EntityName>
+                    <Sequence>42</Sequence>
+                    <Code>DETSHORT</Code>
+                    <Description>Discrepancy found</Description>
+                    <Label>Discrepancy found</Label>
+                    <DataType>I</DataType>
+                    <Size>6</Size>
+                    <DecimalPlaces></DecimalPlaces>
+                    <Format></Format>
+                    <IsRangeType>False</IsRangeType>
+                    <IsMandatory>False</IsMandatory>
+                    <ExportToPDA>False</ExportToPDA>
+                    <Deleted>False</Deleted>
+                    <CreatedDate>04/01/2017 06:31:03</CreatedDate>
+                    <UpdatedDate>06/01/2017 12:23:33</UpdatedDate>
+                    <UserIDLastUpdate>196</UserIDLastUpdate>
                   </EntityAttribute>
                 </EntityAttributeValue>
               </EntityAttributeValues>

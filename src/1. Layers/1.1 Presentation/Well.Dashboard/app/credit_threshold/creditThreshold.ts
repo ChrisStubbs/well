@@ -4,6 +4,6 @@ export class CreditThreshold {
     public id: number;
     public branchName: string;
     public thresholdLevel: string;
-    public value: number;
+    public threshold: number;
     public branches: Branch[];
 }  

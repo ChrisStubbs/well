@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Xml.Serialization;
 
@@ -31,7 +32,7 @@
         public void Import()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
-            var files = Directory.GetFiles(Configuration.DownloadFilePath);
+            var files = Directory.GetFiles(Configuration.DownloadFilePath).OrderBy(x => x);
 
             foreach (var file in files)
             {
@@ -44,14 +45,13 @@
                     using (var streamReader = new StreamReader(file))
                     {
                         var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
-                       
+
                         var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
                         routes.RouteId = route.Id;
 
-                        this.epodUpdateService.Update(routes);
+                        this.epodUpdateService.Update(routes, filename);
                     }
-
 
                     fileModule.MoveFile(file, Configuration.ArchiveLocation);
                     logger.LogDebug($"File {file} imported!");

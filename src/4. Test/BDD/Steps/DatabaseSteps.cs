@@ -397,7 +397,7 @@
                 var ct = new CreditThreshold
                 {
                     ThresholdLevelId =  int.Parse(row["Level"]),
-                    Value =   decimal.Parse(row["Value"]),
+                    Threshold = decimal.Parse(row["Value"]),
                 };
 
                 ct.Branches.Add(new Branch {Id = int.Parse(row["Branch"])});

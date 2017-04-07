@@ -385,11 +385,14 @@
         {
             get
             {
-                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DISCFOUND");
+                int totalShort = TotalOutersShort??0;
+                int detailShort = DetailOutersShort ?? 0;
+                
+                var discrepancy = (totalShort - detailShort);
 
-                if (attribute != null)
+                if (discrepancy > 0)
                 {
-                    return attribute.Value != "N";
+                    return true;
                 }
 
                 return false;
@@ -435,6 +438,45 @@
         }
 
         [XmlIgnore]
+        public int? DetailOutersOverUpdate { get; set; }
+
+        [XmlIgnore]
+        public int? DetailOutersOver
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETOVER");
+                   if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int detailOutersOver = 0;
+                int.TryParse(attribute?.Value, out detailOutersOver);
+                return detailOutersOver;
+            }
+        }
+
+        [XmlIgnore]
+        public int? DetailOutersShortUpdate { get; set; }
+
+        [XmlIgnore]
+        public int? DetailOutersShort
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETSHORT");
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int detailOutersShort = 0;
+                int.TryParse(attribute?.Value, out detailOutersShort);
+                return detailOutersShort;
+
+            }
+        }
+
+        [XmlIgnore]
         public bool Picked
         {
             get
@@ -471,5 +513,9 @@
 
         public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
                                                        jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
+
+        public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
+
+        public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
     }
 }

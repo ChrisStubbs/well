@@ -21,7 +21,9 @@
 	@OuterDiscrepancyFound BIT,
 	@TotalOutersOver INT,
 	@TotalOutersShort INT,
-	@InvoiceValue DECIMAL(8,2)
+	@InvoiceValue DECIMAL(8,2),
+	@DetailOutersOver INT,
+	@DetailOutersShort INT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -50,7 +52,9 @@ BEGIN
 		OuterDiscrepancyFound = @OuterDiscrepancyFound,
 		TotalOutersOver = @TotalOutersOver,
 		TotalOutersShort = @TotalOutersShort,
-		InvoiceValue = @InvoiceValue
+		InvoiceValue = @InvoiceValue,
+		DetailOutersOver = @DetailOutersOver,
+		DetailOutersShort = @DetailOutersShort
 	WHERE
 		Id = @Id
 END

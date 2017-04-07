@@ -55,14 +55,14 @@ export class DeliveryLine
     public lineDeliveryStatus: string;
     public jobDetailReasonId: number;
     public jobDetailSourceId: number;
-    public shortsActionId: number;
+    public shortsActionId: number; 
     public isHighValue: boolean;
     public jobDetailReason: string;
     public jobDetailSource: string;
     public shortsAction: string;
     public totalCreditThreshold: string;
     public damages: Damage[] = new Array<Damage>();
-    public isCleanOnInit: boolean;
+    public isCleanOnInit: boolean; 
 
     public isClean(): boolean
     {
@@ -85,15 +85,15 @@ export class DeliveryLine
     public isDetailChecked(): boolean
     {
         if (this.lineDeliveryStatus === 'Exception') {
-            return true;
+           return true;
         }
         if (this.lineDeliveryStatus === 'Delivered') {
            return true;
         }
         if (this.lineDeliveryStatus === 'Unknown') {
            return false;
-        }
-          
+        } 
+           
         return false;
     } 
 

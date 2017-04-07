@@ -2,7 +2,6 @@
 import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
-//import { User } from '../user_preferences/User';
 import { UserPreferenceService } from '../user_preferences/userPreferenceService';
 import { CreditThresholdService } from '../credit_threshold/creditThresholdService';
 import { HttpResponse } from '../shared/httpResponse';
@@ -40,7 +39,7 @@ export class UserThresholdLevelComponent implements OnInit
                         this.thresholdLevel = 'Level ' + this.user.thresholdLevelId;
                     }
                 });
-        });
+        }); 
     }
 
     public setSelectedLevel(level)

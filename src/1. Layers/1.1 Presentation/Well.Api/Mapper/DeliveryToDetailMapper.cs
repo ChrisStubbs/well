@@ -2,13 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using Domain.Enums;
     using PH.Well.Api.Mapper.Contracts;
     using PH.Well.Api.Models;
     using PH.Well.Domain.ValueObjects;
 
     public class DeliveryToDetailMapper : IDeliveryToDetailMapper
     {
+
         public DeliveryDetailModel Map(IEnumerable<DeliveryLine> lines, DeliveryDetail detail)
         {
             var deliveryDetail = new DeliveryDetailModel
@@ -32,7 +33,9 @@
                 BranchId = detail.BranchId,
                 GrnProcessType = detail.GrnProcessType,
                 ProofOfDelivery = detail.ProofOfDelivery,
-                IsProofOfDelivery = detail.IsProofOfDelivery
+                IsProofOfDelivery = detail.IsProofOfDelivery,
+                DetailOutersShort = detail.DetailOutersShort,
+                ToBeAdvisedCount = detail.ToBeAdvisedCount
             };
 
             foreach (var line in lines)
@@ -63,7 +66,8 @@
                     }).ToList()
                 };
 
-                if (line.IsClean)
+                if (deliveryDetail.JobStatus == JobStatus.Clean.ToString() 
+                    || (line.IsClean && deliveryDetail.JobStatus != JobStatus.Bypassed.ToString()))
                 {
                     deliveryDetail.CleanDeliveryLines.Add(newItem);
                 }

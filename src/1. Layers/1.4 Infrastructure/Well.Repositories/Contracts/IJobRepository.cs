@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Data;
     using Domain;
+    using Domain.Enums;
     using Domain.ValueObjects;
 
     public interface IJobRepository : IRepository<Job, int>
@@ -11,9 +12,7 @@
 
         IEnumerable<Job> GetByIds(IEnumerable<int> jobIds);
 
-        Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId);
-
-        Job GetJobByRefDetails(string phAccount, string pickListRef, int stopId);
+        Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
 
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
 
@@ -35,5 +34,6 @@
 
         IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int jobId, int branchId, string invoiceNumber);
 
+        void UpdateStatus(int jobId, JobStatus status);
     }
 }

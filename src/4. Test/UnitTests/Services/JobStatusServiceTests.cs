@@ -56,12 +56,12 @@ namespace PH.Well.UnitTests.Services
                 var branchNo = 55;
                 var invoiceNumber = "12345678";
 
-                var job1 = JobFactory.New.With(x=>x.InvoiceNumber = invoiceNumber).Build();
+                var job1 = JobFactory.New.With(x => x.InvoiceNumber = invoiceNumber).Build();
                 var job2 = JobFactory.New.Build();
                 var job3 = JobFactory.New.Build();
-                
+
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
+                    .Returns(new List<Job>() {job2, job3});
 
                 this.jobRepository.Setup(x => x.Update(job2));
                 this.jobRepository.Setup(x => x.Update(job3));
@@ -69,7 +69,7 @@ namespace PH.Well.UnitTests.Services
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
                     .With(x => x.PhProductCode = "2001")
-                    .With(x=>x.OriginalDespatchQty = 10)
+                    .With(x => x.OriginalDespatchQty = 10)
                     .Build();
 
                 var jobDetail2 = JobDetailFactory.New
@@ -81,7 +81,7 @@ namespace PH.Well.UnitTests.Services
                 var jobDetail3 = JobDetailFactory.New
                     .With(x => x.PhProductCode = "2001")
                     .With(x => x.OriginalDespatchQty = 10)
-                    .With(x=>x.DeliveredQty = 5)
+                    .With(x => x.DeliveredQty = 5)
                     .Build();
 
                 job1.JobDetails.Add(jobDetail1);
@@ -93,7 +93,8 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsTrue(job2.JobStatus == JobStatus.Exception);
                 Assert.IsTrue(job3.JobStatus == JobStatus.Exception);
 
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
                 this.jobRepository.Verify(x => x.Update(job2), Times.Once);
                 this.jobRepository.Verify(x => x.Update(job3), Times.Once);
             }
@@ -112,7 +113,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
+                    .Returns(new List<Job>() {job2, job3});
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -140,7 +141,8 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
             }
 
             /// <summary>
@@ -157,7 +159,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
+                    .Returns(new List<Job>() {job2, job3});
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -185,7 +187,8 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
             }
 
             /// <summary>
@@ -204,13 +207,13 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
+                    .Returns(new List<Job>() {job2, job3});
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
                     .With(x => x.PhProductCode = "2001")
                     .With(x => x.OriginalDespatchQty = 10)
-                    .With(x=>x.ShortQty = 1)
+                    .With(x => x.ShortQty = 1)
                     .Build();
 
                 job1.JobDetails.Add(jobDetail1);
@@ -219,7 +222,8 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
             }
 
             /// <summary>
@@ -238,7 +242,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
+                    .Returns(new List<Job>() {job2, job3});
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -253,7 +257,8 @@ namespace PH.Well.UnitTests.Services
                 Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
                 Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
             }
 
             /// <summary>
@@ -272,7 +277,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
+                    .Returns(new List<Job>() {job2, job3});
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -286,7 +291,8 @@ namespace PH.Well.UnitTests.Services
 
                 this.service.DetermineStatus(job1, branchNo);
                 Assert.IsTrue(job1.JobStatus == JobStatus.Clean);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
             }
 
             /// <summary>
@@ -317,7 +323,8 @@ namespace PH.Well.UnitTests.Services
 
                 this.service.DetermineStatus(job1, branchNo);
                 Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Once);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Once);
             }
 
             [Test]
@@ -338,7 +345,27 @@ namespace PH.Well.UnitTests.Services
 
                 this.service.DetermineStatus(job1, branchNo);
                 Assert.AreEqual(JobStatus.Bypassed, job1.JobStatus);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber), Times.Never);
+                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
+                    Times.Never);
+            }
+
+            [Test]
+            public void TestCasesShouldSetToCompletedOnPaper()
+            {
+                // come in as a bypass
+                // reason is manual delivery
+                // should set to status completed on paper
+                var branchNo = 55;
+                var invoiceNumber = "12345678";
+
+                var job1 = JobFactory.New
+                    .With(x => x.InvoiceNumber = invoiceNumber)
+                    .With(x => x.PerformanceStatus = PerformanceStatus.Abypa)
+                    .With(x => x.JobByPassReason = "manual delivery")
+                    .Build();
+
+                this.service.DetermineStatus(job1, branchNo);
+                Assert.AreEqual(JobStatus.CompletedOnPaper, job1.JobStatus);
             }
         }
 

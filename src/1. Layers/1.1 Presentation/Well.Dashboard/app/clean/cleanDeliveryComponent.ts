@@ -48,21 +48,22 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
         private securityService: SecurityService,
-        private nqps: NavigateQueryParametersService ) {
+        private nqps: NavigateQueryParametersService) 
+    {
 
-            super(nqps);
-            this.options = [
-                this.routeOption,
-                new DropDownItem('Branch', 'branchId', false, 'number'),
-                new DropDownItem('Invoice No', 'invoiceNumber'),
-                new DropDownItem('Account', 'accountCode'),
-                new DropDownItem('Account Name', 'accountName'),
-                new DropDownItem('Assignee', 'assigned'),
-                new DropDownItem('Date', 'deliveryDate', false, 'date')
-            ];
-            this.sortField = 'deliveryDate';
-
-         }
+        super(nqps);
+        this.options = [
+            this.routeOption,
+            new DropDownItem('Branch', 'branchId', false, 'number'),
+            new DropDownItem('Invoice No', 'invoiceNumber'),
+            new DropDownItem('Account', 'accountCode'),
+            new DropDownItem('Account Name', 'accountName'),
+            new DropDownItem('Assignee', 'assigned'),
+            new DropDownItem('Date', 'deliveryDate', false, 'date')
+        ];
+        this.sortField = 'deliveryDate';
+        this.orderBy = new OrderByExecutor();
+    }
 
     public ngOnInit(): void {
         super.ngOnInit();

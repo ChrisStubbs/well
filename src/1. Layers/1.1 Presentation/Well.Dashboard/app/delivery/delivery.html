@@ -15,14 +15,14 @@
                 <div><span *ngIf="delivery.phoneNumber">Phone:</span> {{delivery.phoneNumber}}</div>
                 <div><span *ngIf="delivery.mobileNumber">Mobile:</span> {{delivery.mobileNumber}}</div>
                 <div><span *ngIf="delivery.invoiceNumber">Invoice:</span> {{delivery.invoiceNumber}}</div>
-                <div><strong><span *ngIf="delivery.outerDiscrepancyFound" title="Discrepancy">Outer count link: {{delivery.outerCount}} Discrepancy found: {{delivery.totalOutersShort}} shorts to be advised </span></strong></div>
+                <div><strong><span *ngIf="delivery.outerDiscrepancyFound" title="Discrepancy">Outer count link: {{delivery.outerCount}} Discrepancy found: {{delivery.toBeAdvisedCount}} shorts to be advised </span></strong></div>
             </address>
         </div>
         <div class="col-md-6">
             <address> 
                 <strong>{{delivery.accountName}}</strong><br/>{{delivery.accountAddress}}
             </address>
-            <div *ngIf="delivery.grnProcessType === 1">
+            <div>
                 <label>GRN</label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="grn" maxlength="50" [(ngModel)]="delivery.grnNumber" placeholder="GRN" required/>

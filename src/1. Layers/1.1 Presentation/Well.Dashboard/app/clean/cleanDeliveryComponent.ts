@@ -34,6 +34,8 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public isReadOnlyUser: boolean = false;
     public routeDate: Date;
     private orderBy: OrderByExecutor = new OrderByExecutor();
+    public branchId: number;
+    public routeNumber: string;
 
     @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
@@ -46,21 +48,22 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
         private securityService: SecurityService,
-        private nqps: NavigateQueryParametersService ) {
+        private nqps: NavigateQueryParametersService) 
+    {
 
-            super(nqps);
-            this.options = [
-                this.routeOption,
-                new DropDownItem('Branch', 'branchId', false, 'number'),
-                new DropDownItem('Invoice No', 'invoiceNumber'),
-                new DropDownItem('Account', 'accountCode'),
-                new DropDownItem('Account Name', 'accountName'),
-                new DropDownItem('Assignee', 'assigned'),
-                new DropDownItem('Date', 'deliveryDate', false, 'date')
-            ];
-            this.sortField = 'deliveryDate';
-
-         }
+        super(nqps);
+        this.options = [
+            this.routeOption,
+            new DropDownItem('Branch', 'branchId', false, 'number'),
+            new DropDownItem('Invoice No', 'invoiceNumber'),
+            new DropDownItem('Account', 'accountCode'),
+            new DropDownItem('Account Name', 'accountName'),
+            new DropDownItem('Assignee', 'assigned'),
+            new DropDownItem('Date', 'deliveryDate', false, 'date')
+        ];
+        this.sortField = 'deliveryDate';
+        this.orderBy = new OrderByExecutor();
+    }
 
     public ngOnInit(): void {
         super.ngOnInit();
@@ -70,6 +73,8 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeDate = params['routeDate'];
+            this.branchId = params['branchId'];
+            this.routeNumber = params['filter.routeNumber'];
             this.getDeliveries();
         });
 
@@ -90,8 +95,9 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
                 if (!_.isUndefined(this.routeDate)) {
                     this.cleanDeliveries = _.filter(this.cleanDeliveries,
                         x => {
-                            return x.routeDate === this.routeDate;
-                        });
+                            return x.routeDate === this.routeDate && x.branchId === Number(this.branchId)
+                                && x.routeNumber === this.routeNumber;
+                                       });
                 }
                 
                 this.lastRefresh = Date.now();

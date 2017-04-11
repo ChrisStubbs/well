@@ -18,6 +18,7 @@ SELECT j.[Id] AS [Id]
 	,j.OuterCount
 	,j.OuterDiscrepancyFound
 	,j.TotalOutersShort
+	,j.DetailOutersShort
 	,rh.StartDepotCode AS BranchId
 	,j.GrnProcessType
 	,j.COD as CashOnDelivery

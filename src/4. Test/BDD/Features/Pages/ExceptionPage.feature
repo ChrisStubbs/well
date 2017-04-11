@@ -195,6 +195,38 @@ Scenario: A user can view Exception Delivery Information with shorts to be advis
 	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
 	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
 
+Scenario: Add damage to exception does not cleam the TBA
+	Given I have selected branch '22'
+	And  2 deliveries have been marked as exceptions with shorts to be advised
+	And I open the exception deliveries
+	And I assign the delivery to myself
+	And I click on exception row 1
+	And I click on the first delivery line
+	And click add damage button
+	And I enter a damage qty of '1' for id '0'
+	And I enter a damage reason of 'Picking Error' for id '0'
+	And I enter a damage source of 'Customer' for id '0'
+	And I save the delivery line updates
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Drop | InvoiceNo | Account   | AccountName          | Status     | TBA |
+	| 001   | 1    | 976549    | 49214.152 | CSG - must be CF van | Incomplete | 2   |
+	| 001   | 1    | 1000123   | 02874.033 | CSG - must be CF van | Incomplete | 2   |
+
+Scenario: A user can view Exception Delivery Information with shorts to be advised when DETSHORT and TOTSHORT are set in epod files
+	Given I have a clean database
+	And I have selected branch '55'
+	And I import the route file 'ROUTE_PLYM_BulkCredit.xml' into the well
+	And I have loaded the order file 'ORDER_PLY_BulkCredit.xml' into the well
+	And I have imported the following valid Epod files
+	| Filename       |
+	| ePOD__TBA1.xml |
+	When I open the exception deliveries
+	Then the following exception deliveries will be displayed
+	| Route | Branch | Drop | InvoiceNo | Account   | AccountName | CreditValue | Status     | TBA |
+	| 111   | 55     | 4    | 1715069   | 47020.053 | COSTCUTTER  | 0           | Incomplete | 3   |
+	| 111   | 55     | 4    | 2845610   | 47020.053 | COSTCUTTER  | 158.46      | Incomplete | 0   |
+	| 111   | 55     | 4    | 4800016   | 47663.040 | COSTCUTTER  | 25.32       | Incomplete | 0   |
 
 Scenario: Each exception delivery should have at least one exception delivery line
    Given I have loaded the Adam route data

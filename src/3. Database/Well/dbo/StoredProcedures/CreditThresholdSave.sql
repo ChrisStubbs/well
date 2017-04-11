@@ -11,7 +11,7 @@ BEGIN
 
     INSERT INTO [dbo].[CreditThreshold]
            ([ThresholdLevelId]
-		   ,[Value]
+		   ,[Threshold]
 		   ,[CreatedDate]
            ,[LastUpdatedDate]
            ,[CreatedBy]

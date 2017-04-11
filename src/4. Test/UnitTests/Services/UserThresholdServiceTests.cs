@@ -37,8 +37,8 @@
             public void ShouldReturnTrueWhenUserCanCreditBelowTheThresholdAmount()
             {
                 var user = new User { ThresholdLevelId = 5 };
-                var threshold = new CreditThreshold { ThresholdLevelId = 5, Value = 100 };
-                var threshold2 = new CreditThreshold { ThresholdLevelId = 50, Value = 101 };
+                var threshold = new CreditThreshold { ThresholdLevelId = 5, Threshold = 100 };
+                var threshold2 = new CreditThreshold { ThresholdLevelId = 50, Threshold = 101 };
 
                 var thresholds = new List<CreditThreshold> { threshold, threshold2 };
 
@@ -60,8 +60,8 @@
             public void ShouldReturnFalseWhenUserCanNotCreditAboveTheThresholdAmount()
             {
                 var user = new User { ThresholdLevelId = 5 };
-                var threshold = new CreditThreshold { ThresholdLevelId = 5, Value = 101 };
-                var threshold2 = new CreditThreshold { ThresholdLevelId = 50, Value = 100 };
+                var threshold = new CreditThreshold { ThresholdLevelId = 5, Threshold = 101 };
+                var threshold2 = new CreditThreshold { ThresholdLevelId = 50, Threshold = 100 };
 
                 var thresholds = new List<CreditThreshold> { threshold, threshold2 };
 
@@ -89,7 +89,7 @@
                 var totalThresholdAmount = 100;
                 var jobId = 33;
                 
-                var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Value = 100 };
+                var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Threshold = 100 };
 
                 this.creditThresholdRepository.Setup(x => x.GetByBranch(branchId)).Returns(new List<CreditThreshold> { level2Threshold });
 

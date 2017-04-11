@@ -53,5 +53,9 @@
 
         public bool IsProofOfDelivery => ProofOfDelivery.HasValue;
 
+        public int DetailOutersShort { get; set; }
+
+        public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort - DetailOutersShort) : 0;
+
     }
 }

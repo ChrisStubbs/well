@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using Domain;
 
-    public interface IRouteHeaderRepository: IRepository<RouteHeader, int>
+    public interface IRouteHeaderRepository : IRepository<RouteHeader, int>
     {
         IEnumerable<RouteHeader> GetRouteHeaders();
 
@@ -16,7 +16,7 @@
 
         RouteHeader GetRouteHeaderById(int id);
 
-        RouteHeader GetRouteHeaderByRoute(string routeNumber, DateTime? routeDate);
+        RouteHeader GetRouteHeaderByRoute(int branchId, string routeNumber, DateTime? routeDate);
 
         IEnumerable<RouteAttributeException> GetRouteAttributeException();
 

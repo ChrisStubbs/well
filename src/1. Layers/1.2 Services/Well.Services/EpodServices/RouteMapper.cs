@@ -52,6 +52,8 @@
             to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
             to.TotalOutersOverUpdate = from.TotalOutersOver;
             to.TotalOutersShortUpdate = from.TotalOutersShort;
+            to.DetailOutersOverUpdate = from.DetailOutersOver;
+            to.DetailOutersShortUpdate = from.DetailOutersShort;
         }
 
         public void Map(JobUpdate from, Job to)

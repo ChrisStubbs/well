@@ -32,7 +32,7 @@
 
         public int ShortsActionId { get; set; }
 
-        public DeliveryAction ShortsAction => (DeliveryAction) ShortsActionId;
+        public DeliveryAction ShortsAction => (DeliveryAction)ShortsActionId;
 
         public string LineDeliveryStatus { get; set; }
 
@@ -48,16 +48,16 @@
 
         public int DamagedQuantity => Damages.Sum(d => d.Quantity);
 
-        public bool IsClean => Damages.Sum(d => d.Quantity) + ShortQuantity == 0;
+        public bool IsClean => !IsException;
+
+        private bool IsException => (DamagedQuantity + ShortQuantity > 0); 
 
         public bool CanSubmit => (ShortQuantity == 0 || ShortsAction != DeliveryAction.NotDefined) &&
                                  Damages.All(d => d.Quantity == 0 || d.DamageAction != DeliveryAction.NotDefined);
 
         public decimal CreditValueForThreshold()
         {
-            var sumQty = this.Damages.Sum(d => d.Quantity);
-            var c = (this.ShortQuantity + sumQty) * Convert.ToDecimal(this.Value);
-
+            var c = (this.ShortQuantity + DamagedQuantity) * this.Value;
             return c;
         }
 
@@ -65,5 +65,6 @@
 
         public bool HasNoActions => ShortsAction == DeliveryAction.NotDefined &&
                                     Damages.All(d => d.DamageAction == DeliveryAction.NotDefined);
+
     }
 }

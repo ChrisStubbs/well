@@ -7,10 +7,10 @@
         <div class="modal-body">What would you like to view for route <strong>{{route.route}}</strong></div>
         <div class="modal-footer">
             <div class="btn-group">
-                <button id="btn-exceptions" type="button" class="btn btn-primary" routerLink="/exceptions" [queryParams]="{'filter.routeNumber':route.route, 'routeDate':route.routeDate}">Exceptions</button>
+                <button id="btn-exceptions" type="button" class="btn btn-primary" routerLink="/exceptions" [queryParams]="{'filter.routeNumber':route.route, 'routeDate':route.routeDate, 'branchId':route.routeOwnerId}">Exceptions</button>
             </div>
             <div class="btn-group">
-                <button id="btn-clean" type="button" class="btn btn-primary" routerLink="/clean"  [queryParams]="{'filter.routeNumber':route.route, 'routeDate':route.routeDate}">Clean</button>
+                <button id="btn-clean" type="button" class="btn btn-primary" routerLink="/clean"  [queryParams]="{'filter.routeNumber':route.route, 'routeDate':route.routeDate, 'branchId':route.routeOwnerId}">Clean</button>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-default" (click)="hide()">Close</button>

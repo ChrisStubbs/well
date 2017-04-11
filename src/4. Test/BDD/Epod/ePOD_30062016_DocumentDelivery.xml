@@ -32,7 +32,7 @@
     <RouteHeader>
       <RouteHeaderID>683</RouteHeaderID>
       <CompanyID>3</CompanyID>
-      <RouteNumber>21001</RouteNumber>
+      <RouteNumber>22001</RouteNumber>
       <RouteDate>01-07-2016</RouteDate>
       <PlannedStops>2</PlannedStops>
       <ActualStopsCompleted>1</ActualStopsCompleted>
@@ -213,7 +213,7 @@
               <PerformanceStatusCode>INCOM</PerformanceStatusCode>
               <PerformanceStatusDescription>Incomplete</PerformanceStatusDescription>
               <OrderDate>30-05-2016</OrderDate>
-              <JobType_Code>DEL-TOB</JobType_Code>
+              <JobType_Code>DEL-AMB</JobType_Code>
               <Reason_ReasonCode>F</Reason_ReasonCode>
               <EntityAttributeValues>
                 <EntityAttributeValue>

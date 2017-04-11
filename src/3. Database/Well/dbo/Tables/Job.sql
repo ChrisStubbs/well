@@ -35,6 +35,8 @@
 	[Picked] BIT NULL DEFAULT 0,
 	[InvoiceValue] DECIMAL(8,2) NULL,
 	[ProofOfDelivery] INT NULL DEFAULT 0,
+	[DetailOutersOver] INT NULL,
+	[DetailOutersShort] INT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,

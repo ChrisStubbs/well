@@ -166,17 +166,18 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 
-        public RouteHeader GetRouteHeaderByRoute(string routeNumber, DateTime? routeDate)
+        public RouteHeader GetRouteHeaderByRoute(int branchId, string routeNumber, DateTime? routeDate)
         {
             return
-                dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetByRouteNumberAndDate)
+                dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderGetByBranchRouteNumberAndDate)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
                     .AddParameter("RouteNumber", routeNumber, DbType.String)
                     .AddParameter("RouteDate", routeDate, DbType.DateTime)
                     .Query<RouteHeader>()
                     .FirstOrDefault();
         }
 
-        public IEnumerable<RouteAttributeException>  GetRouteAttributeException()
+        public IEnumerable<RouteAttributeException> GetRouteAttributeException()
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.RouteAttributesGetExceptions)
                 .Query<RouteAttributeException>();

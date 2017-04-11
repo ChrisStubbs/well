@@ -11,4 +11,4 @@ export class CleanDelivery extends BaseDelivery {
     public deliveryDate: Date;
     public accountId: string;
     public canAction: boolean;
-}
+} 

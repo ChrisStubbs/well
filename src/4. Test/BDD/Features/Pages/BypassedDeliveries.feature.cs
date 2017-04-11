@@ -120,6 +120,9 @@ this.FeatureBackground();
                         "0"});
 #line 13
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table1, "Then ");
+#line 17
+ testRunner.When("I click on each of the deliveries on page 1 there will be at least one exception " +
+                    "delivery line", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -129,17 +132,17 @@ this.FeatureBackground();
         public virtual void BypassedDeliveriesWithExceptionsCanBeResolved()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Bypassed deliveries with exceptions can be resolved", ((string[])(null)));
-#line 18
+#line 19
 this.ScenarioSetup(scenarioInfo);
 #line 5
 this.FeatureBackground();
-#line 19
- testRunner.Given("1 delivery has all its lines set to close", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 20
- testRunner.And("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("1 delivery has all its lines set to close", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 21
- testRunner.When("I select the exception submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
+ testRunner.When("I select the exception submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
  testRunner.And("I confirm the exception submit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -158,7 +161,7 @@ this.FeatureBackground();
                         "CSG - must be CF van",
                         "Bypassed",
                         "0"});
-#line 23
+#line 24
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table2, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -169,17 +172,17 @@ this.FeatureBackground();
         public virtual void BypassedDeliveriesWithoutExceptionsCanBeResolved()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Bypassed deliveries without exceptions can be resolved", ((string[])(null)));
-#line 27
+#line 28
 this.ScenarioSetup(scenarioInfo);
 #line 5
 this.FeatureBackground();
-#line 28
- testRunner.Given("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 29
- testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I open the exception deliveries", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 30
- testRunner.And("I select the exception submit button on Row \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I assign the delivery on row 2 to myself", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 31
+ testRunner.And("I select the exception submit button on Row \'2\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 32
  testRunner.And("I confirm the exception submit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -198,7 +201,7 @@ this.FeatureBackground();
                         "CSG - must be CF van",
                         "Bypassed",
                         "0"});
-#line 32
+#line 33
  testRunner.Then("the following exception deliveries will be displayed", ((string)(null)), table3, "Then ");
 #line hidden
             this.ScenarioCleanup();

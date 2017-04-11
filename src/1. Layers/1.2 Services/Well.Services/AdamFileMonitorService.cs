@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Xml.Serialization;
 
@@ -51,7 +52,7 @@
         {
             this.RootFolder = rootFolder;
 
-            var files = Directory.GetFiles(rootFolder);
+            var files = Directory.GetFiles(rootFolder).OrderBy(x=> x);
 
             foreach (var file in files)
             {

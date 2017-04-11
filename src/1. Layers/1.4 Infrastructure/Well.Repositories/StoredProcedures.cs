@@ -13,7 +13,7 @@
         public static string RouteHeaderUpdate = "RouteHeader_Update";
         public static string RouteHeaderGetById = "RouteHeader_GetById";
         public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
-        public static string RouteHeaderGetByRouteNumberAndDate = "RouteHeader_GetByRouteNumberAndDate";
+        public static string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
         public static string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
         public static string RouteHeaderDeleteById = "RouteHeader_DeleteById";
         public static string RoutesGet = "Routes_Get";
@@ -36,12 +36,12 @@
         public static string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";
         public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public static string JobInsert = "Job_Insert";
+        public static string JobUpdateStatus = "Job_UpdateStatus";
         public static string JobUpdate = "Job_Update";
         public static string JobGetById = "Job_GetById";
         public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public static string JobDeleteById = "Job_DeleteById";
         public static string SaveGrn = "SaveGrn";
-        public static string JobGetByAccountPicklistAndStopId = "Job_GetByAccountPicklistAndStopId";
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";

@@ -150,14 +150,6 @@ Scenario:  Credit threshold negative inputs
 	| Branch is required!          |
 	When I change the credit threshold
     | Level | Threshold |
-    | 1     | aaa       |
-	And I save the credit threshold
-	Then warnings appear on the credit threshold page
-	| Error                        |
-	| Threshold is required!       |
-	| Branch is required!          |
-	When I change the credit threshold
-    | Level | Threshold |
     | 1     | -1        |
 	And I save the credit threshold
 	Then warnings appear on the credit threshold page

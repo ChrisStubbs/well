@@ -424,6 +424,9 @@
     <Content Include="Epod\ePOD__20170317_HIGHVALUE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Epod\ePOD__TBA1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Epod\ePOD__BulkCredit1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

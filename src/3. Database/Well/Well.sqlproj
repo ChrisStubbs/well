@@ -128,9 +128,8 @@
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <Build Include="dbo\Tables\PerformanceStatus.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_GetByRouteNumberAndDate.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_GetByBranchRouteNumberAndDate.sql" />
     <Build Include="dbo\StoredProcedures\StopGetByJob.sql" />
-    <Build Include="dbo\StoredProcedures\Job_GetByAccountPicklistAndStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteAttributes_GetExceptions.sql" />
     <Build Include="dbo\Tables\Reason.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByAccountId.sql" />
@@ -291,6 +290,7 @@
     <None Include="ManualStep\scripts\up\004_Update_Incorrect_JobStatus_DocumentDelivery.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\Job_UpdateStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

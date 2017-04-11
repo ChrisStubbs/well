@@ -48,7 +48,7 @@
                             </td>
                             <td (click)="deliverySelected(delivery)" id="resolved-job-{{delivery.id}}">{{delivery.jobStatus}}</td>
                             <td id="resolved-assigned-{{delivery.id}}">{{delivery.assigned}}</td>
-                            <td (click)="deliverySelected(delivery)" id="resolved-date-{{delivery.id}}">{{delivery.deliveryDate | date:'dd/MM/y H:mm:ss'}}</td>
+                            <td (click)="deliverySelected(delivery)" id="resolved-date-{{delivery.id}}">{{delivery.deliveryDate | date:'dd MMM yyyy HH:mm:ss'}}</td>
                         </tr>
                         </tbody>
                     </table>

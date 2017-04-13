@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using System.Dynamic;
     using System.Xml.Serialization;
 
     using Enums;
@@ -134,6 +135,9 @@
 
             return other.JobDetailReason == this.JobDetailReason && other.Qty == Qty;
         }
+
+        [XmlIgnore]
+        public string PdaReasonDescription { get; set; }
     }
 
     [Serializable]

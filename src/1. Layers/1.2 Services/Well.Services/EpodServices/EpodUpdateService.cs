@@ -43,6 +43,8 @@
         private readonly IUserNameProvider userNameProvider;
         private const int EventLogErrorId = 9682;
 
+        private const int ProcessTypeForGrn = 1;
+
         public EpodUpdateService(
             ILogger logger,
             IEventLogger eventLogger,
@@ -179,7 +181,7 @@
 
                 this.jobStatusService.DetermineStatus(existingJob, branchId);
 
-                if (!string.IsNullOrWhiteSpace(job.GrnNumber) && existingJob.GrnProcessType == 1)
+                if (!string.IsNullOrWhiteSpace(job.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
                 {
                     var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
@@ -191,13 +193,10 @@
                     existingJob.Id,
                     string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
 
-                //TODO POD event
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
 
-                if (pod == (int)ProofOfDelivery.CocaCola && existingJob.JobStatus != JobStatus.CompletedOnPaper)
+                if ((pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade ) && existingJob.JobStatus != JobStatus.CompletedOnPaper)
                 {
-                    //TODO LRS customer (lucozade) 
-                    //build pod transaction
                     var podEvent = new PodEvent
                     {
                         BranchId = branchId,
@@ -256,8 +255,11 @@
                     continue;
                 }
 
+                damage.PdaReasonDescription = string.IsNullOrWhiteSpace(damage.Reason.Description) ? "Not defined" : damage.Reason.Description;
+
                 damage.JobDetailReason = JobDetailReason.NotDefined;
                 damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
+              
                 this.jobDetailDamageRepository.Save(damage);
             }
         }

@@ -48,6 +48,7 @@ AS
 	  ,[JobDetailReasonId]
 	  ,[DamageActionId]
 	  ,[DamageStatus]
+	  ,[PdaReasonDescription]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

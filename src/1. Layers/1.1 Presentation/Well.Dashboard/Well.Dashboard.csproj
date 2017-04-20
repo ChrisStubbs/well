@@ -20,15 +20,14 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -214,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
+    <Content Include="app\appRoutes.js" />
     <Content Include="app\approvals\approvals-list.html" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
@@ -232,6 +232,7 @@
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\shared\appSearch\appSearchView.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
@@ -768,12 +769,20 @@
     <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
+    <TypeScriptCompile Include="app\job\Job.ts" />
+    <TypeScriptCompile Include="app\job\jobService.ts" />
+    <TypeScriptCompile Include="app\job\JobStatus.ts" />
+    <TypeScriptCompile Include="app\job\JobType.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
     <TypeScriptCompile Include="app\shared\httpService.ts" />
+    <TypeScriptCompile Include="app\shared\IOptionFilter.ts" />
     <TypeScriptCompile Include="app\shared\NavigateQueryParameters.ts" />
     <TypeScriptCompile Include="app\shared\NavigateQueryParametersService.ts" />
     <Content Include="app\shared\loadingComponent.ts" />
+    <TypeScriptCompile Include="app\shared\OrderByExecutor.ts" />
+    <TypeScriptCompile Include="app\shared\orderByPipe.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

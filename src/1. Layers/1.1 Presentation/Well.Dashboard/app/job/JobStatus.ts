@@ -1,4 +1,4 @@
-﻿export class JobDetailReason
+export class JobStatus
 {
     public id: number;
     public description: string;

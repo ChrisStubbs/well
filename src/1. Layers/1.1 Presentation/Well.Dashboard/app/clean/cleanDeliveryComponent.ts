@@ -1,5 +1,4 @@
-﻿import { Dropdown } from '../shared/primeng/primeng';
-import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
+﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnInit, ViewChild, OnDestroy}   from '@angular/core';
 import {GlobalSettingsService}                      from '../shared/globalSettings';
@@ -15,6 +14,7 @@ import {RefreshService}                             from '../shared/refreshServi
 import {SecurityService}                            from '../shared/security/securityService';
 import * as _                                       from 'lodash';
 import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+import { GroupDescriptor, process }                 from '@progress/kendo-data-query';
 import 'rxjs/Rx';   // Load all features
 
 @Component({
@@ -36,6 +36,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     private orderBy: OrderByExecutor = new OrderByExecutor();
     public branchId: number;
     public routeNumber: string;
+    private groups: GroupDescriptor[] = [{ field: 'branchId' }];
 
     @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
@@ -132,4 +133,9 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public onAssigned(assigned: boolean) {
         this.getDeliveries();
     }
+
+    // public groupChange(groups: GroupDescriptor[]): void {
+    //     this.groups = groups;
+    //     this.loadProducts();
+    // }
 }

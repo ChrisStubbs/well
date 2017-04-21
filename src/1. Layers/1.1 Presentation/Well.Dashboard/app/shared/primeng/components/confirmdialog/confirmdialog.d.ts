@@ -23,6 +23,7 @@ export declare class ConfirmDialog implements AfterViewInit, OnDestroy {
     closable: boolean;
     responsive: boolean;
     appendTo: any;
+    key: string;
     footer: any;
     confirmation: Confirmation;
     _visible: boolean;

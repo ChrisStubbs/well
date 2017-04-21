@@ -1,7 +1,8 @@
-import { ElementRef, AfterViewInit, OnDestroy, OnInit, EventEmitter, Renderer } from '@angular/core';
+import { ElementRef, AfterViewInit, OnDestroy, OnInit, EventEmitter, Renderer, ChangeDetectorRef } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
-import { ControlValueAccessor } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor } from '@angular/forms';
 export declare const CALENDAR_VALUE_ACCESSOR: any;
+export declare const CALENDAR_VALIDATOR: any;
 export interface LocaleSettings {
     firstDayOfWeek?: number;
     dayNames: string[];
@@ -14,10 +15,12 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     el: ElementRef;
     domHandler: DomHandler;
     renderer: Renderer;
+    cd: ChangeDetectorRef;
     defaultDate: Date;
     style: string;
     styleClass: string;
     inputStyle: string;
+    inputId: string;
     inputStyleClass: string;
     placeholder: string;
     disabled: any;
@@ -36,14 +39,22 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     showTime: boolean;
     hourFormat: string;
     timeOnly: boolean;
+    stepHour: number;
+    stepMinute: number;
+    stepSecond: number;
+    showSeconds: boolean;
     required: boolean;
+    showOnFocus: boolean;
     dataType: string;
+    disabledDates: Array<Date>;
+    disabledDays: Array<number>;
+    onFocus: EventEmitter<any>;
     onBlur: EventEmitter<any>;
     onSelect: EventEmitter<any>;
-    locale: LocaleSettings;
+    _locale: LocaleSettings;
     tabindex: number;
     overlayViewChild: ElementRef;
-    value: any;
+    value: Date;
     dates: any[];
     weekDays: string[];
     currentMonthText: string;
@@ -51,6 +62,7 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     currentYear: number;
     currentHour: number;
     currentMinute: number;
+    currentSecond: number;
     pm: boolean;
     overlay: HTMLDivElement;
     overlayVisible: boolean;
@@ -67,11 +79,14 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     inputFieldValue: string;
     _minDate: Date;
     _maxDate: Date;
+    _isValid: boolean;
     minDate: Date;
     maxDate: Date;
-    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer);
+    locale: LocaleSettings;
+    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer, cd: ChangeDetectorRef);
     ngOnInit(): void;
     ngAfterViewInit(): void;
+    createWeekDays(): void;
     createMonth(month: number, year: number): void;
     prevMonth(event: any): void;
     nextMonth(event: any): void;
@@ -92,9 +107,11 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     };
     getSundayIndex(): number;
     isSelected(dateMeta: any): boolean;
-    isToday(dateMeta: any): boolean;
+    isToday(today: any, day: any, month: any, year: any): boolean;
     isSelectable(day: any, month: any, year: any): boolean;
-    onInputFocus(event: any): void;
+    isDateDisabled(day: number, month: number, year: number): boolean;
+    isDayDisabled(day: number, month: number, year: number): boolean;
+    onInputFocus(inputfield: any, event: any): void;
     onInputBlur(event: any): void;
     onButtonClick(event: any, inputfield: any): void;
     onInputKeydown(event: any): void;
@@ -104,6 +121,8 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     decrementHour(event: any): void;
     incrementMinute(event: any): void;
     decrementMinute(event: any): void;
+    incrementSecond(event: any): void;
+    decrementSecond(event: any): void;
     updateTime(): void;
     toggleAMPM(event: any): void;
     onInput(event: any): void;
@@ -111,7 +130,7 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     populateTime(value: any, timeString: any, ampm: any): void;
     updateUI(): void;
     onDatePickerClick(event: any): void;
-    showOverlay(event: any): void;
+    showOverlay(inputfield: any): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
@@ -121,11 +140,17 @@ export declare class Calendar implements AfterViewInit, OnInit, OnDestroy, Contr
     parseTime(value: any): {
         hour: number;
         minute: number;
+        second: number;
     };
     parseDate(value: any, format: any): any;
     daylightSavingAdjust(date: any): any;
     updateFilledState(): void;
+    bindDocumentClickListener(): void;
+    unbindDocumentClickListener(): void;
     ngOnDestroy(): void;
+    validate(c: AbstractControl): {
+        invalidDate: boolean;
+    };
 }
 export declare class CalendarModule {
 }

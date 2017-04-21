@@ -1,15 +1,11 @@
-import { ElementRef } from '@angular/core';
-export declare class InputText {
+import { ElementRef, DoCheck } from '@angular/core';
+export declare class InputText implements DoCheck {
     el: ElementRef;
-    hover: boolean;
-    focus: boolean;
+    filled: boolean;
     constructor(el: ElementRef);
-    onMouseover(e: any): void;
-    onMouseout(e: any): void;
-    onFocus(e: any): void;
-    onBlur(e: any): void;
-    readonly disabled: boolean;
-    readonly filled: boolean;
+    ngDoCheck(): void;
+    onInput(e: any): void;
+    updateFilledState(): void;
 }
 export declare class InputTextModule {
 }

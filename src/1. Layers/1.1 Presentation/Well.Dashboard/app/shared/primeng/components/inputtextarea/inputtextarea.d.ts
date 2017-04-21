@@ -1,23 +1,21 @@
-import { ElementRef, OnInit } from '@angular/core';
-export declare class InputTextarea implements OnInit {
+import { ElementRef, OnInit, DoCheck } from '@angular/core';
+export declare class InputTextarea implements OnInit, DoCheck {
     el: ElementRef;
     autoResize: boolean;
     rows: number;
     cols: number;
-    hover: boolean;
-    focus: boolean;
     rowsDefault: number;
     colsDefault: number;
+    filled: boolean;
     constructor(el: ElementRef);
     ngOnInit(): void;
-    onMouseover(e: any): void;
-    onMouseout(e: any): void;
+    ngDoCheck(): void;
+    onInput(e: any): void;
+    updateFilledState(): void;
     onFocus(e: any): void;
     onBlur(e: any): void;
     onKeyup(e: any): void;
     resize(): void;
-    readonly disabled: boolean;
-    readonly filled: boolean;
 }
 export declare class InputTextareaModule {
 }

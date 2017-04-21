@@ -1,5 +1,5 @@
-import { ElementRef, OnDestroy, DoCheck, EventEmitter, IterableDiffers, OnInit, AfterViewChecked } from '@angular/core';
-export declare class Schedule implements DoCheck, OnDestroy, OnInit, AfterViewChecked {
+import { ElementRef, OnDestroy, DoCheck, OnChanges, EventEmitter, IterableDiffers, OnInit, AfterViewChecked, SimpleChanges } from '@angular/core';
+export declare class Schedule implements DoCheck, OnDestroy, OnInit, OnChanges, AfterViewChecked {
     el: ElementRef;
     events: any[];
     header: any;
@@ -36,9 +36,11 @@ export declare class Schedule implements DoCheck, OnDestroy, OnInit, AfterViewCh
     dragScroll: boolean;
     eventOverlap: any;
     eventConstraint: any;
-    locale: any;
+    locale: string;
+    timezone: boolean | string;
     eventRender: Function;
     dayRender: Function;
+    options: any;
     onDayClick: EventEmitter<any>;
     onDrop: EventEmitter<any>;
     onEventClick: EventEmitter<any>;
@@ -50,15 +52,16 @@ export declare class Schedule implements DoCheck, OnDestroy, OnInit, AfterViewCh
     onEventResizeStart: EventEmitter<any>;
     onEventResizeStop: EventEmitter<any>;
     onEventResize: EventEmitter<any>;
-    viewRender: EventEmitter<any>;
+    onViewRender: EventEmitter<any>;
     initialized: boolean;
     stopNgOnChangesPropagation: boolean;
     differ: any;
     schedule: any;
-    options: any;
+    config: any;
     constructor(el: ElementRef, differs: IterableDiffers);
     ngOnInit(): void;
     ngAfterViewChecked(): void;
+    ngOnChanges(changes: SimpleChanges): void;
     initialize(): void;
     ngDoCheck(): void;
     ngOnDestroy(): void;
@@ -71,6 +74,8 @@ export declare class Schedule implements DoCheck, OnDestroy, OnInit, AfterViewCh
     incrementDate(duration: any): void;
     changeView(viewName: string): void;
     getDate(): any;
+    findEvent(id: string): any;
+    updateEvent(event: any): void;
 }
 export declare class ScheduleModule {
 }

@@ -89,6 +89,12 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+/*toxic area...handle with care*/
+import { IntlModule } from '@progress/kendo-angular-intl';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+/*toxic area...handle with care (end)*/
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -107,7 +113,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ],
     imports: [ 
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule
+        ReactiveFormsModule, BrowserAnimationsModule, DateInputsModule, IntlModule, GridModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

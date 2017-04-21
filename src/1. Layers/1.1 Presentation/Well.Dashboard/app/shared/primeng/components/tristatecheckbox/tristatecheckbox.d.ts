@@ -1,11 +1,14 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const TRISTATECHECKBOX_VALUE_ACCESSOR: any;
 export declare class TriStateCheckbox implements ControlValueAccessor {
+    private cd;
+    constructor(cd: ChangeDetectorRef);
     disabled: boolean;
     name: string;
+    tabindex: number;
+    inputId: string;
     onChange: EventEmitter<any>;
-    hover: boolean;
     focus: boolean;
     value: any;
     onModelChange: Function;

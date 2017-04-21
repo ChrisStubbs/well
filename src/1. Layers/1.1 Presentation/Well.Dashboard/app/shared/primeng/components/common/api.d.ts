@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+export { DomHandler } from '../dom/domhandler';
 export interface SortMeta {
     field: string;
     order: number;
@@ -13,6 +14,7 @@ export interface LazyLoadEvent {
     filters?: {
         [s: string]: FilterMetadata;
     };
+    globalFilter?: any;
 }
 export interface FilterMetadata {
     value?: any;
@@ -28,6 +30,8 @@ export interface MenuItem {
     items?: MenuItem[];
     expanded?: boolean;
     disabled?: boolean;
+    visible?: boolean;
+    target?: string;
 }
 export interface Message {
     severity?: string;
@@ -50,9 +54,14 @@ export interface TreeNode {
     type?: string;
     parent?: TreeNode;
     partialSelected?: boolean;
+    styleClass?: string;
+    draggable?: boolean;
+    droppable?: boolean;
+    selectable?: boolean;
 }
 export interface Confirmation {
     message: string;
+    key?: string;
     icon?: string;
     header?: string;
     accept?: Function;
@@ -72,4 +81,19 @@ export declare class ConfirmationService {
     accept: Observable<Confirmation>;
     confirm(confirmation: Confirmation): this;
     onAccept(): void;
+}
+export interface TreeNodeDragEvent {
+    tree?: any;
+    node?: TreeNode;
+    subNodes?: TreeNode[];
+    index?: number;
+    scope?: any;
+}
+export declare class TreeDragDropService {
+    private dragStartSource;
+    private dragStopSource;
+    dragStart$: Observable<TreeNodeDragEvent>;
+    dragStop$: Observable<TreeNodeDragEvent>;
+    startDrag(event: TreeNodeDragEvent): void;
+    stopDrag(event: TreeNodeDragEvent): void;
 }

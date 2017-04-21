@@ -9,11 +9,8 @@ export declare class Fieldset implements BlockableUI {
     onAfterToggle: EventEmitter<any>;
     style: any;
     styleClass: string;
-    hover: boolean;
     animating: boolean;
     constructor(el: ElementRef);
-    onLegendMouseenter(event: any): void;
-    onLegendMouseleave(event: any): void;
     toggle(event: any): void;
     expand(event: any): void;
     collapse(event: any): void;

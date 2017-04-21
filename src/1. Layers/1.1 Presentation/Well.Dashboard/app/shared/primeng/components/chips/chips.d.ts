@@ -1,8 +1,8 @@
-import { ElementRef, EventEmitter, TemplateRef } from '@angular/core';
+import { ElementRef, EventEmitter, AfterContentInit, QueryList, TemplateRef } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const CHIPS_VALUE_ACCESSOR: any;
-export declare class Chips implements ControlValueAccessor {
+export declare class Chips implements AfterContentInit, ControlValueAccessor {
     el: ElementRef;
     domHandler: DomHandler;
     style: any;
@@ -13,6 +13,9 @@ export declare class Chips implements ControlValueAccessor {
     field: string;
     placeholder: string;
     max: number;
+    tabindex: number;
+    inputId: string;
+    templates: QueryList<any>;
     itemTemplate: TemplateRef<any>;
     value: any;
     onModelChange: Function;
@@ -20,6 +23,7 @@ export declare class Chips implements ControlValueAccessor {
     valueChanged: boolean;
     focus: boolean;
     constructor(el: ElementRef, domHandler: DomHandler);
+    ngAfterContentInit(): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;

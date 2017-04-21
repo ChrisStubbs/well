@@ -1,5 +1,14 @@
 import { ElementRef, EventEmitter, AfterContentInit, QueryList } from '@angular/core';
 import { BlockableUI } from '../common/api';
+export declare class TabViewNav {
+    tabs: TabPanel[];
+    orientation: string;
+    onTabClick: EventEmitter<any>;
+    onTabCloseClick: EventEmitter<any>;
+    getDefaultHeaderClass(tab: TabPanel): string;
+    clickTab(event: any, tab: TabPanel): void;
+    clickClose(event: any, tab: TabPanel): void;
+}
 export declare class TabPanel {
     header: string;
     selected: boolean;
@@ -9,8 +18,8 @@ export declare class TabPanel {
     headerStyleClass: string;
     leftIcon: string;
     rightIcon: string;
-    hoverHeader: boolean;
     closed: boolean;
+    lazy: boolean;
 }
 export declare class TabView implements AfterContentInit, BlockableUI {
     el: ElementRef;
@@ -18,11 +27,13 @@ export declare class TabView implements AfterContentInit, BlockableUI {
     style: any;
     styleClass: string;
     controlClose: boolean;
+    lazy: boolean;
     tabPanels: QueryList<TabPanel>;
     onChange: EventEmitter<any>;
     onClose: EventEmitter<any>;
     initialized: boolean;
     tabs: TabPanel[];
+    private _activeIndex;
     constructor(el: ElementRef);
     ngAfterContentInit(): void;
     initTabs(): void;
@@ -31,8 +42,8 @@ export declare class TabView implements AfterContentInit, BlockableUI {
     closeTab(tab: TabPanel): void;
     findSelectedTab(): TabPanel;
     findTabIndex(tab: TabPanel): number;
-    getDefaultHeaderClass(tab: TabPanel): string;
     getBlockableElement(): HTMLElement;
+    activeIndex: number;
 }
 export declare class TabViewModule {
 }

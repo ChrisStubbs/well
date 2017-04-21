@@ -7,6 +7,8 @@ export declare class Growl implements AfterViewInit, DoCheck, OnDestroy {
     sticky: boolean;
     life: number;
     value: Message[];
+    style: any;
+    styleClass: string;
     containerViewChild: ElementRef;
     differ: any;
     zIndex: number;

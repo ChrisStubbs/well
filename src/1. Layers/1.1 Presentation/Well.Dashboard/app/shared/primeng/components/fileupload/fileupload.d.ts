@@ -12,6 +12,8 @@ export declare class FileUpload implements OnInit, AfterContentInit {
     maxFileSize: number;
     invalidFileSizeMessageSummary: string;
     invalidFileSizeMessageDetail: string;
+    invalidFileTypeMessageSummary: string;
+    invalidFileTypeMessageDetail: string;
     style: string;
     styleClass: string;
     previewWidth: number;
@@ -31,12 +33,17 @@ export declare class FileUpload implements OnInit, AfterContentInit {
     msgs: Message[];
     fileTemplate: TemplateRef<any>;
     contentTemplate: TemplateRef<any>;
+    toolbarTemplate: TemplateRef<any>;
     constructor(sanitizer: DomSanitizer);
     ngOnInit(): void;
     ngAfterContentInit(): void;
     onChooseClick(event: any, fileInput: any): void;
     onFileSelect(event: any): void;
     validate(file: File): boolean;
+    private isFileTypeValid(file);
+    getTypeClass(fileType: string): string;
+    isWildcard(fileType: string): boolean;
+    getFileExtension(file: File): string;
     isImage(file: File): boolean;
     onImageLoad(img: any): void;
     upload(): void;

@@ -37,27 +37,6 @@
                             <th style="width: 13%">Delivery Date <a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr class="grid-row" *ngFor="let delivery of cleanDeliveries | optionFilter:filterOption | orderBy: this | paginate: { itemsPerPage: rowCount, currentPage: currentPage }">
-                            <td (click)="deliverySelected(delivery)">{{delivery.branchId}}</td>
-                            <td class="first-cell" (click)="deliverySelected(delivery)">{{delivery.routeNumber}}</td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.dropId}}</td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.deliveryType}}</td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.invoiceNumber}}</td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.accountCode}}
-                                <ow-account-flags [isCashOnDelivery]="delivery.isCashOnDelivery" [isProofOfDelivery]="delivery.isProofOfDelivery"></ow-account-flags>
-                            </td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.accountName}}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
-                            </td>
-                            <td>
-                                <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                                <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
-                            </td>
-                            <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MMM/yyyy' }}</td>
-                        </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -67,9 +46,40 @@
                     <pagination-controls class="pull-right" (pageChange)="SetCurrentPage($event)"></pagination-controls>
                 </div>
             </div>
+            <div class="row">
+                <div class="table-responsive table-container col-md-12">
+                    <kendo-grid [groupable]="true" [data]="cleanDeliveries" [group]="groups" [filterable]="true" [sortable]="true" [pageable]="true" >
+                    <kendo-grid-column field="branchId" title="Branch" [width]="70"></kendo-grid-column>
+                    <kendo-grid-column field="routeNumber" title="Route" [width]="65"></kendo-grid-column>
+                    <kendo-grid-column field="dropId" title="Drop" [width]="60"></kendo-grid-column>
+                    <kendo-grid-column field="deliveryType" title="Delivery Type" [width]="112"></kendo-grid-column>
+                    <kendo-grid-column field="invoiceNumber" title="Invoice No" [width]="97"></kendo-grid-column>
+                    <kendo-grid-column field="accountCode" title="Account" [width]="120">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.accountCode}}<ow-account-flags [isCashOnDelivery]="dataItem.isCashOnDelivery" [isProofOfDelivery]="dataItem.isProofOfDelivery"></ow-account-flags>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="accountName" title="Account Name" [width]="200"></kendo-grid-column>
+                    <kendo-grid-column field="accountCode" title="Contact" [width]="78">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(dataItem.accountId)">Info</button>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="assigned" title="Assigned" [width]="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span *ngIf="isReadOnlyUser" else #notReadOnlyUser>{{dataItem.assigned}}</span>
+                            <a #notReadOnlyUser class="assign" (click)="allocateUser(dataItem)">{{dataItem.assigned}}</a>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="deliveryDate" title="Delivery Date" [width]="110">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.deliveryDate | date:'dd/MMM/yyyy' }}
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+                </div>
+            </div>
         </div>
-
-
     </div>
 </div>
 <contact-modal></contact-modal>

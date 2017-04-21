@@ -1,15 +1,12 @@
 import { ElementRef, OnDestroy, Renderer } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { MenuItem } from '../common/api';
-import { Router } from '@angular/router';
 export declare class MenubarSub {
     domHandler: DomHandler;
-    router: Router;
     item: MenuItem;
     root: boolean;
-    constructor(domHandler: DomHandler, router: Router);
+    constructor(domHandler: DomHandler);
     activeItem: any;
-    activeLink: any;
     onItemMouseEnter(event: any, item: any, menuitem: MenuItem): void;
     onItemMouseLeave(event: any, link: any): void;
     itemClick(event: any, item: MenuItem): void;

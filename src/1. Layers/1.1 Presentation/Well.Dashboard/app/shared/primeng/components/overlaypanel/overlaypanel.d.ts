@@ -15,7 +15,6 @@ export declare class OverlayPanel implements OnInit, AfterViewInit, OnDestroy {
     onAfterHide: EventEmitter<any>;
     container: any;
     visible: boolean;
-    hoverCloseIcon: boolean;
     documentClickListener: any;
     selfClick: boolean;
     targetEvent: boolean;

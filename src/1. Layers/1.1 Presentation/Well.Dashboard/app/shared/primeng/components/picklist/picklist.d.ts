@@ -1,6 +1,6 @@
-import { ElementRef, OnDestroy, AfterViewChecked, TemplateRef, EventEmitter } from '@angular/core';
+import { ElementRef, OnDestroy, AfterContentInit, AfterViewChecked, QueryList, TemplateRef, EventEmitter } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
-export declare class PickList implements OnDestroy, AfterViewChecked {
+export declare class PickList implements OnDestroy, AfterViewChecked, AfterContentInit {
     el: ElementRef;
     domHandler: DomHandler;
     source: any[];
@@ -8,6 +8,7 @@ export declare class PickList implements OnDestroy, AfterViewChecked {
     sourceHeader: string;
     targetHeader: string;
     responsive: boolean;
+    metaKeySelection: boolean;
     style: any;
     styleClass: string;
     sourceStyle: any;
@@ -16,20 +17,25 @@ export declare class PickList implements OnDestroy, AfterViewChecked {
     showTargetControls: boolean;
     onMoveToSource: EventEmitter<any>;
     onMoveToTarget: EventEmitter<any>;
+    onSourceReorder: EventEmitter<any>;
+    onTargetReorder: EventEmitter<any>;
+    templates: QueryList<any>;
     itemTemplate: TemplateRef<any>;
-    hoveredItem: any;
     selectedItemsSource: any[];
     selectedItemsTarget: any[];
     reorderedListElement: any;
     movedUp: boolean;
     movedDown: boolean;
+    itemTouched: boolean;
     constructor(el: ElementRef, domHandler: DomHandler);
+    ngAfterContentInit(): void;
     ngAfterViewChecked(): void;
     onItemClick(event: any, item: any, selectedItems: any[]): void;
-    moveUp(listElement: any, list: any, selectedItems: any): void;
-    moveTop(listElement: any, list: any, selectedItems: any): void;
-    moveDown(listElement: any, list: any, selectedItems: any): void;
-    moveBottom(listElement: any, list: any, selectedItems: any): void;
+    onItemTouchEnd(event: any): void;
+    moveUp(listElement: any, list: any, selectedItems: any, callback: any): void;
+    moveTop(listElement: any, list: any, selectedItems: any, callback: any): void;
+    moveDown(listElement: any, list: any, selectedItems: any, callback: any): void;
+    moveBottom(listElement: any, list: any, selectedItems: any, callback: any): void;
     moveRight(targetListElement: any): void;
     moveAllRight(): void;
     moveLeft(sourceListElement: any): void;

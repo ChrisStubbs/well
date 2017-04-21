@@ -9,6 +9,8 @@ export declare class ToggleButton implements ControlValueAccessor, AfterViewInit
     disabled: boolean;
     style: any;
     styleClass: string;
+    inputId: string;
+    tabindex: number;
     onChange: EventEmitter<any>;
     checkboxViewChild: ElementRef;
     checkbox: HTMLInputElement;
@@ -16,7 +18,6 @@ export declare class ToggleButton implements ControlValueAccessor, AfterViewInit
     focus: boolean;
     onModelChange: Function;
     onModelTouched: Function;
-    hover: boolean;
     ngAfterViewInit(): void;
     getIconClass(): string;
     toggle(event: Event): void;

@@ -1,19 +1,22 @@
-import { AfterViewInit, ElementRef, EventEmitter } from '@angular/core';
+import { AfterViewInit, ElementRef, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const RADIO_VALUE_ACCESSOR: any;
 export declare class RadioButton implements ControlValueAccessor, AfterViewInit {
+    private cd;
     value: any;
     name: string;
     disabled: boolean;
     label: string;
+    tabindex: number;
+    inputId: string;
     onClick: EventEmitter<any>;
     inputViewChild: ElementRef;
     input: HTMLInputElement;
     onModelChange: Function;
     onModelTouched: Function;
     checked: boolean;
-    hover: boolean;
     focused: boolean;
+    constructor(cd: ChangeDetectorRef);
     ngAfterViewInit(): void;
     handleClick(): void;
     select(): void;

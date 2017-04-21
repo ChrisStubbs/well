@@ -8,6 +8,9 @@ export declare class Tooltip implements OnDestroy {
     tooltipEvent: string;
     appendTo: any;
     positionStyle: string;
+    tooltipStyleClass: string;
+    disabled: boolean;
+    escape: boolean;
     container: any;
     constructor(el: ElementRef, domHandler: DomHandler);
     onMouseEnter(e: Event): void;

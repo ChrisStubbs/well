@@ -17,14 +17,14 @@ export declare class SplitButton implements OnInit, OnDestroy {
     menuStyle: any;
     menuStyleClass: string;
     disabled: boolean;
-    hoveredItem: any;
+    tabindex: number;
     menuVisible: boolean;
     documentClickListener: any;
     constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer, router: Router);
     ngOnInit(): void;
     onDefaultButtonClick(event: Event): void;
     itemClick(event: Event, item: MenuItem): void;
-    onDropdownClick(event: Event, menu: Element, container: Element): void;
+    onDropdownClick(event: Event, menu: HTMLDivElement, container: Element): void;
     ngOnDestroy(): void;
 }
 export declare class SplitButtonModule {

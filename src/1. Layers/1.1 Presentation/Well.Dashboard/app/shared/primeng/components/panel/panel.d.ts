@@ -10,13 +10,13 @@ export declare class Panel implements BlockableUI {
     collapsedChange: EventEmitter<any>;
     onBeforeToggle: EventEmitter<any>;
     onAfterToggle: EventEmitter<any>;
-    hoverToggler: boolean;
     animating: boolean;
     constructor(el: ElementRef);
-    toggle(event: any): void;
+    toggle(event: any): boolean;
     expand(event: any): void;
     collapse(event: any): void;
     getBlockableElement(): HTMLElement;
+    onToggleDone(event: Event): void;
 }
 export declare class PanelModule {
 }

@@ -1,8 +1,8 @@
-import { ElementRef, AfterViewInit, OnDestroy, EventEmitter } from '@angular/core';
+import { ElementRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const INPUTMASK_VALUE_ACCESSOR: any;
-export declare class InputMask implements AfterViewInit, OnDestroy, ControlValueAccessor {
+export declare class InputMask implements OnInit, OnDestroy, ControlValueAccessor {
     el: ElementRef;
     domHandler: DomHandler;
     mask: string;
@@ -10,6 +10,7 @@ export declare class InputMask implements AfterViewInit, OnDestroy, ControlValue
     slotChar: string;
     autoClear: boolean;
     style: string;
+    inputId: string;
     styleClass: string;
     placeholder: string;
     size: number;
@@ -19,11 +20,14 @@ export declare class InputMask implements AfterViewInit, OnDestroy, ControlValue
     readonly: boolean;
     unmask: boolean;
     name: string;
+    inputViewChild: ElementRef;
     onComplete: EventEmitter<any>;
+    onBlur: EventEmitter<any>;
     value: any;
     onModelChange: Function;
     onModelTouched: Function;
     input: HTMLInputElement;
+    filled: boolean;
     defs: any;
     tests: any[];
     partialPosition: any;
@@ -37,9 +41,8 @@ export declare class InputMask implements AfterViewInit, OnDestroy, ControlValue
     caretTimeoutId: any;
     androidChrome: boolean;
     focus: boolean;
-    filled: boolean;
     constructor(el: ElementRef, domHandler: DomHandler);
-    ngAfterViewInit(): void;
+    ngOnInit(): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
@@ -55,7 +58,7 @@ export declare class InputMask implements AfterViewInit, OnDestroy, ControlValue
     shiftL(begin: number, end: number): void;
     shiftR(pos: any): void;
     handleAndroidInput(e: any): void;
-    onBlur(e: any): void;
+    onInputBlur(e: any): void;
     onKeyDown(e: any): void;
     onKeyPress(e: any): void;
     clearBuffer(start: any, end: any): void;

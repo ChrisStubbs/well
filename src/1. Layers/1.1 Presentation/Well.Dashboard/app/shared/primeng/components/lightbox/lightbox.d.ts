@@ -8,6 +8,7 @@ export declare class Lightbox implements AfterViewInit, OnDestroy {
     type: string;
     style: any;
     styleClass: string;
+    appendTo: any;
     easing: 'ease-out';
     effectDuration: any;
     visible: boolean;

@@ -1,6 +1,6 @@
-import { ElementRef, AfterViewInit, DoCheck, EventEmitter, IterableDiffers, TemplateRef } from '@angular/core';
+import { ElementRef, AfterViewInit, AfterContentInit, DoCheck, EventEmitter, IterableDiffers, TemplateRef, QueryList } from '@angular/core';
 import { BlockableUI } from '../common/api';
-export declare class DataList implements AfterViewInit, DoCheck, BlockableUI {
+export declare class DataList implements AfterViewInit, AfterContentInit, DoCheck, BlockableUI {
     el: ElementRef;
     value: any[];
     paginator: boolean;
@@ -13,14 +13,18 @@ export declare class DataList implements AfterViewInit, DoCheck, BlockableUI {
     style: any;
     styleClass: string;
     paginatorPosition: string;
+    emptyMessage: string;
+    onPage: EventEmitter<any>;
     header: any;
     footer: any;
+    templates: QueryList<any>;
     itemTemplate: TemplateRef<any>;
     dataToRender: any[];
     first: number;
     page: number;
     differ: any;
     constructor(el: ElementRef, differs: IterableDiffers);
+    ngAfterContentInit(): void;
     ngAfterViewInit(): void;
     ngDoCheck(): void;
     updatePaginator(): void;

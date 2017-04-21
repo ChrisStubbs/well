@@ -7,6 +7,7 @@ export declare class Accordion implements BlockableUI {
     onOpen: EventEmitter<any>;
     style: any;
     styleClass: string;
+    lazy: boolean;
     tabs: AccordionTab[];
     constructor(el: ElementRef);
     addTab(tab: AccordionTab): void;
@@ -20,11 +21,12 @@ export declare class AccordionTab {
     selectedChange: EventEmitter<any>;
     headerFacet: QueryList<AccordionTab>;
     animating: boolean;
-    hover: boolean;
     constructor(accordion: Accordion);
     toggle(event: any): boolean;
     findTabIndex(): number;
+    readonly lazy: boolean;
     readonly hasHeaderFacet: boolean;
+    onToggleDone(event: Event): void;
 }
 export declare class AccordionModule {
 }

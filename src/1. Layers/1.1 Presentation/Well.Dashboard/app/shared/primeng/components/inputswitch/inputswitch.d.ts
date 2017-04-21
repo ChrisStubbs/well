@@ -10,6 +10,8 @@ export declare class InputSwitch implements ControlValueAccessor, AfterViewInit,
     disabled: boolean;
     style: any;
     styleClass: string;
+    tabindex: number;
+    inputId: string;
     onChange: EventEmitter<any>;
     checked: boolean;
     focused: boolean;

@@ -10,6 +10,7 @@ import {RefreshService}                             from '../shared/refreshServi
 import {DeliverySelectionModal}                     from './delivery-selection-modal';
 import {SecurityService}                            from '../shared/security/securityService';
 import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+import * as _                                       from 'lodash';
 import 'rxjs/Rx';
 
 @Component({
@@ -26,6 +27,27 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public isReadOnlyUser: boolean = false;
     private orderBy: OrderByExecutor = new OrderByExecutor();
 
+    public stops: any[] = [
+        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123457', Account: 'Account Number: 98766', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123457', Account: 'Account Number: 98766', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123457', Account: 'Account Number: 98766', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123458', Account: 'Account Number: 98799', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123458', Account: 'Account Number: 98799', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123459', Account: 'Account Number: 2020', Product: 36533,  Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123459', Account: 'Account Number: 2020', Product: 36533,  Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
+        { Activity: 'Invoice: 123459', Account: 'Account Number: 2020', Product: 36533,  Description: 'Maltesers Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true }
+    ];
+
+    public stopGroups: any[] = _.uniqBy(this.stops, 'Activity');
+
+    public stopGroup(activity: string): any[] {
+
+        return _.filter(this.stops, (current) => current.Activity == activity);
+    }
+
     constructor(
         private globalSettingsService: GlobalSettingsService,
         private routerHeaderService: RouteHeaderService,
@@ -40,6 +62,7 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
             new DropDownItem('Branch', 'routeOwnerId', false, 'number')
         ];
         this.sortField = 'routeDate';
+
     }
 
     @ViewChild(DeliverySelectionModal) public deliverySelectionModal: DeliverySelectionModal;
@@ -85,4 +108,6 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public routeSelected(route): void {
         this.deliverySelectionModal.show(route);
     }
+
+    
 }

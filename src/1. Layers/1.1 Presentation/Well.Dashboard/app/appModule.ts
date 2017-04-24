@@ -80,7 +80,7 @@ import {WidgetWarningService} from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import {CalendarModule } from './shared/primeng/primeng';
+import { CalendarModule, AccordionModule, DataGridModule} from './shared/primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -103,7 +103,8 @@ import { UserPreferenceService } from './user_preferences/userPreferenceService'
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal
     ],
     imports: [ 
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing,
+        Ng2PaginationModule, CalendarModule, AccordionModule, DataGridModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

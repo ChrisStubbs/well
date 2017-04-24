@@ -39,6 +39,7 @@
             .AddParameter("DamageActionId", entity.DamageActionId, DbType.Int32)
             .AddParameter("DamageStatus", entity.DamageStatus, DbType.Int32)
             .AddParameter("Qty", entity.Qty, DbType.Int32)
+            .AddParameter("PdaReasonDescription", entity.PdaReasonDescription, DbType.String)
             .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
             .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
             .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)

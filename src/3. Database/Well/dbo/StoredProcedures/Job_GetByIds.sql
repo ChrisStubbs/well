@@ -53,7 +53,7 @@ BEGIN
 			INNER JOIN @Ids ids ON ids.Value = j.Id
 
 
-	SELECT	dd.Id, dd.JobDetailId, dd.Qty, dd.IsDeleted, dd.JobDetailSourceId, dd.JobDetailReasonId, dd.DamageActionId, dd.DamageStatus, dd.CreatedBy, dd.DateCreated, dd.UpdatedBy, dd.DateUpdated, dd.Version
+	SELECT	dd.Id, dd.JobDetailId, dd.Qty, dd.IsDeleted, dd.JobDetailSourceId, dd.JobDetailReasonId, dd.DamageActionId, dd.DamageStatus, dd.PdaReasonDescription, dd.CreatedBy, dd.DateCreated, dd.UpdatedBy, dd.DateUpdated, dd.Version
 	FROM	Job AS j 
 			INNER JOIN Stop AS s ON j.StopId = s.Id 
 			INNER JOIN RouteHeader AS r ON s.RouteHeaderId = r.Id 

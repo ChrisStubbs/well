@@ -2,9 +2,10 @@
 	@JobDetailId			INT,
     @JobDetailSourceId		TINYINT,
 	@JobDetailReasonId 		TINYINT,
-	@DamageActionId	INT,
-	@DamageStatus INT,
+	@DamageActionId			INT,
+	@DamageStatus			INT,
 	@Qty					INT,
+	@PdaReasonDescription   VARCHAR(50),
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
@@ -21,6 +22,7 @@ BEGIN
 		   ,DamageActionId
 		   ,[DamageStatus]
            ,[Qty]
+		   ,[PdaReasonDescription]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
@@ -32,6 +34,7 @@ BEGIN
 		   ,@DamageActionId
 		   ,@DamageStatus
            ,@Qty
+		   ,@PdaReasonDescription
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy

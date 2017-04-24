@@ -89,6 +89,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JobComponent } from './job/jobComponent';
 
 @NgModule({
@@ -108,7 +109,7 @@ import { JobComponent } from './job/jobComponent';
     ],
     imports: [ 
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule
+        ReactiveFormsModule, BrowserAnimationsModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

@@ -1,0 +1,81 @@
+<form [formGroup]="searchForm" (ngSubmit)="search($event)" class="form-horizontal">
+    <div class="form-group form-group-lg">
+        <div class="col-lg-6">
+            <label for="searchBranch" class="col-lg-2 control-label">Branch</label>
+            <div class="col-lg-10">
+                <select class="form-control" id="searchBranch" formControlName="branch">
+                    <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <label for="searchDate" class="col-lg-4 control-label">Date</label>
+            <div class="col-lg-8">
+                <p-calendar id="searchDate" [showIcon]="true" dateFormat="dd/mm/yy" formControlName="date"></p-calendar>
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-group-lg">
+        <div class="col-lg-6">
+            <label for="searchAccount" class="col-lg-2 control-label">Account</label>
+            <div class="col-lg-10">
+                <input id="searchAccount" type="text" class="form-control" placeholder="Name or Number" formControlName="account">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <label for="searchInvoice" class="col-lg-4 control-label">Invoice No.</label>
+            <div class="col-lg-8">
+                <input id="searchInvoice" type="text" class="form-control" formControlName="invoice">
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-group-lg clearfix">
+        <div class="col-lg-6">
+            <div class="pull-left">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="showMore()">
+                        More <span class="caret"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="pull-right">
+                <button type="reset" class="btn btn-success">Clear</button>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-primary" [disabled]="isEmptySearch()">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-group-lg" *ngIf="showMoreFilters">
+        <div class="col-lg-6">
+            <label for="searchRoute" class="col-lg-2 control-label">Route</label>
+            <div class="col-lg-10">
+                <input id="searchRoute" type="text" maxlength="2" class="form-control" formControlName="route">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <label for="searchDriver" class="col-lg-4 control-label">Invoice No.</label>
+            <div class="col-lg-8">
+                <input id="searchDriver" type="text" class="form-control" formControlName="driver">
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-group-lg" *ngIf="showMoreFilters">
+        <div class="col-lg-6">
+            <label for="searchDeliveryType" class="col-lg-2 control-label">Delivery Type</label>
+            <div class="col-lg-10">
+                <select class="form-control" id="searchDeliveryType" formControlName="deliveryType">
+                    <option *ngFor="let type of jobTypes" [value]="type.id">{{ type.description }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <label for="searchStatus" class="col-lg-4 control-label">Status</label>
+            <div class="col-lg-8">
+                <select class="form-control" id="searchStatus" formControlName="status">
+                    <option *ngFor="let state of jobStatus" [value]="state.id">{{ state.description }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>

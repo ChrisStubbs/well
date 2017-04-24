@@ -89,6 +89,7 @@ import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
 import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
+import { JobComponent } from './job/jobComponent';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -103,7 +104,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal
+        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, JobComponent
     ],
     imports: [ 
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

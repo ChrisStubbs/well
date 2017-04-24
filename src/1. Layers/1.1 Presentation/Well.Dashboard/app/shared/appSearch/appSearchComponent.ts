@@ -1,12 +1,15 @@
-import { Component, OnDestroy }                 from '@angular/core';
+import { Component }                            from '@angular/core';
 import { BranchService }                        from '../branch/branchService';
 import { Branch }                               from '../branch/branch';
 import { GlobalSettingsService }                from '../globalSettings';
 import { FormGroup, FormControl, FormBuilder }  from '@angular/forms';
-import { JobService, JobStatus, JobType }       from '../../job/Job';
+import { JobService, JobStatus, JobType }       from '../../job/job';
 import 'rxjs/add/operator/takeWhile';
 import * as _ from 'lodash';
 
+//http://stackoverflow.com/questions/32896407/redirect-within-component-angular-2
+/* tslint:disable:max-line-length */
+//https://www.google.co.uk/search?num=20&newwindow=1&espv=2&q=angular+2+redirect+to+route&oq=angular+2+redirect+&gs_l=serp.3.1.0l10.26462.33032.0.35808.15.15.0.0.0.0.170.1167.14j1.15.0....0...1.1.64.serp..0.15.1161...0i67k1j0i131k1j35i39k1j0i20k1j0i10k1.lLydsRjGk6M
 @Component({
     selector: 'ow-appSearch',
     templateUrl: 'app/shared/appSearch/appSearchView.html'

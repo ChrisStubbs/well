@@ -1,5 +1,5 @@
 import { Injectable }               from '@angular/core';
-import { JobStatus }                from './JobStatus';
+import { JobStatus }                from './jobStatus';
 import { HttpErrorService }         from '../shared/httpErrorService';
 import { Observable }               from 'rxjs/Observable';
 import { Response }                 from '@angular/http';

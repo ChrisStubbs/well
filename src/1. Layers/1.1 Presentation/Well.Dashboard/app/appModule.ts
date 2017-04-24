@@ -62,7 +62,6 @@ import {WidgetWarningsViewComponent} from './widget_warnings/widgetWarningsViewC
 import {WidgetWarningAddModalComponent} from './widget_warnings/widgetWarningAddModalComponent';
 import {WidgetWarningRemoveModalComponent} from './widget_warnings/widgetWarningRemoveModalComponent';
 import {WidgetWarningEditModalComponent} from './widget_warnings/widgetWarningEditModalComponent';
-
 import { ApprovalsService } from './approvals/approvalsService';
 import { AccountService } from './account/accountService';
 import { BranchService } from './shared/branch/branchService';
@@ -82,7 +81,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 import { DeliveryService } from './delivery/deliveryService';
 import { JobService } from './job/jobService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule } from './shared/primeng/primeng';
+import { CalendarModule } from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';

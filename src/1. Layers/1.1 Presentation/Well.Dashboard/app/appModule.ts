@@ -81,7 +81,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 import { DeliveryService } from './delivery/deliveryService';
 import { JobService } from './job/jobService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule, AccordionModule, DataGridModule} from 'primeng/primeng';
+import { CalendarModule, AccordionModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -108,7 +108,7 @@ import { JobComponent } from './job/jobComponent';
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule, BrowserAnimationsModule, AccordionModule, DataGridModule
+        ReactiveFormsModule, BrowserAnimationsModule, AccordionModule, DataGridModule, SharedModule, DataTableModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

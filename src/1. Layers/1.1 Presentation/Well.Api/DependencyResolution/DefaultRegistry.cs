@@ -84,6 +84,9 @@ namespace PH.Well.Api.DependencyResolution
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
             For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();
+
+            //routes
+            For<IRouteReadRepository>().Use<RouteReadRepository>();
         }
     }
 }

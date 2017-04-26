@@ -21,7 +21,7 @@ export class RoutesService
 
     public getRoutes(): Observable<Route[]>
     {
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'routes';
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'routes/all';
 
         return this.http.get(url)
             .map((response: Response) => <Route[]>response.json())

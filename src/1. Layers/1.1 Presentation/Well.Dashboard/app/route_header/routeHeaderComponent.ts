@@ -3,7 +3,7 @@ import { BaseComponent }                            from '../shared/BaseComponen
 import { Component, OnDestroy, OnInit, ViewChild }  from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router';
 import {GlobalSettingsService}                      from '../shared/globalSettings';
-import {Route}                                      from './route';
+import {Route}                                      from '../routes/route';
 import {RouteHeaderService}                         from './routeHeaderService';
 import {DropDownItem}                               from '../shared/dropDownItem';
 import {RefreshService}                             from '../shared/refreshService';

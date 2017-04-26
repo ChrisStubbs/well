@@ -7,7 +7,8 @@ import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from '../httpErrorService';
 import {LogService} from '../logService';
-import {HttpService} from '../httpService';
+import { HttpService } from '../httpService';
+import * as _ from 'lodash';
 
 @Injectable()
 export class BranchService {
@@ -24,6 +25,24 @@ export class BranchService {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public getBranchesValueList(username: string): Observable<Array<[string, string]>>
+    {
+        return this.getBranches(username)
+            .map((branches: Branch[]) =>
+            {
+                const values = new Array<[string, string]>();
+
+                values.push([undefined, 'All']);
+                _.map(branches, (current: Branch) => 
+                {
+                     values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')'])
+                });
+
+                return values;
+            })
             .catch(e => this.httpErrorService.handleError(e));
     }
 

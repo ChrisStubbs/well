@@ -21,7 +21,8 @@ import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {LoadingComponent} from './shared/loadingComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
-import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
+//import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
+import {RoutesComponent } from './routes/routesComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {UserPreferenceModal} from './user_preferences/userPreferenceModalComponent';
 import {WidgetComponent} from './home/widgetComponent';
@@ -101,7 +102,7 @@ import { JobComponent } from './job/jobComponent';
         AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent, 
         ExceptionsComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        ResolvedDeliveryComponent, RouteHeaderComponent, UserPreferenceComponent, WidgetComponent, 
+        ResolvedDeliveryComponent, RoutesComponent, UserPreferenceComponent, WidgetComponent, 
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, JobComponent

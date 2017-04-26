@@ -1,8 +1,7 @@
-﻿import {Injectable, Inject, Compiler, EventEmitter} from '@angular/core';
+﻿import {Injectable, Compiler } from '@angular/core';
 import {Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {LogService} from './logService';
 import {HttpService} from './httpService';
 
 export class GlobalSettings {
@@ -12,7 +11,7 @@ export class GlobalSettings {
     public identityName: string;
     public permissions: string[];
 }
-    
+
 @Injectable() 
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;
@@ -23,8 +22,7 @@ export class GlobalSettingsService {
 
     constructor(
         private http: HttpService,
-        private httpErrorService: HttpErrorService, 
-        private logService: LogService,
+        private httpErrorService: HttpErrorService,
         private compiler: Compiler) { 
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)

@@ -1,5 +1,6 @@
-﻿export class Branch {
-    id: number;
-    name: string;
-    selected: boolean;
+﻿export class Branch
+{
+    public id: number;
+    public name: string;
+    public selected: boolean;
 }

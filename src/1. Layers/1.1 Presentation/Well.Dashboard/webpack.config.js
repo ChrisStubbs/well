@@ -39,7 +39,7 @@ module.exports = {
         // ]
     },
     tslint: {
-        failOnHint: true,
+        failOnHint: false,
         configuration: require('./tslint.json')
     },
     resolve: {

@@ -1,4 +1,4 @@
-﻿import {IAccount} from "../account/account";
+﻿import {IAccount} from '../account/account';
 
 export interface IStop {
     id: number;
@@ -16,5 +16,5 @@ export interface IStop {
     textField2: string;
     textField3: string;
     textField4: string;
-    accounts : IAccount[];
+    accounts: IAccount[];
 }

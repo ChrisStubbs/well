@@ -1,5 +1,4 @@
-﻿import { Dropdown } from '../shared/primeng/primeng';
-import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
+﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnInit, ViewChild, OnDestroy}   from '@angular/core';
 import {GlobalSettingsService}                      from '../shared/globalSettings';

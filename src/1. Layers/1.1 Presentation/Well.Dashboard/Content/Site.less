@@ -1,4 +1,6 @@
 ﻿@import "library.less";
+@menuBarColor: #ececec;
+@aElementHeightInsideNav: 37px;
 
 .btn-group .ui-inputtext { width: 189px; }
 
@@ -17,6 +19,14 @@
     display: inline-block;
     font-size: 13.2px;
     line-height: 1;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.row-fluid >#nav {
+  padding-right: 125px;
 }
 
 form-control-static {
@@ -81,7 +91,7 @@ div.widget div.results {
 .nav-pills>li.active>a, 
 div#nav ul.nav > li > a:hover, 
 .nav > li > a:focus {
-    height: 37px;
+    height: @aElementHeightInsideNav;
 }
 
 body {
@@ -160,7 +170,7 @@ body {
 }
 
 .app .row-fluid:nth-child(2) {
-    background: #ececec; 
+    background: @menuBarColor;
     box-shadow: 0 0 5px 0  #777;
 }
 

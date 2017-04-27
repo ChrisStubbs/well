@@ -498,6 +498,7 @@
     <Content Include="app\approvals\approvalDelivery.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
+    <TypeScriptCompile Include="app\driver\driverService.ts" />
     <TypeScriptCompile Include="app\exceptions\bulkCredit.ts" />
     <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
@@ -507,6 +508,7 @@
     <TypeScriptCompile Include="app\job\JobStatus.ts" />
     <TypeScriptCompile Include="app\job\JobType.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
     <TypeScriptCompile Include="app\shared\httpService.ts" />

@@ -4,14 +4,16 @@
             <label for="searchBranch" class="col-lg-2 control-label">Branch</label>
             <div class="col-lg-10">
                 <select class="form-control" id="searchBranch" formControlName="branch">
-                    <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+                    <option *ngFor="let branch of branches" [value]="branch[0]">
+                        {{ branch[1] }}
+                    </option>
                 </select>
             </div>
         </div>
         <div class="col-lg-6">
             <label for="searchDate" class="col-lg-4 control-label">Date</label>
             <div class="col-lg-8">
-                <p-calendar id="searchDate" [showIcon]="true" dateFormat="dd/mm/yy" formControlName="date"></p-calendar>
+                <input type="date" id="searchDate" formControlName="date" />
             </div>
         </div>
     </div>
@@ -54,9 +56,11 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <label for="searchDriver" class="col-lg-4 control-label">Invoice No.</label>
+            <label for="searchDriver" class="col-lg-4 control-label">Driver</label>
             <div class="col-lg-8">
-                <input id="searchDriver" type="text" class="form-control" formControlName="driver">
+                <select class="form-control" id="searchDriver" formControlName="driver">
+                    <option *ngFor="let driver of drivers" [value]="driver">{{ driver }}</option>
+                </select>
             </div>
         </div>
     </div>

@@ -125,19 +125,19 @@ export class AppSearch implements OnDestroy {
             .takeWhile(() => this.alive)
             .subscribe((result: IAppSearchResult) =>
             {
-                if (!_.isNil(result.jobId))
-                {
-                    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.jobId}});
-                    return;
-                }
+                //if (!_.isNil(result.jobId))
+                //{
+                //    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.jobId}});
+                //    return;
+                //}
 
-                if (!_.isNil(result.routeId))
-                {
-                    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.routeId}});
-                    return;
-                }
+                //if (!_.isNil(result.routeId))
+                //{
+                //    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.routeId}});
+                //    return;
+                //}
 
-                this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: parameters});
+                this.router.navigate(['/routes'], { queryParams: parameters});
                 return;
             });
     }

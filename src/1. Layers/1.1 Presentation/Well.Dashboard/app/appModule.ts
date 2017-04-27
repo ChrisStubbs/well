@@ -21,7 +21,6 @@ import { ExceptionsComponent } from './exceptions/exceptionsComponent';
 import { LoadingComponent } from './shared/loadingComponent';
 import { NotificationsComponent } from './notifications/notificationsComponent';
 import { ResolvedDeliveryComponent } from './resolved/resolvedDeliveryComponent';
-//import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import { RoutesComponent } from './routes/routesComponent';
 import { UserPreferenceComponent } from './user_preferences/userPreferenceComponent';
 import { UserPreferenceModal } from './user_preferences/userPreferenceModalComponent';
@@ -106,7 +105,7 @@ import { DateComponent, SplitButtonComponent } from './shared/shared';
         ResolvedDeliveryComponent, RoutesComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, JobComponent, DateComponent, SplitButtonComponent
+        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

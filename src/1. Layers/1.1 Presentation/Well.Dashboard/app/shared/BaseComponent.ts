@@ -17,7 +17,6 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
     public sortField: string;
     private navigationSubscriber: any;
     public readonly rowCount: number = 10;
-    public readonly rowsPerPageOptions: number[] = [10, 20, 30, 40, 50];
     public isReadOnlyUser: boolean = false;
 
     constructor(
@@ -33,6 +32,7 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
     {
         const that = this;
 
+        //TODO: Move this to the correct pages
         this.securityService.validateUser(
             this.globalSettingsService.globalSettings.permissions,
             this.securityService.actionDeliveries);

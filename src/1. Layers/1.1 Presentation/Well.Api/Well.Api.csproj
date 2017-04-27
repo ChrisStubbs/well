@@ -178,10 +178,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\WebApiExceptionLogger.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\AppSearchController.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
     <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\BulkCreditController.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\JobStatusController.cs" />
     <Compile Include="Controllers\JobTypeController.cs" />

@@ -40,7 +40,7 @@ import { AssignModal } from './shared/assignModal';
 import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
 import { OptionFilterComponent } from './shared/optionFilterComponent';
-import { AppSearch } from './shared/appSearch/appSearchComponent'
+import { AppSearch, MenuBarAppSearchComponent } from './shared/appSearch/appSearch';
 import { CustomDatePipe } from './shared/customDatePipe';
 import { OptionFilterPipe } from './shared/optionFilterPipe';
 import { OrderByDatePipe } from './shared/orderByDatePipe';
@@ -58,7 +58,6 @@ import { CreditThresholdRemoveModalComponent } from './credit_threshold/creditTh
 import { CreditThresholdAddModalComponent } from './credit_threshold/creditThresholdAddModalComponent';
 import { CreditThresholdEditModalComponent } from './credit_threshold/creditThresholdEditModalComponent';
 import { NotificationModalComponent } from './notifications/notificationModalComponent';
-import AppRoutes = require('./appRoutes');
 import { WidgetWarningsViewComponent } from './widget_warnings/widgetWarningsViewComponent';
 import { WidgetWarningAddModalComponent } from './widget_warnings/widgetWarningAddModalComponent';
 import { WidgetWarningRemoveModalComponent } from './widget_warnings/widgetWarningRemoveModalComponent';
@@ -82,7 +81,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 import { DeliveryService } from './delivery/deliveryService';
 import { JobService } from './job/jobService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule, AccordionModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
+import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -90,12 +89,13 @@ import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { JobComponent } from './job/jobComponent';
+import { DriverService } from './driver/driverService';
+import AppRoutes = require('./appRoutes');
 import { DateComponent, SplitButtonComponent } from './shared/shared';
 
 @NgModule({
     declarations: [LoadingComponent,
-        OptionFilterComponent, AppSearch, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
+        OptionFilterComponent, AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, DeliverySelectionModal, BranchRoleComponent,
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,
@@ -110,13 +110,13 @@ import { DateComponent, SplitButtonComponent } from './shared/shared';
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule, BrowserAnimationsModule, AccordionModule, DataGridModule, SharedModule, DataTableModule
+        ReactiveFormsModule, BrowserAnimationsModule, DataGridModule, SharedModule, DataTableModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, JobService,
-        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService,
+        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

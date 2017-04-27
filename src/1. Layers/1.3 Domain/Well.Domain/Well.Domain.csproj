@@ -109,6 +109,7 @@
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\ReadRoute.cs" />
+    <Compile Include="ValueObjects\ReadRouteAssignees.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />

@@ -24,7 +24,6 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public errorMessage: string;
     public routes: Route[];
     public lastRefresh = Date.now();
-    public isReadOnlyUser: boolean = false;
     private orderBy: OrderByExecutor = new OrderByExecutor();
 
     public stops: any[] = [
@@ -50,14 +49,14 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     }
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private routerHeaderService: RouteHeaderService,
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService )
     {
-        super(nqps);
+        super(nqps, globalSettingsService, securityService);
         this.options = [
             new DropDownItem('Route', 'route'),
             new DropDownItem('Branch', 'routeOwnerId', false, 'number')
@@ -70,10 +69,6 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
 
     public ngOnInit() {
         super.ngOnInit();
-
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>

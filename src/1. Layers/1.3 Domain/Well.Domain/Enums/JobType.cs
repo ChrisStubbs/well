@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Domain.Enums
 {
     using System.ComponentModel;
-
+    //TODO - match to Populate-JobType.sql
     public enum JobType
     {
         [Description("DEL-TOB")]

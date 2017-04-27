@@ -213,7 +213,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
-    <Content Include="app\appRoutes.js" />
     <Content Include="app\approvals\approvals-list.html" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
@@ -232,6 +231,7 @@
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\routes\route-list.html" />
     <Content Include="app\shared\appSearch\appSearchView.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="gulpfile.js" />
@@ -441,7 +441,7 @@
     <Content Include="app\resolved\resolvedDelivery.ts" />
     <Content Include="app\resolved\resolvedDeliveryService.ts" />
     <Content Include="app\route_header\delivery-selection-modal.ts" />
-    <Content Include="app\route_header\route.ts" />
+    <Content Include="app\routes\route.ts" />
     <Content Include="app\route_header\routeHeader.ts" />
     <Content Include="app\route_header\routeHeaderComponent.ts" />
     <Content Include="app\route_header\routeHeaderService.ts" />
@@ -507,6 +507,8 @@
     <TypeScriptCompile Include="app\job\jobService.ts" />
     <TypeScriptCompile Include="app\job\JobStatus.ts" />
     <TypeScriptCompile Include="app\job\JobType.ts" />
+    <Content Include="app\routes\routesComponent.ts" />
+    <TypeScriptCompile Include="app\routes\routesService.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />

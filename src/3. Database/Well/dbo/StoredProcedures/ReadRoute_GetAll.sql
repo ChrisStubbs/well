@@ -25,7 +25,7 @@ BEGIN
 		   ,RouteDate
 		   ,PlannedStops AS StopCount
 		   ,RouteStatusDescription AS RouteStatus
-		   ,rec.ExceptionCount  -- count of stops with exceptions or bypassed
+		   ,ISNULL(rec.ExceptionCount,0) AS ExceptionCount  -- count of stops with exceptions or bypassed
 		   ,DriverName
 	FROM
 		RouteHeader rh
@@ -35,7 +35,7 @@ BEGIN
 		UserBranch ub on b.Id = ub.BranchId
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
-	INNER JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
+	LEFT JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
     WHERE u.IdentityName = @UserName
     AND rh.IsDeleted = 0
 	ORDER BY rh.RouteDate DESC

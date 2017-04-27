@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
     using Common.Contracts;
     using Contracts;
+    using Dapper;
     using Domain.ValueObjects;
 
     public class RouteReadRepository : IRouteReadRepository
@@ -20,10 +22,25 @@
 
         public IEnumerable<ReadRoute> GetAllRoutes(string username)
         {
-            return 
-                dapperReadProxy.WithStoredProcedure(StoredProcedures.ReadRouteGetAll)
+            var routes = new List<ReadRoute>();
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.ReadRouteGetAll)
                     .AddParameter("username", username, DbType.String)
-                    .Query<ReadRoute>();
+                    .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
+
+            return routes;
+        }
+
+        public List<ReadRoute> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
+        {
+            var readRoutes = grid.Read<ReadRoute>().ToList();
+            var assignees = grid.Read<ReadRouteAssignees>().ToList();
+
+            foreach (var route in readRoutes)
+            {
+                route.Assignees = assignees.Where(x => x.RouteId == route.Id).ToList();
+            }
+
+            return readRoutes;
         }
 
     }

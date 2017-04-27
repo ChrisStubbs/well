@@ -40,17 +40,17 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     @ViewChild(ContactModal) public contactModal: ContactModal;
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private cleanDeliveryService: CleanDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService) 
     {
 
-        super(nqps);
+        super(nqps, globalSettingsService, securityService);
         this.options = [
             this.routeOption,
             new DropDownItem('Branch', 'branchId', false, 'number'),
@@ -66,9 +66,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
 
     public ngOnInit(): void {
         super.ngOnInit();
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
             this.routeDate = params['routeDate'];
@@ -77,8 +75,6 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             this.getDeliveries();
         });
 
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     public ngOnDestroy() {

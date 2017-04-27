@@ -1,30 +1,30 @@
-﻿import {Component, OnInit, ViewChild, OnDestroy}    from '@angular/core';
-import { Router, ActivatedRoute}                    from '@angular/router';
-import { Response }                                 from '@angular/http';
-import { GlobalSettingsService }                    from '../shared/globalSettings';
-import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
-import { FilterOption }                             from '../shared/filterOption';
-import { DropDownItem }                             from '../shared/dropDownItem';
-import { ContactModal }                             from '../shared/contactModal';
-import { AccountService }                           from '../account/accountService';
-import { IAccount }                                 from '../account/account';
-import { ExceptionDelivery }                        from './exceptionDelivery';
-import { ExceptionDeliveryService }                 from './exceptionDeliveryService';
-import { RefreshService }                           from '../shared/refreshService';
-import { HttpResponse }                             from '../shared/httpResponse';
-import { AssignModal }                              from '../shared/assignModal';
-import { ConfirmModal }                             from '../shared/confirmModal';
-import { IUser }                                    from '../shared/iuser';
-import { ToasterService }                           from 'angular2-toaster/angular2-toaster';
-import { SecurityService }                          from '../shared/security/securityService';
-import { ExceptionsConfirmModal }                   from './exceptionsConfirmModal';
-import * as _                                       from 'lodash';
-import { BaseComponent }                            from '../shared/BaseComponent';
-import {DeliveryAction}                             from '../delivery/model/deliveryAction';
-import {BulkCredit}                                 from './bulkCredit';
-import {DeliveryService}                            from '../delivery/deliveryService';
-import {BulkCreditConfirmModal}                     from './bulkCreditConfirmModal';
-import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+﻿import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Response } from '@angular/http';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
+import { FilterOption } from '../shared/filterOption';
+import { DropDownItem } from '../shared/dropDownItem';
+import { ContactModal } from '../shared/contactModal';
+import { AccountService } from '../account/accountService';
+import { IAccount } from '../account/account';
+import { ExceptionDelivery } from './exceptionDelivery';
+import { ExceptionDeliveryService } from './exceptionDeliveryService';
+import { RefreshService } from '../shared/refreshService';
+import { HttpResponse } from '../shared/httpResponse';
+import { AssignModal } from '../shared/assignModal';
+import { ConfirmModal } from '../shared/confirmModal';
+import { IUser } from '../shared/iuser';
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { SecurityService } from '../shared/security/securityService';
+import { ExceptionsConfirmModal } from './exceptionsConfirmModal';
+import * as _ from 'lodash';
+import { BaseComponent } from '../shared/BaseComponent';
+import { DeliveryAction } from '../delivery/model/deliveryAction';
+import { BulkCredit } from './bulkCredit';
+import { DeliveryService } from '../delivery/deliveryService';
+import { BulkCreditConfirmModal } from './bulkCreditConfirmModal';
+import { OrderByExecutor } from '../shared/OrderByExecutor';
 import 'rxjs/Rx';
 
 @Component({
@@ -32,7 +32,8 @@ import 'rxjs/Rx';
     templateUrl: './app/exceptions/exceptions-list.html',
     providers: [ExceptionDeliveryService]
 })
-export class ExceptionsComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ExceptionsComponent extends BaseComponent implements OnInit, OnDestroy
+{
     public isLoading: boolean = true;
     private refreshSubscription: any;
     public errorMessage: string;
@@ -53,12 +54,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public confirmModalIsVisible: boolean = false;
     public selectGridBox: boolean = false;
     @ViewChild(ConfirmModal)
-    //private confirmModal: ConfirmModal;
     @ViewChild(ContactModal)
     private contactModal: ContactModal;
     @ViewChild(ExceptionsConfirmModal)
     private exceptionConfirmModal: ExceptionsConfirmModal;
-    public isReadOnlyUser: boolean = false;
+
     @ViewChild(BulkCreditConfirmModal)
     private bulkCreditConfirmModal: BulkCreditConfirmModal;
     public routeDate: Date;
@@ -67,18 +67,18 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public routeNumber: string;
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private exceptionDeliveryService: ExceptionDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
         private toasterService: ToasterService,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService,
         private deliveryService: DeliveryService)
     {
-        super(nqps);
+        super(nqps, globalSettingsService, securityService);
 
         this.options = [
             this.routeOption,
@@ -97,10 +97,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public ngOnInit(): void
     {
         super.ngOnInit();
-         
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getExceptions());
         this.activatedRoute.queryParams.subscribe(params =>
         {
@@ -112,9 +109,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             this.getThresholdLimit();
         });
 
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
-        
         this.deliveryService.getDamageReasons()
             .subscribe(r => { this.bulkCreditConfirmModal.reasons = r; });
 
@@ -135,31 +129,33 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public getExceptions()
     {
-        this.exceptionDeliveryService.getExceptions() 
+        this.exceptionDeliveryService.getExceptions()
             .subscribe(responseData =>
-                {
-                    this.exceptions = responseData || new Array<ExceptionDelivery>();
+            {
+                this.exceptions = responseData || new Array<ExceptionDelivery>();
 
-                    if (!_.isUndefined(this.routeDate)) {
-                        this.exceptions = _.filter(this.exceptions,
-                            x => {
-                                return x.routeDate === this.routeDate && x.branchId === Number(this.branchId)
-                                    && x.routeNumber === this.routeNumber;
-                            }
-                        );
-                    }
-                    
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                },
-                error =>
+                if (!_.isUndefined(this.routeDate))
                 {
-                    if (error.status && error.status === 404)
-                    {
-                        this.lastRefresh = Date.now();
-                    }
-                    this.isLoading = false;
-                });
+                    this.exceptions = _.filter(this.exceptions,
+                        x =>
+                        {
+                            return x.routeDate === this.routeDate && x.branchId === Number(this.branchId)
+                                && x.routeNumber === this.routeNumber;
+                        }
+                    );
+                }
+
+                this.lastRefresh = Date.now();
+                this.isLoading = false;
+            },
+            error =>
+            {
+                if (error.status && error.status === 404)
+                {
+                    this.lastRefresh = Date.now();
+                }
+                this.isLoading = false;
+            });
     }
 
     public getThresholdLimit()
@@ -172,7 +168,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     }
 
     public onSortDirectionChanged(isDesc: boolean)
-    {   
+    {
         super.onSortDirectionChanged(isDesc);
         this.exceptions = this.orderBy.Order(this.exceptions, this);
     }
@@ -200,7 +196,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
             return '';
         }
 
-        return'checked';
+        return 'checked';
     }
 
     public creditListlength()
@@ -301,11 +297,11 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account =>
-                {
-                    this.account = account;
-                    this.contactModal.show(this.account);
-                },
-                error => this.errorMessage = <any>error);
+            {
+                this.account = account;
+                this.contactModal.show(this.account);
+            },
+            error => this.errorMessage = <any>error);
     }
 
     public allocateUser(delivery: ExceptionDelivery): void

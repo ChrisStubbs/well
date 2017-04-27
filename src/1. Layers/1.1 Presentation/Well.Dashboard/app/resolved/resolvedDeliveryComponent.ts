@@ -34,16 +34,16 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     @ViewChild(AssignModal) public assignModal: AssignModal;
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private resolvedDeliveryService: ResolvedDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService ) {
 
-            super(nqps);
+        super(nqps, globalSettingsService, securityService);
             this.options = [
                 new DropDownItem('Route', 'routeNumber'),
                 new DropDownItem('Branch', 'branchId', false, 'number'),
@@ -59,9 +59,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
 
     public ngOnInit() {
         super.ngOnInit();
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
         this.activatedRoute.queryParams.subscribe(params => {
             this.getDeliveries();

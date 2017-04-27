@@ -511,6 +511,7 @@
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
+    <TypeScriptCompile Include="app\shared\dateComponent.ts" />
     <TypeScriptCompile Include="app\shared\httpService.ts" />
     <TypeScriptCompile Include="app\shared\IOptionFilter.ts" />
     <TypeScriptCompile Include="app\shared\NavigateQueryParameters.ts" />
@@ -518,6 +519,8 @@
     <Content Include="app\shared\loadingComponent.ts" />
     <TypeScriptCompile Include="app\shared\OrderByExecutor.ts" />
     <TypeScriptCompile Include="app\shared\orderByPipe.ts" />
+    <TypeScriptCompile Include="app\shared\shared.ts" />
+    <TypeScriptCompile Include="app\shared\splitButtonComponent.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -29,29 +29,26 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public branches: Array<[string, string]>;
     public jobStatus: Array<[string, string]>;
     public selectedRoutes: Route[];
-
+    
     private alive: boolean = true;
+    private actions: string[] = ['Assign'];
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private routeService: RoutesService,
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService,
         private branchService: BranchService,
         private jobService: JobService)
     {
-        super(nqps);
+        super(nqps, globalSettingsService, securityService );
     }
 
     public ngOnInit()
     {
         super.ngOnInit();
-
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>

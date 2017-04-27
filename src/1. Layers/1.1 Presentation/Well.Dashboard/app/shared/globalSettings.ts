@@ -10,6 +10,7 @@ export class GlobalSettings {
     public userName: string;
     public identityName: string;
     public permissions: string[];
+  
 }
 
 @Injectable() 

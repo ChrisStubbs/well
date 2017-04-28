@@ -12,7 +12,7 @@
 	@PHProductType			VARCHAR(50) NULL,
 	@PackSize				VARCHAR(50),
 	@SingleOrOuter			VARCHAR(50)=NULL,
-	@SSCCBarcode			VARCHAR(50)=NULL,
+	@TobaccoBagBarcode		VARCHAR(50)=NULL,
 	@SubOuterDamageTotal	INT=NULL,
 	@SkuGoodsValue			FLOAT,
 	@NetPrice				FLOAT,
@@ -41,7 +41,7 @@ INSERT INTO [dbo].[JobDetail]
            ,[PHProductType]
            ,[PackSize]
            ,[SingleOrOuter]
-           ,[SSCCBarcode]
+           ,[TobaccoBagBarcode]
 		   ,[SubOuterDamageTotal]
            ,[SkuGoodsValue]
 		   ,[NetPrice]
@@ -67,7 +67,7 @@ INSERT INTO [dbo].[JobDetail]
 		   ,@PHProductType
 		   ,@PackSize			
 		   ,@SingleOrOuter			
-		   ,@SSCCBarcode			
+		   ,@TobaccoBagBarcode			
 		   ,@SubOuterDamageTotal	
            ,@SkuGoodsValue
 		   ,@NetPrice

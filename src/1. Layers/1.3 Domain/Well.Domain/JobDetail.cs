@@ -152,7 +152,7 @@
         public string SingleOrOuter { get; set; }
 
         [XmlElement("TextField5")]
-        public string SsccBarcode { get; set; }
+        public string TobaccoBagBarcode { get; set; }
 
         [XmlIgnore]
         public double SkuGoodsValue  { get; set; }

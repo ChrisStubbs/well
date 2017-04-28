@@ -44,7 +44,7 @@ BEGIN
 
 
 	SELECT  d.Id, d.LineNumber, d.PHProductCode, d.OriginalDespatchQty, d.DeliveredQty, d.ProdDesc, d.OrderedQty, d.ShortQty, d.ShortsActionId, d.JobDetailReasonId, d.JobDetailSourceId, d.UnitMeasure, 
-            d.PHProductType, d.PackSize, d.SingleOrOuter, d.SSCCBarcode, d.SubOuterDamageTotal, d.SkuGoodsValue, d.NetPrice, d.JobId, d.ShortsStatus, d.LineDeliveryStatus, d.IsHighValue, d.DateLife, d.IsDeleted, 
+            d.PHProductType, d.PackSize, d.SingleOrOuter, d.TobaccoBagBarcode, d.SubOuterDamageTotal, d.SkuGoodsValue, d.NetPrice, d.JobId, d.ShortsStatus, d.LineDeliveryStatus, d.IsHighValue, d.DateLife, d.IsDeleted, 
             d.CreatedBy, d.DateCreated, d.UpdatedBy, d.DateUpdated, d.Version
 	FROM	Job AS j 
 			INNER JOIN Stop AS s ON j.StopId = s.Id 

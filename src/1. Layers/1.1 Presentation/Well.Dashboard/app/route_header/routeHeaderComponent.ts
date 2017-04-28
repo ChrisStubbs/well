@@ -10,7 +10,6 @@ import {RefreshService}                             from '../shared/refreshServi
 import {DeliverySelectionModal}                     from './delivery-selection-modal';
 import {SecurityService}                            from '../shared/security/securityService';
 import { OrderByExecutor }                          from '../shared/OrderByExecutor';
-import * as _                                       from 'lodash';
 import 'rxjs/Rx';
 
 @Component({
@@ -24,56 +23,28 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public errorMessage: string;
     public routes: Route[];
     public lastRefresh = Date.now();
-    public isReadOnlyUser: boolean = false;
     private orderBy: OrderByExecutor = new OrderByExecutor();
 
-    public stops: any[] = [
-        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41, Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true, children: [{}] },
-        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 36533, Description: 'Maltesers Box 102g', Value: 22.41, Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 45872, Description: 'Malty Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123456', Account: 'Account Number: 98765', Product: 20544, Description: 'Cornflakes Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123457', Account: 'Account Number: 98766', Product: 1111, Description: 'Apple Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123457', Account: 'Account Number: 98766', Product: 2020, Description: 'Oxo Boxo 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123457', Account: 'Account Number: 98766', Product: 3030, Description: 'Horse Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123458', Account: 'Account Number: 98799', Product: 4874, Description: 'Fah Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123458', Account: 'Account Number: 98799', Product: 324507, Description: 'Yoghurt Pot 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123459', Account: 'Account Number: 2020',  Product: 85245,  Description: 'Ox Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123459', Account: 'Account Number: 2020',  Product: 11154,  Description: 'Foxy Boxy 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true },
-        { Activity: 'Invoice: 123459', Account: 'Account Number: 2020',  Product: 20005,  Description: 'Tree Box 102g', Value: 22.41,Invoiced: 1, Delivered: 0, Damaged: 0, Shorts: 1, Checked: true, HighValue: true }
-    ];
-
-    public stopGroups: any[] = _.uniqBy(this.stops, 'Activity');
-
-    public stopGroup(activity: string): any[] {
-
-        return _.filter(this.stops, (current) => current.Activity == activity);
-    }
-
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private routerHeaderService: RouteHeaderService,
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService )
     {
-        super(nqps);
+        super(nqps, globalSettingsService, securityService);
         this.options = [
             new DropDownItem('Route', 'route'),
             new DropDownItem('Branch', 'routeOwnerId', false, 'number')
         ];
         this.sortField = 'routeDate';
-
     }
 
     @ViewChild(DeliverySelectionModal) public deliverySelectionModal: DeliverySelectionModal;
 
     public ngOnInit() {
         super.ngOnInit();
-
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>
@@ -109,6 +80,4 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public routeSelected(route): void {
         this.deliverySelectionModal.show(route);
     }
-
-    
 }

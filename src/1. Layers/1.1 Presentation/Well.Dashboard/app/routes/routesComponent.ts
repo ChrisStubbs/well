@@ -1,15 +1,16 @@
-﻿import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
+﻿import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { BaseComponent } from '../shared/BaseComponent';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route } from './route';
-import { RoutesService } from './routesService';
+import { Route, RouteFilter, RoutesService } from './routes';
 import { RefreshService } from '../shared/refreshService';
 import { SecurityService } from '../shared/security/securityService';
 import { BranchService } from '../shared/branch/branchService';
 import { Branch } from '../shared/branch/branch';
 import { JobService, JobStatus, JobType } from '../job/job';
+import { AppSearchParameters } from '../shared/appSearch/appSearch';
+import { DataTable } from 'primeng/primeng';
 import * as _ from 'lodash';
 import 'rxjs/Rx';
 
@@ -31,31 +32,33 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public selectedRoutes: Route[];
 
     private alive: boolean = true;
+    private actions: string[] = ['Assign'];
+    private rowsPerPageOptions: number[] = [10, 20, 30, 40];
+    private appSearchParams: AppSearchParameters = new AppSearchParameters();
+
+    @ViewChildren('dt') public dataTable: QueryList<DataTable>;
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private routeService: RoutesService,
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
-        private securityService: SecurityService,
+        protected securityService: SecurityService,
         private nqps: NavigateQueryParametersService,
         private branchService: BranchService,
         private jobService: JobService)
     {
-        super(nqps);
+        super(nqps, globalSettingsService, securityService);
     }
 
     public ngOnInit()
     {
         super.ngOnInit();
 
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
-
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>
         {
+            this.appSearchParams = <AppSearchParameters>params;
             this.getRoutes();
         });
 
@@ -85,6 +88,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
                 this.routes = <Route[]>routes;
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
+                this.dataTable.first.filters = <any>RouteFilter.toRouteFilter(this.appSearchParams);
             },
             error =>
             {

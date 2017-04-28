@@ -23,8 +23,7 @@ export class OptionFilterComponent {
     }
 
     public inputType(type: string): string {
-        //SelectedOption.type == 'numberLessThanOrEqual': number 
-
+        
         if (type == 'numberLessThanOrEqual' || type == 'number') {
             return 'number';
         }

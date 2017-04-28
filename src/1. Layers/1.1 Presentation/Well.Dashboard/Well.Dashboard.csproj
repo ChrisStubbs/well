@@ -233,6 +233,7 @@
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\shared\appSearch\appSearchView.html" />
+    <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
@@ -508,9 +509,15 @@
     <TypeScriptCompile Include="app\job\JobStatus.ts" />
     <TypeScriptCompile Include="app\job\JobType.ts" />
     <Content Include="app\routes\routesComponent.ts" />
+    <TypeScriptCompile Include="app\routes\routeFilter.ts" />
+    <TypeScriptCompile Include="app\routes\routes.ts" />
     <TypeScriptCompile Include="app\routes\routesService.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\appSearch.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\appSearchParameters.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResult.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\menuBarAppSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
     <TypeScriptCompile Include="app\shared\dateComponent.ts" />

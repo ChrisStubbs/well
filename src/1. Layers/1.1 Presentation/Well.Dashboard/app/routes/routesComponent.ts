@@ -34,12 +34,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     private alive: boolean = true;
     private actions: string[] = ['Assign'];
     private rowsPerPageOptions: number[] = [10, 20, 30, 40];
-    private appSearchParams: AppSearchParameters = new AppSearchParameters();
-    private selectedBranch: string = '';
-    private selectedStatus: string = '';
-    private selectedExceptionFilterItem: string = '';
-    private selectedRouteDate?: Date;
-    
+    private routeFilter: RouteFilter;
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
     @ViewChildren('dt') public dataTable: QueryList<DataTable>;
 
@@ -63,7 +58,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>
         {
-            this.appSearchParams = <AppSearchParameters>params;
+            this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
             this.getRoutes();
         });
 
@@ -73,21 +68,13 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
             (branches: Array<[string, string]>) =>
             {
                 this.branches = branches;
-                if (this.appSearchParams.branchId) {
-                    this.selectedBranch = this.appSearchParams.branchId.toString();
-                }
             });
 
         this.jobService.getStatusValueList()
             .takeWhile(() => this.alive)
             .subscribe((jobStatus: Array<[string, string]>) => {
                 this.jobStatus = jobStatus;
-                if (this.appSearchParams.status) {
-                    this.selectedStatus = this.appSearchParams.status.toString();
-                }
             });
-
-        this.selectedRouteDate = this.appSearchParams.date;
     }
 
     public ngOnDestroy()
@@ -106,7 +93,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
                 this.routes = result;
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
-                this.dataTable.first.filters = <any>RouteFilter.toRouteFilter(this.appSearchParams);
+                this.dataTable.first.filters = <any>this.routeFilter;
             },
             error =>
             {
@@ -117,12 +104,8 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
 
     public clearFilters(): void
     {
-        this.selectedBranch = '';
-        this.selectedStatus = '';
-        this.selectedRouteDate = undefined;
-        this.selectedExceptionFilterItem = '';
-        this.dataTable.first.filters = <any>new RouteFilter();
-        this.dataTable.first.reset();
+        this.routeFilter = new RouteFilter();
+        this.dataTable.first.filters = <any>this.routeFilter;
+        this.dataTable.first.filter(undefined, undefined, undefined);
     }
-
 }

@@ -8,8 +8,10 @@ export class RouteFilter
     public routeDate: FilterMetadata = { matchMode: 'contains', value: '' };
     public stopCount: FilterMetadata = { matchMode: 'equals', value: '' };
     public routeStatusId: FilterMetadata = { matchMode: 'equals', value: '' };
+    public exception: FilterMetadata = { matchMode: 'equals', value: '' };
     public driverName: FilterMetadata = { matchMode: 'contains', value: '' };
-
+    public assignee: FilterMetadata = { matchMode: 'contains', value: '' };
+    
     public static toRouteFilter(params: AppSearchParameters): RouteFilter
     {
         const routeFilter = new RouteFilter();

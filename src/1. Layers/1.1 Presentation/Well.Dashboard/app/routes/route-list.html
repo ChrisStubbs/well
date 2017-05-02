@@ -30,7 +30,7 @@
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchBranch"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                    [(ngModel)]="selectedBranch">
+                                    [(ngModel)]="routeFilter.branchId.value">
                                 <option *ngFor="let branch of branches" [value]="branch[0] || ''">
                                     {{ branch[1] }}
                                 </option>
@@ -44,10 +44,11 @@
                     </p-column>
                     <p-column header="Route" field="route" [sortable]="true" [filter]="true">
                     </p-column>
-                    <p-column header="Date" field="routeDate" [sortable]="true" [style]="{'overflow':'visible','width':'150px'}">
+                    <p-column header="Date" field="routeDate" [sortable]="true" [style]="{'overflow':'visible','width':'150px'}" [filter]="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
-                            <input class="form-control" type="date" [(ngModel)]="selectedRouteDate" />
-                            <!--<ow-date (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)" (value)="selectedRouteDate"></ow-date>-->
+                            <ow-date (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
+                                     value="{{routeFilter.routeDate ? routeFilter.routeDate.value : ''}}">
+                            </ow-date>
                         </ng-template>
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
@@ -60,7 +61,7 @@
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchStatus"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                    [(ngModel)]="selectedStatus">
+                                    [(ngModel)]="routeFilter.routeStatusId.value">
                                 <option *ngFor="let status of jobStatus" [value]="status[0] || ''">
                                     {{ status[1] }}
                                 </option>
@@ -68,17 +69,17 @@
                         </ng-template>
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
-                              {{route.routeStatus}}
+                                {{route.routeStatus}}
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true" filterMatchMode="equals">
+                    <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="exceptionFilterCtl"
-                                    [(ngModel)]="selectedExceptionFilterItem"
+                                    [(ngModel)]="routeFilter.routeStatusId.value"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)">
                                 <option *ngFor="let exceptionFilterItem of exceptionFilterItems" [value]="exceptionFilterItem[0]">
-                                   {{exceptionFilterItem[1]}}
+                                    {{exceptionFilterItem[1]}}
                                 </option>
                             </select>
                         </ng-template>

@@ -30,7 +30,13 @@
 
         public string DriverName { get; set; }
 
-        public string Assignee => string.Join(",", Assignees.Select(x => x.Name).Distinct());
+        public string Assignee
+        {
+            get
+            {
+                return Assignees.Any() ? string.Join(",", Assignees.Select(x => x.Name).Distinct()) : "Unallocated";
+            }
+        }
 
         public List<ReadRouteAssignees> Assignees { get; set; }
 

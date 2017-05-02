@@ -2,11 +2,9 @@
 
 @Component({
     selector: 'ow-date',
-    template: '<input type="date" />'
+    template: '<input class="form-control" type="date" [(ngModel)]="value" />' 
 })
 export class DateComponent
 {
-    //@Input() public value: Date;
-    //@Input() public id: string;
-    
+    @Input() public value?: Date;
 }

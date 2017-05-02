@@ -132,11 +132,11 @@ export class AppSearch implements OnDestroy {
                 //     return;
                 // }
                 //
-                // if (!_.isNil(result.routeId))
-                // {
-                //     this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.routeId}});
-                //     return;
-                // }
+                //if (!_.isNil(result.routeId))
+                //{
+                //    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.routeId}});
+                //    return;
+                //}
 
                 this.router.navigate(['/routes'], { queryParams: parameters});
                 this.onSearch.emit();

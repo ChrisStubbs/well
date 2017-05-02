@@ -1,14 +1,16 @@
-﻿import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
+﻿import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { BaseComponent } from '../shared/BaseComponent';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route } from './route';
-import { RoutesService } from './routesService';
+import { Route, RouteFilter, RoutesService } from './routes';
 import { RefreshService } from '../shared/refreshService';
 import { SecurityService } from '../shared/security/securityService';
 import { BranchService } from '../shared/branch/branchService';
 import { JobService } from '../job/job';
+import { AppSearchParameters } from '../shared/appSearch/appSearch';
+import { DataTable } from 'primeng/primeng';
 import 'rxjs/Rx';
 
 @Component({
@@ -27,9 +29,13 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public branches: Array<[string, string]>;
     public jobStatus: Array<[string, string]>;
     public selectedRoutes: Route[];
-    
+
     private alive: boolean = true;
     private actions: string[] = ['Assign'];
+    private rowsPerPageOptions: number[] = [10, 20, 30, 40];
+    private routeFilter: RouteFilter;
+    private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
+    @ViewChildren('dt') public dataTable: QueryList<DataTable>;
 
     constructor(
         protected globalSettingsService: GlobalSettingsService,
@@ -41,7 +47,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         private branchService: BranchService,
         private jobService: JobService)
     {
-        super(nqps, globalSettingsService, securityService );
+        super(nqps, globalSettingsService, securityService);
     }
 
     public ngOnInit()
@@ -51,17 +57,23 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>
         {
+            this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
             this.getRoutes();
         });
 
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.alive)
-            .subscribe((branches: Array<[string, string]>) => this.branches = branches);
+            .subscribe(
+            (branches: Array<[string, string]>) =>
+            {
+                this.branches = branches;
+            });
 
-        this.jobService.getBranchesValueList()
+        this.jobService.getStatusValueList()
             .takeWhile(() => this.alive)
-            .subscribe((jobStatus: Array<[string, string]>) => this.jobStatus = jobStatus);
-
+            .subscribe((jobStatus: Array<[string, string]>) => {
+                this.jobStatus = jobStatus;
+            });
     }
 
     public ngOnDestroy()
@@ -75,11 +87,12 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     {
         this.routeService.getRoutes()
             .takeWhile(() => this.alive)
-            .subscribe(routes =>
+            .subscribe((result: Route[]) =>
             {
-                this.routes = <Route[]>routes;
+                this.routes = result;
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
+                this.dataTable.first.filters = <any>this.routeFilter;
             },
             error =>
             {
@@ -88,4 +101,10 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
             });
     }
 
+    public clearFilters(): void
+    {
+        this.routeFilter = new RouteFilter();
+        this.dataTable.first.filters = <any>this.routeFilter;
+        this.dataTable.first.filter(undefined, undefined, undefined);
+    }
 }

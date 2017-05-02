@@ -1,17 +1,17 @@
 ﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
-import { Component, OnInit, ViewChild, OnDestroy}   from '@angular/core';
-import {GlobalSettingsService}                      from '../shared/globalSettings';
-import { Router, ActivatedRoute}                    from '@angular/router';
-import {ResolvedDelivery}                           from './resolvedDelivery';
-import {ResolvedDeliveryService}                    from './ResolvedDeliveryService';
-import {DropDownItem}                               from '../shared/dropDownItem';
-import {AssignModal}                                from '../shared/assignModal';
-import {ContactModal}                               from '../shared/contactModal';
-import {AccountService}                             from '../account/accountService';
-import {IAccount}                                   from '../account/account';
-import {RefreshService}                             from '../shared/refreshService';
-import {SecurityService}                            from '../shared/security/securityService';
+import { Component, OnInit, ViewChild, OnDestroy }  from '@angular/core';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { Router, ActivatedRoute }                   from '@angular/router';
+import { ResolvedDelivery }                         from './resolvedDelivery';
+import { ResolvedDeliveryService }                  from './ResolvedDeliveryService';
+import { DropDownItem }                             from '../shared/dropDownItem';
+import { AssignModal }                              from '../shared/assignModal';
+import { ContactModal }                             from '../shared/contactModal';
+import { AccountService }                           from '../account/accountService';
+import { IAccount }                                 from '../account/account';
+import { RefreshService }                           from '../shared/refreshService';
+import { SecurityService }                          from '../shared/security/securityService';
 import { OrderByExecutor }                          from '../shared/OrderByExecutor';
 import 'rxjs/Rx';
 
@@ -19,9 +19,9 @@ import 'rxjs/Rx';
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [ResolvedDeliveryService]
-
 })
-export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, OnDestroy
+{
     public isLoading: boolean = true;
     public lastRefresh = Date.now();
     public refreshSubscription: any;
@@ -41,7 +41,8 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
         protected securityService: SecurityService,
-        private nqps: NavigateQueryParametersService ) {
+        private nqps: NavigateQueryParametersService)
+    {
 
         super(nqps, globalSettingsService, securityService);
         this.options = [
@@ -55,58 +56,69 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
             new DropDownItem('Date', 'deliveryDate', false, 'date')
         ];
         this.sortField = 'deliveryDate';
-        }
-
-    public ngOnInit() {
-        super.ngOnInit();
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.activatedRoute.queryParams.subscribe(params => {
-            this.getDeliveries();
-        });
-        
     }
 
-    public ngOnDestroy() {
+    public ngOnInit()
+    {
+        super.ngOnInit();
+        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
+        this.activatedRoute.queryParams.subscribe(params =>
+        {
+            this.getDeliveries();
+        });
+
+    }
+
+    public ngOnDestroy()
+    {
         super.ngOnDestroy();
         this.refreshSubscription.unsubscribe();
     }
 
-    public getDeliveries() {
+    public getDeliveries()
+    {
         this.resolvedDeliveryService.getResolvedDeliveries()
-            .subscribe(deliveries => {
-                    this.deliveries = deliveries || new Array<ResolvedDelivery>();
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                },
-                error => {
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                });
+            .subscribe(deliveries =>
+            {
+                this.deliveries = deliveries || new Array<ResolvedDelivery>();
+                this.lastRefresh = Date.now();
+                this.isLoading = false;
+            },
+            error =>
+            {
+                this.lastRefresh = Date.now();
+                this.isLoading = false;
+            });
     }
 
-    public deliverySelected(delivery): void {
+    public deliverySelected(delivery): void
+    {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
     public onSortDirectionChanged(isDesc: boolean)
-    {   
+    {
         super.onSortDirectionChanged(isDesc);
         this.deliveries = this.orderBy.Order(this.deliveries, this);
     }
 
-    public openModal(accountId): void {
+    public openModal(accountId): void
+    {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => {
+            .subscribe(account =>
+            {
                 this.account = account;
                 this.contactModal.show(this.account);
             });
     }
 
-    public allocateUser(delivery: ResolvedDelivery): void {
+    public allocateUser(delivery: ResolvedDelivery): void
+    {
         this.assignModal.show(delivery);
     }
 
-    public onAssigned(assigned: boolean) {
+    public onAssigned(assigned: boolean)
+    {
         this.getDeliveries();
     }
 }

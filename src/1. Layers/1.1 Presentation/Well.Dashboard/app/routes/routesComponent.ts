@@ -1,6 +1,6 @@
 ﻿import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { BaseComponent } from '../shared/BaseComponent';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { Route } from './route';
@@ -8,9 +8,7 @@ import { RoutesService } from './routesService';
 import { RefreshService } from '../shared/refreshService';
 import { SecurityService } from '../shared/security/securityService';
 import { BranchService } from '../shared/branch/branchService';
-import { Branch } from '../shared/branch/branch';
-import { JobService, JobStatus, JobType } from '../job/job';
-import * as _ from 'lodash';
+import { JobService } from '../job/job';
 import 'rxjs/Rx';
 
 @Component({

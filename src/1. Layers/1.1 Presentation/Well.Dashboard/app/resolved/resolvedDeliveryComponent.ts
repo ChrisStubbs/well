@@ -44,17 +44,17 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
         private nqps: NavigateQueryParametersService ) {
 
         super(nqps, globalSettingsService, securityService);
-            this.options = [
-                new DropDownItem('Route', 'routeNumber'),
-                new DropDownItem('Branch', 'branchId', false, 'number'),
-                new DropDownItem('Invoice No', 'invoiceNumber'),
-                new DropDownItem('Account', 'accountCode'),
-                new DropDownItem('Account Name', 'accountName'),
-                new DropDownItem('Status', 'jobStatus'),
-                new DropDownItem('Assigned', 'assigned'),
-                new DropDownItem('Date', 'deliveryDate', false, 'date')
-            ];
-            this.sortField = 'deliveryDate';
+        this.options = [
+            new DropDownItem('Route', 'routeNumber'),
+            new DropDownItem('Branch', 'branchId', false, 'number'),
+            new DropDownItem('Invoice No', 'invoiceNumber'),
+            new DropDownItem('Account', 'accountCode'),
+            new DropDownItem('Account Name', 'accountName'),
+            new DropDownItem('Status', 'jobStatus'),
+            new DropDownItem('Assigned', 'assigned'),
+            new DropDownItem('Date', 'deliveryDate', false, 'date')
+        ];
+        this.sortField = 'deliveryDate';
         }
 
     public ngOnInit() {

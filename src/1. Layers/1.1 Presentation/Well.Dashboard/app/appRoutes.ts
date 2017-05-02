@@ -33,7 +33,6 @@ const routes: Routes = [
     { path: 'exceptions', component: ExceptionsComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'resolved', component: ResolvedDeliveryComponent },
-    //{ path: 'routes', component: RouteHeaderComponent },
     { path: 'routes', component: RoutesComponent },
     { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent },

@@ -1,0 +1,76 @@
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="approvals" role="tab" data-toggle="tab">Approvals</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="resolved" role="tab" data-toggle="tab">Resolved</a></li>
+    </ul>
+    <div class="pull-right">
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-success">Clear Filter</button>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Action
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Dropdown link</a></li>
+                    <li><a href="#">Dropdown link</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="all">
+            <p-dataTable [value]="singleRoute" [rows]="rowCount" [paginator]="true" [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions" #dt>
+                <p-column header="Stop" field="stop" [filter]="true" filterMatchMode="contains" [sortable]="true">
+                    <ng-template pTemplate="filter" let-col>
+                        <select class="form-control" id="searchStop" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                            <option *ngFor="let stop of stops()" [value]="stop">
+                                {{ stop }}
+                            </option>
+                        </select>
+                    </ng-template>
+                </p-column>
+                <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+                <p-column header="jobType" field="jobType" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'200px'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <select class="form-control" id="searchJob" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                            <option *ngFor="let stop of jobTypes" [value]="id">
+                                {{ description }}
+                            </option>
+                        </select>
+                    </ng-template>
+                </p-column>
+                <p-column header="jobType" field="jobType" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'200px'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <select class="form-control" id="searchStatus" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                            <option *ngFor="let stop of jobStatus" [value]="id">
+                                {{ description }}
+                            </option>
+                        </select>
+                    </ng-template>
+                </p-column>
+                <p-column header="COD" field="cod" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                <p-column header="POD" field="pod" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                <p-column header="Exceptions" field="exceptions" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                <p-column header="Clean" field="clean" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                <p-column header="TBA" field="tba" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                <p-column header="Credit" field="credit" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                <p-column header="Assignee" field="assignee" [filter]="true" filterMatchMode="contains" [sortable]="true">
+                    <ng-template let-route="rowData" pTemplate="body">
+                        <!--<span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                        <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>-->
+                    </ng-template>
+
+                </p-column>
+                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+            </p-dataTable>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="jobs">...</div>
+        <div role="tabpanel" class="tab-pane" id="approvals">...</div>
+        <div role="tabpanel" class="tab-pane" id="resolved">...</div>
+    </div>
+</div>

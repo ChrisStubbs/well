@@ -1,5 +1,6 @@
 import { Injectable }               from '@angular/core';
 import { JobStatus }                from './jobStatus';
+import { JobType }                  from './jobType';
 import { HttpErrorService }         from '../shared/httpErrorService';
 import { Observable }               from 'rxjs/Observable';
 import { Response }                 from '@angular/http';
@@ -41,10 +42,10 @@ export class JobService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public JobTypes(): Observable<JobStatus[]>
+    public JobTypes(): Observable<JobType[]>
     {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'JobType')
-            .map((response: Response) => <JobStatus[]>response.json())
+            .map((response: Response) => <JobType[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

@@ -7,7 +7,7 @@
     </ul>
     <div class="pull-right">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-success">Clear Filter</button>
+            <button type="button" class="btn btn-success" (click)="clearFilter(dt)">Clear Filter</button>
             <button type="submit" class="btn btn-primary">Search</button>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
@@ -64,9 +64,8 @@
                         <!--<span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
                         <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>-->
                     </ng-template>
-
                 </p-column>
-                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                <p-column [style]="{'width':'38px'}" field="selected" selectionMode="multiple"></p-column>
             </p-dataTable>
         </div>
         <div role="tabpanel" class="tab-pane" id="jobs">...</div>

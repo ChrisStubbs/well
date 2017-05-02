@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit }     from '@angular/core';
-import { RoutesService }                    from './routesService'
-import { SingleRoute }                      from './singleRoute';
-import { ActivatedRoute }                   from '@angular/router';
-import { AppDefaults }                      from '../shared/defaults/defaults';
-import { JobType, JobService, JobStatus}    from '../job/Job';
-import * as _                               from 'lodash';
+import { Component, OnDestroy, OnInit, ViewChild }  from '@angular/core';
+import { RoutesService }                            from './routesService'
+import { SingleRoute }                              from './singleRoute';
+import { ActivatedRoute }                           from '@angular/router';
+import { AppDefaults }                              from '../shared/defaults/defaults';
+import { JobType, JobService, JobStatus}            from '../job/job';
+import * as _                                       from 'lodash';
+import { DataTable }                                from 'primeng/components/datatable/datatable';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
@@ -23,7 +24,7 @@ export class SingleRouteComponent implements OnDestroy, OnInit
     public allStops: Array<string>;
     public jobTypes: Array<JobType>;
     public jobStatus: JobStatus[];
-
+    @ViewChild('dt') public grid: DataTable;
     constructor(
         private routeService: RoutesService,
         private route: ActivatedRoute,
@@ -34,7 +35,7 @@ export class SingleRouteComponent implements OnDestroy, OnInit
         this.route.params
             .flatMap(data =>
             {
-                this.routeId = data['routeId'];
+                this.routeId = data.id;
 
                 return this.routeService.getSingleRoute(this.routeId)
             })
@@ -80,5 +81,10 @@ export class SingleRouteComponent implements OnDestroy, OnInit
         }
 
         return this.allStops;
+    }
+
+    public clearFilter()
+    {
+        this.grid.filters = {};
     }
 }

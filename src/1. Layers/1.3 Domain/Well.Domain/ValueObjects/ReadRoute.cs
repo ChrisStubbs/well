@@ -9,6 +9,7 @@
         public ReadRoute()
         {
             JobIds = new List<int>();
+            Assignees = new List<ReadRouteAssignees>();
         }
 
         public int Id { get; set; }
@@ -39,7 +40,15 @@
         {
             get
             {
-                return Assignees.Any() ? string.Join(",", Assignees.Select(x => x.Name).Distinct()) : "Unallocated";
+                if (!Assignees.Any()) return "Unallocated";
+
+                if (Assignees.Count == 1)
+                {
+                    return Assignees[0].Name;
+                }
+                   
+                var initials = Assignees.Select(x => string.Join("",x.Name.Split(' ').Select(s=> s[0]))).Distinct();
+                return string.Join(", ", initials);
             }
         }
 

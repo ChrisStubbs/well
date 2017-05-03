@@ -3,18 +3,19 @@ import { Component, OnDestroy, OnInit, ViewChild, QueryList } from '@angular/cor
 import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { BaseComponent } from '../shared/BaseComponent';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route, RouteFilter, RoutesService } from './routes';
+import { Route } from './route';
+import { RouteFilter } from './routeFilter';
+import { RoutesService } from './routesService';
 import { RefreshService } from '../shared/refreshService';
 import { SecurityService } from '../shared/security/securityService';
 import { BranchService } from '../shared/branch/branchService';
-import { Branch } from '../shared/branch/branch';
-import { JobService, JobStatus, JobType } from '../job/job';
+import { JobService } from '../job/job';
 import { AppSearchParameters } from '../shared/appSearch/appSearch';
 import { DataTable } from 'primeng/primeng';
-import * as _ from 'lodash';
 import 'rxjs/Rx';
 import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
+import { Branch } from '../shared/branch/branch';
 
 @Component({
     selector: 'ow-route',
@@ -91,7 +92,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.refreshSubscription.unsubscribe();
     }
 
-    public getRoutes(): void
+    private getRoutes(): void
     {
         this.routeService.getRoutes()
             .takeWhile(() => this.alive)
@@ -116,15 +117,14 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.dataTable.filter(undefined, undefined, undefined);
     }
 
-    public allocateUser(route: Route): void
+    public getAssignModel(route: Route): AssignModel
     {
         const branch = { id: route.branchId } as Branch;
-        this.assignModal.show(new AssignModel(route.assignee, branch, route.jobIds));
+        return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser);
     }
 
     public onAssigned($event)
     {
         this.getRoutes();
     }
-
 }

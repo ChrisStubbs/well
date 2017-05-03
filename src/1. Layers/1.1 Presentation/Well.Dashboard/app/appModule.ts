@@ -21,7 +21,6 @@ import { ExceptionsComponent } from './exceptions/exceptionsComponent';
 import { LoadingComponent } from './shared/loadingComponent';
 import { NotificationsComponent } from './notifications/notificationsComponent';
 import { ResolvedDeliveryComponent } from './resolved/resolvedDeliveryComponent';
-import { RoutesComponent } from './routes/routesComponent';
 import { UserPreferenceComponent } from './user_preferences/userPreferenceComponent';
 import { UserPreferenceModal } from './user_preferences/userPreferenceModalComponent';
 import { WidgetComponent } from './home/widgetComponent';
@@ -90,8 +89,10 @@ import { UserPreferenceService } from './user_preferences/userPreferenceService'
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DriverService } from './driver/driverService';
-import AppRoutes = require('./appRoutes');
 import { DateComponent, SplitButtonComponent } from './shared/shared';
+import { RoutesComponent } from './routes/routesComponent';
+import { SingleRouteComponent } from './routes/singleRouteComponent';
+import AppRoutes = require('./appRoutes');
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -103,7 +104,7 @@ import { DateComponent, SplitButtonComponent } from './shared/shared';
         AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent,
         ExceptionsComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        ResolvedDeliveryComponent, RoutesComponent, UserPreferenceComponent, WidgetComponent,
+        ResolvedDeliveryComponent, RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent

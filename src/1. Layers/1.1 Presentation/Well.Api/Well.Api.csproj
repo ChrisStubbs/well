@@ -192,6 +192,7 @@
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
+    <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
     <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />

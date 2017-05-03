@@ -1,0 +1,111 @@
+<div class="table-container">
+    <ol class="breadcrumb">
+        <li class="active">Route {{routeId}}</li>
+    </ol>
+</div>
+<div class="jumbotron">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12 clearfix ">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" (click)="filter('Exception')" class="active"><a href="#exceptions" aria-controls="exceptions" role="tab" data-toggle="tab">Exceptions</a></li>
+                    <li role="presentation" (click)="filter('Approval')"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab">Approvals</a></li>
+                    <li role="presentation" (click)="filter('Resolve')"><a href="#resolved" aria-controls="resolved" role="tab" data-toggle="tab">Resolved</a></li>
+                    <li role="presentation" (click)="filter('All')"><a href="#All" aria-controls="jobs" role="tab" data-toggle="tab">All</a></li>
+                    <li class="pull-right">
+                        <button type="button" class="btn btn-success" (click)="clearFilter(dt)">Clear Filter</button>
+                        <span>&nbsp;</span>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+                                Action
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Dropdown link</a></li>
+                                <li><a href="#">Dropdown link</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <p-dataTable [value]="singleRoute" [rows]="rowCount" [paginator]="true" [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
+                             groupField="stop" expandableRowGroups="rowspan"
+                             sortField="stop" [sortableRowGroup]="false"
+                             rowGroupMode="subheader" #dt>
+                    <p-header>Expand a route to see more details</p-header>
+                    <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['stop']}}</ng-template>
+                    <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+                    <p-column header="Job Type" field="jobType" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'100px'}">
+                        <ng-template pTemplate="filter" let-col>
+                            <select class="form-control" id="searchJob" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                                <option *ngFor="let jobType of jobTypes" [value]="jobType.id">
+                                    {{ jobType.description }}
+                                </option>
+                            </select>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="Job Status" field="jobStatus" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'100px'}">
+                        <ng-template pTemplate="filter" let-col>
+                            <select class="form-control" id="searchStatus" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                                <option *ngFor="let status of jobStatus" [value]="status.id">
+                                    {{ status.description }}
+                                </option>
+                            </select>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="COD" field="cod" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
+                    <p-column header="POD" field="pod" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                        <ng-template pTemplate="filter" let-col>
+                            <select class="form-control"
+                                    (change)="dt.filter(($event.target.value == '' ? undefine : $event.target.value), col.field, col.filterMatchMode)" title=""
+                                    [(ngModel)]="podFilter">
+                                <option [value]="''">All</option>
+                                <option [value]="true">Yes</option>
+                                <option [value]="false">No</option>
+                            </select>
+                        </ng-template>
+                        <ng-template let-data="rowData" pTemplate="body">
+                            <div class="text-center">
+                                <input type="checkbox" ngModel="data.pod" disabled title="">
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="Exceptions" field="exceptions" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                        <ng-template let-data="rowData" pTemplate="body">
+                            <div class="text-right">
+                                {{data.exceptions}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="Clean" field="clean" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                        <ng-template let-data="rowData" pTemplate="body">
+                            <div class="text-right">
+                                {{data.clean}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="TBA" field="tba" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                        <ng-template let-data="rowData" pTemplate="body">
+                            <div class="text-right">
+                                {{data.tba}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="Credit" field="credit" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                        <ng-template let-data="rowData" pTemplate="body">
+                            <div class="text-right">
+                                {{data.credit | currency:'GBP':true}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="Assignee" field="assignee" [filter]="true" filterMatchMode="contains" [sortable]="true">
+                        <ng-template let-route="rowData" pTemplate="body">
+                            <!--<span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
+                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>-->
+                        </ng-template>
+                    </p-column>
+                    <p-column [style]="{'width':'38px'}" field="selected" selectionMode="multiple"></p-column>
+                </p-dataTable>
+            </div>
+        </div>
+    </div>
+</div>

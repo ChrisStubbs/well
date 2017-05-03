@@ -20,7 +20,6 @@
         <div class="row">
             <div class="col-md-12"> &nbsp;</div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
@@ -94,8 +93,7 @@
                     <p-column header="Driver" field="driverName" [sortable]="true" [filter]="true"></p-column>
                     <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true">
                         <ng-template let-route="rowData" pTemplate="body">
-                            <span *ngIf="isReadOnlyUser">{{route.assignee}}</span>
-                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(route)">{{route.assignee}}</a>
+                            <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
@@ -104,4 +102,3 @@
         </div>
     </div>
 </div>
-<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>

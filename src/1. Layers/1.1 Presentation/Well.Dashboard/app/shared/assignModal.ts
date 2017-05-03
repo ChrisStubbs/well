@@ -1,26 +1,26 @@
-﻿import { Component, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { Response } from '@angular/http';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
-import { IUser, HttpResponse, UserService, AssignModel } from './shared';
-import { UserJobs } from './userJobs';
-import * as _ from 'lodash';
+﻿import { Component, EventEmitter, Output, Input, OnInit, OnDestroy }    from '@angular/core';
+import { Router }                                                       from '@angular/router';
+import { Response }                                                     from '@angular/http';
+import { ToasterService }                                               from 'angular2-toaster/angular2-toaster';
+import { IUser, HttpResponse, UserService, AssignModel }                from './shared';
+import { UserJobs }                                                     from './userJobs';
+import * as _                                                           from 'lodash';
+import {IObservableAlive}                                               from './IObservableAlive';
 
 @Component({
     selector: 'assign-modal',
     templateUrl: 'app/shared/assign-modal.html'
 })
-export class AssignModal
+export class AssignModal implements IObservableAlive, OnInit, OnDestroy
 {
     public isVisible: boolean = false;
     public users: IUser[];
     public userJobs: UserJobs;
-    public model: AssignModel;
-
     public httpResponse: HttpResponse = new HttpResponse();
-    @Output() public onAssigned = new EventEmitter();
     public assigned = false;
-
+    public isAlive: boolean = true;
+    @Input() public model: AssignModel;
+    @Output() public onAssigned = new EventEmitter();
     constructor(
         private userService: UserService,
         private router: Router,
@@ -29,21 +29,31 @@ export class AssignModal
         this.userJobs = new UserJobs();
     }
 
-    public show(model: AssignModel)
+    public ngOnInit()
     {
-        this.model = model;
-        this.userService.getUsersForBranch(model.branch.id)
+        this.userService.getUsersForBranch(this.model.branch.id)
+            .takeWhile(() => this.isAlive)
             .subscribe(users =>
             {
-                this.users = _.filter(users, current => current.name != model.assigned);
-                this.isVisible = true;
+                this.users = _.filter(users, current => current.name != this.model.assigned);
             });
+    }
+
+    public ngOnDestroy()
+    {
+        this.isVisible = false;
+    }
+
+    public show(model: AssignModel)
+    {
+        throw new Error('Do not use this method anymore. Refactoring is needed');
     }
 
     public hide()
     {
         this.isVisible = false;
     }
+
     public userSelected(userid: number, model: AssignModel): void
     {
         this.userJobs.jobIds = model.jobIds;

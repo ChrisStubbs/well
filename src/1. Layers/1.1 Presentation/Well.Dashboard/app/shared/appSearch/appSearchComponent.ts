@@ -1,14 +1,14 @@
-import { Component, OnDestroy }                 from '@angular/core';
-import { Router }                               from '@angular/router';
-import { BranchService }                        from '../branch/branchService';
-import { GlobalSettingsService }                from '../globalSettings';
-import { FormGroup, FormControl, FormBuilder }  from '@angular/forms';
-import { JobService, JobStatus, JobType }       from '../../job/job';
-import { DriverService }                        from '../../driver/driverService';
-import { IAppSearchResult }                     from './iAppSearchResult';
-import { AppSearchParameters }                  from './appSearchParameters';
-import { AppSearchService }                     from './appSearchService'
-import * as _                                   from 'lodash';
+import { Component, OnDestroy, Output, EventEmitter }   from '@angular/core';
+import { Router }                                       from '@angular/router';
+import { BranchService }                                from '../branch/branchService';
+import { GlobalSettingsService }                        from '../globalSettings';
+import { FormGroup, FormControl, FormBuilder }          from '@angular/forms';
+import { JobService, JobStatus, JobType }               from '../../job/job';
+import { DriverService }                                from '../../driver/driverService';
+import { IAppSearchResult }                             from './iAppSearchResult';
+import { AppSearchParameters }                          from './appSearchParameters';
+import { AppSearchService }                             from './appSearchService'
+import * as _                                           from 'lodash';
 import 'rxjs/add/operator/takeWhile';
 
 //http://stackoverflow.com/questions/32896407/redirect-within-component-angular-2
@@ -27,6 +27,7 @@ export class AppSearch implements OnDestroy {
     public searchForm: FormGroup;
     public showMoreFilters = false;
     public drivers: string[];
+    @Output() public onSearch = new EventEmitter();
 
     private alive: boolean = true;
 
@@ -125,12 +126,12 @@ export class AppSearch implements OnDestroy {
             .takeWhile(() => this.alive)
             .subscribe((result: IAppSearchResult) =>
             {
-                //if (!_.isNil(result.jobId))
-                //{
-                //    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.jobId}});
-                //    return;
-                //}
-
+                // if (!_.isNil(result.jobId))
+                // {
+                //     this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.jobId}});
+                //     return;
+                // }
+                //
                 //if (!_.isNil(result.routeId))
                 //{
                 //    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.routeId}});
@@ -138,6 +139,7 @@ export class AppSearch implements OnDestroy {
                 //}
 
                 this.router.navigate(['/routes'], { queryParams: parameters});
+                this.onSearch.emit();
                 return;
             });
     }

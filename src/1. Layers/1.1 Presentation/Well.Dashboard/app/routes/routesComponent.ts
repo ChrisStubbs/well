@@ -34,7 +34,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public selectedRoutes: Route[];
 
     private alive: boolean = true;
-    private actions: string[] = ['Assign'];
+    private actions: string[] = ['Re-Plan'];
     private rowsPerPageOptions: number[] = [10, 20, 30, 40];
     private routeFilter: RouteFilter;
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
@@ -60,11 +60,13 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         super.ngOnInit();
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
-        this.activatedRoute.queryParams.subscribe(params =>
-        {
-            this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
-            this.getRoutes();
-        });
+        this.activatedRoute.queryParams
+            .takeWhile(() => this.alive)
+            .subscribe(params =>
+            {
+                this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
+                this.getRoutes();
+            });
 
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.alive)
@@ -120,7 +122,8 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.assignModal.show(new AssignModel(route.assignee, branch, route.jobIds));
     }
 
-    public onAssigned($event) {
+    public onAssigned($event)
+    {
         this.getRoutes();
     }
 

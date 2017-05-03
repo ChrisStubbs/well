@@ -52,8 +52,7 @@
                                 <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button>
                             </td>
                             <td>
-                                <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                                <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                             </td>
                             <td (click)="deliverySelected(delivery)">{{delivery.deliveryDate | date:'dd/MMM/yyyy' }}</td>
                         </tr>
@@ -73,4 +72,3 @@
     </div>
 </div>
 <contact-modal></contact-modal>
-<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>

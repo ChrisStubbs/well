@@ -16,7 +16,8 @@ import { SecurityService } from '../shared/security/securityService';
 import * as _ from 'lodash';
 import { OrderByExecutor } from '../shared/OrderByExecutor';
 import { Branch } from '../shared/branch/branch';
-import 'rxjs/Rx';   // Load all features
+import 'rxjs/Rx';
+import {IObservableAlive} from '../shared/IObservableAlive';
 
 @Component({
     selector: 'ow-clean',
@@ -24,11 +25,10 @@ import 'rxjs/Rx';   // Load all features
     providers: [CleanDeliveryService]
 
 })
-export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnDestroy
+export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnDestroy, IObservableAlive
 {
     public isLoading: boolean = true;
     public lastRefresh = Date.now();
-    public refreshSubscription: any;
     public errorMessage: string;
     public cleanDeliveries = new Array<CleanDelivery>();
     public routeOption = new DropDownItem('Route', 'routeNumber');
@@ -38,6 +38,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     private orderBy: OrderByExecutor = new OrderByExecutor();
     public branchId: number;
     public routeNumber: string;
+    public isAlive: boolean = true;
 
     @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
@@ -71,26 +72,32 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     {
         super.ngOnInit();
 
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.activatedRoute.queryParams.subscribe(params =>
-        {
-            this.routeDate = params['routeDate'];
-            this.branchId = params['branchId'];
-            this.routeNumber = params['filter.routeNumber'];
-            this.getDeliveries();
-        });
+        this.refreshService.dataRefreshed$
+            .takeWhile(() => this.isAlive)
+            .subscribe(r => this.getDeliveries());
+
+        this.activatedRoute.queryParams
+            .takeWhile(() => this.isAlive)
+            .subscribe(params =>
+            {
+                this.routeDate = params['routeDate'];
+                this.branchId = params['branchId'];
+                this.routeNumber = params['filter.routeNumber'];
+                this.getDeliveries();
+            });
 
     }
 
     public ngOnDestroy()
     {
         super.ngOnDestroy();
-        this.refreshSubscription.unsubscribe();
+        this.isAlive = false;
     }
 
     public getDeliveries()
     {
         this.cleanDeliveryService.getCleanDeliveries()
+            .takeWhile(() => this.isAlive)
             .subscribe(cleanDeliveries =>
             {
                 this.cleanDeliveries = cleanDeliveries || new Array<CleanDelivery>();
@@ -133,10 +140,10 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
             error => this.errorMessage = <any>error);
     }
 
-    public allocateUser(delivery: CleanDelivery): void
+    public getAssignModel(delivery: CleanDelivery): AssignModel
     {
         const branch: Branch = { id: delivery.branchId } as Branch;
-        this.assignModal.show(new AssignModel(delivery.assigned, branch, [delivery.id] as number[]));
+        return new AssignModel(delivery.assigned, branch, [delivery.id] as number[], this.isReadOnlyUser);
     }
 
     public onAssigned(assigned: boolean)

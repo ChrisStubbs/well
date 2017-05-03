@@ -41,12 +41,7 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
 
     public ngOnDestroy()
     {
-        this.isVisible = false;
-    }
-
-    public show(model: AssignModel)
-    {
-        throw new Error('Do not use this method anymore. Refactoring is needed');
+        this.isAlive = false;
     }
 
     public hide()
@@ -60,6 +55,7 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
         this.userJobs.userId = userid;
 
         this.userService.assign(this.userJobs)
+            .takeWhile(() => this.isAlive)
             .subscribe((res: Response) =>
             {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
@@ -81,6 +77,7 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
     public unassign(model: AssignModel): void
     {
         this.userService.unassign(model.jobIds)
+            .takeWhile(() => this.isAlive)
             .subscribe((res: Response) =>
             {
                 this.httpResponse = JSON.parse(JSON.stringify(res));

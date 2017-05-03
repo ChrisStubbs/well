@@ -13,7 +13,7 @@ import { DropDownItem } from './shared';
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li *ngFor="let option of options"><a href="#">{{option}}</a></li>
+            <li *ngFor="let option of options"><a>{{option}}</a></li>
           </ul>
         </div>
     `

@@ -7,7 +7,6 @@ import { ResolvedDelivery }                         from './resolvedDelivery';
 import { ResolvedDeliveryService }                  from './ResolvedDeliveryService';
 import { DropDownItem }                             from '../shared/dropDownItem';
 import { AssignModal }                              from '../shared/assignModal';
-import { AssignModel }                              from '../shared/assignModel';
 import { ContactModal }                             from '../shared/contactModal';
 import { AccountService }                           from '../account/accountService';
 import { IAccount }                                 from '../account/account';

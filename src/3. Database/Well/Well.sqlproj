@@ -292,6 +292,58 @@
     </None>
     <Build Include="dbo\StoredProcedures\Job_UpdateStatus.sql" />
     <Build Include="dbo\StoredProcedures\ReadRoute_GetAll.sql" />
+    <Build Include="dbo\Tables\ActivityType.sql" />
+    <None Include="Post-Deployement\Populate-ActivityType.sql" />
+    <Build Include="dbo\Functions\ActivityType_Invoice.sql" />
+    <Build Include="dbo\Functions\ActivityType_Uplift.sql" />
+    <Build Include="dbo\Functions\ActivityType_Documents.sql" />
+    <Build Include="dbo\Functions\ActivityType_NotDefined.sql" />
+    <Build Include="dbo\Tables\Location.sql" />
+    <Build Include="dbo\Tables\Activity.sql" />
+    <Build Include="dbo\Tables\LineItem.sql" />
+    <Build Include="dbo\Tables\LineItemAction.sql" />
+    <Build Include="dbo\Tables\ExceptionType.sql" />
+    <None Include="Post-Deployement\Populate-ExceptionType.sql" />
+    <Build Include="dbo\Tables\Bag.sql" />
+    <None Include="ManualStep\scripts\up\005_Add_ActivityType_Table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\006_Populate_ActivityType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\007_AddColumn_ActivityTypeId_ToJobType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\008_Update_ActivityTypeId_ForJobType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\runBeforeUp\DropAuditTriggers.EVERYTIME.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\010_AddColumn_LocationId_ToAccount.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\011_AddColumn_LocationId_ToStop.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\013_AddColumn_ActivityId_ToJob.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\016_AddColumn_LineItemId_ToJobDetail.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\009_Add_Location_Table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\012_Add_Activity_Table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\015_Add_LineItem_Table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\014_Add_Bag_Table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

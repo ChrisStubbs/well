@@ -148,7 +148,7 @@
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("SSCCBarcode", jobDetail.SSCCBarcode, DbType.String, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
@@ -201,7 +201,7 @@
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("SSCCBarcode", jobDetail.SSCCBarcode, DbType.String, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32, null),
                     Times.Exactly(1));
@@ -298,7 +298,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String, null))
+                        x => x.AddParameter("Barcode", jobDetail.SSCCBarcode, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -370,7 +370,7 @@
                         x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String, null), Times.Once);
+                        x => x.AddParameter("Barcode", jobDetail.SSCCBarcode, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal, null), Times.Once);

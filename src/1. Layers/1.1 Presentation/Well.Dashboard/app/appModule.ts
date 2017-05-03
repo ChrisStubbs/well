@@ -35,6 +35,7 @@ import { CleanPreferenceAddModalComponent } from './clean_preferences/cleanPrefe
 import { CleanPreferenceRemoveModalComponent } from './clean_preferences/cleanPreferenceRemoveModalComponent';
 import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
 import { AssignModal } from './shared/assignModal';
+import { AssignModel } from './shared/assignModel';
 import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
 import { OptionFilterComponent } from './shared/optionFilterComponent';

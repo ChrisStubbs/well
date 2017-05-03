@@ -22,7 +22,15 @@ export class RoutesService
         const url = this.globalSettingsService.globalSettings.apiUrl + 'routes/all';
 
         return this.http.get(url)
-            .map((response: Response) => <Route[]>response.json())
+            .map((response: Response) =>
+            {
+                const routes: Route[] = (response.json() as any[]).map((obj) =>
+                {
+                    return Object.assign(new Route(), obj);
+                }) as Route[];
+
+                return routes;
+            })
             .catch(e => this.httpErrorService.handleError(e));
     }
 

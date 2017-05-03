@@ -1,5 +1,5 @@
 ﻿import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, QueryList } from '@angular/core';
 import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { BaseComponent } from '../shared/BaseComponent';
 import { GlobalSettingsService } from '../shared/globalSettings';
@@ -13,6 +13,8 @@ import { JobService } from '../job/job';
 import { AppSearchParameters } from '../shared/appSearch/appSearch';
 import { DataTable } from 'primeng/primeng';
 import 'rxjs/Rx';
+import { AssignModal } from '../shared/assignModal';
+import { AssignModel } from '../shared/assignModel';
 
 @Component({
     selector: 'ow-route',
@@ -36,7 +38,9 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     private rowsPerPageOptions: number[] = [10, 20, 30, 40];
     private routeFilter: RouteFilter;
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
-    @ViewChildren('dt') public dataTable: QueryList<DataTable>;
+
+    @ViewChild('dt') public dataTable: DataTable;
+    @ViewChild(AssignModal) private assignModal: AssignModal;
 
     constructor(
         protected globalSettingsService: GlobalSettingsService,
@@ -72,7 +76,8 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
 
         this.jobService.getStatusValueList()
             .takeWhile(() => this.alive)
-            .subscribe((jobStatus: Array<[string, string]>) => {
+            .subscribe((jobStatus: Array<[string, string]>) =>
+            {
                 this.jobStatus = jobStatus;
             });
     }
@@ -93,7 +98,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
                 this.routes = result;
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
-                this.dataTable.first.filters = <any>this.routeFilter;
+                this.dataTable.filters = <any>this.routeFilter;
             },
             error =>
             {
@@ -105,7 +110,18 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public clearFilters(): void
     {
         this.routeFilter = new RouteFilter();
-        this.dataTable.first.filters = <any>this.routeFilter;
-        this.dataTable.first.filter(undefined, undefined, undefined);
+        this.dataTable.filters = <any>this.routeFilter;
+        this.dataTable.filter(undefined, undefined, undefined);
     }
+
+    public allocateUser(route: Route): void
+    {
+        const branch = { id: route.branchId } as Branch;
+        this.assignModal.show(new AssignModel(route.assignee, branch, route.jobIds));
+    }
+
+    public onAssigned($event) {
+        this.getRoutes();
+    }
+
 }

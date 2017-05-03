@@ -34,10 +34,12 @@
         {
             var readRoutes = grid.Read<ReadRoute>().ToList();
             var assignees = grid.Read<ReadRouteAssignees>().ToList();
+            var jobIds = grid.Read<ReadRouteJob>().ToList();
 
             foreach (var route in readRoutes)
             {
                 route.Assignees = assignees.Where(x => x.RouteId == route.Id).ToList();
+                route.JobIds = jobIds.Where(x => x.RouteId == route.Id).Select(x => x.JobId).ToList();
             }
 
             return readRoutes;

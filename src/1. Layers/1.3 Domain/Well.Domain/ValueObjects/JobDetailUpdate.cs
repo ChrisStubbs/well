@@ -51,8 +51,8 @@
         [XmlElement("SingleOrOuter")]
         public string SingleOrOuter { get; set; }
 
-        [XmlElement("SSCCBarcode")]
-        public string SsccBarcode { get; set; }
+        [XmlElement("TextField5")]
+        public string SSCCBarcode { get; set; }  // tobacco bag barcode
 
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue { get; set; }

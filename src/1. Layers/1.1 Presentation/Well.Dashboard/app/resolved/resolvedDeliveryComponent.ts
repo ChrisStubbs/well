@@ -7,12 +7,14 @@ import { ResolvedDelivery }                         from './resolvedDelivery';
 import { ResolvedDeliveryService }                  from './ResolvedDeliveryService';
 import { DropDownItem }                             from '../shared/dropDownItem';
 import { AssignModal }                              from '../shared/assignModal';
+import { AssignModel } from '../shared/assignModel';
 import { ContactModal }                             from '../shared/contactModal';
 import { AccountService }                           from '../account/accountService';
 import { IAccount }                                 from '../account/account';
 import { RefreshService }                           from '../shared/refreshService';
 import { SecurityService }                          from '../shared/security/securityService';
 import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+import { Branch } from '../shared/branch/branch';
 import 'rxjs/Rx';
 
 @Component({
@@ -114,7 +116,8 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
 
     public allocateUser(delivery: ResolvedDelivery): void
     {
-        this.assignModal.show(delivery);
+        const branch: Branch = { id: delivery.branchId } as Branch;
+        this.assignModal.show(new AssignModel(undefined, branch, undefined));
     }
 
     public onAssigned(assigned: boolean)

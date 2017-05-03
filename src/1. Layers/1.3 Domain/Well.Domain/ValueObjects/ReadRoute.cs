@@ -6,6 +6,11 @@
 
     public class ReadRoute
     {
+        public ReadRoute()
+        {
+            JobIds = new List<int>();
+        }
+
         public int Id { get; set; }
 
         public int BranchId { get; set; }
@@ -30,10 +35,17 @@
 
         public string DriverName { get; set; }
 
-        public string Assignee => string.Join(",", Assignees.Select(x => x.Name).Distinct());
+        public string Assignee
+        {
+            get
+            {
+                return Assignees.Any() ? string.Join(",", Assignees.Select(x => x.Name).Distinct()) : "Unallocated";
+            }
+        }
 
         public List<ReadRouteAssignees> Assignees { get; set; }
 
+        public List<int> JobIds { get; set; }
     }
 
 }

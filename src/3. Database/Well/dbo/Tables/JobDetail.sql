@@ -31,10 +31,12 @@ CREATE TABLE [dbo].[JobDetail]
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
+	[LineItemId] INT NULL,
 	CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_JobDetail_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([ShortsStatus]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailSource] FOREIGN KEY ([JobDetailSourceId]) REFERENCES [dbo].JobDetailSource ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailReason] FOREIGN KEY ([JobDetailReasonId]) REFERENCES [dbo].JobDetailReason ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_JobDetail_DeliveryAction] FOREIGN KEY ([ShortsActionId]) REFERENCES [dbo].DeliveryAction ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+	CONSTRAINT [FK_JobDetail_DeliveryAction] FOREIGN KEY ([ShortsActionId]) REFERENCES [dbo].DeliveryAction ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_JobDetail_LineItem] FOREIGN KEY ([LineItemId]) REFERENCES [dbo].[LineItem] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

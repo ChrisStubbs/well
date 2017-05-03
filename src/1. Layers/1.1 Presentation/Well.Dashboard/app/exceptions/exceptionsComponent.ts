@@ -13,6 +13,7 @@ import { ExceptionDeliveryService } from './exceptionDeliveryService';
 import { RefreshService } from '../shared/refreshService';
 import { HttpResponse } from '../shared/httpResponse';
 import { AssignModal } from '../shared/assignModal';
+import { AssignModel } from '../shared/assignModel';
 import { ConfirmModal } from '../shared/confirmModal';
 import { IUser } from '../shared/iuser';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
@@ -26,6 +27,7 @@ import { DeliveryService } from '../delivery/deliveryService';
 import { BulkCreditConfirmModal } from './bulkCreditConfirmModal';
 import { OrderByExecutor } from '../shared/OrderByExecutor';
 import 'rxjs/Rx';
+import { Branch } from '../shared/branch/branch';
 
 @Component({
     selector: 'ow-exceptions',
@@ -306,7 +308,8 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
     public allocateUser(delivery: ExceptionDelivery): void
     {
-        this.assignModal.show(delivery);
+        const branch: Branch = { id: delivery.branchId } as Branch;
+        this.assignModal.show(new AssignModel(delivery.assigned, branch, [delivery.id] as number[]));
     }
 
     public onAssigned($event)

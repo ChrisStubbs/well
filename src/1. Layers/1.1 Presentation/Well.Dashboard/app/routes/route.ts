@@ -1,4 +1,7 @@
-﻿export class Route
+﻿import { AssignModel } from '../shared/assignModel';
+import { Branch } from '../shared/branch/branch';
+
+export class Route
 {
     public branchId: number;
     public branch: string;
@@ -11,4 +14,5 @@
     public hasExceptions: boolean;
     public driverName: string;
     public assignee: string;
+    public jobIds: number[];
 }

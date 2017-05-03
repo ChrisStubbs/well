@@ -192,6 +192,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <TypeScriptCompile Include="app\shared\userJob.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
@@ -463,7 +465,7 @@
     <Content Include="app\shared\security\securityService.ts" />
     <Content Include="app\shared\threshold.ts" />
     <Content Include="app\shared\iuser.ts" />
-    <Content Include="app\shared\userJob.ts" />
+    <Content Include="app\shared\userJobs.ts" />
     <Content Include="app\shared\userService.ts" />
     <Content Include="app\shared\confirmModal.ts" />
     <Content Include="app\shared\optionFilterComponent.ts" />

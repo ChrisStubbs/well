@@ -1,19 +1,21 @@
-﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
-import { BaseComponent }                            from '../shared/BaseComponent';
-import { Component, OnInit, ViewChild, OnDestroy}   from '@angular/core';
-import {GlobalSettingsService}                      from '../shared/globalSettings';
-import {Router, ActivatedRoute}                     from '@angular/router';
-import {CleanDelivery}                              from './cleanDelivery';
-import {CleanDeliveryService}                       from './cleanDeliveryService';
-import {AssignModal}                                from '../shared/assignModal';
-import {DropDownItem}                               from '../shared/dropDownItem';
-import {ContactModal}                               from '../shared/contactModal';
-import {AccountService}                             from '../account/accountService';
-import {IAccount}                                   from '../account/account';
-import {RefreshService}                             from '../shared/refreshService';
-import {SecurityService}                            from '../shared/security/securityService';
-import * as _                                       from 'lodash';
-import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+﻿import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
+import { BaseComponent } from '../shared/BaseComponent';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CleanDelivery } from './cleanDelivery';
+import { CleanDeliveryService } from './cleanDeliveryService';
+import { AssignModal } from '../shared/assignModal';
+import { AssignModel } from '../shared/assignModel';
+import { DropDownItem } from '../shared/dropDownItem';
+import { ContactModal } from '../shared/contactModal';
+import { AccountService } from '../account/accountService';
+import { IAccount } from '../account/account';
+import { RefreshService } from '../shared/refreshService';
+import { SecurityService } from '../shared/security/securityService';
+import * as _ from 'lodash';
+import { OrderByExecutor } from '../shared/OrderByExecutor';
+import { Branch } from '../shared/branch/branch';
 import 'rxjs/Rx';   // Load all features
 
 @Component({
@@ -22,7 +24,8 @@ import 'rxjs/Rx';   // Load all features
     providers: [CleanDeliveryService]
 
 })
-export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnDestroy {
+export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnDestroy
+{
     public isLoading: boolean = true;
     public lastRefresh = Date.now();
     public refreshSubscription: any;
@@ -64,11 +67,13 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         this.orderBy = new OrderByExecutor();
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void
+    {
         super.ngOnInit();
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.activatedRoute.queryParams.subscribe(params => {
+        this.activatedRoute.queryParams.subscribe(params =>
+        {
             this.routeDate = params['routeDate'];
             this.branchId = params['branchId'];
             this.routeNumber = params['filter.routeNumber'];
@@ -77,28 +82,34 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
 
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy()
+    {
         super.ngOnDestroy();
         this.refreshSubscription.unsubscribe();
     }
 
-    public getDeliveries() {  
+    public getDeliveries()
+    {
         this.cleanDeliveryService.getCleanDeliveries()
-            .subscribe(cleanDeliveries => {
+            .subscribe(cleanDeliveries =>
+            {
                 this.cleanDeliveries = cleanDeliveries || new Array<CleanDelivery>();
 
-                if (!_.isUndefined(this.routeDate)) {
+                if (!_.isUndefined(this.routeDate))
+                {
                     this.cleanDeliveries = _.filter(this.cleanDeliveries,
-                        x => {
+                        x =>
+                        {
                             return x.routeDate === this.routeDate && x.branchId === Number(this.branchId)
                                 && x.routeNumber === this.routeNumber;
-                                       });
+                        });
                 }
-                
+
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
             },
-            error => {
+            error =>
+            {
                 this.lastRefresh = Date.now();
                 this.isLoading = false;
             });
@@ -110,21 +121,26 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
         this.cleanDeliveries = this.orderBy.Order(this.cleanDeliveries, this);
     }
 
-    public deliverySelected(delivery): void {
+    public deliverySelected(delivery): void
+    {
         this.router.navigate(['/delivery', delivery.id, { 'tab': 'Clean' }]);
     }
 
-    public openModal(accountId): void {
+    public openModal(accountId): void
+    {
         this.accountService.getAccountByAccountId(accountId)
             .subscribe(account => { this.account = account; this.contactModal.show(this.account); },
             error => this.errorMessage = <any>error);
     }
 
-    public allocateUser(delivery: CleanDelivery): void {
-        this.assignModal.show(delivery);
+    public allocateUser(delivery: CleanDelivery): void
+    {
+        const branch: Branch = { id: delivery.branchId } as Branch;
+        this.assignModal.show(new AssignModel(delivery.assigned, branch, [delivery.id] as number[]));
     }
 
-    public onAssigned(assigned: boolean) {
+    public onAssigned(assigned: boolean)
+    {
         this.getDeliveries();
     }
 }

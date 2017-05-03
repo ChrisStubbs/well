@@ -43,10 +43,10 @@
                     </p-column>
                     <p-column header="Route" field="route" [sortable]="true" [filter]="true">
                     </p-column>
-                    <p-column header="Date" field="routeDate" [sortable]="true" [style]="{'overflow':'visible','width':'150px'}" [filter]="true" filterMatchMode="equals">
+                    <p-column header="Date" field="routeDate" [sortable]="true" [style]="{'overflow':'visible','width':'150px'}" [filter]="true" filterMatchMode="contains">
                         <ng-template pTemplate="filter" let-col>
                             <ow-date (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                     value="{{routeFilter.routeDate ? routeFilter.routeDate.value : ''}}">
+                                     value="{{routeFilter.routeDate ? routeFilter.routeDate.value : '' }}">
                             </ow-date>
                         </ng-template>
                         <ng-template let-route="rowData" pTemplate="body">
@@ -93,8 +93,8 @@
                     <p-column header="Driver" field="driverName" [sortable]="true" [filter]="true"></p-column>
                     <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true">
                         <ng-template let-route="rowData" pTemplate="body">
-                            <!--<span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>-->
+                            <span *ngIf="isReadOnlyUser">{{route.assignee}}</span>
+                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(route)">{{route.assignee}}</a>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
@@ -105,3 +105,4 @@
         </div>
     </div>
 </div>
+<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>

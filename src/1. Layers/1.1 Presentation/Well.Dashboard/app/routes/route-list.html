@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-6 pull-right">
                 <div class="pull-right">
-                    <ow-split-button [options]="actions"></ow-split-button>
+                    <ow-split-button [options]="actions" [disabled]="selectedRoutes ? selectedRoutes.length == 0 : true"></ow-split-button>
                 </div>
             </div>
         </div>

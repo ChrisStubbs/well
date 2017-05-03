@@ -3,7 +3,7 @@ export interface SingleRoute
     stop: string;
     invoice: string;
     jobType: string;
-    status: string;
+    jobStatus: string;
     cod: string;
     pod: boolean;
     exceptions: number;
@@ -12,4 +12,5 @@ export interface SingleRoute
     credit?: number;
     assignee: string;
     selected?: boolean;
+    status: string;
 }

@@ -2,9 +2,10 @@
 import { Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { BaseComponent } from '../shared/BaseComponent';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route, RouteFilter, RoutesService } from './routes';
+import { Route } from './route';
+import { RouteFilter } from './routeFilter';
+import { RoutesService } from './routesService';
 import { RefreshService } from '../shared/refreshService';
 import { SecurityService } from '../shared/security/securityService';
 import { BranchService } from '../shared/branch/branchService';
@@ -15,7 +16,7 @@ import 'rxjs/Rx';
 
 @Component({
     selector: 'ow-route',
-    templateUrl: './app/routes/route-list.html',
+    templateUrl: './app/routes/singleRouteComponent.html',
     providers: [RoutesService]
 })
 export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy

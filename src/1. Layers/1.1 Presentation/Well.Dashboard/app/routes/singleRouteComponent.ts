@@ -5,25 +5,28 @@ import { ActivatedRoute }                           from '@angular/router';
 import { AppDefaults }                              from '../shared/defaults/defaults';
 import { JobType, JobService, JobStatus}            from '../job/job';
 import * as _                                       from 'lodash';
-import { DataTable }                                from 'primeng/components/datatable/datatable';
+import { DataTable }                                from 'primeng/primeng';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'ow-route',
-    templateUrl: './app/routes/SingleRouteComponent.html',
+    templateUrl: './app/routes/singleRouteComponent.html',
     providers: [RoutesService, JobService]
 })
 export class SingleRouteComponent implements OnDestroy, OnInit
 {
     public singleRoute: Array<SingleRoute>;
+    private allSingleRoute: Array<SingleRoute>;
     private alive: boolean = true;
     private routeId: number;
     public rowCount = AppDefaults.Paginator.rowCount();
-    public pageLinks= AppDefaults.Paginator.pageLinks();
+    public pageLinks = AppDefaults.Paginator.pageLinks();
     public rowsPerPageOptions = AppDefaults.Paginator.rowsPerPageOptions();
     public allStops: Array<string>;
     public jobTypes: Array<JobType>;
     public jobStatus: JobStatus[];
+    public podFilter: boolean;
+
     @ViewChild('dt') public grid: DataTable;
     constructor(
         private routeService: RoutesService,
@@ -40,7 +43,11 @@ export class SingleRouteComponent implements OnDestroy, OnInit
                 return this.routeService.getSingleRoute(this.routeId)
             })
             .takeWhile(() => this.alive)
-            .subscribe(data => this.singleRoute = data);
+            .subscribe(data =>
+            {
+                this.allSingleRoute = data;
+                this.singleRoute = _.filter(this.allSingleRoute, {status: 'Exception'});
+            });
 
         this.jobService.JobTypes()
             .takeWhile(() => this.alive)
@@ -67,6 +74,18 @@ export class SingleRouteComponent implements OnDestroy, OnInit
             });
     }
 
+    public filter(value: string): void
+    {
+        if (value == 'All')
+        {
+            this.singleRoute = this.allSingleRoute;
+            return;
+        }
+
+        this.singleRoute = _.filter(this.allSingleRoute, {status: value});
+        this.clearFilter();
+    }
+
     public ngOnDestroy()
     {
         this.alive = false;
@@ -74,10 +93,14 @@ export class SingleRouteComponent implements OnDestroy, OnInit
 
     public stops(): Array<string>
     {
-        if (_.isNil(this.allStops))
+        if (_.isNil(this.allStops) && !_.isNil(this.singleRoute))
         {
-            this.allStops = _.uniqBy(this.singleRoute, (current: SingleRoute) => current.stop);
-            this.allStops.unshift('');
+            this.allStops = _.chain(this.singleRoute)
+                .uniqBy((current: SingleRoute) => current.stop)
+                .map('stop')
+                .value();
+
+            this.allStops.unshift('All');
         }
 
         return this.allStops;
@@ -85,6 +108,8 @@ export class SingleRouteComponent implements OnDestroy, OnInit
 
     public clearFilter()
     {
+        this.podFilter = undefined;
         this.grid.filters = {};
+        this.grid.filter(undefined, undefined, undefined);
     }
 }

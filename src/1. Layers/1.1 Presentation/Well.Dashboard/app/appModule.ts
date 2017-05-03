@@ -88,9 +88,10 @@ import { UserPreferenceService } from './user_preferences/userPreferenceService'
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DriverService } from './driver/driverService';
-import AppRoutes = require('./appRoutes');
 import { DateComponent, SplitButtonComponent } from './shared/shared';
-import { RoutesComponent, SingleRouteComponent } from './routes/routes';
+import { RoutesComponent } from './routes/routesComponent';
+import { SingleRouteComponent } from './routes/singleRouteComponent';
+import AppRoutes = require('./appRoutes');
 
 @NgModule({
     declarations: [LoadingComponent,

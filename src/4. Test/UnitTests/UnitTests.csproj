@@ -144,6 +144,7 @@
     <Compile Include="Domain\RouteHeaderTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
+    <Compile Include="Domain\ValueObjects\ReadRouteTests.cs" />
     <Compile Include="Factories\CleanPreferenceFactory.cs" />
     <Compile Include="Factories\NotificationFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />

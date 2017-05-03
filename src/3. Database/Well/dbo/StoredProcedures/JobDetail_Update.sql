@@ -43,7 +43,7 @@ UPDATE
 	  ,PHProductType = @ProductType
 	  ,PackSize = @PackSize
 	  ,SingleOrOuter = @SingleOrOuter
-	  ,TobaccoBagBarcode = @Barcode
+	  ,SSCCBarcode = @Barcode
 	  ,SkuGoodsValue = @SkuGoodsValue
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated

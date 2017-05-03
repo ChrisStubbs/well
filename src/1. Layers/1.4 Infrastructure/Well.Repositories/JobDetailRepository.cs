@@ -73,7 +73,7 @@
                 .AddParameter("PHProductType", jobDetail.PhProductType, DbType.String)
                 .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
                 .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
-                .AddParameter("TobaccoBagBarcode", jobDetail.TobaccoBagBarcode, DbType.String)
+                .AddParameter("SSCCBarcode", jobDetail.SSCCBarcode, DbType.String)
                 .AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Double)
@@ -107,7 +107,7 @@
                 .AddParameter("ProductType", jobDetail.PhProductType, DbType.String)
                 .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
                 .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
-                .AddParameter("Barcode", jobDetail.TobaccoBagBarcode, DbType.String)
+                .AddParameter("Barcode", jobDetail.SSCCBarcode, DbType.String) // tobacco bag barcode
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)

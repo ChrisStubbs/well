@@ -26,7 +26,7 @@ AS
            ,jd.[PHProductType]
            ,jd.[PackSize]
            ,jd.[SingleOrOuter]
-           ,jd.[TobaccoBagBarcode]
+           ,jd.[SSCCBarcode]
 		   ,jd.[SubOuterDamageTotal]
            ,jd.[SkuGoodsValue]
 		   ,jd.[NetPrice]

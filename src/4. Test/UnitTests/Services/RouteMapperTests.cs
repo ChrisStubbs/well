@@ -167,7 +167,7 @@
             from.PhProductType = "Lubes";
             from.PackSize = "30";
             from.SingleOrOuter = "1";
-            from.TobaccoBagBarcode = "11222121";
+            from.SSCCBarcode = "11222121";
             from.SkuGoodsValue = 3;
 
             var to = new JobDetail();
@@ -181,7 +181,7 @@
             Assert.That(to.PhProductType, Is.EqualTo(from.PhProductType));
             Assert.That(to.PackSize, Is.EqualTo(from.PackSize));
             Assert.That(to.SingleOrOuter, Is.EqualTo(from.SingleOrOuter));
-            Assert.That(to.TobaccoBagBarcode, Is.EqualTo(from.TobaccoBagBarcode));
+            Assert.That(to.SSCCBarcode, Is.EqualTo(from.SSCCBarcode));
             Assert.That(to.SkuGoodsValue, Is.EqualTo(from.SkuGoodsValue));
         }
     }

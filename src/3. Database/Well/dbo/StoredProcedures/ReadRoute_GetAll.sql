@@ -3,10 +3,42 @@
 AS
 BEGIN
 
-	DECLARE @Bypass INT = 8
+DECLARE @Bypass INT = 8
 			,@Exception INT = 4
+			,@Clean INT = 3
 
-	;WITH RouteExceptionCount AS
+	DECLARE  @JobStatusCheck TABLE
+	(
+		StopId INT,
+		JobStatusId INT,
+		JobCountPerStatus INT,
+		TotalJobs INT
+	)
+
+	INSERT INTO @JobStatusCheck(StopId, JobStatusId, JobCountPerStatus, TotalJobs)
+
+	SELECT Stopid, JobStatusId, 
+	COUNT(*)  OVER (PARTITION BY StopId, JobStatusId) AS JobCountPerStatus
+	,COUNT(*) OVER (partition by stopid) AS TotalJobs
+	FROM Job j
+	WHERE JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF')
+	ORDER BY StopId
+
+	;WITH RouteCleanCount AS
+	(
+		SELECT RouteHeaderId
+			,COUNT(1) AS CleanCount
+			FROM [Stop]
+		WHERE Id in
+			(
+				SELECT StopId FROM @JobStatusCheck
+				WHERE JobCountPerStatus = TotalJobs
+				AND JobStatusId = 3
+			)
+			GROUP BY RouteHeaderId
+	),
+
+	RouteExceptionCount AS
 	(
 		SELECT RouteHeaderId
 			,COUNT(1) AS ExceptionCount FROM [Stop]
@@ -26,6 +58,7 @@ BEGIN
 		   ,PlannedStops AS StopCount
 		   ,RouteStatusDescription AS RouteStatus
 		   ,ISNULL(rec.ExceptionCount,0) AS ExceptionCount  -- count of stops with exceptions or bypassed
+		   ,ISNULL(rcc.CleanCount,0) AS CleanCount  -- count of stops with all clean
 		   ,DriverName
 	FROM
 		RouteHeader rh
@@ -36,6 +69,7 @@ BEGIN
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
 	LEFT JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
+	LEFT JOIN RouteCleanCount rcc ON rcc.RouteHeaderId = rh.Id
     WHERE u.IdentityName = @UserName
     AND rh.IsDeleted = 0
 	ORDER BY rh.RouteDate DESC

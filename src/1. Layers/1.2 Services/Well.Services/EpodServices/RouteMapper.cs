@@ -94,7 +94,7 @@
             to.PhProductType = from.PhProductType;
             to.PackSize = from.PackSize;
             to.SingleOrOuter = from.SingleOrOuter;
-            to.TobaccoBagBarcode = from.TobaccoBagBarcode;
+            to.SSCCBarcode = from.SSCCBarcode;  //tobacco bag barcode
             to.SkuGoodsValue = from.SkuGoodsValue;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
         }

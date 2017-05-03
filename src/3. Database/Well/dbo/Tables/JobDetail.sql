@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[JobDetail]
 	[PHProductType] VARCHAR(50) NULL,
 	[PackSize] VARCHAR(50) NULL,
 	[SingleOrOuter] VARCHAR(10) NULL,
-	[TobaccoBagBarcode] VARCHAR(50) NULL,
+	[SSCCBarcode] VARCHAR(50) NULL,
 	[SubOuterDamageTotal] INT NULL,
 	[SkuGoodsValue] FLOAT NOT NULL,
 	[NetPrice] FLOAT NULL,

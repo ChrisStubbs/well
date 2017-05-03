@@ -22,7 +22,7 @@
             this.Entity.PhProductType = "Text1";
             this.Entity.PackSize = "Text2";
             this.Entity.SingleOrOuter = "Text3";
-            this.Entity.TobaccoBagBarcode = "123456789";
+            this.Entity.SSCCBarcode = "123456789";  //tobacco bag barcode
             this.Entity.SkuGoodsValue = 2.2;
             this.Entity.DeliveredQty = 23;
             this.Entity.JobId = 1;

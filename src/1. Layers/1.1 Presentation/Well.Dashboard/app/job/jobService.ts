@@ -24,13 +24,13 @@ export class JobService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getBranchesValueList(): Observable<Array<[string, string]>>
+    public getStatusValueList(): Observable<Array<[string, string]>>
     {
         return this.JobStatus()
             .map((branches: JobStatus[]) =>
             {
                 const values = new Array<[string, string]>();
-
+                
                 values.push([undefined, 'All']);
                 _.map(branches, (current: JobStatus) => {
                     values.push([current.id.toString(), current.description]);

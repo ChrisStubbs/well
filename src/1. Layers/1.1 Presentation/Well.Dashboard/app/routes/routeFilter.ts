@@ -3,23 +3,30 @@ import { FilterMetadata } from 'primeng/components/common/api';
 
 export class RouteFilter
 {
-    public branch: FilterMetadata;
-    public route: FilterMetadata;
-    public routeDate: FilterMetadata;
-    public stopCount: FilterMetadata;
-    public routeStatus: FilterMetadata;
-    public driverName: FilterMetadata;
-
+    public branchId: FilterMetadata = { matchMode: 'equals', value: '' };
+    public route: FilterMetadata = { matchMode: 'contains', value: '' };
+    public routeDate: FilterMetadata = { matchMode: 'contains', value: '' };
+    public stopCount: FilterMetadata = { matchMode: 'equals', value: '' };
+    public routeStatusId: FilterMetadata = { matchMode: 'equals', value: '' };
+    public exception: FilterMetadata = { matchMode: 'equals', value: '' };
+    public driverName: FilterMetadata = { matchMode: 'contains', value: '' };
+    public assignee: FilterMetadata = { matchMode: 'contains', value: '' };
+    
     public static toRouteFilter(params: AppSearchParameters): RouteFilter
     {
         const routeFilter = new RouteFilter();
 
-        routeFilter.branch = { matchMode: 'contains', value: params.branchId || '' };
-        routeFilter.route = { matchMode: 'contains', value: params.route || ''};
-        routeFilter.routeDate = { matchMode: 'contains', value: params.date || '' };
-        routeFilter.routeStatus = { matchMode: 'contains', value: params.status || '' };
-        routeFilter.driverName = { matchMode: 'contains', value: params.driver || ''};
-       
+        routeFilter.branchId.value = this.convertUndefined(params.branchId);
+        routeFilter.route.value = this.convertUndefined(params.route);
+        routeFilter.routeDate.value = this.convertUndefined(params.date);
+        routeFilter.routeStatusId.value = this.convertUndefined(params.status);
+        routeFilter.driverName.value = this.convertUndefined(params.driver);
+
         return routeFilter;
+    }
+
+    private static convertUndefined(value: any): any
+    {
+        return (value === 'undefined') ? '' : value || '';
     }
 }

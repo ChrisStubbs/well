@@ -13,6 +13,7 @@ import { ApprovalsService } from './approvalsService';
 import { ExceptionDeliveryService } from '../exceptions/exceptionDeliveryService';
 import { RefreshService } from '../shared/refreshService';
 import { AssignModal } from '../shared/assignModal';
+import { AssignModel } from '../shared/assignModel';
 import { ConfirmModal } from '../shared/confirmModal';
 import { ExceptionsConfirmModal } from '../exceptions/exceptionsConfirmModal';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
@@ -23,6 +24,7 @@ import { DeliveryLine } from '../delivery/model/deliveryLine';
 import { BaseDelivery } from '../shared/baseDelivery';
 import { DeliveryAction } from '../delivery/model/deliveryAction';
 import { OrderByExecutor } from '../shared/OrderByExecutor';
+import { Branch } from '../shared/branch/branch';
 import 'rxjs/Rx';
 
 @Component({
@@ -147,7 +149,8 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
 
     public allocateUser(delivery: ApprovalDelivery): void
     {
-        this.assignModal.show(delivery);
+        const branch: Branch = { id: delivery.branchId } as Branch;
+        this.assignModal.show(new AssignModel(delivery.assigned, branch, [delivery.id] as number[]));
     }
 
     public deliverySelected(delivery): void

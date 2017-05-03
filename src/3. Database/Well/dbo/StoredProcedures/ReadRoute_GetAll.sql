@@ -4,7 +4,19 @@ AS
 BEGIN
 
 	DECLARE @Bypass INT = 8
-			,@Exception INT = 4
+			,@Exception INT = 4;
+
+	DECLARE @UserBranches Table(BranchId INT NOT NULL);
+
+	INSERT INTO @UserBranches
+	SELECT	
+			BranchId
+		FROM	
+			UserBranch ub
+		INNER JOIN 
+			[User] u on u.Id = ub.UserId
+		WHERE 
+			 u.IdentityName = @UserName
 
 	;WITH RouteExceptionCount AS
 	(
@@ -17,7 +29,6 @@ BEGIN
 				WHERE JobStatusId IN (@Exception, @Bypass))
 				GROUP BY RouteHeaderId
 	)
-
 	SELECT rh.Id
 		   ,RouteOwnerId AS BranchId
 		   ,b.Name AS BranchName	
@@ -31,28 +42,38 @@ BEGIN
 		RouteHeader rh
 	INNER JOIN 
 		Branch b on rh.RouteOwnerId = b.Id
-	INNER JOIN
-		UserBranch ub on b.Id = ub.BranchId
-	INNER JOIN
-		[User] u on u.Id = ub.UserId
 	LEFT JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
-    WHERE u.IdentityName = @UserName
-    AND rh.IsDeleted = 0
+    WHERE 
+		rh.IsDeleted = 0
+		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 	ORDER BY rh.RouteDate DESC
 
-	SELECT rh.Id, u.Name
+	SELECT DISTINCT 
+			rh.Id RouteId
+			,jobUser.Name
 	FROM RouteHeader rh
 	INNER JOIN 
 		Branch b ON rh.RouteOwnerId = b.Id
-	INNER JOIN
-		UserBranch ub ON b.Id = ub.BranchId
-	INNER JOIN
-		[User] u ON u.Id = ub.UserId
 	INNER JOIN
 		[Stop] s ON s.RouteHeaderId = rh.Id
 	INNER JOIN
 		Job j ON j.StopId = s.Id
 	INNER JOIN 
 		UserJob uj ON uj.JobId = j.Id
+	INNER JOIN 
+		[User] jobUser ON uj.UserId = jobUser.Id
+	WHERE 
+		rh.IsDeleted = 0
+		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 
+	SELECT 
+		s.RouteHeaderId as RouteId,
+		j.Id as JobId   		
+	FROM Stop s 
+	INNER JOIN
+		Job j on j.StopId = s.Id
+	INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
+	WHERE 
+		rh.IsDeleted = 0
+		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 END

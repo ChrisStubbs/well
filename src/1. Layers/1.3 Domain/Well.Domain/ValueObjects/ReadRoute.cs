@@ -6,6 +6,11 @@
 
     public class ReadRoute
     {
+        public ReadRoute()
+        {
+            JobIds = new List<int>();
+        }
+
         public int Id { get; set; }
 
         public int BranchId { get; set; }
@@ -40,6 +45,7 @@
 
         public List<ReadRouteAssignees> Assignees { get; set; }
 
+        public List<int> JobIds { get; set; }
     }
 
 }

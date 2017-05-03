@@ -95,7 +95,7 @@
                     <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true">
                         <ng-template let-route="rowData" pTemplate="body">
                             <span *ngIf="isReadOnlyUser">{{route.assignee}}</span>
-                            <a *ngIf="!isReadOnlyUser" class="assign">{{route.assignee}}</a>
+                            <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(route)">{{route.assignee}}</a>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
@@ -106,3 +106,4 @@
         </div>
     </div>
 </div>
+<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>

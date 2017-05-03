@@ -15,10 +15,11 @@ import { DataTable } from 'primeng/primeng';
 import 'rxjs/Rx';
 import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
+import { Branch } from '../shared/branch/branch';
 
 @Component({
     selector: 'ow-route',
-    templateUrl: './app/routes/singleRouteComponent.html',
+    templateUrl: './app/routes/route-list.html',
     providers: [RoutesService]
 })
 export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
@@ -89,7 +90,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.refreshSubscription.unsubscribe();
     }
 
-    public getRoutes(): void
+    private getRoutes(): void
     {
         this.routeService.getRoutes()
             .takeWhile(() => this.alive)
@@ -114,14 +115,13 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         this.dataTable.filter(undefined, undefined, undefined);
     }
 
-    public allocateUser(route: Route): void
+    public getAssignModel(route: Route): AssignModel
     {
         const branch = { id: route.branchId } as Branch;
-        this.assignModal.show(new AssignModel(route.assignee, branch, route.jobIds));
+        return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser);
     }
 
     public onAssigned($event) {
         this.getRoutes();
     }
-
 }

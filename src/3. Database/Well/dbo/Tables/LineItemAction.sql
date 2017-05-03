@@ -7,6 +7,8 @@
 	[ReasonId] TINYINT NULL,
 	[ReplanDate] DATETIME NULL,
 	[SubmittedDate] DATETIME NULL,
+	[ApprovalDate] DATETIME NULL,
+	[ApprovedBy] VARCHAR(50) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,

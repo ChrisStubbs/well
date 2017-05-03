@@ -71,8 +71,7 @@
                                 <td (click)="deliverySelected(delivery)">{{delivery.jobStatus == 'Exception' ? 'Incomplete' : delivery.jobStatus}}</td>
                                 <td (click)="deliverySelected(delivery)">{{delivery.toBeAdvisedCount}}</td>
                                 <td>
-                                    <span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
-                                    <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                    <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                                 </td>
                                 <td>
                                     <div class="btn-group">
@@ -109,6 +108,5 @@
     </div>
 </div>
 <contact-modal></contact-modal>
-<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>
 <ow-exceptions-confirm-modal (onSave)="deliveryLinesSaved()"></ow-exceptions-confirm-modal>
 <bulk-credit-confirm-modal (confirmed)="creditConfirmed($event)"></bulk-credit-confirm-modal>

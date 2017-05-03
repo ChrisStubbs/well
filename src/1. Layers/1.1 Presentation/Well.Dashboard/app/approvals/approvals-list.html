@@ -70,8 +70,7 @@
                             <td><button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(delivery.accountId)">Info</button></td>
                             <td (click)="deliverySelected(delivery)">{{delivery.creditThresholdLevel}}</td>
                             <td>
-                                <span class="read-only-assigned" *ngIf="isReadOnlyUser || !delivery.thresholdLevelValid">{{delivery.assigned}}</span>
-                                <a class="assign" *ngIf="!isReadOnlyUser && delivery.thresholdLevelValid" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>
+                                <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(delivery)"></assign-modal>
                             </td>
                             <td>
                                 <div class="btn-group">
@@ -98,6 +97,5 @@
     </div>
 </div>
 <contact-modal></contact-modal>
-<assign-modal (onAssigned)="onAssigned($event)"></assign-modal>
 <confirmModal heading="Confirm changes" (confirmed)="creditConfirmed()"></confirmModal>
 <ow-exceptions-confirm-modal (onSave)="getApprovals()"></ow-exceptions-confirm-modal>

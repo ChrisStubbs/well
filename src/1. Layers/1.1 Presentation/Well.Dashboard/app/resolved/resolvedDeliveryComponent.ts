@@ -7,14 +7,15 @@ import { ResolvedDelivery }                         from './resolvedDelivery';
 import { ResolvedDeliveryService }                  from './ResolvedDeliveryService';
 import { DropDownItem }                             from '../shared/dropDownItem';
 import { AssignModal }                              from '../shared/assignModal';
-import { AssignModel } from '../shared/assignModel';
+import { AssignModel }                              from '../shared/assignModel';
 import { ContactModal }                             from '../shared/contactModal';
 import { AccountService }                           from '../account/accountService';
 import { IAccount }                                 from '../account/account';
 import { RefreshService }                           from '../shared/refreshService';
 import { SecurityService }                          from '../shared/security/securityService';
 import { OrderByExecutor }                          from '../shared/OrderByExecutor';
-import { Branch } from '../shared/branch/branch';
+import { Branch }                                   from '../shared/branch/branch';
+import {IObservableAlive}                           from '../shared/IObservableAlive';
 import 'rxjs/Rx';
 
 @Component({
@@ -22,15 +23,15 @@ import 'rxjs/Rx';
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [ResolvedDeliveryService]
 })
-export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, OnDestroy
+export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, OnDestroy, IObservableAlive
 {
     public isLoading: boolean = true;
     public lastRefresh = Date.now();
-    public refreshSubscription: any;
     public deliveries = new Array<ResolvedDelivery>();
     public currentConfigSort: string;
     public account: IAccount;
     private orderBy: OrderByExecutor = new OrderByExecutor();
+    public isAlive: boolean = true;
 
     @ViewChild(ContactModal) public contactModal: ContactModal;
     @ViewChild(AssignModal) public assignModal: AssignModal;
@@ -63,23 +64,28 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     public ngOnInit()
     {
         super.ngOnInit();
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.activatedRoute.queryParams.subscribe(params =>
-        {
-            this.getDeliveries();
-        });
+        this.refreshService.dataRefreshed$
+            .takeWhile(() => this.isAlive)
+            .subscribe(r => this.getDeliveries());
 
+        this.activatedRoute.queryParams
+            .takeWhile(() => this.isAlive)
+            .subscribe(params =>
+            {
+                this.getDeliveries();
+            });
     }
 
     public ngOnDestroy()
     {
         super.ngOnDestroy();
-        this.refreshSubscription.unsubscribe();
+        this.isAlive = false;
     }
 
     public getDeliveries()
     {
         this.resolvedDeliveryService.getResolvedDeliveries()
+            .takeWhile(() => this.isAlive)
             .subscribe(deliveries =>
             {
                 this.deliveries = deliveries || new Array<ResolvedDelivery>();
@@ -107,6 +113,7 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     public openModal(accountId): void
     {
         this.accountService.getAccountByAccountId(accountId)
+            .takeWhile(() => this.isAlive)
             .subscribe(account =>
             {
                 this.account = account;
@@ -114,11 +121,11 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
             });
     }
 
-    public allocateUser(delivery: ResolvedDelivery): void
-    {
-        const branch: Branch = { id: delivery.branchId } as Branch;
-        this.assignModal.show(new AssignModel(undefined, branch, undefined));
-    }
+    // public getAssignModel(delivery: ResolvedDelivery): AssignModel
+    // {
+    //     const branch: Branch = { id: delivery.branchId } as Branch;
+    //     return new AssignModel(undefined, branch, undefined, this.isReadOnlyUser);
+    // }
 
     public onAssigned(assigned: boolean)
     {

@@ -1,14 +1,14 @@
-import { Component, OnDestroy, Output, EventEmitter }   from '@angular/core';
-import { Router }                                       from '@angular/router';
-import { BranchService }                                from '../branch/branchService';
-import { GlobalSettingsService }                        from '../globalSettings';
-import { FormGroup, FormControl, FormBuilder }          from '@angular/forms';
-import { JobService, JobStatus, JobType }               from '../../job/job';
-import { DriverService }                                from '../../driver/driverService';
-import { IAppSearchResult }                             from './iAppSearchResult';
-import { AppSearchParameters }                          from './appSearchParameters';
-import { AppSearchService }                             from './appSearchService'
-import * as _                                           from 'lodash';
+import { Component, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { BranchService } from '../branch/branchService';
+import { GlobalSettingsService } from '../globalSettings';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { JobService, JobStatus, JobType } from '../../job/job';
+import { DriverService } from '../../driver/driverService';
+import { IAppSearchResult } from './iAppSearchResult';
+import { AppSearchParameters } from './appSearchParameters';
+import { AppSearchService } from './appSearchService'
+import * as _ from 'lodash';
 import 'rxjs/add/operator/takeWhile';
 
 //http://stackoverflow.com/questions/32896407/redirect-within-component-angular-2
@@ -20,7 +20,8 @@ import 'rxjs/add/operator/takeWhile';
     templateUrl: 'app/shared/appSearch/appSearchView.html',
     providers: [JobService, BranchService, GlobalSettingsService, DriverService, AppSearchService]
 })
-export class AppSearch implements OnDestroy {
+export class AppSearch implements OnDestroy
+{
     public branches: Array<[string, string]>;
     public jobStatus: JobStatus[];
     public jobTypes: JobType[];
@@ -45,14 +46,15 @@ export class AppSearch implements OnDestroy {
             .subscribe(d =>
             {
                 this.drivers = d;
-                this.drivers.unshift('All')
+                this.drivers.unshift('All');
 
             });
 
         this.branchService.getBranchesValueList(globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.alive)
-            .subscribe(branches => {
-                this.branches = branches
+            .subscribe(branches =>
+            {
+                this.branches = branches;
             });
 
         this.jobService.JobStatus()
@@ -64,7 +66,7 @@ export class AppSearch implements OnDestroy {
                 this.jobStatus = status;
                 emptyState.description = 'All';
                 emptyState.id = undefined;
-                this.jobStatus.unshift(emptyState)
+                this.jobStatus.unshift(emptyState);
             });
 
         this.jobService.JobTypes()
@@ -76,7 +78,7 @@ export class AppSearch implements OnDestroy {
                 this.jobTypes = types;
                 emptyType.description = 'All';
                 emptyType.id = undefined;
-                this.jobTypes.unshift(emptyType)
+                this.jobTypes.unshift(emptyType);
             });
 
         this.searchForm = fb.group(
@@ -126,19 +128,19 @@ export class AppSearch implements OnDestroy {
             .takeWhile(() => this.alive)
             .subscribe((result: IAppSearchResult) =>
             {
-                // if (!_.isNil(result.jobId))
-                // {
-                //     this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.jobId}});
-                //     return;
-                // }
-                //
-                //if (!_.isNil(result.routeId))
-                //{
-                //    this.router.navigateByUrl('<ROUTE NAME GOES HERE>', { queryParams: {id: result.routeId}});
-                //    return;
-                //}
+                if (!_.isNil(result.stopId))
+                {
+                    this.router.navigateByUrl('/stops/' + result.stopId );
+                    return;
+                }
 
-                this.router.navigate(['/routes'], { queryParams: parameters});
+                if (!_.isNil(result.routeId))
+                {
+                    this.router.navigateByUrl('/singleroute/' + result.routeId );
+                    return;
+                }
+
+                this.router.navigate(['/routes'], { queryParams: parameters });
                 this.onSearch.emit();
                 return;
             });

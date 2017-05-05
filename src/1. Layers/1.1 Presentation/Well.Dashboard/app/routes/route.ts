@@ -3,14 +3,16 @@ import { Branch } from '../shared/branch/branch';
 
 export class Route
 {
+    public id: number;
     public branchId: number;
     public branch: string;
-    public route: string;
+    public routeNumber: string;
     public routeDate: Date;
     public stopCount: number;
     public routeStatusId: number;
     public routeStatus: string;
     public exceptionCount: number;
+    public cleanCount: number;
     public hasExceptions: boolean;
     public driverName: string;
     public assignee: string;

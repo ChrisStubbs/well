@@ -192,6 +192,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\routes\singleRoute.ts" />
+    <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
@@ -234,6 +236,7 @@
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
+    <Content Include="app\routes\SingleRouteComponent.html" />
     <Content Include="app\shared\appSearch\appSearchView.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />
@@ -512,7 +515,6 @@
     <TypeScriptCompile Include="app\job\JobType.ts" />
     <Content Include="app\routes\routesComponent.ts" />
     <TypeScriptCompile Include="app\routes\routeFilter.ts" />
-    <TypeScriptCompile Include="app\routes\routes.ts" />
     <TypeScriptCompile Include="app\routes\routesService.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearch.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />

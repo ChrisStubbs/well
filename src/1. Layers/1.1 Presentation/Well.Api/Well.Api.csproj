@@ -190,7 +190,6 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />
-    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
@@ -245,7 +244,6 @@
     <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\GrnModel.cs" />
-    <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\WidgetLinkModel.cs" />

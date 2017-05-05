@@ -4,12 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class ReadRoute
+    public class Route
     {
-        public ReadRoute()
+        public Route()
         {
             JobIds = new List<int>();
-            Assignees = new List<ReadRouteAssignees>();
+            Assignees = new List<RouteAssignees>();
         }
 
         public int Id { get; set; }
@@ -20,7 +20,7 @@
 
         public string Branch => $"{BranchName} ({BranchId})";
 
-        public string Route { get; set; }
+        public string RouteNumber { get; set; }
 
         public DateTime RouteDate { get; set; }
 
@@ -54,7 +54,7 @@
             }
         }
 
-        public List<ReadRouteAssignees> Assignees { get; set; }
+        public List<RouteAssignees> Assignees { get; set; }
 
         public List<int> JobIds { get; set; }
     }

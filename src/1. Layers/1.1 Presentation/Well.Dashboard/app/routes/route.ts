@@ -3,9 +3,10 @@ import { Branch } from '../shared/branch/branch';
 
 export class Route
 {
+    public id: number;
     public branchId: number;
     public branch: string;
-    public route: string;
+    public routeNumber: string;
     public routeDate: Date;
     public stopCount: number;
     public routeStatusId: number;

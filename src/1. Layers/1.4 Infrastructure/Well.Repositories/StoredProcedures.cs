@@ -123,7 +123,7 @@
         public static string GetBranchIdForJob = "GetBranchIdForJob";
         public static string GetBranchIdForStop = "GetBranchIdForStop";
 
-        public static string ReadRouteGetAll = "ReadRoute_GetAll";
+        public static string RoutesGetAll = "Routes_GetAll";
 
         public static string AppSearch = "AppSearch";
         //well update

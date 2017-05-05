@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[ReadRoute_GetAll]
+﻿CREATE PROCEDURE [dbo].[Routes_GetAll]
 	@UserName VARCHAR(500)
 AS
 BEGIN
@@ -57,7 +57,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 	SELECT rh.Id
 		   ,RouteOwnerId AS BranchId
 		   ,b.Name AS BranchName	
-		   ,RouteNumber AS [Route]
+		   ,RouteNumber
 		   ,RouteDate
 		   ,PlannedStops AS StopCount
 		   ,RouteStatusDescription AS RouteStatus

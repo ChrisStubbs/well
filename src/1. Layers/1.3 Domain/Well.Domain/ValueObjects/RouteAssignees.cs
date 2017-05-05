@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    public class ReadRouteAssignees
+    public class RouteAssignees
     {
         public int RouteId { get; set; }
         public string Name { get; set; }

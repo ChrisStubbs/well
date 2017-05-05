@@ -344,6 +344,7 @@
     <None Include="ManualStep\scripts\up\014_Add_Bag_Table.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\AppSearch.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

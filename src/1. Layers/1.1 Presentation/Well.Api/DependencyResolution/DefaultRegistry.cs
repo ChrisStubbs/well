@@ -87,6 +87,10 @@ namespace PH.Well.Api.DependencyResolution
 
             //routes
             For<IRouteReadRepository>().Use<RouteReadRepository>();
+
+            //search
+            For<IAppSearchService>().Use<AppSearchService>();
+            For<IAppSearchReadRepository>().Use<AppSearchReadRepository>();
         }
     }
 }

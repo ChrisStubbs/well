@@ -11,6 +11,7 @@ export class Route
     public routeStatusId: number;
     public routeStatus: string;
     public exceptionCount: number;
+    public cleanCount: number;
     public hasExceptions: boolean;
     public driverName: string;
     public assignee: string;

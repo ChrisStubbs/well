@@ -92,6 +92,8 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
+    <Compile Include="ValueObjects\AppSearchParameters.cs" />
+    <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />

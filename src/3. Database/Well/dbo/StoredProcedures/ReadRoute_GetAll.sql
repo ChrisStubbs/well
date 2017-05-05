@@ -3,18 +3,17 @@
 AS
 BEGIN
 
-DECLARE @Bypass INT = 8
-			,@Exception INT = 4
-			,@Clean INT = 3
+DECLARE  @JobStatus_Bypass INT = 8
+		,@JobStatus_Exception INT = 4
+		,@JobStatus_Clean INT = 3
 	
 	DECLARE @UserBranches Table(BranchId INT NOT NULL);
 
 	INSERT INTO @UserBranches
 	SELECT	BranchId 
 	FROM	UserBranch ub
-	INNER JOIN 
-			[User] u on u.Id = ub.UserId
-	WHERE	u.IdentityName = @UserName
+	INNER JOIN [User] u on u.Id = ub.UserId
+	WHERE u.IdentityName = @UserName
 
 	DECLARE  @JobStatusCheck TABLE
 	(
@@ -28,7 +27,7 @@ DECLARE @Bypass INT = 8
 
 	SELECT	Stopid, JobStatusId
 			,COUNT(*)  OVER (PARTITION BY StopId, JobStatusId) AS JobCountPerStatus
-			,COUNT(*)  OVER (PARTITION BY stopid) AS TotalJobs
+			,COUNT(*)  OVER (PARTITION BY Stopid) AS TotalJobs
 	FROM Job j
 	WHERE JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF')
 	ORDER BY StopId
@@ -37,25 +36,23 @@ DECLARE @Bypass INT = 8
 	(
 		SELECT RouteHeaderId
 			,COUNT(1) AS CleanCount
-			FROM [Stop]
-		WHERE Id in
-			(
-				SELECT StopId FROM @JobStatusCheck
-				WHERE JobCountPerStatus = TotalJobs
-				AND JobStatusId = 3
-			)
-			GROUP BY RouteHeaderId
+		FROM [Stop]
+		WHERE Id IN	(	SELECT	StopId 
+						FROM	@JobStatusCheck
+						WHERE	JobCountPerStatus = TotalJobs
+						AND JobStatusId = @JobStatus_Clean)
+		GROUP BY RouteHeaderId
 	),
 	RouteExceptionCount AS
 	(
 		SELECT RouteHeaderId
-			,COUNT(1) AS ExceptionCount FROM [Stop]
-		WHERE 
-			Id IN 
-			(SELECT Stopid 
-				FROM Job
-				WHERE JobStatusId IN (@Exception, @Bypass))
-				GROUP BY RouteHeaderId
+			,COUNT(1) AS ExceptionCount 
+		FROM [Stop]
+		WHERE Id IN (	SELECT	Stopid 
+						FROM	Job
+						WHERE	JobStatusId IN (@JobStatus_Exception, @JobStatus_Bypass)
+					)
+		GROUP BY RouteHeaderId
 	)
 	SELECT rh.Id
 		   ,RouteOwnerId AS BranchId
@@ -69,9 +66,7 @@ DECLARE @Bypass INT = 8
 		   ,DriverName
 	FROM
 		RouteHeader rh
-	INNER JOIN 
-		Branch b on rh.RouteOwnerId = b.Id
-
+	INNER JOIN Branch b on rh.RouteOwnerId = b.Id
 	LEFT JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
 	LEFT JOIN RouteCleanCount rcc ON rcc.RouteHeaderId = rh.Id
     WHERE 

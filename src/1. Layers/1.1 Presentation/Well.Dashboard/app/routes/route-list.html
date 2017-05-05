@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
-                             [pageLinks]="3" [rowsPerPageOptions]="rowsPerPageOptions"
+                             [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
                              #dt [(selection)]="selectedRoutes">
                     <p-column header="Branch" field="branchId" [sortable]="true" filter="true">
                         <ng-template pTemplate="filter" let-col>
@@ -73,6 +73,7 @@
                             </span>
                         </ng-template>
                     </p-column>
+                    <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="false"></p-column>
                     <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="exceptionFilterCtl"

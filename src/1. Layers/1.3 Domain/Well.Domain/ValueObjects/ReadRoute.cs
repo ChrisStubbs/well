@@ -34,6 +34,8 @@
 
         public bool HasExceptions => ExceptionCount > 0;
 
+        public int CleanCount { get; set; }
+
         public string DriverName { get; set; }
 
         public string Assignee

@@ -124,5 +124,7 @@
         public static string GetBranchIdForStop = "GetBranchIdForStop";
 
         public static string ReadRouteGetAll = "ReadRoute_GetAll";
+
+        public static string AppSearch = "AppSearch";
     }
 }

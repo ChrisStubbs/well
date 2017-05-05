@@ -16,6 +16,7 @@ import 'rxjs/Rx';
 import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
 import { Branch } from '../shared/branch/branch';
+import { AppDefaults } from '../shared/defaults/defaults';
 
 @Component({
     selector: 'ow-route',
@@ -36,7 +37,10 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
 
     private alive: boolean = true;
     private actions: string[] = ['Re-Plan'];
-    private rowsPerPageOptions: number[] = [10, 20, 30, 40];
+    public rowCount = AppDefaults.Paginator.rowCount();
+    public pageLinks = AppDefaults.Paginator.pageLinks();
+    public rowsPerPageOptions = AppDefaults.Paginator.rowsPerPageOptions();
+
     private routeFilter: RouteFilter;
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
 

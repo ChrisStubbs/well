@@ -10,13 +10,13 @@ import {ExceptionsComponent} from './exceptions/exceptionsComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {ResolvedDeliveryComponent} from './resolved/resolvedDeliveryComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
-//import {RouteHeaderComponent} from './route_header/routeHeaderComponent';
 import {RoutesComponent } from './routes/routesComponent';
 import {WidgetComponent} from './home/widgetComponent';
 import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
+import { SingleRouteComponent } from './routes/singleRouteComponent'
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
@@ -33,13 +33,13 @@ const routes: Routes = [
     { path: 'exceptions', component: ExceptionsComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'resolved', component: ResolvedDeliveryComponent },
-    //{ path: 'routes', component: RouteHeaderComponent },
     { path: 'routes', component: RoutesComponent },
     { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent },
     { path: 'branch-role', component: BranchRoleComponent },
     { path: 'user-threshold', component: UserThresholdComponent },
-    { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent }
+    { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
+    { path: 'singleroute/:id', component: SingleRouteComponent },
 ];
 
 export const appRoutingProviders: any[] = [];

@@ -1,6 +1,7 @@
-import { Component, ViewChild}  from '@angular/core';
+import { Component, ViewChild, ElementRef}  from '@angular/core';
 import { Router}                from '@angular/router';
-import { AppSearch }            from './appSearchComponent'
+import { AppSearch }            from './appSearchComponent';
+
 import 'rxjs/add/operator/takeWhile';
 
 @Component({
@@ -10,7 +11,9 @@ import 'rxjs/add/operator/takeWhile';
 })
 export class MenuBarAppSearchComponent {
     private alive: boolean = true;
+    public display: boolean = true;
     @ViewChild(AppSearch) public search: AppSearch;
+    @ViewChild('closeAppSearch') public closeBtn: ElementRef;
 
     constructor(private router: Router)
     {
@@ -19,6 +22,17 @@ export class MenuBarAppSearchComponent {
             .subscribe((val) =>
             {
                 this.search.resetSearch();
+                this.closeSearch();
             });
+    }
+
+    private closeSearch()
+    {
+        this.closeBtn.nativeElement.click();
+    }
+
+    public onSearch(): void
+    {
+        this.closeSearch();
     }
 }

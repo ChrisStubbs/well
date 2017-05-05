@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
 import { FilterOption } from '../shared/filterOption';
@@ -13,16 +12,16 @@ import { ApprovalsService } from './approvalsService';
 import { ExceptionDeliveryService } from '../exceptions/exceptionDeliveryService';
 import { RefreshService } from '../shared/refreshService';
 import { AssignModal } from '../shared/assignModal';
+import { AssignModel } from '../shared/assignModel';
 import { ConfirmModal } from '../shared/confirmModal';
 import { ExceptionsConfirmModal } from '../exceptions/exceptionsConfirmModal';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { SecurityService } from '../shared/security/securityService';
-import * as lodash from 'lodash';
 import { BaseComponent } from '../shared/BaseComponent';
-import { DeliveryLine } from '../delivery/model/deliveryLine';
 import { BaseDelivery } from '../shared/baseDelivery';
 import { DeliveryAction } from '../delivery/model/deliveryAction';
 import { OrderByExecutor } from '../shared/OrderByExecutor';
+import { Branch } from '../shared/branch/branch';
 import 'rxjs/Rx';
 
 @Component({
@@ -145,9 +144,14 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
         this.getApprovals();
     }
 
-    public allocateUser(delivery: ApprovalDelivery): void
+    public getAssignModel(delivery: ApprovalDelivery): AssignModel
     {
-        this.assignModal.show(delivery);
+        const branch: Branch = { id: delivery.branchId } as Branch;
+        return new AssignModel(
+            delivery.assigned,
+            branch,
+            [delivery.id] as number[],
+            this.isReadOnlyUser || delivery.thresholdLevelValid);
     }
 
     public deliverySelected(delivery): void

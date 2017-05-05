@@ -5,15 +5,15 @@ import { DropDownItem } from './shared';
     template: `
         <!-- Split button -->
         <div class="btn-group">
-          <button type="button" class="btn btn-success">Action</button>
+          <button type="button" class="btn btn-success"  [disabled]="disabled" >Action</button>
           <button type="button" class="btn btn-success dropdown-toggle" 
                         data-toggle="dropdown" 
-                        aria-haspopup="true" aria-expanded="false">
+                        aria-haspopup="true" aria-expanded="false"  [disabled]="disabled" >
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li *ngFor="let option of options"><a href="#">{{option}}</a></li>
+            <li *ngFor="let option of options"><a>{{option}}</a></li>
           </ul>
         </div>
     `
@@ -21,4 +21,5 @@ import { DropDownItem } from './shared';
 export class SplitButtonComponent
 {
     @Input() public options: string[];
+    @Input() public disabled: boolean = false;
 }

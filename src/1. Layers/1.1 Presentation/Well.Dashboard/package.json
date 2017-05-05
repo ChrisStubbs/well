@@ -5,6 +5,7 @@
   "description": "Package for the Orderwell application",
   "scripts": {
     "buildProduction": "webpack -p",
+    "build": "webpack -d --watch",
     "typings": "typings",
     "postinstall": "typings install"
   },

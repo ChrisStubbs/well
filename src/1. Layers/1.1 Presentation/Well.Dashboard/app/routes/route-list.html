@@ -7,20 +7,20 @@
     <div class="content">
         <div class="row">
             <div class="col-md-6">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
-                </div>
+               
             </div>
             <div class="col-md-6 pull-right">
                 <div class="pull-right">
-                    <ow-split-button [options]="actions"></ow-split-button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
+                    </div>
+                    <ow-split-button [options]="actions" [disabled]="selectedRoutes ? selectedRoutes.length == 0 : true"></ow-split-button>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12"> &nbsp;</div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
@@ -30,8 +30,8 @@
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchBranch"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                    [(ngModel)]="routeFilter.branchId.value">
-                                <option *ngFor="let branch of branches" [value]="branch[0] || ''">
+                                    [ngModel]="routeFilter.branchId ? routeFilter.branchId.value : ''">
+                                <option *ngFor="let branch of branches" [value]="branch[0] || '' ">
                                     {{ branch[1] }}
                                 </option>
                             </select>
@@ -61,7 +61,7 @@
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchStatus"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                    [(ngModel)]="routeFilter.routeStatusId.value">
+                                    [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value : ''">
                                 <option *ngFor="let status of jobStatus" [value]="status[0] || ''">
                                     {{ status[1] }}
                                 </option>
@@ -76,7 +76,7 @@
                     <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="exceptionFilterCtl"
-                                    [(ngModel)]="routeFilter.routeStatusId.value"
+                                    [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value: ''"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)">
                                 <option *ngFor="let exceptionFilterItem of exceptionFilterItems" [value]="exceptionFilterItem[0]">
                                     {{exceptionFilterItem[1]}}
@@ -94,14 +94,11 @@
                     <p-column header="Driver" field="driverName" [sortable]="true" [filter]="true"></p-column>
                     <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true">
                         <ng-template let-route="rowData" pTemplate="body">
-                            <span *ngIf="isReadOnlyUser">{{route.assignee}}</span>
-                            <a *ngIf="!isReadOnlyUser" class="assign">{{route.assignee}}</a>
+                            <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                 </p-dataTable>
-                <div>
-                </div>
             </div>
         </div>
     </div>

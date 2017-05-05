@@ -6,6 +6,15 @@ BEGIN
 DECLARE @Bypass INT = 8
 			,@Exception INT = 4
 			,@Clean INT = 3
+	
+	DECLARE @UserBranches Table(BranchId INT NOT NULL);
+
+	INSERT INTO @UserBranches
+	SELECT	BranchId 
+	FROM	UserBranch ub
+	INNER JOIN 
+			[User] u on u.Id = ub.UserId
+	WHERE	u.IdentityName = @UserName
 
 	DECLARE  @JobStatusCheck TABLE
 	(
@@ -14,12 +23,12 @@ DECLARE @Bypass INT = 8
 		JobCountPerStatus INT,
 		TotalJobs INT
 	)
-
+	
 	INSERT INTO @JobStatusCheck(StopId, JobStatusId, JobCountPerStatus, TotalJobs)
 
-	SELECT Stopid, JobStatusId, 
-	COUNT(*)  OVER (PARTITION BY StopId, JobStatusId) AS JobCountPerStatus
-	,COUNT(*) OVER (partition by stopid) AS TotalJobs
+	SELECT	Stopid, JobStatusId
+			,COUNT(*)  OVER (PARTITION BY StopId, JobStatusId) AS JobCountPerStatus
+			,COUNT(*)  OVER (PARTITION BY stopid) AS TotalJobs
 	FROM Job j
 	WHERE JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF')
 	ORDER BY StopId
@@ -37,7 +46,6 @@ DECLARE @Bypass INT = 8
 			)
 			GROUP BY RouteHeaderId
 	),
-
 	RouteExceptionCount AS
 	(
 		SELECT RouteHeaderId
@@ -49,7 +57,6 @@ DECLARE @Bypass INT = 8
 				WHERE JobStatusId IN (@Exception, @Bypass))
 				GROUP BY RouteHeaderId
 	)
-
 	SELECT rh.Id
 		   ,RouteOwnerId AS BranchId
 		   ,b.Name AS BranchName	
@@ -64,29 +71,41 @@ DECLARE @Bypass INT = 8
 		RouteHeader rh
 	INNER JOIN 
 		Branch b on rh.RouteOwnerId = b.Id
-	INNER JOIN
-		UserBranch ub on b.Id = ub.BranchId
-	INNER JOIN
-		[User] u on u.Id = ub.UserId
+
 	LEFT JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
 	LEFT JOIN RouteCleanCount rcc ON rcc.RouteHeaderId = rh.Id
-    WHERE u.IdentityName = @UserName
-    AND rh.IsDeleted = 0
+    WHERE 
+		rh.IsDeleted = 0
+		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 	ORDER BY rh.RouteDate DESC
 
-	SELECT rh.Id, u.Name
+	SELECT DISTINCT 
+			rh.Id RouteId
+			,jobUser.Name
 	FROM RouteHeader rh
 	INNER JOIN 
 		Branch b ON rh.RouteOwnerId = b.Id
-	INNER JOIN
-		UserBranch ub ON b.Id = ub.BranchId
-	INNER JOIN
-		[User] u ON u.Id = ub.UserId
 	INNER JOIN
 		[Stop] s ON s.RouteHeaderId = rh.Id
 	INNER JOIN
 		Job j ON j.StopId = s.Id
 	INNER JOIN 
 		UserJob uj ON uj.JobId = j.Id
+	INNER JOIN 
+		[User] jobUser ON uj.UserId = jobUser.Id
+	WHERE 
+		rh.IsDeleted = 0
+		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
+
+	SELECT 
+		s.RouteHeaderId as RouteId,
+		j.Id as JobId   		
+	FROM Stop s 
+	INNER JOIN
+		Job j on j.StopId = s.Id
+	INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
+	WHERE 
+		rh.IsDeleted = 0
+		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 
 END

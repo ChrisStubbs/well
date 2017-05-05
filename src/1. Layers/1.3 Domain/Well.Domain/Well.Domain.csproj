@@ -111,6 +111,7 @@
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\ReadRoute.cs" />
     <Compile Include="ValueObjects\ReadRouteAssignees.cs" />
+    <Compile Include="ValueObjects\ReadRouteJob.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="ValueObjects\JobUpdate.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
     <Compile Include="ValueObjects\UserJob.cs" />
+    <Compile Include="ValueObjects\UserJobs.cs" />
     <Compile Include="ValueObjects\WidgetWarningLevels.cs" />
     <Compile Include="WidgetWarning.cs" />
   </ItemGroup>

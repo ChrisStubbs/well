@@ -126,5 +126,7 @@
         public static string ReadRouteGetAll = "ReadRoute_GetAll";
 
         public static string AppSearch = "AppSearch";
+        //well update
+        public static string AccountWithNoLocationGet = "Account_GetWithNoLocation";
     }
 }

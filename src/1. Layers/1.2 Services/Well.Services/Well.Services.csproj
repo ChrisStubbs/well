@@ -54,6 +54,7 @@
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
+    <Compile Include="Contracts\IWellUpdateService.cs" />
     <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesClose.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
     <Compile Include="CreditTransactionFactory.cs" />
     <Compile Include="Contracts\IBulkCreditService.cs" />
+    <Compile Include="EpodServices\WellUpdateService.cs" />
     <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />

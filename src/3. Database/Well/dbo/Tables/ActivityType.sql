@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ActivityType]
 (
 	[Id] [TINYINT] IDENTITY(1,1) NOT NULL,
-	[DisplayName] VARCHAR(20) NOT NULL,
+	[DisplayName] VARCHAR(20) NULL,
 	[Description] VARCHAR(50) NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,

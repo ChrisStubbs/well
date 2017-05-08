@@ -21,22 +21,22 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Dropdown link</a></li>
+                                <li><a href="#">Stop Replaning</a></li>
                                 <li><a href="#">Dropdown link</a></li>
                             </ul>
                         </div>
                     </li>
                 </ul>
-                <p-dataTable [value]="singleRoute" [rows]="rowCount" [paginator]="true" [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
-                             groupField="stop" expandableRowGroups="rowspan"
+                <p-dataTable [value]="singleRoute" groupField="stop" expandableRowGroups="rowspan"
                              sortField="stop" [sortableRowGroup]="false"
                              rowGroupMode="subheader" #dt>
-                    <p-header>Expand a route to see more details</p-header>
+                    <p-header>Expand a Stop to see more details</p-header>
+
                     <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['stop']}}</ng-template>
                     <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
                     <p-column header="Job Type" field="jobType" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'100px'}">
                         <ng-template pTemplate="filter" let-col>
-                            <select class="form-control" id="searchJob" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                            <select class="form-control" id="searchJob" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="" >
                                 <option *ngFor="let jobType of jobTypes" [value]="jobType.id">
                                     {{ jobType.description }}
                                 </option>
@@ -55,17 +55,11 @@
                     <p-column header="COD" field="cod" [filter]="true" filterMatchMode="equals" [sortable]="true"></p-column>
                     <p-column header="POD" field="pod" [filter]="true" filterMatchMode="equals" [sortable]="true">
                         <ng-template pTemplate="filter" let-col>
-                            <select class="form-control"
-                                    (change)="dt.filter(($event.target.value == '' ? undefine : $event.target.value), col.field, col.filterMatchMode)" title=""
-                                    [(ngModel)]="podFilter">
-                                <option [value]="''">All</option>
-                                <option [value]="true">Yes</option>
-                                <option [value]="false">No</option>
-                            </select>
+                            <ow-selectYesNoFilter (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
                         </ng-template>
                         <ng-template let-data="rowData" pTemplate="body">
                             <div class="text-center">
-                                <input type="checkbox" ngModel="data.pod" disabled title="">
+                                <input type="checkbox" [checked]="data.pod" disabled title="">
                             </div>
                         </ng-template>
                     </p-column>
@@ -101,6 +95,7 @@
                         <ng-template let-route="rowData" pTemplate="body">
                             <!--<span *ngIf="isReadOnlyUser">{{delivery.assigned}}</span>
                             <a *ngIf="!isReadOnlyUser" class="assign" (click)="allocateUser(delivery)">{{delivery.assigned}}</a>-->
+                            <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                         </ng-template>
                     </p-column>
                     <p-column [style]="{'width':'38px'}" field="selected" selectionMode="multiple"></p-column>

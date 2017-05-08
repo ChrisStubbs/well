@@ -93,6 +93,8 @@ import { DateComponent, SplitButtonComponent } from './shared/shared';
 import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import AppRoutes = require('./appRoutes');
+import {StopComponent} from './stops/stopComponent';
+import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -107,7 +109,7 @@ import AppRoutes = require('./appRoutes');
         ResolvedDeliveryComponent, RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent
+        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

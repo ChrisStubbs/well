@@ -1,5 +1,6 @@
 export interface SingleRoute
 {
+    jobId
     stop: string;
     invoice: string;
     jobType: string;

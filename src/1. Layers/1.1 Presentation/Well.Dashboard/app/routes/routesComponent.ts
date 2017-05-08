@@ -16,6 +16,7 @@ import 'rxjs/Rx';
 import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
 import { Branch } from '../shared/branch/branch';
+import { AppDefaults } from '../shared/defaults/defaults';
 
 @Component({
     selector: 'ow-route',
@@ -35,8 +36,11 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public selectedRoutes: Route[];
 
     private alive: boolean = true;
-    private actions: string[] = ['Assign'];
-    private rowsPerPageOptions: number[] = [10, 20, 30, 40];
+    private actions: string[] = ['Re-Plan'];
+    public rowCount = AppDefaults.Paginator.rowCount();
+    public pageLinks = AppDefaults.Paginator.pageLinks();
+    public rowsPerPageOptions = AppDefaults.Paginator.rowsPerPageOptions();
+
     private routeFilter: RouteFilter;
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
 
@@ -61,11 +65,13 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         super.ngOnInit();
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
-        this.activatedRoute.queryParams.subscribe(params =>
-        {
-            this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
-            this.getRoutes();
-        });
+        this.activatedRoute.queryParams
+            .takeWhile(() => this.alive)
+            .subscribe(params =>
+            {
+                this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
+                this.getRoutes();
+            });
 
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.alive)
@@ -121,7 +127,8 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser);
     }
 
-    public onAssigned($event) {
+    public onAssigned($event)
+    {
         this.getRoutes();
     }
 }

@@ -113,6 +113,7 @@
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
     <Compile Include="ACL\AdamEvents\StructureMapTest.cs" />
     <Compile Include="AdamResilienceTests.cs" />
+    <Compile Include="Api\Controllers\AppSearchControllerTests.cs" />
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />
     <Compile Include="Api\Controllers\AuditControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\AdamImportServiceTests.cs" />
     <Compile Include="Services\AdamUpdateTests.cs" />
+    <Compile Include="Services\AppSearchServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />

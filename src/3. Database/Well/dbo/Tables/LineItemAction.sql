@@ -8,7 +8,7 @@
 	[ReplanDate] DATETIME NULL,
 	[SubmittedDate] DATETIME NULL,
 	[ApprovalDate] DATETIME NULL,
-	[ApprovedBy] VARCHAR(50) NOT NULL,
+	[ApprovedBy] VARCHAR(50) NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,

@@ -24,3 +24,6 @@
 	CONSTRAINT [FK_Account_Stop] FOREIGN KEY ([StopId]) REFERENCES [dbo].[Stop] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Account_Location] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Location] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+GO
+-- used for search
+CREATE NONCLUSTERED INDEX [IDX_Account_StopId] ON [dbo].[Account] ([StopId])INCLUDE ([Code],[Name])

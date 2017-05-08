@@ -291,7 +291,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\Job_UpdateStatus.sql" />
-    <Build Include="dbo\StoredProcedures\ReadRoute_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_GetAll.sql" />
     <Build Include="dbo\Tables\ActivityType.sql" />
     <None Include="Post-Deployement\Populate-ActivityType.sql" />
     <Build Include="dbo\Functions\ActivityType_Invoice.sql" />
@@ -344,6 +344,7 @@
     <None Include="ManualStep\scripts\up\014_Add_Bag_Table.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\AppSearch.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

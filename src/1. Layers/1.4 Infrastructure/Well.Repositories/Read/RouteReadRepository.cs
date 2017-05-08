@@ -20,21 +20,21 @@
         }
 
 
-        public IEnumerable<ReadRoute> GetAllRoutes(string username)
+        public IEnumerable<Route> GetAllRoutes(string username)
         {
-            var routes = new List<ReadRoute>();
-            dapperReadProxy.WithStoredProcedure(StoredProcedures.ReadRouteGetAll)
+            var routes = new List<Route>();
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAll)
                     .AddParameter("username", username, DbType.String)
                     .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
 
             return routes;
         }
 
-        public List<ReadRoute> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
+        public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
         {
-            var readRoutes = grid.Read<ReadRoute>().ToList();
-            var assignees = grid.Read<ReadRouteAssignees>().ToList();
-            var jobIds = grid.Read<ReadRouteJob>().ToList();
+            var readRoutes = grid.Read<Route>().ToList();
+            var assignees = grid.Read<RouteAssignees>().ToList();
+            var jobIds = grid.Read<RouteJob>().ToList();
 
             foreach (var route in readRoutes)
             {

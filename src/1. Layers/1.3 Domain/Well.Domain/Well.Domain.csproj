@@ -92,6 +92,9 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
+    <Compile Include="ValueObjects\AppSearchParameters.cs" />
+    <Compile Include="ValueObjects\LocationAccount.cs" />
+    <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />
@@ -108,9 +111,9 @@
     <Compile Include="ValueObjects\PodEvent.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
-    <Compile Include="ValueObjects\ReadRoute.cs" />
-    <Compile Include="ValueObjects\ReadRouteAssignees.cs" />
-    <Compile Include="ValueObjects\ReadRouteJob.cs" />
+    <Compile Include="ValueObjects\Route.cs" />
+    <Compile Include="ValueObjects\RouteAssignees.cs" />
+    <Compile Include="ValueObjects\RouteJob.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />

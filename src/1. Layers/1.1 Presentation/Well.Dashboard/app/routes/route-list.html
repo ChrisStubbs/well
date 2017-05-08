@@ -7,13 +7,14 @@
     <div class="content">
         <div class="row">
             <div class="col-md-6">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
-                </div>
+               
             </div>
             <div class="col-md-6 pull-right">
                 <div class="pull-right">
-                    <ow-split-button [options]="actions"></ow-split-button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
+                    </div>
+                    <ow-split-button [options]="actions" [disabled]="selectedRoutes ? selectedRoutes.length == 0 : true"></ow-split-button>
                 </div>
             </div>
         </div>
@@ -23,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
-                             [pageLinks]="3" [rowsPerPageOptions]="rowsPerPageOptions"
+                             [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
                              #dt [(selection)]="selectedRoutes">
                     <p-column header="Branch" field="branchId" [sortable]="true" filter="true">
                         <ng-template pTemplate="filter" let-col>
@@ -41,7 +42,12 @@
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Route" field="route" [sortable]="true" [filter]="true">
+                    <p-column header="Route" field="routeNumber" [sortable]="true" [filter]="true">
+                        <ng-template let-route="rowData" pTemplate="body">
+                            <span>
+                                <a routerLink="/singleroute/{{route.id}}" routerLinkActive="active">{{route.routeNumber}}</a>
+                            </span>
+                        </ng-template>
                     </p-column>
                     <p-column header="Date" field="routeDate" [sortable]="true" [style]="{'overflow':'visible','width':'150px'}" [filter]="true" filterMatchMode="contains">
                         <ng-template pTemplate="filter" let-col>
@@ -72,10 +78,11 @@
                             </span>
                         </ng-template>
                     </p-column>
+                    <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="false"></p-column>
                     <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="exceptionFilterCtl"
-                                    [ngModel]="routeFilter.routeStatusId.value"
+                                    [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value: ''"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)">
                                 <option *ngFor="let exceptionFilterItem of exceptionFilterItems" [value]="exceptionFilterItem[0]">
                                     {{exceptionFilterItem[1]}}
@@ -98,8 +105,6 @@
                     </p-column>
                     <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                 </p-dataTable>
-                <div>
-                </div>
             </div>
         </div>
     </div>

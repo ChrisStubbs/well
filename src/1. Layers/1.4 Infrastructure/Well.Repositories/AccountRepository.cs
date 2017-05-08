@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
 
@@ -7,6 +8,7 @@
     using Contracts;
 
     using Common.Contracts;
+    using Domain.ValueObjects;
 
     public class AccountRepository : DapperRepository<Account, int>, IAccountRepository
     {
@@ -53,6 +55,13 @@
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Query<int>().FirstOrDefault();
+        }
+
+        public IEnumerable<LocationAccount> GetAccountsWithNoLocation()
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountWithNoLocationGet)
+                    .Query<LocationAccount>();
+
         }
     }
 }

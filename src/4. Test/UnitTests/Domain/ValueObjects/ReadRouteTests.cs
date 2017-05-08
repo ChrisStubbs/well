@@ -10,26 +10,26 @@
         [Test]
         public void ShouldReturnFullNameIfOneAsignees()
         {
-            var r = new ReadRoute();
-            r.Assignees.Add(new ReadRouteAssignees {Name="Mick Chidders"});
+            var r = new Route();
+            r.Assignees.Add(new RouteAssignees {Name="Mick Chidders"});
             Assert.That(r.Assignee, Is.EqualTo("Mick Chidders"));
         }
 
         [Test]
         public void ShouldReturnUnallocatedIfNoAsignees()
         {
-            var r = new ReadRoute();
+            var r = new Route();
             Assert.That(r.Assignee, Is.EqualTo("Unallocated"));
         }
 
         [Test]
         public void ShouldReturnCommaSeperatedListOfInitialsIfMoreThanOneAssignee()
         {
-            var r = new ReadRoute();
-            r.Assignees.Add(new ReadRouteAssignees { Name = "Mick Chidders" });
-            r.Assignees.Add(new ReadRouteAssignees { Name = "Lee Grunion" });
-            r.Assignees.Add(new ReadRouteAssignees { Name = "Chubbs" });
-            r.Assignees.Add(new ReadRouteAssignees { Name = "Enrri Portugals Finest" });
+            var r = new Route();
+            r.Assignees.Add(new RouteAssignees { Name = "Mick Chidders" });
+            r.Assignees.Add(new RouteAssignees { Name = "Lee Grunion" });
+            r.Assignees.Add(new RouteAssignees { Name = "Chubbs" });
+            r.Assignees.Add(new RouteAssignees { Name = "Enrri Portugals Finest" });
 
             Assert.That(r.Assignee, Is.EqualTo("MC, LG, C, EPF"));
         }

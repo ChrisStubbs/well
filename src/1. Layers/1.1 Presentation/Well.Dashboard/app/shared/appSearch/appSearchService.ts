@@ -7,6 +7,7 @@ import { GlobalSettingsService }    from '../globalSettings';
 import { IAppSearchResult }         from './iAppSearchResult';
 import { AppSearchParameters }      from './appSearchParameters';
 import 'rxjs/add/operator/map';
+import * as _ from 'lodash';
 
 @Injectable()
 export class AppSearchService {
@@ -17,7 +18,8 @@ export class AppSearchService {
 
     public Search(parameters: AppSearchParameters): Observable<IAppSearchResult>
     {
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'AppSearch', {params: parameters})
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'AppSearch'
+            , { params: _.omitBy(parameters, _.isNil) })
             .map((response: Response) => <IAppSearchResult>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

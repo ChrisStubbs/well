@@ -1,5 +1,5 @@
 export interface  IAppSearchResult
 {
-    jobId?: number;
+    stopId?: number;
     routeId?: number;
 }

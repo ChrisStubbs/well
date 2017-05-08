@@ -112,7 +112,7 @@
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\Route.cs" />
-    <Compile Include="ValueObjects\RouteAssignees.cs" />
+    <Compile Include="ValueObjects\Assignee.cs" />
     <Compile Include="ValueObjects\RouteJob.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />

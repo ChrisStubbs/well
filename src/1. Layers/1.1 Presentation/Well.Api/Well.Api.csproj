@@ -229,7 +229,9 @@
     <Compile Include="Mapper\DeliveryLinesToModelMapper.cs" />
     <Compile Include="Mapper\DeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
+    <Compile Include="Mapper\Contracts\ISingleRouteMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
+    <Compile Include="Mapper\SingleRouteMapper.cs" />
     <Compile Include="Mapper\WidgetWarningMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
@@ -241,11 +243,12 @@
     <Compile Include="Models\DeliveryActionModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
-    <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\GrnModel.cs" />
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
+    <Compile Include="Models\SingleRouteView.cs" />
+    <Compile Include="Models\SingleRouteViewItem.cs" />
     <Compile Include="Models\WidgetLinkModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Models\WidgetWarningModel.cs" />

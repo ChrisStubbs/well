@@ -15,5 +15,12 @@
         public int PreferenceId { get; set; }
 
         public IList<BranchCreditThreshold> CreditThresholds { get; set; }
+
+        public string BranchName => GetBranchName(Id, Name);
+
+        public static string GetBranchName(int id, string name)
+        {
+            return $"{name} ({id})";
+        }
     }
 }

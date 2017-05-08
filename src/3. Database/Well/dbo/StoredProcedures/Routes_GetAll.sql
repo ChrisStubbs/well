@@ -15,30 +15,22 @@ DECLARE  @JobStatus_Bypass INT = 8
 	INNER JOIN [User] u on u.Id = ub.UserId
 	WHERE u.IdentityName = @UserName
 
-	DECLARE  @JobStatusCheck TABLE
+	;WITH JobStatusCheck
+	AS
 	(
-		StopId INT,
-		JobStatusId INT,
-		JobCountPerStatus INT,
-		TotalJobs INT
-	)
-	
-	INSERT INTO @JobStatusCheck(StopId, JobStatusId, JobCountPerStatus, TotalJobs)
-
 	SELECT	Stopid, JobStatusId
 			,COUNT(*)  OVER (PARTITION BY StopId, JobStatusId) AS JobCountPerStatus
 			,COUNT(*)  OVER (PARTITION BY Stopid) AS TotalJobs
 	FROM Job j
 	WHERE JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF')
-	ORDER BY StopId
-
-	;WITH RouteCleanCount AS
+	), 
+	RouteCleanCount AS
 	(
 		SELECT RouteHeaderId
 			,COUNT(1) AS CleanCount
 		FROM [Stop]
 		WHERE Id IN	(	SELECT	StopId 
-						FROM	@JobStatusCheck
+						FROM	JobStatusCheck
 						WHERE	JobCountPerStatus = TotalJobs
 						AND JobStatusId = @JobStatus_Clean)
 		GROUP BY RouteHeaderId
@@ -76,6 +68,8 @@ DECLARE  @JobStatus_Bypass INT = 8
 
 	SELECT DISTINCT 
 			rh.Id RouteId
+			,j.Id as JobId
+			,s.Id StopId
 			,jobUser.Name
 	FROM RouteHeader rh
 	INNER JOIN 

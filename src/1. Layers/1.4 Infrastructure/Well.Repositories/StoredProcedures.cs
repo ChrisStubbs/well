@@ -52,6 +52,7 @@
         public static string JobSetToStatus = "Job_SetToStatus";
         public static string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
         public static string JobGetByIds = "Job_GetByIds";
+        public static string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
         public static string JobDetailGet = "JobDetail_Get";
         public static string JobDetailInsert = "JobDetail_Insert";
         public static string JobDetailUpdate = "JobDetail_Update";
@@ -128,5 +129,7 @@
         public static string AppSearch = "AppSearch";
         //well update
         public static string AccountWithNoLocationGet = "Account_GetWithNoLocation";
+
+        public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
     }
 }

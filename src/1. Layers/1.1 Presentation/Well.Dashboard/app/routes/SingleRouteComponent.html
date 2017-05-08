@@ -32,7 +32,37 @@
                              sortField="stop" [sortableRowGroup]="false"
                              rowGroupMode="subheader" #dt>
                     <p-header>Expand a route to see more details</p-header>
-                    <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['stop']}}</ng-template>
+                    <ng-template pTemplate="rowgroupfooter" let-car>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>The Status</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><input type="checkbox" /></td>
+                    </ng-template>
+                    <ng-template pTemplate="rowgroupheader" let-rowData>
+                      
+                        <Table style="width:100%">
+                            <tr>
+                                <td>{{rowData['stop']}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>The Status</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><input type="checkbox"/></td>
+                            </tr>
+                        </Table>
+                    </ng-template>
                     <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
                     <p-column header="Job Type" field="jobType" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'100px'}">
                         <ng-template pTemplate="filter" let-col>

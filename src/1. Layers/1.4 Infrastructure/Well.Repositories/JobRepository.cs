@@ -70,6 +70,15 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
+        public IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId)
+        {
+            var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
+                .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
+                .Query<int>();
+
+            return GetByIds(jobIds);
+        }
+
         public Job GetJobByRefDetails(string jobTypeCode, string phAccount, string pickListRef, int stopId)
         {
             var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRefDetails)
@@ -123,18 +132,7 @@
                 .Query<int>().FirstOrDefault();
         }
 
-        //public Job GetByAccountPicklistAndStopId(string accountId, string picklistId, int stopId)
-        //{
-        //    IEnumerable<int> jobids = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByAccountPicklistAndStopId)
-        //        .AddParameter("jobTypeID", accountId, DbType.String)
-        //        .AddParameter("AccountId", accountId, DbType.String)
-        //        .AddParameter("PicklistId", picklistId, DbType.String)
-        //        .AddParameter("StopId", stopId, DbType.Int32)
-        //        .Query<int>();
-
-        //    return GetByIds(jobids).FirstOrDefault();
-        //}
-
+    
         public void DeleteJobById(int id)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)

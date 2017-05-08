@@ -33,7 +33,7 @@
         public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
         {
             var readRoutes = grid.Read<Route>().ToList();
-            var assignees = grid.Read<RouteAssignees>().ToList();
+            var assignees = grid.Read<Assignee>().ToList();
             var jobIds = grid.Read<RouteJob>().ToList();
 
             foreach (var route in readRoutes)

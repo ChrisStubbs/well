@@ -237,7 +237,7 @@
 
         public static string GetInitials(this string name)
         {
-            return new string(name.ToCharArray().Where(char.IsUpper).ToArray());
+            return string.Join("", name.Split(' ').Select(s => s[0]));
         }
     }
 }

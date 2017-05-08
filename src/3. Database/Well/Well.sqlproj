@@ -345,6 +345,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\AppSearch.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetByRouteHeaderId.sql" />
+    <Build Include="dbo\StoredProcedures\Assignee_GetByRouteHeaderId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

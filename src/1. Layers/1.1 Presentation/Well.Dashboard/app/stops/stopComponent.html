@@ -121,11 +121,11 @@
                     </p-column>
                     <p-column header="Checked" field="checked" [filter]="true" filterMatchMode="equals" [sortable]="true">
                         <ng-template pTemplate="filter" let-col>
-                            <ow-selectYesNoFilter (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
+                            <ow-selectYesNoFilter [(selectedValue)]="filters.checked" (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
                         </ng-template>
                         <ng-template let-data="rowData" pTemplate="body">
                             <div class="text-center">
-                                <input type="checkbox" [checked]="data.Checked" disabled title="">
+                                <input type="checkbox" [checked]="data.checked" disabled title="">
                             </div>
                         </ng-template>
                     </p-column>

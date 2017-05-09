@@ -5,9 +5,9 @@ import 'rxjs/add/operator/takeWhile';
     selector: 'ow-selectYesNoFilter',
     template: '' +
     '<select class="form-control" [(ngModel)]="selectedValue" (change)="itemClick($event.target.value)">' +
-        '<option *ngFor="let item of values" [value]="item[0]">' +
-            '{{item[1]}}' +
-        '</option>' +
+    '<option *ngFor="let item of values" [value]="item[0]">' +
+    '{{item[1]}}' +
+    '</option>' +
     '</select>'
 })
 export class SelectYeNoFilterComponent {
@@ -39,5 +39,6 @@ export class SelectYeNoFilterComponent {
     public itemClick(value: any)
     {
         this.filterClicked.emit(value);
+        this.selectedValue = value;
     }
 }

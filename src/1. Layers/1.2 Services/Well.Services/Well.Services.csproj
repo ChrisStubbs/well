@@ -51,9 +51,11 @@
     <Compile Include="ActiveDirectoryService.cs" />
     <Compile Include="AdamConfiguration.cs" />
     <Compile Include="AdamSettingsFactory.cs" />
+    <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
+    <Compile Include="Contracts\IWellUpdateService.cs" />
     <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesClose.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
@@ -78,6 +80,9 @@
     <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
     <Compile Include="CreditTransactionFactory.cs" />
     <Compile Include="Contracts\IBulkCreditService.cs" />
+    <Compile Include="Contracts\IAppSearchService.cs" />
+    <Compile Include="EpodServices\WellUpdateService.cs" />
+    <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />
@@ -91,6 +96,7 @@
     <Compile Include="AdamFileMonitorService.cs" />
     <Compile Include="FileTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StopStatusService.cs" />
     <Compile Include="UserThresholdNotFoundException.cs" />
     <Compile Include="UserNotFoundException.cs" />
     <Compile Include="UserThresholdService.cs" />

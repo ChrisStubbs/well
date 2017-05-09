@@ -1,13 +1,13 @@
-﻿import {Injectable, EventEmitter} from '@angular/core';
-import {Response, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import {Branch} from './branch';
-import {IUser} from '../iuser';
-import {GlobalSettingsService} from '../globalSettings';
+﻿import {Injectable, EventEmitter }              from '@angular/core';
+import { Response, Headers, RequestOptions }    from '@angular/http';
+import { Observable }                           from 'rxjs/Observable';
+import { Branch }                               from './branch';
+import { GlobalSettingsService }                from '../globalSettings';
+import { HttpErrorService }                     from '../httpErrorService';
+import { HttpService }                          from '../httpService';
+import * as _                                   from 'lodash';
+
 import 'rxjs/add/operator/map';
-import {HttpErrorService} from '../httpErrorService';
-import {LogService} from '../logService';
-import {HttpService} from '../httpService';
 
 @Injectable()
 export class BranchService {
@@ -16,14 +16,30 @@ export class BranchService {
     constructor(
         private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private logService: LogService) {
-    }
+        private httpErrorService: HttpErrorService) {}
 
     public getBranches(username): Observable<Branch[]> {
 
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public getBranchesValueList(username: string): Observable<Array<[string, string]>>
+    {
+        return this.getBranches(username)
+            .map((branches: Branch[]) =>
+            {
+                const values = new Array<[string, string]>();
+
+                values.push([undefined, 'All']);
+                _.map(branches, (current: Branch) =>
+                {
+                    values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')'])
+                });
+
+                return values;
+            })
             .catch(e => this.httpErrorService.handleError(e));
     }
 

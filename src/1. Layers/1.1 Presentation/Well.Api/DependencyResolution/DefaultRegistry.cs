@@ -80,10 +80,21 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
+            For<ISingleRouteMapper>().Use<SingleRouteMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
             For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();
+
+            //routes
+            For<IRouteReadRepository>().Use<RouteReadRepository>();
+
+            //search
+            For<IAppSearchService>().Use<AppSearchService>();
+            For<IAppSearchReadRepository>().Use<AppSearchReadRepository>();
+
+            For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+            For<IStopStatusService>().Use<StopStatusService>();
         }
     }
 }

@@ -1,11 +1,14 @@
-import { OnInit, OnDestroy }                from '@angular/core';
-import { NavigateQueryParametersService }   from './NavigateQueryParametersService';
-import { NavigateQueryParameters }          from './NavigateQueryParameters';
-import { IOptionFilter, INavigationPager }  from './IOptionFilter';
-import { FilterOption }                     from './filterOption';
-import { DropDownItem }                     from './dropDownItem';
+import { OnInit, OnDestroy } from '@angular/core';
+import { NavigateQueryParametersService } from './NavigateQueryParametersService';
+import { NavigateQueryParameters } from './NavigateQueryParameters';
+import { IOptionFilter, INavigationPager } from './IOptionFilter';
+import { FilterOption } from './filterOption';
+import { DropDownItem, SecurityService, GlobalSettingsService } from './shared';
+import deprecated from 'deprecated-decorator';
 
-export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy, INavigationPager {
+@deprecated('none. It shall not be used any longer', '', '')
+export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy, INavigationPager
+{
     public options: DropDownItem[];
     public filterOption: FilterOption = new FilterOption();
     public selectedOption: DropDownItem;
@@ -15,11 +18,34 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
     public sortField: string;
     private navigationSubscriber: any;
     public readonly rowCount: number = 10;
+    public isReadOnlyUser: boolean = false;
 
-    constructor(private navigateQueryParametersService: NavigateQueryParametersService)
+    constructor(
+        private navigateQueryParametersService: NavigateQueryParametersService,
+        protected globalSettingsService: GlobalSettingsService,
+        protected securityService: SecurityService)
     {
         this.sortField = '';
-        this.sortDirection = 'asc'
+        this.sortDirection = 'asc';
+    }
+
+    public ngOnInit(): void
+    {
+        const that = this;
+
+        //TODO: Move this to the correct pages
+        this.securityService.validateUser(
+            this.globalSettingsService.globalSettings.permissions,
+            this.securityService.actionDeliveries);
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+
+        this.navigateQueryParametersService.Navigate(that);
+
+        this.navigationSubscriber = this.navigateQueryParametersService.BrowserNavigation
+            .subscribe(p => this.navigateQueryParametersService.Navigate(this));
+
     }
 
     public onSortDirectionChanged(isDesc: boolean): void
@@ -30,22 +56,16 @@ export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy,
         this.navigateQueryParametersService.Navigate(this);
     }
 
-    public ngOnDestroy(): void {
+    public ngOnDestroy(): void
+    {
         this.navigationSubscriber.unsubscribe();
     }
 
-    public onFilterClicked(filterOption: FilterOption)  {
+    public onFilterClicked(filterOption: FilterOption)
+    {
         this.filterOption = filterOption;
         this.navigateQueryParametersService.Navigate(this);
     };
-
-    public ngOnInit(): void {
-        const that = this;
-        this.navigateQueryParametersService.Navigate(that);
-
-        this.navigationSubscriber = this.navigateQueryParametersService.BrowserNavigation
-            .subscribe(p => this.navigateQueryParametersService.Navigate(this));
-    }
 
     public SetCurrentPage(pageNumber: number): void
     {

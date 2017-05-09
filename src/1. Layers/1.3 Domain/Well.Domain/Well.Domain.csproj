@@ -62,7 +62,6 @@
     <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
@@ -92,6 +91,9 @@
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
+    <Compile Include="ValueObjects\AppSearchParameters.cs" />
+    <Compile Include="ValueObjects\LocationAccount.cs" />
+    <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />
@@ -108,6 +110,9 @@
     <Compile Include="ValueObjects\PodEvent.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
+    <Compile Include="ValueObjects\Route.cs" />
+    <Compile Include="ValueObjects\Assignee.cs" />
+    <Compile Include="ValueObjects\RouteJob.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />
     <Compile Include="RouteUpdates.cs" />
@@ -135,6 +140,7 @@
     <Compile Include="ValueObjects\JobUpdate.cs" />
     <Compile Include="ValueObjects\DeliveryLine.cs" />
     <Compile Include="ValueObjects\UserJob.cs" />
+    <Compile Include="ValueObjects\UserJobs.cs" />
     <Compile Include="ValueObjects\WidgetWarningLevels.cs" />
     <Compile Include="WidgetWarning.cs" />
   </ItemGroup>

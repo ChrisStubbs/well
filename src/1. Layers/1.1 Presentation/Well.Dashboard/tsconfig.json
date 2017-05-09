@@ -1,6 +1,6 @@
 ﻿﻿﻿ {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true, 
@@ -12,5 +12,5 @@
         "experimentalDecorators": true
     },
     "compileOnSave": true,
-    "exclude": ["node_modules" ]
+    "exclude": ["node_modules/**", "typings/**" ]
 }

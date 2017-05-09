@@ -1,38 +1,28 @@
-﻿<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Delivery Stats
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <base-chart [class]="chartStyle"
-                                [datasets]="barChartData"
-                                [labels]="barChartLabels"
-                                [options]="barChartOptions"
-                                [colors]="barChartColors"
-                                [legend]="false"
-                                chartType="bar"></base-chart>
-                </div>
-            </div>
+﻿<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Delivery Stats
+            </h3>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Last updated
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <h4>{{updateDate | customDate: 'MMM DD, YYYY, HH:mm:ss'}}</h4>
-                </div>
-            </div>
+        <div class="panel-body">
+            <base-chart [class]="chartStyle"
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [colors]="barChartColors"
+                        [legend]="false"
+                        chartType="bar"></base-chart>
         </div>
     </div>
 </div>
-
-
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Last updated
+                {{updateDate | customDate: 'MMM DD, YYYY, HH:mm:ss'}}
+            </h3>
+        </div>
+    </div>
+</div>

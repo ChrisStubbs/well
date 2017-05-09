@@ -1,14 +1,20 @@
-﻿<div *ngIf="isVisible" class="modal fade show in danger assign-modal" role="dialog">
+﻿<div *ngIf="model.isReadOnlyUser; then readOnlyUser else notReadOnlyUser"></div>
+<ng-template #readOnlyUser>
+    <span>{{model.assigned}}</span>
+</ng-template>
+<ng-template #notReadOnlyUser>
+    <a class="assign" (click)="isVisible = true">{{model.assigned}}</a>
+</ng-template>
+<div *ngIf="isVisible" class="modal fade show in danger assign-modal" role="dialog">
     <div class="modal-dialog">
-
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Available users for account {{delivery.accountCode}}</h4>
+                <h4 class="modal-title">Available users for branch {{model.branch.name}}</h4>
             </div>
             <div class="modal-body">
                 <ul class="list-group">
-                    <li class="list-group-item"><a class="assign-user" (click)="unassign(delivery)">Unallocated</a></li>
-                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, delivery)">{{user.name}}</a></li>
+                    <li class="list-group-item"><a class="assign-user" (click)="unassign(model)">Unallocated</a></li>
+                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user.id, model)">{{user.name}}</a></li>
                 </ul>   
             </div>
             <div class="modal-footer">

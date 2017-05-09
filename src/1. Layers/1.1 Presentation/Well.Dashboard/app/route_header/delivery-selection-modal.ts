@@ -1,5 +1,5 @@
 ﻿import {Component} from '@angular/core';
-import {Route} from './route';
+import {Route} from '../routes/route';
 
 @Component({
     selector: 'delivery-selection-modal',

@@ -5,40 +5,31 @@
     public enum JobType
     {
         [Description("DEL-TOB")]
-        DelTob = 1,
+        Tobacco = 1,
 
         [Description("DEL-AMB")]
-        DelAmb = 2,
+        Ambient = 2,
 
         [Description("DEL-ALC")]
-        DelAlc = 3,
+        Alcohol = 3,
 
-        [Description("DEL-CF")]
-        DelFc = 4,
+        [Description("DEL-CHL")]
+        Chilled = 4,
+
+        [Description("DEL-FRZ")]
+        Frozen = 5,
 
         [Description("DEL-DOC")]
-        DelDoc = 5,
+        Documents = 6,
 
-        [Description("House Move Delivery")]
-        Hmd = 6,
+        [Description("UPL-SAN")]
+        SandwichUplift = 7,
 
-        [Description("Loan Collect")]
-        Lc = 7,
+        [Description("UPL-GLO")]
+        GlobalUplift = 8,
 
-        [Description("Loan Delivery")]
-        Loan = 8,
-
-        [Description("Re Delivery")]
-        Redel = 9,
-
-        [Description("Service Call")]
-        Sc = 10,
-
-        [Description("Showroom Delivery")]
-        Sd = 11,
-
-        [Description("Service Return")]
-        Sr = 12,
+        [Description("UPL-ASS")]
+        AssetsUplift = 9
 
     }
 }

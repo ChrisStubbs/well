@@ -73,6 +73,7 @@
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
+    <Compile Include="Contracts\IRouteReadRepository.cs" />
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
     <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
+    <Compile Include="Read\AssigneeReadRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="Contracts\IStopRepository.cs" />
@@ -111,6 +113,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\DeliveryReadRepository.cs" />
     <Compile Include="Contracts\IDeliveryReadRepository.cs" />
+    <Compile Include="Read\AppSearchReadRepository.cs" />
+    <Compile Include="Contracts\IAppSearchReadRepository.cs" />
+    <Compile Include="Contracts\IAssigneeReadRepository.cs" />
+    <Compile Include="Read\RouteReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
     <Compile Include="RouteToRemoveRepository.cs" />
     <Compile Include="SeasonalDateRepository.cs" />

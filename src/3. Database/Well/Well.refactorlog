@@ -77,4 +77,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ErrorMessage" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="d37ccd36-f221-4a61-bf76-ef9ae0f7f159" ChangeDateTime="05/02/2017 08:31:05">
+    <Property Name="ElementName" Value="[dbo].[JobType].[ActivityType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[JobType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ActivityTypeId" />
+  </Operation>
 </Operations>

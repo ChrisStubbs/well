@@ -2,7 +2,7 @@
 {
     public enum ProofOfDelivery
     {
-        CocaCola = 1,
-        Lucozade = 8
+        Lucozade = 1,
+        CocaCola = 8
     }
 }

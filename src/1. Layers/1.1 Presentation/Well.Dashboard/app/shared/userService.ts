@@ -7,7 +7,7 @@ import {GlobalSettingsService} from './globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from './httpErrorService';
 import {LogService} from './logService';
-import {UserJob} from './userJob';
+import {UserJobs} from './userJobs';
 import {HttpService} from './httpService';
 
 @Injectable()
@@ -27,20 +27,18 @@ export class UserService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public assign(userJob: UserJob): Observable<any> {
-        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-job',
-            JSON.stringify(userJob),
+    public assign(userJobs: UserJobs): Observable<any> {
+        return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-jobs',
+            JSON.stringify(userJobs),
             this.globalSettingsService.jsonOptions)
             .map(res => res.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public unassign(jobId): Observable<any> {
+    public unassign(jobIds: number[]): Observable<any> {
         return this.http.post(
-            this.globalSettingsService.globalSettings.apiUrl
-                + 'unassign-user-from-job?jobId='
-                + jobId,
-            '',
+            this.globalSettingsService.globalSettings.apiUrl + 'unassign-user-from-jobs',
+            JSON.stringify(jobIds),
             this.globalSettingsService.jsonOptions)
             .map(res => res.json())
             .catch(e => this.httpErrorService.handleError(e));

@@ -152,7 +152,7 @@
         public string SingleOrOuter { get; set; }
 
         [XmlElement("TextField5")]
-        public string SsccBarcode { get; set; }
+        public string SSCCBarcode { get; set; }
 
         [XmlIgnore]
         public double SkuGoodsValue  { get; set; }
@@ -264,6 +264,7 @@
             }
         }
 
+        //TODO: This will need to be moved to Line Item Actions
         public bool IsClean()
         {
             if (ShortQty > 0)

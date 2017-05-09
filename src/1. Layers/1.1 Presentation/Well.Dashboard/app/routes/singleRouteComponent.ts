@@ -12,12 +12,24 @@ import {SecurityService}                    from '../shared/security/securitySer
 import {GlobalSettingsService}              from '../shared/globalSettings';
 import {IObservableAlive}                   from '../shared/IObservableAlive';
 import 'rxjs/add/operator/mergeMap';
-import {SingleRouteItem} from './singleRoute';
+import {SingleRouteItem}                    from './singleRoute';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/singleRouteComponent.html',
-    providers: [RoutesService, JobService]
+    providers: [RoutesService, JobService],
+    styles: [ '.groupRow { display: table-row} ' +
+    '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
+    '#modal a { color: #428bca; text-decoration: none} ' +
+    '.group1{ width: 19%} ' +
+    '.group2{ width: 27%} ' +
+    '.group3{ width: 7%; text-align: right} ' +
+    '.group4{ width: 7%; text-align: right} ' +
+    '.group5{ width: 7%; text-align: right} ' +
+    '.group6{ width: 9%} ' +
+    '.group7{ width: 12%} ' +
+    '.group8{ width: 10%} ' +
+    '.group9{ width: 6%}']
 })
 export class SingleRouteComponent implements IObservableAlive
 {
@@ -104,7 +116,12 @@ export class SingleRouteComponent implements IObservableAlive
     public getAssignModel(route: SingleRouteItem): AssignModel
     {
         const branch = { id: this.singleRoute.branchId } as Branch;
-        return new AssignModel(route.assignee, branch, [1], this.isReadOnlyUser);
+        const jobs =  _.chain(this.allSingleRouteItems)
+            .filter((value: SingleRouteItem) => value.stop == route.stop)
+            .map('jobId')
+            .values();
+
+        return new AssignModel(route.assignee, branch, jobs, this.isReadOnlyUser);
     }
 
     public onAssigned($event) {
@@ -116,5 +133,14 @@ export class SingleRouteComponent implements IObservableAlive
         this.podFilter = undefined;
         this.grid.filters = {};
         this.grid.filter(undefined, undefined, undefined);
+    }
+
+    public totalPerGroup(perCol: string, stop: string): number
+    {
+        return _.chain(this.singleRouteItems)
+            .filter((current: SingleRouteItem) => current.stop == stop)
+            .map(perCol)
+            .sum()
+            .value();
     }
 }

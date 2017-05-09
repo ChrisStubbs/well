@@ -53,8 +53,7 @@
                         return (T)field.GetValue(null);
                 }
             }
-            throw new ArgumentException("Not found.", "description");
-            // or return default(T);
+            return default(T);
         }
     }
 }

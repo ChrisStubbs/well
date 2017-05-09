@@ -4,6 +4,8 @@
 
     public enum JobType
     {
+        Unknown = 0,
+
         [Description("DEL-TOB")]
         Tobacco = 1,
 

@@ -3,6 +3,10 @@
     public enum JobStatus
     {
         /// <summary>
+        /// Not defined by
+        /// </summary>
+        NotDefined = 0,
+        /// <summary>
         /// Initial state of a job when received from ADAM
         /// </summary>
         AwaitingInvoice = 1,

@@ -1,7 +1,7 @@
-﻿using System.Web.Http;
-
-namespace PH.Well.Api.Controllers
+﻿namespace PH.Well.Api.Controllers
 {
+    using System.Web.Http;
+
     using System.Linq;
     using Mapper.Contracts;
     using Models;

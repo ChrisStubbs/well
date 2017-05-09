@@ -134,6 +134,7 @@
     <Compile Include="Api\Mapper\DeliveryLinesToModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryLineToJobDetailMapperTests.cs" />
     <Compile Include="Api\Mapper\SeasonalDateMapperTests.cs" />
+    <Compile Include="Api\Mapper\SingleRouteMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Api\Validators\CleanPreferenceValidatorTests.cs" />
     <Compile Include="Api\Validators\CreditThresholdValidatorTests.cs" />

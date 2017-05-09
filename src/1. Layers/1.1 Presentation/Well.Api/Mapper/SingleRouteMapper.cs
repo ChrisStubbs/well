@@ -29,6 +29,7 @@
                 Id = route.Id,
                 RouteNumber = route.RouteNumber,
                 Branch = branches.Single(x => x.Id == route.RouteOwnerId).BranchName,
+                BranchId = route.RouteOwnerId,
                 Driver = route.DriverName,
                 RouteDate = route.RouteDate
             };
@@ -57,8 +58,7 @@
                     item.StopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
                     item.Resolution = "TODO:";
                     item.Invoice = job.InvoiceNumber;
-                    var jt =
-                        item.JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords();
+                    item.JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords();
                     item.JobStatus = job.JobStatus;
                     item.JobStatusDescription = jobStatuses[job.JobStatus];
                     item.Cod = job.Cod;

@@ -34,12 +34,12 @@ export class RoutesService
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getSingleRoute(routeId: number): Observable<Array<SingleRoute>>
+    public getSingleRoute(routeId: number): Observable<SingleRoute>
     {
             const url = this.globalSettingsService.globalSettings.apiUrl + 'SingleRoute/' + routeId.toString();
 
             return this.http.get(url)
-                .map((response: Response) => <SingleRoute[]>response.json())
+                .map((response: Response) => <SingleRoute>response.json())
                 .catch(e => this.httpErrorService.handleError(e));
     }
 }

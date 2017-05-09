@@ -17,10 +17,11 @@ import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent'
+import {StopComponent} from './stops/stopComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
-    { path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
+    //{ path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
     { path: 'unauthorised', component: UnauthorisedComponent },
     { path: 'approvals', component: ApprovalsComponent },
     { path: 'audits', component: AuditComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
     { path: 'user-threshold', component: UserThresholdComponent },
     { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
     { path: 'singleroute/:id', component: SingleRouteComponent },
+    { path: 'stops/:id', component: StopComponent },
 ];
 
 export const appRoutingProviders: any[] = [];

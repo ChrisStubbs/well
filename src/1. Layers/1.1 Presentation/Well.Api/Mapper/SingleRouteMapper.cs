@@ -4,7 +4,6 @@
     using System.Linq;
     using Domain;
     using Domain.ValueObjects;
-    using System;
     using Contracts;
     using Domain.Enums;
     using Domain.Extensions;
@@ -15,10 +14,15 @@
 
     public class SingleRouteMapper : ISingleRouteMapper
     {
+        private readonly IStopStatusService stopStatusService;
 
-        public SingleRouteView Map(List<Branch> branches, RouteHeader route, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+        public SingleRouteMapper(IStopStatusService stopStatusService)
         {
-            var singleRoute = new SingleRouteView
+            this.stopStatusService = stopStatusService;
+        }
+        public SingleRoute Map(List<Branch> branches, RouteHeader route, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+        {
+            var singleRoute = new SingleRoute
             {
                 Id = route.Id,
                 RouteNumber = route.RouteNumber,
@@ -30,42 +34,36 @@
             return AddItems(singleRoute, stops, jobs, assignee);
         }
 
-        private SingleRouteView AddItems(SingleRouteView singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+        private SingleRoute AddItems(SingleRoute singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
         {
             
             foreach (var stop in stops)
             {
-                var stopJobs = jobs.Where(x => x.StopId == stop.Id).ToArray();
+                var stopJobs = jobs.Where(x => x.StopId == stop.Id).ToList();
 
                 var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
                
                 foreach (var job in stopJobs)
                 {
-                    var item = new SingleRouteViewItem();
+                    var item = new SingleRouteItem();
                     item.JobId = job.Id;
                     item.Stop = stop.DropId;
-                    item.StopStatus = stop.StopStatusDescription +" This is Stop Status??";
+                    item.StopStatus = stopStatusService.DetermineStatus(stopJobs);
                     item.StopExceptions = stopJobDetails.Count(x=> !x.IsClean());
                     item.StopClean = stopJobDetails.Count(x => x.IsClean());
                     item.Tba = stopJobs.Sum(j => j.ToBeAdvisedCount);
                     item.StopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
                     item.Resolution = "TODO:";
                     item.Invoice = job.InvoiceNumber;
-
-                    JobStatus jobType;
-                    if (Enum.TryParse(job.JobTypeCode, out jobType))
-                    {
-                        item.JobType = EnumExtensions.GetDescription(jobType);
-                    }
+                    item.JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString();
                     item.JobStatus = job.JobStatus;
                     item.JobStatusDescription = job.JobStatus.ToString();
                     item.Cod = job.Cod;
                     item.Pod = job.ProofOfDelivery.HasValue;
                     item.Exceptions = job.JobDetails.Count(x => !x.IsClean());
-                    item.Clean = job.JobDetails.Count(x => !x.IsClean());
-                    //var creditActions = job.JobDetails.SelectMany(x => x.Actions.Where(y=> y.Action == EventAction.Credit || y.Action == EventAction.CreditAndReorder));
-
-                    //item.Credit = 0; creditActions.Sum(x=> x.Quantity) * 
+                    item.Clean = job.JobDetails.Count(x => x.IsClean());
+                    item.Credit = 0;  //TODO: Needs to come from Line Item Action
+                    item.Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList());
                     singleRoute.Items.Add(item);
                 }
             }

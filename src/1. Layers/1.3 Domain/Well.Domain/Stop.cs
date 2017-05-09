@@ -158,5 +158,6 @@
         public int CleanJobsCount => Jobs.Count(j => j.JobStatus == JobStatus.Clean);
 
         public int ExceptionJobsCount => Jobs.Count(j => j.JobStatus == JobStatus.Exception);
+        
     }
 }

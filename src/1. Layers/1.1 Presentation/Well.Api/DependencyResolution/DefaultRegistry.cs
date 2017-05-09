@@ -94,6 +94,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IAppSearchReadRepository>().Use<AppSearchReadRepository>();
 
             For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+            For<IStopStatusService>().Use<StopStatusService>();
         }
     }
 }

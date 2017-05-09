@@ -192,6 +192,7 @@
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Controllers\SingleRouteController.cs" />
+    <Compile Include="Controllers\StopsController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
     <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />
@@ -247,7 +248,7 @@
     <Compile Include="Models\GrnModel.cs" />
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
-    <Compile Include="Models\SingleRouteView.cs" />
+    <Compile Include="Models\SingleRoute.cs" />
     <Compile Include="Models\SingleRouteViewItem.cs" />
     <Compile Include="Models\WidgetLinkModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />

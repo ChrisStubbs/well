@@ -7,6 +7,6 @@
 
     public interface ISingleRouteMapper
     {
-        SingleRouteView Map(List<Branch> branches, RouteHeader route, List<Stop> stops, List<Job> jobs, List<Assignee> assignee);
+        SingleRoute Map(List<Branch> branches, RouteHeader route, List<Stop> stops, List<Job> jobs, List<Assignee> assignee);
     }
 }

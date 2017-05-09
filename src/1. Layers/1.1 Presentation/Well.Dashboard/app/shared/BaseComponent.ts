@@ -4,8 +4,11 @@ import { NavigateQueryParameters } from './NavigateQueryParameters';
 import { IOptionFilter, INavigationPager } from './IOptionFilter';
 import { FilterOption } from './filterOption';
 import { DropDownItem, SecurityService, GlobalSettingsService } from './shared';
-import { Response } from '@angular/http';
 
+
+import deprecated from 'deprecated-decorator';
+
+@deprecated('none. It shall not be used any longer', '', '')
 export abstract class BaseComponent implements OnInit, IOptionFilter, OnDestroy, INavigationPager
 {
     public options: DropDownItem[];

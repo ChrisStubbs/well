@@ -2,7 +2,7 @@
 {
     using Domain.Enums;
 
-    public class SingleRouteViewItem
+    public class SingleRouteItem
     {
         public int JobId { get; set; }
         public string Stop { get; set; }

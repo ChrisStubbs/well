@@ -33,7 +33,7 @@ namespace PH.Well.Api.Controllers
         }
 
 
-        public SingleRouteView Get(int id)
+        public SingleRoute Get(int id)
         {
             
             var routeHeader = routeHeaderRepository.GetRouteHeaderById(id);

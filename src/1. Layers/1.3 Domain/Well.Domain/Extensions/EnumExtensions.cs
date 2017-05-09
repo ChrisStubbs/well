@@ -1,8 +1,8 @@
 ﻿namespace PH.Well.Domain.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
+    using Common.Extensions;
 
     public static class EnumExtensions
     {

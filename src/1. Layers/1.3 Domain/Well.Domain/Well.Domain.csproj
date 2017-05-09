@@ -62,7 +62,6 @@
     <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />

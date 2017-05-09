@@ -28,9 +28,9 @@ export class StopComponent implements IObservableAlive
     public jobTypes: Array<JobType>;
     public tobaccoBags: Array<[string, string]>;
     public stops: Array<Stop>;
-    private stopId: number;
-
     public filters: StopFilter;
+
+    private stopId: number;
 
     @ViewChild('dt') public grid: DataTable;
 

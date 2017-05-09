@@ -53,6 +53,14 @@ export class Stop
 
 export class StopFilter
 {
+    constructor()
+    {
+        this.type = '';
+        this.tobacco = '';
+        this.checked = '';
+        this.heightValue = '';
+    }
+
     public type: string;
     public tobacco: string;
     public checked: string;

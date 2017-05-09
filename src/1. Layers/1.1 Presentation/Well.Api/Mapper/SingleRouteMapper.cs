@@ -27,6 +27,7 @@
                 Id = route.Id,
                 RouteNumber = route.RouteNumber,
                 Branch = branches.Single(x => x.Id == route.RouteOwnerId).BranchName,
+                BranchId = route.RouteOwnerId,
                 Driver = route.DriverName,
                 RouteDate = route.RouteDate
             };

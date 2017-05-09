@@ -1,7 +1,5 @@
 ﻿import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewChild, QueryList } from '@angular/core';
-import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
-import { BaseComponent } from '../shared/BaseComponent';
+import { Component, ViewChild } from '@angular/core';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { Route } from './route';
 import { RouteFilter } from './routeFilter';
@@ -17,13 +15,14 @@ import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
 import { Branch } from '../shared/branch/branch';
 import { AppDefaults } from '../shared/defaults/defaults';
+import {IObservableAlive} from '../shared/IObservableAlive';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/route-list.html',
     providers: [RoutesService]
 })
-export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
+export class RoutesComponent implements IObservableAlive
 {
     public isLoading: boolean = true;
     public refreshSubscription: any;
@@ -35,7 +34,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
     public jobStatus: Array<[string, string]>;
     public selectedRoutes: Route[];
 
-    private alive: boolean = true;
+    public isAlive: boolean = true;
     private actions: string[] = ['Re-Plan'];
     public rowCount = AppDefaults.Paginator.rowCount();
     public pageLinks = AppDefaults.Paginator.pageLinks();
@@ -53,20 +52,14 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
         protected securityService: SecurityService,
-        private nqps: NavigateQueryParametersService,
         private branchService: BranchService,
-        private jobService: JobService)
-    {
-        super(nqps, globalSettingsService, securityService);
-    }
+        private jobService: JobService) {}
 
     public ngOnInit()
     {
-        super.ngOnInit();
-
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams
-            .takeWhile(() => this.alive)
+            .takeWhile(() => this.isAlive)
             .subscribe(params =>
             {
                 this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
@@ -74,7 +67,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
             });
 
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
-            .takeWhile(() => this.alive)
+            .takeWhile(() => this.isAlive)
             .subscribe(
             (branches: Array<[string, string]>) =>
             {
@@ -82,7 +75,7 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
             });
 
         this.jobService.getStatusValueList()
-            .takeWhile(() => this.alive)
+            .takeWhile(() => this.isAlive)
             .subscribe((jobStatus: Array<[string, string]>) =>
             {
                 this.jobStatus = jobStatus;
@@ -91,15 +84,14 @@ export class RoutesComponent extends BaseComponent implements OnInit, OnDestroy
 
     public ngOnDestroy()
     {
-        super.ngOnDestroy();
-        this.alive = false;
+        this.isAlive = false;
         this.refreshSubscription.unsubscribe();
     }
 
     private getRoutes(): void
     {
         this.routeService.getRoutes()
-            .takeWhile(() => this.alive)
+            .takeWhile(() => this.isAlive)
             .subscribe((result: Route[]) =>
             {
                 this.routes = result;

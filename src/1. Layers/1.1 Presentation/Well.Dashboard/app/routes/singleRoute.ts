@@ -11,7 +11,7 @@ export interface SingleRoute
 
 export interface SingleRouteItem
 {
-    jobId:number;
+    jobId: number;
     stop: string;
     stopStatus: string;
     stopExceptions: number;

@@ -15,7 +15,7 @@
         public int BranchId { get; set; }
         public string Driver { get; set; }
         public DateTime? RouteDate { get; set; }
-        public string AssigenedTo { get; set; }
+        public string AssignedTo { get; set; }
         public int Tba { get; set; }
         public string StopNo { get; set; }
         public int TotalNoOfStops { get; set; }

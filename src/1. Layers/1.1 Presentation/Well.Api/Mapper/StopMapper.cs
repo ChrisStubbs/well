@@ -24,7 +24,7 @@
                 BranchId = route.RouteOwnerId,
                 Driver = route.DriverName,
                 RouteDate = route.RouteDate,
-                AssigenedTo = Assignee.GetDisplayNames(assignees),
+                AssignedTo = Assignee.GetDisplayNames(assignees),
                 Tba = jobs.Sum(j => j.ToBeAdvisedCount),
                 StopNo = stop.PlannedStopNumber,
                 TotalNoOfStops = route.PlannedStops

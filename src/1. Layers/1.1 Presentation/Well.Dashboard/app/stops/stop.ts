@@ -7,7 +7,7 @@ export class Stop
     public branchId: number;
     public driver: string;
     public routeDate: Date;
-    public assigenedTo: string;
+    public assignedTo: string;
     public tba: number;
     public stopNo: string;
     public totalNoOfStops: number;

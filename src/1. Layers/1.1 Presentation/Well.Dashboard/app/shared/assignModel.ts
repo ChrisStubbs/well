@@ -6,6 +6,7 @@ export class AssignModel
     public branch: Branch;
     public jobIds: number[];
     public isReadOnlyUser: boolean;
+    public assignedTo: string;
 
     constructor(assigned: string, branch: Branch, jobIds: number[], readOnlyUser: boolean)
     {

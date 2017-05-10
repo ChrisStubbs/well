@@ -81,7 +81,6 @@
     <Compile Include="CreditTransactionFactory.cs" />
     <Compile Include="Contracts\IBulkCreditService.cs" />
     <Compile Include="Contracts\IAppSearchService.cs" />
-    <Compile Include="EpodServices\WellUpdateService.cs" />
     <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />

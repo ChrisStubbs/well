@@ -38,6 +38,8 @@
 
         private AdamImportService service;
 
+        private Mock<IPostImportRepository> postImportRepository;
+
         [SetUp]
         public void Setup()
         {
@@ -50,6 +52,7 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
             this.jobStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
+            this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
 
             this.service = new AdamImportService(this.routeHeaderRepository.Object,
                 this.stopRepository.Object, 
@@ -59,7 +62,8 @@
                 this.jobDetailDamageRepository.Object, 
                 this.jobStatusService.Object,
                 this.logger.Object, 
-                this.eventLogger.Object);
+                this.eventLogger.Object,
+                this.postImportRepository.Object);
         }
 
         [Test]

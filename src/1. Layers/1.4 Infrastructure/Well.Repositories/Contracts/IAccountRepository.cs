@@ -10,6 +10,5 @@
 
         Account GetAccountByAccountId(int accountId);
 
-        IEnumerable<LocationAccount> GetAccountsWithNoLocation();
     }
 }

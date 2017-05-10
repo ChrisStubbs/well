@@ -127,6 +127,6 @@
 
         public static string AppSearch = "AppSearch";
         //well update
-        public static string AccountWithNoLocationGet = "Account_GetWithNoLocation";
+        public static string PostImportUpdate = "PostImportUpdate";
     }
 }

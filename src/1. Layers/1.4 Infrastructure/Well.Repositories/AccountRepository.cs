@@ -57,11 +57,5 @@
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Query<int>().FirstOrDefault();
         }
 
-        public IEnumerable<LocationAccount> GetAccountsWithNoLocation()
-        {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountWithNoLocationGet)
-                    .Query<LocationAccount>();
-
-        }
     }
 }

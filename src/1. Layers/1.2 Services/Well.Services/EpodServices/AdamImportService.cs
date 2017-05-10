@@ -24,6 +24,7 @@
         private readonly IJobStatusService jobStatusService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
+        private readonly IPostImportRepository postImportRepository;
 
         public AdamImportService(IRouteHeaderRepository routeHeaderRepository, 
             IStopRepository stopRepository, 
@@ -33,7 +34,8 @@
             IJobDetailDamageRepository jobDetailDamageRepository,
             IJobStatusService jobStatusService,
             ILogger logger, 
-            IEventLogger eventLogger)
+            IEventLogger eventLogger,
+            IPostImportRepository postImportRepository)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.stopRepository = stopRepository;
@@ -44,6 +46,7 @@
             this.jobStatusService = jobStatusService;
             this.logger = logger;
             this.eventLogger = eventLogger;
+            this.postImportRepository = postImportRepository;
         }
 
         public void Import(RouteDelivery route)
@@ -67,6 +70,8 @@
 
                 this.ImportRouteHeader(header, route.RouteId);
             }
+            // updates Location/Activity/LineItem/Bag tables from imported data
+            this.postImportRepository.PostImportUpdate();
         }
 
         public void ImportRouteHeader(RouteHeader header, int routeId)

@@ -1,13 +1,14 @@
 ﻿namespace PH.Well.UnitTests.Factories
 {
-    using Well.Domain;
-    
+    using Well.Domain.Enums;
+    using Branch = Well.Domain.Branch;
+
     public class BranchFactory : EntityFactory<BranchFactory, Branch>
     {
         public BranchFactory()
         {
-            this.Entity.Id = 1;
-            this.Entity.Name = "Haydock";
+            this.Entity.Id = 22;
+            this.Entity.Name = "Birtley";
         }
     }
 }

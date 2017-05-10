@@ -3,6 +3,10 @@
     public enum JobStatus
     {
         /// <summary>
+        /// Not defined by
+        /// </summary>
+        NotDefined = 0,
+        /// <summary>
         /// Initial state of a job when received from ADAM
         /// </summary>
         AwaitingInvoice = 1,
@@ -23,17 +27,14 @@
         /// Exception has been fully actioned (credit, closed)
         /// </summary>
         Resolved = 5,
-
         //<summary>
         //Job contains document deliveries only
         //</summary>
         DocumentDelivery = 6,
-
         //<summary>
         //Job completed on paper
         //</summary>
         CompletedOnPaper = 7,
-
         //<summary>
         //Delivery bypassed
         //</summary>

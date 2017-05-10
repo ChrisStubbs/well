@@ -102,6 +102,7 @@
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
     <Compile Include="PostImportRepository.cs" />
+    <Compile Include="Read\AssigneeReadRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="Contracts\IStopRepository.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Contracts\IDeliveryReadRepository.cs" />
     <Compile Include="Read\AppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAppSearchReadRepository.cs" />
+    <Compile Include="Contracts\IAssigneeReadRepository.cs" />
     <Compile Include="Read\RouteReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
     <Compile Include="RouteToRemoveRepository.cs" />

@@ -1,8 +1,8 @@
 ﻿namespace PH.Well.Domain.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
+    using Common.Extensions;
 
     public static class EnumExtensions
     {
@@ -53,8 +53,7 @@
                         return (T)field.GetValue(null);
                 }
             }
-            throw new ArgumentException("Not found.", "description");
-            // or return default(T);
+            return default(T);
         }
     }
 }

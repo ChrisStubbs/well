@@ -81,6 +81,7 @@
     <Compile Include="CreditTransactionFactory.cs" />
     <Compile Include="Contracts\IBulkCreditService.cs" />
     <Compile Include="Contracts\IAppSearchService.cs" />
+    <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="AdamFileMonitorService.cs" />
     <Compile Include="FileTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StopStatusService.cs" />
     <Compile Include="UserThresholdNotFoundException.cs" />
     <Compile Include="UserNotFoundException.cs" />
     <Compile Include="UserThresholdService.cs" />

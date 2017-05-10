@@ -213,7 +213,10 @@
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
+    <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
+    <TypeScriptCompile Include="app\stops\stopComponent.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
@@ -236,10 +239,11 @@
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
-    <Content Include="app\routes\SingleRouteComponent.html" />
+    <Content Include="app\routes\singleRouteComponent.html" />
     <Content Include="app\shared\appSearch\appSearchView.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />
+    <Content Include="app\stops\stopComponent.html" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
@@ -566,7 +570,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52729</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

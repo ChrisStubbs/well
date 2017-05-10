@@ -12,6 +12,8 @@
 
         IEnumerable<Job> GetByIds(IEnumerable<int> jobIds);
 
+        IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId);
+       
         Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
 
         IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();

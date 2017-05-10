@@ -1,7 +1,4 @@
-﻿import { AssignModel } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-
-export class Route
+﻿export class Route
 {
     public id: number;
     public branchId: number;

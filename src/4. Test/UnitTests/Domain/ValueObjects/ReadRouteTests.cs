@@ -11,7 +11,7 @@
         public void ShouldReturnFullNameIfOneAsignees()
         {
             var r = new Route();
-            r.Assignees.Add(new RouteAssignees {Name="Mick Chidders"});
+            r.Assignees.Add(new Assignee {Name="Mick Chidders"});
             Assert.That(r.Assignee, Is.EqualTo("Mick Chidders"));
         }
 
@@ -26,10 +26,10 @@
         public void ShouldReturnCommaSeperatedListOfInitialsIfMoreThanOneAssignee()
         {
             var r = new Route();
-            r.Assignees.Add(new RouteAssignees { Name = "Mick Chidders" });
-            r.Assignees.Add(new RouteAssignees { Name = "Lee Grunion" });
-            r.Assignees.Add(new RouteAssignees { Name = "Chubbs" });
-            r.Assignees.Add(new RouteAssignees { Name = "Enrri Portugals Finest" });
+            r.Assignees.Add(new Assignee { Name = "Mick Chidders" });
+            r.Assignees.Add(new Assignee { Name = "Lee Grunion" });
+            r.Assignees.Add(new Assignee { Name = "Chubbs" });
+            r.Assignees.Add(new Assignee { Name = "Enrri Portugals Finest" });
 
             Assert.That(r.Assignee, Is.EqualTo("MC, LG, C, EPF"));
         }

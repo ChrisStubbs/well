@@ -517,5 +517,7 @@
         public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
 
         public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
+
+        public int ToBeAdvisedCount =>  OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
     }
 }

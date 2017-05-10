@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Common.Extensions;
 
     public class Route
     {
         public Route()
         {
             JobIds = new List<int>();
-            Assignees = new List<RouteAssignees>();
+            Assignees = new List<Assignee>();
         }
 
         public int Id { get; set; }
@@ -18,7 +19,7 @@
 
         public string BranchName { get; set; }
 
-        public string Branch => $"{BranchName} ({BranchId})";
+        public string Branch => Domain.Branch.GetBranchName(BranchId, BranchName);
 
         public string RouteNumber { get; set; }
 
@@ -38,23 +39,9 @@
 
         public string DriverName { get; set; }
 
-        public string Assignee
-        {
-            get
-            {
-                if (!Assignees.Any()) return "Unallocated";
+        public string Assignee => ValueObjects.Assignee.GetDisplayNames(Assignees);
 
-                if (Assignees.Count == 1)
-                {
-                    return Assignees[0].Name;
-                }
-                   
-                var initials = Assignees.Select(x => string.Join("",x.Name.Split(' ').Select(s=> s[0]))).Distinct();
-                return string.Join(", ", initials);
-            }
-        }
-
-        public List<RouteAssignees> Assignees { get; set; }
+        public List<Assignee> Assignees { get; set; }
 
         public List<int> JobIds { get; set; }
     }

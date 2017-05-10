@@ -1,10 +1,9 @@
-﻿import {IStop} from "../stops/stops";
-
+﻿// import {IStop} from "../stops/stops";
 
 export interface IRouteHeader {
-    companyId : number;
+    companyId: number;
     routeNumber: string;
-    routeDate : string;
+    routeDate: string;
     driverName: string;
     vehicleReg: string;
     startDepotCode: string;

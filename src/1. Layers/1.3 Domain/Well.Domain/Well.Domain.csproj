@@ -62,7 +62,6 @@
     <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
@@ -111,7 +110,7 @@
     <Compile Include="ValueObjects\ProcessDeliveryPodActionResult.cs" />
     <Compile Include="ValueObjects\ProcessDeliveryActionResult.cs" />
     <Compile Include="ValueObjects\Route.cs" />
-    <Compile Include="ValueObjects\RouteAssignees.cs" />
+    <Compile Include="ValueObjects\Assignee.cs" />
     <Compile Include="ValueObjects\RouteJob.cs" />
     <Compile Include="ValueObjects\ThresholdResponse.cs" />
     <Compile Include="ValueObjects\PodActionReasons.cs" />

@@ -131,5 +131,6 @@
         public static string AccountWithNoLocationGet = "Account_GetWithNoLocation";
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
+        public static string AssigneeGetByStopId = "Assignee_GetByStopId";
     }
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute }       from '@angular/router';
 import { IObservableAlive }     from '../shared/IObservableAlive';
 import { JobService, JobType }  from '../job/job'
 import { StopService }          from './stopService';
-import {Stop, StopFilter}       from './stop';
+import { Stop, StopItem, StopFilter}       from './stop';
 import * as _                   from 'lodash';
 import {DataTable}              from 'primeng/components/datatable/datatable';
 
@@ -27,9 +27,10 @@ export class StopComponent implements IObservableAlive
     public isAlive: boolean = true;
     public jobTypes: Array<JobType>;
     public tobaccoBags: Array<[string, string]>;
-    public stops: Array<Stop>;
+    public stop: Stop;
+    public stopsItems: Array<StopItem>;
     public filters: StopFilter;
-
+    public lastRefresh = Date.now();
     private stopId: number;
 
     @ViewChild('dt') public grid: DataTable;
@@ -46,14 +47,15 @@ export class StopComponent implements IObservableAlive
             {
                 this.stopId = data.id;
 
-                return this.stopService.getStop(this.stopId)
+                return this.stopService.getStop(this.stopId);
             })
             .takeWhile(() => this.isAlive)
-            .subscribe(data => {
-                this.stops = data;
-
-                this.tobaccoBags = _.chain(this.stops)
-                    .map((value: Stop) => [value.barCodeFilter, value.tobacco])
+            .subscribe((data: Stop) => {
+                this.stop = data;
+                this.stopsItems = this.stop.items;
+                this.lastRefresh = Date.now();
+                this.tobaccoBags = _.chain(this.stopsItems)
+                    .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
                     .value();
@@ -69,10 +71,10 @@ export class StopComponent implements IObservableAlive
         this.filters = new StopFilter();
     }
 
-    public totalPerGroup(perCol: string, job: string): number
+    public totalPerGroup(perCol: string, jobId: number): number
     {
-        return _.chain(this.stops)
-            .filter((current: Stop) => current.job == job)
+        return _.chain(this.stopsItems)
+            .filter((current: StopItem) => current.jobId == jobId)
             .map(perCol)
             .sum()
             .value();

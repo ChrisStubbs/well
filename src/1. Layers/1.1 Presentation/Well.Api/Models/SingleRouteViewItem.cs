@@ -22,5 +22,6 @@
         public string Assignee { get; set; }
         public string JobStatusDescription { get; set; }
         public JobStatus JobStatus { get; set; }
+        public int StopId { get; set; }
     }
 }

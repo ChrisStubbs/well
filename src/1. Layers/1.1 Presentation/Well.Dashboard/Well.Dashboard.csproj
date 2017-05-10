@@ -216,7 +216,9 @@
     <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
     <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
+    <TypeScriptCompile Include="app\stops\stop.ts" />
     <TypeScriptCompile Include="app\stops\stopComponent.ts" />
+    <TypeScriptCompile Include="app\stops\stopService.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
@@ -478,7 +480,6 @@
     <Content Include="app\shared\optionFilterComponent.ts" />
     <Content Include="app\shared\filterOption.ts" />
     <Content Include="app\shared\optionFilterPipe.ts" />
-    <Content Include="app\stops\stops.ts" />
     <Content Include="app\home\widgetService.ts" />
     <Content Include="app\home\widget.ts" />
     <Content Include="app\home\widgetComponent.ts" />

@@ -42,6 +42,7 @@ export class SingleRouteComponent implements IObservableAlive
     public jobTypes: Array<JobType>;
     public jobStatus: JobStatus[];
     public podFilter: boolean;
+    public lastRefresh = Date.now();
     private isReadOnlyUser: boolean = false;
 
     @ViewChild('dt') public grid: DataTable;
@@ -65,7 +66,8 @@ export class SingleRouteComponent implements IObservableAlive
             .subscribe((data: SingleRoute) => {
                 this.singleRoute = data;
                 this.allSingleRouteItems = this.singleRoute.items;
-                this.singleRouteItems = _.filter(this.allSingleRouteItems, { jobStatusDescription: 'Exception'});
+                this.singleRouteItems = _.filter(this.allSingleRouteItems);
+                this.lastRefresh = Date.now();
             });
 
         this.jobService.JobTypes()

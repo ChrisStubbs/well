@@ -3,35 +3,52 @@ using System.Web.Http;
 
 namespace PH.Well.Api.Controllers
 {
+    using System.Linq;
+    using Mapper.Contracts;
+    using Models;
+    using Repositories.Contracts;
+
     public class StopsController : ApiController
     {
-        public IList<Stop> Get(int id)
+        private readonly IBranchRepository branchRepository;
+        private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IStopRepository stopRepository;
+        private readonly IJobRepository jobRepository;
+        private readonly IAssigneeReadRepository assigneeRepository;
+        private readonly IStopMapper stopMapper;
+
+        public StopsController(
+            IBranchRepository branchRepository,
+            IRouteHeaderRepository routeHeaderRepository,
+            IStopRepository stopRepository,
+            IJobRepository jobRepository,
+            IAssigneeReadRepository assigneeRepository,
+            IStopMapper stopMapper)
         {
-            return new List<Stop>
+            this.branchRepository = branchRepository;
+            this.routeHeaderRepository = routeHeaderRepository;
+            this.stopRepository = stopRepository;
+            this.jobRepository = jobRepository;
+            this.assigneeRepository = assigneeRepository;
+            this.stopMapper = stopMapper;
+        }
+
+
+        public StopModel Get(int id)
+        {
+            var stop = stopRepository.GetById(id);
+            if (stop != null)
             {
-                new Stop { Id= 1, Job = "001", Invoice = "123456789", Account = "2345", Product = "Cakes",           Type = "DEL-TOB", Description = "Account Number 65651+621", Value = 50M,   Invoiced = 12,  Delivered = 6, Damages = 15, Shorts = 0,  Checked = true,  HeightValue = false, BarCode = null },
-                new Stop { Id= 2, Job = "001", Invoice = "993456789", Account = "568",  Product = "More Cakes",      Type = "DEL-ALC", Description = "Account Number 69^9",      Value = 80M,   Invoiced = 22,  Delivered = 0, Damages = 0,  Shorts = 22, Checked = false, HeightValue = false, BarCode = "321651651652165165" },
-                new Stop { Id= 3, Job = "002", Invoice = "65",        Account = "7890", Product = "Even More Cakes", Type = "UPL-SAN", Description = "Account Number +yyyyyy",   Value = 22.3M, Invoiced = 0,  Delivered = 1,  Damages = 0,  Shorts = 0,  Checked = false, HeightValue = true,  BarCode = "5489349034" }
-            };
+                var routeHeader = routeHeaderRepository.GetRouteHeaderById(stop.RouteHeaderId);
+                var branches = branchRepository.GetAll().ToList();
+                var jobs = jobRepository.GetByStopId(stop.Id).ToList();
+                var assignee = assigneeRepository.GetByStopId(stop.Id).ToList();
+                return stopMapper.Map(branches, routeHeader, stop, jobs, assignee);
+            }
+
+            return null;
         }
     }
 
-    public class Stop
-    {
-        public int Id { get; set; }
-        public string Job { get; set; }
-        public string Invoice { get; set; }
-        public string Account { get; set; }
-        public string Product { get; set; }
-        public string @Type { get; set; }
-        public string Description { get; set; }
-        public decimal Value { get; set; }
-        public int Invoiced { get; set; }
-        public int Delivered { get; set; }
-        public int Damages { get; set; }
-        public int Shorts { get; set; }
-        public bool Checked { get; set; }
-        public bool HeightValue { get; set; }
-        public string BarCode { get; set; }
-    }
+   
 }

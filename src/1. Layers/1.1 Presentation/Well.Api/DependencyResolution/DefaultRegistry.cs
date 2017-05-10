@@ -81,6 +81,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
             For<ISingleRouteMapper>().Use<SingleRouteMapper>();
+            For<IStopMapper>().Use<StopMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();

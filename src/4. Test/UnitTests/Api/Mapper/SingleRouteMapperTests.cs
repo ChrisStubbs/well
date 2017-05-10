@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.UnitTests.Api.Mapper
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -17,11 +16,8 @@
     public class SingleRouteMapperTests
     {
         private Mock<IStopStatusService> stopStatusService;
-
-
         private readonly Branch branch = new BranchFactory().Build();
         private readonly RouteHeader routeHeader = new RouteHeaderFactory().Build();
-
         private List<Branch> branches;
         private SingleRouteMapper mapper;
 
@@ -32,7 +28,6 @@
             mapper = new SingleRouteMapper(stopStatusService.Object);
             branches = new List<Branch> { branch };
         }
-
 
         public class TheMapMethod : SingleRouteMapperTests
         {
@@ -73,7 +68,6 @@
                     .With(x => x.EntityAttributeValues.Add(totalShortEntityAttributeValue))
                     .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
                     .Build();
-
 
                 var jobs = new List<Job> {job, job2};
                 stopStatusService.Setup(x => x.DetermineStatus(jobs)).Returns("Status Blah");

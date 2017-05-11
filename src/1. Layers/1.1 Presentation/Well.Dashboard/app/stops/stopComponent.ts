@@ -1,16 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { JobService, JobType } from '../job/job'
-import { StopService } from './stopService';
-import { Stop, StopItem, StopFilter } from './stop';
-import * as _ from 'lodash';
-import { DataTable } from 'primeng/components/datatable/datatable';
-import { AssignModal } from '../shared/assignModal';
-import { AssignModel } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
+import { Component, ViewChild }             from '@angular/core';
+import { ActivatedRoute }                   from '@angular/router';
+import { IObservableAlive }                 from '../shared/IObservableAlive';
+import { JobService, JobType }              from '../job/job'
+import { StopService }                      from './stopService';
+import { Stop, StopItem, StopFilter }       from './stop';
+import * as _                               from 'lodash';
+import { DataTable }                        from 'primeng/components/datatable/datatable';
+import { AssignModal }                      from '../shared/assignModal';
+import { AssignModel, AssignModalResult }   from '../shared/assignModel';
+import { Branch }                           from '../shared/branch/branch';
+import { SecurityService }                  from '../shared/security/securityService';
+import { GlobalSettingsService }            from '../shared/globalSettings';
+
 @Component({
     selector: 'ow-stop',
     templateUrl: './app/stops/stopComponent.html',
@@ -107,14 +108,12 @@ export class StopComponent implements IObservableAlive
         const branch = { id: this.stop.branchId } as Branch;
         const jobIds = _.uniq(_.map(this.stop.items, 'jobId'));
 
-        return new AssignModel(this.stop.assignedTo, branch, jobIds, this.isReadOnlyUser);
+        return new AssignModel(this.stop.assignedTo, branch, jobIds, this.isReadOnlyUser, undefined);
         
     }
 
-    public onAssigned($event)
+    public onAssigned(event: AssignModalResult)
     {
-        console.log($event);
-        //this.stop.assignedTo = $event.model.assignedTo;
-        //getRoutes()
+        this.stop.assignedTo = event.newUser.name;
     }
 }

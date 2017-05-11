@@ -39,6 +39,8 @@
 
         private Mock<IJobStatusService> jobStatusService;
 
+        private Mock<IPostImportRepository> postImportRepository;
+
         [SetUp]
         public void Setup()
         {
@@ -54,6 +56,8 @@
             this.jobStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
+            this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
+
 
             this.service = new AdamUpdateService(
                 this.logger.Object,
@@ -63,7 +67,8 @@
                 this.jobRepository.Object,
                 this.jobDetailRepository.Object,
                 this.mapper.Object,
-                this.jobStatusService.Object);
+                this.jobStatusService.Object,
+                this.postImportRepository.Object);
         }
 
         public class TheUpdateMethodOrderActionInsert : AdamUpdateTests

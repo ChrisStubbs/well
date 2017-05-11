@@ -31,7 +31,10 @@
         GlobalUplift = 8,
 
         [Description("UPL-ASS")]
-        AssetsUplift = 9
+        AssetsUplift = 9,
+
+        [Description("UPL-STD")]
+        StandardUplift = 10
 
     }
 }

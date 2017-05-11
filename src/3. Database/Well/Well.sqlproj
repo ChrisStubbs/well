@@ -345,9 +345,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\AppSearch.sql" />
+    <Build Include="dbo\StoredProcedures\Location_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\Activity_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByRouteHeaderId.sql" />
     <Build Include="dbo\StoredProcedures\Assignee_GetByRouteHeaderId.sql" />
     <Build Include="dbo\StoredProcedures\Assignee_GetByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\LineItem_InsertUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Bag_InsertUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\PostImportUpdate.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

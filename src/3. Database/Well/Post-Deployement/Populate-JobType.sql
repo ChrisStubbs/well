@@ -10,7 +10,8 @@ USING	(VALUES	(1,'DEL-TOB','Tobacco', dbo.ActivityType_Invoice(),'deployment',GE
 				(7,'UPL-SAN','Uplift – Sandwiches', dbo.ActivityType_Uplift(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(8,'UPL-GLO','Uplift – Global', dbo.ActivityType_Uplift(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(9,'UPL-ASS','Uplift – Scheduled Asset Uplift', dbo.ActivityType_Uplift(),'deployment',GETDATE(),'deployment',GETDATE()),
-				(10,'NotDef','Not Defined', dbo.ActivityType_NotDefined(),'deployment',GETDATE(),'deployment',GETDATE())
+				(10,'UPL-STD','Uplift – Standard', dbo.ActivityType_Uplift(),'deployment',GETDATE(),'deployment',GETDATE()),
+				(11,'NotDef','Not Defined', dbo.ActivityType_NotDefined(),'deployment',GETDATE(),'deployment',GETDATE())
 		)
 AS Source ([Id],[Code],[Description],[ActivityTypeId],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]
@@ -18,6 +19,7 @@ WHEN MATCHED
 	AND (Target.[Description] != Source.[Description])
 	THEN
 	UPDATE SET 
+			[Code]				= Source.[Code],
 			[Description]		= Source.[Description], 
 			[ActivityTypeId]    = Source.[ActivityTypeId],
 			[LastUpdatedBy]		= Source.[LastUpdatedBy], 

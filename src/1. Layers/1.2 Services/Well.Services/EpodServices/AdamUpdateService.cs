@@ -24,6 +24,7 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IRouteMapper mapper;
         private readonly IJobStatusService jobStatusService;
+        private readonly IPostImportRepository postImportRepository;
 
         public AdamUpdateService(
             ILogger logger,
@@ -33,7 +34,8 @@
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
             IRouteMapper mapper,
-            IJobStatusService jobStatusService)
+            IJobStatusService jobStatusService,
+            IPostImportRepository postImportRepository)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -43,6 +45,7 @@
             this.jobDetailRepository = jobDetailRepository;
             this.mapper = mapper;
             this.jobStatusService = jobStatusService;
+            this.postImportRepository = postImportRepository;
         }
 
         public void Update(RouteUpdates route)
@@ -64,6 +67,8 @@
                         break;
                 }
             }
+            // updates Location/Activity/LineItem/Bag tables from imported data
+            this.postImportRepository.PostImportUpdate();
         }
 
         private void Insert(StopUpdate stop)
@@ -187,6 +192,15 @@
                     this.mapper.Map(detail, existingJobDetail);
 
                     this.jobDetailRepository.Update(existingJobDetail);
+                }
+                else
+                {
+                    // new jobdetail on Order file - tobacco bag jobdetail appears on Order but not on Route
+                    var newJobDetail = new JobDetail();
+                    this.mapper.Map(detail, newJobDetail);
+                    newJobDetail.JobId = jobId;
+                    newJobDetail.ShortsStatus = JobDetailStatus.Res;  // not sure why this is Resolved
+                    this.jobDetailRepository.Save(newJobDetail);
                 }
             }
         }

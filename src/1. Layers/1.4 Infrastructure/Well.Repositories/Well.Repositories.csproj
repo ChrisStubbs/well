@@ -73,6 +73,7 @@
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
+    <Compile Include="Contracts\IPostImportRepository.cs" />
     <Compile Include="Contracts\IRouteReadRepository.cs" />
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
     <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
+    <Compile Include="PostImportRepository.cs" />
     <Compile Include="Read\AssigneeReadRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />

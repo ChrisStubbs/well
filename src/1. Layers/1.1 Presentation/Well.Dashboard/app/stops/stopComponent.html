@@ -1,146 +1,182 @@
-<div class="table-container">
-    <ol class="breadcrumb">
-        <li class="active">Route {{routeId}}</li>
-    </ol>
-</div>
-<div class="jumbotron">
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12 clearfix">
-                <div class="pull-right">
-                    <button type="button" class="btn btn-success" (click)="clearFilter(dt)">Clear Filter</button>
-                    <span>&nbsp;</span>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
-                            Action
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Stop Replaning</a></li>
-                            <li><a href="#">Dropdown link</a></li>
+<div *ngIf="stop">
+    <div class="table-container">
+        <ol class="breadcrumb">
+            <li>
+                <a routerLink="/routes" routerLinkActive="active">Routes</a>
+            </li>
+            <li>
+                <a routerLink="/singleroute/{{stop.routeId}}" routerLinkActive="active">Route {{stop.routeNumber}}</a>
+            </li>
+            <li class="active">
+                Stop {{stop.stopNo}} of {{stop.totalNoOfStops}}
+            </li>
+        </ol>
+    </div>
+    <div class="jumbotron">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><label>Branch:&nbsp;</label>{{stop.branch}}</li>
+                        <li><label>Driver:&nbsp;</label>{{stop.driver}}</li>
+                        <li><label>Date:&nbsp;</label>{{stop.routeDate | date:'dd MMM yy'}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="pull-right">
+                        <ul class="list-unstyled">
+                            <li><label>Assigend to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
+                            <li>&nbsp;</li>
+                            <li> <label>Shorts To Be Advised:&nbsp;</label>{{stop.tba}}
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 clearfix">
-                <p-dataTable [value]="stops" groupField="job" expandableRowGroups="rowspan"
-                             sortField="job" [sortableRowGroup]="false"
-                             rowGroupMode="subheader" #dt>
-                    <p-header>Expand a Job to see more details</p-header>
-                    <ng-template pTemplate="rowgroupheader" let-rowData>
-                        <div class="groupRow">
-                            <div class="group1">{{rowData.job}}</div>
-                            <div class="group2">Invoice: {{rowData.invoice}}</div>
-                            <div class="group3">Acct#: {{rowData.account}}</div>
-                            <div class="group4">{{totalPerGroup('invoiced', rowData.job)}}</div>
-                            <div class="group5">{{totalPerGroup('delivered', rowData.job)}}</div>
-                            <div class="group6">{{totalPerGroup('damages', rowData.job)}}</div>
-                            <div class="group7">{{totalPerGroup('shorts', rowData.job)}}</div>
-                            <div class="group8">&nbsp;</div>
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-success" (click)="clearFilter(dt)">Clear Filter</button>
+                        <span>&nbsp;</span>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Stop Replaning</a></li>
+                                <li><a href="#">Dropdown link</a></li>
+                            </ul>
                         </div>
-                    </ng-template>
-                    <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
-                    <p-column header="Product" field="product" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'width':'6%'}">
-                        <ng-template pTemplate="header">
-                            <div>Product</div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Type" field="type" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'8%'}">
-                        <ng-template pTemplate="header">
-                            <div>Type</div>
-                        </ng-template>
-                        <ng-template pTemplate="filter" let-col>
-                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
-                                <option value>All</option>
-                                <option *ngFor="let jobType of jobTypes" [value]="jobType.description">
-                                    {{ jobType.description }}
-                                </option>
-                            </select>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Tobacco" field="barCodeFilter" [filter]="true" filterMatchMode="endsWith" [sortable]="true" [style]="{'overflow':'visible','width':'10%'}">
-                        <ng-template pTemplate="header">
-                            <div>Tobacco</div>
-                        </ng-template>
-                        <ng-template pTemplate="filter" let-col>
-                            <select class="form-control" id="searchTobacco" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, 'barCodeFilter', col.filterMatchMode)" title="">
-                                <option value>All</option>
-                                <option *ngFor="let bag of tobaccoBags" [value]="bag[0]">
-                                    {{ bag[1] }}
-                                </option>
-                            </select>
-                        </ng-template>
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="hideOverflow" title="{{data.barCode}}">
-                                {{ data.barCode }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"> &nbsp;</div>
+                </div>
+                <div class="col-md-12 clearfix">
+                    <p-dataTable [value]="stopsItems" groupField="jobId" expandableRowGroups="rowspan"
+                                 sortField="jobId" [sortableRowGroup]="false"
+                                 rowGroupMode="subheader" #dt>
+                        <p-header>Expand a Job to see more details</p-header>
+                        <ng-template pTemplate="rowgroupheader" let-rowData>
+                            <div class="groupRow">
+                                <div class="group1">{{rowData.jobId}}</div>
+                                <div class="group2">Invoice: {{rowData.invoice}}</div>
+                                <div class="group3">Acct#: {{rowData.account}}</div>
+                                <div class="group4">{{totalPerGroup('invoiced', rowData.jobId)}}</div>
+                                <div class="group5">{{totalPerGroup('delivered', rowData.jobId)}}</div>
+                                <div class="group6">{{totalPerGroup('damages', rowData.jobId)}}</div>
+                                <div class="group7">{{totalPerGroup('shorts', rowData.jobId)}}</div>
+                                <div class="group8">&nbsp;</div>
                             </div>
                         </ng-template>
-                    </p-column>
+                        <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
+                        <p-column header="Product" field="product" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'width':'6%'}">
+                            <ng-template pTemplate="header">
+                                <div>Product</div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Type" field="type" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'8%'}">
+                            <ng-template pTemplate="header">
+                                <div>Type</div>
+                            </ng-template>
+                            <ng-template pTemplate="filter" let-col>
+                                <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.description">
+                                        {{ jobType.description }}
+                                    </option>
+                                </select>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Tobacco" field="barCodeFilter" [filter]="true" filterMatchMode="endsWith" [sortable]="true" [style]="{'overflow':'visible','width':'10%'}">
+                            <ng-template pTemplate="header">
+                                <div>Tobacco</div>
+                            </ng-template>
+                            <ng-template pTemplate="filter" let-col>
+                                <select class="form-control" id="searchTobacco" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, 'barCodeFilter', col.filterMatchMode)" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let bag of tobaccoBags" [value]="bag[0]">
+                                        {{ bag[1] }}
+                                    </option>
+                                </select>
+                            </ng-template>
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="hideOverflow" title="{{data.barCode}}">
+                                    {{ data.barCode }}
+                                </div>
+                            </ng-template>
+                        </p-column>
 
-                    <p-column header="Description" field="description" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'30%'}">
-                        <ng-template pTemplate="header">
-                            <div>Description</div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Value" field="value" [filter]="true" filterMatchMode="contains" [sortable]="true">
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-right">
-                                {{data.value | currency:'GBP':true}}
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Invoiced" field="invoiced" [filter]="true" filterMatchMode="equals" [sortable]="true">
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-right">
-                                {{data.invoiced}}
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Delivered" field="delivered" [filter]="true" filterMatchMode="equals" [sortable]="true">
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-right">
-                                {{data.delivered}}
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Damages" field="damages" [filter]="true" filterMatchMode="equals" [sortable]="true">
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-right">
-                                {{data.delivered}}
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Shorts" field="shorts" [filter]="true" filterMatchMode="equals" [sortable]="true">
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-right">
-                                {{data.delivered}}
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="Checked" field="checked" [filter]="true" filterMatchMode="equals" [sortable]="true">
-                        <ng-template pTemplate="filter" let-col>
-                            <ow-selectYesNoFilter [(selectedValue)]="filters.checked" (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
-                        </ng-template>
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-center">
-                                <input type="checkbox" [checked]="data.checked" disabled title="">
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column header="High Value" field="heightValue" [filter]="true" filterMatchMode="equals" [sortable]="true">
-                        <ng-template pTemplate="filter" let-col>
-                            <ow-selectYesNoFilter (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
-                        </ng-template>
-                        <ng-template let-data="rowData" pTemplate="body">
-                            <div class="text-center">
-                                <input type="checkbox" [checked]="data.heightValue" disabled title="">
-                            </div>
-                        </ng-template>
-                    </p-column>
-                    <p-column [style]="{'width':'38px'}" field="selected" selectionMode="multiple"></p-column>
-                </p-dataTable>
+                        <p-column header="Description" field="description" [filter]="true" filterMatchMode="contains" [sortable]="true" [style]="{'overflow':'visible','width':'30%'}">
+                            <ng-template pTemplate="header">
+                                <div>Description</div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Value" field="value" [filter]="true" filterMatchMode="contains" [sortable]="true">
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-right">
+                                    {{data.value | currency:'GBP':true}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Invoiced" field="invoiced" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-right">
+                                    {{data.invoiced}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Delivered" field="delivered" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-right">
+                                    {{data.delivered}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Damages" field="damages" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-right">
+                                    {{data.delivered}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Shorts" field="shorts" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-right">
+                                    {{data.delivered}}
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="Checked" field="checked" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                            <ng-template pTemplate="filter" let-col>
+                                <ow-selectYesNoFilter [(selectedValue)]="filters.checked" (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
+                            </ng-template>
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-center">
+                                    <input type="checkbox" [checked]="data.checked" disabled title="">
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column header="High Value" field="highValue" [filter]="true" filterMatchMode="equals" [sortable]="true">
+                            <ng-template pTemplate="filter" let-col>
+                                <ow-selectYesNoFilter (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
+                            </ng-template>
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-center">
+                                    <input type="checkbox" [checked]="data.highValue" disabled title="">
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column [style]="{'width':'38px'}" field="selected" selectionMode="multiple"></p-column>
+                    </p-dataTable>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"> &nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><span class="pull-left">Last updated {{lastRefresh | date: 'medium'}}</span></div>
             </div>
         </div>
     </div>

@@ -131,5 +131,6 @@
         public static string PostImportUpdate = "PostImportUpdate";
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
+        public static string AssigneeGetByStopId = "Assignee_GetByStopId";
     }
 }

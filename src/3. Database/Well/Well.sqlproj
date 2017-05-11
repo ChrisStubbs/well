@@ -349,6 +349,7 @@
     <Build Include="dbo\StoredProcedures\Activity_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByRouteHeaderId.sql" />
     <Build Include="dbo\StoredProcedures\Assignee_GetByRouteHeaderId.sql" />
+    <Build Include="dbo\StoredProcedures\Assignee_GetByStopId.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Bag_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\PostImportUpdate.sql" />

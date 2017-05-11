@@ -34,22 +34,22 @@
                 RouteDate = route.RouteDate
             };
 
-            return AddItems(singleRoute, stops, jobs, assignee);
+            return MapItems(singleRoute, stops, jobs, assignee);
         }
 
-        private SingleRoute AddItems(SingleRoute singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+        private SingleRoute MapItems(SingleRoute singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
         {
 
             foreach (var stop in stops)
             {
                 var stopJobs = jobs.Where(x => x.StopId == stop.Id).ToList();
-
                 var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
 
                 foreach (var job in stopJobs)
                 {
                     var item = new SingleRouteItem();
                     item.JobId = job.Id;
+                    item.StopId = job.StopId;
                     item.Stop = stop.DropId;
                     item.StopStatus = stopStatusService.DetermineStatus(stopJobs);
                     item.StopExceptions = stopJobDetails.Count(x => !x.IsClean());

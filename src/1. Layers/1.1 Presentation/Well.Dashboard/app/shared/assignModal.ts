@@ -53,7 +53,7 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
     {
         this.userJobs.jobIds = model.jobIds;
         this.userJobs.userId = userid;
-
+        this.model.assignedTo = _.find(this.users, current => current.id = userid).name;
         this.userService.assign(this.userJobs)
             .takeWhile(() => this.isAlive)
             .subscribe((res: Response) =>

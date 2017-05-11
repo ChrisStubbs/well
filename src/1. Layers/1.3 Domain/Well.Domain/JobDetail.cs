@@ -211,6 +211,8 @@
             }
         }
 
+        public bool IsChecked => LineDeliveryStatus == "Exception" || LineDeliveryStatus == "Delivered";
+
         [XmlIgnore]
         public int JobId { get; set; }
 

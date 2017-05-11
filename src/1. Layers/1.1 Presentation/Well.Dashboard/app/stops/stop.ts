@@ -1,15 +1,29 @@
 import * as _ from 'lodash';
+export class Stop 
+{
+    public routeId: number;
+    public routeNumber: string;
+    public branch: string;
+    public branchId: number;
+    public driver: string;
+    public routeDate: Date;
+    public assignedTo: string;
+    public tba: number;
+    public stopNo: string;
+    public totalNoOfStops: number;
+    public items: StopItem[];
+}
 
-export class Stop
+export class StopItem
 {
     public noBarCode = 'NoBarCode';
 
-    public id: number;
-    public job: string;
+    public jobId: number;
+    public type: string;
     public invoice: string;
     public account: string;
+    public jobDetailId: number;
     public product: string;
-    public type: string;
     public description: string;
     public value: number;
     public invoiced: number;
@@ -17,8 +31,7 @@ export class Stop
     public damages: number;
     public shorts: number;
     public checked: boolean;
-    public heightValue: boolean;
-
+    public highValue: boolean;
     private mBarCode: string;
     public get barCode(): string
     {
@@ -45,7 +58,7 @@ export class Stop
         return this.mBarCode;
     }
 
-    public get tobacco (): string
+    public get tobacco(): string
     {
         return this.barCode.substr(this.barCode.length - 4, 4);
     }

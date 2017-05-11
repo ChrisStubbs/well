@@ -6,5 +6,6 @@
     public interface IAssigneeReadRepository
     {
         IEnumerable<Assignee> GetByRouteHeaderId(int routeHeaderId);
+        IEnumerable<Assignee> GetByStopId(int stopId);
     }
 }

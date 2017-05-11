@@ -63,6 +63,7 @@
                     x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
                     x.For<IBranchRepository>().Use<BranchRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
+                    x.For<IPostImportRepository>().Use<PostImportRepository>();
                 });
         }
     }

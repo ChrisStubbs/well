@@ -69,7 +69,6 @@ export class AssignModal implements IObservableAlive
         this.userJobs.jobIds = newModel.jobIds;
         this.userJobs.userId = user.id;
         newModel.assigned = user.name;
-
         this.userService.assign(this.userJobs)
             .takeWhile(() => this.isAlive)
             .subscribe((res: Response) => this.handleResponse(res, newModel, user));

@@ -1,10 +1,11 @@
-import { Injectable }               from '@angular/core';
-import { Response }                 from '@angular/http'
-import { Observable }               from 'rxjs/Observable';
-import { GlobalSettingsService }    from '../shared/globalSettings';
-import { HttpErrorService }         from '../shared/httpErrorService';
-import { HttpService }              from '../shared/httpService';
-import { Stop }                     from './stop';
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http'
+import { Observable } from 'rxjs/Observable';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { HttpErrorService } from '../shared/httpErrorService';
+import { HttpService } from '../shared/httpService';
+import { Stop, StopItem } from './stop';
+import { Route } from '../routes/route';
 
 @Injectable()
 export class StopService
@@ -16,17 +17,24 @@ export class StopService
     {
     }
 
-    public getStop(stopId: number): Observable<Array<Stop>>
+    public getStop(stopId: number): Observable<Stop>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'stops/' + stopId.toString();
 
         return this.http.get(url)
             .map((response: Response) =>
             {
-                return (response.json() as any[]).map((obj) =>
+                const stop = (response.json() as Stop);
+
+                const items = (stop.items as any[]).map((obj) =>
                 {
-                    return Object.assign(new Stop(), obj);
-                }) as Stop[];
+                    return Object.assign(new StopItem(), obj);
+                }) as StopItem[];
+
+                stop.items = items;
+
+                return stop;
+
             })
             .catch(e => this.httpErrorService.handleError(e));
     }

@@ -45,6 +45,7 @@
                     x.For<IJobStatusService>().Use<JobStatusService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+                    x.For<IPostImportRepository>().Use<PostImportRepository>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

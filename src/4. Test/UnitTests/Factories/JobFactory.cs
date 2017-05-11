@@ -24,7 +24,7 @@
             this.Entity.StopId = 1;
 
             this.Entity.EntityAttributes = new List<EntityAttribute>();
-            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "GrnNumber", Value = null});
+            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "GrnNumber", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "GrnRefusedReason", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "ActionLogNumber", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "IsOverage", Value = null });
@@ -34,6 +34,8 @@
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "TotalOutersShort", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "Picked", Value = null });
             this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "InvoiceValue", Value = null });
+
+            this.Entity.EntityAttributeValues = new List<EntityAttributeValue>();
 
         }
     }

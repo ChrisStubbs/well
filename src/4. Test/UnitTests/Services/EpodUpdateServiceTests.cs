@@ -45,6 +45,8 @@
 
         private Mock<IJobStatusService> deliveryStatusService;
 
+        private Mock<IPostImportRepository> postImportRepository;
+
         [SetUp]
         public void Setup()
         {
@@ -64,6 +66,7 @@
             this.deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
+            this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
 
             this.service = new EpodUpdateService(this.logger.Object,
                 this.eventLogger.Object,
@@ -77,7 +80,8 @@
                 this.adamImportService.Object,
                 this.podTransactionFactory.Object,
                 this.deliveryStatusService.Object,
-                this.userNameProvider.Object);
+                this.userNameProvider.Object,
+                this.postImportRepository.Object);
         }
 
         [Test]

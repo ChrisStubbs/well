@@ -41,6 +41,9 @@
         private readonly IJobStatusService jobStatusService;
 
         private readonly IUserNameProvider userNameProvider;
+
+        private readonly IPostImportRepository postImportRepository;
+
         private const int EventLogErrorId = 9682;
 
         private const int ProcessTypeForGrn = 1;
@@ -58,7 +61,8 @@
             IAdamImportService adamImportService,
             IPodTransactionFactory podTransactionFactory,
             IJobStatusService jobStatusService,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IPostImportRepository postImportRepository)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -73,6 +77,7 @@
             this.podTransactionFactory = podTransactionFactory;
             this.jobStatusService = jobStatusService;
             this.userNameProvider = userNameProvider;
+            this.postImportRepository = postImportRepository;
         }
 
         public void Update(RouteDelivery route, string fileName)
@@ -115,6 +120,9 @@
                 }
 
             }
+
+            // updates Location/Activity/LineItem/Bag tables from imported data
+            this.postImportRepository.PostImportUpdate();
         }
 
         private void UpdateStops(IEnumerable<Stop> stops, int branchId)

@@ -34,10 +34,10 @@
                 RouteDate = route.RouteDate
             };
 
-            return AddItems(singleRoute, stops, jobs, assignee);
+            return MapItems(singleRoute, stops, jobs, assignee);
         }
 
-        private SingleRoute AddItems(SingleRoute singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+        private SingleRoute MapItems(SingleRoute singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
         {
 
             foreach (var stop in stops)
@@ -50,6 +50,7 @@
                 {
                     var item = new SingleRouteItem();
                     item.JobId = job.Id;
+                    item.StopId = job.StopId;
                     item.Stop = stop.DropId;
                     item.StopStatus = stopStatusService.DetermineStatus(stopJobs);
                     item.StopExceptions = stopJobDetails.Count(x => !x.IsClean());
@@ -58,8 +59,7 @@
                     item.StopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
                     item.Resolution = "TODO:";
                     item.Invoice = job.InvoiceNumber;
-                    var jt =
-                        item.JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords();
+                    item.JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords();
                     item.JobStatus = job.JobStatus;
                     item.JobStatusDescription = jobStatuses[job.JobStatus];
                     item.Cod = job.Cod;

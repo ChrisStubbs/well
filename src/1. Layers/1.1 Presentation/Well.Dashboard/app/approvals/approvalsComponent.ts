@@ -151,7 +151,8 @@ export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestr
             delivery.assigned,
             branch,
             [delivery.id] as number[],
-            this.isReadOnlyUser || delivery.thresholdLevelValid);
+            this.isReadOnlyUser || delivery.thresholdLevelValid,
+            delivery);
     }
 
     public deliverySelected(delivery): void

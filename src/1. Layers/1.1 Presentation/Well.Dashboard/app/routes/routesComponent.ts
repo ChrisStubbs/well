@@ -11,7 +11,6 @@ import { JobService } from '../job/job';
 import { AppSearchParameters } from '../shared/appSearch/appSearch';
 import { DataTable } from 'primeng/primeng';
 import 'rxjs/Rx';
-import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
 import { Branch } from '../shared/branch/branch';
 import { AppDefaults } from '../shared/defaults/defaults';
@@ -44,7 +43,7 @@ export class RoutesComponent implements IObservableAlive
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
 
     @ViewChild('dt') public dataTable: DataTable;
-    @ViewChild(AssignModal) private assignModal: AssignModal;
+    // @ViewChild(AssignModal) private assignModal: AssignModal;
 
     constructor(
         protected globalSettingsService: GlobalSettingsService,
@@ -116,7 +115,7 @@ export class RoutesComponent implements IObservableAlive
     public getAssignModel(route: Route): AssignModel
     {
         const branch = { id: route.branchId } as Branch;
-        return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser);
+        return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser, route);
     }
 
     public onAssigned($event)

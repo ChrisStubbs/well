@@ -39,7 +39,7 @@
                             <div class="group4">{{totalPerGroup('stopClean', rowData.stop)}}</div>
                             <div class="group5">{{totalPerGroup('tba', rowData.stop)}}</div>
                             <div class="group6">&nbsp;</div>
-                            <div class="group7"><assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(rowData)"></assign-modal></div>
+                            <div class="group7"><assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(rowData, 'group')"></assign-modal></div>
                             <div class="group8">&nbsp;</div>
                             <div class="group9">&nbsp;</div>
                         </div>
@@ -135,7 +135,8 @@
                         <ng-template pTemplate="header">
                             <div>Assignee</div>
                         </ng-template>
-                        <ng-template let-route="rowData" pTemplate="body">
+                        <ng-template let-data="rowData" pTemplate="body">
+                            <!--<assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(data, 'row')"></assign-modal>-->
                         </ng-template>
                     </p-column>
                     <p-column header="Resolution" field="" [filter]="false" [sortable]="false" [style]="{'width':'10%'}">

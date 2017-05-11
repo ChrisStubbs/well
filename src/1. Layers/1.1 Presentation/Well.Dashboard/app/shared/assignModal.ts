@@ -1,17 +1,18 @@
-﻿import { Component, EventEmitter, Output, Input, OnInit, OnDestroy }    from '@angular/core';
-import { Router }                                                       from '@angular/router';
-import { Response }                                                     from '@angular/http';
-import { ToasterService }                                               from 'angular2-toaster/angular2-toaster';
-import { IUser, HttpResponse, UserService, AssignModel }                from './shared';
-import { UserJobs }                                                     from './userJobs';
-import * as _                                                           from 'lodash';
-import {IObservableAlive}                                               from './IObservableAlive';
+﻿import { Component, EventEmitter, Output, Input }           from '@angular/core';
+import { Response }                                         from '@angular/http';
+import { IUser, HttpResponse, UserService, AssignModel }    from './shared';
+import { UserJobs }                                         from './userJobs';
+import * as _                                               from 'lodash';
+import { IObservableAlive }                                 from './IObservableAlive';
+import { AssignModalResult }                                from './assignModel';
+import { Router }                                           from '@angular/router';
+import { ToasterService }                                   from 'angular2-toaster';
 
 @Component({
     selector: 'assign-modal',
     templateUrl: 'app/shared/assign-modal.html'
 })
-export class AssignModal implements IObservableAlive, OnInit, OnDestroy
+export class AssignModal implements IObservableAlive
 {
     public isVisible: boolean = false;
     public users: IUser[];
@@ -19,8 +20,12 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
     public httpResponse: HttpResponse = new HttpResponse();
     public assigned = false;
     public isAlive: boolean = true;
-    @Input() public model: AssignModel;
+
+    @Input() public model: AssignModel
     @Output() public onAssigned = new EventEmitter();
+
+    private allUsers: IUser[];
+
     constructor(
         private userService: UserService,
         private router: Router,
@@ -35,7 +40,17 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
             .takeWhile(() => this.isAlive)
             .subscribe(users =>
             {
-                this.users = _.filter(users, current => current.name != this.model.assigned);
+                this.allUsers = users;
+                this.buildUsersSource();
+            });
+    }
+
+    private buildUsersSource(): void
+    {
+        this.users = _.filter(this.allUsers,
+            (current: IUser) =>
+            {
+                return _.isNil(this.model.assigned) || current.name != this.model.assigned;
             });
     }
 
@@ -49,51 +64,46 @@ export class AssignModal implements IObservableAlive, OnInit, OnDestroy
         this.isVisible = false;
     }
 
-    public userSelected(userid: number, model: AssignModel): void
+    public userSelected(user: IUser, newModel: AssignModel): void
     {
-        this.userJobs.jobIds = model.jobIds;
-        this.userJobs.userId = userid;
+        this.userJobs.jobIds = newModel.jobIds;
+        this.userJobs.userId = user.id;
+        newModel.assigned = user.name;
 
         this.userService.assign(this.userJobs)
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Response) =>
-            {
-                this.httpResponse = JSON.parse(JSON.stringify(res));
-
-                if (this.httpResponse.success)
-                {
-                    this.toasterService.pop('success', 'Jobs have been assigned', '');
-                    this.assigned = true;
-                }
-                if (this.httpResponse.failure)
-                {
-                    this.toasterService.pop('error', 'Jobs unassigned', '');
-                }
-                this.hide();
-                this.onAssigned.emit(this.assigned);
-            });
+            .subscribe((res: Response) => this.handleResponse(res, newModel, user));
     }
 
-    public unassign(model: AssignModel): void
+    public unassign(newModel: AssignModel): void
     {
-        this.userService.unassign(model.jobIds)
+        newModel.assigned = undefined;
+        this.userService.unassign(newModel.jobIds)
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Response) =>
-            {
-                this.httpResponse = JSON.parse(JSON.stringify(res));
+            .subscribe((res: Response) => this.handleResponse(res, newModel, undefined));
+    }
 
-                if (this.httpResponse.success)
-                {
-                    this.toasterService.pop('success', 'Jobs have been unassigned', '');
-                    this.assigned = true;
-                }
-                if (this.httpResponse.failure)
-                {
-                    this.toasterService.pop('error', 'Jobs are still assigned', '');
-                }
-            });
+    private handleResponse(res: Response, newModel: AssignModel, user: IUser): void
+    {
+        const result = new AssignModalResult();
 
+        this.httpResponse = JSON.parse(JSON.stringify(res));
+
+        if (this.httpResponse.success)
+        {
+            this.toasterService.pop('success', 'Jobs have been assigned', '');
+            result.assigned = true;
+        }
+        if (this.httpResponse.failure)
+        {
+            this.toasterService.pop('error', 'Jobs unassigned', '');
+        }
         this.hide();
-        this.onAssigned.emit({ event: event, isAssigned: this.assigned, model: this.model });
+        result.source = newModel.objectSource;
+        result.newUser = user;
+        this.model = newModel;
+
+        this.onAssigned.emit(result);
+        this.buildUsersSource();
     }
 }

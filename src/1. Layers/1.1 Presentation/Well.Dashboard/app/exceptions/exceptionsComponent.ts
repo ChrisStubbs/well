@@ -12,7 +12,6 @@ import { ExceptionDelivery } from './exceptionDelivery';
 import { ExceptionDeliveryService } from './exceptionDeliveryService';
 import { RefreshService } from '../shared/refreshService';
 import { HttpResponse } from '../shared/httpResponse';
-import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
 import { ConfirmModal } from '../shared/confirmModal';
 import { IUser } from '../shared/iuser';
@@ -50,8 +49,6 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public outstandingFilter: boolean = false;
     public bulkCredits = new Array<number>();
     public threshold: number;
-    @ViewChild(AssignModal)
-    private assignModal: AssignModal;
     public value: string;
     public confirmModalIsVisible: boolean = false;
     public selectGridBox: boolean = false;
@@ -319,7 +316,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
     public getAssignModel(delivery: ExceptionDelivery): AssignModel
     {
         const branch: Branch = { id: delivery.branchId } as Branch;
-        return new AssignModel(delivery.assigned, branch, [delivery.id] as number[], this.isReadOnlyUser);
+        return new AssignModel(delivery.assigned, branch, [delivery.id] as number[], this.isReadOnlyUser, delivery);
     }
 
     public onAssigned($event)

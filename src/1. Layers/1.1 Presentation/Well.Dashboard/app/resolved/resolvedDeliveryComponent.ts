@@ -6,7 +6,6 @@ import { Router, ActivatedRoute }                   from '@angular/router';
 import { ResolvedDelivery }                         from './resolvedDelivery';
 import { ResolvedDeliveryService }                  from './ResolvedDeliveryService';
 import { DropDownItem }                             from '../shared/dropDownItem';
-import { AssignModal }                              from '../shared/assignModal';
 import { ContactModal }                             from '../shared/contactModal';
 import { AccountService }                           from '../account/accountService';
 import { IAccount }                                 from '../account/account';
@@ -33,7 +32,6 @@ export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, 
     public isAlive: boolean = true;
 
     @ViewChild(ContactModal) public contactModal: ContactModal;
-    @ViewChild(AssignModal) public assignModal: AssignModal;
 
     constructor(
         protected globalSettingsService: GlobalSettingsService,

@@ -5,7 +5,6 @@ import { GlobalSettingsService } from '../shared/globalSettings';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CleanDelivery } from './cleanDelivery';
 import { CleanDeliveryService } from './cleanDeliveryService';
-import { AssignModal } from '../shared/assignModal';
 import { AssignModel } from '../shared/assignModel';
 import { DropDownItem } from '../shared/dropDownItem';
 import { ContactModal } from '../shared/contactModal';
@@ -40,7 +39,6 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public routeNumber: string;
     public isAlive: boolean = true;
 
-    @ViewChild(AssignModal) public assignModal: AssignModal;
     @ViewChild(ContactModal) public contactModal: ContactModal;
 
     constructor(
@@ -143,7 +141,7 @@ export class CleanDeliveryComponent extends BaseComponent implements OnInit, OnD
     public getAssignModel(delivery: CleanDelivery): AssignModel
     {
         const branch: Branch = { id: delivery.branchId } as Branch;
-        return new AssignModel(delivery.assigned, branch, [delivery.id] as number[], this.isReadOnlyUser);
+        return new AssignModel(delivery.assigned, branch, [delivery.id] as number[], this.isReadOnlyUser, delivery);
     }
 
     public onAssigned(assigned: boolean)

@@ -6,7 +6,7 @@ import { AppDefaults }                      from '../shared/defaults/defaults';
 import { JobType, JobService, JobStatus}    from '../job/job';
 import * as _                               from 'lodash';
 import { DataTable }                        from 'primeng/primeng';
-import {AssignModel}                        from '../shared/assignModel';
+import {AssignModel, AssignModalResult}     from '../shared/assignModel';
 import {Branch}                             from '../shared/branch/branch';
 import {SecurityService}                    from '../shared/security/securityService';
 import {GlobalSettingsService}              from '../shared/globalSettings';
@@ -108,27 +108,63 @@ export class SingleRouteComponent implements IObservableAlive
         this.clearFilter();
     }
 
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
         this.isAlive = false;
     }
 
-    public getAssignModel(route: SingleRouteItem): AssignModel
+    public getAssignModel(route: SingleRouteItem, level: string): AssignModel
     {
         const branch = { id: this.singleRoute.branchId } as Branch;
-        const jobs =  _.chain(this.allSingleRouteItems)
-            .filter((value: SingleRouteItem) => value.stop == route.stop)
-            .map('jobId')
-            .values();
+        let jobs: number[];
 
-        return new AssignModel(route.assignee, branch, jobs, this.isReadOnlyUser);
+        /*this has an error and i can't solve it*/
+        /*
+        whenever the group is expanded and i click on the group assignee link what it's pass down to the other component
+        it's not the group object but the object of the first element in the group
+        */
+        if (level == 'group')
+        {
+            jobs = _.chain(this.allSingleRouteItems)
+                .filter((value: SingleRouteItem) => value.stop == route.stop)
+                .map('jobId')
+                .values();
+        }
+        else
+        {
+            jobs = [route.jobId] as number[];
+        }
+
+        return new AssignModel(
+            route.stopAssignee ,
+            branch,
+            jobs,
+            this.isReadOnlyUser,
+            _.extend(route, {level : level}));
     }
 
-    public onAssigned($event) {
-        // this.getRoutes();
+    public onAssigned(event: AssignModalResult): void
+    {
+        if (event.source.level == 'group') {
+            const stops = _.filter(this.singleRouteItems, (value: SingleRouteItem) => value.stop == event.source.stop);
+            const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+
+            _.map(stops, (value: SingleRouteItem) => {
+                value.assignee = userName;
+                value.stopAssignee = userName;
+            });
+        }
+        else
+        {
+            const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+            const job = _.filter(this.singleRouteItems,
+                (value: SingleRouteItem) => value.jobId == event.source.jobId)[0];
+
+            job.assignee = userName;
+        }
     }
 
-    public clearFilter()
+    public clearFilter(): void
     {
         this.podFilter = undefined;
         this.grid.filters = {};

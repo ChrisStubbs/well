@@ -18,7 +18,7 @@
         public string AssignedTo { get; set; }
         public int Tba { get; set; }
         public string StopNo { get; set; }
-        public int TotalNoOfStops { get; set; }
+        public int TotalNoOfStopsOnRoute { get; set; }
         public IList<StopModelItem> Items { get; set; }
     }
 }

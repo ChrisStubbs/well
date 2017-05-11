@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-
-namespace PH.Well.Api.Controllers
+﻿namespace PH.Well.Api.Controllers
 {
     using System.Linq;
     using Mapper.Contracts;
     using Models;
     using Repositories.Contracts;
+    using System.Web.Http;
 
     public class StopsController : ApiController
     {
@@ -33,7 +31,6 @@ namespace PH.Well.Api.Controllers
             this.stopMapper = stopMapper;
         }
 
-
         public StopModel Get(int id)
         {
             var stop = stopRepository.GetById(id);
@@ -50,5 +47,4 @@ namespace PH.Well.Api.Controllers
         }
     }
 
-   
 }

@@ -10,7 +10,7 @@ export class Stop
     public assignedTo: string;
     public tba: number;
     public stopNo: string;
-    public totalNoOfStops: number;
+    public totalNoOfStopsOnRoute: number;
     public items: StopItem[];
 }
 

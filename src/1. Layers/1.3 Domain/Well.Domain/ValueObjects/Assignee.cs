@@ -12,9 +12,9 @@
         public string Name { get; set; }
         public string Initials => Name.GetInitials();
 
-        public static string GetDisplayNames(List<Assignee> assignees)
+        public static string GetDisplayNames(IEnumerable<Assignee> assignees)
         {
-            if (!assignees.Any()) return "Unallocated";
+            if (!assignees.Any()) return null;
 
             var names = assignees.Select(x => x.Name).Distinct().ToList();
 

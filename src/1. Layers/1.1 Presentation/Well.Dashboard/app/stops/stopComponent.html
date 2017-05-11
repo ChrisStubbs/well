@@ -8,7 +8,7 @@
                 <a routerLink="/singleroute/{{stop.routeId}}" routerLinkActive="active">Route {{stop.routeNumber}}</a>
             </li>
             <li class="active">
-                Stop {{stop.stopNo}} of {{stop.totalNoOfStops}}
+                Stop {{stop.stopNo}} of {{stop.totalNoOfStopsOnRoute}}
             </li>
         </ol>
     </div>
@@ -56,7 +56,7 @@
                 <div class="col-md-12 clearfix">
                     <p-dataTable [value]="stopsItems" groupField="jobId" expandableRowGroups="rowspan"
                                  sortField="jobId" [sortableRowGroup]="false"
-                                 rowGroupMode="subheader" #dt>
+                                 rowGroupMode="subheader" #dt [rows]="100" [paginator]="true" [rowsPerPageOptions]="[10,20,30,40,50,60,70,80,90,100]">
                         <p-header>Expand a Job to see more details</p-header>
                         <ng-template pTemplate="rowgroupheader" let-rowData>
                             <div class="groupRow">

@@ -8,12 +8,12 @@
     using Domain.Extensions;
     using Domain.ValueObjects;
     using Models;
-    using StructureMap.Diagnostics;
     using Branch = Domain.Branch;
 
     public class StopMapper : IStopMapper
     {
-        private const int lengthOfBarcode = 18;
+        private const int LengthOfBarcode = 18;
+
         public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees)
         {
             var stopModel = new StopModel
@@ -27,7 +27,7 @@
                 AssignedTo = Assignee.GetDisplayNames(assignees),
                 Tba = jobs.Sum(j => j.ToBeAdvisedCount),
                 StopNo = stop.PlannedStopNumber,
-                TotalNoOfStops = route.PlannedStops
+                TotalNoOfStopsOnRoute = route.PlannedStops
             };
 
 
@@ -44,7 +44,7 @@
                  
                 if (jobType == JobType.Tobacco)
                 {
-                    jobDetails = job.JobDetails.Where(x => x.PhProductCode.Length != lengthOfBarcode).ToList();
+                    jobDetails = job.JobDetails.Where(x => x.PhProductCode.Length != LengthOfBarcode).ToList();
                 }
 
                 foreach (var line in jobDetails)

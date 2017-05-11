@@ -104,6 +104,7 @@
                 Assert.That(singleRoute.Items[1].Assignee, Is.EqualTo("Enri Pears"));
             }
 
+
             private static List<JobDetail> GetTwoCleanAndOneExceptionJobDetail()
             {
                 var clean1 = new JobDetailFactory().With(x => x.ShortQty = 0).Build();

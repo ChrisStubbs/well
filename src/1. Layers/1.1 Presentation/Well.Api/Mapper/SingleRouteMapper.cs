@@ -43,6 +43,7 @@
             foreach (var stop in stops)
             {
                 var stopJobs = jobs.Where(x => x.StopId == stop.Id).ToList();
+
                 var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
 
                 foreach (var job in stopJobs)

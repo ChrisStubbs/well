@@ -49,9 +49,9 @@
                                 <a routerLink="/stops/{{rowData.stopId}}" routerLinkActive="active">Stop {{rowData.stop}}</a>
                             </div>
                             <div class="group2">{{rowData.stopStatus}}</div>
-                            <div class="group3">{{totalPerGroup('stopExceptions', rowData.stop)}}</div>
-                            <div class="group4">{{totalPerGroup('stopClean', rowData.stop)}}</div>
-                            <div class="group5">{{totalPerGroup('tba', rowData.stop)}}</div>
+                            <div class="group3">{{totalPerGroup('exceptions', rowData.stop)}}</div>
+                            <div class="group4">{{totalPerGroup('clean', rowData.stop)}}</div>
+                            <div class="group5">{{rowData.tba}}</div>
                             <div class="group6">&nbsp;</div>
                             <div class="group7">
                                 <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(rowData)"></assign-modal>

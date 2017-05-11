@@ -145,9 +145,10 @@ export class SingleRouteComponent implements IObservableAlive
 
     public onAssigned(event: AssignModalResult): void
     {
+        const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+
         if (event.source.level == 'group') {
             const stops = _.filter(this.singleRouteItems, (value: SingleRouteItem) => value.stop == event.source.stop);
-            const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
 
             _.map(stops, (value: SingleRouteItem) => {
                 value.assignee = userName;
@@ -156,7 +157,6 @@ export class SingleRouteComponent implements IObservableAlive
         }
         else
         {
-            const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
             const job = _.filter(this.singleRouteItems,
                 (value: SingleRouteItem) => value.jobId == event.source.jobId)[0];
 

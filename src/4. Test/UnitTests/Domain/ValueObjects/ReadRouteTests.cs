@@ -15,11 +15,10 @@
             Assert.That(r.Assignee, Is.EqualTo("Mick Chidders"));
         }
 
-        [Test]
-        public void ShouldReturnUnallocatedIfNoAsignees()
+        [Test] public void ShouldReturnNullIfNoAsignees()
         {
             var r = new Route();
-            Assert.That(r.Assignee, Is.EqualTo("Unallocated"));
+            Assert.That(r.Assignee, Is.Null);
         }
 
         [Test]

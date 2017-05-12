@@ -81,7 +81,7 @@ export class OptionFilterComponent {
     @Input()
     public set setKnownOption(option: DropDownItem) {
         if (option) {
-            this.SelectedOption = option
+            this.SelectedOption = option;
         }
     }
 

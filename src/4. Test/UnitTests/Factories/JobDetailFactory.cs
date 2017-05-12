@@ -27,9 +27,6 @@
             this.Entity.DeliveredQty = 23;
             this.Entity.JobId = 1;
             this.Entity.EntityAttributes = new List<EntityAttribute>();
-            //this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "SubOuterDamageTotal", Value = "100" });
-            //this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "IsHighValue", Value = "N" });
-
         }
 
         public JobDetailFactory WithIsChecked(bool value)

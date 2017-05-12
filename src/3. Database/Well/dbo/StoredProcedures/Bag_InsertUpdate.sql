@@ -19,7 +19,7 @@ BEGIN
 
 	BEGIN TRAN
 
-	    -- Update the Line Item table 
+	    -- Update the Bag table 
 		MERGE INTO Bag AS Target
 		USING (SELECT  Barcode, [Description] FROM @BagDetails) AS Source
 		(  Barcode, [Description])
@@ -38,7 +38,7 @@ BEGIN
 		)
 		INSERT INTO @BagDetailsToUpdate
 		SELECT b.Id, jd.LineItemId
-		FROM  Bag b
+		FROM Bag b
 		INNER JOIN JobDetail jd ON jd.SSCCBarcode = b.Barcode 
 
 		-- update LineItem with the Bag Id
@@ -46,6 +46,22 @@ BEGIN
 		SET BagId = bu.BagId
 		FROM LineItem li
 		INNER JOIN @BagDetailsToUpdate bu ON li.Id = bu.LineItemId
+
+		-- find the jobdetail id for each bag
+		DECLARE @JobDetailForBag TABLE
+		(  BagId INT,
+		   JobDetailId INT
+		)
+		INSERT INTO @JobDetailForBag
+		SELECT b.Id, jd.Id
+		FROM Bag b
+		INNER JOIN JobDetail jd ON jd.PHProductCode = b.Barcode 
+
+		-- update the JobDetail table with the bag ids
+		UPDATE jd
+		SET BagId = jb.BagId
+		FROM JobDetail jd
+		INNER JOIN @JobDetailForBag jb ON jd.Id = jb.JobDetailId -- id of the bag job detail
 
 	COMMIT
 

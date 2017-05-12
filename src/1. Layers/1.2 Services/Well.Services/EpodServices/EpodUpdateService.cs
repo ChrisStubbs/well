@@ -123,6 +123,8 @@
 
             // updates Location/Activity/LineItem/Bag tables from imported data
             this.postImportRepository.PostImportUpdate();
+            // updates LineItemActions imported data
+            this.postImportRepository.PostTranSendImport();
         }
 
         private void UpdateStops(IEnumerable<Stop> stops, int branchId)

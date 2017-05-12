@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="Activity.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
@@ -63,6 +64,9 @@
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
+    <Compile Include="LineItem.cs" />
+    <Compile Include="LineItemAction.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="CustomerRoyaltyException.cs" />
     <Compile Include="Entity.cs" />

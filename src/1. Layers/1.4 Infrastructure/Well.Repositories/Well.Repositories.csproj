@@ -73,6 +73,8 @@
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
+    <Compile Include="Contracts\ILineItemSearchReadRepository.cs" />
+    <Compile Include="Contracts\ILocationRepository.cs" />
     <Compile Include="Contracts\IPostImportRepository.cs" />
     <Compile Include="Contracts\IRouteReadRepository.cs" />
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
+    <Compile Include="LocationRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
     <Compile Include="PostImportRepository.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="Read\AppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAssigneeReadRepository.cs" />
+    <Compile Include="Read\LineItemSearchReadRepository.cs" />
     <Compile Include="Read\RouteReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
     <Compile Include="RouteToRemoveRepository.cs" />

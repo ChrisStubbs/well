@@ -18,5 +18,13 @@
                 .Execute();
 
         }
+
+        public void PostTranSendImport()
+        {
+
+            dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionInsert)
+                .Execute();
+
+        }
     }
 }

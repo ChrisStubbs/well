@@ -3,5 +3,6 @@
     public interface IPostImportRepository
     {
         void PostImportUpdate();
+        void PostTranSendImport();
     }
 }

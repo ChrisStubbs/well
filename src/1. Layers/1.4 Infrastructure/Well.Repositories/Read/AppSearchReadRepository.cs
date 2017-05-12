@@ -22,8 +22,6 @@
 
         public IEnumerable<AppSearchResult> Search(AppSearchParameters searchParameters)
         {
-
-
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.AppSearch)
                 .AddParameter("BranchId", searchParameters.BranchId, DbType.Int32)
                 .AddParameter("Date", searchParameters.Date, DbType.Date)
@@ -34,9 +32,6 @@
                 .AddParameter("DeliveryType", searchParameters.DeliveryType, DbType.Int32)
                 .AddParameter("Status", searchParameters.Status, DbType.Int32)
                 .Query<AppSearchResult>();
-
-
         }
-
     }
 }

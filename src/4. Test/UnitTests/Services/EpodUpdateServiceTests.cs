@@ -106,6 +106,7 @@
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
 
             //ACT
             this.service.Update(route, filename);
@@ -126,6 +127,7 @@
             this.eventLogger.Verify(x => x.TryWriteToEventLog(EventSource.WellAdamXmlImport, logError, 9682, EventLogEntryType.Error), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
         }
 
         [Test]
@@ -180,6 +182,7 @@
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
 
             //ACT
             this.service.Update(route, filename);
@@ -205,6 +208,7 @@
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
         }
 
         [Test]
@@ -262,6 +266,7 @@
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
 
             //ACT
             this.service.Update(route, filename);
@@ -289,6 +294,7 @@
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
 
         }
 
@@ -345,6 +351,7 @@
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
 
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
             //ACT
             this.service.Update(route, filename);
 
@@ -370,6 +377,8 @@
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
 
         }
     }

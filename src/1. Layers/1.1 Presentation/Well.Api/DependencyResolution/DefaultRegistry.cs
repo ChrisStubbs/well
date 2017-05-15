@@ -96,11 +96,16 @@ namespace PH.Well.Api.DependencyResolution
 
             For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
             For<IStopStatusService>().Use<StopStatusService>();
-
+            
+            //Location/activity/line item
             For<ILocationRepository>().Use<LocationRepository>();
             For<IActivityReadRepository>().Use<ActivityReadRepository>();
             For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
             For<ILineItemActionReadRepository>().Use<LineItemActionReadRepository>();
+
+            //lookup
+            For<ILookupService>().Use<LookupService>();
+            For<ILookupRepository>().Use<LookupRepository>();
         }
     }
 }

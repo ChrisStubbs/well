@@ -353,13 +353,17 @@
     <Build Include="dbo\StoredProcedures\LineItem_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Bag_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\PostImportUpdate.sql" />
-    <Build Include="dbo\StoredProcedures\GetExceptionType.sql" />
+    <Build Include="dbo\StoredProcedures\ExceptionTypeGet.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_Insert.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByIds.sql" />
     <Build Include="dbo\StoredProcedures\Activity_GetById.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByActivityId.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_GetByLineItemId.sql" />
     <Build Include="dbo\StoredProcedures\Location_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\ExceptionAction_Get.sql" />
+    <Build Include="dbo\StoredProcedures\JobStatus_Get.sql" />
+    <Build Include="dbo\StoredProcedures\JobType_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Drivers_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

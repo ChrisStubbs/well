@@ -18,12 +18,35 @@ namespace PH.Well.Repositories.Read
 
         public IList<KeyValuePair<string, string>> ExceptionActions()
         {
-            throw new NotImplementedException();
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.ExceptionAction)
+                .Query<KeyValuePair<string, string>>()
+                .ToList();
         }
 
         public IList<KeyValuePair<string, string>> ExceptionTypes()
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.ExceptionType)
+                .Query<KeyValuePair<string, string>>()
+                .ToList();
+        }
+
+        public IList<KeyValuePair<string, string>> JobStatus()
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.JobStatus)
+                .Query<KeyValuePair<string, string>>()
+                .ToList();
+        }
+
+        public IList<KeyValuePair<string, string>> JobType()
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.JobType)
+                .Query<KeyValuePair<string, string>>()
+                .ToList();
+        }
+
+        public IList<KeyValuePair<string, string>> Driver()
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.Driver)
                 .Query<KeyValuePair<string, string>>()
                 .ToList();
         }

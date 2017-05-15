@@ -141,7 +141,11 @@
         public static string LocationGetById = "Location_GetById";
         
         //lookups
-        public const string ExceptionType = "GetExceptionType";
+        public const string ExceptionType = "ExceptionTypeGet";
+        public const string ExceptionAction = "ExceptionAction_Get";
+        public const string JobStatus = "JobStatus_Get";
+        public const string JobType = "JobType_Get";
+        public const string Driver = "Drivers_Get";
 
     }
 }

@@ -31,7 +31,6 @@ export class RoutesComponent implements IObservableAlive
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
     public jobStatus: Array<[string, string]>;
-    public selectedRoutes: Route[] = [];
 
     public isAlive: boolean = true;
     private actions: string[] = ['Re-Plan'];

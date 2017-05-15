@@ -12,9 +12,8 @@
             <div class="col-md-6 pull-right">
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
+                        <button type="button" class="btn btn-success" (click)="clearFilters()">Clear Filter</button>
                     </div>
-                    <ow-split-button [options]="actions" [disabled]="selectedRoutes ? selectedRoutes.length == 0 : true"></ow-split-button>
                 </div>
             </div>
         </div>
@@ -25,7 +24,7 @@
             <div class="col-md-12">
                 <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
                              [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
-                             #dt [(selection)]="selectedRoutes">
+                             #dt>
                     <p-column header="Branch" field="branchId" [sortable]="true" filter="true">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchBranch"
@@ -103,7 +102,6 @@
                             <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                         </ng-template>
                     </p-column>
-                    <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                 </p-dataTable>
             </div>
         </div>

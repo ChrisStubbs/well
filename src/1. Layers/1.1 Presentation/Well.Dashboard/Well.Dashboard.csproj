@@ -192,6 +192,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
+    <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
+    <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
@@ -239,6 +242,7 @@
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
+    <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\routes\singleRouteComponent.html" />

@@ -6,6 +6,7 @@ namespace PH.Well.Api.Controllers
 {
     public class ExceptionController : ApiController
     {
+        [HttpGet]
         public IList<EditLineItemException> PerLineItem([FromUri]int[] id)
         {
             var result = new List<EditLineItemException>
@@ -21,6 +22,7 @@ namespace PH.Well.Api.Controllers
 
             return result;
         }
+
     }
 
     public class EditLineItemException

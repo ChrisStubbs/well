@@ -3,7 +3,7 @@
         <label for="filterException">Exception Type</label>
     </div>
     <div class="col-lg-4">
-        <select class="form-control" [ngModel]="selectedValue" id="filterException">
+        <select class="form-control" [ngModel]="selectedValue" id="filterException" (change)="filter">
             <option *ngFor="let e of exceptionTypes" [ngValue]="e">{{e}}</option>
         </select>
     </div>
@@ -29,7 +29,13 @@
                      rowGroupMode="subheader" #dt>
             <ng-template pTemplate="rowgroupheader" let-rowData>
             </ng-template>
-            <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
+            <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}">
+                <ng-template let-data="rowData" pTemplate="body">
+                    <span>
+                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(data)"></a>
+                    </span>
+                </ng-template>
+            </p-column>
             <p-column header="Originator" field="originator"></p-column>
             <p-column header="Exception" field="exception"></p-column>
             <p-column header="Invoiced" field="invoiced"></p-column>

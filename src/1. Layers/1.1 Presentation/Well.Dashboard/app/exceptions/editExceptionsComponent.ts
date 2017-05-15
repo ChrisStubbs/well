@@ -28,4 +28,10 @@ export class EditExceptionsComponent implements IObservableAlive
     {
         this.isAlive = false;
     }
+
+    public editLine(line: IEditLineItemException): void
+    {
+        console.log(line);
+        //i have to do something here
+    }
 }

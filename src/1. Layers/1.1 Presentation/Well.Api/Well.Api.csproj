@@ -188,6 +188,7 @@
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\JobStatusController.cs" />
     <Compile Include="Controllers\JobTypeController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />

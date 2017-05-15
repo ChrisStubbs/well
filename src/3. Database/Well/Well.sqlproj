@@ -353,6 +353,7 @@
     <Build Include="dbo\StoredProcedures\LineItem_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Bag_InsertUpdate.sql" />
     <Build Include="dbo\StoredProcedures\PostImportUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\GetExceptionType.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

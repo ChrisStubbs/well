@@ -1,35 +1,37 @@
-import { Component, ViewChild }             from '@angular/core';
-import { RoutesService }                    from './routesService'
-import { SingleRoute }                      from './singleRoute';
-import { ActivatedRoute }                   from '@angular/router';
-import { AppDefaults }                      from '../shared/defaults/defaults';
-import { JobType, JobService, JobStatus}    from '../job/job';
-import * as _                               from 'lodash';
-import { DataTable }                        from 'primeng/primeng';
-import {AssignModel, AssignModalResult}     from '../shared/assignModel';
-import {Branch}                             from '../shared/branch/branch';
-import {SecurityService}                    from '../shared/security/securityService';
-import {GlobalSettingsService}              from '../shared/globalSettings';
-import {IObservableAlive}                   from '../shared/IObservableAlive';
+import { Component, ViewChild } from '@angular/core';
+import { RoutesService } from './routesService'
+import { SingleRoute } from './singleRoute';
+import { ActivatedRoute } from '@angular/router';
+import { AppDefaults } from '../shared/defaults/defaults';
+import { JobType, JobService, JobStatus } from '../job/job';
+import * as _ from 'lodash';
+import { DataTable } from 'primeng/primeng';
+import { AssignModel, AssignModalResult } from '../shared/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { IObservableAlive } from '../shared/IObservableAlive';
 import 'rxjs/add/operator/mergeMap';
-import {SingleRouteItem}                    from './singleRoute';
+import { SingleRouteItem } from './singleRoute';
+import { SplitButtonComponent } from '../shared/splitButtonComponent';
+import { ActionModal } from '../shared/action/actionModal';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/singleRouteComponent.html',
     providers: [RoutesService, JobService],
-    styles: [ '.groupRow { display: table-row} ' +
-    '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
-    '#modal a { color: #428bca; text-decoration: none} ' +
-    '.group1{ width: 19%} ' +
-    '.group2{ width: 27%} ' +
-    '.group3{ width: 7%; text-align: right} ' +
-    '.group4{ width: 7%; text-align: right} ' +
-    '.group5{ width: 7%; text-align: right} ' +
-    '.group6{ width: 9%} ' +
-    '.group7{ width: 12%} ' +
-    '.group8{ width: 10%} ' +
-    '.group9{ width: 6%}']
+    styles: ['.groupRow { display: table-row} ' +
+        '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
+        '#modal a { color: #428bca; text-decoration: none} ' +
+        '.group1{ width: 19%} ' +
+        '.group2{ width: 27%} ' +
+        '.group3{ width: 7%; text-align: right} ' +
+        '.group4{ width: 7%; text-align: right} ' +
+        '.group5{ width: 7%; text-align: right} ' +
+        '.group6{ width: 9%} ' +
+        '.group7{ width: 12%} ' +
+        '.group8{ width: 10%} ' +
+        '.group9{ width: 6%}']
 })
 export class SingleRouteComponent implements IObservableAlive
 {
@@ -44,14 +46,18 @@ export class SingleRouteComponent implements IObservableAlive
     public podFilter: boolean;
     public lastRefresh = Date.now();
     private isReadOnlyUser: boolean = false;
+    private selectedItems: SingleRouteItem[] = [];
+    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
 
     @ViewChild('dt') public grid: DataTable;
+    @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
+    @ViewChild(ActionModal) private actionModal: ActionModal;
     constructor(
         private routeService: RoutesService,
         private route: ActivatedRoute,
         private jobService: JobService,
         private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService) {}
+        private globalSettingsService: GlobalSettingsService) { }
 
     public ngOnInit()
     {
@@ -63,7 +69,8 @@ export class SingleRouteComponent implements IObservableAlive
                 return this.routeService.getSingleRoute(this.routeId);
             })
             .takeWhile(() => this.isAlive)
-            .subscribe((data: SingleRoute) => {
+            .subscribe((data: SingleRoute) =>
+            {
                 this.singleRoute = data;
                 this.allSingleRouteItems = this.singleRoute.items;
                 this.singleRouteItems = _.filter(this.allSingleRouteItems);
@@ -106,7 +113,7 @@ export class SingleRouteComponent implements IObservableAlive
             return;
         }
 
-        this.singleRouteItems = _.filter(this.allSingleRouteItems, { jobStatusDescription: value});
+        this.singleRouteItems = _.filter(this.allSingleRouteItems, { jobStatusDescription: value });
         this.clearFilter();
     }
 
@@ -138,21 +145,23 @@ export class SingleRouteComponent implements IObservableAlive
         }
 
         return new AssignModel(
-            route.stopAssignee ,
+            route.stopAssignee,
             branch,
             jobs,
             this.isReadOnlyUser,
-            _.extend(route, {level : level}));
+            _.extend(route, { level: level }));
     }
 
     public onAssigned(event: AssignModalResult): void
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
 
-        if (event.source.level == 'group') {
+        if (event.source.level == 'group')
+        {
             const stops = _.filter(this.singleRouteItems, (value: SingleRouteItem) => value.stop == event.source.stop);
 
-            _.map(stops, (value: SingleRouteItem) => {
+            _.map(stops, (value: SingleRouteItem) =>
+            {
                 value.assignee = userName;
                 value.stopAssignee = userName;
             });
@@ -171,6 +180,8 @@ export class SingleRouteComponent implements IObservableAlive
         this.podFilter = undefined;
         this.grid.filters = {};
         this.grid.filter(undefined, undefined, undefined);
+        this.selectedItems = [];
+        this.splitButtonComponent.reset();
     }
 
     public totalPerGroup(perCol: string, stop: string): number
@@ -180,5 +191,11 @@ export class SingleRouteComponent implements IObservableAlive
             .map(perCol)
             .sum()
             .value();
+    }
+
+    public onOptionClicked(event: string)
+    {
+        this.actionModal.isVisible = true;
+        console.log(event);
     }
 }

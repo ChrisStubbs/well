@@ -6,5 +6,6 @@
     public interface ILineItemSearchReadRepository
     {
         IEnumerable<LineItem> GetLineItemByIds(IEnumerable<int> ids);
+        IEnumerable<LineItem> GetLineItemByActivityId(int id);
     }
 }

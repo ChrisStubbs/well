@@ -135,5 +135,8 @@
         public static string AssigneeGetByStopId = "Assignee_GetByStopId";
 
         public static string LineItemGetByIds = "LineItem_GetByIds";
+        public static string LineItemGetByActivityId = "LineItem_GetByActivityId";
+        public static string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
+        public static string ActivityGetById = "Activity_GetById";
     }
 }

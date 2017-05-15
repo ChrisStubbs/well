@@ -178,6 +178,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\WebApiExceptionLogger.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\ActivityReadController.cs" />
     <Compile Include="Controllers\AppSearchController.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />

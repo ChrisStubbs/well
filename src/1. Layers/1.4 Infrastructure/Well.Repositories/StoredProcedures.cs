@@ -138,5 +138,6 @@
         public static string LineItemGetByActivityId = "LineItem_GetByActivityId";
         public static string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
         public static string ActivityGetById = "Activity_GetById";
+        public static string LocationGetById = "Location_GetById";
     }
 }

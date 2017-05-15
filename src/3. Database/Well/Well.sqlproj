@@ -358,6 +358,7 @@
     <Build Include="dbo\StoredProcedures\Activity_GetById.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByActivityId.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_GetByLineItemId.sql" />
+    <Build Include="dbo\StoredProcedures\Location_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

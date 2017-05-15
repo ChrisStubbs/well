@@ -355,6 +355,9 @@
     <Build Include="dbo\StoredProcedures\PostImportUpdate.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_Insert.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByIds.sql" />
+    <Build Include="dbo\StoredProcedures\Activity_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\LineItem_GetByActivityId.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemAction_GetByLineItemId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

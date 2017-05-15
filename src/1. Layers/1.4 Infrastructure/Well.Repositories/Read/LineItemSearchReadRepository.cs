@@ -42,5 +42,15 @@
             }
             return lineItems;
         }
+
+        public IEnumerable<LineItem> GetLineItemByActivityId(int id)
+        {
+            IEnumerable<LineItem> lineItems = new List<LineItem>();
+            this.dapperReadProxy.WithStoredProcedure(StoredProcedures.LineItemGetByActivityId)
+                .AddParameter("Id", id, DbType.Int32)
+                .QueryMultiple(x => lineItems = GetLineItemsByGrid(x));
+
+            return lineItems;
+        }
     }
 }

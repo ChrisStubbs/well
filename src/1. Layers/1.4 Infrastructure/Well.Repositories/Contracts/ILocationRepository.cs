@@ -1,6 +1,9 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
-    public interface ILocationRepository 
+    using Domain;
+
+    public interface ILocationRepository
     {
+        Location GetLocationById(int locationId);
     }
 }

@@ -194,6 +194,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
+    <Content Include="app\shared\action\action-modal.html" />
+    <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />

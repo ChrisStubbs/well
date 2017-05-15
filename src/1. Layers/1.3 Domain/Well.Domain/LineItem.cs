@@ -15,6 +15,7 @@
         public int? AmendedDeliveryQuantity { get; set; }
         public int? AmendedShortQuantity { get; set; }
         public int? OriginalShortQuantity { get; set; }
+        public int ActivityId { get; set; }
 
         public List<LineItemAction> LineItemActions { get; set; }
 

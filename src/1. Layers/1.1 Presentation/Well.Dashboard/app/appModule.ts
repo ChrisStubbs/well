@@ -79,7 +79,7 @@ import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService'
 import { DeliveryService } from './delivery/deliveryService';
 import { JobService } from './job/jobService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
+import { CalendarModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -92,9 +92,10 @@ import { DateComponent, SplitButtonComponent } from './shared/shared';
 import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import AppRoutes = require('./appRoutes');
-import { StopComponent} from './stops/stopComponent';
+import { StopComponent } from './stops/stopComponent';
 import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
 import { ActionModal } from './shared/action/actionModal';
+import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -110,7 +111,7 @@ import { ActionModal } from './shared/action/actionModal';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal
+        ActionModal, EditExceptionsComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

@@ -74,6 +74,7 @@
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
+    <Compile Include="Contracts\ILookupRepository.cs" />
     <Compile Include="Contracts\ILineItemActionReadRepository.cs" />
     <Compile Include="Contracts\ILineItemSearchReadRepository.cs" />
     <Compile Include="Contracts\ILocationRepository.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Read\AppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAssigneeReadRepository.cs" />
+    <Compile Include="Read\LookupRepository.cs" />
     <Compile Include="Read\LineItemActionReadRepository.cs" />
     <Compile Include="Read\LineItemSearchReadRepository.cs" />
     <Compile Include="Read\RouteReadRepository.cs" />

@@ -23,7 +23,16 @@ namespace PH.Well.Services
                     return this.lookupRepository.ExceptionTypes();
 
                 case LookupType.ExceptionAction:
-                    throw new ArgumentException($"{lookupType}");
+                    return this.lookupRepository.ExceptionActions();
+
+                case LookupType.JobStatus:
+                    return this.lookupRepository.JobStatus();
+
+                case LookupType.JobType:
+                    return this.lookupRepository.JobType();
+
+                case LookupType.Driver:
+                    return this.lookupRepository.Driver();
 
                 default:
                     throw new ArgumentException($"{lookupType}");

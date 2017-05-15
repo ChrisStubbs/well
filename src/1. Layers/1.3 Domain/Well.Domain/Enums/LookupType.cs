@@ -3,6 +3,9 @@
     public enum LookupType
     {
         ExceptionType,
-        ExceptionAction
+        ExceptionAction,
+        JobStatus,
+        JobType,
+        Driver
     }
 }

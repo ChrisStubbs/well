@@ -10,5 +10,8 @@ namespace PH.Well.Repositories.Contracts
     {
         IList<KeyValuePair<string, string>> ExceptionTypes();
         IList<KeyValuePair<string, string>> ExceptionActions();
+        IList<KeyValuePair<string, string>> JobStatus();
+        IList<KeyValuePair<string, string>> JobType();
+        IList<KeyValuePair<string, string>> Driver();
     }
 }

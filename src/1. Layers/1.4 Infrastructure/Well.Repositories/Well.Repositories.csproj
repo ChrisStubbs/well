@@ -70,10 +70,14 @@
     <Compile Include="BranchRepository.cs" />
     <Compile Include="CleanPreferenceRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\IActivityReadRepository.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\ILookupRepository.cs" />
+    <Compile Include="Contracts\ILineItemActionReadRepository.cs" />
+    <Compile Include="Contracts\ILineItemSearchReadRepository.cs" />
+    <Compile Include="Contracts\ILocationRepository.cs" />
     <Compile Include="Contracts\IPostImportRepository.cs" />
     <Compile Include="Contracts\IRouteReadRepository.cs" />
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
@@ -100,9 +104,11 @@
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
+    <Compile Include="LocationRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
     <Compile Include="PostImportRepository.cs" />
+    <Compile Include="Read\ActivityReadRepository.cs" />
     <Compile Include="Read\AssigneeReadRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />
@@ -120,6 +126,8 @@
     <Compile Include="Contracts\IAppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAssigneeReadRepository.cs" />
     <Compile Include="Read\LookupRepository.cs" />
+    <Compile Include="Read\LineItemActionReadRepository.cs" />
+    <Compile Include="Read\LineItemSearchReadRepository.cs" />
     <Compile Include="Read\RouteReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
     <Compile Include="RouteToRemoveRepository.cs" />

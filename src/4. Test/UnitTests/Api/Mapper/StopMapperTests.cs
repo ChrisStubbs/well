@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Api.Mapper
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Factories;
     using NUnit.Framework;
     using Well.Api.Mapper;
@@ -27,17 +28,120 @@
         public void ShouldMapStopModelHeaderItems()
         {
             var stop = new StopFactory().Build();
-            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job>(), new List<Assignee>());
+            var job = new JobFactory().WithTotalShort(10).Build();
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>());
 
-            Assert.That(stopModel.RouteId,Is.EqualTo(routeHeader.Id));
+            Assert.That(stopModel.RouteId, Is.EqualTo(routeHeader.Id));
             Assert.That(stopModel.RouteNumber, Is.EqualTo(routeHeader.RouteNumber));
             Assert.That(stopModel.Branch, Is.EqualTo(branch.BranchName));
             Assert.That(stopModel.BranchId, Is.EqualTo(branch.Id));
             Assert.That(stopModel.Driver, Is.EqualTo(routeHeader.DriverName));
             Assert.That(stopModel.RouteDate, Is.EqualTo(routeHeader.RouteDate));
-            //Assert.That(stopModel.Tba, Is.EqualTo(routeHeader.Id));
+            Assert.That(stopModel.Tba, Is.EqualTo(10));
             Assert.That(stopModel.StopNo, Is.EqualTo(stop.PlannedStopNumber));
             Assert.That(stopModel.TotalNoOfStopsOnRoute, Is.EqualTo(routeHeader.PlannedStops));
+        }
+
+        [Test]
+        public void ShouldMapOneItemForEachJobDetailItems()
+        {
+            var stop = new StopFactory().Build();
+            var jobDetails1 = new List<JobDetail>
+            {
+                new JobDetailFactory().Build(),
+                new JobDetailFactory().Build()
+            };
+
+            var jobDetails2 = new List<JobDetail>
+            {
+                new JobDetailFactory().Build()
+            };
+
+            var job = new JobFactory().With(x => x.JobDetails = jobDetails1)
+                                    .WithTotalShort(10)
+                                    .Build();
+
+            var job2 = new JobFactory().With(x => x.JobDetails = jobDetails2).Build();
+
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job, job2 }, new List<Assignee>());
+
+            Assert.That(stopModel.Items.Count, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void ShouldMapOneItemForEachJobDetailItemsThatIsNotATobaccoBag()
+        {
+            const string eighteenCharacterBarcode = "124789547568752311";
+
+            var stop = new StopFactory().Build();
+
+            var jobDetails1 = new List<JobDetail>
+            {
+                new JobDetailFactory().With(x=> x.PhProductCode = eighteenCharacterBarcode).Build(),
+                new JobDetailFactory().Build(),
+                new JobDetailFactory().Build()
+            };
+
+            var job = new JobFactory().With(x => x.JobTypeCode = "DEL-TOB")
+                                    .With(x => x.JobDetails = jobDetails1)
+                                    .WithTotalShort(10)
+                                    .Build();
+
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>());
+
+            Assert.That(stopModel.Items.Count, Is.EqualTo(2));
+            Assert.False(stopModel.Items.Any(x => x.Product == eighteenCharacterBarcode));
+        }
+
+        [Test]
+        public void ShouldMapToStopModelItems()
+        {
+            var stop = new StopFactory().Build();
+            var jobDetails1 = new List<JobDetail>
+            {
+                new JobDetailFactory()
+                    .With(x=> x.PhProductCode="PHProdCode")
+                    .With(x=> x.ProdDesc="ProductDescription")
+                    .With(x=> x.SkuGoodsValue=72)
+                    .With(x=> x.OriginalDespatchQty=592)
+                    .With(x=> x.DeliveredQty=666)
+                    .With(x=> x.JobDetailDamages.Add(new JobDetailDamage {Qty = 6}))
+                    .With(x=> x.JobDetailDamages.Add(new JobDetailDamage {Qty = 5}))
+                    .With(x=> x.ShortQty=22)
+                    .WithIsChecked(true)
+                    .WithIsHighValue(true)
+                    .With(x=> x.SSCCBarcode="12478459554678952")
+                    .Build()
+            };
+
+            var job = new JobFactory()
+                        .With(x => x.Id = 2545)
+                        .With(x => x.InvoiceNumber = "INVNO1")
+                        .With(x => x.JobTypeCode = "DEL-TOB")
+                        .With(x => x.PhAccount = "PHAcccountNo")
+                        .With(x => x.JobDetails = jobDetails1)
+                        .WithTotalShort(10)
+                        .Build();
+
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>());
+
+            Assert.That(stopModel.Items.Count, Is.EqualTo(1));
+            var item = stopModel.Items[0];
+            Assert.That(item.JobId, Is.EqualTo(2545));
+            Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
+            Assert.That(item.Type, Is.EqualTo("T"));
+            Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));
+            Assert.That(item.JobDetailId, Is.EqualTo(jobDetails1[0].Id));
+            Assert.That(item.Product, Is.EqualTo("PHProdCode"));
+            Assert.That(item.Description, Is.EqualTo("ProductDescription"));
+            Assert.That(item.Value, Is.EqualTo(72));
+            Assert.That(item.Invoiced, Is.EqualTo(592));
+            Assert.That(item.Delivered, Is.EqualTo(666));
+            Assert.That(item.Damages, Is.EqualTo(11));
+            Assert.That(item.Shorts, Is.EqualTo(22));
+            Assert.That(item.Checked, Is.True);
+            Assert.That(item.HighValue,Is.True);
+            Assert.That(item.BarCode, Is.EqualTo("12478459554678952"));
         }
     }
 }

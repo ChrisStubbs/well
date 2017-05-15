@@ -76,6 +76,7 @@
             [Test]
             public void ShouldNotProcessIfRouteHeaderDoesNotExists()
             {
+                //ARRANGE
                 var stopUpdate = new StopUpdate
                 {
                     RouteNumberAndDropNumber = "001 02",
@@ -107,9 +108,13 @@
                             $"Existing route header not found for route number ({stopUpdate.RouteNumber}), delivery date ({stopUpdate.DeliveryDate})!",
                             3215,
                             EventLogEntryType.Error)).Returns(true);
-            
+
+                postImportRepository.Setup(x => x.PostImportUpdate());
+
+                //ACT
                 this.service.Update(routeUpdate);
 
+                //ASSERT
                 this.routeHeaderRepository.Verify(
                     x =>
                         x.GetByNumberDateBranch(
@@ -129,11 +134,14 @@
                             $"Existing route header not found for route number ({stopUpdate.RouteNumber}), delivery date ({stopUpdate.DeliveryDate})!",
                             3215,
                             EventLogEntryType.Error), Times.Once);
+
+                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
 
             [Test]
             public void ShouldNotProcessIfStopAlreadyExists()
             {
+                //ARRANGE
                 var stopUpdate = new StopUpdate
                 {
                     RouteNumberAndDropNumber = "001 02",
@@ -176,8 +184,12 @@
                 this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                     .Returns(new Stop());
 
+                postImportRepository.Setup(x => x.PostImportUpdate());
+
+                //ACT
                 this.service.Update(routeUpdate);
 
+                //ASSERT
                 this.routeHeaderRepository.Verify(
                     x =>
                         x.GetByNumberDateBranch(
@@ -198,11 +210,14 @@
                             3232,
                             EventLogEntryType.Error), Times.Once);
 
+                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
 
             [Test]
             public void ShouldInsertCorrectly()
             {
+
+                //ARRANGE
                 var routeUpdate = new RouteUpdates();
 
                 var stopUpdate = new StopUpdate
@@ -216,7 +231,7 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                var jobUpdate = new JobUpdate {JobTypeCode = "DEL-DOC", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
+                var jobUpdate = new JobUpdate { JobTypeCode = "DEL-DOC", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
 
                 var jobDetailUpdate = new JobDetailUpdate { LineNumber = 1 };
 
@@ -260,8 +275,13 @@
 
                 this.jobStatusService.Setup(x => x.SetInitialStatus(It.IsAny<Job>()));
 
+                this.postImportRepository.Setup(x => x.PostImportUpdate());
+
+                //ACT
                 this.service.Update(routeUpdate);
 
+
+                //Assert
                 this.routeHeaderRepository.Verify(
                     x =>
                         x.GetByNumberDateBranch(
@@ -272,7 +292,7 @@
                 this.mapper.Verify(x => x.Map(stopUpdate, It.IsAny<Stop>()), Times.Once);
 
                 this.stopRepository.Verify(x => x.Save(It.IsAny<Stop>()), Times.Once);
-                
+
                 this.mapper.Verify(x => x.Map(jobUpdate, It.IsAny<Job>()), Times.Once);
 
                 this.jobRepository.Verify(x => x.Save(It.IsAny<Job>()), Times.Once);
@@ -282,6 +302,8 @@
                 this.jobDetailRepository.Verify(x => x.Save(It.IsAny<JobDetail>()), Times.Once);
 
                 this.jobStatusService.Verify(x => x.SetInitialStatus(It.IsAny<Job>()), Times.Once);
+
+                this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
         }
 
@@ -290,6 +312,7 @@
             [Test]
             public void ShouldNotProcessIfNoStopExists()
             {
+                //ARRANGE
                 var routeUpdate = new RouteUpdates();
 
                 var stopUpdate = new StopUpdate
@@ -322,8 +345,12 @@
                             $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                             7222, EventLogEntryType.Error)).Returns(true);
 
+                postImportRepository.Setup(x => x.PostImportUpdate());
+
+                //ACT
                 this.service.Update(routeUpdate);
 
+                //ASSERT
                 this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
 
                 this.logger.Verify(
@@ -337,11 +364,14 @@
                             EventSource.WellAdamXmlImport,
                             $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                             7222, EventLogEntryType.Error), Times.Once);
+
+                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
 
             [Test]
             public void ShouldProcessCorrectly()
             {
+                //ARRANGE
                 var routeUpdate = new RouteUpdates();
 
                 var stopUpdate = new StopUpdate
@@ -375,7 +405,13 @@
 
                 this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
 
+                this.postImportRepository.Setup(x => x.PostImportUpdate());
+
+                //ACT
                 this.service.Update(routeUpdate);
+
+                //ASSERT
+                postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
             }
         }
 
@@ -403,13 +439,17 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount)).Returns(stop);
+                stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount)).Returns(stop);
 
-                this.stopRepository.Setup(x => x.DeleteStopByTransportOrderReference(stop.TransportOrderReference));
+                stopRepository.Setup(x => x.DeleteStopByTransportOrderReference(stop.TransportOrderReference));
 
-                this.service.Update(routeUpdate);
+                postImportRepository.Setup(x => x.PostImportUpdate());
 
-                this.stopRepository.Verify(x => x.DeleteStopByTransportOrderReference(stopUpdate.TransportOrderRef), Times.Once);
+                service.Update(routeUpdate);
+
+                stopRepository.Verify(x => x.DeleteStopByTransportOrderReference(stopUpdate.TransportOrderRef), Times.Once);
+
+                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
         }
     }

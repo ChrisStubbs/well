@@ -27,10 +27,28 @@
             this.Entity.DeliveredQty = 23;
             this.Entity.JobId = 1;
             this.Entity.EntityAttributes = new List<EntityAttribute>();
-            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "SubOuterDamageTotal", Value = "100" });
-            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "IsHighValue", Value = "N" });
-            //this.Entity.EntityAttributes.Add(new EntityAttribute { Code = "DateLife", Value = DateTime.Now.ToShortDateString()});
+        }
 
+        public JobDetailFactory WithIsChecked(bool value)
+        {
+            AddEntityAttributeValue("LINESTATUS", value ? "Delivered" : "");
+            return this;
+        }
+        public JobDetailFactory WithIsHighValue(bool value)
+        {
+            AddEntityAttribute("HIGHVALUE", value ? "Y" : "N");
+            return this;
+        }
+
+        public void AddEntityAttribute(string code, string value)
+        {
+            Entity.EntityAttributes.Add(new EntityAttribute { Code = code, Value = value });
+        }
+
+        public void AddEntityAttributeValue(string code, string value)
+        {
+            var ea = new EntityAttribute { Code = code };
+            Entity.EntityAttributeValues.Add(new EntityAttributeValue { EntityAttribute = ea, Value = value });
         }
     }
 }

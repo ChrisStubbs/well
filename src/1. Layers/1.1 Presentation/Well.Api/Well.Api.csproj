@@ -178,6 +178,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\WebApiExceptionLogger.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\ActivityReadController.cs" />
     <Compile Include="Controllers\AppSearchController.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Controllers\JobStatusController.cs" />
     <Compile Include="Controllers\JobTypeController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
+    <Compile Include="Controllers\LineItemSearchController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />

@@ -21,7 +21,7 @@ export class AssignModal implements IObservableAlive
     public assigned = false;
     public isAlive: boolean = true;
 
-    @Input() public model: AssignModel
+    @Input() public model: AssignModel;
     @Output() public onAssigned = new EventEmitter();
 
     private allUsers: IUser[];

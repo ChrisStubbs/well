@@ -89,6 +89,8 @@
                         $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})",
                         7776, EventLogEntryType.Error)).Returns(true);
 
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
+
             this.service.Import(route);
 
             this.routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(header.RouteNumber, header.RouteDate.Value, header.StartDepot), Times.Once);
@@ -131,6 +133,7 @@
             this.jobDetailRepository.Setup(x => x.Save(jobDetail));
             this.jobDetailDamageRepository.Setup(x => x.Save(jobDetail.JobDetailDamages[0]));
             this.jobStatusService.Setup(x => x.SetInitialStatus(job));
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
 
             this.service.Import(route);
 
@@ -141,6 +144,7 @@
             this.jobDetailRepository.Verify(x => x.Save(jobDetail), Times.Once);
             this.jobDetailDamageRepository.Verify(x => x.Save(jobDetail.JobDetailDamages[0]), Times.Once);
             this.jobStatusService.Verify(x => x.SetInitialStatus(job), Times.Once);
+            this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
         }
     }
 }

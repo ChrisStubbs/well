@@ -31,7 +31,6 @@ export class RoutesComponent implements IObservableAlive
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
     public jobStatus: Array<[string, string]>;
-    public selectedRoutes: Route[];
 
     public isAlive: boolean = true;
     private actions: string[] = ['Re-Plan'];
@@ -43,7 +42,6 @@ export class RoutesComponent implements IObservableAlive
     private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
 
     @ViewChild('dt') public dataTable: DataTable;
-    // @ViewChild(AssignModal) private assignModal: AssignModal;
 
     constructor(
         protected globalSettingsService: GlobalSettingsService,

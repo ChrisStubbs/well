@@ -50,22 +50,20 @@
             {
                 var stop = new StopFactory().Build();
                 var stops = new List<Stop> {stop};
-                var totshort = new EntityAttribute {Code = "TOTSHORT"};
-                var totalShortEntityAttributeValue = new EntityAttributeValue {EntityAttribute = totshort, Value = "20"};
-                var codEntityAttribute = new EntityAttribute {Code = "COD", Value = "CODFISH"};
+               
 
                 var job = new JobFactory().With(x => x.StopId = stop.Id)
                     .With(x => x.JobTypeCode = EnumExtensions.GetDescription(JobType.GlobalUplift))
                     .With(x => x.JobStatus = JobStatus.CompletedOnPaper)
                     .With(x => x.JobDetails = GetTwoCleanAndOneExceptionJobDetail())
-                    .With(x => x.EntityAttributeValues.Add(totalShortEntityAttributeValue))
-                    .With(x => x.EntityAttributes.Add(codEntityAttribute))
+                    .WithCod("CODFISH")
+                    .WithTotalShort(20)
                     .With(x => x.ProofOfDelivery = 25)
                     .Build();
 
                 var job2 = new JobFactory().With(x => x.StopId = stop.Id)
                     .With(x => x.Id = 2)
-                    .With(x => x.EntityAttributeValues.Add(totalShortEntityAttributeValue))
+                    .WithTotalShort(20)
                     .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
                     .Build();
 

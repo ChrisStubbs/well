@@ -1,16 +1,16 @@
-import { Component, ViewChild }             from '@angular/core';
-import { ActivatedRoute }                   from '@angular/router';
-import { IObservableAlive }                 from '../shared/IObservableAlive';
-import { JobService, JobType }              from '../job/job'
-import { StopService }                      from './stopService';
-import { Stop, StopItem, StopFilter }       from './stop';
-import * as _                               from 'lodash';
-import { DataTable }                        from 'primeng/components/datatable/datatable';
-import { AssignModal }                      from '../shared/assignModal';
-import { AssignModel, AssignModalResult }   from '../shared/assignModel';
-import { Branch }                           from '../shared/branch/branch';
-import { SecurityService }                  from '../shared/security/securityService';
-import { GlobalSettingsService }            from '../shared/globalSettings';
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { JobService, JobType } from '../job/job'
+import { StopService } from './stopService';
+import { Stop, StopItem, StopFilter } from './stop';
+import * as _ from 'lodash';
+import { DataTable } from 'primeng/components/datatable/datatable';
+import { AssignModal } from '../shared/assignModal';
+import { AssignModel, AssignModalResult } from '../shared/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-stop',
@@ -30,6 +30,7 @@ import { GlobalSettingsService }            from '../shared/globalSettings';
 export class StopComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
+    private actions: string[] = ['Re-Plan', 'Credit', 'Close'];
     public jobTypes: Array<JobType>;
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop;
@@ -37,8 +38,9 @@ export class StopComponent implements IObservableAlive
     public filters: StopFilter;
     public lastRefresh = Date.now();
     private stopId: number;
+    public selectedItems: StopItem[] = [];
     private isReadOnlyUser: boolean = false;
-
+    private isActionMode: boolean = false;
     @ViewChild('dt') public grid: DataTable;
 
     constructor(
@@ -109,11 +111,16 @@ export class StopComponent implements IObservableAlive
         const jobIds = _.uniq(_.map(this.stop.items, 'jobId'));
 
         return new AssignModel(this.stop.assignedTo, branch, jobIds, this.isReadOnlyUser, undefined);
-        
+
     }
 
     public onAssigned(event: AssignModalResult)
     {
         this.stop.assignedTo = event.newUser.name;
+    }
+
+    public onOptionClicked(event: string)
+    {
+        this.isActionMode = true;
     }
 }

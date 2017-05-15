@@ -5,7 +5,7 @@ import { DropDownItem } from './shared';
     template: `
         <!-- Split button -->
         <div class="btn-group">
-          <button type="button" class="btn btn-success"  [disabled]="disabled" >Action</button>
+          <button type="button" class="btn btn-success"  [disabled]="disabled">{{selectedOption}}</button>
           <button type="button" class="btn btn-success dropdown-toggle" 
                         data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false"  [disabled]="disabled" >
@@ -13,7 +13,7 @@ import { DropDownItem } from './shared';
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li *ngFor="let option of options"><a>{{option}}</a></li>
+            <li *ngFor="let option of options" (click)="optionClicked(option)"><a>{{option}}</a></li>
           </ul>
         </div>
     `
@@ -22,4 +22,13 @@ export class SplitButtonComponent
 {
     @Input() public options: string[];
     @Input() public disabled: boolean = false;
+    @Output() public onOptionClicked: EventEmitter<string> = new EventEmitter<string>();
+
+    private selectedOption: string = 'Action';
+
+    public optionClicked = (option: string): void =>
+    {
+        this.selectedOption = option;
+        this.onOptionClicked.emit(option);
+    }
 }

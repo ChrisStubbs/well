@@ -87,6 +87,7 @@
         [Test]
         public void ShouldNotUpdateRouteHeaderAndLogIfHeaderDoesNotExist()
         {
+            //ARRANGE
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
@@ -104,8 +105,13 @@
 
             const string filename = "epod_file.xml";
 
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
+
+            //ACT
             this.service.Update(route, filename);
 
+            //ASSERT
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
@@ -119,12 +125,16 @@
             this.logger.Verify(x => x.LogDebug(logError), Times.Once);
 
             this.eventLogger.Verify(x => x.TryWriteToEventLog(EventSource.WellAdamXmlImport, logError, 9682, EventLogEntryType.Error), Times.Once);
+
+            this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
         }
 
         [Test]
         [TestCase(20)]
         public void ShouldProcessCorrectly(int branchId)
         {
+            //ARRANGE
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
@@ -171,8 +181,13 @@
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
+
+            //ACT
             this.service.Update(route, filename);
 
+            //ASSERT
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
@@ -191,6 +206,9 @@
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
+
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
         }
 
         [Test]
@@ -247,8 +265,13 @@
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
+
+            //ACT
             this.service.Update(route, filename);
 
+            //ASSERT
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
@@ -270,12 +293,15 @@
 
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 
+            this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+
         }
 
         [Test]
         public void ShouldNotProcessCompletedOnPaperPod()
         {
-
+            //ARRANGE
             var route = new RouteDelivery();
 
             var routeHeader = RouteHeaderFactory.New.Build();
@@ -323,8 +349,14 @@
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
+            this.postImportRepository.Setup(x => x.PostImportUpdate());
+
+            this.postImportRepository.Setup(x => x.PostTranSendImport());
+            //ACT
             this.service.Update(route, filename);
 
+
+            //ASSERT
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
@@ -343,6 +375,10 @@
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
+
+            this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
 
         }
     }

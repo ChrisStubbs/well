@@ -129,11 +129,19 @@
         public static string AppSearch = "AppSearch";
         //well update
         public static string PostImportUpdate = "PostImportUpdate";
+        public static string LineItemActionInsert = "LineItemAction_Insert";
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
         public static string AssigneeGetByStopId = "Assignee_GetByStopId";
 
+        public static string LineItemGetByIds = "LineItem_GetByIds";
+        public static string LineItemGetByActivityId = "LineItem_GetByActivityId";
+        public static string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
+        public static string ActivityGetById = "Activity_GetById";
+        public static string LocationGetById = "Location_GetById";
+        
         //lookups
         public const string ExceptionType = "GetExceptionType";
+
     }
 }

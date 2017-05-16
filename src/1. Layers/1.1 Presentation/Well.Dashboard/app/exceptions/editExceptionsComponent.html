@@ -4,7 +4,7 @@
     </div>
     <div class="col-lg-4">
         <select class="form-control" [ngModel]="selectedValue" id="filterException" (change)="filter">
-            <option *ngFor="let e of exceptionTypes" [ngValue]="e">{{e}}</option>
+            <option *ngFor="let et of exceptionTypes" [ngValue]="et.key">{{et.value}}</option>
         </select>
     </div>
     <div class="col-lg-4">
@@ -42,10 +42,9 @@
             <p-column header="Delivered" field="delivered"></p-column>
             <p-column header="Quantity" field="quantity">
                 <ng-template let-data="rowData" pTemplate="body">
-                    <span>{{ data.barCode }}</span>
-                    <span class="glyphicon glyphicon-comment">
-                        <a href="#" data-toggle="tooltip" title="{{data.comments}}"></a>
-                    </span>
+                    <div class="text-right">
+                        <span>{{ data.quantity }}</span>
+                    </div>
                 </ng-template>
             </p-column>
             <p-column header="Action" field="action"></p-column>
@@ -54,8 +53,11 @@
             <p-column header="" field="erdd">
                 <ng-template pTemplate="header">
                     <span>Product</span>
-                    <span class="glyphicon glyphicon-info-sign">
-                        <a href="#" data-toggle="tooltip" title="Earliest Requested Delivery Date"></a>
+                    <span tooltip="Earliest Requested Delivery Date"
+                        [tooltipDisabled]="false"
+                        [tooltipAnimation]="true"
+                        tooltipPlacement="top"
+                        class="glyphicon glyphicon-info-sign">
                     </span>
                 </ng-template>
             </p-column>

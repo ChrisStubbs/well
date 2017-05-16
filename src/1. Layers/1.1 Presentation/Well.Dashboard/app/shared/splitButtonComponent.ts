@@ -7,15 +7,20 @@ import { DropDownItem } from './shared';
         <div class="btn-group">
           <button type="button" class="btn btn-success"  
                         [disabled]="disabled" 
-                        (click)="optionClicked(selectedOption)">{{selectedOption}}</button>
+                        (click)="optionClicked(selectedOption)"
+                        data-toggle="modal" 
+                        data-target="#actionModal"
+                        >{{selectedOption}}</button>
           <button type="button" class="btn btn-success dropdown-toggle" 
                         data-toggle="dropdown" 
-                        aria-haspopup="true" aria-expanded="false" [disabled]="disabled" >
+                        aria-haspopup="true" aria-expanded="false" [disabled]="disabled">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li *ngFor="let option of options" (click)="optionClicked(option)"><a>{{option}}</a></li>
+            <li *ngFor="let option of options" (click)="optionClicked(option)"
+                data-toggle="modal" 
+                data-target="#actionModal"><a>{{option}}</a></li>
           </ul>
         </div>
     `

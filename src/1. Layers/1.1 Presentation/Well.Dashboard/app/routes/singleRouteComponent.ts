@@ -15,6 +15,7 @@ import 'rxjs/add/operator/mergeMap';
 import { SingleRouteItem } from './singleRoute';
 import { SplitButtonComponent } from '../shared/splitButtonComponent';
 import { ActionModal } from '../shared/action/actionModal';
+import { ActionModalModel } from '../shared/action/actionModalModel';
 
 @Component({
     selector: 'ow-route',
@@ -47,7 +48,7 @@ export class SingleRouteComponent implements IObservableAlive
     public lastRefresh = Date.now();
     private isReadOnlyUser: boolean = false;
     private selectedItems: SingleRouteItem[] = [];
-    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
+    private actions: string[] = ['Credit']; /*['Close', 'Credit', 'Re-plan'];*/
 
     @ViewChild('dt') public grid: DataTable;
     @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
@@ -195,7 +196,10 @@ export class SingleRouteComponent implements IObservableAlive
 
     public onOptionClicked(event: string)
     {
-        this.actionModal.isVisible = true;
-        console.log(event);
+        const model = new ActionModalModel();
+        model.action = event;
+        model.jobIds = _.uniq(_.map(this.selectedItems, 'jobId'));
+        model.items = this.selectedItems;
+        this.actionModal.show(model);
     }
 }

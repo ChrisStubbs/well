@@ -1,5 +1,6 @@
 ﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { IObservableAlive } from '../IObservableAlive';
+import { ActionModalModel } from './actionModalModel';
 
 @Component({
     selector: 'action-modal',
@@ -7,10 +8,10 @@ import { IObservableAlive } from '../IObservableAlive';
 })
 export class ActionModal implements IObservableAlive
 {
-    @Input() public isVisible: boolean = false;
     private actions: string[] = ['Close', 'Credit', 'Re-plan'];
     private sources: string[] = ['Not Defined', 'Input', 'Assembler', 'Checker'];
     private reasons: string[] = ['Not Defined', 'No Credit', 'Damaged Goods', 'Shorts Delivered'];
+    public model: ActionModalModel = new ActionModalModel();
     public isAlive: boolean = true;
 
     public ngOnInit()
@@ -23,9 +24,13 @@ export class ActionModal implements IObservableAlive
         this.isAlive = false;
     }
 
+    public show(model: ActionModalModel): void {
+        this.model = model;
+    }
+
     private cancel(): void
     {
-        this.isVisible = false;
+        console.log('cancel modal');
     }
 
     private save(): void

@@ -50,6 +50,8 @@ export class SingleRouteComponent implements IObservableAlive
     private selectedItems: SingleRouteItem[] = [];
     private actions: string[] = ['Credit']; /*['Close', 'Credit', 'Re-plan'];*/
 
+    public ids: Array<number> = [1, 2, 3, 4, 5, 6];
+
     @ViewChild('dt') public grid: DataTable;
     @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
     @ViewChild(ActionModal) private actionModal: ActionModal;

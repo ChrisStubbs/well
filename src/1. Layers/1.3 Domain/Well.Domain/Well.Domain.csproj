@@ -98,6 +98,7 @@
     <Compile Include="ValueObjects\AdamFail.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
+    <Compile Include="ValueObjects\EditLineItemException.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />

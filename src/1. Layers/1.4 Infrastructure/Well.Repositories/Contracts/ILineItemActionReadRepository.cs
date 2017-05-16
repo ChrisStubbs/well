@@ -6,5 +6,6 @@
     public interface ILineItemActionReadRepository
     {
         IEnumerable<LineItemAction> GetLineItemActionByLineItemId(int id);
+        IEnumerable<LineItemAction> GetLineItemActionByLineItemIds(IEnumerable<int> id);
     }
 }

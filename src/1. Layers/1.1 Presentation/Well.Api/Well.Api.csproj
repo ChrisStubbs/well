@@ -225,6 +225,7 @@
     </Compile>
     <Compile Include="Mapper\BranchModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IBranchModelMapper.cs" />
+    <Compile Include="Mapper\Contracts\ILineItemExceptionMapper.cs" />
     <Compile Include="Mapper\Contracts\IMapper.cs" />
     <Compile Include="Mapper\Contracts\IRouteModelsMapper.cs" />
     <Compile Include="Mapper\Contracts\ICreditThresholdMapper.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\Contracts\ISingleRouteMapper.cs" />
     <Compile Include="Mapper\Contracts\IStopMapper.cs" />
+    <Compile Include="Mapper\LineItemExceptionMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
     <Compile Include="Mapper\SingleRouteMapper.cs" />
     <Compile Include="Mapper\StopMapper.cs" />

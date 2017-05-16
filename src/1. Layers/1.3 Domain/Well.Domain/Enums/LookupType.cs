@@ -6,6 +6,9 @@
         ExceptionAction,
         JobStatus,
         JobType,
-        Driver
+        Driver,
+        DeliveryAction,
+        JobDetailSource,
+        JobDetailReason
     }
 }

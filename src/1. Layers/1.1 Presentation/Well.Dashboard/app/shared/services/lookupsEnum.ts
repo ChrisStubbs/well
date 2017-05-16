@@ -1,5 +1,8 @@
 export enum LookupsEnum
 {
     ExceptionType,
-    ExceptionAction
+    ExceptionAction,
+    DeliveryAction,
+    JobDetailSource,
+    JobDetailReason
 }

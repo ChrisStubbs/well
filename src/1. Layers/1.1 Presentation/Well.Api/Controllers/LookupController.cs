@@ -35,12 +35,5 @@ namespace PH.Well.Api.Controllers
                 .ToDictionary(k => k.Key, v => v.Value);
         }
 
-        //[HttpGet]
-        //public Dictionary<string, string> test()
-        //{
-        //    return this>Get("JobType")
-
-        //        .ToDictionary(k => k.Key, v => v.Value);
-        //}
     }
 }

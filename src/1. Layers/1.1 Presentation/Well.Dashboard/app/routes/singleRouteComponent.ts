@@ -45,6 +45,8 @@ export class SingleRouteComponent implements IObservableAlive
     public lastRefresh = Date.now();
     private isReadOnlyUser: boolean = false;
 
+    public ids: Array<number> = [1, 2, 3, 4, 5, 6];
+
     @ViewChild('dt') public grid: DataTable;
     constructor(
         private routeService: RoutesService,

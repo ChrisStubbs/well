@@ -95,6 +95,9 @@ import AppRoutes = require('./appRoutes');
 import {StopComponent} from './stops/stopComponent';
 import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
 import {EditExceptionsComponent} from './exceptions/editExceptionsComponent';
+import {Ng2Webstorage} from 'ngx-webstorage';
+import {LookupService} from './shared/services/lookupService';
+import {TooltipModule} from 'ngx-tooltip';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -114,12 +117,12 @@ import {EditExceptionsComponent} from './exceptions/editExceptionsComponent';
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule, BrowserAnimationsModule, DataGridModule, SharedModule, DataTableModule
+        ReactiveFormsModule, BrowserAnimationsModule, DataGridModule, SharedModule, DataTableModule, Ng2Webstorage, TooltipModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, JobService,
+        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, JobService, LookupService,
         CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService,
         {
             provide: APP_INITIALIZER,

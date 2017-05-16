@@ -10,6 +10,8 @@
 	[ApprovalDate] DATETIME NULL,
 	[ApprovedBy] VARCHAR(50) NULL,
 	[LineItemId] INT NOT NULL,
+	[Originator] VARCHAR(50) NULL,
+	[ActionedBy] VARCHAR(50) NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,

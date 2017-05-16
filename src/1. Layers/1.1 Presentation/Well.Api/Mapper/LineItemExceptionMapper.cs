@@ -22,7 +22,7 @@
                         Id = line.Id,
                         ProductNumber = line.ProductCode,
                         Product = line.ProductDescription,
-                        //Originator
+                        Originator = action.Originator ?? "Customer",
                         Exception = action.ExceptionType,
                         Invoiced = line.OriginalDespatchQuantity,
                         Delivered = line.DeliveredQuantity,
@@ -30,7 +30,7 @@
                         Source = action.Source,
                         Reason = action.Reason,
                         Erdd = action.ReplanDate,
-                        //ActionedBy = action.ActionedBy
+                        ActionedBy = action.ActionedBy,
                         ApprovedBy = action.ApprovedBy
 
                     };

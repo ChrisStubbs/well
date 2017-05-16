@@ -14,5 +14,7 @@
         public DateTime? SubmittedDate { get; set; } 
         public DateTime? ApprovalDate { get; set; }
         public string ApprovedBy { get; set; }
+        public string ActionedBy { get; set; }
+        public string Originator { get; set; }
     }
 }

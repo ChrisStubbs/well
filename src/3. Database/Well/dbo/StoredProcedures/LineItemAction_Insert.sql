@@ -2,6 +2,8 @@
 AS
 BEGIN
 	DECLARE @process VARCHAR(20) = 'WellUpdate'
+	DECLARE @Originator VARCHAR(20) = 'Driver'
+
 	DECLARE @ExceptionShort INT = 1
 			,@ExceptionBypass INT = 2
 			,@ExceptionDamage INT = 3
@@ -30,8 +32,8 @@ BEGIN
 
 	BEGIN TRAN
 		
-		INSERT INTO LineItemAction(Quantity, ExceptionTypeId, LineItemId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)	
-		SELECT Quantity, ExceptionType, LineItemId ,  @process, GETDATE(), @process, GETDATE()
+		INSERT INTO LineItemAction(Quantity, ExceptionTypeId, LineItemId, Originator, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)	
+		SELECT Quantity, ExceptionType, LineItemId , @Originator,  @process, GETDATE(), @process, GETDATE()
 		FROM @NewLineItemAction
 		
 	COMMIT

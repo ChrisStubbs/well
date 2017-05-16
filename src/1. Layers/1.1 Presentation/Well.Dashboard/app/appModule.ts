@@ -96,6 +96,7 @@ import { StopComponent } from './stops/stopComponent';
 import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
 import { ActionModal } from './shared/action/actionModal';
 import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
+import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -111,7 +112,7 @@ import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent
+        ActionModal, EditExceptionsComponent, EditExceptionsModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

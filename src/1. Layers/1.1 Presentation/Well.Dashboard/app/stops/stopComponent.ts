@@ -30,7 +30,7 @@ import { GlobalSettingsService } from '../shared/globalSettings';
 export class StopComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    private actions: string[] = ['Re-Plan', 'Credit', 'Close'];
+    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
     public jobTypes: Array<JobType>;
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop;

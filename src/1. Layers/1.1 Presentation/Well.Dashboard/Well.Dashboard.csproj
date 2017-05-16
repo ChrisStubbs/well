@@ -192,11 +192,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
+    <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
+    <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
-    <Content Include="app\shared\action\action-modal.html" />
-    <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
-    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
@@ -218,6 +218,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
     <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
+    <TypeScriptCompile Include="app\shared\services\ILookupValue.ts" />
+    <TypeScriptCompile Include="app\shared\services\lookupsEnum.ts" />
+    <TypeScriptCompile Include="app\shared\services\lookupService.ts" />
+    <TypeScriptCompile Include="app\shared\services\services.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\stops\stop.ts" />
     <TypeScriptCompile Include="app\stops\stopComponent.ts" />
@@ -242,6 +246,7 @@
     <Content Include="app\delivery\delivery.html" />
     <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
+    <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\routes\singleRouteComponent.html" />

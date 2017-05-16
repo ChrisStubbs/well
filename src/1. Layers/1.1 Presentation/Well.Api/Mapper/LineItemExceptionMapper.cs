@@ -22,7 +22,7 @@
                         Id = line.Id,
                         ProductNumber = line.ProductCode,
                         Product = line.ProductDescription,
-                        Originator = action.Originator ?? "Customer",
+                        Originator = action.Originator ?? "Customer",  // can only be reported by driver or customer
                         Exception = action.ExceptionType,
                         Invoiced = line.OriginalDespatchQuantity,
                         Delivered = line.DeliveredQuantity,

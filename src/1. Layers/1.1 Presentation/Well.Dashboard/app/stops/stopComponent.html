@@ -43,7 +43,7 @@
                         <ow-split-button [options]="actions"
                                          [disabled]="selectedItems.length == 0"
                                          (onOptionClicked)="onOptionClicked($event)"></ow-split-button>
-
+                        <edit-exceptions-modal></edit-exceptions-modal>
                     </div>
                 </div>
                 <div class="row">
@@ -135,14 +135,14 @@
                             <p-column header="Damages" field="damages" [filter]="true" filterMatchMode="equals" [sortable]="true">
                                 <ng-template let-data="rowData" pTemplate="body">
                                     <div class="text-right">
-                                        {{data.delivered}}
+                                        {{data.damages}}
                                     </div>
                                 </ng-template>
                             </p-column>
                             <p-column header="Shorts" field="shorts" [filter]="true" filterMatchMode="equals" [sortable]="true">
                                 <ng-template let-data="rowData" pTemplate="body">
                                     <div class="text-right">
-                                        {{data.delivered}}
+                                        {{data.shorts}}
                                     </div>
                                 </ng-template>
                             </p-column>

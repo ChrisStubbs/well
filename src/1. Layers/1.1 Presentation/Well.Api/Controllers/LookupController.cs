@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using PH.Well.Domain.Enums;
 using PH.Well.Services.Contracts;
+using System.Linq;
 
 namespace PH.Well.Api.Controllers
 {
@@ -14,7 +15,8 @@ namespace PH.Well.Api.Controllers
             this.lookupService = lookupService;
         }
 
-        public IList<KeyValuePair<string, string>> Get(string lookUp)
+        [Route("Lookup/{lookUp}")]
+        public Dictionary<string, string> Get(string lookUp)
         {
             LookupType lookupValue;
 
@@ -29,7 +31,16 @@ namespace PH.Well.Api.Controllers
                 throw new ArgumentException($"{lookUp}");
             }
 
-            return lookupService.GetLookup(lookupValue);
+            return lookupService.GetLookup(lookupValue)
+                .ToDictionary(k => k.Key, v => v.Value);
         }
+
+        //[HttpGet]
+        //public Dictionary<string, string> test()
+        //{
+        //    return this>Get("JobType")
+
+        //        .ToDictionary(k => k.Key, v => v.Value);
+        //}
     }
 }

@@ -1,27 +1,40 @@
-import { Component, Input }         from '@angular/core';
-import { IObservableAlive }         from '../shared/IObservableAlive';
-import { EditExceptionService }     from './editExceptionsService';
-import { IEditLineItemException }   from './editLineItemException';
+import { Component, Input }                         from '@angular/core';
+import { IObservableAlive }                         from '../shared/IObservableAlive';
+import { EditExceptionService }                     from './editExceptionsService';
+import { IEditLineItemException }                   from './editLineItemException';
+import {LookupService, ILookupValue, LookupsEnum}   from '../shared/services/services';
+
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'ow-editExceptions',
-    templateUrl: './app/routes/singleRouteComponent.html',
-    providers: [EditExceptionService]
+    templateUrl: './app/exceptions/editExceptionsComponent.html',
+     providers: [LookupService]
 })
 export class EditExceptionsComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    public source: Array<IEditLineItemException>;
-    @Input() public ids: Array<number>;
-
-    constructor(private editExceptionService: EditExceptionService) {}
+    // public source: Array<IEditLineItemException>;
+    public exceptionTypes: Array<ILookupValue>;
+    //
+    // @Input() public ids: Array<number>;
+    //
+     constructor(
+         private lookupService: LookupService) { }
 
     public ngOnInit()
     {
-        this.editExceptionService.get(this.ids)
+        // this.editExceptionService.get(this.ids)
+        //     .takeWhile(() => this.isAlive)
+        //     .subscribe((values: Array<IEditLineItemException>) => this.source = values);
+
+        this.lookupService.get(LookupsEnum.ExceptionType)
             .takeWhile(() => this.isAlive)
-            .subscribe((values: Array<IEditLineItemException>) => this.source = values);
+            .subscribe((value: Array<ILookupValue>) =>
+            {
+                this.exceptionTypes = value;
+                console.log(value);
+            });
     }
 
     public ngOnDestroy(): void

@@ -17,8 +17,8 @@ BEGIN
 		, lia.ApprovedBy  
 	FROM LineItem li
 	INNER JOIN JobDetail jd on jd.LineItemId = li.Id
-	INNER JOIN LineItemAction lia on lia.LineItemId = li.id
-	INNER JOIN ExceptionType et on et.Id = lia.ExceptionTypeId
+	LEFT JOIN LineItemAction lia on lia.LineItemId = li.id
+	LEFT JOIN ExceptionType et on et.Id = lia.ExceptionTypeId
 	LEFT JOIN JobDetailSource jds on jds.Id = lia.SourceId
 	LEFT JOIN JobDetailReason jdr on jdr.Id = lia.ReasonId
 	INNER JOIN @Ids i on i.Value = li.Id

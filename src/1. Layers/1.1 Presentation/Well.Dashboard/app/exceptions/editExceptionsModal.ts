@@ -4,10 +4,13 @@ import { IObservableAlive } from '../shared/IObservableAlive';
 import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
 import { IEditLineItemException } from './editLineItemException';
 import { LineItemAction } from './lineItemAction';
+import { EditExceptionsService } from './editExceptionsService';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'edit-exceptions-modal',
-    templateUrl: './app/exceptions/editExceptionsModal.html'
+    templateUrl: './app/exceptions/editExceptionsModal.html',
+    providers: [LookupService, EditExceptionsService]
 })
 export class EditExceptionsModal implements IObservableAlive
 {
@@ -21,8 +24,10 @@ export class EditExceptionsModal implements IObservableAlive
     private reasons: Array<ILookupValue> = [];
     private exceptionTypes: Array<ILookupValue> = [];
     private lineItemAction: LineItemAction = new LineItemAction();
-    
-    constructor(private lookupService: LookupService) { }
+    @ViewChild('exceptionModalForm') private currentForm: NgForm;
+
+    constructor(private lookupService: LookupService,
+                private editExceptionsService: EditExceptionsService) { }
 
     public ngOnInit()
     {
@@ -53,7 +58,6 @@ export class EditExceptionsModal implements IObservableAlive
             {
                 this.reasons = value;
             });
-
     }
 
     public ngOnDestroy()
@@ -63,7 +67,20 @@ export class EditExceptionsModal implements IObservableAlive
 
     public save(): void
     {
-        console.log(this.lineItemAction);
+        this.lineItemAction.ids = _.uniq(_.map(this.items, 'id'));
+
+        if (this.currentForm.form.valid && this.lineItemAction.ids.length > 0)
+        {
+
+            if (this.isEditMode)
+            {
+                this.editExceptionsService.put(this.lineItemAction);
+            }
+            else
+            {
+                this.editExceptionsService.post(this.lineItemAction);
+            }
+        }
     }
 
     public cancel(): void

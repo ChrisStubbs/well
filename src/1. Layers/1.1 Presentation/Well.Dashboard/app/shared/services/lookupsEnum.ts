@@ -4,5 +4,8 @@ export enum LookupsEnum
     ExceptionAction,
     DeliveryAction,
     JobDetailSource,
-    JobDetailReason
+    JobDetailReason,
+    JobStatus,
+    JobType,
+    Driver
 }

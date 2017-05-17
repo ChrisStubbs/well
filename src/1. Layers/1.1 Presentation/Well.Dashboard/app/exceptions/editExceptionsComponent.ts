@@ -1,33 +1,48 @@
-import { Component, Input }                         from '@angular/core';
+import {Component, Input, Output, EventEmitter}     from '@angular/core';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
-import { EditExceptionsService }                     from './editExceptionsService';
+import { EditExceptionsService }                    from './editExceptionsService';
 import { IEditLineItemException }                   from './editLineItemException';
 import {LookupService, ILookupValue, LookupsEnum}   from '../shared/services/services';
-
+import * as _                                       from 'lodash';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'ow-editExceptions',
     templateUrl: './app/exceptions/editExceptionsComponent.html',
-     providers: [LookupService]
+    providers: [LookupService, EditExceptionsService],
+    styles: ['.groupRow { display: flex} ' +
+    '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
+    '.group1{ width: 11%} ' +
+    '.group2{ width: 9%} ' +
+    '.group3{ width: 7%; text-align: right} ' +
+    '.group4{ width: 7%; text-align: right} ' +
+    '.group5{ width: 7%; text-align: right} ' +
+    '.group6{ width: 45%} ' +
+    '.group7{ width: 14%} ']
 })
 export class EditExceptionsComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    // public source: Array<IEditLineItemException>;
+    public source: Array<IEditLineItemException>;
     public exceptionTypes: Array<ILookupValue>;
-    //
-    // @Input() public ids: Array<number>;
-    //
-     constructor(
-         private lookupService: LookupService) { }
 
-    public ngOnInit()
+    @Input() public set ids(value: Array<number>)
     {
-        // this.editExceptionService.get(this.ids)
-        //     .takeWhile(() => this.isAlive)
-        //     .subscribe((values: Array<IEditLineItemException>) => this.source = values);
+        if (_.isNil(this.source)) {
+            this.editExceptionService.get(value)
+                .takeWhile(() => this.isAlive)
+                .subscribe((values: Array<IEditLineItemException>) => this.source = values);
+        }
+    };
 
+    @Output() public close: EventEmitter<any> = new EventEmitter(undefined);
+
+     constructor(
+         private lookupService: LookupService,
+         private editExceptionService: EditExceptionsService) { }
+
+    public ngOnInit(): void
+    {
         this.lookupService.get(LookupsEnum.ExceptionType)
             .takeWhile(() => this.isAlive)
             .subscribe((value: Array<ILookupValue>) =>
@@ -42,9 +57,29 @@ export class EditExceptionsComponent implements IObservableAlive
         this.isAlive = false;
     }
 
+    public totalPerGroup(perCol: string, id: number): number
+    {
+        return _.chain(this.source)
+            .filter((current: IEditLineItemException) => current.id == id)
+            .map(perCol)
+            .sum()
+            .value();
+    }
+
+    public addException(id: number): void
+    {
+        //
+    }
+
     public editLine(line: IEditLineItemException): void
     {
         console.log(line);
         //i have to do something here
+    }
+
+    public closeEdit()
+    {
+        this.close.emit(undefined);
+        this.source = undefined;
     }
 }

@@ -1,50 +1,50 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { JobService, JobType } from '../job/job'
-import { StopService } from './stopService';
-import { Stop, StopItem, StopFilter } from './stop';
-import * as _ from 'lodash';
-import { DataTable } from 'primeng/components/datatable/datatable';
-import { AssignModal } from '../shared/assignModal';
-import { AssignModel, AssignModalResult } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
+import { Component, ViewChild }                     from '@angular/core';
+import { ActivatedRoute }                           from '@angular/router';
+import { IObservableAlive }                         from '../shared/IObservableAlive';
+import { StopService }                              from './stopService';
+import { Stop, StopItem, StopFilter }               from './stop';
+import * as _                                       from 'lodash';
+import { DataTable }                                from 'primeng/components/datatable/datatable';
+import { AssignModel, AssignModalResult }           from '../shared/assignModel';
+import { Branch }                                   from '../shared/branch/branch';
+import { SecurityService }                          from '../shared/security/securityService';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
 
 @Component({
     selector: 'ow-stop',
     templateUrl: './app/stops/stopComponent.html',
-    providers: [JobService, StopService],
-    styles: ['.groupRow { display: table-row} ' +
-        ' .groupRow div { display: table-cell} ' +
-        '.group1{ width: 2%} ' +
-        '.group2{ width: 12%} ' +
-        '.group3{ width: 48%} ' +
-        '.group4{ width: 6%; text-align: right; padding-right: 9px} ' +
-        '.group5{ width: 6%; text-align: right; padding-right: 9px} ' +
-        '.group6{ width: 6%; text-align: right; padding-right: 9px} ' +
-        '.group7{ width: 6%; text-align: right; padding-right: 9px} ' +
-        '.group8{ width: 15%}']
+    providers: [LookupService, StopService],
+    styles: ['.groupRow { display: flex } ' +
+        '.group1{ width: 2% } ' +
+        '.group2{ width: 12% } ' +
+        '.group3{ width: 42% } ' +
+        '.group4{ width: 6%; text-align: right } ' +
+        '.group5{ width: 6%; text-align: right } ' +
+        '.group6{ width: 6%; text-align: right } ' +
+        '.group7{ width: 6%; text-align: right } ' +
+        '.group8{ width: 16% } ' +
+        '.group9{ width: 38px; text-align: right; padding-right: 2px }']
 })
 export class StopComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
-    public jobTypes: Array<JobType>;
+    public jobTypes: Array<ILookupValue>;
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop;
     public stopsItems: Array<StopItem>;
     public filters: StopFilter;
     public lastRefresh = Date.now();
-    private stopId: number;
-    public selectedItems: StopItem[] = [];
-    private isReadOnlyUser: boolean = false;
-    private isActionMode: boolean = false;
+
     @ViewChild('dt') public grid: DataTable;
 
+    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
+    private stopId: number;
+    private isReadOnlyUser: boolean = false;
+    private isActionMode: boolean = false;
+
     constructor(
-        private jobService: JobService,
+        private lookupService: LookupService,
         private stopService: StopService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
@@ -72,12 +72,9 @@ export class StopComponent implements IObservableAlive
                     .value();
             });
 
-        this.jobService.JobTypes()
+        this.lookupService.get(LookupsEnum.JobType)
             .takeWhile(() => this.isAlive)
-            .subscribe(types =>
-            {
-                this.jobTypes = types;
-            });
+            .subscribe((value: Array<ILookupValue>) => this.jobTypes = value);
 
         this.filters = new StopFilter();
         this.isReadOnlyUser = this.securityService
@@ -117,8 +114,44 @@ export class StopComponent implements IObservableAlive
         this.stop.assignedTo = event.newUser.name;
     }
 
-    public onOptionClicked(event: string)
+    public selectJobs(select: boolean, jobId?: number): void
     {
-        this.isActionMode = true;
+        let filterToApply = function(item: StopItem): boolean { return true; };
+
+        if (!_.isNull(jobId))
+        {
+            //if it is not null it means the user click on a group
+            filterToApply = function(item: StopItem): boolean { return item.jobId == jobId; };
+        }
+
+        _.chain(this.stopsItems)
+            .filter(filterToApply)
+            .map(current => current.isSelected = select)
+            .value();
+    }
+
+    public allChildrenSelected(jobId?: number): boolean
+    {
+        let filterToApply = function(item: StopItem): boolean { return true; };
+
+        if (!_.isNull(jobId))
+        {
+            //if it is not null it means the user click on a group
+            filterToApply = function(item: StopItem): boolean { return item.jobId == jobId; };
+        }
+
+        return _.every(
+                _.filter(this.stopsItems, filterToApply),
+                current => current.isSelected);
+    }
+
+    public selectedItems(): Array<StopItem>
+    {
+        return _.filter(this.stopsItems, current => current.isSelected);
+    }
+
+    public selectedLineItems(): Array<number>
+    {
+        return _.map(this.selectedItems(), 'lineItemId');
     }
 }

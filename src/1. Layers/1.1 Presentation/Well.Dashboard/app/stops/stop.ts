@@ -16,6 +16,11 @@ export class Stop
 
 export class StopItem
 {
+    constructor()
+    {
+        this.isSelected = false;
+    }
+
     public noBarCode = 'NoBarCode';
 
     public jobId: number;
@@ -33,6 +38,8 @@ export class StopItem
     public checked: boolean;
     public highValue: boolean;
     private mBarCode: string;
+    public isSelected: boolean;
+    public lineItemId: number;
     public get barCode(): string
     {
         if (_.isNil(this.mBarCode))

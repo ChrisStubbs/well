@@ -34,6 +34,5 @@ namespace PH.Well.Api.Controllers
             return lookupService.GetLookup(lookupValue)
                 .ToDictionary(k => k.Key, v => v.Value);
         }
-
     }
 }

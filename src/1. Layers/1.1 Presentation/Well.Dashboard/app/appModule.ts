@@ -77,7 +77,6 @@ import { UserService } from './shared/userService';
 import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
-import { JobService } from './job/jobService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
 import { CalendarModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
@@ -125,7 +124,7 @@ import { EditExceptionsService } from './exceptions/editExceptionsService';
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, JobService, LookupService,
+        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
         CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService,
         {
             provide: APP_INITIALIZER,

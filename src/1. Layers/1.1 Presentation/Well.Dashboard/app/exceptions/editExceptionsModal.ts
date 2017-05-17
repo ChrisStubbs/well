@@ -1,23 +1,33 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, Input, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { IObservableAlive } from '../shared/IObservableAlive';
 import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
+import { IEditLineItemException } from './editLineItemException';
+import { LineItemAction } from './lineItemAction';
+import { EditExceptionsService } from './editExceptionsService';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'edit-exceptions-modal',
-    templateUrl: './app/exceptions/editExceptionsModal.html'
+    templateUrl: './app/exceptions/editExceptionsModal.html',
+    providers: [LookupService, EditExceptionsService]
 })
 export class EditExceptionsModal implements IObservableAlive
 {
+    @Input() public items: Array<IEditLineItemException> = [];
+    @Input() public isEditMode: boolean = false;
+
     public isAlive: boolean = true;
-    private isEditMode: boolean = false;
     private title: string = this.isEditMode ? 'Edit Exceptions' : 'Add Exceptions';
     private deliveryActions: Array<ILookupValue> = [];
     private sources: Array<ILookupValue> = [];
     private reasons: Array<ILookupValue> = [];
     private exceptionTypes: Array<ILookupValue> = [];
+    private lineItemAction: LineItemAction = new LineItemAction();
+    @ViewChild('exceptionModalForm') private currentForm: NgForm;
 
-    constructor(
-        private lookupService: LookupService) { }
+    constructor(private lookupService: LookupService,
+                private editExceptionsService: EditExceptionsService) { }
 
     public ngOnInit()
     {
@@ -48,11 +58,34 @@ export class EditExceptionsModal implements IObservableAlive
             {
                 this.reasons = value;
             });
-        
     }
 
     public ngOnDestroy()
     {
         this.isAlive = false;
     }
+
+    public save(): void
+    {
+        this.lineItemAction.ids = _.uniq(_.map(this.items, 'id'));
+
+        if (this.currentForm.form.valid && this.lineItemAction.ids.length > 0)
+        {
+
+            if (this.isEditMode)
+            {
+                this.editExceptionsService.put(this.lineItemAction);
+            }
+            else
+            {
+                this.editExceptionsService.post(this.lineItemAction);
+            }
+        }
+    }
+
+    public cancel(): void
+    {
+        this.lineItemAction = new LineItemAction();
+    }
+
 }

@@ -1,6 +1,6 @@
 import { Component, Input }                         from '@angular/core';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
-import { EditExceptionService }                     from './editExceptionsService';
+import { EditExceptionsService }                     from './editExceptionsService';
 import { IEditLineItemException }                   from './editLineItemException';
 import {LookupService, ILookupValue, LookupsEnum}   from '../shared/services/services';
 

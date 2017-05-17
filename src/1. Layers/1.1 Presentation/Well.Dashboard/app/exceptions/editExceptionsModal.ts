@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { IObservableAlive } from '../shared/IObservableAlive';
+import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
 
 @Component({
     selector: 'edit-exceptions-modal',
@@ -10,14 +11,44 @@ export class EditExceptionsModal implements IObservableAlive
     public isAlive: boolean = true;
     private isEditMode: boolean = false;
     private title: string = this.isEditMode ? 'Edit Exceptions' : 'Add Exceptions';
-    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
-    private sources: string[] = ['Not Defined', 'Input', 'Assembler', 'Checker'];
-    private reasons: string[] = ['Not Defined', 'No Credit', 'Damaged Goods', 'Shorts Delivered'];
-    private exceptions: string[] = ['Not Defined', 'Short', 'Bypassed', 'Danmage'];
+    private deliveryActions: Array<ILookupValue> = [];
+    private sources: Array<ILookupValue> = [];
+    private reasons: Array<ILookupValue> = [];
+    private exceptionTypes: Array<ILookupValue> = [];
+
+    constructor(
+        private lookupService: LookupService) { }
 
     public ngOnInit()
     {
-        console.log('TODO:');
+        this.lookupService.get(LookupsEnum.DeliveryAction)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: Array<ILookupValue>) =>
+            {
+                this.deliveryActions = value;
+            });
+
+        this.lookupService.get(LookupsEnum.ExceptionType)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: Array<ILookupValue>) =>
+            {
+                this.exceptionTypes = value;
+            });
+
+        this.lookupService.get(LookupsEnum.JobDetailSource)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: Array<ILookupValue>) =>
+            {
+                this.sources = value;
+            });
+
+        this.lookupService.get(LookupsEnum.JobDetailReason)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: Array<ILookupValue>) =>
+            {
+                this.reasons = value;
+            });
+        
     }
 
     public ngOnDestroy()

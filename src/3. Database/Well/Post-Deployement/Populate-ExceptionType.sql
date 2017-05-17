@@ -1,7 +1,8 @@
 ﻿SET IDENTITY_INSERT [ExceptionType] ON
 
 MERGE INTO [ExceptionType] AS Target
-USING	(VALUES	(1,'Short','Short delivery','deployment',GETDATE(),'deployment',GETDATE()),
+USING	(VALUES	(0,'Not Defined','Not Defined','deployment',GETDATE(),'deployment',GETDATE()),
+				(1,'Short','Short delivery','deployment',GETDATE(),'deployment',GETDATE()),
 				(2,'Bypass','Bypassed','deployment',GETDATE(),'deployment',GETDATE()),
 				(3,'Damage','Damaged delivery','deployment',GETDATE(),'deployment',GETDATE())
 		)

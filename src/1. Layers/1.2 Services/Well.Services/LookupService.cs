@@ -6,6 +6,9 @@ using PH.Well.Services.Contracts;
 
 namespace PH.Well.Services
 {
+    using System.Linq;
+    using Common.Extensions;
+
     public class LookupService : ILookupService
     {
         private readonly ILookupRepository lookupRepository;
@@ -34,9 +37,42 @@ namespace PH.Well.Services
                 case LookupType.Driver:
                     return this.lookupRepository.Driver();
 
+                case LookupType.DeliveryAction:
+                    return this.GetDeliveryActions();
+
+                case LookupType.JobDetailSource:
+                    return this.GetJobDetailSource();
+
+                case LookupType.JobDetailReason:
+                    return this.GetJobDetailReason();
+
                 default:
                     throw new ArgumentException($"{lookupType}");
             }
+        }
+
+        private IList<KeyValuePair<string, string>> GetJobDetailReason()
+        {
+            return Enum<JobDetailReason>.GetValuesAndDescriptions().Select(x =>
+                   new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+        }
+
+        private IList<KeyValuePair<string, string>> GetJobDetailSource()
+        {
+            return Enum<JobDetailSource>.GetValuesAndDescriptions().Select(x =>
+                new KeyValuePair<string, string>($"{x.Key}", x.Value)).ToList();
+        }
+
+        private IList<KeyValuePair<string, string>> GetDeliveryActions()
+        {
+            IEnumerable<DeliveryAction> actions = new List<DeliveryAction>()
+                {
+                    DeliveryAction.NotDefined,
+                    DeliveryAction.Credit,
+                    DeliveryAction.Close
+                };
+            return actions.Select(a =>
+                new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();
         }
     }
 }

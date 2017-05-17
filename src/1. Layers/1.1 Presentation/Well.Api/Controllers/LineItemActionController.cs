@@ -1,45 +1,41 @@
 ﻿namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
     using Domain;
-    using Domain.Enums;
-    using Domain.Extensions;
     using Domain.ValueObjects;
-    using Repositories;
-    using Repositories.Contracts;
+    using Services.Contracts;
 
     public class LineItemActionController : ApiController
     {
-        private readonly ILineItemActionRepository lineItemActionRepository;
+        private readonly ILineItemActionService lineItemActionService;
 
-        public LineItemActionController(ILineItemActionRepository lineItemActionRepository)
+        public LineItemActionController(ILineItemActionService lineItemActionService)
         {
-            this.lineItemActionRepository = lineItemActionRepository;
+            this.lineItemActionService = lineItemActionService;
         }
 
-        [HttpPost]
-        public HttpResponseMessage Post([FromBody] LineItemActionUpdate update)
+        public HttpResponseMessage Post(LineItemActionUpdate update)
         {
+            LineItemAction item = null;
+
             if (update != null)
             {
-                var action = new LineItemAction
-                {
-                    ExceptionType = update.ExceptionType,
-                    Quantity = update.Quantity,
-                    LineItemId = update.LineItemId,
-                    Originator = "Customer" //will 
-
-
-                };
-
-                this.lineItemActionRepository.Save(action);
+                item = lineItemActionService.InsertLineItemActions(update);
             }
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, item);
         }
-        
 
+        public HttpResponseMessage Put(LineItemActionUpdate update)
+        {
+            LineItemAction item = null;
+
+            if (update != null)
+            {
+                item = lineItemActionService.UpdateLineItemActions(update);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, item);
+        }
     }
 }

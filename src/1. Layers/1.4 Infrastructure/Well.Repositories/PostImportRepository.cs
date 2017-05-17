@@ -13,18 +13,14 @@
 
         public void PostImportUpdate()
         {
-
             dapperProxy.WithStoredProcedure(StoredProcedures.PostImportUpdate)
                 .Execute();
-
         }
 
         public void PostTranSendImport()
         {
-
             dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionInsert)
                 .Execute();
-
         }
     }
 }

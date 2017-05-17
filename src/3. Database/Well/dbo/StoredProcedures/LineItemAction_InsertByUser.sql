@@ -1,23 +1,22 @@
-﻿CREATE PROCEDURE [dbo].[LineItemAction_AddByUser]
+﻿CREATE PROCEDURE [dbo].[LineItemAction_InsertByUser]
 		@ExceptionTypeId INT
 		,@Quantity INT
 		,@SourceId TINYINT
-		,@ReasonId TINYINT
+		,@ReasonId INT
 		,@ReplanDate datetime
 		,@SubmittedDate DATETIME
 		,@ApprovalDate DATETIME
 		,@ApprovedBy VARCHAR(50)
 		,@LineItemId INT 
+		,@Originator VARCHAR(50)
 		,@CreatedBy VARCHAR(50)
 		,@CreatedDate DATETIME
-		,@LastUpdatedBy VARCHAR(50)
-		,@LastUpdatedDate DATETIME
 AS
 	BEGIN
 		SET NOCOUNT ON;
 
 		INSERT INTO [dbo].LineItemAction
-			(ExceptionTypeId 
+		(ExceptionTypeId 
 		,Quantity 
 		,SourceId 
 		,ReasonId 
@@ -26,6 +25,7 @@ AS
 		,ApprovalDate 
 		,ApprovedBy 
 		,LineItemId 
+		,Originator
 		,CreatedBy
 		,CreatedDate
 		,LastUpdatedBy
@@ -41,10 +41,11 @@ AS
 		,@ApprovalDate 
 		,@ApprovedBy 
 		,@LineItemId
+		,@Originator
 		,@CreatedBy
 		,@CreatedDate
-		,@LastUpdatedBy
-		,@LastUpdatedDate
+		,@CreatedBy
+		,@CreatedDate
 		)
 
 		SELECT CAST(SCOPE_IDENTITY() as int);

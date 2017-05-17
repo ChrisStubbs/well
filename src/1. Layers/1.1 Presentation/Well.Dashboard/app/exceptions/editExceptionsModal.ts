@@ -6,6 +6,7 @@ import { IEditLineItemException } from './editLineItemException';
 import { LineItemAction } from './lineItemAction';
 import { EditExceptionsService } from './editExceptionsService';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs'
 
 @Component({
     selector: 'edit-exceptions-modal',
@@ -34,32 +35,19 @@ export class EditExceptionsModal implements IObservableAlive
 
     public ngOnInit()
     {
-        this.lookupService.get(LookupsEnum.DeliveryAction)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) =>
-            {
-                this.deliveryActions = value;
-            });
 
-        this.lookupService.get(LookupsEnum.ExceptionType)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) =>
+        Observable.forkJoin(
+            this.lookupService.get(LookupsEnum.DeliveryAction),
+            this.lookupService.get(LookupsEnum.ExceptionType),
+            this.lookupService.get(LookupsEnum.JobDetailSource),
+            this.lookupService.get(LookupsEnum.JobDetailReason)
+        ).takeWhile(() => this.isAlive)
+            .subscribe(value =>
             {
-                this.exceptionTypes = value;
-            });
-
-        this.lookupService.get(LookupsEnum.JobDetailSource)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) =>
-            {
-                this.sources = value;
-            });
-
-        this.lookupService.get(LookupsEnum.JobDetailReason)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) =>
-            {
-                this.reasons = value;
+                this.deliveryActions = value[0];
+                this.exceptionTypes = value[1];
+                this.sources = value[2];
+                this.reasons = value[3];
             });
     }
 

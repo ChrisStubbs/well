@@ -4,5 +4,6 @@
 
     public interface ILineItemActionRepository : IRepository<LineItemAction, int>
     {
+        LineItemAction GetById(int id);
     }
 }

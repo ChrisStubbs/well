@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter}     from '@angular/core';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
-import { EditExceptionsService }                     from './editExceptionsService';
+import { EditExceptionsService }                    from './editExceptionsService';
 import { IEditLineItemException }                   from './editLineItemException';
 import {LookupService, ILookupValue, LookupsEnum}   from '../shared/services/services';
 import * as _                                       from 'lodash';
@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 @Component({
     selector: 'ow-editExceptions',
     templateUrl: './app/exceptions/editExceptionsComponent.html',
-    providers: [LookupService, EditExceptionService],
+    providers: [LookupService, EditExceptionsService],
     styles: ['.groupRow { display: flex} ' +
     '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
     '.group1{ width: 11%} ' +
@@ -39,7 +39,7 @@ export class EditExceptionsComponent implements IObservableAlive
 
      constructor(
          private lookupService: LookupService,
-         private editExceptionService: EditExceptionService) { }
+         private editExceptionService: EditExceptionsService) { }
 
     public ngOnInit(): void
     {

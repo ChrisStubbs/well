@@ -103,6 +103,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
             For<ILineItemActionReadRepository>().Use<LineItemActionReadRepository>();
             For<ILineItemExceptionMapper>().Use<LineItemExceptionMapper>();
+            For<ILineItemActionRepository>().Use<LineItemActionRepository>();
 
             //lookup
             For<ILookupService>().Use<LookupService>();

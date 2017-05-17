@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using Enums;
 
     public class LineItemAction: Entity<int>
     {
@@ -15,5 +16,6 @@
         public string ApprovedBy { get; set; }
         public string ActionedBy { get; set; }
         public string Originator { get; set; }
+
     }
 }

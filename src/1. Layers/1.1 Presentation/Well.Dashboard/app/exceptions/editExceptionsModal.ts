@@ -1,4 +1,4 @@
-﻿import { Component, Input, ViewChild } from '@angular/core';
+﻿import { Component, Input, ViewChild, EventEmitter, Output, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IObservableAlive } from '../shared/IObservableAlive';
 import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
@@ -16,8 +16,9 @@ export class EditExceptionsModal implements IObservableAlive
 {
     @Input() public items: Array<IEditLineItemException> = [];
     @Input() public isEditMode: boolean = false;
-
+    @Output() public onSave = new EventEmitter();
     public isAlive: boolean = true;
+
     private title: string = this.isEditMode ? 'Edit Exceptions' : 'Add Exceptions';
     private deliveryActions: Array<ILookupValue> = [];
     private sources: Array<ILookupValue> = [];
@@ -25,9 +26,11 @@ export class EditExceptionsModal implements IObservableAlive
     private exceptionTypes: Array<ILookupValue> = [];
     private lineItemAction: LineItemAction = new LineItemAction();
     @ViewChild('exceptionModalForm') private currentForm: NgForm;
+    @ViewChild('cancelButton') private cancelButton: ElementRef;
 
-    constructor(private lookupService: LookupService,
-                private editExceptionsService: EditExceptionsService) { }
+    constructor(
+        private lookupService: LookupService,
+        private editExceptionsService: EditExceptionsService) { }
 
     public ngOnInit()
     {
@@ -71,7 +74,6 @@ export class EditExceptionsModal implements IObservableAlive
 
         if (this.currentForm.form.valid && this.lineItemAction.ids.length > 0)
         {
-
             if (this.isEditMode)
             {
                 this.editExceptionsService.put(this.lineItemAction);
@@ -81,11 +83,14 @@ export class EditExceptionsModal implements IObservableAlive
                 this.editExceptionsService.post(this.lineItemAction);
             }
         }
+        this.onSave.emit({});
+        this.close();
     }
 
-    public cancel(): void
+    public close(): void
     {
         this.lineItemAction = new LineItemAction();
+        this.cancelButton.nativeElement.click();
     }
 
 }

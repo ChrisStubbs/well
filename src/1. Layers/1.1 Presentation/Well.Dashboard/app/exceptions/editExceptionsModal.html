@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
             </div>
             <form class="form-inline" #exceptionModalForm="ngForm">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancel()">Cancel</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close()" #cancelButton>Cancel</button>
                         <button type="submit" class="btn btn-success" [disabled]="!exceptionModalForm.form.valid" (click)="save()">Save</button>
                     </div>
                 </div>

@@ -59,8 +59,9 @@ namespace PH.Well.Services
 
         private IList<KeyValuePair<string, string>> GetJobDetailSource()
         {
-            return Enum<JobDetailSource>.GetValuesAndDescriptions().Select(x =>
-                new KeyValuePair<string, string>($"{x.Key}", x.Value)).ToList();
+            var sources = Enum.GetValues(typeof(JobDetailSource)).Cast<JobDetailSource>().ToList();
+            return sources.Select(a =>
+                    new KeyValuePair<string, string>($"{(int) a}", StringExtensions.GetEnumDescription(a))).ToList();
         }
 
         private IList<KeyValuePair<string, string>> GetDeliveryActions()

@@ -7,73 +7,97 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
             </div>
-            <div class="modal-body form-inline">
-                <div class="row">
-                    <div class="col-md-1">
-                        <label for="deliveryAction">Action</label>
+            <form class="form-inline" #exceptionModalForm="ngForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label for="deliveryAction">Action</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="deliveryAction" name="deliveryAction" [(ngModel)]="lineItemAction.deliverAction" pattern="[^0]+">
+                                <option *ngFor="let action of deliveryActions" [value]="action.key">
+                                    {{ action.value }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label for="quantity">Quantity</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="lineItemAction.quantity" required />
+                        </div>
+                        <div class="col-md-1">
+                            <label for="exceptionTypeId">Exception</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="exceptionTypeId" name="exceptionTypeId" [(ngModel)]="lineItemAction.exceptionTypeId" pattern="[^0]+">
+                                <option *ngFor="let et of exceptionTypes" [value]="et.key">
+                                    {{et.value}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-control" id="deliveryAction">
-                            <option *ngFor="let action of deliveryActions" [value]="action.key">
-                                {{ action.value }}
-                            </option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-1">
+                            &nbsp;
+                        </div>
                     </div>
-                    <div class="col-md-1">
-                        <label for="quantity">Quantity</label>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label for="source">Source</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="source" name="source" [(ngModel)]="lineItemAction.sourceId" pattern="[^0]+">
+                                <option *ngFor="let source of sources" [value]="source.key">
+                                    {{ source.value }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label for="reason">Reason</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="reason" name="reason" [(ngModel)]="lineItemAction.reasonId" pattern="[^0]+">
+                                <option *ngFor="let reason of reasons" [value]="reason.key">
+                                    {{ reason.value }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <input type="number" class="form-control" id="quantity" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="modal-scroll-content">
+                                <div class="table-responsive table-container">
+                                    <table id="tableeditExceptionsModal" class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Description</th>
+                                                <th>Exception</th>
+                                                <th>Exception Qty</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="items.length > 0">
+                                            <tr class="grid-row" *ngFor="let item of  items" style="height: auto">
+                                                <td></td>
+                                                <td>{{item.productNumber}}</td>
+                                                <td>{{item.product}}</td>
+                                                <td>{{item.exception}}</td>
+                                                <td>{{item.quantity}}</td>
+                                                <td>what is this</td>
+                                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-1">
-                        <label for="exceptionTypes">Exception</label>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-control" id="exceptionTypes">
-                            <option *ngFor="let et of exceptionTypes" [ngValue]="et.key">
-                                {{et.value}}
-                            </option>
-                        </select>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancel()">Cancel</button>
+                        <button type="submit" class="btn btn-success" [disabled]="!exceptionModalForm.form.valid" (click)="save()">Save</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-1">
-                        &nbsp;
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1">
-                        <label for="source">Source</label>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-control" id="source">
-                            <option *ngFor="let source of sources" [value]="source.key">
-                                {{ source.value }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        <label for="reason">Reason</label>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-control" id="reason">
-                            <option *ngFor="let reason of reasons" [value]="reason.key">
-                                {{ reason.value }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                    </div>
-                    <div class="col-md-3">
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-
+            </form>
         </div>
     </div>
 </div>

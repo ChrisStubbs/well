@@ -196,9 +196,12 @@
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
+    <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
+    <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
@@ -252,6 +255,7 @@
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
+    <Content Include="app\shared\action\action-modal.html" />
     <Content Include="app\shared\appSearch\appSearchView.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />

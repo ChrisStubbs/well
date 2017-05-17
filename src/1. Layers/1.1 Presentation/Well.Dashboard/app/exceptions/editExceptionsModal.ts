@@ -1,6 +1,9 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, Input, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { IObservableAlive } from '../shared/IObservableAlive';
 import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
+import { IEditLineItemException } from './editLineItemException';
+import { LineItemAction } from './lineItemAction';
 
 @Component({
     selector: 'edit-exceptions-modal',
@@ -8,16 +11,18 @@ import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/ser
 })
 export class EditExceptionsModal implements IObservableAlive
 {
+    @Input() public items: Array<IEditLineItemException> = [];
+    @Input() public isEditMode: boolean = false;
+
     public isAlive: boolean = true;
-    private isEditMode: boolean = false;
     private title: string = this.isEditMode ? 'Edit Exceptions' : 'Add Exceptions';
     private deliveryActions: Array<ILookupValue> = [];
     private sources: Array<ILookupValue> = [];
     private reasons: Array<ILookupValue> = [];
     private exceptionTypes: Array<ILookupValue> = [];
-
-    constructor(
-        private lookupService: LookupService) { }
+    private lineItemAction: LineItemAction = new LineItemAction();
+    
+    constructor(private lookupService: LookupService) { }
 
     public ngOnInit()
     {
@@ -48,11 +53,22 @@ export class EditExceptionsModal implements IObservableAlive
             {
                 this.reasons = value;
             });
-        
+
     }
 
     public ngOnDestroy()
     {
         this.isAlive = false;
     }
+
+    public save(): void
+    {
+        console.log(this.lineItemAction);
+    }
+
+    public cancel(): void
+    {
+        this.lineItemAction = new LineItemAction();
+    }
+
 }

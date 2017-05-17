@@ -1,72 +1,94 @@
-<div class="row">
-    <div class="col-lg-4">
-        <label for="filterException">Exception Type</label>
-    </div>
-    <div class="col-lg-4">
-        <select class="form-control" [ngModel]="selectedValue" id="filterException" (change)="filter">
-            <option *ngFor="let et of exceptionTypes" [ngValue]="et.key">{{et.value}}</option>
-        </select>
-    </div>
-    <div class="col-lg-4">
-        <div class="pull-right">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Action
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Stop Replaning</a></li>
-                    <li><a href="#">Dropdown link</a></li>
-                </ul>
-            </div>
+<div class="form-inline">
+    <div class="form-group pull-right">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Stop Replaning</a></li>
+                <li><a href="#">Dropdown link</a></li>
+            </ul>
         </div>
     </div>
 </div>
 <div class="row">
+    <div class="col-lg-12">&nbsp;</div>
+</div>
+<div class="row">
     <div class="col-lg-12">
-        <p-dataTable [value]="source" groupField="product" expandableRowGroups="rowspan"
+        <p-dataTable [value]="source" groupField="id" expandableRowGroups="rowspan"
                      sortField="product" [sortableRowGroup]="false"
                      rowGroupMode="subheader" #dt>
             <ng-template pTemplate="rowgroupheader" let-rowData>
+                <div class="groupRow">
+                    <div class="group1">{{rowData.productNumber}}</div>
+                    <div class="group2">{{rowData.product}}</div>
+                    <div class="group3">{{totalPerGroup('invoiced', rowData.id)}}</div>
+                    <div class="group4">{{totalPerGroup('delivered', rowData.id)}}</div>
+                    <div class="group5">{{totalPerGroup('quantity', rowData.id)}}</div>
+                    <div class="group6"></div>
+                    <div class="group7"><button class="btn btn-default" type="button" (click)="addException(rowData.id)">Add Exception</button></div>
+                </div>
             </ng-template>
-            <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}">
-                <ng-template let-data="rowData" pTemplate="body">
-                    <span>
-                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(data)"></a>
-                    </span>
+            <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
+            <p-column header="Originator" field="originator" [style]="{'width': '11%'}"></p-column>
+            <p-column header="Exception" field="exception" [style]="{'width': '9%'}" [filter]="true" filterMatchMode="equals">
+                <ng-template pTemplate="filter" let-col>
+                    <select class="form-control" [ngModel]="selectedException" id="filterException" (change)="dt.filter($event.target.value, 'barCodeFilter', col.filterMatchMode)" title="">
+                        <option [ngValue]="">All</option>
+                        <option *ngFor="let et of exceptionTypes" [ngValue]="et.value">{{et.value}}</option>
+                    </select>
                 </ng-template>
             </p-column>
-            <p-column header="Originator" field="originator"></p-column>
-            <p-column header="Exception" field="exception"></p-column>
-            <p-column header="Invoiced" field="invoiced"></p-column>
-            <p-column header="Delivered" field="delivered"></p-column>
-            <p-column header="Quantity" field="quantity">
+            <p-column header="Invoiced" field="invoiced" [style]="{'width': '7%'}">
+                <ng-template let-data="rowData" pTemplate="body">
+                    <div class="text-right">
+                        <span>{{ data.invoiced }}</span>
+                    </div>
+                </ng-template></p-column>
+            <p-column header="Delivered" field="delivered" [style]="{'width': '7%'}">
+                <ng-template let-data="rowData" pTemplate="body">
+                    <div class="text-right">
+                        <span>{{ data.delivered }}</span>
+                    </div>
+                </ng-template></p-column>
+            <p-column header="Quantity" field="quantity" [style]="{'width': '7%'}">
                 <ng-template let-data="rowData" pTemplate="body">
                     <div class="text-right">
                         <span>{{ data.quantity }}</span>
                     </div>
                 </ng-template>
             </p-column>
-            <p-column header="Action" field="action"></p-column>
-            <p-column header="source" field="source"></p-column>
-            <p-column header="Reason" field="reason"></p-column>
+            <p-column header="Action" field="action" [style]="{'width': '7%'}"></p-column>
+            <p-column header="Source" field="source" [style]="{'width': '10%'}"></p-column>
+            <p-column header="Reason" field="reason" [style]="{'width': '12%'}"></p-column>
             <p-column header="" field="erdd">
                 <ng-template pTemplate="header">
                     <span>Product</span>
-                    <span tooltip="Earliest Requested Delivery Date"
-                        [tooltipDisabled]="false"
-                        [tooltipAnimation]="true"
-                        tooltipPlacement="top"
-                        class="glyphicon glyphicon-info-sign">
-                    </span>
+                    <a href="#">
+                        <span tooltip="Earliest Requested Delivery Date"
+                            [tooltipDisabled]="false"
+                            [tooltipAnimation]="true"
+                            tooltipPlacement="top"
+                            class="glyphicon glyphicon-info-sign">
+                        </span>
+                    </a>
                 </ng-template>
             </p-column>
-            <p-column header="Actioned By" field="actionedBy"></p-column>
-            <p-column header="Approve By" field="approveBy"></p-column>
-            <p-column [style]="{'width':'38px'}" field="selected" selectionMode="multiple"></p-column>
+            <p-column header="Actioned By" field="actionedBy" [style]="{'width': '12%'}"></p-column>
+            <p-column header="Approver" field="approveBy" [style]="{'width': '12%'}"></p-column>
+            <p-column [style]="{'width':'4%'}" field="selected" selectionMode="multiple">
+                <ng-template let-data="rowData" pTemplate="body">
+                        <span>
+                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(data)" title="Edit"></a>
+                        </span>
+                </ng-template>
+            </p-column>
         </p-dataTable>
     </div>
 </div>
+<div class="row">&nbsp;</div>
 <div class="row">
     <div class="col-lg-12">
         <div class="pull-right">

@@ -18,12 +18,6 @@
                     </ul>
                 </div>
             </div>
-
-        <div class="row">
-            <div class="col-md-12 clearfix ">
-                <ow-editExceptions></ow-editExceptions>
-            </div>
-        </div>
             <div class="row">
                 <div class="col-md-12 clearfix ">
                     <ul class="nav nav-tabs" role="tablist">
@@ -36,13 +30,12 @@
                                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                             </div>
                             <ow-split-button [options]="actions"
-                                             [disabled]="selectedItems.length == 0"
+                                             [disabled]="selectedItems().length == 0"
                                              (onOptionClicked)="onOptionClicked($event)"></ow-split-button>
                         </li>
                     </ul>
                     <p-dataTable [value]="singleRouteItems" groupField="stop" expandableRowGroups="rowspan"
                                  sortField="stop" [sortableRowGroup]="false"
-                                 [(selection)]="selectedItems"
                                  rowGroupMode="subheader" #dt>
                         <p-header>Expand a Stop to see more details</p-header>
                         <ng-template pTemplate="rowgroupheader" let-rowData>
@@ -59,7 +52,7 @@
                                     <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(rowData)"></assign-modal>
                                 </div>
                                 <div class="group8">&nbsp;</div>
-                                <div class="group9">&nbsp;</div>
+                                <div class="group9" style="padding-right: 3px;"><input type="checkbox" [checked]="allChildrenSelected(rowData.stop)" (change)="selectStops($event.target.checked, rowData.stop)" /></div>
                             </div>
                         </ng-template>
                         <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
@@ -161,7 +154,18 @@
                                 <div>Resolution</div>
                             </ng-template>
                         </p-column>
-                        <p-column [style]="{'width':'3%'}" field="selected" selectionMode="multiple"></p-column>
+                        <p-column [style]="{'width':'38px'}" [editable]="true" field="isSelected">
+                            <ng-template let-data="rowData" pTemplate="header">
+                                <div class="text-center">
+                                    <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectStops($event.target.checked, null)" >
+                                </div>
+                            </ng-template>
+                            <ng-template let-data="rowData" pTemplate="body">
+                                <div class="text-center">
+                                    <input type="checkbox" [(ngModel)]="data.isSelected" title="">
+                                </div>
+                            </ng-template>
+                        </p-column>
                     </p-dataTable>
                 </div>
             </div>
@@ -174,7 +178,7 @@
         </div>
     </div>
     <action-modal>
-        <div class="table-responsive table-container" *ngIf="selectedItems.length > 0">
+        <div class="table-responsive table-container">
             <table id="tableExceptionDeliveries" class="table table-hover table-striped">
                 <thead>
                     <tr style="height: auto">
@@ -186,7 +190,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="grid-row" *ngFor="let item of  selectedItems" style="height: auto">
+                    <tr class="grid-row" *ngFor="let item of  selectedItems()" style="height: auto">
                         <td></td>
                         <td>{{item.stop}}</td>
                         <td>{{item.jobStatusDescription}}</td>

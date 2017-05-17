@@ -1,21 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
-import { RoutesService } from './routesService'
-import { SingleRoute } from './singleRoute';
-import { ActivatedRoute } from '@angular/router';
-import { AppDefaults } from '../shared/defaults/defaults';
-import { JobType, JobService, JobStatus } from '../job/job';
-import * as _ from 'lodash';
-import { DataTable } from 'primeng/primeng';
-import { AssignModel, AssignModalResult } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { IObservableAlive } from '../shared/IObservableAlive';
+import { Component, ViewChild }             from '@angular/core';
+import { RoutesService }                    from './routesService'
+import { SingleRoute }                      from './singleRoute';
+import { ActivatedRoute }                   from '@angular/router';
+import { AppDefaults }                      from '../shared/defaults/defaults';
+import { JobType, JobService, JobStatus }   from '../job/job';
+import * as _                               from 'lodash';
+import { DataTable }                        from 'primeng/primeng';
+import { AssignModel, AssignModalResult }   from '../shared/assignModel';
+import { Branch }                           from '../shared/branch/branch';
+import { SecurityService }                  from '../shared/security/securityService';
+import { GlobalSettingsService }            from '../shared/globalSettings';
+import { IObservableAlive }                 from '../shared/IObservableAlive';
+import { SingleRouteItem }                  from './singleRoute';
+import { SplitButtonComponent }             from '../shared/splitButtonComponent';
+import { ActionModal }                      from '../shared/action/actionModal';
+import { ActionModalModel }                 from '../shared/action/actionModalModel';
 import 'rxjs/add/operator/mergeMap';
-import { SingleRouteItem } from './singleRoute';
-import { SplitButtonComponent } from '../shared/splitButtonComponent';
-import { ActionModal } from '../shared/action/actionModal';
-import { ActionModalModel } from '../shared/action/actionModalModel';
 
 @Component({
     selector: 'ow-route',
@@ -47,10 +47,7 @@ export class SingleRouteComponent implements IObservableAlive
     public podFilter: boolean;
     public lastRefresh = Date.now();
     private isReadOnlyUser: boolean = false;
-    private selectedItems: SingleRouteItem[] = [];
     private actions: string[] = ['Credit']; /*['Close', 'Credit', 'Re-plan'];*/
-
-    public ids: Array<number> = [1, 2, 3, 4, 5, 6];
 
     @ViewChild('dt') public grid: DataTable;
     @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
@@ -183,7 +180,7 @@ export class SingleRouteComponent implements IObservableAlive
         this.podFilter = undefined;
         this.grid.filters = {};
         this.grid.filter(undefined, undefined, undefined);
-        this.selectedItems = [];
+        _.map(this.singleRouteItems, current => current.isSelected = false);
         this.splitButtonComponent.reset();
     }
 
@@ -200,8 +197,45 @@ export class SingleRouteComponent implements IObservableAlive
     {
         const model = new ActionModalModel();
         model.action = event;
-        model.jobIds = _.uniq(_.map(this.selectedItems, 'jobId'));
-        model.items = this.selectedItems;
+        model.jobIds = _.uniq(_.map(this.selectedItems(), 'jobId'));
+        model.items = this.selectedItems();
         this.actionModal.show(model);
     }
+
+    public selectStops(select: boolean, stop?: string): void
+    {
+        let filterToApply = function(item: SingleRouteItem): boolean { return true; };
+
+        if (!_.isNull(stop))
+        {
+            //if it is not null it means the user click on a group
+            filterToApply = function(item: SingleRouteItem): boolean { return item.stop == stop; };
+        }
+
+        _.chain(this.singleRouteItems)
+            .filter(filterToApply)
+            .map(current => current.isSelected = select)
+            .value();
+    }
+
+    public selectedItems(): Array<SingleRouteItem>
+    {
+        return _.filter(this.singleRouteItems, current => current.isSelected);
+    }
+
+    public allChildrenSelected(stop?: string): boolean
+    {
+        let filterToApply = function(item: SingleRouteItem): boolean { return true; };
+
+        if (!_.isNull(stop))
+        {
+            //if it is not null it means the user click on a group
+            filterToApply = function(item: SingleRouteItem): boolean { return item.stop == stop; };
+        }
+
+        return _.every(
+            _.filter(this.singleRouteItems, filterToApply),
+            current => current.isSelected);
+    }
+
 }

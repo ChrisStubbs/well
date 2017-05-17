@@ -266,6 +266,9 @@
             }
         }
 
+        [XmlIgnore]
+        public int LineItemId { get; set; }
+
         //TODO: This will need to be moved to Line Item Actions
         public bool IsClean()
         {

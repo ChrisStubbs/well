@@ -193,11 +193,15 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
+    <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
+    <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
+    <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />

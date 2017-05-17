@@ -106,7 +106,6 @@ export class StopComponent implements IObservableAlive
     {
         const branch = { id: this.stop.branchId } as Branch;
         const jobIds = _.uniq(_.map(this.stop.items, 'jobId'));
-
         return new AssignModel(this.stop.assignedTo, branch, jobIds, this.isReadOnlyUser, undefined);
     }
 

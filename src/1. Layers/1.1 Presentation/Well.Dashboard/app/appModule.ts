@@ -95,9 +95,11 @@ import { StopComponent } from './stops/stopComponent';
 import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
 import { ActionModal } from './shared/action/actionModal';
 import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
-import {Ng2Webstorage} from 'ngx-webstorage';
-import {LookupService} from './shared/services/lookupService';
-import {TooltipModule} from 'ngx-tooltip';
+import { EditExceptionsModal } from './exceptions/editExceptionsModal';
+import { Ng2Webstorage } from 'ngx-webstorage';
+import { LookupService } from './shared/services/lookupService';
+import { TooltipModule } from 'ngx-tooltip';
+import { EditExceptionsService } from './exceptions/editExceptionsService';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -113,7 +115,7 @@ import {TooltipModule} from 'ngx-tooltip';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent
+        ActionModal, EditExceptionsComponent, EditExceptionsModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

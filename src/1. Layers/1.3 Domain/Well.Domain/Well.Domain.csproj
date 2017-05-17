@@ -50,6 +50,7 @@
     <Compile Include="Enums\ActionStatus.cs" />
     <Compile Include="Enums\CommodityType.cs" />
     <Compile Include="CreditThreshold.cs" />
+    <Compile Include="Enums\ExceptionType.cs" />
     <Compile Include="Enums\JobStatus.cs" />
     <Compile Include="Enums\LookupType.cs" />
     <Compile Include="Enums\PodDeliveryAction.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="ValueObjects\AdamFail.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
+    <Compile Include="ValueObjects\EditLineItemException.cs" />
+    <Compile Include="ValueObjects\LineItemActionUpdate.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
     <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />

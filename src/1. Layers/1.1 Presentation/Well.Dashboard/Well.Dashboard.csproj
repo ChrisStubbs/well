@@ -197,6 +197,8 @@
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
@@ -218,6 +220,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
     <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
+    <TypeScriptCompile Include="app\shared\selectYeNoFilterComponent.ts" />
     <TypeScriptCompile Include="app\shared\services\ILookupValue.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupsEnum.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupService.ts" />
@@ -250,7 +253,8 @@
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
-    <Content Include="app\shared\appSearch\appSearchView.html" />
+    <Content Include="app\shared\action\action-modal.html" />
+    <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="app\stops\stopComponent.html" />
@@ -522,10 +526,6 @@
     <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
-    <TypeScriptCompile Include="app\job\Job.ts" />
-    <TypeScriptCompile Include="app\job\jobService.ts" />
-    <TypeScriptCompile Include="app\job\JobStatus.ts" />
-    <TypeScriptCompile Include="app\job\JobType.ts" />
     <Content Include="app\routes\routesComponent.ts" />
     <TypeScriptCompile Include="app\routes\routeFilter.ts" />
     <TypeScriptCompile Include="app\routes\routesService.ts" />

@@ -1,21 +1,20 @@
-import { Component, ViewChild }             from '@angular/core';
-import { ActivatedRoute }                   from '@angular/router';
-import { IObservableAlive }                 from '../shared/IObservableAlive';
-import { JobService, JobType }              from '../job/job'
-import { StopService }                      from './stopService';
-import { Stop, StopItem, StopFilter }       from './stop';
-import * as _                               from 'lodash';
-import { DataTable }                        from 'primeng/components/datatable/datatable';
-import { AssignModal }                      from '../shared/assignModal';
-import { AssignModel, AssignModalResult }   from '../shared/assignModel';
-import { Branch }                           from '../shared/branch/branch';
-import { SecurityService }                  from '../shared/security/securityService';
-import { GlobalSettingsService }            from '../shared/globalSettings';
+import { Component, ViewChild }                     from '@angular/core';
+import { ActivatedRoute }                           from '@angular/router';
+import { IObservableAlive }                         from '../shared/IObservableAlive';
+import { StopService }                              from './stopService';
+import { Stop, StopItem, StopFilter }               from './stop';
+import * as _                                       from 'lodash';
+import { DataTable }                                from 'primeng/components/datatable/datatable';
+import { AssignModel, AssignModalResult }           from '../shared/assignModel';
+import { Branch }                                   from '../shared/branch/branch';
+import { SecurityService }                          from '../shared/security/securityService';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
 
 @Component({
     selector: 'ow-stop',
     templateUrl: './app/stops/stopComponent.html',
-    providers: [JobService, StopService],
+    providers: [LookupService, StopService],
     styles: ['.groupRow { display: flex } ' +
         '.group1{ width: 2% } ' +
         '.group2{ width: 12% } ' +
@@ -30,7 +29,7 @@ import { GlobalSettingsService }            from '../shared/globalSettings';
 export class StopComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    public jobTypes: Array<JobType>;
+    public jobTypes: Array<ILookupValue>;
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop;
     public stopsItems: Array<StopItem>;
@@ -45,7 +44,7 @@ export class StopComponent implements IObservableAlive
     private isActionMode: boolean = false;
 
     constructor(
-        private jobService: JobService,
+        private lookupService: LookupService,
         private stopService: StopService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
@@ -73,12 +72,9 @@ export class StopComponent implements IObservableAlive
                     .value();
             });
 
-        this.jobService.JobTypes()
+        this.lookupService.get(LookupsEnum.JobType)
             .takeWhile(() => this.isAlive)
-            .subscribe(types =>
-            {
-                this.jobTypes = types;
-            });
+            .subscribe((value: Array<ILookupValue>) => this.jobTypes = value);
 
         this.filters = new StopFilter();
         this.isReadOnlyUser = this.securityService

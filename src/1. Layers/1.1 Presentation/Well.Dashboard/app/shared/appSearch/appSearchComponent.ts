@@ -1,87 +1,66 @@
-import { Component, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
-import { BranchService } from '../branch/branchService';
-import { GlobalSettingsService } from '../globalSettings';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { JobService, JobStatus, JobType } from '../../job/job';
-import { DriverService } from '../../driver/driverService';
-import { IAppSearchResult } from './iAppSearchResult';
-import { AppSearchParameters } from './appSearchParameters';
-import { AppSearchService } from './appSearchService'
-import * as _ from 'lodash';
+import { Component, Output, EventEmitter }              from '@angular/core';
+import { Router }                                       from '@angular/router';
+import { BranchService }                                from '../branch/branchService';
+import { GlobalSettingsService }                        from '../globalSettings';
+import { FormGroup, FormControl, FormBuilder }          from '@angular/forms';
+import { DriverService }                                from '../../driver/driverService';
+import { IAppSearchResult }                             from './iAppSearchResult';
+import { AppSearchParameters }                          from './appSearchParameters';
+import { AppSearchService }                             from './appSearchService'
+import * as _                                           from 'lodash';
+import { LookupService, LookupsEnum, ILookupValue}      from '../services/services';
+import { IObservableAlive }                             from '../IObservableAlive';
+import { Observable }                                   from 'rxjs';
 import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/observable/forkJoin'
 
-//http://stackoverflow.com/questions/32896407/redirect-within-component-angular-2
-/* tslint:disable:max-line-length */
-//https://www.google.co.uk/search?num=20&newwindow=1&espv=2&q=angular+2+redirect+to+route&oq=angular+2+redirect+&gs_l=serp.3.1.0l10.26462.33032.0.35808.15.15.0.0.0.0.170.1167.14j1.15.0....0...1.1.64.serp..0.15.1161...0i67k1j0i131k1j35i39k1j0i20k1j0i10k1.lLydsRjGk6M
-//https://angular.io/resources/live-examples/router/ts/eplnkr.html
 @Component({
     selector: 'ow-appSearch',
-    templateUrl: 'app/shared/appSearch/appSearchView.html',
-    providers: [JobService, BranchService, GlobalSettingsService, DriverService, AppSearchService]
+    templateUrl: 'app/shared/appSearch/appSearchComponent.html',
+    providers: [BranchService, DriverService, AppSearchService]
 })
-export class AppSearch implements OnDestroy
+export class AppSearch implements IObservableAlive
 {
     public branches: Array<[string, string]>;
-    public jobStatus: JobStatus[];
-    public jobTypes: JobType[];
+    public jobStatus: ILookupValue[];
+    public jobTypes: ILookupValue[];
     public searchForm: FormGroup;
     public showMoreFilters = false;
-    public drivers: string[];
+    public drivers: ILookupValue[];
+    public isAlive: boolean = true;
     @Output() public onSearch = new EventEmitter();
 
-    private alive: boolean = true;
-
     public constructor(
-        private jobService: JobService,
+        private lookupService: LookupService,
         private branchService: BranchService,
         private globalSettingsService: GlobalSettingsService,
         private fb: FormBuilder,
-        private driverService: DriverService,
         private appSearchService: AppSearchService,
-        private router: Router)
+        private router: Router) {}
+
+    public ngOnInit(): void
     {
-        this.driverService.drivers()
-            .takeWhile(() => this.alive)
-            .subscribe(d =>
-            {
-                this.drivers = d;
-                this.drivers.unshift('All');
-
-            });
-
-        this.branchService.getBranchesValueList(globalSettingsService.globalSettings.userName)
-            .takeWhile(() => this.alive)
+        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
+            .takeWhile(() => this.isAlive)
             .subscribe(branches =>
             {
                 this.branches = branches;
             });
 
-        this.jobService.JobStatus()
-            .takeWhile(() => this.alive)
-            .subscribe(status =>
+        Observable.forkJoin(
+            this.lookupService.get(LookupsEnum.JobType),
+            this.lookupService.get(LookupsEnum.JobStatus),
+            this.lookupService.get(LookupsEnum.Driver)
+        )
+            .takeWhile(() => this.isAlive)
+            .subscribe(res =>
             {
-                const emptyState = new JobStatus();
-
-                this.jobStatus = status;
-                emptyState.description = 'All';
-                emptyState.id = undefined;
-                this.jobStatus.unshift(emptyState);
+                this.jobTypes = res[0];
+                this.jobStatus = res[1];
+                this.drivers = res[2];
             });
 
-        this.jobService.JobTypes()
-            .takeWhile(() => this.alive)
-            .subscribe(types =>
-            {
-                const emptyType = new JobType();
-
-                this.jobTypes = types;
-                emptyType.description = 'All';
-                emptyType.id = undefined;
-                this.jobTypes.unshift(emptyType);
-            });
-
-        this.searchForm = fb.group(
+        this.searchForm = this.fb.group(
             {
                 'branch': new FormControl(),
                 'date': new FormControl(),
@@ -94,12 +73,12 @@ export class AppSearch implements OnDestroy
             });
     }
 
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        this.alive = false;
+        this.isAlive = false;
     }
 
-    public resetSearch()
+    public resetSearch(): void
     {
         this.searchForm.reset();
     }
@@ -125,7 +104,7 @@ export class AppSearch implements OnDestroy
         parameters.status = formData.status;
 
         this.appSearchService.Search(parameters)
-            .takeWhile(() => this.alive)
+            .takeWhile(() => this.isAlive)
             .subscribe((result: IAppSearchResult) =>
             {
                 if (!_.isNil(result.stopId))

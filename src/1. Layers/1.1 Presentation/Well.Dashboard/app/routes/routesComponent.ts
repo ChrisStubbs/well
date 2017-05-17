@@ -1,20 +1,20 @@
-﻿import { ActivatedRoute } from '@angular/router';
-import { Component, ViewChild } from '@angular/core';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route } from './route';
-import { RouteFilter } from './routeFilter';
-import { RoutesService } from './routesService';
-import { RefreshService } from '../shared/refreshService';
-import { SecurityService } from '../shared/security/securityService';
-import { BranchService } from '../shared/branch/branchService';
-import { JobService } from '../job/job';
-import { AppSearchParameters } from '../shared/appSearch/appSearch';
-import { DataTable } from 'primeng/primeng';
+﻿import { ActivatedRoute }                           from '@angular/router';
+import { Component, ViewChild }                     from '@angular/core';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { Route }                                    from './route';
+import { RouteFilter }                              from './routeFilter';
+import { RoutesService }                            from './routesService';
+import { RefreshService }                           from '../shared/refreshService';
+import { SecurityService }                          from '../shared/security/securityService';
+import { BranchService }                            from '../shared/branch/branchService';
+import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
+import { DataTable }                                from 'primeng/primeng';
+import { AssignModel }                              from '../shared/assignModel';
+import { Branch }                                   from '../shared/branch/branch';
+import { AppDefaults }                              from '../shared/defaults/defaults';
+import { IObservableAlive }                         from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
 import 'rxjs/Rx';
-import { AssignModel } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { AppDefaults } from '../shared/defaults/defaults';
-import {IObservableAlive} from '../shared/IObservableAlive';
 
 @Component({
     selector: 'ow-route',
@@ -30,7 +30,7 @@ export class RoutesComponent implements IObservableAlive
     public lastRefresh = Date.now();
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
-    public jobStatus: Array<[string, string]>;
+    public jobStatus: Array<ILookupValue>;
 
     public isAlive: boolean = true;
     private actions: string[] = ['Re-Plan'];
@@ -44,13 +44,13 @@ export class RoutesComponent implements IObservableAlive
     @ViewChild('dt') public dataTable: DataTable;
 
     constructor(
+        private lookupService: LookupService,
         protected globalSettingsService: GlobalSettingsService,
         private routeService: RoutesService,
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
         protected securityService: SecurityService,
-        private branchService: BranchService,
-        private jobService: JobService) {}
+        private branchService: BranchService) {}
 
     public ngOnInit()
     {
@@ -71,12 +71,9 @@ export class RoutesComponent implements IObservableAlive
                 this.branches = branches;
             });
 
-        this.jobService.getStatusValueList()
+        this.lookupService.get(LookupsEnum.JobStatus)
             .takeWhile(() => this.isAlive)
-            .subscribe((jobStatus: Array<[string, string]>) =>
-            {
-                this.jobStatus = jobStatus;
-            });
+            .subscribe((value: Array<ILookupValue>) => this.jobStatus = value);
     }
 
     public ngOnDestroy()

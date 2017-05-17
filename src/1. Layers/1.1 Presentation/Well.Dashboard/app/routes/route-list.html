@@ -66,8 +66,9 @@
                             <select class="form-control" id="searchStatus"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
                                     [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value : ''">
-                                <option *ngFor="let status of jobStatus" [value]="status[0] || ''">
-                                    {{ status[1] }}
+                                <option value>All</option>
+                                <option *ngFor="let status of jobStatus" [value]="status.value">
+                                    {{ status.value }}
                                 </option>
                             </select>
                         </ng-template>

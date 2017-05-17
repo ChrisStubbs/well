@@ -1,4 +1,4 @@
-import { Component, Input }                         from '@angular/core';
+import {Component, Input, Output, EventEmitter}     from '@angular/core';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
 import { EditExceptionService }                     from './editExceptionsService';
 import { IEditLineItemException }                   from './editLineItemException';
@@ -25,11 +25,17 @@ export class EditExceptionsComponent implements IObservableAlive
     public isAlive: boolean = true;
     public source: Array<IEditLineItemException>;
     public exceptionTypes: Array<ILookupValue>;
-    public selectedException: string;
 
-    @Input() public ids: Array<number>;
+    @Input() public set ids(value: Array<number>)
+    {
+        if (_.isNil(this.source)) {
+            this.editExceptionService.get(value)
+                .takeWhile(() => this.isAlive)
+                .subscribe((values: Array<IEditLineItemException>) => this.source = values);
+        }
+    };
 
-    private allItems: Array<IEditLineItemException>;
+    @Output() public close: EventEmitter<any> = new EventEmitter(undefined);
 
      constructor(
          private lookupService: LookupService,
@@ -37,14 +43,6 @@ export class EditExceptionsComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
-        this.editExceptionService.get(this.ids)
-            .takeWhile(() => this.isAlive)
-            .subscribe((values: Array<IEditLineItemException>) =>
-            {
-                this.allItems = values;
-                this.source = values
-            });
-
         this.lookupService.get(LookupsEnum.ExceptionType)
             .takeWhile(() => this.isAlive)
             .subscribe((value: Array<ILookupValue>) =>
@@ -73,23 +71,15 @@ export class EditExceptionsComponent implements IObservableAlive
         //
     }
 
-    public filter(): void
-    {
-        if (_.isNil(this.selectedException))
-        {
-            this.source = this.allItems;
-        }
-        else
-        {
-            this.source = _.filter(
-                this.allItems,
-                (current: IEditLineItemException) => current.exception == this.selectedException);
-        }
-    }
-
     public editLine(line: IEditLineItemException): void
     {
         console.log(line);
         //i have to do something here
+    }
+
+    public closeEdit()
+    {
+        this.close.emit(undefined);
+        this.source = undefined;
     }
 }

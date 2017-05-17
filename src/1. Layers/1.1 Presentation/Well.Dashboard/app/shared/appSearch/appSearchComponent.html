@@ -59,7 +59,8 @@
             <label for="searchDriver" class="col-lg-4 control-label">Driver</label>
             <div class="col-lg-8">
                 <select class="form-control" id="searchDriver" formControlName="driver">
-                    <option *ngFor="let driver of drivers" [value]="driver">{{ driver }}</option>
+                    <option value>All</option>
+                    <option *ngFor="let driver of drivers" [value]="driver.key">{{ driver.value }}</option>
                 </select>
             </div>
         </div>
@@ -69,7 +70,8 @@
             <label for="searchDeliveryType" class="col-lg-2 control-label">Delivery Type</label>
             <div class="col-lg-10">
                 <select class="form-control" id="searchDeliveryType" formControlName="deliveryType">
-                    <option *ngFor="let type of jobTypes" [value]="type.id">{{ type.description }}</option>
+                    <option value>All</option>
+                    <option *ngFor="let type of jobTypes" [value]="type.key">{{ type.value }}</option>
                 </select>
             </div>
         </div>
@@ -77,7 +79,8 @@
             <label for="searchStatus" class="col-lg-4 control-label">Status</label>
             <div class="col-lg-8">
                 <select class="form-control" id="searchStatus" formControlName="status">
-                    <option *ngFor="let state of jobStatus" [value]="state.id">{{ state.description }}</option>
+                    <option value>All</option>
+                    <option *ngFor="let state of jobStatus" [value]="state.key">{{ state.value }}</option>
                 </select>
             </div>
         </div>

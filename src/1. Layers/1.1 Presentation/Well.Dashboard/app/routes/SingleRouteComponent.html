@@ -67,8 +67,9 @@
                             </ng-template>
                             <ng-template pTemplate="filter" let-col>
                                 <select class="form-control" id="searchJob" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
-                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.id">
-                                        {{ jobType.description }}
+                                    <option value>All</option>
+                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
+                                        {{ jobType.value }}
                                     </option>
                                 </select>
                             </ng-template>
@@ -79,8 +80,8 @@
                             </ng-template>
                             <ng-template pTemplate="filter" let-col>
                                 <select class="form-control" id="searchStatus" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
-                                    <option *ngFor="let status of jobStatus" [value]="status.id">
-                                        {{ status.description }}
+                                    <option *ngFor="let status of jobStatus" [value]="status.key">
+                                        {{ status.value }}
                                     </option>
                                 </select>
                             </ng-template>

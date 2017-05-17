@@ -189,6 +189,7 @@
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\JobStatusController.cs" />
     <Compile Include="Controllers\JobTypeController.cs" />
+    <Compile Include="Controllers\LineItemActionController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\LineItemSearchController.cs" />
     <Compile Include="Controllers\LocationController.cs" />

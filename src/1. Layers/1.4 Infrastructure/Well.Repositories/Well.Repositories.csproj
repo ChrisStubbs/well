@@ -74,6 +74,7 @@
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
+    <Compile Include="Contracts\ILineItemActionRepository.cs" />
     <Compile Include="Contracts\ILookupRepository.cs" />
     <Compile Include="Contracts\ILineItemActionReadRepository.cs" />
     <Compile Include="Contracts\ILineItemSearchReadRepository.cs" />

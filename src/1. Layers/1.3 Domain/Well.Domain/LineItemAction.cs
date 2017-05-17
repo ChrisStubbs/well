@@ -2,6 +2,7 @@
 {
     using System;
     using System.Security.AccessControl;
+    using Enums;
 
     public class LineItemAction: Entity<int>
     {
@@ -16,5 +17,6 @@
         public string ApprovedBy { get; set; }
         public string ActionedBy { get; set; }
         public string Originator { get; set; }
+
     }
 }

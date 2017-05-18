@@ -85,6 +85,11 @@ export class EditExceptionsComponent implements IObservableAlive
         this.lineItemToHandle = line;
     }
 
+    public lineItemsToHandle(): Array<IEditLineItemException>
+    {
+        return [this.lineItemToHandle];
+    }
+
     public closeEdit(): void
     {
         this.close.emit(undefined);

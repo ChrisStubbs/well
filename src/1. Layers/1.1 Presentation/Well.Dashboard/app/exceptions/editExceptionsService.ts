@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Response, Headers, RequestOptions } from '@angular/http';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { HttpErrorService } from '../shared/httpErrorService';
-import { HttpService } from '../shared/httpService';
-import { Observable } from 'rxjs';
-import { IEditLineItemException } from './editLineItemException';
-import * as _ from 'lodash';
+import { Injectable }                          from '@angular/core';
+import { Response, Headers, RequestOptions }   from '@angular/http';
+import { GlobalSettingsService }               from '../shared/globalSettings';
+import { HttpErrorService }                    from '../shared/httpErrorService';
+import { HttpService }                         from '../shared/httpService';
+import { Observable }                          from 'rxjs';
+import { IEditLineItemException }              from './editLineItemException';
+import { LineItemAction }                      from './lineItemAction';
 import 'rxjs/add/operator/map';
-import { LineItemAction } from './lineItemAction';
 
 @Injectable()
 export class EditExceptionsService
@@ -19,13 +18,9 @@ export class EditExceptionsService
 
     public get(ids: Array<number>): Observable<Array<IEditLineItemException>>
     {
-
-        const params: URLSearchParams = new URLSearchParams();
         const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception/PerLineItem';
 
-        _.each(ids, (current: number) => params.set('id', current.toString()));
-
-        return this.http.get(url, { search: params })
+        return this.http.get(url, { params: {id: ids}})
             .map((response: Response) => <IEditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

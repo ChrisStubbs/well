@@ -17,5 +17,6 @@
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
         public string BarCode { get; set; }
+        public int LineItemId { get; set; }
     }
 }

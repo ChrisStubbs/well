@@ -1,8 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[LineItemAction_Insert]
 AS
 BEGIN
+-- Post TRANSEND import update
+
 	DECLARE @process VARCHAR(20) = 'WellUpdate'
-	DECLARE @Originator VARCHAR(20) = 'Driver'
+	DECLARE @Originator TINYINT = 0
 
 	DECLARE @ExceptionShort INT = 1
 			,@ExceptionBypass INT = 2

@@ -22,7 +22,7 @@
             var lineItemAction = new LineItemAction
             {
                 LineItemId = lineItemActionUpdate.LineItemId,
-                DeliverAction = lineItemActionUpdate.DeliverAction,
+                DeliveryAction = lineItemActionUpdate.DeliverAction,
                 ExceptionType = lineItemActionUpdate.ExceptionType,
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
@@ -40,7 +40,7 @@
             {
                 Id = lineItemActionUpdate.Id,
                 LineItemId = lineItemActionUpdate.LineItemId,
-                DeliverAction = lineItemActionUpdate.DeliverAction,
+                DeliveryAction = lineItemActionUpdate.DeliverAction,
                 ExceptionType = lineItemActionUpdate.ExceptionType,
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,

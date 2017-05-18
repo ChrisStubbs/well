@@ -132,3 +132,20 @@
         </div>
     </div>
 </div>
+
+<!--<a href="#" class="glyphicon glyphicon-search" data-toggle="modal" data-target="#appSearchModal">-->
+    <!--<span class="sr-only">Search...</span>-->
+<!--</a>-->
+
+<div *ngIf="modalOpen" class="modal fade" id="exceptionsmodal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <edit-exceptions-modal [items]="lineItemToHandle()" [isEditMode]="isEditMode"></edit-exceptions-modal>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" #closeAppSearch>Close</button>
+            </div>
+        </div>
+    </div>
+</div>

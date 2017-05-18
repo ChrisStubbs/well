@@ -10,6 +10,7 @@
 		,@ApprovedBy VARCHAR(50)
 		,@LineItemId INT 
 		,@Originator VARCHAR(50)
+		,@ActionedBy VARCHAR(50)
 		,@UpdatedBy VARCHAR(50)
 		,@UpdatedDate DATETIME
 AS
@@ -24,7 +25,7 @@ UPDATE [dbo].[LineItemAction]
       ,[ApprovedBy] = @ApprovedBy
       ,[LineItemId] = @LineItemId
       ,[Originator] = @Originator
-     -- ,[ActionedBy] = <ActionedBy, varchar(50),>
+      ,[ActionedBy] = @ActionedBy
       ,[LastUpdatedBy] = @UpdatedBy
       ,[LastUpdatedDate] = @UpdatedDate
  WHERE @Id = Id

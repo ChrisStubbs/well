@@ -9,6 +9,7 @@
 		,@ApprovedBy VARCHAR(50)
 		,@LineItemId INT 
 		,@Originator VARCHAR(50)
+		,@ActionedBy VARCHAR(50)
 		,@CreatedBy VARCHAR(50)
 		,@CreatedDate DATETIME
 AS
@@ -26,6 +27,7 @@ AS
 		,ApprovedBy 
 		,LineItemId 
 		,Originator
+		,ActionedBy
 		,CreatedBy
 		,CreatedDate
 		,LastUpdatedBy
@@ -42,6 +44,7 @@ AS
 		,@ApprovedBy 
 		,@LineItemId
 		,@Originator
+		,@ActionedBy
 		,@CreatedBy
 		,@CreatedDate
 		,@CreatedBy

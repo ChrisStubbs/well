@@ -13,8 +13,7 @@ import { Observable } from 'rxjs'
     templateUrl: './app/exceptions/editExceptionsModal.html',
     providers: [LookupService, EditExceptionsService]
 })
-export class EditExceptionsModal implements IObservableAlive
-{
+export class EditExceptionsModal implements IObservableAlive {
     @Input() public items: Array<IEditLineItemException> = [];
     @Input() public isEditMode: boolean = false;
     @Output() public onSave = new EventEmitter();
@@ -33,17 +32,14 @@ export class EditExceptionsModal implements IObservableAlive
         private lookupService: LookupService,
         private editExceptionsService: EditExceptionsService) { }
 
-    public ngOnInit()
-    {
-
+    public ngOnInit() {
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.DeliveryAction),
             this.lookupService.get(LookupsEnum.ExceptionType),
             this.lookupService.get(LookupsEnum.JobDetailSource),
             this.lookupService.get(LookupsEnum.JobDetailReason)
         ).takeWhile(() => this.isAlive)
-            .subscribe(value =>
-            {
+            .subscribe(value => {
                 this.deliveryActions = value[0];
                 this.exceptionTypes = value[1];
                 this.sources = value[2];
@@ -51,23 +47,18 @@ export class EditExceptionsModal implements IObservableAlive
             });
     }
 
-    public ngOnDestroy()
-    {
+    public ngOnDestroy() {
         this.isAlive = false;
     }
 
-    public save(): void
-    {
-        this.lineItemAction.ids = _.uniq(_.map(this.items, 'id'));
+    public save(): void {
+        this.lineItemAction.id = _.uniq(_.map(this.items, 'id'));
 
-        if (this.currentForm.form.valid && this.lineItemAction.ids.length > 0)
-        {
-            if (this.isEditMode)
-            {
+        if (this.currentForm.form.valid) {
+            if (this.isEditMode) {
                 this.editExceptionsService.put(this.lineItemAction);
             }
-            else
-            {
+            else {
                 this.editExceptionsService.post(this.lineItemAction);
             }
         }
@@ -75,8 +66,7 @@ export class EditExceptionsModal implements IObservableAlive
         this.close();
     }
 
-    public close(): void
-    {
+    public close(): void {
         this.lineItemAction = new LineItemAction();
         this.cancelButton.nativeElement.click();
     }

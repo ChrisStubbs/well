@@ -35,9 +35,10 @@ export class EditExceptionsService
         const body = JSON.stringify(item);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'LineItemAction';
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception';
 
         return this.http.put(url, body, options)
+            .map((response: Response) => <IEditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -46,9 +47,10 @@ export class EditExceptionsService
         const body = JSON.stringify(item);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'LineItemAction';
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception';
 
         return this.http.post(url, body, options)
+            .map((response: Response) => <IEditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

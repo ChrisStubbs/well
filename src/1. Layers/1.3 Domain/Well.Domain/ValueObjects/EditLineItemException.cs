@@ -6,6 +6,7 @@
     public class EditLineItemException
     {
         public int Id { get; set; }
+        public int? LineItemActionId { get; set; }
         public string ProductNumber { get; set; }
         public string Product { get; set; }
         public string Originator { get; set; }

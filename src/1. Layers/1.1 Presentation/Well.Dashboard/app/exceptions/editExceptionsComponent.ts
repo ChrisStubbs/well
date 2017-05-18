@@ -37,7 +37,11 @@ export class EditExceptionsComponent implements IObservableAlive
 
     @Output() public close: EventEmitter<any> = new EventEmitter(undefined);
 
-     constructor(
+    private openModal: boolean = false;
+    private lineItemToHandle: IEditLineItemException;
+    private isEditMode: boolean;
+
+    constructor(
          private lookupService: LookupService,
          private editExceptionService: EditExceptionsService) { }
 
@@ -66,20 +70,29 @@ export class EditExceptionsComponent implements IObservableAlive
             .value();
     }
 
-    public addException(id: number): void
+    public addException(line: IEditLineItemException): void
     {
-        //
+        this.openModal = true;
+        this.isEditMode = false;
+        this.lineItemToHandle = line;
     }
 
     public editLine(line: IEditLineItemException): void
     {
-        console.log(line);
-        //i have to do something here
+        this.openModal = true;
+        this.isEditMode = true;
+        this.lineItemToHandle = line;
     }
 
-    public closeEdit()
+    public closeEdit(): void
     {
         this.close.emit(undefined);
         this.source = undefined;
     }
+    //
+    // public x(): void
+    // {
+    //     console.log('test');
+    //
+    // }
 }

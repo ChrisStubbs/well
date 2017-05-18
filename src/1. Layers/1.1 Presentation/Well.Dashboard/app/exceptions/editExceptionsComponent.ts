@@ -53,7 +53,6 @@ export class EditExceptionsComponent implements IObservableAlive
             .subscribe((value: Array<ILookupValue>) =>
             {
                 this.exceptionTypes = value;
-                console.log(value);
             });
     }
 
@@ -83,11 +82,6 @@ export class EditExceptionsComponent implements IObservableAlive
         this.openModal = true;
         this.isEditMode = true;
         this.lineItemToHandle = line;
-    }
-
-    public lineItemsToHandle(): Array<IEditLineItemException>
-    {
-        return [this.lineItemToHandle];
     }
 
     public closeEdit(): void

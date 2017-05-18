@@ -14,7 +14,19 @@ import { Observable } from 'rxjs'
     providers: [LookupService, EditExceptionsService]
 })
 export class EditExceptionsModal implements IObservableAlive {
-    @Input() public item: IEditLineItemException;
+    private mItem: IEditLineItemException;
+
+    @Input() public set item(value: IEditLineItemException)
+    {
+        this.mItem = value;
+        this.mapToLineItemAction(value);
+    };
+
+    public get item(): IEditLineItemException
+    {
+        return this.mItem;
+    }
+
     @Input() public isEditMode: boolean = false;
     @Output() public onSave = new EventEmitter();
     public isAlive: boolean = true;
@@ -31,8 +43,8 @@ export class EditExceptionsModal implements IObservableAlive {
         private lookupService: LookupService,
         private editExceptionsService: EditExceptionsService) { }
 
-    public ngOnInit() {
-        //this.setTestData();
+    public ngOnInit()
+    {
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.DeliveryAction),
             this.lookupService.get(LookupsEnum.ExceptionType),
@@ -44,16 +56,16 @@ export class EditExceptionsModal implements IObservableAlive {
                 this.exceptionTypes = value[1];
                 this.sources = value[2];
                 this.reasons = value[3];
-                this.mapToLineItemAction(this.item);
             });
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void
+    {
         this.isAlive = false;
     }
 
-    public save(): void {
-
+    public save(): void
+    {
         if (this.currentForm.form.valid) {
 
             const exceptionServiceObservable = (this.isEditMode)
@@ -69,7 +81,8 @@ export class EditExceptionsModal implements IObservableAlive {
         }
     }
 
-    private mapToLineItemAction(ex: IEditLineItemException): void {
+    private mapToLineItemAction(ex: IEditLineItemException): void
+    {
         if (!_.isNil(ex)) {
             this.lineItemAction.id = ex.lineItemActionId;
             this.lineItemAction.lineItemId = ex.id;
@@ -81,7 +94,8 @@ export class EditExceptionsModal implements IObservableAlive {
         }
     }
 
-    private findKeyByValue(lookups: Array<ILookupValue>, value: string): number {
+    private findKeyByValue(lookups: Array<ILookupValue>, value: string): number
+    {
         let key = 0;
         if (!_.isNil(value)) {
             const lu = _.find(lookups, ['value', value]);
@@ -92,30 +106,9 @@ export class EditExceptionsModal implements IObservableAlive {
         return key;
     }
 
-    public close(): void {
+    public close(): void
+    {
         this.lineItemAction = new LineItemAction();
         this.cancelButton.nativeElement.click();
     }
-
-    public setTestData() {
-        this.item = {
-            'id': 1,
-            'lineItemActionId': undefined,
-            'productNumber': '11582',
-            'product': 'EU Cutters Choice 30g',
-            'originator': undefined,
-            'exception': 'Short',
-            'invoiced': 5,
-            'delivered': 0,
-            'quantity': 0,
-            'action': undefined,
-            'source': 'Input',
-            'reason': 'No Credit',
-            'erdd': undefined,
-            'actionedBy': undefined,
-            'approvedBy': undefined,
-            'comments': undefined
-        };
-    }
-
 }

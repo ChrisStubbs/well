@@ -132,11 +132,14 @@
         </div>
     </div>
 </div>
+<div>----------</div>
+{{lineItemToHandle | json}}
+<div>----------</div>
 <div class="modal fade" id="exceptionsmodal" role="dialog">
-    <div class="modal-dialog" *ngIf="openModal" >
+    <div class="modal-dialog modal-lg" *ngIf="openModal" >
         <div class="modal-content">
             <div class="modal-body">
-                <edit-exceptions-modal [items]="lineItemsToHandle()" [isEditMode]="isEditMode"></edit-exceptions-modal>
+                <edit-exceptions-modal [item]="lineItemToHandle" [isEditMode]="isEditMode"></edit-exceptions-modal>
             </div>
         </div>
     </div>

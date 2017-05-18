@@ -14,7 +14,7 @@
             <label for="quantity">Quantity</label>
         </div>
         <div class="col-md-3">
-            <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="lineItemAction.quantity" required />
+            <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="lineItemAction.quantity" required pattern="[^0]+" />
         </div>
         <div class="col-md-1">
             <label for="exceptionTypeId">Exception</label>
@@ -64,20 +64,22 @@
                     </thead>
                     <tbody>
                         <tr class="grid-row" style="height: auto">
-                            <td></td>
                             <td>{{item.productNumber}}</td>
                             <td>{{item.product}}</td>
                             <td>{{item.exception}}</td>
                             <td>{{item.quantity}}</td>
+                            <td>what is this?</td>
                         </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div class="row pull-right">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close()" #cancelButton>Cancel</button>&nbsp;
-            <button type="submit" class="btn btn-success" [disabled]="!exceptionModalForm.form.valid" (click)="save()">Save</button>
+    <div class="form-group">
+        <div class="pull-right btn-group ">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close()" #cancelButton>Cancel</button>&nbsp;
+                <button type="submit" class="btn btn-success" [disabled]="!exceptionModalForm.form.valid" (click)="save()">Save</button>
+            </div>
         </div>
     </div>
 </form>

@@ -65,6 +65,7 @@
                     item.Checked = line.IsChecked;
                     item.HighValue = line.IsHighValue;
                     item.BarCode = line.SSCCBarcode;
+                    item.LineItemId = line.LineItemId;
                     stopModel.Items.Add(item);
                 }
 

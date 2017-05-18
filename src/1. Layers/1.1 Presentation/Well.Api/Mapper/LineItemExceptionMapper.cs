@@ -1,10 +1,8 @@
 ﻿namespace PH.Well.Api.Mapper
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Contracts;
     using Domain;
-    using Domain.Enums;
     using Domain.Extensions;
     using Domain.ValueObjects;
 
@@ -38,6 +36,7 @@
                         var editLineItemException = new EditLineItemException
                         {
                             Id = line.Id,
+                            LineItemActionId = action.Id,
                             ProductNumber = line.ProductCode,
                             Product = line.ProductDescription,
                             Originator = EnumExtensions.GetDescription(action.Originator), 

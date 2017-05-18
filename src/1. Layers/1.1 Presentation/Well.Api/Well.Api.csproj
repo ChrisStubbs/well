@@ -186,7 +186,6 @@
     <Compile Include="Controllers\BulkCreditController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
-    <Compile Include="Controllers\LineItemActionController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\LineItemSearchController.cs" />
     <Compile Include="Controllers\LocationController.cs" />

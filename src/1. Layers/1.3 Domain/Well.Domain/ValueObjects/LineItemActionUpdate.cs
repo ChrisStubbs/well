@@ -1,14 +1,15 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    using System;
+    using Enums;
 
     public class LineItemActionUpdate
     {
-        public string ExceptionType { get; set; }
-
-        public int Quantity { get; set; }
-
+        public int Id { get; set; }
         public int LineItemId { get; set; }
-
+        public DeliveryAction DeliverAction { get; set; }
+        public ExceptionType ExceptionType { get; set; }
+        public int Quantity { get; set; }
+        public JobDetailSource Source { get; set; }
+        public JobDetailReason Reason { get; set; }
     }
 }

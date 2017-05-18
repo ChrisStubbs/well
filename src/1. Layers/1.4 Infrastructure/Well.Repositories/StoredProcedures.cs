@@ -139,6 +139,11 @@
         public static string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
         public static string LineItemActionGetByLineItemIds = "LineItemAction_GetByLineItemIds";
 
+        //Line Item Actions
+        public static string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
+        public static string LineItemActionGet = "LineItemActionGet";
+        public static string LineItemActionUpdate = "LineItemActionUpdate";
+
         public static string ActivityGetById = "Activity_GetById";
         public static string LocationGetById = "Location_GetById";
         
@@ -148,6 +153,7 @@
         public const string JobStatus = "JobStatus_Get";
         public const string JobType = "JobType_Get";
         public const string Driver = "Drivers_Get";
+
 
     }
 }

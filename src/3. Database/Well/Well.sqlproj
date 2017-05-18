@@ -365,7 +365,9 @@
     <Build Include="dbo\StoredProcedures\JobType_Get.sql" />
     <Build Include="dbo\StoredProcedures\Drivers_Get.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_GetByLineItemIds.sql" />
-    <Build Include="dbo\StoredProcedures\LineItemAction_AddByUser.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemAction_InsertByUser.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemActionGet.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemActionUpdate.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

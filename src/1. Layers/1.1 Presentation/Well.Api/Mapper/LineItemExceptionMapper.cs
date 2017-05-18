@@ -4,6 +4,8 @@
     using System.Linq;
     using Contracts;
     using Domain;
+    using Domain.Enums;
+    using Domain.Extensions;
     using Domain.ValueObjects;
 
     public class LineItemExceptionMapper : ILineItemExceptionMapper
@@ -39,12 +41,12 @@
                             ProductNumber = line.ProductCode,
                             Product = line.ProductDescription,
                             Originator = action.Originator ?? "Customer", // can only be reported by driver or customer
-                            Exception = action.ExceptionType,
+                            Exception = EnumExtensions.GetDescription(action.ExceptionType),
                             Invoiced = line.OriginalDespatchQuantity,
                             Delivered = line.DeliveredQuantity,
                             Quantity = action.Quantity,
-                            Source = action.Source,
-                            Reason = action.Reason,
+                            Source = EnumExtensions.GetDescription(action.Source),
+                            Reason = EnumExtensions.GetDescription(action.Reason),
                             Erdd = action.ReplanDate,
                             ActionedBy = action.ActionedBy,
                             ApprovedBy = action.ApprovedBy

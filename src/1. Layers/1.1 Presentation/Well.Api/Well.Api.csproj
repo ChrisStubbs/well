@@ -184,11 +184,8 @@
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
     <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\BulkCreditController.cs" />
-    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
-    <Compile Include="Controllers\JobStatusController.cs" />
-    <Compile Include="Controllers\JobTypeController.cs" />
     <Compile Include="Controllers\LineItemActionController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\LineItemSearchController.cs" />

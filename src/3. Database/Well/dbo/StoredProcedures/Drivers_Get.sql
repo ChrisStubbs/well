@@ -5,3 +5,6 @@ AS
 		[DriverName] AS Value
 	FROM 
 		RouteHeader
+	WHERE 
+		DriverName IS NOT NULL
+		AND LTRIM(DriverName) != ''

@@ -53,7 +53,6 @@ export class EditExceptionsComponent implements IObservableAlive
             .subscribe((value: Array<ILookupValue>) =>
             {
                 this.exceptionTypes = value;
-                console.log(value);
             });
     }
 

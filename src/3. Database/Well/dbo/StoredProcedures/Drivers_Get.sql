@@ -5,3 +5,5 @@ AS
 		[DriverName] AS Value
 	FROM 
 		RouteHeader
+	WHERE
+		DriverName is not null

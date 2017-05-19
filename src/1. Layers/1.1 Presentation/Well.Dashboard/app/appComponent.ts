@@ -28,6 +28,8 @@ export class AppComponent {
     }
 
     private fetchBranches() {
-        this.globalSettingsService.getBranches().subscribe(branches => this.branches = branches);
+        this.globalSettingsService.getBranches().subscribe(branches => {
+            this.branches = branches ? 'Branches: ' + branches : 'Select Branches';
+        });
     }
 }

@@ -52,7 +52,7 @@
                     var item = new StopModelItem();
                     item.JobId = job.Id;
                     item.Invoice = job.InvoiceNumber;
-                    item.Type = jobType.ToString().Substring(0, 1);
+                    item.Type = jobType.ToString();
                     item.Account = job.PhAccount;
                     item.JobDetailId = line.Id;
                     item.Product = line.PhProductCode;

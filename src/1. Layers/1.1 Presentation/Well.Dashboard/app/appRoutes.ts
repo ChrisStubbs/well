@@ -20,8 +20,8 @@ import { SingleRouteComponent } from './routes/singleRouteComponent'
 import {StopComponent} from './stops/stopComponent';
 
 const routes: Routes = [
-    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' }, //for chrome
-    //{ path: '', redirectTo: '/widgets', pathMatch: 'full' },               //for IE
+    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
+    { path: '', redirectTo: '/widgets', pathMatch: 'full' },
     { path: 'unauthorised', component: UnauthorisedComponent },
     { path: 'approvals', component: ApprovalsComponent },
     { path: 'audits', component: AuditComponent },

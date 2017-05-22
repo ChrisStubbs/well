@@ -24,12 +24,16 @@
                     <div class="group5">{{totalPerGroup('quantity', rowData.id)}}</div>
                     <div class="group6"></div>
                     <div class="group7"><button class="btn btn-default" type="button" (click)="addException(rowData)" data-toggle="modal" data-target="#exceptionsmodal">Add Exception</button></div>
+                    <div class="group8"><input type="checkbox" [checked]="allChildrenSelected(rowData.id)" (change)="selectLineItens($event.target.checked, rowData.id)" /></div>
                 </div>
             </ng-template>
             <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
             <p-column header="Originator" field="originator" [style]="{'width': '8%'}">
                 <ng-template pTemplate="header">
                     <div>Originator</div>
+                </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
                 </ng-template>
             </p-column>
             <p-column header="Exception" field="exception" [style]="{'width': '9%'}" [filter]="true" filterMatchMode="contains">
@@ -47,6 +51,9 @@
                 <ng-template pTemplate="header">
                     <div>Invoiced</div>
                 </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
+                </ng-template>
                 <ng-template let-data="rowData" pTemplate="body">
                     <div class="text-right">
                         <span>{{ data.invoiced }}</span>
@@ -56,6 +63,9 @@
                 <ng-template pTemplate="header">
                     <div>Delivered</div>
                 </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
+                </ng-template>
                 <ng-template let-data="rowData" pTemplate="body">
                     <div class="text-right">
                         <span>{{ data.delivered }}</span>
@@ -64,6 +74,9 @@
             <p-column header="Quantity" field="quantity" [style]="{'width': '7%'}">
                 <ng-template pTemplate="header">
                     <div>Quantity</div>
+                </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
                 </ng-template>
                 <ng-template let-data="rowData" pTemplate="body">
                     <div class="text-right">
@@ -75,15 +88,24 @@
                 <ng-template pTemplate="header">
                     <div>Action</div>
                 </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
+                </ng-template>
             </p-column>
             <p-column header="Source" field="source" [style]="{'width': '8%'}">
                 <ng-template pTemplate="header">
                     <div>Source</div>
                 </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
+                </ng-template>
             </p-column>
             <p-column header="Reason" field="reason" [style]="{'width': '11%'}">
                 <ng-template pTemplate="header">
                     <div>Reason</div>
+                </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
                 </ng-template>
             </p-column>
             <p-column header="erdd" field="erdd" [style]="{'width': '11%'}">
@@ -98,22 +120,40 @@
                         </span>
                     </a>
                 </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
+                </ng-template>
             </p-column>
             <p-column header="Actioned By" field="actionedBy" [style]="{'width': '11%'}">
                 <ng-template pTemplate="header">
                     <div>Actioned By</div>
+                </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
                 </ng-template>
             </p-column>
             <p-column header="Approver" field="approveBy" [style]="{'width': '11%'}">
                 <ng-template pTemplate="header">
                     <div>Approver</div>
                 </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
+                </ng-template>
             </p-column>
-            <p-column [style]="{'width':'4%'}" field="selected" selectionMode="multiple">
+            <p-column [style]="{'width':'4%'}" field="selected">
+                <ng-template pTemplate="header">
+                    <div class="text-center">
+                        <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectLineItens($event.target.checked, null)" >
+                    </div>
+                </ng-template>
                 <ng-template let-data="rowData" pTemplate="body">
                         <span>
-                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(data)" title="Edit"></a>
+                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(data, $event)" title="Edit" data-toggle="modal" data-target="#exceptionsmodal"></a>
+                            <input type="checkbox" [(ngModel)]="data.isSelected" title="">
                         </span>
+                </ng-template>
+                <ng-template pTemplate="filter">
+                    <div>&nbsp;</div>
                 </ng-template>
             </p-column>
         </p-dataTable>
@@ -127,14 +167,12 @@
         </div>
     </div>
 </div>
-<div>----------</div>
-{{lineItemToHandle | json}}
-<div>----------</div>
 <div class="modal fade" id="exceptionsmodal" role="dialog">
     <div class="modal-dialog modal-lg" *ngIf="openModal" >
         <div class="modal-content">
             <div class="modal-body">
-                <edit-exceptions-modal [item]="lineItemToHandle" [isEditMode]="isEditMode"></edit-exceptions-modal>
+                <edit-exceptions-modal [item]="lineItemToHandle" [isEditMode]="isEditMode" (onSave)="exceptionSaved($event)" (onCancel)="cancelExeption()"></edit-exceptions-modal>
+                <button type="button" class="btn btn-default" data-dismiss="modal" #closeExceptionsModal style="display: none">Close</button>
             </div>
         </div>
     </div>

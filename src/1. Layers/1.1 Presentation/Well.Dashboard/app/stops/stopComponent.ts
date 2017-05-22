@@ -1,4 +1,4 @@
-import { Component, ViewChild }                     from '@angular/core';
+import { Component, ViewChild }      from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
 import { StopService }                              from './stopService';
@@ -31,12 +31,13 @@ export class StopComponent implements IObservableAlive
     public isAlive: boolean = true;
     public jobTypes: Array<ILookupValue>;
     public tobaccoBags: Array<[string, string]>;
-    public stop: Stop;
+    public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
     public filters: StopFilter;
     public lastRefresh = Date.now();
 
     @ViewChild('dt') public grid: DataTable;
+    @ViewChild('btt') public btt;
 
     private actions: string[] = ['Close', 'Credit', 'Re-plan'];
     private stopId: number;
@@ -68,8 +69,9 @@ export class StopComponent implements IObservableAlive
                 this.tobaccoBags = _.chain(this.stopsItems)
                     .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
-                        one[0] == another[0] && one[1] == another[1])
+                    one[0] == another[0] && one[1] == another[1])
                     .value();
+                this.expandGroups();
             });
 
         this.lookupService.get(LookupsEnum.JobType)
@@ -79,6 +81,15 @@ export class StopComponent implements IObservableAlive
         this.filters = new StopFilter();
         this.isReadOnlyUser = this.securityService
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private expandGroups(): void
+    {
+        this.grid.expandedRowsGroups = [];
+        _.chain(this.stopsItems)
+            .groupBy(this.grid.groupField)
+            .map(current => this.grid.expandedRowsGroups.push(current[0].jobId))
+            .value();
     }
 
     public totalPerGroup(perCol: string, jobId: number): number
@@ -153,5 +164,11 @@ export class StopComponent implements IObservableAlive
     public selectedLineItems(): Array<number>
     {
         return _.map(this.selectedItems(), 'lineItemId');
+    }
+
+    public closeEdit(event: any): void
+    {
+        this.isActionMode = false;
+        event.preventDefault();
     }
 }

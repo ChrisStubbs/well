@@ -2,6 +2,7 @@
 {
     using Contracts;
     using Domain;
+    using Domain.Enums;
     using Domain.ValueObjects;
     using Repositories.Contracts;
 
@@ -27,6 +28,7 @@
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
                 Reason = lineItemActionUpdate.Reason,
+                Originator = Originator.Customer
             };
 
             lineItemActionRepository.Save(lineItemAction);

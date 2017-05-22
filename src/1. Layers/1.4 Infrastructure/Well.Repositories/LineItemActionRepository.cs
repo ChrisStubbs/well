@@ -1,8 +1,10 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Domain;
 
@@ -29,6 +31,7 @@
                 .AddParameter("LineItemId", entity.LineItemId, DbType.Int32)
                 .AddParameter("Originator", entity.Originator, DbType.String)
                 .AddParameter("ActionedBy", entity.ActionedBy, DbType.String)
+                .AddParameter("DeliveryActionId", entity.DeliveryAction, DbType.Int32)
                 .AddParameter("CreatedBy", entity.CreatedBy, DbType.String)
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .Query<int>().FirstOrDefault();
@@ -36,9 +39,14 @@
 
         public LineItemAction GetById(int id)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionGet)
-                .AddParameter("Id", id, DbType.Int32)
-                .Query<LineItemAction>().SingleOrDefault();
+            return GetByIds(new[] { id }).SingleOrDefault();
+        }
+
+        public IList<LineItemAction> GetByIds(int[] ids)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionGetByIds)
+                .AddParameter("Ids", ids.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<LineItemAction>().ToList();
         }
 
         protected override void UpdateExisting(LineItemAction entity)
@@ -56,6 +64,7 @@
                 .AddParameter("LineItemId", entity.LineItemId, DbType.Int32)
                 .AddParameter("Originator", entity.Originator, DbType.String)
                 .AddParameter("ActionedBy", entity.ActionedBy, DbType.String)
+                .AddParameter("DeliveryActionId", entity.DeliveryAction, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .Execute();

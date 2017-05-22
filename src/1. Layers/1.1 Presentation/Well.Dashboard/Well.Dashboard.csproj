@@ -200,9 +200,8 @@
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
-    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
-    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionService.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
@@ -257,7 +256,7 @@
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
-    <Content Include="app\shared\action\action-modal.html" />
+    <Content Include="app\shared\action\actionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />
@@ -357,6 +356,17 @@
     <Content Include="Content\Site.less" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="webpack.config.js" />
+    <Content Include="Content\BootStrap.less" />
+    <Content Include="Content\Widget.less" />
+    <Content Include="Content\Spinners.less" />
+    <Content Include="Content\Variables.less" />
+    <Content Include="Content\Tables.less" />
+    <Content Include="Content\Forms.less" />
+    <Content Include="Content\Nav.less" />
+    <Content Include="Content\Grid.less" />
+    <Content Include="Content\Animation.less" />
+    <Content Include="Content\Toaster.less" />
+    <Content Include="Content\App.less" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -583,7 +593,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52729</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

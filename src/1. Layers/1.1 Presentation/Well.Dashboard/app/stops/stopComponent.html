@@ -62,7 +62,7 @@
                         <p-header>Expand a Job to see more details</p-header>
                         <ng-template pTemplate="rowgroupheader" let-rowData>
                             <div class="groupRow">
-                                <div class="group1">{{rowData.jobId}}</div>
+                                <div class="group1">&nbsp;</div>
                                 <div class="group2">Invoice: {{rowData.invoice}}</div>
                                 <div class="group3">Acct#: {{rowData.account}}</div>
                                 <div class="group4">{{totalPerGroup('invoiced', rowData.jobId)}}</div>
@@ -116,35 +116,35 @@
                                 <div>Description</div>
                             </ng-template>
                         </p-column>
-                        <p-column header="Value" field="value" [filter]="true" filterMatchMode="contains">
+                        <p-column header="Value" field="value" filterMatchMode="contains">
                             <ng-template let-data="rowData" pTemplate="body">
                                 <div class="text-right">
                                     {{data.value | currency:'GBP':true}}
                                 </div>
                             </ng-template>
                         </p-column>
-                        <p-column header="Invoiced" field="invoiced" [filter]="true" filterMatchMode="equals">
+                        <p-column header="Invoiced" field="invoiced" filterMatchMode="equals">
                             <ng-template let-data="rowData" pTemplate="body">
                                 <div class="text-right">
                                     {{data.invoiced}}
                                 </div>
                             </ng-template>
                         </p-column>
-                        <p-column header="Delivered" field="delivered" [filter]="true" filterMatchMode="equals">
+                        <p-column header="Delivered" field="delivered"  filterMatchMode="equals">
                             <ng-template let-data="rowData" pTemplate="body">
                                 <div class="text-right">
                                     {{data.delivered}}
                                 </div>
                             </ng-template>
                         </p-column>
-                        <p-column header="Damages" field="damages" [filter]="true" filterMatchMode="equals">
+                        <p-column header="Damages" field="damages" filterMatchMode="equals">
                             <ng-template let-data="rowData" pTemplate="body">
                                 <div class="text-right">
                                     {{data.damages}}
                                 </div>
                             </ng-template>
                         </p-column>
-                        <p-column header="Shorts" field="shorts" [filter]="true" filterMatchMode="equals">
+                        <p-column header="Shorts" field="shorts" filterMatchMode="equals">
                             <ng-template let-data="rowData" pTemplate="body">
                                 <div class="text-right">
                                     {{data.shorts}}

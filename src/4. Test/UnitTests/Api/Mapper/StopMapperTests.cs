@@ -129,7 +129,7 @@
             var item = stopModel.Items[0];
             Assert.That(item.JobId, Is.EqualTo(2545));
             Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
-            Assert.That(item.Type, Is.EqualTo("T"));
+            Assert.That(item.Type, Is.EqualTo("Tobacco"));
             Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));
             Assert.That(item.JobDetailId, Is.EqualTo(jobDetails1[0].Id));
             Assert.That(item.Product, Is.EqualTo("PHProdCode"));

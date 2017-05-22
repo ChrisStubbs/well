@@ -100,19 +100,6 @@
                         <span>{{ data.delivered }}</span>
                     </div>
                 </ng-template></p-column>
-            <p-column header="Quantity" field="quantity" [style]="{'width': '7%'}">
-                <ng-template pTemplate="header">
-                    <div>Quantity</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-                <ng-template let-data="rowData" pTemplate="body">
-                    <div class="text-right">
-                        <span>{{ data.quantity }}</span>
-                    </div>
-                </ng-template>
-            </p-column>
             <p-column header="Action" field="action" [style]="{'width': '6%'}">
                 <ng-template pTemplate="header">
                     <div>Action</div>
@@ -129,25 +116,22 @@
                     <div>&nbsp;</div>
                 </ng-template>
             </p-column>
-            <p-column header="Reason" field="reason" [style]="{'width': '11%'}">
+            <p-column header="Quantity" field="quantity" [style]="{'width': '7%'}">
                 <ng-template pTemplate="header">
-                    <div>Reason</div>
+                    <div>Quantity</div>
                 </ng-template>
                 <ng-template pTemplate="filter">
                     <div>&nbsp;</div>
                 </ng-template>
+                <ng-template let-data="rowData" pTemplate="body">
+                    <div class="text-right">
+                        <span>{{ data.quantity }}</span>
+                    </div>
+                </ng-template>
             </p-column>
-            <p-column header="erdd" field="erdd" [style]="{'width': '11%'}">
+            <p-column header="Reason" field="reason" [style]="{'width': '11%'}">
                 <ng-template pTemplate="header">
-                    <span>E.R.D.D.</span>
-                    <a href="#">
-                        <span tooltip="Earliest Requested Delivery Date"
-                            [tooltipDisabled]="false"
-                            [tooltipAnimation]="true"
-                            tooltipPlacement="top"
-                            class="glyphicon glyphicon-info-sign">
-                        </span>
-                    </a>
+                    <div>Reason</div>
                 </ng-template>
                 <ng-template pTemplate="filter">
                     <div>&nbsp;</div>

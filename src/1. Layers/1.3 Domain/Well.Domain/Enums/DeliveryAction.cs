@@ -10,10 +10,13 @@
         [Description("Credit")]
         Credit = 1,
 
-        [Description("Reject")]
-        Reject = 3,
+        [Description("Mark as Bypassed")]
+        MarkAsBypassed = 2,
 
-        [Description("Close")]
-        Close = 4,
+        [Description("Mark as Delivered")]
+        MarkAsDelivered = 3,
+
+       
+
     }
 }

@@ -27,7 +27,9 @@ export class ActionModal implements IObservableAlive
     }
     
     public isAlive: boolean = true;
-    private deliveryActions: string[] = ['Close', 'Credit', 'Replan'];
+    private deliveryActions: string[] = [ 'Credit'
+                                        , 'Mark as Delivered'
+                                        , 'Mark as Bypassed'];
     private selectedAction: string = 'Action';
 
     constructor(private lookupService: LookupService) { }
@@ -44,9 +46,7 @@ export class ActionModal implements IObservableAlive
 
     public actionClicked(action: string): void
     {
-        console.log(action);
-        this.selectedAction = action;
-        
+        this.selectedAction = action;   
         this.onActionClicked.emit(action);
     }
 

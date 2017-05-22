@@ -13,6 +13,12 @@
         public const string StatusClean = "Clean";
         public const string StatusUndetermined = "Undetermined";
 
+        //Status Should be one of the below
+        //Planned -- No invoice No
+        //Invoiced -- where some are incomplete
+        //Complete
+        //Bypassed -- All Jobs Bypassed
+
         public string DetermineStatus(List<Job> jobs)
         {
           

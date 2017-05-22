@@ -67,9 +67,9 @@
                         }
 
                         break;
-                    case DeliveryAction.Reject:
+                    case DeliveryAction.MarkAsDelivered:
                         break;
-                    case DeliveryAction.Close:
+                    case DeliveryAction.MarkAsBypassed:
                         break;
                 }
             }

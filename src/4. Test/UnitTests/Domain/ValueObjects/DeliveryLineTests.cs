@@ -84,7 +84,7 @@
             {
                 var deliveryLine = new DeliveryLine { ShortsActionId = (int)DeliveryAction.Credit, ShortQuantity = 1 };
 
-                var damage1 = new Damage { DamageActionId = (int)DeliveryAction.Close, Quantity = 1 };
+                var damage1 = new Damage { DamageActionId = (int)DeliveryAction.MarkAsBypassed, Quantity = 1 };
                 var damage2 = new Damage { DamageActionId = (int)DeliveryAction.Credit, Quantity = 1 };
                 deliveryLine.Damages.Add(damage1);
                 deliveryLine.Damages.Add(damage2);

@@ -77,7 +77,7 @@
     <div class="form-group">
         <div class="pull-right btn-group ">
             <div class="col-md-12">
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close()" #cancelButton>Cancel</button>&nbsp;
+                <button type="button" class="btn btn-default" (click)="close()">Cancel</button>&nbsp;
                 <button type="submit" class="btn btn-success" [disabled]="!exceptionModalForm.form.valid" (click)="save()">Save</button>
             </div>
         </div>

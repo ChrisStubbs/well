@@ -1,7 +1,5 @@
 ﻿namespace PH.Well.Services
 {
-    using System;
-    using System.Collections.Generic;
     using Contracts;
     using Domain;
     using Domain.ValueObjects;
@@ -10,19 +8,21 @@
     public class LineItemActionService : ILineItemActionService
     {
         private readonly ILineItemActionRepository lineItemActionRepository;
+        private readonly ILineItemSearchReadRepository lineItemRepository;
 
-        public LineItemActionService(ILineItemActionRepository lineItemActionRepository)
+        public LineItemActionService(ILineItemActionRepository lineItemActionRepository, ILineItemSearchReadRepository lineItemRepository)
         {
             this.lineItemActionRepository = lineItemActionRepository;
+            this.lineItemRepository = lineItemRepository;
         }
 
-        public LineItemAction InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate)
+        public LineItem InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate)
         {
 
             var lineItemAction = new LineItemAction
             {
                 LineItemId = lineItemActionUpdate.LineItemId,
-                DeliverAction = lineItemActionUpdate.DeliverAction,
+                DeliveryAction = lineItemActionUpdate.DeliverAction,
                 ExceptionType = lineItemActionUpdate.ExceptionType,
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
@@ -30,17 +30,17 @@
             };
 
             lineItemActionRepository.Save(lineItemAction);
-            
-            return lineItemActionRepository.GetById(lineItemAction.Id);
+
+            return lineItemRepository.GetById(lineItemAction.LineItemId);
         }
 
-        public LineItemAction UpdateLineItemActions(LineItemActionUpdate lineItemActionUpdate)
+        public LineItem UpdateLineItemActions(LineItemActionUpdate lineItemActionUpdate)
         {
             var lineItemAction = new LineItemAction
             {
                 Id = lineItemActionUpdate.Id,
                 LineItemId = lineItemActionUpdate.LineItemId,
-                DeliverAction = lineItemActionUpdate.DeliverAction,
+                DeliveryAction = lineItemActionUpdate.DeliverAction,
                 ExceptionType = lineItemActionUpdate.ExceptionType,
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
@@ -48,8 +48,7 @@
             };
 
             lineItemActionRepository.Update(lineItemAction);
-
-            return lineItemActionRepository.GetById(lineItemAction.Id);
+            return lineItemRepository.GetById(lineItemAction.LineItemId);
         }
     }
 }

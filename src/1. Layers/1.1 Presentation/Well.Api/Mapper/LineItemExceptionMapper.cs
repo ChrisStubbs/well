@@ -1,10 +1,8 @@
 ﻿namespace PH.Well.Api.Mapper
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Contracts;
     using Domain;
-    using Domain.Enums;
     using Domain.Extensions;
     using Domain.ValueObjects;
 
@@ -38,9 +36,10 @@
                         var editLineItemException = new EditLineItemException
                         {
                             Id = line.Id,
+                            LineItemActionId = action.Id,
                             ProductNumber = line.ProductCode,
                             Product = line.ProductDescription,
-                            Originator = action.Originator ?? "Customer", // can only be reported by driver or customer
+                            Originator = EnumExtensions.GetDescription(action.Originator), 
                             Exception = EnumExtensions.GetDescription(action.ExceptionType),
                             Invoiced = line.OriginalDespatchQuantity,
                             Delivered = line.DeliveredQuantity,
@@ -52,7 +51,6 @@
                             ApprovedBy = action.ApprovedBy
 
                         };
-
                         result.Add(editLineItemException);
                     }
                 }

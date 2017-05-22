@@ -11,6 +11,7 @@
 		,@LineItemId INT 
 		,@Originator VARCHAR(50)
 		,@ActionedBy VARCHAR(50)
+		,@DeliveryActionId INT
 		,@UpdatedBy VARCHAR(50)
 		,@UpdatedDate DATETIME
 AS
@@ -26,6 +27,7 @@ UPDATE [dbo].[LineItemAction]
       ,[LineItemId] = @LineItemId
       ,[Originator] = @Originator
       ,[ActionedBy] = @ActionedBy
+	  ,[DeliveryActionId] = @DeliveryActionId
       ,[LastUpdatedBy] = @UpdatedBy
       ,[LastUpdatedDate] = @UpdatedDate
  WHERE @Id = Id

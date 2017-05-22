@@ -53,6 +53,7 @@
     <Compile Include="Enums\ExceptionType.cs" />
     <Compile Include="Enums\JobStatus.cs" />
     <Compile Include="Enums\LookupType.cs" />
+    <Compile Include="Enums\Originator.cs" />
     <Compile Include="Enums\PodDeliveryAction.cs" />
     <Compile Include="Enums\DeliveryAction.cs" />
     <Compile Include="Enums\PodReason.cs" />

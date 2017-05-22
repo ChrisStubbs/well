@@ -28,7 +28,7 @@
                     <div class="group4">{{totalPerGroup('delivered', rowData.id)}}</div>
                     <div class="group5">{{totalPerGroup('quantity', rowData.id)}}</div>
                     <div class="group6"></div>
-                    <div class="group7"><button class="btn btn-default" type="button" (click)="addException(rowData.id)">Add Exception</button></div>
+                    <div class="group7"><button class="btn btn-default" type="button" (click)="addException(rowData)" data-toggle="modal" data-target="#exceptionsmodal">Add Exception</button></div>
                 </div>
             </ng-template>
             <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
@@ -129,6 +129,18 @@
     <div class="col-lg-12">
         <div class="pull-right">
             <button class="btn btn-default" type="button" (click)="closeEdit()">Close</button>&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+<div>----------</div>
+{{lineItemToHandle | json}}
+<div>----------</div>
+<div class="modal fade" id="exceptionsmodal" role="dialog">
+    <div class="modal-dialog modal-lg" *ngIf="openModal" >
+        <div class="modal-content">
+            <div class="modal-body">
+                <edit-exceptions-modal [item]="lineItemToHandle" [isEditMode]="isEditMode"></edit-exceptions-modal>
+            </div>
         </div>
     </div>
 </div>

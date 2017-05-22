@@ -12,12 +12,12 @@ import 'rxjs/add/operator/mergeMap';
     providers: [LookupService, EditExceptionsService],
     styles: ['.groupRow { display: flex} ' +
     '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
-    '.group1{ width: 11%} ' +
+    '.group1{ width: 9%} ' +
     '.group2{ width: 9%} ' +
     '.group3{ width: 7%; text-align: right} ' +
     '.group4{ width: 7%; text-align: right} ' +
     '.group5{ width: 7%; text-align: right} ' +
-    '.group6{ width: 45%} ' +
+    '.group6{ width: 47%} ' +
     '.group7{ width: 14%} ']
 })
 export class EditExceptionsComponent implements IObservableAlive
@@ -29,6 +29,7 @@ export class EditExceptionsComponent implements IObservableAlive
     @Input() public set ids(value: Array<number>)
     {
         if (_.isNil(this.source)) {
+            this.source = [];
             this.editExceptionService.get(value)
                 .takeWhile(() => this.isAlive)
                 .subscribe((values: Array<IEditLineItemException>) => this.source = values);
@@ -37,7 +38,11 @@ export class EditExceptionsComponent implements IObservableAlive
 
     @Output() public close: EventEmitter<any> = new EventEmitter(undefined);
 
-     constructor(
+    private openModal: boolean = false;
+    private lineItemToHandle: IEditLineItemException;
+    private isEditMode: boolean;
+
+    constructor(
          private lookupService: LookupService,
          private editExceptionService: EditExceptionsService) { }
 
@@ -48,7 +53,6 @@ export class EditExceptionsComponent implements IObservableAlive
             .subscribe((value: Array<ILookupValue>) =>
             {
                 this.exceptionTypes = value;
-                console.log(value);
             });
     }
 
@@ -66,20 +70,29 @@ export class EditExceptionsComponent implements IObservableAlive
             .value();
     }
 
-    public addException(id: number): void
+    public addException(line: IEditLineItemException): void
     {
-        //
+        this.openModal = true;
+        this.isEditMode = false;
+        this.lineItemToHandle = line;
     }
 
     public editLine(line: IEditLineItemException): void
     {
-        console.log(line);
-        //i have to do something here
+        this.openModal = true;
+        this.isEditMode = true;
+        this.lineItemToHandle = line;
     }
 
-    public closeEdit()
+    public closeEdit(): void
     {
         this.close.emit(undefined);
         this.source = undefined;
     }
+    //
+    // public x(): void
+    // {
+    //     console.log('test');
+    //
+    // }
 }

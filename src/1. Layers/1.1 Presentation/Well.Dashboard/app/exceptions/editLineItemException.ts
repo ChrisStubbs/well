@@ -1,6 +1,7 @@
 export interface IEditLineItemException
 {
     id: number;
+    lineItemActionId?: number;
     productNumber: string;
     product: string;
     originator: string;

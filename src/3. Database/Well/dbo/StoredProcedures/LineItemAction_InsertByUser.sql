@@ -10,6 +10,7 @@
 		,@LineItemId INT 
 		,@Originator VARCHAR(50)
 		,@ActionedBy VARCHAR(50)
+		,@DeliveryActionId INT
 		,@CreatedBy VARCHAR(50)
 		,@CreatedDate DATETIME
 AS
@@ -28,6 +29,7 @@ AS
 		,LineItemId 
 		,Originator
 		,ActionedBy
+		,DeliveryActionId
 		,CreatedBy
 		,CreatedDate
 		,LastUpdatedBy
@@ -45,6 +47,7 @@ AS
 		,@LineItemId
 		,@Originator
 		,@ActionedBy
+		,@DeliveryActionId
 		,@CreatedBy
 		,@CreatedDate
 		,@CreatedBy

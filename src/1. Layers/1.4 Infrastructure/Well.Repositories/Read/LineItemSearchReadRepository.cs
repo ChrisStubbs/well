@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Repositories.Read
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -19,6 +18,11 @@
         {
             this.logger = logger;
             this.dapperReadProxy = dapperReadProxy;
+        }
+
+        public LineItem GetById(int id)
+        {
+            return GetLineItemByIds(new[] {id}).FirstOrDefault();
         }
 
         public IEnumerable<LineItem> GetLineItemByIds(IEnumerable<int> ids)

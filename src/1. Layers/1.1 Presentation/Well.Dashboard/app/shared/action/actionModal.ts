@@ -27,7 +27,7 @@ export class ActionModal implements IObservableAlive
     }
     
     public isAlive: boolean = true;
-    private deliveryActions: string[] = ['Credit'];
+    private deliveryActions: string[] = ['Close', 'Credit', 'Replan'];
     private selectedAction: string = 'Action';
 
     constructor(private lookupService: LookupService) { }

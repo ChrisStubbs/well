@@ -36,5 +36,5 @@ export class SingleRouteItem
     public selected?: boolean;
     public jobStatusDescription: string;
     public jobStatus: number;
-    public isSelected: boolean
+    public isSelected: boolean;
 }

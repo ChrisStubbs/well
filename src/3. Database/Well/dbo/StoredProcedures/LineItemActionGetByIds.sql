@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[LineItemActionGet]
-	@id int 
+﻿CREATE PROCEDURE [dbo].[LineItemActionGetByIds]
+	@Ids dbo.IntTableType	READONLY
 AS
 SELECT
 	[Id]
@@ -21,8 +21,7 @@ SELECT
 	,[Version]
 FROM 
 	[dbo].[LineItemAction]
-WHERE
-	[id] = @Id
+INNER JOIN @Ids ids ON ids.Value = Id
 	
 
 RETURN 0

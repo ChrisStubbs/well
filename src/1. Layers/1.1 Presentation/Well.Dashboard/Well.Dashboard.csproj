@@ -200,9 +200,8 @@
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
-    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
-    <TypeScriptCompile Include="app\shared\action\actionModalModel.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionService.ts" />
     <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
@@ -257,7 +256,7 @@
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\route-list.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
-    <Content Include="app\shared\action\action-modal.html" />
+    <Content Include="app\shared\action\actionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\loading.html" />

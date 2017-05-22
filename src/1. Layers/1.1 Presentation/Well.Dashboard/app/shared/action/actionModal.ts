@@ -1,22 +1,40 @@
 ﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { IObservableAlive } from '../IObservableAlive';
-import { ActionModalModel } from './actionModalModel';
+import { LookupService } from '../services/lookupService';
 
 @Component({
-    selector: 'action-modal',
-    templateUrl: 'app/shared/action/action-modal.html'
+    selector: 'action-Modal',
+    templateUrl: 'app/shared/action/actionModal.html'
 })
 export class ActionModal implements IObservableAlive
 {
-    private actions: string[] = ['Close', 'Credit', 'Re-plan'];
-    private sources: string[] = ['Not Defined', 'Input', 'Assembler', 'Checker'];
-    private reasons: string[] = ['Not Defined', 'No Credit', 'Damaged Goods', 'Shorts Delivered'];
-    public model: ActionModalModel = new ActionModalModel();
+
+    @Input() public disabled: boolean = false;
+    @Output() public onActionClicked: EventEmitter<string> = new EventEmitter<string>();
+    @Input() public lineItemActionIds: number[];
+    @Input() public actionSummaryData: string = 'This is the Summary info supplied by the consumer of the modal';
+
+    private mAdditionalItemsItem: string[];
+    @Input() public set additionalOptions(value: string[])
+    {
+        this.mAdditionalItemsItem = value;
+        this.deliveryActions.push.apply(this.deliveryActions, this.mAdditionalItemsItem);
+    };
+
+    public get item(): string[]
+    {
+        return this.mAdditionalItemsItem;
+    }
+    
     public isAlive: boolean = true;
+    private deliveryActions: string[] = ['Credit'];
+    private selectedAction: string = 'Action';
+
+    constructor(private lookupService: LookupService) { }
 
     public ngOnInit()
     {
-        console.log('TODO:');
+        //
     }
 
     public ngOnDestroy()
@@ -24,17 +42,12 @@ export class ActionModal implements IObservableAlive
         this.isAlive = false;
     }
 
-    public show(model: ActionModalModel): void {
-        this.model = model;
+    public actionClicked(action: string): void
+    {
+        console.log(action);
+        this.selectedAction = action;
+        
+        this.onActionClicked.emit(action);
     }
 
-    private cancel(): void
-    {
-        console.log('cancel modal');
-    }
-
-    private save(): void
-    {
-        console.log('This is where we do the saving');
-    }
 }

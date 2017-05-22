@@ -103,7 +103,6 @@
             IEnumerable<JobDetail> jobDetailsToCredit = job.JobDetails.Where(l => l.ShortsAction == DeliveryAction.Credit ||
                                                                l.JobDetailDamages.Any(d => d.DamageAction == DeliveryAction.Credit));
 
-
             if (!job.HasDamages && !job.HasShorts)
             {
                 warnings.Add($"Invoice no: {job.InvoiceNumber} has no Damages or Shorts");

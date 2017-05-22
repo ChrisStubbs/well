@@ -13,7 +13,6 @@ import { IObservableAlive }                         from '../shared/IObservableA
 import { SingleRouteItem }                          from './singleRoute';
 import { SplitButtonComponent }                     from '../shared/splitButtonComponent';
 import { ActionModal }                              from '../shared/action/actionModal';
-import { ActionModalModel }                         from '../shared/action/actionModalModel';
 import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
 import { Observable }                               from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
@@ -183,15 +182,6 @@ export class SingleRouteComponent implements IObservableAlive
             .value();
     }
 
-    public onOptionClicked(event: string)
-    {
-        const model = new ActionModalModel();
-        model.action = event;
-        model.jobIds = _.uniq(_.map(this.selectedItems(), 'jobId'));
-        model.items = this.selectedItems();
-        this.actionModal.show(model);
-    }
-
     public selectStops(select: boolean, stop?: string): void
     {
         let filterToApply = function(item: SingleRouteItem): boolean { return true; };
@@ -227,5 +217,4 @@ export class SingleRouteComponent implements IObservableAlive
             _.filter(this.singleRouteItems, filterToApply),
             current => current.isSelected);
     }
-
 }

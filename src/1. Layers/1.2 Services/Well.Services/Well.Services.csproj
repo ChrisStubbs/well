@@ -53,6 +53,7 @@
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="BulkActionService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Contracts\IAppSearchService.cs" />
     <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="Contracts\ILineItemActionService.cs" />
+    <Compile Include="Contracts\IBulkActionService.cs" />
     <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />

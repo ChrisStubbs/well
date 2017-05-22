@@ -1,43 +1,43 @@
-﻿import { Component, Input, ViewChild, EventEmitter, Output, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
-import { IEditLineItemException } from './editLineItemException';
-import { LineItemAction } from './lineItemAction';
-import { EditExceptionsService } from './editExceptionsService';
-import * as _ from 'lodash';
-import { Observable } from 'rxjs'
+﻿import { Component, Input, ViewChild, EventEmitter, Output, ElementRef }    from '@angular/core';
+import { NgForm }                                                           from '@angular/forms';
+import { IObservableAlive }                                                 from '../shared/IObservableAlive';
+import { LookupService, ILookupValue, LookupsEnum }                         from '../shared/services/services';
+import { EditLineItemException }                                           from './editLineItemException';
+import { LineItemAction }                                                   from './lineItemAction';
+import { EditExceptionsService }                                            from './editExceptionsService';
+import * as _                                                               from 'lodash';
+import { Observable }                                                       from 'rxjs'
 
 @Component({
     selector: 'edit-exceptions-modal',
     templateUrl: './app/exceptions/editExceptionsModal.html',
     providers: [LookupService, EditExceptionsService]
 })
-export class EditExceptionsModal implements IObservableAlive {
-    private mItem: IEditLineItemException;
-
-    @Input() public set item(value: IEditLineItemException)
+export class EditExceptionsModal implements IObservableAlive
+{
+    private mItem: EditLineItemException;
+    @Input() public set item(value: EditLineItemException)
     {
         this.mItem = value;
         this.mapToLineItemAction(value);
     };
 
-    public get item(): IEditLineItemException
+    public get item(): EditLineItemException
     {
         return this.mItem;
     }
-
-    @Input() public isEditMode: boolean = false;
-    @Output() public onSave = new EventEmitter();
     public isAlive: boolean = true;
 
-    private deliveryActions: Array<ILookupValue> = [];
-    private sources: Array<ILookupValue> = [];
-    private reasons: Array<ILookupValue> = [];
-    private exceptionTypes: Array<ILookupValue> = [];
-    private lineItemAction: LineItemAction = new LineItemAction();
+    @Input() public isEditMode: boolean = false;
+    @Output() public onSave = new EventEmitter<EditLineItemException>();
+    @Output() public onCancel = new EventEmitter();
     @ViewChild('exceptionModalForm') private currentForm: NgForm;
-    @ViewChild('cancelButton') private cancelButton: ElementRef;
+
+    private deliveryActions: Array<ILookupValue>;
+    private sources: Array<ILookupValue>;
+    private reasons: Array<ILookupValue>;
+    private exceptionTypes: Array<ILookupValue>;
+    private lineItemAction: LineItemAction = new LineItemAction();
 
     constructor(
         private lookupService: LookupService,
@@ -45,18 +45,28 @@ export class EditExceptionsModal implements IObservableAlive {
 
     public ngOnInit()
     {
-        Observable.forkJoin(
-            this.lookupService.get(LookupsEnum.DeliveryAction),
-            this.lookupService.get(LookupsEnum.ExceptionType),
-            this.lookupService.get(LookupsEnum.JobDetailSource),
-            this.lookupService.get(LookupsEnum.JobDetailReason)
-        ).takeWhile(() => this.isAlive)
-            .subscribe(value => {
-                this.deliveryActions = value[0];
-                this.exceptionTypes = value[1];
-                this.sources = value[2];
-                this.reasons = value[3];
-            });
+        this.fillLookups();
+    }
+
+    private fillLookups(): void
+    {
+        if (_.isNil(this.deliveryActions))
+        {
+            this.deliveryActions = [];
+            Observable.forkJoin(
+                this.lookupService.get(LookupsEnum.DeliveryAction),
+                this.lookupService.get(LookupsEnum.ExceptionType),
+                this.lookupService.get(LookupsEnum.JobDetailSource),
+                this.lookupService.get(LookupsEnum.JobDetailReason)
+            )
+                .takeWhile(() => this.isAlive)
+                .subscribe(value => {
+                    this.deliveryActions = value[0];
+                    this.exceptionTypes = value[1];
+                    this.sources = value[2];
+                    this.reasons = value[3];
+                });
+        }
     }
 
     public ngOnDestroy(): void
@@ -74,16 +84,18 @@ export class EditExceptionsModal implements IObservableAlive {
 
             exceptionServiceObservable
                 .takeWhile(() => this.isAlive)
-                .subscribe(responseData => {
+                .subscribe((responseData: EditLineItemException) => {
                     this.onSave.emit(responseData);
-                    this.close();
                 });
         }
     }
 
-    private mapToLineItemAction(ex: IEditLineItemException): void
+    private mapToLineItemAction(ex: EditLineItemException): void
     {
-        if (!_.isNil(ex)) {
+        if (!_.isNil(ex))
+        {
+            this.fillLookups();
+
             this.lineItemAction.id = ex.lineItemActionId;
             this.lineItemAction.lineItemId = ex.id;
             this.lineItemAction.deliverAction = this.findKeyByValue(this.deliveryActions, ex.action);
@@ -94,21 +106,20 @@ export class EditExceptionsModal implements IObservableAlive {
         }
     }
 
-    private findKeyByValue(lookups: Array<ILookupValue>, value: string): number
+    private findKeyByValue(lookups: Array<ILookupValue>, value: string): number | undefined
     {
-        let key = 0;
         if (!_.isNil(value)) {
             const lu = _.find(lookups, ['value', value]);
             if (!_.isNil(lu)) {
-                key = +lu.key;
+                return +lu.key;
             }
         }
-        return key;
+        return undefined;
     }
 
     public close(): void
     {
         this.lineItemAction = new LineItemAction();
-        this.cancelButton.nativeElement.click();
+        this.onCancel.emit();
     }
 }

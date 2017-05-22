@@ -141,7 +141,7 @@
 
         //Line Item Actions
         public static string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
-        public static string LineItemActionGet = "LineItemActionGet";
+        public static string LineItemActionGetByIds = "LineItemActionGetByIds";
         public static string LineItemActionUpdate = "LineItemActionUpdate";
 
         public static string ActivityGetById = "Activity_GetById";

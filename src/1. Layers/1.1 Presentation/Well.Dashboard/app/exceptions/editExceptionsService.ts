@@ -4,7 +4,7 @@ import { GlobalSettingsService }               from '../shared/globalSettings';
 import { HttpErrorService }                    from '../shared/httpErrorService';
 import { HttpService }                         from '../shared/httpService';
 import { Observable }                          from 'rxjs';
-import { IEditLineItemException }              from './editLineItemException';
+import { EditLineItemException }              from './editLineItemException';
 import { LineItemAction }                      from './lineItemAction';
 import 'rxjs/add/operator/map';
 
@@ -16,16 +16,16 @@ export class EditExceptionsService
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService) { }
 
-    public get(ids: Array<number>): Observable<Array<IEditLineItemException>>
+    public get(ids: Array<number>): Observable<Array<EditLineItemException>>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception/PerLineItem';
 
         return this.http.get(url, { params: {id: ids}})
-            .map((response: Response) => <IEditLineItemException>response.json())
+            .map((response: Response) => <EditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public put(item: LineItemAction): Observable<any>
+    public put(item: LineItemAction): Observable<EditLineItemException>
     {
         const body = JSON.stringify(item);
         const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -33,11 +33,11 @@ export class EditExceptionsService
         const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception';
 
         return this.http.put(url, body, options)
-            .map((response: Response) => <IEditLineItemException>response.json())
+            .map((response: Response) => <EditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public post(item: LineItemAction): Observable<any>
+    public post(item: LineItemAction): Observable<EditLineItemException>
     {
         const body = JSON.stringify(item);
         const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -45,7 +45,7 @@ export class EditExceptionsService
         const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception';
 
         return this.http.post(url, body, options)
-            .map((response: Response) => <IEditLineItemException>response.json())
+            .map((response: Response) => <EditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

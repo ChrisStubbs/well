@@ -4,7 +4,5 @@ AS
 		DriverName AS [Key],
 		[DriverName] AS Value
 	FROM 
-		RouteHeader
-	WHERE 
-		DriverName IS NOT NULL
-		AND LTRIM(DriverName) != ''
+		RouteHeader	WHERE
+		DriverName is not null

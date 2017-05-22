@@ -1,25 +1,26 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef }    from '@angular/core';
-import { IObservableAlive }                                                 from '../shared/IObservableAlive';
-import { EditExceptionsService }                                            from './editExceptionsService';
-import { EditLineItemException }                                            from './editLineItemException';
-import { LookupService, ILookupValue, LookupsEnum }                         from '../shared/services/services';
-import * as _                                                               from 'lodash';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { EditExceptionsService } from './editExceptionsService';
+import { EditLineItemException } from './editLineItemException';
+import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
+import * as _ from 'lodash';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'ow-editExceptions',
     templateUrl: './app/exceptions/editExceptionsComponent.html',
-    providers: [LookupService, EditExceptionsService],
+    providers: [LookupService, EditExceptionsService, CurrencyPipe],
     styles: ['.groupRow { display: flex} ' +
-    '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
-    '.group1{ width: 9%} ' +
-    '.group2{ width: 9%} ' +
-    '.group3{ width: 7%; text-align: right} ' +
-    '.group4{ width: 7%; text-align: right} ' +
-    '.group5{ width: 7%; text-align: right} ' +
-    '.group6{ width: 47%} ' +
-    '.group7{ width: 14%} ' +
-    '.group8{ width: 38px; text-align: right; padding-right: 2px }']
+        '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
+        '.group1{ width: 9%} ' +
+        '.group2{ width: 9%} ' +
+        '.group3{ width: 7%; text-align: right} ' +
+        '.group4{ width: 7%; text-align: right} ' +
+        '.group5{ width: 7%; text-align: right} ' +
+        '.group6{ width: 47%} ' +
+        '.group7{ width: 14%} ' +
+        '.group8{ width: 38px; text-align: right; padding-right: 2px }']
 })
 export class EditExceptionsComponent implements IObservableAlive
 {
@@ -29,11 +30,13 @@ export class EditExceptionsComponent implements IObservableAlive
 
     @Input() public set ids(value: Array<number>)
     {
-        if (_.isNil(this.source)) {
+        if (_.isNil(this.source))
+        {
             this.source = [];
             this.editExceptionService.get(value)
                 .takeWhile(() => this.isAlive)
-                .subscribe((values: Array<EditLineItemException>) => {
+                .subscribe((values: Array<EditLineItemException>) =>
+                {
                     this.source = values
                 });
         }
@@ -47,8 +50,9 @@ export class EditExceptionsComponent implements IObservableAlive
     private isEditMode: boolean;
 
     constructor(
-         private lookupService: LookupService,
-         private editExceptionService: EditExceptionsService) { }
+        private lookupService: LookupService,
+        private editExceptionService: EditExceptionsService,
+        private currencyPipe: CurrencyPipe) { }
 
     public ngOnInit(): void
     {
@@ -87,7 +91,7 @@ export class EditExceptionsComponent implements IObservableAlive
         this.isEditMode = true;
         this.lineItemToHandle = line;
 
-        event.preventDefault()
+        event.preventDefault();
     }
 
     public closeEdit(): void
@@ -96,14 +100,14 @@ export class EditExceptionsComponent implements IObservableAlive
         this.source = undefined;
     }
 
-    public selectLineItens(select: boolean, id?: number): void
+    public selectLineItems(select: boolean, id?: number): void
     {
-        let filterToApply = function(item: EditLineItemException): boolean { return true; };
+        let filterToApply = function (item: EditLineItemException): boolean { return true; };
 
         if (!_.isNull(id))
         {
             //if it is not null it means the user click on a group
-            filterToApply = function(item: EditLineItemException): boolean { return item.id == id; };
+            filterToApply = function (item: EditLineItemException): boolean { return item.id == id; };
         }
 
         _.chain(this.source)
@@ -114,12 +118,12 @@ export class EditExceptionsComponent implements IObservableAlive
 
     public allChildrenSelected(id?: number): boolean
     {
-        let filterToApply = function(item: EditLineItemException): boolean { return true; };
+        let filterToApply = function (item: EditLineItemException): boolean { return true; };
 
         if (!_.isNull(id))
         {
             //if it is not null it means the user click on a group
-            filterToApply = function(item: EditLineItemException): boolean { return item.id == id; };
+            filterToApply = function (item: EditLineItemException): boolean { return item.id == id; };
         }
 
         return _.every(
@@ -153,5 +157,24 @@ export class EditExceptionsComponent implements IObservableAlive
     private cancelExeption()
     {
         this.closeAddExceptionModal();
+    }
+
+    public selectedItems(): Array<EditLineItemException>
+    {
+        return _.filter(this.source, x => x.isSelected);
+    }
+
+    public getActionSummaryData(): string
+    {
+        //TODO: Hook up the userThresholdValue
+        //TODO: get the value not tthe quantity
+        const totalCreditValue = this.currencyPipe.transform(
+            _.sumBy(this.selectedItems(), x => x.quantity)
+            , 'GBP', true);
+        const usersThreshold = this.currencyPipe.transform(1000.00, 'GBP', true);
+        const summary = `The total to be actioned for the selection is ${totalCreditValue}. 
+                        The maximum you are allowed to credit is ${usersThreshold}. 
+                        Any items over your threshold will be sent for approval`;
+        return summary;
     }
 }

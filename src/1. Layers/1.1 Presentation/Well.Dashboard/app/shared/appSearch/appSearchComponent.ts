@@ -44,7 +44,7 @@ export class AppSearch implements IObservableAlive
             .takeWhile(() => this.isAlive)
             .subscribe(branches =>
             {
-                this.branches = branches;
+                this.branches = <any>branches;
             });
 
         Observable.forkJoin(

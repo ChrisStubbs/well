@@ -87,7 +87,7 @@ namespace PH.Well.UnitTests.Services
         public class TheGetUserBranchesFriendlyString : BranchServiceTests
         {
             [Test]
-            public void ShouldReturnBranchFriendlyInformation()
+            public void IfLess6ThanShouldShowFullBranchName()
             {
                 var branches = new List<Branch>();
                 branches.Add(BranchFactory.New.With(x => x.Name = "Medway").Build());
@@ -95,11 +95,42 @@ namespace PH.Well.UnitTests.Services
                 branches.Add(BranchFactory.New.With(x => x.Name = "Farham").Build());
 
                 this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
-
+                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
                 var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
 
-                Assert.That(branchInformation, Is.EqualTo("Med, Cov, Far"));
+                Assert.That(branchInformation, Is.EqualTo("Medway, Coventry, Farham"));
             }
+
+            [Test]
+            public void IfMoreThan6ShouldThanShouldShowFirstThreeCharacters()
+            {
+                var branches = new List<Branch>();
+                branches.Add(BranchFactory.New.With(x => x.Name = "Medway").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Coventry").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Farham").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Dunfermline").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Leeds").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Hemel").Build());
+                branches.Add(BranchFactory.New.With(x => x.Name = "Belfast").Build());
+
+                this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
+                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
+                var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
+
+                Assert.That(branchInformation, Is.EqualTo("Med, Cov, Far, Dun, Lee, Hem, Bel"));
+            }
+
+            [Test]
+            public void IfAllBranchesShouldSayAllBranches()
+            {
+                var branches = BranchFactory.GetAllBranches();
+                this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
+                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
+                var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
+
+                Assert.That(branchInformation, Is.EqualTo("All branches selected"));
+            }
+
         }
     }
 }

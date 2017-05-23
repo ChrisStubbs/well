@@ -32,7 +32,7 @@ namespace PH.Well.UnitTests.Services
         {
             var identity = new GenericIdentity("foo");
 
-            var principal = new GenericPrincipal(identity, new string[] {});
+            var principal = new GenericPrincipal(identity, new string[] { });
 
             Thread.CurrentPrincipal = principal;
 
@@ -61,7 +61,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {job2, job3});
+                    .Returns(new List<Job>() { job2, job3 });
 
                 this.jobRepository.Setup(x => x.Update(job2));
                 this.jobRepository.Setup(x => x.Update(job3));
@@ -113,7 +113,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {job2, job3});
+                    .Returns(new List<Job>() { job2, job3 });
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -159,7 +159,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {job2, job3});
+                    .Returns(new List<Job>() { job2, job3 });
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -207,7 +207,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {job2, job3});
+                    .Returns(new List<Job>() { job2, job3 });
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -242,7 +242,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {job2, job3});
+                    .Returns(new List<Job>() { job2, job3 });
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -277,7 +277,7 @@ namespace PH.Well.UnitTests.Services
                 var job3 = JobFactory.New.Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {job2, job3});
+                    .Returns(new List<Job>() { job2, job3 });
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -309,7 +309,7 @@ namespace PH.Well.UnitTests.Services
                     .Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {});
+                    .Returns(new List<Job>() { });
 
                 // Use duplicate product for all jobs
                 var jobDetail1 = JobDetailFactory.New
@@ -319,7 +319,7 @@ namespace PH.Well.UnitTests.Services
                     .Build();
                 job1.JobDetails.Add(jobDetail1);
 
-                jobDetail1.JobDetailDamages.Add(new JobDetailDamage() {Qty = 1});
+                jobDetail1.JobDetailDamages.Add(new JobDetailDamage() { Qty = 1 });
 
                 this.service.DetermineStatus(job1, branchNo);
                 Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
@@ -341,7 +341,7 @@ namespace PH.Well.UnitTests.Services
                     .Build();
 
                 this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() {});
+                    .Returns(new List<Job>() { });
 
                 this.service.DetermineStatus(job1, branchNo);
                 Assert.AreEqual(JobStatus.Bypassed, job1.JobStatus);
@@ -386,31 +386,20 @@ namespace PH.Well.UnitTests.Services
             }
 
             [Test]
-            public void GivenAwaitingInvoiceAndHasNoInvoiceNumber_ThenNotSetInComplete()
+            [TestCase(null, ExpectedResult = JobStatus.DocumentDelivery)]
+            [TestCase("9999999999999999", ExpectedResult = JobStatus.InComplete)]
+            public JobStatus SetJobSetIncompleteStatus(string invoiceNumber)
             {
-                var job = new Job()
-                {
-                    JobStatus = JobStatus.AwaitingInvoice
-                };
-
-                service.SetIncompleteStatus(job);
-
-                Assert.AreEqual(JobStatus.AwaitingInvoice, job.JobStatus);
-            }
-
-            [Test]
-            public void GivenDocDeliveryAndHasInvoiceNumber_ThenNotSetInComplete()
-            {
-                var job = new Job()
+                var job = new Job
                 {
                     JobStatus = JobStatus.DocumentDelivery,
-                    InvoiceNumber = "99999999"
+                    InvoiceNumber = invoiceNumber
                 };
 
                 service.SetIncompleteStatus(job);
-
-                Assert.AreEqual(JobStatus.DocumentDelivery, job.JobStatus);
+                return job.JobStatus;
             }
         }
     }
 }
+

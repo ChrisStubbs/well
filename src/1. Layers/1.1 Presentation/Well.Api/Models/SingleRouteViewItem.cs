@@ -17,6 +17,7 @@
         public string Cod { get; set; }
         public bool Pod { get; set; }
         public int Exceptions { get; set; }
+        public int InvoicedQty => Exceptions + Clean;
         public int Clean { get; set; }
         public decimal? Credit { get; set; }
         public string Assignee { get; set; }

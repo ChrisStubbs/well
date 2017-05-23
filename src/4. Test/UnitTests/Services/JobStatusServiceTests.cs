@@ -95,6 +95,7 @@ namespace PH.Well.UnitTests.Services
 
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
                     Times.Once);
+
                 this.jobRepository.Verify(x => x.Update(job2), Times.Once);
                 this.jobRepository.Verify(x => x.Update(job3), Times.Once);
             }

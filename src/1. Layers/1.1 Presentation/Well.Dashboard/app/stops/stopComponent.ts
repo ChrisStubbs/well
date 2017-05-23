@@ -34,6 +34,9 @@ export class StopComponent implements IObservableAlive
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
+
+    public source: IDictionarySource;
+
     public filters: StopFilter;
     public lastRefresh = Date.now();
 
@@ -53,7 +56,9 @@ export class StopComponent implements IObservableAlive
         private route: ActivatedRoute,
         private securityService: SecurityService,
         private globalSettingsService: GlobalSettingsService,
-        private accountService: AccountService) { }
+        private accountService: AccountService)
+    {
+    }
 
     public ngOnInit(): void
     {
@@ -69,6 +74,8 @@ export class StopComponent implements IObservableAlive
             {
                 this.stop = data;
                 this.stopsItems = this.stop.items;
+                this.source = this.buildSource();
+
                 this.lastRefresh = Date.now();
                 this.tobaccoBags = _.chain(this.stopsItems)
                     .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
@@ -185,4 +192,107 @@ export class StopComponent implements IObservableAlive
                 this.openContact.nativeElement.click();
             });
     }
+
+    public getGridSource(): Array<any>
+    {
+        const values: Array<any> = [];
+
+        _.chain(this.source)
+            .keys()
+            .map((current: number) =>
+            {
+                const value = <StopItemSource>this.source[current];
+
+                values.push(value);
+                if (value.isExpanded)
+                {
+                    _.forEach(value.items, (item: StopItem) => {
+                        item['isRowGroup'] = false;
+                        values.push(item)
+                    });
+                }
+            })
+            .value();
+
+        return values;
+    }
+
+    private buildSource(): IDictionarySource
+    {
+        const values = <IDictionarySource>{};
+        _.chain(this.stopsItems)
+            .groupBy(current => current.jobId)
+            .map((current: Array<StopItem>) =>
+            {
+                const item = new StopItemSource();
+                const summary = this.calculateTotals(current);
+                const singleItem = _.head(current);
+
+                item.totalInvoiced = summary.totalInvoiced;
+                item.totalDelivered = summary.totalDelivered;
+                item.totalDamages = summary.totalDamages;
+                item.totalShorts = summary.totalShorts;
+                item.invoice = singleItem.invoice;
+                item.account = singleItem.account;
+                item.accountID = singleItem.accountID
+                item.jobId = singleItem.jobId;
+                item.items = current;
+
+                values[singleItem.jobId] = item;
+            })
+            .value();
+
+        return values;
+    }
+
+    private calculateTotals(data: Array<StopItem>): any
+    {
+        let totalInvoiced: number = 0;
+        let totalDelivered: number = 0;
+        let totalDamages: number = 0;
+        let totalShorts: number = 0;
+
+        _.forEach(data, (current: StopItem) =>
+        {
+            totalInvoiced += current.invoiced;
+            totalDelivered += current.delivered;
+            totalDamages += current.damages;
+            totalShorts += current.shorts;
+        })
+
+        return {
+            totalInvoiced: totalInvoiced,
+            totalDelivered: totalDelivered,
+            totalDamages: totalDamages,
+            totalShorts: totalShorts,
+            items: data
+        };
+    }
+}
+
+interface IDictionarySource
+{
+    [key: number]: StopItemSource;
+}
+
+class StopItemSource
+{
+    constructor()
+    {
+        this.isRowGroup = true;
+        this.isExpanded = false;
+        this.items = [];
+    }
+
+    public isRowGroup: boolean;
+    public isExpanded: boolean;
+    public totalInvoiced: number;
+    public totalDelivered: number;
+    public totalDamages: number;
+    public totalShorts: number;
+    public invoice: string;
+    public account: string;
+    public accountID: number;
+    public jobId: number;
+    public items: Array<StopItem>;
 }

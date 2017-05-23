@@ -99,7 +99,6 @@ import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { LookupService } from './shared/services/lookupService';
 import { TooltipModule } from 'ngx-tooltip';
-import { EditExceptionsService } from './exceptions/editExceptionsService';
 
 @NgModule({
     declarations: [LoadingComponent,

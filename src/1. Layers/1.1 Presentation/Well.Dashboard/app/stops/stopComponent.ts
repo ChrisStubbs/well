@@ -1,4 +1,4 @@
-import { Component, ViewChild }      from '@angular/core';
+import {Component, ViewChild, ElementRef}           from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
 import { StopService }                              from './stopService';
@@ -10,21 +10,22 @@ import { Branch }                                   from '../shared/branch/branc
 import { SecurityService }                          from '../shared/security/securityService';
 import { GlobalSettingsService }                    from '../shared/globalSettings';
 import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
+import { AccountService }                           from '../account/accountService';
+import { ContactModal }                             from '../shared/contactModal';
 
 @Component({
     selector: 'ow-stop',
     templateUrl: './app/stops/stopComponent.html',
-    providers: [LookupService, StopService],
+    providers: [LookupService, StopService, AccountService],
     styles: ['.groupRow { display: flex } ' +
-        '.group1{ width: 2% } ' +
-        '.group2{ width: 12% } ' +
-        '.group3{ width: 42% } ' +
-        '.group4{ width: 6%; text-align: right } ' +
-        '.group5{ width: 6%; text-align: right } ' +
-        '.group6{ width: 6%; text-align: right } ' +
-        '.group7{ width: 6%; text-align: right } ' +
-        '.group8{ width: 16% } ' +
-        '.group9{ width: 38px; text-align: right; padding-right: 2px }']
+        '.group2{ width: 12%; line-height: 26px; } ' +
+        '.group3{ width: 44% } ' +
+        '.group4{ width: 6%; text-align: right; line-height: 26px; } ' +
+        '.group5{ width: 6%; text-align: right; line-height: 26px; } ' +
+        '.group6{ width: 6%; text-align: right; line-height: 26px; } ' +
+        '.group7{ width: 6%; text-align: right; line-height: 26px; } ' +
+        '.group8{ width: 16%; line-height: 26px; } ' +
+        '.group9{ width: 38px; text-align: right; padding-right: 2px; line-height: 26px; }']
 })
 export class StopComponent implements IObservableAlive
 {
@@ -37,7 +38,9 @@ export class StopComponent implements IObservableAlive
     public lastRefresh = Date.now();
 
     @ViewChild('dt') public grid: DataTable;
-    @ViewChild('btt') public btt;
+    @ViewChild('btt') public btt: ElementRef;
+    @ViewChild('openContact') public openContact: ElementRef;
+    @ViewChild(ContactModal) private contactModal: ContactModal;
 
     private actions: string[] = ['Close', 'Credit', 'Re-plan'];
     private stopId: number;
@@ -49,7 +52,8 @@ export class StopComponent implements IObservableAlive
         private stopService: StopService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService) { }
+        private globalSettingsService: GlobalSettingsService,
+        private accountService: AccountService) { }
 
     public ngOnInit(): void
     {
@@ -170,5 +174,15 @@ export class StopComponent implements IObservableAlive
     {
         this.isActionMode = false;
         event.preventDefault();
+    }
+
+    public openModal(accountId): void
+    {
+        this.accountService.getAccountByAccountId(accountId)
+            .takeWhile(() => this.isAlive)
+            .subscribe(account => {
+                this.contactModal.show(account)
+                this.openContact.nativeElement.click();
+            });
     }
 }

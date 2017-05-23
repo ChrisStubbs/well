@@ -9,6 +9,5 @@
         Account GetAccountByStopId(int stopId);
 
         Account GetAccountByAccountId(int accountId);
-
     }
 }

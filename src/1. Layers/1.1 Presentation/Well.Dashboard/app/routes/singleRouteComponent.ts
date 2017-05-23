@@ -1,26 +1,27 @@
-import { Component, ViewChild }                     from '@angular/core';
-import { RoutesService }                            from './routesService'
-import { SingleRoute }                              from './singleRoute';
-import { ActivatedRoute }                           from '@angular/router';
-import { AppDefaults }                              from '../shared/defaults/defaults';
-import * as _                                       from 'lodash';
-import { DataTable }                                from 'primeng/primeng';
-import { AssignModel, AssignModalResult }           from '../shared/assignModel';
-import { Branch }                                   from '../shared/branch/branch';
-import { SecurityService }                          from '../shared/security/securityService';
-import { GlobalSettingsService }                    from '../shared/globalSettings';
-import { IObservableAlive }                         from '../shared/IObservableAlive';
-import { SingleRouteItem }                          from './singleRoute';
-import { SplitButtonComponent }                     from '../shared/splitButtonComponent';
-import { ActionModal }                              from '../shared/action/actionModal';
-import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
-import { Observable }                               from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { RoutesService } from './routesService'
+import { SingleRoute } from './singleRoute';
+import { ActivatedRoute } from '@angular/router';
+import { AppDefaults } from '../shared/defaults/defaults';
+import * as _ from 'lodash';
+import { DataTable } from 'primeng/primeng';
+import { AssignModel, AssignModalResult } from '../shared/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { SingleRouteItem } from './singleRoute';
+import { SplitButtonComponent } from '../shared/splitButtonComponent';
+import { ActionModal } from '../shared/action/actionModal';
+import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/singleRouteComponent.html',
-    providers: [RoutesService, LookupService],
+    providers: [RoutesService, LookupService, CurrencyPipe],
     styles: ['.groupRow { display: table-row} ' +
         '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
         '#modal a { color: #428bca; text-decoration: none} ' +
@@ -59,7 +60,8 @@ export class SingleRouteComponent implements IObservableAlive
         private routeService: RoutesService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService) { }
+        private globalSettingsService: GlobalSettingsService,
+        private currencyPipe: CurrencyPipe) { }
 
     public ngOnInit()
     {
@@ -184,12 +186,12 @@ export class SingleRouteComponent implements IObservableAlive
 
     public selectStops(select: boolean, stop?: string): void
     {
-        let filterToApply = function(item: SingleRouteItem): boolean { return true; };
+        let filterToApply = function (item: SingleRouteItem): boolean { return true; };
 
         if (!_.isNull(stop))
         {
             //if it is not null it means the user click on a group
-            filterToApply = function(item: SingleRouteItem): boolean { return item.stop == stop; };
+            filterToApply = function (item: SingleRouteItem): boolean { return item.stop == stop; };
         }
 
         _.chain(this.singleRouteItems)
@@ -205,16 +207,27 @@ export class SingleRouteComponent implements IObservableAlive
 
     public allChildrenSelected(stop?: string): boolean
     {
-        let filterToApply = function(item: SingleRouteItem): boolean { return true; };
+        let filterToApply = function (item: SingleRouteItem): boolean { return true; };
 
         if (!_.isNull(stop))
         {
             //if it is not null it means the user click on a group
-            filterToApply = function(item: SingleRouteItem): boolean { return item.stop == stop; };
+            filterToApply = function (item: SingleRouteItem): boolean { return item.stop == stop; };
         }
 
         return _.every(
             _.filter(this.singleRouteItems, filterToApply),
             current => current.isSelected);
+    }
+
+    public getActionSummaryData(): string
+    {
+        //TODO: Hook up the userThresholdValue
+        const totalCreditValue = this.currencyPipe.transform(_.sumBy(this.selectedItems(), x => x.credit), 'GBP', true);
+        const usersThreshold = this.currencyPipe.transform(1000.00, 'GBP', true);
+        const summary = `The total to be actioned for the selection is ${totalCreditValue}. 
+                        The maximum you are allowed to credit is ${usersThreshold}. 
+                        Any items over your threshold will be sent for approval`;
+        return summary;
     }
 }

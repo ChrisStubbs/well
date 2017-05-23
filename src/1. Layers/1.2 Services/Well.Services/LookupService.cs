@@ -70,7 +70,8 @@ namespace PH.Well.Services
                 {
                     DeliveryAction.NotDefined,
                     DeliveryAction.Credit,
-                    DeliveryAction.Close
+                    DeliveryAction.MarkAsBypassed,
+                    DeliveryAction.MarkAsDelivered
                 };
             return actions.Select(a =>
                 new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();

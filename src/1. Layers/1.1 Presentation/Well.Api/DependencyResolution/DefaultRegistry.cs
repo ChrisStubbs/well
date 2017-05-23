@@ -85,7 +85,6 @@ namespace PH.Well.Api.DependencyResolution
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
-            For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();
 
             //routes
             For<IRouteReadRepository>().Use<RouteReadRepository>();
@@ -109,6 +108,8 @@ namespace PH.Well.Api.DependencyResolution
             //lookup
             For<ILookupService>().Use<LookupService>();
             For<ILookupRepository>().Use<LookupRepository>();
+
+            For<IBulkActionService>().Use<BulkActionService>();
         }
     }
 }

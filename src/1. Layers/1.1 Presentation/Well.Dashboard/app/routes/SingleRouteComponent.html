@@ -29,7 +29,7 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                                 &nbsp;
-                                <action-Modal [disabled]="selectedItems().length == 0">
+                                <action-Modal [disabled]="selectedItems().length == 0" [actionSummaryData] ="getActionSummaryData()">
                                     <div class="table-responsive table-container">
                                         <table id="tableExceptionDeliveries" class="table table-hover table-striped">
                                             <thead>
@@ -38,8 +38,10 @@
                                                     <th>Stop</th>
                                                     <th>Invoice No</th>
                                                     <th>Job Type</th>
-                                                    <th style="width: 20%">Exception Qty</th>
-                                                    <th style="width: 15%">Value</th>
+                                                    <th>Action</th>
+                                                    <th style="width: 20%"><span class="pull-right">Invoice Qty</span></th>
+                                                    <th style="width: 20%"><span class="pull-right">Exception Qty</span></th>
+                                                    <th style="width: 15%"><span class="pull-right">Value</span></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -48,6 +50,8 @@
                                                     <td>{{item.stop}}</td>
                                                     <td>{{item.invoice}}</td>
                                                     <td>{{item.jobType}}</td>
+                                                    <td>TODO:</td>
+                                                    <td><span class="pull-right">TODO:</span></td>
                                                     <td><span class="pull-right">{{item.exceptions}}</span></td>
                                                     <td><span class="pull-right">{{item.credit | currency:'GBP':true }}</span></td>
                                                 </tr>

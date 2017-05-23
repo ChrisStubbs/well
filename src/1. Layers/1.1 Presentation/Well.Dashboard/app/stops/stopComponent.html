@@ -56,7 +56,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 clearfix">
-                    <p-dataTable [value]="stopsItems" groupField="jobId" expandableRowGroups="rowspan"
+                        <a #openContact style="display: none;" href="#" data-toggle="modal" data-target="#contactModal">&nbsp;</a>
+                        <p-dataTable [value]="stopsItems" groupField="jobId" expandableRowGroups="rowspan"
                                  sortField="jobId" [sortableRowGroup]="false"
                                  rowGroupMode="subheader" #dt>
                         <p-header>Expand a Job to see more details</p-header>
@@ -64,7 +65,10 @@
                             <div class="groupRow">
                                 <div class="group1">&nbsp;</div>
                                 <div class="group2">Invoice: {{rowData.invoice}}</div>
-                                <div class="group3">Acct#: {{rowData.account}}</div>
+                                <div class="group3">
+                                    Acct#: {{rowData.account}}
+                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(rowData.accountID)">Info</button>
+                                </div>
                                 <div class="group4">{{totalPerGroup('invoiced', rowData.jobId)}}</div>
                                 <div class="group5">{{totalPerGroup('delivered', rowData.jobId)}}</div>
                                 <div class="group6">{{totalPerGroup('damages', rowData.jobId)}}</div>
@@ -184,7 +188,7 @@
                             </ng-template>
                         </p-column>
                     </p-dataTable>
-                </div>
+                    </div>
                 </div>
             </div>
             <div *ngIf="isActionMode">
@@ -203,3 +207,5 @@
         </div>
     </div>
 </div>
+
+<contact-modal></contact-modal>

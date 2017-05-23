@@ -384,32 +384,20 @@ namespace PH.Well.UnitTests.Services
 
                 Assert.AreEqual(JobStatus.InComplete, job.JobStatus);
             }
-
+            
             [Test]
-            public void GivenAwaitingInvoiceAndHasNoInvoiceNumber_ThenNotSetInComplete()
+            [TestCase(null, ExpectedResult = JobStatus.DocumentDelivery)]
+            [TestCase("9999999999999999", ExpectedResult = JobStatus.InComplete)]
+            public JobStatus SetJobSetIncompleteStatus(string invoiceNumber)
             {
-                var job = new Job()
-                {
-                    JobStatus = JobStatus.AwaitingInvoice
-                };
-
-                service.SetIncompleteStatus(job);
-
-                Assert.AreEqual(JobStatus.AwaitingInvoice, job.JobStatus);
-            }
-
-            [Test]
-            public void GivenDocDeliveryAndHasInvoiceNumber_ThenNotSetInComplete()
-            {
-                var job = new Job()
+                var job = new Job
                 {
                     JobStatus = JobStatus.DocumentDelivery,
-                    InvoiceNumber = "99999999"
+                    InvoiceNumber = invoiceNumber
                 };
 
                 service.SetIncompleteStatus(job);
-
-                Assert.AreEqual(JobStatus.DocumentDelivery, job.JobStatus);
+                return job.JobStatus;
             }
         }
     }

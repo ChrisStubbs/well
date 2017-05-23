@@ -52,7 +52,7 @@
         protected override void UpdateExisting(LineItemAction entity)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionUpdate)
-                .AddParameter("Id", entity.ExceptionType, DbType.Int32)
+                .AddParameter("Id", entity.Id, DbType.Int32)
                 .AddParameter("ExceptionTypeId", entity.ExceptionType, DbType.Int32)
                 .AddParameter("Quantity", entity.Quantity, DbType.Int32)
                 .AddParameter("SourceId", entity.Source, DbType.Int32)

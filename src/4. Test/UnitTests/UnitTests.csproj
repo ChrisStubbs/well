@@ -152,6 +152,7 @@
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
     <Compile Include="Domain\ValueObjects\ReadRouteTests.cs" />
     <Compile Include="Factories\CleanPreferenceFactory.cs" />
+    <Compile Include="Factories\LineItemActionFactory.cs" />
     <Compile Include="Factories\NotificationFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
+    <Compile Include="Infrastructure\LineItemActionRepositoryTests.cs" />
     <Compile Include="Infrastructure\NotificationRepositoryTests.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
     <Compile Include="Infrastructure\BranchRepositoryTests.cs" />

@@ -39,9 +39,12 @@ BEGIN
 	  ,j.TotalOutersShort
 	  ,j.DetailOutersShort
 	  ,j.OuterDiscrepancyFound
-	FROM [dbo].[Job] j
-	INNER JOIN @Ids ids ON ids.Value = j.Id
-
+	  ,a.Id AS PhAccountId
+	FROM 
+		[dbo].[Job] j
+		INNER JOIN @Ids ids ON ids.Value = j.Id
+		INNER JOIN Stop AS s ON j.StopId = s.Id 
+		INNER JOIN Account a ON s.Id = a.StopId
 
 	SELECT  d.Id, d.LineNumber, d.PHProductCode, d.OriginalDespatchQty, d.DeliveredQty, d.ProdDesc, d.OrderedQty, d.ShortQty, d.ShortsActionId, d.JobDetailReasonId, d.JobDetailSourceId, d.UnitMeasure, 
             d.PHProductType, d.PackSize, d.SingleOrOuter,d.SSCCBarcode, d.SubOuterDamageTotal, d.SkuGoodsValue, d.NetPrice, d.JobId, d.ShortsStatus, d.LineDeliveryStatus, d.IsHighValue, d.DateLife, d.IsDeleted, 
@@ -51,8 +54,7 @@ BEGIN
 			INNER JOIN RouteHeader AS r ON s.RouteHeaderId = r.Id 
 			INNER JOIN JobDetail AS d ON j.Id = d.JobId
 			INNER JOIN @Ids ids ON ids.Value = j.Id
-
-
+			
 	SELECT	dd.Id, dd.JobDetailId, dd.Qty, dd.IsDeleted, dd.JobDetailSourceId, dd.JobDetailReasonId, dd.DamageActionId, dd.DamageStatus, dd.PdaReasonDescription, dd.CreatedBy, dd.DateCreated, dd.UpdatedBy, dd.DateUpdated, dd.Version
 	FROM	Job AS j 
 			INNER JOIN Stop AS s ON j.StopId = s.Id 

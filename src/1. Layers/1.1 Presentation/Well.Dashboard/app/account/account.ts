@@ -1,13 +1,13 @@
-﻿export interface IAccount {   
+﻿export class IAccount {
      
-    code: string;
-    name: string;
-    address1: string;
-    address2: string;
-    postcode: string;  
-    contactName: string; 
-    contactNumber: string;  
-    contactNumber2: string;
-    contactEmailAddress: string;
-    depotId: string;
+    public code: string;
+    public name: string;
+    public address1: string;
+    public address2: string;
+    public postcode: string;
+    public contactName: string;
+    public contactNumber: string;
+    public contactNumber2: string;
+    public contactEmailAddress: string;
+    public depotId: string;
 }

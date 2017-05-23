@@ -54,6 +54,7 @@
                     item.Invoice = job.InvoiceNumber;
                     item.Type = jobType.ToString();
                     item.Account = job.PhAccount;
+                    item.AccountID = job.PhAccountId;
                     item.JobDetailId = line.Id;
                     item.Product = line.PhProductCode;
                     item.Description = line.ProdDesc;
@@ -68,7 +69,6 @@
                     item.LineItemId = line.LineItemId;
                     stopModel.Items.Add(item);
                 }
-
             }
 
             return stopModel;

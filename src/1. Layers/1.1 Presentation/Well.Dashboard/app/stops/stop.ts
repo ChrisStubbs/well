@@ -27,6 +27,7 @@ export class StopItem
     public type: string;
     public invoice: string;
     public account: string;
+    public accountID: number;
     public jobDetailId: number;
     public product: string;
     public description: string;

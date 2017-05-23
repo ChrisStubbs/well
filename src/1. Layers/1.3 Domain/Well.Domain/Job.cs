@@ -66,6 +66,9 @@
         public string PhAccount { get; set; }
 
         [XmlIgnore]
+        public int PhAccountId { get; set; }
+
+        [XmlIgnore]
         public DateTime? OrderDate { get; set; }
 
         [XmlElement("OrderDate")]

@@ -6,6 +6,7 @@
         public string Invoice { get; set; }
         public string @Type { get; set; }
         public string Account { get; set; }
+        public int AccountID { get; set; }
         public int JobDetailId { get; set; }
         public string Product { get; set; }
         public string Description { get; set; }

@@ -8,13 +8,14 @@ import {IAccount} from '../account/account';
 export class ContactModal  {
     private IsVisible: boolean = false;
     private account: IAccount;
-    
+
+    constructor()
+    {
+        this.account = new IAccount();
+    }
+
     public show(account: IAccount) {
         this.account = account;
         this.IsVisible = true;
-    }
-
-    public hide() {
-        this.IsVisible = false;
     }
 }

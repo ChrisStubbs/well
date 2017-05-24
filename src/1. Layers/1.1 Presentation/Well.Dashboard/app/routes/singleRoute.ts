@@ -30,6 +30,7 @@ export class SingleRouteItem
     public cod: string;
     public pod: boolean;
     public exceptions: number;
+    public invoicedQty: number;
     public clean: number;
     public credit?: number;
     public assignee: string;
@@ -37,4 +38,5 @@ export class SingleRouteItem
     public jobStatusDescription: string;
     public jobStatus: number;
     public isSelected: boolean;
+
 }

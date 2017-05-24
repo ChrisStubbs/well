@@ -1,6 +1,6 @@
 ﻿<div class="btn-group">
     <button type="button" class="btn btn-success"
-            [disabled]="disabled"
+            [disabled]="disabled || selectedAction == 'Action'"
             (click)="actionClicked(selectedAction)"
             data-toggle="modal"
             data-target="#actionModal">

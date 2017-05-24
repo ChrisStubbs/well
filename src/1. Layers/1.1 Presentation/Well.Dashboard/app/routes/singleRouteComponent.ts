@@ -45,6 +45,7 @@ export class SingleRouteComponent implements IObservableAlive
     public jobStatus: ILookupValue[];
     public podFilter: boolean;
     public lastRefresh = Date.now();
+    private selectedAction: string;
 
     @ViewChild('dt') public grid: DataTable;
     @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
@@ -229,5 +230,10 @@ export class SingleRouteComponent implements IObservableAlive
                         The maximum you are allowed to credit is ${usersThreshold}. 
                         Any items over your threshold will be sent for approval`;
         return summary;
+    }
+
+    private actionModalClicked(action)
+    {
+        this.selectedAction = action;
     }
 }

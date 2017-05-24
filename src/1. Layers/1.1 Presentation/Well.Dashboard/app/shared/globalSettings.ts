@@ -2,7 +2,8 @@
 import {Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {HttpService} from './httpService';
+import { HttpService } from './httpService';
+import { User } from '../user_preferences/user';
 
 export class GlobalSettings {
     public apiUrl: string;
@@ -10,6 +11,7 @@ export class GlobalSettings {
     public userName: string;
     public identityName: string;
     public permissions: string[];
+    public user: User;
   
 }
 

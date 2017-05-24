@@ -510,7 +510,7 @@
     <Content Include="app\home\widget.ts" />
     <Content Include="app\home\widgetComponent.ts" />
     <Content Include="app\unauthorised\unauthorisedComponent.ts" />
-    <Content Include="app\user_preferences\User.ts" />
+    <Content Include="app\user_preferences\user.ts" />
     <Content Include="app\user_preferences\userPreferenceComponent.ts" />
     <Content Include="app\user_preferences\userPreferenceModalComponent.ts" />
     <Content Include="app\user_preferences\userPreferenceService.ts" />

@@ -69,7 +69,7 @@
                                     <th class="colType">
                                         <div class="text-center">Type</div>
                                         <div>
-                                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="fillGridSource()" title="">
                                                 <option value>All</option>
                                                 <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
                                                     {{ jobType.value }}

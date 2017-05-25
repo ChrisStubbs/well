@@ -222,6 +222,9 @@
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
+    <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpers.ts" />
+    <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpersFunctions.ts" />
+    <TypeScriptCompile Include="app\shared\gridHelpers\IFilter.ts" />
     <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
     <TypeScriptCompile Include="app\shared\selectYeNoFilterComponent.ts" />
     <TypeScriptCompile Include="app\shared\services\ILookupValue.ts" />

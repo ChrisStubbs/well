@@ -1,18 +1,18 @@
-import { Component, Output, EventEmitter }              from '@angular/core';
-import { Router }                                       from '@angular/router';
-import { BranchService }                                from '../branch/branchService';
-import { GlobalSettingsService }                        from '../globalSettings';
-import { FormGroup, FormControl, FormBuilder }          from '@angular/forms';
-import { DriverService }                                from '../../driver/driverService';
-import { IAppSearchResult }                             from './iAppSearchResult';
-import { AppSearchParameters }                          from './appSearchParameters';
-import { AppSearchService }                             from './appSearchService'
-import * as _                                           from 'lodash';
-import { LookupService, LookupsEnum, ILookupValue}      from '../services/services';
-import { IObservableAlive }                             from '../IObservableAlive';
-import { Observable }                                   from 'rxjs';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { BranchService } from '../branch/branchService';
+import { GlobalSettingsService } from '../globalSettings';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { DriverService } from '../../driver/driverService';
+import { IAppSearchResultSummary } from './iAppSearchResultSummary';
+import { AppSearchParameters } from './appSearchParameters';
+import { AppSearchService } from './appSearchService'
+import * as _ from 'lodash';
+import { LookupService, LookupsEnum, ILookupValue } from '../services/services';
+import { IObservableAlive } from '../IObservableAlive';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/observable/forkJoin'
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
     selector: 'ow-appSearch',
@@ -36,7 +36,7 @@ export class AppSearch implements IObservableAlive
         private globalSettingsService: GlobalSettingsService,
         private fb: FormBuilder,
         private appSearchService: AppSearchService,
-        private router: Router) {}
+        private router: Router) { }
 
     public ngOnInit(): void
     {
@@ -102,27 +102,42 @@ export class AppSearch implements IObservableAlive
         parameters.driver = formData.driver;
         parameters.deliveryType = formData.deliveryType;
         parameters.status = formData.status;
+        parameters.routeIds = [];
 
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
-            .subscribe((result: IAppSearchResult) =>
+            .subscribe((result: IAppSearchResultSummary) =>
             {
-                if (!_.isNil(result.stopId))
+                if (result.stopIds.length === 1)
                 {
-                    this.router.navigateByUrl('/stops/' + result.stopId );
+                    this.router.navigateByUrl('/stops/' + result.stopIds[0]);
                     return;
                 }
 
-                if (!_.isNil(result.routeId))
+                if (result.routeIds.length === 1)
                 {
-                    this.router.navigateByUrl('/singleroute/' + result.routeId );
+                    this.router.navigateByUrl('/singleroute/' + result.routeIds[0]);
                     return;
                 }
 
+                if (this.isNonFilterSearch(parameters))
+                {
+                    parameters.routeIds = (result.routeIds.length > 0) ? result.routeIds : [-1];
+                }
                 this.router.navigate(['/routes'], { queryParams: parameters });
                 this.onSearch.emit();
                 return;
+
             });
+    }
+
+    public isNonFilterSearch(searchParams: AppSearchParameters): boolean
+    {
+        if (searchParams.account || searchParams.invoice || searchParams.deliveryType)
+        {
+            return true;
+        }
+        return false;
     }
 
     public isEmptySearch(): boolean

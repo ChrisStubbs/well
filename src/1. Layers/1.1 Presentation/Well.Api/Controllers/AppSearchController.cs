@@ -13,7 +13,7 @@
             this.appSearchService = appSearchService;
         }
 
-        public AppSearchResult Get([FromUri]AppSearchParameters parameters)
+        public AppSearchResultSummary Get([FromUri]AppSearchParameters parameters)
         {
             return appSearchService.GetAppSearchResult(parameters);
         }

@@ -547,7 +547,7 @@
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchParameters.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
-    <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResult.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResultSummary.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\menuBarAppSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />

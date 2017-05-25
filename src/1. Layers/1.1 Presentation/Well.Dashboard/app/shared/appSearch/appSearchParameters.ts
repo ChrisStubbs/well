@@ -8,4 +8,5 @@ export class AppSearchParameters
     public driver: string;
     public deliveryType?: number;
     public status?: number;
+    public routeIds: number[];
 }

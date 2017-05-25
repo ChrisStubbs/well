@@ -91,6 +91,11 @@ section {
         }
     }
 
+    .row-fluid:nth-child(2) {
+        background: @menuBarColor;
+        box-shadow: 0 0 5px 0 @colourBorder;
+    }
+
     .row-fluid:first-child {
         .gradient(left, @brand-color, darken(@brand-color, 20%));
         border-bottom: 1px solid #939d9e;
@@ -138,11 +143,6 @@ section {
                 height: 40px;
                 box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.5);
             }
-        }
-
-        .row-fluid:nth-child(2) {
-            background: @menuBarColor;
-            box-shadow: 0 0 5px 0 @colourBorder;
         }
     }
 }

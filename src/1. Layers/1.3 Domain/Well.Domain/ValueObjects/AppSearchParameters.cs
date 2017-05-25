@@ -12,5 +12,6 @@
         public string Driver { get; set; }
         public int? DeliveryType { get; set; }
         public int? Status { get; set; }
+
     }
 }

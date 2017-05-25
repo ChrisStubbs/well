@@ -70,6 +70,7 @@
     <Folder Include="ManualStep\scripts" />
     <Folder Include="ManualStep\scripts\runBeforeUp" />
     <Folder Include="ManualStep\scripts\up" />
+    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deploy.ps1">
@@ -368,6 +369,9 @@
     <Build Include="dbo\StoredProcedures\LineItemAction_InsertByUser.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionGetByIds.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionUpdate.sql" />
+    <Build Include="dbo\Views\LineItemExceptionsView.sql" />
+    <Build Include="dbo\Views\ActivityExceptionsView.sql" />
+    <Build Include="dbo\Views\LocationExceptionsView.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

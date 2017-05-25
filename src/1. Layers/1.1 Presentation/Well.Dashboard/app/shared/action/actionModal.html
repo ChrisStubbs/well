@@ -29,9 +29,16 @@
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="alert alert-danger" *ngIf="userThresholdError.length > 0">
+                           {{userThresholdError}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         {{actionSummaryData}}
                     </div>
-                    </div>
+                </div>
                 <div class="row" style="overflow-y: auto; height: 400px">
                     <div class="col-md-12">
                         <ng-content></ng-content>

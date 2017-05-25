@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-
+    using Dapper;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
@@ -96,14 +96,33 @@
 
         private IEnumerable<User> Get(int? id, string identity, string name, int? creditThresholdId, int? branchId)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGet)
+            IEnumerable<User> users = new List<User>();
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGet)
                 .AddParameter("UserId", id, DbType.Int32)
                 .AddParameter("Identity", identity, DbType.String, size: 255)
                 .AddParameter("Name", name, DbType.String, size: 255)
                 .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
                 .AddParameter("BranchId", branchId, DbType.Int32)
-                .Query<User>();
+                .QueryMultiple(x => users = GetByGrid(x));
 
+            return users;
+                
+        }
+
+        private IEnumerable<User> GetByGrid(SqlMapper.GridReader gridReader)
+        {
+            var users = gridReader.Read<User>().ToList();
+            var creditThresholds = gridReader.Read<CreditThreshold>().ToList();
+            if (creditThresholds.Any())
+            {
+                foreach (var u in users.Where(u=> u.ThresholdLevelId.HasValue))
+                {
+                    u.CreditThreshold = creditThresholds.FirstOrDefault(x => x.Id == u.ThresholdLevelId.Value);
+                }
+            }
+
+            return users;
         }
     }
 }

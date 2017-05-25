@@ -513,7 +513,7 @@
     <Content Include="app\home\widget.ts" />
     <Content Include="app\home\widgetComponent.ts" />
     <Content Include="app\unauthorised\unauthorisedComponent.ts" />
-    <Content Include="app\user_preferences\User.ts" />
+    <Content Include="app\user_preferences\user.ts" />
     <Content Include="app\user_preferences\userPreferenceComponent.ts" />
     <Content Include="app\user_preferences\userPreferenceModalComponent.ts" />
     <Content Include="app\user_preferences\userPreferenceService.ts" />
@@ -550,7 +550,7 @@
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchParameters.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
-    <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResult.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResultSummary.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\menuBarAppSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />

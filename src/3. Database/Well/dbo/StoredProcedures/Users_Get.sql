@@ -38,4 +38,17 @@ BEGIN
 	  FROM [dbo].[User] u
 	  Inner JOIN @UserIdsTable uit on uit.Id = u.Id 
 
+	  SELECT
+		[Id], 
+		[ThresholdLevelId], 
+		[Threshold], 
+		[CreatedBy], 
+		[CreatedDate], 
+		[LastUpdatedBy], 
+		[LastUpdatedDate]
+	FROM
+		[dbo].[CreditThreshold] 
+		   
+
+
 END

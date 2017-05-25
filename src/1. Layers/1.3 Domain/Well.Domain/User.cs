@@ -14,5 +14,8 @@
 
         public int? ThresholdLevelId { get; set; }
 
+        public CreditThreshold CreditThreshold { get; set; }
+
+        public decimal? Threshold => CreditThreshold?.Threshold;
     }
 }

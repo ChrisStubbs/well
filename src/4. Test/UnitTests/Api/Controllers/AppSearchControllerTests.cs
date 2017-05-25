@@ -25,7 +25,7 @@
             public void ShouldCallAppSearchServiceWithCorrectParametersAndReturnResult()
             {
                 var searchParams = new AppSearchParameters();
-                var searchResult = new AppSearchResult();
+                var searchResult = new AppSearchResultSummary();
 
                 appSearchService.Setup(x => x.GetAppSearchResult(searchParams)).Returns(searchResult);
                 var result = Controller.Get(searchParams);

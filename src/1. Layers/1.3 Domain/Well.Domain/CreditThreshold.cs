@@ -2,7 +2,7 @@
 {
     using System.Collections.ObjectModel;
 
-    using PH.Well.Domain.Enums;
+    using Enums;
 
     public class CreditThreshold : Entity<int>
     {

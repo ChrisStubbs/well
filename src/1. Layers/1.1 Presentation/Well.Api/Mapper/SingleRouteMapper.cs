@@ -41,9 +41,27 @@
 
             foreach (var stop in stops)
             {
-                var stopJobs = jobs.Where(x => x.StopId == stop.Id).ToList();
+                var stopJobs = jobs
+                    .Select(p => new
+                    {
+                        obj = p,
+                        jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode)
+                    })
+                    .Where(p => p.jobType != JobType.Documents && p.obj.StopId == stop.Id)
+                    .Select(p => p.obj) //I should not do this but it's to much code to change with very little gain
+                    .ToList();
 
                 var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
+                var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);
+
+                var clean = stopJobDetails.GroupBy(p => p.IsClean())
+                    .Select(p => new { p.Key, count = p.Count() })
+                    .ToLookup(k => k.Key, v => v.count);
+
+                var stopExceptions = clean[false].Sum(p => p);
+                var stopClean = clean[true].Sum(p => p);
+                var status = stopStatusService.DetermineStatus(stopJobs);
+                var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
                 foreach (var job in stopJobs)
                 {
@@ -52,11 +70,11 @@
                         JobId = job.Id,
                         StopId = job.StopId,
                         Stop = stop.DropId,
-                        StopStatus = stopStatusService.DetermineStatus(stopJobs),
-                        StopExceptions = stopJobDetails.Count(x => !x.IsClean()),
-                        StopClean = stopJobDetails.Count(x => x.IsClean()),
-                        Tba = stopJobs.Sum(j => j.ToBeAdvisedCount),
-                        StopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList()),
+                        StopStatus = status,
+                        StopExceptions = stopExceptions,
+                        StopClean = stopClean,
+                        Tba = tba,
+                        StopAssignee = stopAssignee,
                         Resolution = "TODO:", //TODO: we have to fix this
                         Invoice = job.InvoiceNumber,
                         JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords(),
@@ -66,7 +84,7 @@
                         Pod = job.ProofOfDelivery.HasValue,
                         Exceptions = job.JobDetails.Count(x => !x.IsClean()),
                         Clean = job.JobDetails.Count(x => x.IsClean()),
-                        Credit = 0,  //TODO: Needs to come from Line Item Action
+                        Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
                         Account = job.PhAccount
                     };

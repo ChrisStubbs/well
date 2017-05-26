@@ -9,15 +9,12 @@ import { SecurityService }                          from '../shared/security/sec
 import { BranchService }                            from '../shared/branch/branchService';
 import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
 import { DataTable }                                from 'primeng/primeng';
-import { AssignModel }                              from '../shared/components/components';
-import { Branch } from '../shared/branch/branch';
-import { AppDefaults } from '../shared/defaults/defaults';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
+import { AssignModel, AssignModalResult }           from '../shared/components/components';
 import { Branch }                                   from '../shared/branch/branch';
 import { AppDefaults }                              from '../shared/defaults/defaults';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
 import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
+import * as _                                       from 'lodash';
 import 'rxjs/Rx';
 
 @Component({

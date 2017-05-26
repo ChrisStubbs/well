@@ -19,7 +19,7 @@
         //Complete
         //Bypassed -- All Jobs Bypassed
 
-        public string DetermineStatus(List<Job> jobs)
+        public string DetermineStatus(IList<Job> jobs)
         {
           
             if (!jobs.Any())

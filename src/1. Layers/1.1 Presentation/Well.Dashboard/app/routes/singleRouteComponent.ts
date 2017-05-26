@@ -12,8 +12,6 @@ import { SecurityService }                              from '../shared/security
 import { GlobalSettingsService }                        from '../shared/globalSettings';
 import { IObservableAlive }                             from '../shared/IObservableAlive';
 import { SingleRouteItem }                              from './singleRoute';
-import { SplitButtonComponent }                         from '../shared/splitButtonComponent';
-import { ActionModal }                                  from '../shared/action/actionModal';
 import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services/services';
 import { Observable }                                   from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
@@ -48,8 +46,6 @@ export class SingleRouteComponent implements IObservableAlive
     private selectedAction: string;
 
     @ViewChild('dt') public grid: DataTable;
-    @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
-    @ViewChild(ActionModal) private actionModal: ActionModal;
 
     private routeId: number;
     private isReadOnlyUser: boolean = false;
@@ -78,7 +74,7 @@ export class SingleRouteComponent implements IObservableAlive
             {
                 this.singleRoute = data;
                 this.allSingleRouteItems = this.singleRoute.items;
-                this.singleRouteItems = _.filter(this.allSingleRouteItems);
+                this.singleRouteItems = this.allSingleRouteItems;
                 this.lastRefresh = Date.now();
             });
 
@@ -173,7 +169,6 @@ export class SingleRouteComponent implements IObservableAlive
         this.grid.filters = {};
         this.grid.filter(undefined, undefined, undefined);
         _.map(this.singleRouteItems, current => current.isSelected = false);
-        this.splitButtonComponent.reset();
     }
 
     public totalPerGroup(perCol: string, stop: string): number

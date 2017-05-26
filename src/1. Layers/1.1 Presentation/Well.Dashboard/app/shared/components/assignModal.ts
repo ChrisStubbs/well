@@ -11,7 +11,7 @@ import { AssignModel }                              from './assignModel';
 
 @Component({
     selector: 'assign-modal',
-    templateUrl: 'app/shared/components/accountFlagsComponent.html'
+    templateUrl: 'app/shared/components/assign-modal.html'
 })
 export class AssignModal implements IObservableAlive
 {

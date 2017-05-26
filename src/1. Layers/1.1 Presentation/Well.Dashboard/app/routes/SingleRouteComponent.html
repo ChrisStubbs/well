@@ -23,8 +23,6 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" (click)="filter('All')" class="active"><a href="#All" aria-controls="jobs" role="tab" data-toggle="tab">All</a></li>
                         <li role="presentation" (click)="filter('Exception')"><a href="#exceptions" aria-controls="exceptions" role="tab" data-toggle="tab">Exceptions</a></li>
-                        <li role="presentation" (click)="filter('Approval')"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab">Approvals</a></li>
-                        <li role="presentation" (click)="filter('Resolve')"><a href="#resolved" aria-controls="resolved" role="tab" data-toggle="tab">Resolved</a></li>
                         <li class="pull-right">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
@@ -86,6 +84,11 @@
                             </div>
                         </ng-template>
                         <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
+                        <p-column header="Account" field="account" [filter]="true" filterMatchMode="contains" [style]="{'width': '9%'}">
+                            <ng-template pTemplate="header">
+                                <div>Account</div>
+                            </ng-template>
+                        </p-column>
                         <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [style]="{'width': '9%'}">
                             <ng-template pTemplate="header">
                                 <div>Invoice</div>
@@ -114,11 +117,6 @@
                                         {{ status.value }}
                                     </option>
                                 </select>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Account" field="account" [filter]="true" filterMatchMode="equals" [style]="{'width': '9%'}">
-                            <ng-template pTemplate="header">
-                                <div>Account</div>
                             </ng-template>
                         </p-column>
                         <p-column [style]="{'width': '8%'}">

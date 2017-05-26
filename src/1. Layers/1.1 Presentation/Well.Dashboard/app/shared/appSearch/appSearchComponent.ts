@@ -40,11 +40,24 @@ export class AppSearch implements IObservableAlive
 
     public ngOnInit(): void
     {
+        this.searchForm = this.fb.group(
+            {
+                'branch': new FormControl(),
+                'date': new FormControl(),
+                'account': new FormControl(),
+                'invoice': new FormControl(),
+                'route': new FormControl(),
+                'driver': new FormControl(),
+                'deliveryType': new FormControl(),
+                'status': new FormControl()
+            });
+
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
             .subscribe(branches =>
             {
                 this.branches = <any>branches;
+                this.setDefaultBranch();
             });
 
         Observable.forkJoin(
@@ -59,20 +72,18 @@ export class AppSearch implements IObservableAlive
                 this.jobStatus = res[1];
                 this.drivers = res[2];
             });
-
-        this.searchForm = this.fb.group(
-            {
-                'branch': new FormControl(),
-                'date': new FormControl(),
-                'account': new FormControl(),
-                'invoice': new FormControl(),
-                'route': new FormControl(),
-                'driver': new FormControl(),
-                'deliveryType': new FormControl(),
-                'status': new FormControl()
-            });
     }
 
+    private setDefaultBranch()
+    {
+        if (_.isNil(this.branches))
+        {
+            this.searchForm.value.branch = undefined;
+            return;
+        }
+
+        this.searchForm.value.branch = this.branches[0] ? this.branches[0][0] : undefined;
+    }
     public ngOnDestroy(): void
     {
         this.isAlive = false;
@@ -81,6 +92,7 @@ export class AppSearch implements IObservableAlive
     public resetSearch(): void
     {
         this.searchForm.reset();
+        this.setDefaultBranch();
     }
 
     public search(event: any): void

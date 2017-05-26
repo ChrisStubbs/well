@@ -55,26 +55,31 @@ export class RoutesComponent implements IObservableAlive
 
     public ngOnInit()
     {
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams
             .takeWhile(() => this.isAlive)
             .subscribe(params =>
             {
                 this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
-                this.getRoutes();
-            });
 
-        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
-            .takeWhile(() => this.isAlive)
-            .subscribe(
-            (branches: Array<[string, string]>) =>
-            {
-                this.branches = branches;
-            });
+                this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(
+                    (branches: Array<[string, string]>) =>
+                    {
+                        this.branches = branches;
+                        if (!this.routeFilter.branchId.value)
+                        {
+                            this.routeFilter.branchId.value = branches[0][0];
+                        }
+                        this.getRoutesByBranch();
+                        this.refreshSubscription = this.refreshService.dataRefreshed$
+                            .subscribe(r => this.getRoutesByBranch());
+                    });
 
-        this.lookupService.get(LookupsEnum.JobStatus)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) => this.jobStatus = value);
+                this.lookupService.get(LookupsEnum.JobStatus)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe((value: Array<ILookupValue>) => this.jobStatus = value);
+            });
     }
 
     public ngOnDestroy()
@@ -83,27 +88,33 @@ export class RoutesComponent implements IObservableAlive
         this.refreshSubscription.unsubscribe();
     }
 
-    private getRoutes(): void
+    private getFilteredBranchId(): number
     {
-        this.routeService.getRoutes()
-            .takeWhile(() => this.isAlive)
-            .subscribe((result: Route[]) =>
-            {
-                this.routes = result;
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-                this.dataTable.filters = <any>this.routeFilter;
-            },
-            error =>
-            {
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-            });
+        return this.routeFilter.branchId.value as number;
+    }
+
+    private getRoutesByBranch(): void
+    {
+        const branchId =
+            this.routeService.getRoutesByBranch(this.getFilteredBranchId())
+                .takeWhile(() => this.isAlive)
+                .subscribe((result: Route[]) =>
+                {
+                    this.routes = result;
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                    this.dataTable.filters = <any>this.routeFilter;
+                },
+                error =>
+                {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     public clearFilters(): void
     {
-        this.routeFilter = new RouteFilter();
+        this.routeFilter = new RouteFilter(this.getFilteredBranchId());
         this.dataTable.filters = <any>this.routeFilter;
         this.dataTable.filter(undefined, undefined, undefined);
     }
@@ -126,4 +137,11 @@ export class RoutesComponent implements IObservableAlive
             }
         }
     }
+
+    public refreshData(event): void
+    {
+        this.routeFilter.branchId.value = event.target.value;
+        this.getRoutesByBranch();
+    }
+
 }

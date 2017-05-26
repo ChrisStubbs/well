@@ -3,7 +3,8 @@
         <div class="col-lg-6">
             <label for="searchBranch" class="col-lg-2 control-label">Branch</label>
             <div class="col-lg-10">
-                <select class="form-control" id="searchBranch" formControlName="branch">
+                <select class="form-control" id="searchBranch" formControlName="branch"
+                        [ngModel]="searchForm.value.branch">
                     <option *ngFor="let branch of branches" [value]="branch[0]">
                         {{ branch[1] }}
                     </option>

@@ -13,12 +13,14 @@ export class RouteFilter
     public driverName: FilterMetadata = { matchMode: 'contains', value: '' };
     public assignee: FilterMetadata = { matchMode: 'contains', value: '' };
     public id: FilterMetadata = { matchMode: 'in', value: undefined };
-    
+
+    constructor(branchId: number) {
+        this.branchId.value = branchId;
+    }
     public static toRouteFilter(params: AppSearchParameters): RouteFilter
     {
-        const routeFilter = new RouteFilter();
+        const routeFilter = new RouteFilter(this.convertUndefined(params.branchId));
 
-        routeFilter.branchId.value = this.convertUndefined(params.branchId);
         routeFilter.routeNumber.value = this.convertUndefined(params.route);
         routeFilter.routeDate.value = this.convertUndefined(params.date);
         routeFilter.routeStatusId.value = this.convertUndefined(params.status);

@@ -38,3 +38,4 @@ Post-Deployment Script Template
 :r .\Populate-WidgetType.sql
 :r .\Populate-DeliveryAction.sql
 :r .\Populate-JobStatus.sql
+:r .\Populate-WellStatus.sql

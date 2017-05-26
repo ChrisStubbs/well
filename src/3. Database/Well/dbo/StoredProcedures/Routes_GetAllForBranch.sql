@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Routes_GetAll]
+﻿CREATE PROCEDURE [dbo].[Routes_GetAllForBranch]
+	@BranchId INT,
 	@UserName VARCHAR(500)
 AS
 BEGIN
@@ -14,6 +15,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 	FROM	UserBranch ub
 	INNER JOIN [User] u on u.Id = ub.UserId
 	WHERE u.IdentityName = @UserName
+		AND BranchId = @BranchId
 
 	;WITH JobStatusCheck
 	AS

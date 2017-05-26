@@ -292,7 +292,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\Job_UpdateStatus.sql" />
-    <Build Include="dbo\StoredProcedures\Routes_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_GetAllForBranch.sql" />
     <Build Include="dbo\Tables\ActivityType.sql" />
     <None Include="Post-Deployement\Populate-ActivityType.sql" />
     <Build Include="dbo\Functions\ActivityType_Invoice.sql" />

@@ -82,7 +82,7 @@
                     <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="exceptionFilterCtl"
-                                    [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value: ''"
+                                    [ngModel]="routeFilter.exception ? routeFilter.exception.value : ''"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)">
                                 <option *ngFor="let exceptionFilterItem of exceptionFilterItems" [value]="exceptionFilterItem[0]">
                                     {{exceptionFilterItem[1]}}

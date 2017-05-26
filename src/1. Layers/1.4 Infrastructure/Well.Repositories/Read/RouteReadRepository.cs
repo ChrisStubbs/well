@@ -20,10 +20,11 @@
         }
 
 
-        public IEnumerable<Route> GetAllRoutes(string username)
+        public IEnumerable<Route> GetAllRoutesForBranch(int branchId,string username)
         {
             var routes = new List<Route>();
-            dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAll)
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAllForBranch)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
                     .AddParameter("username", username, DbType.String)
                     .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
 

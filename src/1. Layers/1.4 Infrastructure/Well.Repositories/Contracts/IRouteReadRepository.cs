@@ -5,6 +5,6 @@
 
     public interface IRouteReadRepository
     {
-        IEnumerable<Route> GetAllRoutes(string username);
+        IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username);
     }
 }

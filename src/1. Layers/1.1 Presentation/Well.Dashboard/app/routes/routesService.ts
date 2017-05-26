@@ -17,9 +17,9 @@ export class RoutesService
     {
     }
 
-    public getRoutes(): Observable<Route[]>
+    public getRoutesByBranch(branchId: number): Observable<Route[]>
     {
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'routes/all';
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'routes?branchId=' + branchId;
 
         return this.http.get(url)
             .map((response: Response) =>

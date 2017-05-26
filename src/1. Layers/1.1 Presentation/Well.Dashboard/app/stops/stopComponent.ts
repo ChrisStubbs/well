@@ -4,7 +4,7 @@ import { IObservableAlive }                         from '../shared/IObservableA
 import { StopService }                              from './stopService';
 import { Stop, StopItem, StopFilter }               from './stop';
 import * as _                                       from 'lodash';
-import { AssignModel, AssignModalResult }           from '../shared/assignModel';
+import { AssignModel, AssignModalResult }           from '../shared/components/assignModel';
 import { Branch }                                   from '../shared/branch/branch';
 import { SecurityService }                          from '../shared/security/securityService';
 import { GlobalSettingsService }                    from '../shared/globalSettings';

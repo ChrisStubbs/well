@@ -1,21 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
-import { RoutesService } from './routesService'
-import { SingleRoute } from './singleRoute';
-import { ActivatedRoute } from '@angular/router';
-import { AppDefaults } from '../shared/defaults/defaults';
-import * as _ from 'lodash';
-import { DataTable } from 'primeng/primeng';
-import { AssignModel, AssignModalResult } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { SingleRouteItem } from './singleRoute';
-import { SplitButtonComponent } from '../shared/splitButtonComponent';
-import { ActionModal } from '../shared/action/actionModal';
-import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
-import { Observable } from 'rxjs';
+import { Component, ViewChild }                         from '@angular/core';
+import { CurrencyPipe }                                 from '@angular/common';
+import { RoutesService }                                from './routesService'
+import { SingleRoute }                                  from './singleRoute';
+import { ActivatedRoute }                               from '@angular/router';
+import { AppDefaults }                                  from '../shared/defaults/defaults';
+import * as _                                           from 'lodash';
+import { DataTable }                                    from 'primeng/primeng';
+import { AssignModel, AssignModalResult }               from '../shared/components/components';
+import { Branch }                                       from '../shared/branch/branch';
+import { SecurityService }                              from '../shared/security/securityService';
+import { GlobalSettingsService }                        from '../shared/globalSettings';
+import { IObservableAlive }                             from '../shared/IObservableAlive';
+import { SingleRouteItem }                              from './singleRoute';
+import { SplitButtonComponent }                         from '../shared/splitButtonComponent';
+import { ActionModal }                                  from '../shared/action/actionModal';
+import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services/services';
+import { Observable }                                   from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({

@@ -1,16 +1,17 @@
-﻿import { Component, EventEmitter, Output, Input }           from '@angular/core';
-import { Response }                                         from '@angular/http';
-import { IUser, HttpResponse, UserService, AssignModel }    from './shared';
-import { UserJobs }                                         from './userJobs';
-import * as _                                               from 'lodash';
-import { IObservableAlive }                                 from './IObservableAlive';
-import { AssignModalResult }                                from './assignModel';
-import { Router }                                           from '@angular/router';
-import { ToasterService }                                   from 'angular2-toaster';
+﻿import { Component, EventEmitter, Output, Input }   from '@angular/core';
+import { Response }                                 from '@angular/http';
+import { IUser, HttpResponse, UserService }         from '../shared';
+import { UserJobs }                                 from '../userJobs';
+import * as _                                       from 'lodash';
+import { IObservableAlive }                         from '../IObservableAlive';
+import { AssignModalResult }                        from './assignModel';
+import { Router }                                   from '@angular/router';
+import { ToasterService }                           from 'angular2-toaster';
+import { AssignModel }                              from './assignModel';
 
 @Component({
     selector: 'assign-modal',
-    templateUrl: 'app/shared/assign-modal.html'
+    templateUrl: 'app/shared/components/accountFlagsComponent.html'
 })
 export class AssignModal implements IObservableAlive
 {

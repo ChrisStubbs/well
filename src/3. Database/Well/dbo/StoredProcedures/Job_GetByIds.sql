@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Job_GetByIds]
+﻿
+CREATE PROCEDURE [dbo].[Job_GetByIds]
 	@Ids dbo.IntTableType	READONLY
 AS
 BEGIN

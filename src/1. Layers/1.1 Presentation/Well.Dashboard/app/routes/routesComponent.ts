@@ -10,6 +10,10 @@ import { BranchService }                            from '../shared/branch/branc
 import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
 import { DataTable }                                from 'primeng/primeng';
 import { AssignModel }                              from '../shared/components/components';
+import { Branch } from '../shared/branch/branch';
+import { AppDefaults } from '../shared/defaults/defaults';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
 import { Branch }                                   from '../shared/branch/branch';
 import { AppDefaults }                              from '../shared/defaults/defaults';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
@@ -50,7 +54,7 @@ export class RoutesComponent implements IObservableAlive
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
         protected securityService: SecurityService,
-        private branchService: BranchService) {}
+        private branchService: BranchService) { }
 
     public ngOnInit()
     {
@@ -115,6 +119,14 @@ export class RoutesComponent implements IObservableAlive
 
     public onAssigned($event)
     {
-        this.getRoutes();
+        const result = $event as AssignModalResult;
+        if (result.assigned)
+        {
+            const route = _.find(this.routes, (x) => x.id === result.source.id) as Route;
+            if (route)
+            {
+                route.assignee = (result.newUser) ? result.newUser.name : 'Unallocated';
+            }
+        }
     }
 }

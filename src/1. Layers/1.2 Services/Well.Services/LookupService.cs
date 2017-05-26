@@ -23,28 +23,28 @@ namespace PH.Well.Services
             switch (lookupType)
             {
                 case LookupType.ExceptionType:
-                    return this.lookupRepository.ExceptionTypes();
+                    return this.lookupRepository.ExceptionTypes().OrderBy(x=> x.Value).ToList();
 
                 case LookupType.ExceptionAction:
-                    return this.lookupRepository.ExceptionActions();
+                    return this.lookupRepository.ExceptionActions().OrderBy(x => x.Value).ToList();
 
                 case LookupType.JobStatus:
-                    return this.lookupRepository.JobStatus();
+                    return this.lookupRepository.JobStatus().OrderBy(x => x.Value).ToList();
 
                 case LookupType.JobType:
-                    return this.lookupRepository.JobType();
+                    return this.lookupRepository.JobType().OrderBy(x => x.Value).ToList();
 
                 case LookupType.Driver:
-                    return this.lookupRepository.Driver();
+                    return this.lookupRepository.Driver().OrderBy(x => x.Value).ToList();
 
                 case LookupType.DeliveryAction:
-                    return this.GetDeliveryActions();
+                    return this.GetDeliveryActions().OrderBy(x => x.Value).ToList();
 
                 case LookupType.JobDetailSource:
-                    return this.GetJobDetailSource();
+                    return this.GetJobDetailSource().OrderBy(x => x.Value).ToList();
 
                 case LookupType.JobDetailReason:
-                    return this.GetJobDetailReason();
+                    return this.GetJobDetailReason().OrderBy(x => x.Value).ToList();
 
                 default:
                     throw new ArgumentException($"{lookupType}");

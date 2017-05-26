@@ -374,6 +374,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\1. Layers\1.1 Presentation\Well.Api\Well.Api.csproj">
+      <Project>{22815dd8-a36a-4d28-85b2-b105e57ce597}</Project>
+      <Name>Well.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\1. Layers\1.2 Services\Well.Services\Well.Services.csproj">
       <Project>{8c839ee3-9b46-4d0b-a38b-6e653e471fbf}</Project>
       <Name>Well.Services</Name>

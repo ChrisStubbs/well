@@ -96,21 +96,21 @@ export class RoutesComponent implements IObservableAlive
 
     private getRoutesByBranch(): void
     {
-        const branchId = 
+        const branchId =
             this.routeService.getRoutesByBranch(this.getFilteredBranchId())
-            .takeWhile(() => this.isAlive)
-            .subscribe((result: Route[]) =>
-            {
-                this.routes = result;
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-                this.dataTable.filters = <any>this.routeFilter;
-            },
-            error =>
-            {
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-            });
+                .takeWhile(() => this.isAlive)
+                .subscribe((result: Route[]) =>
+                {
+                    this.routes = result;
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                    this.dataTable.filters = <any>this.routeFilter;
+                },
+                error =>
+                {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     public clearFilters(): void
@@ -138,4 +138,11 @@ export class RoutesComponent implements IObservableAlive
             }
         }
     }
+
+    public refreshData(event): void
+    {
+        this.routeFilter.branchId.value = event.target.value;
+        this.getRoutesByBranch();
+    }
+
 }

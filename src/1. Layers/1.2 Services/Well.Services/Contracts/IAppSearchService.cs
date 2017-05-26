@@ -4,6 +4,6 @@
 
     public interface IAppSearchService
     {
-        AppSearchResult GetAppSearchResult(AppSearchParameters searchParams);
+        AppSearchResultSummary GetAppSearchResult(AppSearchParameters searchParams);
     }
 }

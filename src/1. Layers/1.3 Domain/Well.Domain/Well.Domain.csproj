@@ -101,6 +101,7 @@
     <Compile Include="ValueObjects\AdamFail.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
+    <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
     <Compile Include="ValueObjects\BulkActionModel.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
     <Compile Include="ValueObjects\BulkActionResults.cs" />

@@ -5,7 +5,7 @@
     "description": "Package for the Orderwell application",
     "scripts": {
         "buildProduction": "webpack -p",
-        "build": "webpack -d --watch",
+        "build": "webpack -d -w --progress --profile",
         "typings": "typings",
         "postinstall": "typings install"
     },
@@ -34,7 +34,6 @@
         "ng2-charts": "1.2.0",
         "ng2-pagination": "2.0.0",
         "ng2-tabs": "0.0.11",
-        "ngx-tooltip": "0.0.9",
         "ngx-webstorage": "^1.8.0",
         "primeng": "^4.0.0-rc.3",
         "reflect-metadata": "0.1.3",

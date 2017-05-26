@@ -3,10 +3,7 @@
 1. Pre-requisites
     * Install latest version of Node
     * Install ConEmu
-    * Install latest version of typescript 2 for visual studio 2015
-    * Install Webpack Extensions for visual studio 2015
-        - Install webpack globally
-        - NPM Install -g Webpack
+	* run npm install -g Webpack
     
 2. Git repo: [Well on P&H bitbucket](http://ho-nt-vmdevtfs1:7990/scm/mig/well.git)
     * Open ...\src\Well.All.sln
@@ -29,7 +26,7 @@
 
 5. Angular
     * Open a ConEmu console at the Well.Dashboard folder
-    * Run webpack -d --watch --progress
+    * Run npm run build
     * Change a single TypeScript file in the project to start rebuilding of all TypeScript files
     * Ensure Output javascript files have been generated to the Scripts\Angular2 folder
     

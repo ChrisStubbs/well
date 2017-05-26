@@ -31,61 +31,30 @@
 
                 var result = service.GetAppSearchResult(searchParams);
                 searchReadRepository.Verify(x => x.Search(It.IsAny<AppSearchParameters>()), Times.Once);
-                searchReadRepository.Verify(x=> x.Search(searchParams),Times.Once);
+                searchReadRepository.Verify(x => x.Search(searchParams), Times.Once);
             }
 
             [Test]
-            public void ShouldReturnAppSearchResultWithNullStopAndRouteIdIfMultipleRoutes()
+            public void ShouldReturnAppSearchResultSummaryWithCorrectDistinctValues()
             {
+
                 var searchParams = new AppSearchParameters();
                 var searchResults = new List<AppSearchResult>
                 {
-                    new AppSearchResult {RouteId = 4},
-                    new AppSearchResult {RouteId = 5}
+                    new AppSearchResult {RouteId = 1, StopId = 2},
+                    new AppSearchResult {RouteId = 1, StopId = 2},
+                    new AppSearchResult {RouteId = 1, StopId = 3},
+                    new AppSearchResult {RouteId = 4, StopId = 4},
                 };
 
                 searchReadRepository.Setup(x => x.Search(searchParams)).Returns(searchResults);
 
                 var result = service.GetAppSearchResult(searchParams);
 
-                Assert.False(result.StopId.HasValue);
-                Assert.False(result.RouteId.HasValue);
+                Assert.AreEqual(string.Join(",", result.RouteIds), "1,4");
+                Assert.AreEqual(string.Join(",", result.StopIds), "2,3,4");
             }
 
-            [Test]
-            public void ShouldReturnAppSearchResultWithNullStopAndValidRouteIdIfSingleDistinctRouteId()
-            {var searchParams = new AppSearchParameters();
-                var searchResults = new List<AppSearchResult>
-                {
-                    new AppSearchResult {RouteId = 4,StopId = 3},
-                    new AppSearchResult {RouteId = 4,StopId = 4}
-                };
-
-                searchReadRepository.Setup(x => x.Search(searchParams)).Returns(searchResults);
-
-                var result = service.GetAppSearchResult(searchParams);
-
-                Assert.False(result.StopId.HasValue);
-                Assert.AreEqual(4,result.RouteId);
-            }
-
-            [Test]
-            public void ShouldReturnAppSearchResultWithStopIdAndNullRouteIdIfSingleDistinctJobId()
-            {
-                var searchParams = new AppSearchParameters();
-                var searchResults = new List<AppSearchResult>
-                {
-                    new AppSearchResult {RouteId = 4,StopId = 3}
-                    
-                };
-
-                searchReadRepository.Setup(x => x.Search(searchParams)).Returns(searchResults);
-
-                var result = service.GetAppSearchResult(searchParams);
-
-                Assert.False(result.RouteId.HasValue);
-                Assert.AreEqual(3, result.StopId);
-            }
         }
     }
 }

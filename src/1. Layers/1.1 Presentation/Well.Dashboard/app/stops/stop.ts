@@ -1,5 +1,7 @@
-import * as _ from 'lodash';
-export class Stop 
+import * as _                               from 'lodash';
+import { IFilter, GridHelpersFunctions }    from '../shared/gridHelpers/gridHelpers';
+
+export class Stop
 {
     public routeId: number;
     public routeNumber: string;
@@ -45,7 +47,7 @@ export class StopItem
     {
         if (_.isNil(this.mBarCode))
         {
-            this.mBarCode = '';
+            this.mBarCode = this.noBarCode;
         }
 
         return this.mBarCode;
@@ -72,18 +74,62 @@ export class StopItem
     }
 }
 
-export class StopFilter
+export class StopFilter implements IFilter
 {
     constructor()
     {
+        this.product = '';
         this.type = '';
-        this.tobacco = '';
-        this.checked = '';
-        this.heightValue = '';
+        this.barCode = '';
+        this.description = '';
+        this.damages = undefined;
+        this.shorts = undefined;
+        this.checked = undefined;
+        this.highValue = undefined;
     }
 
+    public product: string;
     public type: string;
-    public tobacco: string;
-    public checked: string;
-    public heightValue: string;
+    public barCode: string;
+    public description: string;
+    public damages?: boolean;
+    public shorts?: boolean;
+    public checked: boolean;
+    public highValue?: boolean
+
+    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    {
+        switch (filterName)
+        {
+            case 'product':
+            case 'description':
+                return  GridHelpersFunctions.startsWithFilter;
+
+            case 'type':
+            case 'barCode':
+                return  GridHelpersFunctions.isEqualFilter;
+
+            case 'checked':
+            case 'highValue':
+                return  GridHelpersFunctions.boolFilter;
+
+            case 'damages':
+            case 'shorts':
+                return (value: number, value2?: boolean) =>
+                {
+                    if (_.isNull(value2))
+                    {
+                        return true;
+                    }
+                    if (value2.toString() == 'true')
+                    {
+                        return value > 0;
+                    }
+
+                    return value == 0;
+                };
+        }
+
+        return undefined;
+    }
 }

@@ -41,7 +41,7 @@
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Route" field="routeNumber" [sortable]="true" [filter]="true">
+                    <p-column header="Route" field="routeNumber" [sortable]="true" [filter]="true" >
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
                                 <a routerLink="/singleroute/{{route.id}}" routerLinkActive="active">{{route.routeNumber}}</a>

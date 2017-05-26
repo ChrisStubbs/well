@@ -55,139 +55,145 @@
                     <div class="col-md-12"> &nbsp;</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 clearfix">
-                        <a #openContact style="display: none;" href="#" data-toggle="modal" data-target="#contactModal">&nbsp;</a>
-                        <p-dataTable [value]="stopsItems" groupField="jobId" expandableRowGroups="rowspan"
-                                 sortField="jobId" [sortableRowGroup]="false"
-                                 rowGroupMode="subheader" #dt>
-                        <p-header>Expand a Job to see more details</p-header>
-                        <ng-template pTemplate="rowgroupheader" let-rowData>
-                            <div class="groupRow">
-                                <div class="group1">&nbsp;</div>
-                                <div class="group2">Invoice: {{rowData.invoice}}</div>
-                                <div class="group3">
-                                    Acct#: {{rowData.account}}
-                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(rowData.accountID)">Info</button>
-                                </div>
-                                <div class="group4">{{totalPerGroup('invoiced', rowData.jobId)}}</div>
-                                <div class="group5">{{totalPerGroup('delivered', rowData.jobId)}}</div>
-                                <div class="group6">{{totalPerGroup('damages', rowData.jobId)}}</div>
-                                <div class="group7">{{totalPerGroup('shorts', rowData.jobId)}}</div>
-                                <div class="group8">&nbsp;</div>
-                                <div class="group9"><input type="checkbox" [checked]="allChildrenSelected(rowData.jobId)" (change)="selectJobs($event.target.checked, rowData.jobId)" /></div>
-                            </div>
-                        </ng-template>
-                        <p-column header="" field="" [filter]="false" [style]="{'width':'3%'}"></p-column>
-                        <p-column header="Product" field="product" [filter]="true" filterMatchMode="contains" [style]="{'width':'6%'}">
-                            <ng-template pTemplate="header">
-                                <div>Product</div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Type" field="type" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible','width':'8%'}">
-                            <ng-template pTemplate="header">
-                                <div>Type</div>
-                            </ng-template>
-                            <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
-                                    <option value>All</option>
-                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
-                                        {{ jobType.value }}
-                                    </option>
-                                </select>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Tobacco" field="barCodeFilter" [filter]="true" filterMatchMode="endsWith" [style]="{'overflow':'visible','width':'10%'}">
-                            <ng-template pTemplate="header">
-                                <div>Tobacco</div>
-                            </ng-template>
-                            <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchTobacco" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, 'barCodeFilter', col.filterMatchMode)" title="">
-                                    <option value>All</option>
-                                    <option *ngFor="let bag of tobaccoBags" [value]="bag[0]">
-                                        {{ bag[1] }}
-                                    </option>
-                                </select>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="hideOverflow" title="{{data.barCode}}">
-                                    {{ data.barCode }}
-                                </div>
-                            </ng-template>
-                        </p-column>
-
-                        <p-column header="Description" field="description" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible','width':'30%'}">
-                            <ng-template pTemplate="header">
-                                <div>Description</div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Value" field="value" filterMatchMode="contains">
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.value | currency:'GBP':true}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Invoiced" field="invoiced" filterMatchMode="equals">
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.invoiced}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Delivered" field="delivered"  filterMatchMode="equals">
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.delivered}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Damages" field="damages" filterMatchMode="equals">
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.damages}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Shorts" field="shorts" filterMatchMode="equals">
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.shorts}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Checked" field="checked" [filter]="true" filterMatchMode="equals">
-                            <ng-template pTemplate="filter" let-col>
-                                <ow-selectYesNoFilter [(selectedValue)]="filters.checked" (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-center">
-                                    <input type="checkbox" [checked]="data.checked" disabled title="">
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="High Value" field="highValue" [filter]="true" filterMatchMode="equals">
-                            <ng-template pTemplate="filter" let-col>
-                                <ow-selectYesNoFilter (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-center">
-                                    <input type="checkbox" [checked]="data.highValue" disabled title="">
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column [style]="{'width':'38px'}" [editable]="true" field="isSelected">
-                            <ng-template let-data="rowData" pTemplate="header">
-                                <div class="text-center">
-                                    <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)" >
-                                </div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-center">
-                                    <input type="checkbox" [(ngModel)]="data.isSelected" title="">
-                                </div>
-                            </ng-template>
-                        </p-column>
-                    </p-dataTable>
+                    <a #openContact style="display: none;" href="#" data-toggle="modal" data-target="#contactModal">&nbsp;</a>
+                    <div class="table-responsive table-container col-md-12">
+                        <table class="table table-hover table-striped" style="table-layout: fixed">
+                            <thead>
+                                <tr>
+                                    <th class="colProduct">
+                                        <div class="text-center">Product</div>
+                                        <div>
+                                            <input type="text" [(ngModel)]="filters.product" (keyup)="filterFreeText()"  class="form-control">
+                                        </div>
+                                    </th>
+                                    <th class="colType">
+                                        <div class="text-center">Type</div>
+                                        <div>
+                                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                                                <option value>All</option>
+                                                <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
+                                                    {{ jobType.value }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="colTobacco">
+                                        <div class="text-center">Tobacco</div>
+                                        <div>
+                                            <select class="form-control" id="searchTobacco" [(ngModel)]="filters.barCode" (change)="fillGridSource()" title="">
+                                                <option value>All</option>
+                                                <option *ngFor="let bag of tobaccoBags" [value]="bag[0]">
+                                                    {{ bag[1] }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="colDescription">
+                                        <div class="text-center">Description</div>
+                                        <div>
+                                            <input type="text" [(ngModel)]="filters.description" (keyup)="filterFreeText()"  class="form-control">
+                                        </div>
+                                    </th>
+                                    <th class="colNumbers">
+                                        <div class="text-center">Value</div>
+                                        <div class="emptyFilter">&nbsp;</div>
+                                    </th>
+                                    <th class="colNumbers">
+                                        <div class="text-center">Invoiced</div>
+                                        <div class="emptyFilter">&nbsp;</div>
+                                    </th>
+                                    <th class="colNumbers">
+                                        <div class="text-center">Delivered</div>
+                                        <div class="emptyFilter">&nbsp;</div>
+                                    </th>
+                                    <th class="colNumbers">
+                                        <div class="text-center">Damages</div>
+                                        <div>
+                                            <select class="form-control" [(ngModel)]="filters.damages" (change)="fillGridSource()" title="">
+                                                <option value>All</option>
+                                                <option value="true">With Damages</option>
+                                                <option value="false">No Damages</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="colNumbers">
+                                        <div class="text-center">Shorts</div>
+                                        <div>
+                                            <select class="form-control" [(ngModel)]="filters.shorts" (change)="fillGridSource()" title="">
+                                                <option value>All</option>
+                                                <option value="true">With Shorts</option>
+                                                <option value="false">No Shorts</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="colNumbers">
+                                        <div class="text-center">Checked</div>
+                                        <div>
+                                            <select class="form-control" [(ngModel)]="filters.checked" (change)="fillGridSource()" title="">
+                                                <option value>All</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="colHigh">
+                                        <div class="text-center">High Value</div>
+                                        <div>
+                                            <select class="form-control" [(ngModel)]="filters.highValue" (change)="fillGridSource()" title="">
+                                                <option value>All</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="colCheckbox">
+                                        <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)" >
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of gridSource">
+                                <tr *ngIf="item.isRowGroup" class="info">
+                                    <td colspan="12">
+                                        <div class="groupRow">
+                                            <div class="group1">
+                                                <a href="#" (click)="expandGroup(item.jobId, $event)">
+                                                    <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
+                                                </a>
+                                            </div>
+                                            <div class="group2">Invoice: {{item.invoice}}</div>
+                                            <div class="group3">
+                                                Account: {{item.account}}
+                                                <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
+                                            </div>
+                                            <div class="group4">{{item.totalInvoiced}}</div>
+                                            <div class="group5">{{item.totalDelivered}}</div>
+                                            <div class="group6">{{item.totalDamages}}</div>
+                                            <div class="group7">{{item.totalShorts}}</div>
+                                            <div class="group8">&nbsp;</div>
+                                            <div class="group9"><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="!item.isRowGroup">
+                                    <td>{{item.product}}</td>
+                                    <td>{{item.type}}</td>
+                                    <td>
+                                        <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
+                                            <abbr>{{ item.barCode }}</abbr>
+                                        </div>
+                                    </td>
+                                    <td>{{item.description}}</td>
+                                    <td class="text-right">{{item.value}}</td>
+                                    <td class="text-right">{{item.invoiced}}</td>
+                                    <td class="text-right">{{item.delivered}}</td>
+                                    <td class="text-right">{{item.damages}}</td>
+                                    <td class="text-right">{{item.shorts}}</td>
+                                    <td>{{item.Checked}}<span *ngIf="item.Checked" class="glyphicon glyphicon-ok">&nbsp;</span></td>
+                                    <td><span *ngIf="item.highValue" class="glyphicon glyphicon-ok">&nbsp;</span></td>
+                                    <td><input type="checkbox" [(ngModel)]="item.isSelected" title=""></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

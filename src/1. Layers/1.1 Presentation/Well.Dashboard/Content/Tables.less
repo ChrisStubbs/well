@@ -17,18 +17,6 @@ table.audits {
 }
 
 table {
-    th:hover {
-        cursor: default;
-    }
-}
-
-table.table-hover {
-    tr:hover {
-        cursor: pointer;
-    }
-}
-
-table {
     td.icon-row {
         span.glyphicon-file {
             font-size: 18px;
@@ -36,18 +24,19 @@ table {
     }
 }
 
-.numeric { //, .table td.numeric, .table th.numeric {
-    text-align: right;
-}
-
-.table-striped {
-    tbody {
-        tr.highlight {
-            :nth-child(odd) td, td {
-                background-color: #ddd;
-                color: #fff;
+table{
+    tbody{
+        tr.info {
+            td > div {
+                display: flex;
+                span.fa-arrow-circle-right, span.fa-arrow-circle-down {
+                    font-size: 150%;
+                }
             }
         }
     }
 }
 
+span.fa-arrow-circle-down, span.fa-arrow-circle-right{
+    font-size: 150%;
+}

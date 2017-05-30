@@ -26,7 +26,8 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
     '.group7{ width: 6%; text-align: right; line-height: 26px; } ' +
     '.group8{ width: 16%; line-height: 26px; } ' +
     '.group9{ width: 38px; text-align: right; padding-right: 2px; line-height: 26px; } ' +
-    '.colProduct { width: 9% } ' +
+    '.colExpandAll { width: 3% } ' +
+    '.colProduct { width: 6% } ' +
     '.colType { width: 8% } ' +
     '.colTobacco { width: 10% } ' +
     '.colDescription { width: 24% } ' +
@@ -246,11 +247,29 @@ export class StopComponent implements IObservableAlive
         return values;
     }
 
-    public expandGroup(jobId: number, event: any): void
+    public expandGroup(event: any, jobId?: number): void
     {
-        this.source[jobId].isExpanded = !this.source[jobId].isExpanded;
+        if (_.isNil(jobId))
+        {
+            const action: boolean = !this.areAllExpanded();
+            _.map(_.keys(this.source), current => this.source[current].isExpanded = action)
+        }
+        else
+        {
+            this.source[jobId].isExpanded = !this.source[jobId].isExpanded;
+        }
+
         this.fillGridSource();
         event.preventDefault();
+    }
+
+    public areAllExpanded(): boolean
+    {
+        let result: boolean = true;
+
+        _.map(_.keys(this.source), current => result = result && this.source[current].isExpanded);
+
+        return result;
     }
 
     private calculateTotals(data: Array<StopItem>): any

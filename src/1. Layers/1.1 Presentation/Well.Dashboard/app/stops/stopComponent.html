@@ -60,6 +60,17 @@
                         <table class="table table-hover table-striped" style="table-layout: fixed">
                             <thead>
                                 <tr>
+                                    <th class="colExpandAll">
+                                        <a href="#" (click)="expandGroup($event)">
+                                            <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
+                                            <ng-template #allExpended>
+                                                <span class="fa fa-arrow-circle-down"></span>
+                                            </ng-template>
+                                            <ng-template #notAllExpanded>
+                                                <span class="fa fa-arrow-circle-right"></span>
+                                            </ng-template>
+                                        </a>
+                                    </th>
                                     <th class="colProduct">
                                         <div class="text-center">Product</div>
                                         <div>
@@ -153,10 +164,10 @@
                             </thead>
                             <tbody *ngFor="let item of gridSource">
                                 <tr *ngIf="item.isRowGroup" class="info">
-                                    <td colspan="12">
+                                    <td colspan="13">
                                         <div class="groupRow">
                                             <div class="group1">
-                                                <a href="#" (click)="expandGroup(item.jobId, $event)">
+                                                <a href="#" (click)="expandGroup($event, item.jobId)">
                                                     <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
                                                 </a>
                                             </div>
@@ -175,7 +186,7 @@
                                     </td>
                                 </tr>
                                 <tr *ngIf="!item.isRowGroup">
-                                    <td>{{item.product}}</td>
+                                    <td colspan="2">{{item.product}}</td>
                                     <td>{{item.type}}</td>
                                     <td>
                                         <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">

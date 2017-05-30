@@ -20,7 +20,7 @@ import * as _ from 'lodash';
 
 @Component({
     selector: 'ow-route',
-    templateUrl: './app/routes/route-list.html',
+    templateUrl: './app/routes/routesComponent.html',
     providers: [RoutesService]
 })
 export class RoutesComponent implements IObservableAlive
@@ -41,8 +41,8 @@ export class RoutesComponent implements IObservableAlive
     public rowsPerPageOptions = AppDefaults.Paginator.rowsPerPageOptions();
 
     private routeFilter: RouteFilter;
-    private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
-
+    private yesNoFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
+    
     @ViewChild('dt') public dataTable: DataTable;
 
     constructor(
@@ -126,7 +126,7 @@ export class RoutesComponent implements IObservableAlive
         return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser, route);
     }
 
-    public onAssigned($event)
+    public onAssigned($event): void
     {
         const result = $event as AssignModalResult;
         if (result.assigned)
@@ -143,6 +143,16 @@ export class RoutesComponent implements IObservableAlive
     {
         this.routeFilter.branchId.value = event.target.value;
         this.getRoutesByBranch();
+    }
+
+    public sortExceptionCount($event): void {
+        console.log($event);
+    }
+
+    public filterCleanCount($event, col): void
+    {
+        console.log($event);
+        console.log(col);
     }
 
 }

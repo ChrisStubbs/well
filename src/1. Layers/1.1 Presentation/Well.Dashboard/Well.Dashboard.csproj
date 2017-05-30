@@ -257,7 +257,7 @@
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
-    <Content Include="app\routes\route-list.html" />
+    <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
     <Content Include="app\shared\action\actionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />

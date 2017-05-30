@@ -37,6 +37,8 @@
 
         public int CleanCount { get; set; }
 
+        public bool HasClean => CleanCount > 0;
+
         public string DriverName { get; set; }
 
         public string Assignee => ValueObjects.Assignee.GetDisplayNames(Assignees);

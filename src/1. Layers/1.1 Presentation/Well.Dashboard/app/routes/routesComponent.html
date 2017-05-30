@@ -61,7 +61,7 @@
                         </ng-template>
                     </p-column>
                     <p-column header="Stops" field="stopCount" [sortable]="true" [filter]="true" filterMatchMode="equals"></p-column>
-                    <p-column header="Status" field="routeStatusId" [sortable]="true" [filter]="true" filterMatchMode="equals">
+                    <p-column header="Status" field="routeStatus" [sortable]="true" [filter]="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchStatus"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
@@ -78,14 +78,31 @@
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="false"></p-column>
-                    <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true" filterMatchMode="equals">
+                    <p-column header="c" field="hasClean" [hidden]="true"></p-column>
+                    <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
+                        <ng-template pTemplate="filter" let-col>
+                            <select class="form-control" id="cleanFilterCtl"
+                                    (change)="dt.filter($event.target.value,'hasClean','equals')"
+                                    [ngModel]="routeFilter.hasClean ? routeFilter.hasClean.value : ''">
+                                <option *ngFor="let yesNoFilterItem of yesNoFilterItems" [value]="yesNoFilterItem[0]">
+                                    {{yesNoFilterItem[1]}}
+                                </option>
+                            </select>
+                        </ng-template>
+                        <ng-template let-route="rowData" pTemplate="body">
+                            <span>
+                                {{route.cleanCount}}
+                            </span>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="e" field="hasExceptions" [hidden]="true">  </p-column>
+                    <p-column header="Exceptions" field="exceptionCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="exceptionFilterCtl"
-                                    (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                    [ngModel]="routeFilter.exception ? routeFilter.exception.value : undefined">
-                                <option *ngFor="let exceptionFilterItem of exceptionFilterItems" [value]="exceptionFilterItem[0]">
-                                    {{exceptionFilterItem[1]}}
+                                    (change)="dt.filter($event.target.value,'hasExceptions','equals')"
+                                    [ngModel]="routeFilter.hasExceptions ? routeFilter.hasExceptions.value : ''">
+                                <option *ngFor="let yesNoFilterItem of yesNoFilterItems" [value]="yesNoFilterItem[0]">
+                                    {{yesNoFilterItem[1]}}
                                 </option>
                             </select>
                         </ng-template>

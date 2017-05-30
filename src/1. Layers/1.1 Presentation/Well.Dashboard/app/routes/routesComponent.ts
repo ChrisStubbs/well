@@ -1,22 +1,21 @@
-﻿import { ActivatedRoute } from '@angular/router';
-import { Component, ViewChild } from '@angular/core';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route } from './route';
-import { RouteFilter } from './routeFilter';
-import { RoutesService } from './routesService';
-import { RefreshService } from '../shared/refreshService';
-import { SecurityService } from '../shared/security/securityService';
-import { BranchService } from '../shared/branch/branchService';
-import { AppSearchParameters } from '../shared/appSearch/appSearch';
-import { DataTable } from 'primeng/primeng';
-import { AssignModel } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { AppDefaults } from '../shared/defaults/defaults';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
+﻿import { ActivatedRoute }                           from '@angular/router';
+import { Component, ViewChild }                     from '@angular/core';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { Route }                                    from './route';
+import { RouteFilter }                              from './routeFilter';
+import { RoutesService }                            from './routesService';
+import { RefreshService }                           from '../shared/refreshService';
+import { SecurityService }                          from '../shared/security/securityService';
+import { BranchService }                            from '../shared/branch/branchService';
+import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
+import { DataTable }                                from 'primeng/primeng';
+import { AssignModel, AssignModalResult }           from '../shared/components/components';
+import { Branch }                                   from '../shared/branch/branch';
+import { AppDefaults }                              from '../shared/defaults/defaults';
+import { IObservableAlive }                         from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
+import * as _                                       from 'lodash';
 import 'rxjs/Rx';
-import { AssignModalResult } from '../shared/assignModel';
-import * as _ from 'lodash';
 
 @Component({
     selector: 'ow-route',

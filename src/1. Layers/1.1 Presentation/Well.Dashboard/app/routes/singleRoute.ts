@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export interface SingleRoute
 {
     id: number;
@@ -28,6 +30,10 @@ export class SingleRouteItem
     public invoice: string;
     public jobType: string;
     public cod: string;
+    public get isCod(): boolean
+    {
+        return _.isNil(this.cod) || this.cod != '';
+    }
     public pod: boolean;
     public exceptions: number;
     public invoicedQty: number;
@@ -38,5 +44,5 @@ export class SingleRouteItem
     public jobStatusDescription: string;
     public jobStatus: number;
     public isSelected: boolean;
-
+    public account: string;
 }

@@ -23,8 +23,6 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" (click)="filter('All')" class="active"><a href="#All" aria-controls="jobs" role="tab" data-toggle="tab">All</a></li>
                         <li role="presentation" (click)="filter('Exception')"><a href="#exceptions" aria-controls="exceptions" role="tab" data-toggle="tab">Exceptions</a></li>
-                        <li role="presentation" (click)="filter('Approval')"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab">Approvals</a></li>
-                        <li role="presentation" (click)="filter('Resolve')"><a href="#resolved" aria-controls="resolved" role="tab" data-toggle="tab">Resolved</a></li>
                         <li class="pull-right">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
@@ -86,6 +84,11 @@
                             </div>
                         </ng-template>
                         <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
+                        <p-column header="Account" field="account" [filter]="true" filterMatchMode="contains" [style]="{'width': '9%'}">
+                            <ng-template pTemplate="header">
+                                <div>Account</div>
+                            </ng-template>
+                        </p-column>
                         <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [style]="{'width': '9%'}">
                             <ng-template pTemplate="header">
                                 <div>Invoice</div>
@@ -116,21 +119,14 @@
                                 </select>
                             </ng-template>
                         </p-column>
-                        <p-column header="COD" field="cod" [filter]="true" filterMatchMode="equals" [style]="{'width': '10%'}">
+                        <p-column [style]="{'width': '8%'}">
                             <ng-template pTemplate="header">
-                                <div>C.O.D.</div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="POD" field="pod" [filter]="true" filterMatchMode="equals" [style]="{'width': '7%'}">
-                            <ng-template pTemplate="header">
-                                <div>P.O.D.</div>
-                            </ng-template>
-                            <ng-template pTemplate="filter" let-col>
-                                <ow-selectYesNoFilter (filterClicked)="dt.filter($event, col.field, col.filterMatchMode)"></ow-selectYesNoFilter>
+                                <p>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></p>
+                                <p>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></p>
                             </ng-template>
                             <ng-template let-data="rowData" pTemplate="body">
                                 <div class="text-center">
-                                    <input type="checkbox" [checked]="data.pod" disabled title="">
+                                    <ow-account-flags [isCashOnDelivery]="data.isCod" [isProofOfDelivery]="data.pod"></ow-account-flags>
                                 </div>
                             </ng-template>
                         </p-column>

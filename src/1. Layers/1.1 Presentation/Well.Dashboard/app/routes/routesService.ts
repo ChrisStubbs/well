@@ -5,7 +5,7 @@ import { Route } from '../routes/route';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { HttpErrorService } from '../shared/httpErrorService';
 import { HttpService } from '../shared/httpService';
-import { SingleRoute } from './singleRoute';
+import {SingleRoute, SingleRouteItem} from './singleRoute';
 
 @Injectable()
 export class RoutesService
@@ -39,7 +39,19 @@ export class RoutesService
             const url = this.globalSettingsService.globalSettings.apiUrl + 'SingleRoute/' + routeId.toString();
 
             return this.http.get(url)
-                .map((response: Response) => <SingleRoute>response.json())
+                .map((response: Response) =>
+                {
+                    const obj: SingleRoute = <SingleRoute>response.json();
+
+                    const items: Array<SingleRouteItem> = obj.items.map(current =>
+                    {
+                        return Object.assign(new SingleRouteItem(), current);
+                    });
+
+                    obj.items = items;
+
+                    return obj;
+                })
                 .catch(e => this.httpErrorService.handleError(e));
     }
 }

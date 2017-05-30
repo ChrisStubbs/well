@@ -12,7 +12,7 @@ import { ExceptionDelivery } from './exceptionDelivery';
 import { ExceptionDeliveryService } from './exceptionDeliveryService';
 import { RefreshService } from '../shared/refreshService';
 import { HttpResponse } from '../shared/httpResponse';
-import { AssignModel } from '../shared/assignModel';
+import { AssignModel } from '../shared/components/components';
 import { ConfirmModal } from '../shared/confirmModal';
 import { IUser } from '../shared/iuser';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';

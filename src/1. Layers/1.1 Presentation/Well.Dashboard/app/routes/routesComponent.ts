@@ -143,15 +143,4 @@ export class RoutesComponent implements IObservableAlive
         this.routeFilter.branchId.value = event.target.value;
         this.getRoutesByBranch();
     }
-
-    public sortExceptionCount($event): void {
-        console.log($event);
-    }
-
-    public filterCleanCount($event, col): void
-    {
-        console.log($event);
-        console.log(col);
-    }
-
 }

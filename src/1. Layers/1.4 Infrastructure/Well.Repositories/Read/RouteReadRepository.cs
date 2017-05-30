@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Dapper;
+    using Domain.Enums;
     using Domain.ValueObjects;
 
     public class RouteReadRepository : IRouteReadRepository
@@ -40,7 +41,7 @@
             foreach (var route in readRoutes)
             {
                 route.Assignees = assignees.Where(x => x.RouteId == route.Id).ToList();
-                route.JobIds = jobIds.Where(x => x.RouteId == route.Id).Select(x => x.JobId).ToList();
+                route.JobIds = jobIds.Where(x => x.RouteId == route.Id && x.JobType != JobType.Documents).Select(x => x.JobId).ToList();
             }
 
             return readRoutes;

@@ -90,7 +90,8 @@ DECLARE  @JobStatus_Bypass INT = 8
 
 	SELECT 
 		s.RouteHeaderId as RouteId,
-		j.Id as JobId   		
+		j.Id as JobId,
+		j.JobTypeCode
 	FROM Stop s 
 	INNER JOIN
 		Job j on j.StopId = s.Id

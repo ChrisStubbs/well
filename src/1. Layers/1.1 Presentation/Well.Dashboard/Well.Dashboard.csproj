@@ -202,7 +202,6 @@
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionService.ts" />
-    <TypeScriptCompile Include="app\shared\assignModel.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefinedBundlerOrderer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -221,6 +220,10 @@
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <TypeScriptCompile Include="app\shared\components\accountFlagsComponent.ts" />
+    <TypeScriptCompile Include="app\shared\components\assignModal.ts" />
+    <TypeScriptCompile Include="app\shared\components\assignModel.ts" />
+    <TypeScriptCompile Include="app\shared\components\components.ts" />
     <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpers.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpersFunctions.ts" />
@@ -262,6 +265,8 @@
     <Content Include="app\shared\action\actionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
+    <Content Include="app\shared\components\accountFlagsComponent.html" />
+    <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="app\stops\stopComponent.html" />
     <Content Include="gulpfile.js" />
@@ -283,9 +288,7 @@
     <Content Include="app\seasonal_dates\seasonal-dates-remove-modal.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-view.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-edit-modal.html" />
-    <Content Include="app\shared\assign-modal.html" />
     <Content Include="app\shared\branch\branch-select.html" />
-    <Content Include="app\shared\accountFlagsComponent.html" />
     <Content Include="app\shared\contact-modal.html" />
     <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\confirmModal.html" />
@@ -486,9 +489,7 @@
     <Content Include="app\route_header\routeHeader.ts" />
     <Content Include="app\route_header\routeHeaderComponent.ts" />
     <Content Include="app\route_header\routeHeaderService.ts" />
-    <Content Include="app\shared\assignModal.ts" />
     <Content Include="app\shared\branch\branchCheckboxComponent.ts" />
-    <Content Include="app\shared\accountFlagsComponent.ts" />
     <Content Include="app\shared\contactModal.ts" />
     <Content Include="app\shared\creditItem.ts" />
     <Content Include="app\shared\logService.ts" />

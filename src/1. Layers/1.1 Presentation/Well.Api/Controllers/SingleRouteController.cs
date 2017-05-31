@@ -6,6 +6,8 @@
     using Mapper.Contracts;
     using Models;
     using Repositories.Contracts;
+    using System.Net.Http;
+    using System.Net;
 
     public class SingleRouteController : ApiController
     {
@@ -35,15 +37,18 @@
         public SingleRoute Get(int id)
         {
             var routeHeader = routeHeaderRepository.GetRouteHeaderById(id);
+
             if (routeHeader != null)
             {
                 var branches = branchRepository.GetAll().ToList();
                 var stops = stopRepository.GetStopByRouteHeaderId(id).ToList();
                 var jobs = jobRepository.GetByRouteHeaderId(id).ToList();
                 var assignees = assigneeRepository.GetByRouteHeaderId(id).ToList();
+
                 return mapper.Map(branches, routeHeader, stops, jobs, assignees);
             }
-            return null;       
+
+            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
         }
     }
 }

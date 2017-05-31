@@ -53,7 +53,7 @@
             return "Not found";
         }
 
-        [XmlElement("JobRef1")] // not sure we need this
+        [XmlElement("JobRef1")] // not sure we need this...neither do I
         public string SiteBunId { get; set; }
 
         [XmlElement("JobRef2")]
@@ -67,6 +67,9 @@
 
         [XmlIgnore]
         public int PhAccountId { get; set; }
+
+        [XmlIgnore]
+        public decimal CreditValue { get; set; }
 
         [XmlIgnore]
         public DateTime? OrderDate { get; set; }

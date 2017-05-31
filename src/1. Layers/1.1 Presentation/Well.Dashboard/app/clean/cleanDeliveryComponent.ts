@@ -5,7 +5,7 @@ import { GlobalSettingsService } from '../shared/globalSettings';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CleanDelivery } from './cleanDelivery';
 import { CleanDeliveryService } from './cleanDeliveryService';
-import { AssignModel } from '../shared/assignModel';
+import { AssignModel } from '../shared/components/components';
 import { DropDownItem } from '../shared/dropDownItem';
 import { ContactModal } from '../shared/contactModal';
 import { AccountService } from '../account/accountService';

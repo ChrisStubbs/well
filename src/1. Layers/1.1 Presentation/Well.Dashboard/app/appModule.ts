@@ -34,7 +34,6 @@ import { CleanPreferenceComponent } from './clean_preferences/cleanPreferenceCom
 import { CleanPreferenceAddModalComponent } from './clean_preferences/cleanPreferenceAddModalComponent';
 import { CleanPreferenceRemoveModalComponent } from './clean_preferences/cleanPreferenceRemoveModalComponent';
 import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
-import { AssignModal } from './shared/assignModal';
 import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
 import { OptionFilterComponent } from './shared/optionFilterComponent';
@@ -45,7 +44,9 @@ import { OrderByDatePipe } from './shared/orderByDatePipe';
 import { OrderByPipe } from './shared/orderByPipe';
 import { OutstandingPipe } from './shared/outstandingPipe';
 import { DeliverySelectionModal } from './route_header/delivery-selection-modal';
-import { AccountFlagsComponent } from './shared/accountFlagsComponent';
+
+import { AccountFlagsComponent, AssignModal } from './shared/components/components';
+
 import { OrderArrowComponent } from './shared/orderbyArrow';
 import { SeasonalDatesEditModalComponent } from './seasonal_dates/seasonalDatesEditModalComponent';
 import { SeasonalDatesAddModalComponent } from './seasonal_dates/seasonalDatesAddModalComponent';
@@ -90,7 +91,6 @@ import { DriverService } from './driver/driverService';
 import { DateComponent, SplitButtonComponent } from './shared/shared';
 import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
-import AppRoutes = require('./appRoutes');
 import { StopComponent } from './stops/stopComponent';
 import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
 import { ActionModal } from './shared/action/actionModal';
@@ -98,6 +98,7 @@ import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
 import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { LookupService } from './shared/services/lookupService';
+import AppRoutes = require('./appRoutes');
 
 @NgModule({
     declarations: [LoadingComponent,

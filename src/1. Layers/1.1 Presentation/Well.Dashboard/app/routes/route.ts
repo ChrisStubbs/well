@@ -11,6 +11,7 @@
     public exceptionCount: number;
     public cleanCount: number;
     public hasExceptions: boolean;
+    public hasClean: boolean;
     public driverName: string;
     public assignee: string;
     public jobIds: number[];

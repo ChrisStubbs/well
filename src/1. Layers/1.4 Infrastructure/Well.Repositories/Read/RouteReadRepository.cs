@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Dapper;
+    using Domain.Enums;
     using Domain.ValueObjects;
 
     public class RouteReadRepository : IRouteReadRepository
@@ -20,10 +21,11 @@
         }
 
 
-        public IEnumerable<Route> GetAllRoutes(string username)
+        public IEnumerable<Route> GetAllRoutesForBranch(int branchId,string username)
         {
             var routes = new List<Route>();
-            dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAll)
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAllForBranch)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
                     .AddParameter("username", username, DbType.String)
                     .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
 
@@ -39,7 +41,7 @@
             foreach (var route in readRoutes)
             {
                 route.Assignees = assignees.Where(x => x.RouteId == route.Id).ToList();
-                route.JobIds = jobIds.Where(x => x.RouteId == route.Id).Select(x => x.JobId).ToList();
+                route.JobIds = jobIds.Where(x => x.RouteId == route.Id && x.JobType != JobType.Documents).Select(x => x.JobId).ToList();
             }
 
             return readRoutes;

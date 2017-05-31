@@ -5,6 +5,6 @@
 
     public interface IStopStatusService
     {
-        string DetermineStatus(List<Job> jobs);
+        string DetermineStatus(IList<Job> jobs);
     }
 }

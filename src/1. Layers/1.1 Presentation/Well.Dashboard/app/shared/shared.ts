@@ -3,8 +3,6 @@ export * from './dateComponent';
 export * from './dropDownItem';
 export * from './security/securityService';
 export * from './globalSettings';
-export * from './assignModal';
-export * from './assignModel';
 export * from './baseDelivery';
 export * from './iuser';
 export * from './httpResponse';

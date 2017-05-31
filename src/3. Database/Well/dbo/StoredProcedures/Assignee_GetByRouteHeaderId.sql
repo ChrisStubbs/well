@@ -17,7 +17,6 @@ AS
 		UserJob uj ON uj.JobId = j.Id
 	INNER JOIN 
 		[User] jobUser ON uj.UserId = jobUser.Id
-
 	WHERE 
 		rh.IsDeleted = 0
 		AND

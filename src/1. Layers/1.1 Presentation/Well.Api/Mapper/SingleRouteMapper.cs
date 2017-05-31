@@ -12,7 +12,6 @@
     using Services.Contracts;
     using Branch = Domain.Branch;
 
-
     public class SingleRouteMapper : ISingleRouteMapper
     {
         private readonly IStopStatusService stopStatusService;
@@ -42,33 +41,54 @@
 
             foreach (var stop in stops)
             {
-                var stopJobs = jobs.Where(x => x.StopId == stop.Id).ToList();
+                var stopJobs = jobs
+                    .Select(p => new
+                    {
+                        obj = p,
+                        jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode)
+                    })
+                    .Where(p => p.jobType != JobType.Documents && p.obj.StopId == stop.Id)
+                    .Select(p => p.obj) //I should not do this but it's to much code to change with very little gain
+                    .ToList();
 
                 var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
+                var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);
+
+                var clean = stopJobDetails.GroupBy(p => p.IsClean())
+                    .Select(p => new { p.Key, count = p.Count() })
+                    .ToLookup(k => k.Key, v => v.count);
+
+                var stopExceptions = clean[false].Sum(p => p);
+                var stopClean = clean[true].Sum(p => p);
+                var status = stopStatusService.DetermineStatus(stopJobs);
+                var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
                 foreach (var job in stopJobs)
                 {
-                    var item = new SingleRouteItem();
-                    item.JobId = job.Id;
-                    item.StopId = job.StopId;
-                    item.Stop = stop.DropId;
-                    // item.StopStatus = stopStatusService.DetermineStatus(stopJobs);
-                    item.StopStatus = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
-                    item.StopExceptions = stopJobDetails.Count(x => !x.IsClean());
-                    item.StopClean = stopJobDetails.Count(x => x.IsClean());
-                    item.Tba = stopJobs.Sum(j => j.ToBeAdvisedCount);
-                    item.StopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
-                    item.Resolution = "TODO:";
-                    item.Invoice = job.InvoiceNumber;
-                    item.JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords();
-                    item.JobStatus = job.JobStatus;
-                    item.JobStatusDescription = jobStatuses[job.JobStatus];
-                    item.Cod = job.Cod;
-                    item.Pod = job.ProofOfDelivery.HasValue;
-                    item.Exceptions = job.JobDetails.Count(x => !x.IsClean());
-                    item.Clean = job.JobDetails.Count(x => x.IsClean());
-                    item.Credit = 0;  //TODO: Needs to come from Line Item Action
-                    item.Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList());
+                    var item = new SingleRouteItem
+                    {
+                        JobId = job.Id,
+                        StopId = job.StopId,
+                        Stop = stop.DropId,
+                        StopStatus = status,
+                        StopExceptions = stopExceptions,
+                        StopClean = stopClean,
+                        Tba = tba,
+                        StopAssignee = stopAssignee,
+                        Resolution = "TODO:", //TODO: we have to fix this
+                        Invoice = job.InvoiceNumber,
+                        JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords(),
+                        JobStatus = job.JobStatus,
+                        JobStatusDescription = jobStatuses[job.JobStatus],
+                        Cod = job.Cod,
+                        Pod = job.ProofOfDelivery.HasValue,
+                        Exceptions = job.JobDetails.Count(x => !x.IsClean()),
+                        Clean = job.JobDetails.Count(x => x.IsClean()),
+                        Credit = job.CreditValue,
+                        Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
+                        Account = job.PhAccount
+                    };
+
                     singleRoute.Items.Add(item);
                 }
             }

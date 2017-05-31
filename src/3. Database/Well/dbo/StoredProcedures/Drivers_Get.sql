@@ -4,5 +4,6 @@ AS
 		DriverName AS [Key],
 		[DriverName] AS Value
 	FROM 
-		RouteHeader	WHERE
+		RouteHeader	
+	WHERE
 		DriverName is not null

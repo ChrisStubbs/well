@@ -6,14 +6,12 @@ import { ActivatedRoute } from '@angular/router';
 import { AppDefaults } from '../shared/defaults/defaults';
 import * as _ from 'lodash';
 import { DataTable } from 'primeng/primeng';
-import { AssignModel, AssignModalResult } from '../shared/assignModel';
+import { AssignModel, AssignModalResult } from '../shared/components/components';
 import { Branch } from '../shared/branch/branch';
 import { SecurityService } from '../shared/security/securityService';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { IObservableAlive } from '../shared/IObservableAlive';
 import { SingleRouteItem } from './singleRoute';
-import { SplitButtonComponent } from '../shared/splitButtonComponent';
-import { ActionModal } from '../shared/action/actionModal';
 import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
@@ -48,12 +46,10 @@ export class SingleRouteComponent implements IObservableAlive
     private selectedAction: string;
 
     @ViewChild('dt') public grid: DataTable;
-    @ViewChild(SplitButtonComponent) private splitButtonComponent: SplitButtonComponent;
-    @ViewChild(ActionModal) private actionModal: ActionModal;
 
     private routeId: number;
     private isReadOnlyUser: boolean = false;
-    private actions: string[] = ['Credit']; /*['Close', 'Credit', 'Re-plan'];*/
+    private actions: string[] = ['Credit'];
     private allSingleRouteItems: Array<SingleRouteItem>;
 
     constructor(
@@ -78,7 +74,7 @@ export class SingleRouteComponent implements IObservableAlive
             {
                 this.singleRoute = data;
                 this.allSingleRouteItems = this.singleRoute.items;
-                this.singleRouteItems = _.filter(this.allSingleRouteItems);
+                this.singleRouteItems = this.allSingleRouteItems;
                 this.lastRefresh = Date.now();
             });
 
@@ -117,25 +113,10 @@ export class SingleRouteComponent implements IObservableAlive
     public getAssignModel(route: SingleRouteItem, level: string): AssignModel
     {
         const branch = { id: this.singleRoute.branchId } as Branch;
-        let jobs: number[];
-
-        /*this has an error and i can't solve it*/
-        /*
-        whenever the group is expanded and i click on the group assignee link what it's pass down to the other component
-        it's not the group object but the object of the first element in the group
-        */
-        if (level == 'group')
-        {
-            jobs = _.chain(this.allSingleRouteItems)
-                .filter((value: SingleRouteItem) => value.stop == route.stop)
-                .map('jobId')
-                .values();
-        }
-        else
-        {
-            jobs = [route.jobId] as number[];
-        }
-
+        const jobs = _.chain(this.allSingleRouteItems)
+            .filter((value: SingleRouteItem) => value.stop == route.stop)
+            .map('jobId')
+            .values();
         return new AssignModel(
             route.stopAssignee,
             branch,
@@ -147,24 +128,14 @@ export class SingleRouteComponent implements IObservableAlive
     public onAssigned(event: AssignModalResult): void
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+        const stops = _.filter(this.singleRouteItems,
+                    (value: SingleRouteItem) => value.stop == event.source.stop);
 
-        if (event.source.level == 'group')
+        _.map(stops, (value: SingleRouteItem) =>
         {
-            const stops = _.filter(this.singleRouteItems, (value: SingleRouteItem) => value.stop == event.source.stop);
-
-            _.map(stops, (value: SingleRouteItem) =>
-            {
-                value.assignee = userName;
-                value.stopAssignee = userName;
-            });
-        }
-        else
-        {
-            const job = _.filter(this.singleRouteItems,
-                (value: SingleRouteItem) => value.jobId == event.source.jobId)[0];
-
-            job.assignee = userName;
-        }
+            value.assignee = userName;
+            value.stopAssignee = userName;
+        });
     }
 
     public clearFilter(): void
@@ -173,7 +144,6 @@ export class SingleRouteComponent implements IObservableAlive
         this.grid.filters = {};
         this.grid.filter(undefined, undefined, undefined);
         _.map(this.singleRouteItems, current => current.isSelected = false);
-        this.splitButtonComponent.reset();
     }
 
     public totalPerGroup(perCol: string, stop: string): number
@@ -187,12 +157,12 @@ export class SingleRouteComponent implements IObservableAlive
 
     public selectStops(select: boolean, stop?: string): void
     {
-        let filterToApply = function (item: SingleRouteItem): boolean { return true; };
+        let filterToApply = (item: SingleRouteItem): boolean => true;
 
         if (!_.isNull(stop))
         {
             //if it is not null it means the user click on a group
-            filterToApply = function (item: SingleRouteItem): boolean { return item.stop == stop; };
+            filterToApply = (item: SingleRouteItem): boolean => item.stop == stop;
         }
 
         _.chain(this.singleRouteItems)
@@ -208,12 +178,12 @@ export class SingleRouteComponent implements IObservableAlive
 
     public allChildrenSelected(stop?: string): boolean
     {
-        let filterToApply = function (item: SingleRouteItem): boolean { return true; };
+        let filterToApply = (item: SingleRouteItem): boolean => true;
 
         if (!_.isNull(stop))
         {
             //if it is not null it means the user click on a group
-            filterToApply = function (item: SingleRouteItem): boolean { return item.stop == stop; };
+            filterToApply = (item: SingleRouteItem): boolean => item.stop == stop;
         }
 
         return _.every(

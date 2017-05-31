@@ -24,5 +24,6 @@
         public string JobStatusDescription { get; set; }
         public JobStatus JobStatus { get; set; }
         public int StopId { get; set; }
+        public string Account { get; set; }
     }
 }

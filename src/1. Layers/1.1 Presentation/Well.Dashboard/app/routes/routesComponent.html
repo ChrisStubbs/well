@@ -7,7 +7,6 @@
     <div class="content">
         <div class="row">
             <div class="col-md-6">
-               
             </div>
             <div class="col-md-6 pull-right">
                 <div class="pull-right">
@@ -25,23 +24,24 @@
                 <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
                              [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
                              #dt>
-                    <p-column header="Branch" field="branchId" [sortable]="true" filter="true">
+                    <p-column header="Branch" field="branchId" [sortable]="true" filter="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchBranch"
-                                    (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
+                                    (change)="refreshData($event)"
                                     [ngModel]="routeFilter.branchId ? routeFilter.branchId.value : ''">
                                 <option *ngFor="let branch of branches" [value]="branch[0] || '' ">
                                     {{ branch[1] }}
                                 </option>
                             </select>
                         </ng-template>
+                       
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
                                 {{route.branch}}
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Route" field="routeNumber" [sortable]="true" [filter]="true" >
+                    <p-column header="Route" field="routeNumber" [sortable]="true" [filter]="true" filterMatchMode="contains">
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
                                 <a routerLink="/singleroute/{{route.id}}" routerLinkActive="active">{{route.routeNumber}}</a>
@@ -56,12 +56,12 @@
                         </ng-template>
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
-                                {{route.routeDate | date:'dd/MM/yyyy' }}
+                                {{route.routeDate | date:'dd MMM yyyy' }}
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Stops" field="stopCount" [sortable]="true" [filter]="true"></p-column>
-                    <p-column header="Status" field="routeStatusId" [sortable]="true" [filter]="true">
+                    <p-column header="Stops" field="stopCount" [sortable]="true" [filter]="true" filterMatchMode="equals"></p-column>
+                    <p-column header="Status" field="routeStatus" [sortable]="true" [filter]="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchStatus"
                                     (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
@@ -78,18 +78,35 @@
                             </span>
                         </ng-template>
                     </p-column>
-                    <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="false"></p-column>
-                    <p-column header="Exceptions" field="hasExceptions" [sortable]="true" [filter]="true">
+                    <p-column header="c" field="hasClean" [hidden]="true"></p-column>
+                    <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
-                            <select class="form-control" id="exceptionFilterCtl"
-                                    [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value: ''"
-                                    (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)">
-                                <option *ngFor="let exceptionFilterItem of exceptionFilterItems" [value]="exceptionFilterItem[0]">
-                                    {{exceptionFilterItem[1]}}
+                            <select class="form-control" id="cleanFilterCtl"
+                                    (change)="dt.filter($event.target.value,'hasClean','equals')"
+                                    [ngModel]="routeFilter.hasClean ? routeFilter.hasClean.value : ''">
+                                <option *ngFor="let yesNoFilterItem of yesNoFilterItems" [value]="yesNoFilterItem[0]">
+                                    {{yesNoFilterItem[1]}}
                                 </option>
                             </select>
                         </ng-template>
-
+                        <ng-template let-route="rowData" pTemplate="body">
+                            <span>
+                                {{route.cleanCount}}
+                            </span>
+                        </ng-template>
+                    </p-column>
+                    <p-column header="e" field="hasExceptions" [hidden]="true">  </p-column>
+                    <p-column header="Exceptions" field="exceptionCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
+                        <ng-template pTemplate="filter" let-col>
+                            <select class="form-control" id="exceptionFilterCtl"
+                                    (change)="dt.filter($event.target.value,'hasExceptions','equals')"
+                                    [ngModel]="routeFilter.hasExceptions ? routeFilter.hasExceptions.value : ''">
+                                <option *ngFor="let yesNoFilterItem of yesNoFilterItems" [value]="yesNoFilterItem[0]">
+                                    {{yesNoFilterItem[1]}}
+                                </option>
+                            </select>
+                        </ng-template>
+                      
                         <ng-template let-route="rowData" pTemplate="body">
                             <span>
                                 {{route.exceptionCount}}
@@ -97,8 +114,8 @@
                         </ng-template>
 
                     </p-column>
-                    <p-column header="Driver" field="driverName" [sortable]="true" [filter]="true"></p-column>
-                    <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true">
+                    <p-column header="Driver" field="driverName" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                    <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true" filterMatchMode="contains">
                         <ng-template let-route="rowData" pTemplate="body">
                             <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
                         </ng-template>

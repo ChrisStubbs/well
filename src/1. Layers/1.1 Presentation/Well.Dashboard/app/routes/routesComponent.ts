@@ -1,26 +1,25 @@
-﻿import { ActivatedRoute } from '@angular/router';
-import { Component, ViewChild } from '@angular/core';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route } from './route';
-import { RouteFilter } from './routeFilter';
-import { RoutesService } from './routesService';
-import { RefreshService } from '../shared/refreshService';
-import { SecurityService } from '../shared/security/securityService';
-import { BranchService } from '../shared/branch/branchService';
-import { AppSearchParameters } from '../shared/appSearch/appSearch';
-import { DataTable } from 'primeng/primeng';
-import { AssignModel } from '../shared/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { AppDefaults } from '../shared/defaults/defaults';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
+﻿import { ActivatedRoute }                           from '@angular/router';
+import { Component, ViewChild }                     from '@angular/core';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { Route }                                    from './route';
+import { RouteFilter }                              from './routeFilter';
+import { RoutesService }                            from './routesService';
+import { RefreshService }                           from '../shared/refreshService';
+import { SecurityService }                          from '../shared/security/securityService';
+import { BranchService }                            from '../shared/branch/branchService';
+import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
+import { DataTable }                                from 'primeng/primeng';
+import { AssignModel, AssignModalResult }           from '../shared/components/components';
+import { Branch }                                   from '../shared/branch/branch';
+import { AppDefaults }                              from '../shared/defaults/defaults';
+import { IObservableAlive }                         from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
+import * as _                                       from 'lodash';
 import 'rxjs/Rx';
-import { AssignModalResult } from '../shared/assignModel';
-import * as _ from 'lodash';
 
 @Component({
     selector: 'ow-route',
-    templateUrl: './app/routes/route-list.html',
+    templateUrl: './app/routes/routesComponent.html',
     providers: [RoutesService]
 })
 export class RoutesComponent implements IObservableAlive
@@ -41,8 +40,8 @@ export class RoutesComponent implements IObservableAlive
     public rowsPerPageOptions = AppDefaults.Paginator.rowsPerPageOptions();
 
     private routeFilter: RouteFilter;
-    private exceptionFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
-
+    private yesNoFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
+    
     @ViewChild('dt') public dataTable: DataTable;
 
     constructor(
@@ -56,26 +55,31 @@ export class RoutesComponent implements IObservableAlive
 
     public ngOnInit()
     {
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams
             .takeWhile(() => this.isAlive)
             .subscribe(params =>
             {
                 this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
-                this.getRoutes();
-            });
 
-        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
-            .takeWhile(() => this.isAlive)
-            .subscribe(
-            (branches: Array<[string, string]>) =>
-            {
-                this.branches = branches;
-            });
+                this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(
+                    (branches: Array<[string, string]>) =>
+                    {
+                        this.branches = branches;
+                        if (!this.routeFilter.branchId.value)
+                        {
+                            this.routeFilter.branchId.value = branches[0][0];
+                        }
+                        this.getRoutesByBranch();
+                        this.refreshSubscription = this.refreshService.dataRefreshed$
+                            .subscribe(r => this.getRoutesByBranch());
+                    });
 
-        this.lookupService.get(LookupsEnum.JobStatus)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) => this.jobStatus = value);
+                this.lookupService.get(LookupsEnum.JobStatus)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe((value: Array<ILookupValue>) => this.jobStatus = value);
+            });
     }
 
     public ngOnDestroy()
@@ -84,27 +88,33 @@ export class RoutesComponent implements IObservableAlive
         this.refreshSubscription.unsubscribe();
     }
 
-    private getRoutes(): void
+    private getFilteredBranchId(): number
     {
-        this.routeService.getRoutes()
-            .takeWhile(() => this.isAlive)
-            .subscribe((result: Route[]) =>
-            {
-                this.routes = result;
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-                this.dataTable.filters = <any>this.routeFilter;
-            },
-            error =>
-            {
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-            });
+        return this.routeFilter.branchId.value as number;
+    }
+
+    private getRoutesByBranch(): void
+    {
+        const branchId =
+            this.routeService.getRoutesByBranch(this.getFilteredBranchId())
+                .takeWhile(() => this.isAlive)
+                .subscribe((result: Route[]) =>
+                {
+                    this.routes = result;
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                    this.dataTable.filters = <any>this.routeFilter;
+                },
+                error =>
+                {
+                    this.lastRefresh = Date.now();
+                    this.isLoading = false;
+                });
     }
 
     public clearFilters(): void
     {
-        this.routeFilter = new RouteFilter();
+        this.routeFilter = new RouteFilter(this.getFilteredBranchId());
         this.dataTable.filters = <any>this.routeFilter;
         this.dataTable.filter(undefined, undefined, undefined);
     }
@@ -115,7 +125,7 @@ export class RoutesComponent implements IObservableAlive
         return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser, route);
     }
 
-    public onAssigned($event)
+    public onAssigned($event): void
     {
         const result = $event as AssignModalResult;
         if (result.assigned)
@@ -126,5 +136,11 @@ export class RoutesComponent implements IObservableAlive
                 route.assignee = (result.newUser) ? result.newUser.name : 'Unallocated';
             }
         }
+    }
+
+    public refreshData(event): void
+    {
+        this.routeFilter.branchId.value = event.target.value;
+        this.getRoutesByBranch();
     }
 }

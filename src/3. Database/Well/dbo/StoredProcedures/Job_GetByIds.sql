@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[Job_GetByIds]
+﻿
+CREATE PROCEDURE [dbo].[Job_GetByIds]
 	@Ids dbo.IntTableType	READONLY
 AS
-BEGIN
 	SELECT j.[Id]
       ,j.[Sequence]
       ,j.[JobTypeCode]
@@ -40,11 +40,29 @@ BEGIN
 	  ,j.DetailOutersShort
 	  ,j.OuterDiscrepancyFound
 	  ,a.Id AS PhAccountId
+	  ,credit.CreditValue
 	FROM 
 		[dbo].[Job] j
 		INNER JOIN @Ids ids ON ids.Value = j.Id
 		INNER JOIN Stop AS s ON j.StopId = s.Id 
 		INNER JOIN Account a ON s.Id = a.StopId
+		LEFT JOIN
+		(
+			SELECT 
+				j.JobId, CONVERT(Decimal(18, 4), SUM(lia.Quantity * j.NetPrice)) AS CreditValue
+			FROM 
+				JobDetail j
+				INNER JOIN LineItem li
+					ON j.LineItemId = li.id
+				INNER JOIN LineItemAction lia
+					ON li.Id = lia.LineItemId
+				INNER JOIN DeliveryAction da
+					ON lia.DeliveryActionId = da.id
+					AND da.Description = 'Credit'
+			GROUP BY 
+				j.JobId
+		) credit
+			ON credit.JobId = j.Id
 
 	SELECT  d.Id, d.LineNumber, d.PHProductCode, d.OriginalDespatchQty, d.DeliveredQty, d.ProdDesc, d.OrderedQty, d.ShortQty, d.ShortsActionId, d.JobDetailReasonId, d.JobDetailSourceId, d.UnitMeasure, 
             d.PHProductType, d.PackSize, d.SingleOrOuter,d.SSCCBarcode, d.SubOuterDamageTotal, d.SkuGoodsValue, d.NetPrice, d.JobId, d.ShortsStatus, d.LineDeliveryStatus, d.IsHighValue, d.DateLife, d.IsDeleted, 
@@ -62,7 +80,3 @@ BEGIN
 			INNER JOIN JobDetail AS d ON j.Id = d.JobId 
 			INNER JOIN JobDetailDamage AS dd ON d.Id = dd.JobDetailId
 			INNER JOIN @Ids ids ON ids.Value = j.Id
-END
-
-GO
-

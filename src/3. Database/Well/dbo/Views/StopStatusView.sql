@@ -10,12 +10,13 @@ AS
 
 	WITH StatusForStops (StopId, AwaitingInvoice, Incomplete, Clean, Exception, Resolved, Documents, CompletedOnPaper, Bypassed, TotalNoOfJobs)
 		AS(
-			SELECT StopId, [1] AS AwaitingInvoice, [2] AS Incomplete, [3] AS Clean, [4] AS Exception, [5] AS Resolved, [6] AS Documents, [7] CompletedOnPaper, [8] AS Bypassed, ([1] + [2] + [3] + [4] + [5] + [6] + [7]) As TotalNoOfJobs 
+			SELECT StopId, ISNULL( [1], 0) AS AwaitingInvoice, ISNULL( [2], 0 ) AS Incomplete, ISNULL ([3], 0) AS Clean, ISNULL ([4], 0) AS Exception, ISNULL ([5], 0) AS Resolved, ISNULL ([6], 0) AS Documents, ISNULL ([7], 0) AS CompletedOnPaper, ISNULL ([8], 0) AS Bypassed, TotalJobs 
 			FROM
 				(SELECT s.Id AS StopId, j.JobStatusId AS JobStatusId , COUNT(j.JobStatusId) AS JobCount
+				,COUNT(j.Id)  OVER (PARTITION BY s.Id) AS TotalJobs
 				FROM [Stop] s
 				INNER JOIN Job j ON j.StopId = s.id
-				GROUP BY s.Id, j.JobStatusId)
+				GROUP BY s.Id, j.JobStatusId, j.id)
 			AS SourceTable
 			PIVOT
 				(SUM(JobCount)

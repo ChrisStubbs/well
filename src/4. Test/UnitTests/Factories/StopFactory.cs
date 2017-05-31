@@ -21,6 +21,7 @@
             this.Entity.StopStatusDescription = "something";
             this.Entity.StopByPassReason = "Some reason";
             this.Entity.Jobs = new List<Job>();
+            this.Entity.WellStatusId = 3;
 
             this.Entity.Account = new Account
             {

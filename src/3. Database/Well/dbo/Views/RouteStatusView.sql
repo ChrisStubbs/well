@@ -21,7 +21,7 @@
 		GROUP by rh.id, rh.RouteStatusCode
 		)
 
-	SELECT rh.id,
+	SELECT rh.id AS RouteHeaderId,
 		CASE
 			WHEN rjb.BypassJobCount = rjc.JobCount THEN 4  -- route is bypassed if all jobs are bypassed otherwise use the TranSend status for the route
 			WHEN rh.RouteStatusCode = 'NDEPA' THEN 1  -- not departed = planned

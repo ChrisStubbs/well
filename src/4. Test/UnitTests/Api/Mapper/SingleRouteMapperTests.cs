@@ -68,7 +68,6 @@
                     .Build();
 
                 var jobs = new List<Job> {job, job2};
-                stopStatusService.Setup(x => x.DetermineStatus(jobs)).Returns("Status Blah");
 
                 var assignees = new List<Assignee>
                 {
@@ -83,7 +82,7 @@
                 
                 Assert.That(item.JobId, Is.EqualTo(job.Id));
                 Assert.That(item.Stop, Is.EqualTo(stop.DropId));
-                Assert.That(item.StopStatus, Is.EqualTo("Status Blah"));
+                Assert.That(item.StopStatus, Is.EqualTo("Complete"));
                 Assert.That(item.StopExceptions, Is.EqualTo(2));
                 Assert.That(item.StopClean, Is.EqualTo(3));
                 Assert.That(item.Tba, Is.EqualTo(40));

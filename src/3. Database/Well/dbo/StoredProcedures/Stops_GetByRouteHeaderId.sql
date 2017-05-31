@@ -4,20 +4,22 @@
 AS
 
 SELECT 
-	   [Id]
-      ,[PlannedStopNumber]
-      ,[RouteHeaderId]
-      ,[DropId]
-      ,[LocationId]
-      ,[DeliveryDate]
-	  ,[ShellActionIndicator] 
-	  ,[AllowOvers] 
-	  ,[CustUnatt] 
-	  ,[PHUnatt] 
-	  ,[DateCreated]
-	  ,[IsDeleted]
+	   s.[Id]
+      ,s.[PlannedStopNumber]
+      ,s.[RouteHeaderId]
+      ,s.[DropId]
+      ,s.[LocationId]
+      ,s.[DeliveryDate]
+	  ,s.[ShellActionIndicator] 
+	  ,s.[AllowOvers] 
+	  ,s.[CustUnatt] 
+	  ,s.[PHUnatt] 
+	  ,s.[DateCreated]
+	  ,s.[IsDeleted]
+	  ,ssv.WellStatusId
 FROM 
-	  [dbo].[Stop]
+	  [dbo].[Stop] s
+INNER JOIN [dbo].[StopStatusView] ssv on ssv.StopId = s.Id
 WHERE 
 	  [RouteHeaderId] = @routeHeaderId
 

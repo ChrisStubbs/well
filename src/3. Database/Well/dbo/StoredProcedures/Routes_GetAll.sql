@@ -2,7 +2,6 @@
 	@UserName VARCHAR(500)
 AS
 BEGIN
-
 DECLARE  @JobStatus_Bypass INT = 8
 		,@JobStatus_Exception INT = 4
 		,@JobStatus_Clean INT = 3
@@ -52,7 +51,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 		   ,RouteNumber
 		   ,RouteDate
 		   ,PlannedStops AS StopCount
-		   ,RouteStatusDescription AS RouteStatus
+		   ,ws.DisplayName AS RouteStatus
 		   ,ISNULL(rec.ExceptionCount,0) AS ExceptionCount  -- count of stops with exceptions or bypassed
 		   ,ISNULL(rcc.CleanCount,0) AS CleanCount  -- count of stops with all clean
 		   ,DriverName
@@ -61,6 +60,8 @@ DECLARE  @JobStatus_Bypass INT = 8
 	INNER JOIN Branch b on rh.RouteOwnerId = b.Id
 	LEFT JOIN RouteExceptionCount rec ON rec.RouteHeaderId = rh.Id
 	LEFT JOIN RouteCleanCount rcc ON rcc.RouteHeaderId = rh.Id
+	LEFT JOIN RouteStatusView rsv ON rsv.RouteHeaderId = rh.Id
+	LEFT JOIN WellStatus ws ON ws.Id = rsv.RouteStatus
     WHERE 
 		rh.IsDeleted = 0
 		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)

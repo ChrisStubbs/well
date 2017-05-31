@@ -52,7 +52,8 @@
                     item.JobId = job.Id;
                     item.StopId = job.StopId;
                     item.Stop = stop.DropId;
-                    item.StopStatus = stopStatusService.DetermineStatus(stopJobs);
+                    // item.StopStatus = stopStatusService.DetermineStatus(stopJobs);
+                    item.StopStatus = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
                     item.StopExceptions = stopJobDetails.Count(x => !x.IsClean());
                     item.StopClean = stopJobDetails.Count(x => x.IsClean());
                     item.Tba = stopJobs.Sum(j => j.ToBeAdvisedCount);

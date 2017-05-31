@@ -13,7 +13,7 @@ SELECT a.Id
 , SUM(ExceptionCount)   AS TotalExceptions
 , ISNULL((SELECT  ExceptionCount FROM Exception WHERE ActivityId = a.Id and ExceptionTypeId = 1), 0) AS ShortExceptions 
 , ISNULL((SELECT  ExceptionCount FROM Exception WHERE ActivityId = a.Id and ExceptionTypeId = 2), 0) AS BypassExceptions
-, ISNULL((SELECT   ExceptionCount FROM Exception WHERE ActivityId = a.Id and ExceptionTypeId = 3), 0) AS DamageExceptions    
+, ISNULL((SELECT  ExceptionCount FROM Exception WHERE ActivityId = a.Id and ExceptionTypeId = 3), 0) AS DamageExceptions    
 FROM Activity a
 INNER JOIN Exception e on e.ActivityId = a.Id
 GROUP BY a.Id

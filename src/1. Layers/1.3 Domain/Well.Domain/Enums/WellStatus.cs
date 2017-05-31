@@ -16,10 +16,7 @@
         Complete = 3,
 
         [Description("Bypassed")]
-        Bypassed = 4,
-
-        [Description("In Progress")]
-        InProgress = 5,
+        Bypassed = 4
 
     }
 }

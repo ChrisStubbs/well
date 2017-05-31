@@ -9,6 +9,8 @@
         Driver,
         DeliveryAction,
         JobDetailSource,
-        JobDetailReason
+        JobDetailReason,
+        RouteStatus,
+        WellStatus
     }
 }

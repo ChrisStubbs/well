@@ -31,7 +31,7 @@ export class RoutesComponent implements IObservableAlive
     public lastRefresh = Date.now();
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
-    public jobStatus: Array<ILookupValue>;
+    public routeStatus: Array<ILookupValue>;
 
     public isAlive: boolean = true;
     private actions: string[] = ['Re-Plan'];
@@ -76,9 +76,9 @@ export class RoutesComponent implements IObservableAlive
                             .subscribe(r => this.getRoutesByBranch());
                     });
 
-                this.lookupService.get(LookupsEnum.JobStatus)
+                this.lookupService.get(LookupsEnum.RouteStatus)
                     .takeWhile(() => this.isAlive)
-                    .subscribe((value: Array<ILookupValue>) => this.jobStatus = value);
+                    .subscribe((value: Array<ILookupValue>) => this.routeStatus = value);
             });
     }
 

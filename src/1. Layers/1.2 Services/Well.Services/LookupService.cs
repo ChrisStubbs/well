@@ -46,6 +46,12 @@ namespace PH.Well.Services
                 case LookupType.JobDetailReason:
                     return this.GetJobDetailReason().OrderBy(x => x.Value).ToList();
 
+                case LookupType.RouteStatus:
+                    return this.GetRouteStatus().OrderBy(x => x.Value).ToList();
+
+                case LookupType.WellStatus:
+                    return this.GetWellStatus().OrderBy(x => x.Value).ToList();
+
                 default:
                     throw new ArgumentException($"{lookupType}");
             }
@@ -75,6 +81,18 @@ namespace PH.Well.Services
                 };
             return actions.Select(a =>
                 new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();
+        }
+
+        private IList<KeyValuePair<string, string>> GetRouteStatus()
+        {
+            return Enum<RouteStatus>.GetValuesAndDescriptions().Select(x =>
+                   new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+        }
+
+        private IList<KeyValuePair<string, string>> GetWellStatus()
+        {
+            return Enum<WellStatus>.GetValuesAndDescriptions().Select(x =>
+                   new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
         }
     }
 }

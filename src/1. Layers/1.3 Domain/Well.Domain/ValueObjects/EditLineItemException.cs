@@ -5,6 +5,10 @@
 
     public class EditLineItemException
     {
+        public EditLineItemException()
+        {
+            Exceptions = new List<EditLineItemExceptionDetail>();
+        }
         public int Id { get; set; }
         public string ProductNumber { get; set; }
         public string Product { get; set; }

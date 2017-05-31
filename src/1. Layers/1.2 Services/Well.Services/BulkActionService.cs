@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Transactions;
     using Common.Contracts;
     using Contracts;
     using Domain;
@@ -13,42 +14,83 @@
     {
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IUserNameProvider userNameProvider;
+        private readonly ICreditActionValidator creditActionValidator;
         private readonly IUserRepository userRepository;
 
         public BulkActionService(ILineItemActionRepository lineItemActionRepository,
                     IUserNameProvider userNameProvider,
-                    IUserRepository userRepository)
+                    ICreditActionValidator creditActionValidator)
         {
             this.lineItemActionRepository = lineItemActionRepository;
             this.userNameProvider = userNameProvider;
-            this.userRepository = userRepository;
+            this.creditActionValidator = creditActionValidator;
         }
 
         public BulkActionResults ApplyAction(BulkActionModel bulkAction)
         {
             var results = new BulkActionResults();
+            var validator = GetValidator(bulkAction.Action);
 
-            if (bulkAction.Action == DeliveryAction.NotDefined)
+            if (validator != null)
             {
-                results.ResultSummary = "No Action Supplied";
+                results = validator.ValidateAction(bulkAction);
+
+                if (results.IsActionValid)
+                {
+                    results = validator.ValidateItems(bulkAction);
+
+                    var canActionResults = results.Items.Where(x => x.CanAction).ToArray();
+
+                    if (canActionResults.Any())
+                    {
+                        var itemsToAction = lineItemActionRepository.GetByIds(canActionResults.Select(x => x.JobDetailActionId).ToArray());
+
+                        using (var transactionScope = new TransactionScope())
+                        {
+                            foreach (var item in itemsToAction)
+                            {
+                                item.DeliveryAction = bulkAction.Action;
+                                lineItemActionRepository.Update(item);
+                                //TODO: How and when do we resolve a Job?
+                            }
+                            transactionScope.Complete();
+                        }
+                    }
+                    
+                    //results = AddNoMatchingLineItemActionWarnings(bulkAction, lineItemActions, results);
+                    //results = ValidateActionItems(bulkAction, lineItemActions, results);
+                }
+                
                 return results;
             }
 
-            var validateUserWarning = ValidateUserForCrediting();
-            if (!string.IsNullOrEmpty(validateUserWarning))
-            {
-                results.ResultSummary = validateUserWarning;
-                return results;
-            }
-
-            var lineItemActions = lineItemActionRepository.GetByIds(bulkAction.JobDetailActionIds);
-            results = AddNoMatchingLineItemActionWarnings(bulkAction, lineItemActions, results);
-
-            results = ValidateActionItems(bulkAction, lineItemActions, results);
-            //TODO: Need top complete validation and do the save
+            results.ResultSummary = $"No Validator found for Action {bulkAction.Action} vour action has not been completed";
+            results.IsActionValid = false;
 
             return results;
+
         }
+
+        public IActionValidator GetValidator(DeliveryAction deliveryAction)
+        {
+            //TODO: Move this to its own factory class
+            switch (deliveryAction)
+            {
+                case DeliveryAction.NotDefined:
+                    break;
+                case DeliveryAction.Credit:
+                    return creditActionValidator;
+                case DeliveryAction.MarkAsBypassed:
+                    break;
+                case DeliveryAction.MarkAsDelivered:
+                    break;
+                default:
+                    break;
+            }
+            return null;
+        }
+
+
 
         private BulkActionResults ValidateActionItems(BulkActionModel bulkAction, IList<LineItemAction> lineItemActions, BulkActionResults results)
         {
@@ -90,20 +132,7 @@
             return false;
         }
 
-        private BulkActionResults AddNoMatchingLineItemActionWarnings(BulkActionModel bulkAction, IList<LineItemAction> lineItemActions, BulkActionResults results)
-        {
-            var items = bulkAction.JobDetailActionIds.Where(id => lineItemActions.All(x => x.Id != id));
-
-            results.Results.AddRange(items.Select(id => new BulkActionResult
-            {
-                JobDetailActionId = id,
-                Message = $"JobDetailActionId {id} does not exist",
-                Type = BulkActionResultType.Error,
-                CanAction = false
-            }));
-
-            return results;
-        }
+        
 
         private string ValidateUserForCrediting()
         {

@@ -8,10 +8,12 @@
     {
         public BulkActionResults()
         {
-            Results = new List<BulkActionResult>();
+            Items = new List<BulkActionResult>();
         }
-        public List<BulkActionResult> Results { get; set; }
+        public List<BulkActionResult> Items { get; set; }
         public string ResultSummary { get; set; }
+
+        public bool IsActionValid { get; set; }
 
         //public bool HasWarnings => Results.Any(x => x.Type == BulkActionResultType.Warning);
         //public bool HasErrors => Results.Any(x => x.Type == BulkActionResultType.Error);

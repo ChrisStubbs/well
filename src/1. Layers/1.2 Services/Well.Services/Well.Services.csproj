@@ -56,6 +56,7 @@
     <Compile Include="BulkActionService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
+    <Compile Include="Contracts\IActionValidator.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
     <Compile Include="Contracts\IWellUpdateService.cs" />
     <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="UserThresholdNotFoundException.cs" />
     <Compile Include="UserNotFoundException.cs" />
     <Compile Include="UserThresholdService.cs" />
+    <Compile Include="Validators\CreditActionValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">

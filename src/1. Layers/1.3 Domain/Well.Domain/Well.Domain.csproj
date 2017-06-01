@@ -103,9 +103,9 @@
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
-    <Compile Include="ValueObjects\BulkActionModel.cs" />
-    <Compile Include="ValueObjects\BulkActionResult.cs" />
-    <Compile Include="ValueObjects\BulkActionResults.cs" />
+    <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
+    <Compile Include="ValueObjects\SubmitActionModel.cs" />
+    <Compile Include="ValueObjects\SubmitActionResult.cs" />
     <Compile Include="ValueObjects\EditLineItemException.cs" />
     <Compile Include="ValueObjects\LineItemActionUpdate.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />

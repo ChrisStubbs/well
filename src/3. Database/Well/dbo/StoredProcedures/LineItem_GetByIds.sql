@@ -17,6 +17,7 @@ AS
 		,li.CreatedDate as  DateCreated
 		,li.LastUpdatedBy as UpdatedBy
 		,li.LastUpdatedDate as DateUpdated
+		,jd.JobId
 	FROM LineItem li
 	INNER JOIN JobDetail jd ON jd.LineItemId = li.Id 
 	INNER JOIN @Ids ids ON ids.Value = li.Id

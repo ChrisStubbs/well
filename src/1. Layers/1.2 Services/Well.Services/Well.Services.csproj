@@ -53,10 +53,10 @@
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
-    <Compile Include="BulkActionService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\IActionValidator.cs" />
+    <Compile Include="Contracts\IDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
     <Compile Include="Contracts\IWellUpdateService.cs" />
     <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
@@ -85,8 +85,9 @@
     <Compile Include="Contracts\IAppSearchService.cs" />
     <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="Contracts\ILineItemActionService.cs" />
-    <Compile Include="Contracts\IBulkActionService.cs" />
-    <Compile Include="JobDetailToDeliveryLineCreditMapper.cs" />
+    <Compile Include="Contracts\ISubmitActionService.cs" />
+    <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />
+    <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobStatusService.cs" />
     <Compile Include="EpodServices\AdamImportService.cs" />
@@ -102,10 +103,10 @@
     <Compile Include="LookupService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopStatusService.cs" />
+    <Compile Include="SubmitActionService.cs" />
     <Compile Include="UserThresholdNotFoundException.cs" />
     <Compile Include="UserNotFoundException.cs" />
     <Compile Include="UserThresholdService.cs" />
-    <Compile Include="Validators\CreditActionValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">

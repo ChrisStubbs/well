@@ -377,6 +377,7 @@
     <Build Include="dbo\Views\JobStatusView.sql" />
     <Build Include="dbo\Views\StopStatusView.sql" />
     <Build Include="dbo\Views\RouteStatusView.sql" />
+    <Build Include="dbo\StoredProcedures\UserJobs_GetbyJobIds.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

@@ -7,6 +7,8 @@
     using Common.Extensions;
     using Contracts;
     using Domain;
+    using Domain.Enums;
+    using Domain.ValueObjects;
 
     public class LineItemActionRepository : DapperRepository<LineItemAction, int>, ILineItemActionRepository
     {
@@ -42,11 +44,16 @@
             return GetByIds(new[] { id }).SingleOrDefault();
         }
 
-        public IList<LineItemAction> GetByIds(int[] ids)
+        public IList<LineItemAction> GetByIds(IEnumerable<int> ids)
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionGetByIds)
                 .AddParameter("Ids", ids.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .Query<LineItemAction>().ToList();
+        }
+
+        public IList<LineItemActionSubmitModel> GetLineItemsWithUnsubmittedActions(IEnumerable<int> submitActionJobIds, DeliveryAction submitActionAction)
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override void UpdateExisting(LineItemAction entity)

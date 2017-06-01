@@ -8,6 +8,7 @@
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Services;
     using Well.Domain;
+    using Well.Services.Mappers;
 
     [TestFixture]
     public class JobDetailToDeliveryLineCreditMapperTests

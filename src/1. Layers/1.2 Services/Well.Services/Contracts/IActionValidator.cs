@@ -2,14 +2,18 @@
 {
     using Domain.ValueObjects;
 
-    public interface ICreditActionValidator : IActionValidator
+    public interface ISubmitCreditActionValidator : IActionValidator
     {
         
     }
 
+    public interface IActionNotDefinedValidator: IActionValidator
+    {
+
+    }
+
     public interface IActionValidator
     {
-        BulkActionResults ValidateAction(BulkActionModel bulkAction);
-        BulkActionResults ValidateItems(BulkActionModel bulkAction);
+        SubmitActionResult ValidateAction(SubmitActionModel action);
     }
 }

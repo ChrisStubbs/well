@@ -121,6 +121,7 @@
         public static string CreditJob = "Job_CreditLines";
         public static string RemovePendingCredit = "RemovePendingCredit";
         public static string UserGetCreditThreshold = "User_GetCreditThreshold";
+        public static string GetUserJobsByJobIds = "UserJobs_GetbyJobIds";
         public static string GetBranchIdForJob = "GetBranchIdForJob";
         public static string GetBranchIdForStop = "GetBranchIdForStop";
 

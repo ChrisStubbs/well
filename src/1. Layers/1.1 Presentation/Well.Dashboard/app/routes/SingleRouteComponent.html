@@ -112,8 +112,9 @@
                                 <div>Job Status</div>
                             </ng-template>
                             <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchStatus" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
-                                    <option *ngFor="let status of jobStatus" [value]="status.key">
+                                <select class="form-control" id="searchStatus" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let status of wellStatus" [value]="status.key">
                                         {{ status.value }}
                                     </option>
                                 </select>

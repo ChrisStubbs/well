@@ -40,7 +40,7 @@ export class SingleRouteComponent implements IObservableAlive
     public isAlive: boolean = true;
     public rowCount = AppDefaults.Paginator.rowCount();
     public jobTypes: Array<ILookupValue>;
-    public jobStatus: ILookupValue[];
+    public wellStatus: ILookupValue[];
     public podFilter: boolean;
     public lastRefresh = Date.now();
     private selectedAction: string;
@@ -80,13 +80,13 @@ export class SingleRouteComponent implements IObservableAlive
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
-            this.lookupService.get(LookupsEnum.JobStatus)
+            this.lookupService.get(LookupsEnum.WellStatus)
         )
             .takeWhile(() => this.isAlive)
             .subscribe(res =>
             {
                 this.jobTypes = res[0];
-                this.jobStatus = res[1];
+                this.wellStatus = res[1];
             });
 
         this.isReadOnlyUser = this.securityService
@@ -101,7 +101,7 @@ export class SingleRouteComponent implements IObservableAlive
             return;
         }
 
-        this.singleRouteItems = _.filter(this.allSingleRouteItems, { jobStatusDescription: value });
+        this.singleRouteItems = _.filter(this.allSingleRouteItems, { wellStatusDescription: value });
         this.clearFilter();
     }
 

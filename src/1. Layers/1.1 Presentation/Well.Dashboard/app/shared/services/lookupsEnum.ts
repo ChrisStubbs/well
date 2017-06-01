@@ -7,5 +7,8 @@ export enum LookupsEnum
     JobDetailReason,
     JobStatus,
     JobType,
-    Driver
+    Driver,
+    RouteStatus,
+    WellStatus
+
 }

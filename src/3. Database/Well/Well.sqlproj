@@ -378,10 +378,12 @@
     <Build Include="dbo\Views\StopStatusView.sql" />
     <Build Include="dbo\Views\RouteStatusView.sql" />
     <Build Include="dbo\StoredProcedures\UserJobs_GetbyJobIds.sql" />
+    <Build Include="dbo\Tables\RouteStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
+    <None Include="Post-Deployement\Populate-RouteStatus.sql" />
     <None Include="Post-Deployement\Populate-HolidayExceptions.sql" />
     <None Include="Post-Deployement\Populate-CustomerRoyalty.sql" />
     <None Include="Post-Deployement\Populate-PODCreditActions.sql" />

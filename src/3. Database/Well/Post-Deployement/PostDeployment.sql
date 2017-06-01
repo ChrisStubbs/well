@@ -39,3 +39,4 @@ Post-Deployment Script Template
 :r .\Populate-DeliveryAction.sql
 :r .\Populate-JobStatus.sql
 :r .\Populate-WellStatus.sql
+:r .\Populate-RouteStatus.sql

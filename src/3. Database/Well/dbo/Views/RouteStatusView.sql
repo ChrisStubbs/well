@@ -25,7 +25,7 @@
 		CASE
 			WHEN rjb.BypassJobCount = rjc.JobCount THEN 4  -- route is bypassed if all jobs are bypassed otherwise use the TranSend status for the route
 			WHEN rh.RouteStatusCode = 'NDEPA' THEN 1  -- not departed = planned
-			WHEN  rh.RouteStatusCode = 'INPRO' THEN 5 -- in progress
+			WHEN  rh.RouteStatusCode = 'INPRO' THEN 2 -- in progress
 			WHEN  rh.RouteStatusCode = 'COMPL' THEN 3 -- complete
 		END AS RouteStatus
 	FROM RouteHeader rh

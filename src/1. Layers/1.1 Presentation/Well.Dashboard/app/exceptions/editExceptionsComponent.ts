@@ -11,16 +11,15 @@ import 'rxjs/add/operator/mergeMap';
     selector: 'ow-editExceptions',
     templateUrl: './app/exceptions/editExceptionsComponent.html',
     providers: [LookupService, EditExceptionsService, CurrencyPipe],
-    styles: ['.groupRow { display: flex} ' +
-        '.groupRow div { display: table-cell; padding-right: 9px; padding-left: 9px} ' +
-        '.group1{ width: 9%} ' +
-        '.group2{ width: 9%} ' +
-        '.group3{ width: 7%; text-align: right} ' +
+    styles: ['.group1{ width: 3%} ' +
+        '.group2{ width: 6%} ' +
+        '.group3{ width: 9%} ' +
         '.group4{ width: 7%; text-align: right} ' +
         '.group5{ width: 7%; text-align: right} ' +
-        '.group6{ width: 47%} ' +
-        '.group7{ width: 14%} ' +
-        '.group8{ width: 38px; text-align: right; padding-right: 2px }']
+        '.group6{ width: 7%; text-align: right} ' +
+        '.group7{ width: 47%} ' +
+        '.group8{ width: 14%} ' +
+        '.group9{ width: 38px; text-align: right; padding-right: 2px }']
 })
 export class EditExceptionsComponent implements IObservableAlive
 {
@@ -137,18 +136,30 @@ export class EditExceptionsComponent implements IObservableAlive
         this.closeBtn.nativeElement.click();
     }
 
-    private mergeNewException(data: Array<EditLineItemException>)
+    private mergeNewException(data: EditLineItemException)
     {
         //the server is sending back all the exceptions for this lineitem
         //so first thing i need to do is;
         //remove existing lineItem
-        _.remove(this.source, current => current.id == data[0].id);
+        let isExpanded: boolean = false;
+        _.remove(this.source, current =>
+        {
+
+            if (current.id == data.id)
+            {
+                isExpanded = current.isExpanded;
+                return true;
+            }
+
+            return false;
+        });
 
         //now re-add it
-        _.map(data, current => this.source.push(current));
+        data.isExpanded = isExpanded;
+        this.source.push(data);
     }
 
-    private exceptionSaved(data: Array<EditLineItemException>): void
+    private exceptionSaved(data: EditLineItemException): void
     {
         this.closeAddExceptionModal();
         this.mergeNewException(data);
@@ -162,6 +173,23 @@ export class EditExceptionsComponent implements IObservableAlive
     public selectedItems(): Array<EditLineItemException>
     {
         return _.filter(this.source, x => x.isSelected);
+    }
+
+    public areAllExpanded(): boolean
+    {
+        let value: boolean = true;
+
+        _.forEach(this.source, current => value = value && current.isExpanded);
+
+        return value;
+    }
+
+    public expandGroup(event: any): void
+    {
+        const action: boolean = !this.areAllExpanded();
+
+        _.map(this.source, current => current.isExpanded = action);
+        event.preventDefault();
     }
 
     public getActionSummaryData(): string

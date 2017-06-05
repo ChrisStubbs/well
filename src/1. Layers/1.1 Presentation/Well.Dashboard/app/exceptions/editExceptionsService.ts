@@ -4,7 +4,7 @@ import { GlobalSettingsService }               from '../shared/globalSettings';
 import { HttpErrorService }                    from '../shared/httpErrorService';
 import { HttpService }                         from '../shared/httpService';
 import { Observable }                          from 'rxjs';
-import { EditLineItemException }              from './editLineItemException';
+import { EditLineItemException }               from './editLineItemException';
 import { LineItemAction }                      from './lineItemAction';
 import 'rxjs/add/operator/map';
 

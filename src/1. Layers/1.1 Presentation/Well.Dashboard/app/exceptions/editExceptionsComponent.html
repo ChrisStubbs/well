@@ -39,136 +39,72 @@
     <div class="col-lg-12">&nbsp;</div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        <p-dataTable [value]="source" groupField="id" expandableRowGroups="rowspan"
-                     sortField="product" [sortableRowGroup]="false"
-                     rowGroupMode="subheader" #dt>
-            <ng-template pTemplate="rowgroupheader" let-rowData>
-                <div class="groupRow">
-                    <div class="group1">{{rowData.productNumber}}</div>
-                    <div class="group2">{{rowData.product}}</div>
-                    <div class="group3">{{totalPerGroup('invoiced', rowData.id)}}</div>
-                    <div class="group4">{{totalPerGroup('delivered', rowData.id)}}</div>
-                    <div class="group5">{{totalPerGroup('quantity', rowData.id)}}</div>
-                    <div class="group6"></div>
-                    <div class="group7"><button class="btn btn-default" type="button" (click)="addException(rowData)" data-toggle="modal" data-target="#exceptionsmodal">Add Exception</button></div>
-                    <div class="group8"><input type="checkbox" [checked]="allChildrenSelected(rowData.id)" (change)="selectLineItens($event.target.checked, rowData.id)" /></div>
-                </div>
-            </ng-template>
-            <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
-            <p-column header="Originator" field="originator" [style]="{'width': '8%'}">
-                <ng-template pTemplate="header">
-                    <div>Originator</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-            <p-column header="Exception" field="exception" [style]="{'width': '9%'}" [filter]="true" filterMatchMode="contains">
-                <ng-template pTemplate="header">
-                    <div>Exception</div>
-                </ng-template>
-                <ng-template pTemplate="filter" let-col>
-                    <select class="form-control" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode)" title="">
-                        <option value>All</option>
-                        <option *ngFor="let et of exceptionTypes" [value]="et.value">{{et.value}}</option>
-                    </select>
-                </ng-template>
-            </p-column>
-            <p-column header="Invoiced" field="invoiced" [style]="{'width': '7%'}">
-                <ng-template pTemplate="header">
-                    <div>Invoiced</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-                <ng-template let-data="rowData" pTemplate="body">
-                    <div class="text-right">
-                        <span>{{ data.invoiced }}</span>
-                    </div>
-                </ng-template></p-column>
-            <p-column header="Delivered" field="delivered" [style]="{'width': '7%'}">
-                <ng-template pTemplate="header">
-                    <div>Delivered</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-                <ng-template let-data="rowData" pTemplate="body">
-                    <div class="text-right">
-                        <span>{{ data.delivered }}</span>
-                    </div>
-                </ng-template></p-column>
-            <p-column header="Action" field="action" [style]="{'width': '6%'}">
-                <ng-template pTemplate="header">
-                    <div>Action</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-            <p-column header="Source" field="source" [style]="{'width': '8%'}">
-                <ng-template pTemplate="header">
-                    <div>Source</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-            <p-column header="Quantity" field="quantity" [style]="{'width': '7%'}">
-                <ng-template pTemplate="header">
-                    <div>Quantity</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-                <ng-template let-data="rowData" pTemplate="body">
-                    <div class="text-right">
-                        <span>{{ data.quantity }}</span>
-                    </div>
-                </ng-template>
-            </p-column>
-            <p-column header="Reason" field="reason" [style]="{'width': '11%'}">
-                <ng-template pTemplate="header">
-                    <div>Reason</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-            <p-column header="Actioned By" field="actionedBy" [style]="{'width': '11%'}">
-                <ng-template pTemplate="header">
-                    <div>Actioned By</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-            <p-column header="Approver" field="approveBy" [style]="{'width': '11%'}">
-                <ng-template pTemplate="header">
-                    <div>Approver</div>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-            <p-column [style]="{'width':'4%'}" field="selected">
-                <ng-template pTemplate="header">
-                    <div class="text-center">
-                        <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectLineItems($event.target.checked, null)" >
-                    </div>
-                </ng-template>
-                <ng-template let-data="rowData" pTemplate="body">
+    <div class="table-responsive table-container col-md-12">
+        <table class="table table-hover table-striped" >
+            <thead>
+                <tr>
+                    <th class="colExpandAll" style="width: 3%">
+                        <a href="#" (click)="expandGroup($event)">
+                            <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
+                            <ng-template #allExpended>
+                                <span class="fa fa-arrow-circle-down"></span>
+                            </ng-template>
+                            <ng-template #notAllExpanded>
+                                <span class="fa fa-arrow-circle-right"></span>
+                            </ng-template>
+                        </a>
+                    </th>
+                    <th style="width: 8%">Originator</th>
+                    <th style="width: 9%">Exception</th>
+                    <th style="width: 6%">Action</th>
+                    <th style="width: 8%">Source</th>
+                    <th style="width: 7%">Quantity</th>
+                    <th style="width: 11%">Reason</th>
+                    <th style="width: 11%">Actioned By</th>
+                    <th style="width: 11%">Approver</th>
+                    <th style="width: 4%; text-align: right"></th>
+                </tr>
+            </thead>
+            <tbody  *ngFor="let item of source">
+                <tr class="info">
+                    <td colspan="10">
+                        <div class="groupRow">
+                            <div class="group1">
+                                <a href="#" (click)="item.isExpanded = !item.isExpanded; $event.preventDefault()">
+                                    <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
+                                </a>
+                            </div>
+                            <div class="group2">{{item.productNumber}}</div>
+                            <div class="group3">{{item.product}}</div>
+                            <div class="group4">{{totalPerGroup('invoiced', item.id)}}</div>
+                            <div class="group5">{{totalPerGroup('delivered', item.id)}}</div>
+                            <div class="group6">{{totalPerGroup('quantity', item.id)}}</div>
+                            <div class="group7"></div>
+                            <div class="group8"><button class="btn btn-default" type="button" (click)="addException({lineItemId: item.id})" data-toggle="modal" data-target="#exceptionsmodal">Add Exception</button></div>
+                            <div class="group9">
+                                <input type="checkbox" [checked]="allChildrenSelected(item.id)" (change)="selectLineItens($event.target.checked, item.id)" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngFor="let detail of item.exceptions" [style.display]="item.isExpanded ? 'table-row' : 'none'">
+                    <td colspan="2">{{detail.originator}}</td>
+                    <td>{{detail.exception}}</td>
+                    <td>{{detail.action}}</td>
+                    <td>{{detail.source}}</td>
+                    <td>{{detail.quantity}}</td>
+                    <td>{{detail.reason}}</td>
+                    <td>{{detail.actionedby}}</td>
+                    <td>{{detail.approvedby}}</td>
+                    <td style="width: 4%; text-align: right">
                         <span>
-                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(data, $event)" title="Edit" data-toggle="modal" data-target="#exceptionsmodal"></a>
-                            <input type="checkbox" [(ngModel)]="data.isSelected" title="">
+                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(detail, $event)" title="Edit" data-toggle="modal" data-target="#exceptionsmodal"></a>
+                            <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
                         </span>
-                </ng-template>
-                <ng-template pTemplate="filter">
-                    <div>&nbsp;</div>
-                </ng-template>
-            </p-column>
-        </p-dataTable>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="row">&nbsp;</div>

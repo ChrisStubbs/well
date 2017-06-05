@@ -29,29 +29,14 @@
             return result;
         }
 
-        public IList<EditLineItemException> Post(LineItemActionUpdate update)
+        public EditLineItemException Post(LineItemActionUpdate update)
         {
-            IList<EditLineItemException> exceptions = null;
-
-            if (update != null)
-            {
-                var lineItem = lineItemActionService.InsertLineItemActions(update);
-                exceptions = lineItemExceptionMapper.Map(new[] { lineItem }).ToList();
-            }
-            return exceptions;
+            return lineItemExceptionMapper.Map(new[] { lineItemActionService.InsertLineItemActions(update) }).First();
         }
 
-        public IList<EditLineItemException> Put(LineItemActionUpdate update)
+        public EditLineItemException Put(LineItemActionUpdate update)
         {
-            IList<EditLineItemException> exceptions = null;
-
-            if (update != null)
-            {
-                var lineItem = lineItemActionService.UpdateLineItemActions(update);
-                exceptions = lineItemExceptionMapper.Map(new[] { lineItem }).ToList();
-            }
-            return exceptions;
+            return lineItemExceptionMapper.Map(new[] { lineItemActionService.UpdateLineItemActions(update) }).First();
         }
-
     }
 }

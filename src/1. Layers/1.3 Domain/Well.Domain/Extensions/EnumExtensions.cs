@@ -30,7 +30,7 @@
         public static T GetValueFromDescription<T>(string description)
         {
             var type = typeof(T);
-            if (!type.IsEnum) throw new InvalidOperationException();
+            if (!type.IsEnum) throw new ArgumentException();
             foreach (var field in type.GetFields())
             {
                 var attribute = Attribute.GetCustomAttribute(field,

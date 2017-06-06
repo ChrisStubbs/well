@@ -5,6 +5,7 @@ AS
 		j.Id
 		,j.Sequence
 		,j.JobTypeCode
+		,jb.Description AS JobType
 		,j.PHAccount
 		,j.PickListRef
 		,j.InvoiceNumber

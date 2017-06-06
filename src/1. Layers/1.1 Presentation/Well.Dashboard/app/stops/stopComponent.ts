@@ -8,7 +8,7 @@ import { AssignModel, AssignModalResult }           from '../shared/components/a
 import { Branch }                                   from '../shared/branch/branch';
 import { SecurityService }                          from '../shared/security/securityService';
 import { GlobalSettingsService }                    from '../shared/globalSettings';
-import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
+import { ILookupValue}                              from '../shared/services/services';
 import { AccountService }                           from '../account/accountService';
 import { ContactModal }                             from '../shared/contactModal';
 import {  GridHelpersFunctions }                    from '../shared/gridHelpers/gridHelpers';
@@ -16,7 +16,7 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
 @Component({
     selector: 'ow-stop',
     templateUrl: './app/stops/stopComponent.html',
-    providers: [LookupService, StopService, AccountService],
+    providers: [StopService, AccountService],
     styles: ['.group1{ width: 3%; line-height: 30px; } ' +
     '.group2{ width: 12%; line-height: 26px; } ' +
     '.groupType{ width: 20%; } ' +
@@ -40,7 +40,7 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
 export class StopComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    public jobTypes: Array<ILookupValue>;
+    public jobTypes: Array<ILookupValue> = [];
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
@@ -62,7 +62,6 @@ export class StopComponent implements IObservableAlive
     private inputFilterTimer: any;
 
     constructor(
-        private lookupService: LookupService,
         private stopService: StopService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
@@ -92,11 +91,25 @@ export class StopComponent implements IObservableAlive
                     .uniqWith((one: [string, string], another: [string, string]) =>
                     one[0] == another[0] && one[1] == another[1])
                     .value();
-            });
 
-        this.lookupService.get(LookupsEnum.JobType)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) => this.jobTypes = value);
+                _.chain(data.items)
+                    .map((current: StopItem) =>
+                    {
+                        return current.type + ' (' + current.jobTypeAbbreviation + ')'
+                    })
+                    .uniq()
+                    .map((current: string) =>
+                    {
+                        this.jobTypes.push(
+                        {
+                            key: current,
+                            value: current
+                        });
+
+                        return current;
+                    })
+                    .value()
+            });
 
         this.filters = new StopFilter();
         this.isReadOnlyUser = this.securityService

@@ -43,6 +43,9 @@
         public string JobTypeCode { get; set; }
 
         [XmlIgnore]
+        public string JobType { get; set; }
+
+        [XmlIgnore]
         public string JobTypeAbbreviation { get; set; }
 
         [XmlElement("JobType_Code")]

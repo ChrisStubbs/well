@@ -60,7 +60,6 @@
 
                 var stopExceptions = clean[false].Sum(p => p);
                 var stopClean = clean[true].Sum(p => p);
-                //  var status = stopStatusService.DetermineStatus(stopJobs);
                 var status = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 

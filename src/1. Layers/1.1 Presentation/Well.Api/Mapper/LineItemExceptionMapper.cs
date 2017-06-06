@@ -5,6 +5,8 @@
     using Domain;
     using Domain.Extensions;
     using Domain.ValueObjects;
+    using PH.Well.Domain.Enums;
+    using System.Linq;
 
     public class LineItemExceptionMapper : ILineItemExceptionMapper
     {
@@ -23,25 +25,23 @@
                     Invoiced = line.OriginalDespatchQuantity,
                     Delivered = line.DeliveredQuantity,
                 };
-
-                foreach (var action in line.LineItemActions)
-                {
-                    var editLineItemExceptionDetail = new EditLineItemExceptionDetail
+                
+                editLineItemException.Exceptions = line.LineItemActions
+                    .Select(action => new EditLineItemExceptionDetail
                     {
-                        Originator = EnumExtensions.GetDescription(action.Originator),
-                        Exception = EnumExtensions.GetDescription(action.ExceptionType),
+                        Id = action.Id,
+                        LineItemId = action.LineItemId,
+                        Originator = action.Originator.Description(),
+                        Exception = action.ExceptionType.Description(),
                         Quantity = action.Quantity,
-                        Source = EnumExtensions.GetDescription(action.Source),
-                        Reason = EnumExtensions.GetDescription(action.Reason),
+                        Source = action.Source.Description(),
+                        Reason = action.Reason.Description(),
                         Erdd = action.ReplanDate,
                         ActionedBy = action.ActionedBy,
                         ApprovedBy = action.ApprovedBy
 
-                    };
-
-                    editLineItemException.Exceptions.Add(editLineItemExceptionDetail);
-
-                }
+                    })
+                    .ToList();
 
                 result.Add(editLineItemException);
             }

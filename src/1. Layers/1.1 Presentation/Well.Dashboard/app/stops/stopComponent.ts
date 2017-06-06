@@ -8,7 +8,7 @@ import { AssignModel, AssignModalResult }           from '../shared/components/a
 import { Branch }                                   from '../shared/branch/branch';
 import { SecurityService }                          from '../shared/security/securityService';
 import { GlobalSettingsService }                    from '../shared/globalSettings';
-import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
+import { ILookupValue}                              from '../shared/services/services';
 import { AccountService }                           from '../account/accountService';
 import { ContactModal }                             from '../shared/contactModal';
 import {  GridHelpersFunctions }                    from '../shared/gridHelpers/gridHelpers';
@@ -16,10 +16,11 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
 @Component({
     selector: 'ow-stop',
     templateUrl: './app/stops/stopComponent.html',
-    providers: [LookupService, StopService, AccountService],
+    providers: [StopService, AccountService],
     styles: ['.group1{ width: 3%; line-height: 30px; } ' +
     '.group2{ width: 12%; line-height: 26px; } ' +
-    '.group3{ width: 44% } ' +
+    '.groupType{ width: 20%; line-height: 26px; } ' +
+    '.group3{ width: 24% } ' +
     '.group4{ width: 6%; text-align: right; line-height: 26px; } ' +
     '.group5{ width: 6%; text-align: right; line-height: 26px; } ' +
     '.group6{ width: 6%; text-align: right; line-height: 26px; } ' +
@@ -39,7 +40,7 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
 export class StopComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
-    public jobTypes: Array<ILookupValue>;
+    public jobTypes: Array<ILookupValue> = [];
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
@@ -61,7 +62,6 @@ export class StopComponent implements IObservableAlive
     private inputFilterTimer: any;
 
     constructor(
-        private lookupService: LookupService,
         private stopService: StopService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
@@ -91,11 +91,25 @@ export class StopComponent implements IObservableAlive
                     .uniqWith((one: [string, string], another: [string, string]) =>
                     one[0] == another[0] && one[1] == another[1])
                     .value();
-            });
 
-        this.lookupService.get(LookupsEnum.JobType)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: Array<ILookupValue>) => this.jobTypes = value);
+                _.chain(data.items)
+                    .map((current: StopItem) =>
+                    {
+                        return current.type + ' (' + current.jobTypeAbbreviation + ')'
+                    })
+                    .uniq()
+                    .map((current: string) =>
+                    {
+                        this.jobTypes.push(
+                        {
+                            key: current,
+                            value: current
+                        });
+
+                        return current;
+                    })
+                    .value()
+            });
 
         this.filters = new StopFilter();
         this.isReadOnlyUser = this.securityService
@@ -239,6 +253,11 @@ export class StopComponent implements IObservableAlive
                 item.accountID = singleItem.accountID
                 item.jobId = singleItem.jobId;
                 item.items = current;
+                item.types = _.chain(current)
+                    .map('jobTypeAbbreviation')
+                    .uniq()
+                    .join(', ')
+                    .value();
 
                 values[singleItem.jobId] = item;
             })
@@ -321,5 +340,6 @@ class StopItemSource
     public account: string;
     public accountID: number;
     public jobId: number;
+    public types: string;
     public items: Array<StopItem>;
 }

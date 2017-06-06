@@ -94,6 +94,23 @@
         }
 
         [Test]
+        public void ShouldIgnoreDocumentens()
+        {
+            var job = new JobFactory()
+                        .With(x => x.JobTypeCode = "DEL-DOC")
+                        .Build();
+
+            var stopModel = mapper.Map(
+                branches, 
+                routeHeader, 
+                new StopFactory().Build(), 
+                new List<Job> { job }, 
+                new List<Assignee>());
+
+            Assert.That(stopModel.Items.Count, Is.EqualTo(0));
+        }
+
+        [Test]
         public void ShouldMapToStopModelItems()
         {
             var stop = new StopFactory().Build();
@@ -118,6 +135,8 @@
                         .With(x => x.Id = 2545)
                         .With(x => x.InvoiceNumber = "INVNO1")
                         .With(x => x.JobTypeCode = "DEL-TOB")
+                        .With(x => x.JobType = "Tobacco")
+                        .With(x => x.JobTypeAbbreviation = "test")
                         .With(x => x.PhAccount = "PHAcccountNo")
                         .With(x => x.JobDetails = jobDetails1)
                         .WithTotalShort(10)
@@ -130,6 +149,7 @@
             Assert.That(item.JobId, Is.EqualTo(2545));
             Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
             Assert.That(item.Type, Is.EqualTo("Tobacco"));
+            Assert.That(item.JobTypeAbbreviation, Is.EqualTo("test"));
             Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));
             Assert.That(item.JobDetailId, Is.EqualTo(jobDetails1[0].Id));
             Assert.That(item.Product, Is.EqualTo("PHProdCode"));
@@ -140,7 +160,7 @@
             Assert.That(item.Damages, Is.EqualTo(11));
             Assert.That(item.Shorts, Is.EqualTo(22));
             Assert.That(item.Checked, Is.True);
-            Assert.That(item.HighValue,Is.True);
+            Assert.That(item.HighValue, Is.True);
             Assert.That(item.BarCode, Is.EqualTo("12478459554678952"));
         }
     }

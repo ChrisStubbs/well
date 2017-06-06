@@ -1,8 +1,8 @@
-﻿import { Component, Input, ViewChild, EventEmitter, Output, ElementRef }    from '@angular/core';
+import { Component, Input, ViewChild, EventEmitter, Output }                from '@angular/core';
 import { NgForm }                                                           from '@angular/forms';
 import { IObservableAlive }                                                 from '../shared/IObservableAlive';
 import { LookupService, ILookupValue, LookupsEnum }                         from '../shared/services/services';
-import { EditLineItemException }                                           from './editLineItemException';
+import { EditLineItemException, EditLineItemExceptionDetail }               from './editLineItemException';
 import { LineItemAction }                                                   from './lineItemAction';
 import { EditExceptionsService }                                            from './editExceptionsService';
 import * as _                                                               from 'lodash';
@@ -15,14 +15,14 @@ import { Observable }                                                       from
 })
 export class EditExceptionsModal implements IObservableAlive
 {
-    private mItem: EditLineItemException;
-    @Input() public set item(value: EditLineItemException)
+    private mItem: EditLineItemExceptionDetail;
+    @Input() public set item(value: EditLineItemExceptionDetail)
     {
         this.mItem = value;
         this.mapToLineItemAction(value);
     };
 
-    public get item(): EditLineItemException
+    public get item(): EditLineItemExceptionDetail
     {
         return this.mItem;
     }
@@ -90,17 +90,17 @@ export class EditExceptionsModal implements IObservableAlive
         }
     }
 
-    private mapToLineItemAction(ex: EditLineItemException): void
+    private mapToLineItemAction(ex: EditLineItemExceptionDetail): void
     {
         if (!_.isNil(ex))
         {
             this.fillLookups();
 
-            this.lineItemAction.id = ex.lineItemActionId;
-            this.lineItemAction.lineItemId = ex.id;
+            this.lineItemAction.id = ex.id;
+            this.lineItemAction.lineItemId = ex.lineItemId;
             this.lineItemAction.deliverAction = this.findKeyByValue(this.deliveryActions, ex.action);
             this.lineItemAction.exceptionType = this.findKeyByValue(this.exceptionTypes, ex.exception);
-            this.lineItemAction.quantity = ex.quantity;
+            this.lineItemAction.quantity = ex.quantity | 0;
             this.lineItemAction.source = this.findKeyByValue(this.sources, ex.source);
             this.lineItemAction.reason = this.findKeyByValue(this.reasons, ex.reason);
         }

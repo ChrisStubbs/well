@@ -43,7 +43,6 @@ export class SingleRouteComponent implements IObservableAlive
     public wellStatus: ILookupValue[];
     public podFilter: boolean;
     public lastRefresh = Date.now();
-    private selectedAction: string;
 
     @ViewChild('dt') public grid: DataTable;
 
@@ -51,6 +50,9 @@ export class SingleRouteComponent implements IObservableAlive
     private isReadOnlyUser: boolean = false;
     private actions: string[] = ['Credit'];
     private allSingleRouteItems: Array<SingleRouteItem>;
+    private selectedAction: string;
+    private filterJobType: string;
+    private filterJobStatus: string;
 
     constructor(
         private lookupService: LookupService,
@@ -144,6 +146,8 @@ export class SingleRouteComponent implements IObservableAlive
         this.grid.filters = {};
         this.grid.filter(undefined, undefined, undefined);
         _.map(this.singleRouteItems, current => current.isSelected = false);
+        this.filterJobType = undefined;
+        this.filterJobStatus = undefined;
     }
 
     public totalPerGroup(perCol: string, stop: string): number

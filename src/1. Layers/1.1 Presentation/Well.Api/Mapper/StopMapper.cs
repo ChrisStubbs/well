@@ -41,32 +41,41 @@
                 var jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
 
                 List<JobDetail> jobDetails = job.JobDetails;
-                 
+
                 if (jobType == JobType.Tobacco)
                 {
-                    jobDetails = job.JobDetails.Where(x => x.PhProductCode.Length != LengthOfBarcode).ToList();
+                    jobDetails = job.JobDetails
+                        .Where(x => x.PhProductCode.Length != LengthOfBarcode)
+                        .ToList();
+                }
+                else if (jobType == JobType.Documents)
+                {
+                    continue;
                 }
 
                 foreach (var line in jobDetails)
                 {
-                    var item = new StopModelItem();
-                    item.JobId = job.Id;
-                    item.Invoice = job.InvoiceNumber;
-                    item.Type = jobType.ToString();
-                    item.Account = job.PhAccount;
-                    item.AccountID = job.PhAccountId;
-                    item.JobDetailId = line.Id;
-                    item.Product = line.PhProductCode;
-                    item.Description = line.ProdDesc;
-                    item.Value = line.SkuGoodsValue;
-                    item.Invoiced = line.OriginalDespatchQty;
-                    item.Delivered = line.DeliveredQty;
-                    item.Damages = line.JobDetailDamages.Sum(x => x.Qty);
-                    item.Shorts = line.ShortQty;
-                    item.Checked = line.IsChecked;
-                    item.HighValue = line.IsHighValue;
-                    item.BarCode = line.SSCCBarcode;
-                    item.LineItemId = line.LineItemId;
+                    var item = new StopModelItem()
+                    {
+                        JobId = job.Id,
+                        Invoice = job.InvoiceNumber,
+                        Type = job.JobType,
+                        JobTypeAbbreviation = job.JobTypeAbbreviation,
+                        Account = job.PhAccount,
+                        AccountID = job.PhAccountId,
+                        JobDetailId = line.Id,
+                        Product = line.PhProductCode,
+                        Description = line.ProdDesc,
+                        Value = line.SkuGoodsValue,
+                        Invoiced = line.OriginalDespatchQty,
+                        Delivered = line.DeliveredQty,
+                        Damages = line.JobDetailDamages.Sum(x => x.Qty),
+                        Shorts = line.ShortQty,
+                        Checked = line.IsChecked,
+                        HighValue = line.IsHighValue,
+                        BarCode = line.SSCCBarcode,
+                        LineItemId = line.LineItemId
+                    };
                     stopModel.Items.Add(item);
                 }
             }

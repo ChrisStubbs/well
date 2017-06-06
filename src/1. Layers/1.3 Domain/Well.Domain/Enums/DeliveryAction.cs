@@ -16,7 +16,5 @@
         [Description("Mark as Delivered")]
         MarkAsDelivered = 3,
 
-       
-
     }
 }

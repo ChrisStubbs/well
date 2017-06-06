@@ -16,28 +16,21 @@
         {
             System.Reflection.FieldInfo enumMember = enumConstant.GetType().GetField(enumConstant.ToString());
 
-            try
-            {
-                var descriptionAttribute =
-                    enumMember.GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false) as System.ComponentModel.DescriptionAttribute[];
+            var descriptionAttribute =
+                enumMember.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 
-                if (descriptionAttribute != null && descriptionAttribute.Length > 0)
-                {
-                    return descriptionAttribute[0].Description;
-                }
-
-                return enumConstant.ToString().SplitCapitalisedWords();
-            }
-            catch (Exception ex)
+            if (descriptionAttribute != null && descriptionAttribute.Length > 0)
             {
-                return ex.Message + ": Occured in Enum.cs (GetDescription)";
+                return descriptionAttribute[0].Description;
             }
+
+            return enumConstant.ToString().SplitCapitalisedWords();
         }
 
         public static T GetValueFromDescription<T>(string description)
         {
             var type = typeof(T);
-            if (!type.IsEnum) throw new InvalidOperationException();
+            if (!type.IsEnum) throw new ArgumentException();
             foreach (var field in type.GetFields())
             {
                 var attribute = Attribute.GetCustomAttribute(field,

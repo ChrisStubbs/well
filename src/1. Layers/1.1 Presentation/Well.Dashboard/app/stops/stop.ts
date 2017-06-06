@@ -27,6 +27,7 @@ export class StopItem
 
     public jobId: number;
     public type: string;
+    public jobTypeAbbreviation: string;
     public invoice: string;
     public account: string;
     public accountID: number;
@@ -103,7 +104,7 @@ export class StopFilter implements IFilter
         {
             case 'product':
             case 'description':
-                return  GridHelpersFunctions.startsWithFilter;
+                return  GridHelpersFunctions.containsFilter;
 
             case 'type':
             case 'barCode':

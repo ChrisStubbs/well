@@ -13,6 +13,7 @@ namespace PH.Well.Api.DependencyResolution
     using Repositories.Read;
     using Services.DeliveryActions;
     using Services.EpodServices;
+    using Services.Mappers;
     using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
@@ -82,6 +83,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
             For<ISingleRouteMapper>().Use<SingleRouteMapper>();
             For<IStopMapper>().Use<StopMapper>();
+            For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
@@ -109,7 +111,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ILookupService>().Use<LookupService>();
             For<ILookupRepository>().Use<LookupRepository>();
 
-            For<IBulkActionService>().Use<BulkActionService>();
+            For<ISubmitActionService>().Use<SubmitActionService>();
         }
     }
 }

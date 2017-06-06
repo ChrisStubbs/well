@@ -15,6 +15,7 @@
             this.JobDetails = new List<JobDetail>();
             this.EntityAttributes = new List<EntityAttribute>();
             this.EntityAttributeValues = new List<EntityAttributeValue>();
+            
         }
 
         [XmlIgnore]
@@ -40,6 +41,12 @@
 
         [XmlElement("JobTypeCode")]
         public string JobTypeCode { get; set; }
+
+        [XmlIgnore]
+        public string JobType { get; set; }
+
+        [XmlIgnore]
+        public string JobTypeAbbreviation { get; set; }
 
         [XmlElement("JobType_Code")]
         public string JobTypeCodeTransend { get; set; }

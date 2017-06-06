@@ -1,5 +1,7 @@
 ﻿SET IDENTITY_INSERT JobType ON
 
+DELETE JobType
+
 MERGE INTO JobType AS Target
 USING	(VALUES	(1,'DEL-TOB','Tobacco', 'Tob', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(2,'DEL-AMB','Ambient', 'Amb', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),

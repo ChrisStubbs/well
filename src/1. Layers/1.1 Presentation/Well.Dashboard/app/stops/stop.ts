@@ -104,7 +104,7 @@ export class StopFilter implements IFilter
         {
             case 'product':
             case 'description':
-                return  GridHelpersFunctions.startsWithFilter;
+                return  GridHelpersFunctions.containsFilter;
 
             case 'type':
             case 'barCode':

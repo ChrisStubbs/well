@@ -16,7 +16,19 @@
         Complete = 3,
 
         [Description("Bypassed")]
-        Bypassed = 4
+        Bypassed = 4,
+
+        [Description("Route Planned")]
+        RoutePlanned = 5,
+
+        [Description("Route In Progress")]
+        RouteInProgress = 6,
+
+        [Description("Route Complete")]
+        RouteComplete = 7,
+
+        [Description("Route Bypassed")]
+        RouteBypassed = 4
 
     }
 }

@@ -29,4 +29,7 @@ WHEN NOT MATCHED BY TARGET THEN
 	INSERT (Id, Code, Description, Abbreviation, ActivityTypeId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)
 	VALUES (Id, Code, Description, Abbreviation, ActivityTypeId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate);
 
+ALTER TABLE JobType
+ALTER COLUMN Abbreviation Char(3) NOT NULL
+
 SET IDENTITY_INSERT JobType OFF

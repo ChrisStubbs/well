@@ -60,6 +60,7 @@
                         JobId = job.Id,
                         Invoice = job.InvoiceNumber,
                         Type = jobType.ToString(),
+                        JobTypeAbbreviation = job.JobTypeAbbreviation,
                         Account = job.PhAccount,
                         AccountID = job.PhAccountId,
                         JobDetailId = line.Id,

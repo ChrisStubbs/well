@@ -28,5 +28,23 @@ WHEN NOT MATCHED BY TARGET THEN
 	INSERT ([Id],[Code],[Description],[ActivityTypeId],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	VALUES ([Id],[Code],[Description],[ActivityTypeId],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate]);
 
+UPDATE JobType
+SET Abbreviation = Data.Abbreviation 
+FROM 
+(
+	SELECT 1 AS Id, 'Tob' AS Abbreviation UNION ALL
+	SELECT 2, 'Amb' UNION ALL 
+	SELECT 3, 'Alc' UNION ALL
+	SELECT 4, 'Chi' UNION ALL
+	SELECT 5, 'Frz' UNION ALL
+	SELECT 6, 'Doc' UNION ALL
+	SELECT 7, 'USD' UNION ALL
+	SELECT 8, 'UGL' UNION ALL
+	SELECT 9, 'USA' UNION ALL
+	SELECT 10,'UST' UNION ALL
+	SELECT 11, ''
+) Data
+WHERE
+	Data.Id = JobType.Id
 
 SET IDENTITY_INSERT [JobType] OFF

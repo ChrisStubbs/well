@@ -172,6 +172,9 @@
                                                 </a>
                                             </div>
                                             <div class="group2">Invoice: {{item.invoice}}</div>
+                                            <div class="groupType">
+                                                Type: {{item.types}}
+                                            </div>
                                             <div class="group3">
                                                 Account: {{item.account}}
                                                 <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>

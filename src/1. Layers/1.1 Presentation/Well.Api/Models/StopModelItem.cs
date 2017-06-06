@@ -5,6 +5,7 @@
         public int JobId { get; set; }
         public string Invoice { get; set; }
         public string @Type { get; set; }
+        public string JobTypeAbbreviation { get; set; }
         public string Account { get; set; }
         public int AccountID { get; set; }
         public int JobDetailId { get; set; }

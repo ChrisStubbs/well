@@ -1,51 +1,56 @@
-﻿
-CREATE PROCEDURE [dbo].[Job_GetByIds]
+﻿CREATE PROCEDURE [dbo].[Job_GetByIds]
 	@Ids dbo.IntTableType	READONLY
 AS
-	SELECT j.[Id]
-      ,j.[Sequence]
-      ,j.[JobTypeCode]
-      ,j.[PHAccount]
-      ,j.[PickListRef]
-      ,j.[InvoiceNumber]
-      ,j.[CustomerRef]
-      ,j.[OrderDate]
-	  ,j.[RoyaltyCode]
-	  ,j.[RoyaltyCodeDesc] 
-	  ,j.[OrdOuters] 
-	  ,j.[InvOuters] 
-	  ,j.[ColOuters] 
-	  ,j.[ColBoxes] 
-	  ,j.[ReCallPrd] 
-	  ,j.[AllowSOCrd] 
-	  ,j.[COD] 
-	  ,j.[GrnNumber] 
-	  ,j.[GrnRefusedReason] 
-	  ,j.[GrnRefusedDesc] 
-	  ,j.[AllowReOrd] 
-	  ,j.[SandwchOrd] 
-	  ,j.[PerformanceStatusId] as PerformanceStatus
-	  ,j.[Reason]
-	  ,j.[IsDeleted]
-      ,j.[StopId]
-      ,j.[CreatedBy]
-      ,j.[DateCreated]
-      ,j.[UpdatedBy]
-      ,j.[DateUpdated]
-      ,j.[Version]
-	  ,j.[JobStatusId] as JobStatus
-	  ,j.ProofOfDelivery
-	  ,j.GrnProcessType
-	  ,j.TotalOutersShort
-	  ,j.DetailOutersShort
-	  ,j.OuterDiscrepancyFound
-	  ,a.Id AS PhAccountId
-	  ,credit.CreditValue
+	SELECT 
+		j.Id
+		,j.Sequence
+		,j.JobTypeCode
+		,j.PHAccount
+		,j.PickListRef
+		,j.InvoiceNumber
+		,j.CustomerRef
+		,j.OrderDate
+		,j.RoyaltyCode
+		,j.RoyaltyCodeDesc 
+		,j.OrdOuters 
+		,j.InvOuters 
+		,j.ColOuters 
+		,j.ColBoxes 
+		,j.ReCallPrd 
+		,j.AllowSOCrd 
+		,j.COD 
+		,j.GrnNumber 
+		,j.GrnRefusedReason 
+		,j.GrnRefusedDesc 
+		,j.AllowReOrd 
+		,j.SandwchOrd 
+		,j.PerformanceStatusId as PerformanceStatus
+		,j.Reason
+		,j.IsDeleted
+		,j.StopId
+		,j.CreatedBy
+		,j.DateCreated
+		,j.UpdatedBy
+		,j.DateUpdated
+		,j.Version
+		,j.JobStatusId as JobStatus
+		,j.ProofOfDelivery
+		,j.GrnProcessType
+		,j.TotalOutersShort
+		,j.DetailOutersShort
+		,j.OuterDiscrepancyFound
+		,a.Id AS PhAccountId
+		,credit.CreditValue
+		,jb.Abbreviation AS JobTypeAbbreviation
 	FROM 
-		[dbo].[Job] j
+		dbo.Job j
 		INNER JOIN @Ids ids ON ids.Value = j.Id
-		INNER JOIN Stop AS s ON j.StopId = s.Id 
-		INNER JOIN Account a ON s.Id = a.StopId
+		INNER JOIN Stop AS s 
+			ON j.StopId = s.Id 
+		INNER JOIN Account a 
+			ON s.Id = a.StopId
+		LEFT JOIN JobType jb
+			ON j.JobTypeCode = jb.Code
 		LEFT JOIN
 		(
 			SELECT 

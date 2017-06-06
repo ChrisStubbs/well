@@ -19,7 +19,8 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
     providers: [LookupService, StopService, AccountService],
     styles: ['.group1{ width: 3%; line-height: 30px; } ' +
     '.group2{ width: 12%; line-height: 26px; } ' +
-    '.group3{ width: 44% } ' +
+    '.groupType{ width: 20%; } ' +
+    '.group3{ width: 24% } ' +
     '.group4{ width: 6%; text-align: right; line-height: 26px; } ' +
     '.group5{ width: 6%; text-align: right; line-height: 26px; } ' +
     '.group6{ width: 6%; text-align: right; line-height: 26px; } ' +
@@ -239,6 +240,11 @@ export class StopComponent implements IObservableAlive
                 item.accountID = singleItem.accountID
                 item.jobId = singleItem.jobId;
                 item.items = current;
+                item.types = _.chain(current)
+                    .map('jobTypeAbbreviation')
+                    .uniq()
+                    .join(', ')
+                    .value();
 
                 values[singleItem.jobId] = item;
             })
@@ -321,5 +327,6 @@ class StopItemSource
     public account: string;
     public accountID: number;
     public jobId: number;
+    public types: string;
     public items: Array<StopItem>;
 }

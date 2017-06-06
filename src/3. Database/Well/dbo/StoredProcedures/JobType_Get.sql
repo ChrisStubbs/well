@@ -2,7 +2,7 @@
 AS
 	SELECT 
 		CONVERT(VarChar, id) AS [Key],
-		[Description] AS Value
+		[Description] + ' (' + Abbreviation +')' AS Value
 	FROM 
 		JobType	
 	WHERE

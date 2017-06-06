@@ -27,6 +27,7 @@ export class StopItem
 
     public jobId: number;
     public type: string;
+    public jobTypeAbbreviation: string;
     public invoice: string;
     public account: string;
     public accountID: number;

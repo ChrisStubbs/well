@@ -38,7 +38,6 @@
             this.exceptionEventRepository = exceptionEventRepository;
         }
 
-        //TODO: Tests
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
         {
             var username = this.userNameProvider.GetUserName();

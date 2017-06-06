@@ -74,63 +74,71 @@
 
             }
 
-            //[Test]
-            //public void ShouldCreditJobInAdamForEachJobWhenActionIsCredit()
-            //{
-            //    var submitAction = new SubmitActionModel { Action = DeliveryAction.Credit, JobIds = new[] { 1, 2 } };
-            //    var userJobs = new List<UserJob> { new UserJob(user.Id, 1), new UserJob(user.Id, 1) };
-            //    var actions = GetAction();
-            //    var deliveryLineCredits = GetDeliveryLineCredits();
-            //    var job1Credits = deliveryLineCredits.Where(x => x.JobId == 1).ToList();
-            //    var job2Credits = deliveryLineCredits.Where(x => x.JobId == 2).ToList();
-            //    var creditTransaction1 = new CreditTransaction();
-            //    var creditTransaction2 = new CreditTransaction();
+            [Test]
+            public void ShouldCreditJobInAdamForEachJobWhenActionIsCreditAndSaveAsSubmitted()
+            {
+                var submitAction = new SubmitActionModel { Action = DeliveryAction.Credit, JobIds = new[] { 1, 2 } };
+                var userJobs = new List<UserJob> { new UserJob(user.Id, 1), new UserJob(user.Id, 1) };
+                var actions = GetAction();
+                var deliveryLineCredits = GetDeliveryLineCredits();
+                var job1Credits = deliveryLineCredits.Where(x => x.JobId == 1).ToList();
+                var job2Credits = deliveryLineCredits.Where(x => x.JobId == 2).ToList();
+                var creditTransaction1 = new CreditTransaction();
+                var creditTransaction2 = new CreditTransaction();
 
-            //    userNameProvider.Setup(x => x.GetUserName()).Returns(UserName);
-            //    userRepository.Setup(x => x.GetByIdentity(UserName)).Returns(user);
-            //    userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(userJobs);
-            //    lineItemActionRepository.Setup(x => x.GetLineItemsWithUnsubmittedActions(submitAction.JobIds, DeliveryAction.Credit)).Returns(actions);
+                userNameProvider.Setup(x => x.GetUserName()).Returns(UserName);
+                userRepository.Setup(x => x.GetByIdentity(UserName)).Returns(user);
+                userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(userJobs);
+                lineItemActionRepository.Setup(x => x.GetLineItemsWithUnsubmittedActions(submitAction.JobIds, DeliveryAction.Credit)).Returns(actions);
 
-            //    var calls = 0;
-            //    List<DeliveryLineCredit> returnedJobCredit = null;
+                var calls = 0;
+                deliveryLineCreditMapper.Setup(x => x.Map(It.IsAny<LineItemActionSubmitModel[]>())).Callback((IEnumerable<LineItemActionSubmitModel> x) =>
+                    {
+                        calls++;
+                        var xArray = x.ToArray();
+                        if (calls == 1)
+                        {
+                            Assert.That(xArray.Count, Is.EqualTo(2));
+                            Assert.That(xArray[0], Is.EqualTo(actions[0]));
+                            Assert.That(xArray[1], Is.EqualTo(actions[1]));
+                        }
+                        else
+                        {
+                            Assert.That(xArray.Count, Is.EqualTo(1));
+                            Assert.That(xArray[0], Is.EqualTo(actions[2]));
+                        }
+                    }
+                ).Returns(() => calls == 1 ? job1Credits : job2Credits);
 
-            //    deliveryLineCreditMapper.Setup(x => x.Map(It.IsAny<LineItemActionSubmitModel[]>())).Callback((IEnumerable<LineItemActionSubmitModel> x) =>
-            //        {
-            //            calls++;
-            //            var xArray = x.ToArray();
-            //            if (calls == 1)
-            //            {
-            //                Assert.That(xArray.Count, Is.EqualTo(2));
-            //                Assert.That(xArray[0], Is.EqualTo(actions[0]));
-            //                Assert.That(xArray[1], Is.EqualTo(actions[1]));
-            //                returnedJobCredit = job1Credits;
-            //            }
-            //            else
-            //            {
-            //                Assert.That(xArray.Count, Is.EqualTo(1));
-            //                Assert.That(xArray[0], Is.EqualTo(actions[2]));
-            //                returnedJobCredit = job2Credits;
-            //            }
-            //        }
-            //    ).Returns(returnedJobCredit);
+                creditTransactionFactory.Setup(x => x.Build(job1Credits, 2)).Returns(creditTransaction1);
+                creditTransactionFactory.Setup(x => x.Build(job2Credits, 2)).Returns(creditTransaction2);
 
-            //    creditTransactionFactory.Setup(x => x.Build(job1Credits, 2)).Returns(creditTransaction1);
-            //    creditTransactionFactory.Setup(x => x.Build(job2Credits, 2)).Returns(creditTransaction2);
+                exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction1));
+                exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction2));
 
-            //    exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction1));
-            //    exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction2));
+                lineItemActionRepository.Setup(x => x.Save(It.IsAny<LineItemActionSubmitModel>()));
 
-            //    lineItemActionRepository.Setup(x => x.Save(It.IsAny<LineItemActionSubmitModel>()));
+                var result = submitActionService.SubmitAction(submitAction);
 
-            //    var result = submitActionService.SubmitAction(submitAction);
+                deliveryLineCreditMapper.Verify(x => x.Map(It.IsAny<LineItemActionSubmitModel[]>()), Times.Exactly(2));
+                creditTransactionFactory.Verify(x => x.Build(job1Credits, 2), Times.Once);
+                creditTransactionFactory.Verify(x => x.Build(job2Credits, 2), Times.Once);
 
-            //    deliveryLineCreditMapper.Verify(x => x.Map(It.IsAny<LineItemActionSubmitModel[]>()), Times.Exactly(2));
-            //    creditTransactionFactory.Verify(x => x.Build(job1Credits, 2), Times.Once);
-            //    creditTransactionFactory.Verify(x => x.Build(job2Credits, 2), Times.Once);
+                exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction1), Times.Once);
+                exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction2), Times.Once);
 
-            //    exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction1), Times.Once);
-            //    exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction2), Times.Once);
-            //}
+                lineItemActionRepository.Verify(x => x.Save(It.IsAny<LineItemActionSubmitModel>()), Times.Exactly(3));
+                lineItemActionRepository.Verify(x => x.Save(actions[0]), Times.Once);
+                Assert.That(actions[0].SubmittedDate,Is.Not.Null);
+                Assert.That(actions[0].SubmittedDate.Value, Is.InRange(DateTime.Now.AddMinutes(-1), DateTime.Now));
+                lineItemActionRepository.Verify(x => x.Save(actions[1]), Times.Once);
+                Assert.That(actions[1].SubmittedDate, Is.Not.Null);
+                Assert.That(actions[1].SubmittedDate.Value, Is.InRange(DateTime.Now.AddMinutes(-1), DateTime.Now));
+                lineItemActionRepository.Verify(x => x.Save(actions[2]), Times.Once);
+                Assert.That(actions[2].SubmittedDate, Is.Not.Null);
+                Assert.That(actions[2].SubmittedDate.Value, Is.InRange(DateTime.Now.AddMinutes(-1), DateTime.Now));
+
+            }
         }
     }
 }

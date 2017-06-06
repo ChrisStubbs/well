@@ -6,19 +6,14 @@ BEGIN
 	DECLARE @process VARCHAR(20) = 'WellUpdate'
 	DECLARE @Originator TINYINT = 0
 
-	DECLARE @ExceptionShort INT = 1
-			,@ExceptionBypass INT = 2
-			,@ExceptionDamage INT = 3
-
 	DECLARE @NewLineItemAction TABLE(
 				Quantity INT
 				,ExceptionType INT
 				,LineItemId INT
 			)
 	
-	
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)				
-	SELECT Qty, @ExceptionDamage, jd.LineItemId
+	SELECT Qty, dbo.ExceptionType_Damage(), jd.LineItemId
 	FROM JobDetailDamage jdd
 	INNER JOIN JobDetail jd on jd.Id = jdd.JobDetailId
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
@@ -26,11 +21,19 @@ BEGIN
 	WHERE lia.Id IS NULL
 
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
-	SELECT jd.ShortQty, @ExceptionShort, jd.LineItemId
+	SELECT jd.ShortQty, dbo.ExceptionType_Short(), jd.LineItemId
 	FROM JobDetail jd
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
 	WHERE lia.Id IS NULL AND jd.ShortQty > 0
+
+	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
+	SELECT jd.OriginalDespatchQty, dbo.ExceptionType_Bypass(), jd.LineItemId
+	FROM JobDetail jd
+	INNER JOIN Job j on j.Id = jd.JobId
+	INNER JOIN LineItem li on jd.LineItemId = li.Id
+	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
+	WHERE lia.Id IS NULL and j.JobStatusId = dbo.JobStatus_Bypass()
 
 	BEGIN TRAN
 		

@@ -13,7 +13,7 @@ USING	(VALUES	(1,'DEL-TOB','Tobacco', 'Tob', dbo.ActivityType_Invoice(),'deploym
 				(10,'UPL-STD','Uplift – Standard', 'UST', dbo.ActivityType_Uplift(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(11,'NotDef','Not Defined', '', dbo.ActivityType_NotDefined(),'deployment',GETDATE(),'deployment',GETDATE())
 		)
-AS Source (Id,Code,Description,Abbreviation, ActivityTypeId,CreatedBy,CreatedDate,LastUpdatedBy,LastUpdatedDate)
+AS Source (Id, Code, Description, Abbreviation, ActivityTypeId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)
 	ON Target.Id = Source.Id
 WHEN MATCHED 
 	AND (Target.Description != Source.Description)
@@ -21,11 +21,12 @@ WHEN MATCHED
 	UPDATE SET 
 			Code			= Source.Code,
 			Description		= Source.Description, 
+			Abbreviation	= Source.Abbreviation,
 			ActivityTypeId  = Source.ActivityTypeId,
 			LastUpdatedBy	= Source.LastUpdatedBy, 
 			LastUpdatedDate	= Source.LastUpdatedDate	
 WHEN NOT MATCHED BY TARGET THEN
-	INSERT (Id,Code,Description,ActivityTypeId,CreatedBy,CreatedDate,LastUpdatedBy,LastUpdatedDate)
-	VALUES (Id,Code,Description,ActivityTypeId,CreatedBy,CreatedDate,LastUpdatedBy,LastUpdatedDate);
+	INSERT (Id, Code, Description, Abbreviation, ActivityTypeId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)
+	VALUES (Id, Code, Description, Abbreviation, ActivityTypeId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate);
 
 SET IDENTITY_INSERT JobType OFF

@@ -14,6 +14,7 @@ namespace PH.Well.Api.DependencyResolution
     using Services.DeliveryActions;
     using Services.EpodServices;
     using Services.Mappers;
+    using Services.Validation;
     using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
@@ -112,6 +113,8 @@ namespace PH.Well.Api.DependencyResolution
             For<ILookupRepository>().Use<LookupRepository>();
 
             For<ISubmitActionService>().Use<SubmitActionService>();
+            For<ISubmitActionValidation>().Use<SubmitActionValidation>();
+            For<ISubmitCreditActionValidation>().Use<SubmitCreditActionValidation>();
         }
     }
 }

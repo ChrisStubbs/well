@@ -379,6 +379,7 @@
     <Build Include="dbo\Views\RouteStatusView.sql" />
     <Build Include="dbo\StoredProcedures\UserJobs_GetbyJobIds.sql" />
     <Build Include="dbo\Tables\RouteStatus.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemActionSubmitModelGetUnsubmitted.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

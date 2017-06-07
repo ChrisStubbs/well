@@ -50,7 +50,7 @@
         public IEnumerable<UserJob> GetUserJobsByJobIds(IEnumerable<int> jobIds)
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.GetUserJobsByJobIds)
-                .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .Query<UserJob>();
         }
 

@@ -8,6 +8,11 @@ export class GridHelpersFunctions
         return _.startsWith(value.toLowerCase(), value2.toLowerCase());
     };
 
+    public static containsFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
+    {
+        return value.toLowerCase().indexOf(value2.toLowerCase()) != -1;
+    };
+
     public static isEqualFilter: (value: any, value2: any) => boolean = (value: any, value2: any) =>
     {
         return _.isEqual(value.toLowerCase(), value2.toLowerCase());

@@ -19,7 +19,7 @@ import {  GridHelpersFunctions }                    from '../shared/gridHelpers/
     providers: [StopService, AccountService],
     styles: ['.group1{ width: 3%; line-height: 30px; } ' +
     '.group2{ width: 12%; line-height: 26px; } ' +
-    '.groupType{ width: 20%; } ' +
+    '.groupType{ width: 20%; line-height: 26px; } ' +
     '.group3{ width: 24% } ' +
     '.group4{ width: 6%; text-align: right; line-height: 26px; } ' +
     '.group5{ width: 6%; text-align: right; line-height: 26px; } ' +

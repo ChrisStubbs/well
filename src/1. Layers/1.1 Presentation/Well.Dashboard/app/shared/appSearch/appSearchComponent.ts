@@ -138,6 +138,7 @@ export class AppSearch implements IObservableAlive
                 }
                 this.router.navigate(['/routes'], { queryParams: parameters });
                 this.onSearch.emit();
+
                 return;
 
             });

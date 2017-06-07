@@ -1,17 +1,14 @@
 ﻿namespace PH.Well.Services.Mappers
 {
-    using System.Collections.Generic;
     using System.Linq;
-    using Common.Contracts;
     using Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
-    using Repositories.Contracts;
 
     public class ActionSummaryMapper : IActionSummaryMapper
     {
         private readonly IUserThresholdService userThresholdService;
-     
+
 
         public ActionSummaryMapper(IUserThresholdService userThresholdService)
         {
@@ -27,14 +24,13 @@
             {
                 result.JobIds.AddRange(unsubmittedItemsForJob.Select(x => x.JobId).Distinct());
 
+
+                result.Summary = GetSummary(submitAction, unsubmittedItemsForJob);
                 if (isStopLevel)
                 {
                     foreach (var stop in unsubmittedItemsForJob.Select(x => x.Stop).Distinct())
                     {
-                        result.Summary = $"The total to be credited for the selection is £{unsubmittedItemsForJob.Sum(x => x.TotalValue)}. " +
-                                         $"The maximum you are allowed to credit is £{userThresholdService.GetUserCreditThresholdValue()}, " +
-                                         $"any credits over your assigned threshold will be sent for approval.";
-                            
+
                         var stopItems = unsubmittedItemsForJob.Where(x => x.Stop == stop).ToArray();
 
                         result.Items.Add(new ActionSubmitSummaryItem
@@ -52,8 +48,6 @@
                     {
                         var invoiceItems = unsubmittedItemsForJob.Where(x => x.InvoiceNumber == invoiceNumber).ToArray();
 
-                        result.Summary = $"The total no of actions to be closed is {unsubmittedItemsForJob.Length}.";
-
                         result.Items.Add(new ActionSubmitSummaryItem
                         {
                             Identifier = invoiceItems.First().InvoiceNumber,
@@ -69,5 +63,17 @@
             return result;
         }
 
+        private string GetSummary(SubmitActionModel submitAction, LineItemActionSubmitModel[] unsubmittedItemsForJob)
+        {
+            if (submitAction.Action == DeliveryAction.Credit)
+            {
+                return $"The total to be credited for the selection is £{unsubmittedItemsForJob.Sum(x => x.TotalValue)}. " +
+                       $"The maximum you are allowed to credit is £{userThresholdService.GetUserCreditThresholdValue()}, " +
+                       $"any credits over your assigned threshold will be sent for approval.";
+            }
+
+            return $"The total no of items to '{submitAction.Action}' is {unsubmittedItemsForJob.Length}.";
+
+        }
     }
 }

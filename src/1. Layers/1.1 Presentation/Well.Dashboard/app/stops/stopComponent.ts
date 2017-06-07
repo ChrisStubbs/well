@@ -314,6 +314,16 @@ export class StopComponent implements IObservableAlive
             items: data
         };
     }
+
+    private actionModalClicked(action)
+    {
+        //this.selectedAction = action;
+    }
+
+    private getSelectedJobIds(): number[]
+    {
+        return _.uniq(_.map(this.selectedItems(), 'jobId'));
+    }
 }
 
 interface IDictionarySource

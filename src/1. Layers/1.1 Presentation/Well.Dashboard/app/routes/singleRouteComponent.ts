@@ -48,9 +48,9 @@ export class SingleRouteComponent implements IObservableAlive
 
     private routeId: number;
     private isReadOnlyUser: boolean = false;
-    private actions: string[] = ['Credit'];
+    //private actions: string[] = ['Credit'];
     private allSingleRouteItems: Array<SingleRouteItem>;
-    private selectedAction: string;
+    //private selectedAction: string;
     private filterJobType: string;
     private filterJobStatus: string;
 
@@ -202,6 +202,6 @@ export class SingleRouteComponent implements IObservableAlive
 
     private actionModalClicked(action)
     {
-        this.selectedAction = action;
+        //this.selectedAction = action;
     }
 }

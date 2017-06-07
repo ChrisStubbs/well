@@ -37,7 +37,7 @@
 
             if (userJobs.Any(x => x.UserId != user.Id))
             {
-                return new SubmitActionResult { Message = "User not assigned to all the job submitted can not submit action" };
+                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit '{submitAction.Action}' action" };
             }
 
             if (!submitAction.ItemsToSubmit.Any())

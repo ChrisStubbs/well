@@ -1,18 +1,18 @@
 ﻿namespace PH.Well.Domain.Enums
 {
     using System.ComponentModel;
-
+    //todo get rid
     public enum RouteStatus
     {
         Unknown = 0,
 
-        [Description("Planned")] Planned = 1,
+        [Description("Route Planned")] Planned = 5,
 
-        [Description("In Progress")] InProgress = 2,
+        [Description("Route In Progress")] InProgress = 6,
 
-        [Description("Complete")] Complete = 3,
+        [Description("Route Complete")] Complete = 7,
 
-        [Description("Bypassed")] Bypassed = 4
+        [Description("Route Bypassed")] Bypassed = 8
 
     }
 }

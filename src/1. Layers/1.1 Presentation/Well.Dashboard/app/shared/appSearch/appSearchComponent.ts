@@ -62,7 +62,8 @@ export class AppSearch implements IObservableAlive
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
-            this.lookupService.get(LookupsEnum.JobStatus),
+            //this.lookupService.get(LookupsEnum.JobStatus),
+            this.lookupService.get(LookupsEnum.WellStatus),
             this.lookupService.get(LookupsEnum.Driver)
         )
             .takeWhile(() => this.isAlive)

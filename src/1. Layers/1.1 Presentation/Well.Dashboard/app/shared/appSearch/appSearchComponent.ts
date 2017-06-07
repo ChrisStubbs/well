@@ -63,7 +63,6 @@ export class AppSearch implements IObservableAlive
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
             //this.lookupService.get(LookupsEnum.JobStatus),
-            this.lookupService.get(LookupsEnum.RouteStatus),
             this.lookupService.get(LookupsEnum.WellStatus),
             this.lookupService.get(LookupsEnum.Driver)
         )
@@ -72,8 +71,7 @@ export class AppSearch implements IObservableAlive
             {
                 this.jobTypes = res[0];
                 this.jobStatus = res[1];
-                this.jobStatus = res[2];
-                this.drivers = res[3];
+                this.drivers = res[2];
             });
     }
 

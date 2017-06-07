@@ -195,15 +195,9 @@ export class SingleRouteComponent implements IObservableAlive
             current => current.isSelected);
     }
 
-    public getActionSummaryData(): string
+    public getSelectedJobIds(): number[]
     {
-        //TODO: Hook up the userThresholdValue
-        const totalCreditValue = this.currencyPipe.transform(_.sumBy(this.selectedItems(), x => x.credit), 'GBP', true);
-        const usersThreshold = this.currencyPipe.transform(1000.00, 'GBP', true);
-        const summary = `The total to be actioned for the selection is ${totalCreditValue}. 
-                        The maximum you are allowed to credit is ${usersThreshold}. 
-                        Any items over your threshold will be sent for approval`;
-        return summary;
+        return _.uniq(_.map(this.selectedItems(), 'jobId'));
     }
 
     private actionModalClicked(action)

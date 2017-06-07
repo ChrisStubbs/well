@@ -4,6 +4,7 @@ AS
 Select 
 	lia.Id
 	,j.Id as JobId
+	,s.dropId as Stop
 	,j.InvoiceNumber
 	,li.ProductCode
 	,jd.NetPrice

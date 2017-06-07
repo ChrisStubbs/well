@@ -220,6 +220,8 @@
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <TypeScriptCompile Include="app\shared\action\actionSubmitSummary.ts" />
+    <TypeScriptCompile Include="app\shared\action\submitActionModel.ts" />
     <TypeScriptCompile Include="app\shared\components\accountFlagsComponent.ts" />
     <TypeScriptCompile Include="app\shared\components\assignModal.ts" />
     <TypeScriptCompile Include="app\shared\components\assignModel.ts" />

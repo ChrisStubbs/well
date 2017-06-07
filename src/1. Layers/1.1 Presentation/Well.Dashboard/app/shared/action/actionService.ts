@@ -1,9 +1,12 @@
 ﻿import { Injectable } from '@angular/core';
-import { Response } from '@angular/http'
+import { Response, Headers, RequestOptions } from '@angular/http'
 import { Observable } from 'rxjs/Observable';
-import {HttpService} from '../httpService';
-import {GlobalSettingsService} from '../globalSettings';
-import {HttpErrorService} from '../httpErrorService';
+import { HttpService } from '../httpService';
+import { GlobalSettingsService } from '../globalSettings';
+import { HttpErrorService } from '../httpErrorService';
+import { ISubmitActionModel } from './submitActionModel';
+import { IActionSubmitSummary } from './actionSubmitSummary';
+import { ISubmitActionResult } from './submitActionModel';
 
 @Injectable()
 export class ActionService
@@ -15,41 +18,25 @@ export class ActionService
     {
     }
 
-    //public actionLineItemActions(): Observable<any>
-    //{
-    //    //const body = JSON.stringify(bulkCredit);
+    public getPreSubmitSummary(jobIds: Array<number>, action: number,
+                               isStopLevel: boolean): Observable<IActionSubmitSummary>
+    {
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'SubmitAction/PreSubmitSummary';
 
-    //    //return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'bulk-credit/',
-    //    //        body,
-    //    //        this.options)
-    //    //    .map(res => res.json())
-    //    //    .do(data => this.logService.log('All: ' + JSON.stringify(data)))
-    //    //    .catch(e => this.httpErrorService.handleError(e));
-    //}
+        return this.http.get(url, { params: { jobId: jobIds, action: action, isStopLevel: isStopLevel} })
+            .map((response: Response) => <IActionSubmitSummary>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
 
-    //public getRoutes(): Observable<Route[]>
-    //{
-    //    const url = this.globalSettingsService.globalSettings.apiUrl + 'routes/all';
+    public post(action: ISubmitActionModel): Observable<ISubmitActionResult>
+    {
+        const body = JSON.stringify(action);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'SubmitAction';
 
-    //    return this.http.get(url)
-    //        .map((response: Response) =>
-    //        {
-    //            const routes: Route[] = (response.json() as any[]).map((obj) =>
-    //            {
-    //                return Object.assign(new Route(), obj);
-    //            }) as Route[];
-
-    //            return routes;
-    //        })
-    //        .catch(e => this.httpErrorService.handleError(e));
-    //}
-
-    //public getSingleRoute(routeId: number): Observable<SingleRoute>
-    //{
-    //        const url = this.globalSettingsService.globalSettings.apiUrl + 'SingleRoute/' + routeId.toString();
-
-    //        return this.http.get(url)
-    //            .map((response: Response) => <SingleRoute>response.json())
-    //            .catch(e => this.httpErrorService.handleError(e));
-    //}
+        return this.http.post(url, body, options)
+            .map((response: Response) => <ISubmitActionResult>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
 }

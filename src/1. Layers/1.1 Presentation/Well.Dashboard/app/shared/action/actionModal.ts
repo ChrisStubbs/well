@@ -1,48 +1,50 @@
-﻿import { Component, EventEmitter, Output, Input } from '@angular/core';
+﻿import { Component, EventEmitter, Output, Input, ViewChild, ElementRef } from '@angular/core';
 import { IObservableAlive } from '../IObservableAlive';
+import { ActionService } from './actionService';
+import { IActionSubmitSummary } from './actionSubmitSummary';
+import { ISubmitActionModel, ISubmitActionResult } from './submitActionModel';
+import { ToasterService } from 'angular2-toaster';
+import * as _ from 'lodash';
+import { ILookupValue } from '../services/ILookupValue';
+import { LookupsEnum } from '../services/lookupsEnum';
 import { LookupService } from '../services/lookupService';
-import { User } from '../../user_preferences/user';
+import { ISubmitActionResult as ISubmitActionResult1 } from './submitActionModel';
 
 @Component({
     selector: 'action-Modal',
-    templateUrl: 'app/shared/action/actionModal.html'
+    templateUrl: 'app/shared/action/actionModal.html',
+    providers: [ActionService, LookupService]
 })
 export class ActionModal implements IObservableAlive
 {
-
     @Input() public disabled: boolean = false;
-    @Output() public onActionClicked: EventEmitter<string> = new EventEmitter<string>();
-    @Input() public lineItemActionIds: number[];
-    @Input() public actionSummaryData: string = 'This is the Summary info supplied by the consumer of the modal';
-    private mAdditionalItemsItem: string[];
-    private userThresholdError: string = '';
-    @Input() public set additionalOptions(value: string[])
-    {
-        this.mAdditionalItemsItem = value;
-        this.deliveryActions.push.apply(this.deliveryActions, this.mAdditionalItemsItem);
-    };
+    @Input() public isStopLevel: boolean = false;
+    @Output() public onActionClicked: EventEmitter<ILookupValue> = new EventEmitter<ILookupValue>();
+    @Input() public jobIds: number[] = [];
+    @ViewChild('btnClose') private btnClose: ElementRef;
 
-    public get item(): string[]
-    {
-        return this.mAdditionalItemsItem;
-    }
-
+    private summaryData: IActionSubmitSummary = {} as IActionSubmitSummary;
     public isAlive: boolean = true;
-    private deliveryActions: string[] = ['Credit'
-        , 'Mark as Delivered'
-        , 'Mark as Bypassed'];
-    private selectedAction: string = 'Action';
+    private deliveryActions: Array<ILookupValue>;
+    private defaultAction: ILookupValue = { key: '0', value: 'Action' };
+    private selectedAction: ILookupValue = this.defaultAction;
 
-    constructor(private lookupService: LookupService) { }
+    constructor(
+        private lookupService: LookupService,
+        private actionService: ActionService,
+        private toasterService: ToasterService)
+    {
+
+    }
 
     public ngOnInit()
     {
-        //
-    }
-
-    private setUserThresholdError(): void
-    {
-        //
+        this.lookupService.get(LookupsEnum.DeliveryAction)
+            .takeWhile(() => this.isAlive)
+            .subscribe(res =>
+            {
+                this.deliveryActions = _.remove(res, x => x.key !== '0');
+            });
     }
 
     public ngOnDestroy()
@@ -50,9 +52,69 @@ export class ActionModal implements IObservableAlive
         this.isAlive = false;
     }
 
-    public actionClicked(action: string): void
+    private submit()
     {
+        const submitAction: ISubmitActionModel = {
+            action: this.selectedAction.key,
+            jobIds: this.summaryData.jobIds
+        };
+
+        this.actionService.post(submitAction)
+            .takeWhile(() => this.isAlive)
+            .subscribe((res: ISubmitActionResult) => this.handleResponse(res));
+    }
+
+    private handleResponse(res: ISubmitActionResult1): void
+    {
+        if (res.isValid)
+        {
+            const warningMessages = _.map(res.warnings).join(', ');
+
+            if (warningMessages)
+            {
+                this.toasterService.pop('warning', res.message, warningMessages);
+            } else
+            {
+                this.toasterService.pop('success', res.message, '');
+            }
+
+        } else
+        {
+            this.toasterService.pop('error', res.message, '');
+        }
+
+        this.closeModal();
+
+    }
+
+    private closeModal()
+    {
+        this.selectedAction = this.defaultAction;
+        this.summaryData = {} as IActionSubmitSummary;
+        this.btnClose.nativeElement.click();
+    }
+
+    public actionClicked(action: ILookupValue): void
+    {
+
         this.selectedAction = action;
+
+        this.actionService.getPreSubmitSummary(this.jobIds, +this.selectedAction.key, this.isStopLevel)
+            .takeWhile(() => this.isAlive)
+            .subscribe(summaryData =>
+            {
+                this.summaryData = summaryData as IActionSubmitSummary;
+            });
+
         this.onActionClicked.emit(action);
+    }
+
+    private hasItemsToSubmit(): boolean
+    {
+        if (!this.summaryData.jobIds) {
+             return false;
+        }
+
+        return this.summaryData.jobIds.length > 0;
     }
 }

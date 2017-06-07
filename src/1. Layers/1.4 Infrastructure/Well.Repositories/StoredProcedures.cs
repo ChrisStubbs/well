@@ -144,6 +144,7 @@
         public static string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
         public static string LineItemActionGetByIds = "LineItemActionGetByIds";
         public static string LineItemActionUpdate = "LineItemActionUpdate";
+        public static string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
 
         public static string ActivityGetById = "Activity_GetById";
         public static string LocationGetById = "Location_GetById";

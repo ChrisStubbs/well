@@ -14,52 +14,45 @@
     {
         private readonly ILogger logger;
         private readonly IUserNameProvider userNameProvider;
-        private readonly IUserRepository userRepository;
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IDeliveryLineCreditMapper deliveryLineCreditMapper;
         private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly ISubmitActionValidation validator;
+        private readonly IUserThresholdService userThresholdService;
 
         public SubmitActionService(
             ILogger logger,
             IUserNameProvider userNameProvider,
-            IUserRepository userRepository,
-            ILineItemActionRepository lineItemRepository,
+            ILineItemActionRepository lineItemActionRepository,
             IDeliveryLineCreditMapper deliveryLineCreditMapper,
             ICreditTransactionFactory creditTransactionFactory,
-            IExceptionEventRepository exceptionEventRepository)
+            IExceptionEventRepository exceptionEventRepository,
+            ISubmitActionValidation validator,
+            IUserThresholdService userThresholdService)
         {
             this.logger = logger;
             this.userNameProvider = userNameProvider;
-            this.userRepository = userRepository;
-            this.lineItemActionRepository = lineItemRepository;
+            this.lineItemActionRepository = lineItemActionRepository;
             this.deliveryLineCreditMapper = deliveryLineCreditMapper;
             this.creditTransactionFactory = creditTransactionFactory;
             this.exceptionEventRepository = exceptionEventRepository;
+            this.validator = validator;
+            this.userThresholdService = userThresholdService;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
         {
-            var username = this.userNameProvider.GetUserName();
-            var user = this.userRepository.GetByIdentity(username);
+            SubmitActionResult result = null;
+            var unsubmittedItems = lineItemActionRepository.GetUnsubmittedActions(submitAction.Action).ToArray();
 
-            if (user == null)
+            submitAction.SetItemsToSubmit(unsubmittedItems);
+
+            result = validator.Validate(submitAction, unsubmittedItems);
+
+            if (!result.IsValid)
             {
-                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit action" };
-            }
-
-            var userJobs = userRepository.GetUserJobsByJobIds(submitAction.JobIds);
-
-            if (userJobs.Any(x => x.UserId != user.Id))
-            {
-                return new SubmitActionResult { Message = "User not assigned to all the job submitted can not submit action" };
-            }
-
-            LineItemActionSubmitModel[] itemsToSubmit = lineItemActionRepository.GetLineItemsWithUnsubmittedActions(submitAction.JobIds, submitAction.Action).ToArray();
-
-            if (!itemsToSubmit.Any())
-            {
-                return new SubmitActionResult { Message = $"There are no {submitAction.Action} Actions for the jobs submitted" };
+                return result;
             }
 
             try
@@ -68,21 +61,37 @@
                 {
                     if (submitAction.Action == DeliveryAction.Credit)
                     {
-                        foreach (var jobId in itemsToSubmit.Select(x => x.JobId).Distinct())
+
+                        foreach (var jobId in submitAction.ItemsToSubmit.Select(x => x.JobId).Distinct())
                         {
-                            var jobItems = itemsToSubmit.Where(x => x.JobId == jobId).ToArray();
-                            CreditJobInAdam(jobItems);
-                            SaveItemsAsSubmitted(jobItems);
+                            var jobItems = submitAction.ItemsToSubmit.Where(x => x.JobId == jobId).ToArray();
+                            if (UserHasRequiredCreditThreshold(jobId, submitAction.ItemsToSubmit))
+                            {
+                                CreditJobInAdam(jobItems);
+                                SaveItemsAsSubmittedAndApproved(jobItems);
+                            }
+                            else
+                            {
+                                SaveItemsAsSubmitted(jobItems);
+                                var invoiceNo = submitAction.ItemsToSubmit.First(x => x.JobId == jobId).InvoiceNumber;
+                                if (!result.Warnings.Any(x => x.Contains(invoiceNo)))
+                                {
+                                    result.Warnings.Add($"Your threshold level is not high enough to credit delivery for invoice no: {invoiceNo}. " +
+                                                        $"It has been marked for authorisation.");
+                                }
+                            }
                         }
                     }
                     else
                     {
-                        SaveItemsAsSubmitted(itemsToSubmit);
+                        SaveItemsAsSubmitted(submitAction.ItemsToSubmit);
                     }
+
                     transactionScope.Complete();
                 }
-                
-                return new SubmitActionResult { IsValid = true, Message = $"Submitted  {submitAction.Action} successfully for JobIds {string.Join(",", submitAction.JobIds)}" };
+                result.IsValid = true;
+                result.Message = $"Submitted  {submitAction.Action} successfully for JobIds {string.Join(",", submitAction.JobIds)}";
+                return result;
             }
             catch (Exception ex)
             {
@@ -91,12 +100,33 @@
             }
         }
 
+        private bool UserHasRequiredCreditThreshold(int jobId, IEnumerable<LineItemActionSubmitModel> submitActionItemsToSubmit)
+        {
+            submitActionItemsToSubmit = submitActionItemsToSubmit.ToArray();
+            var invoiceNo = submitActionItemsToSubmit.First(x => x.JobId == jobId).InvoiceNumber;
+            var creditValue = submitActionItemsToSubmit.Where(x => x.InvoiceNumber == invoiceNo).Sum(x => x.TotalValue);
+            return userThresholdService.CanUserCredit(creditValue).CanUserCredit;
+        }
+
         private void SaveItemsAsSubmitted(IEnumerable<LineItemActionSubmitModel> items)
         {
             foreach (var lineItemAction in items)
             {
                 lineItemAction.SubmittedDate = DateTime.Now;
-                lineItemActionRepository.Save(lineItemAction);
+                lineItemAction.ActionedBy = userNameProvider.GetUserName();
+                lineItemActionRepository.Update(lineItemAction);
+            }
+        }
+
+        private void SaveItemsAsSubmittedAndApproved(IEnumerable<LineItemActionSubmitModel> items)
+        {
+            foreach (var lineItemAction in items)
+            {
+                lineItemAction.SubmittedDate = DateTime.Now;
+                lineItemAction.ActionedBy = userNameProvider.GetUserName();
+                lineItemAction.ApprovalDate = DateTime.Now;
+                lineItemAction.ApprovedBy = userNameProvider.GetUserName();
+                lineItemActionRepository.Update(lineItemAction);
             }
         }
 

@@ -42,3 +42,5 @@ CREATE TABLE [dbo].[JobDetail]
 	CONSTRAINT [FK_JobDetail_LineItem] FOREIGN KEY ([LineItemId]) REFERENCES [dbo].[LineItem] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_Bag] FOREIGN KEY ([BagId]) REFERENCES [dbo].[Bag] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+GO
+CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId] ON [dbo].[JobDetail] ([LineItemId]) INCLUDE ([Id],[JobId])

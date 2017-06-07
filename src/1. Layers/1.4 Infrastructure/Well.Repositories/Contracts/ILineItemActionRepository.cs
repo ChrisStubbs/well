@@ -9,6 +9,6 @@
     {
         LineItemAction GetById(int id);
         IList<LineItemAction> GetByIds(IEnumerable<int> ids);
-        IList<LineItemActionSubmitModel> GetLineItemsWithUnsubmittedActions(IEnumerable<int> submitActionJobIds, DeliveryAction submitActionAction);
+        IList<LineItemActionSubmitModel> GetUnsubmittedActions(DeliveryAction submitActionAction);
     }
 }

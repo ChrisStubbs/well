@@ -41,9 +41,8 @@ export class ActionModal implements IObservableAlive
     {
         this.lookupService.get(LookupsEnum.DeliveryAction)
             .takeWhile(() => this.isAlive)
-            .subscribe(res =>
-            {
-                this.deliveryActions = _.remove(res, x => x.key !== '0');
+            .subscribe(res => {
+                this.deliveryActions = _.filter(res, x => +x.key !== 0);
             });
     }
 

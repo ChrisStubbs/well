@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Services.Contracts
 {
+    using System.Collections.Generic;
     using Domain;
     using Domain.ValueObjects;
 
@@ -7,5 +8,6 @@
     {
         LineItem InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate);
         LineItem UpdateLineItemActions(LineItemActionUpdate lineItemActionUpdate);
+        LineItem SaveLineItemActions(int lineItemId, IEnumerable<LineItemAction> lineItemActions);
     }
 }

@@ -99,6 +99,7 @@ import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { LookupService } from './shared/services/lookupService';
 import AppRoutes = require('./appRoutes');
+import {ActionEditComponent} from './shared/action/actionEditComponent';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -114,7 +115,7 @@ import AppRoutes = require('./appRoutes');
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent, EditExceptionsModal
+        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

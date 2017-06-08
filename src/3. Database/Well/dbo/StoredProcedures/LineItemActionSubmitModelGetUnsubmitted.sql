@@ -41,3 +41,5 @@ WHERE
 	lia.DeliveryActionId = @DeliveryActionId
 	AND
 	lia.SubmittedDate IS NULL
+	AND
+	lia.IsDeleted = 0

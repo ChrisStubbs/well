@@ -355,5 +355,7 @@
                     $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
             }
         }
+
+        public int DamageQty => JobDetailDamages.Sum(x => x.Qty);
     }
 }

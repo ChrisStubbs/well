@@ -48,4 +48,16 @@ export class EditExceptionsService
             .map((response: Response) => <EditLineItemException>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
+
+    public patch(item: EditLineItemException): Observable<EditLineItemException>
+    {
+        const body = JSON.stringify(item);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'Exception';
+
+        return this.http.patch(url, body, options)
+            .map((response: Response) => <EditLineItemException>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
 }

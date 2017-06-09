@@ -1,8 +1,8 @@
 <form [formGroup]="searchForm" (ngSubmit)="search($event)" class="form-horizontal">
     <div class="form-group form-group-lg">
         <div class="col-lg-6">
-            <label for="searchBranch" class="col-lg-2 control-label">Branch</label>
-            <div class="col-lg-10">
+            <label for="searchBranch" class="col-lg-3 control-label">Branch</label>
+            <div class="col-lg-9">
                 <select class="form-control" id="searchBranch" formControlName="branch"
                         [ngModel]="searchForm.value.branch">
                     <option *ngFor="let branch of branches" [value]="branch[0]">
@@ -20,8 +20,8 @@
     </div>
     <div class="form-group form-group-lg">
         <div class="col-lg-6">
-            <label for="searchAccount" class="col-lg-2 control-label">Account</label>
-            <div class="col-lg-10">
+            <label for="searchAccount" class="col-lg-3 control-label">Account</label>
+            <div class="col-lg-9">
                 <input id="searchAccount" type="text" class="form-control" placeholder="Name or Number" formControlName="account">
             </div>
         </div>
@@ -51,8 +51,8 @@
     </div>
     <div class="form-group form-group-lg" *ngIf="showMoreFilters">
         <div class="col-lg-6">
-            <label for="searchRoute" class="col-lg-2 control-label">Route</label>
-            <div class="col-lg-10">
+            <label for="searchRoute" class="col-lg-3 control-label">Route</label>
+            <div class="col-lg-9">
                 <input id="searchRoute" type="text" maxlength="3" class="form-control" formControlName="route">
             </div>
         </div>
@@ -68,8 +68,8 @@
     </div>
     <div class="form-group form-group-lg" *ngIf="showMoreFilters">
         <div class="col-lg-6">
-            <label for="searchDeliveryType" class="col-lg-2 control-label">Delivery Type</label>
-            <div class="col-lg-10">
+            <label for="searchDeliveryType" class="col-lg-3 control-label">Delivery Type</label>
+            <div class="col-lg-9">
                 <select class="form-control" id="searchDeliveryType" formControlName="deliveryType">
                     <option value>All</option>
                     <option *ngFor="let type of jobTypes" [value]="type.key">{{ type.value }}</option>

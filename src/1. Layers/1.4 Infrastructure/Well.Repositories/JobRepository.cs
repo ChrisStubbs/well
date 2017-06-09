@@ -95,7 +95,7 @@
         {
             entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobInsert)
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
-                .AddParameter("JobTypeCode", entity.GetJobTypeCode(), DbType.String)
+                .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
                 .AddParameter("PHAccount", entity.PhAccount, DbType.String)
                 .AddParameter("PickListRef", entity.PickListRef, DbType.String)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
@@ -148,7 +148,7 @@
                 .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int32)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
-                .AddParameter("JobTypeCode", entity.GetJobTypeCode(), DbType.String)
+                .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
                 .AddParameter("PhAccount", entity.PhAccount, DbType.String)
                 .AddParameter("GrnNumber", entity.GrnNumberUpdate, DbType.String)
                 .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)

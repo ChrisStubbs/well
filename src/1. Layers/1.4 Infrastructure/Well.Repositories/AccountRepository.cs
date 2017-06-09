@@ -12,7 +12,6 @@
 
     public class AccountRepository : DapperRepository<Account, int>, IAccountRepository
     {
-
         public AccountRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider)
             : base(logger, dapperProxy, userNameProvider)
         {
@@ -56,6 +55,5 @@
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Query<int>().FirstOrDefault();
         }
-
     }
 }

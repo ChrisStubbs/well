@@ -141,7 +141,7 @@
 
             var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
 
-            var stop = StopFactory.New.Build();
+            var stop = StopFactoryDTO.New.Build();
 
             routeHeader.Stops.Add(stop);
 
@@ -149,7 +149,7 @@
 
             route.RouteHeaders.Add(routeHeader);
 
-            var job = JobFactory.New.Build();
+            var job = JobFactoryDTO.New.Build();
 
             stop.Jobs.Add(job);
 
@@ -177,6 +177,7 @@
             this.jobRepository.Setup(x => x.Update(existingJob));
 
             // HACK: DIJ TOTAL HACK FOR NOW!!!
+            //(i would like to know how long will this for now will become)
 
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
@@ -223,7 +224,7 @@
 
             var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
 
-            var stop = StopFactory.New.Build();
+            var stop = StopFactoryDTO.New.Build();
 
             routeHeader.Stops.Add(stop);
 
@@ -231,7 +232,7 @@
 
             route.RouteHeaders.Add(routeHeader);
 
-            var job = JobFactory.New.Build();
+            var job = JobFactoryDTO.New.Build();
 
             stop.Jobs.Add(job);
 
@@ -303,22 +304,15 @@
         {
             //ARRANGE
             var route = new RouteDelivery();
-
             var routeHeader = RouteHeaderFactory.New.Build();
             var branchId = 20;
-
             var existingRouteHeader = RouteHeaderFactory.New.With(x => x.StartDepotCode = branchId.ToString()).Build();
-
-            var stop = StopFactory.New.Build();
-
-            routeHeader.Stops.Add(stop);
-
+            var stop = StopFactoryDTO.New.Build();
+            var job = JobFactoryDTO.New.Build();
             var existingStop = new Stop();
 
+            routeHeader.Stops.Add(stop);
             route.RouteHeaders.Add(routeHeader);
-
-            var job = JobFactory.New.Build();
-
             stop.Jobs.Add(job);
 
             var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, JobStatus = JobStatus.CompletedOnPaper };
@@ -355,31 +349,20 @@
             //ACT
             this.service.Update(route, filename);
 
-
             //ASSERT
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
             this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
-
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
-
             this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
-
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
-
             this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
-
             this.jobRepository.Verify(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0), Times.Once);
-
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
-
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
-
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
-
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
-
         }
     }
 }

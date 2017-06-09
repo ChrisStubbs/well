@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
+    using System.Text;
     using System.Xml.Serialization;
     using Enums;
 
@@ -13,10 +15,135 @@
         public Job()
         {
             this.JobDetails = new List<JobDetail>();
+        }
+
+        public int Sequence { get; set; }
+
+        public string JobTypeCode { get; set; }
+
+        public string JobType { get; set; }
+
+        public string JobTypeAbbreviation { get; set; }
+        
+        public string PickListRef { get; set; }
+
+        public string InvoiceNumber { get; set; }
+
+        public string PhAccount { get; set; }
+
+        public int PhAccountId { get; set; }
+
+        public decimal CreditValue { get; set; }
+
+        public DateTime? OrderDate { get; set; }
+
+        public string RoyaltyCode { get; set; }
+
+        public string RoyaltyCodeDesc { get; set; }
+
+        public string CustomerRef { get; set; }
+
+        public int? GrnProcessType { get; set; }
+
+        public int? ProofOfDelivery { get; set; }
+        
+        public int? OrdOuters { get; set; }
+        
+        public int? InvOuters { get; set; }
+
+        public int? ColOuters { get; set; }
+        
+        public int? ColBoxes { get; set; }
+        
+        public bool ReCallPrd { get; set; }
+        
+        public bool AllowSoCrd { get; set; }
+        
+        public string Cod { get; set; }
+        
+        public bool SandwchOrd { get; set; }
+        
+        public bool AllowReOrd { get; set; }
+
+        public PerformanceStatus PerformanceStatus { get; set; }
+        
+        public string JobByPassReason { get; set; }
+        
+        public int StopId { get; set; }
+
+        public List<JobDetail> JobDetails { get; set; }
+        
+        public string ActionLogNumber { get; set; }
+
+        public string GrnNumberUpdate { get; set; }
+
+        public string GrnNumber { get; set; }
+
+        public string GrnRefusedReason { get; set; }
+
+        public int? OuterCountUpdate { get; set; }
+
+        public int? OuterCount { get; set; }
+
+        public bool OuterDiscrepancyUpdate { get; set; }
+
+        public bool OuterDiscrepancyFound
+        {
+            get
+            {
+                int totalShort = TotalOutersShort ?? 0;
+                int detailShort = DetailOutersShort ?? 0;
+                
+                return (totalShort - detailShort) > 0;
+            }
+        }
+
+        public int? TotalOutersOverUpdate { get; set; }
+
+        public int? TotalOutersOver { get; set; }
+
+        public int? TotalOutersShortUpdate { get; set; }
+
+        public int? TotalOutersShort { get; set; }
+
+        public int? DetailOutersOverUpdate { get; set; }
+
+        public int? DetailOutersOver { get; set; }
+
+        public int? DetailOutersShortUpdate { get; set; }
+
+        public int? DetailOutersShort { get; set; }
+
+        public bool Picked { get; set; }
+
+        public decimal InvoiceValueUpdate { get; set; }
+
+        public decimal InvoiceValue { get; set; }
+
+        public JobStatus JobStatus { get; set; }
+
+        public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
+                                                       jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
+
+        public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
+
+        public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
+
+        public int ToBeAdvisedCount =>  OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
+        
+        public WellStatus WellStatus { get; set; }
+    }
+
+    public class JobDTO
+    {
+        public JobDTO()
+        {
+            this.JobDetails = new List<JobDetailDTO>();
             this.EntityAttributes = new List<EntityAttribute>();
             this.EntityAttributeValues = new List<EntityAttributeValue>();
-            
         }
+
+        public int Id { get; set; }
 
         [XmlIgnore]
         public int Sequence { get; set; }
@@ -323,8 +450,8 @@
         public int StopId { get; set; }
 
         [XmlArray("JobDetails")]
-        [XmlArrayItem("JobDetail", typeof(JobDetail))]
-        public List<JobDetail> JobDetails { get; set; }
+        [XmlArrayItem("JobDetail", typeof(JobDetailDTO))]
+        public List<JobDetailDTO> JobDetails { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
@@ -398,17 +525,10 @@
         {
             get
             {
-                int totalShort = TotalOutersShort??0;
+                int totalShort = TotalOutersShort ?? 0;
                 int detailShort = DetailOutersShort ?? 0;
-                
-                var discrepancy = (totalShort - detailShort);
 
-                if (discrepancy > 0)
-                {
-                    return true;
-                }
-
-                return false;
+                return (totalShort - detailShort) > 0;
             }
         }
 
@@ -459,7 +579,7 @@
             get
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "DETOVER");
-                   if (string.IsNullOrWhiteSpace(attribute?.Value))
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
                 {
                     return null;
                 }
@@ -521,9 +641,6 @@
             }
         }
 
-        [XmlIgnore]
-        public JobStatus JobStatus { get; set; }
-
         public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
                                                        jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
 
@@ -531,6 +648,6 @@
 
         public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
 
-        public int ToBeAdvisedCount =>  OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
+        public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
     }
 }

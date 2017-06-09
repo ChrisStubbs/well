@@ -61,13 +61,14 @@
                         </ng-template>
                     </p-column>
                     <p-column header="Stops" field="stopCount" [sortable]="true" [filter]="true" filterMatchMode="equals"></p-column>
+                    <p-column header="rsId" field="routeStatusId" [hidden]="true"></p-column>
                     <p-column header="Status" field="routeStatus" [sortable]="true" [filter]="true" filterMatchMode="equals">
                         <ng-template pTemplate="filter" let-col>
                             <select class="form-control" id="searchStatus"
-                                    (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
+                                    (change)="dt.filter($event.target.value,'routeStatusId',col.filterMatchMode)"
                                     [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value : ''">
                                 <option value>All</option>
-                                <option *ngFor="let status of routeStatus" [value]="status.value">
+                                <option *ngFor="let status of routeStatus" [value]="status.key">
                                     {{ status.value }}
                                 </option>
                             </select>

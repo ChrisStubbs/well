@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Api.Mapper
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Common.Extensions;
@@ -65,6 +66,7 @@
 
                 foreach (var job in stopJobs)
                 {
+                    JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
                     var item = new SingleRouteItem
                     {
                         JobId = job.Id,
@@ -77,7 +79,8 @@
                         StopAssignee = stopAssignee,
                         Resolution = "TODO:", //TODO: we have to fix this
                         Invoice = job.InvoiceNumber,
-                        JobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode).ToString().SplitCapitalisedWords(),
+                        JobType = jobType.ToString().SplitCapitalisedWords(),
+                        JobTypeId = (int)jobType,
                         JobStatus = job.JobStatus,
                         JobStatusDescription = jobStatuses[job.JobStatus],
                         Cod = job.Cod,
@@ -86,7 +89,9 @@
                         Clean = job.JobDetails.Count(x => x.IsClean()),
                         Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
-                        Account = job.PhAccount
+                        Account = job.PhAccount,
+                        WellStatus = job.WellStatus,
+                        WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus)
                     };
 
                     singleRoute.Items.Add(item);

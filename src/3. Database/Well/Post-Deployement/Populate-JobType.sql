@@ -5,7 +5,7 @@ DELETE JobType
 MERGE INTO JobType AS Target
 USING	(VALUES	(1,'DEL-TOB','Tobacco', 'Tob', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(2,'DEL-AMB','Ambient', 'Amb', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
-				(3,'DEL-ALC','Alchohol', 'Alc', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
+				(3,'DEL-ALC','Alcohol', 'Alc', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(4,'DEL-CHL','Chilled', 'Chi', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(5,'DEL-FRZ','Frozen', 'Frz', dbo.ActivityType_Invoice(),'deployment',GETDATE(),'deployment',GETDATE()),
 				(6,'DEL-DOC','Documents', 'Doc', dbo.ActivityType_Documents(),'deployment',GETDATE(),'deployment',GETDATE()),

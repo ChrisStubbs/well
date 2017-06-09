@@ -47,7 +47,7 @@ namespace PH.Well.Services
                     return this.GetJobDetailReason().OrderBy(x => x.Value).ToList();
 
                 case LookupType.RouteStatus:
-                    return this.GetRouteStatus().OrderBy(x => x.Value).ToList();
+                    return this.GetWellStatus().OrderBy(x => x.Value).Where(x => x.Key != "2") .ToList();
 
                 case LookupType.WellStatus:
                     return this.GetWellStatus().OrderBy(x => x.Value).ToList();
@@ -76,8 +76,7 @@ namespace PH.Well.Services
                 {
                     DeliveryAction.NotDefined,
                     DeliveryAction.Credit,
-                    DeliveryAction.MarkAsBypassed,
-                    DeliveryAction.MarkAsDelivered
+                    DeliveryAction.Close
                 };
             return actions.Select(a =>
                 new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();

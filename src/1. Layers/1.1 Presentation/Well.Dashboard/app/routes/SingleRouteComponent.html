@@ -28,35 +28,10 @@
                                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                                 &nbsp;
                                 <action-Modal [disabled]="selectedItems().length == 0" 
+                                              [isStopLevel] ="true"
                                               (onActionClicked)="actionModalClicked($event)"
-                                              [actionSummaryData] ="getActionSummaryData()">
-                                    <div class="table-responsive table-container">
-                                        <table id="tableExceptionDeliveries" class="table table-hover table-striped">
-                                            <thead>
-                                                <tr style="height: auto">
-                                                    <th></th>
-                                                    <th>Stop</th>
-                                                    <th>Invoice No</th>
-                                                    <th>Job Type</th>
-                                                    <th>Action</th>
-                                                    <th style="width: 20%"><span class="pull-right">Invoice Qty</span></th>
-                                                    <th style="width: 20%"><span class="pull-right">Exception Qty</span></th>
-                                                    <th style="width: 15%"><span class="pull-right">Value</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="grid-row" *ngFor="let item of  selectedItems()" style="height: auto">
-                                                    <td></td>
-                                                    <td>{{item.stop}}</td>
-                                                    <td>{{item.invoice}}</td>
-                                                    <td>{{item.jobType}}</td>
-                                                    <td>{{selectedAction}}</td>
-                                                    <td><span class="pull-right">{{item.invoicedQty}}</span></td>
-                                                    <td><span class="pull-right">{{item.exceptions}}</span></td>
-                                                    <td><span class="pull-right">{{item.credit | currency:'GBP':true }}</span></td>
-                                                </tr>
-                                        </table>
-                                    </div>
+                                              [jobIds] ="getSelectedJobIds()">
+                                   
                                 </action-Modal>
                             </div>
                         </li>
@@ -94,12 +69,15 @@
                                 <div>Invoice</div>
                             </ng-template>
                         </p-column>
-                        <p-column header="Job Type" field="jobType" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible','width':'8%'}">
+                        <p-column header="c" field="jobTypeId" [hidden]="true"></p-column>
+                        <p-column header="Job Type" field="jobType" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible','width':'8%'}">
                             <ng-template pTemplate="header">
                                 <div>Job Type</div>
                             </ng-template>
                             <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchJob" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode); filterJobType = $event.target.value;" title="" [(ngModel)]="filterJobType">
+                                <select class="form-control" id="searchJob"
+                                        (change)="dt.filter($event.target.value, 'jobTypeId', col.filterMatchMode); filterJobType = $event.target.value;" title="" 
+                                        [(ngModel)]="filterJobType">
                                     <option value>All</option>
                                     <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
                                         {{ jobType.value }}
@@ -107,14 +85,16 @@
                                 </select>
                             </ng-template>
                         </p-column>
-                        <p-column header="Job Status" field="jobStatusDescription" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible','width':'10%'}">
+                        <p-column header="Job Status" field="wellStatusDescription" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible','width':'10%'}">
                             <ng-template pTemplate="header">
                                 <div>Job Status</div>
                             </ng-template>
                             <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchStatus" (change)="dt.filter($event.target.value, col.field, col.filterMatchMode); filterJobStatus = $event.target.value" title="" [(ngModel)]="filterJobStatus">
+                                <select class="form-control" id="searchStatus"
+                                        (change)="dt.filter($event.target.value, col.field,  col.filterMatchMode); filterJobStatus = $event.target.value" title="" 
+                                        [(ngModel)]="filterJobStatus">
                                     <option value>All</option>
-                                    <option *ngFor="let status of wellStatus" [value]="status.key">
+                                    <option *ngFor="let status of wellStatus" [value]="status.value">
                                         {{ status.value }}
                                     </option>
                                 </select>

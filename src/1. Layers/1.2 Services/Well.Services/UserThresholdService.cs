@@ -73,6 +73,14 @@
             return string.Empty;
         }
 
+        public decimal GetUserCreditThresholdValue()
+        {
+            var username = this.userNameProvider.GetUserName();
+            var user = this.userRepository.GetByIdentity(username);
+            var threshold = this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
+            return threshold?.Threshold ?? 0;
+        }
+
         private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)
         {
             var threshold = branchThresholds.FirstOrDefault(x => x.ThresholdLevel == level);

@@ -53,3 +53,5 @@ GO
 /*Included for Search */
 CREATE NONCLUSTERED INDEX [IDX_Job_JobStatusId] ON [dbo].[Job] ([JobStatusId]) INCLUDE ([JobTypeCode],[InvoiceNumber],[StopId])
 GO
+CREATE NONCLUSTERED INDEX [IDX_Job_StopId] ON [dbo].[Job] ([StopId]) INCLUDE ([Id],[JobTypeCode])
+GO

@@ -69,7 +69,7 @@
                         Value = line.SkuGoodsValue,
                         Invoiced = line.OriginalDespatchQty,
                         Delivered = line.DeliveredQty,
-                        Damages = line.JobDetailDamages.Sum(x => x.Qty),
+                        Damages = line.DamageQty,
                         Shorts = line.ShortQty,
                         Checked = line.IsChecked,
                         HighValue = line.IsHighValue,

@@ -199,6 +199,7 @@
     <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionService.ts" />
@@ -220,6 +221,8 @@
     <Compile Include="Models\Version.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <TypeScriptCompile Include="app\shared\action\actionSubmitSummary.ts" />
+    <TypeScriptCompile Include="app\shared\action\submitActionModel.ts" />
     <TypeScriptCompile Include="app\shared\components\accountFlagsComponent.ts" />
     <TypeScriptCompile Include="app\shared\components\assignModal.ts" />
     <TypeScriptCompile Include="app\shared\components\assignModel.ts" />
@@ -262,6 +265,7 @@
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
+    <Content Include="app\shared\action\actionEditComponent.html" />
     <Content Include="app\shared\action\actionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
@@ -414,6 +418,7 @@
     <Content Include="tslint.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\shared\NewFolder1\" />
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\angular2\" />
   </ItemGroup>

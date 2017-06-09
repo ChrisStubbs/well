@@ -51,8 +51,10 @@ AS
         , ApprovalDate
         , ApprovedBy 
 		, lia.Id
+		
 	FROM LineItemAction lia
 	INNER JOIN @LineItems lis ON lis.Id = lia.LineItemId
+	WHERE  lia.IsDeleted = 0
 
   RETURN 0
 END

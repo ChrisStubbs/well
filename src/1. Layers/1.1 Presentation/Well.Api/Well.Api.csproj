@@ -254,6 +254,7 @@
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\GrnModel.cs" />
     <Compile Include="Models\CreditThresholdModel.cs" />
+    <Compile Include="Models\LineItemEditModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\SingleRoute.cs" />
     <Compile Include="Models\SingleRouteViewItem.cs" />

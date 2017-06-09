@@ -209,6 +209,7 @@
     <Compile Include="Services\RouteMapperTests.cs" />
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
+    <Compile Include="Services\Validation\SubmitCreditActionValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

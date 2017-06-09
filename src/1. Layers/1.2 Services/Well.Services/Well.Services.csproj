@@ -59,7 +59,7 @@
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
-    <Compile Include="Contracts\IActionValidator.cs" />
+    <Compile Include="Contracts\IActionSummaryMapper.cs" />
     <Compile Include="Contracts\IDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
     <Compile Include="Contracts\IWellUpdateService.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="Contracts\ILineItemActionService.cs" />
     <Compile Include="Contracts\ISubmitActionService.cs" />
+    <Compile Include="Mappers\ActionSummaryMapper.cs" />
     <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />
     <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
@@ -111,6 +112,9 @@
     <Compile Include="UserThresholdNotFoundException.cs" />
     <Compile Include="UserNotFoundException.cs" />
     <Compile Include="UserThresholdService.cs" />
+    <Compile Include="Contracts\ISubmitActionValidation.cs" />
+    <Compile Include="Validation\SubmitActionValidation.cs" />
+    <Compile Include="Validation\SubmitCreditActionValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">

@@ -14,6 +14,7 @@
         public string Resolution { get; set; }
         public string Invoice { get; set; }
         public string JobType { get; set; }
+        public int JobTypeId { get; set; }
         public string Cod { get; set; }
         public bool Pod { get; set; }
         public int Exceptions { get; set; }
@@ -25,5 +26,7 @@
         public JobStatus JobStatus { get; set; }
         public int StopId { get; set; }
         public string Account { get; set; }
+        public WellStatus WellStatus { get; set; }
+        public string WellStatusDescription { get; set; }
     }
 }

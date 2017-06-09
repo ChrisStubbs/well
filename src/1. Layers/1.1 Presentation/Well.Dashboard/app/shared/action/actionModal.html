@@ -1,10 +1,10 @@
 ﻿<div class="btn-group">
     <button type="button" class="btn btn-success"
-            [disabled]="disabled || selectedAction == 'Action'"
+            [disabled]="disabled || selectedAction.key == '0'"
             (click)="actionClicked(selectedAction)"
             data-toggle="modal"
             data-target="#actionModal">
-        {{selectedAction}}
+        {{selectedAction.value}}
     </button>
     <button type="button" class="btn btn-success dropdown-toggle"
             data-toggle="dropdown"
@@ -15,7 +15,7 @@
     <ul class="dropdown-menu">
         <li *ngFor="let action of deliveryActions" (click)="actionClicked(action)"
             data-toggle="modal"
-            data-target="#actionModal"><a>{{action}}</a></li>
+            data-target="#actionModal"><a>{{action.value}}</a></li>
     </ul>
 </div>
 <!-- Modal -->
@@ -23,31 +23,44 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Action {{selectedAction}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Action {{selectedAction.value}}</h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="alert alert-danger" *ngIf="userThresholdError.length > 0">
-                           {{userThresholdError}}
+                        {{summaryData.summary}}
+                    </div>
+                </div>
+                <div class="row" style="overflow-y: auto; max-height: 400px" *ngIf="hasItemsToSubmit()">
+                    <div class="col-md-12">
+                        <div class="table-responsive table-container">
+                            <table id="tableExceptionDeliveries" class="table table-hover table-striped">
+                                <thead>
+                                <tr style="height: auto">
+                                    <th>{{isStopLevel ? 'Stop' : 'Invoice'  }}</th>
+                                    <th>{{isStopLevel ? 'No Of Invoices' : 'No Of Actions'  }}</th>
+                                    <th>Qty</th>
+                                    <th>Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="grid-row" *ngFor="let item of  summaryData.items" style="height: auto">
+                                    <td>{{item.identifier}}</td>
+                                    <td>{{item.noOfItems}}</td>
+                                    <td>{{item.qty}}</td>
+                                    <td>{{item.value}}</td>
+                                </tr>
+                            </table>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        {{actionSummaryData}}
-                    </div>
-                </div>
-                <div class="row" style="overflow-y: auto; height: 400px">
-                    <div class="col-md-12">
-                        <ng-content></ng-content>
+                        
+
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Submit {{selectedAction}}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()" #btnClose>Cancel</button>
+                <button type="button" class="btn btn-success"  [disabled]="!hasItemsToSubmit()" (click) ="submit()">Submit {{selectedAction.value}}</button>
             </div>
         </div>
     </div>

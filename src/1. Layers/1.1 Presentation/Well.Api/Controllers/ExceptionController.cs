@@ -29,6 +29,13 @@
             return result;
         }
 
+        public EditLineItemException Patch(EditLineItemException update)
+        {
+            var lineItem = lineItemActionService.SaveLineItemActions(update.Id, update.LineItemActions);
+            return lineItem != null ? lineItemExceptionMapper.Map(lineItem) : null;
+        }
+
+
         public EditLineItemException Post(LineItemActionUpdate update)
         {
             return lineItemExceptionMapper.Map(new[] { lineItemActionService.InsertLineItemActions(update) }).First();
@@ -38,5 +45,7 @@
         {
             return lineItemExceptionMapper.Map(new[] { lineItemActionService.UpdateLineItemActions(update) }).First();
         }
+
+
     }
 }

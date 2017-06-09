@@ -51,9 +51,11 @@
                 .Query<LineItemAction>().ToList();
         }
 
-        public IList<LineItemActionSubmitModel> GetLineItemsWithUnsubmittedActions(IEnumerable<int> submitActionJobIds, DeliveryAction submitActionAction)
+        public IList<LineItemActionSubmitModel> GetUnsubmittedActions(DeliveryAction deliveryAction)
         {
-            throw new System.NotImplementedException();
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionSubmitModelGetUnsubmitted)
+                .AddParameter("DeliveryActionId", deliveryAction, DbType.Int32)
+                .Query<LineItemActionSubmitModel>().ToList();
         }
 
         protected override void UpdateExisting(LineItemAction entity)
@@ -74,6 +76,7 @@
                 .AddParameter("DeliveryActionId", entity.DeliveryAction, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("IsDeleted", entity.IsDeleted, DbType.Boolean)
                 .Execute();
         }
 

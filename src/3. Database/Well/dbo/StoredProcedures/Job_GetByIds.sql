@@ -35,6 +35,7 @@ AS
 		,j.DateUpdated
 		,j.Version
 		,j.JobStatusId as JobStatus
+		,jsv.WellStatusId as WellStatus
 		,j.ProofOfDelivery
 		,j.GrnProcessType
 		,j.TotalOutersShort
@@ -52,6 +53,7 @@ AS
 			ON s.Id = a.StopId
 		LEFT JOIN JobType jb
 			ON j.JobTypeCode = jb.Code
+		INNER JOIN JobStatusView jsv on jsv.JobId = j.Id
 		LEFT JOIN
 		(
 			SELECT 
@@ -65,6 +67,8 @@ AS
 				INNER JOIN DeliveryAction da
 					ON lia.DeliveryActionId = da.id
 					AND da.Description = 'Credit'
+				WHERE 
+					 lia.IsDeleted = 0
 			GROUP BY 
 				j.JobId
 		) credit

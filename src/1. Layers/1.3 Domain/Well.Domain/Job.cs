@@ -642,6 +642,9 @@
         [XmlIgnore]
         public JobStatus JobStatus { get; set; }
 
+        [XmlIgnore]
+        public WellStatus WellStatus { get; set; }
+
         public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
                                                        jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
 

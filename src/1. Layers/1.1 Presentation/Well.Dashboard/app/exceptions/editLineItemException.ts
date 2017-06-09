@@ -1,3 +1,5 @@
+import {LineItemAction} from './lineItemAction';
+
 export class EditLineItemException
 {
     constructor()
@@ -8,13 +10,20 @@ export class EditLineItemException
 
     public isSelected: boolean;
     public id: number;
+    public accountCode: string;
+    public invoice: string;
+    public type: string;
     public productNumber: string;
     public product: string;
+    public value?: number;
     public invoiced?: number;
     public delivered?: number;
-    public quantity: number;
-    public exceptions: Array<EditLineItemExceptionDetail>
+    public damages: number;
+    public shorts: number;
+    public exceptions: Array<EditLineItemExceptionDetail>;
+    public lineItemActions: Array<LineItemAction>;
     public isExpanded: boolean;
+
 }
 
 export class EditLineItemExceptionDetail
@@ -30,5 +39,6 @@ export class EditLineItemExceptionDetail
     public erdd?: Date;
     public actionedby: string;
     public approvedby: string;
-    public comments: Array<string>
+    public comments: Array<string>;
+   
 }

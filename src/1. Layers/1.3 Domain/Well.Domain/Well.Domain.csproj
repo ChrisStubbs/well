@@ -105,6 +105,8 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="ValueObjects\ActionSubmitSummary.cs" />
+    <Compile Include="ValueObjects\ActionSubmitSummaryItem.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />

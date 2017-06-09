@@ -42,6 +42,8 @@ AS
 		,lia.LastUpdatedDate as DateUpdated
 	FROM LineItemAction lia
 	INNER JOIN @Ids ids ON ids.Value = lia.LineItemId
+	WHERE 
+		lia.IsDeleted = 0
 
  RETURN 0
 END

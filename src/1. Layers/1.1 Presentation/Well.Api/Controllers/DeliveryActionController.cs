@@ -29,8 +29,7 @@
                 {
                     DeliveryAction.NotDefined,
                     DeliveryAction.Credit,
-                    DeliveryAction.MarkAsBypassed,
-                    DeliveryAction.MarkAsDelivered
+                    DeliveryAction.Close
                 };
                 var reasons = actions
                     .Select(a => new

@@ -29,6 +29,7 @@ export class SingleRouteItem
     public resolution: string;
     public invoice: string;
     public jobType: string;
+    public jobTypeId: number;
     public cod: string;
     public get isCod(): boolean
     {
@@ -45,4 +46,6 @@ export class SingleRouteItem
     public jobStatus: number;
     public isSelected: boolean;
     public account: string;
+    public wellStatus: number;
+    public wellStatusDescription: string;
 }

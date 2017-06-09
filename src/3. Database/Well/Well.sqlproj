@@ -384,6 +384,7 @@
     <Build Include="dbo\Functions\ExceptionType_Damage.sql" />
     <Build Include="dbo\Functions\ExceptionType_Short.sql" />
     <Build Include="dbo\Functions\JobStatus_Bypass.sql" />
+    <Build Include="dbo\Tables\CommentReason.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

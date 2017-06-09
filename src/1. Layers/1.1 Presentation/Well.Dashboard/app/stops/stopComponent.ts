@@ -250,7 +250,7 @@ export class StopComponent implements IObservableAlive
                 item.totalShorts = summary.totalShorts;
                 item.invoice = singleItem.invoice;
                 item.account = singleItem.account;
-                item.accountID = singleItem.accountID
+                item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
                 item.items = current;
                 item.types = _.chain(current)

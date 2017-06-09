@@ -52,6 +52,9 @@ namespace PH.Well.Services
                 case LookupType.WellStatus:
                     return this.GetWellStatus().OrderBy(x => x.Value).ToList();
 
+                case LookupType.CommentReason:
+                    return this.lookupRepository.CommentReason().OrderBy(x => x.Value).ToList();
+
                 default:
                     throw new ArgumentException($"{lookupType}");
             }

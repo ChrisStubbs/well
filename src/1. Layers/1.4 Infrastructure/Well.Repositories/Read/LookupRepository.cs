@@ -50,5 +50,12 @@ namespace PH.Well.Repositories.Read
                 .Query<KeyValuePair<string, string>>()
                 .ToList();
         }
+
+        public IList<KeyValuePair<string, string>> CommentReason()
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.CommentReason)
+                .Query<KeyValuePair<string, string>>()
+                .ToList();
+        }
     }
 }

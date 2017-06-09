@@ -155,6 +155,7 @@
         public const string JobStatus = "JobStatus_Get";
         public const string JobType = "JobType_Get";
         public const string Driver = "Drivers_Get";
+        public const string CommentReason = "CommentReason_Get";
 
 
     }

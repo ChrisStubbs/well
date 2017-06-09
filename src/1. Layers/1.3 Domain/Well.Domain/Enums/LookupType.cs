@@ -11,6 +11,7 @@
         JobDetailSource,
         JobDetailReason,
         RouteStatus,
-        WellStatus
+        WellStatus,
+        CommentReason
     }
 }

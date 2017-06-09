@@ -109,4 +109,21 @@ export class ActionEditComponent implements IObservableAlive
         this.source = editLineItemException;
         this.lineItemActions = this.source.lineItemActions || [];
     }
+
+    private  actionClose: number = 2;
+    public qtyChanged(item: LineItemAction): void
+    {
+       
+        if (item.quantity === 0)
+        {
+            item.deliveryAction = this.actionClose;
+        }
+    }
+
+    public deliveryActionChange(item: LineItemAction): void
+    {
+        if (+item.deliveryAction === this.actionClose) {
+            item.quantity = 0;
+        }
+    }
 }

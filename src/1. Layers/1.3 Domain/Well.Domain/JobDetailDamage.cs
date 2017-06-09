@@ -2,6 +2,8 @@
 {
     using System;
     using System.Dynamic;
+    using System.Reflection;
+    using System.Text;
     using System.Xml.Serialization;
 
     using Enums;
@@ -22,10 +24,96 @@
             this.Reason = new Reason();
         }
 
-        [XmlIgnore]
         public int DamageActionId { get; set; }
 
         public DeliveryAction DamageAction => (DeliveryAction) DamageActionId;
+
+        public int Qty { get; set; }
+
+        public string QtyXml
+        {
+            get
+            {
+                return this.Qty.ToString();
+            }
+            set
+            {
+                var tryInt = 0;
+
+                if (int.TryParse(value, out tryInt))
+                {
+                    this.Qty = tryInt;
+                }
+            }
+        }
+
+        public string JobDetailCode { get; set; }
+
+        public int JobDetailId { get; set; }
+
+        public Reason Reason { get; set; }
+
+        public DamageSource Source { get; set; }
+
+        public int JobDetailReasonId { get; set; }
+
+        public int JobDetailSourceId { get; set; }
+
+        public JobDetailStatus DamageStatus { get; set; }
+
+        public JobDetailReason JobDetailReason
+        {
+            get
+            {
+                if (Reason != null)
+                {
+                    JobDetailReason jdReason;
+                    return Enum.TryParse<JobDetailReason>(Reason.Code, out jdReason)
+                        ? jdReason
+                        : JobDetailReason.NotDefined;
+                }
+
+                return JobDetailReason.NotDefined;
+            }
+            set
+            {
+                Reason = new Reason()
+                {
+                    Code = value.ToString(),
+                    Description = StringExtensions.GetEnumDescription(value)
+                };
+            }
+        }
+
+        public bool Equals(JobDetailDamage other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return other.JobDetailReason == this.JobDetailReason && other.Qty == Qty;
+        }
+
+        public string PdaReasonDescription { get; set; }
+
+        public JobDetailSource JobDetailSource { get; set; }
+    }
+
+    [Serializable()]
+    public class JobDetailDamageDTO :  IEquatable<JobDetailDamageDTO>
+    {
+        public JobDetailDamageDTO()
+        {
+            this.Source = new DamageSource();
+
+            this.Reason = new Reason();
+        }
+
+        [XmlIgnore]
+        public int DamageActionId { get; set; }
+
+        public DeliveryAction DamageAction => (DeliveryAction)DamageActionId;
 
         [XmlIgnore]
         public int Qty { get; set; }
@@ -126,7 +214,7 @@
                 $"Reason - {EnumExtensions.GetDescription((JobDetailReason)this.JobDetailReasonId)}, Source - {EnumExtensions.GetDescription((JobDetailSource)this.JobDetailSourceId)}, Action - {EnumExtensions.GetDescription((DeliveryAction)this.DamageActionId)} - {this.Qty}";
         }
 
-        public bool Equals(JobDetailDamage other)
+        public bool Equals(JobDetailDamageDTO other)
         {
             if (other == null)
             {

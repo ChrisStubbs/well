@@ -11,7 +11,7 @@
     {
         public RouteHeader()
         {
-            this.Stops = new List<Stop>();
+            this.Stops = new List<StopDTO>();
             this.EntityAttributes = new List<EntityAttribute>();
         }
 
@@ -264,8 +264,8 @@
         public int RoutesId { get; set; }
 
         [XmlArray("Stops")]
-        [XmlArrayItem("Stop", typeof(Stop))]
-        public List<Stop> Stops { get; set; }
+        [XmlArrayItem("Stop", typeof(StopDTO))]
+        public List<StopDTO> Stops { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]

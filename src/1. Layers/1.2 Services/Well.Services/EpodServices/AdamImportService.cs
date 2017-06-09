@@ -2,16 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
-    using System.Threading;
     using System.Transactions;
-
-    using PH.Well.Common;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
-    using PH.Well.Domain.Enums;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services.Contracts;
+    using Common;
+    using Common.Contracts;
+    using Domain;
+    using Domain.Enums;
+    using Repositories.Contracts;
+    using Contracts;
+    using static Domain.Mappers.AutoMapperConfig;
 
     public class AdamImportService : IAdamImportService
     {
@@ -95,10 +93,12 @@
             this.ImportStops(header.Stops);
         }
 
-        private void ImportStops(IEnumerable<Stop> stops)
+        private void ImportStops(IEnumerable<StopDTO> stops)
         {
-            foreach (var stop in stops)
+            foreach (var s in stops)
             {
+                var stop = Mapper.Map<StopDTO, Stop>(s);
+
                 try
                 {
                     using (var transactionScope = new TransactionScope())

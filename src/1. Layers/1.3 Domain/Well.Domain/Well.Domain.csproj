@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +47,7 @@
     <Compile Include="Account.cs" />
     <Compile Include="Activity.cs" />
     <Compile Include="Audit.cs" />
+    <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
     <Compile Include="Contracts\IEntity.cs" />
@@ -164,6 +169,9 @@
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
       <Name>Well.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

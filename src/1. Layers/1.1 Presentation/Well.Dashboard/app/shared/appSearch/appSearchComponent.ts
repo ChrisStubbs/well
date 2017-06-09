@@ -84,7 +84,10 @@ export class AppSearch implements IObservableAlive
             return;
         }
 
-        this.searchForm.value.branch = this.branches[0] ? this.branches[0][0] : undefined;
+        if (this.branches.length == 1)
+        {
+            this.searchForm.value.branch = this.branches[0] ? this.branches[0][0] : undefined;
+        }
     }
     public ngOnDestroy(): void
     {

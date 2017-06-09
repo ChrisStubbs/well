@@ -5,6 +5,7 @@
             <div class="col-lg-9">
                 <select class="form-control" id="searchBranch" formControlName="branch"
                         [ngModel]="searchForm.value.branch">
+                    <option value="" disabled selected>Select one</option>
                     <option *ngFor="let branch of branches" [value]="branch[0]">
                         {{ branch[1] }}
                     </option>

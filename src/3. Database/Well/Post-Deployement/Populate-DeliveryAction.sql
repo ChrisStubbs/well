@@ -3,14 +3,18 @@
 MERGE INTO [DeliveryAction] AS Target
 USING	(VALUES	(0,'Not Defined'),
 				(1,'Credit'),
-				(2,'Mark as Bypassed'),
-				(3,'Mark as Delivered')
+				(2,'Close')
 			)
 AS Source ([Id],[Description])
 	ON Target.[Id] = Source.[Id]
-
+WHEN  MATCHED AND Target.[Description] != Source.[Description] THEN
+	UPDATE 
+	SET Target.[Description] = Source.[Description]
 WHEN NOT MATCHED BY TARGET THEN
 	INSERT ([Id],[Description])
-	VALUES ([Id],[Description]);
+	VALUES ([Id],[Description])
+WHEN NOT MATCHED BY SOURCE THEN
+  DELETE;
+;
 
 SET IDENTITY_INSERT [DeliveryAction] OFF

@@ -7,5 +7,6 @@
     public interface ILineItemExceptionMapper
     {
         IEnumerable<EditLineItemException> Map(IEnumerable<LineItem> lineItems);
+        EditLineItemException Map(LineItem lineItem);
     }
 }

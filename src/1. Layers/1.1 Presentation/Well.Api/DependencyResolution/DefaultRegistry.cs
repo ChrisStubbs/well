@@ -115,6 +115,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ISubmitActionService>().Use<SubmitActionService>();
             For<ISubmitActionValidation>().Use<SubmitActionValidation>();
             For<ISubmitCreditActionValidation>().Use<SubmitCreditActionValidation>();
+            For<IActionSummaryMapper>().Use<ActionSummaryMapper>();
         }
     }
 }

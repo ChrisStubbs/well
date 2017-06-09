@@ -67,6 +67,8 @@ AS
 				INNER JOIN DeliveryAction da
 					ON lia.DeliveryActionId = da.id
 					AND da.Description = 'Credit'
+				WHERE 
+					 lia.IsDeleted = 0
 			GROUP BY 
 				j.JobId
 		) credit

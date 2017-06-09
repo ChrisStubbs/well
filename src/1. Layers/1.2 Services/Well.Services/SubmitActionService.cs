@@ -20,6 +20,7 @@
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly ISubmitActionValidation validator;
         private readonly IUserThresholdService userThresholdService;
+        private readonly IActionSummaryMapper actionSummaryMapper;
 
         public SubmitActionService(
             ILogger logger,
@@ -29,7 +30,8 @@
             ICreditTransactionFactory creditTransactionFactory,
             IExceptionEventRepository exceptionEventRepository,
             ISubmitActionValidation validator,
-            IUserThresholdService userThresholdService)
+            IUserThresholdService userThresholdService,
+            IActionSummaryMapper actionSummaryMapper)
         {
             this.logger = logger;
             this.userNameProvider = userNameProvider;
@@ -39,6 +41,7 @@
             this.exceptionEventRepository = exceptionEventRepository;
             this.validator = validator;
             this.userThresholdService = userThresholdService;
+            this.actionSummaryMapper = actionSummaryMapper;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
@@ -98,6 +101,21 @@
                 logger.LogError($"Error Submitting Action {submitAction.Action} for JobIds {string.Join(",", submitAction.JobIds)}", ex);
                 return new SubmitActionResult { Message = $"Error submitting  {submitAction.Action}. No actions have been processed" };
             }
+        }
+
+        public ActionSubmitSummary GetSubmitSummary(SubmitActionModel submitAction, bool isStopLevel)
+        {
+            SubmitActionResult result = null;
+            var unsubmittedItems = lineItemActionRepository.GetUnsubmittedActions(submitAction.Action).ToArray();
+            submitAction.SetItemsToSubmit(unsubmittedItems);
+
+            result = validator.Validate(submitAction, unsubmittedItems);
+            if (!result.IsValid)
+            {
+                return new ActionSubmitSummary { Summary = result.Message };
+            }
+
+            return actionSummaryMapper.Map(submitAction, isStopLevel);
         }
 
         private bool UserHasRequiredCreditThreshold(int jobId, IEnumerable<LineItemActionSubmitModel> submitActionItemsToSubmit)

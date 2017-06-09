@@ -15,7 +15,7 @@
         {
             if (ItemsToSubmit == null)
             {
-                ItemsToSubmit = allUnsubmittedItems.Where(x => JobIds.Contains(x.JobId));
+                ItemsToSubmit = LineItemActionSubmitModel.GetItemsContainingJobIds(allUnsubmittedItems.ToList(), JobIds);
             }
         }
     }

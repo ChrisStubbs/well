@@ -22,6 +22,8 @@ BEGIN
 	LEFT JOIN JobDetailSource jds on jds.Id = lia.SourceId
 	LEFT JOIN JobDetailReason jdr on jdr.Id = lia.ReasonId
 	INNER JOIN @Ids i on i.Value = li.Id
+	WHERE
+		lia.IsDeleted = 0
 
 	RETURN 0
 END

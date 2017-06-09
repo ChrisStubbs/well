@@ -16,7 +16,21 @@
         public string ApprovedBy { get; set; }
         public string ActionedBy { get; set; }
         public Originator Originator { get; set; }
-        public DeliveryAction DeliveryAction { get; set; } 
+        public DeliveryAction DeliveryAction { get; set; }
 
+        public bool HasChanges(LineItemAction item)
+        {
+            return ExceptionType != item.ExceptionType
+                   || Quantity != item.Quantity
+                   || Source != item.Source
+                   || Reason != item.Reason
+                   || ReplanDate != item.ReplanDate
+                   || SubmittedDate != item.SubmittedDate
+                   || ApprovalDate != item.ApprovalDate
+                   || ApprovedBy != item.ApprovedBy
+                   || ActionedBy != item.ActionedBy
+                   || Originator != item.Originator
+                   || DeliveryAction != item.DeliveryAction;
+        }
     }
 }

@@ -1,14 +1,13 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System.Web.Http;
+    using Domain.Enums;
     using Domain.ValueObjects;
-    using Models;
     using Services.Contracts;
 
     public class SubmitActionController : ApiController
     {
         private readonly ISubmitActionService submitActionService;
-
 
         public SubmitActionController(ISubmitActionService submitActionService)
         {
@@ -21,6 +20,12 @@
             return results;
         }
 
+        [HttpGet]
+        public ActionSubmitSummary PreSubmitSummary([FromUri] int[] jobId, DeliveryAction action, bool isStopLevel)
+        {
+            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId, Action = action }, isStopLevel);
+            return results;
+        }
 
     }
 }

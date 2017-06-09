@@ -24,6 +24,8 @@
         private Mock<IExceptionEventRepository> exceptionEventRepository;
         private Mock<ISubmitActionValidation> validator;
         private Mock<IUserThresholdService> userThresholdService;
+        private Mock<IActionSummaryMapper> actionSummaryMapper;
+
         private SubmitActionService submitActionService;
 
         [SetUp]
@@ -35,6 +37,7 @@
             deliveryLineCreditMapper = new Mock<IDeliveryLineCreditMapper>(MockBehavior.Strict);
             creditTransactionFactory = new Mock<ICreditTransactionFactory>(MockBehavior.Strict);
             exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
+            actionSummaryMapper = new Mock<IActionSummaryMapper>(MockBehavior.Strict);
             validator = new Mock<ISubmitActionValidation>(MockBehavior.Strict);
             userThresholdService = new Mock<IUserThresholdService>(MockBehavior.Strict);
 
@@ -45,7 +48,8 @@
                                                 creditTransactionFactory.Object,
                                                 exceptionEventRepository.Object,
                                                 validator.Object,
-                                                userThresholdService.Object);
+                                                userThresholdService.Object,
+                                                actionSummaryMapper.Object);
         }
 
 

@@ -290,11 +290,7 @@
 
         [XmlIgnore]
         public int TotalDrops { get; set; }
-
-        public int CleanJobs => Stops.Sum(s => s.CleanJobsCount);
-
-        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobsCount);
-
+        
         public bool TryParseBranchIdFromRouteNumber(out int branchId )
         {
             return int.TryParse(RouteNumber.Substring(0, 2), out branchId);

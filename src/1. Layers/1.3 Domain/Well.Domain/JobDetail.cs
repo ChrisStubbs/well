@@ -183,6 +183,8 @@
 
             return c;
         }
+
+        public int DamageQty => JobDetailDamages.Sum(x => x.Qty);
     }
 
     public class JobDetailDTO
@@ -551,7 +553,5 @@
                     $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
             }
         }
-
-        public int DamageQty => JobDetailDamages.Sum(x => x.Qty);
     }
 }

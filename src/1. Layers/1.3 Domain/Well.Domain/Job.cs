@@ -130,6 +130,8 @@
         public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
 
         public int ToBeAdvisedCount =>  OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
+        
+        public WellStatus WellStatus { get; set; }
     }
 
     public class JobDTO
@@ -638,12 +640,6 @@
                 return total;
             }
         }
-
-        [XmlIgnore]
-        public JobStatus JobStatus { get; set; }
-
-        [XmlIgnore]
-        public WellStatus WellStatus { get; set; }
 
         public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
                                                        jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));

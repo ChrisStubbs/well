@@ -31,8 +31,10 @@ namespace PH.Well.UnitTests.DTOMappers
                 .AddEntityAttributeValues("DETSHORT", "1")
                 .AddEntityAttributeValues("PICKED", "N")
                 .AddEntityAttributeValues("INVALUE", "10")
+                .With(p => p.SequenceXml = "23")
                 .Build();
 
+            Assert.That(sut.Sequence, Is.EqualTo(23));
             Assert.That(sut.OrdOuters, Is.EqualTo(10));
             Assert.That(sut.InvOuters, Is.EqualTo(10));
             Assert.That(sut.ColOuters, Is.EqualTo(10));

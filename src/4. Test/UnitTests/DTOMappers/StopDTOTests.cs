@@ -19,9 +19,6 @@ namespace PH.Well.UnitTests.DTOMappers
                 .AddEntityAttribute("ACTPAYCHEQ", "1.6")
                 .AddEntityAttribute("ACTPAYCARD", "2.6")
                 .AddEntityAttribute("ACCBAL", "19.6")
-                .With(p => p.Jobs.Add(new JobDTO { JobStatus = Well.Domain.Enums.JobStatus.Clean }))
-                .With(p => p.Jobs.Add(new JobDTO { JobStatus = Well.Domain.Enums.JobStatus.Clean }))
-                .With(p => p.Jobs.Add(new JobDTO { JobStatus = Well.Domain.Enums.JobStatus.Exception }))
                 .With(p => p.TextField5 = "1 8")
                 .Build();
 
@@ -32,8 +29,6 @@ namespace PH.Well.UnitTests.DTOMappers
             Assert.That(sut.ActualPaymentCheque, Is.EqualTo(1.6M));
             Assert.That(sut.ActualPaymentCard, Is.EqualTo(2.6M));
             Assert.That(sut.AccountBalance, Is.EqualTo(19.6M));
-            Assert.That(sut.CleanJobsCount, Is.EqualTo(2));
-            Assert.That(sut.ExceptionJobsCount, Is.EqualTo(1));
             Assert.That(sut.DropId, Is.EqualTo("8"));
 
             sut.TextField5 = "";

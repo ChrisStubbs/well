@@ -49,7 +49,8 @@
                     }
                 }
                 
-                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)))
+                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id) 
+                                                                                && x.Originator != Originator.Driver))
                 {
                     itemToDelete.IsDeleted = true;
                     lineItemActionRepository.Update(itemToDelete);
@@ -72,7 +73,7 @@
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
                 Reason = lineItemActionUpdate.Reason,
-                Originator = Originator.Customer
+                Originator = lineItemActionUpdate.Orginator
             };
 
             lineItemActionRepository.Save(lineItemAction);
@@ -91,6 +92,7 @@
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
                 Reason = lineItemActionUpdate.Reason,
+                Originator = lineItemActionUpdate.Orginator
             };
 
             lineItemActionRepository.Update(lineItemAction);

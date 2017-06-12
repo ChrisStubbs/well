@@ -3,7 +3,6 @@ import { CurrencyPipe }                                         from '@angular/c
 import { RoutesService }                                        from './routesService'
 import {SingleRoute, SingleRouteSource, SingleRouteFilter}      from './singleRoute';
 import { ActivatedRoute }                                       from '@angular/router';
-import { AppDefaults }                                          from '../shared/defaults/defaults';
 import * as _                                                   from 'lodash';
 import { AssignModel, AssignModalResult }                       from '../shared/components/components';
 import { Branch }                                               from '../shared/branch/branch';
@@ -28,7 +27,6 @@ export class SingleRouteComponent implements IObservableAlive
     public routeDate: Date;
     public routeNumber: string;
     public isAlive: boolean = true;
-    public rowCount = AppDefaults.Paginator.rowCount();
     public jobTypes: Array<ILookupValue>;
     public wellStatus: Array<ILookupValue>;
     public assignees: Array<string>;

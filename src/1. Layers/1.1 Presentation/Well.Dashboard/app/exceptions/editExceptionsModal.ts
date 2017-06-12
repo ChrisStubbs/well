@@ -98,7 +98,7 @@ export class EditExceptionsModal implements IObservableAlive
 
             this.lineItemAction.id = ex.id;
             this.lineItemAction.lineItemId = ex.lineItemId;
-            this.lineItemAction.deliverAction = this.findKeyByValue(this.deliveryActions, ex.action);
+            this.lineItemAction.deliveryAction = this.findKeyByValue(this.deliveryActions, ex.action);
             this.lineItemAction.exceptionType = this.findKeyByValue(this.exceptionTypes, ex.exception);
             this.lineItemAction.quantity = ex.quantity | 0;
             this.lineItemAction.source = this.findKeyByValue(this.sources, ex.source);

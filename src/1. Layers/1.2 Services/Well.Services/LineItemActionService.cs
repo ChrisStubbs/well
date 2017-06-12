@@ -13,11 +13,16 @@
     {
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
+        private readonly ILineItemActionCommentRepository commentRepository;
 
-        public LineItemActionService(ILineItemActionRepository lineItemActionRepository, ILineItemSearchReadRepository lineItemRepository)
+        public LineItemActionService(
+            ILineItemActionRepository lineItemActionRepository, 
+            ILineItemSearchReadRepository lineItemRepository,
+            ILineItemActionCommentRepository commentRepository)
         {
             this.lineItemActionRepository = lineItemActionRepository;
             this.lineItemRepository = lineItemRepository;
+            this.commentRepository = commentRepository;
         }
 
         public LineItem SaveLineItemActions(int lineItemId, IEnumerable<LineItemAction> lineItemActions)
@@ -47,9 +52,16 @@
                             lineItemActionRepository.Update(action);
                         }
                     }
+
+                    foreach (var comment in action.Comments.Where(x=> x.IsTransient()))
+                    {
+                        comment.LineItemActionId = action.Id;
+                        commentRepository.Save(comment);
+                    }
                 }
                 
-                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)))
+                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id) 
+                                                                                && x.Originator != Originator.Driver))
                 {
                     itemToDelete.IsDeleted = true;
                     lineItemActionRepository.Update(itemToDelete);
@@ -72,7 +84,7 @@
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
                 Reason = lineItemActionUpdate.Reason,
-                Originator = Originator.Customer
+                Originator = lineItemActionUpdate.Orginator
             };
 
             lineItemActionRepository.Save(lineItemAction);
@@ -91,6 +103,7 @@
                 Quantity = lineItemActionUpdate.Quantity,
                 Source = lineItemActionUpdate.Source,
                 Reason = lineItemActionUpdate.Reason,
+                Originator = lineItemActionUpdate.Orginator
             };
 
             lineItemActionRepository.Update(lineItemAction);

@@ -1,5 +1,5 @@
 ﻿import { Component, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, ValidationErrors } from '@angular/forms';
 import { IObservableAlive } from '../IObservableAlive';
 import * as _ from 'lodash';
 import { ILookupValue } from '../services/ILookupValue';
@@ -9,6 +9,7 @@ import { EditExceptionsService } from '../../exceptions/editExceptionsService';
 import { Observable } from 'rxjs'
 import { LineItemAction } from '../../exceptions/lineItemAction';
 import { EditLineItemException } from '../../exceptions/editLineItemException';
+import { LineItemActionComment } from '../../exceptions/lineItemAction';
 
 @Component({
     selector: 'action-edit',
@@ -23,10 +24,13 @@ export class ActionEditComponent implements IObservableAlive
     private sources: Array<ILookupValue>;
     private reasons: Array<ILookupValue>;
     private exceptionTypes: Array<ILookupValue>;
+    private commentReasons: Array<ILookupValue>;
     private lineItemActionsToRemove: Array<LineItemAction> = [];
     public source: EditLineItemException = new EditLineItemException();
+    public originalLineItems: Array<LineItemAction> = [];
     private lineItemActions: Array<LineItemAction> = [];
-
+    private errorInvoiceQty: string = 'Total Action quantity is > than the invoice quantity';
+    private errorCommentRequired: string = 'When editing a quantity a comment is required';
     @Output() public onSave = new EventEmitter<EditLineItemException>();
     @ViewChild('showModal') public showModal: ElementRef;
     @ViewChild('actionEditForm') private currentForm: NgForm;
@@ -49,7 +53,9 @@ export class ActionEditComponent implements IObservableAlive
                 this.lookupService.get(LookupsEnum.DeliveryAction),
                 this.lookupService.get(LookupsEnum.ExceptionType),
                 this.lookupService.get(LookupsEnum.JobDetailSource),
-                this.lookupService.get(LookupsEnum.JobDetailReason)
+                this.lookupService.get(LookupsEnum.JobDetailReason),
+                this.lookupService.get(LookupsEnum.CommentReason)
+
             )
                 .takeWhile(() => this.isAlive)
                 .subscribe(value =>
@@ -58,6 +64,8 @@ export class ActionEditComponent implements IObservableAlive
                     this.exceptionTypes = value[1];
                     this.sources = value[2];
                     this.reasons = value[3];
+                    this.commentReasons = value[4];
+                    this.commentReasons.unshift({ key: undefined, value: undefined });
                 });
         }
     }
@@ -107,6 +115,133 @@ export class ActionEditComponent implements IObservableAlive
     private loadSource(editLineItemException: EditLineItemException): void
     {
         this.source = editLineItemException;
+        this.originalLineItems = JSON.parse(JSON.stringify(editLineItemException.lineItemActions));
         this.lineItemActions = this.source.lineItemActions || [];
+    }
+
+    private actionClose: number = 2;
+    private qtyChanged(item: LineItemAction, event, index: number): void
+    {
+        if (item.quantity === 0)
+        {
+            item.deliveryAction = this.actionClose;
+        }
+
+        if (this.validateTotalQty(event))
+        {
+            this.validateComment(item, index);
+        }
+
+    }
+
+    private validateTotalQty(event): boolean
+    {
+        const form = this.currentForm.form;
+        const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
+
+        if (totalLineQty > this.source.invoiced)
+        {
+            this.setError(form, this.errorInvoiceQty);
+            return false;
+
+        } else
+        {
+            this.deleteError(form, this.errorInvoiceQty);
+            return true;
+        }
+    }
+
+    public setError(ctl: any, error: string) 
+    {
+        if (!ctl.errors)
+        {
+            ctl.setErrors({ key: error });
+        } else
+        {
+            ctl.errors.key = ctl.errors.key + ', ' + error;
+        }
+    }
+
+    public deleteError(ctl: any, error: string)
+    {
+        if (ctl.errors)
+        {
+            const array = ctl.errors.key.split(', ');
+            _.filter(array, x => x === error);
+            if (array.length === 0)
+            {
+                delete ctl.errors[error];
+
+            } else
+            {
+                ctl.errors.key = array.join(', ');
+            }
+        }
+    }
+
+    private getFormValidationErrors()
+    {
+        let errors = [];
+        const form = this.currentForm.form;
+        if (form.errors != undefined)
+        {
+            errors = form.errors.key.split(', ');
+        }
+        return errors;
+    }
+
+    private validateComment(item: LineItemAction, index: number)
+    {
+        const form = this.currentForm.form;
+        if (item.id !== 0)
+        {
+            const originalItem = _.find(this.originalLineItems, x => x.id === item.id);
+            const commentCtl = form.controls['commentReasonId' + index];
+            if (originalItem && originalItem.quantity !== item.quantity
+                && (!commentCtl.value || commentCtl.value === 'undefined'))
+            {
+                this.setError(form, this.errorCommentRequired);
+                this.setError(commentCtl, this.errorCommentRequired);
+            } else
+            {
+                this.deleteError(form, this.errorCommentRequired);
+                this.deleteError(commentCtl, this.errorCommentRequired);
+            }
+        }
+    }
+
+    private deliveryActionChange(item: LineItemAction, index: number): void
+    {
+        if (+item.deliveryAction === this.actionClose)
+        {
+            item.quantity = 0;
+            this.validateComment(item, index);
+        }
+    }
+
+    private commentChange(item: LineItemAction, event): void
+    {
+        let newComment = _.find(item.comments, x => x.id === 0);
+        if (_.isNil(newComment))
+        {
+            if (!item.comments)
+            {
+                item.comments = [];
+            }
+
+            newComment = new LineItemActionComment();
+            item.comments.push(newComment);
+        }
+        newComment.commentReasonId = +event.target.value;
+
+        if (event.target.value === 'undefined')
+        {
+            item.comments.pop();
+        }
+    }
+
+    private isFormValid()
+    {
+        return this.currentForm.form.valid;
     }
 }

@@ -1,9 +1,8 @@
-﻿<button style="visibility: hidden"  type="button" data-target="#editModal" data-toggle="modal" #showModal>
+﻿<button style="visibility: hidden" type="button" data-target="#editModal" data-toggle="modal" #showModal>
     ShowModal
-</button>    
+</button>
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
-
         <div class="modal-content">
             <form class="form-horizontal" #actionEditForm="ngForm">
                 <div class="modal-header" style=" padding-bottom: 0px;">
@@ -13,17 +12,25 @@
                     </div>
                     <div style="padding: 15px 15px 0 15px">
                         <div class="form-group">
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <label>Account:</label>
                                 <span> {{source.accountCode}}</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label>Invoice:</label>
                                 <span>{{source.invoice}}</span>
                             </div>
                             <div class="col-md-3">
                                 <label>Type:</label>
                                 <span>{{source.type}}</span>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Invoiced:</label>
+                                <span>{{source.invoiced}}</span>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Delivered:</label>
+                                <span>{{source.delivered}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -35,19 +42,9 @@
                                 <label>Description:</label>
                                 <span>{{source.product}}</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label>Value:</label>
                                 <span>{{source.value | currency:'GBP':true}}</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-2">
-                                <label>Invoiced:</label>
-                                <span>{{source.invoiced}}</span>
-                            </div>
-                            <div class="col-md-2">
-                                <label>Delivered:</label>
-                                <span>{{source.delivered}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label>Damages:</label>
@@ -58,9 +55,16 @@
                                 <span>{{source.shorts}}</span>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="alert alert-danger" *ngIf="getFormValidationErrors().length > 0">
+                                <ul>
+                                    <li *ngFor="let error of getFormValidationErrors()">
+                                        {{error}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
                 <div class="modal-body" style="padding-top: 0px">
 
@@ -71,7 +75,8 @@
                                     <thead>
                                         <tr>
                                             <th>Action</th>
-                                            <th>Quantity</th>
+                                            <th>Qty</th>
+                                            <th>Comments</th>
                                             <th>Exception</th>
                                             <th>Source</th>
                                             <th>Reason</th>
@@ -81,14 +86,36 @@
                                     <tbody>
                                         <tr *ngFor="let item of lineItemActions; let i = index">
                                             <td>
-                                                <select class="form-control" id="deliveryAction{{i}}" name="deliveryAction{{i}}" [(ngModel)]="item.deliveryAction">
+                                                <select class="form-control" id="deliveryAction{{i}}" name="deliveryAction{{i}}" 
+                                                        [(ngModel)]="item.deliveryAction" 
+                                                        (change)="deliveryActionChange(item, i)">
                                                     <option *ngFor="let action of deliveryActions" [value]="action.key">
                                                         {{ action.value }}
                                                     </option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" id="quantity{{i}}" name="quantity{{i}}" [(ngModel)]="item.quantity" required pattern="^[1-9]\d*$" />
+                                                <input type="number" class="form-control" id="quantity{{i}}" name="quantity{{i}}"
+                                                       [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
+                                                       (change)="qtyChanged(item,$event, i)"
+                                                       [disabled]="+item.deliveryAction == actionClose" />
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="commentReasonId{{i}}" 
+                                                        name="commentReasonId{{i}}" 
+                                                        [(ngModel)]="item.commentReason"
+                                                        (change)="commentChange(item,$event)">
+                                                    <option *ngFor="let comment of commentReasons" [value]="comment.key">
+                                                        {{comment.value}}
+                                                    </option>
+                                                </select>
+                                                <table>
+                                                    <tr *ngFor="let c of item.comments;">
+                                                        <th>{{c.commentDescription}}</th>
+                                                        <th>{{c.createdBy}}</th>
+                                                        <th>{{c.dateCreated}}</th>
+                                                    </tr>
+                                                </table>
                                             </td>
                                             <td>
                                                 <select class="form-control" id="exceptionTypeId{{i}}" name="exceptionTypeId{{i}}" [(ngModel)]="item.exceptionType" pattern="[^0]+">
@@ -111,8 +138,13 @@
                                                     </option>
                                                 </select>
                                             </td>
-                                            <td>
-                                                <button id="remove-damage-button{{i}}" type="button" class="btn btn-primary" (click)="removeItem(i)">Remove</button>
+                                            <td style="text-align: center; vertical-align: middle">
+                                                <button *ngIf="item.originator == 1" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
+                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                </button>
+                                                <span *ngIf="item.originator == 0">
+                                                    <i class="fa fa-truck" aria-hidden="true" (click)="opDriverReason.toggle($event)"></i>
+                                                </span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -120,32 +152,23 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-md-6">
                             <div class="pull-left">
-                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!currentForm.form.valid">Add</button>
+                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!isFormValid()">Add</button>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="pull-right" >
+                            <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>&nbsp;
-                                <button type="button" class="btn btn-success" [disabled]="!currentForm.form.valid" (click)="save()">Save</button>
+                                <button type="button" class="btn btn-success" [disabled]="!isFormValid()" (click)="save()">Save</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>
-
     </div>
 </div>
-
-
-
-
-
-

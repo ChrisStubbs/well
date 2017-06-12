@@ -50,6 +50,7 @@
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
+    <Compile Include="LineItemActionComment.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="EntityAttribute.cs" />
     <Compile Include="Enums\ActionStatus.cs" />

@@ -79,7 +79,7 @@ import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
+import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';

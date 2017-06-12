@@ -1,10 +1,15 @@
 ﻿namespace PH.Well.Domain
 {
     using System;
+    using System.Collections.Generic;
     using Enums;
 
     public class LineItemAction: Entity<int>
     {
+        public LineItemAction()
+        {
+            Comments = new List<LineItemActionComment>();
+        }
         public int LineItemId { get; set; }
         public ExceptionType ExceptionType { get; set; }
         public int Quantity { get; set; }
@@ -17,6 +22,7 @@
         public string ActionedBy { get; set; }
         public Originator Originator { get; set; }
         public DeliveryAction DeliveryAction { get; set; }
+        public IEnumerable<LineItemActionComment> Comments { get; set; }
 
         public bool HasChanges(LineItemAction item)
         {
@@ -32,5 +38,7 @@
                    || Originator != item.Originator
                    || DeliveryAction != item.DeliveryAction;
         }
+
+
     }
 }

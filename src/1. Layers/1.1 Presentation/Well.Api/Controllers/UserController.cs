@@ -5,6 +5,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using WebApi.OutputCache.V2;
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -46,6 +47,7 @@
 
         [Route("users-for-branch/{branchId}")]
         [HttpGet]
+        [CacheOutput(ClientTimeSpan = 60, ServerTimeSpan = 60)]
         public HttpResponseMessage UsersForBranch(int branchId)
         {
             var users = this.userRepository.GetByBranchId(branchId);

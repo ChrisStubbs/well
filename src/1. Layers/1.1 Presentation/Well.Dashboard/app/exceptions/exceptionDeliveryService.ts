@@ -36,13 +36,13 @@ export class ExceptionDeliveryService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getUsersForBranch(branchId): Observable<IUser[]> {
+    //public getUsersForBranch(branchId): Observable<IUser[]> {
 
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
-            .map((response: Response) => <IUser[]>response.json())
-            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
-            .catch(e => this.httpErrorService.handleError(e));
-    }
+    //    return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'users-for-branch/' + branchId)
+    //        .map((response: Response) => <IUser[]>response.json())
+    //        //.do(data => this.logService.log('All: ' + JSON.stringify(data)))
+    //        .catch(e => this.httpErrorService.handleError(e));
+    //}
 
     public getConfirmationDetails(jobId: number): Observable<DeliveryAction> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'delivery-line-actions/' + jobId)
@@ -54,7 +54,7 @@ export class ExceptionDeliveryService {
                 JSON.stringify(''),
                 this.options)
             .map(response => response.json())
-            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
+            //.do(data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -66,7 +66,7 @@ export class ExceptionDeliveryService {
             body,
             this.options)
             .map(res => res.json())
-            .do (data => this.logService.log('All: ' + JSON.stringify(data)))
+            //.do (data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -76,7 +76,7 @@ export class ExceptionDeliveryService {
 
         return this.http.get(url)
             .map((response: Response) => <any>response.json())
-            .do(data => this.logService.log('All: ' + JSON.stringify(data)))
+            //.do(data => this.logService.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 

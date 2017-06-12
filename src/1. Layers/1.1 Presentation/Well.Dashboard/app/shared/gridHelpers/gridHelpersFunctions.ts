@@ -5,17 +5,17 @@ export class GridHelpersFunctions
 {
     public static startsWithFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {
-        return _.startsWith(value.toLowerCase(), value2.toLowerCase());
+        return _.startsWith(value2.toString().toLowerCase(), value.toString().toLowerCase());
     };
 
     public static containsFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {
-        return value.toLowerCase().indexOf(value2.toLowerCase()) != -1;
+        return value.toString().toLowerCase().indexOf(value2.toString().toLowerCase()) != -1;
     };
 
     public static isEqualFilter: (value: any, value2: any) => boolean = (value: any, value2: any) =>
     {
-        return _.isEqual(value.toLowerCase(), value2.toLowerCase());
+        return _.isEqual(value.toString().toLowerCase(), value2.toString().toLowerCase());
     };
 
     public static boolFilter: (value: boolean, value2: any) => boolean = (value: boolean, value2: any) =>

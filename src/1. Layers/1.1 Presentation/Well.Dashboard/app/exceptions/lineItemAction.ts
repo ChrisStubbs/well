@@ -17,6 +17,6 @@ export class LineItemActionComment
     public id: number = 0;
     public commentReasonId?: number;
     public commentDescription: string;
-    public createdBy: string;
+    public displayName: string;
     public dateCreated: Date;
 }

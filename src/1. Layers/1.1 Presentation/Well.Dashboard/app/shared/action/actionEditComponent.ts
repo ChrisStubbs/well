@@ -1,5 +1,5 @@
 ﻿import { Component, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
-import { NgForm, ValidationErrors } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { IObservableAlive } from '../IObservableAlive';
 import * as _ from 'lodash';
 import { ILookupValue } from '../services/ILookupValue';
@@ -127,14 +127,19 @@ export class ActionEditComponent implements IObservableAlive
             item.deliveryAction = this.actionClose;
         }
 
-        if (this.validateTotalQty(event))
+        if (this.isOriginalQuantity(item))
+        {
+            item.commentReason = undefined;
+        }
+
+        if (this.validateTotalQty())
         {
             this.validateComment(item, index);
         }
 
     }
 
-    private validateTotalQty(event): boolean
+    private validateTotalQty(): boolean
     {
         const form = this.currentForm.form;
         const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
@@ -190,15 +195,25 @@ export class ActionEditComponent implements IObservableAlive
         return errors;
     }
 
+    private getOriginalItem(id: number): LineItemAction
+    {
+        return _.find(this.originalLineItems, x => x.id === id);
+    }
+
+    private isOriginalQuantity(item: LineItemAction): boolean
+    {
+        const originalItem = this.getOriginalItem(item.id);
+        return (originalItem && originalItem.quantity === item.quantity);
+    }
+
     private validateComment(item: LineItemAction, index: number)
     {
         const form = this.currentForm.form;
         if (item.id !== 0)
         {
-            const originalItem = _.find(this.originalLineItems, x => x.id === item.id);
+            const originalItem = this.getOriginalItem(item.id);
             const commentCtl = form.controls['commentReasonId' + index];
-            if (originalItem && originalItem.quantity !== item.quantity
-                && (!commentCtl.value || commentCtl.value === 'undefined'))
+            if (!this.isOriginalQuantity(item) && (!commentCtl.value || commentCtl.value === 'undefined'))
             {
                 this.setError(form, this.errorCommentRequired);
                 this.setError(commentCtl, this.errorCommentRequired);
@@ -219,7 +234,7 @@ export class ActionEditComponent implements IObservableAlive
         }
     }
 
-    private commentChange(item: LineItemAction, event): void
+    private commentChange(item: LineItemAction, event, index: number): void
     {
         let newComment = _.find(item.comments, x => x.id === 0);
         if (_.isNil(newComment))
@@ -238,6 +253,8 @@ export class ActionEditComponent implements IObservableAlive
         {
             item.comments.pop();
         }
+        this.validateTotalQty();
+        this.validateComment(item, index);
     }
 
     private isFormValid()

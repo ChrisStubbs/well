@@ -131,15 +131,12 @@ export class ActionEditComponent implements IObservableAlive
         {
             item.commentReason = undefined;
         }
-
-        if (this.validateTotalQty())
-        {
-            this.validateComment(item, index);
-        }
+        this.validateTotalQty();
+        this.validateComment(item, index);
 
     }
 
-    private validateTotalQty(): boolean
+    private validateTotalQty()
     {
         const form = this.currentForm.form;
         const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
@@ -147,12 +144,10 @@ export class ActionEditComponent implements IObservableAlive
         if (totalLineQty > this.source.invoiced)
         {
             this.setError(form, this.errorInvoiceQty);
-            return false;
 
         } else
         {
             this.deleteError(form, this.errorInvoiceQty);
-            return true;
         }
     }
 

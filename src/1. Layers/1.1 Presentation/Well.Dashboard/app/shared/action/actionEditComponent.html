@@ -62,7 +62,7 @@
                             <div class="alert" [ngClass]="{'alert-danger': getFormValidationErrors().length > 0}">
                                 <ul>
                                     <li *ngFor="let error of getFormValidationErrors()">
-                                        {{error}}
+                                        <strong>{{error}}</strong>
                                     </li>
                                 </ul>
                             </div>

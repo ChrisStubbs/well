@@ -12,25 +12,17 @@
                     </div>
                     <div style="padding: 15px 15px 0 15px">
                         <div class="form-group">
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <label>Account:</label>
                                 <span> {{source.accountCode}}</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label>Invoice:</label>
                                 <span>{{source.invoice}}</span>
                             </div>
                             <div class="col-md-3">
                                 <label>Type:</label>
                                 <span>{{source.type}}</span>
-                            </div>
-                            <div class="col-md-2">
-                                <label>Invoiced:</label>
-                                <span>{{source.invoiced}}</span>
-                            </div>
-                            <div class="col-md-2">
-                                <label>Delivered:</label>
-                                <span>{{source.delivered}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -42,9 +34,20 @@
                                 <label>Description:</label>
                                 <span>{{source.product}}</span>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label>Value:</label>
                                 <span>{{source.value | currency:'GBP':true}}</span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label>Invoiced:</label>
+                                <span>{{source.invoiced}}</span>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Delivered:</label>
+                                <span>{{source.delivered}}</span>
                             </div>
                             <div class="col-md-2">
                                 <label>Damages:</label>
@@ -56,18 +59,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="alert alert-danger" *ngIf="getFormValidationErrors().length > 0">
+                            <div class="alert" [ngClass]="{'alert-danger': getFormValidationErrors().length > 0}">
                                 <ul>
                                     <li *ngFor="let error of getFormValidationErrors()">
-                                        {{error}}
+                                        <strong>{{error}}</strong>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-body" style="padding-top: 0px">
-
+                <div class="modal-body" style="padding-top: 0">
                     <div class="form-group">
                         <div class="col-md-12">
                             <div class="table-responsive table-container">
@@ -86,8 +88,8 @@
                                     <tbody>
                                         <tr *ngFor="let item of lineItemActions; let i = index">
                                             <td>
-                                                <select class="form-control" id="deliveryAction{{i}}" name="deliveryAction{{i}}" 
-                                                        [(ngModel)]="item.deliveryAction" 
+                                                <select class="form-control" id="deliveryAction{{i}}" name="deliveryAction{{i}}"
+                                                        [(ngModel)]="item.deliveryAction"
                                                         (change)="deliveryActionChange(item, i)">
                                                     <option *ngFor="let action of deliveryActions" [value]="action.key">
                                                         {{ action.value }}
@@ -101,21 +103,31 @@
                                                        [disabled]="+item.deliveryAction == actionClose" />
                                             </td>
                                             <td>
-                                                <select class="form-control" id="commentReasonId{{i}}" 
-                                                        name="commentReasonId{{i}}" 
+                                                <select class="form-control" id="commentReasonId{{i}}"
+                                                        name="commentReasonId{{i}}"
                                                         [(ngModel)]="item.commentReason"
-                                                        (change)="commentChange(item,$event)">
+                                                        (change)="commentChange(item,$event,i)"
+                                                        [disabled]="isOriginalQuantity(item)" >
                                                     <option *ngFor="let comment of commentReasons" [value]="comment.key">
                                                         {{comment.value}}
                                                     </option>
                                                 </select>
-                                                <table>
-                                                    <tr *ngFor="let c of item.comments;">
-                                                        <th>{{c.commentDescription}}</th>
-                                                        <th>{{c.createdBy}}</th>
-                                                        <th>{{c.dateCreated}}</th>
-                                                    </tr>
-                                                </table>
+                                                <div class="comment-tooltip">
+                                                    <tooltip-content #commentTooltip placement="top">
+                                                        <table>
+                                                            <tr *ngFor="let c of item.comments;">
+                                                                <td>{{c.commentDescription}}</td>
+                                                                <td>{{c.displayName}}</td>
+                                                                <td>{{c.dateCreated | date:'dd/MMM/yyyy HH:mm:ss' }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </tooltip-content>
+
+                                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"
+                                                          *ngIf="item.comments && item.comments.length > 0"
+                                                          [tooltip]="commentTooltip"
+                                                          tooltipPlacement="right"></span>
+                                                </div>
                                             </td>
                                             <td>
                                                 <select class="form-control" id="exceptionTypeId{{i}}" name="exceptionTypeId{{i}}" [(ngModel)]="item.exceptionType" pattern="[^0]+">
@@ -143,7 +155,7 @@
                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                 </button>
                                                 <span *ngIf="item.originator == 0">
-                                                    <i class="fa fa-truck" aria-hidden="true" (click)="opDriverReason.toggle($event)"></i>
+                                                    <i class="fa fa-truck" aria-hidden="true"></i>
                                                 </span>
                                             </td>
                                         </tr>

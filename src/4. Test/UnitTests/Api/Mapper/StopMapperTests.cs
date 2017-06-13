@@ -125,8 +125,8 @@
                     .With(x=> x.JobDetailDamages.Add(new JobDetailDamage {Qty = 6}))
                     .With(x=> x.JobDetailDamages.Add(new JobDetailDamage {Qty = 5}))
                     .With(x=> x.ShortQty=22)
-                    .WithIsChecked(true)
-                    .WithIsHighValue(true)
+                    .With(x => x.LineDeliveryStatus = "Delivered")
+                    .With(x => x.IsHighValue = true)
                     .With(x=> x.SSCCBarcode="12478459554678952")
                     .Build()
             };

@@ -1,16 +1,17 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
-import { BranchService } from '../branch/branchService';
-import { GlobalSettingsService } from '../globalSettings';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { DriverService } from '../../driver/driverService';
-import { IAppSearchResultSummary } from './iAppSearchResultSummary';
-import { AppSearchParameters } from './appSearchParameters';
-import { AppSearchService } from './appSearchService'
-import * as _ from 'lodash';
-import { LookupService, LookupsEnum, ILookupValue } from '../services/services';
-import { IObservableAlive } from '../IObservableAlive';
-import { Observable } from 'rxjs';
+import { Component, Output, EventEmitter }                  from '@angular/core';
+import { Router }                                           from '@angular/router';
+import { BranchService }                                    from '../branch/branchService';
+import { GlobalSettingsService }                            from '../globalSettings';
+import {FormGroup, FormControl, FormBuilder, Validators}    from '@angular/forms';
+import { DriverService }                                    from '../../driver/driverService';
+import { IAppSearchResultSummary }                          from './iAppSearchResultSummary';
+import { AppSearchParameters }                              from './appSearchParameters';
+import { AppSearchService }                                 from './appSearchService'
+import * as _                                               from 'lodash';
+import { LookupService, LookupsEnum, ILookupValue }         from '../services/services';
+import { IObservableAlive }                                 from '../IObservableAlive';
+import { Observable }                                       from 'rxjs';
+
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 
@@ -42,7 +43,7 @@ export class AppSearch implements IObservableAlive
     {
         this.searchForm = this.fb.group(
             {
-                'branch': new FormControl(),
+                'branch': new FormControl('', Validators.required),
                 'date': new FormControl(),
                 'account': new FormControl(),
                 'invoice': new FormControl(),
@@ -83,7 +84,10 @@ export class AppSearch implements IObservableAlive
             return;
         }
 
-        this.searchForm.value.branch = this.branches[0] ? this.branches[0][0] : undefined;
+        if (this.branches.length == 1)
+        {
+            this.searchForm.value.branch = this.branches[0] ? this.branches[0][0] : undefined;
+        }
     }
     public ngOnDestroy(): void
     {
@@ -156,50 +160,7 @@ export class AppSearch implements IObservableAlive
 
     public isEmptySearch(): boolean
     {
-        const formData = this.searchForm.value;
-        let result: boolean = true;
-
-        if (!_.isNil(formData.branch))
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.date))
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.account))
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.invoice))
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.route))
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.driver))
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.deliveryType) && formData.deliveryType != 'undefined')
-        {
-            result = false;
-        }
-
-        if (!_.isNil(formData.status) && formData.status != 'undefined')
-        {
-            result = false;
-        }
-
-        return result;
+        return !this.searchForm.valid;
     }
 
     public showMore(): void

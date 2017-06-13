@@ -14,6 +14,7 @@
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
     using Well.Services.Contracts;
+    using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     [TestFixture]
     public class AdamImportServiceTests
@@ -55,13 +56,13 @@
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
 
             this.service = new AdamImportService(this.routeHeaderRepository.Object,
-                this.stopRepository.Object, 
+                this.stopRepository.Object,
                 this.accountRepository.Object,
-                this.jobRepository.Object, 
+                this.jobRepository.Object,
                 this.jobDetailRepository.Object,
-                this.jobDetailDamageRepository.Object, 
+                this.jobDetailDamageRepository.Object,
                 this.jobStatusService.Object,
-                this.logger.Object, 
+                this.logger.Object,
                 this.eventLogger.Object,
                 this.postImportRepository.Object);
         }
@@ -121,30 +122,30 @@
 
             job.JobDetails.Add(jobDetail);
             stop.Jobs.Add(job);
-            routeHeader.Stops.Add(stop);
+            routeHeader.Stops.Add(Mapper.Map<Stop, StopDTO>(stop));
             route.RouteHeaders.Add(routeHeader);
 
             this.routeHeaderRepository.Setup(x => x.GetByNumberDateBranch(routeHeader.RouteNumber, routeHeader.RouteDate.Value, routeHeader.StartDepot)).Returns((RouteHeader)null);
 
             this.routeHeaderRepository.Setup(x => x.Save(routeHeader));
-            this.stopRepository.Setup(x => x.Save(stop));
-            this.accountRepository.Setup(x => x.Save(stop.Account));
-            this.jobRepository.Setup(x => x.Save(job));
-            this.jobDetailRepository.Setup(x => x.Save(jobDetail));
-            this.jobDetailDamageRepository.Setup(x => x.Save(jobDetail.JobDetailDamages[0]));
-            this.jobStatusService.Setup(x => x.SetInitialStatus(job));
+            this.stopRepository.Setup(x => x.Save(It.IsAny<Stop>()));
+            this.accountRepository.Setup(x => x.Save(It.IsAny<Account>()));
+            this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
+            this.jobDetailRepository.Setup(x => x.Save(It.IsAny <JobDetail>()));
+            this.jobDetailDamageRepository.Setup(x => x.Save(It.IsAny <JobDetailDamage>()));
+            this.jobStatusService.Setup(x => x.SetInitialStatus(It.IsAny<Job>()));
             this.postImportRepository.Setup(x => x.PostImportUpdate());
 
             this.service.Import(route);
 
             this.routeHeaderRepository.Verify(x => x.Save(routeHeader), Times.Once);
-            this.stopRepository.Verify(x => x.Save(stop), Times.Once);
-            this.accountRepository.Verify(x => x.Save(stop.Account), Times.Once);
-            this.jobRepository.Verify(x => x.Save(job), Times.Once);
-            this.jobDetailRepository.Verify(x => x.Save(jobDetail), Times.Once);
-            this.jobDetailDamageRepository.Verify(x => x.Save(jobDetail.JobDetailDamages[0]), Times.Once);
-            this.jobStatusService.Verify(x => x.SetInitialStatus(job), Times.Once);
-            this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
+            this.stopRepository.Verify(x => x.Save(It.IsAny<Stop>()), Times.Once);
+            this.accountRepository.Verify(x => x.Save(It.IsAny<Account>()), Times.Once);
+            this.jobRepository.Verify(x => x.Save(It.IsAny<Job>()), Times.Once);
+            this.jobDetailRepository.Verify(x => x.Save(It.IsAny<JobDetail>()), Times.Once);
+            this.jobDetailDamageRepository.Verify(x => x.Save(It.IsAny<JobDetailDamage>()), Times.Once);
+            this.jobStatusService.Verify(x => x.SetInitialStatus(It.IsAny<Job>()), Times.Once);
+            this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
         }
     }
 }

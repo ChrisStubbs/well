@@ -6,6 +6,7 @@ import { EditLineItemException } from './editLineItemException';
 import { LookupService, ILookupValue, LookupsEnum } from '../shared/services/services';
 import * as _ from 'lodash';
 import 'rxjs/add/operator/mergeMap';
+import { ActionEditComponent } from '../shared/action/actionEditComponent';
 
 @Component({
     selector: 'ow-editExceptions',
@@ -42,9 +43,10 @@ export class EditExceptionsComponent implements IObservableAlive
     };
 
     @Output() public close: EventEmitter<any> = new EventEmitter(undefined);
-    @ViewChild('closeExceptionsModal') public closeBtn: ElementRef;
+    //@ViewChild('closeExceptionsModal') public closeBtn: ElementRef;
+    @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
 
-    private openModal: boolean = false;
+    //private openModal: boolean = false;
     private lineItemToHandle: EditLineItemException;
     private isEditMode: boolean;
 
@@ -77,27 +79,27 @@ export class EditExceptionsComponent implements IObservableAlive
             .value();
     }
 
-    public addException(line: EditLineItemException): void
-    {
-        this.openModal = true;
-        this.isEditMode = false;
-        this.lineItemToHandle = line;
-    }
+    //public addException(line: EditLineItemException): void
+    //{
+    //    this.openModal = true;
+    //    this.isEditMode = false;
+    //    this.lineItemToHandle = line;
+    //}
 
-    public editLine(line: EditLineItemException, event: any): void
-    {
-        this.openModal = true;
-        this.isEditMode = true;
-        this.lineItemToHandle = line;
+    //public editLine(line: EditLineItemException, event: any): void
+    //{
+    //    this.openModal = true;
+    //    this.isEditMode = true;
+    //    this.lineItemToHandle = line;
 
-        event.preventDefault();
-    }
+    //    event.preventDefault();
+    //}
 
-    public closeEdit(): void
-    {
-        this.close.emit(undefined);
-        this.source = undefined;
-    }
+    //public closeEdit(): void
+    //{
+    //    this.close.emit(undefined);
+    //    this.source = undefined;
+    //}
 
     public selectLineItems(select: boolean, id?: number): void
     {
@@ -130,11 +132,11 @@ export class EditExceptionsComponent implements IObservableAlive
             current => current.isSelected);
     }
 
-    private closeAddExceptionModal(): void
-    {
-        this.openModal = false;
-        this.closeBtn.nativeElement.click();
-    }
+    //private closeAddExceptionModal(): void
+    //{
+    //    this.openModal = false;
+    //    this.closeBtn.nativeElement.click();
+    //}
 
     private mergeNewException(data: EditLineItemException)
     {
@@ -161,14 +163,14 @@ export class EditExceptionsComponent implements IObservableAlive
 
     private exceptionSaved(data: EditLineItemException): void
     {
-        this.closeAddExceptionModal();
+        //this.closeAddExceptionModal();
         this.mergeNewException(data);
     }
 
-    private cancelExeption()
-    {
-        this.closeAddExceptionModal();
-    }
+    //private cancelExeption()
+    //{
+    //    this.closeAddExceptionModal();
+    //}
 
     public selectedItems(): Array<EditLineItemException>
     {
@@ -204,5 +206,10 @@ export class EditExceptionsComponent implements IObservableAlive
                         The maximum you are allowed to credit is ${usersThreshold}. 
                         Any items over your threshold will be sent for approval`;
         return summary;
+    }
+
+    public editLineItemActions(item: EditLineItemException, $event): void
+    {
+        this.actionEditComponent.show(item);
     }
 }

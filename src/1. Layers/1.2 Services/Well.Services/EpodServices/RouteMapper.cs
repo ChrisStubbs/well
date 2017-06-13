@@ -7,6 +7,7 @@
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Services.Contracts;
+    using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class RouteMapper : IRouteMapper
     {
@@ -21,12 +22,12 @@
             to.ShortDeliveries = from.ShortDeliveries;
             to.DamagesRejected = from.DamagesRejected;
             to.DamagesAccepted = from.DamagesAccepted;
-           // to.StartDepotCode = from.StartDepotCode;
+            // to.StartDepotCode = from.StartDepotCode;
             to.ActualStopsCompleted = from.ActualStopsCompleted;
             to.DriverName = from.DriverName;
         }
 
-        public void Map(Stop from, Stop to)
+        public void Map(StopDTO from, Stop to)
         {
             to.StopStatusCode = from.StopStatusCode;
             to.StopStatusDescription = from.StopStatusDescription;
@@ -41,12 +42,12 @@
             to.ShellActionIndicator = from.ShellActionIndicator;
         }
 
-        public void Map(Job from, Job to)
+        public void Map(JobDTO from, Job to)
         {
             to.JobByPassReason = from.JobByPassReason;
             to.PerformanceStatus = from.PerformanceStatus;
             to.InvoiceNumber = from.InvoiceNumber;
-            to.JobDetails = from.JobDetails;
+            to.JobDetails = Mapper.Map<List<JobDetailDTO>, List<JobDetail>>(from.JobDetails);
             to.GrnNumberUpdate = from.GrnNumber;
             to.OuterCountUpdate = from.OuterCount;
             to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
@@ -65,23 +66,20 @@
             to.InvoiceNumber = from.InvoiceNumber;
             to.CustomerRef = from.CustomerRef;
             to.PerformanceStatus = PerformanceStatus.Notdef;
-
-            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "PICKED");
-            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ORDOUTERS");
-            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "INVOUTERS");
-            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ALLOWSOCRD");
-            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "COD");
-            this.AddAttribute(to.EntityAttributes, from.EntityAttributes, "ALLOWREORD");
-
+            to.Picked = from.Picked;
+            to.OrdOuters = from.OrdOuters;
+            to.InvOuters = from.InvOuters;
+            to.AllowSoCrd = from.AllowSoCrd;
+            to.Cod = from.Cod;
+            to.AllowReOrd = from.AllowReOrd;
         }
 
-        public void Map(JobDetail from, JobDetail to)
+        public void Map(JobDetailDTO from, JobDetail to)
         {
             to.ShortQty = from.ShortQty;
             to.DeliveredQty = from.DeliveredQty;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
-
-            this.AddAttributeValues(to.EntityAttributeValues, from.EntityAttributeValues, "LINESTATUS");
+            to.LineDeliveryStatus = from.LineDeliveryStatus;
         }
 
         public void Map(JobDetailUpdate from, JobDetail to)

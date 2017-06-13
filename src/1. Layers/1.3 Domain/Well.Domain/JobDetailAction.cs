@@ -4,10 +4,6 @@
 
     public class JobDetailAction : Entity<int>
     {
-        public JobDetailAction()
-        {
-        }
-
         public int JobDetailId { get; set; }
 
         public int Quantity { get; set; }

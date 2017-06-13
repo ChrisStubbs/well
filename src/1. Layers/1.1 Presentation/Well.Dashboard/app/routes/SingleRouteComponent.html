@@ -1,189 +1,192 @@
-<div *ngIf="singleRoute">
-    <div class="table-container">
-        <ol class="breadcrumb">
-            <li>
-                <a routerLink="/routes" routerLinkActive="active">Routes</a>
-            </li>
-            <li class="active">Route {{singleRoute.routeNumber}}</li>
-        </ol>
-    </div>
-    <div class="jumbotron">
-        <div class="content">
-            <div class="row">
-                <div class="col-md-6">
-                    <ul class="list-unstyled">
-                        <li><label>Branch:&nbsp;</label>{{singleRoute.branch}}</li>
-                        <li><label>Driver:&nbsp;</label>{{singleRoute.driver}}</li>
-                        <li><label>Date:&nbsp;</label>{{singleRoute.routeDate | date:'dd MMM yyyy'}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 clearfix ">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" (click)="filter('All')" class="active"><a href="#All" aria-controls="jobs" role="tab" data-toggle="tab">All</a></li>
-                        <li role="presentation" (click)="filter('Exception')"><a href="#exceptions" aria-controls="exceptions" role="tab" data-toggle="tab">Exceptions</a></li>
-                        <li class="pull-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
-                                &nbsp;
-                                <action-Modal [disabled]="selectedItems().length == 0" 
-                                              [isStopLevel] ="true"
-                                              (onActionClicked)="actionModalClicked($event)"
-                                              [jobIds] ="getSelectedJobIds()">
-                                   
-                                </action-Modal>
-                            </div>
-                        </li>
-
-                    </ul>
-                    <p-dataTable [value]="singleRouteItems" groupField="stop" expandableRowGroups="rowspan"
-                                 sortField="stop" [sortableRowGroup]="false"
-                                 rowGroupMode="subheader" #dt>
-                        <p-header>Expand a Stop to see more details</p-header>
-                        <ng-template pTemplate="rowgroupheader" let-rowData>
-                            <div class="groupRow">
-                                <div class="group1">
-                                    <a routerLink="/stops/{{rowData.stopId}}" routerLinkActive="active">Stop {{rowData.stop}}</a>
-                                </div>
-                                <div class="group2">{{rowData.stopStatus}}</div>
-                                <div class="group3">{{totalPerGroup('exceptions', rowData.stop)}}</div>
-                                <div class="group4">{{totalPerGroup('clean', rowData.stop)}}</div>
-                                <div class="group5">{{rowData.tba}}</div>
-                                <div class="group6">&nbsp;</div>
-                                <div class="group7">
-                                    <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(rowData)"></assign-modal>
-                                </div>
-                                <div class="group8">&nbsp;</div>
-                                <div class="group9" style="padding-right: 3px;"><input type="checkbox" [checked]="allChildrenSelected(rowData.stop)" (change)="selectStops($event.target.checked, rowData.stop)" /></div>
-                            </div>
-                        </ng-template>
-                        <p-column header="" field="" [filter]="false" [sortable]="false" [style]="{'width':'3%'}"></p-column>
-                        <p-column header="Account" field="account" [filter]="true" filterMatchMode="contains" [style]="{'width': '9%'}">
-                            <ng-template pTemplate="header">
-                                <div>Account</div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Invoice" field="invoice" [filter]="true" filterMatchMode="contains" [style]="{'width': '9%'}">
-                            <ng-template pTemplate="header">
-                                <div>Invoice</div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="c" field="jobTypeId" [hidden]="true"></p-column>
-                        <p-column header="Job Type" field="jobType" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible','width':'8%'}">
-                            <ng-template pTemplate="header">
-                                <div>Job Type</div>
-                            </ng-template>
-                            <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchJob"
-                                        (change)="dt.filter($event.target.value, 'jobTypeId', col.filterMatchMode); filterJobType = $event.target.value;" title="" 
-                                        [(ngModel)]="filterJobType">
-                                    <option value>All</option>
-                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
-                                        {{ jobType.value }}
-                                    </option>
-                                </select>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Job Status" field="wellStatusDescription" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible','width':'10%'}">
-                            <ng-template pTemplate="header">
-                                <div>Job Status</div>
-                            </ng-template>
-                            <ng-template pTemplate="filter" let-col>
-                                <select class="form-control" id="searchStatus"
-                                        (change)="dt.filter($event.target.value, col.field,  col.filterMatchMode); filterJobStatus = $event.target.value" title="" 
-                                        [(ngModel)]="filterJobStatus">
-                                    <option value>All</option>
-                                    <option *ngFor="let status of wellStatus" [value]="status.value">
-                                        {{ status.value }}
-                                    </option>
-                                </select>
-                            </ng-template>
-                        </p-column>
-                        <p-column [style]="{'width': '8%'}">
-                            <ng-template pTemplate="header">
-                                <p>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></p>
-                                <p>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></p>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-center">
-                                    <ow-account-flags [isCashOnDelivery]="data.isCod" [isProofOfDelivery]="data.pod"></ow-account-flags>
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Exceptions" field="exceptions" [filter]="true" filterMatchMode="equals" [style]="{'width': '7%'}">
-                            <ng-template pTemplate="header">
-                                <div>Exceptions</div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.exceptions}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Clean" field="clean" [filter]="true" filterMatchMode="equals" [style]="{'width': '7%'}">
-                            <ng-template pTemplate="header">
-                                <div>Clean</div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.clean}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="TBA" field="tba" [filter]="true" filterMatchMode="equals" [style]="{'width': '7%'}">
-                            <ng-template pTemplate="header">
-                                <div>T.B.A.</div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Credit" field="credit" [filter]="true" filterMatchMode="equals" [style]="{'width': '7%'}">
-                            <ng-template pTemplate="header">
-                                <div>Credit</div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-right">
-                                    {{data.credit | currency:'GBP':true}}
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Assignee" field="assignee" [filter]="true" filterMatchMode="contains" [style]="{'width': '12%'}">
-                            <ng-template pTemplate="header">
-                                <div>Assignee</div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                            </ng-template>
-                        </p-column>
-                        <p-column header="Resolution" field="" [filter]="false" [sortable]="false" [style]="{'width':'10%'}">
-                            <ng-template pTemplate="header">
-                                <div>Resolution</div>
-                            </ng-template>
-                        </p-column>
-                        <p-column [style]="{'width':'38px'}" [editable]="true" field="isSelected">
-                            <ng-template let-data="rowData" pTemplate="header">
-                                <div class="text-center">
-                                    <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectStops($event.target.checked, null)">
-                                </div>
-                            </ng-template>
-                            <ng-template let-data="rowData" pTemplate="body">
-                                <div class="text-center">
-                                    <input type="checkbox" [(ngModel)]="data.isSelected" title="">
-                                </div>
-                            </ng-template>
-                        </p-column>
-                    </p-dataTable>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12"> &nbsp;</div>
-            </div>
-            <div class="row">
-                <div class="col-md-6"></div>
+<div class="table-container">
+    <ol class="breadcrumb">
+        <li>
+            <a routerLink="/routes" routerLinkActive="active">Routes</a>
+        </li>
+        <li class="active">Route {{routeNumber}}</li>
+    </ol>
+</div>
+<div class="jumbotron">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li><label>Branch:&nbsp;</label>{{branchId}}</li>
+                    <li><label>Driver:&nbsp;</label>{{driver}}</li>
+                    <li><label>Date:&nbsp;</label>{{routeDate | date:'dd MMM yyyy'}}</li>
+                </ul>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6 pull-right">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
+                    &nbsp;
+                    <action-Modal [disabled]="selectedItems().length == 0"
+                                  [isStopLevel] ="true"
+                                  (onActionClicked)="actionModalClicked($event)"
+                                  [jobIds] ="getSelectedJobIds()">
 
+                    </action-Modal>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 clearfix ">
+                <table class="table table-hover table-striped" >
+                    <thead>
+                        <tr>
+                            <th style="width: 3%">
+                                <a href="#" (click)="expandGroup($event)">
+                                    <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
+                                    <ng-template #allExpended>
+                                        <span class="fa fa-arrow-circle-down"></span>
+                                    </ng-template>
+                                    <ng-template #notAllExpanded>
+                                        <span class="fa fa-arrow-circle-right"></span>
+                                    </ng-template>
+                                </a>
+                            </th>
+                            <th style="width: 9%">
+                                <div class="text-center">Account</div>
+                                <div>
+                                    <input type="text" [(ngModel)]="filters.account" (keyup)="filterFreeText()"  class="form-control">
+                                </div>
+                            </th>
+                            <th style="width: 9%">
+                                <div class="text-center">Invoice</div>
+                                <div>
+                                    <input type="text" [(ngModel)]="filters.Invoice" (keyup)="filterFreeText()"  class="form-control">
+                                </div>
+                            </th>
+                            <th style="width: 8%">
+                                <div class="text-center">Job Type</div>
+                                <div>
+                                    <select class="form-control" id="searchJobType" [(ngModel)]="filters.jobType" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
+                                            {{ jobType.value }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th style="width: 10%">
+                                <div class="text-center">Job Status</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.wellStatus" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option *ngFor="let item of wellStatus" [value]="item.key">
+                                            {{ item.value }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th style="width: 8%">
+                                <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
+                                <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
+                            </th>
+                            <th style="width: 7%">
+                                <div class="text-center">Exceptions</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option value="true">With exceptions</option>
+                                        <option value="false">No exceptions</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th style="width: 7%">
+                                <div class="text-center">Clean</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.clean" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th style="width: 7%">
+                                <div class="text-center">T.B.A.</div>
+                            </th>
+                            <th style="width: 7%">
+                                <div class="text-center">Credit</div>
+                            </th>
+                            <th style="width: 12%">
+                                <div class="text-center">Assignee</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.assignee" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option *ngFor="let a of assignees" value="a">{{a}}</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th style="width: 9%">
+                                <div class="text-center">Resolution</div>
+                            </th>
+                            <th style="width: 4%">
+                                <input type="checkbox" [checked]="allChildrenSelected()" (change)="selectStops($event.target.checked)" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of gridSource">
+                        <tr class="info">
+                            <td>
+                                <a href="#" (click)="expand($event, item); $event.preventDefault()">
+                                    <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
+                                </a>
+                            </td>
+                            <td colspan="3">
+                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}}</a>
+                            </td>
+                            <td colspan="2">
+                                {{item.stopStatus}}
+                            </td>
+                            <td class="text-right">
+                                {{item.totalExceptions}}
+                            </td>
+                            <td class="text-right">
+                                {{item.totalClean}}
+                            </td>
+                            <td class="text-right">
+                                {{item.tba}}
+                            </td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">
+                                <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
+                            </td>
+                            <td>
+                                <input type="checkbox" [checked]="allChildrenSelected(item)" (change)="selectStops($event.target.checked, item)" />
+                            </td>
+                        </tr>
+                        <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
+                            <td colspan="2">{{detail.account}}</td>
+                            <td>{{detail.invoice}}</td>
+                            <td>{{detail.jobType}}</td>
+                            <td>{{detail.wellStatusDescription}}</td>
+                            <td>
+                                <ow-account-flags [isCashOnDelivery]="detail.isCod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
+                            </td>
+                            <td class="text-right">{{detail.exceptions}}</td>
+                            <td class="text-right">{{detail.clean}}</td>
+                            <td class="text-right">{{detail.tba}}</td>
+                            <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"> &nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+        </div>
+    </div>
 </div>

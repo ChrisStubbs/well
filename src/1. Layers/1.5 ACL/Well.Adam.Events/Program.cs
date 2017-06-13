@@ -1,11 +1,11 @@
 ﻿namespace PH.Well.Adam.Events
 {
-    using PH.Well.Common;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Repositories;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services;
-    using PH.Well.Services.Contracts;
+    using Common;
+    using Common.Contracts;
+    using Repositories;
+    using Repositories.Contracts;
+    using Services;
+    using Services.Contracts;
     using Repositories.Read;
     using Services.DeliveryActions;
     using Services.Mappers;

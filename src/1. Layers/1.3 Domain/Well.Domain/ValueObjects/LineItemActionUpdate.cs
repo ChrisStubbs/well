@@ -11,5 +11,6 @@
         public int Quantity { get; set; }
         public JobDetailSource Source { get; set; }
         public JobDetailReason Reason { get; set; }
+        public Originator Orginator { get; set; }
     }
 }

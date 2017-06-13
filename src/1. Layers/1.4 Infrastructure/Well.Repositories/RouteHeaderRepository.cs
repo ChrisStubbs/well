@@ -4,14 +4,11 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-
     using Common.Contracts;
-
     using Contracts;
-
     using Dapper;
-
     using Domain;
+    using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int>, IRouteHeaderRepository
     {
@@ -41,10 +38,11 @@
             var jobs = gridReader.Read<Job>().ToList();
             foreach (var routeHeader in routeHeaders)
             {
-                routeHeader.Stops = stops.Where(x => x.RouteHeaderId == routeHeader.Id).ToList();
+                routeHeader.Stops = Mapper.Map<List<Stop>, List<StopDTO>>(stops.Where(x => x.RouteHeaderId == routeHeader.Id).ToList());
+                
                 foreach (var stop in routeHeader.Stops)
                 {
-                    stop.Jobs = jobs.Where(x => x.StopId == stop.Id).ToList();
+                    stop.Jobs = Mapper.Map<List<Job>, List<JobDTO>>(jobs.Where(x => x.StopId == stop.Id).ToList());
                 }
             }
             return routeHeaders;

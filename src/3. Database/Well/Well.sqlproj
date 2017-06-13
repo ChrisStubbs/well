@@ -387,6 +387,7 @@
     <None Include="Post-Deployement\Populate-CommentReason.sql" />
     <Build Include="dbo\Tables\LineItemActionComment.sql" />
     <Build Include="dbo\StoredProcedures\CommentReason_Get.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemActionCommentInsert.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

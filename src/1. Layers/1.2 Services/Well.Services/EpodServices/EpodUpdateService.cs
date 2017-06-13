@@ -13,39 +13,25 @@
     using PH.Well.Domain.Enums;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
+    using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class EpodUpdateService : IEpodUpdateService
     {
         private readonly ILogger logger;
-
         private readonly IEventLogger eventLogger;
-
         private readonly IRouteHeaderRepository routeHeaderRepository;
-
         private readonly IStopRepository stopRepository;
-
         private readonly IJobRepository jobRepository;
-
         private readonly IJobDetailRepository jobDetailRepository;
-
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
-
         private readonly IExceptionEventRepository exceptionEventRepository;
-
         private readonly IPodTransactionFactory podTransactionFactory;
-
         private readonly IRouteMapper mapper;
-
         private readonly IAdamImportService adamImportService;
-
         private readonly IJobStatusService jobStatusService;
-
         private readonly IUserNameProvider userNameProvider;
-
         private readonly IPostImportRepository postImportRepository;
-
         private const int EventLogErrorId = 9682;
-
         private const int ProcessTypeForGrn = 1;
 
         public EpodUpdateService(
@@ -127,7 +113,7 @@
             this.postImportRepository.PostTranSendImport();
         }
 
-        private void UpdateStops(IEnumerable<Stop> stops, int branchId)
+        private void UpdateStops(IEnumerable<StopDTO> stops, int branchId)
         {
             foreach (var stop in stops)
             {
@@ -172,7 +158,7 @@
             }
         }
 
-        private void UpdateJobs(IEnumerable<Job> jobs, int stopId, int branchId)
+        private void UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
         {
             foreach (var job in jobs)
             {
@@ -219,7 +205,7 @@
             }
         }
 
-        private void UpdateJobDetails(IEnumerable<JobDetail> jobDetails, int jobId, bool invoiceOutstanding)
+        private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId, bool invoiceOutstanding)
         {
             //TODO for a tobacco delivery
             // for each tobacco bag barcode
@@ -228,7 +214,7 @@
             // the tobacco product line can be updated with linedelivery status 'delivered'
             // and the delivered qty set to the original despatch qty
             // if the tobacco bag is not delivered
-            // set the linedeliverystatus to excpetion or whatever it is
+            // set the linedeliverystatus to exception or whatever it is
             // and leave the delivered qty as zero
             // query damage??
 
@@ -242,7 +228,7 @@
                 {
                     detail.JobId = jobId;
 
-                    this.jobDetailRepository.Save(detail);
+                    this.jobDetailRepository.Save(Mapper.Map<JobDetailDTO, JobDetail>(detail));
 
                     continue;
                 }
@@ -264,7 +250,7 @@
             }
         }
 
-        private void UpdateJobDamages(IEnumerable<JobDetailDamage> damages, int jobDetailId)
+        private void UpdateJobDamages(IEnumerable<JobDetailDamageDTO> damages, int jobDetailId)
         {
             damages.ToList().ForEach(x => x.JobDetailId = jobDetailId);
 
@@ -281,7 +267,7 @@
                 damage.JobDetailReason = JobDetailReason.NotDefined;
                 damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
               
-                this.jobDetailDamageRepository.Save(damage);
+                this.jobDetailDamageRepository.Save(Mapper.Map<JobDetailDamageDTO, JobDetailDamage>(damage));
             }
         }
     }

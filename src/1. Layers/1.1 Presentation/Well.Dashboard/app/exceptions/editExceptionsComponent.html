@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="table-responsive table-container col-md-12">
-        <table class="table table-hover table-striped" >
+        <table class="table table-hover table-striped">
             <thead>
                 <tr>
                     <th class="colExpandAll" style="width: 3%">
@@ -34,7 +34,7 @@
                     <th style="width: 4%; text-align: right"></th>
                 </tr>
             </thead>
-            <tbody  *ngFor="let item of source">
+            <tbody *ngFor="let item of source">
                 <tr class="info">
                     <td colspan="10">
                         <div class="groupRow">
@@ -49,9 +49,15 @@
                             <div class="group5">{{totalPerGroup('delivered', item.id)}}</div>
                             <div class="group6">{{totalPerGroup('quantity', item.id)}}</div>
                             <div class="group7"></div>
-                            <div class="group8"><button class="btn btn-default" type="button" (click)="addException({lineItemId: item.id})" data-toggle="modal" data-target="#exceptionsmodal">Add Exception</button></div>
+                            <div class="group8">
+
+                                <!--<button class="btn btn-default" type="button" (click)="addException({lineItemId: item.id})" data-toggle="modal" data-target="#exceptionsmodal">Add Exception</button>-->
+                            </div>
                             <div class="group9">
-                                <input type="checkbox" [checked]="allChildrenSelected(item.id)" (change)="selectLineItens($event.target.checked, item.id)" />
+                                <span>
+                                    <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
+                                    <input type="checkbox" [checked]="allChildrenSelected(item.id)" (change)="selectLineItens($event.target.checked, item.id)" />
+                                </span>
                             </div>
                         </div>
                     </td>
@@ -67,7 +73,7 @@
                     <td>{{detail.approvedby}}</td>
                     <td style="width: 4%; text-align: right">
                         <span>
-                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(detail, $event)" title="Edit" data-toggle="modal" data-target="#exceptionsmodal"></a>
+                            <!--<a href="#" class="glyphicon glyphicon-pencil" (click)="editLine(detail, $event)" title="Edit" data-toggle="modal" data-target="#exceptionsmodal"></a>-->
                             <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
                         </span>
                     </td>
@@ -84,7 +90,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exceptionsmodal" role="dialog">
+<action-edit (onSave)="exceptionSaved($event)"></action-edit>
+<!--<div class="modal fade" id="exceptionsmodal" role="dialog">
     <div class="modal-dialog modal-lg" *ngIf="openModal" >
         <div class="modal-content">
             <div class="modal-body">
@@ -93,4 +100,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->

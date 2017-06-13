@@ -54,13 +54,13 @@
         [Test]
         public void StopMapper()
         {
-            var from = new Stop();
+            var from = new StopDTO();
 
-            from.StopStatusCode = "summin";
-            from.StopStatusDescription = "summin else";
+            from.StopStatusCode = "Something";
+            from.StopStatusDescription = "Something else";
             from.PerformanceStatusCode = "not sure";
-            from.PerformanceStatusDescription = "no i dont know";
-            from.StopByPassReason = "Somethnig";
+            from.PerformanceStatusDescription = "no i don't know";
+            from.StopByPassReason = "Something";
 
             var to = new Stop();
 
@@ -92,13 +92,12 @@
         [Test]
         public void JobMapper()
         {
-            var from = new Job();
+            var from = new JobDTO();
+            var to = new Job();
 
             from.JobByPassReason = "Some reason";
             from.PerformanceStatus = PerformanceStatus.Abypa;
             from.InvoiceNumber = "12009";
-
-            var to = new Job();
 
             this.mapper.Map(from, to);
 
@@ -142,7 +141,7 @@
         [Test]
         public void JobDetailMapper()
         {
-            var from = new JobDetail();
+            var from = new JobDetailDTO();
 
             from.ShortQty = 3;
             from.DeliveredQty = 5;

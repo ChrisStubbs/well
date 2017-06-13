@@ -29,24 +29,7 @@
         public DeliveryAction DamageAction => (DeliveryAction) DamageActionId;
 
         public int Qty { get; set; }
-
-        public string QtyXml
-        {
-            get
-            {
-                return this.Qty.ToString();
-            }
-            set
-            {
-                var tryInt = 0;
-
-                if (int.TryParse(value, out tryInt))
-                {
-                    this.Qty = tryInt;
-                }
-            }
-        }
-
+        
         public string JobDetailCode { get; set; }
 
         public int JobDetailId { get; set; }

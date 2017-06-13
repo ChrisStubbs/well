@@ -131,9 +131,13 @@ export class ActionEditComponent implements IObservableAlive
         {
             item.commentReason = undefined;
         }
+        this.validate(item, index);
+    }
+
+    private validate(item: LineItemAction, index: number): void
+    {
         this.validateTotalQty();
         this.validateComment(item, index);
-
     }
 
     private validateTotalQty()
@@ -225,7 +229,7 @@ export class ActionEditComponent implements IObservableAlive
         if (+item.deliveryAction === this.actionClose)
         {
             item.quantity = 0;
-            this.validateComment(item, index);
+            this.validate(item, index);
         }
     }
 
@@ -248,8 +252,7 @@ export class ActionEditComponent implements IObservableAlive
         {
             item.comments.pop();
         }
-        this.validateTotalQty();
-        this.validateComment(item, index);
+        this.validate(item, index);
     }
 
     private isFormValid()

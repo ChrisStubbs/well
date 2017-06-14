@@ -418,7 +418,6 @@
     <Content Include="tslint.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\shared\NewFolder1\" />
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\angular2\" />
   </ItemGroup>

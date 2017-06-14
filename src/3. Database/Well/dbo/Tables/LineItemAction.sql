@@ -13,6 +13,7 @@
 	[Originator] TINYINT NULL,
 	[ActionedBy] VARCHAR(50) NULL,
 	[DeliveryActionId] INT NULL,
+	[PDAReasonDescription] VARCHAR(50) NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,

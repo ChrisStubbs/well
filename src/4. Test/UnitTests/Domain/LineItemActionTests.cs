@@ -9,7 +9,7 @@ namespace PH.Well.UnitTests.Domain
     class LineItemActionTests
     {
         [Test]
-        [TestCaseSource(typeof(LineItemActionTestsSource), "TestCases")]
+        [TestCaseSource(typeof(LineItemActionTestsSource), nameof(LineItemActionTestsSource.TestCases))]
         public bool Should_HasChanges(LineItemAction testValue)
         {
             var sut = LineItemActionFactory.New.GenerateForHasChange().Build();

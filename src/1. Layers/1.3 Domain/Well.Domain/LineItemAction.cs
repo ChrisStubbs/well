@@ -23,6 +23,7 @@
         public Originator Originator { get; set; }
         public DeliveryAction DeliveryAction { get; set; }
         public IEnumerable<LineItemActionComment> Comments { get; set; }
+        
 
         public bool HasChanges(LineItemAction item)
         {
@@ -38,5 +39,7 @@
                    || Originator != item.Originator
                    || DeliveryAction != item.DeliveryAction;
         }
+
+
     }
 }

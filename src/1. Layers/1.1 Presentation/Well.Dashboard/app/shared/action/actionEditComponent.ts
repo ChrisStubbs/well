@@ -213,8 +213,8 @@ export class ActionEditComponent implements IObservableAlive
         const form = this.currentForm.form;
         if (item.id !== 0)
         {
-            const originalItem = this.getOriginalItem(item.id);
             const commentCtl = form.controls['commentReasonId' + index];
+
             if (!this.isOriginalQuantity(item) && (!commentCtl.value || commentCtl.value === 'undefined'))
             {
                 this.setError(form, this.errorCommentRequired);

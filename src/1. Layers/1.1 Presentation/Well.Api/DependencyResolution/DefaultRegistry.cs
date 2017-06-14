@@ -118,6 +118,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IActionSummaryMapper>().Use<ActionSummaryMapper>();
 
             For<ILineItemActionCommentRepository>().Use<LineItemActionCommentRepository>();
+            For<IDateThresholdService>().Use<DateThresholdService>();
         }
     }
 }

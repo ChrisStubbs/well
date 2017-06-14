@@ -298,7 +298,7 @@
         [Then(@"the clean deliveries are removed from the well")]
         public void CleanDeliveriesSoftDeleted()
         {
-            var result = this.dapperProxy.SqlQuery<int>("select count(1) from JobDetail where isDeleted = 0").Single();
+            var result = this.dapperProxy.SqlQuery<int>("select count(1) from JobDetail where DateDeleted IS NULL").Single();
 
             Assert.That(result, Is.EqualTo(0));
         }

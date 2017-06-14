@@ -23,7 +23,7 @@ BEGIN
 	LEFT JOIN JobDetailReason jdr on jdr.Id = lia.ReasonId
 	INNER JOIN @Ids i on i.Value = li.Id
 	WHERE
-		lia.IsDeleted = 0
+		lia.DateDeleted IS NULL
 
 	RETURN 0
 END

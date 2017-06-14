@@ -4,6 +4,6 @@ AS
 
 BEGIN
 	UPDATE Job 
-	SET IsDeleted = 1
+	SET DateDeleted = GETDATE()
 	WHERE Id = @JobId
 END

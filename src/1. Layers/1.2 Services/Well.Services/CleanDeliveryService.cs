@@ -124,19 +124,19 @@
                                 transaction.Complete();
                             }
                         }
-                         
+
                         if (routeHeader.IsDeleted)
-                            {
-                                this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
-                            }
-                        }
-
-                        if (route.IsDeleted)
                         {
-                            this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
+                            this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
                         }
+                    }
 
-                     
+                    if (route.IsDeleted)
+                    {
+                        this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
+                    }
+
+
                 }
                 catch (Exception exception)
                 {

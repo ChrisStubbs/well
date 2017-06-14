@@ -13,7 +13,7 @@ AS
         , ApprovedBy 
 	FROM LineItemAction lia
 	WHERE LineItemId = @Id
-	 AND lia.IsDeleted = 0
+	 AND lia.DateDeleted IS NULL
 
  RETURN 0
 END

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="AccountDTO.cs" />
     <Compile Include="Activity.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="AutoMapperConfig.cs" />
@@ -75,6 +76,9 @@
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="JobDetailAction.cs" />
+    <Compile Include="JobDetailDamageDTO.cs" />
+    <Compile Include="JobDetailDTO.cs" />
+    <Compile Include="JobDTO.cs" />
     <Compile Include="LineItem.cs" />
     <Compile Include="LineItemAction.cs" />
     <Compile Include="Location.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="StopDTO.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummary.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummaryItem.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />

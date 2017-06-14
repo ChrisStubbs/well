@@ -33,8 +33,8 @@ FROM	[dbo].RouteHeader rh
 		inner join JobStatus jb on jb.Id = j.JobStatusId
 		LEFT JOIN [dbo].[UserJob] uj on uj.JobId = j.Id
 		LEFT JOIN dbo.[User] u2 on u2.Id = uj.UserId
-		LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
+		LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.DateDeleted IS NULL
 WHERE	j.Id = @Id
-		AND j.IsDeleted = 0
-		AND	s.IsDeleted = 0
-		AND	rh.IsDeleted = 0
+		AND j.DateDeleted IS NULL
+		AND	s.DateDeleted IS NULL
+		AND	rh.DateDeleted IS NULL

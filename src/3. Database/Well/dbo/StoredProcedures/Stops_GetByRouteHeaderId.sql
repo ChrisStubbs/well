@@ -15,7 +15,7 @@ SELECT
 	  ,s.[CustUnatt] 
 	  ,s.[PHUnatt] 
 	  ,s.[DateCreated]
-	  ,s.[IsDeleted]
+	  ,s.[DateDeleted]
 	  ,ssv.WellStatusId
 FROM 
 	  [dbo].[Stop] s

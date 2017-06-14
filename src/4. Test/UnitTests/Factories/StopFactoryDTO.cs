@@ -1,18 +1,19 @@
-﻿namespace PH.Well.UnitTests.Factories
-{
-    using System;
-    using System.Collections.Generic;
-    using Well.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PH.Well.Domain;
 
-    public class StopFactory : EntityFactory<StopFactory, Stop>
+namespace PH.Well.UnitTests.Factories
+{
+    public class StopFactoryDTO : EntityFactory<StopFactoryDTO, StopDTO>
     {
-        public StopFactory()
+        public StopFactoryDTO()
         {
             this.Entity.Id = 1;
             this.Entity.PlannedStopNumber = "001";
             this.Entity.TransportOrderReference = "BIR-000000000000001";
             this.Entity.RouteHeaderId = 1;
-            this.Entity.RouteHeaderCode = "202000";
+            this.Entity.RouteHeaderCode = "0001";
             this.Entity.DropId = "01";
             this.Entity.LocationId = "LOC001";
             this.Entity.DeliveryDate = DateTime.Now;
@@ -20,10 +21,10 @@
             this.Entity.StopStatusCode = "a status";
             this.Entity.StopStatusDescription = "something";
             this.Entity.StopByPassReason = "Some reason";
-            this.Entity.Jobs = new List<Job>();
+            this.Entity.Jobs = new List<JobDTO>();
             this.Entity.WellStatusId = 3;
 
-            this.Entity.Account = new Account
+            this.Entity.Account = new AccountDTO
             {
                 Id = 1,
                 Code = "AC001",
@@ -40,6 +41,28 @@
                 DateDeleted = null,
                 StopId = this.Entity.Id
             };
+
+            this.Entity.EntityAttributes = new List<EntityAttribute>
+            {
+                new EntityAttribute { Code = "ActualPaymentCash", Value = null },
+                new EntityAttribute { Code = "ActualPaymentCheque", Value = null },
+                new EntityAttribute { Code = "ActualPaymentCard", Value = null }
+            };
+        }
+
+        public StopFactoryDTO AddEntityAttribute(string code, string value)
+        {
+            var att = this.Entity.EntityAttributes
+                .FirstOrDefault(p => p.Code.Equals(code, StringComparison.CurrentCultureIgnoreCase));
+
+            if (att != null)
+            {
+                this.Entity.EntityAttributes.Remove(att);
+            }
+
+            this.Entity.EntityAttributes.Add(new EntityAttribute { Code = code, Value = value });
+
+            return this;
         }
     }
 }

@@ -14,7 +14,7 @@
 
         string UpdatedBy { get; }
 
-        bool IsDeleted { get; }
+        DateTime? DateDeleted { get; }
 
         byte[] Version { get; set; }
 
@@ -29,5 +29,11 @@
         /// </summary>
         /// <returns>True if entity is transient, else false</returns>
         bool IsTransient();
+
+        /// <summary>
+        /// Helper to maintain backward compatibility
+        /// Entry is deleted if the DateDeleted has a value (i.e. not null)
+        /// </summary>
+        bool IsDeleted { get; }
     }
 }

@@ -19,9 +19,9 @@ BEGIN
 			Inner Join @JobStatuses js on js.Value = j.JobStatusId
 	WHERE	u.IdentityName = @UserName
 			AND j.InvoiceNumber IS NOT NULL
-			AND	rh.IsDeleted = 0
-			AND	s.IsDeleted = 0
-			AND j.IsDeleted = 0
+			AND	rh.DateDeleted IS NULL
+			AND	s.DateDeleted IS NULL
+			AND j.DateDeleted IS NULL
 
 	SELECT	j.Id,
 			rh.RouteNumber, 
@@ -58,7 +58,7 @@ BEGIN
 			LEFT JOIN CreditThreshold ct on ct.ThresholdLevelId = tl.Id
 			LEFT JOIN UserJob uj on uj.JobId = j.Id 
 			LEFT JOIN [User] u2 on u2.Id = uj.UserId
-			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
+			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.DateDeleted IS NULL
 			LEFT JOIN JobType jbt on jbt.Code = j.JobTypeCode
 			INNER JOIN #JobIdsTable jt on jt.Id = j.Id		
 	WHERE	u.IdentityName = @UserName
@@ -80,7 +80,7 @@ BEGIN
 			,jd.IsHighValue
 	FROM	[dbo].[JobDetail] jd
 			INNER JOIN #JobIdsTable jt on jt.Id = jd.JobId
-	WHERE	jd.IsDeleted = 0
+	WHERE	jd.DateDeleted IS NULL
 
 	SELECT	jdd.[JobDetailId]
 			,jdd.[Qty] as Quantity
@@ -90,7 +90,7 @@ BEGIN
 	From 	[dbo].[JobDetailDamage] jdd
 			inner join [dbo].[JobDetail] jd on jdd.JobDetailId = jd.Id	
 			INNER JOIN #JobIdsTable jt on jt.Id = jd.JobId
-	WHERE 	jd.IsDeleted = 0
+	WHERE 	jd.DateDeleted IS NULL
 
 	Drop Table #JobIdsTable
 END

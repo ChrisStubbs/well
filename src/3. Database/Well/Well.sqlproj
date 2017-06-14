@@ -161,15 +161,9 @@
     <Build Include="dbo\StoredProcedures\DeliveryLines_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByStopId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Get.sql" />
-    <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
-    <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
-    <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Routes_Get.sql" />
-    <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_DeleteDamageReasonsByJobDetailId.sql" />
     <Build Include="dbo\StoredProcedures\Routeheader_GetByRouteId.sql" />
-    <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Update.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_Insert.sql" />
@@ -387,6 +381,20 @@
     <None Include="Post-Deployement\Populate-CommentReason.sql" />
     <Build Include="dbo\Tables\LineItemActionComment.sql" />
     <Build Include="dbo\StoredProcedures\CommentReason_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
+    <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
+    <None Include="ManualStep\scripts\up\019_DropColumn_IsDeleted.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\017_AddColumn_DateDeleted.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\018_Copy_IsDeletedDateDeleted.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

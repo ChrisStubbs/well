@@ -117,11 +117,37 @@
                     </th>
                     <th class="colNumbers">
                         <div class="text-center">Invoiced</div>
-                        <div class="form-control-placeholder"></div>
+                        <div class="expected-tooltip">
+                            <tooltip-content #expectedTooltip placement="top">
+                                <table>
+                                    <tr>
+                                        <td>"For deliveries, the number of outers invoiced. For uplifts, the number of outers to be collected"</td>
+                                    </tr>
+                                </table>
+                            </tooltip-content>
+
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                  [tooltip]="expectedTooltip"
+                                  tooltipPlacement="right"></span>
+                        </div>
+                        <div class="text-center">Expected</div>
                     </th>
                     <th class="colNumbers">
                         <div class="text-center">Delivered</div>
-                        <div class="form-control-placeholder"></div>
+                        <div class="actual-tooltip">
+                            <tooltip-content #actualTooltip placement="top">
+                                <table>
+                                    <tr>
+                                        <td>"For deliveries, the number of outers delivered. For uplifts, the number of outers collected"</td>
+                                    </tr>
+                                </table>
+                            </tooltip-content>
+
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                  [tooltip]="actualTooltip"
+                                  tooltipPlacement="right"></span>
+                        </div>
+                        <div class="text-center">Actual</div>
                     </th>
                     <th class="colNumbers">
                         <div class="text-center">Damages</div>
@@ -134,6 +160,19 @@
                         </div>
                     </th>
                     <th class="colNumbers">
+                        <div class="shorts-tooltip">
+                            <tooltip-content #shortsTooltip placement="top">
+                                <table>
+                                    <tr>
+                                        <td>"For deliveries, the number of outers invoiced but not delivered. For uplifts, the number of outers not collected"</td>
+                                    </tr>
+                                </table>
+                            </tooltip-content>
+
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                  [tooltip]="shortsTooltip"
+                                  tooltipPlacement="right"></span>
+                        </div>
                         <div class="text-center">Shorts</div>
                         <div>
                             <select class="form-control" [(ngModel)]="filters.shorts" (change)="fillGridSource()" title="">

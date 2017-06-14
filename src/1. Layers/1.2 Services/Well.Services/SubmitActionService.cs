@@ -64,7 +64,6 @@
                 {
                     if (submitAction.Action == DeliveryAction.Credit)
                     {
-
                         foreach (var jobId in submitAction.ItemsToSubmit.Select(x => x.JobId).Distinct())
                         {
                             var jobItems = submitAction.ItemsToSubmit.Where(x => x.JobId == jobId).ToArray();

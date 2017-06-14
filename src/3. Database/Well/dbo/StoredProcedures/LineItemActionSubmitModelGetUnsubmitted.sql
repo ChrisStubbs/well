@@ -9,6 +9,7 @@ Select
 	,li.ProductCode
 	,jd.NetPrice
 	,rh.RouteOwnerId as BranchId
+	,rh.RouteDate
 	,lia.LineItemId
 	,lia.ExceptionTypeId as ExceptionType
 	,lia.Quantity

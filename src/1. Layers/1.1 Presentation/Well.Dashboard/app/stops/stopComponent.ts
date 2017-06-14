@@ -1,20 +1,20 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { StopService } from './stopService';
-import { Stop, StopItem, StopFilter } from './stop';
-import * as _ from 'lodash';
-import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { ILookupValue } from '../shared/services/services';
-import { AccountService } from '../account/accountService';
-import { ContactModal } from '../shared/contactModal';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent } from '../shared/action/actionEditComponent';
-import { EditExceptionsService } from '../exceptions/editExceptionsService';
-import {EditLineItemException} from '../exceptions/editLineItemException';
+import { Component, ViewChild, ElementRef }     from '@angular/core';
+import { ActivatedRoute }                       from '@angular/router';
+import { IObservableAlive }                     from '../shared/IObservableAlive';
+import { StopService }                          from './stopService';
+import { Stop, StopItem, StopFilter }           from './stop';
+import * as _                                   from 'lodash';
+import { AssignModel, AssignModalResult }       from '../shared/components/assignModel';
+import { Branch }                               from '../shared/branch/branch';
+import { SecurityService }                      from '../shared/security/securityService';
+import { GlobalSettingsService }                from '../shared/globalSettings';
+import { ILookupValue }                         from '../shared/services/services';
+import { AccountService }                       from '../account/accountService';
+import { ContactModal }                         from '../shared/contactModal';
+import { GridHelpersFunctions }                 from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent }                  from '../shared/action/actionEditComponent';
+import { EditExceptionsService }                from '../exceptions/editExceptionsService';
+import { EditLineItemException }                from '../exceptions/editLineItemException';
 
 @Component({
     selector: 'ow-stop',
@@ -37,8 +37,7 @@ import {EditLineItemException} from '../exceptions/editLineItemException';
         '.colDescription { width: 24% } ' +
         '.colNumbers { width: 6%; } ' +
         '.colHigh { width: 10% } ' +
-        '.colCheckbox { width: 3% } ' +
-        '.emptyFilter { line-height: 34px; }']
+        '.colCheckbox { width: 3% } ']
 })
 export class StopComponent implements IObservableAlive
 {
@@ -47,10 +46,8 @@ export class StopComponent implements IObservableAlive
     public tobaccoBags: Array<[string, string]>;
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
-
     public source: IDictionarySource;
     public gridSource: Array<any>;
-
     public filters: StopFilter;
     public lastRefresh = Date.now();
 
@@ -241,6 +238,7 @@ export class StopComponent implements IObservableAlive
     private buildSource(): IDictionarySource
     {
         const values = <IDictionarySource>{};
+
         _.chain(this.stopsItems)
             .groupBy(current => current.jobId)
             .map((current: Array<StopItem>) =>

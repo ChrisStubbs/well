@@ -79,7 +79,7 @@ import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
+ import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -99,7 +99,8 @@ import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { LookupService } from './shared/services/lookupService';
 import AppRoutes = require('./appRoutes');
-import {ActionEditComponent} from './shared/action/actionEditComponent';
+import { ActionEditComponent } from './shared/action/actionEditComponent';
+import { TooltipModule } from 'ngx-tooltip';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -119,7 +120,7 @@ import {ActionEditComponent} from './shared/action/actionEditComponent';
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule, BrowserAnimationsModule, DataGridModule, SharedModule, DataTableModule, Ng2Webstorage
+        ReactiveFormsModule, BrowserAnimationsModule, DataGridModule, SharedModule, DataTableModule, Ng2Webstorage, TooltipModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

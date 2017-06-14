@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="table-responsive table-container col-md-12">
-        <table class="table table-hover table-striped">
+         <table class="table table-hover table-striped">
             <thead>
                 <tr>
                     <th class="colExpandAll" style="width: 3%">
@@ -56,7 +56,7 @@
                             <div class="group9">
                                 <span>
                                     <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
-                                    <input type="checkbox" [checked]="allChildrenSelected(item.id)" (change)="selectLineItens($event.target.checked, item.id)" />
+                                    <input type="checkbox" [checked]="allChildrenSelected(item.id)" (change)="selectLineItems($event.target.checked, item.id)" />
                                 </span>
                             </div>
                         </div>

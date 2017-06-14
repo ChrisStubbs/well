@@ -11,7 +11,6 @@ import { AppSearchParameters }                      from '../shared/appSearch/ap
 import { DataTable }                                from 'primeng/primeng';
 import { AssignModel, AssignModalResult }           from '../shared/components/components';
 import { Branch }                                   from '../shared/branch/branch';
-import { AppDefaults }                              from '../shared/defaults/defaults';
 import { IObservableAlive }                         from '../shared/IObservableAlive';
 import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
 import * as _                                       from 'lodash';
@@ -35,9 +34,9 @@ export class RoutesComponent implements IObservableAlive
 
     public isAlive: boolean = true;
     private actions: string[] = ['Re-Plan'];
-    public rowCount = AppDefaults.Paginator.rowCount();
-    public pageLinks = AppDefaults.Paginator.pageLinks();
-    public rowsPerPageOptions = AppDefaults.Paginator.rowsPerPageOptions();
+    public rowCount = 10;
+    public pageLinks =  3;
+    public rowsPerPageOptions =  [10, 20, 30, 40, 50];
 
     private routeFilter: RouteFilter;
     private yesNoFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];

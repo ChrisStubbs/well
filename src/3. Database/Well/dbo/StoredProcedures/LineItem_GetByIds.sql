@@ -45,5 +45,24 @@ AS
 	WHERE 
 		lia.DateDeleted IS NULL
 
+	SELECT 
+		c.id
+		,c.LineItemActionId
+		,c.CommentReasonId
+		,cr.Description CommentDescription 
+		,c.CreatedBy
+		,c.DateCreated 
+		,c.UpdatedBy
+		,c.DateUpdated
+	FROM 
+		LineItemActionComment c
+	INNER JOIN 
+		CommentReason cr on cr.Id = c.CommentReasonId
+	INNER JOIN 
+		LineItemAction lia on c.LineItemActionId = lia.id
+	INNER JOIN @Ids ids ON ids.Value = lia.LineItemId
+	WHERE 
+		lia.IsDeleted = 0
+
  RETURN 0
 END

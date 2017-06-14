@@ -15,11 +15,16 @@ namespace PH.Well.Services
     {
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
+        private readonly ILineItemActionCommentRepository commentRepository;
 
-        public LineItemActionService(ILineItemActionRepository lineItemActionRepository, ILineItemSearchReadRepository lineItemRepository)
+        public LineItemActionService(
+            ILineItemActionRepository lineItemActionRepository, 
+            ILineItemSearchReadRepository lineItemRepository,
+            ILineItemActionCommentRepository commentRepository)
         {
             this.lineItemActionRepository = lineItemActionRepository;
             this.lineItemRepository = lineItemRepository;
+            this.commentRepository = commentRepository;
         }
 
         public LineItem SaveLineItemActions(int lineItemId, IEnumerable<LineItemAction> lineItemActions)
@@ -48,6 +53,12 @@ namespace PH.Well.Services
                         {
                             lineItemActionRepository.Update(action);
                         }
+                    }
+
+                    foreach (var comment in action.Comments.Where(x=> x.IsTransient()))
+                    {
+                        comment.LineItemActionId = action.Id;
+                        commentRepository.Save(comment);
                     }
                 }
                 

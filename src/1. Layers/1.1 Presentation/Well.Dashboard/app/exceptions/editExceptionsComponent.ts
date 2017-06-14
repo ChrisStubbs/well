@@ -141,24 +141,18 @@ export class EditExceptionsComponent implements IObservableAlive
     private mergeNewException(data: EditLineItemException)
     {
         //the server is sending back all the exceptions for this lineitem
-        //so first thing i need to do is;
-        //remove existing lineItem
         let isExpanded: boolean = false;
-        _.remove(this.source, current =>
-        {
-
-            if (current.id == data.id)
-            {
-                isExpanded = current.isExpanded;
-                return true;
-            }
-
-            return false;
+        //find old item
+        const oldItem = _.find(this.source, function (i) {
+            return i.id == data.id;
         });
-
+        //get index of old item
+        const index = _.indexOf(this.source, oldItem);
+        //replace with updated item
+        this.source[index] = data;
+        isExpanded = oldItem.isExpanded;
         //now re-add it
         data.isExpanded = isExpanded;
-        this.source.push(data);
     }
 
     private exceptionSaved(data: EditLineItemException): void

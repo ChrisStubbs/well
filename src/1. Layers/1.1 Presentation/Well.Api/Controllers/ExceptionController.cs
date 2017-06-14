@@ -35,7 +35,6 @@
             return lineItem != null ? lineItemExceptionMapper.Map(lineItem) : null;
         }
 
-
         public EditLineItemException Post(LineItemActionUpdate update)
         {
             return lineItemExceptionMapper.Map(new[] { lineItemActionService.InsertLineItemActions(update) }).First();

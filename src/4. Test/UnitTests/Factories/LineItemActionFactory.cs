@@ -22,7 +22,17 @@
             this.Entity.LineItemId = 100;
             this.Entity.ActionedBy = "TestUser";
             this.Entity.DeliveryAction = DeliveryAction.Credit;
+        }
 
+        public LineItemActionFactory GenerateForHasChange()
+        {
+            this.Entity.ReplanDate = new DateTime(1939, 9, 1);
+            this.Entity.SubmittedDate = new DateTime(1992, 1, 6);
+            this.Entity.ApprovalDate = new DateTime(1939, 9, 1);
+            this.Entity.ApprovedBy = "ApprovedBy";
+            this.Entity.ActionedBy = "ActionedBy";
+
+            return this;
         }
     }
 }

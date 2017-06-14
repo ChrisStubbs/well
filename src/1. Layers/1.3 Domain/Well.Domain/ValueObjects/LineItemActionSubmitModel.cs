@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    using System.Collections;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -12,6 +12,7 @@
         public int BranchId { get; set; }
         public string ProductCode { get; set; }
         public decimal NetPrice { get; set; }
+        public DateTime RouteDate { get; set; }
         public decimal TotalValue => Quantity * NetPrice;
 
         public static IEnumerable<LineItemActionSubmitModel> GetItemsContainingJobIds(IList<LineItemActionSubmitModel> items, IList<int> jobIds)

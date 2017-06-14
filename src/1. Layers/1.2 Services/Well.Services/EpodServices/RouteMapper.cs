@@ -95,6 +95,7 @@
             to.SSCCBarcode = from.SSCCBarcode;  //tobacco bag barcode
             to.SkuGoodsValue = from.SkuGoodsValue;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
+            to.NetPrice = from.NetPrice;
         }
 
         private void AddAttribute(List<EntityAttribute> jobAttributes, List<EntityAttribute> jobUpdateAttributes,

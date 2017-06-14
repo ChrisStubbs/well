@@ -23,7 +23,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 			,COUNT(*)  OVER (PARTITION BY StopId, JobStatusId) AS JobCountPerStatus
 			,COUNT(*)  OVER (PARTITION BY Stopid) AS TotalJobs
 	FROM Job j
-	WHERE JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF')
+	WHERE JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF', 'UPL-SAN')
 	), 
 	RouteCleanCount AS
 	(

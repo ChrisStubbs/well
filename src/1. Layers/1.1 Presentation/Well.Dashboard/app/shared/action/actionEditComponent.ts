@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
+﻿import {Component, ViewChild, ElementRef, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IObservableAlive } from '../IObservableAlive';
 import * as _ from 'lodash';
@@ -14,11 +14,19 @@ import { LineItemActionComment } from '../../exceptions/lineItemAction';
 @Component({
     selector: 'action-edit',
     templateUrl: 'app/shared/action/actionEditComponent.html',
-    providers: [LookupService, EditExceptionsService]
+    providers: [LookupService, EditExceptionsService],
+    styleUrls: ['app/shared/action/actionEditComponent.css'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class ActionEditComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
+    public source: EditLineItemException = new EditLineItemException();
+    public originalLineItems: Array<LineItemAction> = [];
+
+    @Output() public onSave = new EventEmitter<EditLineItemException>();
+    @ViewChild('showModal') public showModal: ElementRef;
+    @ViewChild('actionEditForm') private currentForm: NgForm;
 
     private deliveryActions: Array<ILookupValue>;
     private sources: Array<ILookupValue>;
@@ -26,14 +34,9 @@ export class ActionEditComponent implements IObservableAlive
     private exceptionTypes: Array<ILookupValue>;
     private commentReasons: Array<ILookupValue>;
     private lineItemActionsToRemove: Array<LineItemAction> = [];
-    public source: EditLineItemException = new EditLineItemException();
-    public originalLineItems: Array<LineItemAction> = [];
     private lineItemActions: Array<LineItemAction> = [];
     private errorInvoiceQty: string = 'Total Action quantity is > than the invoice quantity';
     private errorCommentRequired: string = 'When editing a quantity a comment is required';
-    @Output() public onSave = new EventEmitter<EditLineItemException>();
-    @ViewChild('showModal') public showModal: ElementRef;
-    @ViewChild('actionEditForm') private currentForm: NgForm;
 
     constructor(
         private lookupService: LookupService,

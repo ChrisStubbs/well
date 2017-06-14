@@ -1,0 +1,45 @@
+.fake .tooltip-inner {
+    max-width: 300px; width: 300px;
+    background-color: #FFFFFF;
+    color: #333;
+    padding: 0px;
+}
+.fake .tooltip.right.in {
+    opacity: 1;
+}
+
+.fake .tooltip-arrow {
+    #border-right-color: #757575;
+}
+
+.fake .tooltip-inner .list-group {
+    margin-bottom: 0px;
+}
+
+.w-100 {
+    width: 100%!important;
+}
+
+
+.justify-content-between {
+    -webkit-box-pack: justify!important;
+    -webkit-justify-content: space-between!important;
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+}
+
+.d-flex {
+    display: -webkit-box!important;
+    display: -webkit-flex!important;
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
+
+h5 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.1;
+    color: rgb(70, 74, 76);
+    font-size: 18px;
+}

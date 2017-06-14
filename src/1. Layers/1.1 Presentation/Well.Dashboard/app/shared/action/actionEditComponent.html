@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-body" style="padding-top: 0">
+                <div class="modal-body" style="padding-top: 0; overflow: visible">
                     <div class="form-group">
                         <div class="col-md-12">
                             <div class="table-responsive table-container">
@@ -77,7 +77,7 @@
                                     <thead>
                                         <tr>
                                             <th>Action</th>
-                                            <th>Qty</th>
+                                            <th>Quantity</th>
                                             <th>Comments</th>
                                             <th>Exception</th>
                                             <th>Source</th>
@@ -97,7 +97,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" id="quantity{{i}}" name="quantity{{i}}"
+                                                <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
                                                        [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
                                                        (change)="qtyChanged(item,$event, i)"
                                                        [disabled]="+item.deliveryAction == actionClose" />
@@ -108,21 +108,24 @@
                                                         [(ngModel)]="item.commentReason"
                                                         (change)="commentChange(item,$event,i)"
                                                         [disabled]="isOriginalQuantity(item)" >
+
                                                     <option *ngFor="let comment of commentReasons" [value]="comment.key">
                                                         {{comment.value}}
                                                     </option>
                                                 </select>
                                                 <div class="comment-tooltip">
-                                                    <tooltip-content #commentTooltip placement="top">
-                                                        <table>
-                                                            <tr *ngFor="let c of item.comments;">
-                                                                <td>{{c.commentDescription}}</td>
-                                                                <td>{{c.displayName}}</td>
-                                                                <td>{{c.dateCreated | date:'dd/MMM/yyyy HH:mm:ss' }}</td>
-                                                            </tr>
-                                                        </table>
+                                                    <tooltip-content #commentTooltip placement="top" class="fake">
+                                                        <div class="list-group">
+                                                            <div *ngFor="let c of item.comments;" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                <div class="d-flex w-100 justify-content-between">
+                                                                    <h5 class="mb-1">{{c.displayName}}</h5>
+                                                                    <small class="text-muted">{{c.dateCreated | date:'dd/MMM/yyyy HH:mm:ss' }}</small>
+                                                                </div>
+                                                                <p class="mb-1 text-justify">{{c.commentDescription}}</p>
+                                                                <small style="display: none;" class="text-muted">here will go the "From QTY to QTY"</small>
+                                                            </div>
+                                                        </div>
                                                     </tooltip-content>
-
                                                     <span class="glyphicon glyphicon-comment" aria-hidden="true"
                                                           *ngIf="item.comments && item.comments.length > 0"
                                                           [tooltip]="commentTooltip"

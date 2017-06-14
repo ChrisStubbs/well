@@ -53,7 +53,24 @@
                     .ToList();
 
                 var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
-                var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);
+                var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
+                // FLP
+                // shorts to be advised 
+                // group the jobs by outercount
+                // get the totaloutershort for the first one
+                // for each group
+                // add together for the total outers short for the stop
+                //
+
+                //var groupJobs = stopJobs.GroupBy(g => g.OuterCount).Select()
+
+                // get the total number of confirmed shorts for the stop
+                // subtract from the total outers short to get the shorts to be advised
+
+                //todo TBA
+                //var totalShort = stopJobDetails.Sum(d => d.ShortQty); // total confirmed short for stop
+                //var shortsToBeAdvised = (tba - totalShort); 
+                // flp
 
                 var clean = stopJobDetails.GroupBy(p => p.IsClean())
                     .Select(p => new { p.Key, count = p.Count() })

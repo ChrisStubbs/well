@@ -5,7 +5,6 @@
     * Install ConEmu [from here](https://conemu.github.io/)
 	* run npm install -g Webpack
     * Install Webpack Extensions for visual studio 2015
-        - Install webpack globally (npm Install -g Webpack)
 
 2. Git repo: [Well on P&H bitbucket](http://ho-nt-vmdevtfs1:7990/scm/mig/well.git)
     * Open ...\src\Well.All.sln

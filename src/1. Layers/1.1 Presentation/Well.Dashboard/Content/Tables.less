@@ -1,4 +1,6 @@
-﻿.table-container {
+﻿@import "Variables";
+
+.table-container {
     margin-top: 16px;
 }
 
@@ -22,13 +24,23 @@ table {
             font-size: 18px;
         }
     }
+
+    .form-control-placeholder {
+        display: block;
+        line-height: @formControlHeight;
+
+        &::before {
+            content: "\00a0 ";
+        }
+    }
 }
 
-table{
-    tbody{
+table {
+    tbody {
         tr.info {
             td > div {
                 display: flex;
+
                 span.fa-arrow-circle-right, span.fa-arrow-circle-down {
                     font-size: 150%;
                 }
@@ -37,6 +49,6 @@ table{
     }
 }
 
-span.fa-arrow-circle-down, span.fa-arrow-circle-right{
+span.fa-arrow-circle-down, span.fa-arrow-circle-right {
     font-size: 150%;
 }

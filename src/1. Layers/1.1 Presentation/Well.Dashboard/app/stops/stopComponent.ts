@@ -37,8 +37,7 @@ import { EditLineItemException }                from '../exceptions/editLineItem
         '.colDescription { width: 24% } ' +
         '.colNumbers { width: 6%; } ' +
         '.colHigh { width: 10% } ' +
-        '.colCheckbox { width: 3% } ' +
-        '.emptyFilter { line-height: 34px; }']
+        '.colCheckbox { width: 3% } ']
 })
 export class StopComponent implements IObservableAlive
 {

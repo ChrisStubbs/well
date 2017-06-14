@@ -5,7 +5,6 @@
     * Install ConEmu [from here](https://conemu.github.io/)
 	* run npm install -g Webpack
     * Install Webpack Extensions for visual studio 2015
-        - Install webpack globally (npm Install -g Webpack)
 
 2. Git repo: [Well on P&H bitbucket](http://ho-nt-vmdevtfs1:7990/scm/mig/well.git)
     * Open ...\src\Well.All.sln
@@ -31,7 +30,8 @@
 	* Under this directory add the Dashboard and API sites
 	* On the directory under Authentication make sure Windows Authentication is enabled
 	* Run the app pool for these new sites under the following credentials:  
-           User: "palmerharvey\csdevservice"  
+           User: "palmerharvey\csdevservice"  3ae86f97a07b2c7bd3d589764df3c4c968ec2148
+
            Pass: C5D3vservice
 	* Make sure that on SQL server this user has permissions for the databases
 

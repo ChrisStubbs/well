@@ -35,17 +35,6 @@ export class AssignModal implements IObservableAlive
         this.userJobs = new UserJobs();
     }
 
-    public ngOnInit()
-    {
-        this.userService.getUsersForBranch(this.model.branch.id)
-            .takeWhile(() => this.isAlive)
-            .subscribe(users =>
-            {
-                this.allUsers = users;
-                this.buildUsersSource();
-            });
-    }
-
     private buildUsersSource(): void
     {
         this.users = _.filter(this.allUsers,
@@ -53,6 +42,10 @@ export class AssignModal implements IObservableAlive
             {
                 return _.isNil(this.model.assigned) || current.name != this.model.assigned;
             });
+    }
+
+    public ngOnInit() {
+        this.isAlive = true;
     }
 
     public ngOnDestroy()
@@ -63,6 +56,17 @@ export class AssignModal implements IObservableAlive
     public hide()
     {
         this.isVisible = false;
+    }
+
+    public show() {
+        this.userService.getUsersForBranch(this.model.branch.id)
+            .takeWhile(() => this.isAlive)
+            .subscribe(users => {
+                this.allUsers = users;
+                this.buildUsersSource();
+            });
+        this.isVisible = true;
+
     }
 
     public userSelected(user: IUser, newModel: AssignModel): void

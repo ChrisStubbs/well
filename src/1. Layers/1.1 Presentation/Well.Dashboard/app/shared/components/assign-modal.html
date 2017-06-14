@@ -3,7 +3,7 @@
     <span>{{model.assigned}}</span>
 </ng-template>
 <ng-template #notReadOnlyUser>
-    <a class="assign" (click)="isVisible = true">{{model.assigned || 'Unallocated'}}</a>
+    <a class="assign" (click)="show()">{{model.assigned || 'Unallocated'}}</a>
 </ng-template>
 <div *ngIf="isVisible" class="modal fade show in danger assign-modal" role="dialog">
     <div class="modal-dialog">

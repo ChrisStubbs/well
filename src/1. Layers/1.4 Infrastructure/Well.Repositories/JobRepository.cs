@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using System;
+
+namespace PH.Well.Repositories
 {
     using Dapper;
     using System.Collections.Generic;
@@ -132,7 +134,6 @@
                 .Query<int>().FirstOrDefault();
         }
 
-    
         public void DeleteJobById(int id)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDeleteById)

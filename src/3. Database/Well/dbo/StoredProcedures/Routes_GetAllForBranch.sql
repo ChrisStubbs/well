@@ -67,7 +67,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 	--LEFT JOIN RouteStatus rs ON rs.Id = rsv.RouteStatus
 	LEFT JOIN WellStatus ws ON ws.Id = rsv.RouteStatus
     WHERE 
-		rh.IsDeleted = 0
+		rh.DateDeleted IS NULL
 		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 	ORDER BY rh.RouteDate DESC
 
@@ -88,7 +88,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 	INNER JOIN 
 		[User] jobUser ON uj.UserId = jobUser.Id
 	WHERE 
-		rh.IsDeleted = 0
+		rh.DateDeleted IS NULL
 		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 
 	SELECT 
@@ -100,7 +100,7 @@ DECLARE  @JobStatus_Bypass INT = 8
 		Job j on j.StopId = s.Id
 	INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
 	WHERE 
-		rh.IsDeleted = 0
+		rh.DateDeleted IS NULL
 		AND rh.RouteOwnerId in (Select BranchId FROM @UserBranches)
 
 END

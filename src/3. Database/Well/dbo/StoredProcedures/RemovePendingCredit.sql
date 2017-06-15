@@ -4,5 +4,7 @@ AS
 BEGIN
 
 	SET NOCOUNT ON;
-	UPDATE PendingCredit SET IsDeleted = 1 WHERE JobId = @jobId
+	UPDATE PendingCredit 
+	SET DateDeleted = GETDATE()
+	WHERE JobId = @jobId
 END

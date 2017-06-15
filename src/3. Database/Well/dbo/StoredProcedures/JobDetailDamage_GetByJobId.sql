@@ -4,7 +4,7 @@ AS
 SELECT [Id]
       ,[JobDetailId]
       ,[Qty]
-      ,[IsDeleted]
+      ,[DateDeleted]
       ,[JobDetailSourceId]
       ,[JobDetailReasonId]
 	  ,[DamageActionId]

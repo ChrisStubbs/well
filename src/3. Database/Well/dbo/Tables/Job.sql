@@ -25,7 +25,7 @@
 	[SandwchOrd] BIT NULL DEFAULT 0,
 	[PerformanceStatusId] INT NULL,
 	[Reason] VARCHAR(255) NULL,
-	[IsDeleted] BIT NOT NULL DEFAULT 0,
+    [DateDeleted] DATETIME NULL, 
 	[StopId] INT NOT NULL,
 	[ActionLogNumber] VARCHAR(50) NULL,
 	[OuterCount] INT NULL,

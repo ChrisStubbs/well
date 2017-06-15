@@ -22,7 +22,7 @@ begin
       ,[DamagesRejected]
       ,[DamagesAccepted]
 	  ,[RouteOwnerId]
-	  ,[IsDeleted]
+	  ,[DateDeleted]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

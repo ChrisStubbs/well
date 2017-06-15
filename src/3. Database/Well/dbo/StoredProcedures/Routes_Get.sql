@@ -3,7 +3,7 @@
 AS
 SELECT [Id]
       ,[FileName]
-      ,[IsDeleted]
+      ,[DateDeleted]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

@@ -11,4 +11,4 @@ WHEN NOT MATCHED BY TARGET THEN
 	INSERT ([Id],[Description],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	VALUES ([Id],[Description],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated]);
 
-SET IDENTITY_INSERT [CommodityType] OFF
+SET IDENTITY_INSERT [CommentReason] OFF

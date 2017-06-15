@@ -388,6 +388,9 @@
     <Build Include="dbo\Tables\LineItemActionComment.sql" />
     <Build Include="dbo\StoredProcedures\CommentReason_Get.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionCommentInsert.sql" />
+    <Build Include="dbo\Tables\ResolutionStatus.sql" />
+    <Build Include="dbo\Tables\JobResolutionStatus.sql" />
+    <None Include="Post-Deployement\Populate-ResolutionStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

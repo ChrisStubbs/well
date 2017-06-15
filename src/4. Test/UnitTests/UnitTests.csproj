@@ -162,6 +162,7 @@
     <Compile Include="DTOMappers\StopDTOTests.cs" />
     <Compile Include="Factories\CleanPreferenceFactory.cs" />
     <Compile Include="Factories\LineItemActionFactory.cs" />
+    <Compile Include="Factories\LineItemFactory.cs" />
     <Compile Include="Factories\NotificationFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />

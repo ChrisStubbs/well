@@ -13,6 +13,7 @@
         public Job()
         {
             this.JobDetails = new List<JobDetail>();
+            this.LineItems = new List<LineItem>();
         }
 
         public int Sequence { get; set; }

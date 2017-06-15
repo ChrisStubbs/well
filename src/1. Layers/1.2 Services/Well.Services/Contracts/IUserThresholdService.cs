@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services.Contracts
 {
     using System;
+    using Domain;
     using PH.Well.Domain.ValueObjects;
 
     public interface IUserThresholdService
@@ -10,5 +11,7 @@
         string AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId);
 
         Decimal GetUserCreditThresholdValue();
+
+        bool UserHasRequiredCreditThreshold(Job job);
     }
 }

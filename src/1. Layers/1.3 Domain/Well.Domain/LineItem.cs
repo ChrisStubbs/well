@@ -18,6 +18,7 @@
         public int ActivityId { get; set; }
         public int? OriginalDespatchQuantity { get; set; }
         public int? DeliveredQuantity { get; set; }
+        public string DriverReason { get; set; }
         public int JobId { get; set; }
 
         public List<LineItemAction> LineItemActions { get; set; }

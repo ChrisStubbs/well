@@ -64,7 +64,7 @@
         <div class="row">
             <a #openContact style="display: none;" href="#" data-toggle="modal" data-target="#contactModal">&nbsp;</a>
             <div class="table-responsive table-container col-md-12">
-                <table class="table table-hover table-striped" style="table-layout: fixed">
+                <table class="table table-white" style="table-layout: fixed">
                     <thead>
                         <tr>
                             <th class="colExpandAll">
@@ -217,61 +217,64 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let item of gridSource">
-                        <tr *ngIf="item.isRowGroup" class="info">
-                            <td>
-                                <a href="#" (click)="expandGroup($event, item.jobId)">
-                                    <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
-                                </a>
-                            </td>
-                            <td  colspan="2">
-                                <label>Invoice: </label>
-                                {{item.invoice}}
-                            </td>
-                            <td>
-                                <label>Type: </label>
-                                {{item.types}}
-                            </td>
-                            <td colspan="2">
-                                <label>Account: </label>
-                                {{item.account}}
-                                <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
-                            </td>
-                            <td class="text-right">{{item.totalInvoiced}}</td>
-                            <td class="text-right">{{item.totalDelivered}}</td>
-                            <td class="text-right">{{item.totalDamages}}</td>
-                            <td class="text-right">{{item.totalShorts}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
-                        </tr>
+                    <tbody>
+                        <ng-container  *ngFor="let item of gridSource">
+                            <tr *ngIf="item.isRowGroup" class="info">
+                                <td>
+                                    <a href="#" (click)="expandGroup($event, item.jobId)">
+                                        <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
+                                    </a>
+                                </td>
+                                <td colspan="2">
+                                    <label>Invoice: </label>
+                                    {{item.invoice}}
+                                </td>
+                                <td>
+                                    <label>Type: </label>
+                                    {{item.types}}
+                                </td>
+                                <td colspan="2">
+                                    <label>Account: </label>
+                                    {{item.account}}
+                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
+                                </td>
+                                <td class="text-right">{{item.totalInvoiced}}</td>
+                                <td class="text-right">{{item.totalDelivered}}</td>
+                                <td class="text-right">{{item.totalDamages}}</td>
+                                <td class="text-right">{{item.totalShorts}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
+                            </tr>
 
-                        <tr *ngIf="!item.isRowGroup">
-                            <td></td>
-                            <td>{{item.product}}</td>
-                            <td>{{item.type}}</td>
-                            <td>
-                                <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
-                                    <abbr>{{ item.barCode }}</abbr>
-                                </div>
-                            </td>
-                            <td>{{item.description}}</td>
-                            <td class="text-right">{{item.value}}</td>
-                            <td class="text-right">{{item.invoiced}}</td>
-                            <td class="text-right">{{item.delivered}}</td>
-                            <td class="text-right">{{item.damages}}</td>
-                            <td class="text-right">{{item.shorts}}</td>
-                            <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
-                            <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
-                            <td class="text-right">Resolution</td>
-                            <td>
-                                <span>
-                                    <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
-                                    <input type="checkbox" [(ngModel)]="item.isSelected" title="">
-                                </span>
-                            </td>
-                        </tr>
+                            <tr *ngIf="!item.isRowGroup">
+                                <td></td>
+                                <td>{{item.product}}</td>
+                                <td>{{item.type}}</td>
+                                <td>
+                                    <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
+                                        <abbr>{{ item.barCode }}</abbr>
+                                    </div>
+                                </td>
+                                <td>{{item.description}}</td>
+                                <td class="text-right">{{item.value}}</td>
+                                <td class="text-right">{{item.invoiced}}</td>
+                                <td class="text-right">{{item.delivered}}</td>
+                                <td class="text-right">{{item.damages}}</td>
+                                <td class="text-right">{{item.shorts}}</td>
+                                <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
+                                <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
+                                <td class="text-right">Resolution</td>
+                                <td>
+                                    <span>
+                                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
+                                        <input type="checkbox" [(ngModel)]="item.isSelected" title="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-container>
+
                     </tbody>
                 </table>
             </div>

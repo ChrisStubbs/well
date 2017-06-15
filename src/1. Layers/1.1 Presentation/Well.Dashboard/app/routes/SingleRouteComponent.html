@@ -35,8 +35,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 clearfix ">
-            <table class="table table-hover table-striped">
+        <div class="col-md-12 clearfix table-container">
+            <table class="table table-white">
                 <thead>
                     <tr>
                         <th style="width: 3%">
@@ -128,61 +128,67 @@
                         </th>
                         <th style="width: 9%">
                             <div class="text-center">Resolution</div>
-                            <div class="form-control-placeholder"></div>
+                            <select class="form-control">
+                                <option value>All</option>
+                                <option *ngFor="let r of resolutionStatuses" [value]="r">{{r}}</option>
+                            </select>
                         </th>
                         <th style="width: 4%">
                             <input type="checkbox" [checked]="allChildrenSelected()" (change)="selectStops($event.target.checked)" />
                         </th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let item of gridSource">
-                    <tr class="info">
-                        <td>
-                            <a href="#" (click)="expand($event, item); $event.preventDefault()">
-                                <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
-                            </a>
-                        </td>
-                        <td colspan="3">
-                            <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}}</a>
-                        </td>
-                        <td colspan="2">
-                            {{item.stopStatus}}
-                        </td>
-                        <td class="text-right">
-                            {{item.totalExceptions}}
-                        </td>
-                        <td class="text-right">
-                            {{item.totalClean}}
-                        </td>
-                        <td class="text-right">
-                            {{item.tba}}
-                        </td>
-                        <td>&nbsp;</td>
-                        <td colspan="2">
-                            <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
-                        </td>
-                        <td>
-                            <input type="checkbox" [checked]="allChildrenSelected(item)" (change)="selectStops($event.target.checked, item)" />
-                        </td>
-                    </tr>
-                    <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                        <td colspan="2">{{detail.account}}</td>
-                        <td>{{detail.invoice}}</td>
-                        <td>{{detail.jobType}}</td>
-                        <td>{{detail.wellStatusDescription}}</td>
-                        <td>
-                            <ow-account-flags [isCashOnDelivery]="detail.isCod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
-                        </td>
-                        <td class="text-right">{{detail.exceptions}}</td>
-                        <td class="text-right">{{detail.clean}}</td>
-                        <td class="text-right">{{detail.tba}}</td>
-                        <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
-                        </td>
-                    </tr>
+                <tbody>
+                    <ng-container *ngFor="let item of gridSource">
+                        <tr class="info">
+                            <td>
+                                <a href="#" (click)="expand($event, item); $event.preventDefault()">
+                                    <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
+                                </a>
+                            </td>
+                            <td colspan="3">
+                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}}</a>
+                            </td>
+                            <td colspan="2">
+                                {{item.stopStatus}}
+                            </td>
+                            <td class="text-right">
+                                {{item.totalExceptions}}
+                            </td>
+                            <td class="text-right">
+                                {{item.totalClean}}
+                            </td>
+                            <td class="text-right">
+                                {{item.tba}}
+                            </td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">
+                                <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
+                            </td>
+                            <td>
+                                <input type="checkbox" [checked]="allChildrenSelected(item)" (change)="selectStops($event.target.checked, item)" />
+                            </td>
+                        </tr>
+                        <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
+                            <td colspan="2">{{detail.account}}</td>
+                            <td>{{detail.invoice}}</td>
+                            <td>{{detail.jobType}}</td>
+                            <td>{{detail.wellStatusDescription}}</td>
+                            <td>
+                                <ow-account-flags [isCashOnDelivery]="detail.isCod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
+                            </td>
+                            <td class="text-right">{{detail.exceptions}}</td>
+                            <td class="text-right">{{detail.clean}}</td>
+                            <td class="text-right">{{detail.tba}}</td>
+                            <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
+                            </td>
+                        </tr>
+                    </ng-container>
+                  
                 </tbody>
             </table>
             <h3 *ngIf="gridSource.length == 0">No matching results</h3>

@@ -205,6 +205,7 @@
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
+    <Compile Include="Services\JobResolutionStatusTests.cs" />
     <Compile Include="Services\JobStatusServiceTests.cs" />
     <Compile Include="Services\EpodUpdateServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />

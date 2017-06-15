@@ -5,7 +5,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form class="form-horizontal" #actionEditForm="ngForm">
-                <div class="modal-header" style=" padding-bottom: 0px;">
+                <div class="modal-header" style=" padding-bottom 0px;">
                     <div style="border-bottom: 1px solid #e5e5e5; padding-bottom: 15px">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Add Edit Actions</h4>
@@ -38,7 +38,6 @@
                                 <label>Value:</label>
                                 <span>{{source.value | currency:'GBP':true}}</span>
                             </div>
-
                         </div>
                         <div class="form-group">
                             <div class="col-md-2">
@@ -77,6 +76,7 @@
                                     <th>Action</th>
                                     <th>Quantity</th>
                                     <th>Comments</th>
+                                            <th></th>
                                     <th>Exception</th>
                                     <th>Source</th>
                                     <th>Reason</th>
@@ -97,7 +97,7 @@
                                     <td>
                                         <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
                                                [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
-                                               (change)="qtyChanged(item,$event, i)"
+                                                       (change)="qtyChanged(item,i)"
                                                [disabled]="+item.deliveryAction == actionClose" />
                                     </td>
                                     <td>
@@ -105,11 +105,13 @@
                                                 name="commentReasonId{{i}}"
                                                 [(ngModel)]="item.commentReason"
                                                 (change)="commentChange(item,$event,i)"
-                                                [disabled]="isOriginalQuantity(item)">
+                                                        [disabled]="isOriginalQuantity(item)">
                                             <option *ngFor="let comment of commentReasons" [value]="comment.key">
                                                 {{comment.value}}
                                             </option>
                                         </select>
+                                            </td>
+                                            <td>
                                         <div class="comment-tooltip">
                                             <tooltip-content #commentTooltip placement="top" class="fake">
                                                 <div class="list-group">
@@ -124,7 +126,7 @@
                                                 </div>
                                             </tooltip-content>
                                             <span class="glyphicon glyphicon-comment" aria-hidden="true"
-                                                  *ngIf="item.comments && item.comments.length > 0"
+                                                          *ngIf="hasComments(item)"
                                                   [tooltip]="commentTooltip"
                                                   tooltipPlacement="right"></span>
                                         </div>
@@ -155,7 +157,8 @@
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         </button>
                                         <span *ngIf="item.originator == 0">
-                                            <i class="fa fa-truck" aria-hidden="true"></i>
+                                                    <i *ngIf="source.driverReason" class="fa fa-truck" aria-hidden="true" tooltip="{{source.driverReason}}" tooltipPlacement="left"></i>
+                                                    <i *ngIf="!source.driverReason" class="fa fa-truck" aria-hidden="true"></i>
                                         </span>
                                     </td>
                                 </tr>

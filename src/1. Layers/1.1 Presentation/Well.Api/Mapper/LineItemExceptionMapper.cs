@@ -54,6 +54,7 @@
                 Type = job.JobType,
                 ProductNumber = line.ProductCode,
                 Product = line.ProductDescription,
+                DriverReason = line.DriverReason,
                 Value = (decimal)jobDetail.SkuGoodsValue,
                 Invoiced = line.OriginalDespatchQuantity,
                 Delivered = line.DeliveredQuantity,

@@ -13,13 +13,15 @@ AS
 		,li.ActivityId
 		,jd.OriginalDespatchQty AS OriginalDespatchQuantity
 		,jd.DeliveredQty as DeliveredQuantity
+		,dmg.PdaReasonDescription as DriverReason
 		,li.CreatedBy	as CreatedBy
 		,li.CreatedDate as  DateCreated
 		,li.LastUpdatedBy as UpdatedBy
 		,li.LastUpdatedDate as DateUpdated
 		,jd.JobId
 	FROM LineItem li
-	INNER JOIN JobDetail jd ON jd.LineItemId = li.Id 
+	INNER JOIN JobDetail jd ON jd.LineItemId = li.Id
+	left Join JobDetailDamage dmg on dmg.JobDetailId = jd.id 
 	INNER JOIN @Ids ids ON ids.Value = li.Id
 
 	SELECT 
@@ -62,7 +64,7 @@ AS
 		LineItemAction lia on c.LineItemActionId = lia.id
 	INNER JOIN @Ids ids ON ids.Value = lia.LineItemId
 	WHERE 
-		lia.IsDeleted = 0
+		lia.DateDeleted is null
 
  RETURN 0
 END

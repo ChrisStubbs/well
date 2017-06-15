@@ -67,7 +67,7 @@ export class ActionEditComponent implements IObservableAlive
                     this.exceptionTypes = value[1];
                     this.sources = value[2];
                     this.reasons = value[3];
-                    this.commentReasons = value[4];
+                    this.commentReasons = JSON.parse(JSON.stringify(value[4]));
                     this.commentReasons.unshift({ key: undefined, value: undefined });
                 });
         }
@@ -123,7 +123,7 @@ export class ActionEditComponent implements IObservableAlive
     }
 
     private actionClose: number = 2;
-    private qtyChanged(item: LineItemAction, event, index: number): void
+    private qtyChanged(item: LineItemAction, index: number): void
     {
         if (item.quantity === 0)
         {
@@ -261,5 +261,10 @@ export class ActionEditComponent implements IObservableAlive
     private isFormValid()
     {
         return this.currentForm.form.valid;
+    }
+
+    private hasComments(item: LineItemAction): boolean {
+        const existingComments = _.filter(item.comments, x => x.id !== 0);
+        return existingComments.length > 0;
     }
 }

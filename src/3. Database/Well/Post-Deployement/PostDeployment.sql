@@ -40,3 +40,4 @@ Post-Deployment Script Template
 :r .\Populate-JobStatus.sql
 :r .\Populate-WellStatus.sql
 :r .\Populate-CommentReason.sql
+:r .\Populate-ResolutionStatus.sql

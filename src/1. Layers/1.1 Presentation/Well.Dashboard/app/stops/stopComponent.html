@@ -1,5 +1,5 @@
-<div>
-    <div class="table-container">
+<div class="row">
+    <div class="col-xs-12">
         <ol class="breadcrumb">
             <li>
                 <a routerLink="/routes" routerLinkActive="active">Routes</a>
@@ -18,272 +18,286 @@
             </li>
         </ol>
     </div>
-<div class="jumbotron">
+</div>
+
 <div class="content">
-<div class="row">
-    <div class="col-md-6">
-        <ul class="list-unstyled">
-            <li><label>Branch:&nbsp;</label>{{stop.branch}}</li>
-            <li><label>Driver:&nbsp;</label>{{stop.driver}}</li>
-            <li><label>Date:&nbsp;</label>{{stop.routeDate | date:'dd MMM yy'}}</li>
-        </ul>
-    </div>
-    <div class="col-md-6">
-        <div class="pull-right">
+    <div class="row">
+        <div class="col-md-6">
             <ul class="list-unstyled">
-                <li *ngIf="stop.branchId"><label>Assigned to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
-                <li>&nbsp;</li>
-                <li>
-                    <label>Shorts To Be Advised:&nbsp;</label>{{stop.tba}}
-                </li>
+                <li><label>Branch:&nbsp;</label>{{stop.branch}}</li>
+                <li><label>Driver:&nbsp;</label>{{stop.driver}}</li>
+                <li><label>Date:&nbsp;</label>{{stop.routeDate | date:'dd MMM yy'}}</li>
             </ul>
         </div>
-    </div>
-</div>
-<div [hidden]="isActionMode">
-    <div class="row">
-        <div class="col-md-12 clearfix">
+        <div class="col-md-6">
             <div class="pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
-                    &nbsp;
-                    <action-Modal [disabled]="selectedItems().length == 0" 
-                                  (onActionClicked)="actionModalClicked($event)"
-                                  [jobIds] ="getSelectedJobIds()">
-                                   
-                    </action-Modal>
+                <ul class="list-unstyled">
+                    <li *ngIf="stop.branchId"><label>Assigned to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
+                    <li>&nbsp;</li>
+                    <li>
+                        <label>Shorts To Be Advised:&nbsp;</label>{{stop.tba}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div [hidden]="isActionMode">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
+                        &nbsp;
+                        <action-Modal [disabled]="selectedItems().length == 0"
+                                      (onActionClicked)="actionModalClicked($event)"
+                                      [jobIds]="getSelectedJobIds()">
+
+                        </action-Modal>
+                    </div>
+                    <button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>
                 </div>
-                <button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"> &nbsp;</div>
+        </div>
+        <div class="row">
+            <a #openContact style="display: none;" href="#" data-toggle="modal" data-target="#contactModal">&nbsp;</a>
+            <div class="table-responsive table-container col-md-12">
+                <table class="table table-white" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th class="colExpandAll">
+                                <a href="#" (click)="expandGroup($event)">
+                                    <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
+                                    <ng-template #allExpended>
+                                        <span class="fa fa-arrow-circle-down"></span>
+                                    </ng-template>
+                                    <ng-template #notAllExpanded>
+                                        <span class="fa fa-arrow-circle-right"></span>
+                                    </ng-template>
+                                </a>
+                            </th>
+                            <th class="colProduct">
+                                <div class="text-center">Product</div>
+                                <div>
+                                    <input type="text" [(ngModel)]="filters.product" (keyup)="filterFreeText()" class="form-control">
+                                </div>
+                            </th>
+                            <th class="colType">
+                                <div class="text-center">Type</div>
+                                <div>
+                                    <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
+                                            {{ jobType.value }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colTobacco">
+                                <div class="text-center">Tobacco</div>
+                                <div>
+                                    <select class="form-control" id="searchTobacco" [(ngModel)]="filters.barCode" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option *ngFor="let bag of tobaccoBags" [value]="bag[0]">
+                                            {{ bag[1] }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colDescription">
+                                <div class="text-center">Description</div>
+                                <div>
+                                    <input type="text" [(ngModel)]="filters.description" (keyup)="filterFreeText()" class="form-control">
+                                </div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="text-center">Value</div>
+                                <div class="form-control-placeholder"></div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="expected-tooltip">
+                                    <tooltip-content #expectedTooltip placement="top">
+                                        <table>
+                                            <tr>
+                                                <td>For deliveries, the number of outers invoiced. For uplifts, the number of outers to be collected</td>
+                                            </tr>
+                                        </table>
+                                    </tooltip-content>
+
+                                    <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                       [tooltip]="expectedTooltip"
+                                       tooltipPlacement="right"></a>
+                                </div>
+                                <div class="text-center">Expected</div>
+                                <div class="form-control-placeholder"></div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="actual-tooltip">
+                                    <tooltip-content #actualTooltip placement="top">
+                                        <table>
+                                            <tr>
+                                                <td>For deliveries, the number of outers delivered. For uplifts, the number of outers collected</td>
+                                            </tr>
+                                        </table>
+                                    </tooltip-content>
+
+                                    <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                       [tooltip]="actualTooltip"
+                                       tooltipPlacement="right"></a>
+                                </div>
+                                <div class="text-center">Actual</div>
+                                <div class="form-control-placeholder"></div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="text-center">Damages</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.damages" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option value="true">With Damages</option>
+                                        <option value="false">No Damages</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="shorts-tooltip">
+                                    <tooltip-content #shortsTooltip placement="top">
+                                        <table>
+                                            <tr>
+                                                <td>For deliveries, the number of outers invoiced but not delivered. For uplifts, the number of outers not collected</td>
+                                            </tr>
+                                        </table>
+                                    </tooltip-content>
+
+                                    <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                       [tooltip]="shortsTooltip"
+                                       tooltipPlacement="right"></a>
+                                </div>
+                                <div class="text-center">Shorts</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.shorts" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option value="true">With Shorts</option>
+                                        <option value="false">No Shorts</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="text-center">Checked</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.checked" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="text-center">High Value</div>
+                                <div>
+                                    <select class="form-control" [(ngModel)]="filters.highValue" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colNumbers">
+                                <div class="text-center">Resolution</div>
+                                <div>
+                                    <select class="form-control" (change)="fillGridSource()" title="">
+                                        <option value>Placeholder 1</option>
+                                        <option value>Placeholder 2</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th class="colCheckbox">
+                                <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container  *ngFor="let item of gridSource">
+                            <tr *ngIf="item.isRowGroup" class="info">
+                                <td>
+                                    <a href="#" (click)="expandGroup($event, item.jobId)">
+                                        <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
+                                    </a>
+                                </td>
+                                <td colspan="2">
+                                    <label>Invoice: </label>
+                                    {{item.invoice}}
+                                </td>
+                                <td>
+                                    <label>Type: </label>
+                                    {{item.types}}
+                                </td>
+                                <td colspan="2">
+                                    <label>Account: </label>
+                                    {{item.account}}
+                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
+                                </td>
+                                <td class="text-right">{{item.totalInvoiced}}</td>
+                                <td class="text-right">{{item.totalDelivered}}</td>
+                                <td class="text-right">{{item.totalDamages}}</td>
+                                <td class="text-right">{{item.totalShorts}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
+                            </tr>
+
+                            <tr *ngIf="!item.isRowGroup">
+                                <td></td>
+                                <td>{{item.product}}</td>
+                                <td>{{item.type}}</td>
+                                <td>
+                                    <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
+                                        <abbr>{{ item.barCode }}</abbr>
+                                    </div>
+                                </td>
+                                <td>{{item.description}}</td>
+                                <td class="text-right">{{item.value}}</td>
+                                <td class="text-right">{{item.invoiced}}</td>
+                                <td class="text-right">{{item.delivered}}</td>
+                                <td class="text-right">{{item.damages}}</td>
+                                <td class="text-right">{{item.shorts}}</td>
+                                <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
+                                <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
+                                <td class="text-right">Resolution</td>
+                                <td>
+                                    <span>
+                                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
+                                        <input type="checkbox" [(ngModel)]="item.isSelected" title="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isActionMode">
+        <div class="row">
+            <div class="col-md-12">
+                <ow-editExceptions [ids]="selectedLineItems()" (close)="isActionMode = false"></ow-editExceptions>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12"> &nbsp;</div>
+        <div class="col-md-12">&nbsp;</div>
     </div>
-    <div class="row">
-        <a #openContact style="display: none;" href="#" data-toggle="modal" data-target="#contactModal">&nbsp;</a>
-        <div class="table-responsive table-container col-md-12">
-            <table class="table table-hover table-striped" style="table-layout: fixed">
-                <thead>
-                <tr>
-                    <th class="colExpandAll">
-                        <a href="#" (click)="expandGroup($event)">
-                            <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
-                            <ng-template #allExpended>
-                                <span class="fa fa-arrow-circle-down"></span>
-                            </ng-template>
-                            <ng-template #notAllExpanded>
-                                <span class="fa fa-arrow-circle-right"></span>
-                            </ng-template>
-                        </a>
-                    </th>
-                    <th class="colProduct">
-                        <div class="text-center">Product</div>
-                        <div>
-                            <input type="text" [(ngModel)]="filters.product" (keyup)="filterFreeText()"  class="form-control">
-                        </div>
-                    </th>
-                    <th class="colType">
-                        <div class="text-center">Type</div>
-                        <div>
-                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.type" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
-                                    {{ jobType.value }}
-                                </option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colTobacco">
-                        <div class="text-center">Tobacco</div>
-                        <div>
-                            <select class="form-control" id="searchTobacco" [(ngModel)]="filters.barCode" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option *ngFor="let bag of tobaccoBags" [value]="bag[0]">
-                                    {{ bag[1] }}
-                                </option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colDescription">
-                        <div class="text-center">Description</div>
-                        <div>
-                            <input type="text" [(ngModel)]="filters.description" (keyup)="filterFreeText()"  class="form-control">
-                        </div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="text-center">Value</div>
-                        <div class="form-control-placeholder"></div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="expected-tooltip">
-                            <tooltip-content #expectedTooltip placement="top">
-                                <table>
-                                    <tr>
-                                        <td>For deliveries, the number of outers invoiced. For uplifts, the number of outers to be collected</td>
-                                    </tr>
-                                </table>
-                            </tooltip-content>
-
-                            <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
-                                  [tooltip]="expectedTooltip"
-                                  tooltipPlacement="right"></a>
-                        </div>
-                        <div class="text-center">Expected</div>
-                        <div class="form-control-placeholder"></div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="actual-tooltip">
-                            <tooltip-content #actualTooltip placement="top">
-                                <table>
-                                    <tr>
-                                        <td>For deliveries, the number of outers delivered. For uplifts, the number of outers collected</td>
-                                    </tr>
-                                </table>
-                            </tooltip-content>
-
-                            <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
-                                  [tooltip]="actualTooltip"
-                                  tooltipPlacement="right"></a>
-                        </div>
-                        <div class="text-center">Actual</div>
-                        <div class="form-control-placeholder"></div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="text-center">Damages</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.damages" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">With Damages</option>
-                                <option value="false">No Damages</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="shorts-tooltip">
-                            <tooltip-content #shortsTooltip placement="top">
-                                <table>
-                                    <tr>
-                                        <td>For deliveries, the number of outers invoiced but not delivered. For uplifts, the number of outers not collected</td>
-                                    </tr>
-                                </table>
-                            </tooltip-content>
-
-                            <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
-                                  [tooltip]="shortsTooltip"
-                                  tooltipPlacement="right"></a>
-                        </div>
-                        <div class="text-center">Shorts</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.shorts" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">With Shorts</option>
-                                <option value="false">No Shorts</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="text-center">Checked</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.checked" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colHigh">
-                        <div class="text-center">High Value</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.highValue" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colCheckbox">
-                        <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)" >
-                    </th>
-                </tr>
-                </thead>
-                <tbody *ngFor="let item of gridSource">
-                    <tr *ngIf="item.isRowGroup" class="info">
-                        <td colspan="13">
-                            <div class="groupRow">
-                                <div class="group1">
-                                    <a href="#" (click)="expandGroup($event, item.jobId)">
-                                        <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
-                                    </a>
-                                </div>
-                                <div class="group2">Invoice: {{item.invoice}}</div>
-                                <div class="groupType">
-                                    Type: {{item.types}}
-                                </div>
-                                <div class="group3">
-                                    Account: {{item.account}}
-                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
-                                </div>
-                                <div class="group4">{{item.totalInvoiced}}</div>
-                                <div class="group5">{{item.totalDelivered}}</div>
-                                <div class="group6">{{item.totalDamages}}</div>
-                                <div class="group7">{{item.totalShorts}}</div>
-                                <div class="group8">&nbsp;</div>
-                                <div class="group9"><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr *ngIf="!item.isRowGroup">
-                        <td colspan="2">{{item.product}}</td>
-                        <td>{{item.type}}</td>
-                        <td>
-                            <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
-                                <abbr>{{ item.barCode }}</abbr>
-                            </div>
-                        </td>
-                        <td>{{item.description}}</td>
-                        <td class="text-right">{{item.value}}</td>
-                        <td class="text-right">{{item.invoiced}}</td>
-                        <td class="text-right">{{item.delivered}}</td>
-                        <td class="text-right">{{item.damages}}</td>
-                        <td class="text-right">{{item.shorts}}</td>
-                        <td>{{item.Checked}}<span *ngIf="item.Checked" class="glyphicon glyphicon-ok">&nbsp;</span></td>
-                        <td><span *ngIf="item.highValue" class="glyphicon glyphicon-ok">&nbsp;</span></td>
-                        <td>
-                            <span>
-                            <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
-                            <input type="checkbox" [(ngModel)]="item.isSelected" title="">
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<div *ngIf="isActionMode">
     <div class="row">
         <div class="col-md-12">
-            <ow-editExceptions [ids]="selectedLineItems()" (close)="isActionMode = false"></ow-editExceptions>
+
+            <action-edit></action-edit>
+
+
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">&nbsp;</div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-      
-        <action-edit></action-edit>
-      
-   
-    </div>
-</div>
-</div>
-</div>
 </div>
 
 <contact-modal></contact-modal>
-
-
-

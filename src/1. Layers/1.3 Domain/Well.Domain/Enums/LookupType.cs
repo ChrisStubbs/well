@@ -12,6 +12,7 @@
         JobDetailReason,
         RouteStatus,
         WellStatus,
-        CommentReason
+        CommentReason,
+        ResolutionStatus
     }
 }

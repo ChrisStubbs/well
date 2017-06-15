@@ -130,5 +130,9 @@
         public int ToBeAdvisedCount =>  OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
         
         public WellStatus WellStatus { get; set; }
+
+        public ResolutionStatus ResolutionStatus { get; set; }
+
+        public List<LineItem> LineItems { get; set; }
     }
 }

@@ -43,4 +43,4 @@ WHERE
 	AND
 	lia.SubmittedDate IS NULL
 	AND
-	lia.IsDeleted = 0
+	lia.DateDeleted IS NULL

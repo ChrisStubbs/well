@@ -18,7 +18,7 @@ AS
 	INNER JOIN 
 		[User] jobUser ON uj.UserId = jobUser.Id
 	WHERE 
-		rh.IsDeleted = 0
+		rh.DateDeleted IS NULL
 		AND
 		rh.Id = @RouteHeaderId
 RETURN 0

@@ -3,6 +3,6 @@
 AS
 BEGIN
 	UPDATE Account 
-	SET IsDeleted = 1
+	SET DateDeleted = GETDATE()
 	WHERE StopId = @StopId
 END

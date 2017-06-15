@@ -23,7 +23,6 @@ FROM
 	[dbo].[LineItemAction]
 INNER JOIN @Ids ids ON ids.Value = Id
 WHERE
-	IsDeleted = 0
-	
+	DateDeleted IS NULL
 
 RETURN 0

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using System;
+
+namespace PH.Well.Repositories
 {
     using System.Collections.Generic;
     using System.Data;

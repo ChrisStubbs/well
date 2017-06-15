@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using System;
+
+namespace PH.Well.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -63,7 +65,7 @@
                 foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id) 
                                                                                 && x.Originator != Originator.Driver))
                 {
-                    itemToDelete.IsDeleted = true;
+                    itemToDelete.DateDeleted = DateTime.Now;
                     lineItemActionRepository.Update(itemToDelete);
                 }
                 transactionScope.Complete();

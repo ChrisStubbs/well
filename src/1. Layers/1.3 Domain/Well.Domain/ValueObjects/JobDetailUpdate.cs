@@ -56,5 +56,8 @@
 
         [XmlElement("SkuGoodsValue")]
         public double SkuGoodsValue { get; set; }
+
+        [XmlElement("NetPrice")]
+        public decimal NetPrice { get; set; }
     }
 }

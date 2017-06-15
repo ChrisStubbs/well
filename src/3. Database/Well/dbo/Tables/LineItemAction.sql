@@ -18,7 +18,7 @@
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
-	[IsDeleted] BIT NOT NULL DEFAULT 0,
+    [DateDeleted] DATETIME NULL, 
 	[Version] [TIMESTAMP] NOT NULL,
     CONSTRAINT [PK_LineItemAction] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_LineItemAction_LineItem] FOREIGN KEY ([LineItemId]) REFERENCES [dbo].[LineItem] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,

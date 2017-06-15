@@ -18,7 +18,7 @@ BEGIN
 			,jd.ShortsActionId
 			,jd.IsHighValue
 	FROM	[dbo].[JobDetail] jd
-	WHERE	jd.JobId = @JobId and jd.IsDeleted = 0
+	WHERE	jd.JobId = @JobId and jd.DateDeleted IS NULL
 
 	SELECT	jdd.[JobDetailId]
 			,jdd.[Qty] as Quantity
@@ -27,6 +27,7 @@ BEGIN
 			,jdd.DamageActionId
 	From 	[dbo].[JobDetailDamage] jdd
 			inner join [dbo].[JobDetail] jd on jdd.JobDetailId = jd.Id	
-	WHERE 	jd.JobId = @JobId AND jd.IsDeleted = 0
+	WHERE 	jd.JobId = @JobId 
+			AND jd.DateDeleted IS NULL
 
 END

@@ -1,12 +1,12 @@
 import { IFilter }  from './IFilter'
 import * as _       from 'lodash'
 
-export interface IFilterValuePair {
+interface IFilterValuePair {
     value1(): string;
     value2(): string;
 }
 
-export class StringFilterValuePair implements IFilterValuePair {
+class StringFilterValuePair implements IFilterValuePair {
     private val: string;
     private val2: string;
 

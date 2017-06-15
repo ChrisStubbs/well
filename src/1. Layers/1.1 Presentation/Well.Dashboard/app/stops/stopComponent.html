@@ -253,7 +253,7 @@
                                 <td>{{item.type}}</td>
                                 <td>
                                     <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
-                                        <abbr>{{ item.barCode }}</abbr>
+                                        <abbr>{{ item.barCode | slice:-12 }}</abbr>
                                     </div>
                                 </td>
                                 <td>{{item.description}}</td>

@@ -10,5 +10,6 @@ export enum LookupsEnum
     Driver,
     RouteStatus,
     WellStatus,
-    CommentReason
+    CommentReason,
+    ResolutionStatus
 }

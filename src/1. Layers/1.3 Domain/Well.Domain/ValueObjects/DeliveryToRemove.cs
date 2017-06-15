@@ -17,14 +17,15 @@
 
         public List<RouteHeaderToRemove> RouteHeaders { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public void SetToDelete()
         {
             // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.RouteHeaders.Any(x => !x.IsDeleted);
             if (this.RouteHeaders.All(x => x.IsDeleted))
             {
-                this.IsDeleted = true;
+                this.DateDeleted = DateTime.Now;
             }
         }
     }
@@ -44,14 +45,15 @@
 
         public List<StopToRemove> Stops { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public void SetToDelete()
         {
             // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.Stops.Any(x => !x.IsDeleted);
             if (this.Stops.All(x => x.IsDeleted))
             {
-                this.IsDeleted = true;
+                this.DateDeleted = DateTime.Now;
             }
         }
     }
@@ -69,14 +71,16 @@
 
         public List<JobToRemove> Jobs { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public void SetToDelete()
         {
             // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.Jobs.Any(x => !x.IsDeleted);
             if (this.Jobs.All(x => x.IsDeleted))
             {
-                this.IsDeleted = true;
+                this.DateDeleted = DateTime.Now;
             }
         }
     }
@@ -96,14 +100,15 @@
 
         public List<JobDetailToRemove> JobDetails { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public void SetToDelete()
         {
             // DIJ faster to do !any!deleted e.g. this.IsDeleted = !this.JobDetails.Any(x => !x.IsDeleted);
             if (this.JobDetails.All(x => x.IsDeleted))
             {
-                this.IsDeleted = true;
+                this.DateDeleted = DateTime.Now;
             }
         }
     }
@@ -123,7 +128,9 @@
         
         public List<JobDamageToRemove> JobDamages { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public DateTime DateUpdated { get; set; }
 
@@ -131,13 +138,13 @@
         {
             if (this.ShortsStatus == JobDetailStatus.Res)
             {
-                this.IsDeleted = true;
+                this.DateDeleted = DateTime.Now;
 
                 foreach (var damage in this.JobDamages)
                 {
                     if (damage.DamageStatus == JobDetailStatus.Res)
                     {
-                        damage.IsDeleted = true;
+                        damage.DateDeleted = DateTime.Now;
                     }
                 }
             }
@@ -150,7 +157,9 @@
 
         public int JobDetailId { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public JobDetailStatus DamageStatus { get; set; }
     }

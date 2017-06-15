@@ -12,7 +12,7 @@
 	[ContactNumber] VARCHAR(15) NOT NULL,
 	[ContactNumber2] VARCHAR(15) NULL,
 	[ContactEmailAddress] VARCHAR(50) NULL,
-	[IsDeleted] BIT NOT NULL DEFAULT 0,
+	[DateDeleted] DATETIME NULL, 
 	[StopId] INT NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
@@ -20,7 +20,7 @@
 	[DateUpdated] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
 	[LocationId] INT NULL,
-	CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_Account_Stop] FOREIGN KEY ([StopId]) REFERENCES [dbo].[Stop] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Account_Location] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Location] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )

@@ -3,6 +3,6 @@
 AS
 BEGIN
 	UPDATE JobDetailDamage 
-	SET IsDeleted = 1
+	SET DateDeleted = GETDATE()
 	WHERE JobDetailId = @JobDetailId
 END

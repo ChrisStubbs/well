@@ -9,4 +9,6 @@ BEGIN
 	INNER JOIN Job j on j.StopId = s.Id
 	WHERE
 		s.RouteHeaderId = @RouteHeaderId
+	AND 
+		J.JobTypeCode != 'UPL-SAN'
 END

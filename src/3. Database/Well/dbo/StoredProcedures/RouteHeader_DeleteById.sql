@@ -4,6 +4,6 @@ AS
 
 BEGIN
 	UPDATE RouteHeader 
-	SET IsDeleted = 1
+	SET DateDeleted = GETDATE()
 	WHERE Id = @RouteheaderId
 END

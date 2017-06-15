@@ -4,6 +4,6 @@ AS
 
 BEGIN
 	UPDATE [Stop] 
-	SET IsDeleted = 1
+	SET DateDeleted = GETDATE()
 	WHERE Id = @Id
 END

@@ -56,6 +56,6 @@ WHERE 	(@BranchId IS NULL OR @BranchId = rh.RouteOwnerId)
 		AND (@Driver IS NULL OR rh.DriverName like '%'+ @Driver +'%' )
 		AND (@DeliveryType IS NULL OR @DeliveryType = jt.Id )
 		AND (@Status IS NULL OR @Status = ws.Id OR @Status = ws2.Id OR @Status = ws3.Id)
-		AND (j.JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF'))
+		AND (j.JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF', 'UPL-SAN'))
 		   
 END

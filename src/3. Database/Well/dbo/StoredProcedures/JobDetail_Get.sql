@@ -9,7 +9,7 @@ AS
 	Insert into @JobDetailIdsTable
 		SELECT	[Id]
 		FROM	[dbo].[JobDetail]
-		WHERE	[IsDeleted] = 0 and  
+		WHERE	DateDeleted IS NULL and  
 				(Id = @Id or @Id is null) and 
 				([JobId] = @JobId or @JobId is null) and 
 				([LineNumber] = @LineNumber or @LineNumber is null)
@@ -36,7 +36,7 @@ AS
            ,jd.[DateCreated]
            ,jd.[UpdatedBy]
            ,jd.[DateUpdated]
-		   ,jd.[IsDeleted]
+		   ,jd.[DateDeleted]
            ,jd.[Version]
   FROM [dbo].[JobDetail] jd
   INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jd.Id

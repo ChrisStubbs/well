@@ -8,7 +8,7 @@
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
-	[IsDeleted] BIT NOT NULL DEFAULT 0,
+    [DateDeleted] DATETIME NULL, 
 	[Version] [TIMESTAMP] NOT NULL,
     CONSTRAINT [PK_SeasonalDate] PRIMARY KEY CLUSTERED ([Id] ASC)
 )

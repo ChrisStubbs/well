@@ -172,6 +172,7 @@
     <Compile Include="Factories\JobFactory.cs" />
     <Compile Include="Factories\RoutesFactory.cs" />
     <Compile Include="Factories\DeliveryLineFactory.cs" />
+    <Compile Include="Factories\StopFactoryDTO.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />
     <Compile Include="Factories\RouteHeaderFactory.cs" />

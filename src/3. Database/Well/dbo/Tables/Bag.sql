@@ -8,5 +8,6 @@
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
+    [DateDeleted] DATETIME NULL, 
     CONSTRAINT [PK_Bag] PRIMARY KEY CLUSTERED ([Id] ASC)
 )

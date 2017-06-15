@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories.Contracts
+﻿using System;
+
+namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
     using System.Data;

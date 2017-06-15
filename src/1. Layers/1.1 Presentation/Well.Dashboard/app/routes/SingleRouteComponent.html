@@ -58,7 +58,7 @@
                             <th style="width: 9%">
                                 <div class="text-center">Invoice</div>
                                 <div>
-                                    <input type="text" [(ngModel)]="filters.Invoice" (keyup)="filterFreeText()"  class="form-control">
+                                    <input type="text" [(ngModel)]="filters.invoice" (keyup)="filterFreeText()"  class="form-control">
                                 </div>
                             </th>
                             <th style="width: 8%">
@@ -86,6 +86,7 @@
                             <th style="width: 8%">
                                 <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                                 <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
+                                <div class="form-control-placeholder"></div>
                             </th>
                             <th style="width: 7%">
                                 <div class="text-center">Exceptions</div>
@@ -109,9 +110,11 @@
                             </th>
                             <th style="width: 7%">
                                 <div class="text-center">T.B.A.</div>
+                                <div class="form-control-placeholder"></div>
                             </th>
                             <th style="width: 7%">
                                 <div class="text-center">Credit</div>
+                                <div class="form-control-placeholder"></div>
                             </th>
                             <th style="width: 12%">
                                 <div class="text-center">Assignee</div>
@@ -124,6 +127,7 @@
                             </th>
                             <th style="width: 9%">
                                 <div class="text-center">Resolution</div>
+                                <div class="form-control-placeholder"></div>
                             </th>
                             <th style="width: 4%">
                                 <input type="checkbox" [checked]="allChildrenSelected()" (change)="selectStops($event.target.checked)" />
@@ -180,6 +184,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <h3 *ngIf="gridSource.length == 0">No matching results</h3>
             </div>
         </div>
         <div class="row">

@@ -14,6 +14,7 @@ export class EditLineItemException
     public invoice: string;
     public type: string;
     public productNumber: string;
+    public driverReason: string;
     public product: string;
     public value?: number;
     public invoiced?: number;

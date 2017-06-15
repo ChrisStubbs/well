@@ -17,7 +17,8 @@
 
         public string UpdatedBy { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
+        public bool IsDeleted => DateDeleted.HasValue;
 
         public byte[] Version { get; set; }
 
@@ -25,7 +26,7 @@
         {
             this.DateUpdated = DateTime.Now;
             this.UpdatedBy = updatedBy;
-            this.IsDeleted = true;
+            this.DateDeleted = DateTime.Now;
         }
 
         public void SetCreatedProperties(string createdBy)

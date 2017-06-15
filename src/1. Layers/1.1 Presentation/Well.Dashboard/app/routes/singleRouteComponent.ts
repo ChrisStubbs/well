@@ -62,7 +62,7 @@ export class SingleRouteComponent implements IObservableAlive
                 this.driver = data.driver;
                 this.routeDate = data.routeDate;
 
-                this.source = this.buildGridSource(data.items);
+                this.source = this.buildGridSource(data.items);                
                 this.fillGridSource();
             });
 
@@ -165,7 +165,9 @@ export class SingleRouteComponent implements IObservableAlive
                         }, []);
         }
 
-        return _.every(collection, ((current: SingleRouteItem) => current.isSelected));
+        return (collection.length > 0) ?
+            _.every(collection, ((current: SingleRouteItem) => current.isSelected))
+            : false;
     }
 
     public getSelectedJobIds(): number[]

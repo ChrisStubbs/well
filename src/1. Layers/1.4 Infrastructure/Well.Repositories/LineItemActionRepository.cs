@@ -76,7 +76,7 @@
                 .AddParameter("DeliveryActionId", entity.DeliveryAction, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
-                .AddParameter("IsDeleted", entity.IsDeleted, DbType.Boolean)
+                .AddParameter("DateDeleted", entity.DateDeleted, DbType.DateTime)
                 .Execute();
         }
 

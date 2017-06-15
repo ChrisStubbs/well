@@ -27,7 +27,7 @@ AS
 		,j.SandwchOrd 
 		,j.PerformanceStatusId as PerformanceStatus
 		,j.Reason
-		,j.IsDeleted
+		,j.DateDeleted
 		,j.StopId
 		,j.CreatedBy
 		,j.DateCreated
@@ -68,22 +68,52 @@ AS
 					ON lia.DeliveryActionId = da.id
 					AND da.Description = 'Credit'
 				WHERE 
-					 lia.IsDeleted = 0
+					 lia.DateDeleted IS NULL
 			GROUP BY 
 				j.JobId
 		) credit
 			ON credit.JobId = j.Id
 
 	SELECT  d.Id, d.LineNumber, d.PHProductCode, d.OriginalDespatchQty, d.DeliveredQty, d.ProdDesc, d.OrderedQty, d.ShortQty, d.ShortsActionId, d.JobDetailReasonId, d.JobDetailSourceId, d.UnitMeasure, 
-            d.PHProductType, d.PackSize, d.SingleOrOuter,d.SSCCBarcode, d.SubOuterDamageTotal, d.SkuGoodsValue, d.NetPrice, d.JobId, d.ShortsStatus, d.LineDeliveryStatus, d.IsHighValue, d.DateLife, d.IsDeleted, 
-            d.CreatedBy, d.DateCreated, d.UpdatedBy, d.DateUpdated, d.Version, d.LineItemId
+            d.PHProductType, 
+			d.PackSize, 
+			d.SingleOrOuter,
+			d.SSCCBarcode, 
+			d.SubOuterDamageTotal, 
+			d.SkuGoodsValue, 
+			d.NetPrice, 
+			d.JobId, 
+			d.ShortsStatus, 
+			d.LineDeliveryStatus, 
+			d.IsHighValue, 
+			d.DateLife, 
+			d.DateDeleted, 
+            d.CreatedBy, 
+			d.DateCreated, 
+			d.UpdatedBy, 
+			d.DateUpdated, 
+			d.Version, 
+			d.LineItemId
 	FROM	Job AS j 
 			INNER JOIN Stop AS s ON j.StopId = s.Id 
 			INNER JOIN RouteHeader AS r ON s.RouteHeaderId = r.Id 
 			INNER JOIN JobDetail AS d ON j.Id = d.JobId
 			INNER JOIN @Ids ids ON ids.Value = j.Id
 			
-	SELECT	dd.Id, dd.JobDetailId, dd.Qty, dd.IsDeleted, dd.JobDetailSourceId, dd.JobDetailReasonId, dd.DamageActionId, dd.DamageStatus, dd.PdaReasonDescription, dd.CreatedBy, dd.DateCreated, dd.UpdatedBy, dd.DateUpdated, dd.Version
+	SELECT	dd.Id, 
+		dd.JobDetailId, 
+		dd.Qty, 
+		dd.DateDeleted, 
+		dd.JobDetailSourceId, 
+		dd.JobDetailReasonId, 
+		dd.DamageActionId, 
+		dd.DamageStatus, 
+		dd.PdaReasonDescription, 
+		dd.CreatedBy, 
+		dd.DateCreated, 
+		dd.UpdatedBy, 
+		dd.DateUpdated, 
+		dd.Version
 	FROM	Job AS j 
 			INNER JOIN Stop AS s ON j.StopId = s.Id 
 			INNER JOIN RouteHeader AS r ON s.RouteHeaderId = r.Id 

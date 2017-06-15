@@ -16,7 +16,7 @@
         public string Invoice { get; set; }
         public string Type { get; set; }
         public string ProductNumber { get; set; }
-        
+        public string DriverReason { get; set; }
         public string Product { get; set; }
         public decimal Value { get; set; }
         public int? Invoiced { get; set; }

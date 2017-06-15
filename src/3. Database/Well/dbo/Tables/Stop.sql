@@ -17,7 +17,7 @@
 	[PerformanceStatusCode] VARCHAR(50) NULL,
 	[PerformanceStatusDescription] VARCHAR(255) NULL,
 	[Reason] VARCHAR(255) NULL,
-	[IsDeleted] BIT NOT NULL DEFAULT 0,
+    [DateDeleted] DATETIME NULL, 
 	[ActualPaymentCash] DECIMAL(7,2) NULL,
 	[ActualPaymentCheque] DECIMAL(7,2) NULL,
 	[ActualPaymentCard] DECIMAL(7,2) NULL,

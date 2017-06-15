@@ -9,8 +9,11 @@ export class GridHelpersFunctions
     };
 
     public static containsFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
-    {
-        return value.toString().toLowerCase().indexOf(value2.toString().toLowerCase()) != -1;
+    {       
+        const valueString = (value) ? value.toString().toLowerCase() : '';
+        const value2String = (value2) ? value2.toString().toLowerCase() : '';
+            
+        return valueString.indexOf(value2String) != -1;
     };
 
     public static isEqualFilter: (value: any, value2: any) => boolean = (value: any, value2: any) =>
@@ -56,7 +59,7 @@ export class GridHelpersFunctions
         {
             const value = filterObject[current];
 
-            if (!(_.isNil(value) || value === ''))
+            if (!(_.isNil(value) || value == ''))
             {
                 columnsToFilter.push(current);
             }

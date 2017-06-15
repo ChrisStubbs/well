@@ -1,24 +1,46 @@
 import { IFilter }  from './IFilter'
 import * as _       from 'lodash'
 
+export interface IFilterValuePair {
+    value1(): string;
+    value2(): string;
+}
+
+export class StringFilterValuePair implements IFilterValuePair {
+    private val: string;
+    private val2: string;
+
+    constructor(value: string, value2: string) {
+        this.val = value;
+        this.val2 = value2;
+    }
+
+    public value1(): string {
+        return (this.val) ? this.val.toString().toLowerCase() : '';
+    }
+    
+    public value2(): string {
+        return (this.val2) ? this.val2.toString().toLowerCase() : '';
+    }  
+}
+
 export class GridHelpersFunctions
 {
     public static startsWithFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {
-        return _.startsWith(value2.toString().toLowerCase(), value.toString().toLowerCase());
+        const filterValues = new StringFilterValuePair(value, value2);
+        return _.startsWith(filterValues.value2(), filterValues.value1());
     };
 
     public static containsFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {       
-        const valueString = (value) ? value.toString().toLowerCase() : '';
-        const value2String = (value2) ? value2.toString().toLowerCase() : '';
-            
-        return valueString.indexOf(value2String) != -1;
+        const filterValues = new StringFilterValuePair(value, value2);
+        return filterValues.value1().indexOf(filterValues.value2()) != -1;
     };
 
     public static isEqualFilter: (value: any, value2: any) => boolean = (value: any, value2: any) =>
     {
-        return _.isEqual(value.toString().toLowerCase(), value2.toString().toLowerCase());
+        return _.isEqual(value, value2);
     };
 
     public static boolFilter: (value: boolean, value2: any) => boolean = (value: boolean, value2: any) =>

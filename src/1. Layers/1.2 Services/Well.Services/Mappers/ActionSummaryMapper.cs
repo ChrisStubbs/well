@@ -29,7 +29,6 @@
             {
                 result.JobIds.AddRange(jobs.Select(x => x.Id).Distinct());
 
-
                 result.Summary = GetSummary(jobs);
                 if (isStopLevel)
                 {
@@ -46,7 +45,6 @@
                             TotalActionValue = jobs.Sum(x => x.TotalActionValue),
                             TotalCreditQty = jobs.Sum(x => x.TotalCreditQty),
                             TotalQty = jobs.Sum(x => x.TotalQty),
-
                         });
                     }
                 }

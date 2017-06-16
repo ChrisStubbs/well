@@ -23,7 +23,8 @@
 	@TotalOutersShort INT,
 	@InvoiceValue DECIMAL(8,2),
 	@DetailOutersOver INT,
-	@DetailOutersShort INT
+	@DetailOutersShort INT,
+	@ResolutionStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -54,7 +55,8 @@ BEGIN
 		TotalOutersShort = @TotalOutersShort,
 		InvoiceValue = @InvoiceValue,
 		DetailOutersOver = @DetailOutersOver,
-		DetailOutersShort = @DetailOutersShort
+		DetailOutersShort = @DetailOutersShort,
+		ResolutionStatusId = @ResolutionStatusId
 	WHERE
 		Id = @Id
 END

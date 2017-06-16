@@ -170,6 +170,7 @@ namespace PH.Well.Repositories
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
                 .AddParameter("DetailOutersShort", entity.DetailOutersShortUpdate, DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
                 .Execute();
         }
 
@@ -257,6 +258,11 @@ namespace PH.Well.Repositories
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobRoutesByJobIds)
                    .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                    .Query<JobRoute>();
+        }
+
+        public void SaveJobResolutionStatus(Job job)
+        {
+            this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
         }
     }
 }

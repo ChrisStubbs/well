@@ -78,12 +78,13 @@
                         if (jobResolutionStatus.GetStatus(job) == ResolutionStatus.PendingSubmission)
                         {
                             job.ResolutionStatus = jobResolutionStatus.StepForward(job);
-                            //TODO: Save JobResolutionStatus
+                            jobRepository.SaveJobResolutionStatus(job);
+
                             if (jobResolutionStatus.GetStatus(job) == ResolutionStatus.Approved)
                             {
                                 SubmitCredits(job);
                                 job.ResolutionStatus = jobResolutionStatus.StepForward(job);
-
+                                jobRepository.SaveJobResolutionStatus(job);
                             }
                             else
                             {
@@ -92,7 +93,7 @@
                                                     "The Job has been been marked for authorisation.");
                             }
 
-                            //TODO: Save JobResolutionStatus
+                           
                             jobRepository.Update(job);
                         }
                     }

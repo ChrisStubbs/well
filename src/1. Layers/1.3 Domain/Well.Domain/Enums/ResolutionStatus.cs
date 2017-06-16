@@ -146,7 +146,7 @@
             return new ResolutionStatus(val1.Value | val2.value, string.Format("{0} - {1}", val1.Description, val2.Description));
         }
 
-        public static explicit operator ResolutionStatus(int value)
+        public static implicit operator ResolutionStatus(int value)
         {
             if (values.ContainsKey(value))
             {

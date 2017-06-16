@@ -42,5 +42,6 @@ namespace PH.Well.Repositories.Contracts
 
         void SetJobResolutionStatus(int jobId, string status);
         IEnumerable<JobRoute> GetJobsRoute(IEnumerable<int> jobIds);
+        void SaveJobResolutionStatus(Job job);
     }
 }

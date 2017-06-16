@@ -158,5 +158,7 @@
         public const string CommentReason = "CommentReason_Get";
 
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
+
+        public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
     }
 }

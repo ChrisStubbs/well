@@ -13,6 +13,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
+    using Well.Services;
     using Well.Services.Contracts;
     using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
@@ -135,6 +136,7 @@
             this.jobDetailDamageRepository.Setup(x => x.Save(It.IsAny <JobDetailDamage>()));
             this.jobStatusService.Setup(x => x.SetInitialStatus(It.IsAny<Job>()));
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(job.Id, It.IsAny<string>()));
 
             this.service.Import(route);
 
@@ -146,6 +148,7 @@
             this.jobDetailDamageRepository.Verify(x => x.Save(It.IsAny<JobDetailDamage>()), Times.Once);
             this.jobStatusService.Verify(x => x.SetInitialStatus(It.IsAny<Job>()), Times.Once);
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(job.Id, It.IsAny<string>()), Times.Once);
         }
     }
 }

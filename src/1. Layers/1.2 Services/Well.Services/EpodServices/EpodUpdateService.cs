@@ -176,6 +176,7 @@
                 this.mapper.Map(job, existingJob);
 
                 this.jobStatusService.DetermineStatus(existingJob, branchId);
+                existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
 
                 if (!string.IsNullOrWhiteSpace(job.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
                 {
@@ -202,6 +203,7 @@
                 }
 
                 this.jobRepository.Update(existingJob);
+                this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
             }
         }
 

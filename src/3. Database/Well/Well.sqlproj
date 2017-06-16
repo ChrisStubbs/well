@@ -398,6 +398,7 @@
     <None Include="ManualStep\scripts\up\018_Copy_IsDeletedDateDeleted.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\JobRoutes_GetByJobIds.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

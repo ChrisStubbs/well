@@ -6,17 +6,17 @@
 
     public class SubmitActionModel
     {
-        public DeliveryAction Action { get; set; }
+        //public DeliveryAction Action { get; set; }
         public int[] JobIds { get; set; }
 
-        public IEnumerable<LineItemActionSubmitModel> ItemsToSubmit { get; private set; }
+        //public IEnumerable<LineItemActionSubmitModel> JobsToSubmit { get; private set; }
 
-        public void SetItemsToSubmit(IEnumerable<LineItemActionSubmitModel> allUnsubmittedItems)
-        {
-            if (ItemsToSubmit == null)
-            {
-                ItemsToSubmit = LineItemActionSubmitModel.GetItemsContainingJobIds(allUnsubmittedItems.ToList(), JobIds);
-            }
-        }
+        //public void SetItemsToSubmit(IEnumerable<LineItemActionSubmitModel> allUnsubmittedItems)
+        //{
+        //    if (ItemsToSubmit == null)
+        //    {
+        //        ItemsToSubmit = LineItemActionSubmitModel.GetItemsContainingJobIds(allUnsubmittedItems.ToList(), JobIds);
+        //    }
+        //}
     }
 }

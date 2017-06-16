@@ -399,6 +399,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\JobResolutionStatus_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\JobRoutes_GetByJobIds.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

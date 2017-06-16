@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Services
 {
+    using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.Linq;
     using PH.Well.Domain;
@@ -30,7 +32,7 @@
             var response = new ThresholdResponse();
             var user = this.userRepository.GetByIdentity(username);
 
-            if (user == null) 
+            if (user == null)
             {
                 response.IsInError = true;
                 response.ErrorMessage = $"User not found ({username})";
@@ -46,7 +48,7 @@
             var threshold =
                 this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
 
-            if (threshold == null) 
+            if (threshold == null)
             {
                 response.IsInError = true;
                 response.ErrorMessage = $"Threshold not found with id ({user.ThresholdLevelId})";
@@ -79,6 +81,13 @@
             var user = this.userRepository.GetByIdentity(username);
             var threshold = this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
             return threshold?.Threshold ?? 0;
+        }
+
+        public bool UserHasRequiredCreditThreshold(Job job)
+        {
+            throw new NotImplementedException("TODO: Test the TotalCreditValue");
+            var creditValue = job.LineItems.Sum(x => x.TotalCreditValue);
+            return CanUserCredit(creditValue).CanUserCredit;
         }
 
         private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)

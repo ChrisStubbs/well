@@ -33,8 +33,8 @@ import { EditLineItemException }                from '../exceptions/editLineItem
         '.colExpandAll { width: 3% } ' +
         '.colProduct { width: 6% } ' +
         '.colType { width: 8% } ' +
-        '.colTobacco { width: 10% } ' +
-        '.colDescription { width: 24% } ' +
+        '.colTobacco { width: 12% } ' +
+        '.colDescription { width: 20% } ' +
         '.colNumbers { width: 6%; } ' +
         '.colHigh { width: 10% } ' +
         '.colCheckbox { width: 3% } ']
@@ -47,7 +47,7 @@ export class StopComponent implements IObservableAlive
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
     public source: IDictionarySource;
-    public gridSource: Array<any>;
+    public gridSource: Array<any> = [];
     public filters: StopFilter;
     public lastRefresh = Date.now();
 

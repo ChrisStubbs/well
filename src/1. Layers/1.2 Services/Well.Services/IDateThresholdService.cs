@@ -4,6 +4,6 @@ namespace PH.Well.Services
 {
     public interface IDateThresholdService
     {
-        DateTime EarliestCreditDate(DateTime routeDate, int branchId);
+        DateTime EarliestSubmitDate(DateTime routeDate, int branchId);
     }
 }

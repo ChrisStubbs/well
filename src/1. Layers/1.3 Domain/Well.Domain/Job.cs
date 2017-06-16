@@ -3,9 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
-    using System.Text;
     using Enums;
+    using ValueObjects;
 
     [Serializable()]
     public class Job : Entity<int>
@@ -13,6 +12,7 @@
         public Job()
         {
             this.JobDetails = new List<JobDetail>();
+            this.LineItems = new List<LineItem>();
         }
 
         public int Sequence { get; set; }
@@ -22,7 +22,7 @@
         public string JobType { get; set; }
 
         public string JobTypeAbbreviation { get; set; }
-        
+
         public string PickListRef { get; set; }
 
         public string InvoiceNumber { get; set; }
@@ -44,33 +44,33 @@
         public int? GrnProcessType { get; set; }
 
         public int? ProofOfDelivery { get; set; }
-        
+
         public int? OrdOuters { get; set; }
-        
+
         public int? InvOuters { get; set; }
 
         public int? ColOuters { get; set; }
-        
+
         public int? ColBoxes { get; set; }
-        
+
         public bool ReCallPrd { get; set; }
-        
+
         public bool AllowSoCrd { get; set; }
-        
+
         public string Cod { get; set; }
-        
+
         public bool SandwchOrd { get; set; }
-        
+
         public bool AllowReOrd { get; set; }
 
         public PerformanceStatus PerformanceStatus { get; set; }
-        
+
         public string JobByPassReason { get; set; }
-        
+
         public int StopId { get; set; }
 
         public List<JobDetail> JobDetails { get; set; }
-        
+
         public string ActionLogNumber { get; set; }
 
         public string GrnNumberUpdate { get; set; }
@@ -91,7 +91,7 @@
             {
                 int totalShort = TotalOutersShort ?? 0;
                 int detailShort = DetailOutersShort ?? 0;
-                
+
                 return (totalShort - detailShort) > 0;
             }
         }
@@ -127,12 +127,20 @@
 
         public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
 
-        public int ToBeAdvisedCount =>  OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
-        
+        public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
+
         public WellStatus WellStatus { get; set; }
 
         public ResolutionStatus ResolutionStatus { get; set; }
 
-        public List<LineItem> LineItems { get; set; }
+        public IList<LineItem> LineItems { get; set; }
+        
+        public IList<LineItemAction> GetAllLineItemActions()
+        {
+            return LineItems.SelectMany(x => x.LineItemActions).ToList();
+        }
+
+        public JobRoute JobRoute { get; set; }
+
     }
 }

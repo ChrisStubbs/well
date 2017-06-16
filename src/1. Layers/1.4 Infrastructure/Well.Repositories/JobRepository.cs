@@ -251,5 +251,12 @@ namespace PH.Well.Repositories
                 .AddParameter("StatusId", (int)status, DbType.Int16)
                 .Execute();
         }
+
+        public IEnumerable<JobRoute> GetJobsRoute(IEnumerable<int> jobIds)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobRoutesByJobIds)
+                   .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                   .Query<JobRoute>();
+        }
     }
 }

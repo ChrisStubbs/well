@@ -47,7 +47,7 @@ export class StopComponent implements IObservableAlive
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
     public source: IDictionarySource;
-    public gridSource: Array<any>;
+    public gridSource: Array<any> = [];
     public filters: StopFilter;
     public lastRefresh = Date.now();
 

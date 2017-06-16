@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace PH.Well.Domain.Enums
+﻿namespace PH.Well.Domain.Enums
 {
     using System;
     using System.Collections.Generic;
@@ -12,20 +9,20 @@ namespace PH.Well.Domain.Enums
     {
         private int value;
         private string description;
-
         private static Dictionary<int, ResolutionStatus> values = new Dictionary<int, ResolutionStatus>
         {
-            {1, new ResolutionStatus(1, "Imported")},
-            {2, new ResolutionStatus(2, "Driver Completed")},
-            {4, new ResolutionStatus(4, "Action Required")},
-            {8, new ResolutionStatus(8, "Pending Submission")},
-            {16, new ResolutionStatus(16, "Pending Approval")},
-            {32, new ResolutionStatus(32, "Credited")},
-            {64, new ResolutionStatus(64, "Resolved")},
-            {128, new ResolutionStatus(128, "Closed")},
+            { 1, new ResolutionStatus(1, "Imported")},
+            { 2, new ResolutionStatus(2, "Driver Completed")},
+            { 3, new ResolutionStatus(3, "Action Required")},
+            { 4, new ResolutionStatus(4, "Pending Submission")},
+            { 5, new ResolutionStatus(5, "Pending Approval")},
+            { 6, new ResolutionStatus(6, "Approved")},
+            { 7, new ResolutionStatus(7, "Credited")},
+            { 8, new ResolutionStatus(8, "Resolved")},
+            { 9, new ResolutionStatus(9, "Closed")},
         };
 
-        private static List<int> groupableValues = new List<int>() {2, 32, 64, 128};
+        private static List<int> groupableValues = new List<int>() { 2, 7, 8, 9 };
 
         private ResolutionStatus(int value, string description)
         {
@@ -35,57 +32,98 @@ namespace PH.Well.Domain.Enums
 
         public int Value
         {
-            get { return this.value; }
+            get
+            {
+                return this.value;
+            }
         }
 
         public string Description
         {
-            get { return this.description; }
+            get
+            {
+                return this.description;
+            }
         }
 
         public static ResolutionStatus Imported
         {
-            get { return values[1]; }
+            get
+            {
+                return values[1];
+            }
         }
 
         public static ResolutionStatus DriverCompleted
         {
-            get { return values[2]; }
+            get
+            {
+                return values[2];
+            }
         }
 
         public static ResolutionStatus ActionRequired
         {
-            get { return values[4]; }
+            get
+            {
+                return values[3];
+            }
         }
 
         public static ResolutionStatus PendingSubmission
         {
-            get { return values[8]; }
+            get
+            {
+                return values[4];
+            }
         }
 
         public static ResolutionStatus PendingApproval
         {
-            get { return values[16]; }
+            get
+            {
+                return values[5];
+            }
+        }
+
+        public static ResolutionStatus Approved
+        {
+            get
+            {
+                return values[6];
+            }
         }
 
         public static ResolutionStatus Credited
         {
-            get { return values[32]; }
+            get
+            {
+                return values[7];
+            }
         }
 
         public static ResolutionStatus Resolved
         {
-            get { return values[64]; }
+            get
+            {
+                return values[8];
+            }
         }
 
         public static ResolutionStatus Closed
         {
-            get { return values[128]; }
+            get
+            {
+                return values[9];
+            }
         }
 
         public static ResolutionStatus Invalid
         {
-            get { return new ResolutionStatus(0, "Invalid"); }
+            get
+            {
+                return new ResolutionStatus(0, "Invalid");
+            }
         }
 
         public static ResolutionStatus operator &(ResolutionStatus val1, ResolutionStatus val2)
@@ -124,6 +162,18 @@ namespace PH.Well.Domain.Enums
             return this.Value;
         }
 
+        public override bool Equals(object obj)
+        {
+            var item = obj as ResolutionStatus;
+
+            if (object.ReferenceEquals(item, null))
+            {
+                return false;
+            }
+
+            return this == item;
+        }
+        
         public static bool operator ==(ResolutionStatus val1, ResolutionStatus val2)
         {
             if (object.ReferenceEquals(val1, null) && object.ReferenceEquals(val2, null))
@@ -142,6 +192,26 @@ namespace PH.Well.Domain.Enums
         public static bool operator !=(ResolutionStatus val1, ResolutionStatus val2)
         {
             return !(val1 == val2);
+        }
+
+        public static bool operator >=(ResolutionStatus val1, ResolutionStatus val2)
+        {
+            if (object.ReferenceEquals(val1, null) || object.ReferenceEquals(val2, null))
+            {
+                return false;
+            }
+            
+            return val1.value >= val2.value;
+        }
+
+        public static bool operator <=(ResolutionStatus val1, ResolutionStatus val2)
+        {
+            return !(val1 >= val2);
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Value} - {this.Description}";
         }
     }
 }

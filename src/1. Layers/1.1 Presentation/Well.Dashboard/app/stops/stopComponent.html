@@ -247,14 +247,13 @@
                                 <td></td>
                                 <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
                             </tr>
-
                             <tr *ngIf="!item.isRowGroup">
                                 <td></td>
                                 <td>{{item.product}}</td>
                                 <td>{{item.type}}</td>
                                 <td>
                                     <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
-                                        <abbr>{{ item.barCode }}</abbr>
+                                        <abbr>{{ item.barCode | slice:-12 }}</abbr>
                                     </div>
                                 </td>
                                 <td>{{item.description}}</td>
@@ -274,9 +273,9 @@
                                 </td>
                             </tr>
                         </ng-container>
-
                     </tbody>
                 </table>
+                <h3 *ngIf="gridSource.length == 0">No matching results</h3>
             </div>
         </div>
     </div>

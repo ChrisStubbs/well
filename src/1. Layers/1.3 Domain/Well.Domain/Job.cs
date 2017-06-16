@@ -140,6 +140,11 @@
             return LineItems.SelectMany(x => x.LineItemActions).ToList();
         }
 
+        public decimal TotalCreditValue => LineItems.Sum(x => x.TotalCreditValue);
+        public decimal TotalActionValue => LineItems.Sum(x => x.TotalActionValue);
+        public int TotalCreditQty => LineItems.Sum(x => x.TotalCreditQty);
+        public int TotalQty => LineItems.Sum(x => x.TotalQty);
+
         public JobRoute JobRoute { get; set; }
 
     }

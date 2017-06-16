@@ -24,6 +24,7 @@
         private readonly IActionSummaryMapper actionSummaryMapper;
         private readonly IJobRepository jobRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
+        private readonly IJobResolutionStatus jobResolutionStatus;
 
         public SubmitActionService(
             ILogger logger,
@@ -36,7 +37,8 @@
             IUserThresholdService userThresholdService,
             IActionSummaryMapper actionSummaryMapper,
             IJobRepository jobRepository,
-            ILineItemSearchReadRepository lineItemRepository
+            ILineItemSearchReadRepository lineItemRepository,
+            IJobResolutionStatus jobResolutionStatus
             )
         {
             this.logger = logger;
@@ -50,12 +52,67 @@
             this.actionSummaryMapper = actionSummaryMapper;
             this.jobRepository = jobRepository;
             this.lineItemRepository = lineItemRepository;
+            this.jobResolutionStatus = jobResolutionStatus;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
         {
             SubmitActionResult result = null;
 
+            List<Job> jobs = GetJobs(submitAction);
+
+            result = validator.Validate(submitAction, jobs);
+
+            if (!result.IsValid)
+            {
+                return result;
+            }
+
+            try
+            {
+                using (var transactionScope = new TransactionScope())
+                {
+                    foreach (var job in jobs)
+                    {
+                        // after validation will only have pending submission Jobs
+                        if (jobResolutionStatus.GetStatus(job) == ResolutionStatus.PendingSubmission)
+                        {
+                            job.ResolutionStatus = jobResolutionStatus.StepForward(job);
+                            //TODO: Save JobResolutionStatus
+                            if (jobResolutionStatus.GetStatus(job) == ResolutionStatus.Approved)
+                            {
+                                SubmitCredits(job);
+                                job.ResolutionStatus = jobResolutionStatus.StepForward(job);
+
+                            }
+                            else
+                            {
+                                result.Warnings.Add("Your threshold level is not high enough " +
+                                                    $"to credit the delivery for job no: {job.Id} invoice: {job.InvoiceNumber}. " +
+                                                    "The Job has been been marked for authorisation.");
+                            }
+
+                            //TODO: Save JobResolutionStatus
+                            jobRepository.Update(job);
+                        }
+                    }
+
+                    transactionScope.Complete();
+                }
+
+                result.IsValid = true;
+                result.Message = $"Submitted  actions successfully for JobIds {string.Join(",", submitAction.JobIds)}";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Error Submitting actions for JobIds {string.Join(",", submitAction.JobIds)}", ex);
+                return new SubmitActionResult { Message = "Error submitting. No actions have been processed" };
+            }
+        }
+
+        private List<Job> GetJobs(SubmitActionModel submitAction)
+        {
             var jobs = jobRepository.GetByIds(submitAction.JobIds).ToList();
             var lineItems = lineItemRepository.GetLineItemByJobIds(submitAction.JobIds);
             var jobRoutes = jobRepository.GetJobsRoute(jobs.Select(x => x.Id));
@@ -67,79 +124,18 @@
                 }
             );
 
-            result = validator.Validate(submitAction, jobs);
+            return jobs;
+        }
 
-            if (!result.IsValid)
+        private void SubmitCredits(Job job)
+        {
+            var jobLineItemActions = job.GetAllLineItemActions();
+            if (jobLineItemActions.Any(x => x.DeliveryAction == DeliveryAction.Credit))
             {
-                return result;
-            }
-
-
-            try
-            {
-                using (var transactionScope = new TransactionScope())
-                {
-                    foreach (var job in jobs)
-                    {
-                        // after validation will only have pending submission Jobs
-                        if (job.ResolutionStatus == ResolutionStatus.PendingSubmission)
-                        {
-                            var jobLineItemActions = job.GetAllLineItemActions();
-                            if (jobLineItemActions.Any(x => x.DeliveryAction == DeliveryAction.Credit))
-                            {
-                                
-                                    CreditJobInAdam(job);
-                                //}
-                            }
-                            else
-                            {
-                                
-                            }
-
-                            //TODD: Call Henrris Terrific  code
-
-                        }
-                    }
-
-                    //if (submitAction.Action == DeliveryAction.Credit)
-                    //{
-                    //    foreach (var jobId in submitAction.ItemsToSubmit.Select(x => x.JobId).Distinct())
-                    //    {
-                    //        var jobItems = submitAction.ItemsToSubmit.Where(x => x.JobId == jobId).ToArray();
-                    //        if (UserHasRequiredCreditThreshold(jobId, submitAction.ItemsToSubmit))
-                    //        {
-                    //            CreditJobInAdam(jobItems);
-                    //            SaveItemsAsSubmittedAndApproved(jobItems);
-                    //        }
-                    //        else
-                    //        {
-                    //            SaveItemsAsSubmitted(jobItems);
-                    //            var invoiceNo = submitAction.ItemsToSubmit.First(x => x.JobId == jobId).InvoiceNumber;
-                    //            if (!result.Warnings.Any(x => x.Contains(invoiceNo)))
-                    //            {
-                    //                result.Warnings.Add($"Your threshold level is not high enough to credit delivery for invoice no: {invoiceNo}. " +
-                    //                                    $"It has been marked for authorisation.");
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    SaveItemsAsSubmitted(submitAction.ItemsToSubmit);
-                    //}
-
-                    transactionScope.Complete();
-                }
-                result.IsValid = true;
-                result.Message = $"Submitted  actions successfully for JobIds {string.Join(",", submitAction.JobIds)}";
-                return result;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"Error Submitting actions for JobIds {string.Join(",", submitAction.JobIds)}", ex);
-                return new SubmitActionResult { Message = "Error submitting. No actions have been processed" };
+                CreditJobInAdam(job);
             }
         }
+
         private void CreditJobInAdam(Job job)
         {
             var credits = deliveryLineCreditMapper.Map(job);
@@ -149,44 +145,17 @@
 
         public ActionSubmitSummary GetSubmitSummary(SubmitActionModel submitAction, bool isStopLevel)
         {
-            throw new NotImplementedException("Do This");
-        //    SubmitActionResult result = null;
-        //    var unsubmittedItems = lineItemActionRepository.GetUnsubmittedActions(submitAction.Action).ToArray();
-        //    submitAction.SetItemsToSubmit(unsubmittedItems);
+            SubmitActionResult result = null;
+            List<Job> jobs = GetJobs(submitAction);
 
-        //    result = validator.Validate(submitAction, unsubmittedItems);
-        //    if (!result.IsValid)
-        //    {
-        //        return new ActionSubmitSummary { Summary = result.Message };
-        //    }
+            result = validator.Validate(submitAction, jobs);
+            if (!result.IsValid)
+            {
+                return new ActionSubmitSummary { Summary = result.Message };
+            }
 
-        //    return actionSummaryMapper.Map(submitAction, isStopLevel);
+            return actionSummaryMapper.Map(submitAction, isStopLevel, jobs);
         }
 
-
-
-        //private void SaveItemsAsSubmitted(IEnumerable<LineItemActionSubmitModel> items)
-        //{
-        //    foreach (var lineItemAction in items)
-        //    {
-        //        lineItemAction.SubmittedDate = DateTime.Now;
-        //        lineItemAction.ActionedBy = userNameProvider.GetUserName();
-        //        lineItemActionRepository.Update(lineItemAction);
-        //    }
-        //}
-
-        //private void SaveItemsAsSubmittedAndApproved(IEnumerable<LineItemActionSubmitModel> items)
-        //{
-        //    foreach (var lineItemAction in items)
-        //    {
-        //        lineItemAction.SubmittedDate = DateTime.Now;
-        //        lineItemAction.ActionedBy = userNameProvider.GetUserName();
-        //        lineItemAction.ApprovalDate = DateTime.Now;
-        //        lineItemAction.ApprovedBy = userNameProvider.GetUserName();
-        //        lineItemActionRepository.Update(lineItemAction);
-        //    }
-        //}
-
-        
     }
 }

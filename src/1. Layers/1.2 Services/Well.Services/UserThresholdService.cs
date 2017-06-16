@@ -26,7 +26,7 @@
             this.userNameProvider = userNameProvider;
         }
 
-        public ThresholdResponse CanUserCredit(decimal creditValue)
+        public virtual ThresholdResponse CanUserCredit(decimal creditValue)
         {
             var username = this.userNameProvider.GetUserName();
             var response = new ThresholdResponse();
@@ -85,7 +85,10 @@
 
         public bool UserHasRequiredCreditThreshold(Job job)
         {
-            throw new NotImplementedException("TODO: Test the TotalCreditValue");
+            if (job.GetAllLineItemActions().All(x => x.DeliveryAction != DeliveryAction.Credit))
+            {
+                return true;
+            }
             var creditValue = job.LineItems.Sum(x => x.TotalCreditValue);
             return CanUserCredit(creditValue).CanUserCredit;
         }

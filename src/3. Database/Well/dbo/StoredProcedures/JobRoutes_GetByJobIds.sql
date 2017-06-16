@@ -6,7 +6,7 @@ AS
 		r.Id as RouteId 
 		,r.RouteOwnerId as BranchId
 		,r.RouteDate
-		,j.Id
+		,j.Id as JobId
 	FROM
 		RouteHeader r
 	INNER JOIN 

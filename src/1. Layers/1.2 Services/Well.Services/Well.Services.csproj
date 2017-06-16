@@ -118,7 +118,6 @@
     <Compile Include="UserThresholdService.cs" />
     <Compile Include="Contracts\ISubmitActionValidation.cs" />
     <Compile Include="Validation\SubmitActionValidation.cs" />
-    <Compile Include="Validation\SubmitCreditActionValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">

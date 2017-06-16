@@ -10,7 +10,7 @@
     public class DeliveryLineCreditMapperTests
     {
         [Test]
-        public void ShouldMap()
+        public void ShouldMapLineItemActionSubmitModel()
         {
        
             var lineItemActions = new List<LineItemActionSubmitModel>
@@ -22,12 +22,12 @@
             var results = new DeliveryLineCreditMapper().Map(lineItemActions);
 
             Assert.That(results.Count,Is.EqualTo(2));
-
             Assert.That(results[0].JobId,Is.EqualTo(lineItemActions[0].JobId));
             Assert.That(results[0].Reason, Is.EqualTo((int)lineItemActions[0].Reason));
             Assert.That(results[0].Source, Is.EqualTo((int)lineItemActions[0].Source));
             Assert.That(results[0].Quantity, Is.EqualTo(lineItemActions[0].Quantity));
             Assert.That(results[0].ProductCode, Is.EqualTo(lineItemActions[0].ProductCode));
         }
+        
     }
 }

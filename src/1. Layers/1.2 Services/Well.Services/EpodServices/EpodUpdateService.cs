@@ -33,6 +33,7 @@
         private readonly IPostImportRepository postImportRepository;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
+        private readonly List<Job> UpdatedJobs;
 
         public EpodUpdateService(
             ILogger logger,
@@ -111,6 +112,16 @@
             this.postImportRepository.PostImportUpdate();
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
+            // update JobResolutionStatus for jobs with LineItemActions
+            //foreach (var job in UpdatedJobs)
+            //{
+            //    var status = jobResolutionService.StepForward(job);
+            //    job.ResolutionStatus = status;
+            //    this.jobRepository.Save(job);
+            //    this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+            //    
+            //}
+
         }
 
         private void UpdateStops(IEnumerable<StopDTO> stops, int branchId)
@@ -172,6 +183,8 @@
                 {
                     continue;
                 }
+
+                UpdatedJobIds.Add(existingJob.Id);
 
                 this.mapper.Map(job, existingJob);
 

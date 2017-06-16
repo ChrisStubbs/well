@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.Linq;
     using PH.Well.Domain;
@@ -84,7 +85,9 @@
 
         public bool UserHasRequiredCreditThreshold(Job job)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("TODO: Test the TotalCreditValue");
+            var creditValue = job.LineItems.Sum(x => x.TotalCreditValue);
+            return CanUserCredit(creditValue).CanUserCredit;
         }
 
         private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)

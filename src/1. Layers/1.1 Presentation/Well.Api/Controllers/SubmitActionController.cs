@@ -23,7 +23,7 @@
         [HttpGet]
         public ActionSubmitSummary PreSubmitSummary([FromUri] int[] jobId, DeliveryAction action, bool isStopLevel)
         {
-            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId, Action = action }, isStopLevel);
+            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId/*, Action = action */}, isStopLevel);
             return results;
         }
 

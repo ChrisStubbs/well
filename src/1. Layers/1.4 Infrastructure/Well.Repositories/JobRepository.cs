@@ -131,6 +131,7 @@ namespace PH.Well.Repositories
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value , DbType.Int16)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -184,6 +185,15 @@ namespace PH.Well.Repositories
             this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveGrn)
                 .AddParameter("JobId", jobId, DbType.Int32)
                 .AddParameter("Grn", grn, DbType.String)
+                .Execute();
+        }
+
+        public void SetJobResolutionStatus(int jobId, string status)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobResolutionStatusInsert)
+                .AddParameter("Status", status, DbType.String)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String)
                 .Execute();
         }
 

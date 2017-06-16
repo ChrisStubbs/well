@@ -161,5 +161,6 @@
 
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
         public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
+        public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
     }
 }

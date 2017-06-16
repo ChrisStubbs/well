@@ -46,6 +46,10 @@
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();
+                    x.For<IJobResolutionStatus>().Use<JobResolutionStatus>();
+                    x.For<IUserThresholdService>().Use<UserThresholdService>();
+                    x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+                    x.For<IUserRepository>().Use<UserRepository>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

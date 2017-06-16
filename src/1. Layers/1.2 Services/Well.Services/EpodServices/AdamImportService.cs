@@ -132,7 +132,9 @@
             foreach (var job in jobs)
             {
                 this.jobStatusService.SetInitialStatus(job);
+                job.ResolutionStatus = ResolutionStatus.Imported;
                 this.jobRepository.Save(job);
+                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
 
                 job.JobDetails.ForEach(
                     x =>

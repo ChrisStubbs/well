@@ -176,7 +176,9 @@
                     {
                         this.jobStatusService.SetIncompleteStatus(newJob);
                     }
+                    newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
+                    this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
                 }
             }
         }
@@ -248,10 +250,12 @@
                 var job = new Job { StopId = stopId };
 
                 this.jobStatusService.SetInitialStatus(job);
+                job.ResolutionStatus = ResolutionStatus.Imported;
 
                 this.mapper.Map(update, job);
 
                 this.jobRepository.Save(job);
+                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
 
                 this.InsertJobDetails(update.JobDetails, job.Id);
             }

@@ -77,12 +77,12 @@
         {
             var jobRoutes = unsubmittedJobs.Select(x => x.JobRoute);
 
-            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x=> DateTime.Now < dateThresholdService.EarliestCreditDate(x.RouteDate, x.BranchId)).ToArray();
+            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x=> DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
                 var jobError = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
-                    x => $"{x.JobId}: earliest credit date: {dateThresholdService.EarliestCreditDate(x.RouteDate, x.BranchId)}"
+                    x => $"{x.JobId}: earliest credit date: {dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)}"
                 ).Distinct());
 
                 return new SubmitActionResult { IsValid = false, Message = $"Job nos: '{jobError}' have not reached the earliest credit date so can not be submitted." };

@@ -1,6 +1,6 @@
 import { Component }                                            from '@angular/core';
 import { CurrencyPipe }                                         from '@angular/common';
-import { RoutesService }                                        from './routesService'
+import { RoutesService }                                        from './routesService';
 import {SingleRoute, SingleRouteSource, SingleRouteFilter}      from './singleRoute';
 import { ActivatedRoute }                                       from '@angular/router';
 import * as _                                                   from 'lodash';
@@ -106,7 +106,9 @@ export class SingleRouteComponent implements IObservableAlive
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
         const route = _.find(this.gridSource,
-                    (value: SingleRouteSource) => value.stopId == event.source.stopId);
+            (value: SingleRouteSource) => value.stopId == event.source.stopId) as SingleRouteSource;
+
+        route.stopAssignee = userName;
 
         _.forEach(route.items, (value: SingleRouteItem) => {
             value.assignee = userName;
@@ -131,10 +133,9 @@ export class SingleRouteComponent implements IObservableAlive
         }
         else
         {
-            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) =>
-            {
+            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) => {
                 return total.concat(current.items);
-            }, [])
+            }, []);
         }
 
         _.map(collection, current => current.isSelected = select);

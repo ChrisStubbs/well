@@ -31,9 +31,9 @@
         private readonly IJobStatusService jobStatusService;
         private readonly IUserNameProvider userNameProvider;
         private readonly IPostImportRepository postImportRepository;
+        private readonly IJobResolutionStatus jobResolutionStatus;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
-        private readonly List<Job> UpdatedJobs;
 
         public EpodUpdateService(
             ILogger logger,
@@ -49,7 +49,8 @@
             IPodTransactionFactory podTransactionFactory,
             IJobStatusService jobStatusService,
             IUserNameProvider userNameProvider,
-            IPostImportRepository postImportRepository)
+            IPostImportRepository postImportRepository,
+            IJobResolutionStatus jobResolutionStatus)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -65,10 +66,12 @@
             this.jobStatusService = jobStatusService;
             this.userNameProvider = userNameProvider;
             this.postImportRepository = postImportRepository;
+            this.jobResolutionStatus = jobResolutionStatus;
         }
 
         public void Update(RouteDelivery route, string fileName)
         {
+            var updatedJobs = new List<Job>();
             foreach (var header in route.RouteHeaders)
             {
                 int branchId;
@@ -97,7 +100,7 @@
 
                     this.routeHeaderRepository.Update(existingHeader);
 
-                    this.UpdateStops(header.Stops, branchId);
+                    updatedJobs = this.UpdateStops(header.Stops, branchId);
                 }
                 else
                 {
@@ -113,19 +116,22 @@
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
             // update JobResolutionStatus for jobs with LineItemActions
-            //foreach (var job in UpdatedJobs)
-            //{
-            //    var status = jobResolutionService.StepForward(job);
-            //    job.ResolutionStatus = status;
-            //    this.jobRepository.Save(job);
-            //    this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
-            //    
-            //}
+            foreach (var job in updatedJobs)
+            {
+                var status = this.jobResolutionStatus.StepForward(job);
+                if (status != ResolutionStatus.Invalid)
+                {
+                    job.ResolutionStatus = status;
+                }
 
+                this.jobRepository.Save(job);
+                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+            }
         }
 
-        private void UpdateStops(IEnumerable<StopDTO> stops, int branchId)
+        private List<Job> UpdateStops(IEnumerable<StopDTO> stops, int branchId)
         {
+            var updatedJobs = new List<Job>();
             foreach (var stop in stops)
             {
                 try
@@ -151,7 +157,7 @@
 
                         this.stopRepository.Update(existingStop);
 
-                        this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
+                        updatedJobs = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
 
                         transactionScope.Complete();
                     }
@@ -167,10 +173,14 @@
                         9859);
                 }
             }
+
+            return updatedJobs;
         }
 
-        private void UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
+        private List<Job> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
         {
+            var updatedJobs = new List<Job>();
+
             foreach (var job in jobs)
             {
                 var existingJob = this.jobRepository.GetJobByRefDetails(
@@ -184,7 +194,7 @@
                     continue;
                 }
 
-                UpdatedJobIds.Add(existingJob.Id);
+                updatedJobs.Add(existingJob);
 
                 this.mapper.Map(job, existingJob);
 
@@ -218,6 +228,7 @@
                 this.jobRepository.Update(existingJob);
                 this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
             }
+            return updatedJobs;
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId, bool invoiceOutstanding)

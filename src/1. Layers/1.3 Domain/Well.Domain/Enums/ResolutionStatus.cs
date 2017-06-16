@@ -173,7 +173,7 @@
 
             return this == item;
         }
-
+        
         public static bool operator ==(ResolutionStatus val1, ResolutionStatus val2)
         {
             if (object.ReferenceEquals(val1, null) && object.ReferenceEquals(val2, null))

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using Moq;
 using NUnit.Framework;
 using PH.Well.Domain;
 using PH.Well.Domain.Enums;
 using PH.Well.Services;
+using PH.Well.Services.Contracts;
 using PH.Well.UnitTests.Factories;
 
 namespace PH.Well.UnitTests.Services
@@ -11,15 +13,25 @@ namespace PH.Well.UnitTests.Services
     [TestFixture]
     public class JobResolutionStatusTests
     {
+        private JobResolutionStatus sut;
+
+        [SetUp]
+        public void testSetup()
+        {
+            var userThreshold = new Mock<IUserThresholdService>();
+            this.sut = new JobResolutionStatus(userThreshold.Object);
+        }
+
         [Test]
         [Description("Check if the Job is in DriverCompleted status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_DriverCompleted()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
 
-            var sut = new JobResolutionStatus();
+            
             var newStatus = sut.GetStatus(job);
 
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.DriverCompleted));
@@ -32,13 +44,12 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in ActionRequired status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_ActionRequired()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-
-            var sut = new JobResolutionStatus();
             var newStatus = sut.GetStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.ActionRequired));
@@ -54,14 +65,13 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in PendingSubmission status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_PendingSubmission()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
                 .Build();
-
-            var sut = new JobResolutionStatus();
             var newStatus = sut.GetStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingSubmission));
@@ -83,13 +93,12 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in PendingApproval status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_PendingApproval()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-
-            var sut = new JobResolutionStatus();
             var newStatus = sut.GetStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingApproval));
@@ -116,13 +125,12 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in Approved status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_Approved()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-
-            var sut = new JobResolutionStatus();
             var newStatus = sut.GetStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Approved));
@@ -149,13 +157,12 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in Credited status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_Credited()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-
-            var sut = new JobResolutionStatus();
             var newStatus = sut.GetStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
@@ -191,13 +198,12 @@ namespace PH.Well.UnitTests.Services
         
         [Test]
         [Description("Check if the Job is in Resolved status")]
+        [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_Resolved()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-
-            var sut = new JobResolutionStatus();
             var newStatus = sut.GetStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
@@ -230,12 +236,17 @@ namespace PH.Well.UnitTests.Services
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
         }
 
+    }
+
+    [TestFixture]
+    public class JobResolutionStatusStepForwardTests
+    {
         [Test]
-        [Description("Check the progress over the ResolutionStatus")]
         [TestCaseSource(typeof(JobResolutionStatusTestsSource), nameof(JobResolutionStatusTestsSource.StepForward))]
-        public ResolutionStatus StepForward(Job job)
+        [Category("JobResolutionStatus StepForward")]
+        public ResolutionStatus JobResolutionStatusStepForward(Job job, IUserThresholdService userThresholdService)
         {
-            var sut = new JobResolutionStatus();
+            var sut = new JobResolutionStatus(userThresholdService);
 
             return sut.StepForward(job);
         }
@@ -247,15 +258,38 @@ namespace PH.Well.UnitTests.Services
         {
             get
             {
-                yield return new TestCaseData(GoodPendingSubmission()).Returns(ResolutionStatus.Approved).SetDescription("Job should move to Approved");
-                yield return new TestCaseData(BadPendingSubmission()).Returns(ResolutionStatus.Invalid);
+                yield return new TestCaseData(Imported(), createUserThresholdService(true))
+                    .Returns(ResolutionStatus.DriverCompleted)
+                    .SetDescription("Job should move to DriverCompleted");
+                //yield return new TestCaseData(GoodPendingSubmission(), createUserThresholdService(true))
+                //    .Returns(ResolutionStatus.Approved)
+                //    .SetDescription("Job should move to Approved");
+                //yield return new TestCaseData(BadPendingSubmission(), createUserThresholdService(false))
+                //    .Returns(ResolutionStatus.Invalid)
+                //    .SetDescription("Job should not move to Approved"); 
             }
+        }
+        
+        private static IUserThresholdService createUserThresholdService(bool withinThreshol)
+        {
+            var mock = new Mock<IUserThresholdService>();
+            mock.Setup(p => p.UserHasRequiredCreditThreshold(It.IsAny<Job>())).Returns(withinThreshol);
+
+            return mock.Object;
+        }
+
+        private static Job Imported()
+        {
+            return JobFactory.New
+                .With(p => p.ResolutionStatus = ResolutionStatus.Imported)
+                .Build();
         }
 
         private static Job GoodPendingSubmission()
         {
             return JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ActionRequired)
                 .Build();
         }
 
@@ -263,6 +297,7 @@ namespace PH.Well.UnitTests.Services
         {
             return JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddNotDefinedAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ActionRequired)
                 .Build();
         }
     }

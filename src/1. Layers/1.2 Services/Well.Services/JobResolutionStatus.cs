@@ -1,20 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PH.Well.Domain;
 using PH.Well.Domain.Enums;
+using PH.Well.Services.Contracts;
 
 namespace PH.Well.Services
 {
     public class JobResolutionStatus : IJobResolutionStatus
     {
         private readonly List<Func<Job, ResolutionStatus>> evaluators;
+        private readonly IUserThresholdService userThresholdService;
+        private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> steps;
 
-        public JobResolutionStatus()
+        public JobResolutionStatus(IUserThresholdService userThresholdService)
         {
             this.evaluators = new List<Func<Job, ResolutionStatus>>();
+            this.steps = new Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>>();
+            this.userThresholdService = userThresholdService;
+
+            this.fillEvaluators();
+            this.fillSteps();
+        }
+
+        private void fillSteps()
+        {
+            steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
+        }
+
+        private void fillEvaluators()
+        {
 
             //DriverCompleted
             this.evaluators.Add(job =>
@@ -26,7 +41,7 @@ namespace PH.Well.Services
             });
 
             //ActionRequired
-            this.evaluators.Add(job => 
+            this.evaluators.Add(job =>
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
@@ -42,7 +57,7 @@ namespace PH.Well.Services
             });
 
             //PendingSubmission
-            this.evaluators.Add(job => 
+            this.evaluators.Add(job =>
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
@@ -96,7 +111,7 @@ namespace PH.Well.Services
 
                 if (actions.Any() && job.ResolutionStatus == ResolutionStatus.Credited)
                 {
-                    if (actions.All(p => p.DeliveryAction != DeliveryAction.NotDefined) && actions.Any(p=> p.DeliveryAction == DeliveryAction.Credit))
+                    if (actions.All(p => p.DeliveryAction != DeliveryAction.NotDefined) && actions.Any(p => p.DeliveryAction == DeliveryAction.Credit))
                     {
                         return ResolutionStatus.Credited;
                     }
@@ -120,6 +135,7 @@ namespace PH.Well.Services
 
                 return null;
             });
+
         }
 
         public ResolutionStatus GetStatus(Job job)
@@ -131,7 +147,12 @@ namespace PH.Well.Services
 
         public ResolutionStatus StepForward(Job job)
         {
-            throw new NotImplementedException();
+            if (this.steps.ContainsKey(job.ResolutionStatus))
+            {
+                return this.steps[job.ResolutionStatus](job);
+            }
+
+            return ResolutionStatus.Invalid;
         }
     }
 }

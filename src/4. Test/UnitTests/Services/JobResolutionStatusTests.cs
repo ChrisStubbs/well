@@ -261,12 +261,12 @@ namespace PH.Well.UnitTests.Services
                 yield return new TestCaseData(Imported(), createUserThresholdService(true))
                     .Returns(ResolutionStatus.DriverCompleted)
                     .SetDescription("Job should move to DriverCompleted");
-                //yield return new TestCaseData(GoodPendingSubmission(), createUserThresholdService(true))
-                //    .Returns(ResolutionStatus.Approved)
-                //    .SetDescription("Job should move to Approved");
-                //yield return new TestCaseData(BadPendingSubmission(), createUserThresholdService(false))
-                //    .Returns(ResolutionStatus.Invalid)
-                //    .SetDescription("Job should not move to Approved"); 
+                yield return new TestCaseData(GoodPendingSubmission(), createUserThresholdService(false))
+                    .Returns(ResolutionStatus.Approved)
+                    .SetDescription("Job should move to Approved");
+                yield return new TestCaseData(BadPendingSubmission(), createUserThresholdService(true))
+                    .Returns(ResolutionStatus.PendingApproval)
+                    .SetDescription("Job should not move to Approved");
             }
         }
         
@@ -289,7 +289,7 @@ namespace PH.Well.UnitTests.Services
         {
             return JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddCreditAction().Build()))
-                .With(p => p.ResolutionStatus = ResolutionStatus.ActionRequired)
+                .With(p => p.ResolutionStatus = ResolutionStatus.PendingSubmission)
                 .Build();
         }
 
@@ -297,7 +297,7 @@ namespace PH.Well.UnitTests.Services
         {
             return JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddNotDefinedAction().Build()))
-                .With(p => p.ResolutionStatus = ResolutionStatus.ActionRequired)
+                .With(p => p.ResolutionStatus = ResolutionStatus.PendingSubmission)
                 .Build();
         }
     }

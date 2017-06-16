@@ -26,11 +26,25 @@ namespace PH.Well.Services
         private void fillSteps()
         {
             steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
+
+            steps.Add(ResolutionStatus.DriverCompleted, job => ResolutionStatus.DriverCompleted);
+
+            steps.Add(ResolutionStatus.ActionRequired, job => ResolutionStatus.ActionRequired);
+
+            steps.Add(ResolutionStatus.PendingSubmission, job =>
+            {
+
+                if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
+                {
+                    return ResolutionStatus.PendingApproval;
+                }
+
+                return ResolutionStatus.Approved;
+            });
         }
 
         private void fillEvaluators()
         {
-
             //DriverCompleted
             this.evaluators.Add(job =>
             {

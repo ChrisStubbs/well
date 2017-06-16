@@ -71,7 +71,6 @@
                 .Execute();
         }
 
-
         public void InsertPodTransaction(PodTransaction podTransaction)
         {
             var podEventJson = JsonConvert.SerializeObject(podTransaction);

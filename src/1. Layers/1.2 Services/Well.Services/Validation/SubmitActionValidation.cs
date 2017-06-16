@@ -54,7 +54,6 @@
             var incorrectStateJobs = jobs.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission).ToArray();
             if (incorrectStateJobs.Any())
             {
-
                 var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Status: {x.ResolutionStatus} "));
                 return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
             }
@@ -74,7 +73,7 @@
             return result;
         }
 
-        public virtual SubmitActionResult HasEarliestSubmitDateBeenReached(Job[] unsubmittedJobs)
+        public virtual SubmitActionResult HasEarliestSubmitDateBeenReached(IList<Job> unsubmittedJobs)
         {
             var jobRoutes = unsubmittedJobs.Select(x => x.JobRoute);
 
@@ -82,11 +81,11 @@
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
-                var invoiceNos = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
+                var jobError = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
                     x => $"{x.JobId}: earliest credit date: {dateThresholdService.EarliestCreditDate(x.RouteDate, x.BranchId)}"
                 ).Distinct());
 
-                return new SubmitActionResult { IsValid = false, Message = $"Invoice nos: '{invoiceNos}' have not reached the earliest credit date so can not be submitted." };
+                return new SubmitActionResult { IsValid = false, Message = $"Job nos: '{jobError}' have not reached the earliest credit date so can not be submitted." };
             }
 
             return new SubmitActionResult { IsValid = true };

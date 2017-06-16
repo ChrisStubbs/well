@@ -36,7 +36,8 @@
             IUserThresholdService userThresholdService,
             IActionSummaryMapper actionSummaryMapper,
             IJobRepository jobRepository,
-            ILineItemSearchReadRepository lineItemRepository)
+            ILineItemSearchReadRepository lineItemRepository
+            )
         {
             this.logger = logger;
             this.userNameProvider = userNameProvider;
@@ -66,7 +67,6 @@
                 }
             );
 
-
             result = validator.Validate(submitAction, jobs);
 
             if (!result.IsValid)
@@ -84,12 +84,10 @@
                         // after validation will only have pending submission Jobs
                         if (job.ResolutionStatus == ResolutionStatus.PendingSubmission)
                         {
-
                             var jobLineItemActions = job.GetAllLineItemActions();
                             if (jobLineItemActions.Any(x => x.DeliveryAction == DeliveryAction.Credit))
                             {
-                                //if (userThresholdService.UserHasRequiredCreditThreshold(job))
-                                //{
+                                
                                     CreditJobInAdam(job);
                                 //}
                             }

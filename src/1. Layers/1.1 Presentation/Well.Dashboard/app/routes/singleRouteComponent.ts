@@ -105,11 +105,10 @@ export class SingleRouteComponent implements IObservableAlive
     public onAssigned(event: AssignModalResult): void
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
-        const route = _.filter(this.gridSource,
+        const route = _.find(this.gridSource,
                     (value: SingleRouteSource) => value.stopId == event.source.stopId);
 
-        _.map(route.items, (value: SingleRouteItem) =>
-        {
+        _.forEach(route.items, (value: SingleRouteItem) => {
             value.assignee = userName;
             value.stopAssignee = userName;
         });

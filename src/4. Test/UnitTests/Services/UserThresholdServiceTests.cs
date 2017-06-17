@@ -10,6 +10,7 @@
     using PH.Well.Domain.Enums;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
+    using Well.Domain.ValueObjects;
 
     [TestFixture]
     public class UserThresholdServiceTests
@@ -21,7 +22,7 @@
         private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
-        public void Setup()
+        public virtual void SetUp()
         {
             this.creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
             this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
@@ -88,7 +89,7 @@
                 var branchId = 22;
                 var totalThresholdAmount = 100;
                 var jobId = 33;
-                
+
                 var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Threshold = 100 };
 
                 this.creditThresholdRepository.Setup(x => x.GetByBranch(branchId)).Returns(new List<CreditThreshold> { level2Threshold });
@@ -110,32 +111,72 @@
             }
         }
 
-        public class TheRemoveCreditEventsThatDontHaveAThresholdMethod : UserThresholdServiceTests
+        public class TheUserHasRequiredCreditThresholdMethod : UserThresholdServiceTests
         {
-            [Test]
-            public void ShouldRemoveCreditEventsThatDontHaveThresholdSetupCorrectly()
+
+            private new Mock<UserThresholdService> stubbedUserThreshold;
+            [SetUp]
+            public void SetUp()
             {
-                // TODO
-                /*var creditEvents = new List<CreditEvent>();
+                base.SetUp();
+                stubbedUserThreshold = new Mock<UserThresholdService>(
+                            creditThresholdRepository.Object, 
+                            userRepository.Object, userNameProvider.Object) { CallBase = true };
+            }
 
-                var creditEvent = CreditEventFactory.New.Build();
+            [Test]
+            public void ShouldReturnTrueIfNoCreditActions()
+            {
+                var job = new Job();
+                Assert.That(service.UserHasRequiredCreditThreshold(job), Is.EqualTo(true));
+            }
 
-                creditEvents.Add(creditEvent);
+            [Test]
+            public void ShouldPassCreditValueToCanUserCreditAndReturnResultOfCallTrue()
+            {
 
-                var username = "jonny the foo";
+                var job = GetJobWithCredit();
+                stubbedUserThreshold.Setup(x => x.CanUserCredit(It.IsAny<decimal>())).Returns(new ThresholdResponse {CanUserCredit = true});
 
-                var user = new User { ThresholdLevelId = 1 };
+                Assert.That(stubbedUserThreshold.Object.UserHasRequiredCreditThreshold(job), Is.EqualTo(true));
 
-                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
+                stubbedUserThreshold.Verify(x=> x.CanUserCredit(140M),Times.Once);
+            }
 
-                var thresholds = new List<CreditThreshold> { new CreditThreshold { ThresholdLevelId = 1, Threshold = 2M } };
-                
-                this.creditThresholdRepository.Setup(x => x.GetAll()).Returns(thresholds);
+            [Test]
+            public void ShouldPassCreditValueToCanUserCreditAndReturnResultOfCallFalse()
+            {
 
-                this.creditThresholdRepository.Setup(x => x.GetByBranch(creditEvent.BranchId))
+                var job = GetJobWithCredit();
+                stubbedUserThreshold.Setup(x => x.CanUserCredit(It.IsAny<decimal>())).Returns(new ThresholdResponse { CanUserCredit = false });
 
-                this.service.RemoveCreditEventsThatDontHaveAThreshold(creditEvents, username);*/
+                Assert.That(stubbedUserThreshold.Object.UserHasRequiredCreditThreshold(job), Is.EqualTo(false));
+
+                stubbedUserThreshold.Verify(x => x.CanUserCredit(140M), Times.Once);
+            }
+
+
+            private Job GetJobWithCredit()
+            {
+              return new Job
+                {
+                    LineItems = new List<LineItem> { new LineItem{
+                            NetPrice = 10M,
+                            LineItemActions = new List<LineItemAction>
+                            {
+                                new LineItemAction {DeliveryAction = DeliveryAction.Credit, Quantity  = 10}
+                            } },
+                        new LineItem{
+                            NetPrice = 20M,
+                            LineItemActions = new List<LineItemAction>
+                            {
+                                new LineItemAction {DeliveryAction = DeliveryAction.Credit, Quantity  = 2},
+                                new LineItemAction {DeliveryAction = DeliveryAction.Close, Quantity  = 2}
+                            } }
+                    }
+                };
             }
         }
+
     }
 }

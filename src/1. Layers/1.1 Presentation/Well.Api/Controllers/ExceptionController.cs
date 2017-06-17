@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.Api.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Web.Http;
     using Domain.ValueObjects;
@@ -13,12 +15,18 @@
         private readonly ILineItemActionService lineItemActionService;
         private readonly ILineItemSearchReadRepository lineItemSearchReadRepository;
         private readonly ILineItemExceptionMapper lineItemExceptionMapper;
+        private readonly IJobRepository jobRepository;
 
-        public ExceptionController(ILineItemActionService lineItemActionService, ILineItemSearchReadRepository lineItemSearchReadRepository, ILineItemExceptionMapper lineItemExceptionMapper)
+        public ExceptionController(
+            ILineItemActionService lineItemActionService,
+            ILineItemSearchReadRepository lineItemSearchReadRepository,
+            ILineItemExceptionMapper lineItemExceptionMapper,
+            IJobRepository jobRepository)
         {
             this.lineItemActionService = lineItemActionService;
             this.lineItemSearchReadRepository = lineItemSearchReadRepository;
             this.lineItemExceptionMapper = lineItemExceptionMapper;
+            this.jobRepository = jobRepository;
         }
 
         [HttpGet]
@@ -31,7 +39,12 @@
 
         public EditLineItemException Patch(EditLineItemException update)
         {
-            var lineItem = lineItemActionService.SaveLineItemActions(update.Id, update.LineItemActions);
+            var job = jobRepository.GetById(update.JobId);
+            if (job == null)
+            {
+                throw new ArgumentException();
+            }
+            var lineItem = lineItemActionService.SaveLineItemActions(job, update.Id, update.LineItemActions);
             return lineItem != null ? lineItemExceptionMapper.Map(lineItem) : null;
         }
 

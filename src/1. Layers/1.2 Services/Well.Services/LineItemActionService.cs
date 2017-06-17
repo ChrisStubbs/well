@@ -16,31 +16,37 @@ namespace PH.Well.Services
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
         private readonly ILineItemActionCommentRepository commentRepository;
+        private readonly IJobRepository jobRepository;
+        private readonly IJobResolutionStatus jobResolutionStatus;
 
         public LineItemActionService(
-            ILineItemActionRepository lineItemActionRepository, 
+            ILineItemActionRepository lineItemActionRepository,
             ILineItemSearchReadRepository lineItemRepository,
-            ILineItemActionCommentRepository commentRepository)
+            ILineItemActionCommentRepository commentRepository,
+            IJobRepository jobRepository,
+            IJobResolutionStatus jobResolutionStatus)
         {
             this.lineItemActionRepository = lineItemActionRepository;
             this.lineItemRepository = lineItemRepository;
             this.commentRepository = commentRepository;
+            this.jobRepository = jobRepository;
+            this.jobResolutionStatus = jobResolutionStatus;
         }
 
-        public LineItem SaveLineItemActions(int lineItemId, IEnumerable<LineItemAction> lineItemActions)
+        public LineItem SaveLineItemActions(Job job, int lineItemId, IEnumerable<LineItemAction> lineItemActions)
         {
-           
             var lineItem = this.lineItemRepository.GetById(lineItemId);
+
             if (lineItem == null)
             {
                 return null;
             }
             var itemActions = lineItemActions as LineItemAction[] ?? lineItemActions.ToArray();
-           
+
             using (var transactionScope = new TransactionScope())
             {
                 foreach (var action in itemActions)
-                {                    
+                {
                     if (action.IsTransient())
                     {
                         action.LineItemId = lineItemId;
@@ -55,23 +61,37 @@ namespace PH.Well.Services
                         }
                     }
 
-                    foreach (var comment in action.Comments.Where(x=> x.IsTransient()))
+                    foreach (var comment in action.Comments.Where(x => x.IsTransient()))
                     {
                         comment.LineItemActionId = action.Id;
                         commentRepository.Save(comment);
                     }
                 }
-                
-                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id) 
+
+                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)
                                                                                 && x.Originator != Originator.Driver))
                 {
                     itemToDelete.DateDeleted = DateTime.Now;
                     lineItemActionRepository.Update(itemToDelete);
                 }
+
+                job = GetJob(job.Id);
+                job.ResolutionStatus = jobResolutionStatus.GetStatus(job);
+                jobRepository.Update(job);
+
                 transactionScope.Complete();
             }
 
             return this.lineItemRepository.GetById(lineItemId);
+
+        }
+
+        private Job GetJob(int jobId )
+        {
+            var job = jobRepository.GetById(jobId);
+            job.LineItems = lineItemRepository.GetLineItemByJobIds(new[] {jobId}).ToList();
+            job.JobRoute = jobRepository.GetJobsRoute(new[] {jobId}).Single();
+            return job;
 
         }
 
@@ -111,5 +131,6 @@ namespace PH.Well.Services
             lineItemActionRepository.Update(lineItemAction);
             return lineItemRepository.GetById(lineItemAction.LineItemId);
         }
+
     }
 }

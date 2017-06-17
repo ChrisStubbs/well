@@ -10,6 +10,8 @@ export class EditLineItemException
 
     public isSelected: boolean;
     public id: number;
+    public jobId: number;
+    public resolutionStatus: string;
     public accountCode: string;
     public invoice: string;
     public type: string;

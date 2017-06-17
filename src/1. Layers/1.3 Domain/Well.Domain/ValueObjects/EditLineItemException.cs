@@ -11,7 +11,8 @@
             LineItemActions = new List<LineItemAction>();
         }
         public int Id { get; set; }
-
+        public int JobId { get; set; }
+        public string  ResolutionStatus { get; set; }
         public string AccountCode { get; set; }
         public string Invoice { get; set; }
         public string Type { get; set; }

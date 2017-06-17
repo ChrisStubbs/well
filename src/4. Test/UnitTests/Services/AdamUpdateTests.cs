@@ -109,6 +109,7 @@
                             3215,
                             EventLogEntryType.Error)).Returns(true);
 
+
                 postImportRepository.Setup(x => x.PostImportUpdate());
 
                 //ACT
@@ -184,6 +185,7 @@
                 this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
                     .Returns(new Stop());
 
+
                 postImportRepository.Setup(x => x.PostImportUpdate());
 
                 //ACT
@@ -209,6 +211,7 @@
                             $"Stop already exists for ({stopUpdate.TransportOrderRef}) when doing adam insert to existing route header!",
                             3232,
                             EventLogEntryType.Error), Times.Once);
+
 
                 postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
@@ -262,6 +265,8 @@
 
                 this.mapper.Setup(x => x.Map(jobUpdate, It.IsAny<Job>()));
 
+                this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+
                 this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
 
                 var existingJobDetail = new JobDetail();
@@ -302,6 +307,8 @@
                 this.jobDetailRepository.Verify(x => x.Save(It.IsAny<JobDetail>()), Times.Once);
 
                 this.jobStatusService.Verify(x => x.SetInitialStatus(It.IsAny<Job>()), Times.Once);
+
+                this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
 
                 this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             }
@@ -403,6 +410,8 @@
 
                 this.jobStatusService.Setup(x => x.SetIncompleteStatus(It.IsAny<Job>()));
 
+                this. jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+
                 this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
 
                 this.postImportRepository.Setup(x => x.PostImportUpdate());
@@ -411,6 +420,8 @@
                 this.service.Update(routeUpdate);
 
                 //ASSERT
+                this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+
                 postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
             }
         }

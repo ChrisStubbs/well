@@ -118,6 +118,8 @@ namespace PH.Well.Api.DependencyResolution
 
             For<ILineItemActionCommentRepository>().Use<LineItemActionCommentRepository>();
             For<IDateThresholdService>().Use<DateThresholdService>();
+
+            For<IJobResolutionStatus>().Use<JobResolutionStatus>();
         }
     }
 }

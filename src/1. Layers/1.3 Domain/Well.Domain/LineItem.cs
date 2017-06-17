@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Enums;
 
     public class LineItem : Entity<int>
     {
@@ -23,7 +24,11 @@
         public string DriverReason { get; set; }
         public int JobId { get; set; }
 
-        public decimal TotalCreditValue => LineItemActions.Sum(x => x.Quantity) * NetPrice;
+        public decimal TotalCreditValue => LineItemActions.Where(x=> x.DeliveryAction == DeliveryAction.Credit).Sum(x => x.Quantity) * NetPrice;
+        public decimal TotalActionValue => LineItemActions.Sum(x => x.Quantity) * NetPrice;
+        public int TotalCreditQty => LineItemActions.Where(x => x.DeliveryAction == DeliveryAction.Credit).Sum(x => x.Quantity);
+        public int TotalQty => LineItemActions.Sum(x => x.Quantity);
+
         public List<LineItemAction> LineItemActions { get; set; }
 
     }

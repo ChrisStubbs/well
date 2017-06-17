@@ -3,15 +3,17 @@
 delete ResolutionStatus
 
 MERGE INTO ResolutionStatus AS Target
-USING	(VALUES	(1, 'Imported'),
-				(2, 'Driver Completed'),
-				(3, 'Action Required'),
-				(4, 'Pending Submission'),
-				(5, 'Pending Approval'),
-				(6, 'Approved'),
-				(7, 'Credited'),
-				(8, 'Resolved'),
-				(9, 'Closed')
+USING	(VALUES	(1,			'Imported'),
+				(2,			'Driver Completed'),
+				(4,			'Action Required'),
+				(8,			'Pending Submission'),
+				(16,		'Pending Approval'),
+				(32,		'Approved'),
+				(64,		'Credited'),
+				(128,       'Resolved'),
+				(256 | 2,   'Closed - Driver Completed'),
+				(256 | 64,  'Closed - Credited'),
+				(256 | 128, 'Closed - Resolved')
 		)
 AS Source (Id, [Description])
 	ON Target.Id = Source.Id

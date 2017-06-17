@@ -86,6 +86,7 @@
         public bool UserHasRequiredCreditThreshold(Job job)
         {
             throw new NotImplementedException("TODO: Test the TotalCreditValue");
+            //TODO: Return True if no Credit Lines
             var creditValue = job.LineItems.Sum(x => x.TotalCreditValue);
             return CanUserCredit(creditValue).CanUserCredit;
         }

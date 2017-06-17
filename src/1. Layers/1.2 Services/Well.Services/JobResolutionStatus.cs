@@ -11,13 +11,15 @@ namespace PH.Well.Services
     {
         private readonly List<Func<Job, ResolutionStatus>> evaluators;
         private readonly IUserThresholdService userThresholdService;
+        private readonly IDateThresholdService dateThresholdService;
         private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> steps;
 
-        public JobResolutionStatus(IUserThresholdService userThresholdService)
+        public JobResolutionStatus(IUserThresholdService userThresholdService, IDateThresholdService dateThresholdService)
         {
             this.evaluators = new List<Func<Job, ResolutionStatus>>();
             this.steps = new Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>>();
             this.userThresholdService = userThresholdService;
+            this.dateThresholdService = dateThresholdService;
 
             this.fillEvaluators();
             this.fillSteps();
@@ -27,19 +29,64 @@ namespace PH.Well.Services
         {
             steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
 
-            steps.Add(ResolutionStatus.DriverCompleted, job => ResolutionStatus.DriverCompleted);
+            steps.Add(ResolutionStatus.DriverCompleted, job =>
+            {
+                if (job.LineItems.SelectMany(p => p.LineItemActions).Any())
+                {
+                    return ResolutionStatus.ActionRequired;
+                }
+                else if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                {
+                    return ResolutionStatus.Closed | ResolutionStatus.DriverCompleted;
+                }
 
-            steps.Add(ResolutionStatus.ActionRequired, job => ResolutionStatus.ActionRequired);
+                return ResolutionStatus.DriverCompleted;
+            });
 
+            steps.Add(ResolutionStatus.ActionRequired, job =>
+            {
+                return GetStatus(job);
+            });
+            
             steps.Add(ResolutionStatus.PendingSubmission, job =>
             {
 
                 if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
                 {
-                    return ResolutionStatus.PendingApproval;
+                    return ResolutionStatus.Approved;
                 }
 
-                return ResolutionStatus.Approved;
+                return ResolutionStatus.PendingApproval;
+            });
+
+            steps.Add(ResolutionStatus.Approved, job =>
+            {
+                if (job.LineItems.SelectMany(p => p.LineItemActions).Any(p => p.DeliveryAction == DeliveryAction.Credit))
+                {
+                    return ResolutionStatus.Credited;
+                }
+
+                return ResolutionStatus.Resolved;
+            });
+
+            steps.Add(ResolutionStatus.Credited, job =>
+            {
+                if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                {
+                    return ResolutionStatus.Closed | ResolutionStatus.Credited;
+                }
+
+                return ResolutionStatus.Credited;
+            });
+
+            steps.Add(ResolutionStatus.Resolved, job =>
+            {
+                if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                {
+                    return ResolutionStatus.Closed | ResolutionStatus.Resolved;
+                }
+
+                return ResolutionStatus.Resolved;
             });
         }
 

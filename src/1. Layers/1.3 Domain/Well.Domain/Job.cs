@@ -141,6 +141,5 @@
         }
 
         public JobRoute JobRoute { get; set; }
-
     }
 }

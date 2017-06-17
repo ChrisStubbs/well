@@ -215,8 +215,8 @@
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 2, BranchId = 2, RouteDate = DateTime.Today } });
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 3, BranchId = 1, RouteDate = DateTime.Today } });
 
-                dateThresholdService.Setup(x => x.EarliestCreditDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestCreditDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
 
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
@@ -230,8 +230,8 @@
             {
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
 
-                dateThresholdService.Setup(x => x.EarliestCreditDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestCreditDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
 
@@ -243,8 +243,8 @@
             {
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today.AddDays(-1) } });
 
-                dateThresholdService.Setup(x => x.EarliestCreditDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestCreditDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
 

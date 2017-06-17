@@ -13,16 +13,16 @@
         {
             { 1, new ResolutionStatus(1, "Imported")},
             { 2, new ResolutionStatus(2, "Driver Completed")},
-            { 3, new ResolutionStatus(3, "Action Required")},
-            { 4, new ResolutionStatus(4, "Pending Submission")},
-            { 5, new ResolutionStatus(5, "Pending Approval")},
-            { 6, new ResolutionStatus(6, "Approved")},
-            { 7, new ResolutionStatus(7, "Credited")},
-            { 8, new ResolutionStatus(8, "Resolved")},
-            { 9, new ResolutionStatus(9, "Closed")},
+            { 4, new ResolutionStatus(4, "Action Required")},
+            { 8, new ResolutionStatus(8, "Pending Submission")},
+            { 16, new ResolutionStatus(16, "Pending Approval")},
+            { 32, new ResolutionStatus(32, "Approved")},
+            { 64, new ResolutionStatus(64, "Credited")},
+            { 128, new ResolutionStatus(128, "Resolved")},
+            { 256, new ResolutionStatus(256, "Closed")},
         };
 
-        private static List<int> groupableValues = new List<int>() { 2, 7, 8, 9 };
+        private static List<int> groupableValues = new List<int>() { 2, 64, 128, 256 };
 
         private ResolutionStatus(int value, string description)
         {
@@ -66,7 +66,7 @@
         {
             get
             {
-                return values[3];
+                return values[4];
             }
         }
 
@@ -74,7 +74,7 @@
         {
             get
             {
-                return values[4];
+                return values[8];
             }
         }
 
@@ -82,7 +82,7 @@
         {
             get
             {
-                return values[5];
+                return values[16];
             }
         }
 
@@ -90,7 +90,7 @@
         {
             get
             {
-                return values[6];
+                return values[32];
             }
         }
 
@@ -98,7 +98,7 @@
         {
             get
             {
-                return values[7];
+                return values[64];
             }
         }
 
@@ -106,7 +106,7 @@
         {
             get
             {
-                return values[8];
+                return values[128];
             }
         }
 
@@ -114,7 +114,7 @@
         {
             get
             {
-                return values[9];
+                return values[256];
             }
         }
 
@@ -153,8 +153,22 @@
                 return values[value];
             }
 
-            return Invalid;
+            if (value == (Closed.Value | DriverCompleted.Value))
+            {
+                return Closed | DriverCompleted;
+            }
 
+            if (value == (Closed.Value | Credited.Value))
+            {
+                return Closed | Credited;
+            }
+
+            if (value == (Closed.Value | Resolved.Value))
+            {
+                return Closed | Resolved;
+            }
+
+            return Invalid;
         }
 
         public override int GetHashCode()

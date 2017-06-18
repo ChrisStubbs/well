@@ -128,7 +128,7 @@
                 var result = validator.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"Can not submit actions for jobs. The following jobs are not in Pending Submission State JobId:1 Status: 3 - Action Required ."));
+                Assert.That(result.Message, Is.EqualTo($"Can not submit actions for jobs. The following jobs are not in Pending Submission State JobId:1 Status: 4 - Action Required ."));
             }
 
             [Test]

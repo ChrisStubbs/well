@@ -128,9 +128,11 @@
                         </th>
                         <th style="width: 9%">
                             <div class="text-center">Resolution</div>
-                            <select class="form-control">
+                            <select class="form-control" [(ngModel)]="filters.resolution" (change)="fillGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let r of resolutionStatuses" [value]="r">{{r}}</option>
+                                <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.value">
+                                    {{resolutionStatus.value}}
+                                </option>
                             </select>
                         </th>
                         <th style="width: 4%">
@@ -182,7 +184,7 @@
                             <td class="text-right">{{detail.tba}}</td>
                             <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
                             <td></td>
-                            <td></td>
+                            <td>{{detail.resolution}}</td>
                             <td>
                                 <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
                             </td>

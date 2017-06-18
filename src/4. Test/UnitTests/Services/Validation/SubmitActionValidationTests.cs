@@ -123,12 +123,14 @@
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
-                this.jobs.Add(new Job { Id = 1, ResolutionStatus = ResolutionStatus.ActionRequired });
+                this.jobs.Add(new Job { Id = 1,InvoiceNumber="Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
 
                 var result = validator.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"Can not submit actions for jobs. The following jobs are not in Pending Submission State JobId:1 Status: 4 - Action Required ."));
+                Assert.That(result.Message, Is.EqualTo($"Can not submit actions for jobs. " +
+                                                       $"The following jobs are not in Pending Submission State " +
+                                                       $"JobId:1 Invoice:Inv1 Status: 4 - Action Required ."));
             }
 
             [Test]

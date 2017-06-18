@@ -1,22 +1,11 @@
 ﻿<div class="btn-group">
     <button type="button" class="btn btn-success"
-            [disabled]="disabled || selectedAction.key == '0'"
+            [disabled]="disabled"
             (click)="actionClicked(selectedAction)"
             data-toggle="modal"
             data-target="#actionModal">
-        {{selectedAction.value}}
+        Submit Actions
     </button>
-    <button type="button" class="btn btn-success dropdown-toggle"
-            data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false" [disabled]="disabled">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-    </button>
-    <ul class="dropdown-menu">
-        <li *ngFor="let action of deliveryActions" (click)="actionClicked(action)"
-            data-toggle="modal"
-            data-target="#actionModal"><a>{{action.value}}</a></li>
-    </ul>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -24,7 +13,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Action {{selectedAction.value}}</h4>
+                <h4 class="modal-title" id="myModalLabel">Submit Actions</h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
@@ -62,7 +51,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()" #btnClose>Cancel</button>
-                <button type="button" class="btn btn-success"  [disabled]="!hasItemsToSubmit()" (click) ="submit()">Submit {{selectedAction.value}}</button>
+                <button type="button" class="btn btn-success"  [disabled]="!hasItemsToSubmit()" (click) ="submit()">Submit</button>
             </div>
         </div>
     </div>

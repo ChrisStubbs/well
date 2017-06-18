@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Api.Models
 {
+    using NLog;
+
     public class StopModelItem
     {
         public int JobId { get; set; }
@@ -20,5 +22,6 @@
         public bool HighValue { get; set; }
         public string BarCode { get; set; }
         public int LineItemId { get; set; }
+        public string Resolution { get; set; }
     }
 }

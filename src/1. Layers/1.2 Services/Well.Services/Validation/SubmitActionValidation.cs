@@ -54,7 +54,7 @@
             var incorrectStateJobs = jobs.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission).ToArray();
             if (incorrectStateJobs.Any())
             {
-                var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Status: {x.ResolutionStatus} "));
+                var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
                 return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
             }
 

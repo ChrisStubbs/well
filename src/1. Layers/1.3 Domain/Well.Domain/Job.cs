@@ -141,10 +141,29 @@
         }
 
         public decimal TotalCreditValue => LineItems.Sum(x => x.TotalCreditValue);
+
         public decimal TotalActionValue => LineItems.Sum(x => x.TotalActionValue);
+
         public int TotalCreditQty => LineItems.Sum(x => x.TotalCreditQty);
+
         public int TotalQty => LineItems.Sum(x => x.TotalQty);
 
         public JobRoute JobRoute { get; set; }
+
+        public bool CanEditActions
+        {
+            get
+            {
+                var editableStatuses = new List<ResolutionStatus>
+                {
+                   ResolutionStatus.DriverCompleted,
+                   ResolutionStatus.ActionRequired,
+                   ResolutionStatus.PendingSubmission,
+                   ResolutionStatus.PendingApproval,
+                };
+
+                return editableStatuses.Select(x=> x.Value).Contains(this.ResolutionStatus.Value);
+            }
+        }
     }
 }

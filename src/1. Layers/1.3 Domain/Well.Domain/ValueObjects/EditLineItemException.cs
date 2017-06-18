@@ -12,7 +12,7 @@
         }
         public int Id { get; set; }
         public int JobId { get; set; }
-        public string  ResolutionStatus { get; set; }
+        public string ResolutionStatus { get; set; }
         public string AccountCode { get; set; }
         public string Invoice { get; set; }
         public string Type { get; set; }
@@ -24,11 +24,12 @@
         public int? Delivered { get; set; }
         public int Damages { get; set; }
         public int Shorts { get; set; }
-
         public int Quantity { get; set; }
+        public bool CanEditActions { get; set; }
+        public string Resolution { get; set; }
 
         public IList<EditLineItemExceptionDetail> Exceptions { get; set; }
-        public IList<LineItemAction> LineItemActions  { get; set; }
+        public IList<LineItemAction> LineItemActions { get; set; }
     }
 
     public class EditLineItemExceptionDetail
@@ -45,7 +46,7 @@
         public string ActionedBy { get; set; }
         public string ApprovedBy { get; set; }
         public IList<string> Comments { get; set; }
-       
+
     }
 
 }

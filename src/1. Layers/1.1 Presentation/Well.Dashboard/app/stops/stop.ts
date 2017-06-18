@@ -44,6 +44,8 @@ export class StopItem
     private mBarCode: string;
     public isSelected: boolean;
     public lineItemId: number;
+    private resolution: string;
+   
     public get barCode(): string
     {
         if (_.isNil(this.mBarCode))
@@ -87,6 +89,7 @@ export class StopFilter implements IFilter
         this.shorts = undefined;
         this.checked = undefined;
         this.highValue = undefined;
+        this.resolution = undefined;
     }
 
     public product: string;
@@ -96,7 +99,8 @@ export class StopFilter implements IFilter
     public damages?: boolean;
     public shorts?: boolean;
     public checked: boolean;
-    public highValue?: boolean
+    public highValue?: boolean;
+    public resolution: string;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -108,6 +112,7 @@ export class StopFilter implements IFilter
 
             case 'type':
             case 'barCode':
+            case 'resolution':
                 return  GridHelpersFunctions.isEqualFilter;
 
             case 'checked':

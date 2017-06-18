@@ -7,11 +7,14 @@ using PH.Well.Domain;
 
 namespace PH.Well.UnitTests.Factories
 {
+    using Well.Domain.Enums;
+
     class LineItemFactory : EntityFactory<LineItemFactory, LineItem>
     {
         public LineItemFactory()
         {
             this.Entity.Id = 1;
+            this.Entity.ProductCode = "Prod1";
         }
 
         public LineItemFactory AddCreditAction()
@@ -19,6 +22,8 @@ namespace PH.Well.UnitTests.Factories
             this.Entity.LineItemActions.Add(new LineItemAction
             {
                 DeliveryAction = Well.Domain.Enums.DeliveryAction.Credit,
+                Reason = JobDetailReason.AccumulatedDamages,
+                Source = JobDetailSource.Checker,
                 Quantity = 10
             });
 

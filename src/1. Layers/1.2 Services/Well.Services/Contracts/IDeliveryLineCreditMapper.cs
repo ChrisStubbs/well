@@ -6,7 +6,6 @@
 
     public interface IDeliveryLineCreditMapper
     {
-        List<DeliveryLineCredit> Map(IEnumerable<LineItemActionSubmitModel> creditLines);
         List<DeliveryLineCredit> Map(Job job);
     }
 }

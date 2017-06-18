@@ -9,7 +9,7 @@
     {
         private int value;
         private string description;
-        private static Dictionary<int, ResolutionStatus> values = new Dictionary<int, ResolutionStatus>
+        public static Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
         {
             { 1, new ResolutionStatus(1, "Imported")},
             { 2, new ResolutionStatus(2, "Driver Completed")},
@@ -50,7 +50,7 @@
         {
             get
             {
-                return values[1];
+                return Values[1];
             }
         }
 
@@ -58,7 +58,7 @@
         {
             get
             {
-                return values[2];
+                return Values[2];
             }
         }
 
@@ -66,7 +66,7 @@
         {
             get
             {
-                return values[4];
+                return Values[4];
             }
         }
 
@@ -74,7 +74,7 @@
         {
             get
             {
-                return values[8];
+                return Values[8];
             }
         }
 
@@ -82,7 +82,7 @@
         {
             get
             {
-                return values[16];
+                return Values[16];
             }
         }
 
@@ -90,7 +90,7 @@
         {
             get
             {
-                return values[32];
+                return Values[32];
             }
         }
 
@@ -98,7 +98,7 @@
         {
             get
             {
-                return values[64];
+                return Values[64];
             }
         }
 
@@ -106,7 +106,7 @@
         {
             get
             {
-                return values[128];
+                return Values[128];
             }
         }
 
@@ -114,7 +114,7 @@
         {
             get
             {
-                return values[256];
+                return Values[256];
             }
         }
 
@@ -148,9 +148,9 @@
 
         public static implicit operator ResolutionStatus(int value)
         {
-            if (values.ContainsKey(value))
+            if (Values.ContainsKey(value))
             {
-                return values[value];
+                return Values[value];
             }
 
             if (value == (Closed.Value | DriverCompleted.Value))

@@ -1,5 +1,4 @@
 ﻿export interface ISubmitActionModel {
-    action: string;
     jobIds: number[];
 }
 

@@ -44,6 +44,10 @@
             {
                 throw new ArgumentException();
             }
+            if (!job.CanEditActions)
+            {
+                throw new ArgumentException("Job is not in and editable state");
+            }
             var lineItem = lineItemActionService.SaveLineItemActions(job, update.Id, update.LineItemActions);
             return lineItem != null ? lineItemExceptionMapper.Map(lineItem) : null;
         }

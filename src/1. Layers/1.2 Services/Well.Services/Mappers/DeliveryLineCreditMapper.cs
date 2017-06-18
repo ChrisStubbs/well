@@ -10,21 +10,9 @@
 
     public class DeliveryLineCreditMapper : IDeliveryLineCreditMapper
     {
-        public List<DeliveryLineCredit> Map(IEnumerable<LineItemActionSubmitModel> lineItems)
-        {
-            return lineItems.Select(line => new DeliveryLineCredit
-            {
-                JobId = line.JobId,
-                Reason = (int) line.Reason,
-                Source = (int) line.Source,
-                Quantity = line.Quantity,
-                ProductCode = line.ProductCode
-            }).ToList();
-        }
 
         public List<DeliveryLineCredit> Map(Job job)
         {
-            throw new NotImplementedException("TODO: Write test on code below");
             var credits = new List<DeliveryLineCredit>();
             foreach (var lineItem in job.LineItems)
             {

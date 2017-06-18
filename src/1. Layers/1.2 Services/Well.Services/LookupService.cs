@@ -7,6 +7,7 @@ using PH.Well.Services.Contracts;
 namespace PH.Well.Services
 {
     using System.Linq;
+    using System.Runtime.Remoting.Messaging;
     using Common.Extensions;
 
     public class LookupService : ILookupService
@@ -55,6 +56,9 @@ namespace PH.Well.Services
                 case LookupType.CommentReason:
                     return this.lookupRepository.CommentReason().OrderBy(x => x.Value).ToList();
 
+                case LookupType.ResolutionStatus:
+                    return this.GetResolutionStatus();
+
                 default:
                     throw new ArgumentException($"{lookupType}");
             }
@@ -94,7 +98,14 @@ namespace PH.Well.Services
         private IList<KeyValuePair<string, string>> GetWellStatus()
         {
             return Enum<WellStatus>.GetValuesAndDescriptions().Select(x =>
-                   new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+                new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+        }
+
+        private IList<KeyValuePair<string, string>> GetResolutionStatus()
+        {
+           return  ResolutionStatus.Values.Select(x =>
+                new KeyValuePair<string, string>(x.Value.Value.ToString(), x.Value.Description)).ToList();
+
         }
     }
 }

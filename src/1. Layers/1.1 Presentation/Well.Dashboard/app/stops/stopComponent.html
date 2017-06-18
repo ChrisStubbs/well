@@ -206,9 +206,11 @@
                             <th class="colNumbers">
                                 <div class="text-center">Resolution</div>
                                 <div>
-                                    <select class="form-control" (change)="fillGridSource()" title="">
-                                        <option value>Placeholder 1</option>
-                                        <option value>Placeholder 2</option>
+                                    <select class="form-control"  [(ngModel)]="filters.resolution" (change)="fillGridSource()" title="">
+                                        <option value>All</option>
+                                        <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.value">
+                                            {{resolutionStatus.value}}
+                                        </option>
                                     </select>
                                 </div>
                             </th>
@@ -244,7 +246,7 @@
                                 <td class="text-right">{{item.totalShorts}}</td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                                <td>{{item.resolution}}</td>
                                 <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
                             </tr>
                             <tr *ngIf="!item.isRowGroup">
@@ -264,10 +266,10 @@
                                 <td class="text-right">{{item.shorts}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
-                                <td class="text-right">Resolution</td>
+                                <td class="text-right"></td>
                                 <td>
                                     <span>
-                                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal"></a>
+                                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0"></a>
                                         <input type="checkbox" [(ngModel)]="item.isSelected" title="">
                                     </span>
                                 </td>

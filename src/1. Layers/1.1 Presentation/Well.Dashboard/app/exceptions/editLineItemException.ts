@@ -26,6 +26,7 @@ export class EditLineItemException
     public exceptions: Array<EditLineItemExceptionDetail>;
     public lineItemActions: Array<LineItemAction>;
     public isExpanded: boolean;
+    public canEditActions: boolean;
 
 }
 

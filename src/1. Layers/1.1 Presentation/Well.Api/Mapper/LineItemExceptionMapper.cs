@@ -61,7 +61,8 @@
                 Invoiced = line.OriginalDespatchQuantity,
                 Delivered = line.DeliveredQuantity,
                 Damages = jobDetail.DamageQty,
-                Shorts = jobDetail.ShortQty
+                Shorts = jobDetail.ShortQty,
+                CanEditActions = job.CanEditActions
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions

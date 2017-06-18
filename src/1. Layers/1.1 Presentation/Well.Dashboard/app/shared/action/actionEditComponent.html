@@ -8,12 +8,12 @@
                 <div class="modal-header" style=" padding-bottom 0px;">
                     <div style="border-bottom: 1px solid #e5e5e5; padding-bottom: 15px">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add Edit Actions id: {{source.id}}</h4>
+                        <h4 class="modal-title" id="myModalLabel">Add and edit actions for line item id: {{source.id}}</h4>
                     </div>
                     <div style="padding: 15px 15px 0 15px">
                         <div class="form-group">
                             <div class="col-md-2">
-                                <label>JobId:</label>
+                                <label>Job Id:</label>
                                 <span> {{source.jobId}}</span>
                             </div>
                             <div class="col-md-3">
@@ -171,7 +171,7 @@
                                         </select>
                                     </td>
                                     <td style="text-align: center; vertical-align: middle">
-                                        <button *ngIf="item.originator == 1" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
+                                        <button *ngIf="item.originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         </button>
                                         <span *ngIf="item.originator == 0">
@@ -188,14 +188,14 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             <div class="pull-left">
-                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!isFormValid() ||  !source.canEditActions">Add</button>
+                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!isFormValid()" *ngIf="source.canEditActions">Add</button>
                             </div>
                         </div>
                         <div class="col-md-6">
                             
                             <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>&nbsp;
-                                <button type="button" class="btn btn-success" [disabled]="!isFormValid() || !source.canEditActions" (click)="save()">Save</button>
+                                <button type="button" class="btn btn-success" [disabled]="!isFormValid()" (click)="save()" *ngIf="source.canEditActions">Save</button>
                             </div>
                         </div>
                     </div>

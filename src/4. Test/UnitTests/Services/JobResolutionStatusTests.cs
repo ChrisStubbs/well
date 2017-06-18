@@ -93,6 +93,18 @@ namespace PH.Well.UnitTests.Services
         }
 
         [Test]
+        public void ShouldReturnPendingSubmissionIafAlreadyPendingSubmission()
+        {
+            var job = JobFactory.New
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
+                .Build();
+            job.ResolutionStatus = sut.GetStatus(job);
+            Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.PendingSubmission));
+            Assert.That(sut.GetStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
+        }
+
+        [Test]
         [Description("Check if the Job is in PendingApproval status")]
         [Category("JobResolutionStatus get status")]
         public void Test_ResolutionStatus_PendingApproval()

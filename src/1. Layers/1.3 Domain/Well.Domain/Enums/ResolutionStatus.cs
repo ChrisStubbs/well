@@ -9,19 +9,20 @@
     {
         private int value;
         private string description;
-        private static Dictionary<int, ResolutionStatus> values = new Dictionary<int, ResolutionStatus>
+        public static Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
         {
             { 1, new ResolutionStatus(1, "Imported")},
             { 2, new ResolutionStatus(2, "Driver Completed")},
             { 4, new ResolutionStatus(4, "Action Required")},
             { 8, new ResolutionStatus(8, "Pending Submission")},
             { 16, new ResolutionStatus(16, "Pending Approval")},
-            { 32, new ResolutionStatus(32, "Credited")},
-            { 64, new ResolutionStatus(64, "Resolved")},
-            { 128, new ResolutionStatus(128, "Closed")},
+            { 32, new ResolutionStatus(32, "Approved")},
+            { 64, new ResolutionStatus(64, "Credited")},
+            { 128, new ResolutionStatus(128, "Resolved")},
+            { 256, new ResolutionStatus(256, "Closed")},
         };
 
-        private static List<int> groupableValues = new List<int>() { 2, 32, 64, 128};
+        private static List<int> groupableValues = new List<int>() { 2, 64, 128, 256 };
 
         private ResolutionStatus(int value, string description)
         {
@@ -49,66 +50,74 @@
         {
             get
             {
-                return values[1];
+                return Values[1];
             }
         }
-               
+
         public static ResolutionStatus DriverCompleted
         {
             get
             {
-                return values[2];
+                return Values[2];
             }
         }
-               
+
         public static ResolutionStatus ActionRequired
         {
             get
             {
-                return values[4];
+                return Values[4];
             }
         }
-               
+
         public static ResolutionStatus PendingSubmission
         {
             get
             {
-                return values[8];
+                return Values[8];
             }
         }
-               
+
         public static ResolutionStatus PendingApproval
         {
             get
             {
-                return values[16];
+                return Values[16];
             }
         }
-               
+
+        public static ResolutionStatus Approved
+        {
+            get
+            {
+                return Values[32];
+            }
+        }
+
         public static ResolutionStatus Credited
         {
             get
             {
-                return values[32];
+                return Values[64];
             }
         }
-               
+
         public static ResolutionStatus Resolved
         {
             get
             {
-                return values[64];
+                return Values[128];
             }
         }
-               
+
         public static ResolutionStatus Closed
         {
             get
             {
-                return values[128];
+                return Values[256];
             }
         }
-               
+
         public static ResolutionStatus Invalid
         {
             get
@@ -137,15 +146,29 @@
             return new ResolutionStatus(val1.Value | val2.value, string.Format("{0} - {1}", val1.Description, val2.Description));
         }
 
-        public static explicit operator ResolutionStatus(int value)
+        public static implicit operator ResolutionStatus(int value)
         {
-            if (values.ContainsKey(value))
+            if (Values.ContainsKey(value))
             {
-                return values[value];
+                return Values[value];
+            }
+
+            if (value == (Closed.Value | DriverCompleted.Value))
+            {
+                return Closed | DriverCompleted;
+            }
+
+            if (value == (Closed.Value | Credited.Value))
+            {
+                return Closed | Credited;
+            }
+
+            if (value == (Closed.Value | Resolved.Value))
+            {
+                return Closed | Resolved;
             }
 
             return Invalid;
-            
         }
 
         public override int GetHashCode()
@@ -153,6 +176,18 @@
             return this.Value;
         }
 
+        public override bool Equals(object obj)
+        {
+            var item = obj as ResolutionStatus;
+
+            if (object.ReferenceEquals(item, null))
+            {
+                return false;
+            }
+
+            return this == item;
+        }
+        
         public static bool operator ==(ResolutionStatus val1, ResolutionStatus val2)
         {
             if (object.ReferenceEquals(val1, null) && object.ReferenceEquals(val2, null))
@@ -171,6 +206,27 @@
         public static bool operator !=(ResolutionStatus val1, ResolutionStatus val2)
         {
             return !(val1 == val2);
+        }
+
+        public static bool operator >=(ResolutionStatus val1, ResolutionStatus val2)
+        {
+            if (object.ReferenceEquals(val1, null) || object.ReferenceEquals(val2, null))
+            {
+                return false;
+            }
+            
+            return val1.value >= val2.value;
+        }
+
+        public static bool operator <=(ResolutionStatus val1, ResolutionStatus val2)
+        {
+            if (val1 == val2) return true;
+            return !(val1 >= val2);
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Value} - {this.Description}";
         }
     }
 }

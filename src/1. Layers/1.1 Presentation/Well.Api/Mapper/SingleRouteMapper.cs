@@ -94,7 +94,7 @@
                         StopClean = stopClean,
                         Tba = tba,
                         StopAssignee = stopAssignee,
-                        Resolution = "TODO:", //TODO: we have to fix this
+                        Resolution = job.ResolutionStatus?.Description,
                         Invoice = job.InvoiceNumber,
                         JobType = jobType.ToString().SplitCapitalisedWords(),
                         JobTypeId = (int)jobType,

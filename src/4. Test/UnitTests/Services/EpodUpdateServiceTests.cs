@@ -14,6 +14,7 @@
     using Well.Common;
     using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
+    using Well.Services;
 
     [TestFixture]
     public class EpodUpdateServiceTests
@@ -47,6 +48,8 @@
 
         private Mock<IPostImportRepository> postImportRepository;
 
+        private Mock<IJobResolutionStatus> jobResolutionStatus;
+
         [SetUp]
         public void Setup()
         {
@@ -67,6 +70,8 @@
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
+            this.jobResolutionStatus = new Mock<IJobResolutionStatus>(MockBehavior.Strict);
+
 
             this.service = new EpodUpdateService(this.logger.Object,
                 this.eventLogger.Object,
@@ -81,7 +86,8 @@
                 this.podTransactionFactory.Object,
                 this.deliveryStatusService.Object,
                 this.userNameProvider.Object,
-                this.postImportRepository.Object);
+                this.postImportRepository.Object,
+                this.jobResolutionStatus.Object);
         }
 
         [Test]
@@ -184,6 +190,9 @@
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.jobResolutionStatus.Setup(x => x.StepForward(existingJob)).Returns(ResolutionStatus.DriverCompleted);
+            this.jobRepository.Setup(x => x.Save(existingJob));
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(existingJob.Id, It.IsAny<string>()));
 
             //ACT
             this.service.Update(route, filename);
@@ -208,8 +217,12 @@
 
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
 
-            this.postImportRepository.Setup(x => x.PostImportUpdate());
-            this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+
+            this.jobResolutionStatus.Verify(x => x.StepForward(existingJob), Times.Once);
+            this.jobRepository.Verify(x => x.Save(existingJob), Times.Once);
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(existingJob.Id, It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Test]
@@ -261,6 +274,8 @@
 
             this.jobRepository.Setup(x => x.Update(existingJob));
 
+
+
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
             this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
@@ -268,6 +283,10 @@
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+
+            this.jobResolutionStatus.Setup(x => x.StepForward(existingJob)).Returns(ResolutionStatus.DriverCompleted);
+            this.jobRepository.Setup(x => x.Save(existingJob));
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(existingJob.Id, It.IsAny<string>()));
 
             //ACT
             this.service.Update(route, filename);
@@ -296,6 +315,10 @@
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+
+            this.jobResolutionStatus.Verify(x => x.StepForward(existingJob), Times.Once);
+            this.jobRepository.Verify(x => x.Save(existingJob), Times.Once);
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(existingJob.Id, It.IsAny<string>()), Times.Exactly(2));
 
         }
 
@@ -346,6 +369,10 @@
             this.postImportRepository.Setup(x => x.PostImportUpdate());
 
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.jobResolutionStatus.Setup(x => x.StepForward(existingJob)).Returns(ResolutionStatus.DriverCompleted);
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+            this.jobRepository.Setup(x => x.Save(existingJob));
+
             //ACT
             this.service.Update(route, filename);
 
@@ -363,6 +390,9 @@
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+            this.jobResolutionStatus.Verify(x => x.StepForward(existingJob), Times.Once);
+            this.jobRepository.Verify(x => x.Save(existingJob), Times.Once);
         }
     }
 }

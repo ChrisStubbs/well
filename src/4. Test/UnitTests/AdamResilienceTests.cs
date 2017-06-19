@@ -12,6 +12,7 @@
     public class AdamResilienceTests
     {
         [Test]
+        [Ignore("We have to make sure that we need this")]
         public void FooMe()
         {
             // we have a credit to do in ADAM

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.Linq;
     using PH.Well.Domain;
@@ -25,7 +26,7 @@
             this.userNameProvider = userNameProvider;
         }
 
-        public ThresholdResponse CanUserCredit(decimal creditValue)
+        public virtual ThresholdResponse CanUserCredit(decimal creditValue)
         {
             var username = this.userNameProvider.GetUserName();
             var response = new ThresholdResponse();
@@ -84,7 +85,12 @@
 
         public bool UserHasRequiredCreditThreshold(Job job)
         {
-            throw new NotImplementedException();
+            if (job.GetAllLineItemActions().All(x => x.DeliveryAction != DeliveryAction.Credit))
+            {
+                return true;
+            }
+            var creditValue = job.LineItems.Sum(x => x.TotalCreditValue);
+            return CanUserCredit(creditValue).CanUserCredit;
         }
 
         private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)

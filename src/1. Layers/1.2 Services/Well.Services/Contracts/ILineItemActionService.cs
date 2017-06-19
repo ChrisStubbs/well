@@ -8,6 +8,6 @@
     {
         LineItem InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate);
         LineItem UpdateLineItemActions(LineItemActionUpdate lineItemActionUpdate);
-        LineItem SaveLineItemActions(int lineItemId, IEnumerable<LineItemAction> lineItemActions);
+        LineItem SaveLineItemActions(Job job, int lineItemId, IEnumerable<LineItemAction> lineItemActions);
     }
 }

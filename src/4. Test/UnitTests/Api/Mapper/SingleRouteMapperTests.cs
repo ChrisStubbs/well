@@ -56,12 +56,14 @@
                     .With(x => x.JobTypeCode = EnumExtensions.GetDescription(JobType.GlobalUplift))
                     .With(x => x.JobStatus = JobStatus.CompletedOnPaper)
                     .With(x => x.JobDetails = GetTwoCleanAndOneExceptionJobDetail())
+                    .With(x=> x.ResolutionStatus = ResolutionStatus.Credited)
                     .WithCod("CODFISH")
                     .WithTotalShort(20)
                     .With(x => x.ProofOfDelivery = 25)
                     .Build();
+                     
 
-                var job2 = new JobFactory().With(x => x.StopId = stop.Id)
+                     var job2 = new JobFactory().With(x => x.StopId = stop.Id)
                     .With(x => x.Id = 2)
                     .WithTotalShort(20)
                     .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
@@ -87,7 +89,7 @@
                 Assert.That(item.StopClean, Is.EqualTo(3));
                 Assert.That(item.Tba, Is.EqualTo(40));
                 Assert.That(item.StopAssignee, Is.EqualTo("CB, EP"));
-                Assert.That(item.Resolution, Is.EqualTo("TODO:"));
+                Assert.That(item.Resolution, Is.EqualTo(ResolutionStatus.Credited.Description));
                 Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
                 Assert.That(item.JobType, Is.EqualTo("Global Uplift"));
                 Assert.That(item.JobStatus, Is.EqualTo(JobStatus.CompletedOnPaper));

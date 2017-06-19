@@ -1,14 +1,19 @@
 ﻿SET IDENTITY_INSERT ResolutionStatus ON
 
+delete ResolutionStatus
+
 MERGE INTO ResolutionStatus AS Target
-USING	(VALUES	(1, 'Imported'),
-				(2, 'Driver Completed'),
-				(4, 'Action Required'),
-				(8, 'Pending Submission'),
-				(16, 'Pending Approval'),
-				(32, 'Credited'),
-				(64, 'Resolved'),
-				(128, 'Closed')
+USING	(VALUES	(1,			'Imported'),
+				(2,			'Driver Completed'),
+				(4,			'Action Required'),
+				(8,			'Pending Submission'),
+				(16,		'Pending Approval'),
+				(32,		'Approved'),
+				(64,		'Credited'),
+				(128,       'Resolved'),
+				(256 | 2,   'Closed - Driver Completed'),
+				(256 | 64,  'Closed - Credited'),
+				(256 | 128, 'Closed - Resolved')
 		)
 AS Source (Id, [Description])
 	ON Target.Id = Source.Id

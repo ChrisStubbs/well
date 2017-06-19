@@ -70,14 +70,14 @@ export class SingleRouteComponent implements IObservableAlive
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
             this.lookupService.get(LookupsEnum.WellStatus),
-           // this.lookupService.get(LookupsEnum.ResolutionStatus)
+            this.lookupService.get(LookupsEnum.ResolutionStatus)
         )
             .takeWhile(() => this.isAlive)
             .subscribe(res =>
             {
                 this.jobTypes = res[0];
                 this.wellStatus = res[1];
-               // this.resolutionStatuses = res[2];
+                this.resolutionStatuses = res[2];
             });
 
         this.isReadOnlyUser = this.securityService

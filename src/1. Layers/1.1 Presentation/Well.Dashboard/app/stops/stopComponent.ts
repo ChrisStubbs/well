@@ -15,6 +15,8 @@ import { GridHelpersFunctions }                 from '../shared/gridHelpers/grid
 import { ActionEditComponent }                  from '../shared/action/actionEditComponent';
 import { EditExceptionsService }                from '../exceptions/editExceptionsService';
 import { EditLineItemException }                from '../exceptions/editLineItemException';
+import { LookupService } from '../shared/services/lookupService';
+import {LookupsEnum} from '../shared/services/lookupsEnum';
 
 @Component({
     selector: 'ow-stop',
@@ -50,6 +52,7 @@ export class StopComponent implements IObservableAlive
     public gridSource: Array<any> = [];
     public filters: StopFilter;
     public lastRefresh = Date.now();
+    private resolutionStatuses: Array<ILookupValue>;
 
     @ViewChild('btt') public btt: ElementRef;
     @ViewChild('openContact') public openContact: ElementRef;
@@ -67,7 +70,8 @@ export class StopComponent implements IObservableAlive
         private securityService: SecurityService,
         private globalSettingsService: GlobalSettingsService,
         private accountService: AccountService,
-        private editExceptionsService: EditExceptionsService) { }
+        private editExceptionsService: EditExceptionsService,
+        private lookupService: LookupService) { }
 
     public ngOnInit(): void
     {
@@ -75,7 +79,6 @@ export class StopComponent implements IObservableAlive
             .flatMap(data =>
             {
                 this.stopId = data.id;
-
                 return this.stopService.getStop(this.stopId);
             })
             .takeWhile(() => this.isAlive)
@@ -110,6 +113,12 @@ export class StopComponent implements IObservableAlive
                         return current;
                     })
                     .value()
+            });
+
+        this.lookupService.get(LookupsEnum.ResolutionStatus)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: ILookupValue[]) => {
+                this.resolutionStatuses = value;
             });
 
         this.filters = new StopFilter();
@@ -255,6 +264,7 @@ export class StopComponent implements IObservableAlive
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
+                item.resolution = singleItem.resolution;
                 item.items = current;
                 item.types = _.chain(current)
                     .map('jobTypeAbbreviation')
@@ -364,5 +374,6 @@ class StopItemSource
     public accountID: number;
     public jobId: number;
     public types: string;
+    public resolution: string;
     public items: Array<StopItem>;
 }

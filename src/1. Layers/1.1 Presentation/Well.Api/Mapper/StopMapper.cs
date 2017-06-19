@@ -74,7 +74,8 @@
                         Checked = line.IsChecked,
                         HighValue = line.IsHighValue,
                         BarCode = line.SSCCBarcode,
-                        LineItemId = line.LineItemId
+                        LineItemId = line.LineItemId,
+                        Resolution = job.ResolutionStatus?.Description
                     };
                     stopModel.Items.Add(item);
                 }

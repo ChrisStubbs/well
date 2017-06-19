@@ -8,9 +8,19 @@
                 <div class="modal-header" style=" padding-bottom 0px;">
                     <div style="border-bottom: 1px solid #e5e5e5; padding-bottom: 15px">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add Edit Actions</h4>
+                        <h4 class="modal-title" id="myModalLabel">Add and edit actions for line item id: {{source.id}}</h4>
                     </div>
                     <div style="padding: 15px 15px 0 15px">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label>Job Id:</label>
+                                <span> {{source.jobId}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Resolution:</label>
+                                <span> {{source.resolutionStatus}}</span> <span *ngIf="!source.canEditActions"> (not editable) </span>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-2">
                                 <label>Account:</label>
@@ -88,7 +98,8 @@
                                     <td>
                                         <select class="form-control" id="deliveryAction{{i}}" name="deliveryAction{{i}}"
                                                 [(ngModel)]="item.deliveryAction"
-                                                (change)="deliveryActionChange(item, i)">
+                                                (change)="deliveryActionChange(item, i)"
+                                                [disabled]="!source.canEditActions">
                                             <option *ngFor="let action of deliveryActions" [value]="action.key">
                                                 {{ action.value }}
                                             </option>
@@ -97,15 +108,15 @@
                                     <td>
                                         <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
                                                [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
-                                                       (change)="qtyChanged(item,i)"
-                                               [disabled]="+item.deliveryAction == actionClose" />
+                                               (change)="qtyChanged(item,i)"
+                                               [disabled]="+item.deliveryAction == actionClose || !source.canEditActions" />
                                     </td>
                                     <td>
                                         <select class="form-control" id="commentReasonId{{i}}"
                                                 name="commentReasonId{{i}}"
                                                 [(ngModel)]="item.commentReason"
                                                 (change)="commentChange(item,$event,i)"
-                                                        [disabled]="isOriginalQuantity(item)">
+                                                [disabled]="isOriginalQuantity(item) || !source.canEditActions">
                                             <option *ngFor="let comment of commentReasons" [value]="comment.key">
                                                 {{comment.value}}
                                             </option>
@@ -132,28 +143,35 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <select class="form-control" id="exceptionTypeId{{i}}" name="exceptionTypeId{{i}}" [(ngModel)]="item.exceptionType" pattern="[^0]+">
+                                        <select class="form-control" id="exceptionTypeId{{i}}" name="exceptionTypeId{{i}}" 
+                                                [(ngModel)]="item.exceptionType" 
+                                                pattern="[^0]+"
+                                                [disabled]="!source.canEditActions">
                                             <option *ngFor="let et of exceptionTypes" [value]="et.key">
                                                 {{et.value}}
                                             </option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control" id="source{{i}}" name="source{{i}}" [(ngModel)]="item.source">
+                                        <select class="form-control" id="source{{i}}" name="source{{i}}" 
+                                                [(ngModel)]="item.source"
+                                                [disabled]="!source.canEditActions">
                                             <option *ngFor="let source of sources" [value]="source.key">
                                                 {{ source.value }}
                                             </option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control" id="reason{{i}}" name="reason{{i}}" [(ngModel)]="item.reason">
+                                        <select class="form-control" id="reason{{i}}" name="reason{{i}}" 
+                                                [(ngModel)]="item.reason"
+                                                [disabled]="!source.canEditActions">
                                             <option *ngFor="let reason of reasons" [value]="reason.key">
                                                 {{ reason.value }}
                                             </option>
                                         </select>
                                     </td>
                                     <td style="text-align: center; vertical-align: middle">
-                                        <button *ngIf="item.originator == 1" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
+                                        <button *ngIf="item.originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         </button>
                                         <span *ngIf="item.originator == 0">
@@ -170,13 +188,14 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             <div class="pull-left">
-                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!isFormValid()">Add</button>
+                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!isFormValid()" *ngIf="source.canEditActions">Add</button>
                             </div>
                         </div>
                         <div class="col-md-6">
+                            
                             <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>&nbsp;
-                                <button type="button" class="btn btn-success" [disabled]="!isFormValid()" (click)="save()">Save</button>
+                                <button type="button" class="btn btn-success" [disabled]="!isFormValid()" (click)="save()" *ngIf="source.canEditActions">Save</button>
                             </div>
                         </div>
                     </div>

@@ -5,8 +5,10 @@
     public class ActionSubmitSummaryItem
     {
         public string Identifier { get; set; }
-        public int NoOfItems { get; set; }
-        public int Qty { get; set; }
-        public Decimal Value { get; set; }
+        public decimal TotalCreditValue { get; set; }
+        public decimal TotalActionValue { get; set; }
+        public int TotalCreditQty { get; set; }
+        public int TotalQty { get; set; }
+      
     }
 }

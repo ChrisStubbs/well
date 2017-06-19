@@ -25,9 +25,9 @@ export class ActionModal implements IObservableAlive
 
     private summaryData: IActionSubmitSummary = {} as IActionSubmitSummary;
     public isAlive: boolean = true;
-    private deliveryActions: Array<ILookupValue>;
-    private defaultAction: ILookupValue = { key: '0', value: 'Action' };
-    private selectedAction: ILookupValue = this.defaultAction;
+    //private deliveryActions: Array<ILookupValue>;
+    //private defaultAction: ILookupValue = { key: '0', value: 'Action' };
+    //private selectedAction: ILookupValue = this.defaultAction;
 
     constructor(
         private lookupService: LookupService,
@@ -39,11 +39,11 @@ export class ActionModal implements IObservableAlive
 
     public ngOnInit()
     {
-        this.lookupService.get(LookupsEnum.DeliveryAction)
-            .takeWhile(() => this.isAlive)
-            .subscribe(res => {
-                this.deliveryActions = _.filter(res, x => +x.key !== 0);
-            });
+        //this.lookupService.get(LookupsEnum.DeliveryAction)
+        //    .takeWhile(() => this.isAlive)
+        //    .subscribe(res => {
+        //        this.deliveryActions = _.filter(res, x => +x.key !== 0);
+        //    });
     }
 
     public ngOnDestroy()
@@ -54,7 +54,6 @@ export class ActionModal implements IObservableAlive
     private submit()
     {
         const submitAction: ISubmitActionModel = {
-            action: this.selectedAction.key,
             jobIds: this.summaryData.jobIds
         };
 
@@ -88,17 +87,13 @@ export class ActionModal implements IObservableAlive
 
     private closeModal()
     {
-        this.selectedAction = this.defaultAction;
         this.summaryData = {} as IActionSubmitSummary;
         this.btnClose.nativeElement.click();
     }
 
     public actionClicked(action: ILookupValue): void
     {
-
-        this.selectedAction = action;
-
-        this.actionService.getPreSubmitSummary(this.jobIds, +this.selectedAction.key, this.isStopLevel)
+        this.actionService.getPreSubmitSummary(this.jobIds, this.isStopLevel)
             .takeWhile(() => this.isAlive)
             .subscribe(summaryData =>
             {

@@ -13,6 +13,7 @@ AS
 		,li.ActivityId
 		,jd.OriginalDespatchQty AS OriginalDespatchQuantity
 		,jd.DeliveredQty as DeliveredQuantity
+		,jd.NetPrice
 		,dmg.PdaReasonDescription as DriverReason
 		,li.CreatedBy	as CreatedBy
 		,li.CreatedDate as  DateCreated
@@ -65,6 +66,8 @@ AS
 	INNER JOIN @Ids ids ON ids.Value = lia.LineItemId
 	WHERE 
 		lia.DateDeleted is null
+
+
 
  RETURN 0
 END

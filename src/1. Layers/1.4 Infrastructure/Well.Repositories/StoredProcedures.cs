@@ -126,6 +126,7 @@
         public static string GetBranchIdForStop = "GetBranchIdForStop";
 
         public static string RoutesGetAllForBranch = "Routes_GetAllForBranch";
+        public static string RoutesGetByIds = "Routes_GetByIds";
 
         public static string AppSearch = "AppSearch";
         //well update
@@ -139,6 +140,7 @@
         public static string LineItemGetByActivityId = "LineItem_GetByActivityId";
         public static string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
         public static string LineItemActionGetByLineItemIds = "LineItemAction_GetByLineItemIds";
+        public static string LineItemIdsGetByJobIds = "LineItemIds_GetByJobIds";
 
         //Line Item Actions
         public static string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
@@ -158,5 +160,7 @@
         public const string CommentReason = "CommentReason_Get";
 
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
+        public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
+        public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
     }
 }

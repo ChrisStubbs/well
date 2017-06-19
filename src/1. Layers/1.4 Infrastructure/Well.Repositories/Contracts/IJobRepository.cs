@@ -39,5 +39,9 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<Job> GetJobsByBranchAndInvoiceNumber(int jobId, int branchId, string invoiceNumber);
 
         void UpdateStatus(int jobId, JobStatus status);
+
+        void SetJobResolutionStatus(int jobId, string status);
+        IEnumerable<JobRoute> GetJobsRoute(IEnumerable<int> jobIds);
+        void SaveJobResolutionStatus(Job job);
     }
 }

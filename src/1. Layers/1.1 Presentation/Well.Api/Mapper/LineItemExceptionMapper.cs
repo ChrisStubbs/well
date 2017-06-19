@@ -49,6 +49,8 @@
             var editLineItemException = new EditLineItemException
             {
                 AccountCode = job.PhAccount,
+                JobId = job.Id,
+                ResolutionStatus = job.ResolutionStatus?.Description,
                 Id = line.Id,
                 Invoice = job.InvoiceNumber,
                 Type = job.JobType,
@@ -59,7 +61,8 @@
                 Invoiced = line.OriginalDespatchQuantity,
                 Delivered = line.DeliveredQuantity,
                 Damages = jobDetail.DamageQty,
-                Shorts = jobDetail.ShortQty
+                Shorts = jobDetail.ShortQty,
+                CanEditActions = job.CanEditActions
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions

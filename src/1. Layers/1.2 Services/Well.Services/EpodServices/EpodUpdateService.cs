@@ -32,6 +32,7 @@
         private readonly IUserNameProvider userNameProvider;
         private readonly IPostImportRepository postImportRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly ILineItemSearchReadRepository lineitemRepository;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
 
@@ -50,7 +51,8 @@
             IJobStatusService jobStatusService,
             IUserNameProvider userNameProvider,
             IPostImportRepository postImportRepository,
-            IJobResolutionStatus jobResolutionStatus)
+            IJobResolutionStatus jobResolutionStatus,
+            ILineItemSearchReadRepository lineItemRepository)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -67,11 +69,12 @@
             this.userNameProvider = userNameProvider;
             this.postImportRepository = postImportRepository;
             this.jobResolutionStatus = jobResolutionStatus;
+            this.lineitemRepository = lineItemRepository;
         }
 
         public void Update(RouteDelivery route, string fileName)
         {
-            var updatedJobs = new List<Job>();
+            var updatedJobIds = new List<int>();
             foreach (var header in route.RouteHeaders)
             {
                 int branchId;
@@ -100,7 +103,9 @@
 
                     this.routeHeaderRepository.Update(existingHeader);
 
-                    updatedJobs = this.UpdateStops(header.Stops, branchId);
+                    var jobIdsForHeader = this.UpdateStops(header.Stops, branchId);
+
+                    updatedJobIds.AddRange(jobIdsForHeader);
                 }
                 else
                 {
@@ -116,22 +121,38 @@
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
             // update JobResolutionStatus for jobs with LineItemActions
-            foreach (var job in updatedJobs)
-            {
-                var status = this.jobResolutionStatus.StepForward(job);
-                if (status != ResolutionStatus.Invalid)
-                {
-                    job.ResolutionStatus = status;
-                }
 
-                this.jobRepository.Save(job);
-                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+            if (updatedJobIds.Count != 0)
+            {
+                var updatedJobs = jobRepository.GetByIds(updatedJobIds).ToList();
+                var lineItems = lineitemRepository.GetLineItemByJobIds(updatedJobIds);
+                var jobRoutes = jobRepository.GetJobsRoute(updatedJobs.Select(x => x.Id));
+
+                updatedJobs.ForEach(updatedJob =>
+                {
+                    updatedJob.LineItems = lineItems.Where(x => x.JobId == updatedJob.Id).ToList();
+                    updatedJob.JobRoute = jobRoutes.Single(x => x.JobId == updatedJob.Id);
+                }
+                    );
+
+                foreach (var job in updatedJobs)
+                {
+                    var status = this.jobResolutionStatus.StepForward(job);
+                    if (status != ResolutionStatus.Invalid)
+                    {
+                        job.ResolutionStatus = status;
+                    }
+
+                    this.jobRepository.Update(job);
+                    this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+                }
             }
         }
 
-        private List<Job> UpdateStops(IEnumerable<StopDTO> stops, int branchId)
+        private List<int> UpdateStops(IEnumerable<StopDTO> stops, int branchId)
         {
-            var updatedJobs = new List<Job>();
+            var updatedJobIds
+                = new List<int>();
             foreach (var stop in stops)
             {
                 try
@@ -157,7 +178,7 @@
 
                         this.stopRepository.Update(existingStop);
 
-                        updatedJobs = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
+                        updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
 
                         transactionScope.Complete();
                     }
@@ -174,12 +195,12 @@
                 }
             }
 
-            return updatedJobs;
+            return updatedJobIds;
         }
 
-        private List<Job> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
+        private List<int> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
         {
-            var updatedJobs = new List<Job>();
+            var updatedJobIds = new List<int>();
 
             foreach (var job in jobs)
             {
@@ -194,7 +215,7 @@
                     continue;
                 }
 
-                updatedJobs.Add(existingJob);
+                updatedJobIds.Add(existingJob.Id);
 
                 this.mapper.Map(job, existingJob);
 
@@ -228,7 +249,7 @@
                 this.jobRepository.Update(existingJob);
                 this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
             }
-            return updatedJobs;
+            return updatedJobIds;
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId, bool invoiceOutstanding)

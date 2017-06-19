@@ -108,6 +108,7 @@
             Entity.JobByPassReason = "some reason";
             Entity.Cod = string.Empty;
             Entity.StopId = 1;
+            Entity.ResolutionStatus = ResolutionStatus.DriverCompleted;
         }
 
         public JobFactory WithTotalShort(int? value)

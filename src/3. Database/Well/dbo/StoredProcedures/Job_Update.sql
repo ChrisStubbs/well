@@ -24,7 +24,7 @@
 	@InvoiceValue DECIMAL(8,2),
 	@DetailOutersOver INT,
 	@DetailOutersShort INT,
-	@ResolutionStatusId TINYINT
+	@ResolutionStatusId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -60,4 +60,3 @@ BEGIN
 	WHERE
 		Id = @Id
 END
-

@@ -13,9 +13,7 @@ export class RoutesService
     constructor(
         private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService)
-    {
-    }
+        private httpErrorService: HttpErrorService) { }
 
     public getRoutesByBranch(branchId: number): Observable<Route[]>
     {

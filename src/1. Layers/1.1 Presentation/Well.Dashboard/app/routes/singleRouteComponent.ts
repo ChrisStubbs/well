@@ -1,6 +1,6 @@
 import { Component }                                            from '@angular/core';
 import { CurrencyPipe }                                         from '@angular/common';
-import { RoutesService }                                        from './routesService'
+import { RoutesService }                                        from './routesService';
 import {SingleRoute, SingleRouteSource, SingleRouteFilter}      from './singleRoute';
 import { ActivatedRoute }                                       from '@angular/router';
 import * as _                                                   from 'lodash';
@@ -105,14 +105,17 @@ export class SingleRouteComponent implements IObservableAlive
     public onAssigned(event: AssignModalResult): void
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
-        const route = _.filter(this.gridSource,
-                    (value: SingleRouteSource) => value.stopId == event.source.stopId);
+        const route = _.find(this.source,
+            (value: SingleRouteSource) => value.stopId == event.source.stopId) as SingleRouteSource;
 
-        _.map(route.items, (value: SingleRouteItem) =>
-        {
+        route.stopAssignee = userName;
+
+        _.forEach(route.items, (value: SingleRouteItem) => {
             value.assignee = userName;
             value.stopAssignee = userName;
         });
+
+        this.fillGridSource();
     }
 
     public clearFilter(): void
@@ -132,10 +135,9 @@ export class SingleRouteComponent implements IObservableAlive
         }
         else
         {
-            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) =>
-            {
+            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) => {
                 return total.concat(current.items);
-            }, [])
+            }, []);
         }
 
         _.map(collection, current => current.isSelected = select);
@@ -218,16 +220,12 @@ export class SingleRouteComponent implements IObservableAlive
                 item.totalClean = summary.totalClean;
                 item.totalTBA = summary.totalTBA;
                 item.stopAssignee = singleItem.stopAssignee;
-                item.items = current;
-
-                this.assignees.push(singleItem.stopAssignee || 'Unallocated');
+                item.items = current;           
 
                 result.push(item);
             })
             .value();
-
-        this.assignees = _.uniq(this.assignees);
-
+      
         return result;
     }
 
@@ -253,11 +251,13 @@ export class SingleRouteComponent implements IObservableAlive
     private fillGridSource()
     {
         const values = Array<SingleRouteSource>();
-
+        const assignees = [];
         _.map(this.source, (current: SingleRouteSource) =>
         {
             const filteredValues =
                 GridHelpersFunctions.applyGridFilter<SingleRouteItem, SingleRouteFilter>(current.items, this.filters);
+
+            assignees.push(current.stopAssignee || 'Unallocated');
 
             if (!_.isEmpty(filteredValues))
             {
@@ -268,6 +268,7 @@ export class SingleRouteComponent implements IObservableAlive
             }
         });
 
+        this.assignees = _.uniq(assignees);
         this.gridSource = values;
     }
 

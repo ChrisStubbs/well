@@ -203,7 +203,7 @@
                             <th class="colNumbers">
                                 <div class="text-center">Resolution</div>
                                 <div>
-                                    <select class="form-control"  [(ngModel)]="filters.resolution" (change)="fillGridSource()" title="">
+                                    <select class="form-control" [(ngModel)]="filters.resolution" (change)="fillGridSource()" title="">
                                         <option value>All</option>
                                         <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.value">
                                             {{resolutionStatus.value}}
@@ -217,7 +217,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container  *ngFor="let item of gridSource">
+                        <ng-container *ngFor="let item of gridSource">
                             <tr *ngIf="item.isRowGroup" class="info">
                                 <td>
                                     <a href="#" (click)="expandGroup($event, item.jobId)">
@@ -274,7 +274,9 @@
                         </ng-container>
                     </tbody>
                 </table>
-                <h3 *ngIf="gridSource.length == 0">No matching results</h3>
+                <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                    <strong>No matching results</strong>
+                </div>
             </div>
         </div>
     </div>

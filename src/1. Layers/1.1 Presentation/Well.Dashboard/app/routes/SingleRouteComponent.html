@@ -190,10 +190,12 @@
                             </td>
                         </tr>
                     </ng-container>
-                  
+
                 </tbody>
             </table>
-            <h3 *ngIf="gridSource.length == 0">No matching results</h3>
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
     </div>
 </div>

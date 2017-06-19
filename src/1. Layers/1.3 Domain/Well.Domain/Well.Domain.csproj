@@ -52,6 +52,7 @@
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
+    <Compile Include="JobDetailLineItemTotals.cs" />
     <Compile Include="LineItemActionComment.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="EntityAttribute.cs" />

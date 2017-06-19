@@ -10,6 +10,8 @@
 
     public class JobDetail : Entity<int>
     {
+        public const int LengthOfBarcode = 18;
+
         public JobDetail()
         {
             this.JobDetailDamages = new List<JobDetailDamage>();
@@ -90,17 +92,7 @@
         public bool IsHighValue { get; set; }
 
         public int LineItemId { get; set; }
-
-        public bool IsClean()
-        {
-            if (ShortQty > 0)
-            {
-                return false;
-            }
-
-            return !this.JobDetailDamages.Any(d => d.Qty > 0);
-        }
-
+        
         public Audit CreateAuditEntry(JobDetail originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)
         {
             var auditBuilder = new StringBuilder();
@@ -184,5 +176,15 @@
         }
 
         public int DamageQty => JobDetailDamages.Sum(x => x.Qty);
+
+        public bool IsClean()
+        {
+            return !this.Actions.Any(p => p.Quantity > 0);
+        }
+
+        public bool IsTobaccoBag()
+        {
+            return this.PhProductCode.Length == LengthOfBarcode;
+        }
     }
 }

@@ -45,6 +45,8 @@
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";
+        public static string JobDetailTotalsPerStop = "JobDetailTotalsPerStop";
+        public static string JobDetailTotalsPerRouteHeader = "JobDetailTotalsPerRouteHeader";
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";

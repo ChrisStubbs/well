@@ -7,6 +7,12 @@
 
     public interface IStopMapper
     {
-        StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees);
+        StopModel Map(
+            List<Branch> branches, 
+            RouteHeader route, 
+            Stop stop, 
+            List<Job> jobs, 
+            List<Assignee> assignees,
+            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop);
     }
 }

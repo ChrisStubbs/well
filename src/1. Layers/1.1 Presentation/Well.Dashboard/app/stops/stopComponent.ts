@@ -347,6 +347,11 @@ export class StopComponent implements IObservableAlive
                 this.actionEditComponent.show(res[0]);
             });
     }
+
+    public voidLink(e: any): void
+    {
+        e.preventDefault();
+    }
 }
 
 interface IDictionarySource

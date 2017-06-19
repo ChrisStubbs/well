@@ -126,9 +126,11 @@
                                         </table>
                                     </tooltip-content>
 
-                                    <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                    <a href="#" aria-hidden="true" (click)="voidLink($event)"
                                        [tooltip]="expectedTooltip"
-                                       tooltipPlacement="right"></a>
+                                       tooltipPlacement="right">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                    </a>
                                 </div>
                                 <div class="text-center">Expected</div>
                                 <div class="form-control-placeholder"></div>
@@ -143,9 +145,11 @@
                                         </table>
                                     </tooltip-content>
 
-                                    <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                    <a href="#" aria-hidden="true" (click)="voidLink($event)"
                                        [tooltip]="actualTooltip"
-                                       tooltipPlacement="right"></a>
+                                       tooltipPlacement="right">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                    </a>
                                 </div>
                                 <div class="text-center">Actual</div>
                                 <div class="form-control-placeholder"></div>
@@ -170,9 +174,11 @@
                                         </table>
                                     </tooltip-content>
 
-                                    <a href="#" class="glyphicon glyphicon-info-sign" aria-hidden="true"
+                                    <a href="#" aria-hidden="true" (click)="voidLink($event)"
                                        [tooltip]="shortsTooltip"
-                                       tooltipPlacement="right"></a>
+                                       tooltipPlacement="right">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                    </a>
                                 </div>
                                 <div class="text-center">Shorts</div>
                                 <div>
@@ -241,7 +247,7 @@
                                     <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
-                                <td class="text-right">{{item.totalDelivered}}</td>
+                                <td class="text-right">{{item.totalInvoiced - (item.totalDamages + item.totalShorts)}}</td>
                                 <td class="text-right">{{item.totalDamages}}</td>
                                 <td class="text-right">{{item.totalShorts}}</td>
                                 <td></td>
@@ -261,7 +267,7 @@
                                 <td>{{item.description}}</td>
                                 <td class="text-right">{{item.value}}</td>
                                 <td class="text-right">{{item.invoiced}}</td>
-                                <td class="text-right">{{item.delivered}}</td>
+                                <td class="text-right">{{item.invoiced - (item.damages + item.shorts)}}</td>
                                 <td class="text-right">{{item.damages}}</td>
                                 <td class="text-right">{{item.shorts}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>

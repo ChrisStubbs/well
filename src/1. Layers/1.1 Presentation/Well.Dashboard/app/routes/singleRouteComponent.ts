@@ -105,7 +105,7 @@ export class SingleRouteComponent implements IObservableAlive
     public onAssigned(event: AssignModalResult): void
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
-        const route = _.find(this.gridSource,
+        const route = _.find(this.source,
             (value: SingleRouteSource) => value.stopId == event.source.stopId) as SingleRouteSource;
 
         route.stopAssignee = userName;
@@ -114,6 +114,8 @@ export class SingleRouteComponent implements IObservableAlive
             value.assignee = userName;
             value.stopAssignee = userName;
         });
+
+        this.fillGridSource();
     }
 
     public clearFilter(): void
@@ -218,16 +220,12 @@ export class SingleRouteComponent implements IObservableAlive
                 item.totalClean = summary.totalClean;
                 item.totalTBA = summary.totalTBA;
                 item.stopAssignee = singleItem.stopAssignee;
-                item.items = current;
-
-                this.assignees.push(singleItem.stopAssignee || 'Unallocated');
+                item.items = current;           
 
                 result.push(item);
             })
             .value();
-
-        this.assignees = _.uniq(this.assignees);
-
+      
         return result;
     }
 
@@ -253,11 +251,13 @@ export class SingleRouteComponent implements IObservableAlive
     private fillGridSource()
     {
         const values = Array<SingleRouteSource>();
-
+        const assignees = [];
         _.map(this.source, (current: SingleRouteSource) =>
         {
             const filteredValues =
                 GridHelpersFunctions.applyGridFilter<SingleRouteItem, SingleRouteFilter>(current.items, this.filters);
+
+            assignees.push(current.stopAssignee || 'Unallocated');
 
             if (!_.isEmpty(filteredValues))
             {
@@ -268,6 +268,7 @@ export class SingleRouteComponent implements IObservableAlive
             }
         });
 
+        this.assignees = _.uniq(assignees);
         this.gridSource = values;
     }
 

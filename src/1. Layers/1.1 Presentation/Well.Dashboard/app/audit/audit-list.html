@@ -1,8 +1,6 @@
-﻿<div class="table-container">
-    <ol class="breadcrumb">
-        <li class="active">Audits</li>
-    </ol>
-</div>
+﻿<ol class="breadcrumb">
+    <li class="active">Audits</li>
+</ol>
 <div class="jumbotron">
     <div *ngIf="!isLoading">
         <div *ngIf="!audits">
@@ -18,17 +16,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="table-responsive table-container col-md-12">
+                <div class="table table-responsive table-container col-md-12">
                     <table id="tableAudits" class="table table-hover table-striped audits">
                         <thead>
                             <tr>
-                                <th>Entry</th>
-                                <th>Type</th>
-                                <th>Invoice No</th>
-                                <th>Account</th>
-                                <th>Delivery Date</th>
-                                <th>Audit Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
-                                <th>Audit By</th>
+                                <th style="width: 49%">Entry</th>
+                                <th style="width: 5%">Type</th>
+                                <th style="width: 8%">Invoice No</th>
+                                <th style="width: 8%">Account</th>
+                                <th style="width: 10%">Delivery Date</th>
+                                <th style="width: 11%">Audit Date<a style="text-decoration: none; display: inline;"><ow-orderbyarrow (onSortDirectionChanged)="onSortDirectionChanged($event)"></ow-orderbyarrow></a></th>
+                                <th style="width: 10%">Actioned By</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,8 +35,8 @@
                                 <td>{{audit.type}}</td>
                                 <td>{{audit.invoiceNumber}}</td>
                                 <td>{{audit.account}}</td>
-                                <td>{{audit.deliveryDate | date:'dd/MM/y'}}</td>
-                                <td>{{audit.auditDate | date:'dd/MM/y'}}</td>
+                                <td>{{audit.deliveryDate | date:'dd/MMM/yyyy'}}</td>
+                                <td>{{audit.auditDate | date:'dd/MMM/yyyy HH:mm:ss'}}</td>
                                 <td>{{audit.auditBy}}</td>
                             </tr>
                         </tbody>

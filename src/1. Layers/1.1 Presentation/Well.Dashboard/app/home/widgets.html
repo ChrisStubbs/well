@@ -3,7 +3,6 @@
         <div id="widgets-column" class="col-md-4">
             <div class="jumbotron">
                 <div class="row">
-                    
                         <div *ngFor="let widget of widgets" class="panel {{widget.showWarning ? 'panel-danger' : 'panel-primary'}}">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
@@ -24,7 +23,21 @@
             </div>
         </div>
         <div id="graph-column" class="col-md-8">
-            <ow-widget-graph (barClicked)="graphBarClicked($event)"></ow-widget-graph>
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Search
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ow-appSearch></ow-appSearch>
+                        </div>
+                    </div>
+                </div>
+                <ow-widget-graph (barClicked)="graphBarClicked($event)"></ow-widget-graph>
+            </div>
         </div>
     </div>
 </div>

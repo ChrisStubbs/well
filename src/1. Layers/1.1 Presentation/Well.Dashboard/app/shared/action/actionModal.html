@@ -1,0 +1,58 @@
+﻿<div class="btn-group">
+    <button type="button" class="btn btn-success"
+            [disabled]="disabled"
+            (click)="actionClicked(selectedAction)"
+            data-toggle="modal"
+            data-target="#actionModal">
+        Submit Actions
+    </button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Submit Actions</h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{summaryData.summary}}
+                    </div>
+                </div>
+                <div class="row" style="overflow-y: auto; max-height: 400px" *ngIf="hasItemsToSubmit()">
+                    <div class="col-md-12">
+                        <div class="table-responsive table-container">
+                            <table id="tableExceptionDeliveries" class="table table-hover table-striped">
+                                <thead>
+                                <tr style="height: auto">
+                                    <th>{{isStopLevel ? 'Stop' : 'Invoice'  }}</th>
+                                    <th>Total Qty</th>
+                                    <th>Total Value</th>
+                                    <th>Credit Qty</th>
+                                    <th>Credit Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="grid-row" *ngFor="let item of  summaryData.items" style="height: auto">
+                                    <td>{{item.identifier}}</td>
+                                    <td>{{item.totalQty}}</td>
+                                    <td>{{item.totalActionValue}}</td>
+                                    <td>{{item.totalCreditQty}}</td>
+                                    <td>{{item.totalCreditValue}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()" #btnClose>Cancel</button>
+                <button type="button" class="btn btn-success"  [disabled]="!hasItemsToSubmit()" (click) ="submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

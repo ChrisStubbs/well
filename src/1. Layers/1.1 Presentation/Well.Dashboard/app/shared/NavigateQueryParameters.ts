@@ -5,12 +5,13 @@ export class DictionaryItem {
     [key: string]: string;
 }
 
-export class NavigateQueryParameters {
+export class NavigateQueryParameters
+{
     private pageSpec = new HasPageSpecification();
     private filterSpec = new HasFilterSpecification();
     private sortSpec = new HasSortSpecification();
 
-    constructor (public Filter?: DictionaryItem, public Page?: number, public Sort?: string) {}
+    constructor (public Filter?: DictionaryItem, public Page?: number, public Sort?: string) { }
 
     public HasFilter(): boolean {
         return this.filterSpec.IsSatisfiedBy(this);

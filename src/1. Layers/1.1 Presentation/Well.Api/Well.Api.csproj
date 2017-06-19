@@ -84,7 +84,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -95,6 +95,7 @@
       <HintPath>..\..\..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
@@ -160,6 +161,14 @@
       <HintPath>..\..\..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WebApi.OutputCache.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Strathweb.CacheOutput.WebApi2.0.10.0\lib\net45\WebApi.OutputCache.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebApi.OutputCache.V2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Strathweb.CacheOutput.WebApi2.0.10.0\lib\net45\WebApi.OutputCache.V2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -178,15 +187,24 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\WebApiExceptionLogger.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\ActivityReadController.cs" />
+    <Compile Include="Controllers\AppSearchController.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
     <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\BulkCreditController.cs" />
+    <Compile Include="Controllers\SubmitActionController.cs" />
+    <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
+    <Compile Include="Controllers\LineItemSearchController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
+    <Compile Include="Controllers\SingleRouteController.cs" />
+    <Compile Include="Controllers\StopsController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
     <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />
@@ -214,6 +232,7 @@
     </Compile>
     <Compile Include="Mapper\BranchModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IBranchModelMapper.cs" />
+    <Compile Include="Mapper\Contracts\ILineItemExceptionMapper.cs" />
     <Compile Include="Mapper\Contracts\IMapper.cs" />
     <Compile Include="Mapper\Contracts\IRouteModelsMapper.cs" />
     <Compile Include="Mapper\Contracts\ICreditThresholdMapper.cs" />
@@ -224,7 +243,12 @@
     <Compile Include="Mapper\DeliveryLinesToModelMapper.cs" />
     <Compile Include="Mapper\DeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
+    <Compile Include="Mapper\Contracts\ISingleRouteMapper.cs" />
+    <Compile Include="Mapper\Contracts\IStopMapper.cs" />
+    <Compile Include="Mapper\LineItemExceptionMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
+    <Compile Include="Mapper\SingleRouteMapper.cs" />
+    <Compile Include="Mapper\StopMapper.cs" />
     <Compile Include="Mapper\WidgetWarningMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
@@ -236,12 +260,15 @@
     <Compile Include="Models\DeliveryActionModel.cs" />
     <Compile Include="Models\DeliveryLineModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
-    <Compile Include="Models\ExceptionModel.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\GrnModel.cs" />
-    <Compile Include="Models\RouteModel.cs" />
     <Compile Include="Models\CreditThresholdModel.cs" />
+    <Compile Include="Models\LineItemEditModel.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
+    <Compile Include="Models\SingleRoute.cs" />
+    <Compile Include="Models\SingleRouteViewItem.cs" />
+    <Compile Include="Models\StopModelItem.cs" />
+    <Compile Include="Models\StopModel.cs" />
     <Compile Include="Models\WidgetLinkModel.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Models\WidgetWarningModel.cs" />

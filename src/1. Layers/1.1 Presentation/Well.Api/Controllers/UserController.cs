@@ -5,6 +5,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using WebApi.OutputCache.V2;
 
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -46,6 +47,7 @@
 
         [Route("users-for-branch/{branchId}")]
         [HttpGet]
+        [CacheOutput(ClientTimeSpan = 60, ServerTimeSpan = 60)]
         public HttpResponseMessage UsersForBranch(int branchId)
         {
             var users = this.userRepository.GetByBranchId(branchId);
@@ -120,19 +122,21 @@
         }
 
 
-
-
-        [Route("assign-user-to-job")]
+        [Route("assign-user-to-jobs")]
         [HttpPost]
-        public HttpResponseMessage Assign(UserJob userJob)
+        public HttpResponseMessage Assign(UserJobs userJobs)
         {
             try
             {
-                var user = userRepository.GetById(userJob.UserId);
-                var job = jobRepository.GetById(userJob.JobId);
-                if (user != null && job != null)
+                var user = userRepository.GetById(userJobs.UserId);
+                var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
+
+                if (user != null && jobs.Any())
                 {
-                    this.userRepository.AssignJobToUser(userJob.UserId, userJob.JobId);
+                    foreach (var job in jobs)
+                    {
+                        this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
+                    }
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 
@@ -145,14 +149,17 @@
             }
         }
 
-        [Route("unassign-user-from-job")]
+        [Route("unassign-user-from-jobs")]
         [HttpPost]
-        public HttpResponseMessage UnAssign(int jobId)
+        public HttpResponseMessage UnAssign(int[] jobIds)
         {
             try
             {
-                this.userRepository.UnAssignJobToUser(jobId);
-
+                foreach (var jobId in jobIds)
+                {
+                    this.userRepository.UnAssignJobToUser(jobId);
+                }
+                
                 return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
             }
             catch (Exception exception)

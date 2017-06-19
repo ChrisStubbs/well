@@ -13,6 +13,8 @@ namespace PH.Well.Api.DependencyResolution
     using Repositories.Read;
     using Services.DeliveryActions;
     using Services.EpodServices;
+    using Services.Mappers;
+    using Services.Validation;
     using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
@@ -80,10 +82,44 @@ namespace PH.Well.Api.DependencyResolution
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
+            For<ISingleRouteMapper>().Use<SingleRouteMapper>();
+            For<IStopMapper>().Use<StopMapper>();
+            For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
-            For<IDeliveryLinesAction>().Use<DeliveryLinesClose>();
+
+            //routes
+            For<IRouteReadRepository>().Use<RouteReadRepository>();
+
+            //search
+            For<IAppSearchService>().Use<AppSearchService>();
+            For<IAppSearchReadRepository>().Use<AppSearchReadRepository>();
+
+            For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+            For<IStopStatusService>().Use<StopStatusService>();
+            
+            //Location/activity/line item
+            For<ILocationRepository>().Use<LocationRepository>();
+            For<IActivityReadRepository>().Use<ActivityReadRepository>();
+            For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+            For<ILineItemActionReadRepository>().Use<LineItemActionReadRepository>();
+            For<ILineItemExceptionMapper>().Use<LineItemExceptionMapper>();
+            For<ILineItemActionRepository>().Use<LineItemActionRepository>();
+            For<ILineItemActionService>().Use<LineItemActionService>();
+
+            //lookup
+            For<ILookupService>().Use<LookupService>();
+            For<ILookupRepository>().Use<LookupRepository>();
+
+            For<ISubmitActionService>().Use<SubmitActionService>();
+            For<ISubmitActionValidation>().Use<SubmitActionValidation>();
+            For<IActionSummaryMapper>().Use<ActionSummaryMapper>();
+
+            For<ILineItemActionCommentRepository>().Use<LineItemActionCommentRepository>();
+            For<IDateThresholdService>().Use<DateThresholdService>();
+
+            For<IJobResolutionStatus>().Use<JobResolutionStatus>();
         }
     }
 }

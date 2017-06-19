@@ -28,11 +28,13 @@
         {
             var deploymentDate = File.GetLastWriteTime(Path.Combine(HostingEnvironment.MapPath("~"), "web.config"));
             string version = $"{Version} ({deploymentDate.ToShortDateString()})";
+            var user = userRepository.GetByIdentity(this.UserIdentityName);
             var settings = new GlobalSettingsModel()
             {
                 Version = version,
                 IdentityName = UserIdentityName,
-                UserName = userRepository.GetByIdentity(this.UserIdentityName)?.Name,
+                UserName = user?.Name,
+                User = user,
                 Permissions = this.userRoleProvider.GetRolesForUser(this.UserIdentityName)
             };
 

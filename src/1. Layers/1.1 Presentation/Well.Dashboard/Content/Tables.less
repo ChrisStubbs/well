@@ -1,0 +1,55 @@
+﻿@import "Variables";
+
+.table-container {
+    margin-top: 16px;
+}
+
+table.audits {
+    tr {
+        td.entry {
+            width: 40%;
+        }
+    }
+}
+
+.table-bordered {
+    td:first-child {
+        border-left: 0;
+    }
+}
+
+table {
+    td.icon-row {
+        span.glyphicon-file {
+            font-size: 18px;
+        }
+    }
+
+    .form-control-placeholder {
+        display: block;
+        line-height: @formControlHeight;
+
+        &::before {
+            content: "\00a0 ";
+        }
+    }
+}
+
+
+table {
+    tbody {
+        tr.info {
+            td > div {
+                display: flex;
+
+                span.fa-arrow-circle-right, span.fa-arrow-circle-down {
+                    font-size: 150%;
+                }
+            }
+        }
+    }
+}
+
+span.fa-arrow-circle-down, span.fa-arrow-circle-right {
+    font-size: 150%;
+}

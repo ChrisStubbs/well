@@ -4,6 +4,6 @@
 export class LogService {
 
     public log(message: any, ...args: any[]): void {
-        (console && console.log) && console.log(message, ...args);
+        //(console && console.log) && console.log(message, ...args);
     }
 }

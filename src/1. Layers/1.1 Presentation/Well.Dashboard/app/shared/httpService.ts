@@ -35,14 +35,14 @@ export class HttpService extends Http {
     private loadingIncrement()
     {
         this.loadingCount = this.loadingCount + 1;
-        this.logService.log('Loading start: ' + this.loadingCount);    
+        //this.logService.log('Loading start: ' + this.loadingCount);
         this.isHttpLoadingSubject.next(true);
     }
 
     private loadingDecrement()
     {
         this.loadingCount = this.loadingCount - 1;
-        this.logService.log('Loading stop: ' + this.loadingCount);
+        //this.logService.log('Loading stop: ' + this.loadingCount);
         if (this.loadingCount === 0)
         {
             this.isHttpLoadingSubject.next(false);

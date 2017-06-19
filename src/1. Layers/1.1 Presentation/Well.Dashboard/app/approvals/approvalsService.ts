@@ -27,7 +27,7 @@ export class ApprovalsService {
 
         return this.http.get(url)
             .map((response: Response) => <ApprovalDelivery[]>response.json())
-            .do(data => this.logService.log('Approval: ' + JSON.stringify(data)))
+            //.do(data => this.logService.log('Approval: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

@@ -1,116 +1,131 @@
 ﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
-import { Component, OnInit, ViewChild, OnDestroy}   from '@angular/core';
-import {GlobalSettingsService}                      from '../shared/globalSettings';
-import { Router, ActivatedRoute}                    from '@angular/router';
-import {ResolvedDelivery}                           from './resolvedDelivery';
-import {ResolvedDeliveryService}                    from './ResolvedDeliveryService';
-import {DropDownItem}                               from '../shared/dropDownItem';
-import { FilterOption }                             from '../shared/filterOption';
-import {AssignModal}                                from '../shared/assignModal';
-import {ContactModal}                               from '../shared/contactModal';
-import {AccountService}                             from '../account/accountService';
-import {IAccount}                                   from '../account/account';
-import {RefreshService}                             from '../shared/refreshService';
-import {OrderArrowComponent}                        from '../shared/orderbyArrow';
-import {SecurityService}                            from '../shared/security/securityService';
-import {UnauthorisedComponent }                     from '../unauthorised/unauthorisedComponent';
-import * as lodash                                  from 'lodash';
-import 'rxjs/Rx';   // Load all features
+import { Component, OnInit, ViewChild, OnDestroy }  from '@angular/core';
+import { GlobalSettingsService }                    from '../shared/globalSettings';
+import { Router, ActivatedRoute }                   from '@angular/router';
+import { ResolvedDelivery }                         from './resolvedDelivery';
+import { ResolvedDeliveryService }                  from './ResolvedDeliveryService';
+import { DropDownItem }                             from '../shared/dropDownItem';
+import { ContactModal }                             from '../shared/contactModal';
+import { AccountService }                           from '../account/accountService';
+import { IAccount }                                 from '../account/account';
+import { RefreshService }                           from '../shared/refreshService';
+import { SecurityService }                          from '../shared/security/securityService';
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
+import { Branch }                                   from '../shared/branch/branch';
+import {IObservableAlive}                           from '../shared/IObservableAlive';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'ow-resolved',
     templateUrl: './app/resolved/resolveddelivery-list.html',
     providers: [ResolvedDeliveryService]
-
 })
-export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ResolvedDeliveryComponent extends BaseComponent implements OnInit, OnDestroy, IObservableAlive
+{
     public isLoading: boolean = true;
     public lastRefresh = Date.now();
-    public refreshSubscription: any;
     public deliveries = new Array<ResolvedDelivery>();
     public currentConfigSort: string;
     public account: IAccount;
+    private orderBy: OrderByExecutor = new OrderByExecutor();
+    public isAlive: boolean = true;
 
     @ViewChild(ContactModal) public contactModal: ContactModal;
-    @ViewChild(AssignModal) public assignModal: AssignModal;
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private resolvedDeliveryService: ResolvedDeliveryService,
         private accountService: AccountService,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private refreshService: RefreshService,
-        private securityService: SecurityService,
-        private nqps: NavigateQueryParametersService ) {
+        protected securityService: SecurityService,
+        private nqps: NavigateQueryParametersService)
+    {
 
-            super(nqps);
-            this.options = [
-                new DropDownItem('Route', 'routeNumber'),
-                new DropDownItem('Branch', 'branchId', false, 'number'),
-                new DropDownItem('Invoice No', 'invoiceNumber'),
-                new DropDownItem('Account', 'accountCode'),
-                new DropDownItem('Account Name', 'accountName'),
-                new DropDownItem('Status', 'jobStatus'),
-                new DropDownItem('Assigned', 'assigned'),
-                new DropDownItem('Date', 'deliveryDate', false, 'date')
-            ];
-        }
+        super(nqps, globalSettingsService, securityService);
+        this.options = [
+            new DropDownItem('Route', 'routeNumber'),
+            new DropDownItem('Branch', 'branchId', false, 'number'),
+            new DropDownItem('Invoice No', 'invoiceNumber'),
+            new DropDownItem('Account', 'accountCode'),
+            new DropDownItem('Account Name', 'accountName'),
+            new DropDownItem('Status', 'jobStatus'),
+            new DropDownItem('Assigned', 'assigned'),
+            new DropDownItem('Date', 'deliveryDate', false, 'date')
+        ];
+        this.sortField = 'deliveryDate';
+    }
 
-    public ngOnInit() {
+    public ngOnInit()
+    {
         super.ngOnInit();
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getDeliveries());
-        this.activatedRoute.queryParams.subscribe(params => {
-            this.getDeliveries();
-        });
-        
+        this.refreshService.dataRefreshed$
+            .takeWhile(() => this.isAlive)
+            .subscribe(r => this.getDeliveries());
+
+        this.activatedRoute.queryParams
+            .takeWhile(() => this.isAlive)
+            .subscribe(params =>
+            {
+                this.getDeliveries();
+            });
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy()
+    {
         super.ngOnDestroy();
-        this.refreshSubscription.unsubscribe();
+        this.isAlive = false;
     }
 
-    public getDeliveries() {
+    public getDeliveries()
+    {
         this.resolvedDeliveryService.getResolvedDeliveries()
-            .subscribe(deliveries => {
-                    this.deliveries = deliveries || new Array<ResolvedDelivery>();
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                },
-                error => {
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                });
+            .takeWhile(() => this.isAlive)
+            .subscribe(deliveries =>
+            {
+                this.deliveries = deliveries || new Array<ResolvedDelivery>();
+                this.lastRefresh = Date.now();
+                this.isLoading = false;
+            },
+            error =>
+            {
+                this.lastRefresh = Date.now();
+                this.isLoading = false;
+            });
     }
 
-    public deliverySelected(delivery): void {
+    public deliverySelected(delivery): void
+    {
         this.router.navigate(['/delivery', delivery.id]);
     }
 
     public onSortDirectionChanged(isDesc: boolean)
-    {   
+    {
         super.onSortDirectionChanged(isDesc);
-        this.deliveries = lodash.orderBy(this.deliveries, ['deliveryDate'], [super.getSort()]);
+        this.deliveries = this.orderBy.Order(this.deliveries, this);
     }
 
-    public openModal(accountId): void {
+    public openModal(accountId): void
+    {
         this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account => {
+            .takeWhile(() => this.isAlive)
+            .subscribe(account =>
+            {
                 this.account = account;
                 this.contactModal.show(this.account);
             });
     }
 
-    public allocateUser(delivery: ResolvedDelivery): void {
-        this.assignModal.show(delivery);
-    }
+    // public getAssignModel(delivery: ResolvedDelivery): AssignModel
+    // {
+    //     const branch: Branch = { id: delivery.branchId } as Branch;
+    //     return new AssignModel(undefined, branch, undefined, this.isReadOnlyUser);
+    // }
 
-    public onAssigned(assigned: boolean) {
+    public onAssigned(assigned: boolean)
+    {
         this.getDeliveries();
     }
 }

@@ -1,4 +1,4 @@
-﻿<div *ngIf="IsVisible" class="modal fade show in danger contact-modal" role="dialog">
+﻿<div class="modal fade contact-modal" role="dialog" id="contactModal">
     <div class="modal-dialog">
 
         <div class="modal-content">
@@ -10,15 +10,15 @@
                 <span class="street">{{account.address1}}</span><br>
                 <span class="town">{{account.address2}}</span><br>
                 <span class="postcode">{{account.postCode}}</span><br><br>
-
                 <h4>Contact </h4>
-                <strong><span class="contact-name">{{account.contactName}}</span></strong><br />
-                Phone     : <span class="phone">{{account.contactNumber}}</span><br />
-                Alt Phone : <span class="altphone">{{account.contactNumber2}}</span><br /><br />
-                Email     : <a class="email" href="mailto:{{account.contactEmailAddress}}">{{account.contactEmailAddress}}</a>
+                <p><strong><span class="contact-name">{{account.contactName}}</span></strong></p>
+                <p>Phone     : <span class="phone">{{account.contactNumber}}</span></p>
+                <p>Alt Phone : <span class="altphone">{{account.contactNumber2}}</span><br /></p>
+                <p>Email     : <a class="email" href="mailto:{{account.contactEmailAddress}}">{{account.contactEmailAddress}}</a></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+                <!--<button type="button" class="btn btn-default" (click)="hide()">Close</button>-->
+                <button type="button" class="btn btn-default" data-dismiss="modal" #contactModal>Close</button>
             </div>
         </div>
     </div>

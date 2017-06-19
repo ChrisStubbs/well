@@ -1,0 +1,88 @@
+﻿@import "Variables";
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    background: #ffffff;
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .archive-button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .text-info {
+        margin-right: 70px;
+    }
+
+    .float-right {
+        float: right;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    code {
+        border-radius: 3px;
+    }
+
+    + .bs-callout {
+        margin-top: -5px;
+    }
+}
+
+.bs-callout-default {
+    border-left-color: @colourBorder;
+
+    h4 {
+        color: #777;
+    }
+}
+
+.bs-callout-primary {
+    border-left-color: @colourPrimary;
+
+    h4 {
+        color: @colourPrimary;
+    }
+}
+
+.bs-callout-success {
+    border-left-color: @colourSuccess;
+
+    h4 {
+        color: @colourSuccess;
+    }
+}
+
+.bs-callout-danger {
+    border-left-color: @colourDanger;
+
+    h4 {
+        color: @colourDanger;
+    }
+}
+
+.bs-callout-warning {
+    border-left-color: @colourWarning;
+
+    h4 {
+        color: @colourWarning;
+    }
+}
+
+.bs-callout-info {
+    border-left-color: @colourInfo;
+
+    h4 {
+        color: @colourInfo;
+    }
+}

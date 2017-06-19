@@ -1,20 +1,17 @@
 ﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnDestroy, OnInit, ViewChild }  from '@angular/core';
-import { Router, ActivatedRoute }                   from '@angular/router';
+import { ActivatedRoute }                           from '@angular/router';
 import {GlobalSettingsService}                      from '../shared/globalSettings';
-import {Route}                                      from './route';
+import {Route}                                      from '../routes/route';
 import {RouteHeaderService}                         from './routeHeaderService';
 import {DropDownItem}                               from '../shared/dropDownItem';
-import { FilterOption }                             from '../shared/filterOption';
 import {RefreshService}                             from '../shared/refreshService';
 import {DeliverySelectionModal}                     from './delivery-selection-modal';
-import {OrderArrowComponent}                        from '../shared/orderbyArrow';
 import {SecurityService}                            from '../shared/security/securityService';
-import {UnauthorisedComponent}                      from '../unauthorised/unauthorisedComponent';
-import * as lodash                                  from 'lodash';
+import { OrderByExecutor }                          from '../shared/OrderByExecutor';
 import 'rxjs/Rx';
- 
+
 @Component({
     selector: 'ow-routes',
     templateUrl: './app/route_header/routeheader-list.html',
@@ -26,32 +23,28 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public errorMessage: string;
     public routes: Route[];
     public lastRefresh = Date.now();
-    public isReadOnlyUser: boolean = false;
+    private orderBy: OrderByExecutor = new OrderByExecutor();
 
     constructor(
-        private globalSettingsService: GlobalSettingsService,
+        protected globalSettingsService: GlobalSettingsService,
         private routerHeaderService: RouteHeaderService,
         private refreshService: RefreshService,
-        private router: Router,
         private activatedRoute: ActivatedRoute,
-        private securityService: SecurityService,
-        private nqps: NavigateQueryParametersService ) {
-
-            super(nqps);
-            this.options = [
-                new DropDownItem('Route', 'route'),
-                new DropDownItem('Branch', 'routeOwnerId', false, 'number')
-            ];
+        protected securityService: SecurityService,
+        private nqps: NavigateQueryParametersService )
+    {
+        super(nqps, globalSettingsService, securityService);
+        this.options = [
+            new DropDownItem('Route', 'route'),
+            new DropDownItem('Branch', 'routeOwnerId', false, 'number')
+        ];
+        this.sortField = 'routeDate';
     }
 
     @ViewChild(DeliverySelectionModal) public deliverySelectionModal: DeliverySelectionModal;
 
     public ngOnInit() {
         super.ngOnInit();
-
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
 
         this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getRoutes());
         this.activatedRoute.queryParams.subscribe(params =>
@@ -68,7 +61,7 @@ export class RouteHeaderComponent extends BaseComponent implements OnInit, OnDes
     public onSortDirectionChanged(isDesc: boolean)
     {
         super.onSortDirectionChanged(isDesc);
-        this.routes = lodash.orderBy(this.routes, ['routeDate'], [super.getSort()]);
+        this.routes = this.orderBy.Order(this.routes, this);
     }
 
     public getRoutes(): void {

@@ -23,8 +23,7 @@ export class OptionFilterComponent {
     }
 
     public inputType(type: string): string {
-        //SelectedOption.type == 'numberLessThanOrEqual': number 
-
+        
         if (type == 'numberLessThanOrEqual' || type == 'number') {
             return 'number';
         }
@@ -82,7 +81,7 @@ export class OptionFilterComponent {
     @Input()
     public set setKnownOption(option: DropDownItem) {
         if (option) {
-            this.SelectedOption = option
+            this.SelectedOption = option;
         }
     }
 

@@ -1,9 +1,8 @@
-﻿import { Component, OnInit, ChangeDetectorRef}  from '@angular/core';
-import {GlobalSettingsService}                  from './shared/globalSettings';
-import {BranchService}                          from './shared/branch/branchService';
-import {SecurityService}                        from './shared/security/securityService'
+﻿import { Component }            from '@angular/core';
+import {GlobalSettingsService}  from './shared/globalSettings';
+import {BranchService}          from './shared/branch/branchService';
+import {SecurityService}        from './shared/security/securityService'
 import 'rxjs/Rx';   // Load all features
-import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
     selector: 'ow-app',
@@ -29,6 +28,8 @@ export class AppComponent {
     }
 
     private fetchBranches() {
-        this.globalSettingsService.getBranches().subscribe(branches => this.branches = branches);
+        this.globalSettingsService.getBranches().subscribe(branches => {
+            this.branches = branches || 'Select Branches';
+        });
     }
 }

@@ -1,0 +1,325 @@
+﻿@import "library.less";
+@import "Variables";
+body {
+    font: 12px/18px DIN-MediumRegular, sans-serif !important;
+    -webkit-font-smoothing: subpixel-antialiased !important;
+    margin: 0;
+    color: #333;
+    min-width: 940px;
+    background: @colorBackground url(../../content/images/bg-body.gif);
+    overflow-y: scroll;
+}
+
+#branch-selection {
+    background-color: @brand-color;
+    color: @colorDefaultText;
+    display: inline-block;
+    font-size: 14px;
+    padding: 6px 12px;
+}
+
+.container-fluid {
+    margin-bottom: 50px;
+}
+
+// Angular cloaked element hiding
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+// Font awesome overrides
+.fa {
+    display: inline-block;
+    font-size: 13.2px;
+    line-height: 1;
+}
+
+.ui-rowgroup-header-name {
+    float: right;
+    width: 98%;
+}
+
+.hideOverflow {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+li a.active {
+    font-weight: bold;
+}
+
+ol.breadcrumb {
+    > li.active {
+        font-weight: bold;
+        color: #333;
+    }
+}
+
+section {
+    > div {
+        margin-top: 20px;
+    }
+}
+
+#headerHolder {
+    margin-top: 10px;
+}
+
+.logo {
+    background: url(../../content/images/logo.png);
+    height: 96px;
+    margin-left: -26px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -9999px;
+    width: 108px;
+}
+
+#app {
+    margin: 0 auto;
+    margin-top: 115px;
+}
+
+.app {
+    width: 100%;
+
+    .row-fluid {
+        > div {
+            max-width: 1280px;
+            margin: 0 auto;
+            min-height: 39px;
+        }
+    }
+
+    .row-fluid:nth-child(2) {
+        background: @menuBarColor;
+        box-shadow: 0 0 5px 0 @colourBorder;
+    }
+
+    .row-fluid:first-child {
+        .gradient(left, @brand-color, darken(@brand-color, 20%));
+        border-bottom: 1px solid #939d9e;
+        margin: 0;
+        padding: 0 20px 7px 20px;
+        position: relative;
+        width: 100%;
+
+        .span7 {
+            position: relative;
+        }
+
+        div:nth-child(2) {
+            float: left;
+            margin: 6px 0 0 120px;
+
+            h1 {
+                color: #fff;
+                display: inline;
+                font-size: 100%;
+                font-weight: bold;
+                text-transform: uppercase;
+                width: 100px;
+            }
+
+            span {
+                color: #f39b91;
+                font-size: small;
+                margin: 0 0 0 12px;
+            }
+        }
+
+        div.pull-right {
+            div:first-child {
+                float: left;
+                font-size: 100%;
+                font-weight: bold;
+                color: #fff;
+                margin: 16px 12px 0 0;
+            }
+
+            img {
+                border: 2px solid #fff;
+                margin: 7px 41px 0 0;
+                height: 40px;
+                box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.5);
+            }
+        }
+    }
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+div#user-details {
+    .minWidth();
+}
+
+a.note {
+    font-size: 18px;
+}
+
+#container {
+    margin: 15px 15px 0 15px;
+}
+
+h3 {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.modal {
+    height: 300px;
+    margin-top: 100px;
+
+    .modal-body {
+        overflow-y: auto;
+        height: 100%;
+        max-height: 400px;
+
+        .row {
+            margin-left: auto;
+        }
+    }
+}
+
+ul.menu-with-default {
+    :first-child {
+        a {
+            font-style: italic;
+        }
+    }
+}
+
+.table-hover {
+    > tbody {
+        > tr:hover {
+            > td, > th {
+                background-color: @colourTableHover;
+            }
+        }
+    }
+}
+
+form {
+    input.ng-valid.ng-touched,
+    select.ng-valid.ng-touched,
+    textarea.ng-valid.ng-touched {
+        border: 1px solid @noerror;
+    }
+
+    &.ng-dirty {
+        input.ng-invalid,
+        select.ng-invalid,
+        textarea.ng-invalid {
+            border: 1px solid @error;
+        }
+    }
+
+    button {
+        &.filter-button {
+            width: 87px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    input {
+        &.period-filter {
+            width: 85px;
+        }
+    }
+}
+
+footer {
+    .barBase;
+    color: #fff;
+    padding: 5px 0px;
+}
+
+
+.jumbotron {
+    p {
+        font-size: 12px !important;
+    }
+}
+
+.orderArrow {
+    position: relative;
+    top: 0px;
+    left: 5px;
+    width: 20px;
+    height: 5px;
+}
+
+.notification-archive {
+    padding-top: 100px;
+}
+
+.role-to-branch {
+    width: 250px;
+}
+
+.tabset-content {
+    margin-top: -32px;
+    margin-left: 1px;
+}
+
+.delivery-update-tabset {
+    .nav-tabs {
+        margin-left: -20px;
+    }
+}
+
+.credit {
+    padding-bottom: 10px;
+}
+
+.ng-invalid {
+    border-left: 5px solid #a94442;
+}
+
+.grid-row {
+    .glyphicon {
+        padding-left: 3px;
+        top: 2px;
+    }
+}
+
+/*div.modal-scroll-content {
+    overflow-y: auto;
+    height: 400px;
+}*/
+
+/*#region media queries*/
+@media (max-width: 889px) {
+    #headerHolder {
+        display: none !important;
+    }
+
+    #user-details {
+        display: none !important;
+    }
+}
+// Wide screen change of padding for main panels
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        padding-top: @jumbotronPadding;
+        padding-bottom: @jumbotronPadding;
+    }
+}
+/*#endregion*/
+.tooltip-content > .tooltip-inner{
+    max-width:500px;
+}
+
+.padding-top-15{
+    padding-top:15px;
+}
+
+.content {
+    background-color: rgb(244,245,240);
+    padding:15px;
+}

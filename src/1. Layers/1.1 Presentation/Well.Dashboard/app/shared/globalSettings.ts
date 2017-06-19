@@ -1,9 +1,9 @@
-﻿import {Injectable, Inject, Compiler, EventEmitter} from '@angular/core';
+﻿import {Injectable, Compiler } from '@angular/core';
 import {Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
-import {LogService} from './logService';
-import {HttpService} from './httpService';
+import { HttpService } from './httpService';
+import { User } from '../user_preferences/user';
 
 export class GlobalSettings {
     public apiUrl: string;
@@ -11,8 +11,10 @@ export class GlobalSettings {
     public userName: string;
     public identityName: string;
     public permissions: string[];
+    public user: User;
+  
 }
-    
+
 @Injectable() 
 export class GlobalSettingsService {
     public globalSettings: GlobalSettings;
@@ -23,8 +25,7 @@ export class GlobalSettingsService {
 
     constructor(
         private http: HttpService,
-        private httpErrorService: HttpErrorService, 
-        private logService: LogService,
+        private httpErrorService: HttpErrorService,
         private compiler: Compiler) { 
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
@@ -44,7 +45,6 @@ export class GlobalSettingsService {
         return this.http.get(this.globalSettings.apiUrl + 'GlobalSettings')
             .map((response: Response) => {
                 this.mapSettings(<GlobalSettings>response.json());
-                this.logService.log('Settings: ' + JSON.stringify(this.globalSettings));
                 return this.globalSettings;
             })
             .catch(e => this.httpErrorService.handleError(e))

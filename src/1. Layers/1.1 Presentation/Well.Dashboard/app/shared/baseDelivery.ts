@@ -1,5 +1,7 @@
-﻿export class BaseDelivery {
-    id: number;
-    accountCode: string;
-    branchId: number;
+﻿export class BaseDelivery
+{
+    public id: number;
+    public accountCode: string;
+    public branchId: number;
+    public assigned: string;
 }

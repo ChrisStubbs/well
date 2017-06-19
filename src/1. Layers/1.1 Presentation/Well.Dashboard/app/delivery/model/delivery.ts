@@ -27,6 +27,7 @@ export class Delivery {
             this.isProofOfDelivery = delivery.isProofOfDelivery;
             this.toBeAdvisedCount = delivery.toBeAdvisedCount;  
             this.canBulkCredit = delivery.canBulkCredit;
+            this.deliveryType = delivery.deliveryType;
 
             if (delivery.exceptionDeliveryLines) {
                 delivery.jobStatus = 'Exception';
@@ -70,6 +71,7 @@ export class Delivery {
     public toBeAdvisedCount: number;
     public cleanDeliveryLines: DeliveryLine[] = new Array<DeliveryLine>();
     public canBulkCredit: boolean;
+    public deliveryType: string;
    
     public isCleanOnInit(): boolean {
         let clean = true;

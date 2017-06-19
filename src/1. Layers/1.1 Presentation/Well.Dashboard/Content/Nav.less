@@ -1,0 +1,99 @@
+﻿@import "Variables";
+@import "library";
+
+.row-fluid {
+    > #nav {
+        padding-right: 125px;
+    }
+}
+
+div#nav {
+    ul.nav {
+        font-size: larger;
+        margin-left: 128px;
+        padding-top: 1px;
+
+        > li {
+            > a:hover {
+                .ElementHeightInsideNav;
+            }
+        }
+    }
+}
+
+div#nav {
+    .nav {
+        > li {
+            > a:hover, > a:focus {
+                background-color: #ccc;
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+.nav {
+    > li {
+        > a:focus {
+            .ElementHeightInsideNav;
+        }
+    }
+}
+
+.nav-pills {
+    > li, > li.active {
+        > a {
+            .ElementHeightInsideNav;
+        }
+    }
+}
+
+.ng2-pagination {
+    .current {
+        padding: 0px !important;
+    }
+}
+
+.ng2-pagination {
+    > li {
+        > a {
+            .pageElement;
+            color: #337ab7;
+
+            &:hover {
+                z-index: 2;
+                color: #23527c;
+                background-color: #eee;
+                border-color: #ddd;
+            }
+        }
+
+        > div {
+            .pageElement;
+            color: #000;
+        }
+
+        > span {
+            .pageElement;
+            color: #cacaca;
+        }
+    }
+
+    .disabled {
+        padding: 0px !important;
+    }
+
+    .pagination-previous {
+        a::before,
+        &.disabled::before {
+            display: none !important;
+        }
+    }
+
+    .pagination-next {
+        a::after,
+        &.disabled::after {
+            display: none !important;
+        }
+    }
+}

@@ -7,7 +7,6 @@ export class ApprovalDelivery extends BaseDelivery {
     public  accountName: string;
     public  jobStatus: string;
     public  action: string; 
-    public  assigned: string;
     public  deliveryDate: Date;
     public  accountId: string;
     public  canAction: boolean;  

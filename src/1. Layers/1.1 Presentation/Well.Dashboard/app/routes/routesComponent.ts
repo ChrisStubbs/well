@@ -31,12 +31,11 @@ export class RoutesComponent implements IObservableAlive
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
-
     public isAlive: boolean = true;
-    private actions: string[] = ['Re-Plan'];
+    
     public rowCount = 10;
     public pageLinks =  3;
-    public rowsPerPageOptions =  [10, 20, 30, 40, 50];
+    public rowsPerPageOptions = [10, 20, 30, 40, 50];
 
     private routeFilter: RouteFilter;
     private yesNoFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];

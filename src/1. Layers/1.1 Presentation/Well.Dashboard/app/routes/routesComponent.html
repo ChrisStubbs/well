@@ -8,9 +8,9 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-11">
         </div>
-        <div class="col-md-6 pull-right">
+        <div class="col-md-1 pull-right">
             <div class="pull-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
@@ -26,6 +26,7 @@
             <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
                          [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
                          #dt>
+                <p-column header="Id" field="id" filter="true" filterMatchMode="in" [hidden]="true"></p-column>
                 <p-column header="Branch" field="branchId" [sortable]="true" filter="true" filterMatchMode="equals">
                     <ng-template pTemplate="filter" let-col>
                         <select class="form-control" id="searchBranch"
@@ -98,7 +99,7 @@
                         </span>
                     </ng-template>
                 </p-column>
-                <p-column header="e" field="hasExceptions" [hidden]="true">  </p-column>
+                <p-column header="e" field="hasExceptions" [hidden]="true"> </p-column>
                 <p-column header="Exceptions" field="exceptionCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
                     <ng-template pTemplate="filter" let-col>
                         <select class="form-control" id="exceptionFilterCtl"

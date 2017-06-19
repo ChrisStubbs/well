@@ -81,7 +81,7 @@ export class SingleRouteFilter implements IFilter
         this.exceptions = undefined;
         this.clean = undefined;
         this.assignee = '';
-        this.resolution = undefined;
+        this.resolutionId = undefined;
     }
 
     public account: string;
@@ -91,7 +91,7 @@ export class SingleRouteFilter implements IFilter
     public exceptions: boolean;
     public clean: boolean;
     public assignee: string;
-    public resolution: string;
+    public resolutionId: string;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -108,7 +108,6 @@ export class SingleRouteFilter implements IFilter
                 return GridHelpersFunctions.isEqualFilter;
 
             case 'assignee':
-            case 'resolution':
                 return  GridHelpersFunctions.isEqualFilter;
 
             case 'exceptions':
@@ -126,6 +125,8 @@ export class SingleRouteFilter implements IFilter
 
                     return value == 0;
                 };
+            case 'resolutionId':
+                return GridHelpersFunctions.resolutionFilter;
         }
 
         return undefined;

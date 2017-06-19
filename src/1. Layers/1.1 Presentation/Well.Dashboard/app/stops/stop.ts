@@ -89,7 +89,7 @@ export class StopFilter implements IFilter
         this.shorts = undefined;
         this.checked = undefined;
         this.highValue = undefined;
-        this.resolution = undefined;
+        this.resolutionId = undefined;
     }
 
     public product: string;
@@ -100,7 +100,7 @@ export class StopFilter implements IFilter
     public shorts?: boolean;
     public checked: boolean;
     public highValue?: boolean;
-    public resolution: string;
+    public resolutionId: string;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -112,7 +112,6 @@ export class StopFilter implements IFilter
 
             case 'type':
             case 'barCode':
-            case 'resolution':
                 return  GridHelpersFunctions.isEqualFilter;
 
             case 'checked':
@@ -134,6 +133,8 @@ export class StopFilter implements IFilter
 
                     return value == 0;
                 };
+            case 'resolutionId':
+                return GridHelpersFunctions.resolutionFilter;
         }
 
         return undefined;

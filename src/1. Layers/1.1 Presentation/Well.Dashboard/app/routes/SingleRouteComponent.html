@@ -28,7 +28,6 @@
                 &nbsp;
                 <action-Modal [disabled]="selectedItems().length == 0"
                               [isStopLevel]="true"
-                              (onActionClicked)="actionModalClicked($event)"
                               [jobIds]="getSelectedJobIds()">
                 </action-Modal>
             </div>
@@ -36,7 +35,7 @@
     </div>
     <div class="row">
         <div class="col-md-12 clearfix table-container">
-            <table class="table table-white">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th style="width: 3%">
@@ -128,9 +127,9 @@
                         </th>
                         <th style="width: 9%">
                             <div class="text-center">Resolution</div>
-                            <select class="form-control" [(ngModel)]="filters.resolution" (change)="fillGridSource()" title="">
+                            <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.value">
+                                <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">
                                     {{resolutionStatus.value}}
                                 </option>
                             </select>
@@ -190,16 +189,12 @@
                             </td>
                         </tr>
                     </ng-container>
-                  
+
                 </tbody>
             </table>
-            <h3 *ngIf="gridSource.length == 0">No matching results</h3>
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12"> &nbsp;</div>
-    </div>
-    <div class="row">
-        <div class="col-md-6"></div>
     </div>
 </div>

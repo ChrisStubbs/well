@@ -8,6 +8,7 @@
 
     using Repositories;
     using Repositories.Contracts;
+    using Repositories.Read;
     using StructureMap;
     using Well.Services.Contracts;
     using Well.Services;
@@ -40,7 +41,7 @@
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-                    x.For<IDapperProxy>().Use<WellDapperProxy>();
+                   // x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
                     x.For<IJobStatusService>().Use<JobStatusService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
@@ -50,6 +51,10 @@
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IUserRepository>().Use<UserRepository>();
+                    x.For<IDateThresholdService>().Use<DateThresholdService>();
+                    x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+                    x.For<IDapperReadProxy>().Use<DapperReadProxy>();
+                    x.For<IDbConfiguration>().Use<WellDbConfiguration>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

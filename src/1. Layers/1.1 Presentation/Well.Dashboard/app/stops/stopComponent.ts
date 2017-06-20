@@ -144,7 +144,8 @@ export class StopComponent implements IObservableAlive
 
     public onAssigned(event: AssignModalResult)
     {
-        this.stop.assignedTo = event.newUser.name;
+        const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+        this.stop.assignedTo = userName;
     }
 
     public selectJobs(select: boolean, jobId?: number): void

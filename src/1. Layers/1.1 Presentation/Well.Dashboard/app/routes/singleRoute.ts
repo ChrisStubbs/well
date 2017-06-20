@@ -1,6 +1,7 @@
 import * as _                   from 'lodash';
 import {IFilter}                from '../shared/gridHelpers/IFilter';
-import {GridHelpersFunctions}   from '../shared/gridHelpers/gridHelpersFunctions';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
+import {LookupService}          from '../shared/services/lookupService';
 
 export interface SingleRoute
 {
@@ -127,7 +128,7 @@ export class SingleRouteFilter implements IFilter
                     return value == 0;
                 };
             case 'resolutionId':
-                return GridHelpersFunctions.resolutionFilter;
+                return LookupService.compareResolutionStatusValue;
         }
 
         return undefined;

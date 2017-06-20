@@ -1,5 +1,6 @@
 import * as _                               from 'lodash';
-import { IFilter, GridHelpersFunctions }    from '../shared/gridHelpers/gridHelpers';
+import { IFilter, GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import {LookupService} from '../shared/services/lookupService';
 
 export class Stop
 {
@@ -135,7 +136,7 @@ export class StopFilter implements IFilter
                     return value == 0;
                 };
             case 'resolutionId':
-                return GridHelpersFunctions.resolutionFilter;
+                return LookupService.compareResolutionStatusValue;
         }
 
         return undefined;

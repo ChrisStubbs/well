@@ -26,6 +26,7 @@ export class ActionEditComponent implements IObservableAlive
 
     @Output() public onSave = new EventEmitter<EditLineItemException>();
     @ViewChild('showModal') public showModal: ElementRef;
+    @ViewChild('closeModal') public closeModal: ElementRef;
     @ViewChild('actionEditForm') private currentForm: NgForm;
 
     private deliveryActions: Array<ILookupValue>;
@@ -98,6 +99,7 @@ export class ActionEditComponent implements IObservableAlive
     public close(): void
     {
         this.lineItemActions = [];
+        this.closeModal.nativeElement.click();
     }
 
     public save(): void
@@ -111,6 +113,8 @@ export class ActionEditComponent implements IObservableAlive
                 {
                     this.loadSource(responseData);
                     this.onSave.emit(responseData);
+
+                    this.close();
                 });
         }
     }

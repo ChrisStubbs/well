@@ -47,11 +47,7 @@ export class GridHelpersFunctions
     {
         return _.isEqual(value, value2.toString() == 'true');
     };
-
-    public static resolutionFilter(value: number, value2: number): boolean {
-        return (value & value2) == value;
-    }
-
+    
     public static filterFreeText(inputFilterTimer: any): Promise<any>
     {
         return new Promise((resolve, reject) =>

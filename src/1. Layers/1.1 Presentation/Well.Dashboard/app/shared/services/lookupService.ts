@@ -5,7 +5,7 @@ import { HttpErrorService }             from '../httpErrorService';
 import { HttpService }                  from '../httpService';
 import { Observable }                   from 'rxjs';
 import * as _                           from 'lodash';
-import { SessionStorageService }        from 'ngx-webstorage'
+import { SessionStorageService }        from 'ngx-webstorage';
 import {LookupsEnum}                    from './lookupsEnum';
 import {ILookupValue}                   from './ILookupValue';
 import 'rxjs/add/operator/map';
@@ -59,5 +59,9 @@ export class LookupService
                 return objectToSave;
             })
             .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public static compareResolutionStatusValue(value: number, value2: number): boolean {
+        return (value & value2) == value;
     }
 }

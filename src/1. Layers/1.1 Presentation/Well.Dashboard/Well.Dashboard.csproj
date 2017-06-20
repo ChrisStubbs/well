@@ -273,6 +273,9 @@
     <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="app\stops\stopComponent.html" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\theme.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
@@ -377,6 +380,11 @@
     <Content Include="Content\Animation.less" />
     <Content Include="Content\Toaster.less" />
     <Content Include="Content\App.less" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

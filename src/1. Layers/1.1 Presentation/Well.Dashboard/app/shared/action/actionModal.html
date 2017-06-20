@@ -28,9 +28,8 @@
                                 <thead>
                                 <tr style="height: auto">
                                     <th>{{isStopLevel ? 'Stop' : 'Invoice'  }}</th>
-                                    <th>Total Qty</th>
-                                    <th>Total Value</th>
-                                    <th>Credit Qty</th>
+                                    <th>Total Quantity</th>
+                                    <th>Credit Quantity</th>
                                     <th>Credit Value</th>
                                 </tr>
                                 </thead>
@@ -38,7 +37,6 @@
                                 <tr class="grid-row" *ngFor="let item of  summaryData.items" style="height: auto">
                                     <td>{{item.identifier}}</td>
                                     <td>{{item.totalQty}}</td>
-                                    <td>{{item.totalActionValue}}</td>
                                     <td>{{item.totalCreditQty}}</td>
                                     <td>{{item.totalCreditValue}}</td>
                                 </tr>

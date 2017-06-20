@@ -6,7 +6,7 @@ import { ILookupValue } from '../services/ILookupValue';
 import { LookupsEnum } from '../services/lookupsEnum';
 import { LookupService } from '../services/lookupService';
 import { EditExceptionsService } from '../../exceptions/editExceptionsService';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
 import { LineItemAction } from '../../exceptions/lineItemAction';
 import { EditLineItemException } from '../../exceptions/editLineItemException';
 import { LineItemActionComment } from '../../exceptions/lineItemAction';

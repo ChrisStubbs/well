@@ -102,7 +102,7 @@
                 }
 
                 result.IsValid = true;
-                result.Message = $"Submitted  actions successfully for JobIds {string.Join(",", submitAction.JobIds)}";
+                result.Message = "Successfully Submitted Actions";
                 return result;
             }
             catch (Exception ex)

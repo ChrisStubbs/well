@@ -123,6 +123,7 @@
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
     <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
     <Compile Include="Api\Controllers\ActionDeliveryLineControllerTests.cs" />
+    <Compile Include="Api\Controllers\ExceptionControllerTests.cs" />
     <Compile Include="Api\Controllers\JobDetailReasonControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
     <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />

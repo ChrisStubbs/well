@@ -12,6 +12,7 @@
         public int Tba { get; set; }
         public string StopAssignee { get; set; }
         public string Resolution { get; set; }
+        public int ResolutionId { get; set; }
         public string Invoice { get; set; }
         public string JobType { get; set; }
         public int JobTypeId { get; set; }

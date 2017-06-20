@@ -45,7 +45,8 @@ export class StopItem
     public isSelected: boolean;
     public lineItemId: number;
     private resolution: string;
-   
+    public  resolutionId: number;
+ 
     public get barCode(): string
     {
         if (_.isNil(this.mBarCode))

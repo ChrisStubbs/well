@@ -29,6 +29,7 @@ export class SingleRouteItem
     public tba: number;
     public stopAssignee: string;
     public resolution: string;
+    public resolutionId: number;
     public invoice: string;
     public jobType: string;
     public jobTypeId: number;

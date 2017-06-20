@@ -93,6 +93,7 @@
                         Tba = tba,
                         StopAssignee = stopAssignee,
                         Resolution = job.ResolutionStatus?.Description,
+                        ResolutionId = job.ResolutionStatus.Value,
                         Invoice = job.InvoiceNumber,
                         JobType = jobType.ToString().SplitCapitalisedWords(),
                         JobTypeId = (int)jobType,

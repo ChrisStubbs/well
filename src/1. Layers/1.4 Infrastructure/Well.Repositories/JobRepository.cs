@@ -34,6 +34,20 @@ namespace PH.Well.Repositories
             return GetByIds(jobIds);
         }
 
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerStop)
+               .AddParameter("StopId", stopId, DbType.Int32)
+               .Query<JobDetailLineItemTotals>();
+        }
+
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerRouteHeader)
+               .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
+               .Query<JobDetailLineItemTotals>();
+        }
+
         public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =

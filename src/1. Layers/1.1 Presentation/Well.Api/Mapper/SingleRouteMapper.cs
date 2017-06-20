@@ -22,7 +22,13 @@
         {
             this.stopStatusService = stopStatusService;
         }
-        public SingleRoute Map(List<Branch> branches, RouteHeader route, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+
+        public SingleRoute Map(List<Branch> branches,
+            RouteHeader route,
+            List<Stop> stops,
+            List<Job> jobs,
+            List<Assignee> assignee,
+            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader)
         {
             var singleRoute = new SingleRoute
             {
@@ -34,10 +40,15 @@
                 RouteDate = route.RouteDate
             };
 
-            return MapItems(singleRoute, stops, jobs, assignee);
+            return MapItems(singleRoute, stops, jobs, assignee, jobDetailTotalsPerRouteHeader);
         }
 
-        private SingleRoute MapItems(SingleRoute singleRoute, List<Stop> stops, List<Job> jobs, List<Assignee> assignee)
+        private SingleRoute MapItems(
+            SingleRoute singleRoute,
+            List<Stop> stops,
+            List<Job> jobs,
+            List<Assignee> assignee,
+            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader)
         {
 
             foreach (var stop in stops)
@@ -51,46 +62,33 @@
                     .Where(p => p.jobType != JobType.Documents && p.obj.StopId == stop.Id)
                     .Select(p => p.obj) //I should not do this but it's to much code to change with very little gain
                     .ToList();
-
-                var stopJobDetails = stopJobs.SelectMany(x => x.JobDetails).ToArray();
+                
                 var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
-                // FLP
-                // shorts to be advised 
-                // group the jobs by outercount
-                // get the totaloutershort for the first one
-                // for each group
-                // add together for the total outers short for the stop
-                //
+                
+                var stopClean = stopJobs
+                    .SelectMany(x => x.JobDetails)
+                    .Where(p => p.IsClean())
+                    .Sum(v => v.DeliveredQty);
 
-                //var groupJobs = stopJobs.GroupBy(g => g.OuterCount).Select()
-
-                // get the total number of confirmed shorts for the stop
-                // subtract from the total outers short to get the shorts to be advised
-
-                //todo TBA
-                //var totalShort = stopJobDetails.Sum(d => d.ShortQty); // total confirmed short for stop
-                //var shortsToBeAdvised = (tba - totalShort); 
-                // flp
-
-                var clean = stopJobDetails.GroupBy(p => p.IsClean())
-                    .Select(p => new { p.Key, count = p.Count() })
-                    .ToLookup(k => k.Key, v => v.count);
-
-                var stopExceptions = clean[false].Sum(p => p);
-                var stopClean = clean[true].Sum(p => p);
                 var status = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
                 foreach (var job in stopJobs)
                 {
                     JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
+                    var ids = job.JobDetails.Select(p => p.Id).ToList();
+
+                    var jobExceptions = jobDetailTotalsPerRouteHeader
+                        .Where(p => ids.Contains(p.JobDetailId))
+                        .Sum(p => p.DamageTotal + p.ShortTotal);
+                    
                     var item = new SingleRouteItem
                     {
                         JobId = job.Id,
                         StopId = job.StopId,
                         Stop = stop.DropId,
                         StopStatus = status,
-                        StopExceptions = stopExceptions,
+                        StopExceptions = jobExceptions,
                         StopClean = stopClean,
                         Tba = tba,
                         StopAssignee = stopAssignee,
@@ -102,8 +100,10 @@
                         JobStatusDescription = jobStatuses[job.JobStatus],
                         Cod = job.Cod,
                         Pod = job.ProofOfDelivery.HasValue,
-                        Exceptions = job.JobDetails.Count(x => !x.IsClean()),
-                        Clean = job.JobDetails.Count(x => x.IsClean()),
+                        Exceptions = jobExceptions,
+                        Clean = job.JobDetails
+                            .Where(x => x.IsClean() && !x.IsTobaccoBag())
+                            .Sum(p => p.OriginalDespatchQty),
                         Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
                         Account = job.PhAccount,

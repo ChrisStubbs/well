@@ -97,13 +97,11 @@ export class StopComponent implements IObservableAlive
                     .value();
 
                 _.chain(data.items)
-                    .map((current: StopItem) =>
-                    {
-                        return current.type + ' (' + current.jobTypeAbbreviation + ')'
+                    .map((current: StopItem) => {
+                        return current.type + ' (' + current.jobTypeAbbreviation + ')';
                     })
                     .uniq()
-                    .map((current: string) =>
-                    {
+                    .map((current: string) => {
                         this.jobTypes.push(
                             {
                                 key: current,
@@ -112,7 +110,7 @@ export class StopComponent implements IObservableAlive
 
                         return current;
                     })
-                    .value()
+                    .value();
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
@@ -227,7 +225,7 @@ export class StopComponent implements IObservableAlive
                         _.forEach(filteredValues, (item: StopItem) =>
                         {
                             item['isRowGroup'] = false;
-                            values.push(item)
+                            values.push(item);
                         });
                     }
                 }
@@ -284,7 +282,7 @@ export class StopComponent implements IObservableAlive
         if (_.isNil(jobId))
         {
             const action: boolean = !this.areAllExpanded();
-            _.map(_.keys(this.source), current => this.source[current].isExpanded = action)
+            _.map(_.keys(this.source), current => this.source[current].isExpanded = action);
         }
         else
         {
@@ -311,13 +309,13 @@ export class StopComponent implements IObservableAlive
         let totalDamages: number = 0;
         let totalShorts: number = 0;
 
-        _.forEach(data, (current: StopItem) =>
-        {
-            totalInvoiced += current.invoiced;
-            totalDelivered += current.delivered;
-            totalDamages += current.damages;
-            totalShorts += current.shorts;
-        })
+        _.forEach(data,
+            (current: StopItem) => {
+                totalInvoiced += current.invoiced;
+                totalDelivered += current.delivered;
+                totalDamages += current.damages;
+                totalShorts += current.shorts;
+            });
 
         return {
             totalInvoiced: totalInvoiced,
@@ -341,6 +339,11 @@ export class StopComponent implements IObservableAlive
             {
                 this.actionEditComponent.show(res[0]);
             });
+    }
+
+    public voidLink(e: any): void
+    {
+        e.preventDefault();
     }
 }
 

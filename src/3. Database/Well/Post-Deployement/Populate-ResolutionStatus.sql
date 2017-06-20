@@ -1,7 +1,5 @@
 ﻿SET IDENTITY_INSERT ResolutionStatus ON
 
-delete ResolutionStatus
-
 MERGE INTO ResolutionStatus AS Target
 USING	(VALUES	(1,			'Imported'),
 				(2,			'Driver Completed'),

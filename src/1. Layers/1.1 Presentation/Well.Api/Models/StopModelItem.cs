@@ -23,5 +23,6 @@
         public string BarCode { get; set; }
         public int LineItemId { get; set; }
         public string Resolution { get; set; }
+        public int ResolutionId { get; set; }
     }
 }

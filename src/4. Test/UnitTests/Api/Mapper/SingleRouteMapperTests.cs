@@ -35,7 +35,7 @@
             public void ShouldMapSingleRouteItemsFromRouteAndBranch()
             {
 
-                var singleRoute = mapper.Map(branches, routeHeader, new List<Stop>(), new List<Job>(), new List<Assignee>());
+                var singleRoute = mapper.Map(branches, routeHeader, new List<Stop>(), new List<Job>(), new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
                 Assert.That(singleRoute.Branch, Is.EqualTo(branch.BranchName));
                 Assert.That(singleRoute.BranchId, Is.EqualTo(branch.Id));
@@ -77,7 +77,16 @@
                     new Assignee {StopId = stop.Id, JobId = job2.Id, Name = "Enri Pears"}
                 };
 
-                var singleRoute = mapper.Map(branches, routeHeader, stops, jobs, assignees);
+                var jobDetailLineItemTotals = new List<JobDetailLineItemTotals>
+                {
+                    new JobDetailLineItemTotals
+                    {
+                        DamageTotal = 55,
+                        JobDetailId = jobs[0].JobDetails[0].Id
+                    }
+                };
+
+                var singleRoute = mapper.Map(branches, routeHeader, stops, jobs, assignees, jobDetailLineItemTotals);
 
                 Assert.That(singleRoute.Items.Count, Is.EqualTo(2));
                 var item = singleRoute.Items[0];
@@ -85,8 +94,8 @@
                 Assert.That(item.JobId, Is.EqualTo(job.Id));
                 Assert.That(item.Stop, Is.EqualTo(stop.DropId));
                 Assert.That(item.StopStatus, Is.EqualTo("Complete"));
-                Assert.That(item.StopExceptions, Is.EqualTo(2));
-                Assert.That(item.StopClean, Is.EqualTo(3));
+                Assert.That(item.StopExceptions, Is.EqualTo(55));
+                Assert.That(item.StopClean, Is.EqualTo(115));
                 Assert.That(item.Tba, Is.EqualTo(40));
                 Assert.That(item.StopAssignee, Is.EqualTo("CB, EP"));
                 Assert.That(item.Resolution, Is.EqualTo(ResolutionStatus.Credited.Description));
@@ -96,8 +105,8 @@
                 Assert.That(item.JobStatusDescription, Is.EqualTo("Completed On Paper"));
                 Assert.That(item.Cod, Is.EqualTo("CODFISH"));
                 Assert.IsTrue(item.Pod);
-                Assert.That(item.Exceptions, Is.EqualTo(1));
-                Assert.That(item.Clean, Is.EqualTo(2));
+                Assert.That(item.Exceptions, Is.EqualTo(55));
+                Assert.That(item.Clean, Is.EqualTo(6));
                 Assert.That(item.Credit, Is.EqualTo(0));
                 Assert.That(item.Assignee, Is.EqualTo("Crip Bubbs"));
                 Assert.That(singleRoute.Items[1].Assignee, Is.EqualTo("Enri Pears"));

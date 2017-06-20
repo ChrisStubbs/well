@@ -36,15 +36,16 @@
             var stop = stopRepository.GetById(id);
             if (stop != null)
             {
-                var routeHeader = routeHeaderRepository.GetRouteHeaderById(stop.RouteHeaderId);
-                var branches = branchRepository.GetAll().ToList();
-                var jobs = jobRepository.GetByStopId(stop.Id).ToList();
-                var assignee = assigneeRepository.GetByStopId(stop.Id).ToList();
-                return stopMapper.Map(branches, routeHeader, stop, jobs, assignee);
+                return stopMapper.Map(
+                    branchRepository.GetAll().ToList(),
+                    routeHeaderRepository.GetRouteHeaderById(stop.RouteHeaderId), 
+                    stop,
+                    jobRepository.GetByStopId(stop.Id).ToList(),
+                    assigneeRepository.GetByStopId(stop.Id).ToList(),
+                    jobRepository.JobDetailTotalsPerStop(stop.Id));
             }
 
             return null;
         }
     }
-
 }

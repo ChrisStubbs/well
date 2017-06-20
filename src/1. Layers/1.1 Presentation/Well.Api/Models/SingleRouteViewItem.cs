@@ -28,6 +28,5 @@
         public string Account { get; set; }
         public WellStatus WellStatus { get; set; }
         public string WellStatusDescription { get; set; }
-        
     }
 }

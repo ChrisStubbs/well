@@ -13,12 +13,10 @@
     public class LineItemExceptionMapper : ILineItemExceptionMapper
     {
         private readonly IJobRepository jobRepository;
-        private readonly IAccountRepository accountRepository;
 
-        public LineItemExceptionMapper(IJobRepository jobRepository, IAccountRepository accountRepository)
+        public LineItemExceptionMapper(IJobRepository jobRepository)
         {
             this.jobRepository = jobRepository;
-            this.accountRepository = accountRepository;
         }
 
         public IEnumerable<EditLineItemException> Map(IEnumerable<LineItem> lineItems)
@@ -26,12 +24,13 @@
             lineItems = lineItems.ToArray();
             var result = new List<EditLineItemException>();
             var jobs = jobRepository.GetByIds(lineItems.Select(x => x.JobId).Distinct()).ToArray();
+            var jobDetailLineItemTotals = jobRepository.JobDetailTotalsPerJobs(jobs.Select(x => x.Id)).ToArray();
 
             foreach (var line in lineItems)
             {
                 var job = jobs.First(x => x.Id == line.JobId);
                 var jobDetail = job.JobDetails.First(x => x.LineItemId == line.Id);
-                result.Add(MapEditLineItemException(line, job, jobDetail));
+                result.Add(MapEditLineItemException(line, job, jobDetail, jobDetailLineItemTotals));
             }
 
             return result;
@@ -41,11 +40,14 @@
         {
             var job = jobRepository.GetById(lineItem.JobId);
             var jobDetail = job.JobDetails.First(x => x.LineItemId == lineItem.Id);
-            return MapEditLineItemException(lineItem, job, jobDetail);
+            var jobDetailLineItemTotals = jobRepository.JobDetailTotalsPerJobs(new[] { job.Id }).ToArray();
+            return MapEditLineItemException(lineItem, job, jobDetail, jobDetailLineItemTotals);
         }
 
-        private EditLineItemException MapEditLineItemException(LineItem line, Job job, JobDetail jobDetail)
+        private EditLineItemException MapEditLineItemException(LineItem line, Job job, JobDetail jobDetail, JobDetailLineItemTotals[] jobDetailLineItemTotals)
         {
+            var totals = jobDetailLineItemTotals.SingleOrDefault(x => x.JobDetailId == jobDetail.Id);
+            
             var editLineItemException = new EditLineItemException
             {
                 AccountCode = job.PhAccount,
@@ -57,11 +59,10 @@
                 ProductNumber = line.ProductCode,
                 Product = line.ProductDescription,
                 DriverReason = line.DriverReason,
-                Value = (decimal)jobDetail.SkuGoodsValue,
-                Invoiced = line.OriginalDespatchQuantity,
-                Delivered = line.DeliveredQuantity,
-                Damages = jobDetail.DamageQty,
-                Shorts = jobDetail.ShortQty,
+                Value = jobDetail.NetPrice ?? 0,
+                Invoiced = jobDetail.OriginalDespatchQty,
+                Damages = totals?.DamageTotal ?? jobDetail.DamageQty,
+                Shorts = totals?.ShortTotal ?? jobDetail.ShortQty,
                 CanEditActions = job.CanEditActions
             };
             editLineItemException.LineItemActions = line.LineItemActions;
@@ -81,7 +82,7 @@
                       ApprovedBy = action.ApprovedBy
                   })
                   .ToList();
-            
+
             return editLineItemException;
         }
     }

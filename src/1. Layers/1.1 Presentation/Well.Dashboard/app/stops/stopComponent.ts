@@ -17,6 +17,7 @@ import { EditExceptionsService }                from '../exceptions/editExceptio
 import { EditLineItemException }                from '../exceptions/editLineItemException';
 import { LookupService } from '../shared/services/lookupService';
 import {LookupsEnum} from '../shared/services/lookupsEnum';
+import {SingleRouteSource} from '../routes/singleRoute';
 
 @Component({
     selector: 'ow-stop',
@@ -345,6 +346,21 @@ export class StopComponent implements IObservableAlive
     {
         e.preventDefault();
     }
+
+    private exceptionSaved(data: EditLineItemException): void
+    {
+        const itemSource = _.find(this.gridSource,
+            (value: StopItemSource) => value.jobId === data.jobId) as StopItemSource;
+
+        itemSource.resolution = data.resolutionStatus;
+
+        const item = _.find(itemSource.items,
+            (value: StopItem) => value.lineItemId === data.id) as StopItem;
+
+        item.damages = data.damages;
+        item.shorts = data.shorts;
+    }
+
 }
 
 interface IDictionarySource

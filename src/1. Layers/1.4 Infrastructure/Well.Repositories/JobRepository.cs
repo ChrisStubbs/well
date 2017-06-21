@@ -48,6 +48,14 @@ namespace PH.Well.Repositories
                .Query<JobDetailLineItemTotals>();
         }
 
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerJobIds)
+                .AddParameter("jobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<JobDetailLineItemTotals>();
+        }
+
+
         public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =

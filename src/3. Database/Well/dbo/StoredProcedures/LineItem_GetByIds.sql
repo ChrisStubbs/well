@@ -53,6 +53,8 @@ AS
 		,c.LineItemActionId
 		,c.CommentReasonId
 		,cr.Description CommentDescription 
+		,c.FromQty
+		,c.ToQty
 		,c.CreatedBy
 		,c.DateCreated 
 		,c.UpdatedBy

@@ -149,21 +149,5 @@
         public int TotalQty => LineItems.Sum(x => x.TotalQty);
 
         public JobRoute JobRoute { get; set; }
-
-        public bool CanEditActions
-        {
-            get
-            {
-                var editableStatuses = new List<ResolutionStatus>
-                {
-                   ResolutionStatus.DriverCompleted,
-                   ResolutionStatus.ActionRequired,
-                   ResolutionStatus.PendingSubmission,
-                   ResolutionStatus.PendingApproval,
-                };
-
-                return editableStatuses.Select(x=> x.Value).Contains(this.ResolutionStatus.Value);
-            }
-        }
     }
 }

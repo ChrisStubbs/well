@@ -54,9 +54,11 @@
                     {
                         var invoiceItems = jobs.Where(x => x.InvoiceNumber == invoiceNumber).ToArray();
 
+                        var firstItem = invoiceItems.First();
                         result.Items.Add(new ActionSubmitSummaryItem
                         {
-                            Identifier = invoiceItems.First().InvoiceNumber,
+                            Identifier = firstItem.InvoiceNumber,
+                            JobType = firstItem.JobType,
                             TotalCreditValue = invoiceItems.Sum(x => x.TotalCreditValue),
                             TotalActionValue = invoiceItems.Sum(x => x.TotalActionValue),
                             TotalCreditQty = invoiceItems.Sum(x => x.TotalCreditQty),
@@ -82,7 +84,7 @@
                                $"any credits over your assigned threshold will be sent for approval.";
             }
 
-            return $"The Qty of of items to 'submit' is {jobs.SelectMany(x => x.GetAllLineItemActions()).Sum(x => x.Quantity)}.";
+            return $"The quantity of of items to 'submit' is {jobs.SelectMany(x => x.GetAllLineItemActions()).Sum(x => x.Quantity)}.";
 
         }
     }

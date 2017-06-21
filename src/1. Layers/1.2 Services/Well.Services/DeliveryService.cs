@@ -20,7 +20,7 @@
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IBranchRepository branchRepository;
-        private readonly IJobStatusService jobStatusService;
+        private readonly IJobService jobStatusService;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -31,7 +31,7 @@
             IExceptionEventRepository exceptionEventRepository,
             IDeliveryReadRepository deliveryReadRepository,
             IBranchRepository branchRepository,
-            IJobStatusService jobStatusService)
+            IJobService jobStatusService)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;

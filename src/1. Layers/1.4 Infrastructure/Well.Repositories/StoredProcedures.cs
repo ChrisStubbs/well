@@ -133,11 +133,13 @@
 
         public static string AppSearch = "AppSearch";
         //well update
+        public static string JobDetailTobaccoUpdate = "JobDetail_TobaccoUpdate";
         public static string PostImportUpdate = "PostImportUpdate";
         public static string LineItemActionInsert = "LineItemAction_Insert";
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
         public static string AssigneeGetByStopId = "Assignee_GetByStopId";
+        public static string AssigneeGetByJobId = "Assignee_GetByJobId";
 
         public static string LineItemGetByIds = "LineItem_GetByIds";
         public static string LineItemGetByActivityId = "LineItem_GetByActivityId";

@@ -26,7 +26,7 @@
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 &nbsp;
-                <action-Modal [disabled]="selectedItems().length == 0"
+                <action-Modal [disabled]="disableSubmitActions()"
                               [isStopLevel]="true"
                               [jobIds]="getSelectedJobIds()">
                 </action-Modal>
@@ -86,7 +86,6 @@
                         <th style="width: 8%">
                             <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                             <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
-                            <div class="form-control-placeholder"></div>
                         </th>
                         <th style="width: 7%">
                             <div class="text-center">Exceptions</div>

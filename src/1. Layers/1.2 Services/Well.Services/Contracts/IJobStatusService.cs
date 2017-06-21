@@ -2,12 +2,11 @@
 
 namespace PH.Well.Services.Contracts
 {
-    public interface IJobStatusService
+    public interface IJobService
     {
-        void SetInitialStatus(Job job);
-
-        void SetIncompleteStatus(Job job);
-
+        void SetInitialJobStatus(Job job);
+        void SetIncompleteJobStatus(Job job);
         Job DetermineStatus(Job job, int branchId);
+        bool CanEditActions(Job job, string userName);
     }
 }

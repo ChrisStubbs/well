@@ -11,6 +11,7 @@
         public int JobId { get; set; }
         public string Name { get; set; }
         public string Initials => Name.GetInitials();
+        public string IdentityName { get; set; }
 
         public static string GetDisplayNames(IEnumerable<Assignee> assignees)
         {

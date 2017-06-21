@@ -6,7 +6,7 @@ import { ILookupValue } from '../services/ILookupValue';
 import { LookupsEnum } from '../services/lookupsEnum';
 import { LookupService } from '../services/lookupService';
 import { EditExceptionsService } from '../../exceptions/editExceptionsService';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
 import { LineItemAction } from '../../exceptions/lineItemAction';
 import { EditLineItemException } from '../../exceptions/editLineItemException';
 import { LineItemActionComment } from '../../exceptions/lineItemAction';
@@ -26,6 +26,7 @@ export class ActionEditComponent implements IObservableAlive
 
     @Output() public onSave = new EventEmitter<EditLineItemException>();
     @ViewChild('showModal') public showModal: ElementRef;
+    @ViewChild('closeModal') public closeModal: ElementRef;
     @ViewChild('actionEditForm') private currentForm: NgForm;
 
     private deliveryActions: Array<ILookupValue>;
@@ -98,6 +99,7 @@ export class ActionEditComponent implements IObservableAlive
     public close(): void
     {
         this.lineItemActions = [];
+        this.closeModal.nativeElement.click();
     }
 
     public save(): void
@@ -111,6 +113,8 @@ export class ActionEditComponent implements IObservableAlive
                 {
                     this.loadSource(responseData);
                     this.onSave.emit(responseData);
+
+                    this.close();
                 });
         }
     }

@@ -9,14 +9,22 @@
     using PH.Well.Domain.Enums;
     using System.Linq;
     using Repositories.Contracts;
+    using Services.Contracts;
+    using Common.Contracts;
 
     public class LineItemExceptionMapper : ILineItemExceptionMapper
     {
         private readonly IJobRepository jobRepository;
+        private readonly IJobService jobService;
+        private readonly IUserNameProvider userNameProvider;
 
-        public LineItemExceptionMapper(IJobRepository jobRepository)
+        public LineItemExceptionMapper(IJobRepository jobRepository,
+            IJobService jobService,
+            IUserNameProvider userNameProvider)
         {
             this.jobRepository = jobRepository;
+            this.jobService = jobService;
+            this.userNameProvider = userNameProvider;
         }
 
         public IEnumerable<EditLineItemException> Map(IEnumerable<LineItem> lineItems)
@@ -63,7 +71,7 @@
                 Invoiced = jobDetail.OriginalDespatchQty,
                 Damages = totals?.DamageTotal ?? jobDetail.DamageQty,
                 Shorts = totals?.ShortTotal ?? jobDetail.ShortQty,
-                CanEditActions = job.CanEditActions
+                CanEditActions = jobService.CanEditActions(job, this.userNameProvider.GetUserName())
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions

@@ -8,13 +8,13 @@ import { AssignModel, AssignModalResult }       from '../shared/components/assig
 import { Branch }                               from '../shared/branch/branch';
 import { SecurityService }                      from '../shared/security/securityService';
 import { GlobalSettingsService }                from '../shared/globalSettings';
-import { ILookupValue }                         from '../shared/services/services';
+import { ILookupValue, ResolutionStatusEnum }   from '../shared/services/services';
 import { AccountService }                       from '../account/accountService';
 import { ContactModal }                         from '../shared/contactModal';
 import { GridHelpersFunctions }                 from '../shared/gridHelpers/gridHelpers';
 import { ActionEditComponent }                  from '../shared/action/actionEditComponent';
 import { EditExceptionsService }                from '../exceptions/editExceptionsService';
-import { EditLineItemException }                from '../exceptions/editLineItemException';
+import {EditLineItemException, EditLineItemExceptionDetail}                from '../exceptions/editLineItemException';
 import { LookupService } from '../shared/services/lookupService';
 import {LookupsEnum} from '../shared/services/lookupsEnum';
 import {SingleRouteSource} from '../routes/singleRoute';
@@ -145,7 +145,8 @@ export class StopComponent implements IObservableAlive
 
     public onAssigned(event: AssignModalResult)
     {
-        this.stop.assignedTo = event.newUser.name;
+        const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+        this.stop.assignedTo = userName;
     }
 
     public selectJobs(select: boolean, jobId?: number): void
@@ -345,6 +346,45 @@ export class StopComponent implements IObservableAlive
     public voidLink(e: any): void
     {
         e.preventDefault();
+    }
+
+    public lineItemSaved(data: EditLineItemException): void
+    {
+        //find the invoice edited (via lineitem edit)
+        const invoice = _.find(this.gridSource, current => current.invoice == data.invoice);
+        let damages = 0;
+        let shorts = 0;
+        //find the line that was edited
+        const lineItem = _.find(invoice.items, (current: StopItem) => current.product == data.productNumber);
+
+        //sum the shorts and damages sent from the server
+        _.forEach(data.exceptions, (current: EditLineItemExceptionDetail) =>
+        {
+            if (current.exception == 'Short')
+            {
+                shorts++;
+            }
+            else if (current.exception == 'Damage')
+            {
+                damages++;
+            }
+
+        });
+
+        //remove the shorts and damages from the current invoice based on the selected lineitem
+        invoice.totalDamages -= lineItem.damages;
+        invoice.totalShorts -= lineItem.shorts;
+
+        //now lets add the values sent from server
+        invoice.totalDamages += damages;
+        invoice.totalShorts += shorts;
+        lineItem.shorts = shorts;
+        lineItem.damages = damages;
+    }
+
+    public disableSubmitActions(): boolean {
+        return (this.selectedItems().length == 0 ||
+            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
     }
 
     private exceptionSaved(data: EditLineItemException): void

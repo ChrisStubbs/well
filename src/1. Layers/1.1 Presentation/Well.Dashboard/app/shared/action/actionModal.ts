@@ -1,7 +1,7 @@
 ﻿import { Component, EventEmitter, Output, Input, ViewChild, ElementRef } from '@angular/core';
 import { IObservableAlive } from '../IObservableAlive';
 import { ActionService } from './actionService';
-import { IActionSubmitSummary } from './actionSubmitSummary';
+import { IActionSubmitSummary, IActionSubmitSummaryItem } from './actionSubmitSummary';
 import { ISubmitActionModel, ISubmitActionResult } from './submitActionModel';
 import { ToasterService } from 'angular2-toaster';
 import * as _ from 'lodash';
@@ -103,5 +103,16 @@ export class ActionModal implements IObservableAlive
         }
 
         return this.summaryData.jobIds.length > 0;
+    }
+
+    public getIdentifierText(summaryItem: IActionSubmitSummaryItem): string {
+        let type: string;
+        if (this.isStopLevel) {
+            type = 'Stop';
+        } else {
+            type = _.includes(summaryItem.jobType.toLowerCase(), 'uplift') ? 'Uplift' : 'Invoice';
+        }
+       
+        return type + ' ' + summaryItem.identifier;
     }
 }

@@ -60,6 +60,7 @@
             {
                 AccountCode = job.PhAccount,
                 JobId = job.Id,
+                ResolutionId = job.ResolutionStatus.Value, 
                 ResolutionStatus = job.ResolutionStatus?.Description,
                 Id = line.Id,
                 Invoice = job.InvoiceNumber,

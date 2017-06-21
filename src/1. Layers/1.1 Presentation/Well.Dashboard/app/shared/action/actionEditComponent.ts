@@ -119,7 +119,6 @@ export class ActionEditComponent implements IObservableAlive
                 {
                     this.loadSource(responseData);
                     this.onSave.emit(responseData);
-
                     this.close();
                 });
         }

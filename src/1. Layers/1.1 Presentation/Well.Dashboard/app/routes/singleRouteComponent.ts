@@ -291,7 +291,12 @@ export class SingleRouteComponent implements IObservableAlive
     }
 
     public disableSubmitActions(): boolean {
-        return (this.selectedItems().length == 0 ||
-            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
+    
+        if (this.selectedItems().length === 0)
+        {
+            return true;
+        }
+        return _.some(this.selectedItems(), x =>
+            x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
     }
 }

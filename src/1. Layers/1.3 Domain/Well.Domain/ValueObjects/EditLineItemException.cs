@@ -12,6 +12,7 @@
         }
         public int Id { get; set; }
         public int JobId { get; set; }
+        public int ResolutionId { get; set; }
         public string ResolutionStatus { get; set; }
         public string AccountCode { get; set; }
         public string Invoice { get; set; }

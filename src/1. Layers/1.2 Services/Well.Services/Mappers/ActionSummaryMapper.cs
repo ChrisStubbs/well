@@ -84,7 +84,7 @@
                                $"any credits over your assigned threshold will be sent for approval.";
             }
 
-            return $"The Qty of of items to 'submit' is {jobs.SelectMany(x => x.GetAllLineItemActions()).Sum(x => x.Quantity)}.";
+            return $"The quantity of of items to 'submit' is {jobs.SelectMany(x => x.GetAllLineItemActions()).Sum(x => x.Quantity)}.";
 
         }
     }

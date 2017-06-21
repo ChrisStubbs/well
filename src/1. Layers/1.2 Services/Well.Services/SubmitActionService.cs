@@ -75,15 +75,15 @@
                     foreach (var job in jobs)
                     {
                         // after validation will only have pending submission Jobs
-                        if (jobResolutionStatus.GetStatus(job) == ResolutionStatus.PendingSubmission)
+                        if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission)
                         {
-                            job.ResolutionStatus = jobResolutionStatus.StepForward(job);
+                            job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
                             jobRepository.SaveJobResolutionStatus(job);
 
-                            if (jobResolutionStatus.GetStatus(job) == ResolutionStatus.Approved)
+                            if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
                             {
                                 SubmitCredits(job);
-                                job.ResolutionStatus = jobResolutionStatus.StepForward(job);
+                                job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);
                             }
                             else

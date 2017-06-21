@@ -137,6 +137,7 @@
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
         public static string AssigneeGetByStopId = "Assignee_GetByStopId";
+        public static string AssigneeGetByJobId = "Assignee_GetByJobId";
 
         public static string LineItemGetByIds = "LineItem_GetByIds";
         public static string LineItemGetByActivityId = "LineItem_GetByActivityId";

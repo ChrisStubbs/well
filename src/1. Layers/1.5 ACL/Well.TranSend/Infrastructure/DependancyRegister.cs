@@ -43,11 +43,11 @@
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                    // x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
-                    x.For<IJobStatusService>().Use<JobStatusService>();
+                    x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();
-                    x.For<IJobResolutionStatus>().Use<JobResolutionStatus>();
+                    x.For<IJobResolutionStatus>().Use<JobService>();
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IUserRepository>().Use<UserRepository>();

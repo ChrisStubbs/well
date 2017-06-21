@@ -59,7 +59,7 @@
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
-                    x.For<IJobStatusService>().Use<JobStatusService>();
+                    x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
                     x.For<IBranchRepository>().Use<BranchRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();

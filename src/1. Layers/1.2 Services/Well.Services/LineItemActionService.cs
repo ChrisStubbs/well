@@ -76,7 +76,7 @@ namespace PH.Well.Services
                 }
 
                 job = GetJob(job.Id);
-                job.ResolutionStatus = jobResolutionStatus.GetStatus(job);
+                job.ResolutionStatus = jobResolutionStatus.GetCurrentResolutionStatus(job);
                 jobRepository.Update(job);
 
                 transactionScope.Complete();

@@ -36,7 +36,7 @@
 
         private Mock<IEventLogger> eventLogger;
 
-        private Mock<IJobStatusService> jobStatusService;
+        private Mock<IJobService> jobStatusService;
 
         private AdamImportService service;
 
@@ -53,7 +53,7 @@
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
-            this.jobStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
+            this.jobStatusService = new Mock<IJobService>(MockBehavior.Strict);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
 
             this.service = new AdamImportService(this.routeHeaderRepository.Object,
@@ -134,7 +134,7 @@
             this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
             this.jobDetailRepository.Setup(x => x.Save(It.IsAny <JobDetail>()));
             this.jobDetailDamageRepository.Setup(x => x.Save(It.IsAny <JobDetailDamage>()));
-            this.jobStatusService.Setup(x => x.SetInitialStatus(It.IsAny<Job>()));
+            this.jobStatusService.Setup(x => x.SetInitialJobStatus(It.IsAny<Job>()));
             this.postImportRepository.Setup(x => x.PostImportUpdate());
             this.jobRepository.Setup(x => x.SetJobResolutionStatus(job.Id, It.IsAny<string>()));
 
@@ -146,7 +146,7 @@
             this.jobRepository.Verify(x => x.Save(It.IsAny<Job>()), Times.Once);
             this.jobDetailRepository.Verify(x => x.Save(It.IsAny<JobDetail>()), Times.Once);
             this.jobDetailDamageRepository.Verify(x => x.Save(It.IsAny<JobDetailDamage>()), Times.Once);
-            this.jobStatusService.Verify(x => x.SetInitialStatus(It.IsAny<Job>()), Times.Once);
+            this.jobStatusService.Verify(x => x.SetInitialJobStatus(It.IsAny<Job>()), Times.Once);
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(job.Id, It.IsAny<string>()), Times.Once);
         }

@@ -9,16 +9,25 @@
     using PH.Well.Domain.Enums;
     using System.Linq;
     using Repositories.Contracts;
+    using Services.Contracts;
+    using Common.Contracts;
 
     public class LineItemExceptionMapper : ILineItemExceptionMapper
     {
         private readonly IJobRepository jobRepository;
         private readonly IAccountRepository accountRepository;
+        private readonly IJobService jobService;
+        private readonly IUserNameProvider userNameProvider;
 
-        public LineItemExceptionMapper(IJobRepository jobRepository, IAccountRepository accountRepository)
+        public LineItemExceptionMapper(IJobRepository jobRepository, 
+            IAccountRepository accountRepository, 
+            IJobService jobService,
+            IUserNameProvider userNameProvider)
         {
             this.jobRepository = jobRepository;
             this.accountRepository = accountRepository;
+            this.jobService = jobService;
+            this.userNameProvider = userNameProvider;
         }
 
         public IEnumerable<EditLineItemException> Map(IEnumerable<LineItem> lineItems)
@@ -62,7 +71,7 @@
                 Delivered = line.DeliveredQuantity,
                 Damages = jobDetail.DamageQty,
                 Shorts = jobDetail.ShortQty,
-                CanEditActions = job.CanEditActions
+                CanEditActions = jobService.CanEditActions(job, this.userNameProvider.GetUserName())
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions

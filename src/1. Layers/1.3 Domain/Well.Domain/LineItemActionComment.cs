@@ -10,10 +10,8 @@
         public int? FromQty { get; set; }
         public int ToQty { get; set; }
         public string CommentDescription { get; set; }
-        public string CommentDisplayed => $"{CommentDescription}. {QtyChangeValue}";
         public string DisplayName => this.CreatedBy?.StripDomain();
-
-        public string QtyChangeValue
+        public string QtyChangeDescription
         {
             get
             {

@@ -270,10 +270,10 @@
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-right"></td>
                                 <td>
-                                    <span>
-                                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0"></a>
-                                        <input type="checkbox" [(ngModel)]="item.isSelected" title="">
-                                    </span>
+                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0">
+                                        <span class="glyphicon glyphicon-pencil" ></span>
+                                    </a>
+                                    <input type="checkbox" [(ngModel)]="item.isSelected" title="">
                                 </td>
                             </tr>
                         </ng-container>

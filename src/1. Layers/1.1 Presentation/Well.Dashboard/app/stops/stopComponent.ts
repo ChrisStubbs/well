@@ -362,11 +362,11 @@ export class StopComponent implements IObservableAlive
         {
             if (current.exception == 'Short')
             {
-                shorts++;
+                shorts += current.quantity;
             }
             else if (current.exception == 'Damage')
             {
-                damages++;
+                damages += current.quantity;
             }
 
         });

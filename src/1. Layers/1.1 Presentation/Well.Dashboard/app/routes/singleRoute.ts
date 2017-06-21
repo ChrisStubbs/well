@@ -93,7 +93,7 @@ export class SingleRouteFilter implements IFilter
     public exceptions: boolean;
     public clean: boolean;
     public assignee: string;
-    public resolutionId: string;
+    public resolutionId: number;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {

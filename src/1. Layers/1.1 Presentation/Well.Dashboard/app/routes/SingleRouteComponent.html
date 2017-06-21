@@ -26,7 +26,7 @@
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 &nbsp;
-                <action-Modal [disabled]="selectedItems().length == 0"
+                <action-Modal [disabled]="disableSubmitActions()"
                               [isStopLevel]="true"
                               [jobIds]="getSelectedJobIds()">
                 </action-Modal>

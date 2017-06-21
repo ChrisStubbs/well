@@ -8,7 +8,7 @@ import { AssignModel, AssignModalResult }       from '../shared/components/assig
 import { Branch }                               from '../shared/branch/branch';
 import { SecurityService }                      from '../shared/security/securityService';
 import { GlobalSettingsService }                from '../shared/globalSettings';
-import { ILookupValue }                         from '../shared/services/services';
+import { ILookupValue, ResolutionStatusEnum }   from '../shared/services/services';
 import { AccountService }                       from '../account/accountService';
 import { ContactModal }                         from '../shared/contactModal';
 import { GridHelpersFunctions }                 from '../shared/gridHelpers/gridHelpers';
@@ -379,6 +379,11 @@ export class StopComponent implements IObservableAlive
         invoice.totalShorts += shorts;
         lineItem.shorts = shorts;
         lineItem.damages = damages;
+    }
+
+    public disableSubmitActions(): boolean {
+        return (this.selectedItems().length == 0 ||
+            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
     }
 }
 

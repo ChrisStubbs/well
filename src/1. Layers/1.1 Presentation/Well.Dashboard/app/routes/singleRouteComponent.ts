@@ -10,7 +10,7 @@ import { SecurityService }                                      from '../shared/
 import { GlobalSettingsService }                                from '../shared/globalSettings';
 import { IObservableAlive }                                     from '../shared/IObservableAlive';
 import { SingleRouteItem }                                      from './singleRoute';
-import { LookupService, LookupsEnum, ILookupValue }             from '../shared/services/services';
+import { LookupService, LookupsEnum, ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
 import { Observable }                                           from 'rxjs';
 import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
 import 'rxjs/add/operator/mergeMap';
@@ -130,8 +130,10 @@ export class SingleRouteComponent implements IObservableAlive
 
         if (!_.isNil(stop))
         {
-            //if it is not null it means the user click on a group
-            collection = stop.items;
+            //if it is not null it means the user click on a group - get all displayed items for stop
+            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) => {
+                return total.concat(_.filter(current.items, (item: SingleRouteItem) => item.stopId == stop.stopId));
+            }, []);
         }
         else
         {
@@ -286,5 +288,10 @@ export class SingleRouteComponent implements IObservableAlive
             current.stopId == item.stopId).isExpanded = item.isExpanded;
 
         event.preventDefault();
+    }
+
+    public disableSubmitActions(): boolean {
+        return (this.selectedItems().length == 0 ||
+            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
     }
 }

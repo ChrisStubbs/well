@@ -1,19 +1,20 @@
-﻿import { ActivatedRoute }                           from '@angular/router';
-import { Component, ViewChild }                     from '@angular/core';
-import { GlobalSettingsService }                    from '../shared/globalSettings';
-import { Route }                                    from './route';
-import { RouteFilter }                              from './routeFilter';
-import { RoutesService }                            from './routesService';
-import { RefreshService }                           from '../shared/refreshService';
-import { SecurityService }                          from '../shared/security/securityService';
-import { BranchService }                            from '../shared/branch/branchService';
-import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
-import { DataTable }                                from 'primeng/primeng';
-import { AssignModel, AssignModalResult }           from '../shared/components/components';
-import { Branch }                                   from '../shared/branch/branch';
-import { IObservableAlive }                         from '../shared/IObservableAlive';
-import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
-import * as _                                       from 'lodash';
+﻿import { ActivatedRoute } from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { Route } from './route';
+import { RouteFilter } from './routeFilter';
+import { RoutesService } from './routesService';
+import { RefreshService } from '../shared/refreshService';
+import { SecurityService } from '../shared/security/securityService';
+import { BranchService } from '../shared/branch/branchService';
+import { AppSearchParameters } from '../shared/appSearch/appSearch';
+import { DataTable } from 'primeng/primeng';
+import { AssignModel, AssignModalResult } from '../shared/components/components';
+import { Branch } from '../shared/branch/branch';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
+import { Router } from '@angular/router';
+import * as _ from 'lodash';
 import 'rxjs/Rx';
 
 @Component({
@@ -32,14 +33,14 @@ export class RoutesComponent implements IObservableAlive
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
     public isAlive: boolean = true;
-    
+
     public rowCount = 10;
-    public pageLinks =  3;
+    public pageLinks = 3;
     public rowsPerPageOptions = [10, 20, 30, 40, 50];
 
     private routeFilter: RouteFilter;
     private yesNoFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
-    
+
     @ViewChild('dt') public dataTable: DataTable;
 
     constructor(
@@ -49,7 +50,8 @@ export class RoutesComponent implements IObservableAlive
         private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
         protected securityService: SecurityService,
-        private branchService: BranchService) { }
+        private branchService: BranchService,
+        private router: Router) { }
 
     public ngOnInit()
     {
@@ -65,13 +67,23 @@ export class RoutesComponent implements IObservableAlive
                     (branches: Array<[string, string]>) =>
                     {
                         this.branches = branches;
+                        if (branches.length === 0)
+                        {
+                            // no branches set up
+                            this.router.navigateByUrl('/branch');
+                            return;
+                        }
                         if (!this.routeFilter.branchId.value)
                         {
                             this.routeFilter.branchId.value = branches[0][0];
                         }
+
                         this.getRoutesByBranch();
+
                         this.refreshSubscription = this.refreshService.dataRefreshed$
+                            .takeWhile(() => this.isAlive)
                             .subscribe(r => this.getRoutesByBranch());
+
                     });
 
                 this.lookupService.get(LookupsEnum.RouteStatus)
@@ -83,7 +95,6 @@ export class RoutesComponent implements IObservableAlive
     public ngOnDestroy()
     {
         this.isAlive = false;
-        this.refreshSubscription.unsubscribe();
     }
 
     private getFilteredBranchId(): number

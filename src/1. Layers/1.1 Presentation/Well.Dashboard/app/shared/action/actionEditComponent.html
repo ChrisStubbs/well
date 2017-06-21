@@ -107,8 +107,9 @@
                                     </td>
                                     <td>
                                         <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
+                                               min="0"
                                                [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
-                                               (change)="qtyChanged(item,i)"
+                                               (change)="qtyChanged(item, i)"
                                                [disabled]="+item.deliveryAction == actionClose || !source.canEditActions" />
                                     </td>
                                     <td>

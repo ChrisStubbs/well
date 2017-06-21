@@ -27,7 +27,7 @@
                             <table id="tableExceptionDeliveries" class="table table-hover table-striped">
                                 <thead>
                                 <tr style="height: auto">
-                                    <th>{{isStopLevel ? 'Stop' : 'Invoice'  }}</th>
+                                    <th>Item</th>
                                     <th>Total Quantity</th>
                                     <th>Credit Quantity</th>
                                     <th>Credit Value</th>
@@ -35,7 +35,7 @@
                                 </thead>
                                 <tbody>
                                 <tr class="grid-row" *ngFor="let item of  summaryData.items" style="height: auto">
-                                    <td>{{item.identifier}}</td>
+                                    <td>{{getIdentifierText(item)}}</td>
                                     <td>{{item.totalQty}}</td>
                                     <td>{{item.totalCreditQty}}</td>
                                     <td>{{item.totalCreditValue}}</td>

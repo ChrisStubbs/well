@@ -9,6 +9,6 @@
         public decimal TotalActionValue { get; set; }
         public int TotalCreditQty { get; set; }
         public int TotalQty { get; set; }
-      
+        public string JobType { get; set; }
     }
 }

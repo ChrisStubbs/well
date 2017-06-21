@@ -17,10 +17,18 @@
                 .Execute();
         }
 
+        public void PostTranSendImportForTobacco()
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTobaccoUpdate)
+                .Execute();
+        }
+
         public void PostTranSendImport()
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionInsert)
                 .Execute();
         }
+
+        
     }
 }

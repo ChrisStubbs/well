@@ -118,6 +118,8 @@
 
             // updates Location/Activity/LineItem/Bag tables from imported data
             this.postImportRepository.PostImportUpdate();
+            // updates tobacco lines from tobacco bag data
+            this.postImportRepository.PostTranSendImportForTobacco();
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
             // update JobResolutionStatus for jobs with LineItemActions
@@ -254,17 +256,6 @@
 
         private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId, bool invoiceOutstanding)
         {
-            //TODO for a tobacco delivery
-            // for each tobacco bag barcode
-            // I need the tobacco lines for the bag barcode
-            // and if the tobacco bag was delivered
-            // the tobacco product line can be updated with linedelivery status 'delivered'
-            // and the delivered qty set to the original despatch qty
-            // if the tobacco bag is not delivered
-            // set the linedeliverystatus to exception or whatever it is
-            // and leave the delivered qty as zero
-            // query damage??
-
             foreach (var detail in jobDetails)
             {
                 var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);

@@ -118,8 +118,8 @@
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
-
 
             //ACT
             this.service.Update(route, filename);
@@ -140,6 +140,7 @@
             this.eventLogger.Verify(x => x.TryWriteToEventLog(EventSource.WellAdamXmlImport, logError, 9682, EventLogEntryType.Error), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
         }
 
@@ -203,6 +204,7 @@
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
             this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
             this.lineItemRepository.Setup(x => x.GetLineItemByJobIds(It.IsAny<List<int>>())).Returns(lineItems);
@@ -236,6 +238,7 @@
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
 
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
@@ -306,6 +309,7 @@
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
 
             this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
@@ -342,6 +346,7 @@
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
 
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
@@ -404,6 +409,7 @@
             this.postImportRepository.Setup(x => x.PostImportUpdate());
 
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
 
 
             this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
@@ -430,6 +436,7 @@
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
             this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);

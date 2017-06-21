@@ -4,5 +4,6 @@
     {
         void PostImportUpdate();
         void PostTranSendImport();
+        void PostTranSendImportForTobacco();
     }
 }

@@ -11,4 +11,5 @@ export interface IActionSubmitSummaryItem
     totalActionValue: number;
     totalCreditQty: number;
     totalQty: number;
+    jobType: string;
 }

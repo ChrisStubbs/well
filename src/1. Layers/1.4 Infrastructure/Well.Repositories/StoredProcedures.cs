@@ -47,6 +47,7 @@
         public static string JobGetByStopId = "Job_GetByStopId";
         public static string JobDetailTotalsPerStop = "JobDetailTotalsPerStop";
         public static string JobDetailTotalsPerRouteHeader = "JobDetailTotalsPerRouteHeader";
+        public static string JobDetailTotalsPerJobIds = "JobDetailTotalsPerJobIds";
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
@@ -164,6 +165,7 @@
         public const string CommentReason = "CommentReason_Get";
 
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
+        public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
         public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
     }

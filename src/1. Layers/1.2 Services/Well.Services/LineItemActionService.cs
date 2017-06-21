@@ -47,6 +47,8 @@ namespace PH.Well.Services
             {
                 foreach (var action in itemActions)
                 {
+                    var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
+
                     if (action.IsTransient())
                     {
                         action.LineItemId = lineItemId;
@@ -54,7 +56,6 @@ namespace PH.Well.Services
                     }
                     else
                     {
-                        var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
                         if (original != null && original.HasChanges(action))
                         {
                             lineItemActionRepository.Update(action);
@@ -64,6 +65,8 @@ namespace PH.Well.Services
                     foreach (var comment in action.Comments.Where(x => x.IsTransient()))
                     {
                         comment.LineItemActionId = action.Id;
+                        comment.FromQty = original?.Quantity;
+                        comment.ToQty = action.Quantity;
                         commentRepository.Save(comment);
                     }
                 }
@@ -71,7 +74,9 @@ namespace PH.Well.Services
                 foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)
                                                                                 && x.Originator != Originator.Driver))
                 {
-                    itemToDelete.DateDeleted = DateTime.Now;
+                    var deleteDate = DateTime.Now;
+                    DeleteComments(itemToDelete, deleteDate);
+                    itemToDelete.DateDeleted = deleteDate;
                     lineItemActionRepository.Update(itemToDelete);
                 }
 
@@ -84,6 +89,15 @@ namespace PH.Well.Services
 
             return this.lineItemRepository.GetById(lineItemId);
 
+        }
+
+        private void DeleteComments(LineItemAction itemToDelete, DateTime deleteDate)
+        {
+            foreach (var comment in itemToDelete.Comments)
+            {
+                comment.DateDeleted = deleteDate;
+                commentRepository.Update(comment);
+            }
         }
 
         private Job GetJob(int jobId )

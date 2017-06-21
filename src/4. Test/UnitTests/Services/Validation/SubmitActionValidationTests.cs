@@ -19,7 +19,9 @@
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IDateThresholdService> dateThresholdService;
         private Mock<IUserRepository> userRepository;
+        private Mock<ICreditThresholdRepository> _creditThresholdRepository;
         private SubmitActionValidation validator;
+      
 
         [SetUp]
         public virtual void SetUp()
@@ -27,8 +29,10 @@
             userNameProvider = new Mock<IUserNameProvider>();
             userRepository = new Mock<IUserRepository>();
             dateThresholdService = new Mock<IDateThresholdService>();
+            _creditThresholdRepository = new Mock<ICreditThresholdRepository>();
 
-            validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object, dateThresholdService.Object);
+            validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object,
+                dateThresholdService.Object, _creditThresholdRepository.Object);
         }
 
         public class TheValidateUserForCreditingMethod : SubmitActionValidationTests

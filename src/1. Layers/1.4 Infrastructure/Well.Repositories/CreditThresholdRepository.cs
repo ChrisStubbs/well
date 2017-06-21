@@ -77,6 +77,22 @@
                 .Query<CreditThreshold>();
         }
 
+        public CreditThreshold GetById(int thresholdId)
+        {
+            CreditThreshold threshold = null;
+            threshold = dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>()
+                .FirstOrDefault(x => x.ThresholdLevelId == thresholdId);
+
+            if (threshold != null)
+            {
+                var branches = dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdBranchesGet)
+                    .AddParameter("creditThresholdId", threshold.Id, DbType.Int32).Query<Branch>();
+                branches.ForEach(b => threshold.Branches.Add(b));
+            }
+
+            return threshold;
+        }
+
         public void PendingCreditInsert(int jobId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.PendingCreditInsert)

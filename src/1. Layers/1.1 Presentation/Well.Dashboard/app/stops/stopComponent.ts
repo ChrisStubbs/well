@@ -386,13 +386,21 @@ export class StopComponent implements IObservableAlive
         lineItem.shorts = shorts;
         lineItem.damages = damages;
 
-        _.forEach(job.items, x => x.resolutionId = data.resolutionId);
+        _.forEach(job.items, x =>
+        {
+            x.resolutionId = data.resolutionId;
+            if (x.lineItemId === data.id)
+            {
+                x.hasUnresolvedActions = data.hasUnresolvedActions;
+            }
+        });
         job.resolution = data.resolutionStatus;
     }
 
     public disableSubmitActions(): boolean
     {
-        if (this.selectedItems().length === 0) {
+        if (this.selectedItems().length === 0)
+        {
             return true;
         }
         return _.some(this.selectedItems(),

@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using Enums;
 
     public class EditLineItemException
     {
@@ -28,7 +30,7 @@
         public int Quantity { get; set; }
         public bool CanEditActions { get; set; }
         public string Resolution { get; set; }
-
+        public bool HasUnresolvedActions => LineItemActions.Any(x => x.DeliveryAction == DeliveryAction.NotDefined);
         public IList<EditLineItemExceptionDetail> Exceptions { get; set; }
         public IList<LineItemAction> LineItemActions { get; set; }
     }

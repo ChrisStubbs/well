@@ -23,8 +23,8 @@ namespace PH.Well.UnitTests.Services
             var dateThresholdService = new Mock<IDateThresholdService>();
             var jobRepository = new Mock<IJobRepository>();
             var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
-
-            this.sut = new JobService(jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object);
+            var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            this.sut = new JobService(jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object, lineItemRepository.Object);
         }
 
         [Test]
@@ -273,8 +273,8 @@ namespace PH.Well.UnitTests.Services
         {
             var jobRepository = new Mock<IJobRepository>();
             var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
-
-            var sut = new JobService(jobRepository.Object, userThresholdService, dateThresholdService, assigneeReadRepository.Object);
+            var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            var sut = new JobService(jobRepository.Object, userThresholdService, dateThresholdService, assigneeReadRepository.Object, lineItemRepository.Object);
 
             return sut.GetNextResolutionStatus(job);
         }

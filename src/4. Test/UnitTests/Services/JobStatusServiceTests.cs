@@ -29,7 +29,7 @@ namespace PH.Well.UnitTests.Services
         private Mock<IAssigneeReadRepository> assigneeReadRepository;
         private Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
         private Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
-
+        private Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
         [SetUp]
         public void Setup()
         {
@@ -44,7 +44,7 @@ namespace PH.Well.UnitTests.Services
 
             assigneeReadRepository.Setup(p => p.GetByJobId(It.IsAny<int>())).Returns(new Assignee { IdentityName = "User" });
 
-            this.service = new JobService(this.jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object);
+            this.service = new JobService(this.jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object, lineItemRepository.Object);
 
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
         }
@@ -401,7 +401,7 @@ namespace PH.Well.UnitTests.Services
 
                 Assert.AreEqual(JobStatus.InComplete, job.JobStatus);
             }
-            
+
             [Test]
             [TestCase(null, ExpectedResult = JobStatus.DocumentDelivery)]
             [TestCase("9999999999999999", ExpectedResult = JobStatus.InComplete)]

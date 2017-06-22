@@ -14,45 +14,36 @@
     public class SubmitActionService : ISubmitActionService
     {
         private readonly ILogger logger;
-        private readonly IUserNameProvider userNameProvider;
-        private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IDeliveryLineCreditMapper deliveryLineCreditMapper;
         private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly ISubmitActionValidation validator;
-        private readonly IUserThresholdService userThresholdService;
         private readonly IActionSummaryMapper actionSummaryMapper;
         private readonly IJobRepository jobRepository;
-        private readonly ILineItemSearchReadRepository lineItemRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IJobService jobService;
 
         public SubmitActionService(
             ILogger logger,
-            IUserNameProvider userNameProvider,
-            ILineItemActionRepository lineItemActionRepository,
             IDeliveryLineCreditMapper deliveryLineCreditMapper,
             ICreditTransactionFactory creditTransactionFactory,
             IExceptionEventRepository exceptionEventRepository,
             ISubmitActionValidation validator,
-            IUserThresholdService userThresholdService,
             IActionSummaryMapper actionSummaryMapper,
             IJobRepository jobRepository,
-            ILineItemSearchReadRepository lineItemRepository,
-            IJobResolutionStatus jobResolutionStatus
+            IJobResolutionStatus jobResolutionStatus,
+            IJobService jobService
             )
         {
             this.logger = logger;
-            this.userNameProvider = userNameProvider;
-            this.lineItemActionRepository = lineItemActionRepository;
             this.deliveryLineCreditMapper = deliveryLineCreditMapper;
             this.creditTransactionFactory = creditTransactionFactory;
             this.exceptionEventRepository = exceptionEventRepository;
             this.validator = validator;
-            this.userThresholdService = userThresholdService;
             this.actionSummaryMapper = actionSummaryMapper;
             this.jobRepository = jobRepository;
-            this.lineItemRepository = lineItemRepository;
             this.jobResolutionStatus = jobResolutionStatus;
+            this.jobService = jobService;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
@@ -115,16 +106,7 @@
         private List<Job> GetJobs(SubmitActionModel submitAction)
         {
             var jobs = jobRepository.GetByIds(submitAction.JobIds).ToList();
-            var lineItems = lineItemRepository.GetLineItemByJobIds(submitAction.JobIds);
-            var jobRoutes = jobRepository.GetJobsRoute(jobs.Select(x => x.Id));
-
-            jobs.ForEach(job =>
-                {
-                    job.LineItems = lineItems.Where(x => x.JobId == job.Id).ToList();
-                    job.JobRoute = jobRoutes.Single(x => x.JobId == job.Id);
-                }
-            );
-
+            jobs = jobService.PopulateLineItemsAndRoute(jobs).ToList();
             return jobs;
         }
 

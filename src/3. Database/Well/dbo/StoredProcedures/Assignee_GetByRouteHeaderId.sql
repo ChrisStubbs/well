@@ -6,6 +6,7 @@ AS
 			,j.Id as JobId
 			,s.Id StopId
 			,jobUser.Name
+			,jobUser.IdentityName
 	FROM RouteHeader rh
 	INNER JOIN 
 		Branch b ON rh.RouteOwnerId = b.Id

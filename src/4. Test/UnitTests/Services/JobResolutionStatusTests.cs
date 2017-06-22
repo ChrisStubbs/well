@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using PH.Well.Domain;
 using PH.Well.Domain.Enums;
+using PH.Well.Repositories.Contracts;
 using PH.Well.Services;
 using PH.Well.Services.Contracts;
 using PH.Well.UnitTests.Factories;
@@ -13,19 +14,23 @@ namespace PH.Well.UnitTests.Services
     [TestFixture]
     public class JobResolutionStatusTests
     {
-        private JobResolutionStatus sut;
+        private JobService sut;
 
         [SetUp]
         public void testSetup()
         {
             var userThreshold = new Mock<IUserThresholdService>();
             var dateThresholdService = new Mock<IDateThresholdService>();
-            this.sut = new JobResolutionStatus(userThreshold.Object, dateThresholdService.Object);
+            var jobRepository = new Mock<IJobRepository>();
+            var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            this.sut = new JobService(jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object, lineItemRepository.Object);
         }
 
         [Test]
         [Description("Check if the Job is in DriverCompleted status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_DriverCompleted()
         {
             var job = JobFactory.New
@@ -33,62 +38,64 @@ namespace PH.Well.UnitTests.Services
                 .Build();
 
             
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
 
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.DriverCompleted));
 
             job.LineItems.Add(LineItemFactory.New.AddCloseAction().Build());
 
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.DriverCompleted));
         }
 
         [Test]
         [Description("Check if the Job is in ActionRequired status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_ActionRequired()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.ActionRequired));
 
             job.LineItems[0] = LineItemFactory.New.AddCloseAction().Build();
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.ActionRequired));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.ActionRequired));
         }
 
         [Test]
         [Description("Check if the Job is in PendingSubmission status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_PendingSubmission()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
                 .Build();
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingSubmission));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingSubmission));
 
             job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .Build();
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.PendingSubmission));
 
             job.ResolutionStatus = ResolutionStatus.PendingApproval;
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingSubmission));
         }
 
@@ -99,100 +106,103 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
                 .Build();
-            job.ResolutionStatus = sut.GetStatus(job);
+            job.ResolutionStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.PendingSubmission));
-            Assert.That(sut.GetStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
+            Assert.That(sut.GetCurrentResolutionStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
         }
 
         [Test]
         [Description("Check if the Job is in PendingApproval status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_PendingApproval()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingApproval));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingApproval));
 
             job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.PendingSubmission)
                 .Build();
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingApproval));
 
             job.ResolutionStatus = ResolutionStatus.PendingApproval;
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.PendingApproval));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.PendingApproval));
         }
 
         [Test]
         [Description("Check if the Job is in Approved status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_Approved()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Approved));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Approved));
 
             job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid)
                 .Build();
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Approved));
 
             job.ResolutionStatus = ResolutionStatus.Approved;
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.Approved));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Approved));
         }
 
         [Test]
         [Description("Check if the Job is in Credited status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_Credited()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
 
             job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid)
                 .Build();
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
 
             job.ResolutionStatus = ResolutionStatus.Credited;
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
 
             job = JobFactory.New
@@ -201,31 +211,32 @@ namespace PH.Well.UnitTests.Services
                 .Build();
 
             job.ResolutionStatus = ResolutionStatus.Credited;
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.Credited));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
         }
         
         [Test]
         [Description("Check if the Job is in Resolved status")]
         [Category("JobResolutionStatus get status")]
+        [Category("JobService")]
         public void Test_ResolutionStatus_Resolved()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
-            var newStatus = sut.GetStatus(job);
+            var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
 
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
 
             job = JobFactory.New
@@ -233,7 +244,7 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid)
                 .Build();
             
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
 
             job = JobFactory.New
@@ -241,11 +252,11 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid)
                 .Build();
             job.ResolutionStatus = ResolutionStatus.Resolved;
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.Resolved));
 
             job.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build());
-            newStatus = sut.GetStatus(job);
+            newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
         }
 
@@ -257,11 +268,15 @@ namespace PH.Well.UnitTests.Services
         [Test]
         [TestCaseSource(typeof(JobResolutionStatusTestsSource), nameof(JobResolutionStatusTestsSource.StepForward))]
         [Category("JobResolutionStatus StepForward")]
+        [Category("JobService")]
         public ResolutionStatus JobResolutionStatusStepForward(Job job, IUserThresholdService userThresholdService, IDateThresholdService dateThresholdService)
         {
-            var sut = new JobResolutionStatus(userThresholdService, dateThresholdService);
+            var jobRepository = new Mock<IJobRepository>();
+            var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            var sut = new JobService(jobRepository.Object, userThresholdService, dateThresholdService, assigneeReadRepository.Object, lineItemRepository.Object);
 
-            return sut.StepForward(job);
+            return sut.GetNextResolutionStatus(job);
         }
     }
 

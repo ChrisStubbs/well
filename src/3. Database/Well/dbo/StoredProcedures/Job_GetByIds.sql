@@ -45,6 +45,7 @@ AS
 		,credit.CreditValue
 		,jb.Abbreviation AS JobTypeAbbreviation
 		,CAST(j.ResolutionStatusId as INTEGER) AS ResolutionStatus
+		,OuterCount
 	FROM 
 		dbo.Job j
 		INNER JOIN @Ids ids ON ids.Value = j.Id

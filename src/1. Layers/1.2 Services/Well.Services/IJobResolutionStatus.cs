@@ -5,7 +5,7 @@ namespace PH.Well.Services
 {
     public interface IJobResolutionStatus
     {
-        ResolutionStatus GetStatus(Job job);
-        ResolutionStatus StepForward(Job job);
+        ResolutionStatus GetCurrentResolutionStatus(Job job);
+        ResolutionStatus GetNextResolutionStatus(Job job);
     }
 }

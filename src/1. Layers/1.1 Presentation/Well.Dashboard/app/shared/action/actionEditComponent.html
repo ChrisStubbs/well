@@ -8,7 +8,7 @@
                 <div class="modal-header" style=" padding-bottom: 0px;">
                     <div style="border-bottom: 1px solid #e5e5e5; padding-bottom: 15px">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add and edit actions for line item id: {{source.id}}</h4>
+                        <h4 class="modal-title" id="myModalLabel">Add and edit actions</h4>
                     </div>
                     <div style="padding: 15px 15px 0 15px">
                         <div class="form-group">
@@ -16,7 +16,7 @@
                                 <label>Job Id:</label>
                                 <span> {{source.jobId}}</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label>Resolution:</label>
                                 <span> {{source.resolutionStatus}}</span> <span *ngIf="!source.canEditActions"> (not editable) </span>
                             </div>
@@ -107,8 +107,9 @@
                                     </td>
                                     <td>
                                         <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
+                                               min="0"
                                                [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
-                                               (change)="qtyChanged(item,i)"
+                                               (change)="qtyChanged(item, i)"
                                                [disabled]="+item.deliveryAction == actionClose || !source.canEditActions" />
                                     </td>
                                     <td>
@@ -132,7 +133,8 @@
                                                             <small class="text-muted">{{c.dateCreated | date:'dd/MMM/yyyy HH:mm:ss' }}</small>
                                                         </div>
                                                         <p class="mb-1 text-justify">{{c.commentDescription}}</p>
-                                                        <small style="display: none;" class="text-muted">here will go the "From QTY to QTY"</small>
+                                                        <small class="text-muted pull-left" >{{c.qtyChangeDescription}}</small>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                 </div>
                                             </tooltip-content>
@@ -194,7 +196,7 @@
                         <div class="col-md-6">
                             
                             <div class="pull-right">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>&nbsp;
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" #closeModal>Cancel</button>&nbsp;
                                 <button type="button" class="btn btn-success" [disabled]="!isFormValid()" (click)="save()" *ngIf="source.canEditActions">Save</button>
                             </div>
                         </div>

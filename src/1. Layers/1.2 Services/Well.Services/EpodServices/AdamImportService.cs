@@ -19,7 +19,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
-        private readonly IJobStatusService jobStatusService;
+        private readonly IJobService jobStatusService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
         private readonly IPostImportRepository postImportRepository;
@@ -30,7 +30,7 @@
             IJobRepository jobRepository, 
             IJobDetailRepository jobDetailRepository, 
             IJobDetailDamageRepository jobDetailDamageRepository,
-            IJobStatusService jobStatusService,
+            IJobService jobStatusService,
             ILogger logger, 
             IEventLogger eventLogger,
             IPostImportRepository postImportRepository)
@@ -131,7 +131,7 @@
         {
             foreach (var job in jobs)
             {
-                this.jobStatusService.SetInitialStatus(job);
+                this.jobStatusService.SetInitialJobStatus(job);
                 job.ResolutionStatus = ResolutionStatus.Imported;
                 this.jobRepository.Save(job);
                 this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);

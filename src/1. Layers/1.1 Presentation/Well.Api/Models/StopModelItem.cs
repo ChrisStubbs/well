@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Api.Models
 {
-    using NLog;
 
     public class StopModelItem
     {
@@ -24,5 +23,6 @@
         public int LineItemId { get; set; }
         public string Resolution { get; set; }
         public int ResolutionId { get; set; }
+        public bool HasUnresolvedActions { get; set; }
     }
 }

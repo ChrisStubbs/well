@@ -46,7 +46,8 @@ export class StopItem
     public isSelected: boolean;
     public lineItemId: number;
     private resolution: string;
-    public  resolutionId: number;
+    public resolutionId: number;
+    public hasUnresolvedActions: boolean;
  
     public get barCode(): string
     {
@@ -102,7 +103,7 @@ export class StopFilter implements IFilter
     public shorts?: boolean;
     public checked: boolean;
     public highValue?: boolean;
-    public resolutionId: string;
+    public resolutionId: number;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {

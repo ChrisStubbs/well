@@ -78,7 +78,8 @@
                                 BarCode = line.SSCCBarcode,
                                 LineItemId = line.LineItemId,
                                 Resolution = p.job.ResolutionStatus.Description,
-                                ResolutionId = p.job.ResolutionStatus.Value
+                                ResolutionId = p.job.ResolutionStatus.Value,
+                                HasUnresolvedActions = HasUnresolvedAction(p.job, line.LineItemId)
                             }
                         })
                         .ToList();
@@ -93,6 +94,16 @@
                     return line.StopModelItem;
                 })
                 .ToList();
+        }
+
+        private static bool HasUnresolvedAction(Job job, int lineItemId)
+        {
+            var lineItems = job.LineItems.Where(x => x.Id == lineItemId).ToArray();
+            if (lineItems.Any())
+            {
+                return lineItems.Any(x => x.LineItemActions.Any(y => y.DeliveryAction == DeliveryAction.NotDefined));
+            }
+            return false;
         }
     }
 }

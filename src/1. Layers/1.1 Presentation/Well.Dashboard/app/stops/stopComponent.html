@@ -48,12 +48,12 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                         &nbsp;
-                        <action-Modal [disabled]="selectedItems().length == 0"
-                                      [jobIds]="getSelectedJobIds()">
-
+                        <action-Modal [disabled]="disableSubmitActions()"
+                                      [jobIds]="getSelectedJobIds()"
+                                      (onSubmitted)="jobsSubmitted($event)">
                         </action-Modal>
                     </div>
-                    <button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>
+                    <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
                 </div>
             </div>
         </div>
@@ -268,12 +268,12 @@
                                 <td class="text-right">{{item.shorts}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
-                                <td class="text-right"></td>
+                                <td class="text-left"><span *ngIf="item.hasUnresolvedActions">{{item.resolution}}</span></td>
                                 <td>
-                                    <span>
-                                        <a href="#" class="glyphicon glyphicon-pencil" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0"></a>
-                                        <input type="checkbox" [(ngModel)]="item.isSelected" title="">
-                                    </span>
+                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0">
+                                        <span class="glyphicon glyphicon-pencil" ></span>
+                                    </a>
+                                    <input type="checkbox" [(ngModel)]="item.isSelected" title="">
                                 </td>
                             </tr>
                         </ng-container>
@@ -292,14 +292,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-
-            <action-edit></action-edit>
-
-
-        </div>
-    </div>
 </div>
-
+<action-edit (onSave)="lineItemSaved($event)"></action-edit>
 <contact-modal></contact-modal>

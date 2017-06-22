@@ -389,6 +389,7 @@ export class StopComponent implements IObservableAlive
         _.forEach(job.items, x =>
         {
             x.resolutionId = data.resolutionId;
+            x.resolution = data.resolutionStatus;
             if (x.lineItemId === data.id)
             {
                 x.hasUnresolvedActions = data.hasUnresolvedActions;

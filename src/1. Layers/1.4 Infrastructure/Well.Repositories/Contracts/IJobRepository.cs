@@ -44,6 +44,8 @@ namespace PH.Well.Repositories.Contracts
 
         IEnumerable<JobRoute> GetJobsRoute(IEnumerable<int> jobIds);
 
+        JobRoute GetJobRoute(int jobId);
+
         void SaveJobResolutionStatus(Job job);
 
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId);

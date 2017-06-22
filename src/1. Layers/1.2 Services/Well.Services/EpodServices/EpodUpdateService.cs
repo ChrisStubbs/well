@@ -33,6 +33,7 @@
         private readonly IPostImportRepository postImportRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
         private readonly ILineItemSearchReadRepository lineitemRepository;
+        private readonly IDateThresholdService _dateThresholdService;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
 
@@ -52,7 +53,8 @@
             IUserNameProvider userNameProvider,
             IPostImportRepository postImportRepository,
             IJobResolutionStatus jobResolutionStatus,
-            ILineItemSearchReadRepository lineItemRepository)
+            ILineItemSearchReadRepository lineItemRepository,
+            IDateThresholdService dateThresholdService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -70,6 +72,7 @@
             this.postImportRepository = postImportRepository;
             this.jobResolutionStatus = jobResolutionStatus;
             this.lineitemRepository = lineItemRepository;
+            _dateThresholdService = dateThresholdService;
         }
 
         public void Update(RouteDelivery route, string fileName)
@@ -103,7 +106,7 @@
 
                     this.routeHeaderRepository.Update(existingHeader);
 
-                    var jobIdsForHeader = this.UpdateStops(header.Stops, branchId);
+                    var jobIdsForHeader = this.UpdateStops(header, branchId);
 
                     updatedJobIds.AddRange(jobIdsForHeader);
                 }
@@ -151,11 +154,11 @@
             }
         }
 
-        private List<int> UpdateStops(IEnumerable<StopDTO> stops, int branchId)
+        private List<int> UpdateStops(RouteHeader routeHeader, int branchId)
         {
             var updatedJobIds
                 = new List<int>();
-            foreach (var stop in stops)
+            foreach (var stop in routeHeader.Stops)
             {
                 try
                 {
@@ -180,7 +183,7 @@
 
                         this.stopRepository.Update(existingStop);
 
-                        updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
+                        updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
 
                         transactionScope.Complete();
                     }
@@ -200,7 +203,7 @@
             return updatedJobIds;
         }
 
-        private List<int> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
+        private List<int> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId,DateTime routeDate)
         {
             var updatedJobIds = new List<int>();
 
@@ -228,7 +231,8 @@
                 {
                     var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
-                    this.exceptionEventRepository.InsertGrnEvent(grnEvent);
+                    this.exceptionEventRepository.InsertGrnEvent(grnEvent,
+                        _dateThresholdService.EarliestSubmitDate(routeDate, branchId));
                 }
 
                 this.UpdateJobDetails(

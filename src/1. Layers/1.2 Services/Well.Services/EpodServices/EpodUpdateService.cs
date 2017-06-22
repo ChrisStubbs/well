@@ -294,8 +294,9 @@
 
             foreach (var damage in damages)
             {
-                if (!string.IsNullOrWhiteSpace(damage.Reason.Description) &&
-                    damage.Reason.Description.ToLower().Contains("short"))
+                if (!string.IsNullOrWhiteSpace(damage.Reason.Description) && (
+                    damage.Reason.Description.ToLower().Contains("short") || 
+                    damage.Reason.Description.ToLower().Contains("product not available")))
                 {
                     continue;
                 }

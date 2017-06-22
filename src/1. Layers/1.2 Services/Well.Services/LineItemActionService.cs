@@ -18,19 +18,22 @@ namespace PH.Well.Services
         private readonly ILineItemActionCommentRepository commentRepository;
         private readonly IJobRepository jobRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IJobService jobService;
 
         public LineItemActionService(
             ILineItemActionRepository lineItemActionRepository,
             ILineItemSearchReadRepository lineItemRepository,
             ILineItemActionCommentRepository commentRepository,
             IJobRepository jobRepository,
-            IJobResolutionStatus jobResolutionStatus)
+            IJobResolutionStatus jobResolutionStatus,
+            IJobService jobService)
         {
             this.lineItemActionRepository = lineItemActionRepository;
             this.lineItemRepository = lineItemRepository;
             this.commentRepository = commentRepository;
             this.jobRepository = jobRepository;
             this.jobResolutionStatus = jobResolutionStatus;
+            this.jobService = jobService;
         }
 
         public LineItem SaveLineItemActions(Job job, int lineItemId, IEnumerable<LineItemAction> lineItemActions)
@@ -103,10 +106,7 @@ namespace PH.Well.Services
         private Job GetJob(int jobId )
         {
             var job = jobRepository.GetById(jobId);
-            job.LineItems = lineItemRepository.GetLineItemByJobIds(new[] {jobId}).ToList();
-            job.JobRoute = jobRepository.GetJobsRoute(new[] {jobId}).Single();
-            return job;
-
+            return jobService.PopulateLineItemsAndRoute(job);
         }
 
         public LineItem InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate)

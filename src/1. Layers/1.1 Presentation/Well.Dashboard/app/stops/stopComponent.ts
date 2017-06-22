@@ -18,6 +18,8 @@ import { EditLineItemException, EditLineItemExceptionDetail } from '../exception
 import { LookupService } from '../shared/services/lookupService';
 import { LookupsEnum } from '../shared/services/lookupsEnum';
 import { SingleRouteSource } from '../routes/singleRoute';
+import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-stop',
@@ -396,6 +398,21 @@ export class StopComponent implements IObservableAlive
             }
         });
         job.resolution = data.resolutionStatus;
+    }
+
+    private jobsSubmitted(data: ISubmitActionResult): void
+    {
+        _.forEach(data.details, (x: ISubmitActionResultDetails) =>
+        {
+            const job = _.find(this.gridSource, current => current.jobId === x.jobId);
+            job.resolution = x.resolutionStatusDescription;
+
+            _.forEach(job.items, i =>
+            {
+                i.resolutionId = x.resolutionStatusId;
+                i.resolution = x.resolutionStatusDescription;
+            });
+        });
     }
 
     public disableSubmitActions(): boolean

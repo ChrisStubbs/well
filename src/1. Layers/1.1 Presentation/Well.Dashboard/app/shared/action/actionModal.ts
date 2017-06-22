@@ -8,18 +8,19 @@ import * as _ from 'lodash';
 import { ILookupValue } from '../services/ILookupValue';
 import { LookupsEnum } from '../services/lookupsEnum';
 import { LookupService } from '../services/lookupService';
-import { ISubmitActionResult as ISubmitActionResult1 } from './submitActionModel';
 
 @Component({
     selector: 'action-Modal',
     templateUrl: 'app/shared/action/actionModal.html',
     providers: [ActionService, LookupService]
 })
+
 export class ActionModal implements IObservableAlive
 {
     @Input() public disabled: boolean = false;
     @Input() public isStopLevel: boolean = false;
     @Output() public onActionClicked: EventEmitter<ILookupValue> = new EventEmitter<ILookupValue>();
+    @Output() public onSubmitted = new EventEmitter<ISubmitActionResult>();
     @Input() public jobIds: number[] = [];
     @ViewChild('btnClose') private btnClose: ElementRef;
 
@@ -29,10 +30,7 @@ export class ActionModal implements IObservableAlive
     constructor(
         private lookupService: LookupService,
         private actionService: ActionService,
-        private toasterService: ToasterService)
-    {
-
-    }
+        private toasterService: ToasterService) { }
 
     public ngOnInit()
     {
@@ -55,7 +53,7 @@ export class ActionModal implements IObservableAlive
             .subscribe((res: ISubmitActionResult) => this.handleResponse(res));
     }
 
-    private handleResponse(res: ISubmitActionResult1): void
+    private handleResponse(res: ISubmitActionResult): void
     {
         if (res.isValid)
         {
@@ -73,9 +71,8 @@ export class ActionModal implements IObservableAlive
         {
             this.toasterService.pop('error', res.message, '');
         }
-
+        this.onSubmitted.emit(res);
         this.closeModal();
-
     }
 
     private closeModal()

@@ -46,7 +46,9 @@ export class StopItem
     public isSelected: boolean;
     public lineItemId: number;
     private resolution: string;
-    public  resolutionId: number;
+    public resolutionId: number;
+    public grnProcessType: number;
+    public grnNumber: string;
  
     public get barCode(): string
     {

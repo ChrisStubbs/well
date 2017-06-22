@@ -197,6 +197,7 @@
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
+    <TypeScriptCompile Include="app\job\jobService.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />

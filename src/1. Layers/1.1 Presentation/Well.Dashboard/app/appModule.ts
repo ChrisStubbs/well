@@ -79,7 +79,7 @@ import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
- import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
+import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -101,6 +101,7 @@ import { LookupService } from './shared/services/lookupService';
 import AppRoutes = require('./appRoutes');
 import { ActionEditComponent } from './shared/action/actionEditComponent';
 import { TooltipModule } from 'ngx-tooltip';
+import {JobService} from './job/jobService';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -127,6 +128,7 @@ import { TooltipModule } from 'ngx-tooltip';
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
         CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService,
+        JobService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

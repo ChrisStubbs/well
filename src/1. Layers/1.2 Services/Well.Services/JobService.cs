@@ -139,6 +139,11 @@
                 && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
 
+        public void SetGrn(int jobId, string grn)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region IJobResolutionStatus

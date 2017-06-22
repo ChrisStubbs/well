@@ -28,7 +28,7 @@
         private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IRouteMapper mapper;
         private readonly IAdamImportService adamImportService;
-        private readonly IJobStatusService jobStatusService;
+        private readonly IJobService jobStatusService;
         private readonly IUserNameProvider userNameProvider;
         private readonly IPostImportRepository postImportRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
@@ -48,7 +48,7 @@
             IRouteMapper mapper,
             IAdamImportService adamImportService,
             IPodTransactionFactory podTransactionFactory,
-            IJobStatusService jobStatusService,
+            IJobService jobStatusService,
             IUserNameProvider userNameProvider,
             IPostImportRepository postImportRepository,
             IJobResolutionStatus jobResolutionStatus,
@@ -139,7 +139,7 @@
 
                 foreach (var job in updatedJobs)
                 {
-                    var status = this.jobResolutionStatus.StepForward(job);
+                    var status = this.jobResolutionStatus.GetNextResolutionStatus(job);
                     if (status != ResolutionStatus.Invalid)
                     {
                         job.ResolutionStatus = status;

@@ -14,7 +14,7 @@
 		,@DeliveryActionId INT
 		,@UpdatedBy VARCHAR(50)
 		,@UpdatedDate DATETIME
-		,@DateDeleted DATETIME
+		,@DateDeleted DATETIME = NULL
 AS
 UPDATE [dbo].[LineItemAction]
    SET [ExceptionTypeId] = @ExceptionTypeId

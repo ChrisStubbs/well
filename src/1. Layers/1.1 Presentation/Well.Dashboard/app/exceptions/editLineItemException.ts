@@ -11,6 +11,7 @@ export class EditLineItemException
     public isSelected: boolean;
     public id: number;
     public jobId: number;
+    public resolutionId: number;
     public resolutionStatus: string;
     public accountCode: string;
     public invoice: string;

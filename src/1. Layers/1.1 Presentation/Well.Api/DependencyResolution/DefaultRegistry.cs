@@ -48,7 +48,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
-            For<IJobStatusService>().Use<JobStatusService>();
+            For<IJobService>().Use<JobService>();
             For<IBulkCreditService>().Use<BulkCreditService>();
 
             For<IBranchRepository>().Use<BranchRepository>();
@@ -119,7 +119,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ILineItemActionCommentRepository>().Use<LineItemActionCommentRepository>();
             For<IDateThresholdService>().Use<DateThresholdService>();
 
-            For<IJobResolutionStatus>().Use<JobResolutionStatus>();
+            For<IJobResolutionStatus>().Use<JobService>();
         }
     }
 }

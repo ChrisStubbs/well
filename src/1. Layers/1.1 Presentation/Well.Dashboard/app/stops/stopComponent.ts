@@ -1,22 +1,23 @@
-import { Component, ViewChild, ElementRef }     from '@angular/core';
-import { ActivatedRoute }                       from '@angular/router';
-import { IObservableAlive }                     from '../shared/IObservableAlive';
-import { StopService }                          from './stopService';
-import { Stop, StopItem, StopFilter }           from './stop';
-import * as _                                   from 'lodash';
-import { AssignModel, AssignModalResult }       from '../shared/components/assignModel';
-import { Branch }                               from '../shared/branch/branch';
-import { SecurityService }                      from '../shared/security/securityService';
-import { GlobalSettingsService }                from '../shared/globalSettings';
-import { ILookupValue }                         from '../shared/services/services';
-import { AccountService }                       from '../account/accountService';
-import { ContactModal }                         from '../shared/contactModal';
-import { GridHelpersFunctions }                 from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent }                  from '../shared/action/actionEditComponent';
-import { EditExceptionsService }                from '../exceptions/editExceptionsService';
-import {EditLineItemException, EditLineItemExceptionDetail}                from '../exceptions/editLineItemException';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { StopService } from './stopService';
+import { Stop, StopItem, StopFilter } from './stop';
+import * as _ from 'lodash';
+import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
+import { AccountService } from '../account/accountService';
+import { ContactModal } from '../shared/contactModal';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent } from '../shared/action/actionEditComponent';
+import { EditExceptionsService } from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
 import { LookupService } from '../shared/services/lookupService';
-import {LookupsEnum} from '../shared/services/lookupsEnum';
+import { LookupsEnum } from '../shared/services/lookupsEnum';
+import { SingleRouteSource } from '../routes/singleRoute';
 
 @Component({
     selector: 'ow-stop',
@@ -97,11 +98,13 @@ export class StopComponent implements IObservableAlive
                     .value();
 
                 _.chain(data.items)
-                    .map((current: StopItem) => {
+                    .map((current: StopItem) =>
+                    {
                         return current.type + ' (' + current.jobTypeAbbreviation + ')';
                     })
                     .uniq()
-                    .map((current: string) => {
+                    .map((current: string) =>
+                    {
                         this.jobTypes.push(
                             {
                                 key: current,
@@ -115,7 +118,8 @@ export class StopComponent implements IObservableAlive
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
             .takeWhile(() => this.isAlive)
-            .subscribe((value: ILookupValue[]) => {
+            .subscribe((value: ILookupValue[]) =>
+            {
                 this.resolutionStatuses = value;
             });
 
@@ -199,7 +203,8 @@ export class StopComponent implements IObservableAlive
     {
         this.accountService.getAccountByAccountId(accountId)
             .takeWhile(() => this.isAlive)
-            .subscribe(account => {
+            .subscribe(account =>
+            {
                 this.contactModal.show(account);
                 this.openContact.nativeElement.click();
             });
@@ -311,7 +316,8 @@ export class StopComponent implements IObservableAlive
         let totalShorts: number = 0;
 
         _.forEach(data,
-            (current: StopItem) => {
+            (current: StopItem) =>
+            {
                 totalInvoiced += current.invoiced;
                 totalDelivered += current.delivered;
                 totalDamages += current.damages;
@@ -350,36 +356,49 @@ export class StopComponent implements IObservableAlive
     public lineItemSaved(data: EditLineItemException): void
     {
         //find the invoice edited (via lineitem edit)
-        const invoice = _.find(this.gridSource, current => current.invoice == data.invoice);
+        const job = _.find(this.gridSource, current => current.jobId == data.jobId);
         let damages = 0;
         let shorts = 0;
         //find the line that was edited
-        const lineItem = _.find(invoice.items, (current: StopItem) => current.product == data.productNumber);
+        const lineItem = _.find(job.items, (current: StopItem) => current.product == data.productNumber);
 
         //sum the shorts and damages sent from the server
         _.forEach(data.exceptions, (current: EditLineItemExceptionDetail) =>
         {
             if (current.exception == 'Short')
             {
-                shorts++;
+                shorts += current.quantity;
             }
             else if (current.exception == 'Damage')
             {
-                damages++;
+                damages += current.quantity;
             }
 
         });
 
         //remove the shorts and damages from the current invoice based on the selected lineitem
-        invoice.totalDamages -= lineItem.damages;
-        invoice.totalShorts -= lineItem.shorts;
+        job.totalDamages -= lineItem.damages;
+        job.totalShorts -= lineItem.shorts;
 
         //now lets add the values sent from server
-        invoice.totalDamages += damages;
-        invoice.totalShorts += shorts;
+        job.totalDamages += damages;
+        job.totalShorts += shorts;
         lineItem.shorts = shorts;
         lineItem.damages = damages;
+
+        _.forEach(job.items, x => x.resolutionId = data.resolutionId);
+        job.resolution = data.resolutionStatus;
     }
+
+    public disableSubmitActions(): boolean
+    {
+        if (this.selectedItems().length === 0) {
+            return true;
+        }
+        return _.some(this.selectedItems(),
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+    }
+
 }
 
 interface IDictionarySource

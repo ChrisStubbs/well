@@ -32,7 +32,7 @@ namespace PH.Well.UnitTests.Services
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
         private Mock<IBranchRepository> branchRepository;
         private Mock<IUserNameProvider> userNameProvider;
-        private Mock<IJobStatusService> deliveryStatusService;
+        private Mock<IJobService> deliveryStatusService;
 
         [SetUp]
         public void Setup()
@@ -46,7 +46,7 @@ namespace PH.Well.UnitTests.Services
             exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
-            deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
+            deliveryStatusService = new Mock<IJobService>(MockBehavior.Strict);
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,

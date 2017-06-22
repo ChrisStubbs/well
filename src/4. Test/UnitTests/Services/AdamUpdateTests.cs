@@ -37,7 +37,7 @@
 
         private Mock<IUserNameProvider> userNameProvider;
 
-        private Mock<IJobStatusService> jobStatusService;
+        private Mock<IJobService> jobStatusService;
 
         private Mock<IPostImportRepository> postImportRepository;
 
@@ -53,7 +53,7 @@
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
-            this.jobStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
+            this.jobStatusService = new Mock<IJobService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
@@ -278,7 +278,7 @@
 
                 this.jobDetailRepository.Setup(x => x.Save(It.IsAny<JobDetail>()));
 
-                this.jobStatusService.Setup(x => x.SetInitialStatus(It.IsAny<Job>()));
+                this.jobStatusService.Setup(x => x.SetInitialJobStatus(It.IsAny<Job>()));
 
                 this.postImportRepository.Setup(x => x.PostImportUpdate());
 
@@ -306,7 +306,7 @@
 
                 this.jobDetailRepository.Verify(x => x.Save(It.IsAny<JobDetail>()), Times.Once);
 
-                this.jobStatusService.Verify(x => x.SetInitialStatus(It.IsAny<Job>()), Times.Once);
+                this.jobStatusService.Verify(x => x.SetInitialJobStatus(It.IsAny<Job>()), Times.Once);
 
                 this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
 
@@ -408,7 +408,7 @@
 
                 this.mapper.Setup(x => x.Map(It.IsAny<JobUpdate>(), It.IsAny<Job>()));
 
-                this.jobStatusService.Setup(x => x.SetIncompleteStatus(It.IsAny<Job>()));
+                this.jobStatusService.Setup(x => x.SetIncompleteJobStatus(It.IsAny<Job>()));
 
                 this. jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
 

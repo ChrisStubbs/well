@@ -17,15 +17,18 @@ namespace PH.Well.UnitTests.Services
     using System.Threading.Tasks;
 
     using PH.Well.Domain.Enums;
+    using Well.Domain.ValueObjects;
+    using Well.Services.Contracts;
 
     [TestFixture]
-    public class JobStatusServiceTests
+    public class JobServiceTests
     {
         private Mock<IJobRepository> jobRepository;
-
-        private JobStatusService service;
-
+        private JobService service;
         private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IAssigneeReadRepository> assigneeReadRepository;
+        private Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
+        private Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
 
         [SetUp]
         public void Setup()
@@ -37,20 +40,22 @@ namespace PH.Well.UnitTests.Services
             Thread.CurrentPrincipal = principal;
 
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.assigneeReadRepository = new Mock<IAssigneeReadRepository>();
 
-            //////this.jobRepository.SetupSet(x => x.CurrentUser = "foo");
+            assigneeReadRepository.Setup(p => p.GetByJobId(It.IsAny<int>())).Returns(new Assignee { IdentityName = "User" });
 
-            this.service = new JobStatusService(this.jobRepository.Object);
+            this.service = new JobService(this.jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object);
 
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
         }
 
-        public class TheDetermineStatusMethod : JobStatusServiceTests
+        public class TheDetermineStatusMethod : JobServiceTests
         {
             /// <summary>
             /// Multiple jobs with same product and delivered QTY > despatched/invoiced QTY
             /// </summary>
             [Test]
+            [Category("JobService")]
             public void ShouldSetAllJobsToException()
             {
                 var branchNo = 55;
@@ -104,6 +109,7 @@ namespace PH.Well.UnitTests.Services
             /// Multiple jobs with same product and delivered QTY == despatched/invoiced QTY
             /// </summary>
             [Test]
+            [Category("JobService")]
             public void QtyEqualShouldSetAllJobsToNotException()
             {
                 var branchNo = 55;
@@ -150,6 +156,7 @@ namespace PH.Well.UnitTests.Services
             /// Multiple jobs with same product and delivered QTY < despatched/invoiced QTY
             /// </summary>
             [Test]
+            [Category("JobService")]
             public void QtyLessThanShouldSetAllJobsToNotException()
             {
                 var branchNo = 55;
@@ -197,6 +204,7 @@ namespace PH.Well.UnitTests.Services
             /// </summary>
             [Test]
             [Ignore("We need to deploy. After deploy the test wil be fixed")]
+            [Category("JobService")]
             public void ShortQtyGreaterThanShouldSetException()
             {
                 var branchNo = 55;
@@ -232,6 +240,7 @@ namespace PH.Well.UnitTests.Services
             /// A job has shorts QTY > 0 
             /// </summary>
             [Test]
+            [Category("JobService")]
             public void ShortQtyZeroShouldNotSetException()
             {
                 var branchNo = 55;
@@ -267,6 +276,7 @@ namespace PH.Well.UnitTests.Services
             /// A job has shorts QTY > 0 
             /// </summary>
             [Test]
+            [Category("JobService")]
             public void GivenDamageWithNoQtyShouldSetToClean()
             {
                 var branchNo = 55;
@@ -302,6 +312,7 @@ namespace PH.Well.UnitTests.Services
             /// </summary>
             [Test]
             [Ignore("We need to deploy. After deploy the test wil be fixed")]
+            [Category("JobService")]
             public void DamagesShouldSetException()
             {
                 var branchNo = 55;
@@ -333,6 +344,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             [TestCase(PerformanceStatus.Abypa)]
             [TestCase(PerformanceStatus.Nbypa)]
+            [Category("JobService")]
             public void TestCasesShouldSetToBypass(PerformanceStatus status)
             {
                 var branchNo = 55;
@@ -353,6 +365,7 @@ namespace PH.Well.UnitTests.Services
             }
 
             [Test]
+            [Category("JobService")]
             public void TestCasesShouldSetToCompletedOnPaper()
             {
                 // come in as a bypass
@@ -372,9 +385,10 @@ namespace PH.Well.UnitTests.Services
             }
         }
 
-        public class TheSetIncompleteStatusMethod : JobStatusServiceTests
+        public class TheSetIncompleteStatusMethod : JobServiceTests
         {
             [Test]
+            [Category("JobService")]
             public void GivenAwaitingInvoiceAndHasInvoiceNumber_ThenSetInComplete()
             {
                 var job = new Job()
@@ -383,7 +397,7 @@ namespace PH.Well.UnitTests.Services
                     InvoiceNumber = "123"
                 };
 
-                service.SetIncompleteStatus(job);
+                service.SetIncompleteJobStatus(job);
 
                 Assert.AreEqual(JobStatus.InComplete, job.JobStatus);
             }
@@ -391,6 +405,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             [TestCase(null, ExpectedResult = JobStatus.DocumentDelivery)]
             [TestCase("9999999999999999", ExpectedResult = JobStatus.InComplete)]
+            [Category("JobService")]
             public JobStatus SetJobSetIncompleteStatus(string invoiceNumber)
             {
                 var job = new Job
@@ -399,9 +414,59 @@ namespace PH.Well.UnitTests.Services
                     InvoiceNumber = invoiceNumber
                 };
 
-                service.SetIncompleteStatus(job);
+                service.SetIncompleteJobStatus(job);
                 return job.JobStatus;
             }
+        }
+
+        [Test]
+        [TestCase("User", ExpectedResult = true)]
+        [TestCase("", ExpectedResult = false)]
+        [Category("JobService")]
+        public bool CanEditActions_Should_Check_User(string user)
+        {
+            var job = new Job
+            {
+                ResolutionStatus = ResolutionStatus.DriverCompleted
+            };
+
+            return this.service.CanEditActions(job, user);
+        }
+
+        [Test]
+        [Category("JobService")]
+        public void CanEditActions_Should_Check_ResolutionStatus()
+        {
+            var job = new Job
+            {
+                ResolutionStatus = ResolutionStatus.DriverCompleted
+            };
+
+            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.ActionRequired;
+            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.PendingSubmission;
+            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.PendingApproval;
+            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.Imported;
+            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.Approved;
+            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.Credited;
+            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.Resolved;
+            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+
+            job.ResolutionStatus = ResolutionStatus.Closed;
+            Assert.IsFalse(this.service.CanEditActions(job, "User"));
         }
     }
 }

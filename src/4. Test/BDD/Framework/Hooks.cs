@@ -188,7 +188,6 @@
                                                 x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                                                 x.For<IBranchRepository>().Use<BranchRepository>();
                                                 x.For<IWebClientHelper>().Use<WebClientHelper>();
-                                                x.For<IJobStatusService>().Use<JobStatusService>();
                                                 x.For<IUserNameProvider>().Use<UserNameProvider>();
                                             });
 

@@ -49,5 +49,7 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId);
 
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId);
+
+        IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds);
     }
 }

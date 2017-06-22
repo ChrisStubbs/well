@@ -12,6 +12,7 @@
         }
         public int Id { get; set; }
         public int JobId { get; set; }
+        public int ResolutionId { get; set; }
         public string ResolutionStatus { get; set; }
         public string AccountCode { get; set; }
         public string Invoice { get; set; }
@@ -21,7 +22,7 @@
         public string Product { get; set; }
         public decimal Value { get; set; }
         public int? Invoiced { get; set; }
-        public int? Delivered { get; set; }
+        public int? Delivered => Invoiced - (Damages + Shorts);
         public int Damages { get; set; }
         public int Shorts { get; set; }
         public int Quantity { get; set; }

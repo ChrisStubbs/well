@@ -93,12 +93,11 @@
     <Compile Include="Contracts\ISubmitActionService.cs" />
     <Compile Include="IDateThresholdService.cs" />
     <Compile Include="IJobResolutionStatus.cs" />
-    <Compile Include="JobResolutionStatus.cs" />
     <Compile Include="Mappers\ActionSummaryMapper.cs" />
     <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />
     <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
-    <Compile Include="JobStatusService.cs" />
+    <Compile Include="JobService.cs" />
     <Compile Include="EpodServices\AdamImportService.cs" />
     <Compile Include="EpodServices\AdamUpdateService.cs" />
     <Compile Include="EpodServices\EpodUpdateService.cs" />

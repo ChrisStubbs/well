@@ -24,6 +24,7 @@ import { ActionEditComponent }                                      from '../sha
 import { ResolutionStatusEnum }                                     from '../shared/services/resolutionStatusEnum';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import {ISubmitActionResult, ISubmitActionResultDetails} from "../shared/action/submitActionModel";
 
 @Component({
     selector: 'ow-activity',
@@ -321,5 +322,20 @@ export class ActivityComponent implements IObservableAlive
             .uniq()
             .map('jobId')
             .value();
+    }
+
+    private jobsSubmitted(data: ISubmitActionResult): void
+    {
+        const allDetails = _.chain(this.gridSource)
+            .map('details')
+            .concat()
+            .value();
+
+        _.forEach(data.details, (x: ISubmitActionResultDetails) =>
+        {
+            const job = _.find(allDetails, (current: ActivitySourceDetail) => current.jobId === x.jobId);
+            job.resolution = x.resolutionStatusDescription;
+            job.resolutionId = x.resolutionStatusId;
+        });
     }
 }

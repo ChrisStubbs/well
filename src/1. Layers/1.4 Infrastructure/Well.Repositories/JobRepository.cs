@@ -257,9 +257,12 @@ namespace PH.Well.Repositories
             var jobs = gridReader.Read<Job>().ToList();
             var jobDetails = gridReader.Read<JobDetail>().ToList();
             var jobDetailsDamages = gridReader.Read<JobDetailDamage>().ToList();
+            var jobResolutionHistory = gridReader.Read<JobResolutionStatus>().ToList();
             foreach (var job in jobs)
             {
                 job.JobDetails = jobDetails.Where(x => x.JobId == job.Id).ToList();
+                job.ResolutionStatusHistory = jobResolutionHistory.Where(x => x.JobId == job.Id);
+
                 foreach (JobDetail jobDetail in job.JobDetails)
                 {
                     jobDetail.JobDetailDamages = jobDetailsDamages.Where(x => x.JobDetailId == jobDetail.Id).ToList();
@@ -287,6 +290,15 @@ namespace PH.Well.Repositories
         public void SaveJobResolutionStatus(Job job)
         {
             this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+        }
+
+        public IEnumerable<Job> GetJobsByResolutionStatus(ResolutionStatus resolutionStatus)
+        {
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByResolutionStatus)
+                .AddParameter("ResolutionStatusId", resolutionStatus.Value, DbType.Int32)
+                .Query<int>();
+
+            return GetByIds(jobIds);
         }
     }
 }

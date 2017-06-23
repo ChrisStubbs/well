@@ -70,7 +70,7 @@
 
             if (HaveItemsToCredit(jobList))
             {
-                result = ValidateUserForCreditingJobs(jobList);
+                result = ValidateUserForCrediting();
             }
             
             return result;
@@ -117,28 +117,16 @@
             return new SubmitActionResult { IsValid = true };
         }
 
-        public virtual SubmitActionResult ValidateUserForCreditingJobs(IList<Job> jobs)
-        {
-            var validateForCreditingResult = ValidateUserForCrediting();
-            if (!validateForCreditingResult.IsValid)
-            {
-                return validateForCreditingResult;
-            }
+        //public virtual SubmitActionResult ValidateUserForCreditingJobs(IList<Job> jobs)
+        //{
+        //    var validateForCreditingResult = ValidateUserForCrediting();
+        //    if (!validateForCreditingResult.IsValid)
+        //    {
+        //        return validateForCreditingResult;
+        //    }
 
-            // At this point user is eligible to credit jobs
-            var username = this.userNameProvider.GetUserName();
-            var user = this.userRepository.GetByIdentity(username);
-
-            var creditThreshold = _creditThresholdRepository.GetById(user.ThresholdLevelId.Value);
-            var jobsExceedingThreshold = jobs.Where(x => x.TotalCreditValue > creditThreshold.Threshold).ToList();
-            if (jobsExceedingThreshold.Any())
-            {
-                var jobsExceedingThresholdString = string.Join(",", jobsExceedingThreshold.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Credit Value: {x.TotalCreditValue} "));
-                return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs exceed allowed credit {jobsExceedingThresholdString}." };
-            }
-
-            return new SubmitActionResult { IsValid = true };
-        }
+        //    return new SubmitActionResult { IsValid = true };
+        //}
 
     }
 }

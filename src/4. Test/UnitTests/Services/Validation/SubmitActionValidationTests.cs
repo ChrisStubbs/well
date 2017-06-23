@@ -207,37 +207,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 Assert.That(result.IsValid, Is.True);
             }
 
-            [Test]
-            public void ShouldReturnInvalidForExceededCredit()
-            {
-                this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
-                this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
-                this._creditThresholdRepository.Setup(x => x.GetById(user.ThresholdLevelId.Value))
-                    .Returns(new CreditThreshold { ThresholdLevelId = user.ThresholdLevelId.Value, Threshold = 100 });
-
-                //Setup job with line item and actions so total credit  value will be 101 (net price * amount of credit actions)
-                this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission,LineItems = new []{new LineItem
-                {
-                    NetPrice = 1,
-                    LineItemActions = new[]
-                    {
-                        new LineItemAction
-                        {
-                            DeliveryAction = DeliveryAction.Credit,
-                            Quantity = 101,
-                        }
-                    }.ToList()
-                }}});
-
-                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
-                stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
-                stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = true });
-
-                var result = stubbedValidator.Object.Validate(submitAction, jobs);
-                Assert.False(result.IsValid);
-            }
         }
-
 
         public class TheEarliestCreditDateForItemsHasBeenReached : SubmitActionValidationTests
         {

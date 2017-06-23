@@ -1,4 +1,4 @@
-﻿import {Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {LogService} from '../logService';
 
@@ -15,8 +15,6 @@ export class SecurityService {
     public validateUser(permissions: string[], requiredPermission: string): void {
         if (!permissions ||
             (requiredPermission && requiredPermission.length > 0 && permissions.indexOf(requiredPermission) == -1)) {
-            this.logService.log('Permissions: ' + permissions);
-            this.logService.log('Required permission: \'' + requiredPermission + '\'');
             this.router.navigate(['/unauthorised']);
         }
     }

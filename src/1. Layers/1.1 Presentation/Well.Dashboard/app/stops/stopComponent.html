@@ -46,12 +46,8 @@
             <div class="col-md-12 clearfix">
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
-                        &nbsp;
-                        <action-Modal [disabled]="disableSubmitActions()"
-                                      [jobIds]="getSelectedJobIds()">
-
-                        </action-Modal>
+                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>&nbsp;
+                        <action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()"> </action-Modal>
                     </div>
                     <button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>
                 </div>

@@ -171,7 +171,11 @@
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
                             <td colspan="2">{{detail.account}}</td>
-                            <td>{{detail.invoice}}</td>
+                            <td>
+                                {{detail.invoice}}
+                                <br/>
+                               <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail" ></assignGrn-Modal>
+                            </td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.wellStatusDescription}}</td>
                             <td>

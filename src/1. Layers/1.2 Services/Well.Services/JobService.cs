@@ -141,7 +141,7 @@
 
         public void SetGrn(int jobId, string grn)
         {
-            throw new NotImplementedException();
+            jobRepository.SaveGrn(jobId, grn);
         }
 
         #endregion

@@ -23,6 +23,6 @@ export  class JobService {
         return this.http.post(url, JSON.stringify({ id: jobId, grn: grn }), options)
             .map((response: Response) => { return response; })
             .do(data => this.logService.log(data))
-            .catch(e => this.httpErrorService.handleError(e))
+            .catch(e => this.httpErrorService.handleError(e));
     }
 }

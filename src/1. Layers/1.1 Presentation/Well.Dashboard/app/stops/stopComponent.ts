@@ -17,7 +17,8 @@ import { EditExceptionsService }                from '../exceptions/editExceptio
 import {EditLineItemException, EditLineItemExceptionDetail}                from '../exceptions/editLineItemException';
 import { LookupService } from '../shared/services/lookupService';
 import {LookupsEnum} from '../shared/services/lookupsEnum';
-import {SingleRouteSource} from '../routes/singleRoute';
+import { SingleRouteSource } from '../routes/singleRoute';
+import {GrnHelpers, IGrnAssignable} from '../job/job';
 
 @Component({
     selector: 'ow-stop',
@@ -271,6 +272,8 @@ export class StopComponent implements IObservableAlive
                     .uniq()
                     .join(', ')
                     .value();
+                item.grnProcessType = singleItem.grnProcessType;
+                item.grnNumber = singleItem.grnNumber;
 
                 values[singleItem.jobId] = item;
             })
@@ -401,6 +404,10 @@ export class StopComponent implements IObservableAlive
         item.shorts = data.shorts;
     }
 
+    private isGrnRequired = (item: StopItemSource): boolean => {
+        return GrnHelpers.isGrnRequired(item);
+    }
+
 }
 
 interface IDictionarySource
@@ -408,7 +415,7 @@ interface IDictionarySource
     [key: number]: StopItemSource;
 }
 
-class StopItemSource
+class StopItemSource implements IGrnAssignable
 {
     constructor()
     {
@@ -430,4 +437,6 @@ class StopItemSource
     public types: string;
     public resolution: string;
     public items: Array<StopItem>;
+    public grnNumber: string;
+    public grnProcessType: number;
 }

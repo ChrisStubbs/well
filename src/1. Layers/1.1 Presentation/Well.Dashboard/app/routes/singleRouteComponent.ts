@@ -14,7 +14,7 @@ import { LookupService, LookupsEnum, ILookupValue, ResolutionStatusEnum } from '
 import { Observable }                                           from 'rxjs';
 import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
 import 'rxjs/add/operator/mergeMap';
-import {JobService} from '../job/jobService';
+import {JobService, GrnHelpers} from '../job/job';
 
 @Component({
     selector: 'ow-route',
@@ -295,5 +295,9 @@ export class SingleRouteComponent implements IObservableAlive
     public disableSubmitActions(): boolean {
         return (this.selectedItems().length == 0 ||
             this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
+    }
+
+    private isGrnRequired = (item: SingleRouteItem): boolean => {
+        return GrnHelpers.isGrnRequired(item);
     }
 }

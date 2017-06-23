@@ -1,6 +1,7 @@
 import * as _                               from 'lodash';
 import { IFilter, GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
-import {LookupService} from '../shared/services/lookupService';
+import { LookupService } from '../shared/services/lookupService';
+import {IGrnAssignable} from '../job/job';
 
 export class Stop
 {
@@ -17,7 +18,7 @@ export class Stop
     public items: StopItem[];
 }
 
-export class StopItem
+export class StopItem implements IGrnAssignable
 {
     constructor()
     {

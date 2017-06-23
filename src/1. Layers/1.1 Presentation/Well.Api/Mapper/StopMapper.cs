@@ -78,7 +78,9 @@
                                 BarCode = line.SSCCBarcode,
                                 LineItemId = line.LineItemId,
                                 Resolution = p.job.ResolutionStatus.Description,
-                                ResolutionId = p.job.ResolutionStatus.Value
+                                ResolutionId = p.job.ResolutionStatus.Value,
+                                GrnProcessType = p.job.GrnProcessType ?? 0,
+                                GrnNumber = p.job.GrnNumber
                             }
                         })
                         .ToList();

@@ -101,7 +101,7 @@ import { LookupService } from './shared/services/lookupService';
 import AppRoutes = require('./appRoutes');
 import { ActionEditComponent } from './shared/action/actionEditComponent';
 import { TooltipModule } from 'ngx-tooltip';
-import {JobService} from './job/jobService';
+import {JobService, AssignGrnModal} from './job/job';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -117,7 +117,7 @@ import {JobService} from './job/jobService';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent
+        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, AssignGrnModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

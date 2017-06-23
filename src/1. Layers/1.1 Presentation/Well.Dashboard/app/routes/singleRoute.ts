@@ -1,7 +1,8 @@
 import * as _                   from 'lodash';
 import {IFilter}                from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import {LookupService}          from '../shared/services/lookupService';
+import { LookupService } from '../shared/services/lookupService';
+import {IGrnAssignable} from '../job/job';
 
 export interface SingleRoute
 {
@@ -14,7 +15,7 @@ export interface SingleRoute
     items: SingleRouteItem[];
 }
 
-export class SingleRouteItem
+export class SingleRouteItem implements IGrnAssignable
 {
     constructor()
     {
@@ -52,6 +53,8 @@ export class SingleRouteItem
     public account: string;
     public wellStatus: number;
     public wellStatusDescription: string;
+    public grnNumber: string;
+    public grnProcessType: number;
 }
 
 export class SingleRouteSource

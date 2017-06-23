@@ -43,6 +43,11 @@ export class GridHelpersFunctions
         return _.isEqual(value, value2);
     };
 
+    public static enumBitwiseAndCompare: (value: number, value2: number) => boolean = (value: any, value2: any) =>
+    {
+        return (value & value2) == value;
+    }
+
     public static boolFilter: (value: boolean, value2: any) => boolean = (value: boolean, value2: any) =>
     {
         return _.isEqual(value, value2.toString() == 'true');

@@ -1,53 +1,76 @@
-import * as _                               from 'lodash';
-import { IFilter, GridHelpersFunctions }    from '../shared/gridHelpers/gridHelpers';
+import {IFilter}                from '../shared/gridHelpers/IFilter';
+import {GridHelpersFunctions}   from '../shared/gridHelpers/gridHelpersFunctions';
+import * as _                   from 'lodash';
 
-export class Stop
+export class ActivitySource
 {
-    public routeId: number;
-    public routeNumber: string;
+    constructor()
+    {
+        this.details = [];
+    }
+
     public branch: string;
     public branchId: number;
+    public primnaryAccount: string;
+    public accountName: string;
+    public accountNumber: string;
+    public accountAddress: string;
+    public pod: boolean;
+    public cod: boolean;
+    public itemNumber: string;
+    public isInvoice: boolean;
+    public date: Date;
     public driver: string;
-    public routeDate: Date;
-    public assignedTo: string;
+    public assignee: string;
     public tba: number;
-    public stopNo: string;
-    public totalNoOfStopsOnRoute: number;
-    public items: StopItem[];
+    public details: Array<ActivitySourceDetail>;
 }
 
-export class StopItem
+export class ActivitySourceGroup
 {
+    constructor()
+    {
+        this.isExpanded = false;
+    }
+
+    public isExpanded: boolean;
+    public stopId: number;
+    public stopDate: Date;
+    public jobId: number;
+    public totalDameged: number;
+    public totalShorts: number;
+    public totalExpected: number;
+    public details: Array<ActivitySourceDetail>;
+}
+
+export class ActivitySourceDetail
+{
+    public noBarCode = 'NoBarCode';
+
     constructor()
     {
         this.isSelected = false;
     }
 
-    public noBarCode = 'NoBarCode';
-
-    public jobId: number;
-    public type: string;
-    public jobTypeAbbreviation: string;
-    public invoice: string;
-    public account: string;
-    public accountID: number;
-    public jobDetailId: number;
     public product: string;
+    public type: string;
     public description: string;
     public value: number;
-    public invoiced: number;
-    public delivered: number;
-    public damages: number;
+    public expected: number;
+    public damaged: number;
     public shorts: number;
     public checked: boolean;
     public highValue: boolean;
-    private mBarCode: string;
-    public isSelected: boolean;
-    public lineItemId: number;
-    private resolution: string;
+    public resolution: string;
     public resolutionId: number;
-    public hasUnresolvedActions: boolean;
- 
+    public stopId: number;
+    public stopDate: Date;
+    public jobId: number;
+    public jobType: string;
+    public jobTypeAbbreviation: string;
+    public lineItemId: number;
+
+    private mBarCode: string;
     public get barCode(): string
     {
         if (_.isNil(this.mBarCode))
@@ -77,9 +100,11 @@ export class StopItem
     {
         return this.barCode.substr(this.barCode.length - 4, 4);
     }
+
+    public isSelected: boolean;
 }
 
-export class StopFilter implements IFilter
+export class ActivityFilter implements IFilter
 {
     constructor()
     {

@@ -98,9 +98,10 @@ import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
 import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { LookupService } from './shared/services/lookupService';
-import AppRoutes = require('./appRoutes');
 import { ActionEditComponent } from './shared/action/actionEditComponent';
 import { TooltipModule } from 'ngx-tooltip';
+import { ActivityComponent, ActivityService  } from './activity/activity';
+import AppRoutes = require('./appRoutes');
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -116,7 +117,7 @@ import { TooltipModule } from 'ngx-tooltip';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent
+        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
@@ -126,7 +127,7 @@ import { TooltipModule } from 'ngx-tooltip';
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
-        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService,
+        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService, ActivityService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

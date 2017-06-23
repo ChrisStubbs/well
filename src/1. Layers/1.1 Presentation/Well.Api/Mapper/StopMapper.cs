@@ -80,7 +80,7 @@
                                 Resolution = p.job.ResolutionStatus.Description,
                                 ResolutionId = p.job.ResolutionStatus.Value,
                                 GrnProcessType = p.job.GrnProcessType ?? 0,
-                                HasUnresolvedActions = HasUnresolvedAction(p.job, line.LineItemId)
+                                HasUnresolvedActions = HasUnresolvedAction(p.job, line.LineItemId),
                                 GrnNumber = p.job.GrnNumber
                             }
                         })

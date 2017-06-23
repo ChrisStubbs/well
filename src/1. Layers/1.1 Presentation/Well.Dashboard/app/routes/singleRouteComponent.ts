@@ -318,4 +318,8 @@ export class SingleRouteComponent implements IObservableAlive
                 job.resolutionId = x.resolutionStatusId;
             });
     }
+
+    private isGrnRequired = (item: SingleRouteItem): boolean => {
+        return GrnHelpers.isGrnRequired(item);
+    }
 }

@@ -79,7 +79,8 @@
                 this.mapper.Object,
                 this.jobService.Object,
                 this.postImportRepository.Object,
-                this.jobResolutionStatus.Object
+                this.jobResolutionStatus.Object,
+                _dateThresholdService.Object
               );
 
 

@@ -192,6 +192,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\activity\activity.ts" />
+    <TypeScriptCompile Include="app\activity\activityComponent.ts" />
+    <TypeScriptCompile Include="app\activity\activityService.ts" />
+    <TypeScriptCompile Include="app\activity\activitySource.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
@@ -204,6 +208,7 @@
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionService.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />

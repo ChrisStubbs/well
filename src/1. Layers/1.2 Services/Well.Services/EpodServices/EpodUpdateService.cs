@@ -45,7 +45,7 @@
             IRouteMapper mapper,
             IJobService jobService,
             IPostImportRepository postImportRepository,
-            IJobResolutionStatus jobResolutionStatus)
+            IJobResolutionStatus jobResolutionStatus,
             IDateThresholdService dateThresholdService)
         {
             this.logger = logger;

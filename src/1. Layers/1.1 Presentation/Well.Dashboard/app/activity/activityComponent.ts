@@ -24,7 +24,7 @@ import { ActionEditComponent }                                      from '../sha
 import { ResolutionStatusEnum }                                     from '../shared/services/resolutionStatusEnum';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import {ISubmitActionResult, ISubmitActionResultDetails} from "../shared/action/submitActionModel";
+import {ISubmitActionResult, ISubmitActionResultDetails} from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-activity',

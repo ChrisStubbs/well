@@ -79,7 +79,7 @@ import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
- import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
+import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -101,6 +101,7 @@ import { LookupService } from './shared/services/lookupService';
 import { ActionEditComponent } from './shared/action/actionEditComponent';
 import { TooltipModule } from 'ngx-tooltip';
 import { ActivityComponent, ActivityService  } from './activity/activity';
+import {JobService, AssignGrnModal} from './job/job';
 import AppRoutes = require('./appRoutes');
 
 @NgModule({
@@ -117,7 +118,7 @@ import AppRoutes = require('./appRoutes');
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent
+        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
@@ -128,6 +129,7 @@ import AppRoutes = require('./appRoutes');
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
         CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService, ActivityService,
+        JobService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

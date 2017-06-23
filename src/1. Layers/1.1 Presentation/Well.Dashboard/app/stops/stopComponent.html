@@ -237,6 +237,7 @@
                                     <label>Account: </label>
                                     {{item.account}}
                                     <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
+                                    <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
                                 <td class="text-right">{{item.totalInvoiced - (item.totalDamages + item.totalShorts)}}</td>

@@ -197,6 +197,9 @@
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
+    <TypeScriptCompile Include="app\job\assignGrnModal.ts" />
+    <TypeScriptCompile Include="app\job\job.ts" />
+    <TypeScriptCompile Include="app\job\jobService.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
@@ -264,6 +267,7 @@
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\job\assignGrnModal.html" />
     <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.html" />

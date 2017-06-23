@@ -29,5 +29,7 @@
         public string Account { get; set; }
         public WellStatus WellStatus { get; set; }
         public string WellStatusDescription { get; set; }
+        public int GrnProcessType { get; set; }
+        public string GrnNumber { get; set; }
     }
 }

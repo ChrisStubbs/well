@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories.Contracts
+﻿using System;
+
+namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
 
@@ -15,7 +17,7 @@
 
         void RemovedPendingCredit(int jobId);
 
-        void InsertGrnEvent(GrnEvent grnEvent);
+        void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed);
 
         void InsertPodEvent(PodEvent podEvent);
 

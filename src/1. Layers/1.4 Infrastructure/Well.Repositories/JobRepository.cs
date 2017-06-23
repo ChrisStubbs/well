@@ -287,6 +287,11 @@ namespace PH.Well.Repositories
                    .Query<JobRoute>();
         }
 
+        public JobRoute GetJobRoute(int jobId)
+        {
+            return GetJobsRoute(new[] {jobId}).FirstOrDefault();
+        }
+
         public void SaveJobResolutionStatus(Job job)
         {
             this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);

@@ -49,8 +49,8 @@
                         <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                         &nbsp;
                         <action-Modal [disabled]="disableSubmitActions()"
-                                      [jobIds]="getSelectedJobIds()">
-
+                                      [jobIds]="getSelectedJobIds()"
+                                      (onSubmitted)="jobsSubmitted($event)">
                         </action-Modal>
                     </div>
                     <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->

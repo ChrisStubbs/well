@@ -59,6 +59,7 @@
                 return result;
             }
 
+            var resultDetails = new List<SubmitActionResultDetails>();
             try
             {
                 using (var transactionScope = new TransactionScope())
@@ -84,9 +85,11 @@
                                                     "The Job has been been marked for authorisation.");
                             }
 
-                           
+                            
                             jobRepository.Update(job);
+                            resultDetails.Add(new SubmitActionResultDetails(job));
                         }
+                        
                     }
 
                     transactionScope.Complete();
@@ -94,6 +97,7 @@
 
                 result.IsValid = true;
                 result.Message = "Successfully Submitted Actions";
+                result.Details = resultDetails;
                 return result;
             }
             catch (Exception ex)

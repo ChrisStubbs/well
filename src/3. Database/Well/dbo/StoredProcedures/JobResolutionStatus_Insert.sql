@@ -7,7 +7,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	 INSERT [Well].[dbo].[JobResolutionStatus]
+	 INSERT 
+		[dbo].[JobResolutionStatus]
 	 ([Status], [Job], [By], [On])
 	 VALUES(@Status, @JobId, @CreatedBy, GETDATE())
 

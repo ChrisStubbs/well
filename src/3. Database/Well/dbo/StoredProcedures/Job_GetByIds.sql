@@ -122,3 +122,15 @@ AS
 			INNER JOIN JobDetail AS d ON j.Id = d.JobId 
 			INNER JOIN JobDetailDamage AS dd ON d.Id = dd.JobDetailId
 			INNER JOIN @Ids ids ON ids.Value = j.Id
+
+	SELECT 
+		 [Id]
+		,[Status]
+		,[Job] as JobId
+		,[By]
+		,[On]
+  FROM 
+		[dbo].[JobResolutionStatus] rs
+ INNER JOIN 
+		@Ids ids ON ids.Value = rs.Job
+		

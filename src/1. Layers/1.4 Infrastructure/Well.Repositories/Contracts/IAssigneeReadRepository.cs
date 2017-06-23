@@ -8,5 +8,6 @@
         IEnumerable<Assignee> GetByRouteHeaderId(int routeHeaderId);
         IEnumerable<Assignee> GetByStopId(int stopId);
         Assignee GetByJobId(int jobId);
+        IEnumerable<Assignee> GetByJobIds(IEnumerable<int> jobIds);
     }
 }

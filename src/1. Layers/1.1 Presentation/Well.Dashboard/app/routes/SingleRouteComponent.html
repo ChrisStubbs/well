@@ -28,7 +28,8 @@
                 &nbsp;
                 <action-Modal [disabled]="disableSubmitActions()"
                               [isStopLevel]="true"
-                              [jobIds]="getSelectedJobIds()">
+                              [jobIds]="getSelectedJobIds()"
+                              (onSubmitted)="jobsSubmitted($event)">
                 </action-Modal>
             </div>
         </div>

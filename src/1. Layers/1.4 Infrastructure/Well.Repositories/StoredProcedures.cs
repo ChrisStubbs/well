@@ -140,7 +140,7 @@
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
         public static string AssigneeGetByStopId = "Assignee_GetByStopId";
-        public static string AssigneeGetByJobId = "Assignee_GetByJobId";
+        public static string AssigneeGetByJobIds = "Assignee_GetByJobIds";
 
         public static string LineItemGetByIds = "LineItem_GetByIds";
         public static string LineItemGetByActivityId = "LineItem_GetByActivityId";
@@ -169,5 +169,6 @@
         public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
         public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
+        public const string GetJobIdsByResolutionStatus = "JobIdByResolutionStatus_Get";
     }
 }

@@ -1,19 +1,21 @@
-import { Component }                                            from '@angular/core';
-import { CurrencyPipe }                                         from '@angular/common';
-import { RoutesService }                                        from './routesService';
-import {SingleRoute, SingleRouteSource, SingleRouteFilter}      from './singleRoute';
-import { ActivatedRoute }                                       from '@angular/router';
-import * as _                                                   from 'lodash';
-import { AssignModel, AssignModalResult }                       from '../shared/components/components';
-import { Branch }                                               from '../shared/branch/branch';
-import { SecurityService }                                      from '../shared/security/securityService';
-import { GlobalSettingsService }                                from '../shared/globalSettings';
-import { IObservableAlive }                                     from '../shared/IObservableAlive';
-import { SingleRouteItem }                                      from './singleRoute';
+import { Component } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { RoutesService } from './routesService';
+import { SingleRoute, SingleRouteSource, SingleRouteFilter } from './singleRoute';
+import { ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
+import { AssignModel, AssignModalResult } from '../shared/components/components';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { SingleRouteItem } from './singleRoute';
 import { LookupService, LookupsEnum, ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
-import { Observable }                                           from 'rxjs';
-import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
+import { Observable } from 'rxjs';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
 import 'rxjs/add/operator/mergeMap';
+import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-route',
@@ -63,7 +65,7 @@ export class SingleRouteComponent implements IObservableAlive
                 this.driver = data.driver;
                 this.routeDate = data.routeDate;
 
-                this.source = this.buildGridSource(data.items);                
+                this.source = this.buildGridSource(data.items);
                 this.fillGridSource();
             });
 
@@ -110,7 +112,8 @@ export class SingleRouteComponent implements IObservableAlive
 
         route.stopAssignee = userName;
 
-        _.forEach(route.items, (value: SingleRouteItem) => {
+        _.forEach(route.items, (value: SingleRouteItem) =>
+        {
             value.assignee = userName;
             value.stopAssignee = userName;
         });
@@ -131,13 +134,15 @@ export class SingleRouteComponent implements IObservableAlive
         if (!_.isNil(stop))
         {
             //if it is not null it means the user click on a group - get all displayed items for stop
-            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) => {
+            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) =>
+            {
                 return total.concat(_.filter(current.items, (item: SingleRouteItem) => item.stopId == stop.stopId));
             }, []);
         }
         else
         {
-            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) => {
+            collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) =>
+            {
                 return total.concat(current.items);
             }, []);
         }
@@ -148,12 +153,12 @@ export class SingleRouteComponent implements IObservableAlive
     public selectedItems(): Array<SingleRouteItem>
     {
         return _.chain(this.gridSource)
-                    .reduce((total: SingleRouteItem[], current: SingleRouteSource) =>
-                    {
-                        return total.concat(current.items);
-                    }, [])
-                    .filter((current: SingleRouteItem) => current.isSelected)
-               .value();
+            .reduce((total: SingleRouteItem[], current: SingleRouteSource) =>
+            {
+                return total.concat(current.items);
+            }, [])
+            .filter((current: SingleRouteItem) => current.isSelected)
+            .value();
     }
 
     public allChildrenSelected(stop?: SingleRouteSource): boolean
@@ -167,9 +172,9 @@ export class SingleRouteComponent implements IObservableAlive
         else
         {
             collection = _.reduce(this.gridSource, (total: SingleRouteItem[], current: SingleRouteSource) =>
-                        {
-                            return total.concat(current.items);
-                        }, []);
+            {
+                return total.concat(current.items);
+            }, []);
         }
 
         return (collection.length > 0) ?
@@ -223,12 +228,12 @@ export class SingleRouteComponent implements IObservableAlive
             
                 item.totalTBA = singleItem.tba;
                 item.stopAssignee = singleItem.stopAssignee;
-                item.items = current;           
+                item.items = current;
 
                 result.push(item);
             })
             .value();
-      
+
         return result;
     }
 
@@ -291,13 +296,25 @@ export class SingleRouteComponent implements IObservableAlive
         event.preventDefault();
     }
 
-    public disableSubmitActions(): boolean {
-    
+    public disableSubmitActions(): boolean
+    {
+
         if (this.selectedItems().length === 0)
         {
             return true;
         }
         return _.some(this.selectedItems(), x =>
             x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+    }
+
+    private jobsSubmitted(data: ISubmitActionResult): void
+    {
+        _.forEach(data.details,
+            (x: ISubmitActionResultDetails) =>
+            {
+                const job = _.find(this.selectedItems(), current => current.jobId === x.jobId);
+                job.resolution = x.resolutionStatusDescription;
+                job.resolutionId = x.resolutionStatusId;
+            });
     }
 }

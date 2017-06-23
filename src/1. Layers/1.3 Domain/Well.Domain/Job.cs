@@ -11,8 +11,9 @@
     {
         public Job()
         {
-            this.JobDetails = new List<JobDetail>();
-            this.LineItems = new List<LineItem>();
+            JobDetails = new List<JobDetail>();
+            LineItems = new List<LineItem>();
+            ResolutionStatusHistory = new List<JobResolutionStatus>();
         }
 
         public int Sequence { get; set; }
@@ -152,5 +153,7 @@
         public int TotalQty => LineItems.Sum(x => x.TotalQty);
 
         public JobRoute JobRoute { get; set; }
+
+        public IEnumerable<JobResolutionStatus> ResolutionStatusHistory;
     }
 }

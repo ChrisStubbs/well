@@ -51,5 +51,8 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId);
 
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds);
+
+        IEnumerable<Job> GetJobsByResolutionStatus(ResolutionStatus resolutionStatus);
+
     }
 }

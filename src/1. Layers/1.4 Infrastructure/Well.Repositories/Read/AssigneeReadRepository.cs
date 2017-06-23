@@ -5,6 +5,7 @@
     using Contracts;
     using Domain.ValueObjects;
     using System.Linq;
+    using Common.Extensions;
 
     public class AssigneeReadRepository : IAssigneeReadRepository
     {
@@ -31,9 +32,14 @@
 
         public Assignee GetByJobId(int jobId)
         {
-            return dapperReadProxy.WithStoredProcedure(StoredProcedures.AssigneeGetByJobId)
-                    .AddParameter("JobId", jobId, DbType.Int32)
-                    .Query<Assignee>().FirstOrDefault();
+            return GetByJobIds(new[] {jobId}).SingleOrDefault();
+        }
+
+        public IEnumerable<Assignee> GetByJobIds(IEnumerable<int> jobIds)
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.AssigneeGetByJobIds)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<Assignee>();
         }
     }
 }

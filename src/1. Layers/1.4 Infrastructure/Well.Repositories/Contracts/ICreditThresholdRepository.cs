@@ -12,6 +12,8 @@
 
         IEnumerable<CreditThreshold> GetByBranch(int branchId);
 
+        CreditThreshold GetById(int thresholdId);
+
         void PendingCreditInsert(int jobId);
 
     }

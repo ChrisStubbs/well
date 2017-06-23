@@ -38,22 +38,15 @@
 
         private Mock<IRouteMapper> mapper;
 
-        private Mock<IAdamImportService> adamImportService;
-
         private EpodUpdateService service;
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
-        private Mock<IPodTransactionFactory> podTransactionFactory;
-        private Mock<IUserNameProvider> userNameProvider;
-
-        private Mock<IJobService> deliveryStatusService;
+        private Mock<IJobService> jobService;
 
         private Mock<IPostImportRepository> postImportRepository;
 
         private Mock<IJobResolutionStatus> jobResolutionStatus;
-
-        private Mock<ILineItemSearchReadRepository> lineItemRepository;
 
         [SetUp]
         public void Setup()
@@ -68,15 +61,10 @@
             this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
-            this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
-            this.podTransactionFactory = new Mock<IPodTransactionFactory>(MockBehavior.Strict);
-            this.deliveryStatusService = new Mock<IJobService>(MockBehavior.Strict);
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
-            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
+            this.jobService = new Mock<IJobService>(MockBehavior.Strict);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
             this.jobResolutionStatus = new Mock<IJobResolutionStatus>(MockBehavior.Strict);
-            this.lineItemRepository = new Mock<ILineItemSearchReadRepository>(MockBehavior.Strict);
 
             this.service = new EpodUpdateService(this.logger.Object,
                 this.eventLogger.Object,
@@ -87,13 +75,12 @@
                 this.jobDetailDamageRepository.Object,
                 this.exceptionEventRepository.Object,
                 this.mapper.Object,
-                this.adamImportService.Object,
-                this.podTransactionFactory.Object,
-                this.deliveryStatusService.Object,
-                this.userNameProvider.Object,
+                this.jobService.Object,
                 this.postImportRepository.Object,
-                this.jobResolutionStatus.Object,
-                this.lineItemRepository.Object);
+                this.jobResolutionStatus.Object
+              );
+
+
         }
 
         [Test]
@@ -112,7 +99,7 @@
                     routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
             this.logger.Setup(x => x.LogDebug(It.IsAny<string>()));
-            this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
+            //this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
             this.eventLogger.Setup(x => x.TryWriteToEventLog(It.IsAny<EventSource>(), It.IsAny<string>(), It.IsAny<int>(), EventLogEntryType.Error)).Returns(true);
 
             const string filename = "epod_file.xml";
@@ -128,7 +115,7 @@
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
-            this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Never);
+            //this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Never);
             var logError = $"RouteDelivery Ignored could not find matching RouteHeader," +
                             $"Branch: {branchId} " +
                             $"RouteNumber: {routeHeader.RouteNumber.Substring(2)} " +
@@ -200,14 +187,14 @@
             // HACK: DIJ TOTAL HACK FOR NOW!!!
             //(i would like to know how long will this for now will become)
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            this.jobService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
             this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
             this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
-            this.lineItemRepository.Setup(x => x.GetLineItemByJobIds(It.IsAny<List<int>>())).Returns(lineItems);
+            this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
             this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
 
             this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
@@ -305,7 +292,7 @@
 
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            this.jobService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
@@ -313,7 +300,7 @@
             this.postImportRepository.Setup(x => x.PostTranSendImport());
 
             this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
-            this.lineItemRepository.Setup(x => x.GetLineItemByJobIds(It.IsAny<List<int>>())).Returns(lineItems);
+            this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
             this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
 
             this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
@@ -403,7 +390,7 @@
 
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            this.jobService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
@@ -413,7 +400,7 @@
 
 
             this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
-            this.lineItemRepository.Setup(x => x.GetLineItemByJobIds(It.IsAny<List<int>>())).Returns(lineItems);
+            this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
             this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
 
             this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);

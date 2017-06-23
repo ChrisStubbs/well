@@ -17,6 +17,9 @@ import { EditExceptionsService }                                from '../excepti
 import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
 import { LookupService }                                        from '../shared/services/lookupService';
 import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
+import { SingleRouteSource } from '../routes/singleRoute';
+import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-stop',
@@ -97,11 +100,13 @@ export class StopComponent implements IObservableAlive
                     .value();
 
                 _.chain(data.items)
-                    .map((current: StopItem) => {
+                    .map((current: StopItem) =>
+                    {
                         return current.type + ' (' + current.jobTypeAbbreviation + ')';
                     })
                     .uniq()
-                    .map((current: string) => {
+                    .map((current: string) =>
+                    {
                         this.jobTypes.push(
                             {
                                 key: current,
@@ -115,7 +120,8 @@ export class StopComponent implements IObservableAlive
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
             .takeWhile(() => this.isAlive)
-            .subscribe((value: ILookupValue[]) => {
+            .subscribe((value: ILookupValue[]) =>
+            {
                 this.resolutionStatuses = value;
             });
 
@@ -199,7 +205,8 @@ export class StopComponent implements IObservableAlive
     {
         this.accountService.getAccountByAccountId(accountId)
             .takeWhile(() => this.isAlive)
-            .subscribe(account => {
+            .subscribe(account =>
+            {
                 this.contactModal.show(account);
                 this.openContact.nativeElement.click();
             });
@@ -311,7 +318,8 @@ export class StopComponent implements IObservableAlive
         let totalShorts: number = 0;
 
         _.forEach(data,
-            (current: StopItem) => {
+            (current: StopItem) =>
+            {
                 totalInvoiced += current.invoiced;
                 totalDelivered += current.delivered;
                 totalDamages += current.damages;
@@ -350,11 +358,11 @@ export class StopComponent implements IObservableAlive
     public lineItemSaved(data: EditLineItemException): void
     {
         //find the invoice edited (via lineitem edit)
-        const invoice = _.find(this.gridSource, current => current.invoice == data.invoice);
+        const job = _.find(this.gridSource, current => current.jobId == data.jobId);
         let damages = 0;
         let shorts = 0;
         //find the line that was edited
-        const lineItem = _.find(invoice.items, (current: StopItem) => current.product == data.productNumber);
+        const lineItem = _.find(job.items, (current: StopItem) => current.product == data.productNumber);
 
         //sum the shorts and damages sent from the server
         _.forEach(data.exceptions, (current: EditLineItemExceptionDetail) =>
@@ -371,33 +379,50 @@ export class StopComponent implements IObservableAlive
         });
 
         //remove the shorts and damages from the current invoice based on the selected lineitem
-        invoice.totalDamages -= lineItem.damages;
-        invoice.totalShorts -= lineItem.shorts;
+        job.totalDamages -= lineItem.damages;
+        job.totalShorts -= lineItem.shorts;
 
         //now lets add the values sent from server
-        invoice.totalDamages += damages;
-        invoice.totalShorts += shorts;
+        job.totalDamages += damages;
+        job.totalShorts += shorts;
         lineItem.shorts = shorts;
         lineItem.damages = damages;
+
+        _.forEach(job.items, x =>
+        {
+            x.resolutionId = data.resolutionId;
+            x.resolution = data.resolutionStatus;
+            if (x.lineItemId === data.id)
+            {
+                x.hasUnresolvedActions = data.hasUnresolvedActions;
+            }
+        });
+        job.resolution = data.resolutionStatus;
     }
 
-    public disableSubmitActions(): boolean {
-        return (this.selectedItems().length == 0 ||
-            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
-    }
-
-    private exceptionSaved(data: EditLineItemException): void
+    private jobsSubmitted(data: ISubmitActionResult): void
     {
-        const itemSource = _.find(this.gridSource,
-            (value: StopItemSource) => value.jobId === data.jobId) as StopItemSource;
+        _.forEach(data.details, (x: ISubmitActionResultDetails) =>
+        {
+            const job = _.find(this.gridSource, current => current.jobId === x.jobId);
+            job.resolution = x.resolutionStatusDescription;
 
-        itemSource.resolution = data.resolutionStatus;
+            _.forEach(job.items, i =>
+            {
+                i.resolutionId = x.resolutionStatusId;
+                i.resolution = x.resolutionStatusDescription;
+            });
+        });
+    }
 
-        const item = _.find(itemSource.items,
-            (value: StopItem) => value.lineItemId === data.id) as StopItem;
-
-        item.damages = data.damages;
-        item.shorts = data.shorts;
+    public disableSubmitActions(): boolean
+    {
+        if (this.selectedItems().length === 0)
+        {
+            return true;
+        }
+        return _.some(this.selectedItems(),
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
     }
 
 }

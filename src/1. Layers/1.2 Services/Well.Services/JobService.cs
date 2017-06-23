@@ -17,11 +17,13 @@
         private readonly IDateThresholdService dateThresholdService;
         private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> steps;
         private readonly IAssigneeReadRepository assigneeReadRepository;
+        private readonly ILineItemSearchReadRepository lineItemRepository;
 
         public JobService(IJobRepository jobRepository, 
             IUserThresholdService userThresholdService, 
             IDateThresholdService dateThresholdService,
-            IAssigneeReadRepository assigneeReadRepository)
+            IAssigneeReadRepository assigneeReadRepository,
+            ILineItemSearchReadRepository lineItemRepository)
         {
             this.jobRepository = jobRepository;
             this.evaluators = new List<Func<Job, ResolutionStatus>>();
@@ -29,6 +31,7 @@
             this.userThresholdService = userThresholdService;
             this.dateThresholdService = dateThresholdService;
             this.assigneeReadRepository = assigneeReadRepository;
+            this.lineItemRepository = lineItemRepository;
         }
 
         #region IJobService
@@ -358,6 +361,27 @@
             }
 
             return ResolutionStatus.Invalid;
+        }
+
+        public IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs)
+        {
+            var jobList = jobs.ToList();
+            var lineItems = lineItemRepository.GetLineItemByJobIds(jobList.Select(x=> x.Id));
+            var jobRoutes = jobRepository.GetJobsRoute(jobList.Select(x => x.Id));
+
+            jobList.ForEach(job =>
+                {
+                    job.LineItems = lineItems.Where(x => x.JobId == job.Id).ToList();
+                    job.JobRoute = jobRoutes.Single(x => x.JobId == job.Id);
+                }
+            );
+
+            return jobList;
+        }
+
+        public Job PopulateLineItemsAndRoute(Job job)
+        {
+            return PopulateLineItemsAndRoute(new[] {job}).First();
         }
 
         #endregion

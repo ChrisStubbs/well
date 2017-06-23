@@ -16,19 +16,22 @@
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
         private readonly IDateThresholdService dateThresholdService;
-        
+        private readonly ICreditThresholdRepository _creditThresholdRepository;
+
         public SubmitActionValidation(IUserNameProvider userNameProvider,
             IUserRepository userRepository,
-            IDateThresholdService dateThresholdService)
+            IDateThresholdService dateThresholdService,
+            ICreditThresholdRepository creditThresholdRepository)
         {
             this.userNameProvider = userNameProvider;
             this.userRepository = userRepository;
             this.dateThresholdService = dateThresholdService;
+            _creditThresholdRepository = creditThresholdRepository;
         }
 
         public SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs)
         {
-            jobs = jobs.ToList();
+            var jobList = jobs.ToList();
             var username = this.userNameProvider.GetUserName();
             var user = this.userRepository.GetByIdentity(username);
 
@@ -44,14 +47,14 @@
                 return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit actions" };
             }
 
-            var pendingSubmissionJobs = jobs.Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission).ToArray();
+            var pendingSubmissionJobs = jobList.Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission).ToList();
 
             if (!pendingSubmissionJobs.Any())
             {
                 return new SubmitActionResult { Message = $"There are no jobs 'Pending Submission' for the selected items" };
             }
 
-            var incorrectStateJobs = jobs.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission).ToArray();
+            var incorrectStateJobs = jobList.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission);
             if (incorrectStateJobs.Any())
             {
                 var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
@@ -65,7 +68,7 @@
                 return result;
             }
 
-            if (HaveItemsToCredit(jobs.ToList()))
+            if (HaveItemsToCredit(jobList))
             {
                 result = ValidateUserForCrediting();
             }
@@ -114,6 +117,16 @@
             return new SubmitActionResult { IsValid = true };
         }
 
+        //public virtual SubmitActionResult ValidateUserForCreditingJobs(IList<Job> jobs)
+        //{
+        //    var validateForCreditingResult = ValidateUserForCrediting();
+        //    if (!validateForCreditingResult.IsValid)
+        //    {
+        //        return validateForCreditingResult;
+        //    }
+
+        //    return new SubmitActionResult { IsValid = true };
+        //}
 
     }
 }

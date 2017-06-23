@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services.Validation
+﻿using System.Linq;
+
+namespace PH.Well.UnitTests.Services.Validation
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +21,9 @@
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IDateThresholdService> dateThresholdService;
         private Mock<IUserRepository> userRepository;
+        private Mock<ICreditThresholdRepository> _creditThresholdRepository;
         private SubmitActionValidation validator;
+      
 
         [SetUp]
         public virtual void SetUp()
@@ -27,8 +31,10 @@
             userNameProvider = new Mock<IUserNameProvider>();
             userRepository = new Mock<IUserRepository>();
             dateThresholdService = new Mock<IDateThresholdService>();
+            _creditThresholdRepository = new Mock<ICreditThresholdRepository>();
 
-            validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object, dateThresholdService.Object);
+            validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object,
+                dateThresholdService.Object, _creditThresholdRepository.Object);
         }
 
         public class TheValidateUserForCreditingMethod : SubmitActionValidationTests
@@ -80,8 +86,9 @@
                 jobs = new List<Job>();
                 submitAction = new SubmitActionModel { JobIds = new[] { 1, 2, 3 } };
                 this.userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                user = new User { Id = 1 };
-                stubbedValidator = new Mock<SubmitActionValidation>(userNameProvider.Object, userRepository.Object, dateThresholdService.Object) { CallBase = true };
+                user = new User { Id = 1 ,ThresholdLevelId = 1};
+                stubbedValidator = new Mock<SubmitActionValidation>(userNameProvider.Object, userRepository.Object,
+                    dateThresholdService.Object, _creditThresholdRepository.Object) {CallBase = true};
             }
 
             [Test]
@@ -187,6 +194,8 @@
             {
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
+                this._creditThresholdRepository.Setup(x => x.GetById(user.ThresholdLevelId.Value))
+                    .Returns(new CreditThreshold {ThresholdLevelId = user.ThresholdLevelId.Value, Threshold = 100});
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
@@ -197,8 +206,8 @@
 
                 Assert.That(result.IsValid, Is.True);
             }
-        }
 
+        }
 
         public class TheEarliestCreditDateForItemsHasBeenReached : SubmitActionValidationTests
         {

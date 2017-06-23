@@ -55,6 +55,7 @@
                     x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

@@ -9,6 +9,7 @@
     using Well.Api.Models;
     using Well.Domain;
     using Well.Domain.ValueObjects;
+    using Well.Services.Contracts;
     using Stop = Well.Domain.Stop;
 
     [TestFixture]
@@ -20,6 +21,7 @@
         private Mock<IJobRepository> jobRepository;
         private Mock<IAssigneeReadRepository> assigneeRepository;
         private Mock<IStopMapper> mapper;
+        private Mock<IJobService> jobService;
 
         [SetUp]
         public virtual void Setup()
@@ -29,6 +31,7 @@
             stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             assigneeRepository = new Mock<IAssigneeReadRepository>(MockBehavior.Strict);
+            jobService = new Mock<IJobService>(MockBehavior.Strict);
             mapper = new Mock<IStopMapper>(MockBehavior.Strict);
             Controller = new StopsController(
                 branchRepository.Object,
@@ -36,7 +39,8 @@
                 stopRepository.Object,
                 jobRepository.Object,
                 assigneeRepository.Object,
-                mapper.Object);
+                mapper.Object,
+                jobService.Object);
             SetupController();
         }
 
@@ -66,6 +70,7 @@
 
                 jobRepository.Setup(x => x.GetByStopId(StopId)).Returns(jobs);
                 jobRepository.Setup(x => x.JobDetailTotalsPerStop(StopId)).Returns(jobDetailLineItemTotals);
+                jobService.Setup(x => x.PopulateLineItemsAndRoute(jobs)).Returns(jobs);
                 assigneeRepository.Setup(x => x.GetByStopId(StopId)).Returns(assignees);
                 mapper.Setup(x => x.Map(branches, routeHeader, stop, jobs, assignees, jobDetailLineItemTotals)).Returns(stopModel);
             }

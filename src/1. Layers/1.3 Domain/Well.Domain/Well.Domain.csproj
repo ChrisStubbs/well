@@ -162,6 +162,7 @@
     <Compile Include="ValueObjects\Reason.cs" />
     <Compile Include="ValueObjects\JobDetailUpdate.cs" />
     <Compile Include="ValueObjects\QueueEvent.cs" />
+    <Compile Include="ValueObjects\ToBeAdvisedGroup.cs" />
     <Compile Include="ValueObjects\TranscendEvent.cs" />
     <Compile Include="ValueObjects\RoadnetEvent.cs" />
     <Compile Include="ValueObjects\RejectEvent.cs" />

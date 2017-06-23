@@ -408,6 +408,7 @@
     <Build Include="dbo\StoredProcedures\Assignee_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionCommentInsert.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionCommentUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_UpdateShortsTBA.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

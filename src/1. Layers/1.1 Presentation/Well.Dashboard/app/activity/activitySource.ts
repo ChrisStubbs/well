@@ -70,6 +70,17 @@ export class ActivitySourceDetail
     public jobTypeAbbreviation: string;
     public lineItemId: number;
 
+    public get exceptionsFilter(): number
+    {
+        let result: number = 0;
+
+        result = result
+            | (this.damaged / this.damaged)
+            | ((this.shorts / this.shorts) * 2);
+
+        return result || 4;
+    }
+
     private mBarCode: string;
     public get barCode(): string
     {
@@ -112,8 +123,7 @@ export class ActivityFilter implements IFilter
         this.type = '';
         this.barCode = '';
         this.description = '';
-        this.damages = undefined;
-        this.shorts = undefined;
+        this.exceptions = '';
         this.checked = undefined;
         this.highValue = undefined;
         this.resolutionId = undefined;
@@ -123,8 +133,7 @@ export class ActivityFilter implements IFilter
     public type: string;
     public barCode: string;
     public description: string;
-    public damages?: boolean;
-    public shorts?: boolean;
+    public exceptions: string;
     public checked: boolean;
     public highValue?: boolean;
     public resolutionId: number;
@@ -163,6 +172,7 @@ export class ActivityFilter implements IFilter
                     return value == 0;
                 };
             case 'resolutionId':
+            case 'exceptionsFilter':
                 return GridHelpersFunctions.enumBitwiseAndCompare;
         }
 

@@ -22,9 +22,9 @@ import { EditExceptionsService }                                    from '../exc
 import { EditLineItemException, EditLineItemExceptionDetail }       from '../exceptions/editLineItemException';
 import { ActionEditComponent }                                      from '../shared/action/actionEditComponent';
 import { ResolutionStatusEnum }                                     from '../shared/services/resolutionStatusEnum';
+import { ISubmitActionResult, ISubmitActionResultDetails }          from '../shared/action/submitActionModel';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import {ISubmitActionResult, ISubmitActionResultDetails} from "../shared/action/submitActionModel";
 
 @Component({
     selector: 'ow-activity',
@@ -47,7 +47,8 @@ import {ISubmitActionResult, ISubmitActionResultDetails} from "../shared/action/
     '.colDescription { width: 20% } ' +
     '.colNumbers { width: 6%; } ' +
     '.colHigh { width: 10% } ' +
-    '.colCheckbox { width: 3% } ']
+    '.colCheckbox { width: 3% } ' +
+    '.exceptionsFilter { width: calc( 6 * 2)}']
 })
 export class ActivityComponent implements IObservableAlive
 {

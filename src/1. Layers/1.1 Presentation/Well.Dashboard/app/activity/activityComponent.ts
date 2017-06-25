@@ -25,6 +25,7 @@ import { ResolutionStatusEnum }                                     from '../sha
 import { ISubmitActionResult, ISubmitActionResultDetails }          from '../shared/action/submitActionModel';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import {ISubmitActionResult, ISubmitActionResultDetails}            from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-activity',

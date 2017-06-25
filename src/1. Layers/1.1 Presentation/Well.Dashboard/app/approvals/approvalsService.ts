@@ -1,33 +1,28 @@
-﻿import {Injectable} from '@angular/core';
-import {Response, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import {GlobalSettingsService} from '../shared/globalSettings';
-import 'rxjs/add/operator/map';
-import {HttpErrorService} from '../shared/httpErrorService';
-import {LogService} from '../shared/logService';
-import {ApprovalDelivery} from './approvalDelivery';
-import {HttpService} from '../shared/httpService';
+﻿import { Injectable } from '@angular/core';
+import { Response } from '@angular/http'
+import { Observable } from 'rxjs/Observable';
+import { HttpService } from '../shared/httpService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { HttpErrorService } from '../shared/httpErrorService';
+import { Approval } from './approval';
 
 @Injectable()
-export class ApprovalsService {
-
-   public headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-   public options: RequestOptions = new RequestOptions({ headers: this.headers });
-
+export class ApprovalsService
+{
     constructor(
         private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService,
-        private logService: LogService) {
-    }
+        private httpErrorService: HttpErrorService) { }
 
-    public getApprovals(): Observable<ApprovalDelivery[]> {
-
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'deliveries/approval';
+    public get(): Observable<Approval[]>
+    {
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'approval/';
 
         return this.http.get(url)
-            .map((response: Response) => <ApprovalDelivery[]>response.json())
-            //.do(data => this.logService.log('Approval: ' + JSON.stringify(data)))
+            .map((response: Response) =>
+            {
+                return (response.json() as Approval[]);
+            })
             .catch(e => this.httpErrorService.handleError(e));
     }
 }

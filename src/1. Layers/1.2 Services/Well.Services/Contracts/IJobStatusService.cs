@@ -11,6 +11,7 @@ namespace PH.Well.Services.Contracts
         Job DetermineStatus(Job job, int branchId);
         bool CanEditActions(Job job, string userName);
         IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs);
+        void SetGrn(int jobId, string grn);
         Job PopulateLineItemsAndRoute(Job job);
     }
 }

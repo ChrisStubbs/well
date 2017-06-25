@@ -24,5 +24,7 @@
         public string Resolution { get; set; }
         public int ResolutionId { get; set; }
         public bool HasUnresolvedActions { get; set; }
+        public int GrnProcessType { get; set; }
+        public string GrnNumber { get; set; }
     }
 }

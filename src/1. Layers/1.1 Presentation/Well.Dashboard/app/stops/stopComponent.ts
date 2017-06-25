@@ -18,6 +18,7 @@ import { EditLineItemException, EditLineItemExceptionDetail }   from '../excepti
 import { LookupService }                                        from '../shared/services/lookupService';
 import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
 import { SingleRouteSource } from '../routes/singleRoute';
+import {GrnHelpers, IGrnAssignable} from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
@@ -277,6 +278,8 @@ export class StopComponent implements IObservableAlive
                     .uniq()
                     .join(', ')
                     .value();
+                item.grnProcessType = singleItem.grnProcessType;
+                item.grnNumber = singleItem.grnNumber;
 
                 values[singleItem.jobId] = item;
             })
@@ -425,6 +428,10 @@ export class StopComponent implements IObservableAlive
             x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
     }
 
+    private isGrnRequired = (item: StopItemSource): boolean => {
+        return GrnHelpers.isGrnRequired(item);
+    }
+
 }
 
 interface IDictionarySource
@@ -432,7 +439,7 @@ interface IDictionarySource
     [key: number]: StopItemSource;
 }
 
-class StopItemSource
+class StopItemSource implements IGrnAssignable
 {
     constructor()
     {
@@ -454,4 +461,6 @@ class StopItemSource
     public types: string;
     public resolution: string;
     public items: Array<StopItem>;
+    public grnNumber: string;
+    public grnProcessType: number;
 }

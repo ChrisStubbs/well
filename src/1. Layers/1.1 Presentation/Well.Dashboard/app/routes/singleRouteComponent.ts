@@ -15,12 +15,13 @@ import { Observable } from 'rxjs';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
 import 'rxjs/add/operator/mergeMap';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import {JobService, GrnHelpers} from '../job/job';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/singleRouteComponent.html',
-    providers: [RoutesService, LookupService, CurrencyPipe]
+    providers: [RoutesService, LookupService, CurrencyPipe, JobService]
 })
 export class SingleRouteComponent implements IObservableAlive
 {
@@ -46,7 +47,8 @@ export class SingleRouteComponent implements IObservableAlive
         private routeService: RoutesService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService) { }
+        private globalSettingsService: GlobalSettingsService,
+        private jobService: JobService) { }
 
     public ngOnInit()
     {
@@ -121,8 +123,8 @@ export class SingleRouteComponent implements IObservableAlive
         this.fillGridSource();
     }
 
-    public clearFilter(): void
-    {
+    public clearFilter(): void {
+        this.jobService.setGrnForJob(1, 'test').subscribe();
         this.filters = new SingleRouteFilter();
         this.fillGridSource();
     }
@@ -315,5 +317,9 @@ export class SingleRouteComponent implements IObservableAlive
                 job.resolution = x.resolutionStatusDescription;
                 job.resolutionId = x.resolutionStatusId;
             });
+    }
+
+    private isGrnRequired = (item: SingleRouteItem): boolean => {
+        return GrnHelpers.isGrnRequired(item);
     }
 }

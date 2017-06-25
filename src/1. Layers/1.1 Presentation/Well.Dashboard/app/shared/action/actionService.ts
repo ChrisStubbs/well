@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Response, Headers, RequestOptions } from '@angular/http'
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../httpService';
 import { GlobalSettingsService } from '../globalSettings';

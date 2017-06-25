@@ -142,6 +142,18 @@
                 && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
 
+        public void SetGrn(int jobId, string grn)
+        {
+            var jobRoute = jobRepository.GetJobRoute(jobId);
+            var earliestSubmitDate = dateThresholdService.EarliestSubmitDate(jobRoute.RouteDate, jobRoute.BranchId);
+            if (earliestSubmitDate < DateTime.Now)
+            {
+                throw new Exception("GRN can no longer be modified");
+            }
+
+            jobRepository.SaveGrn(jobId, grn);
+        }
+
         #endregion
 
         #region IJobResolutionStatus

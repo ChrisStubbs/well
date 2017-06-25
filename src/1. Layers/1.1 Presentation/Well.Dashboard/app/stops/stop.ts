@@ -1,5 +1,6 @@
 import * as _                               from 'lodash';
 import { IFilter, GridHelpersFunctions }    from '../shared/gridHelpers/gridHelpers';
+import {IGrnAssignable} from '../job/job';
 
 export class Stop
 {
@@ -16,7 +17,7 @@ export class Stop
     public items: StopItem[];
 }
 
-export class StopItem
+export class StopItem implements IGrnAssignable
 {
     constructor()
     {
@@ -46,7 +47,9 @@ export class StopItem
     public lineItemId: number;
     private resolution: string;
     public resolutionId: number;
+    public grnProcessType: number;
     public hasUnresolvedActions: boolean;
+    public grnNumber: string;
  
     public get barCode(): string
     {

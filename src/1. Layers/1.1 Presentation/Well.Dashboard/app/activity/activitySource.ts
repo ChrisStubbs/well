@@ -172,8 +172,14 @@ export class ActivityFilter implements IFilter
                     return value == 0;
                 };
             case 'resolutionId':
-            case 'exceptionsFilter':
                 return GridHelpersFunctions.enumBitwiseAndCompare;
+
+            case 'exceptionsFilter':
+                return (value: number, value2: number) =>
+                {
+                    return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
+                            GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
+                }
         }
 
         return undefined;

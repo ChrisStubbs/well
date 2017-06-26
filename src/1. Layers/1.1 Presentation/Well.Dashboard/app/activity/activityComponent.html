@@ -170,38 +170,16 @@
                         <div class="text-center">Actual</div>
                         <div class="form-control-placeholder"></div>
                     </th>
-                    <th class="colNumbers">
-                        <div class="text-center">Damages</div>
+                    <th class="exceptionsFilter" colspan="2">
+                        <div class="text-center col-md-6">Damages</div>
+                        <div class="text-center col-md-6">Shorts</div>
                         <div>
-                            <select class="form-control" [(ngModel)]="filters.damages" (change)="buildGridSource()" title="">
+                            <select class="form-control" [(ngModel)]="filters.exceptionsFilter" (change)="buildGridSource()" title="">
                                 <option value>All</option>
-                                <option value="true">With Damages</option>
-                                <option value="false">No Damages</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th class="colNumbers">
-                        <div class="shorts-tooltip">
-                            <tooltip-content #shortsTooltip placement="top">
-                                <table>
-                                    <tr>
-                                        <td>For deliveries, the number of outers invoiced but not delivered. For uplifts, the number of outers not collected</td>
-                                    </tr>
-                                </table>
-                            </tooltip-content>
-
-                            <a href="#" aria-hidden="true" (click)="voidLink($event)"
-                               [tooltip]="shortsTooltip"
-                               tooltipPlacement="right">
-                                <span class="glyphicon glyphicon-info-sign"></span>
-                            </a>
-                        </div>
-                        <div class="text-center">Shorts</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.shorts" (change)="buildGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">With Shorts</option>
-                                <option value="false">No Shorts</option>
+                                <option value="2">With Shorts</option>
+                                <option value="1">With Damages</option>
+                                <option value="3">With Exceptions</option>
+                                <option value="4">All Clean</option>
                             </select>
                         </div>
                     </th>

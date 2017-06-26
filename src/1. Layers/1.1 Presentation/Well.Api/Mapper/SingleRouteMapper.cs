@@ -63,7 +63,21 @@
                     .Select(p => p.obj) //I should not do this but it's to much code to change with very little gain
                     .ToList();
                 
-                var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
+              //  var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
+
+                // jobs may be grouped together for delivery, indicated by the OuterCount (ie all jobs
+                // counted together for a stop have the same OuterCount)
+                // All the jobs grouped together should have the same to be advised count 
+                // This is the shorts to be advised total for the GROUP
+                // There may be more than one group per stop
+                var jobGroupToBeAdvised = stopJobs.GroupBy(j => new {j.OuterCount, j.ToBeAdvisedCount})
+                    .Select(
+                        y =>
+                            new ToBeAdvisedGroup()
+                            {
+                                OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
+                                ToBeAdvisedCount = y.Key.ToBeAdvisedCount
+                            }).ToList();
 
                 //Clean value should only be calculated for jobs with status different than Imported
                 var stopClean = stopJobs
@@ -97,7 +111,9 @@
                         StopStatus = status,
                         StopExceptions = jobExceptions,
                         StopClean = stopClean,
-                        Tba = tba,
+                        Tba = jobGroupToBeAdvised
+                            .Where(x => x.OuterCountId == job.OuterCount)
+                            .Select(y => y.ToBeAdvisedCount).FirstOrDefault(),
                         StopAssignee = stopAssignee,
                         Resolution = job.ResolutionStatus.Description,
                         ResolutionId = job.ResolutionStatus.Value,

@@ -114,8 +114,10 @@
             this.postImportRepository.PostTranSendImportForTobacco();
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
-            // update JobResolutionStatus for jobs with LineItemActions
+            //updates Jobs with data for shorts to be advised
+            this.postImportRepository.PostTranSendImportShortsTba(updatedJobIds); 
 
+            // update JobResolutionStatus for jobs with LineItemActions
             if (updatedJobIds.Count != 0)
             {
                 var updatedJobs = jobService.PopulateLineItemsAndRoute(jobRepository.GetByIds(updatedJobIds));

@@ -70,6 +70,17 @@ export class ActivitySourceDetail
     public jobTypeAbbreviation: string;
     public lineItemId: number;
 
+    public get exceptionsFilter(): number
+    {
+        let result: number = 0;
+
+        result = result
+            | (this.damaged / this.damaged)
+            | ((this.shorts / this.shorts) * 2);
+
+        return result || 4;
+    }
+
     private mBarCode: string;
     public get barCode(): string
     {
@@ -112,22 +123,22 @@ export class ActivityFilter implements IFilter
         this.type = '';
         this.barCode = '';
         this.description = '';
-        this.damages = undefined;
-        this.shorts = undefined;
+        this.exceptions = '';
         this.checked = undefined;
         this.highValue = undefined;
         this.resolutionId = undefined;
+        this.exceptionsFilter = 0;
     }
 
     public product: string;
     public type: string;
     public barCode: string;
     public description: string;
-    public damages?: boolean;
-    public shorts?: boolean;
+    public exceptions: string;
     public checked: boolean;
     public highValue?: boolean;
     public resolutionId: number;
+    public exceptionsFilter: number;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -147,23 +158,15 @@ export class ActivityFilter implements IFilter
             case 'highValue':
                 return  GridHelpersFunctions.boolFilter;
 
-            case 'damages':
-            case 'shorts':
-                return (value: number, value2?: boolean) =>
-                {
-                    if (_.isNull(value2))
-                    {
-                        return true;
-                    }
-                    if (value2.toString() == 'true')
-                    {
-                        return value > 0;
-                    }
-
-                    return value == 0;
-                };
             case 'resolutionId':
                 return GridHelpersFunctions.enumBitwiseAndCompare;
+
+            case 'exceptionsFilter':
+                return (value: number, value2: number) =>
+                {
+                    return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
+                            GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
+                }
         }
 
         return undefined;

@@ -86,16 +86,19 @@
 
         public bool OuterDiscrepancyUpdate { get; set; }
 
-        public bool OuterDiscrepancyFound
-        {
-            get
-            {
-                int totalShort = TotalOutersShort ?? 0;
-                int detailShort = DetailOutersShort ?? 0;
+        public bool OuterDiscrepancyFound { get; set; }
 
-                return (totalShort - detailShort) > 0;
-            }
-        }
+
+        //public bool OuterDiscrepancyFound
+        //{
+        //    get
+        //    {
+        //        int totalShort = TotalOutersShort ?? 0;
+        //        int detailShort = DetailOutersShort ?? 0;
+
+        //        return (totalShort - detailShort) > 0;
+        //    }
+        //}
 
         public int? TotalOutersOverUpdate { get; set; }
 

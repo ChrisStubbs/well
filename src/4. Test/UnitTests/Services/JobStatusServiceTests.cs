@@ -411,12 +411,30 @@ namespace PH.Well.UnitTests.Services
                 var job = new Job
                 {
                     JobStatus = JobStatus.DocumentDelivery,
-                    InvoiceNumber = invoiceNumber
+                    InvoiceNumber = invoiceNumber,
+                    JobTypeCode = "TOB-DEL"
                 };
 
                 service.SetIncompleteJobStatus(job);
                 return job.JobStatus;
             }
+
+            [Test]
+            [Category("JobService")]
+            public void GivenJobIsGlobalUplift_ThenSetInComplete()
+            {
+                var job = new Job()
+                {
+                    JobStatus = JobStatus.AwaitingInvoice,
+                    InvoiceNumber = String.Empty,
+                    JobTypeCode = "UPL-GLO"
+                };
+
+                service.SetIncompleteJobStatus(job);
+
+                Assert.AreEqual(JobStatus.InComplete, job.JobStatus);
+            }
+
         }
 
         [Test]

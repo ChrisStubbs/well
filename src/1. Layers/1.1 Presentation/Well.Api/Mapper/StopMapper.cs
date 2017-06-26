@@ -99,6 +99,7 @@
 
                     line.StopModelItem.Damages = totals.DamageTotal;
                     line.StopModelItem.Shorts = totals.ShortTotal;
+                    line.StopModelItem.Bypassed = totals.BypassTotal;
 
                     return line.StopModelItem;
                 })

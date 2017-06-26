@@ -17,6 +17,7 @@
         public int Delivered { get; set; }
         public int Damages { get; set; }
         public int Shorts { get; set; }
+        public int Bypassed { get; set; }
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
         public string BarCode { get; set; }

@@ -268,6 +268,7 @@ export class StopComponent implements IObservableAlive
                 item.totalDelivered = summary.totalDelivered;
                 item.totalDamages = summary.totalDamages;
                 item.totalShorts = summary.totalShorts;
+                item.totalBypassed = summary.totalBypassed;
                 item.invoice = singleItem.invoice;
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
@@ -320,6 +321,7 @@ export class StopComponent implements IObservableAlive
         let totalDelivered: number = 0;
         let totalDamages: number = 0;
         let totalShorts: number = 0;
+        let totalBypassed: number = 0;
 
         _.forEach(data,
             (current: StopItem) =>
@@ -328,6 +330,7 @@ export class StopComponent implements IObservableAlive
                 totalDelivered += current.delivered;
                 totalDamages += current.damages;
                 totalShorts += current.shorts;
+                totalBypassed += current.bypassed;
             });
 
         return {
@@ -335,6 +338,7 @@ export class StopComponent implements IObservableAlive
             totalDelivered: totalDelivered,
             totalDamages: totalDamages,
             totalShorts: totalShorts,
+            totalBypassed: totalBypassed, 
             items: data
         };
     }
@@ -455,6 +459,7 @@ class StopItemSource implements IGrnAssignable
     public totalDelivered: number;
     public totalDamages: number;
     public totalShorts: number;
+    public totalBypassed: number;
     public invoice: string;
     public account: string;
     public accountID: number;

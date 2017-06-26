@@ -40,6 +40,7 @@ export class StopItem implements IGrnAssignable
     public delivered: number;
     public damages: number;
     public shorts: number;
+    public bypassed: number;
     public checked: boolean;
     public highValue: boolean;
     private mBarCode: string;

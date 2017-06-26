@@ -1,4 +1,4 @@
-﻿export class BaseDelivery
+export class BaseDelivery
 {
     public id: number;
     public accountCode: string;

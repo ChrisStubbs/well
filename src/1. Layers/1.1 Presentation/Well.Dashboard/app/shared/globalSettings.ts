@@ -1,4 +1,4 @@
-﻿import {Injectable, Compiler } from '@angular/core';
+import {Injectable, Compiler } from '@angular/core';
 import {Response, RequestOptions, Headers} from '@angular/http'
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';

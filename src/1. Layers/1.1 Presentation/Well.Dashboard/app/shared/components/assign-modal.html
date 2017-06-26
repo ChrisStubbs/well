@@ -1,4 +1,4 @@
-﻿<div *ngIf="model.isReadOnlyUser; then readOnlyUser else notReadOnlyUser"></div>
+<div *ngIf="model.isReadOnlyUser; then readOnlyUser else notReadOnlyUser"></div>
 <ng-template #readOnlyUser>
     <span>{{model.assigned}}</span>
 </ng-template>

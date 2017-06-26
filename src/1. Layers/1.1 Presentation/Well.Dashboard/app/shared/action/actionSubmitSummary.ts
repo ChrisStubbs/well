@@ -1,4 +1,4 @@
-﻿export interface IActionSubmitSummary {
+export interface IActionSubmitSummary {
     summary: string;
     items: IActionSubmitSummaryItem[];
     jobIds: number[];

@@ -47,7 +47,7 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>&nbsp;
-                        <action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </action-Modal>
+                        <submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>
                     </div>
                     <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
                 </div>
@@ -218,7 +218,7 @@
                                     <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
-                                <td class="text-right">{{item.totalInvoiced - (item.totalDamages + item.totalShorts)}}</td>
+                                <td class="text-right">{{item.totalInvoiced - (item.totalDamages + item.totalShorts + item.totalBypassed)}}</td>
                                 <td class="text-right">{{item.totalDamages}}</td>
                                 <td class="text-right">{{item.totalShorts}}</td>
                                 <td></td>
@@ -238,7 +238,7 @@
                                 <td>{{item.description}}</td>
                                 <td class="text-right">{{item.value}}</td>
                                 <td class="text-right">{{item.invoiced}}</td>
-                                <td class="text-right">{{item.invoiced - (item.damages + item.shorts)}}</td>
+                                <td class="text-right">{{item.invoiced - (item.damages + item.shorts + item.bypassed)}}</td>
                                 <td class="text-right">{{item.damages}}</td>
                                 <td class="text-right">{{item.shorts}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>

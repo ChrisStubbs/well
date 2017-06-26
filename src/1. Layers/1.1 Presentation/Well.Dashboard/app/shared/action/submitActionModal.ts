@@ -10,12 +10,12 @@ import { LookupsEnum } from '../services/lookupsEnum';
 import { LookupService } from '../services/lookupService';
 
 @Component({
-    selector: 'action-Modal',
-    templateUrl: 'app/shared/action/actionModal.html',
+    selector: 'submit-action-Modal',
+    templateUrl: 'app/shared/action/submitActionModal.html',
     providers: [ActionService, LookupService]
 })
 
-export class ActionModal implements IObservableAlive
+export class SubmitActionModal implements IObservableAlive
 {
     @Input() public disabled: boolean = false;
     @Input() public isStopLevel: boolean = false;

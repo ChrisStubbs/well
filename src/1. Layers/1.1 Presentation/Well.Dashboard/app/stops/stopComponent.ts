@@ -43,7 +43,8 @@ import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
         '.colDescription { width: 20% } ' +
         '.colNumbers { width: 6%; } ' +
         '.colHigh { width: 10% } ' +
-        '.colCheckbox { width: 3% } ']
+        '.colCheckbox { width: 3% } ' +
+        '.exceptionsFilter { width: calc( 6 * 2)}']
 })
 export class StopComponent implements IObservableAlive
 {

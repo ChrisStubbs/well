@@ -47,7 +47,7 @@ export class ActionEditComponent implements IObservableAlive
     private commentReasons: Array<ILookupValue>;
     private lineItemActionsToRemove: Array<LineItemAction> = [];
     private lineItemActions: Array<LineItemAction> = [];
-    private errorInvoiceQty: string = 'Total Action quantity is > than the invoice quantity';
+    private errorInvoiceQty: string = 'The total exception quantity cannot exceed the invoiced quantity';
     private errorCommentRequired: string = 'When editing a quantity a comment is required';
     private creditAction: number;
     private closeAction: number;

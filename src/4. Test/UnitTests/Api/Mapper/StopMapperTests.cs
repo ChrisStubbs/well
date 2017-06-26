@@ -29,7 +29,12 @@
         public void ShouldMapStopModelHeaderItems()
         {
             var stop = new StopFactory().Build();
-            var job = new JobFactory().WithTotalShort(10).Build();
+            var job = new JobFactory()
+                .WithTotalShort(10)
+                .WithOuterDiscrepancyFound(true)
+                .WithOuterCount(1)
+                .Build();
+            
             var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
             Assert.That(stopModel.RouteId, Is.EqualTo(routeHeader.Id));

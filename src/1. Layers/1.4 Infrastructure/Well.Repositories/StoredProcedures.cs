@@ -134,6 +134,7 @@
         public static string AppSearch = "AppSearch";
         //well update
         public static string JobDetailTobaccoUpdate = "JobDetail_TobaccoUpdate";
+        public static string JobUpdateShortsTba = "Job_UpdateShortsTBA";
         public static string PostImportUpdate = "PostImportUpdate";
         public static string LineItemActionInsert = "LineItemAction_Insert";
 

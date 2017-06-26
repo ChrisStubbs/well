@@ -122,7 +122,7 @@
         public void SetIncompleteJobStatus(Job job)
         {
             //  if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber))
+            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber)  || (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)))
             {
                 job.JobStatus = JobStatus.InComplete;
             }

@@ -127,6 +127,7 @@ export class ActivityFilter implements IFilter
         this.checked = undefined;
         this.highValue = undefined;
         this.resolutionId = undefined;
+        this.exceptionsFilter = 0;
     }
 
     public product: string;
@@ -137,6 +138,7 @@ export class ActivityFilter implements IFilter
     public checked: boolean;
     public highValue?: boolean;
     public resolutionId: number;
+    public exceptionsFilter: number;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -156,21 +158,6 @@ export class ActivityFilter implements IFilter
             case 'highValue':
                 return  GridHelpersFunctions.boolFilter;
 
-            case 'damages':
-            case 'shorts':
-                return (value: number, value2?: boolean) =>
-                {
-                    if (_.isNull(value2))
-                    {
-                        return true;
-                    }
-                    if (value2.toString() == 'true')
-                    {
-                        return value > 0;
-                    }
-
-                    return value == 0;
-                };
             case 'resolutionId':
                 return GridHelpersFunctions.enumBitwiseAndCompare;
 

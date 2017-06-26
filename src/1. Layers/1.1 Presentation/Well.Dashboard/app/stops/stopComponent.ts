@@ -21,6 +21,7 @@ import { SingleRouteSource } from '../routes/singleRoute';
 import {GrnHelpers, IGrnAssignable} from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { IAccount } from '../account/account';
 
 @Component({
     selector: 'ow-stop',
@@ -68,6 +69,7 @@ export class StopComponent implements IObservableAlive
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
+    private customerAccount: IAccount = new IAccount();
 
     constructor(
         private stopService: StopService,
@@ -118,6 +120,15 @@ export class StopComponent implements IObservableAlive
                         return current;
                     })
                     .value();
+
+                //Load account for first item
+                const firstItem = _.head(data.items) as StopItem;
+                this.accountService.getAccountByAccountId(firstItem.accountID)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(account => {
+                        this.customerAccount = account;
+                    });
+
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)

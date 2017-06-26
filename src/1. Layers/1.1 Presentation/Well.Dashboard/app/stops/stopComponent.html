@@ -22,14 +22,28 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
             <ul class="list-unstyled">
                 <li><label>Branch:&nbsp;</label>{{stop.branch}}</li>
                 <li><label>Driver:&nbsp;</label>{{stop.driver}}</li>
                 <li><label>Date:&nbsp;</label>{{stop.routeDate | date:'dd MMM yy'}}</li>
             </ul>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
+            <address>
+                <strong>{{customerAccount.name}}</strong><br/>
+                <span>{{customerAccount.address1}}</span><br/>
+                <span>{{customerAccount.address2}}</span><br/>
+                <span>{{customerAccount.postCode}}</span><br/>
+            </address>            
+        </div>
+        <div class="col-md-3">
+            <strong>{{customerAccount.contactName}}</strong><br/>
+            <label>Phone :</label><span> {{customerAccount.contactNumber}}</span><br/>
+            <label>Alt Phone :</label><span> {{customerAccount.contactNumber2}}</span><br/>
+            <label>Email :</label><a href="mailto:{{customerAccount.contactEmailAddress}}"> {{customerAccount.contactEmailAddress}}</a><br/>
+        </div>
+        <div class="col-md-3">
             <div class="pull-right">
                 <ul class="list-unstyled">
                     <li *ngIf="stop.branchId"><label>Assigned to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
@@ -214,7 +228,6 @@
                                 <td colspan="2">
                                     <label>Account: </label>
                                     {{item.account}}
-                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
                                     <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>

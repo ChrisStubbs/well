@@ -430,13 +430,13 @@ export class StopComponent implements IObservableAlive
             return true;
         }
         return _.some(this.selectedItems(),
-            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
+            (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }
 
     private isGrnRequired = (item: StopItemSource): boolean => {
         return GrnHelpers.isGrnRequired(item);
     }
-
 }
 
 interface IDictionarySource

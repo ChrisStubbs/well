@@ -305,8 +305,9 @@ export class SingleRouteComponent implements IObservableAlive
         {
             return true;
         }
-        return _.some(this.selectedItems(), x =>
-            x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+        return _.some(this.selectedItems(), (x: SingleRouteItem) =>
+            x.resolutionId !== ResolutionStatusEnum.PendingSubmission ||
+            (x.stopAssignee || '') != this.globalSettingsService.globalSettings.userName);
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void

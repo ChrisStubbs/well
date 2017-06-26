@@ -410,6 +410,7 @@
     <Build Include="dbo\StoredProcedures\LineItemActionCommentUpdate.sql" />
     <Build Include="dbo\StoredProcedures\Job_UpdateShortsTBA.sql" />
     <Build Include="dbo\StoredProcedures\JobIdByResolutionStatus_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Activity_GetByDocumentNumber.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

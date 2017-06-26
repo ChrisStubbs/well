@@ -1,4 +1,4 @@
-﻿import {DropDownItem} from './dropDownItem';
+import {DropDownItem} from './dropDownItem';
 
 export class FilterOption {
     public dropDownItem: DropDownItem;

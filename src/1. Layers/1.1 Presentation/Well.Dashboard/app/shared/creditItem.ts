@@ -1,4 +1,4 @@
-﻿export class CreditItem {
+export class CreditItem {
     creditId: number;
     isPending:boolean;
 }

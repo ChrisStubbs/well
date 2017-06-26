@@ -1,4 +1,4 @@
-﻿import { Component, EventEmitter, Output, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ViewChild, ElementRef } from '@angular/core';
 import { IObservableAlive } from '../IObservableAlive';
 import { ActionService } from './actionService';
 import { IActionSubmitSummary, IActionSubmitSummaryItem } from './actionSubmitSummary';

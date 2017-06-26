@@ -1,4 +1,4 @@
-﻿export class Branch
+export class Branch
 {
     public id: number;
     public name: string;

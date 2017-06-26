@@ -4,8 +4,13 @@ import {
         ElementRef,
         EventEmitter,
         Output,
-        ViewEncapsulation }         from '@angular/core';
-import { NgForm }                   from '@angular/forms';
+        ViewEncapsulation
+}                                   from '@angular/core';
+import {
+    FormControl,
+    NgForm,
+    Validators
+}                                   from '@angular/forms';
 import { IObservableAlive }         from '../IObservableAlive';
 import * as _                       from 'lodash';
 import { ILookupValue }             from '../services/ILookupValue';
@@ -44,6 +49,8 @@ export class ActionEditComponent implements IObservableAlive
     private lineItemActions: Array<LineItemAction> = [];
     private errorInvoiceQty: string = 'Total Action quantity is > than the invoice quantity';
     private errorCommentRequired: string = 'When editing a quantity a comment is required';
+    private creditAction: number;
+    private closeAction: number;
 
     constructor(
         private lookupService: LookupService,
@@ -76,6 +83,12 @@ export class ActionEditComponent implements IObservableAlive
                     this.reasons = value[3];
                     this.commentReasons = JSON.parse(JSON.stringify(value[4]));
                     this.commentReasons.unshift({ key: undefined, value: undefined });
+
+                    this.creditAction = +this.deliveryActions.
+                        find((current: ILookupValue) => current.value == 'Credit').key;
+
+                    this.closeAction = +this.deliveryActions.
+                    find((current: ILookupValue) => current.value == 'Close').key;
                 });
         }
     }
@@ -134,11 +147,6 @@ export class ActionEditComponent implements IObservableAlive
     private actionClose: number = 2;
     private qtyChanged(item: LineItemAction, index: number): void
     {
-        // if (item.quantity === 0)
-        // {
-        //     item.deliveryAction = this.actionClose;
-        // }
-
         if (this.isOriginalQuantity(item))
         {
             item.commentReason = undefined;
@@ -153,7 +161,7 @@ export class ActionEditComponent implements IObservableAlive
         this.validateComment(item, index);
     }
 
-    private validateTotalQty()
+    private validateTotalQty(): void
     {
         const form = this.currentForm.form;
         const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
@@ -214,7 +222,14 @@ export class ActionEditComponent implements IObservableAlive
     private isOriginalQuantity(item: LineItemAction): boolean
     {
         const originalItem = this.getOriginalItem(item.id);
-        return (originalItem && originalItem.quantity === item.quantity);
+        return !_.isNil(originalItem) && originalItem.quantity === item.quantity;
+    }
+
+    private isCommentMandatory(item: LineItemAction): boolean
+    {
+        return !this.isOriginalQuantity(item)
+            && item.deliveryAction != this.actionClose
+            && item.id != 0;
     }
 
     private validateComment(item: LineItemAction, index: number)
@@ -237,7 +252,7 @@ export class ActionEditComponent implements IObservableAlive
 
     private deliveryActionChange(item: LineItemAction, index: number): void
     {
-        if (+item.deliveryAction === this.actionClose)
+        if (item.deliveryAction === this.actionClose)
         {
             item.quantity = 0;
             this.validate(item, index);
@@ -263,6 +278,7 @@ export class ActionEditComponent implements IObservableAlive
         {
             item.comments.pop();
         }
+
         this.validate(item, index);
     }
 

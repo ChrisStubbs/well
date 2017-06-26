@@ -60,8 +60,4 @@ export class LookupService
             })
             .catch(e => this.httpErrorService.handleError(e));
     }
-
-    public static compareResolutionStatusValue(value: number, value2: number): boolean {
-        return (value & value2) == value;
-    }
 }

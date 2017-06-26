@@ -1,23 +1,24 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { StopService } from './stopService';
-import { Stop, StopItem, StopFilter } from './stop';
-import * as _ from 'lodash';
-import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
-import { AccountService } from '../account/accountService';
-import { ContactModal } from '../shared/contactModal';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent } from '../shared/action/actionEditComponent';
-import { EditExceptionsService } from '../exceptions/editExceptionsService';
-import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
-import { LookupService } from '../shared/services/lookupService';
-import { LookupsEnum } from '../shared/services/lookupsEnum';
+import { Component, ViewChild, ElementRef }                     from '@angular/core';
+import { ActivatedRoute }                                       from '@angular/router';
+import { IObservableAlive }                                     from '../shared/IObservableAlive';
+import { StopService }                                          from './stopService';
+import { Stop, StopItem, StopFilter }                           from './stop';
+import * as _                                                   from 'lodash';
+import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
+import { Branch }                                               from '../shared/branch/branch';
+import { SecurityService }                                      from '../shared/security/securityService';
+import { GlobalSettingsService }                                from '../shared/globalSettings';
+import { ILookupValue, ResolutionStatusEnum }                   from '../shared/services/services';
+import { AccountService }                                       from '../account/accountService';
+import { ContactModal }                                         from '../shared/contactModal';
+import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
+import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
+import { LookupService }                                        from '../shared/services/lookupService';
+import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
 import { SingleRouteSource } from '../routes/singleRoute';
+import {GrnHelpers, IGrnAssignable} from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
@@ -55,7 +56,6 @@ export class StopComponent implements IObservableAlive
     public gridSource: Array<any> = [];
     public filters: StopFilter;
     public lastRefresh = Date.now();
-    private resolutionStatuses: Array<ILookupValue>;
 
     @ViewChild('btt') public btt: ElementRef;
     @ViewChild('openContact') public openContact: ElementRef;
@@ -66,6 +66,7 @@ export class StopComponent implements IObservableAlive
     private isReadOnlyUser: boolean = false;
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
+    private resolutionStatuses: Array<ILookupValue>;
 
     constructor(
         private stopService: StopService,
@@ -277,6 +278,8 @@ export class StopComponent implements IObservableAlive
                     .uniq()
                     .join(', ')
                     .value();
+                item.grnProcessType = singleItem.grnProcessType;
+                item.grnNumber = singleItem.grnNumber;
 
                 values[singleItem.jobId] = item;
             })
@@ -425,6 +428,10 @@ export class StopComponent implements IObservableAlive
             x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
     }
 
+    private isGrnRequired = (item: StopItemSource): boolean => {
+        return GrnHelpers.isGrnRequired(item);
+    }
+
 }
 
 interface IDictionarySource
@@ -432,7 +439,7 @@ interface IDictionarySource
     [key: number]: StopItemSource;
 }
 
-class StopItemSource
+class StopItemSource implements IGrnAssignable
 {
     constructor()
     {
@@ -454,4 +461,6 @@ class StopItemSource
     public types: string;
     public resolution: string;
     public items: Array<StopItem>;
+    public grnNumber: string;
+    public grnProcessType: number;
 }

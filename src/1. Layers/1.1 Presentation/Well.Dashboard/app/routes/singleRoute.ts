@@ -1,7 +1,7 @@
 import * as _                   from 'lodash';
 import {IFilter}                from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import {LookupService}          from '../shared/services/lookupService';
+import {IGrnAssignable} from '../job/job';
 
 export interface SingleRoute
 {
@@ -14,7 +14,7 @@ export interface SingleRoute
     items: SingleRouteItem[];
 }
 
-export class SingleRouteItem
+export class SingleRouteItem implements IGrnAssignable
 {
     constructor()
     {
@@ -52,6 +52,8 @@ export class SingleRouteItem
     public account: string;
     public wellStatus: number;
     public wellStatusDescription: string;
+    public grnNumber: string;
+    public grnProcessType: number;
 }
 
 export class SingleRouteSource
@@ -107,8 +109,6 @@ export class SingleRouteFilter implements IFilter
                 return GridHelpersFunctions.startsWithFilter;
 
             case 'wellStatus':
-                return GridHelpersFunctions.isEqualFilter;
-
             case 'assignee':
                 return  GridHelpersFunctions.isEqualFilter;
 
@@ -128,7 +128,7 @@ export class SingleRouteFilter implements IFilter
                     return value == 0;
                 };
             case 'resolutionId':
-                return LookupService.compareResolutionStatusValue;
+                return GridHelpersFunctions.enumBitwiseAndCompare;
         }
 
         return undefined;

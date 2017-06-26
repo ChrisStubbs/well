@@ -48,6 +48,7 @@
 
         private Mock<IJobResolutionStatus> jobResolutionStatus;
 
+        private Mock<IDateThresholdService> _dateThresholdService;
         [SetUp]
         public void Setup()
         {
@@ -65,6 +66,7 @@
             this.jobService = new Mock<IJobService>(MockBehavior.Strict);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
             this.jobResolutionStatus = new Mock<IJobResolutionStatus>(MockBehavior.Strict);
+            _dateThresholdService = new Mock<IDateThresholdService>();
 
             this.service = new EpodUpdateService(this.logger.Object,
                 this.eventLogger.Object,
@@ -77,7 +79,8 @@
                 this.mapper.Object,
                 this.jobService.Object,
                 this.postImportRepository.Object,
-                this.jobResolutionStatus.Object
+                this.jobResolutionStatus.Object,
+                _dateThresholdService.Object
               );
 
 

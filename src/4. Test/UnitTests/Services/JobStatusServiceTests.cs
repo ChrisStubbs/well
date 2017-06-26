@@ -486,6 +486,37 @@ namespace PH.Well.UnitTests.Services
             job.ResolutionStatus = ResolutionStatus.Closed;
             Assert.IsFalse(this.service.CanEditActions(job, "User"));
         }
+
+        [Test]
+        public void SetGrnShouldFailAfterSubmissionDate()
+        {
+            var job = JobFactory.New.Build();
+            var routeDate = DateTime.Now;
+
+            jobRepository.Setup(x => x.GetById(job.Id)).Returns<Job>(x => job);
+            jobRepository.Setup(x => x.GetJobRoute(job.Id)).Returns(() => new JobRoute(){ RouteDate = routeDate });
+            dateThresholdService.Setup(x => x.EarliestSubmitDate(routeDate, job.Id))
+                .Returns<DateTime>(x => routeDate.AddHours(-1));
+
+            Assert.Throws<Exception>(() => service.SetGrn(job.Id, "123"));
+        }
+
+        [Test]
+        public void SetGrnShouldPass()
+        {
+            var routeDate = DateTime.Now;
+            var job = JobFactory.New.Build();
+            var jobRoute = new JobRoute() {RouteDate = routeDate, BranchId = 1};
+          
+            jobRepository.Setup(x => x.GetById(job.Id)).Returns<Job>(x => job);
+            jobRepository.Setup(x => x.GetJobRoute(job.Id)).Returns(() => jobRoute);
+            jobRepository.Setup(x => x.SaveGrn(It.IsAny<int>(), It.IsAny<string>()));
+            //Return submission date greater than now
+            dateThresholdService.Setup(x => x.EarliestSubmitDate(routeDate, jobRoute.BranchId))
+                .Returns(routeDate.AddHours(1));
+
+            service.SetGrn(job.Id, "123");
+        }
     }
 }
 

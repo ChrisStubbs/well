@@ -108,7 +108,7 @@
                             .Where(x => x.OuterCountId == job.OuterCount)
                             .Select(y => y.ToBeAdvisedCount).FirstOrDefault(),
                         StopAssignee = stopAssignee,
-                        Resolution = job.ResolutionStatus?.Description,
+                        Resolution = job.ResolutionStatus.Description,
                         ResolutionId = job.ResolutionStatus.Value,
                         Invoice = job.InvoiceNumber,
                         JobType = jobType.ToString().SplitCapitalisedWords(),
@@ -125,7 +125,9 @@
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
                         Account = job.PhAccount,
                         WellStatus = job.WellStatus,
-                        WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus)
+                        WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus),
+                        GrnProcessType =  job.GrnProcessType ?? 0,
+                        GrnNumber =  job.GrnNumber
                     };
 
                     singleRoute.Items.Add(item);

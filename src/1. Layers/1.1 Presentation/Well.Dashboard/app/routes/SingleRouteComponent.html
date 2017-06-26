@@ -26,11 +26,11 @@
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 &nbsp;
-                <action-Modal [disabled]="disableSubmitActions()"
+                <submit-action-Modal [disabled]="disableSubmitActions()"
                               [isStopLevel]="true"
                               [jobIds]="getSelectedJobIds()"
                               (onSubmitted)="jobsSubmitted($event)">
-                </action-Modal>
+                </submit-action-Modal>
             </div>
         </div>
     </div>

@@ -207,7 +207,7 @@
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
-    <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <TypeScriptCompile Include="app\shared\action\submitActionModal.ts" />
     <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionService.ts" />
@@ -276,7 +276,7 @@
     <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.html" />
-    <Content Include="app\shared\action\actionModal.html" />
+    <Content Include="app\shared\action\submitActionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />

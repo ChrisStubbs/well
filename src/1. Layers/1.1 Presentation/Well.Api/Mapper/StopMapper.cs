@@ -17,6 +17,15 @@
         public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees,
             IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
+            var jobGroupToBeAdvised = jobs.GroupBy(j => new { j.OuterCount, j.ToBeAdvisedCount })
+                                        .Select(y => new ToBeAdvisedGroup()
+                                                    {
+                                                        OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
+                                                        ToBeAdvisedCount = y.Key.ToBeAdvisedCount
+                                                    }).ToList();
+
+            var tbaSum = jobGroupToBeAdvised.Sum(j => j.ToBeAdvisedCount);
+
             var stopModel = new StopModel
             {
                 RouteId = route.Id,
@@ -26,7 +35,9 @@
                 Driver = route.DriverName,
                 RouteDate = route.RouteDate,
                 AssignedTo = Assignee.GetDisplayNames(assignees),
-                Tba = jobs.Sum(j => j.ToBeAdvisedCount),
+               // Tba = jobs.Sum(j => j.ToBeAdvisedCount),
+               Tba = tbaSum,
+
                 StopNo = stop.PlannedStopNumber,
                 TotalNoOfStopsOnRoute = route.PlannedStops,
                 Items = MapItems(jobs, jobDetailTotalsPerStop)

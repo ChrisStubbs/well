@@ -10,7 +10,8 @@ import { AppSearchService }                                 from './appSearchSer
 import * as _                                               from 'lodash';
 import { LookupService, LookupsEnum, ILookupValue }         from '../services/services';
 import { IObservableAlive }                                 from '../IObservableAlive';
-import { Observable }                                       from 'rxjs';
+import { Observable } from 'rxjs';
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
 
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
@@ -37,7 +38,8 @@ export class AppSearch implements IObservableAlive
         private globalSettingsService: GlobalSettingsService,
         private fb: FormBuilder,
         private appSearchService: AppSearchService,
-        private router: Router) { }
+        private router: Router,
+        private toasterService: ToasterService) { }
 
     public ngOnInit(): void
     {
@@ -63,7 +65,6 @@ export class AppSearch implements IObservableAlive
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
-            //this.lookupService.get(LookupsEnum.JobStatus),
             this.lookupService.get(LookupsEnum.WellStatus),
             this.lookupService.get(LookupsEnum.Driver)
         )
@@ -125,15 +126,23 @@ export class AppSearch implements IObservableAlive
             .takeWhile(() => this.isAlive)
             .subscribe((result: IAppSearchResultSummary) =>
             {
+                if (result.stopIds.length === 0 && result.routeIds.length === 0) {
+                    this.toasterService.pop('warning', 'No results found for your search criteria');
+                    this.onSearch.emit();
+                    return;
+                }
+
                 if (result.stopIds.length === 1)
                 {
                     this.router.navigateByUrl('/stops/' + result.stopIds[0]);
+                    this.onSearch.emit();
                     return;
                 }
 
                 if (result.routeIds.length === 1)
                 {
                     this.router.navigateByUrl('/singleroute/' + result.routeIds[0]);
+                    this.onSearch.emit();
                     return;
                 }
 
@@ -141,6 +150,7 @@ export class AppSearch implements IObservableAlive
                 {
                     parameters.routeIds = (result.routeIds.length > 0) ? result.routeIds : [-1];
                 }
+
                 this.router.navigate(['/routes'], { queryParams: parameters });
                 this.onSearch.emit();
 

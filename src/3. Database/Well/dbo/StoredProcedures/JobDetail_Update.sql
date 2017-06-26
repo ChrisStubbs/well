@@ -19,7 +19,8 @@
 	@SkuGoodsValue			FLOAT,
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			DATETIME,
-	@OriginalDespatchQty	INT
+	@OriginalDespatchQty	INT,
+	@NetPrice				FLOAT
 
 AS
 BEGIN
@@ -48,6 +49,7 @@ UPDATE
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated
 	  ,OriginalDespatchQty = @OriginalDespatchQty
+	  ,NetPrice = @NetPrice
  WHERE 
 	[Id] = @Id
 END

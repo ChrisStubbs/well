@@ -45,7 +45,13 @@
                 var jobs = jobRepository.GetByRouteHeaderId(id).ToList();
                 var assignees = assigneeRepository.GetByRouteHeaderId(id).ToList();
 
-                return mapper.Map(branches, routeHeader, stops, jobs, assignees);
+                return mapper.Map(
+                    branches, 
+                    routeHeader, 
+                    stops, 
+                    jobs, 
+                    assignees, 
+                    jobRepository.JobDetailTotalsPerRouteHeader(id));
             }
 
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));

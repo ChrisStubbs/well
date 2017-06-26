@@ -108,11 +108,26 @@
             Entity.JobByPassReason = "some reason";
             Entity.Cod = string.Empty;
             Entity.StopId = 1;
+            Entity.ResolutionStatus = ResolutionStatus.DriverCompleted;
         }
 
         public JobFactory WithTotalShort(int? value)
         {
             Entity.TotalOutersShort = value;
+
+            return this;
+        }
+
+        public JobFactory WithOuterDiscrepancyFound(bool value)
+        {
+            Entity.OuterDiscrepancyFound = value;
+
+            return this;
+        }
+
+        public JobFactory WithOuterCount(int? value)
+        {
+            Entity.OuterCount = value;
 
             return this;
         }

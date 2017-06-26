@@ -10,7 +10,7 @@
     using PH.Well.Services;
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodServices;
-
+    using Repositories.Read;
     using StructureMap;
 
     public class Program
@@ -59,11 +59,19 @@
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
-                    x.For<IJobStatusService>().Use<JobStatusService>();
+                    x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
                     x.For<IBranchRepository>().Use<BranchRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();
+                    x.For<IUserThresholdService>().Use<UserThresholdService>();
+                    x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+                    x.For<IUserRepository>().Use<UserRepository>();
+                    x.For<IDateThresholdService>().Use<DateThresholdService>();
+                    x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+                    x.For<IDapperReadProxy>().Use<DapperReadProxy>();
+                    x.For<IDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
                 });
         }
     }

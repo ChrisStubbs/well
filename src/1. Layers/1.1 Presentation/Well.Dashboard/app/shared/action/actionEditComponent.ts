@@ -1,15 +1,21 @@
-﻿import {Component, ViewChild, ElementRef, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { IObservableAlive } from '../IObservableAlive';
-import * as _ from 'lodash';
-import { ILookupValue } from '../services/ILookupValue';
-import { LookupsEnum } from '../services/lookupsEnum';
-import { LookupService } from '../services/lookupService';
-import { EditExceptionsService } from '../../exceptions/editExceptionsService';
-import { Observable } from 'rxjs'
-import { LineItemAction } from '../../exceptions/lineItemAction';
-import { EditLineItemException } from '../../exceptions/editLineItemException';
-import { LineItemActionComment } from '../../exceptions/lineItemAction';
+import {
+        Component,
+        ViewChild,
+        ElementRef,
+        EventEmitter,
+        Output,
+        ViewEncapsulation }         from '@angular/core';
+import { NgForm }                   from '@angular/forms';
+import { IObservableAlive }         from '../IObservableAlive';
+import * as _                       from 'lodash';
+import { ILookupValue }             from '../services/ILookupValue';
+import { LookupsEnum }              from '../services/lookupsEnum';
+import { LookupService }            from '../services/lookupService';
+import { EditExceptionsService }    from '../../exceptions/editExceptionsService';
+import { Observable }               from 'rxjs';
+import { LineItemAction }           from '../../exceptions/lineItemAction';
+import { EditLineItemException }    from '../../exceptions/editLineItemException';
+import { LineItemActionComment }    from '../../exceptions/lineItemAction';
 
 @Component({
     selector: 'action-edit',
@@ -26,6 +32,7 @@ export class ActionEditComponent implements IObservableAlive
 
     @Output() public onSave = new EventEmitter<EditLineItemException>();
     @ViewChild('showModal') public showModal: ElementRef;
+    @ViewChild('closeModal') public closeModal: ElementRef;
     @ViewChild('actionEditForm') private currentForm: NgForm;
 
     private deliveryActions: Array<ILookupValue>;
@@ -67,7 +74,7 @@ export class ActionEditComponent implements IObservableAlive
                     this.exceptionTypes = value[1];
                     this.sources = value[2];
                     this.reasons = value[3];
-                    this.commentReasons = value[4];
+                    this.commentReasons = JSON.parse(JSON.stringify(value[4]));
                     this.commentReasons.unshift({ key: undefined, value: undefined });
                 });
         }
@@ -98,6 +105,7 @@ export class ActionEditComponent implements IObservableAlive
     public close(): void
     {
         this.lineItemActions = [];
+        this.closeModal.nativeElement.click();
     }
 
     public save(): void
@@ -111,6 +119,7 @@ export class ActionEditComponent implements IObservableAlive
                 {
                     this.loadSource(responseData);
                     this.onSave.emit(responseData);
+                    this.close();
                 });
         }
     }
@@ -123,17 +132,18 @@ export class ActionEditComponent implements IObservableAlive
     }
 
     private actionClose: number = 2;
-    private qtyChanged(item: LineItemAction, event, index: number): void
+    private qtyChanged(item: LineItemAction, index: number): void
     {
-        if (item.quantity === 0)
-        {
-            item.deliveryAction = this.actionClose;
-        }
+        // if (item.quantity === 0)
+        // {
+        //     item.deliveryAction = this.actionClose;
+        // }
 
         if (this.isOriginalQuantity(item))
         {
             item.commentReason = undefined;
         }
+
         this.validate(item, index);
     }
 
@@ -148,13 +158,11 @@ export class ActionEditComponent implements IObservableAlive
         const form = this.currentForm.form;
         const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
 
+        this.deleteError(form, this.errorInvoiceQty);
         if (totalLineQty > this.source.invoiced)
         {
             this.setError(form, this.errorInvoiceQty);
 
-        } else
-        {
-            this.deleteError(form, this.errorInvoiceQty);
         }
     }
 
@@ -163,7 +171,8 @@ export class ActionEditComponent implements IObservableAlive
         if (!ctl.errors)
         {
             ctl.setErrors({ key: error });
-        } else
+        }
+        else
         {
             ctl.errors.key = ctl.errors.key + ', ' + error;
         }
@@ -215,14 +224,13 @@ export class ActionEditComponent implements IObservableAlive
         {
             const commentCtl = form.controls['commentReasonId' + index];
 
+            this.deleteError(form, this.errorCommentRequired);
+            this.deleteError(commentCtl, this.errorCommentRequired);
+
             if (!this.isOriginalQuantity(item) && (!commentCtl.value || commentCtl.value === 'undefined'))
             {
                 this.setError(form, this.errorCommentRequired);
                 this.setError(commentCtl, this.errorCommentRequired);
-            } else
-            {
-                this.deleteError(form, this.errorCommentRequired);
-                this.deleteError(commentCtl, this.errorCommentRequired);
             }
         }
     }
@@ -261,5 +269,10 @@ export class ActionEditComponent implements IObservableAlive
     private isFormValid()
     {
         return this.currentForm.form.valid;
+    }
+
+    private hasComments(item: LineItemAction): boolean {
+        const existingComments = _.filter(item.comments, x => x.id !== 0);
+        return existingComments.length > 0;
     }
 }

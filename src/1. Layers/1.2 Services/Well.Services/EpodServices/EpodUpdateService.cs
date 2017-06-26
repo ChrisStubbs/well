@@ -25,12 +25,11 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
-        private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IRouteMapper mapper;
-        private readonly IAdamImportService adamImportService;
-        private readonly IJobStatusService jobStatusService;
-        private readonly IUserNameProvider userNameProvider;
+        private readonly IJobService jobService;
         private readonly IPostImportRepository postImportRepository;
+        private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IDateThresholdService _dateThresholdService;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
 
@@ -44,11 +43,10 @@
             IJobDetailDamageRepository jobDetailDamageRepository,
             IExceptionEventRepository exceptionEventRepository,
             IRouteMapper mapper,
-            IAdamImportService adamImportService,
-            IPodTransactionFactory podTransactionFactory,
-            IJobStatusService jobStatusService,
-            IUserNameProvider userNameProvider,
-            IPostImportRepository postImportRepository)
+            IJobService jobService,
+            IPostImportRepository postImportRepository,
+            IJobResolutionStatus jobResolutionStatus,
+            IDateThresholdService dateThresholdService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -59,15 +57,16 @@
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.exceptionEventRepository = exceptionEventRepository;
             this.mapper = mapper;
-            this.adamImportService = adamImportService;
-            this.podTransactionFactory = podTransactionFactory;
-            this.jobStatusService = jobStatusService;
-            this.userNameProvider = userNameProvider;
+            this.jobService = jobService;
             this.postImportRepository = postImportRepository;
+            this.jobResolutionStatus = jobResolutionStatus;
+            
+            _dateThresholdService = dateThresholdService;
         }
 
         public void Update(RouteDelivery route, string fileName)
         {
+            var updatedJobIds = new List<int>();
             foreach (var header in route.RouteHeaders)
             {
                 int branchId;
@@ -96,7 +95,9 @@
 
                     this.routeHeaderRepository.Update(existingHeader);
 
-                    this.UpdateStops(header.Stops, branchId);
+                    var jobIdsForHeader = this.UpdateStops(header, branchId);
+
+                    updatedJobIds.AddRange(jobIdsForHeader);
                 }
                 else
                 {
@@ -109,13 +110,36 @@
 
             // updates Location/Activity/LineItem/Bag tables from imported data
             this.postImportRepository.PostImportUpdate();
+            // updates tobacco lines from tobacco bag data
+            this.postImportRepository.PostTranSendImportForTobacco();
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
+            //updates Jobs with data for shorts to be advised
+            this.postImportRepository.PostTranSendImportShortsTba(updatedJobIds); 
+
+            // update JobResolutionStatus for jobs with LineItemActions
+            if (updatedJobIds.Count != 0)
+            {
+                var updatedJobs = jobService.PopulateLineItemsAndRoute(jobRepository.GetByIds(updatedJobIds));
+                foreach (var job in updatedJobs)
+                {
+                    var status = this.jobResolutionStatus.GetNextResolutionStatus(job);
+                    if (status != ResolutionStatus.Invalid)
+                    {
+                        job.ResolutionStatus = status;
+                    }
+
+                    this.jobRepository.Update(job);
+                    this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+                }
+            }
         }
 
-        private void UpdateStops(IEnumerable<StopDTO> stops, int branchId)
+        private List<int> UpdateStops(RouteHeader routeHeader, int branchId)
         {
-            foreach (var stop in stops)
+            var updatedJobIds
+                = new List<int>();
+            foreach (var stop in routeHeader.Stops)
             {
                 try
                 {
@@ -140,7 +164,7 @@
 
                         this.stopRepository.Update(existingStop);
 
-                        this.UpdateJobs(stop.Jobs, existingStop.Id, branchId);
+                        updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
 
                         transactionScope.Complete();
                     }
@@ -156,10 +180,14 @@
                         9859);
                 }
             }
+
+            return updatedJobIds;
         }
 
-        private void UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId)
+        private List<int> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId,DateTime routeDate)
         {
+            var updatedJobIds = new List<int>();
+
             foreach (var job in jobs)
             {
                 var existingJob = this.jobRepository.GetJobByRefDetails(
@@ -173,15 +201,19 @@
                     continue;
                 }
 
+                updatedJobIds.Add(existingJob.Id);
+
                 this.mapper.Map(job, existingJob);
 
-                this.jobStatusService.DetermineStatus(existingJob, branchId);
+                this.jobService.DetermineStatus(existingJob, branchId);
+                existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
 
                 if (!string.IsNullOrWhiteSpace(job.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
                 {
                     var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
-                    this.exceptionEventRepository.InsertGrnEvent(grnEvent);
+                    this.exceptionEventRepository.InsertGrnEvent(grnEvent,
+                        _dateThresholdService.EarliestSubmitDate(routeDate, branchId));
                 }
 
                 this.UpdateJobDetails(
@@ -202,22 +234,13 @@
                 }
 
                 this.jobRepository.Update(existingJob);
+                this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
             }
+            return updatedJobIds;
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId, bool invoiceOutstanding)
         {
-            //TODO for a tobacco delivery
-            // for each tobacco bag barcode
-            // I need the tobacco lines for the bag barcode
-            // and if the tobacco bag was delivered
-            // the tobacco product line can be updated with linedelivery status 'delivered'
-            // and the delivered qty set to the original despatch qty
-            // if the tobacco bag is not delivered
-            // set the linedeliverystatus to exception or whatever it is
-            // and leave the delivered qty as zero
-            // query damage??
-
             foreach (var detail in jobDetails)
             {
                 var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
@@ -256,8 +279,9 @@
 
             foreach (var damage in damages)
             {
-                if (!string.IsNullOrWhiteSpace(damage.Reason.Description) &&
-                    damage.Reason.Description.ToLower().Contains("short"))
+                if (!string.IsNullOrWhiteSpace(damage.Reason.Description) && (
+                    damage.Reason.Description.ToLower().Contains("short") || 
+                    damage.Reason.Description.ToLower().Contains("product not available")))
                 {
                     continue;
                 }

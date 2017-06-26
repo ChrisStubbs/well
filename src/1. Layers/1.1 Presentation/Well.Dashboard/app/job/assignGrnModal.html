@@ -1,0 +1,22 @@
+﻿<span type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>
+
+<div *ngIf="isVisible" class="modal fade in show" id="assignGrn-Modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit GRN/CSF</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">GRN/CSF</label>
+                    <input type="text" class="form-control" placeholder="GRN/CSF number" [(ngModel)]="grnNumber">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="close()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

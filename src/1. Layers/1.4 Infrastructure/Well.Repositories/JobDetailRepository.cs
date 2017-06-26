@@ -112,6 +112,7 @@
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
+                .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal)
                 .Execute();
         }
 

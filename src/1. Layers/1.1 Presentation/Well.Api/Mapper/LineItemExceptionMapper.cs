@@ -9,16 +9,22 @@
     using PH.Well.Domain.Enums;
     using System.Linq;
     using Repositories.Contracts;
+    using Services.Contracts;
+    using Common.Contracts;
 
     public class LineItemExceptionMapper : ILineItemExceptionMapper
     {
         private readonly IJobRepository jobRepository;
-        private readonly IAccountRepository accountRepository;
+        private readonly IJobService jobService;
+        private readonly IUserNameProvider userNameProvider;
 
-        public LineItemExceptionMapper(IJobRepository jobRepository, IAccountRepository accountRepository)
+        public LineItemExceptionMapper(IJobRepository jobRepository,
+            IJobService jobService,
+            IUserNameProvider userNameProvider)
         {
             this.jobRepository = jobRepository;
-            this.accountRepository = accountRepository;
+            this.jobService = jobService;
+            this.userNameProvider = userNameProvider;
         }
 
         public IEnumerable<EditLineItemException> Map(IEnumerable<LineItem> lineItems)
@@ -26,12 +32,13 @@
             lineItems = lineItems.ToArray();
             var result = new List<EditLineItemException>();
             var jobs = jobRepository.GetByIds(lineItems.Select(x => x.JobId).Distinct()).ToArray();
+            var jobDetailLineItemTotals = jobRepository.JobDetailTotalsPerJobs(jobs.Select(x => x.Id)).ToArray();
 
             foreach (var line in lineItems)
             {
                 var job = jobs.First(x => x.Id == line.JobId);
                 var jobDetail = job.JobDetails.First(x => x.LineItemId == line.Id);
-                result.Add(MapEditLineItemException(line, job, jobDetail));
+                result.Add(MapEditLineItemException(line, job, jobDetail, jobDetailLineItemTotals));
             }
 
             return result;
@@ -41,24 +48,31 @@
         {
             var job = jobRepository.GetById(lineItem.JobId);
             var jobDetail = job.JobDetails.First(x => x.LineItemId == lineItem.Id);
-            return MapEditLineItemException(lineItem, job, jobDetail);
+            var jobDetailLineItemTotals = jobRepository.JobDetailTotalsPerJobs(new[] { job.Id }).ToArray();
+            return MapEditLineItemException(lineItem, job, jobDetail, jobDetailLineItemTotals);
         }
 
-        private EditLineItemException MapEditLineItemException(LineItem line, Job job, JobDetail jobDetail)
+        private EditLineItemException MapEditLineItemException(LineItem line, Job job, JobDetail jobDetail, JobDetailLineItemTotals[] jobDetailLineItemTotals)
         {
+            var totals = jobDetailLineItemTotals.SingleOrDefault(x => x.JobDetailId == jobDetail.Id);
+            
             var editLineItemException = new EditLineItemException
             {
                 AccountCode = job.PhAccount,
+                JobId = job.Id,
+                ResolutionId = job.ResolutionStatus.Value, 
+                ResolutionStatus = job.ResolutionStatus?.Description,
                 Id = line.Id,
                 Invoice = job.InvoiceNumber,
                 Type = job.JobType,
                 ProductNumber = line.ProductCode,
                 Product = line.ProductDescription,
-                Value = (decimal)jobDetail.SkuGoodsValue,
-                Invoiced = line.OriginalDespatchQuantity,
-                Delivered = line.DeliveredQuantity,
-                Damages = jobDetail.DamageQty,
-                Shorts = jobDetail.ShortQty
+                DriverReason = line.DriverReason,
+                Value = jobDetail.NetPrice ?? 0,
+                Invoiced = jobDetail.OriginalDespatchQty,
+                Damages = totals?.DamageTotal ?? jobDetail.DamageQty,
+                Shorts = totals?.ShortTotal ?? jobDetail.ShortQty,
+                CanEditActions = jobService.CanEditActions(job, this.userNameProvider.GetUserName())
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions
@@ -77,7 +91,7 @@
                       ApprovedBy = action.ApprovedBy
                   })
                   .ToList();
-            
+
             return editLineItemException;
         }
     }

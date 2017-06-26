@@ -12,10 +12,18 @@
 
     public class StopMapper : IStopMapper
     {
-        private const int LengthOfBarcode = 18;
+        
 
-        public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees)
+        public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees,
+            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
+            var jobGroupToBeAdvised = jobs.GroupBy(j => new { j.OuterCount, j.ToBeAdvisedCount })
+                                        .Select(y => new ToBeAdvisedGroup()
+                                                    {
+                                                        OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
+                                                        ToBeAdvisedCount = y.Key.ToBeAdvisedCount
+                                                    }).ToList();
+
             var stopModel = new StopModel
             {
                 RouteId = route.Id,
@@ -25,62 +33,86 @@
                 Driver = route.DriverName,
                 RouteDate = route.RouteDate,
                 AssignedTo = Assignee.GetDisplayNames(assignees),
-                Tba = jobs.Sum(j => j.ToBeAdvisedCount),
+                Tba = jobGroupToBeAdvised.Sum(j => j.ToBeAdvisedCount),
                 StopNo = stop.PlannedStopNumber,
-                TotalNoOfStopsOnRoute = route.PlannedStops
+                TotalNoOfStopsOnRoute = route.PlannedStops,
+                Items = MapItems(jobs, jobDetailTotalsPerStop)
             };
-
-
-            return MapItems(stopModel, jobs);
+            
+            return stopModel;
         }
 
-        private StopModel MapItems(StopModel stopModel, List<Job> jobs)
+        private IList<StopModelItem> MapItems(List<Job> jobs, IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
-            foreach (var job in jobs)
-            {
-                var jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
-
-                List<JobDetail> jobDetails = job.JobDetails;
-
-                if (jobType == JobType.Tobacco)
+            return jobs
+                .Select(p => new
                 {
-                    jobDetails = job.JobDetails
-                        .Where(x => x.PhProductCode.Length != LengthOfBarcode)
-                        .ToList();
-                }
-                else if (jobType == JobType.Documents)
+                    jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode),
+                    job = p
+                })
+                .Where(p => p.jobType != JobType.Documents)
+                .SelectMany(p =>
                 {
-                    continue;
-                }
+                    var jobDetails = p.job.JobDetails;
 
-                foreach (var line in jobDetails)
-                {
-                    var item = new StopModelItem()
+                    if (p.jobType == JobType.Tobacco)
                     {
-                        JobId = job.Id,
-                        Invoice = job.InvoiceNumber,
-                        Type = job.JobType,
-                        JobTypeAbbreviation = job.JobTypeAbbreviation,
-                        Account = job.PhAccount,
-                        AccountID = job.PhAccountId,
-                        JobDetailId = line.Id,
-                        Product = line.PhProductCode,
-                        Description = line.ProdDesc,
-                        Value = line.SkuGoodsValue,
-                        Invoiced = line.OriginalDespatchQty,
-                        Delivered = line.DeliveredQty,
-                        Damages = line.DamageQty,
-                        Shorts = line.ShortQty,
-                        Checked = line.IsChecked,
-                        HighValue = line.IsHighValue,
-                        BarCode = line.SSCCBarcode,
-                        LineItemId = line.LineItemId
-                    };
-                    stopModel.Items.Add(item);
-                }
-            }
+                        jobDetails = jobDetails
+                        .Where(x => !x.IsTobaccoBag())
+                        .ToList();
+                    }
 
-            return stopModel;
+                    return jobDetails
+                        .Select(line => new
+                        {
+                            DetailId = line.Id,
+                            StopModelItem = new StopModelItem
+                            {
+                                JobId = p.job.Id,
+                                Invoice = p.job.InvoiceNumber,
+                                Type = p.job.JobType,
+                                JobTypeAbbreviation = p.job.JobTypeAbbreviation,
+                                Account = p.job.PhAccount,
+                                AccountID = p.job.PhAccountId,
+                                JobDetailId = line.Id,
+                                Product = line.PhProductCode,
+                                Description = line.ProdDesc,
+                                Value = line.SkuGoodsValue,
+                                Invoiced = line.OriginalDespatchQty,
+                                Delivered = line.DeliveredQty,
+                                Checked = line.IsChecked,
+                                HighValue = line.IsHighValue,
+                                BarCode = line.SSCCBarcode,
+                                LineItemId = line.LineItemId,
+                                Resolution = p.job.ResolutionStatus.Description,
+                                ResolutionId = p.job.ResolutionStatus.Value,
+                                GrnProcessType = p.job.GrnProcessType ?? 0,
+                                HasUnresolvedActions = HasUnresolvedAction(p.job, line.LineItemId),
+                                GrnNumber = p.job.GrnNumber
+                            }
+                        })
+                        .ToList();
+                })
+                .Select(line => 
+                {
+                    var totals = jobDetailTotalsPerStop.FirstOrDefault(p => p.JobDetailId == line.DetailId) ?? new JobDetailLineItemTotals();
+
+                    line.StopModelItem.Damages = totals.DamageTotal;
+                    line.StopModelItem.Shorts = totals.ShortTotal;
+
+                    return line.StopModelItem;
+                })
+                .ToList();
+        }
+
+        private static bool HasUnresolvedAction(Job job, int lineItemId)
+        {
+            var lineItems = job.LineItems.Where(x => x.Id == lineItemId).ToArray();
+            if (lineItems.Any())
+            {
+                return lineItems.Any(x => x.LineItemActions.Any(y => y.DeliveryAction == DeliveryAction.NotDefined));
+            }
+            return false;
         }
     }
 }

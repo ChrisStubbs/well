@@ -6,6 +6,7 @@
     using NUnit.Framework;
     using Well.Api.Mapper;
     using Well.Domain;
+    //using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
 
     [TestFixture]
@@ -28,8 +29,13 @@
         public void ShouldMapStopModelHeaderItems()
         {
             var stop = new StopFactory().Build();
-            var job = new JobFactory().WithTotalShort(10).Build();
-            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>());
+            var job = new JobFactory()
+                .WithTotalShort(10)
+                .WithOuterDiscrepancyFound(true)
+                .WithOuterCount(1)
+                .Build();
+            
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
             Assert.That(stopModel.RouteId, Is.EqualTo(routeHeader.Id));
             Assert.That(stopModel.RouteNumber, Is.EqualTo(routeHeader.RouteNumber));
@@ -63,7 +69,16 @@
 
             var job2 = new JobFactory().With(x => x.JobDetails = jobDetails2).Build();
 
-            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job, job2 }, new List<Assignee>());
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job, job2 }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
+
+            Assert.That(stopModel.Items.Count, Is.EqualTo(3));
+
+            stopModel = mapper.Map(branches,
+                routeHeader,
+                stop,
+                new List<Job> { job, job2 },
+                new List<Assignee>(),
+                new List<JobDetailLineItemTotals> { new JobDetailLineItemTotals { JobDetailId = stopModel.Items.First().JobDetailId } });
 
             Assert.That(stopModel.Items.Count, Is.EqualTo(3));
         }
@@ -84,10 +99,11 @@
 
             var job = new JobFactory().With(x => x.JobTypeCode = "DEL-TOB")
                                     .With(x => x.JobDetails = jobDetails1)
+                                    .With(x => x.ResolutionStatus = Well.Domain.Enums.ResolutionStatus.DriverCompleted)
                                     .WithTotalShort(10)
                                     .Build();
 
-            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>());
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
             Assert.That(stopModel.Items.Count, Is.EqualTo(2));
             Assert.False(stopModel.Items.Any(x => x.Product == eighteenCharacterBarcode));
@@ -101,11 +117,12 @@
                         .Build();
 
             var stopModel = mapper.Map(
-                branches, 
-                routeHeader, 
-                new StopFactory().Build(), 
-                new List<Job> { job }, 
-                new List<Assignee>());
+                branches,
+                routeHeader,
+                new StopFactory().Build(),
+                new List<Job> { job },
+                new List<Assignee>(),
+                new List<JobDetailLineItemTotals>());
 
             Assert.That(stopModel.Items.Count, Is.EqualTo(0));
         }
@@ -127,7 +144,7 @@
                     .With(x=> x.ShortQty=22)
                     .With(x => x.LineDeliveryStatus = "Delivered")
                     .With(x => x.IsHighValue = true)
-                    .With(x=> x.SSCCBarcode="12478459554678952")
+                    .With(x => x.SSCCBarcode="12478459554678952")
                     .Build()
             };
 
@@ -139,10 +156,20 @@
                         .With(x => x.JobTypeAbbreviation = "test")
                         .With(x => x.PhAccount = "PHAcccountNo")
                         .With(x => x.JobDetails = jobDetails1)
+                        .With(x => x.ResolutionStatus = Well.Domain.Enums.ResolutionStatus.DriverCompleted)
                         .WithTotalShort(10)
                         .Build();
 
-            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>());
+            var totals = new List<JobDetailLineItemTotals>
+            {
+                new JobDetailLineItemTotals
+                {
+                    JobDetailId = job.JobDetails.First().Id,
+                    ShortTotal = 33,
+                    DamageTotal = 155
+                }
+            };
+            var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>(), totals);
 
             Assert.That(stopModel.Items.Count, Is.EqualTo(1));
             var item = stopModel.Items[0];
@@ -157,8 +184,8 @@
             Assert.That(item.Value, Is.EqualTo(72));
             Assert.That(item.Invoiced, Is.EqualTo(592));
             Assert.That(item.Delivered, Is.EqualTo(666));
-            Assert.That(item.Damages, Is.EqualTo(11));
-            Assert.That(item.Shorts, Is.EqualTo(22));
+            Assert.That(item.Damages, Is.EqualTo(155));
+            Assert.That(item.Shorts, Is.EqualTo(33));
             Assert.That(item.Checked, Is.True);
             Assert.That(item.HighValue, Is.True);
             Assert.That(item.BarCode, Is.EqualTo("12478459554678952"));

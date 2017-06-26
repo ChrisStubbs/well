@@ -165,7 +165,7 @@
 
                 this.dapperProxy.Setup(x => x.Execute());
 
-                this.repository.InsertGrnEvent(grnEvent);
+                this.repository.InsertGrnEvent(grnEvent, DateTime.Now);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.EventInsert), Times.Once);
 

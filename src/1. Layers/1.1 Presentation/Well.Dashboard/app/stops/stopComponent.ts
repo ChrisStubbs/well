@@ -1,20 +1,26 @@
-import { Component, ViewChild, ElementRef }     from '@angular/core';
-import { ActivatedRoute }                       from '@angular/router';
-import { IObservableAlive }                     from '../shared/IObservableAlive';
-import { StopService }                          from './stopService';
-import { Stop, StopItem, StopFilter }           from './stop';
-import * as _                                   from 'lodash';
-import { AssignModel, AssignModalResult }       from '../shared/components/assignModel';
-import { Branch }                               from '../shared/branch/branch';
-import { SecurityService }                      from '../shared/security/securityService';
-import { GlobalSettingsService }                from '../shared/globalSettings';
-import { ILookupValue }                         from '../shared/services/services';
-import { AccountService }                       from '../account/accountService';
-import { ContactModal }                         from '../shared/contactModal';
-import { GridHelpersFunctions }                 from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent }                  from '../shared/action/actionEditComponent';
-import { EditExceptionsService }                from '../exceptions/editExceptionsService';
-import { EditLineItemException }                from '../exceptions/editLineItemException';
+import { Component, ViewChild, ElementRef }                     from '@angular/core';
+import { ActivatedRoute }                                       from '@angular/router';
+import { IObservableAlive }                                     from '../shared/IObservableAlive';
+import { StopService }                                          from './stopService';
+import { Stop, StopItem, StopFilter }                           from './stop';
+import * as _                                                   from 'lodash';
+import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
+import { Branch }                                               from '../shared/branch/branch';
+import { SecurityService }                                      from '../shared/security/securityService';
+import { GlobalSettingsService }                                from '../shared/globalSettings';
+import { ILookupValue, ResolutionStatusEnum }                   from '../shared/services/services';
+import { AccountService }                                       from '../account/accountService';
+import { ContactModal }                                         from '../shared/contactModal';
+import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
+import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
+import { LookupService }                                        from '../shared/services/lookupService';
+import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
+import { SingleRouteSource } from '../routes/singleRoute';
+import {GrnHelpers, IGrnAssignable} from '../job/job';
+import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-stop',
@@ -33,11 +39,12 @@ import { EditLineItemException }                from '../exceptions/editLineItem
         '.colExpandAll { width: 3% } ' +
         '.colProduct { width: 6% } ' +
         '.colType { width: 8% } ' +
-        '.colTobacco { width: 10% } ' +
-        '.colDescription { width: 24% } ' +
+        '.colTobacco { width: 12% } ' +
+        '.colDescription { width: 20% } ' +
         '.colNumbers { width: 6%; } ' +
         '.colHigh { width: 10% } ' +
-        '.colCheckbox { width: 3% } ']
+        '.colCheckbox { width: 3% } ' +
+        '.exceptionsFilter { width: calc( 6 * 2)}']
 })
 export class StopComponent implements IObservableAlive
 {
@@ -47,7 +54,7 @@ export class StopComponent implements IObservableAlive
     public stop: Stop = new Stop();
     public stopsItems: Array<StopItem>;
     public source: IDictionarySource;
-    public gridSource: Array<any>;
+    public gridSource: Array<any> = [];
     public filters: StopFilter;
     public lastRefresh = Date.now();
 
@@ -60,6 +67,7 @@ export class StopComponent implements IObservableAlive
     private isReadOnlyUser: boolean = false;
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
+    private resolutionStatuses: Array<ILookupValue>;
 
     constructor(
         private stopService: StopService,
@@ -67,7 +75,8 @@ export class StopComponent implements IObservableAlive
         private securityService: SecurityService,
         private globalSettingsService: GlobalSettingsService,
         private accountService: AccountService,
-        private editExceptionsService: EditExceptionsService) { }
+        private editExceptionsService: EditExceptionsService,
+        private lookupService: LookupService) { }
 
     public ngOnInit(): void
     {
@@ -75,7 +84,6 @@ export class StopComponent implements IObservableAlive
             .flatMap(data =>
             {
                 this.stopId = data.id;
-
                 return this.stopService.getStop(this.stopId);
             })
             .takeWhile(() => this.isAlive)
@@ -96,7 +104,7 @@ export class StopComponent implements IObservableAlive
                 _.chain(data.items)
                     .map((current: StopItem) =>
                     {
-                        return current.type + ' (' + current.jobTypeAbbreviation + ')'
+                        return current.type + ' (' + current.jobTypeAbbreviation + ')';
                     })
                     .uniq()
                     .map((current: string) =>
@@ -109,7 +117,14 @@ export class StopComponent implements IObservableAlive
 
                         return current;
                     })
-                    .value()
+                    .value();
+            });
+
+        this.lookupService.get(LookupsEnum.ResolutionStatus)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: ILookupValue[]) =>
+            {
+                this.resolutionStatuses = value;
             });
 
         this.filters = new StopFilter();
@@ -137,7 +152,8 @@ export class StopComponent implements IObservableAlive
 
     public onAssigned(event: AssignModalResult)
     {
-        this.stop.assignedTo = event.newUser.name;
+        const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+        this.stop.assignedTo = userName;
     }
 
     public selectJobs(select: boolean, jobId?: number): void
@@ -191,7 +207,8 @@ export class StopComponent implements IObservableAlive
     {
         this.accountService.getAccountByAccountId(accountId)
             .takeWhile(() => this.isAlive)
-            .subscribe(account => {
+            .subscribe(account =>
+            {
                 this.contactModal.show(account);
                 this.openContact.nativeElement.click();
             });
@@ -218,7 +235,7 @@ export class StopComponent implements IObservableAlive
                         _.forEach(filteredValues, (item: StopItem) =>
                         {
                             item['isRowGroup'] = false;
-                            values.push(item)
+                            values.push(item);
                         });
                     }
                 }
@@ -255,12 +272,15 @@ export class StopComponent implements IObservableAlive
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
+                item.resolution = singleItem.resolution;
                 item.items = current;
                 item.types = _.chain(current)
                     .map('jobTypeAbbreviation')
                     .uniq()
                     .join(', ')
                     .value();
+                item.grnProcessType = singleItem.grnProcessType;
+                item.grnNumber = singleItem.grnNumber;
 
                 values[singleItem.jobId] = item;
             })
@@ -274,7 +294,7 @@ export class StopComponent implements IObservableAlive
         if (_.isNil(jobId))
         {
             const action: boolean = !this.areAllExpanded();
-            _.map(_.keys(this.source), current => this.source[current].isExpanded = action)
+            _.map(_.keys(this.source), current => this.source[current].isExpanded = action);
         }
         else
         {
@@ -301,13 +321,14 @@ export class StopComponent implements IObservableAlive
         let totalDamages: number = 0;
         let totalShorts: number = 0;
 
-        _.forEach(data, (current: StopItem) =>
-        {
-            totalInvoiced += current.invoiced;
-            totalDelivered += current.delivered;
-            totalDamages += current.damages;
-            totalShorts += current.shorts;
-        })
+        _.forEach(data,
+            (current: StopItem) =>
+            {
+                totalInvoiced += current.invoiced;
+                totalDelivered += current.delivered;
+                totalDamages += current.damages;
+                totalShorts += current.shorts;
+            });
 
         return {
             totalInvoiced: totalInvoiced,
@@ -316,11 +337,6 @@ export class StopComponent implements IObservableAlive
             totalShorts: totalShorts,
             items: data
         };
-    }
-
-    private actionModalClicked(action)
-    {
-        //this.selectedAction = action;
     }
 
     private getSelectedJobIds(): number[]
@@ -337,6 +353,86 @@ export class StopComponent implements IObservableAlive
                 this.actionEditComponent.show(res[0]);
             });
     }
+
+    public voidLink(e: any): void
+    {
+        e.preventDefault();
+    }
+
+    public lineItemSaved(data: EditLineItemException): void
+    {
+        //find the invoice edited (via lineitem edit)
+        const job = _.find(this.gridSource, current => current.jobId == data.jobId);
+        let damages = 0;
+        let shorts = 0;
+        //find the line that was edited
+        const lineItem = _.find(job.items, (current: StopItem) => current.product == data.productNumber);
+
+        //sum the shorts and damages sent from the server
+        _.forEach(data.exceptions, (current: EditLineItemExceptionDetail) =>
+        {
+            if (current.exception == 'Short')
+            {
+                shorts += current.quantity;
+            }
+            else if (current.exception == 'Damage')
+            {
+                damages += current.quantity;
+            }
+
+        });
+
+        //remove the shorts and damages from the current invoice based on the selected lineitem
+        job.totalDamages -= lineItem.damages;
+        job.totalShorts -= lineItem.shorts;
+
+        //now lets add the values sent from server
+        job.totalDamages += damages;
+        job.totalShorts += shorts;
+        lineItem.shorts = shorts;
+        lineItem.damages = damages;
+
+        _.forEach(job.items, x =>
+        {
+            x.resolutionId = data.resolutionId;
+            x.resolution = data.resolutionStatus;
+            if (x.lineItemId === data.id)
+            {
+                x.hasUnresolvedActions = data.hasUnresolvedActions;
+            }
+        });
+        job.resolution = data.resolutionStatus;
+    }
+
+    private jobsSubmitted(data: ISubmitActionResult): void
+    {
+        _.forEach(data.details, (x: ISubmitActionResultDetails) =>
+        {
+            const job = _.find(this.gridSource, current => current.jobId === x.jobId);
+            job.resolution = x.resolutionStatusDescription;
+
+            _.forEach(job.items, i =>
+            {
+                i.resolutionId = x.resolutionStatusId;
+                i.resolution = x.resolutionStatusDescription;
+            });
+        });
+    }
+
+    public disableSubmitActions(): boolean
+    {
+        if (this.selectedItems().length === 0)
+        {
+            return true;
+        }
+        return _.some(this.selectedItems(),
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+    }
+
+    private isGrnRequired = (item: StopItemSource): boolean => {
+        return GrnHelpers.isGrnRequired(item);
+    }
+
 }
 
 interface IDictionarySource
@@ -344,7 +440,7 @@ interface IDictionarySource
     [key: number]: StopItemSource;
 }
 
-class StopItemSource
+class StopItemSource implements IGrnAssignable
 {
     constructor()
     {
@@ -364,5 +460,8 @@ class StopItemSource
     public accountID: number;
     public jobId: number;
     public types: string;
+    public resolution: string;
     public items: Array<StopItem>;
+    public grnNumber: string;
+    public grnProcessType: number;
 }

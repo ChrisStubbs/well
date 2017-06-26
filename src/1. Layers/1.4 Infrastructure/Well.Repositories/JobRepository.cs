@@ -34,6 +34,28 @@ namespace PH.Well.Repositories
             return GetByIds(jobIds);
         }
 
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerStop)
+               .AddParameter("StopId", stopId, DbType.Int32)
+               .Query<JobDetailLineItemTotals>();
+        }
+
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerRouteHeader)
+               .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
+               .Query<JobDetailLineItemTotals>();
+        }
+
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerJobIds)
+                .AddParameter("jobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<JobDetailLineItemTotals>();
+        }
+
+
         public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =
@@ -131,6 +153,7 @@ namespace PH.Well.Repositories
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value , DbType.Int16)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -162,13 +185,16 @@ namespace PH.Well.Repositories
                 .AddParameter("Cod", entity.Cod, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
-                .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int32)
+                // .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int32)
+                .AddParameter("OuterCount", entity.OuterCount, DbType.Int32)
                 .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyUpdate, DbType.Boolean)
                 .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int32)
-                .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
+              //  .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
+                .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int32)
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
                 .AddParameter("DetailOutersShort", entity.DetailOutersShortUpdate, DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
                 .Execute();
         }
 
@@ -184,6 +210,15 @@ namespace PH.Well.Repositories
             this.dapperProxy.WithStoredProcedure(StoredProcedures.SaveGrn)
                 .AddParameter("JobId", jobId, DbType.Int32)
                 .AddParameter("Grn", grn, DbType.String)
+                .Execute();
+        }
+
+        public void SetJobResolutionStatus(int jobId, string status)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobResolutionStatusInsert)
+                .AddParameter("Status", status, DbType.String)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String)
                 .Execute();
         }
 
@@ -222,9 +257,12 @@ namespace PH.Well.Repositories
             var jobs = gridReader.Read<Job>().ToList();
             var jobDetails = gridReader.Read<JobDetail>().ToList();
             var jobDetailsDamages = gridReader.Read<JobDetailDamage>().ToList();
+            var jobResolutionHistory = gridReader.Read<JobResolutionStatus>().ToList();
             foreach (var job in jobs)
             {
                 job.JobDetails = jobDetails.Where(x => x.JobId == job.Id).ToList();
+                job.ResolutionStatusHistory = jobResolutionHistory.Where(x => x.JobId == job.Id);
+
                 foreach (JobDetail jobDetail in job.JobDetails)
                 {
                     jobDetail.JobDetailDamages = jobDetailsDamages.Where(x => x.JobDetailId == jobDetail.Id).ToList();
@@ -240,6 +278,32 @@ namespace PH.Well.Repositories
                 .AddParameter("Id", jobId, DbType.Int32)
                 .AddParameter("StatusId", (int)status, DbType.Int16)
                 .Execute();
+        }
+
+        public IEnumerable<JobRoute> GetJobsRoute(IEnumerable<int> jobIds)
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobRoutesByJobIds)
+                   .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                   .Query<JobRoute>();
+        }
+
+        public JobRoute GetJobRoute(int jobId)
+        {
+            return GetJobsRoute(new[] {jobId}).FirstOrDefault();
+        }
+
+        public void SaveJobResolutionStatus(Job job)
+        {
+            this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+        }
+
+        public IEnumerable<Job> GetJobsByResolutionStatus(ResolutionStatus resolutionStatus)
+        {
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByResolutionStatus)
+                .AddParameter("ResolutionStatusId", resolutionStatus.Value, DbType.Int32)
+                .Query<int>();
+
+            return GetByIds(jobIds);
         }
     }
 }

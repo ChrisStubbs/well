@@ -16,14 +16,14 @@
 
         public SubmitActionResult Post(SubmitActionModel action)
         {
-            var results = submitActionService.SubmitAction(action);
-            return results;
+            var result =  submitActionService.SubmitAction(action);
+            return result;
         }
 
         [HttpGet]
-        public ActionSubmitSummary PreSubmitSummary([FromUri] int[] jobId, DeliveryAction action, bool isStopLevel)
+        public ActionSubmitSummary PreSubmitSummary([FromUri] int[] jobId, bool isStopLevel)
         {
-            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId, Action = action }, isStopLevel);
+            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId}, isStopLevel);
             return results;
         }
 

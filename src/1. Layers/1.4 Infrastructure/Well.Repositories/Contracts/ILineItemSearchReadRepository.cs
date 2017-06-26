@@ -9,5 +9,7 @@
         LineItem GetById(int id);
         IEnumerable<LineItem> GetLineItemByIds(IEnumerable<int> ids);
         IEnumerable<LineItem> GetLineItemByActivityId(int id);
+        IEnumerable<LineItem> GetLineItemByJobIds(IEnumerable<int> jobIds);
+
     }
 }

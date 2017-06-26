@@ -1,6 +1,7 @@
 import * as _                   from 'lodash';
 import {IFilter}                from '../shared/gridHelpers/IFilter';
-import {GridHelpersFunctions}   from '../shared/gridHelpers/gridHelpersFunctions';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
+import {IGrnAssignable} from '../job/job';
 
 export interface SingleRoute
 {
@@ -13,7 +14,7 @@ export interface SingleRoute
     items: SingleRouteItem[];
 }
 
-export class SingleRouteItem
+export class SingleRouteItem implements IGrnAssignable
 {
     constructor()
     {
@@ -29,6 +30,7 @@ export class SingleRouteItem
     public tba: number;
     public stopAssignee: string;
     public resolution: string;
+    public resolutionId: number;
     public invoice: string;
     public jobType: string;
     public jobTypeId: number;
@@ -50,6 +52,8 @@ export class SingleRouteItem
     public account: string;
     public wellStatus: number;
     public wellStatusDescription: string;
+    public grnNumber: string;
+    public grnProcessType: number;
 }
 
 export class SingleRouteSource
@@ -81,6 +85,7 @@ export class SingleRouteFilter implements IFilter
         this.exceptions = undefined;
         this.clean = undefined;
         this.assignee = '';
+        this.resolutionId = undefined;
     }
 
     public account: string;
@@ -90,6 +95,7 @@ export class SingleRouteFilter implements IFilter
     public exceptions: boolean;
     public clean: boolean;
     public assignee: string;
+    public resolutionId: number;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -103,8 +109,6 @@ export class SingleRouteFilter implements IFilter
                 return GridHelpersFunctions.startsWithFilter;
 
             case 'wellStatus':
-                return GridHelpersFunctions.isEqualFilter;
-
             case 'assignee':
                 return  GridHelpersFunctions.isEqualFilter;
 
@@ -123,6 +127,8 @@ export class SingleRouteFilter implements IFilter
 
                     return value == 0;
                 };
+            case 'resolutionId':
+                return GridHelpersFunctions.enumBitwiseAndCompare;
         }
 
         return undefined;

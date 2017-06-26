@@ -1,4 +1,5 @@
-﻿MERGE INTO [CommentReason] AS Target
+﻿SET IDENTITY_INSERT [CommentReason] ON
+MERGE INTO [CommentReason] AS Target
 USING	(VALUES	(1,'Amendment following customer contact','deployment',GETDATE(),'deployment',GETDATE()),
 				(2,'Amendment following an internal investigation','deployment',GETDATE(),'deployment',GETDATE()),
 				(3,'Correction following incorrect data entry','deployment',GETDATE(),'deployment',GETDATE()),

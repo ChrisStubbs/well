@@ -5,3 +5,6 @@ AS
 		DisplayName AS Value
 	FROM 
 		ExceptionType
+	WHERE
+		Id != 2 -- BYPASS Disable for now
+

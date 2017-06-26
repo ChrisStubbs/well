@@ -6,4 +6,4 @@ AS
 	FROM 
 		JobType	
 	WHERE
-		Code != 'DEL-DOC'
+		Code NOT IN ('DEL-DOC', 'UPL-SAN')

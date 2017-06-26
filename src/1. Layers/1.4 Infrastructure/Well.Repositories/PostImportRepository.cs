@@ -1,5 +1,9 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using Common.Extensions;
     using Contracts;
 
     public class PostImportRepository : IPostImportRepository
@@ -17,10 +21,25 @@
                 .Execute();
         }
 
+        public void PostTranSendImportForTobacco()
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTobaccoUpdate)
+                .Execute();
+        }
+
         public void PostTranSendImport()
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionInsert)
                 .Execute();
         }
+
+        public void PostTranSendImportShortsTba(IEnumerable<int> jobIds)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdateShortsTba)
+                .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Execute();
+        }
+
+
     }
 }

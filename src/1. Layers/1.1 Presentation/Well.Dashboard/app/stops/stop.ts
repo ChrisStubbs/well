@@ -1,5 +1,6 @@
 import * as _                               from 'lodash';
 import { IFilter, GridHelpersFunctions }    from '../shared/gridHelpers/gridHelpers';
+import { IGrnAssignable }                   from '../job/job';
 
 export class Stop
 {
@@ -16,7 +17,7 @@ export class Stop
     public items: StopItem[];
 }
 
-export class StopItem
+export class StopItem implements IGrnAssignable
 {
     constructor()
     {
@@ -44,6 +45,12 @@ export class StopItem
     private mBarCode: string;
     public isSelected: boolean;
     public lineItemId: number;
+    private resolution: string;
+    public resolutionId: number;
+    public grnProcessType: number;
+    public hasUnresolvedActions: boolean;
+    public grnNumber: string;
+ 
     public get barCode(): string
     {
         if (_.isNil(this.mBarCode))
@@ -73,6 +80,18 @@ export class StopItem
     {
         return this.barCode.substr(this.barCode.length - 4, 4);
     }
+
+    public get exceptionsFilter(): number
+    {
+        let result: number = 0;
+
+        result = result
+            | (this.damages / this.damages)
+            | ((this.shorts / this.shorts) * 2);
+
+        return result || 4;
+    }
+
 }
 
 export class StopFilter implements IFilter
@@ -83,20 +102,20 @@ export class StopFilter implements IFilter
         this.type = '';
         this.barCode = '';
         this.description = '';
-        this.damages = undefined;
-        this.shorts = undefined;
         this.checked = undefined;
         this.highValue = undefined;
+        this.resolutionId = undefined;
+        this.exceptionsFilter = 0;
     }
 
     public product: string;
     public type: string;
     public barCode: string;
     public description: string;
-    public damages?: boolean;
-    public shorts?: boolean;
     public checked: boolean;
-    public highValue?: boolean
+    public highValue?: boolean;
+    public resolutionId: number;
+    public exceptionsFilter: number;
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
@@ -107,6 +126,8 @@ export class StopFilter implements IFilter
                 return  GridHelpersFunctions.containsFilter;
 
             case 'type':
+                return GridHelpersFunctions.startsWithFilter;
+
             case 'barCode':
                 return  GridHelpersFunctions.isEqualFilter;
 
@@ -114,21 +135,15 @@ export class StopFilter implements IFilter
             case 'highValue':
                 return  GridHelpersFunctions.boolFilter;
 
-            case 'damages':
-            case 'shorts':
-                return (value: number, value2?: boolean) =>
-                {
-                    if (_.isNull(value2))
-                    {
-                        return true;
-                    }
-                    if (value2.toString() == 'true')
-                    {
-                        return value > 0;
-                    }
+            case 'resolutionId':
+                return GridHelpersFunctions.enumBitwiseAndCompare;
 
-                    return value == 0;
-                };
+            case 'exceptionsFilter':
+                return (value: number, value2: number) =>
+                {
+                    return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
+                        GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
+                }
         }
 
         return undefined;

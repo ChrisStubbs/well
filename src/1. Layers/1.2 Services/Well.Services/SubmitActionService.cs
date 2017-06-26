@@ -6,6 +6,7 @@
     using System.Transactions;
     using Common.Contracts;
     using Contracts;
+    using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
     using Repositories.Contracts;
@@ -13,150 +14,135 @@
     public class SubmitActionService : ISubmitActionService
     {
         private readonly ILogger logger;
-        private readonly IUserNameProvider userNameProvider;
-        private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IDeliveryLineCreditMapper deliveryLineCreditMapper;
         private readonly ICreditTransactionFactory creditTransactionFactory;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly ISubmitActionValidation validator;
-        private readonly IUserThresholdService userThresholdService;
         private readonly IActionSummaryMapper actionSummaryMapper;
+        private readonly IJobRepository jobRepository;
+        private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IJobService jobService;
 
         public SubmitActionService(
             ILogger logger,
-            IUserNameProvider userNameProvider,
-            ILineItemActionRepository lineItemActionRepository,
             IDeliveryLineCreditMapper deliveryLineCreditMapper,
             ICreditTransactionFactory creditTransactionFactory,
             IExceptionEventRepository exceptionEventRepository,
             ISubmitActionValidation validator,
-            IUserThresholdService userThresholdService,
-            IActionSummaryMapper actionSummaryMapper)
+            IActionSummaryMapper actionSummaryMapper,
+            IJobRepository jobRepository,
+            IJobResolutionStatus jobResolutionStatus,
+            IJobService jobService
+            )
         {
             this.logger = logger;
-            this.userNameProvider = userNameProvider;
-            this.lineItemActionRepository = lineItemActionRepository;
             this.deliveryLineCreditMapper = deliveryLineCreditMapper;
             this.creditTransactionFactory = creditTransactionFactory;
             this.exceptionEventRepository = exceptionEventRepository;
             this.validator = validator;
-            this.userThresholdService = userThresholdService;
             this.actionSummaryMapper = actionSummaryMapper;
+            this.jobRepository = jobRepository;
+            this.jobResolutionStatus = jobResolutionStatus;
+            this.jobService = jobService;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
         {
             SubmitActionResult result = null;
-            var unsubmittedItems = lineItemActionRepository.GetUnsubmittedActions(submitAction.Action).ToArray();
 
-            submitAction.SetItemsToSubmit(unsubmittedItems);
+            List<Job> jobs = GetJobs(submitAction);
 
-            result = validator.Validate(submitAction, unsubmittedItems);
+            result = validator.Validate(submitAction, jobs);
 
             if (!result.IsValid)
             {
                 return result;
             }
 
+            var resultDetails = new List<SubmitActionResultDetails>();
             try
             {
                 using (var transactionScope = new TransactionScope())
                 {
-                    if (submitAction.Action == DeliveryAction.Credit)
+                    foreach (var job in jobs)
                     {
-                        foreach (var jobId in submitAction.ItemsToSubmit.Select(x => x.JobId).Distinct())
+                        // after validation will only have pending submission Jobs
+                        if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission)
                         {
-                            var jobItems = submitAction.ItemsToSubmit.Where(x => x.JobId == jobId).ToArray();
-                            if (UserHasRequiredCreditThreshold(jobId, submitAction.ItemsToSubmit))
+                            job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
+                            jobRepository.SaveJobResolutionStatus(job);
+
+                            if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
                             {
-                                CreditJobInAdam(jobItems);
-                                SaveItemsAsSubmittedAndApproved(jobItems);
+                                SubmitCredits(job);
+                                job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
+                                jobRepository.SaveJobResolutionStatus(job);
                             }
                             else
                             {
-                                SaveItemsAsSubmitted(jobItems);
-                                var invoiceNo = submitAction.ItemsToSubmit.First(x => x.JobId == jobId).InvoiceNumber;
-                                if (!result.Warnings.Any(x => x.Contains(invoiceNo)))
-                                {
-                                    result.Warnings.Add($"Your threshold level is not high enough to credit delivery for invoice no: {invoiceNo}. " +
-                                                        $"It has been marked for authorisation.");
-                                }
+                                result.Warnings.Add("Your threshold level is not high enough " +
+                                                    $"to credit the delivery for job no: {job.Id} invoice: {job.InvoiceNumber}. " +
+                                                    "The Job has been been marked for authorisation.");
                             }
+
+                            
+                            jobRepository.Update(job);
+                            resultDetails.Add(new SubmitActionResultDetails(job));
                         }
-                    }
-                    else
-                    {
-                        SaveItemsAsSubmitted(submitAction.ItemsToSubmit);
+                        
                     }
 
                     transactionScope.Complete();
                 }
+
                 result.IsValid = true;
-                result.Message = $"Submitted  {submitAction.Action} successfully for JobIds {string.Join(",", submitAction.JobIds)}";
+                result.Message = "Successfully Submitted Actions";
+                result.Details = resultDetails;
                 return result;
             }
             catch (Exception ex)
             {
-                logger.LogError($"Error Submitting Action {submitAction.Action} for JobIds {string.Join(",", submitAction.JobIds)}", ex);
-                return new SubmitActionResult { Message = $"Error submitting  {submitAction.Action}. No actions have been processed" };
+                logger.LogError($"Error Submitting actions for JobIds {string.Join(",", submitAction.JobIds)}", ex);
+                return new SubmitActionResult { Message = "Error submitting. No actions have been processed" };
             }
+        }
+
+        private List<Job> GetJobs(SubmitActionModel submitAction)
+        {
+            var jobs = jobRepository.GetByIds(submitAction.JobIds).ToList();
+            jobs = jobService.PopulateLineItemsAndRoute(jobs).ToList();
+            return jobs;
+        }
+
+        private void SubmitCredits(Job job)
+        {
+            var jobLineItemActions = job.GetAllLineItemActions();
+            if (jobLineItemActions.Any(x => x.DeliveryAction == DeliveryAction.Credit))
+            {
+                CreditJobInAdam(job);
+            }
+        }
+
+        private void CreditJobInAdam(Job job)
+        {
+            var credits = deliveryLineCreditMapper.Map(job);
+            var creditEventTransaction = this.creditTransactionFactory.Build(credits, job.JobRoute.BranchId);
+            exceptionEventRepository.InsertCreditEventTransaction(creditEventTransaction);
         }
 
         public ActionSubmitSummary GetSubmitSummary(SubmitActionModel submitAction, bool isStopLevel)
         {
             SubmitActionResult result = null;
-            var unsubmittedItems = lineItemActionRepository.GetUnsubmittedActions(submitAction.Action).ToArray();
-            submitAction.SetItemsToSubmit(unsubmittedItems);
+            List<Job> jobs = GetJobs(submitAction);
 
-            result = validator.Validate(submitAction, unsubmittedItems);
+            result = validator.Validate(submitAction, jobs);
             if (!result.IsValid)
             {
                 return new ActionSubmitSummary { Summary = result.Message };
             }
 
-            return actionSummaryMapper.Map(submitAction, isStopLevel);
+            return actionSummaryMapper.Map(submitAction, isStopLevel, jobs);
         }
 
-        private bool UserHasRequiredCreditThreshold(int jobId, IEnumerable<LineItemActionSubmitModel> submitActionItemsToSubmit)
-        {
-            submitActionItemsToSubmit = submitActionItemsToSubmit.ToArray();
-            var invoiceNo = submitActionItemsToSubmit.First(x => x.JobId == jobId).InvoiceNumber;
-            var creditValue = submitActionItemsToSubmit.Where(x => x.InvoiceNumber == invoiceNo).Sum(x => x.TotalValue);
-            return userThresholdService.CanUserCredit(creditValue).CanUserCredit;
-        }
-
-        private void SaveItemsAsSubmitted(IEnumerable<LineItemActionSubmitModel> items)
-        {
-            foreach (var lineItemAction in items)
-            {
-                lineItemAction.SubmittedDate = DateTime.Now;
-                lineItemAction.ActionedBy = userNameProvider.GetUserName();
-                lineItemActionRepository.Update(lineItemAction);
-            }
-        }
-
-        private void SaveItemsAsSubmittedAndApproved(IEnumerable<LineItemActionSubmitModel> items)
-        {
-            foreach (var lineItemAction in items)
-            {
-                lineItemAction.SubmittedDate = DateTime.Now;
-                lineItemAction.ActionedBy = userNameProvider.GetUserName();
-                lineItemAction.ApprovalDate = DateTime.Now;
-                lineItemAction.ApprovedBy = userNameProvider.GetUserName();
-                lineItemActionRepository.Update(lineItemAction);
-            }
-        }
-
-        private void CreditJobInAdam(LineItemActionSubmitModel[] jobItemsToCredit)
-        {
-            if (jobItemsToCredit == null || !jobItemsToCredit.Any())
-            {
-                throw new ArgumentNullException(nameof(jobItemsToCredit));
-            }
-            var branchId = jobItemsToCredit.First().BranchId;
-            var credits = deliveryLineCreditMapper.Map(jobItemsToCredit);
-            var creditEventTransaction = this.creditTransactionFactory.Build(credits, branchId);
-            exceptionEventRepository.InsertCreditEventTransaction(creditEventTransaction);
-        }
     }
 }

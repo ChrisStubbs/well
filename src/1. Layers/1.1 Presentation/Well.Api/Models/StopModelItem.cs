@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Api.Models
 {
+
     public class StopModelItem
     {
         public int JobId { get; set; }
@@ -20,5 +21,10 @@
         public bool HighValue { get; set; }
         public string BarCode { get; set; }
         public int LineItemId { get; set; }
+        public string Resolution { get; set; }
+        public int ResolutionId { get; set; }
+        public bool HasUnresolvedActions { get; set; }
+        public int GrnProcessType { get; set; }
+        public string GrnNumber { get; set; }
     }
 }

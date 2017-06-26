@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using Enums;
 
     public class EditLineItemException
     {
@@ -11,23 +13,26 @@
             LineItemActions = new List<LineItemAction>();
         }
         public int Id { get; set; }
-
+        public int JobId { get; set; }
+        public int ResolutionId { get; set; }
+        public string ResolutionStatus { get; set; }
         public string AccountCode { get; set; }
         public string Invoice { get; set; }
         public string Type { get; set; }
         public string ProductNumber { get; set; }
-        
+        public string DriverReason { get; set; }
         public string Product { get; set; }
         public decimal Value { get; set; }
         public int? Invoiced { get; set; }
-        public int? Delivered { get; set; }
+        public int? Delivered => Invoiced - (Damages + Shorts);
         public int Damages { get; set; }
         public int Shorts { get; set; }
-
         public int Quantity { get; set; }
-
+        public bool CanEditActions { get; set; }
+        public string Resolution { get; set; }
+        public bool HasUnresolvedActions => LineItemActions.Any(x => x.DeliveryAction == DeliveryAction.NotDefined);
         public IList<EditLineItemExceptionDetail> Exceptions { get; set; }
-        public IList<LineItemAction> LineItemActions  { get; set; }
+        public IList<LineItemAction> LineItemActions { get; set; }
     }
 
     public class EditLineItemExceptionDetail
@@ -44,7 +49,7 @@
         public string ActionedBy { get; set; }
         public string ApprovedBy { get; set; }
         public IList<string> Comments { get; set; }
-       
+
     }
 
 }

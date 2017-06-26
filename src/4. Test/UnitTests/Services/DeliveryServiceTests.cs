@@ -32,7 +32,8 @@ namespace PH.Well.UnitTests.Services
         private Mock<IDeliveryReadRepository> deliveryReadRepository;
         private Mock<IBranchRepository> branchRepository;
         private Mock<IUserNameProvider> userNameProvider;
-        private Mock<IJobStatusService> deliveryStatusService;
+        private Mock<IJobService> deliveryStatusService;
+        private Mock<IDateThresholdService> _dateThresholdService;
 
         [SetUp]
         public void Setup()
@@ -46,7 +47,8 @@ namespace PH.Well.UnitTests.Services
             exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
-            deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
+            deliveryStatusService = new Mock<IJobService>(MockBehavior.Strict);
+            _dateThresholdService = new Mock<IDateThresholdService>();
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
@@ -57,7 +59,8 @@ namespace PH.Well.UnitTests.Services
                 exceptionEventRepo.Object,
                 deliveryReadRepository.Object,
                 branchRepository.Object,
-                this.deliveryStatusService.Object);
+                this.deliveryStatusService.Object,
+                _dateThresholdService.Object);
         }
 
         public class GetExceptionsTests : DeliveryServiceTests

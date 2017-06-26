@@ -51,6 +51,9 @@
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
+    <Compile Include="Enums\ResolutionStatus.cs" />
+    <Compile Include="JobDetailLineItemTotals.cs" />
+    <Compile Include="JobResolutionStatus.cs" />
     <Compile Include="LineItemActionComment.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="EntityAttribute.cs" />
@@ -117,6 +120,7 @@
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
+    <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
     <Compile Include="ValueObjects\SubmitActionModel.cs" />
     <Compile Include="ValueObjects\SubmitActionResult.cs" />
@@ -159,6 +163,7 @@
     <Compile Include="ValueObjects\Reason.cs" />
     <Compile Include="ValueObjects\JobDetailUpdate.cs" />
     <Compile Include="ValueObjects\QueueEvent.cs" />
+    <Compile Include="ValueObjects\ToBeAdvisedGroup.cs" />
     <Compile Include="ValueObjects\TranscendEvent.cs" />
     <Compile Include="ValueObjects\RoadnetEvent.cs" />
     <Compile Include="ValueObjects\RejectEvent.cs" />

@@ -9,6 +9,7 @@
     using Well.Api.Models;
     using Well.Domain;
     using Well.Domain.ValueObjects;
+    using Well.Services.Contracts;
     using Stop = Well.Domain.Stop;
 
     [TestFixture]
@@ -20,6 +21,7 @@
         private Mock<IJobRepository> jobRepository;
         private Mock<IAssigneeReadRepository> assigneeRepository;
         private Mock<IStopMapper> mapper;
+        private Mock<IJobService> jobService;
 
         [SetUp]
         public virtual void Setup()
@@ -29,6 +31,7 @@
             stopRepository = new Mock<IStopRepository>(MockBehavior.Strict);
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             assigneeRepository = new Mock<IAssigneeReadRepository>(MockBehavior.Strict);
+            jobService = new Mock<IJobService>(MockBehavior.Strict);
             mapper = new Mock<IStopMapper>(MockBehavior.Strict);
             Controller = new StopsController(
                 branchRepository.Object,
@@ -36,7 +39,8 @@
                 stopRepository.Object,
                 jobRepository.Object,
                 assigneeRepository.Object,
-                mapper.Object);
+                mapper.Object,
+                jobService.Object);
             SetupController();
         }
 
@@ -48,6 +52,7 @@
             private readonly List<Assignee> assignees = new List<Assignee>();
             private readonly List<Job> jobs = new List<Job>();
             private readonly StopModel stopModel = new StopModel();
+            private List<JobDetailLineItemTotals> jobDetailLineItemTotals;
 
             private const int StopId = 10;
             private readonly Stop stop = new Stop {Id = StopId, RouteHeaderId = 27};
@@ -60,10 +65,14 @@
                 stopRepository.Setup(x => x.GetById(StopId)).Returns(stop);
                 routeHeaderRepository.Setup(x => x.GetRouteHeaderById(stop.RouteHeaderId)).Returns(routeHeader);
                 branchRepository.Setup(x => x.GetAll()).Returns(branches);
-                
+
+                jobDetailLineItemTotals = new List<JobDetailLineItemTotals>();
+
                 jobRepository.Setup(x => x.GetByStopId(StopId)).Returns(jobs);
+                jobRepository.Setup(x => x.JobDetailTotalsPerStop(StopId)).Returns(jobDetailLineItemTotals);
+                jobService.Setup(x => x.PopulateLineItemsAndRoute(jobs)).Returns(jobs);
                 assigneeRepository.Setup(x => x.GetByStopId(StopId)).Returns(assignees);
-                mapper.Setup(x => x.Map(branches, routeHeader, stop, jobs, assignees)).Returns(stopModel);
+                mapper.Setup(x => x.Map(branches, routeHeader, stop, jobs, assignees, jobDetailLineItemTotals)).Returns(stopModel);
             }
 
             [Test]
@@ -77,7 +86,7 @@
                 
                 jobRepository.Verify(x => x.GetByStopId(StopId), Times.Once);
                 assigneeRepository.Verify(x => x.GetByStopId(StopId), Times.Once);
-                mapper.Verify(x => x.Map(branches, routeHeader, stop, jobs, assignees), Times.Once);
+                mapper.Verify(x => x.Map(branches, routeHeader, stop, jobs, assignees, jobDetailLineItemTotals), Times.Once);
 
                 Assert.That(response, Is.EqualTo(stopModel));
             }

@@ -12,6 +12,7 @@
         {
             this.JobDetails = new List<JobDetailUpdate>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
         [XmlElement("DeliveryDate")]
@@ -42,6 +43,10 @@
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
+
+        [XmlArray("EntityAttributeValues")]
+        [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
+        public List<EntityAttributeValue> EntityAttributeValues { get; set; }
 
         [XmlIgnore]
         public bool Picked
@@ -140,6 +145,38 @@
                 }
 
                 return false;
+            }
+        }
+
+        [XmlIgnore]
+        public int? OuterCount
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "OUTERCOUNT");
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int outerCount = 0;
+                int.TryParse(attribute?.Value, out outerCount);
+                return outerCount;
+            }
+        }
+
+        [XmlIgnore]
+        public int? TotalOutersShort
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "TOTSHORT");
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int totalOutersShort = 0;
+                int.TryParse(attribute?.Value, out totalOutersShort);
+                return totalOutersShort;
             }
         }
     }

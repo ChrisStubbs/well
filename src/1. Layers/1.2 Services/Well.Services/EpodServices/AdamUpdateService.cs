@@ -23,7 +23,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IRouteMapper mapper;
-        private readonly IJobStatusService jobStatusService;
+        private readonly IJobService jobStatusService;
         private readonly IPostImportRepository postImportRepository;
 
         public AdamUpdateService(
@@ -34,7 +34,7 @@
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
             IRouteMapper mapper,
-            IJobStatusService jobStatusService,
+            IJobService jobStatusService,
             IPostImportRepository postImportRepository)
         {
             this.logger = logger;
@@ -157,7 +157,7 @@
                 {
                     this.mapper.Map(job, existingJob);
 
-                    this.jobStatusService.SetIncompleteStatus(existingJob);
+                    this.jobStatusService.SetIncompleteJobStatus(existingJob);
 
                     this.jobRepository.Update(existingJob);
 
@@ -170,13 +170,15 @@
                     newJob.StopId = stopId;
                     if (newJob.JobTypeCode == "DEL-DOC")
                     {
-                        this.jobStatusService.SetInitialStatus(newJob);
+                        this.jobStatusService.SetInitialJobStatus(newJob);
                     }
                     else
                     {
-                        this.jobStatusService.SetIncompleteStatus(newJob);
+                        this.jobStatusService.SetIncompleteJobStatus(newJob);
                     }
+                    newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
+                    this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
                 }
             }
         }
@@ -247,11 +249,13 @@
             {
                 var job = new Job { StopId = stopId };
 
-                this.jobStatusService.SetInitialStatus(job);
+                this.jobStatusService.SetInitialJobStatus(job);
+                job.ResolutionStatus = ResolutionStatus.Imported;
 
                 this.mapper.Map(update, job);
 
                 this.jobRepository.Save(job);
+                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
 
                 this.InsertJobDetails(update.JobDetails, job.Id);
             }

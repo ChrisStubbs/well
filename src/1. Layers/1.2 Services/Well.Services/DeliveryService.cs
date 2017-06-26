@@ -20,7 +20,8 @@
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IBranchRepository branchRepository;
-        private readonly IJobStatusService jobStatusService;
+        private readonly IJobService jobStatusService;
+        private readonly IDateThresholdService _dateThresholdService;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -31,7 +32,8 @@
             IExceptionEventRepository exceptionEventRepository,
             IDeliveryReadRepository deliveryReadRepository,
             IBranchRepository branchRepository,
-            IJobStatusService jobStatusService)
+            IJobService jobStatusService,
+            IDateThresholdService dateThresholdService)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
@@ -43,6 +45,7 @@
             this.deliveryReadRepository = deliveryReadRepository;
             this.branchRepository = branchRepository;
             this.jobStatusService = jobStatusService;
+            _dateThresholdService = dateThresholdService;
         }
 
         public IList<Delivery> GetExceptions(string username)
@@ -198,11 +201,13 @@
             using (var transactionScope = new TransactionScope())
             {
                 this.jobRepository.SaveGrn(jobId, grn);
+                var jobRoute = jobRepository.GetJobRoute(jobId);
 
                 var grnEvent = new GrnEvent();
                 grnEvent.Id = jobId;
                 grnEvent.BranchId = branchId;
-                this.exceptionEventRepository.InsertGrnEvent(grnEvent);
+                this.exceptionEventRepository.InsertGrnEvent(grnEvent,
+                    _dateThresholdService.EarliestSubmitDate(jobRoute.RouteDate, branchId));
 
                 transactionScope.Complete();
 

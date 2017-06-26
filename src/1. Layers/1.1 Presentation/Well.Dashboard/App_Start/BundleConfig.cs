@@ -27,8 +27,6 @@
 
             var cssBundle = new StyleBundle("~/bundles/css/all").Include(
                 "~/Content/css/bootstrap.min.css",
-                "~/Content/css/bootstrap-responsive.min.css",
-                "~/Content/css/bootstrap-flatten.css",
                 "~/Content/css/toastr.min.css",
                 "~/Content/css/site.css");
 

@@ -52,12 +52,9 @@
                 }
             }
            
-
             return lineItems;
         }
 
-
-        //TODO: Change this so that it gets the Line Items from The GetLineItemsByIds method Sproc!!
         public IEnumerable<LineItem> GetLineItemByActivityId(int id)
         {
             IEnumerable<LineItem> lineItems = new List<LineItem>();
@@ -68,5 +65,14 @@
             return lineItems;
         }
 
+        public IEnumerable<LineItem> GetLineItemByJobIds(IEnumerable<int> jobIds)
+        {
+            IEnumerable<int>lineItemIds = 
+                this.dapperReadProxy.WithStoredProcedure(StoredProcedures.LineItemIdsGetByJobIds)
+                .AddParameter("jobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<int>();
+
+            return GetLineItemByIds(lineItemIds);
+        }
     }
 }

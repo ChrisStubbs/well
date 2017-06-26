@@ -317,6 +317,10 @@
                         x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal, null))
+                    .Returns(this.dapperProxy.Object);
+
                 this.dapperProxy.Setup(x => x.Execute());
 
                 this.repository.Update(jobDetail);
@@ -385,6 +389,9 @@
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal, null), Times.Once);
             }
         }
     }

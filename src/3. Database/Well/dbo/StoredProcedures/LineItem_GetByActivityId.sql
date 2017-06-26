@@ -73,7 +73,7 @@ AS
 		LineItemAction lia on c.LineItemActionId = lia.id
 	INNER JOIN @LineItems lis ON lis.id = lia.LineItemId
 	WHERE 
-		lia.IsDeleted = 0
+		lia.DateDeleted is null
 
   RETURN 0
 END

@@ -7,7 +7,9 @@
 export interface IActionSubmitSummaryItem
 {
     identifier: string;
-    noOfItems: number;
-    qty: number;
-    value: number;
+    totalCreditValue: number;
+    totalActionValue: number;
+    totalCreditQty: number;
+    totalQty: number;
+    jobType: string;
 }

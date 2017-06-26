@@ -45,6 +45,9 @@
         public static string JobGetByRefDetails = "Job_GetByRefDetails";
         public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public static string JobGetByStopId = "Job_GetByStopId";
+        public static string JobDetailTotalsPerStop = "JobDetailTotalsPerStop";
+        public static string JobDetailTotalsPerRouteHeader = "JobDetailTotalsPerRouteHeader";
+        public static string JobDetailTotalsPerJobIds = "JobDetailTotalsPerJobIds";
         public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
         public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
         public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
@@ -126,19 +129,24 @@
         public static string GetBranchIdForStop = "GetBranchIdForStop";
 
         public static string RoutesGetAllForBranch = "Routes_GetAllForBranch";
+        public static string RoutesGetByIds = "Routes_GetByIds";
 
         public static string AppSearch = "AppSearch";
         //well update
+        public static string JobDetailTobaccoUpdate = "JobDetail_TobaccoUpdate";
+        public static string JobUpdateShortsTba = "Job_UpdateShortsTBA";
         public static string PostImportUpdate = "PostImportUpdate";
         public static string LineItemActionInsert = "LineItemAction_Insert";
 
         public static string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
         public static string AssigneeGetByStopId = "Assignee_GetByStopId";
+        public static string AssigneeGetByJobIds = "Assignee_GetByJobIds";
 
         public static string LineItemGetByIds = "LineItem_GetByIds";
         public static string LineItemGetByActivityId = "LineItem_GetByActivityId";
         public static string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
         public static string LineItemActionGetByLineItemIds = "LineItemAction_GetByLineItemIds";
+        public static string LineItemIdsGetByJobIds = "LineItemIds_GetByJobIds";
 
         //Line Item Actions
         public static string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
@@ -158,5 +166,9 @@
         public const string CommentReason = "CommentReason_Get";
 
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
+        public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
+        public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
+        public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
+        public const string GetJobIdsByResolutionStatus = "JobIdByResolutionStatus_Get";
     }
 }

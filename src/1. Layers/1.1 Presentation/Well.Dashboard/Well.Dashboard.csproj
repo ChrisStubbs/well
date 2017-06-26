@@ -192,15 +192,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\activity\activity.ts" />
+    <TypeScriptCompile Include="app\activity\activityComponent.ts" />
+    <TypeScriptCompile Include="app\activity\activityService.ts" />
+    <TypeScriptCompile Include="app\activity\activitySource.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
+    <TypeScriptCompile Include="app\job\assignGrnModal.ts" />
+    <TypeScriptCompile Include="app\job\job.ts" />
+    <TypeScriptCompile Include="app\job\jobService.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionService.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -236,6 +244,7 @@
     <TypeScriptCompile Include="app\shared\services\ILookupValue.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupsEnum.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupService.ts" />
+    <TypeScriptCompile Include="app\shared\services\resolutionStatusEnum.ts" />
     <TypeScriptCompile Include="app\shared\services\services.ts" />
     <TypeScriptCompile Include="app\shared\userJob.ts" />
     <TypeScriptCompile Include="app\stops\stop.ts" />
@@ -244,7 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
-    <Content Include="app\approvals\approvals-list.html" />
+    <Content Include="app\approvals\approvalsComponent.html" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
@@ -263,6 +272,7 @@
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\job\assignGrnModal.html" />
     <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.html" />
@@ -273,6 +283,9 @@
     <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="app\stops\stopComponent.html" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\theme.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
@@ -377,6 +390,11 @@
     <Content Include="Content\Animation.less" />
     <Content Include="Content\Toaster.less" />
     <Content Include="Content\App.less" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Well.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -540,7 +558,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\approvals\approvalsComponent.ts" />
-    <Content Include="app\approvals\approvalDelivery.ts" />
+    <Content Include="app\approvals\approval.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
     <TypeScriptCompile Include="app\driver\driverService.ts" />

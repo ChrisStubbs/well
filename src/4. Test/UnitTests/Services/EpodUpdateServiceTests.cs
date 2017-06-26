@@ -1,6 +1,9 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using Moq;
 
     using NUnit.Framework;
@@ -14,6 +17,7 @@
     using Well.Common;
     using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
+    using Well.Services;
 
     [TestFixture]
     public class EpodUpdateServiceTests
@@ -34,19 +38,17 @@
 
         private Mock<IRouteMapper> mapper;
 
-        private Mock<IAdamImportService> adamImportService;
-
         private EpodUpdateService service;
 
         private Mock<IExceptionEventRepository> exceptionEventRepository;
 
-        private Mock<IPodTransactionFactory> podTransactionFactory;
-        private Mock<IUserNameProvider> userNameProvider;
-
-        private Mock<IJobStatusService> deliveryStatusService;
+        private Mock<IJobService> jobService;
 
         private Mock<IPostImportRepository> postImportRepository;
 
+        private Mock<IJobResolutionStatus> jobResolutionStatus;
+
+        private Mock<IDateThresholdService> _dateThresholdService;
         [SetUp]
         public void Setup()
         {
@@ -60,13 +62,11 @@
             this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
-            this.adamImportService = new Mock<IAdamImportService>(MockBehavior.Strict);
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
-            this.podTransactionFactory = new Mock<IPodTransactionFactory>(MockBehavior.Strict);
-            this.deliveryStatusService = new Mock<IJobStatusService>(MockBehavior.Strict);
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
-            this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
+            this.jobService = new Mock<IJobService>(MockBehavior.Strict);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
+            this.jobResolutionStatus = new Mock<IJobResolutionStatus>(MockBehavior.Strict);
+            _dateThresholdService = new Mock<IDateThresholdService>();
 
             this.service = new EpodUpdateService(this.logger.Object,
                 this.eventLogger.Object,
@@ -77,11 +77,13 @@
                 this.jobDetailDamageRepository.Object,
                 this.exceptionEventRepository.Object,
                 this.mapper.Object,
-                this.adamImportService.Object,
-                this.podTransactionFactory.Object,
-                this.deliveryStatusService.Object,
-                this.userNameProvider.Object,
-                this.postImportRepository.Object);
+                this.jobService.Object,
+                this.postImportRepository.Object,
+                this.jobResolutionStatus.Object,
+                _dateThresholdService.Object
+              );
+
+
         }
 
         [Test]
@@ -100,13 +102,15 @@
                     routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
             this.logger.Setup(x => x.LogDebug(It.IsAny<string>()));
-            this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
+            //this.adamImportService.Setup(x => x.ImportRouteHeader(routeHeader, route.RouteId));
             this.eventLogger.Setup(x => x.TryWriteToEventLog(It.IsAny<EventSource>(), It.IsAny<string>(), It.IsAny<int>(), EventLogEntryType.Error)).Returns(true);
 
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Setup(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()));
 
             //ACT
             this.service.Update(route, filename);
@@ -115,7 +119,7 @@
             this.routeHeaderRepository.Verify(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate), Times.Once);
 
-            this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Never);
+            //this.adamImportService.Verify(x => x.ImportRouteHeader(routeHeader, route.RouteId), Times.Never);
             var logError = $"RouteDelivery Ignored could not find matching RouteHeader," +
                             $"Branch: {branchId} " +
                             $"RouteNumber: {routeHeader.RouteNumber.Substring(2)} " +
@@ -127,7 +131,9 @@
             this.eventLogger.Verify(x => x.TryWriteToEventLog(EventSource.WellAdamXmlImport, logError, 9682, EventLogEntryType.Error), Times.Once);
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
         }
 
         [Test]
@@ -152,6 +158,13 @@
             var job = JobFactoryDTO.New.Build();
 
             stop.Jobs.Add(job);
+
+            var updateJob = JobFactory.New.Build();
+            var updateJobs = new List<Job> { updateJob };
+            var lineItem = new LineItem { Id = 1, JobId = 1 };
+            var lineItems = new List<LineItem> { lineItem };
+            var jobRoute = new JobRoute { JobId = 1, BranchId = 55, RouteDate = DateTime.Now };
+            var jobRoutes = new List<JobRoute> { jobRoute };
 
             var existingJob = new Job();
 
@@ -179,11 +192,20 @@
             // HACK: DIJ TOTAL HACK FOR NOW!!!
             //(i would like to know how long will this for now will become)
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            this.jobService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Setup(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()));
+            this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
+            this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
+            this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
+
+            this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+            this.jobRepository.Setup(x => x.Update(updateJobs.FirstOrDefault()));
 
             //ACT
             this.service.Update(route, filename);
@@ -208,8 +230,14 @@
 
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
 
-            this.postImportRepository.Setup(x => x.PostImportUpdate());
-            this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
+
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+            this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
+            this.jobRepository.Verify(x => x.Update(updateJobs.FirstOrDefault()), Times.Once);
         }
 
         [Test]
@@ -229,6 +257,12 @@
             routeHeader.Stops.Add(stop);
 
             var existingStop = new Stop();
+            var updateJob = JobFactory.New.Build();
+            var updateJobs = new List<Job> { updateJob };
+            var lineItem = new LineItem { Id = 1, JobId = 1 };
+            var lineItems = new List<LineItem> { lineItem };
+            var jobRoute = new JobRoute { JobId = 1, BranchId = 55, RouteDate = DateTime.Now };
+            var jobRoutes = new List<JobRoute> { jobRoute };
 
             route.RouteHeaders.Add(routeHeader);
 
@@ -261,13 +295,25 @@
 
             this.jobRepository.Setup(x => x.Update(existingJob));
 
+
+
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            this.jobService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Setup(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()));
+
+            this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
+            this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
+            this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
+
+            this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+            this.jobRepository.Setup(x => x.Update(updateJobs.FirstOrDefault()));
 
             //ACT
             this.service.Update(route, filename);
@@ -296,6 +342,12 @@
 
             this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
+
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+            this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
+            this.jobRepository.Verify(x => x.Update(updateJobs.FirstOrDefault()), Times.Once);
 
         }
 
@@ -310,6 +362,13 @@
             var stop = StopFactoryDTO.New.Build();
             var job = JobFactoryDTO.New.Build();
             var existingStop = new Stop();
+            var updateJob = JobFactory.New.Build();
+            var updateJobs = new List<Job> {updateJob};
+            var lineItem = new LineItem {Id = 1, JobId = 1};
+            var lineItems = new List<LineItem> {lineItem};
+            var jobRoute = new JobRoute {JobId = 1, BranchId = 55, RouteDate = DateTime.Now};
+            var jobRoutes = new List<JobRoute> {jobRoute};
+
 
             routeHeader.Stops.Add(stop);
             route.RouteHeaders.Add(routeHeader);
@@ -340,12 +399,23 @@
 
             // HACK: DIJ TOTAL HACK FOR NOW!!!
 
-            this.deliveryStatusService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
+            this.jobService.Setup(x => x.DetermineStatus(existingJob, branchId)).Returns(existingJob);
             const string filename = "epod_file.xml";
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
 
             this.postImportRepository.Setup(x => x.PostTranSendImport());
+            this.postImportRepository.Setup(x => x.PostTranSendImportForTobacco());
+            this.postImportRepository.Setup(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()));
+
+            this.jobRepository.Setup(x => x.GetByIds(It.IsAny<List<int>>())).Returns(updateJobs);
+            this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
+            this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
+
+            this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
+            this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+            this.jobRepository.Setup(x => x.Update(updateJobs.FirstOrDefault()));
+
             //ACT
             this.service.Update(route, filename);
 
@@ -362,7 +432,12 @@
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
             this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
+            this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+            this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
+            this.jobRepository.Verify(x => x.Update(updateJobs.FirstOrDefault()), Times.Once);
         }
     }
 }

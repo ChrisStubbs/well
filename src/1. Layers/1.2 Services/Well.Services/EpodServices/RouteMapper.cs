@@ -49,10 +49,10 @@
             to.InvoiceNumber = from.InvoiceNumber;
             to.JobDetails = Mapper.Map<List<JobDetailDTO>, List<JobDetail>>(from.JobDetails);
             to.GrnNumberUpdate = from.GrnNumber;
-            to.OuterCountUpdate = from.OuterCount;
+            to.OuterCount = from.OuterCount;
             to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
             to.TotalOutersOverUpdate = from.TotalOutersOver;
-            to.TotalOutersShortUpdate = from.TotalOutersShort;
+            to.TotalOutersShort = from.TotalOutersShort;
             to.DetailOutersOverUpdate = from.DetailOutersOver;
             to.DetailOutersShortUpdate = from.DetailOutersShort;
         }
@@ -72,6 +72,7 @@
             to.AllowSoCrd = from.AllowSoCrd;
             to.Cod = from.Cod;
             to.AllowReOrd = from.AllowReOrd;
+            to.TotalOutersShort = from.TotalOutersShort;
         }
 
         public void Map(JobDetailDTO from, JobDetail to)
@@ -95,6 +96,7 @@
             to.SSCCBarcode = from.SSCCBarcode;  //tobacco bag barcode
             to.SkuGoodsValue = from.SkuGoodsValue;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
+            to.NetPrice = from.NetPrice;
         }
 
         private void AddAttribute(List<EntityAttribute> jobAttributes, List<EntityAttribute> jobUpdateAttributes,

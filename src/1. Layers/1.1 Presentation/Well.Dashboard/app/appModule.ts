@@ -101,7 +101,7 @@ import { TooltipModule } from 'ngx-tooltip';
 import { ActivityComponent, ActivityService } from './activity/activity';
 import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
-import { BulkAddActionModal } from './shared/action/bulkAddActionModal';
+import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -117,7 +117,7 @@ import { BulkAddActionModal } from './shared/action/bulkAddActionModal';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkAddActionModal
+        SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,

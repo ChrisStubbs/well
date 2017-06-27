@@ -21,7 +21,7 @@ import { SingleRouteSource } from '../routes/singleRoute';
 import { GrnHelpers, IGrnAssignable } from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
-import { BulkAddActionModal } from '../shared/action/bulkAddActionModal';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
 
 @Component({
@@ -64,7 +64,7 @@ export class StopComponent implements IObservableAlive
     @ViewChild('openContact') public openContact: ElementRef;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
-    @ViewChild(BulkAddActionModal) private bulkAddActionModal: BulkAddActionModal;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
@@ -452,9 +452,9 @@ export class StopComponent implements IObservableAlive
         return GrnHelpers.isGrnRequired(item);
     }
 
-    private bulkAdd(): void
+    private bulkEdit(): void
     {
-        this.bulkAddActionModal.show();
+        this.bulkEditActionModal.show();
     }
 }
 

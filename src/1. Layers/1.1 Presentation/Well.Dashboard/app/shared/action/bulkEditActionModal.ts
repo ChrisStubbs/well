@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 import { ILookupValue } from '../services/ILookupValue';
 
 @Component({
-    selector: 'bulk-add-action-modal',
-    templateUrl: 'app/shared/action/bulkAddActionModal.html',
+    selector: 'bulk-edit-action-modal',
+    templateUrl: 'app/shared/action/bulkEditActionModal.html',
     providers: [LookupService, EditExceptionsService]
 })
-export class BulkAddActionModal implements IObservableAlive
+export class BulkEditActionModal implements IObservableAlive
 {
     public isAlive: boolean = true;
 

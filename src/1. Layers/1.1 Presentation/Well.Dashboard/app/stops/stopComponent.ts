@@ -22,6 +22,7 @@ import { GrnHelpers, IGrnAssignable } from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 import { BulkAddActionModal } from '../shared/action/bulkAddActionModal';
+import { IAccount } from '../account/account';
 
 @Component({
     selector: 'ow-stop',
@@ -70,6 +71,7 @@ export class StopComponent implements IObservableAlive
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
+    private customerAccount: IAccount = new IAccount();
 
     constructor(
         private stopService: StopService,
@@ -120,6 +122,15 @@ export class StopComponent implements IObservableAlive
                         return current;
                     })
                     .value();
+
+                //Load account for first item
+                const firstItem = _.head(data.items) as StopItem;
+                this.accountService.getAccountByAccountId(firstItem.accountID)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(account => {
+                        this.customerAccount = account;
+                    });
+
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
@@ -270,6 +281,7 @@ export class StopComponent implements IObservableAlive
                 item.totalDelivered = summary.totalDelivered;
                 item.totalDamages = summary.totalDamages;
                 item.totalShorts = summary.totalShorts;
+                item.totalBypassed = summary.totalBypassed;
                 item.invoice = singleItem.invoice;
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
@@ -322,6 +334,7 @@ export class StopComponent implements IObservableAlive
         let totalDelivered: number = 0;
         let totalDamages: number = 0;
         let totalShorts: number = 0;
+        let totalBypassed: number = 0;
 
         _.forEach(data,
             (current: StopItem) =>
@@ -330,6 +343,7 @@ export class StopComponent implements IObservableAlive
                 totalDelivered += current.delivered;
                 totalDamages += current.damages;
                 totalShorts += current.shorts;
+                totalBypassed += current.bypassed;
             });
 
         return {
@@ -337,6 +351,7 @@ export class StopComponent implements IObservableAlive
             totalDelivered: totalDelivered,
             totalDamages: totalDamages,
             totalShorts: totalShorts,
+            totalBypassed: totalBypassed, 
             items: data
         };
     }
@@ -428,7 +443,8 @@ export class StopComponent implements IObservableAlive
             return true;
         }
         return _.some(this.selectedItems(),
-            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
+            (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }
 
     private isGrnRequired = (item: StopItemSource): boolean =>
@@ -440,7 +456,6 @@ export class StopComponent implements IObservableAlive
     {
         this.bulkAddActionModal.show();
     }
-
 }
 
 interface IDictionarySource
@@ -463,6 +478,7 @@ class StopItemSource implements IGrnAssignable
     public totalDelivered: number;
     public totalDamages: number;
     public totalShorts: number;
+    public totalBypassed: number;
     public invoice: string;
     public account: string;
     public accountID: number;

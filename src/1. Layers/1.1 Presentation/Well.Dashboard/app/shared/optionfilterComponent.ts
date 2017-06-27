@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter }   from '@angular/core';
+import { Component, Input, Output, EventEmitter }   from '@angular/core';
 import { FilterOption }                             from './filterOption';
 import { DropDownItem }                             from './dropDownItem';
 import { NavigateQueryParametersService }           from './NavigateQueryParametersService';

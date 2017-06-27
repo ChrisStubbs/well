@@ -174,9 +174,12 @@ namespace PH.Well.Domain.Mappers
                 .ForMember(m => m.Reason, c => c.MapFrom(m => m.Reason));
 
                 cfg.CreateMap<JobDetailDTO, JobDetail>()
-                .ForMember(m => m.JobDetailDamages, c => c.MapFrom(m => m.JobDetailDamages))
-                .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions))
-                .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions));
+                    .ForMember(m => m.JobDetailDamages, c => c.MapFrom(m => m.JobDetailDamages))
+                    .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions))
+                    .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions))
+                    .ForMember(m => m.OriginalDespatchQty, c => c.MapFrom(p => System.Math.Abs(p.OriginalDespatchQty)))
+                    .ForMember(m => m.DeliveredQty, c => c.MapFrom(p => System.Math.Abs(p.DeliveredQty)));
+
 
                 cfg.CreateMap<JobDetail, JobDetailDTO>()
                 .ForMember(m => m.JobDetailDamages, c => c.MapFrom(m => m.JobDetailDamages))

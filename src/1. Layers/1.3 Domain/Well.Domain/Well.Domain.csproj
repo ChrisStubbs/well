@@ -118,6 +118,7 @@
     <Compile Include="StopDTO.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummary.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummaryItem.cs" />
+    <Compile Include="ValueObjects\ActivitySource.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />

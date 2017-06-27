@@ -119,6 +119,7 @@
 
         public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
 
+        // detail outers short & OuterDiscrepancyFound is calculated and updated after import from transend
         public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
 
         public WellStatus WellStatus { get; set; }

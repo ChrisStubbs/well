@@ -88,18 +88,6 @@
 
         public bool OuterDiscrepancyFound { get; set; }
 
-
-        //public bool OuterDiscrepancyFound
-        //{
-        //    get
-        //    {
-        //        int totalShort = TotalOutersShort ?? 0;
-        //        int detailShort = DetailOutersShort ?? 0;
-
-        //        return (totalShort - detailShort) > 0;
-        //    }
-        //}
-
         public int? TotalOutersOverUpdate { get; set; }
 
         public int? TotalOutersOver { get; set; }
@@ -138,7 +126,7 @@
         public ResolutionStatus ResolutionStatus { get; set; }
 
         public IList<LineItem> LineItems { get; set; }
-        
+
         public IList<LineItemAction> GetAllLineItemActions()
         {
             return LineItems.SelectMany(x => x.LineItemActions).ToList();
@@ -155,5 +143,6 @@
         public JobRoute JobRoute { get; set; }
 
         public IEnumerable<JobResolutionStatus> ResolutionStatusHistory;
+
     }
 }

@@ -22,7 +22,7 @@
         public string ActionedBy { get; set; }
         public Originator Originator { get; set; }
         public DeliveryAction DeliveryAction { get; set; }
-        public IEnumerable<LineItemActionComment> Comments { get; set; }
+        public IList<LineItemActionComment> Comments { get; set; }
 
         public bool HasChanges(LineItemAction item)
         {

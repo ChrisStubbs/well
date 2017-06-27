@@ -22,7 +22,7 @@
 
         public LineItem GetById(int id)
         {
-            return GetLineItemByIds(new[] {id}).FirstOrDefault();
+            return GetLineItemByIds(new[] { id }).FirstOrDefault();
         }
 
         public IEnumerable<LineItem> GetLineItemByIds(IEnumerable<int> ids)
@@ -48,10 +48,10 @@
 
                 foreach (var lineItemAction in lineItem.LineItemActions.ToArray())
                 {
-                    lineItemAction.Comments = comments.Where(x => x.LineItemActionId == lineItemAction.Id);
+                    lineItemAction.Comments = comments.Where(x => x.LineItemActionId == lineItemAction.Id).ToList();
                 }
             }
-           
+
             return lineItems;
         }
 
@@ -67,7 +67,7 @@
 
         public IEnumerable<LineItem> GetLineItemByJobIds(IEnumerable<int> jobIds)
         {
-            IEnumerable<int>lineItemIds = 
+            IEnumerable<int> lineItemIds =
                 this.dapperReadProxy.WithStoredProcedure(StoredProcedures.LineItemIdsGetByJobIds)
                 .AddParameter("jobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .Query<int>();

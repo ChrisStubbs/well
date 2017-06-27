@@ -57,7 +57,12 @@
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
+    <Compile Include="BulkActionService.cs" />
     <Compile Include="BulkCreditService.cs" />
+    <Compile Include="BulkEditService.cs" />
+    <Compile Include="Contracts\IBulkActionService.cs" />
+    <Compile Include="Contracts\IBulkEditService.cs" />
+    <Compile Include="Contracts\IBulkEditSummaryMapper.cs" />
     <Compile Include="DateThresholdService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\IActionSummaryMapper.cs" />
@@ -94,6 +99,7 @@
     <Compile Include="IDateThresholdService.cs" />
     <Compile Include="IJobResolutionStatus.cs" />
     <Compile Include="Mappers\ActionSummaryMapper.cs" />
+    <Compile Include="Mappers\BulkEditSummaryMapper.cs" />
     <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />
     <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />

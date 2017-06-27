@@ -207,6 +207,8 @@
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
+    <Content Include="app\shared\action\bulkAddActionModal.html" />
+    <TypeScriptCompile Include="app\shared\action\bulkAddActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\submitActionModal.ts" />
     <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />

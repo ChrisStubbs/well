@@ -51,7 +51,6 @@
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
-    <Compile Include="Enums\BulkAddOptions.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />
     <Compile Include="JobDetailLineItemTotals.cs" />
@@ -124,9 +123,6 @@
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
-    <Compile Include="ValueObjects\BulkAddModel.cs" />
-    <Compile Include="ValueObjects\BulkActionSummary.cs" />
-    <Compile Include="ValueObjects\BulkActionSummaryItem.cs" />
     <Compile Include="ValueObjects\BulkEditItem.cs" />
     <Compile Include="ValueObjects\BulkEditSummary.cs" />
     <Compile Include="ValueObjects\JobRoute.cs" />

@@ -22,6 +22,7 @@
         public int Tba { get; set; }
         public List<ActivitySourceDetail> Details { get; set; }
     }
+
     public class ActivitySourceDetail
     {
         public int ActivityId { get; set; }
@@ -41,7 +42,7 @@
         public DateTime StopDate { get; set; }
         public int JobId { get; set; }
         public string JobType { get; set; }
-        public string jobTypeAbbreviation { get; set; }
+        public string JobTypeAbbreviation { get; set; }
         public int LineItemId { get; set; }
     }
 }

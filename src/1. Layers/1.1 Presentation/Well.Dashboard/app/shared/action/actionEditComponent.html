@@ -1,4 +1,4 @@
-﻿<button style="visibility: hidden" type="button" data-target="#editModal" data-toggle="modal" #showModal>
+<button style="visibility: hidden" type="button" data-target="#editModal" data-toggle="modal" #showModal>
     ShowModal
 </button>
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -107,17 +107,21 @@
                                     </td>
                                     <td>
                                         <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
-                                               min="0"
-                                               [(ngModel)]="item.quantity" required pattern="^[0-9]\d*$"
+                                               min="0" *ngIf="item.deliveryAction != closeAction"
+                                               [(ngModel)]="item.quantity" required pattern="^[1-9]+$"
                                                (change)="qtyChanged(item, i)"
                                                [disabled]="+item.deliveryAction == actionClose || !source.canEditActions" />
+
+                                        <input type="number" class="form-control text-right" id="quantity{{i}}" name="quantity{{i}}"
+                                               [ngModel]="item.quantity" *ngIf="item.deliveryAction == closeAction"
+                                               disabled />
                                     </td>
                                     <td>
                                         <select class="form-control" id="commentReasonId{{i}}"
                                                 name="commentReasonId{{i}}"
                                                 [(ngModel)]="item.commentReason"
                                                 (change)="commentChange(item,$event,i)"
-                                                [disabled]="isOriginalQuantity(item) || !source.canEditActions">
+                                                [disabled]="!isCommentMandatory(item)">
                                             <option *ngFor="let comment of commentReasons" [value]="comment.key">
                                                 {{comment.value}}
                                             </option>
@@ -155,8 +159,16 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control" id="source{{i}}" name="source{{i}}" 
+
+                                        <select class="form-control" id="source{{i}}" name="source{{i}}" *ngIf="item.deliveryAction != creditAction"
                                                 [(ngModel)]="item.source"
+                                                [disabled]="!source.canEditActions">
+                                            <option *ngFor="let source of sources" [value]="source.key">
+                                                {{ source.value }}
+                                            </option>
+                                        </select>
+                                        <select class="form-control" id="source{{i}}" name="source{{i}}" *ngIf="item.deliveryAction == creditAction"
+                                                [(ngModel)]="item.source" pattern="[^0]+"
                                                 [disabled]="!source.canEditActions">
                                             <option *ngFor="let source of sources" [value]="source.key">
                                                 {{ source.value }}
@@ -164,8 +176,15 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control" id="reason{{i}}" name="reason{{i}}" 
+                                        <select class="form-control" id="reason{{i}}" name="reason{{i}}" *ngIf="item.deliveryAction != creditAction"
                                                 [(ngModel)]="item.reason"
+                                                [disabled]="!source.canEditActions">
+                                            <option *ngFor="let reason of reasons" [value]="reason.key">
+                                                {{ reason.value }}
+                                            </option>
+                                        </select>
+                                        <select class="form-control" id="reason{{i}}" name="reason{{i}}" *ngIf="item.deliveryAction == creditAction"
+                                                [(ngModel)]="item.reason" pattern="[^0]+"
                                                 [disabled]="!source.canEditActions">
                                             <option *ngFor="let reason of reasons" [value]="reason.key">
                                                 {{ reason.value }}

@@ -1,4 +1,4 @@
-﻿export class DropDownItem {
+export class DropDownItem {
     public description: string;
     public value: string;
     public requiresServerCall: boolean;

@@ -1,4 +1,4 @@
-﻿import {Component, Input, OnInit, OnDestroy, NgZone} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, NgZone} from '@angular/core';
 import {GlobalSettingsService} from './globalSettings';
 import {HttpService} from './httpService';
 import {Subscription} from 'rxjs/Subscription';

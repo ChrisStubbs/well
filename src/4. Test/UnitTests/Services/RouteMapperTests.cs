@@ -155,6 +155,23 @@
         }
 
         [Test]
+        public void JobDetailMapperInvertNegativeFigures()
+        {
+            var from = new JobDetailDTO
+            {
+                OriginalDespatchQty = -20,
+                DeliveredQty = -15
+            };
+
+            var to = new JobDetail();
+
+            mapper.Map(from, to);
+
+            Assert.That(() => from.OriginalDespatchQty == (to.OriginalDespatchQty * -1));
+            Assert.That(() => from.DeliveredQty == (to.DeliveredQty * -1));
+        }
+
+        [Test]
         public void JobDetailUpdateMapper()
         {
             var from = new JobDetailUpdate();

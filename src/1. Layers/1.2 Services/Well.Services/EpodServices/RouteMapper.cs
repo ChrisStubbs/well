@@ -77,10 +77,7 @@
 
         public void Map(JobDetailDTO from, JobDetail to)
         {
-            to.ShortQty = from.ShortQty;
-            to.DeliveredQty = from.DeliveredQty;
-            to.OriginalDespatchQty = from.OriginalDespatchQty;
-            to.LineDeliveryStatus = from.LineDeliveryStatus;
+            Mapper.Map(from, to);
         }
 
         public void Map(JobDetailUpdate from, JobDetail to)

@@ -28,7 +28,7 @@ namespace PH.Well.Api.Controllers
             }
             catch (Exception e)
             {
-               return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e.Message);
             }
         }
     }

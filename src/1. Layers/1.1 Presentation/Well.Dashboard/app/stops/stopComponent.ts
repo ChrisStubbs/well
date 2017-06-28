@@ -287,6 +287,7 @@ export class StopComponent implements IObservableAlive
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
                 item.resolution = singleItem.resolution;
+                item.resolutionId = singleItem.resolutionId;
                 item.items = current;
                 item.types = _.chain(current)
                     .map('jobTypeAbbreviation')
@@ -485,6 +486,7 @@ class StopItemSource implements IGrnAssignable
     public jobId: number;
     public types: string;
     public resolution: string;
+    public resolutionId: number;
     public items: Array<StopItem>;
     public grnNumber: string;
     public grnProcessType: number;

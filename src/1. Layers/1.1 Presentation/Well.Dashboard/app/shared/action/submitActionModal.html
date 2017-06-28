@@ -38,7 +38,7 @@
                                     <td>{{getIdentifierText(item)}}</td>
                                     <td>{{item.totalQty}}</td>
                                     <td>{{item.totalCreditQty}}</td>
-                                    <td>{{item.totalCreditValue}}</td>
+                                    <td>{{item.totalCreditValue | currency:'GBP': true }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()" #btnClose>Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="closeModal()" #btnClose>Cancel</button>
                 <button type="button" class="btn btn-success"  [disabled]="!hasItemsToSubmit()" (click) ="submit()">Submit</button>
             </div>
         </div>

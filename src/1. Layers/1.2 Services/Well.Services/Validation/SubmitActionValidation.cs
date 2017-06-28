@@ -10,23 +10,20 @@
     using Domain;
     using Domain.Enums;
 
-    
     public class SubmitActionValidation : ISubmitActionValidation
     {
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
         private readonly IDateThresholdService dateThresholdService;
-        private readonly ICreditThresholdRepository _creditThresholdRepository;
+
 
         public SubmitActionValidation(IUserNameProvider userNameProvider,
             IUserRepository userRepository,
-            IDateThresholdService dateThresholdService,
-            ICreditThresholdRepository creditThresholdRepository)
+            IDateThresholdService dateThresholdService)
         {
             this.userNameProvider = userNameProvider;
             this.userRepository = userRepository;
             this.dateThresholdService = dateThresholdService;
-            _creditThresholdRepository = creditThresholdRepository;
         }
 
         public SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs)
@@ -57,7 +54,7 @@
             var incorrectStateJobs = jobList.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission);
             if (incorrectStateJobs.Any())
             {
-                var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
+                var incorrectStateJobstring = string.Join(",", incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
                 return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
             }
 
@@ -72,7 +69,7 @@
             {
                 result = ValidateUserForCrediting();
             }
-            
+
             return result;
         }
 
@@ -80,7 +77,7 @@
         {
             var jobRoutes = unsubmittedJobs.Select(x => x.JobRoute);
 
-            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x=> DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
+            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x => DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
@@ -94,7 +91,7 @@
             return new SubmitActionResult { IsValid = true };
         }
 
-        public virtual bool HaveItemsToCredit(IList<Job>jobs)
+        public virtual bool HaveItemsToCredit(IList<Job> jobs)
         {
             return jobs.Any(job => job.GetAllLineItemActions().Any(x => x.DeliveryAction == DeliveryAction.Credit));
         }
@@ -116,17 +113,5 @@
 
             return new SubmitActionResult { IsValid = true };
         }
-
-        //public virtual SubmitActionResult ValidateUserForCreditingJobs(IList<Job> jobs)
-        //{
-        //    var validateForCreditingResult = ValidateUserForCrediting();
-        //    if (!validateForCreditingResult.IsValid)
-        //    {
-        //        return validateForCreditingResult;
-        //    }
-
-        //    return new SubmitActionResult { IsValid = true };
-        //}
-
     }
 }

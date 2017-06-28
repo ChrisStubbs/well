@@ -10,7 +10,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
-    public partial class JobService : IJobService, IJobResolutionStatus
+    public partial class JobService : IJobService
     {
         private readonly IJobRepository jobRepository;
         private readonly List<Func<Job, ResolutionStatus>> evaluators;

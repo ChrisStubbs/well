@@ -170,7 +170,6 @@ export class ActionEditComponent implements IObservableAlive
         if (totalLineQty > this.source.invoiced)
         {
             this.setError(form, this.errorInvoiceQty);
-
         }
     }
 

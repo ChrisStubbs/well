@@ -10,7 +10,14 @@
             Items = new List<BulkEditItem>();
         }
 
-        public string Message => $"You will be editing {Items.Count} Jobs with a total value of £{Items.Sum(x => x.TotalValue)}";
+        public string Message
+        {
+            get
+            {
+                return Items.Any() ? $"{Items.Count} Jobs with a total value of £{Items.Sum(x => x.TotalValue)}" : $"No editable items selected";
+            }
+        }
+            
         public IList<BulkEditItem> Items { get; set; }
     }
 }

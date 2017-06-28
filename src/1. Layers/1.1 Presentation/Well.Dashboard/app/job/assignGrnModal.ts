@@ -41,7 +41,7 @@ export class AssignGrnModal {
         if (this.model.grnNumber) {
             return this.model.grnNumber;
         } else {
-            return (GrnHelpers.isGrnRequired(this.model)) ? 'required' : 'not required';
+            return (GrnHelpers.isGrnRequired(this.model)) ? 'Required' : 'Not required';
         }
     }
 }

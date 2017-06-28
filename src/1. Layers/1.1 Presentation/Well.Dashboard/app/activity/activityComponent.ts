@@ -1,4 +1,5 @@
-import {Component, ViewChild}                                                from '@angular/core';
+import { Component, ViewChild }                                     from '@angular/core';
+import { ActivatedRoute }                                           from '@angular/router';
 import { IObservableAlive }                                         from '../shared/IObservableAlive';
 import { LookupService }                                            from '../shared/services/lookupService';
 import { LookupsEnum }                                              from '../shared/services/lookupsEnum';
@@ -69,6 +70,7 @@ export class ActivityComponent implements IObservableAlive
     constructor(
         private lookupService: LookupService,
         private activityService: ActivityService,
+        private route: ActivatedRoute,
         private globalSettingsService: GlobalSettingsService,
         private securityService: SecurityService)
     {
@@ -77,10 +79,13 @@ export class ActivityComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
-        Observable.forkJoin(
-            this.lookupService.get(LookupsEnum.ResolutionStatus),
-            this.activityService.get()
-        )
+        this.route.params
+            .flatMap(data => {
+                return Observable.forkJoin(
+                    this.lookupService.get(LookupsEnum.ResolutionStatus),
+                    this.activityService.get(data.number, <number>data.branchId)
+                );
+            })
             .takeWhile(() => this.isAlive)
             .subscribe(res =>
             {

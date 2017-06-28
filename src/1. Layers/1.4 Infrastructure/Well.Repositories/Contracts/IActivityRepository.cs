@@ -4,6 +4,6 @@
 
     public interface IActivityRepository
     {
-        ActivitySource GetActivitySourceByDocumentNumber(string documentNumber);
+        ActivitySource GetActivitySourceByDocumentNumber(string documentNumber, int branchId);
     }
 }

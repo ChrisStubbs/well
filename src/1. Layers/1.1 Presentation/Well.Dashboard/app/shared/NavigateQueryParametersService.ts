@@ -254,6 +254,6 @@ export  class NavigateQueryParametersService {
 
     private static Encode(value: string): string {
         //to avoid encode 2 times the same value
-        return decodeURIComponent(encodeURIComponent(value))
+        return decodeURIComponent(encodeURIComponent(value));
     }
 }

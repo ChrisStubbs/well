@@ -18,12 +18,13 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        public ActivitySource GetActivitySourceByDocumentNumber(string documentNumber)
+        public ActivitySource GetActivitySourceByDocumentNumber(string documentNumber, int branchId)
         {
             var activitySource = new ActivitySource();
 
             dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityGetByDocumentNumber)
                 .AddParameter("documentNumber", documentNumber, DbType.String)
+                .AddParameter("branchId", branchId, DbType.Int32)
                 .QueryMultiple(x => activitySource = GetActivityFromGrid(x));
 
             return activitySource;

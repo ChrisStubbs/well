@@ -43,7 +43,7 @@ const routes: Routes = [
     { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
     { path: 'singleroute/:id', component: SingleRouteComponent },
     { path: 'stops/:id', component: StopComponent },
-    { path: 'invoice', component: ActivityComponent }
+    { path: 'invoice/:number/:branchId', component: ActivityComponent }
 ];
 
 export const appRoutingProviders: any[] = [];

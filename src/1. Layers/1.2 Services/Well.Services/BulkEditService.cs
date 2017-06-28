@@ -82,6 +82,7 @@
                         lineItemAction.Source = resolution.Source;
                         lineItemAction.Reason = resolution.Reason;
                         lineItemActionRepository.Update(lineItemAction);
+                        result.LineItemIds.Add(lineItemAction.LineItemId);
                     }
 
                     foreach (var job in editableJobs)

@@ -284,4 +284,4 @@
 </div>
 <action-edit (onSave)="lineItemSaved($event)"></action-edit>
 <contact-modal></contact-modal>
-<bulk-edit-action-modal [lineItemIds]="selectedLineItems()"></bulk-edit-action-modal>
+<bulk-edit-action-modal [lineItemIds]="selectedLineItems()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>

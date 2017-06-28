@@ -23,6 +23,7 @@ import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
+import {IBulkEditResult} from '../shared/action/bulkEditItem';
 
 @Component({
     selector: 'ow-stop',
@@ -420,6 +421,25 @@ export class StopComponent implements IObservableAlive
             }
         });
         job.resolution = data.resolutionStatus;
+    }
+
+    public bulkEditSave(result: IBulkEditResult): void {
+        _.forEach(result.statuses, x => {
+            const job = _.find(this.gridSource, current => current.jobId == x.jobId);
+            job.resolution = x.status.description;
+        });
+
+        _.forEach(result.lineItemIds, x =>
+        {
+            const lineItem = _.find(
+                this.gridSource,
+                current => current.lineItemId === x
+            );
+            if (lineItem) {
+                lineItem.hasUnresolvedActions = false;
+            }   
+        });
+        
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void

@@ -8,8 +8,11 @@
         public BulkEditResult()
         {
             Statuses = new List<BulkEditResolutionStatus>();
+            LineItemIds = new List<int>();
         }
+
         public IList<BulkEditResolutionStatus> Statuses { get; set; }
+        public IList<int> LineItemIds { get; set; }
     }
 
     public class BulkEditResolutionStatus

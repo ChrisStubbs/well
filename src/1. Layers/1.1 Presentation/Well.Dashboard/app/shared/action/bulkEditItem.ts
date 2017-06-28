@@ -28,6 +28,7 @@ export interface IBulkEditPatchRequest
 export interface IBulkEditResult
 {
     statuses: IBulkEditResolutionStatus[];
+    lineItemIds:number[];
 }
 
 export interface IBulkEditResolutionStatus

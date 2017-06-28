@@ -27,7 +27,7 @@ import { LineItemActionComment }    from '../../exceptions/lineItemAction';
     templateUrl: 'app/shared/action/actionEditComponent.html',
     providers: [LookupService, EditExceptionsService],
     styleUrls: ['app/shared/action/actionEditComponent.css'],
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None
 })
 export class ActionEditComponent implements IObservableAlive
 {

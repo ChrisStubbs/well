@@ -1,26 +1,27 @@
-import { Component, ViewChild, ElementRef }                     from '@angular/core';
-import { ActivatedRoute }                                       from '@angular/router';
-import { IObservableAlive }                                     from '../shared/IObservableAlive';
-import { StopService }                                          from './stopService';
-import { Stop, StopItem, StopFilter }                           from './stop';
-import * as _                                                   from 'lodash';
-import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
-import { Branch }                                               from '../shared/branch/branch';
-import { SecurityService }                                      from '../shared/security/securityService';
-import { GlobalSettingsService }                                from '../shared/globalSettings';
-import { ILookupValue, ResolutionStatusEnum }                   from '../shared/services/services';
-import { AccountService }                                       from '../account/accountService';
-import { ContactModal }                                         from '../shared/contactModal';
-import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
-import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
-import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
-import { LookupService }                                        from '../shared/services/lookupService';
-import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { StopService } from './stopService';
+import { Stop, StopItem, StopFilter } from './stop';
+import * as _ from 'lodash';
+import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
+import { AccountService } from '../account/accountService';
+import { ContactModal } from '../shared/contactModal';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent } from '../shared/action/actionEditComponent';
+import { EditExceptionsService } from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
+import { LookupService } from '../shared/services/lookupService';
+import { LookupsEnum } from '../shared/services/lookupsEnum';
 import { SingleRouteSource } from '../routes/singleRoute';
-import {GrnHelpers, IGrnAssignable} from '../job/job';
+import { GrnHelpers, IGrnAssignable } from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
 
 @Component({
@@ -63,6 +64,7 @@ export class StopComponent implements IObservableAlive
     @ViewChild('openContact') public openContact: ElementRef;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
@@ -445,8 +447,14 @@ export class StopComponent implements IObservableAlive
             (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }
 
-    private isGrnRequired = (item: StopItemSource): boolean => {
+    private isGrnRequired = (item: StopItemSource): boolean =>
+    {
         return GrnHelpers.isGrnRequired(item);
+    }
+
+    private bulkEdit(): void
+    {
+        this.bulkEditActionModal.show();
     }
 }
 

@@ -191,6 +191,7 @@
     <Compile Include="Controllers\ActivityReadController.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\AppSearchController.cs" />
+    <Compile Include="Controllers\BulkEditController.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
     <Compile Include="Controllers\DeliveryActionController.cs" />

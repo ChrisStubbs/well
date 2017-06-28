@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
+    using Domain.Extensions;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Repositories.Contracts;
@@ -121,7 +122,6 @@
 
         public void SetIncompleteJobStatus(Job job)
         {
-            //  if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
             if (!string.IsNullOrWhiteSpace(job.InvoiceNumber)  || (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)))
             {
                 job.JobStatus = JobStatus.InComplete;
@@ -130,17 +130,10 @@
 
         public bool CanEditActions(Job job, string userName)
         {
-            var editableStatuses = new List<ResolutionStatus>
-                {
-                   ResolutionStatus.DriverCompleted,
-                   ResolutionStatus.ActionRequired,
-                   ResolutionStatus.PendingSubmission,
-                   ResolutionStatus.PendingApproval,
-                };
-
-            return editableStatuses.Select(x => x.Value).Contains(job.ResolutionStatus.Value)
+            return job.ResolutionStatus.IsEditable()
                 && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
+         
 
         public void SetGrn(int jobId, string grn)
         {

@@ -64,6 +64,7 @@
                         <submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>
                     </div>
                     <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
+                    <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Bulk Edit</button>
                 </div>
             </div>
         </div>
@@ -283,3 +284,4 @@
 </div>
 <action-edit (onSave)="lineItemSaved($event)"></action-edit>
 <contact-modal></contact-modal>
+<bulk-edit-action-modal></bulk-edit-action-modal>

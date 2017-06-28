@@ -1,0 +1,77 @@
+﻿<button style="visibility: hidden" type="button" data-target="#bulkAddModal" data-toggle="modal" #showBulkAddModal>
+    ShowModal
+</button>
+<div class="modal fade" id="bulkAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" #bulkAddActionForm="ngForm">
+                <div class="modal-header">
+                    <div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Add and edit actions</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            Please select the action source and reasons for the selected 50 line items.
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <label>Action:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="deliveryAction" name="deliveryAction">
+                                <option *ngFor="let action of deliveryActions" [value]="action.key">
+                                    {{ action.value }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label>Exception:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="exceptionTypeId" name="exceptionTypeId">
+                                <option *ngFor="let et of exceptionTypes" [value]="et.key">
+                                    {{et.value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <label>Source:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="source" name="source">
+                                <option *ngFor="let source of sources" [value]="source.key">
+                                    {{ source.value }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label>Reason:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="reason" name="reason">
+                                <option *ngFor="let reason of reasons" [value]="reason.key">
+                                    {{ reason.value }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" #closeBulkAddModal>Cancel</button>&nbsp;
+                            <button type="button" class="btn btn-success">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

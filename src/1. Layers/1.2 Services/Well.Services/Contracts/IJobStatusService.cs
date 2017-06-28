@@ -4,7 +4,7 @@ namespace PH.Well.Services.Contracts
 {
     using System.Collections.Generic;
 
-    public interface IJobService
+    public interface IJobService: IJobResolutionStatus
     {
         void SetInitialJobStatus(Job job);
         void SetIncompleteJobStatus(Job job);

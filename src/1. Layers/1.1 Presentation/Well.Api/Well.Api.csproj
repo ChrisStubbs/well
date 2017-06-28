@@ -259,6 +259,7 @@
     <Compile Include="Models\ApprovalModel.cs" />
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
+    <Compile Include="Models\BulkEditPatchRequest.cs" />
     <Compile Include="Models\CleanPreferenceModel.cs" />
     <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />

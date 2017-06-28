@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using Contracts;
     using Enums;
 
-    public class LineItemAction: Entity<int>
+    public class LineItemAction: Entity<int>, ILineItemActionResolution
     {
         public LineItemAction()
         {

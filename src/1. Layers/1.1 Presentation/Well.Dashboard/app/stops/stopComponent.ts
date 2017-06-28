@@ -127,7 +127,8 @@ export class StopComponent implements IObservableAlive
                 const firstItem = _.head(data.items) as StopItem;
                 this.accountService.getAccountByAccountId(firstItem.accountID)
                     .takeWhile(() => this.isAlive)
-                    .subscribe(account => {
+                    .subscribe(account =>
+                    {
                         this.customerAccount = account;
                     });
 
@@ -352,7 +353,7 @@ export class StopComponent implements IObservableAlive
             totalDelivered: totalDelivered,
             totalDamages: totalDamages,
             totalShorts: totalShorts,
-            totalBypassed: totalBypassed, 
+            totalBypassed: totalBypassed,
             items: data
         };
     }

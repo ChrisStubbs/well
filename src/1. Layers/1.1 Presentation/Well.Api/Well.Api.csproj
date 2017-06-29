@@ -210,7 +210,6 @@
     <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\StopsController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
-    <Compile Include="Mapper\ApprovalMapper.cs" />
     <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLineToJobDetailMapper.cs" />
@@ -250,13 +249,11 @@
     <Compile Include="Mapper\DeliveryToDetailMapper.cs" />
     <Compile Include="Mapper\Contracts\ISingleRouteMapper.cs" />
     <Compile Include="Mapper\Contracts\IStopMapper.cs" />
-    <Compile Include="Mapper\Contracts\IApprovalMapper.cs" />
     <Compile Include="Mapper\LineItemExceptionMapper.cs" />
     <Compile Include="Mapper\SeasonalDateMapper.cs" />
     <Compile Include="Mapper\SingleRouteMapper.cs" />
     <Compile Include="Mapper\StopMapper.cs" />
     <Compile Include="Mapper\WidgetWarningMapper.cs" />
-    <Compile Include="Models\ApprovalModel.cs" />
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
     <Compile Include="Models\BulkEditPatchRequest.cs" />

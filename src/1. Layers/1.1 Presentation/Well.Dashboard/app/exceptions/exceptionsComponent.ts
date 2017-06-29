@@ -120,7 +120,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         this.deliveryService.getSources()
             .takeWhile(() => this.isAlive)
-            .subscribe(s => { this.bulkCreditConfirmModal.sources = s });
+            .subscribe(s => this.bulkCreditConfirmModal.sources = s);
     }
 
     public ngOnDestroy()

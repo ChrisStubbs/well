@@ -44,18 +44,26 @@
                 return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit exceptions" };
             }
 
-            var pendingSubmissionJobs = jobList.Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission).ToList();
+            var pendingSubmissionJobs = jobList
+                .Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission || x.ResolutionStatus == ResolutionStatus.PendingApproval
+                ).ToList();
 
             if (!pendingSubmissionJobs.Any())
             {
                 return new SubmitActionResult { Message = $"There are no jobs 'Pending Submission' for the selected items" };
             }
 
-            var incorrectStateJobs = jobList.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission);
+            var ids = pendingSubmissionJobs.Select(p => p.Id).ToList();
+            var incorrectStateJobs = jobList
+                .Where(x => !ids.Contains(x.Id))
+                .ToList();
+
             if (incorrectStateJobs.Any())
             {
                 var incorrectStateJobstring = string.Join(",", incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
-                return new SubmitActionResult { Message = $"Can not submit exceptions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
+                return new SubmitActionResult { Message = $"Can not submit exceptions for jobs. " +
+                                                          $"The following jobs are not in Pending Submission / Pending Approval State " +
+                                                          $"{incorrectStateJobstring}." };
             }
 
             var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);

@@ -15,6 +15,5 @@
         CreditThreshold GetById(int thresholdId);
 
         void PendingCreditInsert(int jobId);
-
     }
 }

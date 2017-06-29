@@ -128,12 +128,13 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
                 this.jobs.Add(new Job { Id = 1, InvoiceNumber = "Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
+                this.jobs.Add(new Job { Id = 4, InvoiceNumber = "sd", ResolutionStatus = ResolutionStatus.PendingApproval });
 
                 var result = validator.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo($"Can not submit exceptions for jobs. " +
-                                                       $"The following jobs are not in Pending Submission State " +
+                                                       $"The following jobs are not in Pending Submission / Pending Approval State " +
                                                        $"JobId:1 Invoice:Inv1 Status: 4 - Action Required ."));
             }
 

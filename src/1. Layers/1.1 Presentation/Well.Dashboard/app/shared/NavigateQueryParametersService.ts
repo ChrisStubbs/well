@@ -203,7 +203,7 @@ export  class NavigateQueryParametersService {
 
         const current = _.chain(qs)
             .keys()
-            .filter(p => { return p.startsWith(NavigateQueryParametersService.paramName)})
+            .filter(p =>  p.startsWith(NavigateQueryParametersService.paramName))
             .value();
 
         if (current.length > 0) {
@@ -217,7 +217,7 @@ export  class NavigateQueryParametersService {
 
         const current = _.chain(qs)
             .keys()
-            .filter(p => { return p.toLowerCase() == NavigateQueryParametersService.paramPage})
+            .filter(p => p.toLowerCase() == NavigateQueryParametersService.paramPage)
             .first()
             .value();
 

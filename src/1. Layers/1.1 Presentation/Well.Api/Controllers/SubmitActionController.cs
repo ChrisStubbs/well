@@ -16,8 +16,7 @@
 
         public SubmitActionResult Post(SubmitActionModel action)
         {
-            var result =  submitActionService.SubmitAction(action);
-            return result;
+            return submitActionService.SubmitAction(action);
         }
 
         [HttpGet]

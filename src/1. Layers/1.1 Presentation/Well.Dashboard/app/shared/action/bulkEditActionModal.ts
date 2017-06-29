@@ -105,7 +105,7 @@ export class BulkEditActionModal implements IObservableAlive
             reason: this.reason,
             jobIds: this.jobIds,
             lineItemIds: this.lineItemIds
-        }
+        };
     }
 
     private save(): void

@@ -481,6 +481,10 @@ export class StopComponent implements IObservableAlive
     {
         this.bulkEditActionModal.show();
     }
+
+    private getInvoiceLink = (item: StopItem): string => {
+        return '/invoice/' + item.invoice + '/' + this.stop.branchId;
+    }
 }
 
 interface IDictionarySource

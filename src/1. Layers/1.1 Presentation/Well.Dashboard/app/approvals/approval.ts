@@ -74,7 +74,7 @@ export class ApprovalFilter implements IFilter
                 return GridHelpersFunctions.isEqualFilter;
 
             case 'account':
-            case 'invoice':
+            case 'invoiceNumber':
                 return GridHelpersFunctions.containsFilter;
 
             case 'creditValue':

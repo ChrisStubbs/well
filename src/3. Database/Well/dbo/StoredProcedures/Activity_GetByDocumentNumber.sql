@@ -17,7 +17,7 @@ BEGIN
 	CASE WHEN av.ActivityTypeId = dbo.ActivityType_Invoice() THEN 1 ELSE 0 END AS IsInvoice,
 	CASE WHEN j.ProofOfDelivery = 1 OR j.ProofOfDelivery = 8 THEN 1 ELSE 0 END AS Pod, -- lucozade = 1 cocacola = 8
 	rh.DriverName AS Driver,
-	rh.RouteDate AS DATE,
+	rh.RouteDate AS [Date],
 	CASE WHEN j.OuterDiscrepancyFound = 1 THEN (TotalOutersShort - DetailOutersShort) ELSE 0 END AS Tba
 	
 	FROM Activity av 

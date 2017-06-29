@@ -1,28 +1,28 @@
-import { Component, ViewChild, ElementRef }                     from '@angular/core';
-import { ActivatedRoute }                                       from '@angular/router';
-import { IObservableAlive }                                     from '../shared/IObservableAlive';
-import { StopService }                                          from './stopService';
-import { Stop, StopItem, StopFilter }                           from './stop';
-import * as _                                                   from 'lodash';
-import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
-import { Branch }                                               from '../shared/branch/branch';
-import { SecurityService }                                      from '../shared/security/securityService';
-import { GlobalSettingsService }                                from '../shared/globalSettings';
-import { ILookupValue, ResolutionStatusEnum }                   from '../shared/services/services';
-import { AccountService }                                       from '../account/accountService';
-import { ContactModal }                                         from '../shared/contactModal';
-import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
-import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
-import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
-import { LookupService }                                        from '../shared/services/lookupService';
-import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
-import { GrnHelpers, IGrnAssignable }                           from '../job/job';
-import { ISubmitActionResult }                                  from '../shared/action/submitActionModel';
-import { ISubmitActionResultDetails }                           from '../shared/action/submitActionModel';
-import { BulkEditActionModal }                                  from '../shared/action/bulkEditActionModal';
-import { IAccount }                                             from '../account/account';
-import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { StopService } from './stopService';
+import { Stop, StopItem, StopFilter } from './stop';
+import * as _ from 'lodash';
+import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
+import { AccountService } from '../account/accountService';
+import { ContactModal } from '../shared/contactModal';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent } from '../shared/action/actionEditComponent';
+import { EditExceptionsService } from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
+import { LookupService } from '../shared/services/lookupService';
+import { LookupsEnum } from '../shared/services/lookupsEnum';
+import { GrnHelpers, IGrnAssignable } from '../job/job';
+import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
+import { IAccount } from '../account/account';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
 
 @Component({
     selector: 'ow-stop',
@@ -423,23 +423,25 @@ export class StopComponent implements IObservableAlive
         job.resolution = data.resolutionStatus;
     }
 
-    public bulkEditSave(result: IBulkEditResult): void {
-        _.forEach(result.statuses, x => {
+    public bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses, x =>
+        {
             const job = _.find(this.gridSource, current => current.jobId == x.jobId);
             job.resolution = x.status.description;
+
+            _.forEach(job.items,
+                item =>
+                {
+                    item.resolutionId = x.status.value;
+                    item.resolution = x.status.description;
+                    if (_.some(result.lineItemIds, id => item.id)) 
+                    {
+                        item.hasUnresolvedActions = false;
+                    }
+                });
         });
 
-        _.forEach(result.lineItemIds, x =>
-        {
-            const lineItem = _.find(
-                this.gridSource,
-                current => current.lineItemId === x
-            );
-            if (lineItem) {
-                lineItem.hasUnresolvedActions = false;
-            }   
-        });
-        
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void

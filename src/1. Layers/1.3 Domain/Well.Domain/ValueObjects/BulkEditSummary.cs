@@ -14,7 +14,11 @@
         {
             get
             {
-                return Items.Any() ? $"{Items.Count} Jobs with a total value of £{Items.Sum(x => x.TotalValue)}" : $"No editable items selected";
+                return Items.Any() 
+                    ? (Items.Count==1) 
+                        ?  $"One job with a total value of £{Items.Sum(x => x.TotalValue)} selected" 
+                        :  $"{Items.Count} jobs with a total value of £{Items.Sum(x => x.TotalValue)} selected"
+                    :"No editable exceptions selected";
             }
         }
             

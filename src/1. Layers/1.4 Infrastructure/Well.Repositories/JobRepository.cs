@@ -320,5 +320,14 @@ namespace PH.Well.Repositories
 
             return GetByIds(jobIds);
         }
+
+        public IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds)
+        {
+            var idsForAction = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetWithLineItemActions)
+              .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+              .Query<int>();
+
+            return idsForAction;
+        }
     }
 }

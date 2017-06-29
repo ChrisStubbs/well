@@ -18,8 +18,6 @@ namespace PH.Well.Domain
             this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
-        public int Id { get; set; }
-
         [XmlIgnore]
         public int LineNumber { get; set; }
 
@@ -115,11 +113,11 @@ namespace PH.Well.Domain
         [XmlIgnore]
         public int ShortQty { get; set; }
 
-        [XmlIgnore]
-        public int ShortsActionId { get; set; }
+        //[XmlIgnore]
+        //public int ShortsActionId { get; set; }
 
-        [XmlIgnore]
-        public DeliveryAction ShortsAction => (DeliveryAction)this.ShortsActionId;
+        //[XmlIgnore]
+        //public DeliveryAction ShortsAction => (DeliveryAction)this.ShortsActionId;
 
         //Workaround for nullable int element
         [XmlElement("ShortQty")]
@@ -285,94 +283,94 @@ namespace PH.Well.Domain
             }
         }
 
-        [XmlIgnore]
-        public int LineItemId { get; set; }
+        //[XmlIgnore]
+        //public int LineItemId { get; set; }
 
         //TODO: This will need to be moved to Line Item Actions
-        public bool IsClean()
-        {
-            if (ShortQty > 0)
-            {
-                return false;
-            }
+        //public bool IsClean()
+        //{
+        //    if (ShortQty > 0)
+        //    {
+        //        return false;
+        //    }
 
-            return !this.JobDetailDamages.Any(d => d.Qty > 0);
-        }
+        //    return !this.JobDetailDamages.Any(d => d.Qty > 0);
+        //}
 
-        public Audit CreateAuditEntry(JobDetailDTO originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)
-        {
-            var auditBuilder = new StringBuilder();
+        //public Audit CreateAuditEntry(JobDetailDTO originalJobDetail, string invoiceNumber, string accountCode, DateTime? deliveryDate)
+        //{
+        //    var auditBuilder = new StringBuilder();
 
-            auditBuilder.AppendConditional(originalJobDetail.ShortQty != ShortQty,
-                $"Short Qty changed from {originalJobDetail.ShortQty} to {ShortQty}. ");
+        //    auditBuilder.AppendConditional(originalJobDetail.ShortQty != ShortQty,
+        //        $"Short Qty changed from {originalJobDetail.ShortQty} to {ShortQty}. ");
 
-            AuditDamages(auditBuilder, originalJobDetail.JobDetailDamages);
-            AuditActions(auditBuilder, originalJobDetail.Actions);
+        //    AuditDamages(auditBuilder, originalJobDetail.JobDetailDamages);
+        //    AuditActions(auditBuilder, originalJobDetail.Actions);
 
-            string entry = string.Empty;
-            if (auditBuilder.Length > 0)
-            {
-                entry = $"Product: {PhProductCode} - {ProdDesc}. {auditBuilder}";
-            }
+        //    string entry = string.Empty;
+        //    if (auditBuilder.Length > 0)
+        //    {
+        //        entry = $"Product: {PhProductCode} - {ProdDesc}. {auditBuilder}";
+        //    }
 
-            var audit = new Audit
-            {
-                Entry = entry,
-                Type = AuditType.DeliveryLineUpdate,
-                AccountCode = accountCode,
-                InvoiceNumber = invoiceNumber,
-                DeliveryDate = deliveryDate
-            };
+        //    var audit = new Audit
+        //    {
+        //        Entry = entry,
+        //        Type = AuditType.DeliveryLineUpdate,
+        //        AccountCode = accountCode,
+        //        InvoiceNumber = invoiceNumber,
+        //        DeliveryDate = deliveryDate
+        //    };
 
-            return audit;
-        }
+        //    return audit;
+        //}
 
-        private void AuditDamages(StringBuilder auditBuilder, List<JobDetailDamageDTO> originalDamages)
-        {
-            var damages = JobDetailDamages;
+        //private void AuditDamages(StringBuilder auditBuilder, List<JobDetailDamageDTO> originalDamages)
+        //{
+        //    var damages = JobDetailDamages;
 
-            var damagesChanged = originalDamages.Count != damages.Count ||
-                                 originalDamages
-                                     .OrderBy(o => o.JobDetailReason)
-                                     .SequenceEqual(damages.OrderBy(d => d.JobDetailReason)) == false;
+        //    var damagesChanged = originalDamages.Count != damages.Count ||
+        //                         originalDamages
+        //                             .OrderBy(o => o.JobDetailReason)
+        //                             .SequenceEqual(damages.OrderBy(d => d.JobDetailReason)) == false;
 
-            if (damagesChanged && originalDamages.Count == 0)
-            {
-                auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.ToString()))}. ");
-            }
-            else if (damagesChanged && damages.Count == 0)
-            {
-                auditBuilder.Append(
-                    $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.ToString()))}. ");
-            }
-            else if (damagesChanged)
-            {
-                auditBuilder.Append($"Damages changed from " +
-                                    $"'{string.Join(", ", originalDamages.Select(d => d.ToString()))}' to " +
-                                    $"'{string.Join(", ", damages.Select(d => d.ToString()))}'. ");
-            }
-        }
+        //    if (damagesChanged && originalDamages.Count == 0)
+        //    {
+        //        auditBuilder.Append($"Damages added {string.Join(", ", damages.Select(d => d.ToString()))}. ");
+        //    }
+        //    else if (damagesChanged && damages.Count == 0)
+        //    {
+        //        auditBuilder.Append(
+        //            $"Damages removed, old damages {string.Join(", ", originalDamages.Select(d => d.ToString()))}. ");
+        //    }
+        //    else if (damagesChanged)
+        //    {
+        //        auditBuilder.Append($"Damages changed from " +
+        //                            $"'{string.Join(", ", originalDamages.Select(d => d.ToString()))}' to " +
+        //                            $"'{string.Join(", ", damages.Select(d => d.ToString()))}'. ");
+        //    }
+        //}
 
-        private void AuditActions(StringBuilder auditBuilder, List<JobDetailAction> originalActions)
-        {
-            var isChanged = originalActions.Count != Actions.Count ||
-                            originalActions.OrderBy(o => o.Action).SequenceEqual(Actions.OrderBy(d => d.Action)) == false;
+        //private void AuditActions(StringBuilder auditBuilder, List<JobDetailAction> originalActions)
+        //{
+        //    var isChanged = originalActions.Count != Actions.Count ||
+        //                    originalActions.OrderBy(o => o.Action).SequenceEqual(Actions.OrderBy(d => d.Action)) == false;
 
-            if (isChanged && originalActions.Count == 0)
-            {
-                auditBuilder.Append($"Actions added {string.Join(", ", Actions.Select(d => d.GetString()))}. ");
-            }
-            else if (isChanged && Actions.Count == 0)
-            {
-                auditBuilder.Append(
-                    $"Actions removed, old actions {string.Join(", ", originalActions.Select(d => d.GetString()))}. ");
-            }
-            else if (isChanged)
-            {
-                auditBuilder.Append($"Actions changed from " +
-                                    $"'{string.Join(", ", originalActions.Select(d => d.GetString()))}' to " +
-                                    $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
-            }
-        }
+        //    if (isChanged && originalActions.Count == 0)
+        //    {
+        //        auditBuilder.Append($"Actions added {string.Join(", ", Actions.Select(d => d.GetString()))}. ");
+        //    }
+        //    else if (isChanged && Actions.Count == 0)
+        //    {
+        //        auditBuilder.Append(
+        //            $"Actions removed, old actions {string.Join(", ", originalActions.Select(d => d.GetString()))}. ");
+        //    }
+        //    else if (isChanged)
+        //    {
+        //        auditBuilder.Append($"Actions changed from " +
+        //                            $"'{string.Join(", ", originalActions.Select(d => d.GetString()))}' to " +
+        //                            $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
+        //    }
+        //}
     }
 }

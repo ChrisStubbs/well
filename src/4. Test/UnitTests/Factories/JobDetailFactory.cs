@@ -10,7 +10,6 @@
 
         public JobDetailFactoryDTO()
         {
-            this.Entity.Id = 1;
             this.Entity.LineNumber = 1;
             this.Entity.PhProductCode = "00000001";
             this.Entity.OriginalDespatchQty = 2;
@@ -23,7 +22,6 @@
             this.Entity.SSCCBarcode = "123456789";  //tobacco bag barcode
             this.Entity.SkuGoodsValue = 2.2;
             this.Entity.DeliveredQty = 23;
-            this.Entity.JobId = 1;
             this.Entity.EntityAttributes = new List<EntityAttribute>();
         }
 

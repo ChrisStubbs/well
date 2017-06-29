@@ -498,8 +498,8 @@ namespace PH.Well.Domain
             }
         }
 
-        [XmlIgnore]
-        public decimal InvoiceValueUpdate { get; set; }
+        //[XmlIgnore]
+        //public decimal InvoiceValueUpdate { get; set; }
 
         [XmlIgnore]
         public decimal InvoiceValue
@@ -514,13 +514,13 @@ namespace PH.Well.Domain
             }
         }
 
-        public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
-                                                       jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
+        //public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
+        //jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
 
-        public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
+        //public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
 
-        public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
+        //public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
 
-        public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
+        //public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
     }
 }

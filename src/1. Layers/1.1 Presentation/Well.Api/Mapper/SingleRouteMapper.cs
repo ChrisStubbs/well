@@ -140,6 +140,7 @@
                     singleRoute.Items.Add(item);
                 }
             }
+            singleRoute.Items = singleRoute.Items.OrderBy(x => x.Stop).ToList();
             return singleRoute;
         }
     }

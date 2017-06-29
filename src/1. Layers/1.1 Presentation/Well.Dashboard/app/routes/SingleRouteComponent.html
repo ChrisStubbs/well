@@ -69,9 +69,9 @@
                     <th style="width: 8%">
                         <div class="text-center">Job Type</div>
                         <div>
-                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.jobType" (change)="fillGridSource()" title="">
+                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.jobTypeId" (change)="fillGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
+                                <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
                                     {{ jobType.value }}
                                 </option>
                             </select>

@@ -119,7 +119,7 @@
                         Resolution = job.ResolutionStatus.Description,
                         ResolutionId = job.ResolutionStatus.Value,
                         Invoice = job.InvoiceNumber,
-                        JobType = jobType.ToString().SplitCapitalisedWords(),
+                        JobType = $"{jobType.ToString().SplitCapitalisedWords()} ({job.JobTypeAbbreviation})",
                         JobTypeId = (int)jobType,
                         JobStatus = job.JobStatus,
                         JobStatusDescription = jobStatuses[job.JobStatus],

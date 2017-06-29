@@ -6,7 +6,7 @@ import { EditLineItemException, EditLineItemExceptionDetail }               from
 import { LineItemAction }                                                   from './lineItemAction';
 import { EditExceptionsService }                                            from './editExceptionsService';
 import * as _                                                               from 'lodash';
-import { Observable }                                                       from 'rxjs'
+import { Observable }                                                       from 'rxjs';
 
 @Component({
     selector: 'edit-exceptions-modal',

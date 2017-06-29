@@ -185,6 +185,17 @@
                 return ResolutionStatus.PendingApproval;
             });
 
+            steps.Add(ResolutionStatus.PendingApproval, job =>
+            {
+
+                if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
+                {
+                    return ResolutionStatus.Approved;
+                }
+
+                return ResolutionStatus.PendingApproval;
+            });
+
             steps.Add(ResolutionStatus.Approved, job =>
             {
                 if (job.LineItems.SelectMany(p => p.LineItemActions).Any(p => p.DeliveryAction == DeliveryAction.Credit))

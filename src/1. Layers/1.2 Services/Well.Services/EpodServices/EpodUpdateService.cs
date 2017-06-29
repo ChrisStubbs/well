@@ -120,7 +120,9 @@
             // update JobResolutionStatus for jobs with LineItemActions
             if (updatedJobIds.Count != 0)
             {
-                var updatedJobs = jobService.PopulateLineItemsAndRoute(jobRepository.GetByIds(updatedJobIds));
+                var idsForJobsWithActions = jobRepository.GetJobsWithLineItemActions(updatedJobIds);
+                var updatedJobs = jobService.PopulateLineItemsAndRoute(jobRepository.GetByIds(idsForJobsWithActions));
+
                 foreach (var job in updatedJobs)
                 {
                     var status = this.jobResolutionStatus.GetNextResolutionStatus(job);
@@ -258,12 +260,12 @@
 
                 this.mapper.Map(detail, existingJobDetail);
 
-                detail.SkuGoodsValue = existingJobDetail.SkuGoodsValue;
+                existingJobDetail.SkuGoodsValue = detail.SkuGoodsValue;
 
-                if (detail.ShortQty > 0)
+                if (existingJobDetail.ShortQty > 0)
                 {
-                    detail.JobDetailReason = JobDetailReason.NotDefined;
-                    detail.JobDetailSource = JobDetailSource.NotDefined;
+                    existingJobDetail.JobDetailReason = JobDetailReason.NotDefined;
+                    existingJobDetail.JobDetailSource = JobDetailSource.NotDefined;
 
                 }
 

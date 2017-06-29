@@ -17,13 +17,12 @@ import { EditExceptionsService } from '../exceptions/editExceptionsService';
 import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
 import { LookupService } from '../shared/services/lookupService';
 import { LookupsEnum } from '../shared/services/lookupsEnum';
-import { SingleRouteSource } from '../routes/singleRoute';
 import { GrnHelpers, IGrnAssignable } from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
-import {IBulkEditResult} from '../shared/action/bulkEditItem';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
 
 @Component({
     selector: 'ow-stop',
@@ -424,23 +423,25 @@ export class StopComponent implements IObservableAlive
         job.resolution = data.resolutionStatus;
     }
 
-    public bulkEditSave(result: IBulkEditResult): void {
-        _.forEach(result.statuses, x => {
+    public bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses, x =>
+        {
             const job = _.find(this.gridSource, current => current.jobId == x.jobId);
             job.resolution = x.status.description;
+
+            _.forEach(job.items,
+                item =>
+                {
+                    item.resolutionId = x.status.value;
+                    item.resolution = x.status.description;
+                    if (_.some(result.lineItemIds, id => item.id)) 
+                    {
+                        item.hasUnresolvedActions = false;
+                    }
+                });
         });
 
-        _.forEach(result.lineItemIds, x =>
-        {
-            const lineItem = _.find(
-                this.gridSource,
-                current => current.lineItemId === x
-            );
-            if (lineItem) {
-                lineItem.hasUnresolvedActions = false;
-            }   
-        });
-        
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void
@@ -460,11 +461,13 @@ export class StopComponent implements IObservableAlive
 
     public disableSubmitActions(): boolean
     {
-        if (this.selectedItems().length === 0)
+        const items = this.selectedItems();
+        if (items.length === 0)
         {
             return true;
         }
-        return _.some(this.selectedItems(),
+
+        return _.some(items,
             x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
             (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }

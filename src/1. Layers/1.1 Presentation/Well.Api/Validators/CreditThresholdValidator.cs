@@ -41,10 +41,10 @@
                 this.Errors.Add("Threshold range is 1 to 1000000");
             }
 
-            if (!model.Branches.Any())
-            {
-                this.Errors.Add("Branch is required!");
-            }
+            //if (!model.Branches.Any())
+            //{
+            //    this.Errors.Add("Branch is required!");
+            //}
 
             return !this.Errors.Any();
         }

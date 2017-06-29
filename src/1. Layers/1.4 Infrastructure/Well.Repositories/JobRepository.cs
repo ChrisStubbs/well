@@ -297,9 +297,15 @@ namespace PH.Well.Repositories
             this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
         }
 
+        public IEnumerable<JobToBeApproved> GetJobsToBeApproved()
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsToBeApproved)
+                    .Query<JobToBeApproved>();
+        }
+
         public IEnumerable<Job> GetJobsByResolutionStatus(ResolutionStatus resolutionStatus)
         {
-            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByResolutionStatus)
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsToBeApproved)
                 .AddParameter("ResolutionStatusId", resolutionStatus.Value, DbType.Int32)
                 .Query<int>();
 
@@ -313,6 +319,15 @@ namespace PH.Well.Repositories
                 .Query<int>();
 
             return GetByIds(jobIds);
+        }
+
+        public IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds)
+        {
+            var idsForAction = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetWithLineItemActions)
+              .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+              .Query<int>();
+
+            return idsForAction;
         }
     }
 }

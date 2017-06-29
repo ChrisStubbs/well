@@ -37,13 +37,13 @@
                     .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)
                     .Query<int>().Single();
 
-                foreach (var branch in entity.Branches)
-                {
-                    this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdToBranchSave)
-                        .AddParameter("BranchId", branch.Id, DbType.Int32)
-                        .AddParameter("CreditThresholdId", entity.Id, DbType.Int32)
-                        .Execute();
-                }
+                //foreach (var branch in entity.Branches)
+                //{
+                //    this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdToBranchSave)
+                //        .AddParameter("BranchId", branch.Id, DbType.Int32)
+                //        .AddParameter("CreditThresholdId", entity.Id, DbType.Int32)
+                //        .Execute();
+                //}
 
                 transactionScope.Complete();
             }

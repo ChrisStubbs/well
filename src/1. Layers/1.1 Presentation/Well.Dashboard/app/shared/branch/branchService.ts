@@ -38,7 +38,7 @@ export class BranchService
                 {
                     if (current.selected)
                     {
-                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')'])
+                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')']);
                     }
                 });
 

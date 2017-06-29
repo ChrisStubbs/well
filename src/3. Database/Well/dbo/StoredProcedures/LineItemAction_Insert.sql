@@ -12,6 +12,7 @@ BEGIN
 				,LineItemId INT
 			)
 	
+	-- damages
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)				
 	SELECT Qty, dbo.ExceptionType_Damage(), jd.LineItemId
 	FROM JobDetailDamage jdd
@@ -20,6 +21,7 @@ BEGIN
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
 	WHERE lia.Id IS NULL
 
+	-- shorts
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
 	SELECT jd.ShortQty, dbo.ExceptionType_Short(), jd.LineItemId
 	FROM JobDetail jd
@@ -27,6 +29,16 @@ BEGIN
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
 	WHERE lia.Id IS NULL AND jd.ShortQty > 0
 
+	-- bypass
+	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
+	SELECT jd.OriginalDespatchQty, dbo.ExceptionType_Bypass(), jd.LineItemId
+	FROM JobDetail jd
+	INNER JOIN Job j on j.Id = jd.JobId
+	INNER JOIN LineItem li on jd.LineItemId = li.Id
+	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
+	WHERE lia.Id IS NULL and j.JobStatusId = dbo.JobStatus_Bypass()
+
+	-- successful uplift
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
 	SELECT jd.OriginalDespatchQty, dbo.ExceptionType_Bypass(), jd.LineItemId
 	FROM JobDetail jd

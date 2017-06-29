@@ -4,7 +4,7 @@
             (click)="actionClicked(selectedAction)"
             data-toggle="modal"
             data-target="#actionModal">
-        Submit Actions
+        Submit Exceptions
     </button>
 </div>
 <!-- Modal -->
@@ -13,7 +13,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Submit Actions</h4>
+                <h4 class="modal-title" id="myModalLabel">Submit Exceptions</h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
@@ -36,9 +36,9 @@
                                 <tbody>
                                 <tr class="grid-row" *ngFor="let item of  summaryData.items" style="height: auto">
                                     <td>{{getIdentifierText(item)}}</td>
-                                    <td>{{item.totalQty}}</td>
-                                    <td>{{item.totalCreditQty}}</td>
-                                    <td>{{item.totalCreditValue | currency:'GBP': true }}</td>
+                                    <td class="text-right">{{item.totalQty}}</td>
+                                    <td class="text-right">{{item.totalCreditQty}}</td>
+                                    <td class="text-right">{{item.totalCreditValue | currency:'GBP':true}}</td>
                                 </tr>
                             </table>
                         </div>

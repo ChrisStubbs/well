@@ -144,7 +144,7 @@ export class StopFilter implements IFilter
                 {
                     return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
                         GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
-                }
+                };
         }
 
         return undefined;

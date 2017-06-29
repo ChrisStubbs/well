@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RoutesService } from './routesService';
 import { SingleRoute, SingleRouteSource, SingleRouteFilter } from './singleRoute';
@@ -15,8 +15,10 @@ import { Observable } from 'rxjs';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
 import 'rxjs/add/operator/mergeMap';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
-import {JobService, GrnHelpers} from '../job/job';
+import { JobService, GrnHelpers } from '../job/job';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
 
 @Component({
     selector: 'ow-route',
@@ -41,6 +43,7 @@ export class SingleRouteComponent implements IObservableAlive
     private gridSource = Array<SingleRouteSource>();
     private filters = new SingleRouteFilter();
     private inputFilterTimer: any;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
     constructor(
         private lookupService: LookupService,
@@ -123,7 +126,8 @@ export class SingleRouteComponent implements IObservableAlive
         this.fillGridSource();
     }
 
-    public clearFilter(): void {
+    public clearFilter(): void
+    {
         this.jobService.setGrnForJob(1, 'test').subscribe();
         this.filters = new SingleRouteFilter();
         this.fillGridSource();
@@ -215,7 +219,7 @@ export class SingleRouteComponent implements IObservableAlive
         this.assignees = [];
 
         _.chain(data)
-            .groupBy(current => current.stop)
+            .groupBy(current => current.stopId)
             .map((current: Array<SingleRouteItem>) =>
             {
                 const item = new SingleRouteSource();
@@ -227,7 +231,7 @@ export class SingleRouteComponent implements IObservableAlive
                 item.stopStatus = singleItem.stopStatus;
                 item.totalExceptions = summary.totalExceptions;
                 item.totalClean = summary.totalClean;
-            
+
                 item.totalTBA = singleItem.tba;
                 item.stopAssignee = singleItem.stopAssignee;
                 item.items = current;
@@ -321,8 +325,25 @@ export class SingleRouteComponent implements IObservableAlive
             });
     }
 
-    private isGrnRequired = (item: SingleRouteItem): boolean => {
+    private bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses,
+            x =>
+            {
+                const job = _.find(this.selectedItems(), current => current.jobId === x.jobId);
+                job.resolution = x.status.description;
+                job.resolutionId = x.status.value;
+            });
+    }
+
+    private isGrnRequired = (item: SingleRouteItem): boolean =>
+    {
         return GrnHelpers.isGrnRequired(item);
+    }
+
+    private bulkEdit(): void 
+    {
+        this.bulkEditActionModal.show();
     }
 
     private getInvoiceLink = (item: SingleRouteItem): string => {

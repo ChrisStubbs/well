@@ -72,5 +72,16 @@ BEGIN
 		LEFT JOIN @ShortsAndDamages sd2 ON sd2.LineItemId = li.Id AND sd2.ExceptionTypeId = dbo.ExceptionType_Damage()
 	WHERE a.DocumentNumber = @documentNumber
 		AND rh.RouteOwnerId = @branchId
-
+	
+	SELECT 
+		jobUser.Name
+	FROM Activity av 
+		INNER JOIN Job j ON j.ActivityId = av.Id
+		INNER JOIN UserJob uj ON uj.JobId = j.Id
+		INNER JOIN [User] jobUser ON uj.UserId = jobUser.Id
+		INNER JOIN [Stop] s ON s.Id = j.StopId
+		INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId
+	WHERE 
+		av.DocumentNumber = @documentNumber
+		AND rh.RouteOwnerId = @branchId
 END

@@ -34,9 +34,11 @@
         {
             var activitySource = grid.Read<ActivitySource>().FirstOrDefault();
             var details = grid.Read<ActivitySourceDetail>().ToList();
+            var assignees = grid.Read<string>().ToList();
             if (activitySource != null)
             {
                 activitySource.Details = details.Where(x => x.ActivityId == activitySource.ActivityId).ToList();
+                activitySource.Assignees = assignees;
             }
 
             return activitySource;

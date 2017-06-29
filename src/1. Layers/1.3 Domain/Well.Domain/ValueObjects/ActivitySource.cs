@@ -6,6 +6,11 @@
 
     public class ActivitySource
     {
+        public ActivitySource()
+        {
+            Details = new List<ActivitySourceDetail>();
+            Assignees = new List<string>();
+        }
         public int ActivityId { get; set; }
         public string Branch { get; set; }
         public int BranchId { get; set; }
@@ -19,9 +24,11 @@
         public bool IsInvoice { get; set; }
         public DateTime Date { get; set; }
         public string Driver { get; set; }
-        public string Assignee { get; set; }
+        public string Assignee => ValueObjects.Assignee.GetDisplayNames(Assignees);
         public int Tba { get; set; }
         public List<ActivitySourceDetail> Details { get; set; }
+        public List<string> Assignees { get; set; }
+
     }
 
     public class ActivitySourceDetail

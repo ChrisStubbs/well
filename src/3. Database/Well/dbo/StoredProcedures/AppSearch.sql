@@ -1,11 +1,4 @@
-﻿USE [Well]
-GO
-/****** Object:  StoredProcedure [dbo].[AppSearch]    Script Date: 29/06/2017 14:52:45 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-ALTER PROCEDURE [dbo].[AppSearch]
+﻿CREATE PROCEDURE [dbo].[AppSearch]
 		@BranchId		INT				= NULL,
 		@Date			DATE			= NULL,
 		@Account		VARCHAR(20)		= NULL,

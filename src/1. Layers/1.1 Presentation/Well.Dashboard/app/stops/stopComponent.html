@@ -31,17 +31,17 @@
         </div>
         <div class="col-md-3">
             <address>
-                <strong>{{customerAccount.name}}</strong><br/>
-                <span>{{customerAccount.address1}}</span><br/>
-                <span>{{customerAccount.address2}}</span><br/>
-                <span>{{customerAccount.postCode}}</span><br/>
-            </address>            
+                <strong>{{customerAccount.name}}</strong><br />
+                <span>{{customerAccount.address1}}</span><br />
+                <span>{{customerAccount.address2}}</span><br />
+                <span>{{customerAccount.postCode}}</span><br />
+            </address>
         </div>
         <div class="col-md-3">
-            <strong>{{customerAccount.contactName}}</strong><br/>
-            <label>Phone :</label><span> {{customerAccount.contactNumber}}</span><br/>
-            <label>Alt Phone :</label><span> {{customerAccount.contactNumber2}}</span><br/>
-            <label>Email :</label><a href="mailto:{{customerAccount.contactEmailAddress}}"> {{customerAccount.contactEmailAddress}}</a><br/>
+            <strong>{{customerAccount.contactName}}</strong><br />
+            <label>Phone :</label><span> {{customerAccount.contactNumber}}</span><br />
+            <label>Alt Phone :</label><span> {{customerAccount.contactNumber2}}</span><br />
+            <label>Email :</label><a href="mailto:{{customerAccount.contactEmailAddress}}"> {{customerAccount.contactEmailAddress}}</a><br />
         </div>
         <div class="col-md-3">
             <div class="pull-right">
@@ -59,12 +59,12 @@
         <div class="row">
             <div class="col-md-12 clearfix">
                 <div class="pull-right">
+                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>&nbsp;
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>&nbsp;
                         <submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>
                     </div>
                     <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
-                    <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Bulk Edit</button>
+                    <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Edit Exceptions</button>
                 </div>
             </div>
         </div>
@@ -195,7 +195,9 @@
                                 </div>
                             </th>
                             <th class="colNumbers">
-                                <div class="text-center">Resolution</div>
+                                <div class="text-center">
+                                    Exception Resolution
+                                </div>
                                 <div>
                                     <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
                                         <option value>All</option>
@@ -260,7 +262,7 @@
                                 <td class="text-left"><span *ngIf="item.hasUnresolvedActions">{{item.resolution}}</span></td>
                                 <td>
                                     <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0">
-                                        <span class="glyphicon glyphicon-pencil" ></span>
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                     <input type="checkbox" [(ngModel)]="item.isSelected" title="">
                                 </td>

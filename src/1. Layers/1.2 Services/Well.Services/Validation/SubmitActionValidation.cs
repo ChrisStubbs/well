@@ -34,14 +34,14 @@
 
             if (user == null)
             {
-                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit actions" };
+                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit exceptions" };
             }
 
             var userJobs = userRepository.GetUserJobsByJobIds(submitAction.JobIds);
 
             if (userJobs.Any(x => x.UserId != user.Id))
             {
-                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit actions" };
+                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit exceptions" };
             }
 
             var pendingSubmissionJobs = jobList.Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission).ToList();
@@ -55,7 +55,7 @@
             if (incorrectStateJobs.Any())
             {
                 var incorrectStateJobstring = string.Join(",", incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
-                return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
+                return new SubmitActionResult { Message = $"Can not submit exceptions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
             }
 
             var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);

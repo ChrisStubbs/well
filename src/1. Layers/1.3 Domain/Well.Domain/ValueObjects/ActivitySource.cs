@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Enums;
 
     public class ActivitySource
     {
@@ -36,8 +37,9 @@
         public int Shorts { get; set; }
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
-        public string Resolution { get; set; }
-        public int ResolutionId { get; set; }
+        public ResolutionStatus ResolutionStatus { get; set; }
+        public string Resolution => ResolutionStatus.Description;
+        public int ResolutionId => ResolutionStatus.Value;
         public int StopId { get; set; }
         public DateTime StopDate { get; set; }
         public int JobId { get; set; }

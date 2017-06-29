@@ -59,5 +59,7 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<Job> GetJobsByLineItemIds(IEnumerable<int> lineItemIds);
 
         IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds);
+        
+        IEnumerable<JobToBeApproved> GetJobsToBeApproved();
     }
 }

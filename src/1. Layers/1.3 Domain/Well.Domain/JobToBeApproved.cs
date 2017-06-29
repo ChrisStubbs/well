@@ -1,8 +1,8 @@
-﻿namespace PH.Well.Api.Models
+﻿namespace PH.Well.Domain
 {
     using System;
 
-    public class ApprovalModel
+    public class JobToBeApproved
     {
         public int JobId { get; set; }
         public int BranchId { get; set; }

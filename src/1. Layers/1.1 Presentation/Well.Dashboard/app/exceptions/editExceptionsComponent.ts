@@ -37,7 +37,7 @@ export class EditExceptionsComponent implements IObservableAlive
                 .takeWhile(() => this.isAlive)
                 .subscribe((values: Array<EditLineItemException>) =>
                 {
-                    this.source = values
+                    this.source = values;
                 });
         }
     };

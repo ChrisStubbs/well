@@ -5,22 +5,18 @@ import {
         EventEmitter,
         Output,
         ViewEncapsulation
-}                                   from '@angular/core';
-import {
-    FormControl,
-    NgForm,
-    Validators
-}                                   from '@angular/forms';
-import { IObservableAlive }         from '../IObservableAlive';
-import * as _                       from 'lodash';
-import { ILookupValue }             from '../services/ILookupValue';
-import { LookupsEnum }              from '../services/lookupsEnum';
-import { LookupService }            from '../services/lookupService';
-import { EditExceptionsService }    from '../../exceptions/editExceptionsService';
-import { Observable }               from 'rxjs';
-import { LineItemAction }           from '../../exceptions/lineItemAction';
-import { EditLineItemException }    from '../../exceptions/editLineItemException';
-import { LineItemActionComment }    from '../../exceptions/lineItemAction';
+}                                           from '@angular/core';
+import { NgForm }                           from '@angular/forms';
+import { IObservableAlive }                 from '../IObservableAlive';
+import * as _                               from 'lodash';
+import { ILookupValue }                     from '../services/ILookupValue';
+import { LookupsEnum }                      from '../services/lookupsEnum';
+import { LookupService }                    from '../services/lookupService';
+import { EditExceptionsService }            from '../../exceptions/editExceptionsService';
+import { Observable }                       from 'rxjs';
+import { LineItemAction }                   from '../../exceptions/lineItemAction';
+import { EditLineItemException }            from '../../exceptions/editLineItemException';
+import { LineItemActionComment }            from '../../exceptions/lineItemAction';
 
 @Component({
     selector: 'action-edit',
@@ -125,7 +121,13 @@ export class ActionEditComponent implements IObservableAlive
     {
         if (this.currentForm.form.valid)
         {
-            this.source.lineItemActions = this.lineItemActions;
+            _.map(this.lineItemActions, (current: LineItemAction) => {
+                if (current.deliveryAction == this.closeAction)
+                {
+                    current.quantity = 0;
+                }
+            });
+
             this.editExceptionsService.patch(this.source)
                 .takeWhile(() => this.isAlive)
                 .subscribe((responseData: EditLineItemException) =>
@@ -170,7 +172,6 @@ export class ActionEditComponent implements IObservableAlive
         if (totalLineQty > this.source.invoiced)
         {
             this.setError(form, this.errorInvoiceQty);
-
         }
     }
 

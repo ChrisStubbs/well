@@ -38,7 +38,7 @@ export class CreditThresholdAddModalComponent {
     }
 
     public save() {
-        this.creditThreshold.branches = this.branch.selectedBranches;
+        //this.creditThreshold.branches = this.branch.selectedBranches;
 
         this.creditThresholdService.saveCreditThreshold(this.creditThreshold, false)
             .subscribe((res: Response) => {

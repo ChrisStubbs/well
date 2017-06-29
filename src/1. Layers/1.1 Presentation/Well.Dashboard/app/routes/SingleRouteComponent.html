@@ -126,7 +126,7 @@
                             </div>
                         </th>
                         <th style="width: 9%">
-                            <div class="text-center">Resolution</div>
+                            <div class="text-center">Exception Resolution</div>
                             <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
                                 <option value>All</option>
                                 <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">

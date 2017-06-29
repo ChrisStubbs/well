@@ -20,7 +20,7 @@ export class DeliveryUpdateComponent
     {
         route.params.subscribe(params =>
         {
-            this.deliveryId = parseInt(params['id'], 10), this.lineNo = parseInt(params['line'], 10)
+            this.deliveryId = parseInt(params['id'], 10), this.lineNo = parseInt(params['line'], 10);
         });
     }
 

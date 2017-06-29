@@ -169,7 +169,7 @@
         public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
         public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
-        public const string GetJobIdsByResolutionStatus = "JobIdByResolutionStatus_Get";
+        public const string JobsToBeApproved = "JobsToBeApproved";
         public const string GetJobIdsByLineItemIds = "JobIds_GetByLineItemIds";
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
 

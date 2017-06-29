@@ -153,7 +153,7 @@ namespace PH.Well.Repositories
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
-                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value , DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -189,7 +189,7 @@ namespace PH.Well.Repositories
                 .AddParameter("OuterCount", entity.OuterCount, DbType.Int32)
                 .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyUpdate, DbType.Boolean)
                 .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int32)
-              //  .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
+                //  .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
                 .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int32)
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
@@ -289,7 +289,7 @@ namespace PH.Well.Repositories
 
         public JobRoute GetJobRoute(int jobId)
         {
-            return GetJobsRoute(new[] {jobId}).FirstOrDefault();
+            return GetJobsRoute(new[] { jobId }).FirstOrDefault();
         }
 
         public void SaveJobResolutionStatus(Job job)
@@ -307,6 +307,15 @@ namespace PH.Well.Repositories
         {
             var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsToBeApproved)
                 .AddParameter("ResolutionStatusId", resolutionStatus.Value, DbType.Int32)
+                .Query<int>();
+
+            return GetByIds(jobIds);
+        }
+
+        public IEnumerable<Job> GetJobsByLineItemIds(IEnumerable<int> lineItemIds)
+        {
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByLineItemIds)
+                .AddParameter("Ids", lineItemIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .Query<int>();
 
             return GetByIds(jobIds);

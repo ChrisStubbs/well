@@ -14,16 +14,15 @@ export class ActionService
     constructor(
         private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService)
-    {
-    }
+        private httpErrorService: HttpErrorService) { }
 
-    public getPreSubmitSummary(jobIds: Array<number>,
-                               isStopLevel: boolean): Observable<IActionSubmitSummary>
+    public getPreSubmitSummary(
+        jobIds: Array<number>,
+        isStopLevel: boolean): Observable<IActionSubmitSummary>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'SubmitAction/PreSubmitSummary';
 
-        return this.http.get(url, { params: { jobId: jobIds, isStopLevel: isStopLevel} })
+        return this.http.get(url, { params: { jobId: jobIds, isStopLevel: isStopLevel } })
             .map((response: Response) => <IActionSubmitSummary>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

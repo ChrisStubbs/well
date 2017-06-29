@@ -20,6 +20,9 @@ import {LookupsEnum}                                            from '../shared/
 import { GrnHelpers, IGrnAssignable }                           from '../job/job';
 import { ISubmitActionResult }                                  from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails }                           from '../shared/action/submitActionModel';
+import { BulkEditActionModal }                                  from '../shared/action/bulkEditActionModal';
+import { IAccount }                                             from '../account/account';
+import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
 
 @Component({
     selector: 'ow-stop',
@@ -61,12 +64,14 @@ export class StopComponent implements IObservableAlive
     @ViewChild('openContact') public openContact: ElementRef;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
+    private customerAccount: IAccount = new IAccount();
 
     constructor(
         private stopService: StopService,
@@ -117,6 +122,16 @@ export class StopComponent implements IObservableAlive
                         return current;
                     })
                     .value();
+
+                //Load account for first item
+                const firstItem = _.head(data.items) as StopItem;
+                this.accountService.getAccountByAccountId(firstItem.accountID)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(account =>
+                    {
+                        this.customerAccount = account;
+                    });
+
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
@@ -273,6 +288,7 @@ export class StopComponent implements IObservableAlive
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
                 item.resolution = singleItem.resolution;
+                item.resolutionId = singleItem.resolutionId;
                 item.items = current;
                 item.types = _.chain(current)
                     .map('jobTypeAbbreviation')
@@ -337,7 +353,7 @@ export class StopComponent implements IObservableAlive
             totalDelivered: totalDelivered,
             totalDamages: totalDamages,
             totalShorts: totalShorts,
-            totalBypassed: totalBypassed, 
+            totalBypassed: totalBypassed,
             items: data
         };
     }
@@ -407,6 +423,25 @@ export class StopComponent implements IObservableAlive
         job.resolution = data.resolutionStatus;
     }
 
+    public bulkEditSave(result: IBulkEditResult): void {
+        _.forEach(result.statuses, x => {
+            const job = _.find(this.gridSource, current => current.jobId == x.jobId);
+            job.resolution = x.status.description;
+        });
+
+        _.forEach(result.lineItemIds, x =>
+        {
+            const lineItem = _.find(
+                this.gridSource,
+                current => current.lineItemId === x
+            );
+            if (lineItem) {
+                lineItem.hasUnresolvedActions = false;
+            }   
+        });
+        
+    }
+
     private jobsSubmitted(data: ISubmitActionResult): void
     {
         _.forEach(data.details, (x: ISubmitActionResultDetails) =>
@@ -435,8 +470,14 @@ export class StopComponent implements IObservableAlive
             (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }
 
-    private isGrnRequired = (item: StopItemSource): boolean => {
+    private isGrnRequired = (item: StopItemSource): boolean =>
+    {
         return GrnHelpers.isGrnRequired(item);
+    }
+
+    private bulkEdit(): void
+    {
+        this.bulkEditActionModal.show();
     }
 }
 
@@ -467,6 +508,7 @@ class StopItemSource implements IGrnAssignable
     public jobId: number;
     public types: string;
     public resolution: string;
+    public resolutionId: number;
     public items: Array<StopItem>;
     public grnNumber: string;
     public grnProcessType: number;

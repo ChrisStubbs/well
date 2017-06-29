@@ -17,13 +17,10 @@ namespace PH.Well.UnitTests.Services.Validation
     [TestFixture]
     public class SubmitActionValidationTests
     {
-
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IDateThresholdService> dateThresholdService;
         private Mock<IUserRepository> userRepository;
-        private Mock<ICreditThresholdRepository> _creditThresholdRepository;
         private SubmitActionValidation validator;
-      
 
         [SetUp]
         public virtual void SetUp()
@@ -31,10 +28,9 @@ namespace PH.Well.UnitTests.Services.Validation
             userNameProvider = new Mock<IUserNameProvider>();
             userRepository = new Mock<IUserRepository>();
             dateThresholdService = new Mock<IDateThresholdService>();
-            _creditThresholdRepository = new Mock<ICreditThresholdRepository>();
 
             validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object,
-                dateThresholdService.Object, _creditThresholdRepository.Object);
+                dateThresholdService.Object);
         }
 
         public class TheValidateUserForCreditingMethod : SubmitActionValidationTests
@@ -86,9 +82,10 @@ namespace PH.Well.UnitTests.Services.Validation
                 jobs = new List<Job>();
                 submitAction = new SubmitActionModel { JobIds = new[] { 1, 2, 3 } };
                 this.userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                user = new User { Id = 1 ,ThresholdLevelId = 1};
+                user = new User { Id = 1, ThresholdLevelId = 1 };
                 stubbedValidator = new Mock<SubmitActionValidation>(userNameProvider.Object, userRepository.Object,
-                    dateThresholdService.Object, _creditThresholdRepository.Object) {CallBase = true};
+                    dateThresholdService.Object)
+                { CallBase = true };
             }
 
             [Test]
@@ -130,7 +127,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
-                this.jobs.Add(new Job { Id = 1,InvoiceNumber="Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
+                this.jobs.Add(new Job { Id = 1, InvoiceNumber = "Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
                 this.jobs.Add(new Job { Id = 4, InvoiceNumber = "sd", ResolutionStatus = ResolutionStatus.PendingApproval });
 
                 var result = validator.Validate(submitAction, jobs);
@@ -195,14 +192,12 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
-                this._creditThresholdRepository.Setup(x => x.GetById(user.ThresholdLevelId.Value))
-                    .Returns(new CreditThreshold {ThresholdLevelId = user.ThresholdLevelId.Value, Threshold = 100});
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
                 stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = true });
-                
+
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.True);

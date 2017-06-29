@@ -120,6 +120,9 @@ namespace PH.Well.Api.DependencyResolution
             For<IDateThresholdService>().Use<DateThresholdService>();
 
             For<IJobResolutionStatus>().Use<JobService>();
+            For<IActivityRepository>().Use<ActivityRepository>();
+            For<IBulkEditService>().Use<BulkEditService>();
+            For<IBulkEditSummaryMapper>().Use<BulkEditSummaryMapper>();
         }
     }
 }

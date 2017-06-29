@@ -11,7 +11,7 @@ export class ActivitySource
 
     public branch: string;
     public branchId: number;
-    public primnaryAccount: string;
+    public primaryAccount: string;
     public accountName: string;
     public accountNumber: string;
     public accountAddress: string;

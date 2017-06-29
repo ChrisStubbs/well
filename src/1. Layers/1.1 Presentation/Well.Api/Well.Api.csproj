@@ -191,6 +191,7 @@
     <Compile Include="Controllers\ActivityReadController.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\AppSearchController.cs" />
+    <Compile Include="Controllers\BulkEditController.cs" />
     <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
     <Compile Include="Controllers\DeliveryActionController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Mapper\WidgetWarningMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
+    <Compile Include="Models\BulkEditPatchRequest.cs" />
     <Compile Include="Models\CleanPreferenceModel.cs" />
     <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />

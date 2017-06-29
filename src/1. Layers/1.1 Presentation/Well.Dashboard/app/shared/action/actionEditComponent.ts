@@ -23,7 +23,7 @@ import { LineItemActionComment }            from '../../exceptions/lineItemActio
     templateUrl: 'app/shared/action/actionEditComponent.html',
     providers: [LookupService, EditExceptionsService],
     styleUrls: ['app/shared/action/actionEditComponent.css'],
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None
 })
 export class ActionEditComponent implements IObservableAlive
 {
@@ -172,7 +172,6 @@ export class ActionEditComponent implements IObservableAlive
         if (totalLineQty > this.source.invoiced)
         {
             this.setError(form, this.errorInvoiceQty);
-
         }
     }
 

@@ -172,5 +172,7 @@
         public const string GetJobIdsByResolutionStatus = "JobIdByResolutionStatus_Get";
         public const string GetJobIdsByLineItemIds = "JobIds_GetByLineItemIds";
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
+
+        public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
     }
 }

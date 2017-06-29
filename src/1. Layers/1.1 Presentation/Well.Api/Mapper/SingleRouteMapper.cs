@@ -104,7 +104,6 @@
                         ? 0
                         : job.JobDetails.Where(x => x.IsClean() && !x.IsTobaccoBag()).Sum(p => p.OriginalDespatchQty);
 
-
                     var item = new SingleRouteItem
                     {
                         JobId = job.Id,
@@ -140,7 +139,6 @@
                     singleRoute.Items.Add(item);
                 }
             }
-            singleRoute.Items = singleRoute.Items.OrderBy(x => x.Stop).ToList();
             return singleRoute;
         }
     }

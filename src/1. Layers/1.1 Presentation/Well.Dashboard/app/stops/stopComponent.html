@@ -59,12 +59,16 @@
         <div class="row">
             <div class="col-md-12 clearfix">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>&nbsp;
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Edit Exceptions</button>
+                    </div>
                     <div class="btn-group">
                         <submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>
                     </div>
                     <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
-                    <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Edit Exceptions</button>
                 </div>
             </div>
         </div>

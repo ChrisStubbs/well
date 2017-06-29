@@ -427,17 +427,16 @@ export class StopComponent implements IObservableAlive
         _.forEach(result.statuses, x => {
             const job = _.find(this.gridSource, current => current.jobId == x.jobId);
             job.resolution = x.status.description;
-        });
 
-        _.forEach(result.lineItemIds, x =>
-        {
-            const lineItem = _.find(
-                this.gridSource,
-                current => current.lineItemId === x
-            );
-            if (lineItem) {
-                lineItem.hasUnresolvedActions = false;
-            }   
+            _.forEach(job.items,
+                item => {
+                    item.resolutionId = x.status.value;
+                    item.resolution = x.status.description;
+                    if (_.some(result.lineItemIds, id => item.id)) 
+                    {
+                        item.hasUnresolvedActions = false;
+                    }
+                });
         });
         
     }

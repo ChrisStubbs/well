@@ -34,6 +34,7 @@ export class ApprovalsComponent implements IObservableAlive
     private branches: Array<[string, string]>;
     private thresholdFilter: boolean = false;
     private isReadOnlyUser: boolean = false;
+    private inputFilterTimer: any;
 
     constructor(
         private approvalsService: ApprovalsService,
@@ -68,13 +69,15 @@ export class ApprovalsComponent implements IObservableAlive
         const filteredValues =
             GridHelpersFunctions.applyGridFilter<Approval, ApprovalFilter>(this.source, this.filters);
 
-        this.assignees = [];
-        this.assigneesTo = [];
-        _.forEach(filteredValues, (current: Approval) =>
-        {
-            this.assignees.push(current.submittedBy || 'Unallocated');
-            this.assigneesTo.push(current.assignedTo || 'Unallocated');
-        });
+        if (this.assignees.length == 0) {
+            this.assignees = [];
+            this.assigneesTo = [];
+
+            _.forEach(filteredValues, (current: Approval) => {
+                this.assignees.push(current.submittedBy || 'Unallocated');
+                this.assigneesTo.push(current.assignedTo || 'Unallocated');
+            });
+        }
 
         this.gridSource = filteredValues;
     }
@@ -90,6 +93,13 @@ export class ApprovalsComponent implements IObservableAlive
         this.thresholdFilter = false;
         this.filters.creditValue = this.filters.getCreditUpperLimit();
         this.fillGridSource();
+    }
+
+    public filterFreeText(): void
+    {
+        GridHelpersFunctions.filterFreeText(this.inputFilterTimer)
+            .then(() => this.fillGridSource())
+            .catch(() => this.inputFilterTimer = undefined);
     }
 
     private disableSubmitActions(): boolean 
@@ -160,6 +170,8 @@ export class ApprovalsComponent implements IObservableAlive
             return item.jobId == current.jobId;
         }).assignedTo = userName;
 
+        this.assignees = [];
+        this.assigneesTo = [];
         this.fillGridSource();
     }
 

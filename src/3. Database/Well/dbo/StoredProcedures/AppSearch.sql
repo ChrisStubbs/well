@@ -1,4 +1,11 @@
-﻿CREATE PROCEDURE [dbo].[AppSearch]
+﻿USE [Well]
+GO
+/****** Object:  StoredProcedure [dbo].[AppSearch]    Script Date: 29/06/2017 14:52:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[AppSearch]
 		@BranchId		INT				= NULL,
 		@Date			DATE			= NULL,
 		@Account		VARCHAR(20)		= NULL,
@@ -13,12 +20,12 @@ BEGIN
 	SELECT DISTINCT 
 		rh.Id as RouteId
 		,s.Id as StopId
-		--,rh.RouteOwnerId as BranchId
+		,rh.RouteOwnerId as BranchId
 		--,rh.RouteDate
 		--,j.PHAccount
 		--,a.Code
 		--,a.Name
-		--,j.InvoiceNumber
+		,j.InvoiceNumber as InvoiceNumber
 		--,rh.RouteNumber
 		--,rh.DriverName
 		----,jt.Id

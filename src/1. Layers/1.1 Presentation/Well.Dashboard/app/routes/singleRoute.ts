@@ -80,7 +80,7 @@ export class SingleRouteFilter implements IFilter
     {
         this.account = '';
         this.invoice = '';
-        this.jobType = '';
+        this.jobTypeId = undefined;
         this.wellStatus = '';
         this.exceptions = undefined;
         this.clean = undefined;
@@ -90,7 +90,7 @@ export class SingleRouteFilter implements IFilter
 
     public account: string;
     public invoice: string;
-    public jobType: string = '';
+    public jobTypeId?: number = undefined;
     public wellStatus: string;
     public exceptions: boolean;
     public clean: boolean;
@@ -105,8 +105,16 @@ export class SingleRouteFilter implements IFilter
             case 'invoice':
                 return  GridHelpersFunctions.containsFilter;
 
-            case 'jobType':
-                return GridHelpersFunctions.startsWithFilter;
+            case 'jobTypeId':
+                 return (value: number, value2: number) =>
+                    {
+                        const v = +value;
+                        const v2 = +value2;
+
+                        const f = GridHelpersFunctions.isEqualFilter;
+
+                        return  f(v, v2);
+                    };
 
             case 'wellStatus':
             case 'assignee':

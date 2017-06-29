@@ -220,7 +220,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Invoice: </label>
-                                    {{item.invoice}}
+                                    <a routerLink="{{getInvoiceLink(item)}}">{{item.invoice}}</a>
                                 </td>
                                 <td>
                                     <label>Type: </label>

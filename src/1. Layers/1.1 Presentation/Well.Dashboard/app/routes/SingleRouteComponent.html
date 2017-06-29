@@ -173,9 +173,9 @@
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
                             <td colspan="2">{{detail.account}}</td>
                             <td>
-                                {{detail.invoice}}
+                                <a routerLink="{{getInvoiceLink(detail)}}">{{detail.invoice}}</a>
                                 <br/>
-                               <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail" ></assignGrn-Modal>
+                                <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
                             </td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.wellStatusDescription}}</td>

@@ -324,4 +324,8 @@ export class SingleRouteComponent implements IObservableAlive
     private isGrnRequired = (item: SingleRouteItem): boolean => {
         return GrnHelpers.isGrnRequired(item);
     }
+
+    private getInvoiceLink = (item: SingleRouteItem): string => {
+        return '/invoice/' + item.invoice + '/' + this.branchId;
+    }
 }

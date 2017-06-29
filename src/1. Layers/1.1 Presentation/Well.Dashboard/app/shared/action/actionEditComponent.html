@@ -184,7 +184,8 @@
                                             </option>
                                         </select>
                                         <select class="form-control" id="reason{{i}}" name="reason{{i}}" *ngIf="item.deliveryAction == creditAction"
-                                                [(ngModel)]="item.reason" pattern="[^0]+"
+                                                [(ngModel)]="item.reason"
+                                                pattern="^[1-9][0-9]*$"
                                                 [disabled]="!source.canEditActions">
                                             <option *ngFor="let reason of reasons" [value]="reason.key">
                                                 {{ reason.value }}

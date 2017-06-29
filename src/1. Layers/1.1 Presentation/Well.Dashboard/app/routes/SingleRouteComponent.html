@@ -186,8 +186,14 @@
                         <td>
                             <ow-account-flags [isCashOnDelivery]="detail.isCod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
                         </td>
-                        <td class="text-right">{{detail.stopExceptions}}</td>
-                        <td class="text-right">{{detail.clean}}</td>
+                        <td class="text-right">{{detail.exceptions}}</td>
+                        <td class="text-right">
+                            <!--if job in resolution = imported or status = bypassed just don't print the value, print 0 instead-->
+                            <span *ngIf="!(detail.resolutionId == 1 || detail.jobStatus == 8);else clean0">
+                                {{detail.clean}}
+                            </span>
+                            <ng-template #clean0>0</ng-template>
+                        </td>
                         <td class="text-right">{{detail.tba}}</td>
                         <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
                         <td></td>

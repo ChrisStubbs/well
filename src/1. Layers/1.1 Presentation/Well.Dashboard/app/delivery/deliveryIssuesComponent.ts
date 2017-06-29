@@ -41,7 +41,7 @@ export class DeliveryIssuesComponent {
             .subscribe(r => { this.reasons = r; });
 
         this.deliveryService.getSources()
-            .subscribe(s => { this.sources = s });
+            .subscribe(s => this.sources = s);
 
         this.deliveryService.getActions()
             .subscribe(actions => {

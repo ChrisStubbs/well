@@ -36,9 +36,9 @@
                                 <tbody>
                                 <tr class="grid-row" *ngFor="let item of  summaryData.items" style="height: auto">
                                     <td>{{getIdentifierText(item)}}</td>
-                                    <td>{{item.totalQty}}</td>
-                                    <td>{{item.totalCreditQty}}</td>
-                                    <td>{{item.totalCreditValue}}</td>
+                                    <td class="text-right">{{item.totalQty}}</td>
+                                    <td class="text-right">{{item.totalCreditQty}}</td>
+                                    <td class="text-right">{{item.totalCreditValue | currency:'GBP':true}}</td>
                                 </tr>
                             </table>
                         </div>

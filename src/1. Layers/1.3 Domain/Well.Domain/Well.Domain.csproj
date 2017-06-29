@@ -54,6 +54,7 @@
     <Compile Include="Enums\ResolutionStatus.cs" />
     <Compile Include="JobDetailLineItemTotals.cs" />
     <Compile Include="JobResolutionStatus.cs" />
+    <Compile Include="JobToBeApproved.cs" />
     <Compile Include="LineItemActionComment.cs" />
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="EntityAttribute.cs" />

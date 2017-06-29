@@ -16,7 +16,7 @@ import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
-import { SingleRouteComponent } from './routes/singleRouteComponent'
+import { SingleRouteComponent } from './routes/singleRouteComponent';
 import {StopComponent} from './stops/stopComponent';
 import {ActivityComponent} from './activity/activityComponent';
 

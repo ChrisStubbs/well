@@ -17,10 +17,9 @@ import { EditExceptionsService }                                from '../excepti
 import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
 import { LookupService }                                        from '../shared/services/lookupService';
 import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
-import { SingleRouteSource } from '../routes/singleRoute';
-import {GrnHelpers, IGrnAssignable} from '../job/job';
-import { ISubmitActionResult } from '../shared/action/submitActionModel';
-import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { GrnHelpers, IGrnAssignable }                           from '../job/job';
+import { ISubmitActionResult }                                  from '../shared/action/submitActionModel';
+import { ISubmitActionResultDetails }                           from '../shared/action/submitActionModel';
 
 @Component({
     selector: 'ow-stop',
@@ -425,11 +424,13 @@ export class StopComponent implements IObservableAlive
 
     public disableSubmitActions(): boolean
     {
-        if (this.selectedItems().length === 0)
+        const items = this.selectedItems();
+        if (items.length === 0)
         {
             return true;
         }
-        return _.some(this.selectedItems(),
+
+        return _.some(items,
             x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
             (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }

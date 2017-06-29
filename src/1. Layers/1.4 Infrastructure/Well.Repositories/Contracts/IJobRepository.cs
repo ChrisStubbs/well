@@ -56,5 +56,6 @@ namespace PH.Well.Repositories.Contracts
 
         IEnumerable<Job> GetJobsByResolutionStatus(ResolutionStatus resolutionStatus);
 
+        IEnumerable<JobToBeApproved> GetJobsToBeApproved();
     }
 }

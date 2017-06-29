@@ -57,6 +57,7 @@
                     .With(x => x.JobStatus = JobStatus.CompletedOnPaper)
                     .With(x => x.JobDetails = GetTwoCleanAndOneExceptionJobDetail())
                     .With(x=> x.ResolutionStatus = ResolutionStatus.Credited)
+                    .With(x => x.JobTypeAbbreviation = "UPL-GLO")
                     .WithCod("CODFISH")
                     .WithTotalShort(20)
                     .WithOuterDiscrepancyFound(true)
@@ -104,7 +105,7 @@
                 Assert.That(item.StopAssignee, Is.EqualTo("CB, EP"));
                 Assert.That(item.Resolution, Is.EqualTo(ResolutionStatus.Credited.Description));
                 Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
-                Assert.That(item.JobType, Is.EqualTo("Global Uplift"));
+                Assert.That(item.JobType, Is.EqualTo("Global Uplift (UPL-GLO)"));
                 Assert.That(item.JobStatus, Is.EqualTo(JobStatus.CompletedOnPaper));
                 Assert.That(item.JobStatusDescription, Is.EqualTo("Completed On Paper"));
                 Assert.That(item.Cod, Is.EqualTo("CODFISH"));

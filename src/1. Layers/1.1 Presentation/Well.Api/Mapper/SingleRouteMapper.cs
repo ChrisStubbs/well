@@ -121,6 +121,7 @@
                         Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
                         Account = job.PhAccount,
+                        AccountName = job.PhAccountName,
                         WellStatus = job.WellStatus,
                         WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus),
                         GrnProcessType =  job.GrnProcessType ?? 0,

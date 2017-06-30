@@ -32,6 +32,8 @@
 
         public int PhAccountId { get; set; }
 
+        public string PhAccountName { get; set; }
+
         public decimal CreditValue { get; set; }
 
         public DateTime? OrderDate { get; set; }

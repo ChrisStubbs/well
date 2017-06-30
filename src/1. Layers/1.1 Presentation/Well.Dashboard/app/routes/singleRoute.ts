@@ -48,6 +48,7 @@ export class SingleRouteItem implements IGrnAssignable
     public jobStatus: number;
     public isSelected: boolean;
     public account: string;
+    public accountName: string;
     public wellStatus: number;
     public wellStatusDescription: string;
     public grnNumber: string;
@@ -70,6 +71,7 @@ export class SingleRouteSource
     public stopAssignee: string;
     public isExpanded: boolean;
     public items: Array<SingleRouteItem>;
+    public accountName: string;
 }
 
 export class SingleRouteFilter implements IFilter

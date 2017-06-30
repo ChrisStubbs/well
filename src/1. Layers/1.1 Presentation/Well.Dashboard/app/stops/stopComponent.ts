@@ -450,7 +450,7 @@ export class StopComponent implements IObservableAlive
                 {
                     item.resolutionId = x.status.value;
                     item.resolution = x.status.description;
-                    if (_.some(result.lineItemIds, id => item.id)) 
+                    if (_.some(result.lineItemIds, id => item.lineItemId)) 
                     {
                         item.hasUnresolvedActions = false;
                     }
@@ -497,8 +497,15 @@ export class StopComponent implements IObservableAlive
         this.bulkEditActionModal.show();
     }
 
-    private getInvoiceLink = (item: StopItem): string => {
+    private getInvoiceLink = (item: StopItem): string =>
+    {
         return '/invoice/' + item.invoice + '/' + this.stop.branchId;
+    }
+
+    private disableBulkEdit(): boolean
+    {
+        return (this.selectedItems().length === 0
+            || this.getAssignModel().assigned !== this.globalSettingsService.globalSettings.userName);
     }
 }
 

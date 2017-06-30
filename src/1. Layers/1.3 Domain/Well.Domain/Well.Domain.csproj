@@ -128,6 +128,7 @@
     <Compile Include="ValueObjects\BulkEditItem.cs" />
     <Compile Include="ValueObjects\BulkEditResult.cs" />
     <Compile Include="ValueObjects\BulkEditSummary.cs" />
+    <Compile Include="ValueObjects\InvoiceSearchResult.cs" />
     <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
     <Compile Include="ValueObjects\SubmitActionModel.cs" />

@@ -2,9 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using Enums;
 
     public class ActivitySource
     {
+        public ActivitySource()
+        {
+            Details = new List<ActivitySourceDetail>();
+            Assignees = new List<string>();
+        }
         public int ActivityId { get; set; }
         public string Branch { get; set; }
         public int BranchId { get; set; }
@@ -18,9 +24,11 @@
         public bool IsInvoice { get; set; }
         public DateTime Date { get; set; }
         public string Driver { get; set; }
-        public string Assignee { get; set; }
+        public string Assignee => ValueObjects.Assignee.GetDisplayNames(Assignees);
         public int Tba { get; set; }
         public List<ActivitySourceDetail> Details { get; set; }
+        public List<string> Assignees { get; set; }
+
     }
 
     public class ActivitySourceDetail
@@ -36,8 +44,9 @@
         public int Shorts { get; set; }
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
-        public string Resolution { get; set; }
-        public int ResolutionId { get; set; }
+        public ResolutionStatus ResolutionStatus { get; set; }
+        public string Resolution => ResolutionStatus.Description;
+        public int ResolutionId => ResolutionStatus.Value;
         public int StopId { get; set; }
         public DateTime StopDate { get; set; }
         public int JobId { get; set; }

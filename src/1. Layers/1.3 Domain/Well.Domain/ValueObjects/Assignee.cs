@@ -15,9 +15,15 @@
 
         public static string GetDisplayNames(IEnumerable<Assignee> assignees)
         {
-            if (!assignees.Any()) return null;
+            return GetDisplayNames(assignees.Select(x => x.Name));
+        }
 
-            var names = assignees.Select(x => x.Name).Distinct().ToList();
+        public static string GetDisplayNames(IEnumerable<string> assigneeNames)
+        {
+            assigneeNames = assigneeNames.ToArray();
+            if (!assigneeNames.Any()) return null;
+
+            var names = assigneeNames.Distinct().ToList();
 
             if (names.Count == 1)
             {

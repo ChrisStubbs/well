@@ -209,8 +209,8 @@ export class StopComponent implements IObservableAlive
         }
 
         return _.every(
-            _.filter(this.stopsItems, filterToApply),
-            current => current.isSelected);
+            _.filter(this.gridSource, filterToApply),
+            (current: StopItemSource) => _.every(current.items, (item: StopItem) => item.isSelected));
     }
 
     public selectedItems(): Array<StopItem>
@@ -242,6 +242,9 @@ export class StopComponent implements IObservableAlive
 
     public fillGridSource(): void
     {
+        //Clear previous source selection
+        this.selectAllJobs(false);
+
         const values: Array<any> = [];
 
         _.chain(this.source)

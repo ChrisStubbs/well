@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { LookupService } from '../services/lookupService';
 import { IObservableAlive } from '../IObservableAlive';
 import { LookupsEnum } from '../services/lookupsEnum';

@@ -1,4 +1,4 @@
-﻿import {Injectable, EventEmitter, NgZone} from '@angular/core';
+import {Injectable, EventEmitter, NgZone} from '@angular/core';
 import {LogService} from './logService';
 declare var $: any;
 

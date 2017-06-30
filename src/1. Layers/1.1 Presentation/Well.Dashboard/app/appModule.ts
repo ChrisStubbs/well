@@ -1,4 +1,4 @@
-﻿/* tslint:disable:max-line-length */
+/* tslint:disable:max-line-length */
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';

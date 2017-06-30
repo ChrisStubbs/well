@@ -1,4 +1,4 @@
-﻿import {Component, ViewChild, Input} from '@angular/core';
+import {Component, ViewChild, Input} from '@angular/core';
 import {Delivery}                   from './model/delivery';
 import {DeliveryLine}               from './model/deliveryLine';
 import {Damage}                     from './model/damage';

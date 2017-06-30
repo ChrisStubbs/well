@@ -1,4 +1,4 @@
-﻿import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
+import { NavigateQueryParametersService }           from '../shared/NavigateQueryParametersService';
 import { BaseComponent }                            from '../shared/BaseComponent';
 import { Component, OnDestroy, OnInit, ViewChild }  from '@angular/core';
 import { ActivatedRoute }                           from '@angular/router';

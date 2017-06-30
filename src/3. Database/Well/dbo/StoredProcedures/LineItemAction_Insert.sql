@@ -25,9 +25,10 @@ BEGIN
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
 	SELECT jd.ShortQty, dbo.ExceptionType_Short(), jd.LineItemId
 	FROM JobDetail jd
+	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
-	WHERE lia.Id IS NULL AND jd.ShortQty > 0
+	WHERE lia.Id IS NULL AND jd.ShortQty > 0 and j.JobStatusId != dbo.JobStatus_Bypass()
 
 	-- bypass
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
@@ -40,12 +41,14 @@ BEGIN
 
 	-- successful uplift
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
-	SELECT jd.OriginalDespatchQty, dbo.ExceptionType_Bypass(), jd.LineItemId
+	SELECT jd.DeliveredQty, dbo.ExceptionType_Uplifted(), jd.LineItemId
 	FROM JobDetail jd
 	INNER JOIN Job j on j.Id = jd.JobId
+	LEFT JOIN JobDetailDamage jdd on jdd.JobDetailId = jd.Id
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
-	WHERE lia.Id IS NULL and j.JobStatusId = dbo.JobStatus_Bypass()
+	WHERE lia.Id IS NULL and jdd.Id IS NULL
+	AND j.JobTypeCode = 'UPL-STD'
 
 	BEGIN TRAN
 		
@@ -57,6 +60,3 @@ BEGIN
 
 	RETURN 0
 END
-
-	
-

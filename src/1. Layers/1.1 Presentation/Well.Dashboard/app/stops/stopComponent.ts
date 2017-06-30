@@ -170,6 +170,18 @@ export class StopComponent implements IObservableAlive
         this.stop.assignedTo = userName;
     }
 
+    private selectAllJobs = (selected: boolean) => {
+        const jobIds = _.map(_.filter(this.gridSource, (item) => { return item.isRowGroup; }),
+            (item: StopItemSource) => {
+                return item.jobId;
+            });
+
+        _.each(jobIds,
+            (jobId: number) => {
+                this.selectJobs(selected, jobId);
+            });
+    }
+
     public selectJobs(select: boolean, jobId?: number): void
     {
         let filterToApply = function (item: StopItem): boolean { return true; };

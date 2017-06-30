@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild}   from '@angular/core';
+import {Component, OnInit, ViewChild}   from '@angular/core';
 import {NavigationExtras, Router}       from '@angular/router';
 import {GlobalSettingsService}          from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features

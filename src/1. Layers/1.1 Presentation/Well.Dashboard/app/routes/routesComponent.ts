@@ -1,4 +1,4 @@
-﻿import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component, ViewChild } from '@angular/core';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { Route } from './route';

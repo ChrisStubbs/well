@@ -79,13 +79,6 @@
                                 ToBeAdvisedCount = y.Key.ToBeAdvisedCount
                             }).ToList();
 
-                //Clean value should only be calculated for jobs with status different than Imported
-                var stopClean = stopJobs
-                    .Where(x=> x.ResolutionStatus != ResolutionStatus.Imported)
-                    .SelectMany(x => x.JobDetails)
-                    .Where(p => p.IsClean())
-                    .Sum(v => v.DeliveredQty);
-
                 var status = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
@@ -93,17 +86,14 @@
                 {
                     JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
                     var ids = job.JobDetails.Select(p => p.Id).ToList();
-
+                    
                     var jobExceptions = jobDetailTotalsPerRouteHeader
                         .Where(p => ids.Contains(p.JobDetailId))
                         .Sum(p => p.DamageTotal + p.ShortTotal + p.BypassTotal);
 
-                    //Clean value should only be calculated for jobs with status different than Imported
-                    var clean = (job.JobStatus == JobStatus.Bypassed ||
-                                 job.ResolutionStatus == ResolutionStatus.Imported)
-                        ? 0
-                        : job.JobDetails.Where(x => x.IsClean() && !x.IsTobaccoBag()).Sum(p => p.OriginalDespatchQty);
-
+                    var clean = job.JobDetails
+                        .Where(x => x.IsClean() && !x.IsTobaccoBag())
+                        .Sum(p => p.OriginalDespatchQty) - jobExceptions;
 
                     var item = new SingleRouteItem
                     {
@@ -111,8 +101,8 @@
                         StopId = job.StopId,
                         Stop = stop.DropId,
                         StopStatus = status,
-                        StopExceptions = jobExceptions,
-                        StopClean = stopClean,
+                        //StopExceptions = jobExceptions,
+                        //StopClean = stopClean,
                         Tba = jobGroupToBeAdvised
                             .Where(x => x.OuterCountId == job.OuterCount)
                             .Select(y => y.ToBeAdvisedCount).FirstOrDefault(),
@@ -120,7 +110,7 @@
                         Resolution = job.ResolutionStatus.Description,
                         ResolutionId = job.ResolutionStatus.Value,
                         Invoice = job.InvoiceNumber,
-                        JobType = jobType.ToString().SplitCapitalisedWords(),
+                        JobType = $"{jobType.ToString().SplitCapitalisedWords()} ({job.JobTypeAbbreviation})",
                         JobTypeId = (int)jobType,
                         JobStatus = job.JobStatus,
                         JobStatusDescription = jobStatuses[job.JobStatus],
@@ -140,7 +130,6 @@
                     singleRoute.Items.Add(item);
                 }
             }
-            singleRoute.Items = singleRoute.Items.OrderBy(x => x.Stop).ToList();
             return singleRoute;
         }
     }

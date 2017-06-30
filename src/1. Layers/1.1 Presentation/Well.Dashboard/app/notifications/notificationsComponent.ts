@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import { Component, OnInit, ViewChild}  from '@angular/core';
 import { GlobalSettingsService} from '../shared/globalSettings';
 import {HttpResponse} from '../shared/httpResponse';
 import { SecurityService} from '../shared/security/securityService';

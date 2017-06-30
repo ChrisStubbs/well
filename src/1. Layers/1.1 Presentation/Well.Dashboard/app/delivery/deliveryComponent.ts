@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsModule, Tabset, Tab} from 'ng2-tabs';
 import { GlobalSettingsService } from '../shared/globalSettings';

@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { LookupService } from '../services/lookupService';
 import { IObservableAlive } from '../IObservableAlive';
 import { LookupsEnum } from '../services/lookupsEnum';
@@ -105,7 +105,7 @@ export class BulkEditActionModal implements IObservableAlive
             reason: this.reason,
             jobIds: this.jobIds,
             lineItemIds: this.lineItemIds
-        }
+        };
     }
 
     private save(): void

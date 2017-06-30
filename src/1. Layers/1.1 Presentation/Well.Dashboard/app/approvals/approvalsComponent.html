@@ -1,4 +1,4 @@
-﻿<div class="row">
+<div class="row">
     <div class="col-xs-12">
         <ol class="breadcrumb">
             <li class="active">
@@ -16,7 +16,7 @@
                 <span>{{ currentUserThreshold() | currency:'GBP':true }}</span>
             </div>
             <div>
-                <label for="underThreshold">Show only jobs under my threshold</label>
+                <label for="underThreshold">Only show items within my threshold limit</label>
                 <input id="underThreshold" type="checkbox" title="" (change)="setCreditFilterValue($event)" [(ngModel)]="thresholdFilter"/>
                 <input type="hidden" [(ngModel)]="filters.creditValue" >
             </div>

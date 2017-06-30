@@ -1,15 +1,15 @@
-﻿import { Component }                                        from '@angular/core';
-import { ActivatedRoute }                                   from '@angular/router';
-import { IObservableAlive }                                 from '../shared/IObservableAlive';
-import { ApprovalsService }                                 from './approvalsService';
-import {Approval, ApprovalFilter }                          from './approval';
-import * as _                                               from 'lodash';
-import { GlobalSettingsService }                            from '../shared/globalSettings';
-import { BranchService }                                    from '../shared/branch/branchService';
-import { GridHelpersFunctions }                             from '../shared/gridHelpers/gridHelpers';
-import { AssignModalResult, AssignModel }                   from '../shared/components/assignModel';
-import { Branch }                                           from '../shared/branch/branch';
-import { SecurityService }                                  from '../shared/security/securityService';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { ApprovalsService } from './approvalsService';
+import { Approval, ApprovalFilter } from './approval';
+import * as _ from 'lodash';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { BranchService } from '../shared/branch/branchService';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import { AssignModalResult, AssignModel } from '../shared/components/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
 
 @Component({
     selector: 'ow-approval',
@@ -34,6 +34,7 @@ export class ApprovalsComponent implements IObservableAlive
     private branches: Array<[string, string]>;
     private thresholdFilter: boolean = false;
     private isReadOnlyUser: boolean = false;
+    private inputFilterTimer: any;
 
     constructor(
         private approvalsService: ApprovalsService,
@@ -68,13 +69,19 @@ export class ApprovalsComponent implements IObservableAlive
         const filteredValues =
             GridHelpersFunctions.applyGridFilter<Approval, ApprovalFilter>(this.source, this.filters);
 
-        this.assignees = [];
-        this.assigneesTo = [];
-        _.forEach(filteredValues, (current: Approval) =>
+        if (this.assignees.length === 0)
         {
-            this.assignees.push(current.submittedBy || 'Unallocated');
-            this.assigneesTo.push(current.assignedTo || 'Unallocated');
-        });
+            this.assignees = [];
+            this.assigneesTo = [];
+
+            _.forEach(filteredValues, (current: Approval) =>
+            {
+                this.assignees.push(current.submittedBy || 'Unallocated');
+                this.assigneesTo.push(current.assignedTo || 'Unallocated');
+            });
+
+            this.assigneesTo = _.sortBy(_.uniq(this.assigneesTo));
+        }
 
         this.gridSource = filteredValues;
     }
@@ -92,6 +99,13 @@ export class ApprovalsComponent implements IObservableAlive
         this.fillGridSource();
     }
 
+    public filterFreeText(): void
+    {
+        GridHelpersFunctions.filterFreeText(this.inputFilterTimer)
+            .then(() => this.fillGridSource())
+            .catch(() => this.inputFilterTimer = undefined);
+    }
+
     private disableSubmitActions(): boolean 
     {
         return this.selectedItems().length == 0;
@@ -99,7 +113,8 @@ export class ApprovalsComponent implements IObservableAlive
 
     public selectedItems(): Array<Approval>
     {
-        return _.filter(this.gridSource, (current: Approval) => {
+        return _.filter(this.gridSource, (current: Approval) =>
+        {
             return current.isSelected &&
                 (current.assignedTo || '') == this.globalSettingsService.globalSettings.userName;
         });
@@ -112,7 +127,7 @@ export class ApprovalsComponent implements IObservableAlive
 
     public setCreditFilterValue(event): void
     {
-        if (event.target.checked)
+        if (!event.target.checked)
         {
             this.filters.creditValue = this.filters.getCreditUpperLimit();
         }
@@ -126,7 +141,7 @@ export class ApprovalsComponent implements IObservableAlive
 
     public getSelectedJobIds(): Array<number>
     {
-        return _.map(this.selectedItems(),  'jobId');
+        return _.map(this.selectedItems(), 'jobId');
     }
 
     public allChildrenSelected(): boolean
@@ -154,12 +169,15 @@ export class ApprovalsComponent implements IObservableAlive
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
 
-        _.find(this.source, (current: Approval) => {
+        _.find(this.source, (current: Approval) =>
+        {
             const item = <Approval>event.source;
 
             return item.jobId == current.jobId;
         }).assignedTo = userName;
 
+        this.assignees = [];
+        this.assigneesTo = [];
         this.fillGridSource();
     }
 

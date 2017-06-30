@@ -1,4 +1,4 @@
-﻿import { IFilter }                  from '../shared/gridHelpers/IFilter';
+import { IFilter }                  from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions }     from '../shared/gridHelpers/gridHelpersFunctions';
 import { DatePipe }                 from '@angular/common';
 
@@ -74,7 +74,7 @@ export class ApprovalFilter implements IFilter
                 return GridHelpersFunctions.isEqualFilter;
 
             case 'account':
-            case 'invoice':
+            case 'invoiceNumber':
                 return GridHelpersFunctions.containsFilter;
 
             case 'creditValue':

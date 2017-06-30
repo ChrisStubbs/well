@@ -1,43 +1,51 @@
-﻿import { AppSearchParameters } from '../shared/appSearch/appSearch';
-import { FilterMetadata } from 'primeng/components/common/api';
-import * as _ from 'lodash';
+﻿import { IFilter }              from '../shared/gridHelpers/IFilter';
+import * as _                   from 'lodash';
+import { AppSearchParameters }  from '../shared/appSearch/appSearchParameters';
 
-export class RouteFilter
+export class RouteFilter implements IFilter
 {
-    public branchId: FilterMetadata = { matchMode: 'equals', value: '' };
-    public routeNumber: FilterMetadata = { matchMode: 'contains', value: '' };
-    public routeDate: FilterMetadata = { matchMode: 'contains', value: '' };
-    public stopCount: FilterMetadata = { matchMode: 'equals', value: '' };
-    public routeStatusId: FilterMetadata = { matchMode: 'equals', value: '' };
-    public hasExceptions: FilterMetadata = { matchMode: 'equals', value: '' };
-    public hasClean: FilterMetadata = { matchMode: 'equals', value: '' };
-    public driverName: FilterMetadata = { matchMode: 'contains', value: '' };
-    public assignee: FilterMetadata = { matchMode: 'contains', value: '' };
-    public id: FilterMetadata = { matchMode: 'in', value: undefined };
+    public branchId?: number;
+    public routeNumber: string = '';
+    public routeDate?: Date = undefined;
+    public stopCount?: number = undefined;
+    public routeStatusId?: number = undefined;
+    public hasExceptions: boolean = undefined;
+    public hasClean: boolean = undefined;
+    public driverName: string = '';
+    public assignee: string = '';
 
-    constructor(branchId: number)
+    public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
-        this.branchId.value = branchId;
+        switch (filterName)
+        {
+            case 'exceptions':
+            case 'clean':
+                return (value: number, value2?: boolean) => {
+                    if (_.isNull(value2)) {
+                        return true;
+                    }
+                    if (value2.toString() == 'true') {
+                        return value > 0;
+                    }
+
+                    return value == 0;
+                };
+        }
+
+        return undefined;
     }
 
     public static toRouteFilter(params: AppSearchParameters): RouteFilter
     {
-        const routeFilter = new RouteFilter(this.convertUndefined(params.branchId));
+        const routeFilter = new RouteFilter();
 
-        routeFilter.routeNumber.value = this.convertUndefined(params.route);
-        routeFilter.routeDate.value = this.convertUndefined(params.date);
-        routeFilter.routeStatusId.value = this.convertUndefined(params.status);
-        routeFilter.driverName.value = this.convertUndefined(params.driver);
-        if (params.routeIds)
-        {
-            routeFilter.id.value = _.map(params.routeIds, _.ary(parseInt, 1));
-        }
+        routeFilter.branchId = params.branchId;
+        routeFilter.routeNumber = params.route;
+        routeFilter.routeDate = params.date;
+        routeFilter.routeStatusId = params.status;
+        routeFilter.driverName = params.driver;
 
         return routeFilter;
     }
 
-    private static convertUndefined(value: any): any
-    {
-        return (value === 'undefined') ? '' : value || '';
-    }
 }

@@ -42,6 +42,7 @@ AS
 		,j.DetailOutersShort
 		,j.OuterDiscrepancyFound
 		,a.Id AS PhAccountId
+		,a.Name AS PhAccountName
 		,credit.CreditValue
 		,jb.Abbreviation AS JobTypeAbbreviation
 		,CAST(j.ResolutionStatusId as INTEGER) AS ResolutionStatus

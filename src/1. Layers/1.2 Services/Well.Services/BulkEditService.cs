@@ -112,14 +112,13 @@
                 .Where(x => x.ResolutionStatus.IsEditable() &&
                             LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
 
-
             var userJobsIds = userRepository.GetUserJobsByJobIds(editableJobs.Select(x => x.Id))
                                             .Where(x => x.UserId == user.Id).Select(x => x.JobId);
 
             return editableJobs.Where(x => userJobsIds.Contains(x.Id));
         }
 
-        private IEnumerable<LineItemAction> LineItemActionsToUpdate(IEnumerable<Job> jobsToEdit, IEnumerable<int> lineItemIds)
+        public virtual IEnumerable<LineItemAction> LineItemActionsToUpdate(IEnumerable<Job> jobsToEdit, IEnumerable<int> lineItemIds)
         {
             return jobsToEdit.SelectMany(x => LineItemActionsToEdit(x, lineItemIds));
         }

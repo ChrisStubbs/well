@@ -413,6 +413,8 @@
     <Build Include="dbo\StoredProcedures\JobIds_GetByLineItemIds.sql" />
     <Build Include="dbo\StoredProcedures\Activity_GetByDocumentNumber.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetWithLineItemActions.sql" />
+    <Build Include="dbo\Functions\ExceptionType_Uplifted.sql" />
+    <Build Include="dbo\Functions\JobStatus_Clean.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

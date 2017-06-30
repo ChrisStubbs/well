@@ -255,7 +255,7 @@
                             <td class="text-center"><span *ngIf="detail.highValue" class="glyphicon glyphicon-ok"></span></td>
                             <td class="text-right">{{detail.resolution}}</td>
                             <td>
-                                <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0">
+                                <a href="#" (click)="editLineItemActions(detail, $event)" title="Edit" data-toggle="modal" *ngIf="detail.lineItemId !=0">
                                     <span class="glyphicon glyphicon-pencil" ></span>
                                 </a>
                                 <input type="checkbox" [(ngModel)]="item.isSelected" title="">

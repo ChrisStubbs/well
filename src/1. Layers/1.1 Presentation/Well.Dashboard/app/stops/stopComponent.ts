@@ -103,6 +103,7 @@ export class StopComponent implements IObservableAlive
                     .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
+                    .filter(value => value[1] != '')
                     .value();
 
                 _.chain(data.items)
@@ -131,7 +132,6 @@ export class StopComponent implements IObservableAlive
                     {
                         this.customerAccount = account;
                     });
-
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)

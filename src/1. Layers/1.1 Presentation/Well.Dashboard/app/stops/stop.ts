@@ -43,7 +43,7 @@ export class StopItem implements IGrnAssignable
     public bypassed: number;
     public checked: boolean;
     public highValue: boolean;
-    private mBarCode: string;
+    private mBarCode: string = '';
     public isSelected: boolean;
     public lineItemId: number;
     private resolution: string;
@@ -54,9 +54,9 @@ export class StopItem implements IGrnAssignable
  
     public get barCode(): string
     {
-        if (_.isNil(this.mBarCode))
+        if (_.isNil(this.mBarCode) || _.isEmpty(this.mBarCode))
         {
-            this.mBarCode = this.noBarCode;
+            return '';
         }
 
         return this.mBarCode;
@@ -79,6 +79,11 @@ export class StopItem implements IGrnAssignable
 
     public get tobacco(): string
     {
+        if (this.barCode.length == 0)
+        {
+            return '';
+        }
+
         return this.barCode.substr(this.barCode.length - 4, 4);
     }
 

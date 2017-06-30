@@ -228,7 +228,7 @@
                                 </a>
                             </td>
                             <td colspan="5">
-                                <a [routerLink]="['/stops', item.stopId]">Stop {{item.stopId}} - {{item.stopDate | date:'dd MMM yy'}}</a>
+                                <a [routerLink]="['/stops', item.stopId]">Stop {{item.stopId}} - {{source.accountName}}</a>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
                             <td class="text-right">{{item.totalExpected - (item.totalDameged + item.totalShorts)}}</td>

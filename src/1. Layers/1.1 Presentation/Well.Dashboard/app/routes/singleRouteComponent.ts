@@ -202,7 +202,11 @@ export class SingleRouteComponent implements IObservableAlive
         _.forEach(data, (current: SingleRouteItem) =>
         {
             totalExceptions += current.exceptions;
-            totalClean += current.clean;
+            //if job in resolution = imported or status = bypassed just don't print the value, print 0 instead-
+            if (!(current.resolutionId == 1 || current.jobStatus == 8)) {
+                totalClean += current.clean;
+            }
+
             totalTBA += current.tba;
         });
 

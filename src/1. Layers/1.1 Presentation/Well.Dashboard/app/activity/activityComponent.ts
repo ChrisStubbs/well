@@ -97,6 +97,7 @@ export class ActivityComponent implements IObservableAlive
                     .map((value: ActivitySourceDetail) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
+                    .filter(value => value[1] != '')
                     .value();
 
                 _.chain(this.source.details)

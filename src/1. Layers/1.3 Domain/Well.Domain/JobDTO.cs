@@ -393,17 +393,17 @@ namespace PH.Well.Domain
         [XmlIgnore]
         public bool OuterDiscrepancyUpdate { get; set; }
 
-        [XmlIgnore]
-        public bool OuterDiscrepancyFound
-        {
-            get
-            {
-                int totalShort = TotalOutersShort ?? 0;
-                int detailShort = DetailOutersShort ?? 0;
+        //[XmlIgnore]
+        //public bool OuterDiscrepancyFound
+        //{
+        //    get
+        //    {
+        //        int totalShort = TotalOutersShort ?? 0;
+        //        int detailShort = DetailOutersShort ?? 0;
 
-                return (totalShort - detailShort) > 0;
-            }
-        }
+        //        return (totalShort - detailShort) > 0;
+        //    }
+        //}
 
         [XmlIgnore]
         public int? TotalOutersOverUpdate { get; set; }

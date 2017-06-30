@@ -112,10 +112,12 @@
             this.postImportRepository.PostImportUpdate();
             // updates tobacco lines from tobacco bag data
             this.postImportRepository.PostTranSendImportForTobacco();
+
             // updates LineItemActions imported data
             this.postImportRepository.PostTranSendImport();
             //updates Jobs with data for shorts to be advised
-            this.postImportRepository.PostTranSendImportShortsTba(updatedJobIds); 
+            this.postImportRepository.PostTranSendImportShortsTba(updatedJobIds);
+
 
             // update JobResolutionStatus for jobs with LineItemActions
             if (updatedJobIds.Count != 0)
@@ -166,7 +168,8 @@
 
                         this.stopRepository.Update(existingStop);
 
-                        updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
+                        var updates = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
+                        updatedJobIds.AddRange(updates);
 
                         transactionScope.Complete();
                     }
@@ -220,8 +223,7 @@
 
                 this.UpdateJobDetails(
                     job.JobDetails,
-                    existingJob.Id,
-                    string.IsNullOrWhiteSpace(existingJob.InvoiceNumber));
+                    existingJob.Id);
 
                 var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
 
@@ -241,7 +243,7 @@
             return updatedJobIds;
         }
 
-        private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId, bool invoiceOutstanding)
+        private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId)
         {
             foreach (var detail in jobDetails)
             {

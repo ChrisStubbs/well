@@ -4,7 +4,7 @@ AS
 	SELECT 
 		lie.BypassTotal,
 		lie.DamageTotal,
-		lie.ShortTotal,
+		COALESCE(NULLIF(lie.ShortTotal, 0), lie.BypassTotal, 0) AS ShortTotal,
 		lie.TotalExceptions,
 		jb.Id AS JobDetailId
 	FROM 

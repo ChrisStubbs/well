@@ -1,4 +1,4 @@
-﻿import { DeliveryLine } from './deliveryLine';
+import { DeliveryLine } from './deliveryLine';
 
 export class Delivery {
     constructor(delivery: Delivery) {

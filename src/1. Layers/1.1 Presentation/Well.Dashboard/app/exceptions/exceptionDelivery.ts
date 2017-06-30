@@ -1,4 +1,4 @@
-﻿import {BaseDelivery} from '../shared/baseDelivery';
+import {BaseDelivery} from '../shared/baseDelivery';
  
 export class ExceptionDelivery extends BaseDelivery {
     public  routeNumber: string;

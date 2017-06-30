@@ -1,4 +1,4 @@
-﻿import {Router} from '@angular/router';
+import {Router} from '@angular/router';
 import { Component, OnInit, ViewChild, Input}  from '@angular/core';
 import { Response } from '@angular/http';
 import {GlobalSettingsService} from '../shared/globalSettings';

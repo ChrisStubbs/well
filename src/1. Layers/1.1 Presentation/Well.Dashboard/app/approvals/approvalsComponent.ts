@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IObservableAlive } from '../shared/IObservableAlive';
 import { ApprovalsService } from './approvalsService';

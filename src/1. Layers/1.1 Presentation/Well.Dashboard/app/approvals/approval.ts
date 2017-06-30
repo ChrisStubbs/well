@@ -1,4 +1,4 @@
-﻿import { IFilter }                  from '../shared/gridHelpers/IFilter';
+import { IFilter }                  from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions }     from '../shared/gridHelpers/gridHelpersFunctions';
 import { DatePipe }                 from '@angular/common';
 

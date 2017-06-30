@@ -1,4 +1,4 @@
-﻿export class LineItemAction
+export class LineItemAction
 {
     public id: number = 0;
     public lineItemId: number = 0;

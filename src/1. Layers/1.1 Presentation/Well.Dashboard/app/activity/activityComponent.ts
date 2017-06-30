@@ -65,14 +65,14 @@ export class ActivityComponent implements IObservableAlive
     private inputFilterTimer: any;
     private jobTypes: Array<ILookupValue> = [];
     private tobaccoBags: Array<[string, string]>;
-    private editExceptionsService: EditExceptionsService;
 
     constructor(
         private lookupService: LookupService,
         private activityService: ActivityService,
         private route: ActivatedRoute,
         private globalSettingsService: GlobalSettingsService,
-        private securityService: SecurityService)
+        private securityService: SecurityService,
+        private editExceptionsService: EditExceptionsService)
     {
         this.gridSource = [];
     }

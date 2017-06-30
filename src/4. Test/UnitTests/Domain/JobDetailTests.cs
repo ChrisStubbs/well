@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using NUnit.Framework;
     using Well.Domain;
     using Well.Domain.Enums;

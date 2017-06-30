@@ -114,7 +114,7 @@
         public class TheUserHasRequiredCreditThresholdMethod : UserThresholdServiceTests
         {
 
-            private new Mock<UserThresholdService> stubbedUserThreshold;
+            private Mock<UserThresholdService> stubbedUserThreshold;
             [SetUp]
             public void SetUp()
             {

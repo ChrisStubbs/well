@@ -65,14 +65,14 @@ export class ActivityComponent implements IObservableAlive
     private inputFilterTimer: any;
     private jobTypes: Array<ILookupValue> = [];
     private tobaccoBags: Array<[string, string]>;
-    private editExceptionsService: EditExceptionsService;
 
     constructor(
         private lookupService: LookupService,
         private activityService: ActivityService,
         private route: ActivatedRoute,
         private globalSettingsService: GlobalSettingsService,
-        private securityService: SecurityService)
+        private securityService: SecurityService,
+        private editExceptionsService: EditExceptionsService)
     {
         this.gridSource = [];
     }
@@ -97,6 +97,7 @@ export class ActivityComponent implements IObservableAlive
                     .map((value: ActivitySourceDetail) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
+                    .filter(value => value[1] != '')
                     .value();
 
                 _.chain(this.source.details)

@@ -15,7 +15,7 @@
         private readonly IAssigneeReadRepository assigneeRepository;
 
         public ApprovalController(
-            IJobRepository jobRepository, 
+            IJobRepository jobRepository,
             IAssigneeReadRepository assigneeRepository
             )
         {
@@ -30,7 +30,7 @@
             return jobs
                 .Select(p =>
                 {
-                    p.AssignedTo = Assignee.GetDisplayNames(assignees.Where(v => v.JobId == p.JobId));
+                    p.AssignedTo = Assignee.GetDisplayNames(assignees.Where(v => v.JobId == p.JobId)) ?? "Unallocated";
                     p.SubmittedBy = p.SubmittedBy.StripDomain();
                     p.BranchName = Branch.GetBranchName(p.BranchId, p.BranchName);
 

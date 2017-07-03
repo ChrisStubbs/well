@@ -24,6 +24,8 @@ import { EditLineItemException, EditLineItemExceptionDetail }       from '../exc
 import { ActionEditComponent }                                      from '../shared/action/actionEditComponent';
 import { ResolutionStatusEnum }                                     from '../shared/services/resolutionStatusEnum';
 import { ISubmitActionResult, ISubmitActionResultDetails }          from '../shared/action/submitActionModel';
+import { BulkEditActionModal }                                      from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult }                                          from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 
@@ -58,6 +60,7 @@ export class ActivityComponent implements IObservableAlive
     public resolutionStatus: ILookupValue[];
 
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
     private gridSource: Array<ActivitySourceGroup>;
     private filters = new ActivityFilter();
@@ -164,12 +167,14 @@ export class ActivityComponent implements IObservableAlive
                 item.jobId = singleItem.jobId;
                 item.stopId = singleItem.stopId;
                 item.stopDate = singleItem.stopDate;
+                item.resolution = singleItem.resolution;
+                item.resolutionId = singleItem.resolutionId;
                 item.totalExpected = summary.totalExpected;
                 item.totalDameged = summary.totalDamaged;
                 item.totalShorts = summary.totalShorts;
                 item.isExpanded = _.includes(expanded, item.jobId);
                 item.details = current;
-
+                
                 return item;
             })
             .value();
@@ -237,8 +242,9 @@ export class ActivityComponent implements IObservableAlive
             filterToApply = function (item: ActivitySourceGroup): boolean { return item.jobId == jobId; };
         }
 
-        return _.every(
-            _.filter(this.gridSource, filterToApply), current => current.isSelected);
+        const items = _.chain(this.gridSource).map('details').flatten().filter(filterToApply).value();
+
+        return _.every(items, current => current.isSelected);
     }
 
     public filterFreeText(): void
@@ -259,6 +265,8 @@ export class ActivityComponent implements IObservableAlive
         }
 
         _.chain(this.gridSource)
+            .map('details')
+            .flatten()
             .filter(filterToApply)
             .map(current => current.isSelected = select)
             .value();
@@ -313,14 +321,15 @@ export class ActivityComponent implements IObservableAlive
     {
         return _.chain(this.gridSource)
             .map('details')
-            .concat()
+            .flatten()
             .filter(current => current.isSelected)
             .value();
     }
 
     public disableSubmitActions(): boolean {
         return (this.selectedItems().length == 0 ||
-        this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission);
+            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission
+            || this.source.assignee != this.globalSettingsService.globalSettings.userName);
     }
 
     private getSelectedJobIds(): number[]
@@ -344,5 +353,31 @@ export class ActivityComponent implements IObservableAlive
             job.resolution = x.resolutionStatusDescription;
             job.resolutionId = x.resolutionStatusId;
         });
+    }
+
+    private bulkEdit(): void 
+    {
+        this.bulkEditActionModal.show();
+    }
+
+    private bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses,
+            x =>
+            {
+                const job = _.find(this.selectedItems(), current => current.jobId === x.jobId);
+                job.resolution = x.status.description;
+                job.resolutionId = x.status.value;
+            });
+    }
+
+    private disableBulkEdit(): boolean {
+        return (this.selectedItems().length === 0
+            || this.source.assignee !== this.globalSettingsService.globalSettings.userName);
+    }
+
+    public selectedLineItems(): Array<number>
+    {
+        return _.map(this.selectedItems(), 'lineItemId');
     }
 }

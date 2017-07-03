@@ -23,6 +23,8 @@ export class ActivitySource
     public driver: string;
     public assignee: string;
     public tba: number;
+    public resolution: string;
+    public resolutionId: number;
     public details: Array<ActivitySourceDetail>;
 }
 
@@ -41,6 +43,8 @@ export class ActivitySourceGroup
     public totalShorts: number;
     public totalExpected: number;
     public details: Array<ActivitySourceDetail>;
+    public resolution: string;
+    public resolutionId: number;
 }
 
 export class ActivitySourceDetail

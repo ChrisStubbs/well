@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http'
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { HttpErrorService } from '../shared/httpErrorService';
 import { HttpService } from '../shared/httpService';
 import { Stop, StopItem } from './stop';
-import { Route } from '../routes/route';
 
 @Injectable()
 export class StopService
@@ -13,9 +12,7 @@ export class StopService
     constructor(
         private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService)
-    {
-    }
+        private httpErrorService: HttpErrorService) { }
 
     public getStop(stopId: number): Observable<Stop>
     {

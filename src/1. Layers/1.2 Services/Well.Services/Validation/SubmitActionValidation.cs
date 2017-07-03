@@ -10,23 +10,20 @@
     using Domain;
     using Domain.Enums;
 
-    
     public class SubmitActionValidation : ISubmitActionValidation
     {
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
         private readonly IDateThresholdService dateThresholdService;
-        private readonly ICreditThresholdRepository _creditThresholdRepository;
+
 
         public SubmitActionValidation(IUserNameProvider userNameProvider,
             IUserRepository userRepository,
-            IDateThresholdService dateThresholdService,
-            ICreditThresholdRepository creditThresholdRepository)
+            IDateThresholdService dateThresholdService)
         {
             this.userNameProvider = userNameProvider;
             this.userRepository = userRepository;
             this.dateThresholdService = dateThresholdService;
-            _creditThresholdRepository = creditThresholdRepository;
         }
 
         public SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs)
@@ -37,28 +34,36 @@
 
             if (user == null)
             {
-                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit actions" };
+                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit exceptions" };
             }
 
             var userJobs = userRepository.GetUserJobsByJobIds(submitAction.JobIds);
 
             if (userJobs.Any(x => x.UserId != user.Id))
             {
-                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit actions" };
+                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit exceptions" };
             }
 
-            var pendingSubmissionJobs = jobList.Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission).ToList();
+            var pendingSubmissionJobs = jobList
+                .Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission || x.ResolutionStatus == ResolutionStatus.PendingApproval
+                ).ToList();
 
             if (!pendingSubmissionJobs.Any())
             {
                 return new SubmitActionResult { Message = $"There are no jobs 'Pending Submission' for the selected items" };
             }
 
-            var incorrectStateJobs = jobList.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission);
+            var ids = pendingSubmissionJobs.Select(p => p.Id).ToList();
+            var incorrectStateJobs = jobList
+                .Where(x => !ids.Contains(x.Id))
+                .ToList();
+
             if (incorrectStateJobs.Any())
             {
-                var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
-                return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
+                var incorrectStateJobstring = string.Join(",", incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
+                return new SubmitActionResult { Message = $"Can not submit exceptions for jobs. " +
+                                                          $"The following jobs are not in Pending Submission / Pending Approval State " +
+                                                          $"{incorrectStateJobstring}." };
             }
 
             var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);
@@ -70,9 +75,9 @@
 
             if (HaveItemsToCredit(jobList))
             {
-                result = ValidateUserForCreditingJobs(jobList);
+                result = ValidateUserForCrediting();
             }
-            
+
             return result;
         }
 
@@ -80,7 +85,7 @@
         {
             var jobRoutes = unsubmittedJobs.Select(x => x.JobRoute);
 
-            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x=> DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
+            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x => DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
@@ -94,7 +99,7 @@
             return new SubmitActionResult { IsValid = true };
         }
 
-        public virtual bool HaveItemsToCredit(IList<Job>jobs)
+        public virtual bool HaveItemsToCredit(IList<Job> jobs)
         {
             return jobs.Any(job => job.GetAllLineItemActions().Any(x => x.DeliveryAction == DeliveryAction.Credit));
         }
@@ -116,29 +121,5 @@
 
             return new SubmitActionResult { IsValid = true };
         }
-
-        public virtual SubmitActionResult ValidateUserForCreditingJobs(IList<Job> jobs)
-        {
-            var validateForCreditingResult = ValidateUserForCrediting();
-            if (!validateForCreditingResult.IsValid)
-            {
-                return validateForCreditingResult;
-            }
-
-            // At this point user is eligible to credit jobs
-            var username = this.userNameProvider.GetUserName();
-            var user = this.userRepository.GetByIdentity(username);
-
-            var creditThreshold = _creditThresholdRepository.GetById(user.ThresholdLevelId.Value);
-            var jobsExceedingThreshold = jobs.Where(x => x.TotalCreditValue > creditThreshold.Threshold).ToList();
-            if (jobsExceedingThreshold.Any())
-            {
-                var jobsExceedingThresholdString = string.Join(",", jobsExceedingThreshold.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Credit Value: {x.TotalCreditValue} "));
-                return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs exceed allowed credit {jobsExceedingThresholdString}." };
-            }
-
-            return new SubmitActionResult { IsValid = true };
-        }
-
     }
 }

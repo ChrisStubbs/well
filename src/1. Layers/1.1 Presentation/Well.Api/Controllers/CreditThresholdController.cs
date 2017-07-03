@@ -18,13 +18,9 @@
     public class CreditThresholdController : BaseApiController
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;
-
         private readonly ILogger logger;
-
         private readonly ICreditThresholdMapper mapper;
-
         private readonly ICreditThresholdValidator validator;
-
         private readonly IUserRepository userRepository;
 
         public CreditThresholdController(
@@ -93,7 +89,6 @@
                 } 
                 
                 var creditThreshold = this.mapper.Map(model);
-
                 this.creditThresholdRepository.Save(creditThreshold);
 
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });

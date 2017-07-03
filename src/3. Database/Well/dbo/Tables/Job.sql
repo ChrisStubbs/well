@@ -44,15 +44,15 @@
 	[Version] [TIMESTAMP] NOT NULL,
 	[JobStatusId] TINYINT NOT NULL DEFAULT 1,
 	[ActivityId] INT NULL,
-	ResolutionStatusId SmallInt NULL CONSTRAINT FK_Job_ResolutionStatus FOREIGN KEY REFERENCES ResolutionStatus(Id), 
+	ResolutionStatusId INT NULL CONSTRAINT FK_Job_ResolutionStatus FOREIGN KEY REFERENCES ResolutionStatus(Id), 
     CONSTRAINT [PK_Job] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_Job_Stop] FOREIGN KEY ([StopId]) REFERENCES [dbo].[Stop] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Job_JobStatus] FOREIGN KEY ([JobStatusId]) REFERENCES [dbo].[JobStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Job_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 GO
-/*Included for Search */
 CREATE NONCLUSTERED INDEX [IDX_Job_JobStatusId] ON [dbo].[Job] ([JobStatusId]) INCLUDE ([JobTypeCode],[InvoiceNumber],[StopId])
 GO
 CREATE NONCLUSTERED INDEX [IDX_Job_StopId] ON [dbo].[Job] ([StopId]) INCLUDE ([Id],[JobTypeCode])
 GO
+GO CREATE NONCLUSTERED INDEX [IDX_Job_ActivityId] ON [dbo].[Job] ([ActivityId]) INCLUDE ([Id],[JobTypeCode],[StopId],[ResolutionStatusId])

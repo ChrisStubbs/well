@@ -405,9 +405,16 @@
     <Build Include="dbo\StoredProcedures\JobDetail_TobaccoUpdate.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailTotalsPerRouteHeader.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailTotalsPerJobIds.sql" />
-    <Build Include="dbo\StoredProcedures\Assignee_GetByJobId.sql" />
+    <Build Include="dbo\StoredProcedures\Assignee_GetByJobIds.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionCommentInsert.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionCommentUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\Job_UpdateShortsTBA.sql" />
+    <Build Include="dbo\StoredProcedures\JobsToBeApproved.sql" />
+    <Build Include="dbo\StoredProcedures\JobIds_GetByLineItemIds.sql" />
+    <Build Include="dbo\StoredProcedures\Activity_GetByDocumentNumber.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetWithLineItemActions.sql" />
+    <Build Include="dbo\Functions\ExceptionType_Uplifted.sql" />
+    <Build Include="dbo\Functions\JobStatus_Clean.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

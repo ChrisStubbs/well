@@ -1,4 +1,4 @@
-﻿import { BaseDelivery } from '../shared/baseDelivery';
+import { BaseDelivery } from '../shared/baseDelivery';
 
 export class CleanDelivery extends BaseDelivery {
     public routeNumber: string;

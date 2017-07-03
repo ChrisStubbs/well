@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="col-xs-12">
+        <ol class="breadcrumb">
+            <li class="active">
+                Approvals
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <label> Current threshold</label>
+                <span>{{ currentUserThreshold() | currency:'GBP':true }}</span>
+            </div>
+            <div>
+                <label for="underThreshold">Only show items within my threshold limit</label>
+                <input id="underThreshold" type="checkbox" title="" (change)="setCreditFilterValue($event)" [(ngModel)]="thresholdFilter"/>
+                <input type="hidden" [(ngModel)]="filters.creditValue" >
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
+                    &nbsp;
+                    <submit-action-Modal [disabled]="disableSubmitActions()"
+                                  [jobIds]="getSelectedJobIds()"
+                                  (onSubmitted)="jobsSubmitted()">
+                    </submit-action-Modal>
+                </div>
+                <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive table-container col-md-12">
+            <table class="table table-striped" style="table-layout: fixed">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="text-center">Branch</div>
+                            <div>
+                                <select class="form-control" id="searchBranch" (change)="fillGridSource()" [(ngModel)]="filters.branchName">
+                                    <option value>All</option>
+                                    <option *ngFor="let branch of branches" [value]="branch[1]">
+                                        {{ branch[1] }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th class="colAccount">
+                            <div class="text-center">Account</div>
+                            <div>
+                                <input type="text" [(ngModel)]="filters.account" (keyup)="filterFreeText()" class="form-control">
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Delivery Date</div>
+                            <div>
+                                <input type="date" [(ngModel)]="filters.deliveryDateFormatted" (change)="fillGridSource()" class="form-control">
+                            </div>
+                        </th>
+                        <th class="colInvoice">
+                            <div class="text-center">Invoice No</div>
+                            <div>
+                                <input type="text" [(ngModel)]="filters.invoiceNumber" (keyup)="filterFreeText()" class="form-control">
+                            </div>
+                        </th>
+                        <th class="colUser">
+                            <div class="text-center">Submitted by</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.submittedBy" (change)="fillGridSource()" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let a of assignees" [value]="a">{{a}}</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Date Submitted</div>
+                            <div>
+                                <input type="date" [(ngModel)]="filters.dateSubmittedFormatted" (change)="fillGridSource()" class="form-control">
+                            </div>
+                        </th>
+                        <th class="colQty">
+                            <div class="text-center">Quantity</div>
+                            <div class="form-control-placeholder">&nbsp;</div>
+                        </th>
+                        <th class="colValue">
+                            <div class="text-center">Credit Value</div>
+                            <div class="form-control-placeholder">&nbsp;</div>
+                        </th>
+                        <th class="colUser">
+                            <div class="text-center">Assignee</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.assignedTo" (change)="fillGridSource()" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let a of assigneesTo" [value]="a">{{a}}</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th class="colCheckbox"><input type="checkbox" [checked]="allChildrenSelected()" (change)="selectAll($event.target.checked)"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of gridSource">
+                        <td>{{item.branchName}}</td>
+                        <td>{{item.account}}</td>
+                        <td class="text-center">{{item.deliveryDate | date:'dd MMM yyyy'}}</td>
+                        <td>{{item.invoiceNumber}}</td>
+                        <td>{{item.submittedBy}}</td>
+                        <td class="text-center">{{item.dateSubmitted | date:'dd MMM yyyy HH:mm:ss' }}</td>
+                        <td class="text-right">{{item.creditQuantity}}</td>
+                        <td class="text-right">{{item.creditValue | currency:'GBP':true}}</td>
+                        <td>
+                            <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
+                        </td>
+                        <td>
+                            <input *ngIf="item?.assignedTo " type="checkbox" [(ngModel)]="item.isSelected" title="">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -154,6 +154,7 @@
     <Compile Include="Domain\JobDetailTests.cs" />
     <Compile Include="Domain\JobTests.cs" />
     <Compile Include="Domain\LineItemActionTests.cs" />
+    <Compile Include="Domain\ResolutionStatusExtensionTest.cs" />
     <Compile Include="Domain\RouteHeaderTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="DTOMappers\JobDetailsDTOTests.cs" />
     <Compile Include="DTOMappers\JobDTOTests.cs" />
     <Compile Include="DTOMappers\StopDTOTests.cs" />
+    <Compile Include="Factories\BulkEditPatchRequestFactory.cs" />
     <Compile Include="Factories\CleanPreferenceFactory.cs" />
     <Compile Include="Factories\LineItemActionFactory.cs" />
     <Compile Include="Factories\LineItemFactory.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Services\AdamUpdateTests.cs" />
     <Compile Include="Services\AppSearchServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
+    <Compile Include="Services\BulkEditServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />

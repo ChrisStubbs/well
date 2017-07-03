@@ -127,7 +127,7 @@
             {
                 foreach (var u in users.Where(u => u.ThresholdLevelId.HasValue))
                 {
-                    u.CreditThreshold = creditThresholds.FirstOrDefault(x => x.Id == u.ThresholdLevelId.Value);
+                    u.CreditThreshold = creditThresholds.FirstOrDefault(x => x.ThresholdLevelId == u.ThresholdLevelId.Value);
                 }
             }
 

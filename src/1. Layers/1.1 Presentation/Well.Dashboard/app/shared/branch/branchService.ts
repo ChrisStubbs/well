@@ -1,4 +1,4 @@
-﻿import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Branch } from './branch';
@@ -38,7 +38,7 @@ export class BranchService
                 {
                     if (current.selected)
                     {
-                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')'])
+                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')']);
                     }
                 });
 

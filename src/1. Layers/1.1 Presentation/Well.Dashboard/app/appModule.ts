@@ -1,4 +1,4 @@
-﻿/* tslint:disable:max-line-length */
+/* tslint:disable:max-line-length */
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -44,9 +44,7 @@ import { OrderByDatePipe } from './shared/orderByDatePipe';
 import { OrderByPipe } from './shared/orderByPipe';
 import { OutstandingPipe } from './shared/outstandingPipe';
 import { DeliverySelectionModal } from './route_header/delivery-selection-modal';
-
 import { AccountFlagsComponent, AssignModal } from './shared/components/components';
-
 import { OrderArrowComponent } from './shared/orderbyArrow';
 import { SeasonalDatesEditModalComponent } from './seasonal_dates/seasonalDatesEditModalComponent';
 import { SeasonalDatesAddModalComponent } from './seasonal_dates/seasonalDatesAddModalComponent';
@@ -79,7 +77,7 @@ import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
- import { CalendarModule, DataGridModule, SharedModule, DataTableModule} from 'primeng/primeng';
+import { CalendarModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -93,14 +91,17 @@ import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import { StopComponent } from './stops/stopComponent';
 import { SelectYeNoFilterComponent } from './shared/selectYeNoFilterComponent';
-import { ActionModal } from './shared/action/actionModal';
+import { SubmitActionModal } from './shared/action/submitActionModal';
 import { EditExceptionsComponent } from './exceptions/editExceptionsComponent';
 import { EditExceptionsModal } from './exceptions/editExceptionsModal';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { LookupService } from './shared/services/lookupService';
-import AppRoutes = require('./appRoutes');
 import { ActionEditComponent } from './shared/action/actionEditComponent';
 import { TooltipModule } from 'ngx-tooltip';
+import { ActivityComponent, ActivityService } from './activity/activity';
+import { JobService, AssignGrnModal } from './job/job';
+import AppRoutes = require('./appRoutes');
+import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -116,7 +117,7 @@ import { TooltipModule } from 'ngx-tooltip';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        ActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent
+        SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
@@ -126,7 +127,8 @@ import { TooltipModule } from 'ngx-tooltip';
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
-        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService,
+        CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, DriverService, ActivityService,
+        JobService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

@@ -33,25 +33,25 @@ namespace PH.Well.Services
                     return this.lookupRepository.JobStatus().OrderBy(x => x.Value).ToList();
 
                 case LookupType.JobType:
-                    return this.lookupRepository.JobType().OrderBy(x => x.Value).ToList();
+                    return this.lookupRepository.JobType();
 
                 case LookupType.Driver:
-                    return this.lookupRepository.Driver().OrderBy(x => x.Value).ToList();
+                    return this.lookupRepository.Driver();
 
                 case LookupType.DeliveryAction:
-                    return this.GetDeliveryActions().OrderBy(x => x.Value).ToList();
+                    return this.GetDeliveryActions();
 
                 case LookupType.JobDetailSource:
-                    return this.GetJobDetailSource().OrderBy(x => x.Value).ToList();
+                    return this.GetJobDetailSource();
 
                 case LookupType.JobDetailReason:
-                    return this.GetJobDetailReason().OrderBy(x => x.Value).ToList();
+                    return this.GetJobDetailReason();
 
                 case LookupType.RouteStatus:
-                    return this.GetWellStatus().OrderBy(x => x.Value).Where(x => x.Key != "2") .ToList();
+                    return this.GetWellStatus().Where(x => x.Key != "2") .ToList();
 
                 case LookupType.WellStatus:
-                    return this.GetWellStatus().OrderBy(x => x.Value).ToList();
+                    return this.GetWellStatus().ToList();
 
                 case LookupType.CommentReason:
                     return this.lookupRepository.CommentReason().OrderBy(x => x.Value).ToList();
@@ -66,17 +66,20 @@ namespace PH.Well.Services
 
         private IList<KeyValuePair<string, string>> GetJobDetailReason()
         {
-            return Enum<JobDetailReason>.GetValuesAndDescriptions().Select(x =>
-                   new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+            var sources = Enum.GetValues(typeof(JobDetailReason)).Cast<JobDetailReason>().ToList();
+            return sources
+                .Select(a => new KeyValuePair<string, string>($"{(int)a}", a.Description()))
+                .ToList();
         }
 
         private IList<KeyValuePair<string, string>> GetJobDetailSource()
         {
             var sources = Enum.GetValues(typeof(JobDetailSource)).Cast<JobDetailSource>().ToList();
-            return sources.Select(a =>
-                    new KeyValuePair<string, string>($"{(int) a}", StringExtensions.GetEnumDescription(a))).ToList();
+            return sources
+                .Select(a => new KeyValuePair<string, string>($"{(int) a}", a.Description()))
+                .ToList();
         }
-
+        
         private IList<KeyValuePair<string, string>> GetDeliveryActions()
         {
             IEnumerable<DeliveryAction> actions = new List<DeliveryAction>()
@@ -91,20 +94,29 @@ namespace PH.Well.Services
 
         private IList<KeyValuePair<string, string>> GetRouteStatus()
         {
-            return Enum<RouteStatus>.GetValuesAndDescriptions().Select(x =>
-                   new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+            var sources = Enum.GetValues(typeof(RouteStatus)).Cast<RouteStatus>().ToList();
+
+            return sources
+                .Where(p => p != RouteStatus.Unknown)
+                .Select(a => new KeyValuePair<string, string>($"{(int)a}", a.Description()))
+                .ToList();
         }
 
         private IList<KeyValuePair<string, string>> GetWellStatus()
         {
-            return Enum<WellStatus>.GetValuesAndDescriptions().Select(x =>
-                new KeyValuePair<string, string>($"{(int)x.Key}", x.Value)).ToList();
+            var sources = Enum.GetValues(typeof(WellStatus)).Cast<WellStatus>().ToList();
+
+            return sources
+                .Where(p => p != WellStatus.Unknown)
+                .Select(a => new KeyValuePair<string, string>($"{(int)a}", a.Description()))
+                .ToList();
         }
 
         private IList<KeyValuePair<string, string>> GetResolutionStatus()
         {
-           return  ResolutionStatus.Values.Select(x =>
-                new KeyValuePair<string, string>(x.Value.Value.ToString(), x.Value.Description)).ToList();
+           return  ResolutionStatus.AllStatus
+                .Select(x => new KeyValuePair<string, string>(x.Value.ToString(), x.Description))
+                .ToList();
 
         }
     }

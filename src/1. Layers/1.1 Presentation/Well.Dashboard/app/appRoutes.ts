@@ -1,4 +1,4 @@
-﻿import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import {AccountComponent} from './account/accountComponent';
 import {ApprovalsComponent} from './approvals/approvalsComponent';
 import {AuditComponent} from './audit/auditComponent';
@@ -16,8 +16,9 @@ import {UnauthorisedComponent} from './unauthorised/unauthorisedComponent';
 import {BranchRoleComponent} from './branch-role/branchRoleComponent';
 import {UserThresholdComponent} from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
-import { SingleRouteComponent } from './routes/singleRouteComponent'
+import { SingleRouteComponent } from './routes/singleRouteComponent';
 import {StopComponent} from './stops/stopComponent';
+import {ActivityComponent} from './activity/activityComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
@@ -42,6 +43,7 @@ const routes: Routes = [
     { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
     { path: 'singleroute/:id', component: SingleRouteComponent },
     { path: 'stops/:id', component: StopComponent },
+    { path: 'invoice/:number/:branchId', component: ActivityComponent }
 ];
 
 export const appRoutingProviders: any[] = [];

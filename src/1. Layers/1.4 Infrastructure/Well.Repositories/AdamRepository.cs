@@ -159,40 +159,42 @@
 
         public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings)
         {
-            //  var job = this.jobRepository.GetById(grn.Id);
-
             var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, this.jobRepository.CurrentUser);
-
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            if (delivery.GrnNumber != String.Empty)
             {
-                try
+                using (var connection = new AdamConnection(GetConnection(adamSettings)))
                 {
-                    connection.Open();
-
-                    using (var command = new AdamCommand(connection))
+                    try
                     {
-                        var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
-                        var today = DateTime.Now.ToShortDateString();
-                        var now = DateTime.Now.ToShortTimeString();
+                        connection.Open();
 
-                        var commandString =
-                            string.Format(
-                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today, now, (int)EventAction.Grn , "WELL", grn.BranchId, acno, delivery.InvoiceNumber, delivery.GrnProcessType, delivery.GrnNumber);
+                        using (var command = new AdamCommand(connection))
+                        {
+                            var acno = (int) (Convert.ToDecimal(delivery.AccountCode)*1000);
+                            var today = DateTime.Now.ToShortDateString();
+                            var now = DateTime.Now.ToShortTimeString();
 
-                        command.CommandText = commandString;
-                        command.ExecuteNonQuery();
+                            var commandString =
+                                string.Format(
+                                    "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
+                                    "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today,
+                                    now, (int) EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
+                                    delivery.GrnProcessType, delivery.GrnNumber);
 
+                            command.CommandText = commandString;
+                            command.ExecuteNonQuery();
+
+                        }
+                        return AdamResponse.Success;
                     }
-                    return AdamResponse.Success;
-                }
-                catch (AdamProviderException adamException)
-                {
-                    this.logger.LogError("ADAM error occurred!", adamException);
-
-                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    catch (AdamProviderException adamException)
                     {
-                        return AdamResponse.AdamDown;
+                        this.logger.LogError("ADAM error occurred!", adamException);
+
+                        if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                        {
+                            return AdamResponse.AdamDown;
+                        }
                     }
                 }
             }

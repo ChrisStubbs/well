@@ -20,13 +20,8 @@ namespace PH.Well.Api.Controllers
         {
             LookupType lookupValue;
 
-            try
-            {
-                lookupValue = (LookupType)Enum.Parse(typeof(LookupType), lookUp);
-                if (!(Enum.IsDefined(typeof(LookupType), lookupValue) | lookupValue.ToString().Contains(",")))
-                    throw new ArgumentException($"{lookUp}");
-            }
-            catch (ArgumentException)
+            lookupValue = (LookupType)Enum.Parse(typeof(LookupType), lookUp);
+            if (!(Enum.IsDefined(typeof(LookupType), lookupValue) | lookupValue.ToString().Contains(",")))
             {
                 throw new ArgumentException($"{lookUp}");
             }

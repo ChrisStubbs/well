@@ -1,4 +1,4 @@
-﻿import {Component, ViewChild, Input} from '@angular/core';
+import {Component, ViewChild, Input} from '@angular/core';
 import {Delivery}                   from './model/delivery';
 import {DeliveryLine}               from './model/deliveryLine';
 import {Damage}                     from './model/damage';
@@ -41,7 +41,7 @@ export class DeliveryIssuesComponent {
             .subscribe(r => { this.reasons = r; });
 
         this.deliveryService.getSources()
-            .subscribe(s => { this.sources = s });
+            .subscribe(s => this.sources = s);
 
         this.deliveryService.getActions()
             .subscribe(actions => {

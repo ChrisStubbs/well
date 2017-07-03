@@ -1,17 +1,14 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import { Component, OnInit, ViewChild}  from '@angular/core';
 import { GlobalSettingsService} from '../shared/globalSettings';
-import { Response } from '@angular/http';
 import {HttpResponse} from '../shared/httpResponse';
 import { SecurityService} from '../shared/security/securityService';
-import { UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
 import { ToasterService} from 'angular2-toaster/angular2-toaster';
 import 'rxjs/Rx';   // Load all features
 import * as lodash from 'lodash';
-
 import { Notification} from './notification';
 import { PaginationService } from 'ng2-pagination';
 import { NotificationsService} from './notificationsService';
-import { NotificationModalComponent} from './notificationModalComponent'
+import { NotificationModalComponent} from './notificationModalComponent';
 
 @Component({
     selector: 'ow-notifications',

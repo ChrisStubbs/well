@@ -50,7 +50,7 @@
             to.JobDetails = Mapper.Map<List<JobDetailDTO>, List<JobDetail>>(from.JobDetails);
             to.GrnNumberUpdate = from.GrnNumber;
             to.OuterCount = from.OuterCount;
-            to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
+           // to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
             to.TotalOutersOverUpdate = from.TotalOutersOver;
             to.TotalOutersShort = from.TotalOutersShort;
             to.DetailOutersOverUpdate = from.DetailOutersOver;
@@ -77,10 +77,7 @@
 
         public void Map(JobDetailDTO from, JobDetail to)
         {
-            to.ShortQty = from.ShortQty;
-            to.DeliveredQty = from.DeliveredQty;
-            to.OriginalDespatchQty = from.OriginalDespatchQty;
-            to.LineDeliveryStatus = from.LineDeliveryStatus;
+            Mapper.Map(from, to);
         }
 
         public void Map(JobDetailUpdate from, JobDetail to)

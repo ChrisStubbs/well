@@ -1,7 +1,7 @@
 import * as _                   from 'lodash';
 import {IFilter}                from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import {LookupService}          from '../shared/services/lookupService';
+import {IGrnAssignable} from '../job/job';
 
 export interface SingleRoute
 {
@@ -14,7 +14,7 @@ export interface SingleRoute
     items: SingleRouteItem[];
 }
 
-export class SingleRouteItem
+export class SingleRouteItem implements IGrnAssignable
 {
     constructor()
     {
@@ -25,8 +25,6 @@ export class SingleRouteItem
     public stopId: number;
     public stop: string;
     public stopStatus: string;
-    public stopExceptions: number;
-    public stopClean: number;
     public tba: number;
     public stopAssignee: string;
     public resolution: string;
@@ -50,8 +48,11 @@ export class SingleRouteItem
     public jobStatus: number;
     public isSelected: boolean;
     public account: string;
+    public accountName: string;
     public wellStatus: number;
     public wellStatusDescription: string;
+    public grnNumber: string;
+    public grnProcessType: number;
 }
 
 export class SingleRouteSource
@@ -70,6 +71,7 @@ export class SingleRouteSource
     public stopAssignee: string;
     public isExpanded: boolean;
     public items: Array<SingleRouteItem>;
+    public accountName: string;
 }
 
 export class SingleRouteFilter implements IFilter
@@ -78,7 +80,7 @@ export class SingleRouteFilter implements IFilter
     {
         this.account = '';
         this.invoice = '';
-        this.jobType = '';
+        this.jobTypeId = undefined;
         this.wellStatus = '';
         this.exceptions = undefined;
         this.clean = undefined;
@@ -88,7 +90,7 @@ export class SingleRouteFilter implements IFilter
 
     public account: string;
     public invoice: string;
-    public jobType: string = '';
+    public jobTypeId?: number = undefined;
     public wellStatus: string;
     public exceptions: boolean;
     public clean: boolean;
@@ -103,12 +105,18 @@ export class SingleRouteFilter implements IFilter
             case 'invoice':
                 return  GridHelpersFunctions.containsFilter;
 
-            case 'jobType':
-                return GridHelpersFunctions.startsWithFilter;
+            case 'jobTypeId':
+                 return (value: number, value2: number) =>
+                    {
+                        const v = +value;
+                        const v2 = +value2;
+
+                        const f = GridHelpersFunctions.isEqualFilter;
+
+                        return  f(v, v2);
+                    };
 
             case 'wellStatus':
-                return GridHelpersFunctions.isEqualFilter;
-
             case 'assignee':
                 return  GridHelpersFunctions.isEqualFilter;
 
@@ -128,7 +136,7 @@ export class SingleRouteFilter implements IFilter
                     return value == 0;
                 };
             case 'resolutionId':
-                return LookupService.compareResolutionStatusValue;
+                return GridHelpersFunctions.enumBitwiseAndCompare;
         }
 
         return undefined;

@@ -192,15 +192,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\activity\activity.ts" />
+    <TypeScriptCompile Include="app\activity\activityComponent.ts" />
+    <TypeScriptCompile Include="app\activity\activityService.ts" />
+    <TypeScriptCompile Include="app\activity\activitySource.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
     <TypeScriptCompile Include="app\exceptions\editLineItemException.ts" />
     <TypeScriptCompile Include="app\exceptions\lineItemAction.ts" />
+    <TypeScriptCompile Include="app\job\assignGrnModal.ts" />
+    <TypeScriptCompile Include="app\job\job.ts" />
+    <TypeScriptCompile Include="app\job\jobService.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
-    <TypeScriptCompile Include="app\shared\action\actionModal.ts" />
+    <Content Include="app\shared\action\actionEditComponent.css" />
+    <Content Include="app\shared\action\bulkEditActionModal.html" />
+    <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
+    <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
+    <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\action\submitActionModal.ts" />
+    <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
     <TypeScriptCompile Include="app\shared\action\actionService.ts" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -227,7 +240,6 @@
     <TypeScriptCompile Include="app\shared\components\assignModal.ts" />
     <TypeScriptCompile Include="app\shared\components\assignModel.ts" />
     <TypeScriptCompile Include="app\shared\components\components.ts" />
-    <TypeScriptCompile Include="app\shared\defaults\defaults.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpers.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpersFunctions.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\IFilter.ts" />
@@ -245,7 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
-    <Content Include="app\approvals\approvals-list.html" />
+    <Content Include="app\approvals\approvalsComponent.html" />
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
@@ -264,10 +276,11 @@
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
+    <Content Include="app\job\assignGrnModal.html" />
     <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.html" />
-    <Content Include="app\shared\action\actionModal.html" />
+    <Content Include="app\shared\action\submitActionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />
@@ -549,7 +562,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\approvals\approvalsComponent.ts" />
-    <Content Include="app\approvals\approvalDelivery.ts" />
+    <Content Include="app\approvals\approval.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
     <TypeScriptCompile Include="app\driver\driverService.ts" />

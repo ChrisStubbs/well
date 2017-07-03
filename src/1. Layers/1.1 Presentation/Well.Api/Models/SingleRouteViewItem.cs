@@ -7,8 +7,8 @@
         public int JobId { get; set; }
         public string Stop { get; set; }
         public string StopStatus { get; set; }
-        public int StopExceptions { get; set; }
-        public int StopClean { get; set; }
+        //public int StopExceptions { get; set; }
+        //public int StopClean { get; set; }
         public int Tba { get; set; }
         public string StopAssignee { get; set; }
         public string Resolution { get; set; }
@@ -27,7 +27,10 @@
         public JobStatus JobStatus { get; set; }
         public int StopId { get; set; }
         public string Account { get; set; }
+        public string AccountName { get; set; }
         public WellStatus WellStatus { get; set; }
         public string WellStatusDescription { get; set; }
+        public int GrnProcessType { get; set; }
+        public string GrnNumber { get; set; }
     }
 }

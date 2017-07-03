@@ -98,21 +98,7 @@
 
             Assert.IsTrue(this.validator.IsValid(model, false));
         }
-
-        [Test]
-        public void BranchRequired()
-        {
-            this.repository.Setup(x => x.GetAll()).Returns(new List<CreditThreshold>());
-
-            var model = new CreditThresholdModel { ThresholdLevel = "Level 1", Threshold = 54 };
-
-            Assert.IsFalse(this.validator.IsValid(model, false));
-
-            Assert.That(this.validator.Errors.Count, Is.EqualTo(1));
-
-            Assert.That(this.validator.Errors[0], Is.EqualTo("Branch is required!"));
-        }
-
+        
         [Test]
         public void ThresholdUniqueToBranch()
         {

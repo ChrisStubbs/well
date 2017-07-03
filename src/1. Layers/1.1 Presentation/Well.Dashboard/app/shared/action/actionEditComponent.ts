@@ -4,25 +4,26 @@ import {
         ElementRef,
         EventEmitter,
         Output,
-        ViewEncapsulation }         from '@angular/core';
-import { NgForm }                   from '@angular/forms';
-import { IObservableAlive }         from '../IObservableAlive';
-import * as _                       from 'lodash';
-import { ILookupValue }             from '../services/ILookupValue';
-import { LookupsEnum }              from '../services/lookupsEnum';
-import { LookupService }            from '../services/lookupService';
-import { EditExceptionsService }    from '../../exceptions/editExceptionsService';
-import { Observable }               from 'rxjs';
-import { LineItemAction }           from '../../exceptions/lineItemAction';
-import { EditLineItemException }    from '../../exceptions/editLineItemException';
-import { LineItemActionComment }    from '../../exceptions/lineItemAction';
+        ViewEncapsulation
+}                                           from '@angular/core';
+import { NgForm }                           from '@angular/forms';
+import { IObservableAlive }                 from '../IObservableAlive';
+import * as _                               from 'lodash';
+import { ILookupValue }                     from '../services/ILookupValue';
+import { LookupsEnum }                      from '../services/lookupsEnum';
+import { LookupService }                    from '../services/lookupService';
+import { EditExceptionsService }            from '../../exceptions/editExceptionsService';
+import { Observable }                       from 'rxjs';
+import { LineItemAction }                   from '../../exceptions/lineItemAction';
+import { EditLineItemException }            from '../../exceptions/editLineItemException';
+import { LineItemActionComment }            from '../../exceptions/lineItemAction';
 
 @Component({
     selector: 'action-edit',
     templateUrl: 'app/shared/action/actionEditComponent.html',
     providers: [LookupService, EditExceptionsService],
     styleUrls: ['app/shared/action/actionEditComponent.css'],
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None
 })
 export class ActionEditComponent implements IObservableAlive
 {
@@ -42,8 +43,10 @@ export class ActionEditComponent implements IObservableAlive
     private commentReasons: Array<ILookupValue>;
     private lineItemActionsToRemove: Array<LineItemAction> = [];
     private lineItemActions: Array<LineItemAction> = [];
-    private errorInvoiceQty: string = 'Total Action quantity is > than the invoice quantity';
+    private errorInvoiceQty: string = 'The total exception quantity cannot exceed the invoiced quantity';
     private errorCommentRequired: string = 'When editing a quantity a comment is required';
+    private creditAction: number;
+    private closeAction: number;
 
     constructor(
         private lookupService: LookupService,
@@ -76,6 +79,12 @@ export class ActionEditComponent implements IObservableAlive
                     this.reasons = value[3];
                     this.commentReasons = JSON.parse(JSON.stringify(value[4]));
                     this.commentReasons.unshift({ key: undefined, value: undefined });
+
+                    this.creditAction = +this.deliveryActions.
+                        find((current: ILookupValue) => current.value == 'Credit').key;
+
+                    this.closeAction = +this.deliveryActions.
+                    find((current: ILookupValue) => current.value == 'Close').key;
                 });
         }
     }
@@ -112,7 +121,13 @@ export class ActionEditComponent implements IObservableAlive
     {
         if (this.currentForm.form.valid)
         {
-            this.source.lineItemActions = this.lineItemActions;
+            _.map(this.lineItemActions, (current: LineItemAction) => {
+                if (current.deliveryAction == this.closeAction)
+                {
+                    current.quantity = 0;
+                }
+            });
+
             this.editExceptionsService.patch(this.source)
                 .takeWhile(() => this.isAlive)
                 .subscribe((responseData: EditLineItemException) =>
@@ -134,11 +149,6 @@ export class ActionEditComponent implements IObservableAlive
     private actionClose: number = 2;
     private qtyChanged(item: LineItemAction, index: number): void
     {
-        // if (item.quantity === 0)
-        // {
-        //     item.deliveryAction = this.actionClose;
-        // }
-
         if (this.isOriginalQuantity(item))
         {
             item.commentReason = undefined;
@@ -153,7 +163,7 @@ export class ActionEditComponent implements IObservableAlive
         this.validateComment(item, index);
     }
 
-    private validateTotalQty()
+    private validateTotalQty(): void
     {
         const form = this.currentForm.form;
         const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
@@ -162,7 +172,6 @@ export class ActionEditComponent implements IObservableAlive
         if (totalLineQty > this.source.invoiced)
         {
             this.setError(form, this.errorInvoiceQty);
-
         }
     }
 
@@ -214,7 +223,14 @@ export class ActionEditComponent implements IObservableAlive
     private isOriginalQuantity(item: LineItemAction): boolean
     {
         const originalItem = this.getOriginalItem(item.id);
-        return (originalItem && originalItem.quantity === item.quantity);
+        return !_.isNil(originalItem) && originalItem.quantity === item.quantity;
+    }
+
+    private isCommentMandatory(item: LineItemAction): boolean
+    {
+        return !this.isOriginalQuantity(item)
+            && item.deliveryAction != this.actionClose
+            && item.id != 0;
     }
 
     private validateComment(item: LineItemAction, index: number)
@@ -237,7 +253,7 @@ export class ActionEditComponent implements IObservableAlive
 
     private deliveryActionChange(item: LineItemAction, index: number): void
     {
-        if (+item.deliveryAction === this.actionClose)
+        if (item.deliveryAction === this.actionClose)
         {
             item.quantity = 0;
             this.validate(item, index);
@@ -263,6 +279,7 @@ export class ActionEditComponent implements IObservableAlive
         {
             item.comments.pop();
         }
+
         this.validate(item, index);
     }
 

@@ -22,6 +22,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
         private readonly IJobService jobService;
+        private readonly IUserRepository userRepository;
 
         public SubmitActionService(
             ILogger logger,
@@ -32,7 +33,8 @@
             IActionSummaryMapper actionSummaryMapper,
             IJobRepository jobRepository,
             IJobResolutionStatus jobResolutionStatus,
-            IJobService jobService
+            IJobService jobService,
+            IUserRepository userRepository
             )
         {
             this.logger = logger;
@@ -44,6 +46,7 @@
             this.jobRepository = jobRepository;
             this.jobResolutionStatus = jobResolutionStatus;
             this.jobService = jobService;
+            this.userRepository = userRepository;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
@@ -67,7 +70,8 @@
                     foreach (var job in jobs)
                     {
                         // after validation will only have pending submission Jobs
-                        if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission)
+                        if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission
+                            || jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingApproval)
                         {
                             job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
                             jobRepository.SaveJobResolutionStatus(job);
@@ -80,6 +84,9 @@
                             }
                             else
                             {
+                                //the job is in ResolutionStatus.PendingApproval
+                                //so it have to be unallocated 
+                                this.userRepository.UnAssignJobToUser(job.Id);
                                 result.Warnings.Add("Your threshold level is not high enough " +
                                                     $"to credit the delivery for job no: {job.Id} invoice: {job.InvoiceNumber}. " +
                                                     "The Job has been been marked for authorisation.");

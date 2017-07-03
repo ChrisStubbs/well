@@ -1,4 +1,4 @@
-﻿import {Branch} from '../branch/branch';
+import {Branch} from '../branch/branch';
 import {IUser} from '../iuser';
 
 export class AssignModel

@@ -1,0 +1,110 @@
+<button style="visibility: hidden" type="button" data-target="#bulkAddModal" data-toggle="modal" #showBulkAddModal>
+    ShowModal
+</button>
+<div class="modal fade" id="bulkAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" #bulkEditActionForm="ngForm">
+                <div class="modal-header" style=" padding-bottom: 0;">
+                    <div style="border-bottom: 1px solid #e5e5e5; padding-bottom: 15px">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Edit existing exceptions</h4>
+                    </div>
+                    <div style="padding: 15px 15px 0 15px">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span *ngIf="editItems.length > 0">
+                                    Please select the action, source and reason to resolve the selected exceptions.
+                                </span>
+                                <span *ngIf="editItems.length === 0">
+                                    No editable exceptions have been selected.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-1">
+                                <label>Action:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="deliveryAction" name="deliveryAction"
+                                        [(ngModel)]="deliveryAction"
+                                        pattern="^[1-9][0-9]*$">
+                                    <option *ngFor="let action of deliveryActions" [value]="action.key">
+                                        {{ action.value }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <label>Source:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="source" name="source"
+                                        [(ngModel)]="source"
+                                        pattern="^[1-9][0-9]*$">
+                                    <option *ngFor="let source of sources" [value]="source.key">
+                                        {{ source.value }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <label>Reason:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="reason" name="reason"
+                                        [(ngModel)]="reason"
+                                        pattern="^[1-9][0-9]*$">
+                                    <option *ngFor="let reason of reasons" [value]="reason.key">
+                                        {{ reason.value }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" style="padding-top: 0; overflow: visible">
+
+                    <div class="table-responsive table-container">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label> {{message}}</label>
+                            </div>
+                        </div>
+                        <table class="table table-striped" *ngIf="editItems.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Type</th>
+                                    <th>Account</th>
+                                    <th>Short Qty</th>
+                                    <th>Damage Qty</th>
+                                    <th>Bypass Qty</th>
+                                    <th>Total Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of editItems;">
+                                    <td>{{item.invoice}}</td>
+                                    <td>{{item.type}}</td>
+                                    <td>{{item.account}}</td>
+                                    <td>{{item.shortQuantity}}</td>
+                                    <td>{{item.damageQuantity}}</td>
+                                    <td>{{item.bypassQuantity}}</td>
+                                    <td>{{item.totalValue | currency:'GBP': true}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" #closeBulkAddModal (click)="close()">Cancel</button>&nbsp;
+                            <button type="button" class="btn btn-success" [disabled]="!isFormValid()" (click)="save()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

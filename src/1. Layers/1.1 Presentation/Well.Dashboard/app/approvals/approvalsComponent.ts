@@ -1,177 +1,190 @@
-﻿import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { NavigateQueryParametersService } from '../shared/NavigateQueryParametersService';
-import { FilterOption } from '../shared/filterOption';
-import { DropDownItem } from '../shared/dropDownItem';
-import { ContactModal } from '../shared/contactModal';
-import { AccountService } from '../account/accountService';
-import { IAccount } from '../account/account';
-import { ApprovalDelivery } from './approvalDelivery';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
 import { ApprovalsService } from './approvalsService';
-import { ExceptionDeliveryService } from '../exceptions/exceptionDeliveryService';
-import { RefreshService } from '../shared/refreshService';
-import { AssignModal, AssignModel } from '../shared/components/components';
-import { ConfirmModal } from '../shared/confirmModal';
-import { ExceptionsConfirmModal } from '../exceptions/exceptionsConfirmModal';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
-import { SecurityService } from '../shared/security/securityService';
-import { BaseComponent } from '../shared/BaseComponent';
-import { BaseDelivery } from '../shared/baseDelivery';
-import { DeliveryAction } from '../delivery/model/deliveryAction';
-import { OrderByExecutor } from '../shared/OrderByExecutor';
+import { Approval, ApprovalFilter } from './approval';
+import * as _ from 'lodash';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { BranchService } from '../shared/branch/branchService';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import { AssignModalResult, AssignModel } from '../shared/components/assignModel';
 import { Branch } from '../shared/branch/branch';
-import 'rxjs/Rx';
+import { SecurityService } from '../shared/security/securityService';
 
 @Component({
-    templateUrl: './app/approvals/approvals-list.html'
+    selector: 'ow-approval',
+    templateUrl: './app/approvals/approvalsComponent.html',
+    providers: [ApprovalsService],
+    styles: ['.colAccount {width: 10% } ' +
+        '.colInvoice {width: 10% } ' +
+        '.colQty { width: 6% }' +
+        '.colValue { width: 7% }' +
+        '.colUser { width: 11% }' +
+        '.colCheckbox { width: 3% } ']
 })
-export class ApprovalsComponent extends BaseComponent implements OnInit, OnDestroy
+export class ApprovalsComponent implements IObservableAlive
 {
-    public isLoading: boolean = true;
-    private refreshSubscription: any;
-    public errorMessage: string;
-    public approvals = new Array<ApprovalDelivery>();
-    public level: number;
-    public assigneeOption = new DropDownItem('Assignee', 'assigned');
-    public account: IAccount;
-    public lastRefresh = Date.now();
-    @ViewChild(AssignModal)
-    private assignModal: AssignModal;
-    public value: string;
-    public confirmModalIsVisible: boolean = false;
-    public selectGridBox: boolean = false;
-    public thresholdFilterOption = new FilterOption();
+    public isAlive: boolean = true;
+    public source: Array<Approval>;
 
-    @ViewChild(ConfirmModal) private confirmModal: ConfirmModal;
-    @ViewChild(ContactModal) private contactModal: ContactModal;
-    @ViewChild(ExceptionsConfirmModal) private exceptionConfirmModal: ExceptionsConfirmModal;
-    public isReadOnlyUser: boolean = false;
-    private orderBy: OrderByExecutor = new OrderByExecutor();
+    private gridSource: Array<Approval> = [];
+    private assignees: Array<string> = [];
+    private assigneesTo: Array<string> = [];
+    private filters: ApprovalFilter = new ApprovalFilter();
+    private branches: Array<[string, string]>;
+    private thresholdFilter: boolean = false;
+    private isReadOnlyUser: boolean = false;
+    private inputFilterTimer: any;
 
     constructor(
-        protected globalSettingsService: GlobalSettingsService,
-        private accountService: AccountService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute,
-        private refreshService: RefreshService,
-        private toasterService: ToasterService,
-        protected securityService: SecurityService,
-        private nqps: NavigateQueryParametersService,
         private approvalsService: ApprovalsService,
-        private exceptionDeliveryService: ExceptionDeliveryService)
-    {
-
-        super(nqps, globalSettingsService, securityService);
-
-        this.options = [
-            this.assigneeOption
-        ];
-        this.sortField = 'deliveryDate';
-    }
+        private route: ActivatedRoute,
+        private securityService: SecurityService,
+        private globalSettingsService: GlobalSettingsService,
+        private branchService: BranchService) { }
 
     public ngOnInit(): void
     {
-        super.ngOnInit();
+        this.route.params
+            .flatMap(data =>
+            {
+                return this.approvalsService.get();
+            }).takeWhile(() => this.isAlive)
+            .subscribe((data: Approval[]) =>
+            {
+                this.source = data;
+                this.fillGridSource();
+            });
 
-        this.refreshSubscription = this.refreshService.dataRefreshed$.subscribe(r => this.getApprovals());
+        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
+            .takeWhile(() => this.isAlive)
+            .subscribe((branches: Array<[string, string]>) => this.branches = branches);
 
-        this.activatedRoute.queryParams.subscribe(params => 
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    public fillGridSource(): void
+    {
+        const filteredValues =
+            GridHelpersFunctions.applyGridFilter<Approval, ApprovalFilter>(this.source, this.filters);
+
+        if (this.assignees.length === 0)
         {
-            this.getApprovals();
+            this.assignees = [];
+            this.assigneesTo = [];
+
+            _.forEach(filteredValues, (current: Approval) =>
+            {
+                this.assignees.push(current.submittedBy || 'Unallocated');
+                this.assigneesTo.push(current.assignedTo || 'Unallocated');
+            });
+
+            this.assigneesTo = _.sortBy(_.uniq(this.assigneesTo));
+        }
+
+        this.gridSource = filteredValues;
+    }
+
+    public ngOnDestroy(): void 
+    {
+        this.isAlive = false;
+    }
+
+    private clearFilter(): void
+    {
+        this.filters = new ApprovalFilter();
+        this.thresholdFilter = false;
+        this.filters.creditValue = this.filters.getCreditUpperLimit();
+        this.fillGridSource();
+    }
+
+    public filterFreeText(): void
+    {
+        GridHelpersFunctions.filterFreeText(this.inputFilterTimer)
+            .then(() => this.fillGridSource())
+            .catch(() => this.inputFilterTimer = undefined);
+    }
+
+    private disableSubmitActions(): boolean 
+    {
+        return this.selectedItems().length == 0;
+    }
+
+    public selectedItems(): Array<Approval>
+    {
+        return _.filter(this.gridSource, (current: Approval) =>
+        {
+            return current.isSelected &&
+                (current.assignedTo || '') == this.globalSettingsService.globalSettings.userName;
         });
-
     }
 
-    public ngOnDestroy()
+    private currentUserThreshold(): number
     {
-        super.ngOnDestroy();
-        this.refreshSubscription.unsubscribe();
+        return this.globalSettingsService.globalSettings.user.threshold;
     }
 
-    public getApprovals()
+    public setCreditFilterValue(event): void
     {
-        this.approvalsService.getApprovals()
-            .subscribe(responseData =>
+        if (!event.target.checked)
+        {
+            this.filters.creditValue = this.filters.getCreditUpperLimit();
+        }
+        else
+        {
+            this.filters.creditValue = this.globalSettingsService.globalSettings.user.threshold;
+        }
+
+        this.fillGridSource();
+    }
+
+    public getSelectedJobIds(): Array<number>
+    {
+        return _.map(this.selectedItems(), 'jobId');
+    }
+
+    public allChildrenSelected(): boolean
+    {
+        return _.every(this.gridSource, (current: Approval) => current.isSelected);
+    }
+
+    public selectAll(select: boolean): void
+    {
+        _.map(this.gridSource, (current: Approval) => current.isSelected = select);
+    }
+
+    private jobsSubmitted(): void
+    {
+        this.approvalsService.get()
+            .takeWhile(() => this.isAlive)
+            .subscribe((data: Approval[]) =>
             {
-                this.approvals = responseData || new Array<ApprovalDelivery>();
-                this.lastRefresh = Date.now();
-                this.isLoading = false;
-            },
-            error =>
-            {
-                if (error.status && error.status === 404)
-                {
-                    this.lastRefresh = Date.now();
-                }
-                this.isLoading = false;
+                this.source = data;
+                this.fillGridSource();
             });
     }
 
-    public onSortDirectionChanged(isDesc: boolean)
+    public onAssigned(event: AssignModalResult)
     {
-        super.onSortDirectionChanged(isDesc);
-        this.approvals = this.orderBy.Order(this.approvals, this);
+        const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+
+        _.find(this.source, (current: Approval) =>
+        {
+            const item = <Approval>event.source;
+
+            return item.jobId == current.jobId;
+        }).assignedTo = userName;
+
+        this.assignees = [];
+        this.assigneesTo = [];
+        this.fillGridSource();
     }
 
-    public onFilterClicked(filterOption: FilterOption)
+    public getAssignModel(line: Approval): AssignModel
     {
-        super.onFilterClicked(filterOption);
-    }
-
-    public onThresholdClicked(level: number)
-    {
-        this.level = level;
-        this.thresholdFilterOption = new FilterOption(
-            new DropDownItem('Level', 'creditThresholdLevel'),
-            level == undefined ? '' : 'Level ' + level);
-    }
-
-    public openModal(accountId): void
-    {
-        this.accountService.getAccountByAccountId(accountId)
-            .subscribe(account =>
-            {
-                this.account = account;
-                this.contactModal.show(this.account);
-            },
-            error => this.errorMessage = <any>error);
-    }
-
-    public onAssigned($event)
-    {
-        this.getApprovals();
-    }
-
-    public getAssignModel(delivery: ApprovalDelivery): AssignModel
-    {
-        const branch: Branch = { id: delivery.branchId } as Branch;
-        return new AssignModel(
-            delivery.assigned,
-            branch,
-            [delivery.id] as number[],
-            this.isReadOnlyUser || delivery.thresholdLevelValid,
-            delivery);
-    }
-
-    public deliverySelected(delivery): void
-    {
-        this.router.navigate(['/delivery', delivery.id]);
-    }
-
-    public canSubmit(canSubmitDelivery: boolean): boolean
-    {
-        return canSubmitDelivery &&
-            this.securityService.hasPermission(this.globalSettingsService.globalSettings.permissions,
-                this.securityService.actionDeliveries);
-    }
-
-    public submit(delivery: BaseDelivery): void
-    {
-        this.exceptionDeliveryService.getConfirmationDetails(delivery.id)
-            .subscribe((deliveryAction: DeliveryAction) =>
-            {
-                this.exceptionConfirmModal.show(deliveryAction);
-            });
+        const branch = { id: line.branchId } as Branch;
+        const jobIds = [line.jobId];
+        return new AssignModel(line.assignedTo, branch, jobIds, this.isReadOnlyUser, line);
     }
 }

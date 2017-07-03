@@ -17,9 +17,12 @@ import { EditExceptionsService } from '../exceptions/editExceptionsService';
 import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
 import { LookupService } from '../shared/services/lookupService';
 import { LookupsEnum } from '../shared/services/lookupsEnum';
-import { SingleRouteSource } from '../routes/singleRoute';
+import { GrnHelpers, IGrnAssignable } from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
+import { IAccount } from '../account/account';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
 
 @Component({
     selector: 'ow-stop',
@@ -42,7 +45,8 @@ import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
         '.colDescription { width: 20% } ' +
         '.colNumbers { width: 6%; } ' +
         '.colHigh { width: 10% } ' +
-        '.colCheckbox { width: 3% } ']
+        '.colCheckbox { width: 3% } ' +
+        '.exceptionsFilter { width: calc( 6 * 2)}']
 })
 export class StopComponent implements IObservableAlive
 {
@@ -55,17 +59,19 @@ export class StopComponent implements IObservableAlive
     public gridSource: Array<any> = [];
     public filters: StopFilter;
     public lastRefresh = Date.now();
-    private resolutionStatuses: Array<ILookupValue>;
 
     @ViewChild('btt') public btt: ElementRef;
     @ViewChild('openContact') public openContact: ElementRef;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
+    private resolutionStatuses: Array<ILookupValue>;
+    private customerAccount: IAccount = new IAccount();
 
     constructor(
         private stopService: StopService,
@@ -97,6 +103,7 @@ export class StopComponent implements IObservableAlive
                     .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
+                    .filter(value => value[1] != '')
                     .value();
 
                 _.chain(data.items)
@@ -116,6 +123,15 @@ export class StopComponent implements IObservableAlive
                         return current;
                     })
                     .value();
+
+                //Load account for first item
+                const firstItem = _.head(data.items) as StopItem;
+                this.accountService.getAccountByAccountId(firstItem.accountID)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(account =>
+                    {
+                        this.customerAccount = account;
+                    });
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
@@ -154,6 +170,18 @@ export class StopComponent implements IObservableAlive
         this.stop.assignedTo = userName;
     }
 
+    private selectAllJobs = (selected: boolean) => {
+        const jobIds = _.map(_.filter(this.gridSource, (item) => { return item.isRowGroup; }),
+            (item: StopItemSource) => {
+                return item.jobId;
+            });
+
+        _.each(jobIds,
+            (jobId: number) => {
+                this.selectJobs(selected, jobId);
+            });
+    }
+
     public selectJobs(select: boolean, jobId?: number): void
     {
         let filterToApply = function (item: StopItem): boolean { return true; };
@@ -181,8 +209,8 @@ export class StopComponent implements IObservableAlive
         }
 
         return _.every(
-            _.filter(this.stopsItems, filterToApply),
-            current => current.isSelected);
+            _.filter(this.gridSource, filterToApply),
+            (current: StopItemSource) => _.every(current.items, (item: StopItem) => item.isSelected));
     }
 
     public selectedItems(): Array<StopItem>
@@ -214,6 +242,9 @@ export class StopComponent implements IObservableAlive
 
     public fillGridSource(): void
     {
+        //Clear previous source selection
+        this.selectAllJobs(false);
+
         const values: Array<any> = [];
 
         _.chain(this.source)
@@ -266,17 +297,21 @@ export class StopComponent implements IObservableAlive
                 item.totalDelivered = summary.totalDelivered;
                 item.totalDamages = summary.totalDamages;
                 item.totalShorts = summary.totalShorts;
+                item.totalBypassed = summary.totalBypassed;
                 item.invoice = singleItem.invoice;
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
                 item.resolution = singleItem.resolution;
+                item.resolutionId = singleItem.resolutionId;
                 item.items = current;
                 item.types = _.chain(current)
                     .map('jobTypeAbbreviation')
                     .uniq()
                     .join(', ')
                     .value();
+                item.grnProcessType = singleItem.grnProcessType;
+                item.grnNumber = singleItem.grnNumber;
 
                 values[singleItem.jobId] = item;
             })
@@ -316,6 +351,7 @@ export class StopComponent implements IObservableAlive
         let totalDelivered: number = 0;
         let totalDamages: number = 0;
         let totalShorts: number = 0;
+        let totalBypassed: number = 0;
 
         _.forEach(data,
             (current: StopItem) =>
@@ -324,6 +360,7 @@ export class StopComponent implements IObservableAlive
                 totalDelivered += current.delivered;
                 totalDamages += current.damages;
                 totalShorts += current.shorts;
+                totalBypassed += current.bypassed;
             });
 
         return {
@@ -331,6 +368,7 @@ export class StopComponent implements IObservableAlive
             totalDelivered: totalDelivered,
             totalDamages: totalDamages,
             totalShorts: totalShorts,
+            totalBypassed: totalBypassed,
             items: data
         };
     }
@@ -400,6 +438,27 @@ export class StopComponent implements IObservableAlive
         job.resolution = data.resolutionStatus;
     }
 
+    public bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses, x =>
+        {
+            const job = _.find(this.gridSource, current => current.jobId == x.jobId);
+            job.resolution = x.status.description;
+
+            _.forEach(job.items,
+                item =>
+                {
+                    item.resolutionId = x.status.value;
+                    item.resolution = x.status.description;
+                    if (_.some(result.lineItemIds, id => item.lineItemId)) 
+                    {
+                        item.hasUnresolvedActions = false;
+                    }
+                });
+        });
+
+    }
+
     private jobsSubmitted(data: ISubmitActionResult): void
     {
         _.forEach(data.details, (x: ISubmitActionResultDetails) =>
@@ -417,14 +476,37 @@ export class StopComponent implements IObservableAlive
 
     public disableSubmitActions(): boolean
     {
-        if (this.selectedItems().length === 0)
+        const items = this.selectedItems();
+        if (items.length === 0)
         {
             return true;
         }
-        return _.some(this.selectedItems(),
-            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+
+        return _.some(items,
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
+            (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }
 
+    private isGrnRequired = (item: StopItemSource): boolean =>
+    {
+        return GrnHelpers.isGrnRequired(item);
+    }
+
+    private bulkEdit(): void
+    {
+        this.bulkEditActionModal.show();
+    }
+
+    private getInvoiceLink = (item: StopItem): string =>
+    {
+        return '/invoice/' + item.invoice + '/' + this.stop.branchId;
+    }
+
+    private disableBulkEdit(): boolean
+    {
+        return (this.selectedItems().length === 0
+            || this.getAssignModel().assigned !== this.globalSettingsService.globalSettings.userName);
+    }
 }
 
 interface IDictionarySource
@@ -432,7 +514,7 @@ interface IDictionarySource
     [key: number]: StopItemSource;
 }
 
-class StopItemSource
+class StopItemSource implements IGrnAssignable
 {
     constructor()
     {
@@ -447,11 +529,15 @@ class StopItemSource
     public totalDelivered: number;
     public totalDamages: number;
     public totalShorts: number;
+    public totalBypassed: number;
     public invoice: string;
     public account: string;
     public accountID: number;
     public jobId: number;
     public types: string;
     public resolution: string;
+    public resolutionId: number;
     public items: Array<StopItem>;
+    public grnNumber: string;
+    public grnProcessType: number;
 }

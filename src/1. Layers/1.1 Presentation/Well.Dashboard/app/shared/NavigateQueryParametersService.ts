@@ -203,7 +203,7 @@ export  class NavigateQueryParametersService {
 
         const current = _.chain(qs)
             .keys()
-            .filter(p => { return p.startsWith(NavigateQueryParametersService.paramName)})
+            .filter(p =>  p.startsWith(NavigateQueryParametersService.paramName))
             .value();
 
         if (current.length > 0) {
@@ -217,7 +217,7 @@ export  class NavigateQueryParametersService {
 
         const current = _.chain(qs)
             .keys()
-            .filter(p => { return p.toLowerCase() == NavigateQueryParametersService.paramPage})
+            .filter(p => p.toLowerCase() == NavigateQueryParametersService.paramPage)
             .first()
             .value();
 
@@ -254,6 +254,6 @@ export  class NavigateQueryParametersService {
 
     private static Encode(value: string): string {
         //to avoid encode 2 times the same value
-        return decodeURIComponent(encodeURIComponent(value))
+        return decodeURIComponent(encodeURIComponent(value));
     }
 }

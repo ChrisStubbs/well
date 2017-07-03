@@ -1,4 +1,4 @@
-﻿export class Notification {
+export class Notification {
     id: number;
     jobId: number;
     type: number;

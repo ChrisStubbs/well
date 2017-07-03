@@ -118,6 +118,20 @@
             return this;
         }
 
+        public JobFactory WithOuterDiscrepancyFound(bool value)
+        {
+            Entity.OuterDiscrepancyFound = value;
+
+            return this;
+        }
+
+        public JobFactory WithOuterCount(int? value)
+        {
+            Entity.OuterCount = value;
+
+            return this;
+        }
+
         public JobFactory WithCod(string value)
         {
             Entity.Cod = value;

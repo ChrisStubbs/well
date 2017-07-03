@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 import { GlobalSettingsService } from '../shared/globalSettings';
@@ -120,7 +120,7 @@ export class ExceptionsComponent extends BaseComponent implements OnInit, OnDest
 
         this.deliveryService.getSources()
             .takeWhile(() => this.isAlive)
-            .subscribe(s => { this.bulkCreditConfirmModal.sources = s });
+            .subscribe(s => this.bulkCreditConfirmModal.sources = s);
     }
 
     public ngOnDestroy()

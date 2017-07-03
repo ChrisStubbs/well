@@ -62,6 +62,21 @@ BEGIN
 	FROM [Stop] S1
 	INNER JOIN @Stops S2 ON S2.Stopid = S1.Id 
 
+		-- find the Accounts with no Location id & update
+	DECLARE @Accounts TABLE 
+	(AccountId INT, LocationId INT)
+
+	INSERT INTO @Accounts(AccountId, LocationId)
+	SELECT a.Id, s.Location_Id
+	FROM Account a
+	JOIN [Stop] s on s.Id = a.StopId
+	WHERE a.LocationId IS NULL
+
+	UPDATE a1
+	SET LocationId = a2.LocationId 
+	FROM Account a1
+	INNER JOIN @Accounts a2 ON a2.AccountId = a1.Id 
+
     RETURN 0;
 
 END

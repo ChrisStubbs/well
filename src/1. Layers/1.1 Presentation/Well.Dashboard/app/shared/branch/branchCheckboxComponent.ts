@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Branch} from './branch';
 import {BranchService} from './branchService';
 
@@ -24,7 +24,7 @@ export class BranchCheckboxComponent implements OnInit {
                     this.branches = branches;
                     this.branches.forEach(branch => {
                         if (branch.selected) {
-                            this.selectedBranches.push(branch)
+                            this.selectedBranches.push(branch);
                         }
                     });
 
@@ -39,7 +39,7 @@ export class BranchCheckboxComponent implements OnInit {
                     this.branches = branches;
                     this.branches.forEach(branch => {
                         if (branch.selected) {
-                            this.selectedBranches.push(branch)
+                            this.selectedBranches.push(branch);
                         }
                     });
 
@@ -54,7 +54,7 @@ export class BranchCheckboxComponent implements OnInit {
                     this.branches = branches;
                     this.branches.forEach(branch => {
                         if (branch.selected) {
-                            this.selectedBranches.push(branch)
+                            this.selectedBranches.push(branch);
                         }
                     });
 
@@ -69,7 +69,7 @@ export class BranchCheckboxComponent implements OnInit {
                     this.branches = branches;
                     this.branches.forEach(branch => {
                         if (branch.selected) {
-                            this.selectedBranches.push(branch)
+                            this.selectedBranches.push(branch);
                         }
                     });
 

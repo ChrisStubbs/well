@@ -9,7 +9,7 @@
     {
         private int value;
         private string description;
-        public static Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
+        private static Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
         {
             { 1, new ResolutionStatus(1, "Imported")},
             { 2, new ResolutionStatus(2, "Driver Completed")},
@@ -123,6 +123,16 @@
             get
             {
                 return new ResolutionStatus(0, "Invalid");
+            }
+        }
+
+        public static IList<ResolutionStatus> AllStatus
+        {
+            get
+            {
+                return ResolutionStatus.Values
+                    .Select(p => p.Value)
+                    .ToList();
             }
         }
 

@@ -37,8 +37,10 @@ export class ActivitySourceGroup
 
     public isExpanded: boolean;
     public stopId: number;
+    public stop: string;
     public stopDate: Date;
     public jobId: number;
+    public type: string;
     public totalDameged: number;
     public totalShorts: number;
     public totalExpected: number;
@@ -68,6 +70,7 @@ export class ActivitySourceDetail
     public resolution: string;
     public resolutionId: number;
     public stopId: number;
+    public stop: string;
     public stopDate: Date;
     public jobId: number;
     public jobType: string;

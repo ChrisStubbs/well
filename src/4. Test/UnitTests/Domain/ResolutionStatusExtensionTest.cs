@@ -13,7 +13,7 @@
             [Test]
             public void TestEditableStatus()
             {
-                foreach (var resolutionStatus in ResolutionStatus.Values)
+                foreach (var resolutionStatus in ResolutionStatus.AllStatus)
                 {
                     if (resolutionStatus.Value == ResolutionStatus.DriverCompleted
                         || resolutionStatus.Value == ResolutionStatus.ActionRequired
@@ -21,11 +21,11 @@
                         || resolutionStatus.Value == ResolutionStatus.PendingApproval
                         )
                     {
-                        Assert.True(resolutionStatus.Value.IsEditable());
+                        Assert.True(resolutionStatus.IsEditable());
                     }
                     else
                     {
-                        Assert.False(resolutionStatus.Value.IsEditable());
+                        Assert.False(resolutionStatus.IsEditable());
                     }
                 }
             }

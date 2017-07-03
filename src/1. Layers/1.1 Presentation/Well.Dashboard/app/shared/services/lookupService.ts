@@ -41,7 +41,7 @@ export class LookupService
             .map((response: Response) =>
             {
                 const value = response.json();
-                let objectToSave = [];
+                const objectToSave = [];
 
                 _.each(_.keys(value), (current: string) => {
                     let newObj: ILookupValue;
@@ -53,7 +53,7 @@ export class LookupService
                     objectToSave.push(newObj);
                 });
 
-                objectToSave = _.sortBy(objectToSave, 'value');
+                //objectToSave = _.sortBy(objectToSave, 'value');
                 this.storageService.store(lookupKey, objectToSave);
 
                 return objectToSave;

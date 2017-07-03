@@ -211,7 +211,7 @@
                         <th class="colNumbers">
                             <div class="text-center">Exception Resolution</div>
                             <div>
-                                <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
+                                <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="buildGridSource()" title="">
                                     <option value>All</option>
                                     <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">
                                         {{resolutionStatus.value}}
@@ -236,8 +236,8 @@
                                 <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{item.type }} - {{source.accountName}}</a>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
-                            <td class="text-right">{{item.totalExpected - (item.totalDameged + item.totalShorts)}}</td>
-                            <td class="text-right">{{item.totalDameged}}</td>
+                            <td class="text-right">{{item.totalExpected - (item.totalDamaged + item.totalShorts)}}</td>
+                            <td class="text-right">{{item.totalDamaged}}</td>
                             <td class="text-right">{{item.totalShorts}}</td>
                             <td colspan="2"></td>
                             <td class="text-right">{{item.resolution}}</td>

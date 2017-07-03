@@ -1,25 +1,61 @@
 ﻿import { IFilter }              from '../shared/gridHelpers/IFilter';
 import * as _                   from 'lodash';
 import { AppSearchParameters }  from '../shared/appSearch/appSearchParameters';
+import { DatePipe }             from '@angular/common';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
 
 export class RouteFilter implements IFilter
 {
     public branchId?: number;
-    public routeNumber: string = '';
-    public routeDate?: Date = undefined;
-    public stopCount?: number = undefined;
-    public routeStatusId?: number = undefined;
-    public hasExceptions: boolean = undefined;
-    public hasClean: boolean = undefined;
-    public driverName: string = '';
-    public assignee: string = '';
+    public routeNumber: string;
+    public dateFormatted: string;
+    public routeStatusId?: number;
+    public exceptionCount: boolean;
+    public cleanCount: boolean;
+    public driverName: string;
+    public assignee: string;
+
+    constructor()
+    {
+        this.branchId = undefined;
+        this.routeNumber = '';
+        this.dateFormatted = '';
+        this.routeStatusId = undefined;
+        this.exceptionCount = undefined;
+        this.cleanCount = undefined;
+        this.driverName = '';
+        this.assignee = '';
+    }
 
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
         switch (filterName)
         {
-            case 'exceptions':
-            case 'clean':
+            case 'branchId':
+                //this filter is handle in the component
+                return (value: number, value2: number) => {
+                        return true;
+                    };
+
+            case 'routeNumber':
+            case 'dateFormatted':
+            case 'driverName':
+            case 'assignee':
+                return GridHelpersFunctions.isEqualFilter;
+
+            case 'routeStatusId':
+                return (value: number, value2: number) =>
+                {
+                    const v = +value;
+                    const v2 = +value2;
+
+                    const f = GridHelpersFunctions.isEqualFilter;
+
+                    return  f(v, v2);
+                };
+
+            case 'exceptionCount':
+            case 'cleanCount':
                 return (value: number, value2?: boolean) => {
                     if (_.isNull(value2)) {
                         return true;
@@ -38,10 +74,11 @@ export class RouteFilter implements IFilter
     public static toRouteFilter(params: AppSearchParameters): RouteFilter
     {
         const routeFilter = new RouteFilter();
+        const datePipe: DatePipe = new DatePipe('en-Gb');
 
         routeFilter.branchId = params.branchId;
         routeFilter.routeNumber = params.route;
-        routeFilter.routeDate = params.date;
+        routeFilter.dateFormatted = _.isNil(params.date) ? undefined : datePipe.transform(params.date, 'yyyy-MM-dd');
         routeFilter.routeStatusId = params.status;
         routeFilter.driverName = params.driver;
 

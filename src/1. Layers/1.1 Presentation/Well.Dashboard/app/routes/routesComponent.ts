@@ -12,7 +12,7 @@ import { IObservableAlive }                             from '../shared/IObserva
 import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services/services';
 import { Router }                                       from '@angular/router';
 import * as _                                           from 'lodash';
-import { Observable }                                   from "rxjs/Observable";
+import { Observable }                                   from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { GridHelpersFunctions }                         from '../shared/gridHelpers/gridHelpersFunctions';
 
@@ -30,9 +30,11 @@ export class RoutesComponent implements IObservableAlive
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
     public isAlive: boolean = true;
-    private routeNumbers: Array<string> = [];
 
+    private routeNumbers: Array<string> = [];
+    private drivers: Array<string> = [];
     private routeFilter: RouteFilter;
+    private assignees: Array<string> = [];
 
     constructor(
         private lookupService: LookupService,
@@ -92,16 +94,27 @@ export class RoutesComponent implements IObservableAlive
                 _.forEach(this.routes, (current: Route) =>
                 {
                     this.routeNumbers.push(current.routeNumber);
+                    this.drivers.push(current.driverName);
+                    this.assignees.push(current.assignee);
                 });
 
-                this.routeNumbers = _.uniq(this.routeNumbers);
+                this.routeNumbers = this.sortAndUniq(this.routeNumbers);
+                this.drivers = this.sortAndUniq(this.drivers);
+                this.assignees = this.sortAndUniq(this.assignees);
             });
+    }
+
+    private sortAndUniq(values: Array<string>): Array<string>
+    {
+        return _.chain(values)
+            .uniq()
+            .sortBy()
+            .value();
     }
 
     private fillGridSource()
     {
         this.gridSource = GridHelpersFunctions.applyGridFilter<Route, RouteFilter>(this.routes, this.routeFilter);
-
     }
 
     public clearFilters(): void
@@ -110,6 +123,7 @@ export class RoutesComponent implements IObservableAlive
 
         this.routeFilter = new RouteFilter();
         this.routeFilter.branchId = branchId;
+        this.fillGridSource();
     }
 
     public getAssignModel(route: Route): AssignModel

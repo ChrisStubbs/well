@@ -165,7 +165,9 @@ export class ActivityComponent implements IObservableAlive
                 const summary = this.calculateTotals(current);
 
                 item.jobId = singleItem.jobId;
+                item.type = singleItem.type;
                 item.stopId = singleItem.stopId;
+                item.stop = singleItem.stop;
                 item.stopDate = singleItem.stopDate;
                 item.resolution = singleItem.resolution;
                 item.resolutionId = singleItem.resolutionId;
@@ -285,11 +287,11 @@ export class ActivityComponent implements IObservableAlive
     public lineItemSaved(data: EditLineItemException): void
     {
         //find the invoice edited (via lineitem edit)
-        const invoice = _.find(this.gridSource, current => current.invoice == data.invoice);
+        const job = _.find(this.gridSource, current => current.jobId == data.jobId);
         let damages = 0;
         let shorts = 0;
         //find the line that was edited
-        const lineItem = _.find(invoice.items, (current: ActivitySourceDetail) =>
+        const lineItem = _.find(job.details, (current: ActivitySourceDetail) =>
             current.product == data.productNumber);
 
         //sum the shorts and damages sent from the server
@@ -307,12 +309,12 @@ export class ActivityComponent implements IObservableAlive
         });
 
         //remove the shorts and damages from the current invoice based on the selected lineitem
-        invoice.totalDamages -= lineItem.damages;
-        invoice.totalShorts -= lineItem.shorts;
+        job.totalDamages -= lineItem.damages;
+        job.totalShorts -= lineItem.shorts;
 
         //now lets add the values sent from server
-        invoice.totalDamages += damages;
-        invoice.totalShorts += shorts;
+        job.totalDamages += damages;
+        job.totalShorts += shorts;
         lineItem.shorts = shorts;
         lineItem.damages = damages;
     }
@@ -326,17 +328,24 @@ export class ActivityComponent implements IObservableAlive
             .value();
     }
 
-    public disableSubmitActions(): boolean {
-        return (this.selectedItems().length == 0 ||
-            this.filters.resolutionId != ResolutionStatusEnum.PendingSubmission
-            || this.source.assignee != this.globalSettingsService.globalSettings.userName);
+    public disableSubmitActions(): boolean
+    {
+        const items = this.selectedItems();
+        if (items.length === 0)
+        {
+            return true;
+        }
+
+        return _.some(items,
+                x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
+            (this.source.assignee !== this.globalSettingsService.globalSettings.userName);
     }
 
     private getSelectedJobIds(): number[]
     {
         return _.chain(this.selectedItems())
-            .uniq()
             .map('jobId')
+            .uniq()
             .value();
     }
 

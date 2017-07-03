@@ -55,6 +55,7 @@ BEGIN
 		CASE WHEN jd.LineDeliveryStatus = 'Delivered' OR LineDeliveryStatus = 'Exception' THEN 1 ELSE 0 END AS Checked,
 		jd.IsHighValue AS HighValue,
 		j.StopId,
+		s.DropId as Stop,
 		s.DeliveryDate AS StopDate,
 		j.Id as JobId,
 		j.JobTypeCode AS JobType,

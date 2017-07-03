@@ -48,6 +48,7 @@
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
         public int StopId { get; set; }
+        public string Stop { get; set; }
         public DateTime StopDate { get; set; }
         public int JobId { get; set; }
         public string JobType { get; set; }

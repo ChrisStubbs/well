@@ -11,21 +11,58 @@ import { AssignModalResult, AssignModel } from '../shared/components/assignModel
 import { Branch } from '../shared/branch/branch';
 import { SecurityService } from '../shared/security/securityService';
 
+class Sort
+{
+    constructor()
+    {
+        this.mField = '';
+        this.mdirection = 'asc';
+    }
+
+    private mField: string;
+    public get field(): string
+    {
+        return this.mField;
+    }
+
+    public set field(value: string)
+    {
+        if (this.mField != value || (this.mField == value && this.mdirection == 'desc'))
+        {
+            this.mdirection = 'asc';
+        }
+        else
+        {
+            this.mdirection = 'desc';
+        }
+
+        this.mField = value;
+    }
+
+    private mdirection: string;
+    public get direction(): string
+    {
+        return this.mdirection;
+    }
+}
+
 @Component({
     selector: 'ow-approval',
     templateUrl: './app/approvals/approvalsComponent.html',
     providers: [ApprovalsService],
     styles: ['.colAccount {width: 10% } ' +
-        '.colInvoice {width: 10% } ' +
-        '.colQty { width: 6% }' +
-        '.colValue { width: 7% }' +
-        '.colUser { width: 11% }' +
-        '.colCheckbox { width: 3% } ']
+             '.colInvoice {width: 10% } ' +
+             '.colQty { width: 6% }' +
+             '.colValue { width: 7% }' +
+             '.colUser { width: 11% }' +
+             '.colCheckbox { width: 3% } ' +
+             'th { cursor: pointer }']
 })
 export class ApprovalsComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
     public source: Array<Approval>;
+    public sortField: Sort;
 
     private gridSource: Array<Approval> = [];
     private assignees: Array<string> = [];
@@ -45,6 +82,9 @@ export class ApprovalsComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
+        this.sortField = new Sort();
+        this.sortField.field = 'branchName';
+
         this.route.params
             .flatMap(data =>
             {
@@ -66,6 +106,7 @@ export class ApprovalsComponent implements IObservableAlive
 
     public fillGridSource(): void
     {
+
         const filteredValues =
             GridHelpersFunctions.applyGridFilter<Approval, ApprovalFilter>(this.source, this.filters);
 
@@ -84,6 +125,29 @@ export class ApprovalsComponent implements IObservableAlive
         }
 
         this.gridSource = filteredValues;
+    }
+
+    private sortData(field: string)
+    {
+        this.sortField.field = field;
+
+        this.gridSource = _.orderBy(this.gridSource, this.sortField.field, this.sortField.direction);
+    }
+
+    private isSortedBy(field: string): boolean
+    {
+        return this.sortField.field == field;
+    }
+
+    private getSortStyles(field: string)
+    {
+        const asc: boolean = this.sortField.direction == 'asc';
+
+        return {
+            ['glyphicon-sort-by-attributes']: asc,
+            ['glyphicon-sort-by-attributes-alt']: !asc,
+            invisible: this.sortField.field != field
+        };
     }
 
     public ngOnDestroy(): void 

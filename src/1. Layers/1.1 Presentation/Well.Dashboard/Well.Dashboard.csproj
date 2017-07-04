@@ -488,7 +488,6 @@
     <Content Include="app\branch\branchSelectionComponent.ts" />
     <Content Include="app\shared\branch\branchService.ts" />
     <Content Include="app\clean\cleanDelivery.ts" />
-    <Content Include="app\clean\cleanDeliveryComponent.ts" />
     <Content Include="app\clean\cleanDeliveryService.ts" />
     <Content Include="app\delivery\model\jobDetailReason.ts" />
     <Content Include="app\delivery\model\delivery.ts" />
@@ -498,7 +497,6 @@
     <Content Include="app\delivery\deliveryUpdateComponent.ts" />
     <Content Include="app\exceptions\exceptionDelivery.ts" />
     <Content Include="app\exceptions\exceptionDeliveryService.ts" />
-    <Content Include="app\exceptions\exceptionsComponent.ts" />
     <Content Include="app\home\widgetGraphComponent.ts" />
     <Content Include="app\main.ts">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -507,7 +505,6 @@
     <Content Include="app\notifications\notification.ts" />
     <Content Include="app\notifications\notificationsComponent.ts" />
     <Content Include="app\notifications\notificationsService.ts" />
-    <Content Include="app\resolved\resolvedDeliveryComponent.ts" />
     <Content Include="app\resolved\resolvedDelivery.ts" />
     <Content Include="app\resolved\resolvedDeliveryService.ts" />
     <Content Include="app\route_header\delivery-selection-modal.ts" />

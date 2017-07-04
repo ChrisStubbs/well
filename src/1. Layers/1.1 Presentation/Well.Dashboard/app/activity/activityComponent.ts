@@ -249,7 +249,7 @@ export class ActivityComponent implements IObservableAlive
 
         const items = _.chain(this.gridSource).map('details').flatten().filter(filterToApply).value();
 
-        return _.every(items, current => current.isSelected);
+        return _.every(items, (current: ActivitySourceDetail) => current.isSelected);
     }
 
     public filterFreeText(): void
@@ -273,7 +273,7 @@ export class ActivityComponent implements IObservableAlive
             .map('details')
             .flatten()
             .filter(filterToApply)
-            .map(current => current.isSelected = select)
+            .map((current: ActivitySourceDetail) => current.isSelected = select)
             .value();
     }
 
@@ -329,7 +329,7 @@ export class ActivityComponent implements IObservableAlive
         return _.chain(this.gridSource)
             .map('details')
             .flatten()
-            .filter(current => current.isSelected)
+            .filter((current: ActivitySourceDetail) => current.isSelected)
             .value();
     }
 

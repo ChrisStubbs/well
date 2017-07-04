@@ -19,10 +19,129 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12"> &nbsp;</div>
+        <div class="col-md-12">&nbsp;</div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 clearfix table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="text-center">Branch</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="refreshData($event)"
+                                        [(ngModel)]="routeFilter.branchId">
+                                    <option *ngFor="let branch of branches" [value]="branch[0]">
+                                        {{ branch[1] }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Route</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.routeNumber">
+                                    <option value>All</option>
+                                    <option *ngFor="let item of routeNumbers" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Date</div>
+                            <div>
+                                <input type="date" [(ngModel)]="routeFilter.dateFormatted" (change)="fillGridSource()" class="form-control">
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">No. of Stops</div>
+                        </th>
+                        <th>
+                            <div class="text-center">Status</div>
+                            <div>
+                                <select class="form-control" id="searchStatus"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.routeStatusId">
+                                    <option value>All</option>
+                                    <option *ngFor="let status of routeStatus" [value]="status.key">
+                                        {{ status.value }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Cleans</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.cleanCount">
+                                    <option value>All</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Exceptions</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.exceptionCount">
+                                    <option value>All</option>
+                                    <option value="true">With Exceptions</option>
+                                    <option value="false">Without Exceptions</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Driver</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.driverName">
+                                    <option value>All</option>
+                                    <option *ngFor="let item of drivers" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="text-center">Assignee</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.assignee">
+                                    <option value>All</option>
+                                    <option *ngFor="let item of assignees" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of gridSource">
+                        <td>{{item.branch}}</td>
+                        <td class="text-right">
+                            <a routerLink="/singleroute/{{item.id}}" routerLinkActive="active">{{item.routeNumber}}</a>
+                        </td>
+                        <td class="text-center">{{item.routeDate | date:'dd MMM yyyy' }}</td>
+                        <td class="text-right">{{item.stopCount}}</td>
+                        <td>{{item.routeStatus}}</td>
+                        <td class="text-right">{{item.cleanCount}}</td>
+                        <td class="text-right">{{item.exceptionCount}}</td>
+                        <td>{{item.driverName}}</td>
+                        <td><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--
             <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
                          [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
                          #dt>
@@ -124,6 +243,7 @@
                     </ng-template>
                 </p-column>
             </p-dataTable>
+            -->
         </div>
     </div>
 </div>

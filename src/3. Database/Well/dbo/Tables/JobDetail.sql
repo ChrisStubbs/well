@@ -44,3 +44,5 @@ CREATE TABLE [dbo].[JobDetail]
 )
 GO
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId] ON [dbo].[JobDetail] ([LineItemId]) INCLUDE ([Id],[JobId])
+GO
+CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] ([JobId]) INCLUDE ([OriginalDespatchQty],[PHProductType],[SSCCBarcode],[NetPrice],[LineDeliveryStatus],[IsHighValue],[LineItemId])

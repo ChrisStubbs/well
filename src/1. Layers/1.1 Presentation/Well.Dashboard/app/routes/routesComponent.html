@@ -118,7 +118,7 @@
                                         [(ngModel)]="routeFilter.assignee">
                                     <option value>All</option>
                                     <option *ngFor="let item of assignees" [value]="item">
-                                        {{ item }}
+                                        {{ item  || 'Unallocated'}}
                                     </option>
                                 </select>
                             </div>

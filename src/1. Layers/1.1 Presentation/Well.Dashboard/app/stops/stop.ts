@@ -46,7 +46,7 @@ export class StopItem implements IGrnAssignable
     private mBarCode: string = '';
     public isSelected: boolean;
     public lineItemId: number;
-    private resolution: string;
+    public resolution: string;
     public resolutionId: number;
     public grnProcessType: number;
     public hasUnresolvedActions: boolean;

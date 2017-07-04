@@ -42,6 +42,15 @@ BEGIN
 		a.DocumentNumber = @documentNumber AND l.BranchId = @branchId
 	GROUP BY li.Id, lia.ExceptionTypeId
 
+	 ;WITH LineItemWithActionRequired
+	 AS
+	 (
+		SELECT DISTINCT LineItemId 
+		FROM LineItemAction 
+		WHERE	
+			DeliveryActionId is Null OR DeliveryActionId = 0
+		GROUP BY LineItemId
+	 )
 	SELECT 
 		a.Id AS ActivityId,
 		li.ProductCode AS Product,
@@ -61,20 +70,22 @@ BEGIN
 		j.JobTypeCode AS JobType,
 		jt.Abbreviation AS JobTypeAbbreviation,
 		li.Id AS LineItemId,
-		j.ResolutionStatusId ResolutionStatus
+		j.ResolutionStatusId ResolutionStatus,
+		IsNumeric(ar.LineItemId) HasUnresolvedActions
 	FROM Activity a
 		INNER JOIN Job j ON a.Id = j.ActivityId
 		INNER JOIN JobDetail jd on jd.JobId = j.Id
 		INNER JOIN LineItem li on li.Id = jd.LineItemId
 		INNER JOIN [Stop] s ON s.Id = j.StopId
 		INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId	
-		LEFT JOIN LineItemAction lia on lia.LineItemId = li.Id
 		INNER JOIN JobType jt on jt.Code = j.JobTypeCode
 		LEFT JOIN @ShortsAndDamages sd ON sd.LineItemId = li.Id AND sd.ExceptionTypeId = dbo.ExceptionType_Short()
 		LEFT JOIN @ShortsAndDamages sd2 ON sd2.LineItemId = li.Id AND sd2.ExceptionTypeId = dbo.ExceptionType_Damage()
+		LEFT JOIN LineItemWithActionRequired ar ON li.Id = ar.LineItemId
 	WHERE a.DocumentNumber = @documentNumber
 		AND rh.RouteOwnerId = @branchId
-	
+		Order By li.LineNumber
+
 	SELECT 
 		jobUser.Name
 	FROM Activity av 

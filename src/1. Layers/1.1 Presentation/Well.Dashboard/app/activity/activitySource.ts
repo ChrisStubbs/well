@@ -41,7 +41,7 @@ export class ActivitySourceGroup
     public stopDate: Date;
     public jobId: number;
     public type: string;
-    public totalDameged: number;
+    public totalDamaged: number;
     public totalShorts: number;
     public totalExpected: number;
     public details: Array<ActivitySourceDetail>;

@@ -77,7 +77,7 @@
     <Compile Include="Contracts\IJobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\IDeliveryLinesAction.cs" />
     <Compile Include="Contracts\IDeliveryService.cs" />
-    <Compile Include="Contracts\IJobStatusService.cs" />
+    <Compile Include="Contracts\IJobService.cs" />
     <Compile Include="Contracts\IEpodUpdateService.cs" />
     <Compile Include="Contracts\IDeliveryLineActionService.cs" />
     <Compile Include="Contracts\IFileModule.cs" />

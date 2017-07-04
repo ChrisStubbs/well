@@ -13,5 +13,5 @@ export interface ISubmitActionResultDetails
 {
     jobId: number;
     resolutionStatusId: number;
-    resolutionStatusDescription: string[];
+    resolutionStatusDescription: string;
 }

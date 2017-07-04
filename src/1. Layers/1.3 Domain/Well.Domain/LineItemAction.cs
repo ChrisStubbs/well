@@ -24,6 +24,7 @@
         public Originator Originator { get; set; }
         public DeliveryAction DeliveryAction { get; set; }
         public IList<LineItemActionComment> Comments { get; set; }
+        public string PdaReasonDescription { get; set; }
 
         public bool HasChanges(LineItemAction item)
         {

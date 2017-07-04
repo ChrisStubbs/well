@@ -17,6 +17,7 @@
         private readonly IEnumerable<IDeliveryLinesAction> actionHandlers;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
+        private readonly IJobService jobService;
 
         public DeliveryLineActionService(
             IAdamRepository adamRepository,
@@ -24,7 +25,8 @@
             IExceptionEventRepository eventRepository,
             IEnumerable<IDeliveryLinesAction> actionHandlers,
             IJobDetailRepository jobDetailRepository,
-            IJobDetailDamageRepository jobDetailDamageRepository)
+            IJobDetailDamageRepository jobDetailDamageRepository,
+            IJobService jobService)
         {
             this.adamRepository = adamRepository;
             this.jobRepository = jobRepository;
@@ -32,6 +34,7 @@
             this.actionHandlers = actionHandlers;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.jobService = jobService;
         }
 
         public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings)
@@ -78,7 +81,11 @@
 
         public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings);
+            var job = jobRepository.GetById(podEvent.Id);
+            job = jobService.PopulateLineItemsAndRoute(job);
+            job.GetAllLineItemActions();
+
+            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings, job);
 
             //Mark the podevent as processed, even if it failed - there will be a PodTransaction instead
             this.eventRepository.MarkEventAsProcessed(eventId);

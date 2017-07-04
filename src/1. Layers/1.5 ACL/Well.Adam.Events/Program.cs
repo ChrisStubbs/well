@@ -51,6 +51,11 @@
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
+                    x.For<IJobService>().Use<JobService>();
+                    x.For<IDateThresholdService>().Use<DateThresholdService>();
+                    x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+                    x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+                    x.For<IUserThresholdService>().Use<UserThresholdService>();
                 });
         }
     }

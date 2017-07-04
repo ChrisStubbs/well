@@ -43,6 +43,7 @@ AS
 		,lia.CreatedDate as  DateCreated
 		,lia.LastUpdatedBy as UpdatedBy
 		,lia.LastUpdatedDate as DateUpdated
+		,lia.PDAReasonDescription as PdaReasonDescription
 	FROM LineItemAction lia
 	INNER JOIN @Ids ids ON ids.Value = lia.LineItemId
 	WHERE 

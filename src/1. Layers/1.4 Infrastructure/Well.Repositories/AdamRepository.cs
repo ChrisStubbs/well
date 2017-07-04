@@ -272,9 +272,9 @@
             return AdamResponse.Unknown;
         }
 
-        public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings)
+        public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings, Job job)
         {
-            var job = this.jobRepository.GetById(podEvent.Id);
+            //var job = this.jobRepository.GetById(podEvent.Id);
             var pod = podTransactionFactory.Build(job, podEvent.BranchId);
             var linesToRemove = new Dictionary<int, string>();
 

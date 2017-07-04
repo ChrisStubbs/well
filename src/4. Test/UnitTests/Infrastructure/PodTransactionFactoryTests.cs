@@ -28,12 +28,18 @@
         {
             var job = new Job { Id = 1 , ProofOfDelivery = 8, PhAccount = "12345", StopId = 1};
 
-            //var jobDetails = new List<JobDetail>
-            //{
-            //    new JobDetail { Id = 1, PhProductCode = "12345", ShortQty = 2 },
-            //    new JobDetail { Id = 2, PhProductCode = "22345", ShortQty = 0 , JobDetailDamages = new List<JobDetailDamage>
-            //    { new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Damaged Outer"} } }
-            //};
+            var jobDetails = new List<JobDetail>
+            {
+                new JobDetail { Id = 1, PhProductCode = "12345", ShortQty = 2 , LineItemId = 1},
+                new JobDetail { Id = 2, PhProductCode = "22345", ShortQty = 0 , LineItemId = 2, JobDetailDamages = new List<JobDetailDamage>
+                { new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Damaged Outer"} } }
+            };
+
+            foreach (var detail in jobDetails)
+            {
+                job.JobDetails.Add(detail);
+            }
+
 
             var lineItems = new List<LineItem>
             {
@@ -62,12 +68,6 @@
             var account = new Account { Id = 1, Code = "12345", ContactName = "Donald"};
 
             this.accountRepository.Setup(x => x.GetAccountByStopId(1)).Returns(account);
-
-            var podLines = new List<PodDeliveryLineCredit>
-            {
-                new PodDeliveryLineCredit { JobId = 1, ProductCode = "12345", Quantity = 2, Reason = 1, Source = 1},
-                new PodDeliveryLineCredit { JobId = 1, ProductCode = "32165", Quantity = 3, Reason = 2, Source = 2}
-            };
 
             var podTransaction = this.factory.Build(job, 22);
 

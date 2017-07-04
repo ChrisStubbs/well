@@ -28,6 +28,9 @@
         public int Tba { get; set; }
         public List<ActivitySourceDetail> Details { get; set; }
         public List<string> Assignees { get; set; }
+        public ResolutionStatus ResolutionStatus { get; set; }
+        public string Resolution => ResolutionStatus.Description;
+        public int ResolutionId => ResolutionStatus.Value;
 
     }
 
@@ -44,14 +47,15 @@
         public int Shorts { get; set; }
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
-        public ResolutionStatus ResolutionStatus { get; set; }
-        public string Resolution => ResolutionStatus.Description;
-        public int ResolutionId => ResolutionStatus.Value;
         public int StopId { get; set; }
+        public string Stop { get; set; }
         public DateTime StopDate { get; set; }
         public int JobId { get; set; }
         public string JobType { get; set; }
         public string JobTypeAbbreviation { get; set; }
         public int LineItemId { get; set; }
+        public ResolutionStatus ResolutionStatus { get; set; }
+        public string Resolution => ResolutionStatus.Description;
+        public int ResolutionId => ResolutionStatus.Value;
     }
 }

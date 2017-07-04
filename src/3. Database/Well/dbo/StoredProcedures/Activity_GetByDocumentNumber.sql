@@ -18,7 +18,8 @@ BEGIN
 		CASE WHEN j.ProofOfDelivery = 1 OR j.ProofOfDelivery = 8 THEN 1 ELSE 0 END AS Pod, -- lucozade = 1 cocacola = 8
 		rh.DriverName AS Driver,
 		rh.RouteDate AS [Date],
-		CASE WHEN j.OuterDiscrepancyFound = 1 THEN (TotalOutersShort - DetailOutersShort) ELSE 0 END AS Tba
+		CASE WHEN j.OuterDiscrepancyFound = 1 THEN (TotalOutersShort - DetailOutersShort) ELSE 0 END AS Tba,
+		j.ResolutionStatusId ResolutionStatus
 	FROM Activity av 
 		INNER JOIN Job j ON j.ActivityId = av.Id
 		INNER JOIN Account a on a.LocationId = av.LocationId and a.StopId = j.StopId
@@ -53,19 +54,20 @@ BEGIN
 		sd.Quantity AS Shorts,
 		CASE WHEN jd.LineDeliveryStatus = 'Delivered' OR LineDeliveryStatus = 'Exception' THEN 1 ELSE 0 END AS Checked,
 		jd.IsHighValue AS HighValue,
-		j.ResolutionStatusId ResolutionStatus,
 		j.StopId,
+		s.DropId as Stop,
 		s.DeliveryDate AS StopDate,
 		j.Id as JobId,
 		j.JobTypeCode AS JobType,
 		jt.Abbreviation AS JobTypeAbbreviation,
-		li.Id AS LineItemId
-	FROM LineItem li
-		INNER JOIN Activity a on li.ActivityId = a.Id
+		li.Id AS LineItemId,
+		j.ResolutionStatusId ResolutionStatus
+	FROM Activity a
 		INNER JOIN Job j ON a.Id = j.ActivityId
+		INNER JOIN JobDetail jd on jd.JobId = j.Id
+		INNER JOIN LineItem li on li.Id = jd.LineItemId
 		INNER JOIN [Stop] s ON s.Id = j.StopId
-		INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId
-		INNER JOIN JobDetail jd on jd.LineItemId = li.Id
+		INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId	
 		LEFT JOIN LineItemAction lia on lia.LineItemId = li.Id
 		INNER JOIN JobType jt on jt.Code = j.JobTypeCode
 		LEFT JOIN @ShortsAndDamages sd ON sd.LineItemId = li.Id AND sd.ExceptionTypeId = dbo.ExceptionType_Short()

@@ -103,6 +103,7 @@ export class StopComponent implements IObservableAlive
                     .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
+                    .filter(value => value[1] != '')
                     .value();
 
                 _.chain(data.items)
@@ -131,7 +132,6 @@ export class StopComponent implements IObservableAlive
                     {
                         this.customerAccount = account;
                     });
-
             });
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)
@@ -170,6 +170,18 @@ export class StopComponent implements IObservableAlive
         this.stop.assignedTo = userName;
     }
 
+    private selectAllJobs = (selected: boolean) => {
+        const jobIds = _.map(_.filter(this.gridSource, (item) => { return item.isRowGroup; }),
+            (item: StopItemSource) => {
+                return item.jobId;
+            });
+
+        _.each(jobIds,
+            (jobId: number) => {
+                this.selectJobs(selected, jobId);
+            });
+    }
+
     public selectJobs(select: boolean, jobId?: number): void
     {
         let filterToApply = function (item: StopItem): boolean { return true; };
@@ -197,8 +209,8 @@ export class StopComponent implements IObservableAlive
         }
 
         return _.every(
-            _.filter(this.stopsItems, filterToApply),
-            current => current.isSelected);
+            _.filter(this.gridSource, filterToApply),
+            (current: StopItemSource) => _.every(current.items, (item: StopItem) => item.isSelected));
     }
 
     public selectedItems(): Array<StopItem>
@@ -230,6 +242,9 @@ export class StopComponent implements IObservableAlive
 
     public fillGridSource(): void
     {
+        //Clear previous source selection
+        this.selectAllJobs(false);
+
         const values: Array<any> = [];
 
         _.chain(this.source)
@@ -435,7 +450,7 @@ export class StopComponent implements IObservableAlive
                 {
                     item.resolutionId = x.status.value;
                     item.resolution = x.status.description;
-                    if (_.some(result.lineItemIds, id => item.id)) 
+                    if (_.some(result.lineItemIds, id => item.lineItemId)) 
                     {
                         item.hasUnresolvedActions = false;
                     }
@@ -482,8 +497,15 @@ export class StopComponent implements IObservableAlive
         this.bulkEditActionModal.show();
     }
 
-    private getInvoiceLink = (item: StopItem): string => {
+    private getInvoiceLink = (item: StopItem): string =>
+    {
         return '/invoice/' + item.invoice + '/' + this.stop.branchId;
+    }
+
+    private disableBulkEdit(): boolean
+    {
+        return (this.selectedItems().length === 0
+            || this.getAssignModel().assigned !== this.globalSettingsService.globalSettings.userName);
     }
 }
 

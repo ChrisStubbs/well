@@ -27,6 +27,7 @@
         public JobStatus JobStatus { get; set; }
         public int StopId { get; set; }
         public string Account { get; set; }
+        public string AccountName { get; set; }
         public WellStatus WellStatus { get; set; }
         public string WellStatusDescription { get; set; }
         public int GrnProcessType { get; set; }

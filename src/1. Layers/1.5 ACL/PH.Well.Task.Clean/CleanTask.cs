@@ -8,6 +8,14 @@ namespace PH.Well.Task.Clean
 {
     public class CleanTask
     {
+        public CleanTask()
+        {
+            
+        }
 
+        public void Execute()
+        {
+            Console.WriteLine($"Run {nameof(Execute)} of {nameof(CleanTask)}");
+        }
     }
 }

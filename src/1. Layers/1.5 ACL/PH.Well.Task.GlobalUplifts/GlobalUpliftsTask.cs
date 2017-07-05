@@ -8,5 +8,14 @@ namespace PH.Well.Task.GlobalUplifts
 {
     public class GlobalUpliftsTask
     {
+        public GlobalUpliftsTask()
+        {
+
+        }
+
+        public void Execute()
+        {
+            Console.WriteLine($"Run {nameof(Execute)} of {nameof(GlobalUpliftsTask)}");
+        }
     }
 }

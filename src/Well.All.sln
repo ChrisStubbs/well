@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.GlobalUplifts"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.Clean", "1. Layers\1.5 ACL\PH.Well.Task.Clean\PH.Well.Task.Clean.csproj", "{530FA940-E688-42F6-BE07-16249117396F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.Shared.Hangfire", "1. Layers\1.5 ACL\PH.Well.Task.Shared.Hangfire\PH.Well.Task.Shared.Hangfire.csproj", "{6F7AE89F-BC65-49A3-B4F4-4F0F1583608F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{530FA940-E688-42F6-BE07-16249117396F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{530FA940-E688-42F6-BE07-16249117396F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{530FA940-E688-42F6-BE07-16249117396F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7AE89F-BC65-49A3-B4F4-4F0F1583608F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7AE89F-BC65-49A3-B4F4-4F0F1583608F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7AE89F-BC65-49A3-B4F4-4F0F1583608F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7AE89F-BC65-49A3-B4F4-4F0F1583608F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,5 +162,6 @@ Global
 		{BA31C764-E83F-4C67-B923-C5B1D182DB3D} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 		{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 		{530FA940-E688-42F6-BE07-16249117396F} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
+		{6F7AE89F-BC65-49A3-B4F4-4F0F1583608F} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 	EndGlobalSection
 EndGlobal

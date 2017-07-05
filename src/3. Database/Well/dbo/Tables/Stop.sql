@@ -32,3 +32,5 @@
 	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Stop_Location] FOREIGN KEY ([Location_Id]) REFERENCES [dbo].[Location] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+GO
+CREATE NONCLUSTERED INDEX [IDX_Stop_RouteHeaderId] ON [dbo].[Stop] ([RouteHeaderId]) INCLUDE ([Id])

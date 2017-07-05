@@ -136,7 +136,7 @@
                 new JobDetailFactory()
                     .With(x=> x.PhProductCode="PHProdCode")
                     .With(x=> x.ProdDesc="ProductDescription")
-                    .With(x=> x.SkuGoodsValue=72)
+                    .With(x=> x.NetPrice=72)
                     .With(x=> x.OriginalDespatchQty=592)
                     .With(x=> x.DeliveredQty=666)
                     .With(x=> x.JobDetailDamages.Add(new JobDetailDamage {Qty = 6}))

@@ -20,7 +20,6 @@
         private readonly ISubmitActionValidation validator;
         private readonly IActionSummaryMapper actionSummaryMapper;
         private readonly IJobRepository jobRepository;
-        private readonly IJobResolutionStatus jobResolutionStatus;
         private readonly IJobService jobService;
         private readonly IUserRepository userRepository;
 
@@ -32,7 +31,6 @@
             ISubmitActionValidation validator,
             IActionSummaryMapper actionSummaryMapper,
             IJobRepository jobRepository,
-            IJobResolutionStatus jobResolutionStatus,
             IJobService jobService,
             IUserRepository userRepository
             )
@@ -44,7 +42,6 @@
             this.validator = validator;
             this.actionSummaryMapper = actionSummaryMapper;
             this.jobRepository = jobRepository;
-            this.jobResolutionStatus = jobResolutionStatus;
             this.jobService = jobService;
             this.userRepository = userRepository;
         }
@@ -70,16 +67,16 @@
                     foreach (var job in jobs)
                     {
                         // after validation will only have pending submission Jobs
-                        if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission
-                            || jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingApproval)
+                        if (jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission
+                            || jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingApproval)
                         {
-                            job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
+                            job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                             jobRepository.SaveJobResolutionStatus(job);
 
-                            if (jobResolutionStatus.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
+                            if (jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
                             {
                                 SubmitCredits(job);
-                                job.ResolutionStatus = jobResolutionStatus.GetNextResolutionStatus(job);
+                                job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);
                             }
                             else

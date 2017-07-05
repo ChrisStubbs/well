@@ -126,7 +126,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of gridSource">
+                    <tr *ngFor="let item of gridSource | paginate: { itemsPerPage: rowCount, currentPage: p }">
                         <td>{{item.branch}}</td>
                         <td class="text-right">
                             <a routerLink="/singleroute/{{item.id}}" routerLinkActive="active">{{item.routeNumber}}</a>
@@ -245,5 +245,8 @@
             </p-dataTable>
             -->
         </div>
+    </div>
+    <div class="text-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

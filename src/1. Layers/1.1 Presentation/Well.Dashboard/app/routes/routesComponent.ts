@@ -30,6 +30,7 @@ export class RoutesComponent implements IObservableAlive
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
     public isAlive: boolean = true;
+    public rowCount = 10;
 
     private routeNumbers: Array<string> = [];
     private drivers: Array<string> = [];

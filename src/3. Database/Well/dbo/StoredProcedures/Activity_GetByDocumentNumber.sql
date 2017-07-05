@@ -29,19 +29,6 @@ BEGIN
 	WHERE av.DocumentNumber = @documentNumber
 		AND rh.RouteOwnerId = @branchId
 
-	DECLARE @ShortsAndDamages TABLE (LineItemId INT, ExceptionTypeId INT, Quantity INT)
-	
-	INSERT INTO @ShortsAndDamages (LineItemId, ExceptionTypeId, Quantity)
-	SELECT 
-		li.Id, lia.ExceptionTypeId, SUM(Quantity)
-	FROM LineItemAction lia
-		INNER JOIN LineItem li ON lia.LineItemId = li.Id
-		INNER JOIN Activity a ON a.Id = li.ActivityId
-		INNER JOIN Location l ON l.Id = a.LocationId
-	WHERE 
-		a.DocumentNumber = @documentNumber AND l.BranchId = @branchId
-	GROUP BY li.Id, lia.ExceptionTypeId
-
 	 ;WITH LineItemWithActionRequired
 	 AS
 	 (
@@ -59,8 +46,8 @@ BEGIN
 		li.ProductDescription AS [Description],
 		jd.NetPrice AS Value, -- ??
 		jd.OriginalDespatchQty AS Expected,
-		sd2.Quantity AS Damaged,
-		sd.Quantity AS Shorts,
+		lie.DamageTotal AS Damaged,
+		lie.ShortTotal + lie.BypassTotal AS Shorts,
 		CASE WHEN jd.LineDeliveryStatus = 'Delivered' OR LineDeliveryStatus = 'Exception' THEN 1 ELSE 0 END AS Checked,
 		jd.IsHighValue AS HighValue,
 		j.StopId,
@@ -79,9 +66,9 @@ BEGIN
 		INNER JOIN [Stop] s ON s.Id = j.StopId
 		INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId	
 		INNER JOIN JobType jt on jt.Code = j.JobTypeCode
-		LEFT JOIN @ShortsAndDamages sd ON sd.LineItemId = li.Id AND sd.ExceptionTypeId = dbo.ExceptionType_Short()
-		LEFT JOIN @ShortsAndDamages sd2 ON sd2.LineItemId = li.Id AND sd2.ExceptionTypeId = dbo.ExceptionType_Damage()
+		LEFT JOIN LineItemExceptionsView lie on li.Id = lie.Id
 		LEFT JOIN LineItemWithActionRequired ar ON li.Id = ar.LineItemId
+
 	WHERE a.DocumentNumber = @documentNumber
 		AND rh.RouteOwnerId = @branchId
 		Order By li.LineNumber

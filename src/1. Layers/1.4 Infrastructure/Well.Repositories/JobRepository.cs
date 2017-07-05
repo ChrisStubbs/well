@@ -187,13 +187,13 @@ namespace PH.Well.Repositories
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
                 // .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int32)
                 .AddParameter("OuterCount", entity.OuterCount, DbType.Int32)
-                .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyUpdate, DbType.Boolean)
+                .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyFound, DbType.Boolean)
                 .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int32)
                 //  .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
                 .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int32)
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
-                .AddParameter("DetailOutersShort", entity.DetailOutersShortUpdate, DbType.Int16)
+                .AddParameter("DetailOutersShort", entity.DetailOutersShort, DbType.Int16)
                 .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
                 .Execute();
         }

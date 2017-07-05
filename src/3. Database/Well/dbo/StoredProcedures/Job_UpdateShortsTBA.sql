@@ -33,14 +33,14 @@ BEGIN
 	INNER JOIN @Ids ids ON ids.Value = j.Id
 	INNER JOIN JobDetail jd ON jd.JobId = j.Id
 	GROUP BY j.StopId, j.OuterCount, j.TotalOutersShort
-
+	
 	-- out of the job groups above, find the ones with unconfirmed delivery lines  
 	INSERT INTO @temp2 (Stopid , OuterCount ,JobId, UnknownDeliveryLineCount)
-	SELECT j.StopId, j.OuterCount,jd.JobId, COUNT(jd.Id) AS UnknownDeliveryStatus
+	SELECT j.StopId, j.OuterCount,jd.JobId, COUNT(jd.Id) AS UnknownDeliveryLineCount
 	FROM @temp t
 	INNER JOIN Job j ON t.Stopid = j.StopId AND t.OuterCount = j.OuterCount
 	INNER JOIN JobDetail jd ON jd.jobid = j.id
-	WHERE jd.LineDeliveryStatus = 'Unknown'
+	WHERE UPPER(jd.LineDeliveryStatus) = 'UNKNOWN'
 	GROUP BY j.StopId, j.OuterCount, jd.JobId
 
 	-- for all the groups with unconfirmed lines
@@ -49,8 +49,8 @@ BEGIN
 	
 	INSERT INTO @temp3 (JobId, DetailOutersShort, Unconfirmed,  DiscrepancyFound )
 	SELECT t2.JobId, t1.DetailShort, 
-	CASE WHEN t2.UnknownDeliveryLineCount > 0 THEN 1 ELSE 0 END ,
-	CASE WHEN ISNULL(t1.TotalShort,0) != t1.DetailShort THEN 1 ELSE 0 END 
+	CASE WHEN t2.UnknownDeliveryLineCount > 0 THEN 1 ELSE 0 END AS Unconfirmed,
+	CASE WHEN ISNULL(t1.TotalShort,0) != t1.DetailShort THEN 1 ELSE 0 END AS DiscrepancyFound
 	FROM @temp t1
 	INNER JOIN @temp2 t2 ON t1.Stopid = t2.stopId AND t1.OuterCount = t2.OuterCount 
 
@@ -59,9 +59,10 @@ BEGIN
 	BEGIN TRAN
 
 		UPDATE j
-		SET DetailOutersShort = t3.DetailOutersShort, OuterDiscrepancyFound = DiscrepancyFound
+		SET j.DetailOutersShort = t3.DetailOutersShort, j.OuterDiscrepancyFound = t3.DiscrepancyFound
 		FROM Job j 
 		INNER JOIN @temp3 t3 ON j.id = t3.jobid
+		WHERE t3.Unconfirmed = 1
 
 	COMMIT
 

@@ -320,9 +320,9 @@ export class ActivityComponent implements IObservableAlive
         job.totalShorts += shorts;
         lineItem.shorts = shorts;
         lineItem.damaged = damages;
-
+        lineItem.hasUnresolvedActions = data.hasUnresolvedActions;
         this.setResolutionStatus(job, data.resolutionId, data.resolutionStatus);
-    }
+    } 
 
     public selectedItems(): Array<ActivitySourceDetail>
     {
@@ -359,6 +359,7 @@ export class ActivityComponent implements IObservableAlive
         _.forEach(data.details, (x: ISubmitActionResultDetails) =>
         {
             const job = _.find(this.gridSource, current => current.jobId === x.jobId);
+            job.hasUnresolvedActions = false;
             this.setResolutionStatus(job, x.resolutionStatusId, x.resolutionStatusDescription);
         });
     }
@@ -374,7 +375,12 @@ export class ActivityComponent implements IObservableAlive
             x =>
             {
                 const job = _.find(this.gridSource, current => current.jobId === x.jobId);
+
                 this.setResolutionStatus(job, x.status.value, x.status.description);
+                _.forEach(job.details,
+                    (current) => {
+                        current.hasUnresolvedActions = false;
+                    });
             });
     }
 
@@ -390,7 +396,7 @@ export class ActivityComponent implements IObservableAlive
                 current.resolutionId = resolutionId;
             });
     }
-
+    
     private disableBulkEdit(): boolean
     {
         return (this.selectedItems().length === 0

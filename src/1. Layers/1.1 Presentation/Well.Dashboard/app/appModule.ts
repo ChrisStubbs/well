@@ -13,14 +13,11 @@ import { routing, appRoutingProviders } from './appRoutes';
 import { ApprovalsComponent } from './approvals/approvalsComponent';
 import { AccountComponent } from './account/accountComponent';
 import { BranchSelectionComponent } from './branch/branchSelectionComponent';
-import { CleanDeliveryComponent } from './clean/cleanDeliveryComponent';
 import { DeliveryComponent } from './delivery/deliveryComponent';
 import { DeliveryUpdateComponent } from './delivery/deliveryUpdateComponent';
 import { DeliveryIssuesComponent } from './delivery/deliveryIssuesComponent';
-import { ExceptionsComponent } from './exceptions/exceptionsComponent';
 import { LoadingComponent } from './shared/loadingComponent';
 import { NotificationsComponent } from './notifications/notificationsComponent';
-import { ResolvedDeliveryComponent } from './resolved/resolvedDeliveryComponent';
 import { UserPreferenceComponent } from './user_preferences/userPreferenceComponent';
 import { UserPreferenceModal } from './user_preferences/userPreferenceModalComponent';
 import { WidgetComponent } from './home/widgetComponent';
@@ -77,7 +74,6 @@ import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { ExceptionDeliveryService } from './exceptions/exceptionDeliveryService';
 import { DeliveryService } from './delivery/deliveryService';
 import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { CalendarModule, DataGridModule, SharedModule, DataTableModule } from 'primeng/primeng';
 import { AuditComponent } from './audit/auditComponent';
 import { AuditService } from './audit/auditService';
 import { ExceptionsConfirmModal } from './exceptions/exceptionsConfirmModal';
@@ -110,18 +106,18 @@ import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
         UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent, SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent,
         SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, CleanPreferenceEditModalComponent,
         DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent,
-        AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, CleanDeliveryComponent, DeliveryComponent,
-        ExceptionsComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
+        AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, DeliveryComponent,
+        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        ResolvedDeliveryComponent, RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
+        RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
         SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal
     ],
     imports: [
-        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule, CalendarModule,
-        ReactiveFormsModule, BrowserAnimationsModule, DataGridModule, SharedModule, DataTableModule, Ng2Webstorage, TooltipModule
+        ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,
+        ReactiveFormsModule, BrowserAnimationsModule, Ng2Webstorage, TooltipModule
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,

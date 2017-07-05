@@ -263,7 +263,7 @@
                                 <td class="text-right">{{item.shorts}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
-                                <td class="text-left"><span *ngIf="item.hasUnresolvedActions">{{item.resolution}}</span></td>
+                                <td class="text-left"><span *ngIf="item.hasUnresolvedActions">Action Required</span></td>
                                 <td>
                                     <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId != 0">
                                         <span class="glyphicon glyphicon-pencil"></span>

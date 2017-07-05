@@ -40,8 +40,8 @@
             <table class="table table-striped" style="table-layout: fixed">
                 <thead>
                     <tr>
-                        <th (click)="sortData('branchName')" [style.background-color]="isSortedBy('branchName') ? '#bfbfbf': ''">
-                            <div class="text-center">Branch<span class="glyphicon" [ngClass]="getSortStyles('branchName')" aria-hidden="true"></span></div>
+                        <th (click)="sortData('branchName', $event)" [style.background-color]="isSortedBy('branchName') ? '#bfbfbf': ''">
+                            <div class="text-center">Branch &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('branchName')" aria-hidden="true"></span></div>
                             <div>
                                 <select class="form-control" id="searchBranch" (change)="fillGridSource()" [(ngModel)]="filters.branchName">
                                     <option value>All</option>
@@ -51,26 +51,26 @@
                                 </select>
                             </div>
                         </th>
-                        <th class="colAccount" (click)="sortData('account')" [style.background-color]="isSortedBy('account') ? '#bfbfbf': ''">
-                            <div class="text-center">Account<span class="glyphicon" [ngClass]="getSortStyles('account')" aria-hidden="true"></span></div>
+                        <th class="colAccount" (click)="sortData('account', $event)" [style.background-color]="isSortedBy('account') ? '#bfbfbf': ''">
+                            <div class="text-center">Account &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('account')" aria-hidden="true"></span></div>
                             <div>
                                 <input type="text" [(ngModel)]="filters.account" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
-                        <th (click)="sortData('deliveryDateFormatted')" [style.background-color]="isSortedBy('deliveryDateFormatted') ? '#bfbfbf': ''">
-                            <div class="text-center">Delivery Date<span class="glyphicon" [ngClass]="getSortStyles('deliveryDateFormatted')" aria-hidden="true"></span></div>
+                        <th (click)="sortData('deliveryDateFormatted', $event)" [style.background-color]="isSortedBy('deliveryDateFormatted') ? '#bfbfbf': ''">
+                            <div class="text-center">Delivery Date &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('deliveryDateFormatted')" aria-hidden="true"></span></div>
                             <div>
                                 <input type="date" [(ngModel)]="filters.deliveryDateFormatted" (change)="fillGridSource()" class="form-control">
                             </div>
                         </th>
-                        <th class="colInvoice" (click)="sortData('invoiceNumber')" [style.background-color]="isSortedBy('invoiceNumber') ? '#bfbfbf': ''">
-                            <div class="text-center">Invoice No<span class="glyphicon" [ngClass]="getSortStyles('invoiceNumber')" aria-hidden="true"></span></div>
+                        <th class="colInvoice" (click)="sortData('invoiceNumber', $event)" [style.background-color]="isSortedBy('invoiceNumber') ? '#bfbfbf': ''">
+                            <div class="text-center">Invoice No &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('invoiceNumber')" aria-hidden="true"></span></div>
                             <div>
                                 <input type="text" [(ngModel)]="filters.invoiceNumber" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
-                        <th class="colUser" (click)="sortData('submittedBy')" [style.background-color]="isSortedBy('submittedBy') ? '#bfbfbf': ''">
-                            <div class="text-center">Submitted by<span class="glyphicon" [ngClass]="getSortStyles('submittedBy')" aria-hidden="true"></span></div>
+                        <th class="colUser" (click)="sortData('submittedBy', $event)" [style.background-color]="isSortedBy('submittedBy') ? '#bfbfbf': ''">
+                            <div class="text-center">Submitted by &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('submittedBy')" aria-hidden="true"></span></div>
                             <div>
                                 <select class="form-control" [(ngModel)]="filters.submittedBy" (change)="fillGridSource()" title="">
                                     <option value>All</option>
@@ -78,22 +78,22 @@
                                 </select>
                             </div>
                         </th>
-                        <th (click)="sortData('dateSubmittedFormatted')" [style.background-color]="isSortedBy('dateSubmittedFormatted') ? '#bfbfbf': ''">
-                            <div class="text-center">Date Submitted<span class="glyphicon" [ngClass]="getSortStyles('dateSubmittedFormatted')" aria-hidden="true"></span></div>
+                        <th (click)="sortData('dateSubmittedFormatted', $event)" [style.background-color]="isSortedBy('dateSubmittedFormatted') ? '#bfbfbf': ''">
+                            <div class="text-center">Date Submitted &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('dateSubmittedFormatted')" aria-hidden="true"></span></div>
                             <div>
                                 <input type="date" [(ngModel)]="filters.dateSubmittedFormatted" (change)="fillGridSource()" class="form-control">
                             </div>
                         </th>
-                        <th class="colQty" (click)="sortData('creditQuantity')" [style.background-color]="isSortedBy('creditQuantity') ? '#bfbfbf': ''">
-                            <div class="text-center">Quantity<span class="glyphicon" [ngClass]="getSortStyles('creditQuantity')" aria-hidden="true"></span></div>
+                        <th class="colQty" (click)="sortData('creditQuantity', $event)" [style.background-color]="isSortedBy('creditQuantity') ? '#bfbfbf': ''">
+                            <div class="text-center">Quantity &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('creditQuantity')" aria-hidden="true"></span></div>
                             <div class="form-control-placeholder">&nbsp;</div>
                         </th>
-                        <th class="colValue" (click)="sortData('creditValue')" [style.background-color]="isSortedBy('creditValue') ? '#bfbfbf': ''">
-                            <div class="text-center">Credit Value<span class="glyphicon" [ngClass]="getSortStyles('creditValue')" aria-hidden="true"></span></div>
+                        <th class="colValue" (click)="sortData('creditValue', $event)" [style.background-color]="isSortedBy('creditValue') ? '#bfbfbf': ''">
+                            <div class="text-center">Credit Value &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('creditValue')" aria-hidden="true"></span></div>
                             <div class="form-control-placeholder">&nbsp;</div>
                         </th>
-                        <th class="colUser" (click)="sortData('assignedTo')" [style.background-color]="isSortedBy('assignedTo') ? '#bfbfbf': ''">
-                            <div class="text-center">Assignee<span class="glyphicon" [ngClass]="getSortStyles('assignedTo')" aria-hidden="true"></span></div>
+                        <th class="colUser" (click)="sortData('assignedTo', $event)" [style.background-color]="isSortedBy('assignedTo') ? '#bfbfbf': ''">
+                            <div class="text-center">Assignee &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('assignedTo')" aria-hidden="true"></span></div>
                             <div>
                                 <select class="form-control" [(ngModel)]="filters.assignedTo" (change)="fillGridSource()" title="">
                                     <option value>All</option>

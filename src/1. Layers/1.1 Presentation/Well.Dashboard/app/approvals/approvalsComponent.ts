@@ -125,11 +125,22 @@ export class ApprovalsComponent implements IObservableAlive
         }
 
         this.gridSource = filteredValues;
+        this.sortData(undefined, undefined);
     }
 
-    private sortData(field: string)
+    private sortData(field: string, event: any)
     {
-        this.sortField.field = field;
+        if (!_.isNil(event)
+            && (event.target.tagName == 'SELECT'
+            || event.target.tagName == 'INPUT'))
+        {
+            //user clicked on a filter element
+            return;
+        }
+
+        if (field) {
+            this.sortField.field = field;
+        }
 
         this.gridSource = _.orderBy(this.gridSource, this.sortField.field, this.sortField.direction);
     }

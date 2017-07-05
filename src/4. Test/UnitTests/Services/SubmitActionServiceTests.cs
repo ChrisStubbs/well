@@ -1,13 +1,11 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Factories;
     using Moq;
     using NUnit.Framework;
     using Repositories.Contracts;
     using Well.Common.Contracts;
-    using Well.Common.Security;
     using Well.Domain;
     using Well.Domain.Enums;
     using Well.Domain.ValueObjects;
@@ -24,7 +22,6 @@
         private Mock<ISubmitActionValidation> validator;
         private Mock<IActionSummaryMapper> actionSummaryMapper;
         private Mock<IJobRepository> jobRepository;
-        private Mock<IJobResolutionStatus> jobResolutionStatus;
         private Mock<IJobService> jobService;
         private Mock<IUserRepository> userRepository;
 
@@ -41,7 +38,6 @@
             validator = new Mock<ISubmitActionValidation>(MockBehavior.Strict);
             actionSummaryMapper = new Mock<IActionSummaryMapper>(MockBehavior.Strict);
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
-            jobResolutionStatus = new Mock<IJobResolutionStatus>(MockBehavior.Strict);
             jobService = new Mock<IJobService>(MockBehavior.Strict);
             userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
 
@@ -53,7 +49,6 @@
                 validator.Object,
                 actionSummaryMapper.Object,
                 jobRepository.Object,
-                jobResolutionStatus.Object,
                 jobService.Object,
                 userRepository.Object);
         }
@@ -73,8 +68,35 @@
 
                 var results = submitActionService.SubmitAction(submitAction);
                 Assert.That(results, Is.EqualTo(submitActionResult));
-
             }
+
+            //[Test] TODO:
+            //public void IfJobIsValidResolutionStatusPendingAndUserAndStatusIsApprovedThenCreditsSubmittedToAdam()
+            //{
+            //    var job = JobFactory.New.Build();
+            //    var submitAction = new SubmitActionModel { JobIds = new[] { 1 } };
+            //    var jobs = new List<Job>{ job };
+            //    jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+            //    jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(jobs);
+
+            //    var submitActionResult = new SubmitActionResult { IsValid = true };
+            //    validator.Setup(x => x.Validate(submitAction, jobs)).Returns(submitActionResult);
+
+            //    var getCurrentResolution = new Queue<ResolutionStatus>();
+            //    getCurrentResolution.Enqueue(ResolutionStatus.PendingSubmission);
+            //    getCurrentResolution.Enqueue(ResolutionStatus.Approved);
+            //    jobService.Setup(x => x.GetCurrentResolutionStatus(job)).Returns(getCurrentResolution.Dequeue);
+
+            //    var getNextResolution = new Queue<ResolutionStatus>();
+            //    getNextResolution.Enqueue(ResolutionStatus.Approved);
+            //    getNextResolution.Enqueue(ResolutionStatus.Credited);
+            //    jobService.Setup(x => x.GetNextResolutionStatus(job)).Returns(getNextResolution.Dequeue);
+            //    jobRepository.Setup(x => x.SaveJobResolutionStatus(job));
+
+            //    var results = submitActionService.SubmitAction(submitAction);
+
+            //    Assert.That(results, Is.EqualTo(submitActionResult));
+            //}
 
             //    private const string UserName = "Druno Bobson";
             //    private readonly User user = new User { Id = 555, Name = UserName };

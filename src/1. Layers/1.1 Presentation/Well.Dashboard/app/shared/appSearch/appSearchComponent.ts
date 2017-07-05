@@ -3,7 +3,6 @@ import { Router }                                           from '@angular/route
 import { BranchService }                                    from '../branch/branchService';
 import { GlobalSettingsService }                            from '../globalSettings';
 import {FormGroup, FormControl, FormBuilder, Validators}    from '@angular/forms';
-import { DriverService }                                    from '../../driver/driverService';
 import { IAppSearchResultSummary }                          from './iAppSearchResultSummary';
 import { AppSearchParameters }                              from './appSearchParameters';
 import { AppSearchService }                                 from './appSearchService';
@@ -18,7 +17,7 @@ import 'rxjs/add/observable/forkJoin';
 @Component({
     selector: 'ow-appSearch',
     templateUrl: 'app/shared/appSearch/appSearchComponent.html',
-    providers: [BranchService, DriverService, AppSearchService]
+    providers: [BranchService, AppSearchService]
 })
 export class AppSearch implements IObservableAlive
 {

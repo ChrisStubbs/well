@@ -65,6 +65,7 @@
     <Compile Include="Csv\CsvUpliftDataProvider.cs" />
     <Compile Include="Data\IUpliftData.cs" />
     <Compile Include="Data\IUpliftDataProvider.cs" />
+    <Compile Include="Data\UpliftDataSet.cs" />
     <Compile Include="Data\UpliftDataBase.cs" />
     <Compile Include="GlobalUpliftsTask.cs" />
     <Compile Include="Import\IUpliftDataImport.cs" />

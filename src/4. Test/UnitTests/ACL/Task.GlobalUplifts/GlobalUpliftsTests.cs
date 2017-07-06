@@ -5,13 +5,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
+using PH.Well.Task.GlobalUplifts;
 using PH.Well.Task.GlobalUplifts.Csv;
+using PH.Well.Task.GlobalUplifts.Data;
+using PH.Well.Task.GlobalUplifts.Import;
 
 namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
 {
     [TestFixture]
-    public class DataProviderTests
+    public class GlobalUpliftsTests
     {
         private string _csvHeader = @"BRANCH,ACC NO,CREDIT REASON CODE,PRODUCT CODE,QTY,Start Date,End Date";
 
@@ -71,6 +75,19 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             var directoryProvider = new DirectoryCsvUpliftDataProvider(path);
             var dataSets = directoryProvider.GetUpliftData().ToList();
             Assert.That(dataSets.Count == 2);
+        }
+
+        [Test]
+        public void GlobalUpliftsTaskTest()
+        {
+            var importService = new Mock<IUpliftDataImportService>();
+            var task = new UpliftsTask(importService.Object);
+
+            var directoryPath = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath), @"ACL\Task.GlobalUplifts");
+            task.Execute(new UpliftsTaskData {Directories = new[] {directoryPath}.ToList()});
+
+            //Verify that import has been called once. (1 directory csv provider per directory)
+            importService.Verify(x => x.Import(It.IsAny<IUpliftDataProvider>()), Times.Once);
         }
     }
 }

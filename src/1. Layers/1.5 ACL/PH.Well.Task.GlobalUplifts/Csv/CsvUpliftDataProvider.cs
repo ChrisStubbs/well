@@ -13,6 +13,10 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 {
     public class CsvUpliftDataProvider : IUpliftDataProvider
     {
+        /// <summary>
+        /// Id that gets assigned as result set id
+        /// </summary>
+        private string _id { get; set; }
         private readonly string _filePath;
         private TextReader _textReader;
         private bool _createReader;
@@ -29,12 +33,14 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         public CsvUpliftDataProvider(string filePath) : this()
         {
             _filePath = filePath;
+            _id = _filePath;
             _createReader = true;
         }
 
         public CsvUpliftDataProvider(TextReader textReader) : this()
         {
             _textReader = textReader;
+            _id = textReader.ToString();
         }
 
         protected CsvUpliftDataProvider()
@@ -155,12 +161,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
             if (validationResults.Any())
             {
                 // Return set with errors
-                return new[] { new UpliftDataSet(_filePath, records, validationResults) };
+                return new[] { new UpliftDataSet(_id, records, validationResults) };
             }
             else
             {
                 // Return set without errors
-                return new[] { new UpliftDataSet(_filePath, records) };
+                return new[] { new UpliftDataSet(_id, records) };
             }
         }
 

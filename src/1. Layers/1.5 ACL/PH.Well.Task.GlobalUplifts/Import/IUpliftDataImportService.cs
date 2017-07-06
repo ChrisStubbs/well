@@ -7,7 +7,7 @@ using PH.Well.Task.GlobalUplifts.Data;
 
 namespace PH.Well.Task.GlobalUplifts.Import
 {
-    public interface IUpliftDataImport
+    public interface IUpliftDataImportService
     {
         void Import(IUpliftDataProvider dataProvider);
     }

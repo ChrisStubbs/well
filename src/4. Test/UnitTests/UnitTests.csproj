@@ -117,7 +117,7 @@
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
     <Compile Include="ACL\AdamEvents\StructureMapTest.cs" />
-    <Compile Include="ACL\Task.GlobalUplifts\DataProviderTests.cs" />
+    <Compile Include="ACL\Task.GlobalUplifts\GlobalUpliftsTests.cs" />
     <Compile Include="AdamResilienceTests.cs" />
     <Compile Include="Api\Controllers\AppSearchControllerTests.cs" />
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />

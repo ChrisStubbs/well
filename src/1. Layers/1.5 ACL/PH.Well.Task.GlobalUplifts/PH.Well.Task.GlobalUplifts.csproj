@@ -69,9 +69,10 @@
     <Compile Include="Data\UpliftDataProvidersCollection.cs" />
     <Compile Include="Data\UpliftDataSet.cs" />
     <Compile Include="Data\UpliftDataBase.cs" />
-    <Compile Include="GlobalUpliftsTask.cs" />
-    <Compile Include="Import\IUpliftDataImport.cs" />
-    <Compile Include="Import\UpliftDataImport.cs" />
+    <Compile Include="UpliftsTask.cs" />
+    <Compile Include="UpliftsTaskData.cs" />
+    <Compile Include="Import\IUpliftDataImportService.cs" />
+    <Compile Include="Import\UpliftDataImportService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

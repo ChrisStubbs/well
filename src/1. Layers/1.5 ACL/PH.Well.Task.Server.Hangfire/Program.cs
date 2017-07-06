@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hangfire;
+using Hangfire.StructureMap;
+using PH.Well.Task.Server.Hangfire.GlobalUplifts;
 using PH.Well.Task.Shared.Hangfire;
+using StructureMap;
 
 namespace PH.Well.Task.Server.Hangfire
 {
@@ -24,6 +27,13 @@ namespace PH.Well.Task.Server.Hangfire
             //Test recurring job
             RecurringJob.AddOrUpdate("ConsoleWriteTestJob",() => Console.WriteLine("Test job ran"), Cron.Minutely,
                 queue: WellTaskHangfireConsts.DefaultQueue);
+
+            // Configure dependencies and jobs before starting server
+            var container = new Container();
+
+            new UpliftsTaskConfigurator().Configure(container);
+
+            GlobalConfiguration.Configuration.UseStructureMapActivator(container);
 
             // Create options
             var options = new BackgroundJobServerOptions

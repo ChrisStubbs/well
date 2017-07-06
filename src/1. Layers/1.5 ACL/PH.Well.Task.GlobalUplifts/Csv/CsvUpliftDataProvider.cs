@@ -41,15 +41,20 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 
         protected CsvUpliftDataProvider()
         {
+            //Defaults
             MaxUpliftStartDate = DateTime.Now;
+            CreditReasonCode = "GLOBAL UPLIFT";
+            MaxUpliftEndDateDays = 14;
         }
 
         public DateTime MaxUpliftStartDate { get; set; }
 
         /// <summary>
-        /// Max value of how many days uplift end date can be greater than start date
+        /// Max value of how many days uplift end date can be greater than start date (default = 14)
         /// </summary>
         public int MaxUpliftEndDateDays { get; set; }
+
+        public string CreditReasonCode { get; set; }
 
 
         public UpliftDataSet GetUpliftData()
@@ -57,7 +62,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
             var validationResults = new List<ValidationResult>();
             var records = new List<IUpliftData>();
 
-            var csvFile = new CsvFileNode(1);
+            var csvFile = new CsvFileNode();
             var lines = Parse(csvFile);
 
             // Get header
@@ -96,7 +101,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                     memberErrors.Add($"Invalid account number {accountNumberString}");
                 }
 
-                if (string.IsNullOrWhiteSpace(creditReasonString))
+                if (string.IsNullOrWhiteSpace(creditReasonString) || !creditReasonString.Equals(CreditReasonCode,StringComparison.CurrentCultureIgnoreCase))
                 {
                     memberErrors.Add($"Invalid credit reason code {creditReasonString}");
                 }
@@ -114,27 +119,37 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 }
 
                 DateTime startDate;
-                if (!DateTime.TryParse(startDateString, out startDate) || startDate > MaxUpliftStartDate)
+                if (!DateTime.TryParse(startDateString, out startDate))
+                {
+                    memberErrors.Add($"Invalid start date {startDateString}");
+                }
+                else if (startDate > MaxUpliftStartDate)
                 {
                     memberErrors.Add($"Invalid start date {startDateString}");
                 }
 
 
                 DateTime endDate;
-                if (!DateTime.TryParse(endDateString, out endDate) || endDate < startDate || endDate > startDate.AddDays(MaxUpliftEndDateDays))
+                if (!DateTime.TryParse(endDateString, out endDate))
+                {
+                    memberErrors.Add($"Invalid end date {endDateString}");
+                }
+                else if (endDate < startDate || endDate > startDate.AddDays(MaxUpliftEndDateDays))
                 {
                     memberErrors.Add($"Invalid end date {endDateString}");
                 }
 
                 if (memberErrors.Any())
                 {
-                    validationResults.Add(new ValidationResult($"Invalid record. Index : {recordCount}", memberErrors));
+                    validationResults.Add(new ValidationResult($"Invalid record. Data line : {recordCount}", memberErrors));
                 }
                 else
                 {
                     records.Add(new UpliftDataBase(branchNumber, accountNumberString, creditReasonString, productCode,
                         quantity, startDate, endDate));
                 }
+
+                recordCount++;
             }
 
 

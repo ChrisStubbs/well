@@ -10,25 +10,19 @@ namespace PH.Well.Task.GlobalUplifts.Import
 {
     public class UpliftDataImport : IUpliftDataImport
     {
-        private readonly IUpliftDataProvider _dataProvider;
-
-        public UpliftDataImport(IUpliftDataProvider dataProvider)
+        public void Import(IUpliftDataProvider dataProvider)
         {
-            _dataProvider = dataProvider;
-        }
-
-        public void Import()
-        {
-            var dataSet = _dataProvider.GetUpliftData();
-
-            if (dataSet.HasErrors)
+            foreach (var dataSet in dataProvider.GetUpliftData())
             {
-                //Log errors or w/e and stop the import
+                if (dataSet.HasErrors)
+                {
+                    //Log errors or w/e and stop the import
+                    throw new ValidationException(string.Join(Environment.NewLine,
+                        dataSet.Errors.SelectMany(x => new[] { x.ErrorMessage }.Concat(x.MemberNames))));
+                }
 
-                return;
+                // Process set here
             }
-
-
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -10,10 +11,9 @@ using PH.Well.Task.GlobalUplifts.Csv;
 namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
 {
     [TestFixture]
-    public class CsvDataProviderTests
+    public class DataProviderTests
     {
         private string _csvHeader = @"BRANCH,ACC NO,CREDIT REASON CODE,PRODUCT CODE,QTY,Start Date,End Date";
-
 
         [Test]
         public void AllFieldsInvalidTest()
@@ -32,7 +32,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             {
                 MaxUpliftStartDate = maxUpliftStartDate
             };
-            var dataSet = provider.GetUpliftData();
+            var dataSet = provider.GetUpliftData().Single();
 
             Assert.AreEqual(0, dataSet.Records.Count());
             Assert.AreEqual(1, dataSet.Errors.Count());
@@ -57,11 +57,20 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             {
                 MaxUpliftStartDate = maxUpliftStartDate
             };
-            var dataSet = provider.GetUpliftData();
+            var dataSet = provider.GetUpliftData().Single();
 
             Assert.AreEqual(1, dataSet.Records.Count());
             Assert.AreEqual(0, dataSet.Errors.Count());
             Assert.False(dataSet.HasErrors);
+        }
+
+        [Test]
+        public void DirectoryCsvDataProviderTest()
+        {
+            var path = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath) , @"ACL\Task.GlobalUplifts");
+            var directoryProvider = new DirectoryCsvUpliftDataProvider(path);
+            var dataSets = directoryProvider.GetUpliftData().ToList();
+            Assert.That(dataSets.Count == 2);
         }
     }
 }

@@ -63,8 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Csv\CsvUpliftDataProvider.cs" />
+    <Compile Include="Csv\DirectoryCsvUpliftDataProvider.cs" />
     <Compile Include="Data\IUpliftData.cs" />
     <Compile Include="Data\IUpliftDataProvider.cs" />
+    <Compile Include="Data\UpliftDataProvidersCollection.cs" />
     <Compile Include="Data\UpliftDataSet.cs" />
     <Compile Include="Data\UpliftDataBase.cs" />
     <Compile Include="GlobalUpliftsTask.cs" />

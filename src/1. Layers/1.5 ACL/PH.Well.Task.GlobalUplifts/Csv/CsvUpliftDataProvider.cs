@@ -25,8 +25,6 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private int _quantityIndex;
         private int _startDateIndex;
         private int _endDateIndex;
-      
-
 
         public CsvUpliftDataProvider(string filePath) : this()
         {
@@ -41,7 +39,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 
         protected CsvUpliftDataProvider()
         {
-            //Defaults
+            // Set defaults
             MaxUpliftStartDate = DateTime.Now;
             CreditReasonCode = "GLOBAL UPLIFT";
             MaxUpliftEndDateDays = 14;
@@ -57,7 +55,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         public string CreditReasonCode { get; set; }
 
 
-        public UpliftDataSet GetUpliftData()
+        public IEnumerable<UpliftDataSet> GetUpliftData()
         {
             var validationResults = new List<ValidationResult>();
             var records = new List<IUpliftData>();
@@ -90,6 +88,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 var startDateString = line[_startDateIndex]?.Trim();
                 var endDateString = line[_endDateIndex]?.Trim();
 
+                // Validation logic could be broken down into parsing errors and data errors
                 int branchNumber = 0;
                 if (!int.TryParse(branchNumberString, out branchNumber))
                 {
@@ -101,7 +100,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                     memberErrors.Add($"Invalid account number {accountNumberString}");
                 }
 
-                if (string.IsNullOrWhiteSpace(creditReasonString) || !creditReasonString.Equals(CreditReasonCode,StringComparison.CurrentCultureIgnoreCase))
+                if (string.IsNullOrWhiteSpace(creditReasonString) || !creditReasonString.Equals(CreditReasonCode, StringComparison.CurrentCultureIgnoreCase))
                 {
                     memberErrors.Add($"Invalid credit reason code {creditReasonString}");
                 }
@@ -156,12 +155,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
             if (validationResults.Any())
             {
                 // Return set with errors
-                return new UpliftDataSet(records, validationResults);
+                return new[] { new UpliftDataSet(_filePath, records, validationResults) };
             }
             else
             {
                 // Return set without errors
-                return new UpliftDataSet(records);
+                return new[] { new UpliftDataSet(_filePath, records) };
             }
         }
 

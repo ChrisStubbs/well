@@ -117,7 +117,7 @@
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
     <Compile Include="ACL\AdamEvents\StructureMapTest.cs" />
-    <Compile Include="ACL\Task.GlobalUplifts\CsvDataProviderTests.cs" />
+    <Compile Include="ACL\Task.GlobalUplifts\DataProviderTests.cs" />
     <Compile Include="AdamResilienceTests.cs" />
     <Compile Include="Api\Controllers\AppSearchControllerTests.cs" />
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />
@@ -223,6 +223,12 @@
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

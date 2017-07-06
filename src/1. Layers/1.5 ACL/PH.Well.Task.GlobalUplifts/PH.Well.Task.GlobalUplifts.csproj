@@ -42,8 +42,8 @@
     <Reference Include="PH.Common.FileNode.Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Common.FileNode.Constants.1.0.0.0\lib\net452\PH.Common.FileNode.Constants.dll</HintPath>
     </Reference>
-    <Reference Include="PH.Common.FileNode.CSV, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.FileNode.CSV.1.0.0.0\lib\net452\PH.Common.FileNode.CSV.dll</HintPath>
+    <Reference Include="PH.Common.FileNode.CSV, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.FileNode.CSV.1.0.0.1\lib\net452\PH.Common.FileNode.CSV.dll</HintPath>
     </Reference>
     <Reference Include="PH.Common.FileNode.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Common.FileNode.Interfaces.1.0.0.0\lib\net452\PH.Common.FileNode.Interfaces.dll</HintPath>

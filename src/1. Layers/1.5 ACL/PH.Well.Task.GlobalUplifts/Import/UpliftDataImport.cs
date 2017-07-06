@@ -19,37 +19,14 @@ namespace PH.Well.Task.GlobalUplifts.Import
 
         public void Import()
         {
-            throw new NotImplementedException();
-            foreach (var upliftData in _dataProvider.GetUpliftData())
-            {
-                
-            }
-        }
+            var dataSet = _dataProvider.GetUpliftData();
 
-        /// <summary>
-        /// Validates data returned by IUpliftDataProvider
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerable<ValidationResult> Validate()
-        {
-            foreach (var upliftData in _dataProvider.GetUpliftData())
+            if (dataSet.HasErrors)
             {
-                var validationResult = Validate(upliftData);
-                if (upliftData != null)
-                {
-                    yield return validationResult;
-                }
-            }
-        }
+                //Log errors or w/e and stop the import
 
-        /// <summary>
-        /// Validates given uplift data object
-        /// </summary>
-        /// <param name="data">Uplift data to validate</param>
-        /// <returns>Validation result or null if record is valid</returns>
-        private ValidationResult Validate(IUpliftData data)
-        {
-            // Implement validation rules here
+                return;
+            }
 
 
         }

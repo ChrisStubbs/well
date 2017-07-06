@@ -8,6 +8,6 @@ namespace PH.Well.Task.GlobalUplifts.Data
 {
     public interface IUpliftDataProvider
     {
-        IEnumerable<IUpliftData> GetUpliftData();
+        UpliftDataSet GetUpliftData();
     }
 }

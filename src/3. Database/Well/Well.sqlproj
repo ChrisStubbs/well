@@ -415,6 +415,7 @@
     <Build Include="dbo\StoredProcedures\Job_GetWithLineItemActions.sql" />
     <Build Include="dbo\Functions\ExceptionType_Uplifted.sql" />
     <Build Include="dbo\Functions\JobStatus_Clean.sql" />
+    <Build Include="dbo\StoredProcedures\SingleLocation_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

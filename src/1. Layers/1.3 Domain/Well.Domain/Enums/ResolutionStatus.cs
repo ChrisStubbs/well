@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
 
+    [Serializable]
     public sealed class ResolutionStatus
     {
         private int value;

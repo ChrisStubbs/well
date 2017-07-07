@@ -116,6 +116,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="JobDetail.cs" />
     <Compile Include="JobDetailDamage.cs" />
+    <Compile Include="SingleLocation.cs" />
     <Compile Include="StopDTO.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummary.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummaryItem.cs" />

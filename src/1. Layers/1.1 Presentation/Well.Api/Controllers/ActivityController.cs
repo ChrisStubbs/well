@@ -15,8 +15,7 @@ namespace PH.Well.Api.Controllers
         {
             this.activityRepository = activityRepository;
         }
-
-        [HttpGet]
+        
         [Route("Activity/{invoice}/{branchId:int}")]
         public ActivitySource Get(string invoice, int branchId)
         {

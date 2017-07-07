@@ -202,7 +202,7 @@
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\LineItemSearchController.cs" />
-    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\SingleLocationController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />

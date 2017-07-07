@@ -97,6 +97,7 @@ import { ActivityComponent, ActivityService } from './activity/activity';
 import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
 import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
+import { SingleLocationComponent, LocationsService } from './locations/locations';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -112,7 +113,8 @@ import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
-        SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal
+        SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
+        SingleLocationComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,
@@ -123,7 +125,7 @@ import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
         CleanPreferenceService, UserService, ExceptionDeliveryService, NavigateQueryParametersService, UserPreferenceService, ActivityService,
-        JobService,
+        JobService, LocationsService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

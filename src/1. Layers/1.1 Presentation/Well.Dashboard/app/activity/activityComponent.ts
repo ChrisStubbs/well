@@ -1,31 +1,31 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { LookupService } from '../shared/services/lookupService';
-import { LookupsEnum } from '../shared/services/lookupsEnum';
+import { Component, ViewChild }                                 from '@angular/core';
+import { ActivatedRoute }                                       from '@angular/router';
+import { IObservableAlive }                                     from '../shared/IObservableAlive';
+import { LookupService }                                        from '../shared/services/lookupService';
+import { LookupsEnum }                                          from '../shared/services/lookupsEnum';
 import
 {
     ActivitySource,
     ActivitySourceGroup,
     ActivitySourceDetail,
     ActivityFilter
-} from './activitySource';
-import { Observable } from 'rxjs';
-import { ActivityService } from './activityService';
-import { ILookupValue } from '../shared/services/ILookupValue';
-import * as _ from 'lodash';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { EditExceptionsService } from '../exceptions/editExceptionsService';
-import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
-import { ActionEditComponent } from '../shared/action/actionEditComponent';
-import { ResolutionStatusEnum } from '../shared/services/resolutionStatusEnum';
-import { ISubmitActionResult, ISubmitActionResultDetails } from '../shared/action/submitActionModel';
-import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
-import { IBulkEditResult } from '../shared/action/bulkEditItem';
+}                                                               from './activitySource';
+import { Observable }                                           from 'rxjs';
+import { ActivityService }                                      from './activityService';
+import { ILookupValue }                                         from '../shared/services/ILookupValue';
+import * as _                                                   from 'lodash';
+import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
+import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
+import { Branch }                                               from '../shared/branch/branch';
+import { SecurityService }                                      from '../shared/security/securityService';
+import { GlobalSettingsService }                                from '../shared/globalSettings';
+import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
+import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
+import { ResolutionStatusEnum }                                 from '../shared/services/resolutionStatusEnum';
+import { ISubmitActionResult, ISubmitActionResultDetails }      from '../shared/action/submitActionModel';
+import { BulkEditActionModal }                                  from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 

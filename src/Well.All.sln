@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDD", "4. Test\BDD\BDD.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.GlobalUplifts", "1. Layers\1.5 ACL\PH.Well.Task.GlobalUplifts\PH.Well.Task.GlobalUplifts.csproj", "{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.GlobalUplifts.Runner", "1. Layers\1.5 ACL\PH.Well.Task.GlobalUplifts.Runner\PH.Well.Task.GlobalUplifts.Runner.csproj", "{5939F34D-80EC-499B-943D-E4D9061078AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,10 @@ Global
 		{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5939F34D-80EC-499B-943D-E4D9061078AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5939F34D-80EC-499B-943D-E4D9061078AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5939F34D-80EC-499B-943D-E4D9061078AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5939F34D-80EC-499B-943D-E4D9061078AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,5 +148,6 @@ Global
 		{55273256-3C5F-416E-834A-3AC264F7819C} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 		{04184D90-BF0F-4B7D-9094-34BDEB509E1C} = {5BA14BDD-5F5A-4BF3-9064-6DBF0B08A3FA}
 		{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
+		{5939F34D-80EC-499B-943D-E4D9061078AE} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 	EndGlobalSection
 EndGlobal

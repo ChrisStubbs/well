@@ -2,9 +2,9 @@
 
 namespace PH.Well.Task.GlobalUplifts
 {
-    public class UpliftsTaskData
+    public class UpliftImportTaskData
     {
-        public UpliftsTaskData()
+        public UpliftImportTaskData()
         {
             Directories = new List<string>();
         }

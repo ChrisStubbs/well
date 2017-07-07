@@ -8,16 +8,16 @@ using PH.Well.Task.GlobalUplifts.Import;
 
 namespace PH.Well.Task.GlobalUplifts
 {
-    public class UpliftsTask
+    public class UpliftImportTask
     {
         private readonly IUpliftDataImportService _importService;
 
-        public UpliftsTask(IUpliftDataImportService importService)
+        public UpliftImportTask(IUpliftDataImportService importService)
         {
             _importService = importService;
         }
 
-        public void Execute(UpliftsTaskData data)
+        public void Execute(UpliftImportTaskData data)
         {
             var providersCollection = new UpliftDataProvidersCollection();
             foreach (var dataDirectory in data.Directories)

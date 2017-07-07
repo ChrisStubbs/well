@@ -77,7 +77,7 @@
                                 JobDetailId = line.Id,
                                 Product = line.PhProductCode,
                                 Description = line.ProdDesc,
-                                Value = line.SkuGoodsValue,
+                                Value =  line.NetPrice?? 0,
                                 Invoiced = line.OriginalDespatchQty,
                                 Delivered = line.DeliveredQty,
                                 Checked = line.IsChecked,

@@ -16,6 +16,7 @@ AS
 				,COUNT(j.Id)  OVER (PARTITION BY s.Id) AS TotalJobs
 				FROM [Stop] s
 				INNER JOIN Job j ON j.StopId = s.id
+				WHERE j.JobTypeCode != 'DEL-DOC'
 				GROUP BY s.Id, j.JobStatusId, j.id)
 			AS SourceTable
 			PIVOT

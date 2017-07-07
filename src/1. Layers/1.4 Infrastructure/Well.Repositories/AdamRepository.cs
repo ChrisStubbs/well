@@ -271,6 +271,7 @@
 
             return AdamResponse.Unknown;
         }
+        
 
         public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings)
         {
@@ -345,50 +346,55 @@
             return AdamResponse.Unknown;
         }
 
-   /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
+        public AdamResponse GlobalUplift(GlobalUpliftTransaction globalUpliftTransaction, AdamSettings adamSettings)
         {
-
-            return AdamResponse.Unknown;
+            
         }
 
-        public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
-        {
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
-            {
-                try
-                {
-                    connection.Open();
+        /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
+             {
 
-                    using (var command = new AdamCommand(connection))
-                    {
-                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
-                        var today = DateTime.Now.ToShortDateString();
-                        var now = DateTime.Now.ToShortTimeString();
+                 return AdamResponse.Unknown;
+             }
 
-                        var commandString =
-                            string.Format(
-                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
+             public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
+             {
+                 using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                 {
+                     try
+                     {
+                         connection.Open();
 
-                        command.CommandText = commandString;
-                        command.ExecuteNonQuery();
+                         using (var command = new AdamCommand(connection))
+                         {
+                             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                             var today = DateTime.Now.ToShortDateString();
+                             var now = DateTime.Now.ToShortTimeString();
 
-                    }
-                    return AdamResponse.Success;
-                }
-                catch (AdamProviderException adamException)
-                {
-                    this.logger.LogError("ADAM error occurred!", adamException);
+                             var commandString =
+                                 string.Format(
+                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
+                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
 
-                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
-                    {
-                        return AdamResponse.AdamDown;
-                    }
-                }
-                return AdamResponse.Unknown;
-            }
-        }*/
-           
+                             command.CommandText = commandString;
+                             command.ExecuteNonQuery();
+
+                         }
+                         return AdamResponse.Success;
+                     }
+                     catch (AdamProviderException adamException)
+                     {
+                         this.logger.LogError("ADAM error occurred!", adamException);
+
+                         if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                         {
+                             return AdamResponse.AdamDown;
+                         }
+                     }
+                     return AdamResponse.Unknown;
+                 }
+             }*/
+
 
         private static string GetConnection(AdamSettings settings)
         {

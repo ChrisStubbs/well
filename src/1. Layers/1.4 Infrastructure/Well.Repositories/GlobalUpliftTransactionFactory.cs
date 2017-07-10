@@ -10,22 +10,44 @@ namespace PH.Well.Repositories
 {
     public class GlobalUpliftTransactionFactory : IGlobalUpliftTransactionFactory
     {
-        private const string WELLHDRCDTYPE = "10";
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <returns></returns>
         public string LineSql(GlobalUpliftTransaction transaction)
         {
+            if (!transaction.WriteLine)
+            {
+                throw new InvalidOperationException(
+                    $"Transaction property {nameof(transaction.WriteLine)} is {transaction.WriteLine}");
+            }
+
             var sql =
                 $@"INSERT INTO WELLLINE (WELLINEGUID, WELLLINERCDTYPE, WELLINESEQNUM, WELLINEPROD, WELLINEQTY, WELLINECREDREASON, WELLINEENDLINE)
-                   VALUES ({transaction.Id},'{WELLHDRCDTYPE}',1,{transaction.ProductCode},{transaction.Quantity},'{transaction.CreditReasonCode}',1);";
+                   VALUES ({transaction.Id},'{GlobalUpliftTransaction.WELLHDRCDTYPE}',1,{transaction.ProductCode},{transaction.Quantity},'{transaction.CreditReasonCode}',1);";
 
             return sql;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <returns></returns>
         public string HeaderSql(GlobalUpliftTransaction transaction)
         {
+            if (!transaction.WriteHeader)
+            {
+                throw new InvalidOperationException(
+                    $"Transaction property {nameof(transaction.WriteHeader)} is {transaction.WriteHeader}");
+            }
+
             var sql =
-                $@"INSERT INTO WELLHEAD (WELLHEADGUID, WELLHDRCDTYPE, WELLHDBRANCH, WELLHDACNO, WELLHDFLAG, WELLHDNEWDELDATE, WELLHDREVDELDATE, WELLHDLINECOUNT )
-                  VALUES ({transaction.Id},'{WELLHDRCDTYPE}',{transaction.BranchId},{
+                $@"INSERT INTO WELLHEAD (WELLHDGUID, WELLHDRCDTYPE, WELLHDBRANCH, WELLHDACNO, WELLHDFLAG, WELLHDNEWDELDATE, WELLHDREVDELDATE, WELLHDLINECOUNT )
+                  VALUES ({transaction.Id},'{GlobalUpliftTransaction.WELLHDRCDTYPE}',{transaction.BranchId},{
                         GetAccountNumber(transaction.AccountNumber)
                     },0,'{transaction.StartDate.ToShortTimeString()}','{transaction.EndDate.ToShortTimeString()}',1);";
 
@@ -36,5 +58,6 @@ namespace PH.Well.Repositories
         {
             return (int)(Convert.ToDecimal(accountNumberString) * 1000);
         }
+
     }
 }

@@ -360,11 +360,7 @@
             if (transaction.WriteLine)
             {
                 var writeLineResult = WriteGlobalUpliftLine(transaction, adamSettings);
-                if (writeLineResult == AdamResponse.Success)
-                {
-                    transaction.LineDidWrite = true;
-                }
-                else
+                if (writeLineResult != AdamResponse.Success)
                 {
                     return writeLineResult;
                 }
@@ -373,15 +369,13 @@
             if (transaction.WriteHeader)
             {
                 var writeHeaderResult = WriteGlobalUpliftHeader(transaction, adamSettings);
-                if (writeHeaderResult == AdamResponse.Success)
-                {
-                    transaction.HeaderDidWrite = true;
-                }
-                else
+                if (writeHeaderResult != AdamResponse.Success)
                 {
                     return writeHeaderResult;
                 }
             }
+
+            //Todo insert event here to process later
 
             return AdamResponse.Success;
         }
@@ -400,16 +394,28 @@
                         command.ExecuteNonQuery();
                     }
 
+                    // Set result and return success
+                    transaction.LineDidWrite = true;
                     return AdamResponse.Success;
                 }
                 catch (AdamProviderException adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing global uplift line!", adamException);
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                        $"Adam exception {adamException} when writing global uplift line {sql}",
-                        2010);
+                    //this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner,
+                    //    $"Adam exception {adamException} when writing global uplift line {sql}",
+                    //    2010);
 
-                    return AdamResponse.AdamDown;
+                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    {
+                        return AdamResponse.AdamDown;
+                    }
+
+                    return AdamResponse.Unknown;
+                }
+                catch (Exception e)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift line!", e);
+                    return AdamResponse.Unknown;
                 }
             }
         }
@@ -428,16 +434,28 @@
                         command.ExecuteNonQuery();
                     }
 
+                    // Set result and return success
+                    transaction.HeaderDidWrite = true;
                     return AdamResponse.Success;
                 }
                 catch (AdamProviderException adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing global uplift header!", adamException);
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                        $"Adam exception {adamException} when writing global uplift header {sql}",
-                        2010);
+                    //this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner,
+                    //    $"Adam exception {adamException} when writing global uplift header {sql}",
+                    //    2010);
 
-                    return AdamResponse.AdamDown;
+                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    {
+                        return AdamResponse.AdamDown;
+                    }
+
+                    return AdamResponse.Unknown;
+                }
+                catch (Exception e)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift line!", e);
+                    return AdamResponse.Unknown;
                 }
             }
         }

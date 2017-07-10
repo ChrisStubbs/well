@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using PH.Well.Domain.ValueObjects;
+using PH.Well.Repositories;
 using PH.Well.Task.GlobalUplifts;
 using PH.Well.Task.GlobalUplifts.Csv;
 using PH.Well.Task.GlobalUplifts.Data;
@@ -88,6 +90,31 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
 
             //Verify that import has been called once. (1 directory csv provider per directory)
             importService.Verify(x => x.Import(It.IsAny<IUpliftDataProvider>()), Times.Once);
+        }
+
+        [Test]
+        public void GlobalUpliftTransactionFactoryTest()
+        {
+            var transaction = new GlobalUpliftTransaction(101231, 123, "123.001", "Global Uplift", 14472, 2,
+                DateTime.Now, DateTime.Now.AddHours(1));
+            var globalUpliftTransactionFactory = new GlobalUpliftTransactionFactory();
+
+            var lineSql = globalUpliftTransactionFactory.LineSql(transaction);
+            var headerSql = globalUpliftTransactionFactory.HeaderSql(transaction);
+
+        }
+
+        [Test]
+        public void GlobalUpliftTransactionFactoryShouldThrowException()
+        {
+            //Transaction specifies that header and line shouldn't be written
+            var transaction = new GlobalUpliftTransaction(101231, 123, "123.001", "Global Uplift", 14472, 2,
+                DateTime.Now, DateTime.Now.AddHours(1), false, false);
+
+            var globalUpliftTransactionFactory = new GlobalUpliftTransactionFactory();
+
+            Assert.Throws<InvalidOperationException>(() => globalUpliftTransactionFactory.LineSql(transaction));
+            Assert.Throws<InvalidOperationException>(() => globalUpliftTransactionFactory.HeaderSql(transaction));
         }
     }
 }

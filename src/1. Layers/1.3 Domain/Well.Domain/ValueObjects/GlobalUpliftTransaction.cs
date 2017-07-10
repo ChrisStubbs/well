@@ -9,6 +9,11 @@ namespace PH.Well.Domain.ValueObjects
     public class GlobalUpliftTransaction
     {
         /// <summary>
+        /// ADAM process type
+        /// </summary>
+        public const int WELLHDRCDTYPE = 10;
+
+        /// <summary>
         /// This constructor allows to create transaction and specify which lines should be written
         /// </summary>
         /// <param name="id"></param>

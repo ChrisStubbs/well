@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PH.Well.Common.Contracts;
-using PH.Well.Domain.Enums;
+using PH.Well.Domain;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Services;
 using PH.Well.Task.GlobalUplifts.Data;
+using Branch = PH.Well.Domain.Enums.Branch;
 
 namespace PH.Well.Task.GlobalUplifts.Import
 {
@@ -17,11 +18,13 @@ namespace PH.Well.Task.GlobalUplifts.Import
     {
         private readonly ILogger _logger;
         private readonly IAdamRepository _adamRepository;
+        private readonly IRouteHeaderRepository _routeHeaderRepository;
 
-        public UpliftDataImportService(ILogger logger,IAdamRepository adamRepository)
+        public UpliftDataImportService(ILogger logger,IAdamRepository adamRepository, IRouteHeaderRepository routeHeaderRepository)
         {
             _logger = logger;
             _adamRepository = adamRepository;
+            _routeHeaderRepository = routeHeaderRepository;
         }
 
         public void Import(IUpliftDataProvider dataProvider)
@@ -35,28 +38,52 @@ namespace PH.Well.Task.GlobalUplifts.Import
 
                     _logger.LogError($"Uplift import error. DataSet {dataSet.Id}", exception);
                     //Log errors or w/e and stop the import
-                    //throw exception;
+                    //throw exception ?
                 }
-
-                // Process set here
-                foreach (var r in dataSet.Records)
+                else if (_routeHeaderRepository.FileAlreadyLoaded(dataSet.Id))
                 {
-                    //Todo insert set as record to Routes table get id and construct transaction id
-               
-                    var adamSettings = GetAdamSettings(r.BranchId);
-                    var transaction = new GlobalUpliftTransaction(r.BranchId, r.AccountNumber, r.CreditReasonCode,
-                        r.ProductCode, r.Quantity, r.StartDate, r.EndDate);
+                    var exception = new ValidationException($"Uplift data already imported. Set : {dataSet.Id}");
+                    _logger.LogError(exception.Message, exception);
 
-                    //Write to adam
-                    _adamRepository.GlobalUplift(transaction, adamSettings);
+                    //Throw exception ?
                 }
-               
+                else
+                {
+                    // Create record in Routes table so we can check whether this set was processed or not
+                    var route = _routeHeaderRepository.Create(new Routes {FileName = dataSet.Id});
+                    // Process set here
+                    foreach (var r in dataSet.Records)
+                    {
+                        var adamSettings = GetAdamSettings(r.BranchId);
+                        var transaction = new GlobalUpliftTransaction(GenerateTransactionId(r, route.Id), r.BranchId,
+                            r.AccountNumber,
+                            r.CreditReasonCode,
+                            r.ProductCode, r.Quantity, r.StartDate, r.EndDate);
+
+                        //Write to adam
+                        var status = _adamRepository.GlobalUplift(transaction, adamSettings);
+                        
+                        // do we need to check status and do something after ?
+                    }
+                }
             }
         }
 
         private AdamSettings GetAdamSettings(int branchId)
         {
             return AdamSettingsFactory.GetAdamSettings((Branch)branchId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="upliftData">Import record</param>
+        /// <param name="routeId">Import id</param>
+        /// <returns></returns>
+        private int GenerateTransactionId(IUpliftData upliftData, int routeId)
+        {
+            var idString = $"{GlobalUpliftTransaction.WELLHDRCDTYPE}{routeId}{upliftData.Id}";
+            return int.Parse(idString);
         }
     }
 }

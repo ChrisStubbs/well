@@ -41,7 +41,7 @@ BEGIN
 	SELECT 
 		a.Id AS ActivityId,
 		li.ProductCode AS Product,
-		jd.PHProductType AS [Type],
+		jt.Description  AS [Type],
 		jd.SSCCBarcode AS Barcode,
 		li.ProductDescription AS [Description],
 		jd.NetPrice AS Value, -- ??

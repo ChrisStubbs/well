@@ -356,28 +356,45 @@
             {
                 throw new ArgumentException("Invalid GlobalUpliftTransaction - Lines to write are not specified");
             }
-
+            
+            AdamResponse result = AdamResponse.Success;
             if (transaction.WriteLine)
             {
-                var writeLineResult = WriteGlobalUpliftLine(transaction, adamSettings);
-                if (writeLineResult != AdamResponse.Success)
-                {
-                    return writeLineResult;
-                }
+                result = WriteGlobalUpliftLine(transaction, adamSettings);
             }
 
-            if (transaction.WriteHeader)
+            //If transaction specifies to write header and previous response was success
+            if (transaction.WriteHeader && result == AdamResponse.Success)
             {
-                var writeHeaderResult = WriteGlobalUpliftHeader(transaction, adamSettings);
-                if (writeHeaderResult != AdamResponse.Success)
-                {
-                    return writeHeaderResult;
-                }
+                result = WriteGlobalUpliftHeader(transaction, adamSettings);
             }
 
-            //Todo insert event here to process later
+            if (result != AdamResponse.Success)
+            {
+                // Whether transaction should write line and was successfully written
+                var writeLine = transaction.WriteLine && !transaction.LineDidWrite;
+                // Whether transaction should write header and  was successfully written
+                var writeHeader = transaction.WriteHeader && !transaction.HeaderDidWrite;
 
-            return AdamResponse.Success;
+                var upliftEvent = new GlobalUpliftEvent
+                {
+                    Id = transaction.Id,
+                    BranchId = transaction.BranchId,
+                    AccountNumber = transaction.AccountNumber,
+                    CreditReasonCode = transaction.CreditReasonCode,
+                    Quantity = transaction.Quantity,
+                    ProductCode = transaction.ProductCode,
+                    StartDate = transaction.StartDate,
+                    EndDate = transaction.EndDate,
+                    WriteLine = writeLine,
+                    WriteHeader = writeHeader
+                };
+
+                // Insert uplift event
+                eventRepository.InsertEvent(EventAction.GlobalUplift, upliftEvent);
+            }
+
+            return result;
         }
 
         private AdamResponse WriteGlobalUpliftLine(GlobalUpliftTransaction transaction, AdamSettings adamSettings)

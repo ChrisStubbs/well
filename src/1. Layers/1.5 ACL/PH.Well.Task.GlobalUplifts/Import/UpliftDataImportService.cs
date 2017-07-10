@@ -37,15 +37,15 @@ namespace PH.Well.Task.GlobalUplifts.Import
                         dataSet.Errors.SelectMany(x => new[] {x.ErrorMessage}.Concat(x.MemberNames))));
 
                     _logger.LogError($"Uplift import error. DataSet {dataSet.Id}", exception);
-                    //Log errors or w/e and stop the import
-                    //throw exception ?
+                   
+                    //throw exception ? Send email ?
                 }
                 else if (_routeHeaderRepository.FileAlreadyLoaded(dataSet.Id))
                 {
                     var exception = new ValidationException($"Uplift data already imported. Set : {dataSet.Id}");
                     _logger.LogError(exception.Message, exception);
 
-                    //Throw exception ?
+                    //throw exception ? Send email ?
                 }
                 else
                 {

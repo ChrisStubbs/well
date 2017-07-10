@@ -32,7 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\StructureMap.4.5.1\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,13 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalUpliftRunnerConsts.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
+      <Project>{D1032947-BBA3-4D82-91FB-8E2AE054F0E3}</Project>
+      <Name>Well.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1.2 Services\Well.Services\Well.Services.csproj">
+      <Project>{8C839EE3-9B46-4D0B-A38B-6E653E471FBF}</Project>
+      <Name>Well.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
+      <Project>{F6584BAC-9A01-4788-9C75-FAF17337360E}</Project>
+      <Name>Well.Repositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PH.Well.Task.GlobalUplifts\PH.Well.Task.GlobalUplifts.csproj">
       <Project>{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}</Project>
       <Name>PH.Well.Task.GlobalUplifts</Name>

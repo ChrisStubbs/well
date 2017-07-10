@@ -354,8 +354,4 @@ export class SingleRouteComponent implements IObservableAlive
     {
         this.bulkEditActionModal.show();
     }
-
-    private getInvoiceLink = (item: SingleRouteItem): string => {
-        return '/invoice/' + item.invoice + '/' + this.branchId;
-    }
 }

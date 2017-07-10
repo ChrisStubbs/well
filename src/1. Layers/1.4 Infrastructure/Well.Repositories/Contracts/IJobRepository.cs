@@ -61,5 +61,7 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds);
         
         IEnumerable<JobToBeApproved> GetJobsToBeApproved();
+
+        Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId);
     }
 }

@@ -66,7 +66,7 @@
 
                 jobDetailTotalsPerRouteHeader = new List<JobDetailLineItemTotals>();
 
-                mapper.Setup(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader)).Returns(singleRoute);
+                mapper.Setup(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader, null)).Returns(singleRoute);
             }
 
             [Test]
@@ -80,7 +80,7 @@
                 stopRepository.Verify(x => x.GetStopByRouteHeaderId(RouteHeaderId), Times.Once);
                 jobRepository.Verify(x => x.GetByRouteHeaderId(RouteHeaderId), Times.Once);
                 assigneeRepository.Verify(x => x.GetByRouteHeaderId(RouteHeaderId), Times.Once);
-                mapper.Verify(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader), Times.Once);
+                mapper.Verify(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader, null), Times.Once);
 
                 Assert.That(response, Is.EqualTo(singleRoute));
             }

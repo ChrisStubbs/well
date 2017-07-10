@@ -11,6 +11,8 @@ namespace PH.Well.Task.GlobalUplifts.Data
     /// </summary>
     public interface IUpliftData
     {
+        int Id { get; }
+
         int BranchId { get; }
 
         string AccountNumber { get; }

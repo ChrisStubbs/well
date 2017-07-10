@@ -21,8 +21,9 @@
         private readonly IEventLogger eventLogger;
         private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IExceptionEventRepository eventRepository;
+        private readonly IGlobalUpliftTransactionFactory _globalUpliftTransactionFactory;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository,IGlobalUpliftTransactionFactory globalUpliftTransactionFactory)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
@@ -30,6 +31,7 @@
             this.eventLogger = eventLogger;
             this.podTransactionFactory = podTransactionFactory;
             this.eventRepository = eventRepository;
+            _globalUpliftTransactionFactory = globalUpliftTransactionFactory;
         }
 
         public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings)
@@ -346,10 +348,101 @@
             return AdamResponse.Unknown;
         }
 
-        public AdamResponse GlobalUplift(GlobalUpliftTransaction globalUpliftTransaction, AdamSettings adamSettings)
+        #region Global Uplift
+
+        public AdamResponse GlobalUplift(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
         {
-            
+            if (!transaction.WriteLine && !transaction.WriteHeader)
+            {
+                throw new ArgumentException("Invalid GlobalUpliftTransaction - Lines to write are not specified");
+            }
+
+            if (transaction.WriteLine)
+            {
+                var writeLineResult = WriteGlobalUpliftLine(transaction, adamSettings);
+                if (writeLineResult == AdamResponse.Success)
+                {
+                    transaction.LineDidWrite = true;
+                }
+                else
+                {
+                    return writeLineResult;
+                }
+            }
+
+            if (transaction.WriteHeader)
+            {
+                var writeHeaderResult = WriteGlobalUpliftHeader(transaction, adamSettings);
+                if (writeHeaderResult == AdamResponse.Success)
+                {
+                    transaction.HeaderDidWrite = true;
+                }
+                else
+                {
+                    return writeHeaderResult;
+                }
+            }
+
+            return AdamResponse.Success;
         }
+
+        private AdamResponse WriteGlobalUpliftLine(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
+        {
+            string sql = _globalUpliftTransactionFactory.LineSql(transaction);
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+                    using (var command = new AdamCommand(connection))
+                    {
+                        command.CommandText = sql;
+                        command.ExecuteNonQuery();
+                    }
+
+                    return AdamResponse.Success;
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift line!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        $"Adam exception {adamException} when writing global uplift line {sql}",
+                        2010);
+
+                    return AdamResponse.AdamDown;
+                }
+            }
+        }
+
+        private AdamResponse WriteGlobalUpliftHeader(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
+        {
+            string sql = _globalUpliftTransactionFactory.HeaderSql(transaction);
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+                    using (var command = new AdamCommand(connection))
+                    {
+                        command.CommandText = sql;
+                        command.ExecuteNonQuery();
+                    }
+
+                    return AdamResponse.Success;
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift header!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        $"Adam exception {adamException} when writing global uplift header {sql}",
+                        2010);
+
+                    return AdamResponse.AdamDown;
+                }
+            }
+        }
+
+        #endregion Global Uplift
 
         /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
              {

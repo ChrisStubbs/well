@@ -41,6 +41,8 @@ namespace PH.Well.Task.GlobalUplifts.Import
                 // Process set here
                 foreach (var r in dataSet.Records)
                 {
+                    //Todo insert set as record to Routes table get id and construct transaction id
+               
                     var adamSettings = GetAdamSettings(r.BranchId);
                     var transaction = new GlobalUpliftTransaction(r.BranchId, r.AccountNumber, r.CreditReasonCode,
                         r.ProductCode, r.Quantity, r.StartDate, r.EndDate);

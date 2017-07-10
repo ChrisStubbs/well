@@ -11,9 +11,10 @@ namespace PH.Well.Task.GlobalUplifts.Data
     /// </summary>
     public class UpliftDataBase : IUpliftData
     {
-        public UpliftDataBase(int branchId, string accountNumber, string creditReasonCode, int productCode,
+        public UpliftDataBase(int id,int branchId, string accountNumber, string creditReasonCode, int productCode,
             int quantity, DateTime startDate, DateTime endDate)
         {
+            Id = id;
             BranchId = branchId;
             AccountNumber = accountNumber;
             CreditReasonCode = creditReasonCode;
@@ -23,6 +24,7 @@ namespace PH.Well.Task.GlobalUplifts.Data
             EndDate = endDate;
         }
 
+        public int Id { get; }
         public int BranchId { get; }
         public string AccountNumber { get; }
         public string CreditReasonCode { get; }

@@ -150,7 +150,8 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 }
                 else
                 {
-                    records.Add(new UpliftDataBase(branchNumber, accountNumberString, creditReasonString, productCode,
+                    records.Add(new UpliftDataBase(recordCount, branchNumber, accountNumberString, creditReasonString,
+                        productCode,
                         quantity, startDate, endDate));
                 }
 

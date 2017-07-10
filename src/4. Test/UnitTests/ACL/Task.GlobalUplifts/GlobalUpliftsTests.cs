@@ -7,8 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using PH.Well.Common.Contracts;
+using PH.Well.Domain.Enums;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories;
+using PH.Well.Repositories.Contracts;
 using PH.Well.Task.GlobalUplifts;
 using PH.Well.Task.GlobalUplifts.Csv;
 using PH.Well.Task.GlobalUplifts.Data;
@@ -115,6 +118,158 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
 
             Assert.Throws<InvalidOperationException>(() => globalUpliftTransactionFactory.LineSql(transaction));
             Assert.Throws<InvalidOperationException>(() => globalUpliftTransactionFactory.HeaderSql(transaction));
+        }
+    }
+
+
+    [TestFixture]
+    public class GlobalUpliftRepositoryTests
+    {
+        private Mock<ILogger> _loggerMock = new Mock<ILogger>();
+        private Mock<IJobRepository> _jobRepositoryMock = new Mock<IJobRepository>();
+        private Mock<IEventLogger> _eventLoggerMock = new Mock<IEventLogger>();
+        private Mock<IPodTransactionFactory> _podTransactionFactoryMock = new Mock<IPodTransactionFactory>();
+        private Mock<IDeliveryReadRepository> _deliveryReadRepositoryMock = new Mock<IDeliveryReadRepository>();
+        private Mock<IExceptionEventRepository> _eventRepositoryMock = new Mock<IExceptionEventRepository>();
+
+        [Test]
+        public void ShouldWriteLineAndHeaderTest()
+        {
+            var _globalUpliftTransactionFactoryMock = new Mock<IGlobalUpliftTransactionFactory>();
+
+            var _adamRepositoryMock = new Mock<AdamRepository>(_loggerMock.Object, _jobRepositoryMock.Object,
+                _eventLoggerMock.Object, _podTransactionFactoryMock.Object, _deliveryReadRepositoryMock.Object,
+                _eventRepositoryMock.Object, _globalUpliftTransactionFactoryMock.Object)
+            {
+                CallBase = true
+            };
+
+            var transaction = new GlobalUpliftTransaction(1, 1, "123", "Global Uplift", 123, 1, DateTime.Now,
+                DateTime.Now.AddDays(1));
+
+            _adamRepositoryMock
+                .Setup(x => x.WriteGlobalUpliftLine(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
+                .Callback(() =>
+                {
+                    _globalUpliftTransactionFactoryMock.Object.LineSql(transaction);
+                    transaction.LineDidWrite = true;
+                })
+                .Returns(AdamResponse.Success);
+
+            _adamRepositoryMock
+                .Setup(x => x.WriteGlobalUpliftHeader(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
+                .Callback(() =>
+                {
+                    _globalUpliftTransactionFactoryMock.Object.HeaderSql(transaction);
+                    transaction.HeaderDidWrite = true;
+                })
+                .Returns(AdamResponse.Success);
+
+            _adamRepositoryMock.Object.GlobalUplift(transaction, new AdamSettings());
+
+            _globalUpliftTransactionFactoryMock.Verify(x => x.LineSql(transaction), Times.Once);
+            _globalUpliftTransactionFactoryMock.Verify(x => x.HeaderSql(transaction), Times.Once);
+
+            _adamRepositoryMock.Verify(x=> x.WriteGlobalUpliftLine(transaction,It.IsAny<AdamSettings>()),Times.Once);
+            _adamRepositoryMock.Verify(x=> x.WriteGlobalUpliftHeader(transaction,It.IsAny<AdamSettings>()),Times.Once);
+
+            Assert.True(transaction.LineDidWrite);
+            Assert.True(transaction.HeaderDidWrite);
+        }
+
+        [Test]
+        public void ShouldWriteHeaderOnlyTest()
+        {
+            var _globalUpliftTransactionFactoryMock = new Mock<IGlobalUpliftTransactionFactory>();
+
+            var _adamRepositoryMock = new Mock<AdamRepository>(_loggerMock.Object, _jobRepositoryMock.Object,
+                _eventLoggerMock.Object, _podTransactionFactoryMock.Object, _deliveryReadRepositoryMock.Object,
+                _eventRepositoryMock.Object, _globalUpliftTransactionFactoryMock.Object)
+            {
+                CallBase = true
+            };
+
+            //Create transaction that specifies to write header only
+            var transaction = new GlobalUpliftTransaction(1, 1, "123", "Global Uplift", 123, 1, DateTime.Now,
+                DateTime.Now.AddDays(1), false, true);
+
+            _adamRepositoryMock
+                .Setup(x => x.WriteGlobalUpliftLine(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
+                .Callback(() =>
+                {
+                    _globalUpliftTransactionFactoryMock.Object.LineSql(transaction);
+                    transaction.LineDidWrite = true;
+                })
+                .Returns(AdamResponse.Success);
+
+            _adamRepositoryMock
+                .Setup(x => x.WriteGlobalUpliftHeader(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
+                .Callback(() =>
+                {
+                    _globalUpliftTransactionFactoryMock.Object.HeaderSql(transaction);
+                    transaction.HeaderDidWrite = true;
+                })
+                .Returns(AdamResponse.Success);
+
+            _adamRepositoryMock.Object.GlobalUplift(transaction, new AdamSettings());
+
+            _globalUpliftTransactionFactoryMock.Verify(x => x.LineSql(transaction), Times.Never);
+            _globalUpliftTransactionFactoryMock.Verify(x => x.HeaderSql(transaction), Times.Once);
+
+            _adamRepositoryMock.Verify(x => x.WriteGlobalUpliftLine(transaction, It.IsAny<AdamSettings>()), Times.Never);
+            _adamRepositoryMock.Verify(x => x.WriteGlobalUpliftHeader(transaction, It.IsAny<AdamSettings>()), Times.Once);
+
+            Assert.False(transaction.WriteLine);
+            Assert.False(transaction.LineDidWrite);
+
+            Assert.True(transaction.WriteHeader);
+            Assert.True(transaction.HeaderDidWrite);
+        }
+
+        [Test]
+        public void ShouldCreateEventForFailedTransactionTest()
+        {
+            var _globalUpliftTransactionFactoryMock = new Mock<IGlobalUpliftTransactionFactory>();
+
+            var _adamRepositoryMock = new Mock<AdamRepository>(_loggerMock.Object, _jobRepositoryMock.Object,
+                _eventLoggerMock.Object, _podTransactionFactoryMock.Object, _deliveryReadRepositoryMock.Object,
+                _eventRepositoryMock.Object, _globalUpliftTransactionFactoryMock.Object)
+            {
+                CallBase = true
+            };
+
+            var transaction = new GlobalUpliftTransaction(1, 1, "123", "Global Uplift", 123, 1, DateTime.Now,
+                DateTime.Now.AddDays(1));
+
+            _adamRepositoryMock
+                .Setup(x => x.WriteGlobalUpliftLine(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
+                .Callback(() =>
+                {
+                    _globalUpliftTransactionFactoryMock.Object.LineSql(transaction);
+                })
+                .Returns(AdamResponse.AdamDown);
+
+            _adamRepositoryMock
+                .Setup(x => x.WriteGlobalUpliftHeader(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
+                .Callback(() =>
+                {
+                    _globalUpliftTransactionFactoryMock.Object.HeaderSql(transaction);
+                })
+                .Returns(AdamResponse.Unknown);
+
+            _adamRepositoryMock.Object.GlobalUplift(transaction, new AdamSettings());
+
+            _globalUpliftTransactionFactoryMock.Verify(x => x.LineSql(transaction), Times.Once);
+            _globalUpliftTransactionFactoryMock.Verify(x => x.HeaderSql(transaction), Times.Never);
+
+            _adamRepositoryMock.Verify(x => x.WriteGlobalUpliftLine(transaction, It.IsAny<AdamSettings>()), Times.Once);
+            _adamRepositoryMock.Verify(x => x.WriteGlobalUpliftHeader(transaction, It.IsAny<AdamSettings>()), Times.Never);
+
+            Assert.False(transaction.LineDidWrite);
+            Assert.False(transaction.HeaderDidWrite);
+
+            _eventRepositoryMock.Verify(x => x.InsertEvent(EventAction.GlobalUplift, It.IsAny<object>(), null),
+                Times.Once);
         }
     }
 }

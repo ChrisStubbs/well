@@ -25,8 +25,8 @@ namespace PH.Well.Repositories
             }
 
             var sql =
-                $@"INSERT INTO WELLLINE (WELLINEGUID, WELLLINERCDTYPE, WELLINESEQNUM, WELLINEPROD, WELLINEQTY, WELLINECREDREASON, WELLINEENDLINE)
-                   VALUES ({transaction.Id},'{GlobalUpliftTransaction.WELLHDRCDTYPE}',1,{transaction.ProductCode},{transaction.Quantity},'{transaction.CreditReasonCode}',1);";
+                $@"INSERT INTO WELLLINE (WELLINEGUID, WELLINERCDTYPE, WELLINESEQNUM, WELLINEPROD, WELLINEQTY, WELLINECRDREASON, WELLINEENDLINE)
+                   VALUES ({transaction.Id},'{GlobalUpliftTransaction.WELLHDRCDTYPE}',1,{transaction.ProductCode},{transaction.Quantity},{GlobalUpliftTransaction.WELLINECRDREASON},1);";
 
             return sql;
         }

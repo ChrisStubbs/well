@@ -54,14 +54,13 @@ namespace PH.Well.Task.GlobalUplifts.Import
                     // Process set here
                     foreach (var r in dataSet.Records)
                     {
-                        var adamSettings = GetAdamSettings(r.BranchId);
                         var transaction = new GlobalUpliftTransaction(GenerateTransactionId(r, route.Id), r.BranchId,
                             r.AccountNumber,
                             r.CreditReasonCode,
                             r.ProductCode, r.Quantity, r.StartDate, r.EndDate);
 
                         //Write to adam
-                        var status = _adamRepository.GlobalUplift(transaction, adamSettings);
+                        var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(r.BranchId));
                         
                         // do we need to check status and do something after ?
                     }

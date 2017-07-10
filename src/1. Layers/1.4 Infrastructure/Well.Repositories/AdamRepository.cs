@@ -397,7 +397,7 @@
             return result;
         }
 
-        private AdamResponse WriteGlobalUpliftLine(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
+        public virtual AdamResponse WriteGlobalUpliftLine(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
         {
             string sql = _globalUpliftTransactionFactory.LineSql(transaction);
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
@@ -437,7 +437,7 @@
             }
         }
 
-        private AdamResponse WriteGlobalUpliftHeader(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
+        public virtual AdamResponse WriteGlobalUpliftHeader(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
         {
             string sql = _globalUpliftTransactionFactory.HeaderSql(transaction);
             using (var connection = new AdamConnection(GetConnection(adamSettings)))

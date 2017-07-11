@@ -72,6 +72,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IEpodUpdateService>().Use<EpodUpdateService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
             For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+            For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
 
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();

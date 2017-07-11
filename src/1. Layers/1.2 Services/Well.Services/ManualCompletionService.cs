@@ -9,12 +9,12 @@
     using Domain.Enums;
     using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
-    public class InvoicedJobService
+    public class ManualCompletionService : IManualCompletionService
     {
         private readonly IJobService jobService;
         private readonly IEpodUpdateService epodUpdateService;
 
-        public InvoicedJobService(IJobService jobService, IEpodUpdateService epodUpdateService)
+        public ManualCompletionService(IJobService jobService, IEpodUpdateService epodUpdateService)
         {
             this.jobService = jobService;
             this.epodUpdateService = epodUpdateService;

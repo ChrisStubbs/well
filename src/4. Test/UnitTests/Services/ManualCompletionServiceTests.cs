@@ -12,23 +12,22 @@
     using Well.Services;
     using Well.Services.Contracts;
 
-
     [TestFixture]
-    public class InvoicedJobServiceTests
+    public class ManualCompletionServiceTests
     {
         private Mock<IJobService> jobService;
         private Mock<IEpodUpdateService> epodUpdateService;
-        private InvoicedJobService invoicedJobService;
+        private ManualCompletionService manualCompletionService;
 
         [SetUp]
         public virtual void SetUp()
         {
             jobService = new Mock<IJobService>();
             epodUpdateService = new Mock<IEpodUpdateService>();
-            invoicedJobService = new InvoicedJobService(jobService.Object, epodUpdateService.Object);
+            manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object);
         }
 
-        public class TheMarkAsBypassedMethod : InvoicedJobServiceTests
+        public class TheMarkAsBypassedMethod : ManualCompletionServiceTests
         {
             [Test]
             public void ShouldSetJobPerformanceStatusAsWellBypassed()
@@ -48,15 +47,14 @@
                 var jobList = new List<Job> { job, job2 };
 
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                invoicedJobService.MarkAsBypassed(jobIds);
+                manualCompletionService.MarkAsBypassed(jobIds);
 
                 Assert.That(job.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
                 Assert.That(job2.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
-
             }
         }
 
-        public class TheMarkAsCompleteMethod : InvoicedJobServiceTests
+        public class TheMarkAsCompleteMethod : ManualCompletionServiceTests
         {
             [Test]
             public void ShouldSetJobStatusAsClean()
@@ -75,15 +73,14 @@
 
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
 
-                invoicedJobService.MarkAsComplete(jobIds);
+                manualCompletionService.MarkAsComplete(jobIds);
 
                 Assert.That(job.JobStatus, Is.EqualTo(JobStatus.Clean));
                 Assert.That(job2.JobStatus, Is.EqualTo(JobStatus.Clean));
-
             }
         }
 
-        public class TheManuallyCompleteJobsMethod : InvoicedJobServiceTests
+        public class TheManuallyCompleteJobsMethod : ManualCompletionServiceTests
         {
             private List<int> jobIds;
             private List<Job> jobList;
@@ -112,13 +109,12 @@
                 jobList = new List<Job> { job1, job2, job3 };
 
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-
             }
 
             [Test]
             public void ShouldCallEpodUpdateServiceOnceForEachInvoicedJob()
             {
-                invoicedJobService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
                 epodUpdateService.Verify(x => x.UpdateJob(It.IsAny<JobDTO>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
                 epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job1.Id), job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
                 epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job2.Id), job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate), Times.Once);
@@ -128,16 +124,15 @@
             [Test]
             public void ShouldSetResolutionStatusCompletedByWell()
             {
-                invoicedJobService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
                 Assert.That(job1.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
                 Assert.That(job2.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
             }
 
-
             [Test]
             public void ShouldRunPostImvoiceProcessingOnceForEachJob()
             {
-                invoicedJobService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
                 epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.IsAny<List<int>>()), Times.Exactly(2));
                 epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job1.Id) && jobs.Count == 1)), Times.Once);
                 epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job2.Id) && jobs.Count == 1)), Times.Once);
@@ -147,7 +142,7 @@
             private void DoNothingAction(IEnumerable<Job> invoicedJobs) { }
         }
 
-        public class InvoicedJobServiceManualIntegrationTests : InvoicedJobServiceTests
+        public class InvoicedJobServiceManualIntegrationTests : ManualCompletionServiceTests
         {
             readonly IContainer container = IoC.Container;
 
@@ -159,7 +154,7 @@
 
                 var jobService = container.GetInstance<IJobService>();
                 var epodUpdateService = container.GetInstance<IEpodUpdateService>();
-                var service = new InvoicedJobService(jobService, epodUpdateService);
+                var service = new ManualCompletionService(jobService, epodUpdateService);
 
                 service.MarkAsComplete(jobIds);
             }
@@ -172,7 +167,7 @@
 
                 var jobService = container.GetInstance<IJobService>();
                 var epodUpdateService = container.GetInstance<IEpodUpdateService>();
-                var service = new InvoicedJobService(jobService, epodUpdateService);
+                var service = new ManualCompletionService(jobService, epodUpdateService);
 
                 service.MarkAsBypassed(jobIds);
             }

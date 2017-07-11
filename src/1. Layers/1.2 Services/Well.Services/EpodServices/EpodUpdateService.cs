@@ -28,7 +28,7 @@
         private readonly IRouteMapper routeMapper;
         private readonly IJobService jobService;
         private readonly IPostImportRepository postImportRepository;
-        private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IGetJobResolutionStatus jobResolutionStatus;
         private readonly IDateThresholdService dateThresholdService;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
@@ -45,7 +45,7 @@
             IRouteMapper mapper,
             IJobService jobService,
             IPostImportRepository postImportRepository,
-            IJobResolutionStatus jobResolutionStatus,
+            IGetJobResolutionStatus jobResolutionStatus,
             IDateThresholdService dateThresholdService)
         {
             this.logger = logger;

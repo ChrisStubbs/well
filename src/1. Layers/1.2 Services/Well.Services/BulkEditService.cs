@@ -89,7 +89,7 @@
                     {
                         job.ResolutionStatus = jobService.GetCurrentResolutionStatus(job);
                         jobRepository.Update(job);
-                        result.Statuses.Add(new BulkEditResolutionStatus(job.Id, job.ResolutionStatus));
+                        result.Statuses.Add(new JobIdResolutionStatus(job.Id, job.ResolutionStatus));
                     }
 
                     transactionScope.Complete();

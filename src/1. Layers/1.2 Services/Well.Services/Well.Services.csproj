@@ -95,8 +95,9 @@
     <Compile Include="Contracts\ILineItemActionService.cs" />
     <Compile Include="Contracts\ISubmitActionService.cs" />
     <Compile Include="IDateThresholdService.cs" />
-    <Compile Include="IJobResolutionStatus.cs" />
-    <Compile Include="InvoicedJobService.cs" />
+    <Compile Include="IGetJobResolutionStatus.cs" />
+    <Compile Include="Contracts\IManualCompletionService.cs" />
+    <Compile Include="ManualCompletionService.cs" />
     <Compile Include="Mappers\ActionSummaryMapper.cs" />
     <Compile Include="Mappers\BulkEditSummaryMapper.cs" />
     <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />

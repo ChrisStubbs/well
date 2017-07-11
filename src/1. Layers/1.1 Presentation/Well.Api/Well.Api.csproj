@@ -197,6 +197,7 @@
     <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\BulkCreditController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\ManualCompletionController.cs" />
     <Compile Include="Controllers\SubmitActionController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />

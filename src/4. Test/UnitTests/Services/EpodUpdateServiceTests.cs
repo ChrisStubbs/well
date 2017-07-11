@@ -46,7 +46,7 @@
 
         private Mock<IPostImportRepository> postImportRepository;
 
-        private Mock<IJobResolutionStatus> jobResolutionStatus;
+        private Mock<IGetJobResolutionStatus> getJobResolutionStatus;
 
         private Mock<IDateThresholdService> dateThresholdService;
 
@@ -66,7 +66,7 @@
             this.exceptionEventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             this.jobService = new Mock<IJobService>(MockBehavior.Strict);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
-            this.jobResolutionStatus = new Mock<IJobResolutionStatus>(MockBehavior.Strict);
+            this.getJobResolutionStatus = new Mock<IGetJobResolutionStatus>(MockBehavior.Strict);
             dateThresholdService = new Mock<IDateThresholdService>();
 
             this.service = new EpodUpdateService(this.logger.Object,
@@ -80,7 +80,7 @@
                 this.mapper.Object,
                 this.jobService.Object,
                 this.postImportRepository.Object,
-                this.jobResolutionStatus.Object,
+                this.getJobResolutionStatus.Object,
                 dateThresholdService.Object
               );
 
@@ -205,7 +205,7 @@
             this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
             this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
 
-            this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
+            this.getJobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
             this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
             this.jobRepository.Setup(x => x.Update(updateJobs.FirstOrDefault()));
 
@@ -238,7 +238,7 @@
             this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.GetJobsWithLineItemActions(It.IsAny<List<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
-            this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
+            this.getJobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
             this.jobRepository.Verify(x => x.Update(updateJobs.FirstOrDefault()), Times.Once);
         }
 
@@ -314,7 +314,7 @@
             this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
             this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
 
-            this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
+            this.getJobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
             this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
             this.jobRepository.Setup(x => x.Update(updateJobs.FirstOrDefault()));
 
@@ -349,7 +349,7 @@
             this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.GetJobsWithLineItemActions(It.IsAny<IEnumerable<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
-            this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
+            this.getJobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
             this.jobRepository.Verify(x => x.Update(updateJobs.FirstOrDefault()), Times.Once);
 
         }
@@ -416,7 +416,7 @@
             this.jobService.Setup(x => x.PopulateLineItemsAndRoute(updateJobs)).Returns(updateJobs);
             this.jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(jobRoutes);
 
-            this.jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
+            this.getJobResolutionStatus.Setup(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault())).Returns(ResolutionStatus.DriverCompleted);
             this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
             this.jobRepository.Setup(x => x.Update(updateJobs.FirstOrDefault()));
 
@@ -441,7 +441,7 @@
             this.postImportRepository.Verify(x => x.PostTranSendImportShortsTba(It.IsAny<List<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.GetJobsWithLineItemActions(It.IsAny<IEnumerable<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
-            this.jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
+            this.getJobResolutionStatus.Verify(x => x.GetNextResolutionStatus(updateJobs.FirstOrDefault()), Times.Once);
             this.jobRepository.Verify(x => x.Update(updateJobs.FirstOrDefault()), Times.Once);
         }
 
@@ -457,7 +457,7 @@
                 jobRepository.Setup(x => x.GetJobsWithLineItemActions(It.IsAny<List<int>>())).Returns(It.IsAny<IEnumerable<int>>());
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(It.IsAny<IEnumerable<Job>>()); ;
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(new List<Job> { new Job() });
-                jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(It.IsAny<Job>())).Returns(ResolutionStatus.Imported);
+                getJobResolutionStatus.Setup(x => x.GetNextResolutionStatus(It.IsAny<Job>())).Returns(ResolutionStatus.Imported);
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
                 jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
             }
@@ -476,7 +476,7 @@
                 jobRepository.Verify(x => x.GetJobsWithLineItemActions(It.IsAny<List<int>>()),Times.Never);
                 jobRepository.Verify(x => x.GetByIds(It.IsAny<IEnumerable<int>>()), Times.Never);
                 jobService.Verify(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>()), Times.Never);
-                jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Never);
+                getJobResolutionStatus.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Never);
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()),Times.Never);
                 jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()),Times.Never);
             }
@@ -507,8 +507,8 @@
 
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(new List<Job> { job1, job2 });
 
-                jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(job1)).Returns(ResolutionStatus.Imported);
-                jobResolutionStatus.Setup(x => x.GetNextResolutionStatus(job2)).Returns(ResolutionStatus.Imported);
+                getJobResolutionStatus.Setup(x => x.GetNextResolutionStatus(job1)).Returns(ResolutionStatus.Imported);
+                getJobResolutionStatus.Setup(x => x.GetNextResolutionStatus(job2)).Returns(ResolutionStatus.Imported);
                 jobRepository.Setup(x => x.Update(job1));
                 jobRepository.Setup(x => x.Update(job2));
 
@@ -517,7 +517,7 @@
 
                 service.RunPostInvoicedProcessing(updatedJobIds);
 
-                jobResolutionStatus.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
+                getJobResolutionStatus.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
          

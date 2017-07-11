@@ -217,7 +217,7 @@
     <Compile Include="Services\JobStatusServiceTests.cs" />
     <Compile Include="Services\EpodUpdateServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />
-    <Compile Include="Services\InvoicedJobServiceTests.cs" />
+    <Compile Include="Services\ManualCompletionServiceTests.cs" />
     <Compile Include="Services\RouteMapperTests.cs" />
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />

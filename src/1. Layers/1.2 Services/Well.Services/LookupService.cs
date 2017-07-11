@@ -92,16 +92,6 @@ namespace PH.Well.Services
                 new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();
         }
 
-        private IList<KeyValuePair<string, string>> GetRouteStatus()
-        {
-            var sources = Enum.GetValues(typeof(RouteStatus)).Cast<RouteStatus>().ToList();
-
-            return sources
-                .Where(p => p != RouteStatus.Unknown)
-                .Select(a => new KeyValuePair<string, string>($"{(int)a}", a.Description()))
-                .ToList();
-        }
-
         private IList<KeyValuePair<string, string>> GetWellStatus()
         {
             var sources = Enum.GetValues(typeof(WellStatus)).Cast<WellStatus>().ToList();

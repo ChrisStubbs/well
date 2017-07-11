@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Domain.ValueObjects
+﻿using PH.Well.Domain.Enums;
+
+namespace PH.Well.Domain.ValueObjects
 {
     using System;
     using System.Collections.Generic;
@@ -35,7 +37,13 @@
 
         public bool HasExceptions => ExceptionCount > 0;
 
-        public int CleanCount { get; set; }
+        private int _cleanCount;
+        public int CleanCount
+        {
+            // If it's planned shouldn't have any cleans
+            get { return (RouteStatusId != (int) WellStatus.Planned) ? _cleanCount : 0; }
+            set { _cleanCount = value; }
+        }
 
         public bool HasClean => CleanCount > 0;
 

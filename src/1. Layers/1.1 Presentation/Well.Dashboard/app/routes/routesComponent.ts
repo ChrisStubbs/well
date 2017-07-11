@@ -25,7 +25,7 @@ export class RoutesComponent implements IObservableAlive
 {
     public errorMessage: string;
     public routes: Route[];
-    public gridSource: Route[];
+    public gridSource: Route[] = [];
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
@@ -94,6 +94,10 @@ export class RoutesComponent implements IObservableAlive
 
                 _.forEach(this.routes, (current: Route) =>
                 {
+                    if (!current.assignee) {
+                        current.assignee = 'Unallocated';
+                    }
+
                     this.routeNumbers.push(current.routeNumber);
                     this.drivers.push(current.driverName);
                     this.assignees.push(current.assignee);

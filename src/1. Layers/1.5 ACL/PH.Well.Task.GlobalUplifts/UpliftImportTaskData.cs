@@ -13,5 +13,7 @@ namespace PH.Well.Task.GlobalUplifts
         /// Import file directories
         /// </summary>
         public IList<string> Directories { get; set; }
+
+        public string ArchiveDirectory { get; set; }
     }
 }

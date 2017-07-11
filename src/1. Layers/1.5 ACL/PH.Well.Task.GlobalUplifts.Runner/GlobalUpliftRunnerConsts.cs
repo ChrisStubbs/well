@@ -14,6 +14,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             /// Setting should contain comma separated list of directories
             /// </summary>
             public const string InputDirectories = "GlobalUplift.Task.InputDirectories";
+            public const string ArchiveDirectory = "GlobalUplift.Task.ArchiveDirectory";
         }
     }
 }

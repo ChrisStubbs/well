@@ -49,7 +49,7 @@ namespace PH.Well.Repositories
                 $@"INSERT INTO WELLHEAD (WELLHDGUID, WELLHDRCDTYPE, WELLHDBRANCH, WELLHDACNO, WELLHDFLAG, WELLHDNEWDELDATE, WELLHDREVDELDATE, WELLHDLINECOUNT )
                   VALUES ({transaction.Id},'{GlobalUpliftTransaction.WELLHDRCDTYPE}',{transaction.BranchId},{
                         GetAccountNumber(transaction.AccountNumber)
-                    },0,'{transaction.StartDate.ToShortTimeString()}','{transaction.EndDate.ToShortTimeString()}',1);";
+                    },0,'{transaction.StartDate.ToShortDateString()}','{transaction.EndDate.ToShortDateString()}',1);";
 
             return sql;
         }

@@ -33,7 +33,11 @@ namespace PH.Well.Task.GlobalUplifts.Runner
 
             var task = container.GetInstance<UpliftImportTask>();
             // Start task
-            task.Execute(new UpliftImportTaskData {Directories = config.Directories});
+            task.Execute(new UpliftImportTaskData
+            {
+                Directories = config.Directories,
+                ArchiveDirectory = config.ArchiveDirectory
+            });
         }
 
         /// <summary>
@@ -77,19 +81,20 @@ namespace PH.Well.Task.GlobalUplifts.Runner
         private static GlobalUpliftRunnerConfig GetConfig()
         {
             // May be good to add checks whether each path is directory etc..
-            var directories = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.InputDirectories]
-                .Split(',');
-
-
             return new GlobalUpliftRunnerConfig
             {
-                Directories = directories
+                Directories = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.InputDirectories]
+                    .Split(','),
+                ArchiveDirectory =
+                    ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.ArchiveDirectory]
             };
         }
 
         private class GlobalUpliftRunnerConfig
         {
             public string[] Directories { get; set; }
+
+            public string ArchiveDirectory { get; set; }
         }
     }
 

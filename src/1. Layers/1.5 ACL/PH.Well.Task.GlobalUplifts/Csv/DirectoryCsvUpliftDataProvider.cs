@@ -11,10 +11,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
     public class DirectoryCsvUpliftDataProvider : UpliftDataProvidersCollection
     {
         private readonly string _directoryPath;
+        private readonly string _archivePath;
 
-        public DirectoryCsvUpliftDataProvider(string directoryPath)
+        public DirectoryCsvUpliftDataProvider(string directoryPath,string archivePath)
         {
             _directoryPath = directoryPath;
+            _archivePath = archivePath;
         }
 
         public override IEnumerable<UpliftDataSet> GetUpliftData()
@@ -28,7 +30,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         {
             foreach (var csvFile in Directory.GetFiles(_directoryPath, "*.csv"))
             {
-                Add(new CsvUpliftDataProvider(csvFile));
+                Add(new CsvUpliftDataProvider(csvFile, _archivePath));
             }
         }
     }

@@ -37,7 +37,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             sb.AppendLine($"a,,a,a,0,{startDate},{endDate}");
             var csvString = sb.ToString();
 
-            var provider = new CsvUpliftDataProvider(new StringReader(csvString))
+            var provider = new CsvUpliftDataProvider(DateTime.Now.ToString(),new StringReader(csvString))
             {
                 MaxUpliftStartDate = maxUpliftStartDate
             };
@@ -62,7 +62,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             sb.AppendLine($"1,123.000,global uplift,123,1,{startDate},{endDate}");
             var csvString = sb.ToString();
 
-            var provider = new CsvUpliftDataProvider(new StringReader(csvString))
+            var provider = new CsvUpliftDataProvider(DateTime.Now.ToString(), new StringReader(csvString))
             {
                 MaxUpliftStartDate = maxUpliftStartDate
             };
@@ -77,7 +77,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
         public void DirectoryCsvDataProviderTest()
         {
             var path = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath) , @"ACL\Task.GlobalUplifts");
-            var directoryProvider = new DirectoryCsvUpliftDataProvider(path);
+            var directoryProvider = new DirectoryCsvUpliftDataProvider(path, path);
             var dataSets = directoryProvider.GetUpliftData().ToList();
             Assert.That(dataSets.Count == 2);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,13 @@ namespace PH.Well.Task.GlobalUplifts
 
         public void Execute(UpliftImportTaskData data)
         {
+            var archiveDirectoryPath = Path.Combine(data.ArchiveDirectory, DateTime.Now.ToString("yyyyMMdd"));
+            Directory.CreateDirectory(archiveDirectoryPath);
+
             var providersCollection = new UpliftDataProvidersCollection();
             foreach (var dataDirectory in data.Directories)
             {
-                providersCollection.Add(new DirectoryCsvUpliftDataProvider(dataDirectory));
+                providersCollection.Add(new DirectoryCsvUpliftDataProvider(dataDirectory, archiveDirectoryPath));
             }
 
             //Run import

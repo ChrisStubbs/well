@@ -16,10 +16,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         /// <summary>
         /// Id that gets assigned as result set id
         /// </summary>
-        private string _id { get; set; }
+        private string _id { get; }
         private readonly string _filePath;
+        private readonly string _archivePath;
         private TextReader _textReader;
         private bool _createReader;
+        private bool _archiveFile;
 
         private List<string> _headers;
         private int _branchNumberIndex;
@@ -29,18 +31,21 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private int _quantityIndex;
         private int _startDateIndex;
         private int _endDateIndex;
+       
 
-        public CsvUpliftDataProvider(string filePath) : this()
+        public CsvUpliftDataProvider(string filePath,string archivePath) : this()
         {
             _filePath = filePath;
-            _id = _filePath;
+            _archivePath = archivePath;
+            _id = Path.GetFileName(_filePath);
             _createReader = true;
+            _archiveFile = true;
         }
 
-        public CsvUpliftDataProvider(TextReader textReader) : this()
+        public CsvUpliftDataProvider(string id,TextReader textReader) : this()
         {
             _textReader = textReader;
-            _id = textReader.ToString();
+            _id = id;
         }
 
         protected CsvUpliftDataProvider()
@@ -158,11 +163,15 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 recordCount++;
             }
 
+            if (_archiveFile)
+            {
+                File.Move(_filePath, Path.Combine(_archivePath, _id));
+            }
 
             if (validationResults.Any())
             {
                 // Return set with errors
-                return new[] { new UpliftDataSet(_id, records, validationResults) };
+                return new[] {new UpliftDataSet(_id, Enumerable.Empty<IUpliftData>(), validationResults)};
             }
             else
             {

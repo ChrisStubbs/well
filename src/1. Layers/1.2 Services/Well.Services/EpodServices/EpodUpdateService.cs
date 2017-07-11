@@ -115,9 +115,9 @@
             RunPostInvoicedProcessing(updatedJobIds);
         }
 
-        public void RunPostInvoicedProcessing(List<int> updatedJobIds)
+        public IEnumerable<Job> RunPostInvoicedProcessing(List<int> updatedJobIds)
         {
-
+            var jobs = new List<Job>();
             if (updatedJobIds == null)
             {
                 throw new ArgumentNullException(nameof(updatedJobIds));
@@ -146,8 +146,12 @@
 
                     this.jobRepository.Update(job);
                     this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+
+                    jobs.Add(job);
                 }
             }
+
+            return jobs;
         }
 
         private List<int> UpdateStops(RouteHeader routeHeader, int branchId)

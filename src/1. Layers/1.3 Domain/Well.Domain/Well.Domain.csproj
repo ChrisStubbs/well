@@ -52,6 +52,7 @@
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
+    <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />
     <Compile Include="JobDetailLineItemTotals.cs" />
@@ -125,9 +126,9 @@
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
-    <Compile Include="ValueObjects\BulkEditItem.cs" />
+    <Compile Include="ValueObjects\PatchSummaryItem.cs" />
     <Compile Include="ValueObjects\BulkEditResult.cs" />
-    <Compile Include="ValueObjects\BulkEditSummary.cs" />
+    <Compile Include="ValueObjects\PatchSummary.cs" />
     <Compile Include="ValueObjects\GlobalUpliftEvent.cs" />
     <Compile Include="ValueObjects\GlobalUpliftTransaction.cs" />
     <Compile Include="ValueObjects\InvoiceSearchResult.cs" />

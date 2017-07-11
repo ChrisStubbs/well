@@ -60,7 +60,7 @@
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="BulkEditService.cs" />
     <Compile Include="Contracts\IBulkEditService.cs" />
-    <Compile Include="Contracts\IBulkEditSummaryMapper.cs" />
+    <Compile Include="Contracts\IPatchSummaryMapper.cs" />
     <Compile Include="DateThresholdService.cs" />
     <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\IActionSummaryMapper.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="Contracts\IManualCompletionService.cs" />
     <Compile Include="ManualCompletionService.cs" />
     <Compile Include="Mappers\ActionSummaryMapper.cs" />
-    <Compile Include="Mappers\BulkEditSummaryMapper.cs" />
+    <Compile Include="Mappers\PatchSummaryMapper.cs" />
     <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />
     <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />

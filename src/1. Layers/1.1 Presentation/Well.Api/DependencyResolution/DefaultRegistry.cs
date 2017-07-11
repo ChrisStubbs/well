@@ -125,7 +125,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IGetJobResolutionStatus>().Use<JobService>();
             For<IActivityRepository>().Use<ActivityRepository>();
             For<IBulkEditService>().Use<BulkEditService>();
-            For<IBulkEditSummaryMapper>().Use<BulkEditSummaryMapper>();
+            For<IPatchSummaryMapper>().Use<PatchSummaryMapper>();
             For<IPostImportRepository>().Use<PostImportRepository>();
             For<IManualCompletionService>().Use<ManualCompletionService>();
         }

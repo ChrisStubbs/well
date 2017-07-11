@@ -27,7 +27,7 @@
             manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object);
         }
 
-        public class TheMarkAsBypassedMethod : ManualCompletionServiceTests
+        public class TheCompleteAsBypassedMethod : ManualCompletionServiceTests
         {
             [Test]
             public void ShouldSetJobPerformanceStatusAsWellBypassed()
@@ -47,14 +47,14 @@
                 var jobList = new List<Job> { job, job2 };
 
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                manualCompletionService.MarkAsBypassed(jobIds);
+                manualCompletionService.CompleteAsBypassed(jobIds);
 
                 Assert.That(job.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
                 Assert.That(job2.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
             }
         }
 
-        public class TheMarkAsCompleteMethod : ManualCompletionServiceTests
+        public class TheCompleteAsCleanMethod : ManualCompletionServiceTests
         {
             [Test]
             public void ShouldSetJobStatusAsClean()
@@ -73,7 +73,7 @@
 
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
 
-                manualCompletionService.MarkAsComplete(jobIds);
+                manualCompletionService.CompleteAsClean(jobIds);
 
                 Assert.That(job.JobStatus, Is.EqualTo(JobStatus.Clean));
                 Assert.That(job2.JobStatus, Is.EqualTo(JobStatus.Clean));
@@ -148,7 +148,7 @@
 
             [Test]
             [Explicit]
-            public void MarkAsComplete()
+            public void CompleteAsClean()
             {
                 var jobIds = new[] { 6, 7 };
 
@@ -156,12 +156,12 @@
                 var epodUpdateService = container.GetInstance<IEpodUpdateService>();
                 var service = new ManualCompletionService(jobService, epodUpdateService);
 
-                service.MarkAsComplete(jobIds);
+                service.CompleteAsClean(jobIds);
             }
 
             [Test]
             [Explicit]
-            public void MarkAsBypassed()
+            public void CompleteAsBypassed()
             {
                 var jobIds = new[] { 4, 5 };
 
@@ -169,7 +169,7 @@
                 var epodUpdateService = container.GetInstance<IEpodUpdateService>();
                 var service = new ManualCompletionService(jobService, epodUpdateService);
 
-                service.MarkAsBypassed(jobIds);
+                service.CompleteAsBypassed(jobIds);
             }
         }
     }

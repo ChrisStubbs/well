@@ -271,6 +271,7 @@
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\Job\SetGrnModel.cs" />
     <Compile Include="Models\LineItemEditModel.cs" />
+    <Compile Include="Models\ManualCompletionRequest.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\SingleRoute.cs" />
     <Compile Include="Models\SingleRouteViewItem.cs" />

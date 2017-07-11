@@ -3,11 +3,13 @@
     using System;
     using System.Collections.Generic;
     using Domain;
+    using Domain.Enums;
 
     public interface IManualCompletionService
     {
-        void ManuallyCompleteJobs(IEnumerable<int> jobIds, Action<IEnumerable<Job>> actionJobs);
-        void MarkAsBypassed(IEnumerable<int> jobIds);
-        void MarkAsComplete(IEnumerable<int> jobIds);
+        IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, Action<IEnumerable<Job>> actionJobs);
+        IEnumerable<Job> CompleteAsBypassed(IEnumerable<int> jobIds);
+        IEnumerable<Job> CompleteAsClean(IEnumerable<int> jobIds);
+        IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type);
     }
 }

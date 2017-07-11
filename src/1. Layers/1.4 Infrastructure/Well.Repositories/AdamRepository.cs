@@ -418,9 +418,7 @@
                 catch (AdamProviderException adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing global uplift line!", adamException);
-                    //this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner,
-                    //    $"Adam exception {adamException} when writing global uplift line {sql}",
-                    //    2010);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, adamException);
 
                     if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
                     {
@@ -432,6 +430,7 @@
                 catch (Exception e)
                 {
                     this.logger.LogError("ADAM error occurred writing global uplift line!", e);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, e);
                     return AdamResponse.Unknown;
                 }
             }
@@ -458,9 +457,7 @@
                 catch (AdamProviderException adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing global uplift header!", adamException);
-                    //this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner,
-                    //    $"Adam exception {adamException} when writing global uplift header {sql}",
-                    //    2010);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, adamException);
 
                     if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
                     {
@@ -472,6 +469,7 @@
                 catch (Exception e)
                 {
                     this.logger.LogError("ADAM error occurred writing global uplift line!", e);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, e);
                     return AdamResponse.Unknown;
                 }
             }

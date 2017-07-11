@@ -89,7 +89,11 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             var task = new UpliftImportTask(importService.Object);
 
             var directoryPath = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath), @"ACL\Task.GlobalUplifts");
-            task.Execute(new UpliftImportTaskData {Directories = new[] {directoryPath}.ToList()});
+            task.Execute(new UpliftImportTaskData
+            {
+                Directories = new[] {directoryPath}.ToList(),
+                ArchiveDirectory = directoryPath
+            });
 
             //Verify that import has been called once. (1 directory csv provider per directory)
             importService.Verify(x => x.Import(It.IsAny<IUpliftDataProvider>()), Times.Once);

@@ -6,6 +6,11 @@
 
         WellAdamXmlImport = 2,
 
-        WellTaskRunner = 3
+        WellTaskRunner = 3,
+
+        /// <summary>
+        /// Global uplift background task
+        /// </summary>
+        WellGlobalUpliftTask = 4
     }
 }

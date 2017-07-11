@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PH.Well.Common;
 using PH.Well.Common.Contracts;
 using PH.Well.Domain;
 using PH.Well.Domain.ValueObjects;
@@ -17,12 +18,14 @@ namespace PH.Well.Task.GlobalUplifts.Import
     public class UpliftDataImportService : IUpliftDataImportService
     {
         private readonly ILogger _logger;
+        private readonly IEventLogger _eventLogger;
         private readonly IAdamRepository _adamRepository;
         private readonly IRouteHeaderRepository _routeHeaderRepository;
 
-        public UpliftDataImportService(ILogger logger,IAdamRepository adamRepository, IRouteHeaderRepository routeHeaderRepository)
+        public UpliftDataImportService(ILogger logger,IEventLogger eventLogger,IAdamRepository adamRepository, IRouteHeaderRepository routeHeaderRepository)
         {
             _logger = logger;
+            _eventLogger = eventLogger;
             _adamRepository = adamRepository;
             _routeHeaderRepository = routeHeaderRepository;
         }
@@ -37,14 +40,15 @@ namespace PH.Well.Task.GlobalUplifts.Import
                         dataSet.Errors.SelectMany(x => new[] {x.ErrorMessage}.Concat(x.MemberNames))));
 
                     _logger.LogError($"Uplift import error. DataSet {dataSet.Id}", exception);
-                   
+                    _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, exception);
                     //throw exception ? Send email ?
                 }
                 else if (_routeHeaderRepository.FileAlreadyLoaded(dataSet.Id))
                 {
                     var exception = new ValidationException($"Uplift data already imported. Set : {dataSet.Id}");
-                    _logger.LogError(exception.Message, exception);
 
+                    _logger.LogError(exception.Message, exception);
+                    _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, exception);
                     //throw exception ? Send email ?
                 }
                 else

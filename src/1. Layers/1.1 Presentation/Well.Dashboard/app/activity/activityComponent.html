@@ -1,3 +1,11 @@
+<div class="row">
+    <div class="col-xs-12">
+        <ol class="breadcrumb">
+            <li class="active" *ngIf="source.isInvoice">Invoice</li>
+            <li class="active" *ngIf="!source.isInvoice">Uplift</li>
+        </ol>
+    </div>
+</div>
 <div class="content">
     <div class="row">
         <div class="col-md-3">

@@ -71,6 +71,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -116,6 +117,7 @@
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
     <Compile Include="ACL\AdamEvents\StructureMapTest.cs" />
+    <Compile Include="ACL\Task.GlobalUplifts\GlobalUpliftsTests.cs" />
     <Compile Include="AdamResilienceTests.cs" />
     <Compile Include="Api\Controllers\AppSearchControllerTests.cs" />
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />
@@ -221,6 +223,12 @@
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -240,6 +248,10 @@
     <ProjectReference Include="..\..\1. Layers\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj">
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\PH.Well.Task.GlobalUplifts\PH.Well.Task.GlobalUplifts.csproj">
+      <Project>{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}</Project>
+      <Name>PH.Well.Task.GlobalUplifts</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam.Events\Well.Adam.Events.csproj">
       <Project>{9b115560-a7e1-45a9-9213-712a0860303c}</Project>

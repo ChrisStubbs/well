@@ -79,6 +79,7 @@
     <Compile Include="Contracts\IActivityRepository.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
     <Compile Include="Contracts\ILineItemActionCommentRepository.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
+    <Compile Include="GlobalUpliftTransactionFactory.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="LineItemActionCommentRepository.cs" />

@@ -123,7 +123,7 @@ export class StopFilter implements IFilter
     public resolutionId: number;
     public exceptionsFilter: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: StopItem) => boolean
     {
         switch (filterName)
         {
@@ -142,12 +142,20 @@ export class StopFilter implements IFilter
                 return  GridHelpersFunctions.boolFilter;
 
             case 'resolutionId':
-                return GridHelpersFunctions.enumBitwiseAndCompare;
+                return (value: number, value2: number, sourceRow: StopItem) => {
+                    let actionRequiredFilter: boolean = true;
+
+                    if (value2 == 4) {
+                        actionRequiredFilter = sourceRow.hasUnresolvedActions;
+                    }
+
+                    return  actionRequiredFilter && GridHelpersFunctions.enumBitwiseAndCompare(value, value2);
+                };
 
             case 'exceptionsFilter':
-                return (value: number, value2: number) =>
+                return (value: number, value2: number, sourceRow: StopItem) =>
                 {
-                    return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
+                    return GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
                         GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
                 };
         }

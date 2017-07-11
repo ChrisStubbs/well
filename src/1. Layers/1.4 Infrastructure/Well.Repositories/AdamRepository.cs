@@ -21,8 +21,9 @@
         private readonly IEventLogger eventLogger;
         private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IExceptionEventRepository eventRepository;
+        private readonly IGlobalUpliftTransactionFactory _globalUpliftTransactionFactory;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository,IGlobalUpliftTransactionFactory globalUpliftTransactionFactory)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
@@ -30,6 +31,7 @@
             this.eventLogger = eventLogger;
             this.podTransactionFactory = podTransactionFactory;
             this.eventRepository = eventRepository;
+            _globalUpliftTransactionFactory = globalUpliftTransactionFactory;
         }
 
         public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings)
@@ -271,6 +273,7 @@
 
             return AdamResponse.Unknown;
         }
+        
 
         public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings, Job job)
         {
@@ -345,50 +348,179 @@
             return AdamResponse.Unknown;
         }
 
-   /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
-        {
+        #region Global Uplift
 
-            return AdamResponse.Unknown;
+        public AdamResponse GlobalUplift(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
+        {
+            if (!transaction.WriteLine && !transaction.WriteHeader)
+            {
+                throw new ArgumentException("Invalid GlobalUpliftTransaction - Lines to write are not specified");
+            }
+            
+            AdamResponse result = AdamResponse.Success;
+            if (transaction.WriteLine)
+            {
+                result = WriteGlobalUpliftLine(transaction, adamSettings);
+            }
+
+            //If transaction specifies to write header and previous response was success
+            if (transaction.WriteHeader && result == AdamResponse.Success)
+            {
+                result = WriteGlobalUpliftHeader(transaction, adamSettings);
+            }
+
+            if (result != AdamResponse.Success)
+            {
+                // Whether transaction should write line and was successfully written
+                var writeLine = transaction.WriteLine && !transaction.LineDidWrite;
+                // Whether transaction should write header and  was successfully written
+                var writeHeader = transaction.WriteHeader && !transaction.HeaderDidWrite;
+
+                var upliftEvent = new GlobalUpliftEvent
+                {
+                    Id = transaction.Id,
+                    BranchId = transaction.BranchId,
+                    AccountNumber = transaction.AccountNumber,
+                    CreditReasonCode = transaction.CreditReasonCode,
+                    Quantity = transaction.Quantity,
+                    ProductCode = transaction.ProductCode,
+                    StartDate = transaction.StartDate,
+                    EndDate = transaction.EndDate,
+                    WriteLine = writeLine,
+                    WriteHeader = writeHeader
+                };
+
+                // Insert uplift event
+                eventRepository.InsertEvent(EventAction.GlobalUplift, upliftEvent);
+            }
+
+            return result;
         }
 
-        public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
+        public virtual AdamResponse WriteGlobalUpliftLine(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
         {
+            string sql = _globalUpliftTransactionFactory.LineSql(transaction);
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
                 try
                 {
                     connection.Open();
-
                     using (var command = new AdamCommand(connection))
                     {
-                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
-                        var today = DateTime.Now.ToShortDateString();
-                        var now = DateTime.Now.ToShortTimeString();
-
-                        var commandString =
-                            string.Format(
-                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
-
-                        command.CommandText = commandString;
+                        command.CommandText = sql;
                         command.ExecuteNonQuery();
-
                     }
+
+                    // Set result and return success
+                    transaction.LineDidWrite = true;
                     return AdamResponse.Success;
                 }
                 catch (AdamProviderException adamException)
                 {
-                    this.logger.LogError("ADAM error occurred!", adamException);
+                    this.logger.LogError("ADAM error occurred writing global uplift line!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, adamException);
 
                     if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
                     {
                         return AdamResponse.AdamDown;
                     }
+
+                    return AdamResponse.Unknown;
                 }
-                return AdamResponse.Unknown;
+                catch (Exception e)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift line!", e);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, e);
+                    return AdamResponse.Unknown;
+                }
             }
-        }*/
-           
+        }
+
+        public virtual AdamResponse WriteGlobalUpliftHeader(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
+        {
+            string sql = _globalUpliftTransactionFactory.HeaderSql(transaction);
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+                    using (var command = new AdamCommand(connection))
+                    {
+                        command.CommandText = sql;
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Set result and return success
+                    transaction.HeaderDidWrite = true;
+                    return AdamResponse.Success;
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift header!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, adamException);
+
+                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                    {
+                        return AdamResponse.AdamDown;
+                    }
+
+                    return AdamResponse.Unknown;
+                }
+                catch (Exception e)
+                {
+                    this.logger.LogError("ADAM error occurred writing global uplift line!", e);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, e);
+                    return AdamResponse.Unknown;
+                }
+            }
+        }
+
+        #endregion Global Uplift
+
+        /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
+             {
+
+                 return AdamResponse.Unknown;
+             }
+
+             public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
+             {
+                 using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                 {
+                     try
+                     {
+                         connection.Open();
+
+                         using (var command = new AdamCommand(connection))
+                         {
+                             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                             var today = DateTime.Now.ToShortDateString();
+                             var now = DateTime.Now.ToShortTimeString();
+
+                             var commandString =
+                                 string.Format(
+                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
+                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
+
+                             command.CommandText = commandString;
+                             command.ExecuteNonQuery();
+
+                         }
+                         return AdamResponse.Success;
+                     }
+                     catch (AdamProviderException adamException)
+                     {
+                         this.logger.LogError("ADAM error occurred!", adamException);
+
+                         if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                         {
+                             return AdamResponse.AdamDown;
+                         }
+                     }
+                     return AdamResponse.Unknown;
+                 }
+             }*/
+
 
         private static string GetConnection(AdamSettings settings)
         {

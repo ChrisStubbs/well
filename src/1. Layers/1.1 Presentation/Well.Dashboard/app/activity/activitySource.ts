@@ -148,7 +148,7 @@ export class ActivityFilter implements IFilter
     public resolutionId: number;
     public exceptionsFilter: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: ActivitySourceDetail) => boolean
     {
         switch (filterName)
         {
@@ -167,10 +167,18 @@ export class ActivityFilter implements IFilter
                 return  GridHelpersFunctions.boolFilter;
 
             case 'resolutionId':
-                return GridHelpersFunctions.enumBitwiseAndCompare;
+                return (value: number, value2: number, sourceRow: ActivitySourceDetail) => {
+                    let actionRequiredFilter: boolean = true;
+
+                    if (value2 == 4) {
+                        actionRequiredFilter = sourceRow.hasUnresolvedActions;
+                    }
+
+                    return  actionRequiredFilter && GridHelpersFunctions.enumBitwiseAndCompare(value, value2);
+                };
 
             case 'exceptionsFilter':
-                return (value: number, value2: number) =>
+                return (value: number, value2: number, sourceRow: ActivitySourceDetail) =>
                 {
                     return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
                             GridHelpersFunctions.enumBitwiseAndCompare(value2, value);

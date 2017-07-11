@@ -1,0 +1,2 @@
+﻿// The files below (project relative path) will be added to the generated NuGet package
+// *** Do not remove this file or a NuGet package will not be generated ***

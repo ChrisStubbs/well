@@ -100,7 +100,7 @@ namespace PH.Well.UnitTests.Services
         }
 
         [Test]
-        public void ShouldReturnPendingSubmissionIafAlreadyPendingSubmission()
+        public void ShouldReturnPendingSubmissionIfAlreadyPendingSubmission()
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
@@ -108,6 +108,18 @@ namespace PH.Well.UnitTests.Services
                 .Build();
             job.ResolutionStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.PendingSubmission));
+            Assert.That(sut.GetCurrentResolutionStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
+        }
+
+        [Test]
+        public void ShouldReturnPendingSubmissionIfCompletedByWell()
+        {
+            var job = JobFactory.New
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
+                .Build();
+            job.ResolutionStatus = ResolutionStatus.CompletedByWell;
+            Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
             Assert.That(sut.GetCurrentResolutionStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
         }
 

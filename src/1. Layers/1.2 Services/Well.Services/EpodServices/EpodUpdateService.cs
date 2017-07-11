@@ -25,11 +25,11 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
-        private readonly IRouteMapper mapper;
+        private readonly IRouteMapper routeMapper;
         private readonly IJobService jobService;
         private readonly IPostImportRepository postImportRepository;
         private readonly IJobResolutionStatus jobResolutionStatus;
-        private readonly IDateThresholdService _dateThresholdService;
+        private readonly IDateThresholdService dateThresholdService;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
 
@@ -56,12 +56,12 @@
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.exceptionEventRepository = exceptionEventRepository;
-            this.mapper = mapper;
+            this.routeMapper = mapper;
             this.jobService = jobService;
             this.postImportRepository = postImportRepository;
             this.jobResolutionStatus = jobResolutionStatus;
-            
-            _dateThresholdService = dateThresholdService;
+
+            this.dateThresholdService = dateThresholdService;
         }
 
         public void Update(RouteDelivery route, string fileName)
@@ -87,11 +87,10 @@
                         logger.LogDebug(message);
                         eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
 
-                        //this.adamImportService.ImportRouteHeader(header, route.RouteId);
                         continue;
                     }
 
-                    this.mapper.Map(header, existingHeader);
+                    this.routeMapper.Map(header, existingHeader);
 
                     this.routeHeaderRepository.Update(existingHeader);
 
@@ -108,20 +107,32 @@
 
             }
 
+            //On AdamImport
             // updates Location/Activity/LineItem/Bag tables from imported data
             this.postImportRepository.PostImportUpdate();
-            // updates tobacco lines from tobacco bag data
-            this.postImportRepository.PostTranSendImportForTobacco();
 
-            // updates LineItemActions imported data
-            this.postImportRepository.PostTranSendImport();
-            //updates Jobs with data for shorts to be advised
-            this.postImportRepository.PostTranSendImportShortsTba(updatedJobIds);
+            //On Transend Import
+            RunPostInvoicedProcessing(updatedJobIds);
+        }
 
+        public void RunPostInvoicedProcessing(List<int> updatedJobIds)
+        {
 
+            if (updatedJobIds == null)
+            {
+                throw new ArgumentNullException(nameof(updatedJobIds));
+            }
+                
             // update JobResolutionStatus for jobs with LineItemActions
             if (updatedJobIds.Count != 0)
             {
+                // updates tobacco lines from tobacco bag data
+                this.postImportRepository.PostTranSendImportForTobacco(updatedJobIds);
+                // updates LineItemActions imported data
+                this.postImportRepository.PostTranSendImport(updatedJobIds);
+                //updates Jobs with data for shorts to be advised
+                this.postImportRepository.PostTranSendImportShortsTba(updatedJobIds);
+
                 var idsForJobsWithActions = jobRepository.GetJobsWithLineItemActions(updatedJobIds);
                 var updatedJobs = jobService.PopulateLineItemsAndRoute(jobRepository.GetByIds(idsForJobsWithActions));
 
@@ -141,8 +152,8 @@
 
         private List<int> UpdateStops(RouteHeader routeHeader, int branchId)
         {
-            var updatedJobIds
-                = new List<int>();
+            var updatedJobIds = new List<int>();
+
             foreach (var stop in routeHeader.Stops)
             {
                 try
@@ -164,12 +175,12 @@
                             continue;
                         }
 
-                        this.mapper.Map(stop, existingStop);
+                        this.routeMapper.Map(stop, existingStop);
 
                         this.stopRepository.Update(existingStop);
 
-                        var updates = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
-                        updatedJobIds.AddRange(updates);
+                        var updateJobs = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
+                        updatedJobIds.AddRange(updateJobs.Select(x => x.Id).Distinct());
 
                         transactionScope.Complete();
                     }
@@ -189,16 +200,16 @@
             return updatedJobIds;
         }
 
-        private List<int> UpdateJobs(IEnumerable<JobDTO> jobs, int stopId, int branchId,DateTime routeDate)
+        private IEnumerable<Job> UpdateJobs(IEnumerable<JobDTO> jobDtOs, int stopId, int branchId, DateTime routeDate)
         {
-            var updatedJobIds = new List<int>();
+            var updatedJobs = new List<Job>();
 
-            foreach (var job in jobs)
+            foreach (var jobDto in jobDtOs)
             {
                 var existingJob = this.jobRepository.GetJobByRefDetails(
-                    job.JobTypeCodeTransend,
-                    job.PhAccount,
-                    job.PickListRef,
+                    jobDto.JobTypeCodeTransend,
+                    jobDto.PhAccount,
+                    jobDto.PickListRef,
                     stopId);
 
                 if (existingJob == null)
@@ -206,41 +217,49 @@
                     continue;
                 }
 
-                updatedJobIds.Add(existingJob.Id);
-
-                this.mapper.Map(job, existingJob);
-
-                this.jobService.DetermineStatus(existingJob, branchId);
                 existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
+                updatedJobs.Add(UpdateJob(jobDto, existingJob, branchId, routeDate));
 
-                if (!string.IsNullOrWhiteSpace(job.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
-                {
-                    var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
-
-                    this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                        _dateThresholdService.EarliestSubmitDate(routeDate, branchId));
-                }
-
-                this.UpdateJobDetails(
-                    job.JobDetails,
-                    existingJob.Id);
-
-                var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
-
-                if ((pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade ) && existingJob.JobStatus != JobStatus.CompletedOnPaper)
-                {
-                    var podEvent = new PodEvent
-                    {
-                        BranchId = branchId,
-                        Id = existingJob.Id
-                    };
-                    this.exceptionEventRepository.InsertPodEvent(podEvent);
-                }
-
-                this.jobRepository.Update(existingJob);
-                this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
             }
-            return updatedJobIds;
+
+            return updatedJobs;
+        }
+
+        public Job UpdateJob(JobDTO jobDto, Job existingJob, int branchId, DateTime routeDate)
+        {
+            this.routeMapper.Map(jobDto, existingJob);
+
+            this.jobService.DetermineStatus(existingJob, branchId);
+
+
+
+            if (!string.IsNullOrWhiteSpace(jobDto.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
+            {
+                var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+
+                this.exceptionEventRepository.InsertGrnEvent(grnEvent,
+                    dateThresholdService.EarliestSubmitDate(routeDate, branchId));
+            }
+
+            this.UpdateJobDetails(
+                jobDto.JobDetails,
+                existingJob.Id);
+
+            var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
+
+            if ((pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade) && existingJob.JobStatus != JobStatus.CompletedOnPaper)
+            {
+                var podEvent = new PodEvent
+                {
+                    BranchId = branchId,
+                    Id = existingJob.Id
+                };
+                this.exceptionEventRepository.InsertPodEvent(podEvent);
+            }
+
+            this.jobRepository.Update(existingJob);
+            this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
+            return existingJob;
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetailDTO> jobDetails, int jobId)
@@ -260,7 +279,7 @@
                     continue;
                 }
 
-                this.mapper.Map(detail, existingJobDetail);
+                this.routeMapper.Map(detail, existingJobDetail);
 
                 existingJobDetail.SkuGoodsValue = detail.SkuGoodsValue;
 
@@ -284,7 +303,7 @@
             foreach (var damage in damages)
             {
                 if (!string.IsNullOrWhiteSpace(damage.Reason.Description) && (
-                    damage.Reason.Description.ToLower().Contains("short") || 
+                    damage.Reason.Description.ToLower().Contains("short") ||
                     damage.Reason.Description.ToLower().Contains("product not available")))
                 {
                     continue;
@@ -294,7 +313,7 @@
 
                 damage.JobDetailReason = JobDetailReason.NotDefined;
                 damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
-              
+
                 this.jobDetailDamageRepository.Save(Mapper.Map<JobDetailDamageDTO, JobDetailDamage>(damage));
             }
         }

@@ -11,7 +11,8 @@ USING	(VALUES	(1,			'Imported'),
 				(128,       'Resolved'),
 				(256 | 2,   'Closed - Driver Completed'),
 				(256 | 64,  'Closed - Credited'),
-				(256 | 128, 'Closed - Resolved')
+				(256 | 128, 'Closed - Resolved'),
+				(512,		'Completed by Well')
 		)
 AS Source (Id, [Description])
 	ON Target.Id = Source.Id

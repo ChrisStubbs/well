@@ -56,7 +56,9 @@
                 return job;
             }
 
-            if (job.PerformanceStatus == PerformanceStatus.Abypa || job.PerformanceStatus == PerformanceStatus.Nbypa)
+            if (job.PerformanceStatus == PerformanceStatus.Abypa 
+                || job.PerformanceStatus == PerformanceStatus.Nbypa
+                || job.PerformanceStatus == PerformanceStatus.Wbypa)
             {
                 job.JobStatus = JobStatus.Bypassed;
                 return job;
@@ -134,7 +136,6 @@
                 && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName, StringComparison.OrdinalIgnoreCase);
         }
          
-
         public void SetGrn(int jobId, string grn)
         {
             var jobRoute = jobRepository.GetJobRoute(jobId);
@@ -238,7 +239,7 @@
                 return null;
             });
 
-            //ActionRequired
+            //ActionRequired 
             this.evaluators.Add(job =>
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
@@ -259,7 +260,7 @@
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
-                if (actions.Any() && job.ResolutionStatus <= ResolutionStatus.PendingSubmission)
+                if (actions.Any() && (job.ResolutionStatus <= ResolutionStatus.PendingSubmission || job.ResolutionStatus == ResolutionStatus.CompletedByWell))
                 {
                     if (actions.All(p => p.DeliveryAction != DeliveryAction.NotDefined))
                     {
@@ -383,6 +384,7 @@
         {
             var jobList = jobs.ToList();
             var lineItems = lineItemRepository.GetLineItemByJobIds(jobList.Select(x=> x.Id));
+
             var jobRoutes = jobRepository.GetJobsRoute(jobList.Select(x => x.Id));
 
             jobList.ForEach(job =>
@@ -398,6 +400,18 @@
         public Job PopulateLineItemsAndRoute(Job job)
         {
             return PopulateLineItemsAndRoute(new[] {job}).First();
+        }
+
+        public IEnumerable<Job> GetJobsWithRoute(IEnumerable<int> jobIds)
+        {
+            var jobs = jobRepository.GetByIds(jobIds).ToList();
+            var jobRoutes = jobRepository.GetJobsRoute(jobs.Select(x => x.Id));
+            jobs.ForEach(job =>
+                {
+                    job.JobRoute = jobRoutes.Single(x => x.JobId == job.Id);
+                }
+            );
+            return jobs;
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[JobDetail_TobaccoUpdate]
+	@JobIds dbo.IntTableType READONLY
 AS
 BEGIN
 	DECLARE @TobaccoDeliveryTable TABLE (
@@ -17,6 +18,7 @@ BEGIN
 			jd2.Id , 
 			jd2.OriginalDespatchQty
 	FROM JobDetail jd1
+	INNER JOIN @JobIds jobIds ON jobIds.Value = jd1.JobId
 	INNER JOIN JobDetail jd2 ON jd1.PHProductCode = jd2.SSCCBarcode
 	WHERE jd1.LineDeliveryStatus = 'Delivered'
 	AND jd1.PHProductType = 'Tobacco'
@@ -28,6 +30,7 @@ BEGIN
 			jd2.Id, 
 			jd2.OriginalDespatchQty
 	FROM JobDetail jd1
+	INNER JOIN @JobIds jobIds ON jobIds.Value = jd1.JobId
 	INNER JOIN JobDetail jd2 ON jd1.PHProductCode = jd2.SSCCBarcode
 	WHERE jd1.LineDeliveryStatus = 'Exception'
 	AND jd1.PHProductType = 'Tobacco'

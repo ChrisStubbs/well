@@ -334,7 +334,6 @@ namespace PH.Well.Domain
         [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
         public List<EntityAttributeValue> EntityAttributeValues { get; set; }
 
-        //ACTLOGNO CUSTSRVCON DISCFOUND GRNNO GRNREFREAS ISOVERAGE OUTERCOUNT OVERORDNO TOTOVER TOTSHORT
         [XmlIgnore]
         public string ActionLogNumber
         {
@@ -392,18 +391,6 @@ namespace PH.Well.Domain
 
         [XmlIgnore]
         public bool OuterDiscrepancyUpdate { get; set; }
-
-        //[XmlIgnore]
-        //public bool OuterDiscrepancyFound
-        //{
-        //    get
-        //    {
-        //        int totalShort = TotalOutersShort ?? 0;
-        //        int detailShort = DetailOutersShort ?? 0;
-
-        //        return (totalShort - detailShort) > 0;
-        //    }
-        //}
 
         [XmlIgnore]
         public int? TotalOutersOverUpdate { get; set; }
@@ -497,10 +484,7 @@ namespace PH.Well.Domain
                 return false;
             }
         }
-
-        //[XmlIgnore]
-        //public decimal InvoiceValueUpdate { get; set; }
-
+        
         [XmlIgnore]
         public decimal InvoiceValue
         {
@@ -513,14 +497,5 @@ namespace PH.Well.Domain
                 return total;
             }
         }
-
-        //public bool CanResolve => JobDetails.All(jd => jd.ShortsStatus == JobDetailStatus.Res &&
-        //jd.JobDetailDamages.All(jdd => jdd.DamageStatus == JobDetailStatus.Res));
-
-        //public bool HasShorts => JobDetails.Any(x => x.ShortQty > 0);
-
-        //public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
-
-        //public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
     }
 }

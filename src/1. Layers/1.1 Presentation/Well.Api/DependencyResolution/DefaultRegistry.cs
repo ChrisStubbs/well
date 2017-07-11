@@ -86,6 +86,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ISingleRouteMapper>().Use<SingleRouteMapper>();
             For<IStopMapper>().Use<StopMapper>();
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
+            For<IRouteMapper>().Use<RouteMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
@@ -124,6 +125,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IActivityRepository>().Use<ActivityRepository>();
             For<IBulkEditService>().Use<BulkEditService>();
             For<IBulkEditSummaryMapper>().Use<BulkEditSummaryMapper>();
+            For <IPostImportRepository>().Use<PostImportRepository>();
         }
     }
 }

@@ -118,8 +118,8 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
                 .Build();
-            job.ResolutionStatus = ResolutionStatus.CompletedByWell;
-            Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
+            job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
+            Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
             Assert.That(sut.GetCurrentResolutionStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
         }
 

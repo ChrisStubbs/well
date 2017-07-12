@@ -9,6 +9,8 @@
         public int ShortQuantity { get; set; }
         public int DamageQuantity { get; set; }
         public int BypassQuantity { get; set; }
-        public decimal TotalValue { get; set; }
+        public decimal TotalExceptionValue { get; set; }
+        public int TotalDispatchedQuantity { get; set; }
+        public decimal TotalDispatchedValue { get; set; }
     }
 }

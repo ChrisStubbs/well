@@ -45,11 +45,9 @@
             return ManuallyCompleteJobs(jobIds, MarkAsComplete);
         }
 
-
-
         public IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, Action<IEnumerable<Job>> actionJobs)
         {
-            List<Job> invoicedJobs = GetInvoicedJobsWithRoute(jobIds);
+            List<Job> invoicedJobs = GetJobsAvailableForCompletion(jobIds).ToList();
             actionJobs(invoicedJobs);
 
             List<Job> completedJobs = new List<Job>();
@@ -57,7 +55,7 @@
             foreach (var job in invoicedJobs)
             {
                 var dto = Mapper.Map<Job, JobDTO>(job);
-                job.ResolutionStatus = ResolutionStatus.CompletedByWell;
+                job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
 
                 using (var transactionScope = new TransactionScope())
                 {
@@ -85,7 +83,7 @@
             }
         }
 
-        private List<Job> GetInvoicedJobsWithRoute(IEnumerable<int> jobIds)
+        public IEnumerable<Job> GetJobsAvailableForCompletion(IEnumerable<int> jobIds)
         {
             return jobService.GetJobsWithRoute(jobIds).Where(x => x.WellStatus == WellStatus.Invoiced).ToList();
         }

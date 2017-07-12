@@ -17,7 +17,7 @@
     {
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
-        private readonly IBulkEditSummaryMapper mapper;
+        private readonly IPatchSummaryMapper mapper;
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
         private readonly ILineItemActionRepository lineItemActionRepository;
@@ -27,7 +27,7 @@
             ILogger logger,
             IJobService jobService,
             IJobRepository jobRepository,
-            IBulkEditSummaryMapper mapper,
+            IPatchSummaryMapper mapper,
             IUserNameProvider userNameProvider,
             IUserRepository userRepository,
             ILineItemActionRepository lineItemActionRepository)
@@ -40,14 +40,14 @@
             this.lineItemActionRepository = lineItemActionRepository;
             this.jobService = jobService;
         }
-        public BulkEditSummary GetByLineItems(IEnumerable<int> lineItemIds)
+        public PatchSummary GetByLineItems(IEnumerable<int> lineItemIds)
         {
             lineItemIds = lineItemIds.ToArray();
             var jobs = GetEditableJobsByLineItemId(lineItemIds);
             return mapper.Map(jobs, lineItemIds);
         }
 
-        public BulkEditSummary GetByJobs(IEnumerable<int> jobIds)
+        public PatchSummary GetByJobs(IEnumerable<int> jobIds)
         {
             var jobs = GetEditableJobsByJobId(jobIds);
             return mapper.Map(jobs);
@@ -89,7 +89,7 @@
                     {
                         job.ResolutionStatus = jobService.GetCurrentResolutionStatus(job);
                         jobRepository.Update(job);
-                        result.Statuses.Add(new BulkEditResolutionStatus(job.Id, job.ResolutionStatus));
+                        result.Statuses.Add(new JobIdResolutionStatus(job.Id, job.ResolutionStatus));
                     }
 
                     transactionScope.Complete();

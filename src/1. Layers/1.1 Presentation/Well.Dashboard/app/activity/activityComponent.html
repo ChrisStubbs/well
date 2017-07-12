@@ -1,3 +1,11 @@
+<div class="row">
+    <div class="col-xs-12">
+        <ol class="breadcrumb">
+            <li class="active" *ngIf="source.isInvoice">Invoice</li>
+            <li class="active" *ngIf="!source.isInvoice">Uplift</li>
+        </ol>
+    </div>
+</div>
 <div class="content">
     <div class="row">
         <div class="col-md-3">
@@ -233,7 +241,7 @@
                                 </a>
                             </td>
                             <td colspan="5">
-                                <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{item.type }} - {{source.accountName}}</a>
+                                <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{source.accountName}} - {{item.type }} </a>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
                             <td class="text-right">{{item.totalExpected - (item.totalDamaged + item.totalShorts)}}</td>
@@ -252,8 +260,8 @@
                                 </div>
                             </td>
                             <td>{{detail.description}}</td>
-                            <td>{{detail.value}}</td>
-                            <td>{{detail.expected}}</td>
+                            <td class="text-right">{{detail.value | currency:'GBP':true }}</td>
+                            <td class="text-right">{{detail.expected}}</td>
                             <td class="text-right">{{detail.expected - (detail.damaged + detail.shorts)}}</td>
                             <td class="text-right">{{detail.damaged}}</td>
                             <td class="text-right">{{detail.shorts}}</td>

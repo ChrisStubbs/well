@@ -327,5 +327,26 @@ namespace PH.Well.Repositories
 
             return idsForAction;
         }
+
+        public Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId)
+        {
+            var strSQL = "select j.id, a.Code " +
+                         "from Job j " +
+                         "INNER JOIN Stop s ON j.StopId = s.id AND s.RouteHeaderId = @RouteHeaderId " +
+                         "INNER JOIN Account a ON a.StopId = s.Id ";
+            var result = new Dictionary<int, string>();
+
+            Action<IDataReader> callBack = reader =>
+            {
+                while (reader.Read())
+                {
+                    result.Add(reader.GetInt32(0), reader.GetString(1));
+                }
+            };
+
+            this.dapperProxy.ExecuteSql(strSQL, new { RouteHeaderId = routeHeaderId }, callBack);
+
+            return result;
+        }
     }
 }

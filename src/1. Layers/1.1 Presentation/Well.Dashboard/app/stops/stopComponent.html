@@ -226,7 +226,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Invoice: </label>
-                                    <a routerLink="{{getInvoiceLink(item)}}">{{item.invoice}}</a>
+                                    <a *ngIf="item.invoice" [routerLink]="['/invoice', item.invoice, stop.branchId]">{{item.invoice}}</a>
                                 </td>
                                 <td>
                                     <label>Type: </label>
@@ -234,7 +234,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Account: </label>
-                                    {{item.account}}
+                                    <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: item.account, branchId: stop.branchId}">{{item.account}}</a>
                                     <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>

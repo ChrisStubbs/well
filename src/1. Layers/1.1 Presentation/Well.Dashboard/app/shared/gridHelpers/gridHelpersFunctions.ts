@@ -115,7 +115,7 @@ export class GridHelpersFunctions
                     const value2 = filterObject[c];
                     const func = filterObject.getFilterType(c);
 
-                    result = func(value, value2);
+                    result = func(value, value2, current);
                 }
             });
 

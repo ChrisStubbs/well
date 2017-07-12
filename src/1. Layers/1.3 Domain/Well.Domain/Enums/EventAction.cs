@@ -11,5 +11,6 @@
         ReplanInTranSend = 7,
         ReplanInTheQueue = 8,
         Amendment = 9
+        GlobalUplift = 10
     }
 }

@@ -19,7 +19,7 @@
     {
         private Mock<ILogger> logger;
         private Mock<IJobRepository> jobRepository;
-        private Mock<IBulkEditSummaryMapper> mapper;
+        private Mock<IPatchSummaryMapper> mapper;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IUserRepository> userRepository;
         private Mock<ILineItemActionRepository> lineItemActionRepository;
@@ -33,7 +33,7 @@
         {
             logger = new Mock<ILogger>();
             jobRepository = new Mock<IJobRepository>();
-            mapper = new Mock<IBulkEditSummaryMapper>();
+            mapper = new Mock<IPatchSummaryMapper>();
             userNameProvider = new Mock<IUserNameProvider>();
             userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             lineItemActionRepository = new Mock<ILineItemActionRepository>(MockBehavior.Strict);

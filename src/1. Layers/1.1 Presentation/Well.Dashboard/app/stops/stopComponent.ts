@@ -257,7 +257,10 @@ export class StopComponent implements IObservableAlive
 
                 if (!_.isEmpty(filteredValues))
                 {
-                    values.push(value);
+                    const item = _.clone(value);
+                    item.items = filteredValues;
+
+                    values.push(item);
 
                     if (value.isExpanded)
                     {
@@ -495,11 +498,6 @@ export class StopComponent implements IObservableAlive
     private bulkEdit(): void
     {
         this.bulkEditActionModal.show();
-    }
-
-    private getInvoiceLink = (item: StopItem): string =>
-    {
-        return '/invoice/' + item.invoice + '/' + this.stop.branchId;
     }
 
     private disableBulkEdit(): boolean

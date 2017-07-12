@@ -277,10 +277,19 @@ export class SingleRouteComponent implements IObservableAlive
         const assignees = [];
         _.map(this.source, (current: SingleRouteSource) =>
         {
+            if (!current.stopAssignee) {
+                current.stopAssignee = 'Unallocated';
+
+                _.each(current.items,
+                    (item: SingleRouteItem) => {
+                        item.assignee = 'Unallocated';
+                    });
+            }
+
             const filteredValues =
                 GridHelpersFunctions.applyGridFilter<SingleRouteItem, SingleRouteFilter>(current.items, this.filters);
 
-            assignees.push(current.stopAssignee || 'Unallocated');
+            assignees.push(current.stopAssignee);
 
             if (!_.isEmpty(filteredValues))
             {
@@ -353,9 +362,5 @@ export class SingleRouteComponent implements IObservableAlive
     private bulkEdit(): void 
     {
         this.bulkEditActionModal.show();
-    }
-
-    private getInvoiceLink = (item: SingleRouteItem): string => {
-        return '/invoice/' + item.invoice + '/' + this.branchId;
     }
 }

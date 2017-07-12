@@ -76,13 +76,16 @@
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
     <Compile Include="CleanPreferenceRepository.cs" />
+    <Compile Include="CommentReasonRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IActivityReadRepository.cs" />
     <Compile Include="Contracts\IActivityRepository.cs" />
     <Compile Include="Contracts\IAmendmentFactory.cs" />
     <Compile Include="Contracts\IAmendmentRepository.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
+    <Compile Include="Contracts\ICommentReasonRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
     <Compile Include="Contracts\ILineItemActionCommentRepository.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
+    <Compile Include="GlobalUpliftTransactionFactory.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="LineItemActionCommentRepository.cs" />

@@ -4,6 +4,6 @@
 
     public interface ILocationRepository
     {
-        Location GetLocationById(int locationId);
+        SingleLocation GetSingleLocation(int? locationId, string accountNumber = null, int? branchId = null);
     }
 }

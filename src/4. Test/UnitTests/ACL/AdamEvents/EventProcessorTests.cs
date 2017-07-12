@@ -30,12 +30,13 @@
         private Mock<IEventLogger> eventLogger;
 
         private Mock<ILogger> logger;
-
+        private Mock<IAdamRepository> _adamRepository;
         private Mock<IContainer> container;
 
         private EventProcessor processor;
 
         private string username;
+      
 
         [SetUp]
         public void Setup()
@@ -44,6 +45,8 @@
             this.exceptionEventService = new Mock<IDeliveryLineActionService>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
+            _adamRepository = new Mock<IAdamRepository>();
+
             this.container = new Mock<IContainer>(MockBehavior.Strict);
 
             this.container.Setup(x => x.GetInstance<IExceptionEventRepository>())
@@ -55,6 +58,8 @@
             this.container.Setup(x => x.GetInstance<ILogger>()).Returns(this.logger.Object);
 
             this.container.Setup(x => x.GetInstance<IEventLogger>()).Returns(this.eventLogger.Object);
+
+            container.Setup(x => x.GetInstance<IAdamRepository>()).Returns(_adamRepository.Object);
 
             this.processor = new EventProcessor(this.container.Object);
 

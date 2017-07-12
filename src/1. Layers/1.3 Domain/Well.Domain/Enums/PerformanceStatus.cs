@@ -62,6 +62,12 @@
         /// Submitted
         /// </summary>
         [Description("Submitted")]
-        Submitted = 9
+        Submitted = 9,
+
+        /// <summary>
+        /// Authorised ByPass
+        /// </summary>
+        [Description("Well ByPass")]
+        Wbypa = 10,
     }
 }

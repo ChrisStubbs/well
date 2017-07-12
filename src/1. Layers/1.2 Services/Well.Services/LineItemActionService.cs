@@ -17,16 +17,18 @@ namespace PH.Well.Services
         private readonly ILineItemSearchReadRepository lineItemRepository;
         private readonly ILineItemActionCommentRepository commentRepository;
         private readonly IJobRepository jobRepository;
-        private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IGetJobResolutionStatus jobResolutionStatus;
         private readonly IJobService jobService;
+        private readonly ICommentReasonRepository commentReasonRepository;
 
         public LineItemActionService(
             ILineItemActionRepository lineItemActionRepository,
             ILineItemSearchReadRepository lineItemRepository,
             ILineItemActionCommentRepository commentRepository,
             IJobRepository jobRepository,
-            IJobResolutionStatus jobResolutionStatus,
-            IJobService jobService)
+            IGetJobResolutionStatus jobResolutionStatus,
+            IJobService jobService,
+            ICommentReasonRepository commentReasonRepository)
         {
             this.lineItemActionRepository = lineItemActionRepository;
             this.lineItemRepository = lineItemRepository;
@@ -34,6 +36,7 @@ namespace PH.Well.Services
             this.jobRepository = jobRepository;
             this.jobResolutionStatus = jobResolutionStatus;
             this.jobService = jobService;
+            this.commentReasonRepository = commentReasonRepository;
         }
 
         public LineItem SaveLineItemActions(Job job, int lineItemId, IEnumerable<LineItemAction> lineItemActions)
@@ -51,6 +54,18 @@ namespace PH.Well.Services
                 foreach (var action in itemActions)
                 {
                     var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
+
+                    // Create default comment for close action
+                    if (action.DeliveryAction == DeliveryAction.Close)
+                    {
+                        var defaultCommentReason = commentReasonRepository.GetAll().Single(x => x.IsDefault);
+                        action.Comments.Add(new LineItemActionComment
+                        {
+                            CommentDescription = defaultCommentReason.Description,
+                            CommentReasonId = defaultCommentReason.Id,
+                            ToQty = 0
+                        });
+                    }
 
                     if (action.IsTransient())
                     {

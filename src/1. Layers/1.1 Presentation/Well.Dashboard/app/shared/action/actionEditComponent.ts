@@ -253,8 +253,7 @@ export class ActionEditComponent implements IObservableAlive
 
     private deliveryActionChange(item: LineItemAction, index: number): void
     {
-        if (item.deliveryAction === this.actionClose)
-        {
+        if (Number(item.deliveryAction) === this.actionClose) {
             item.quantity = 0;
             this.validate(item, index);
         }

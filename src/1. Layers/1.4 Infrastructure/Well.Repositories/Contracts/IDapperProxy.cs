@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-
+    using System.Threading.Tasks;
     using Dapper;
 
     public interface IDapperProxy
@@ -17,11 +17,13 @@
         IEnumerable<TEntity> QueryMultiples<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action);
 
         void Execute();
+
         void ExecuteSql(string sql);
 
         IDapperProxy WithStoredProcedure(string storedProcedure);
 
         IDapperProxy AddParameter(string name, object parameter, DbType dbType, int? size = null);
 
+        void ExecuteSql(string statement, object parameters, Action<IDataReader> callBack);
     }
 }

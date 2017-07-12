@@ -196,6 +196,7 @@
     <TypeScriptCompile Include="app\activity\activityComponent.ts" />
     <TypeScriptCompile Include="app\activity\activityService.ts" />
     <TypeScriptCompile Include="app\activity\activitySource.ts" />
+    <TypeScriptCompile Include="app\approvals\approvals.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
@@ -204,9 +205,15 @@
     <TypeScriptCompile Include="app\job\assignGrnModal.ts" />
     <TypeScriptCompile Include="app\job\job.ts" />
     <TypeScriptCompile Include="app\job\jobService.ts" />
+    <TypeScriptCompile Include="app\locations\locations.ts" />
+    <TypeScriptCompile Include="app\locations\locationsService.ts" />
+    <TypeScriptCompile Include="app\locations\singleLocation.ts" />
+    <TypeScriptCompile Include="app\locations\singleLocationComponent.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
+    <TypeScriptCompile Include="app\shared\action\action.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
+    <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
     <Content Include="app\shared\action\bulkEditActionModal.html" />
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
@@ -558,7 +565,6 @@
     <Content Include="app\approvals\approval.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
-    <TypeScriptCompile Include="app\driver\driverService.ts" />
     <TypeScriptCompile Include="app\exceptions\bulkCredit.ts" />
     <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
     <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />

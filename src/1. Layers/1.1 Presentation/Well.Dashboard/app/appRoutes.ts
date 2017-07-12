@@ -16,6 +16,7 @@ import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevel
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import {StopComponent} from './stops/stopComponent';
 import {ActivityComponent} from './activity/activityComponent';
+import {SingleLocationComponent} from './locations/singleLocationComponent';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
@@ -37,7 +38,8 @@ const routes: Routes = [
     { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
     { path: 'singleroute/:id', component: SingleRouteComponent },
     { path: 'stops/:id', component: StopComponent },
-    { path: 'invoice/:number/:branchId', component: ActivityComponent }
+    { path: 'invoice/:number/:branchId', component: ActivityComponent },
+    { path: 'singlelocation', component: SingleLocationComponent }
 ];
 
 export const appRoutingProviders: any[] = [];

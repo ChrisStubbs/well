@@ -53,6 +53,7 @@ export class SingleRouteItem implements IGrnAssignable
     public wellStatusDescription: string;
     public grnNumber: string;
     public grnProcessType: number;
+    public primaryAccountNumber: string;
 }
 
 export class SingleRouteSource

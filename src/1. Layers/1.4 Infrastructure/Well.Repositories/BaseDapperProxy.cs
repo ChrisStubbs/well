@@ -29,6 +29,15 @@
             }
         }
 
+        public void ExecuteSql(string statement, object parameters, Action<IDataReader> callBack)
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                var reader = connection.ExecuteReader(statement, parameters);
+                callBack(reader);
+            }
+        }
+
         public TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))

@@ -39,7 +39,9 @@ AS
 		END AS TBA,
 		credit.CreditValue AS Credit,
 		j.ResolutionStatusId AS ResolutionStatus,
-		j.InvoiceNumber as Invoice
+		j.InvoiceNumber as Invoice,
+		j.Id as JobId,
+		CONVERT(Bit, CASE WHEN a.ActivityTypeId = dbo.ActivityType_Invoice() THEN 1 ELSE 0 END) AS IsInvoice
 	FROM 
 		Job j
 		INNER JOIN Activity a

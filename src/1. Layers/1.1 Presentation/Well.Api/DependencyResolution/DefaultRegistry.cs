@@ -128,6 +128,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IPatchSummaryMapper>().Use<PatchSummaryMapper>();
             For<IPostImportRepository>().Use<PostImportRepository>();
             For<IManualCompletionService>().Use<ManualCompletionService>();
+            For<ICommentReasonRepository>().Use<CommentReasonRepository>();
         }
     }
 }

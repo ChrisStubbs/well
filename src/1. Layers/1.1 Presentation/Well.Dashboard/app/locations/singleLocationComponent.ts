@@ -23,6 +23,7 @@ import { ResolutionStatusEnum }                             from '../shared/serv
 import { AssignModalResult, AssignModel }                   from '../shared/components/assignModel';
 import { Branch }                                           from '../shared/branch/branch';
 import { ISubmitActionResult, ISubmitActionResultDetails }  from '../shared/action/submitActionModel';
+import {IBulkEditResult}                                    from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 
@@ -36,7 +37,7 @@ export class SingleLocationComponent implements IObservableAlive
     public isAlive: boolean = true;
     public resolutionStatuses: ILookupValue[];
     public jobTypes: ILookupValue[];
-    public jobStatus: ILookupValue[];
+    public jobStatus: Array<string>;
     public drivers: Array<string>;
     public assignees: Array<string>;
 
@@ -66,7 +67,6 @@ export class SingleLocationComponent implements IObservableAlive
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
                     this.lookupService.get(LookupsEnum.JobType),
-                    this.lookupService.get(LookupsEnum.JobStatus),
                     this.locationsService.getSingleRoute(data.id, data.accountNumber, <number>data.branchId)
                 );
             })
@@ -75,19 +75,21 @@ export class SingleLocationComponent implements IObservableAlive
             {
                 this.resolutionStatuses = res[0];
                 this.jobTypes = res[1];
-                this.jobStatus = res[2];
-                this.source = res[3];
+                this.source = res[2];
                 this.drivers = [];
                 this.assignees = [];
+                this.jobStatus = [];
 
                 _.forEach(this.source.details, (current: SingleLocation) =>
                 {
-                    this.drivers.push(current.driver);
+                    this.drivers.push(current.driver || '');
                     this.assignees.push(current.assignee || 'Unallocated');
+                    this.jobStatus.push(current.jobStatus);
                 });
 
-                this.drivers = _.chain(this.drivers).uniq().orderBy().value();
+                this.drivers = _.chain(this.drivers).uniq().filter(current => !_.isEmpty(current)).orderBy().value();
                 this.assignees = _.chain(this.assignees).uniq().orderBy().value();
+                this.jobStatus = _.chain(this.jobStatus).uniq().orderBy().value();
 
                 this.buildGridSource();
             });
@@ -126,6 +128,7 @@ export class SingleLocationComponent implements IObservableAlive
                 item.invoice = current[0].invoice;
                 item.isExpanded = _.includes(expanded, current[0].invoice);
                 item.details = current;
+                item.isInvoice = current[0].isInvoice;
 
                 this.gridSource.push(item);
             })
@@ -268,5 +271,19 @@ export class SingleLocationComponent implements IObservableAlive
             .filter(filterToApply)
             .map((current: SingleLocation) => current.isSelected = select)
             .value();
+    }
+
+    public bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses, x =>
+        {
+            _.chain(this.source.details)
+                .filter((current: SingleLocation) => current.jobId == x.jobId)
+                .forEach((current: SingleLocation) => {
+                    current.resolution = x.status.description;
+                    current.resolutionId = x.status.description;
+                })
+                .value();
+        });
     }
 }

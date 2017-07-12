@@ -51,6 +51,7 @@
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="CleanPreference.cs" />
+    <Compile Include="CommentReason.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />

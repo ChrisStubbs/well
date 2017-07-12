@@ -86,7 +86,23 @@ export class StopComponent implements IObservableAlive
         private editExceptionsService: EditExceptionsService,
         private lookupService: LookupService) { }
 
-    public ngOnInit(): void
+    public ngOnInit(): void {
+
+        this.refreshStopFromApi();
+
+        this.lookupService.get(LookupsEnum.ResolutionStatus)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: ILookupValue[]) =>
+            {
+                this.resolutionStatuses = value;
+            });
+
+        this.filters = new StopFilter();
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshStopFromApi(): void 
     {
         this.route.params
             .flatMap(data =>
@@ -136,18 +152,7 @@ export class StopComponent implements IObservableAlive
                     {
                         this.customerAccount = account;
                     });
-            });
-
-        this.lookupService.get(LookupsEnum.ResolutionStatus)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: ILookupValue[]) =>
-            {
-                this.resolutionStatuses = value;
-            });
-
-        this.filters = new StopFilter();
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+            });    
     }
 
     public ngOnDestroy(): void
@@ -468,14 +473,8 @@ export class StopComponent implements IObservableAlive
         });
     }
 
-    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
-    {
-        _.forEach(results,
-            (x: IJobIdResolutionStatus) =>
-            {
-                const job = _.find(this.gridSource, current => current.jobId === x.jobId);
-                job.resolution = x.status.description;
-            });
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void {
+        this.refreshStopFromApi();
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void

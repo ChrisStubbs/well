@@ -5,6 +5,7 @@
     using Well.Domain;
     using Well.Domain.Enums;
     using System.Linq;
+    using Well.Domain.ValueObjects;
 
     public class JobFactoryDTO : EntityFactory<JobFactoryDTO, JobDTO>
     {
@@ -35,10 +36,10 @@
             Entity.EntityAttributes.Add(new EntityAttribute { Code = "TotalOutersShort", Value = null });
             Entity.EntityAttributes.Add(new EntityAttribute { Code = "Picked", Value = null });
             Entity.EntityAttributes.Add(new EntityAttribute { Code = "InvoiceValue", Value = null });
-            
+
             Entity.EntityAttributeValues = new List<EntityAttributeValue>();
         }
-        
+
         public JobFactoryDTO AddEntityAttributeValues(string code, string value)
         {
             var att = this.Entity.EntityAttributeValues
@@ -76,7 +77,7 @@
         public JobFactoryDTO WithTotalShort(int? value)
         {
             var totshort = new EntityAttribute { Code = "TOTSHORT" };
-            var totalShortEntityAttributeValue = new EntityAttributeValue {EntityAttribute = totshort, Value = value.ToString()};
+            var totalShortEntityAttributeValue = new EntityAttributeValue { EntityAttribute = totshort, Value = value.ToString() };
             Entity.EntityAttributeValues.Add(totalShortEntityAttributeValue);
 
             return this;
@@ -136,6 +137,12 @@
         {
             Entity.Cod = value;
 
+            return this;
+        }
+
+        public JobFactory WithJobRoute(int branchId, DateTime routeDate)
+        {
+            Entity.JobRoute = new JobRoute { BranchId = branchId, RouteDate = routeDate };
             return this;
         }
     }

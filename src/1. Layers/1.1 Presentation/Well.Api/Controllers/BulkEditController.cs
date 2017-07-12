@@ -38,7 +38,7 @@
 
         [HttpGet]
         [Route("bulkedit/Summary/Jobs/")]
-        public BulkEditSummary GetSummaryForJob([FromUri]int[] id)
+        public PatchSummary GetSummaryForJob([FromUri]int[] id)
         {
             if (id == null || id.Length == 0)
             {
@@ -50,7 +50,7 @@
 
         [HttpGet]
         [Route("bulkedit/Summary/LineItems/")]
-        public BulkEditSummary GetSummaryForLineItems([FromUri]int[] id)
+        public PatchSummary GetSummaryForLineItems([FromUri]int[] id)
         {
             if (id == null || id.Length == 0)
             {

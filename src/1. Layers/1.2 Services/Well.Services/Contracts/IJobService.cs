@@ -4,7 +4,7 @@ namespace PH.Well.Services.Contracts
 {
     using System.Collections.Generic;
 
-    public interface IJobService: IJobResolutionStatus
+    public interface IJobService: IGetJobResolutionStatus
     {
         void SetInitialJobStatus(Job job);
         void SetIncompleteJobStatus(Job job);
@@ -13,5 +13,6 @@ namespace PH.Well.Services.Contracts
         IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs);
         void SetGrn(int jobId, string grn);
         Job PopulateLineItemsAndRoute(Job job);
+        IEnumerable<Job> GetJobsWithRoute(IEnumerable<int> jobIds);
     }
 }

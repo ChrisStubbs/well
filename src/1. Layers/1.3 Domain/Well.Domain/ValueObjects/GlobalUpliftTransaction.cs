@@ -16,7 +16,7 @@ namespace PH.Well.Domain.ValueObjects
         /// <summary>
         /// ADAM credit reason code
         /// </summary>
-        public const int WELLINECRDREASON = 1;
+        public const int WELLINECRDREASON = 24;
 
         /// <summary>
         /// This constructor allows to create transaction and specify which lines should be written

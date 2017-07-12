@@ -4,6 +4,8 @@
     using Domain;
     using Repositories.Contracts;
     using System.Linq;
+    using Domain.Extensions;
+    using Domain.Enums;
 
     public class SingleLocationController : ApiController
     {
@@ -27,6 +29,7 @@
                 .Select(p =>
                 {
                     p.Assignee = assignees.ContainsKey(p.JobId) ? assignees[p.JobId] : string.Empty;
+                    p.JobStatus = EnumExtensions.GetDescription((WellStatus)p.JobStatusId);
 
                     return p;
                 })

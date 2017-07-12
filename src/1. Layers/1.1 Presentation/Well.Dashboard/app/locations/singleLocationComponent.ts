@@ -37,13 +37,13 @@ export class SingleLocationComponent implements IObservableAlive
     public isAlive: boolean = true;
     public resolutionStatuses: ILookupValue[];
     public jobTypes: ILookupValue[];
-    public jobStatus: Array<string>;
     public drivers: Array<string>;
     public assignees: Array<string>;
+    public wellStatus: Array<ILookupValue>;
 
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
 
-    private gridSource: Array<SingleLocationGroup>;
+    private gridSource: Array<SingleLocationGroup> = [];
     private filters = new SingleLocationFilter();
     private source: SingleLocationHeader = new SingleLocationHeader();
     private isReadOnlyUser: boolean = false;
@@ -67,7 +67,8 @@ export class SingleLocationComponent implements IObservableAlive
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
                     this.lookupService.get(LookupsEnum.JobType),
-                    this.locationsService.getSingleRoute(data.id, data.accountNumber, <number>data.branchId)
+                    this.locationsService.getSingleRoute(data.id, data.accountNumber, <number>data.branchId),
+                    this.lookupService.get(LookupsEnum.WellStatus)
                 );
             })
             .takeWhile(() => this.isAlive)
@@ -76,20 +77,20 @@ export class SingleLocationComponent implements IObservableAlive
                 this.resolutionStatuses = res[0];
                 this.jobTypes = res[1];
                 this.source = res[2];
+                this.wellStatus = res[3];
                 this.drivers = [];
                 this.assignees = [];
-                this.jobStatus = [];
 
                 _.forEach(this.source.details, (current: SingleLocation) =>
                 {
+                    current.assignee = current.assignee ||  'Unallocated';
+
                     this.drivers.push(current.driver || '');
-                    this.assignees.push(current.assignee || 'Unallocated');
-                    this.jobStatus.push(current.jobStatus);
+                    this.assignees.push(current.assignee);
                 });
 
                 this.drivers = _.chain(this.drivers).uniq().filter(current => !_.isEmpty(current)).orderBy().value();
                 this.assignees = _.chain(this.assignees).uniq().orderBy().value();
-                this.jobStatus = _.chain(this.jobStatus).uniq().orderBy().value();
 
                 this.buildGridSource();
             });
@@ -285,5 +286,7 @@ export class SingleLocationComponent implements IObservableAlive
                 })
                 .value();
         });
+
+        this.buildGridSource();
     }
 }

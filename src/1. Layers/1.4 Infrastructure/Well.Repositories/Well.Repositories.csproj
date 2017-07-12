@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityRepository.cs" />
+    <Compile Include="AmendmentFactory.cs" />
+    <Compile Include="AmendmentRepository.cs" />
     <Compile Include="AuditRepository.cs" />
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AdamRepository.cs" />
@@ -77,6 +79,8 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IActivityReadRepository.cs" />
     <Compile Include="Contracts\IActivityRepository.cs" />
+    <Compile Include="Contracts\IAmendmentFactory.cs" />
+    <Compile Include="Contracts\IAmendmentRepository.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />

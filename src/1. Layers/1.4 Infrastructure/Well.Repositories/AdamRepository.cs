@@ -228,7 +228,7 @@
                     this.logger.LogError("ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                         $"Adam exception {adamException} when writing pod credit line for pod transaction {pod.HeaderSql}",
-                        2010);
+                        2012);
                 }
             }
 
@@ -259,7 +259,7 @@
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                        $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
-                       2020);
+                       2022);
                     }
                 }
             }
@@ -299,7 +299,7 @@
                     this.logger.LogError("ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                         $"Adam exception {adamException} when writing pod credit line for pod transaction {pod.HeaderSql}",
-                        2010);
+                        2013);
                 }
             }
 
@@ -345,14 +345,10 @@
             return AdamResponse.Unknown;
         }
 
-   /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
+        public AdamResponse AmendmentTransaction(AmendmentTransaction amend, AdamSettings adamSettings)
         {
+            var linesToRemove = new Dictionary<int, string>();
 
-            return AdamResponse.Unknown;
-        }
-
-        public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
-        {
             using (var connection = new AdamConnection(GetConnection(adamSettings)))
             {
                 try
@@ -361,34 +357,107 @@
 
                     using (var command = new AdamCommand(connection))
                     {
-                        var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
-                        var today = DateTime.Now.ToShortDateString();
-                        var now = DateTime.Now.ToShortTimeString();
-
-                        var commandString =
-                            string.Format(
-                                "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
-                                "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
-
-                        command.CommandText = commandString;
-                        command.ExecuteNonQuery();
-
+                        foreach (var line in amend.LineSql.OrderBy(x => x.Key))
+                        {
+                            command.CommandText = line.Value;
+                            command.ExecuteNonQuery();
+                            linesToRemove.Add(line.Key, line.Value);
+                        }
                     }
-                    return AdamResponse.Success;
                 }
                 catch (AdamProviderException adamException)
                 {
-                    this.logger.LogError("ADAM error occurred!", adamException);
+                    this.logger.LogError("ADAM error occurred writing amendment line!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        $"Adam exception {adamException} when writing amendment line for amend transaction {amend.HeaderSql}",
+                        2015);
+                }
+            }
 
-                    if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+            foreach (var line in linesToRemove)
+            {
+                amend.LineSql.Remove(line.Key);
+            }
+
+            if (amend.CanWriteHeader)
+            {
+                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                {
+                    try
                     {
-                        return AdamResponse.AdamDown;
+                        connection.Open();
+
+                        using (var command = new AdamCommand(connection))
+                        {
+                            command.CommandText = amend.HeaderSql;
+                            command.ExecuteNonQuery();
+
+                            return AdamResponse.Success;
+                        }
+                    }
+                    catch (AdamProviderException adamException)
+                    {
+                        this.logger.LogError("ADAM error occurred writing amend header!", adamException);
+
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                       $"Adam exception {adamException} when writing amend header for amend transaction {amend.HeaderSql}",
+                       2025);
                     }
                 }
-                return AdamResponse.Unknown;
             }
-        }*/
-           
+            else
+            {
+                this.logger.LogError("ADAM error occurred writing pod! Remaining amend details recorded.");
+                return AdamResponse.AdamDown;
+            }
+
+            return AdamResponse.Unknown;
+        }
+
+        /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
+             {
+
+                 return AdamResponse.Unknown;
+             }
+
+             public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
+             {
+                 using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                 {
+                     try
+                     {
+                         connection.Open();
+
+                         using (var command = new AdamCommand(connection))
+                         {
+                             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
+                             var today = DateTime.Now.ToShortDateString();
+                             var now = DateTime.Now.ToShortTimeString();
+
+                             var commandString =
+                                 string.Format(
+                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
+                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
+
+                             command.CommandText = commandString;
+                             command.ExecuteNonQuery();
+
+                         }
+                         return AdamResponse.Success;
+                     }
+                     catch (AdamProviderException adamException)
+                     {
+                         this.logger.LogError("ADAM error occurred!", adamException);
+
+                         if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
+                         {
+                             return AdamResponse.AdamDown;
+                         }
+                     }
+                     return AdamResponse.Unknown;
+                 }
+             }*/
+
 
         private static string GetConnection(AdamSettings settings)
         {

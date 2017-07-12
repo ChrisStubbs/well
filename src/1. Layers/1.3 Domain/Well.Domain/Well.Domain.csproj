@@ -121,6 +121,8 @@
     <Compile Include="ValueObjects\ActionSubmitSummaryItem.cs" />
     <Compile Include="ValueObjects\ActivitySource.cs" />
     <Compile Include="ValueObjects\AdamFail.cs" />
+    <Compile Include="ValueObjects\Amendment.cs" />
+    <Compile Include="ValueObjects\AmendmentTransaction.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="ValueObjects\BulkEditItem.cs" />
     <Compile Include="ValueObjects\BulkEditResult.cs" />
     <Compile Include="ValueObjects\BulkEditSummary.cs" />
+    <Compile Include="ValueObjects\AmendEvent.cs" />
     <Compile Include="ValueObjects\InvoiceSearchResult.cs" />
     <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />

@@ -28,5 +28,7 @@
 
         AdamResponse PodTransaction(PodTransaction podTransaction, AdamSettings adamSettings);
 
+        AdamResponse AmendmentTransaction(AmendmentTransaction amend, AdamSettings adamSettings);
+
     }
 }

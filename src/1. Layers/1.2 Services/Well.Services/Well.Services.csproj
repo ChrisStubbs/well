@@ -55,10 +55,12 @@
     <Compile Include="ActiveDirectoryService.cs" />
     <Compile Include="AdamConfiguration.cs" />
     <Compile Include="AdamSettingsFactory.cs" />
+    <Compile Include="AmendmentService.cs" />
     <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="BulkEditService.cs" />
+    <Compile Include="Contracts\IAmendmentService.cs" />
     <Compile Include="Contracts\IBulkEditService.cs" />
     <Compile Include="Contracts\IBulkEditSummaryMapper.cs" />
     <Compile Include="DateThresholdService.cs" />

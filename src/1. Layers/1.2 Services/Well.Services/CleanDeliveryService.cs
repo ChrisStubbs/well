@@ -59,6 +59,8 @@
 
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
+            var jobIdsForDeletion = new List<int>();
+
             foreach (var routeId in routeIds)
             {
                 var route = this.routeToRemoveRepository.GetRouteToRemove(routeId);
@@ -82,6 +84,11 @@
                             }
 
                             job.SetToDelete();
+                            //todo save all the ids of the jobs that are to be deleted 
+                            //if (job.IsDeleted)
+                            //{
+                            //    jobIdsForDeletion.Add(job.JobId);
+                            //}
                         }
 
                         stop.SetToDelete();
@@ -91,6 +98,10 @@
                 }
 
                 route.SetToDelete();
+
+                // produce amendments for jobs to be deleted
+                // this.amendmentService.ProcessAmendments(jobIdsForDeletion)
+                //
 
                 try
                 {

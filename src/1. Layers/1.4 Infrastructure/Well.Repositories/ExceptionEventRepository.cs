@@ -100,5 +100,20 @@
                 .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
                 .Execute();
         }
+
+        public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)
+        {
+            var amendmentEventJson = JsonConvert.SerializeObject(amendmentEvent);
+
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+                .AddParameter("Event", amendmentEventJson, DbType.String, size: 2500)
+                .AddParameter("ExceptionActionId", EventAction.Amendment, DbType.Int32)
+                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
     }
 }

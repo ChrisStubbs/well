@@ -10,6 +10,6 @@
         ReplanInRoadnet = 6,
         ReplanInTranSend = 7,
         ReplanInTheQueue = 8,
-        Reject = 9
+        Amendment = 9
     }
 }

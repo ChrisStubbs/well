@@ -22,5 +22,7 @@ namespace PH.Well.Repositories.Contracts
         void InsertPodEvent(PodEvent podEvent);
 
         void InsertPodTransaction(PodTransaction podTransaction);
+
+        void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
     }
 }

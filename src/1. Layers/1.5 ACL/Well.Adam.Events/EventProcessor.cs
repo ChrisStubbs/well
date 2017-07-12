@@ -65,6 +65,10 @@
                             var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
                             this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
+                        case EventAction.Amendment:
+                            var amendmentTransaction = JsonConvert.DeserializeObject<AmendmentTransaction>(eventToProcess.Event);
+                            this.deliveryLineActionService.AmendmentTransaction(amendmentTransaction, eventToProcess.Id, GetAdamSettings(amendmentTransaction.BranchId));
+                            break;
                     }
                 }
             }

@@ -51,7 +51,7 @@
                 }
                 var podCreditLine =
                     string.Format(
-                        "INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINEPODREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({0}, {1},' {2} ', {3}, {4}, {5}, {6});",
+                        "INSERT INTO WELLLINE.WELLINEREC (WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINEPODREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({0}, {1},' {2} ', {3}, {4}, {5}, {6});",
                         job.Id, (int) EventAction.Pod, lineCount, line.Reason, line.Quantity, line.ProductCode, endFlag);
 
                 lineDictionary.Add(lineCount, podCreditLine);

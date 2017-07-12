@@ -31,7 +31,11 @@
         </div>
         <div class="col-md-3">
             <address>
-                <strong>{{customerAccount.name}}</strong><br />
+                <strong>
+                    {{customerAccount.name}}
+                </strong>
+                <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
+                <br />
                 <span>{{customerAccount.address1}}</span><br />
                 <span>{{customerAccount.address2}}</span><br />
                 <span>{{customerAccount.postCode}}</span><br />

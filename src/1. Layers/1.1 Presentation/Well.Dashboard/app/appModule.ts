@@ -98,6 +98,7 @@ import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
 import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 import { SingleLocationComponent, LocationsService } from './locations/locations';
+import { CrmLinkPipe } from './shared/crm/crmLinkPipe';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -114,7 +115,7 @@ import { SingleLocationComponent, LocationsService } from './locations/locations
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
         SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent
+        SingleLocationComponent, CrmLinkPipe
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

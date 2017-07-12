@@ -23,6 +23,7 @@ import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
 import { IBulkEditResult } from '../shared/action/bulkEditItem';
+import {AccountReference} from '../shared/crm/crmLinkPipe';
 
 @Component({
     selector: 'ow-stop',
@@ -72,6 +73,7 @@ export class StopComponent implements IObservableAlive
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
     private customerAccount: IAccount = new IAccount();
+    private accountReference: AccountReference = new AccountReference('', 0);
 
     constructor(
         private stopService: StopService,
@@ -131,6 +133,8 @@ export class StopComponent implements IObservableAlive
                     .subscribe(account =>
                     {
                         this.customerAccount = account;
+
+                        this.accountReference = new AccountReference(this.customerAccount.code, this.stop.branchId);
                     });
             });
 

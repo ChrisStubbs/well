@@ -25,6 +25,7 @@ import { Branch }                                           from '../shared/bran
 import { ISubmitActionResult, ISubmitActionResultDetails }  from '../shared/action/submitActionModel';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import {AccountReference} from '../shared/crm/crmLinkPipe';
 
 @Component({
     selector: 'ow-singleLocation',
@@ -46,6 +47,7 @@ export class SingleLocationComponent implements IObservableAlive
     private filters = new SingleLocationFilter();
     private source: SingleLocationHeader = new SingleLocationHeader();
     private isReadOnlyUser: boolean = false;
+    private accountReference: AccountReference = new AccountReference('', 0);
 
     constructor(
         private lookupService: LookupService,
@@ -79,6 +81,7 @@ export class SingleLocationComponent implements IObservableAlive
                 this.source = res[3];
                 this.drivers = [];
                 this.assignees = [];
+                this.accountReference = new AccountReference(this.source.accountNumber, this.source.branchId);
 
                 _.forEach(this.source.details, (current: SingleLocation) =>
                 {

@@ -247,6 +247,7 @@
     <TypeScriptCompile Include="app\shared\components\assignModal.ts" />
     <TypeScriptCompile Include="app\shared\components\assignModel.ts" />
     <TypeScriptCompile Include="app\shared\components\components.ts" />
+    <TypeScriptCompile Include="app\shared\crm\crmLinkPipe.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpers.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpersFunctions.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\IFilter.ts" />

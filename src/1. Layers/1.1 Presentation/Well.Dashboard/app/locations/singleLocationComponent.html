@@ -27,7 +27,10 @@
         <div class="col-md-7">
             <div class="row">
                 <label class="col-md-4 col-form-label">Account Number</label>
-                <div class="col-md-8">{{source.accountNumber}}</div>
+                <div class="col-md-8">
+                    {{source.accountNumber}}
+                    <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
+                </div>
             </div>
             <div class="row">
                 <label class="col-md-4 col-form-label">Account Name</label>

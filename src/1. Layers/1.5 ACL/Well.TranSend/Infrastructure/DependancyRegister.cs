@@ -47,7 +47,7 @@
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();
-                    x.For<IJobResolutionStatus>().Use<JobService>();
+                    x.For<IGetJobResolutionStatus>().Use<JobService>();
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IUserRepository>().Use<UserRepository>();

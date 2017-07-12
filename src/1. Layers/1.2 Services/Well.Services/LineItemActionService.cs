@@ -17,7 +17,7 @@ namespace PH.Well.Services
         private readonly ILineItemSearchReadRepository lineItemRepository;
         private readonly ILineItemActionCommentRepository commentRepository;
         private readonly IJobRepository jobRepository;
-        private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IGetJobResolutionStatus jobResolutionStatus;
         private readonly IJobService jobService;
         private readonly ICommentReasonRepository commentReasonRepository;
 
@@ -26,7 +26,7 @@ namespace PH.Well.Services
             ILineItemSearchReadRepository lineItemRepository,
             ILineItemActionCommentRepository commentRepository,
             IJobRepository jobRepository,
-            IJobResolutionStatus jobResolutionStatus,
+            IGetJobResolutionStatus jobResolutionStatus,
             IJobService jobService,
             ICommentReasonRepository commentReasonRepository)
         {

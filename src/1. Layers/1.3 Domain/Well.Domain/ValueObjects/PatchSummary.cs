@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class BulkEditSummary
+    public class PatchSummary
     {
-        public BulkEditSummary()
+        public PatchSummary()
         {
-            Items = new List<BulkEditItem>();
+            Items = new List<PatchSummaryItem>();
         }
 
         public string Message
@@ -22,6 +22,6 @@
             }
         }
             
-        public IList<BulkEditItem> Items { get; set; }
+        public IList<PatchSummaryItem> Items { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
-    public class BulkEditItem
+    public class PatchSummaryItem
     {
         public int JobId { get; set; }
         public string Invoice { get; set; }

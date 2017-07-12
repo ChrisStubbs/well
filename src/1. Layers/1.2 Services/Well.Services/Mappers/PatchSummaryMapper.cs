@@ -6,11 +6,11 @@
     using Domain;
     using Domain.ValueObjects;
 
-    public class BulkEditSummaryMapper : IBulkEditSummaryMapper
+    public class PatchSummaryMapper : IPatchSummaryMapper
     {
-        public BulkEditSummary Map(IEnumerable<Job> jobs)
+        public PatchSummary Map(IEnumerable<Job> jobs)
         {
-            var summary = new BulkEditSummary();
+            var summary = new PatchSummary();
             foreach (var job in jobs)
             {
                 summary.Items.Add(Map(job, job.LineItems.ToArray()));
@@ -19,9 +19,9 @@
             return summary;
         }
 
-        public BulkEditSummary Map(IEnumerable<Job> jobs, IEnumerable<int> lineItemIds)
+        public PatchSummary Map(IEnumerable<Job> jobs, IEnumerable<int> lineItemIds)
         {
-            var summary = new BulkEditSummary();
+            var summary = new PatchSummary();
             foreach (var job in jobs)
             {
                 summary.Items.Add(Map(job, job.LineItems.Where(x => lineItemIds.Contains(x.Id)).ToArray()));
@@ -30,9 +30,9 @@
             return summary;
         }
 
-        public BulkEditItem Map(Job job, LineItem[] lineItems)
+        public PatchSummaryItem Map(Job job, LineItem[] lineItems)
         {
-            var item = new BulkEditItem
+            var item = new PatchSummaryItem
             {
                 JobId = job.Id,
                 Invoice = job.InvoiceNumber,

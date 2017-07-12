@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Transactions;
     using Contracts;
@@ -9,31 +11,48 @@
     using Domain.Enums;
     using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
-    public class InvoicedJobService
+    public class ManualCompletionService : IManualCompletionService
     {
         private readonly IJobService jobService;
         private readonly IEpodUpdateService epodUpdateService;
 
-        public InvoicedJobService(IJobService jobService, IEpodUpdateService epodUpdateService)
+        public IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type)
+        {
+            switch (type)
+            {
+                case ManualCompletionType.CompleteAsClean:
+                    return CompleteAsClean(jobIds);
+                case ManualCompletionType.CompleteAsBypassed:
+                    return CompleteAsBypassed(jobIds);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public ManualCompletionService(IJobService jobService, IEpodUpdateService epodUpdateService)
         {
             this.jobService = jobService;
             this.epodUpdateService = epodUpdateService;
         }
 
-        public void MarkAsBypassed(IEnumerable<int> jobIds)
+        public IEnumerable<Job> CompleteAsBypassed(IEnumerable<int> jobIds)
         {
-            ManuallyCompleteJobs(jobIds, MarkAsBypassed);
+            return ManuallyCompleteJobs(jobIds, MarkAsBypassed);
         }
 
-        public void MarkAsComplete(IEnumerable<int> jobIds)
+        public IEnumerable<Job> CompleteAsClean(IEnumerable<int> jobIds)
         {
-            ManuallyCompleteJobs(jobIds, MarkAsComplete);
+            return ManuallyCompleteJobs(jobIds, MarkAsComplete);
         }
 
-        public void ManuallyCompleteJobs(IEnumerable<int> jobIds, Action<IEnumerable<Job>> actionJobs)
+
+
+        public IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, Action<IEnumerable<Job>> actionJobs)
         {
             List<Job> invoicedJobs = GetInvoicedJobsWithRoute(jobIds);
             actionJobs(invoicedJobs);
+
+            List<Job> completedJobs = new List<Job>();
 
             foreach (var job in invoicedJobs)
             {
@@ -43,10 +62,11 @@
                 using (var transactionScope = new TransactionScope())
                 {
                     epodUpdateService.UpdateJob(dto, job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
-                    epodUpdateService.RunPostInvoicedProcessing(new List<int> { job.Id });
+                    completedJobs.AddRange(epodUpdateService.RunPostInvoicedProcessing(new List<int> { job.Id }));
                     transactionScope.Complete();
                 }
             }
+            return completedJobs;
         }
 
         private void MarkAsBypassed(IEnumerable<Job> invoicedJobs)

@@ -28,7 +28,7 @@
         private readonly IRouteMapper routeMapper;
         private readonly IJobService jobService;
         private readonly IPostImportRepository postImportRepository;
-        private readonly IJobResolutionStatus jobResolutionStatus;
+        private readonly IGetJobResolutionStatus jobResolutionStatus;
         private readonly IDateThresholdService dateThresholdService;
         private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
@@ -45,7 +45,7 @@
             IRouteMapper mapper,
             IJobService jobService,
             IPostImportRepository postImportRepository,
-            IJobResolutionStatus jobResolutionStatus,
+            IGetJobResolutionStatus jobResolutionStatus,
             IDateThresholdService dateThresholdService)
         {
             this.logger = logger;
@@ -115,9 +115,9 @@
             RunPostInvoicedProcessing(updatedJobIds);
         }
 
-        public void RunPostInvoicedProcessing(List<int> updatedJobIds)
+        public IEnumerable<Job> RunPostInvoicedProcessing(List<int> updatedJobIds)
         {
-
+            var jobs = new List<Job>();
             if (updatedJobIds == null)
             {
                 throw new ArgumentNullException(nameof(updatedJobIds));
@@ -146,8 +146,12 @@
 
                     this.jobRepository.Update(job);
                     this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+
+                    jobs.Add(job);
                 }
             }
+
+            return jobs;
         }
 
         private List<int> UpdateStops(RouteHeader routeHeader, int branchId)

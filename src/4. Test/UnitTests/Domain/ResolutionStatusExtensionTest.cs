@@ -19,7 +19,7 @@
                         || resolutionStatus.Value == ResolutionStatus.ActionRequired
                         || resolutionStatus.Value == ResolutionStatus.PendingSubmission
                         || resolutionStatus.Value == ResolutionStatus.PendingApproval
-                        || resolutionStatus.Value == ResolutionStatus.CompletedByWell
+                        || resolutionStatus.Value == ResolutionStatus.ManuallyCompleted
                         )
                     {
                         Assert.True(resolutionStatus.IsEditable());

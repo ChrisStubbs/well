@@ -20,7 +20,7 @@
             { 64, new ResolutionStatus(64, "Credited")},
             { 128, new ResolutionStatus(128, "Resolved")},
             { 256, new ResolutionStatus(256, "Closed")},
-            { 512, new ResolutionStatus(512, "Completed By Well")},
+            { 512, new ResolutionStatus(512, "Manually Completed")},
         };
 
         private static List<int> groupableValues = new List<int>() { 2, 64, 128, 256 };
@@ -63,7 +63,7 @@
             }
         }
 
-        public static ResolutionStatus CompletedByWell
+        public static ResolutionStatus ManuallyCompleted
         {
             get
             {

@@ -219,6 +219,11 @@
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionRequest.ts" />
+    <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionService.ts" />
+    <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionModal.ts" />
+    <TypeScriptCompile Include="app\shared\models\jobIdResolutionStatus.ts" />
+    <TypeScriptCompile Include="app\shared\models\patchSummary.ts" />
     <TypeScriptCompile Include="app\shared\action\submitActionModal.ts" />
     <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
@@ -251,6 +256,7 @@
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpersFunctions.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\IFilter.ts" />
     <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
+    <TypeScriptCompile Include="app\shared\models\resolutionStatus.ts" />
     <TypeScriptCompile Include="app\shared\selectYeNoFilterComponent.ts" />
     <TypeScriptCompile Include="app\shared\services\ILookupValue.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupsEnum.ts" />
@@ -293,6 +299,7 @@
     <Content Include="app\shared\components\accountFlagsComponent.html" />
     <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\loading.html" />
+    <Content Include="app\shared\manualCompletion\manualCompletionModal.html" />
     <Content Include="app\stops\stopComponent.html" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\theme.css" />

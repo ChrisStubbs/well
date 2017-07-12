@@ -14,14 +14,24 @@
         {
             get
             {
-                return Items.Any() 
-                    ? (Items.Count==1) 
-                        ?  $"One job with a total value of £{Items.Sum(x => x.TotalValue)} selected" 
-                        :  $"{Items.Count} jobs with a total value of £{Items.Sum(x => x.TotalValue)} selected"
-                    :"No editable exceptions selected";
+                return Items.Any()
+                    ? (Items.Count == 1)
+                        ? $"One job with a total exception value of £{Items.Sum(x => x.TotalExceptionValue)} selected"
+                        : $"{Items.Count} jobs with a total exception value of £{Items.Sum(x => x.TotalExceptionValue)} selected"
+                    : "No editable exceptions selected";
             }
         }
-            
+
+        public string ManuallyCompleteMessage => NoOfJobs > 0
+            ? (Items.Count == 1)
+                ? $"One job with a total order value of £{TotalDispatchedValue} selected"
+                : $"{Items.Count} jobs with a total order value of £{TotalDispatchedValue} selected"
+            : "No jobs that can be manually completed selected ";
+
+        public int NoOfJobs => Items.Count;
+        public int TotalDispatchedQuantity => Items.Sum(x => x.TotalDispatchedQuantity);
+        public decimal TotalDispatchedValue => Items.Sum(x => x.TotalDispatchedValue);
+
         public IList<PatchSummaryItem> Items { get; set; }
     }
 }

@@ -4,9 +4,10 @@ import { IObservableAlive } from '../IObservableAlive';
 import { LookupsEnum } from '../services/lookupsEnum';
 import { Observable } from 'rxjs';
 import { ILookupValue } from '../services/ILookupValue';
-import { IBulkEditSummary, IBulkEditItem, IBulkEditPatchRequest, IBulkEditResult } from './bulkEditItem';
+import { IBulkEditPatchRequest, IBulkEditResult } from './bulkEditItem';
 import { BulkEditService } from './bulkEditService';
 import { NgForm } from '@angular/forms';
+import { IPatchSummary, IPatchSummaryItem } from '../models/patchSummary';
 
 @Component({
     selector: 'bulk-edit-action-modal',
@@ -24,7 +25,7 @@ export class BulkEditActionModal implements IObservableAlive
     private reason: number = 0;
     private message: string;
 
-    private editItems: IBulkEditItem[] = [];
+    private editItems: IPatchSummaryItem[] = [];
     @Input() public jobIds: number[] = [];
     @Input() public lineItemIds: number[] = [];
     @Output() public onSave = new EventEmitter<IBulkEditResult>();
@@ -70,7 +71,7 @@ export class BulkEditActionModal implements IObservableAlive
 
     private populateEditItems()
     {
-        let observable: Observable<IBulkEditSummary>;
+        let observable: Observable<IPatchSummary>;
         if (this.lineItemIds.length > 0)
         {
             observable = this.bulkEditService.getSummaryForLineItems(this.lineItemIds);
@@ -82,7 +83,7 @@ export class BulkEditActionModal implements IObservableAlive
         {
             observable
                 .takeWhile(() => this.isAlive)
-                .subscribe((summary: IBulkEditSummary) =>
+                .subscribe((summary: IPatchSummary) =>
                 {
                     this.message = summary.message;
                     this.editItems = summary.items;

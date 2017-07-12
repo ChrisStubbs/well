@@ -125,8 +125,8 @@
             public void ShouldSetResolutionStatusCompletedByWell()
             {
                 manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
-                Assert.That(job1.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
-                Assert.That(job2.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
+                Assert.That(job1.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
+                Assert.That(job2.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
             }
 
             [Test]

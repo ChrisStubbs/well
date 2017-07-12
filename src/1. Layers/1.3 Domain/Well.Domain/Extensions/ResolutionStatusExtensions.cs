@@ -11,7 +11,7 @@
             ResolutionStatus.ActionRequired,
             ResolutionStatus.PendingSubmission,
             ResolutionStatus.PendingApproval,
-            ResolutionStatus.CompletedByWell,
+            ResolutionStatus.ManuallyCompleted,
         };
 
         public static bool IsEditable(this ResolutionStatus resolutionStatus)

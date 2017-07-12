@@ -97,7 +97,7 @@ import { ActivityComponent, ActivityService } from './activity/activity';
 import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
 import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
-import { SingleLocationComponent, LocationsService } from './locations/locations';
+import { SingleLocationComponent, LocationsService, LocationsComponent } from './locations/locations';
 import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
 
 @NgModule({
@@ -115,7 +115,7 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
         SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent, ManualCompletionModal
+        SingleLocationComponent, LocationsComponent, ManualCompletionModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

@@ -78,7 +78,7 @@
                                 </select>
                             </div>
                         </th>
-                        <th (click)="sortData('dateSubmittedFormatted', $event)" [style.background-color]="isSortedBy('dateSubmittedFormatted') ? '#bfbfbf': ''">
+                        <th (click)="sortData('dateSubmitted', $event)" [style.background-color]="isSortedBy('dateSubmittedFormatted') ? '#bfbfbf': ''">
                             <div class="text-center">Date Submitted &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('dateSubmittedFormatted')" aria-hidden="true"></span></div>
                             <div>
                                 <input type="date" [(ngModel)]="filters.dateSubmittedFormatted" (change)="fillGridSource()" class="form-control">

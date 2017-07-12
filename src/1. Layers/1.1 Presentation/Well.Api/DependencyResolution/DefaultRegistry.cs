@@ -126,6 +126,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IBulkEditService>().Use<BulkEditService>();
             For<IBulkEditSummaryMapper>().Use<BulkEditSummaryMapper>();
             For <IPostImportRepository>().Use<PostImportRepository>();
+
+            For<ICommentReasonRepository>().Use<CommentReasonRepository>();
         }
     }
 }

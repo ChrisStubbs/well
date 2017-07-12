@@ -54,7 +54,7 @@ namespace PH.Well.Services
                     return this.GetWellStatus().ToList();
 
                 case LookupType.CommentReason:
-                    return this.lookupRepository.CommentReason().OrderBy(x => x.Value).ToList();
+                    return this.lookupRepository.CommentReason();
 
                 case LookupType.ResolutionStatus:
                     return this.GetResolutionStatus();

@@ -74,10 +74,12 @@
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
     <Compile Include="CleanPreferenceRepository.cs" />
+    <Compile Include="CommentReasonRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IActivityReadRepository.cs" />
     <Compile Include="Contracts\IActivityRepository.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
+    <Compile Include="Contracts\ICommentReasonRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />

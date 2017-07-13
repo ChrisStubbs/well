@@ -27,7 +27,7 @@ import { ManualCompletionModal } from '../shared/manualCompletion/manualCompleti
 import {AccountReference} from '../shared/crm/crmLinkPipe';
 import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
 import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
-import {SubmitActionModal} from '../shared/action/submitActionModal';
+import { SubmitActionModal } from '../shared/action/submitActionModal';
 
 @Component({
     selector: 'ow-stop',

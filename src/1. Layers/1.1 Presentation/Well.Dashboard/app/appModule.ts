@@ -81,7 +81,7 @@ import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DateComponent, SplitButtonComponent } from './shared/shared';
+import { DateComponent, ButtonDropDownComponent } from './shared/shared';
 import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import { StopComponent } from './stops/stopComponent';
@@ -113,7 +113,7 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
         RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
+        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, ButtonDropDownComponent, StopComponent, SelectYeNoFilterComponent,
         SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
         SingleLocationComponent, ManualCompletionModal
     ],

@@ -62,7 +62,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                     </div>
-                    <div class="btn-group">
+                    <!--<div class="btn-group">
                         <button type="button" class="btn btn-default" (click)="manuallyComplete()" [disabled]="disableBulkEdit()">Complete</button>
                     </div>
                     <div class="btn-group">
@@ -70,10 +70,8 @@
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="disableBulkEdit()">Edit Exceptions</button>
-                    </div>
-                    <div class="btn-group">
-                        <submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>
-                    </div>
+                    </div>-->
+                    <ow-button-dropdown [options]="actionOptions" [disabled]="disableBulkEdit()" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
                 </div>
             </div>
         </div>
@@ -239,7 +237,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Account: </label>
-                                    <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: item.account, branchId: stop.branchId}">{{item.account}}</a>
+                                    <a [routerLink]="['/singlelocation']" [queryParams]="{accountNumber: item.account, branchId: stop.branchId}">{{item.account}}</a>
                                     <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
@@ -297,3 +295,4 @@
 <contact-modal></contact-modal>
 <bulk-edit-action-modal [lineItemIds]="selectedLineItems()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>
 <manual-completion-Modal [jobIds]="getSelectedJobIds()" (onSubmitted)="manualCompletionSubmitted($event)"></manual-completion-Modal>
+<submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>

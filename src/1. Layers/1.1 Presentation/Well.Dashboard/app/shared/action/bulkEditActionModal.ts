@@ -30,10 +30,8 @@ export class BulkEditActionModal implements IObservableAlive
     @Input() public lineItemIds: number[] = [];
     @Output() public onSave = new EventEmitter<IBulkEditResult>();
 
-    @ViewChild('showBulkAddModal')
-    public showModal: ElementRef;
-    @ViewChild('closeBulkAddModal')
-    public closeModal: ElementRef;
+    @ViewChild('showBulkAddModal') public showModal: ElementRef;
+    @ViewChild('closeBulkAddModal') public closeModal: ElementRef;
     @ViewChild('bulkEditActionForm') private currentForm: NgForm;
 
     constructor(

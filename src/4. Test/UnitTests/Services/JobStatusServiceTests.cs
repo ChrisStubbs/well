@@ -27,9 +27,11 @@ namespace PH.Well.UnitTests.Services
         private JobService service;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IAssigneeReadRepository> assigneeReadRepository;
-        private Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
-        private Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
-        private Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+        private readonly Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
+        private readonly Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
+        private readonly Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+        private readonly Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
+
         [SetUp]
         public void Setup()
         {
@@ -41,12 +43,19 @@ namespace PH.Well.UnitTests.Services
 
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             this.assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
 
             assigneeReadRepository.Setup(p => p.GetByJobId(It.IsAny<int>())).Returns(new Assignee { IdentityName = "User" });
 
-            this.service = new JobService(this.jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object, lineItemRepository.Object);
+            this.service = new JobService(this.jobRepository.Object, 
+                userThreshold.Object, 
+                dateThresholdService.Object, 
+                assigneeReadRepository.Object, 
+                lineItemRepository.Object,
+                userNameProvider.Object,
+                userRepository.Object);
 
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+           
         }
 
         public class TheDetermineStatusMethod : JobServiceTests

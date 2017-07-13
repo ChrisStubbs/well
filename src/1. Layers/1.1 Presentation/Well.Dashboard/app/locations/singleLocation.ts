@@ -28,6 +28,7 @@ export class SingleLocationGroup
     public totalCredit: number;
     public details: Array<SingleLocation>;
     public isExpanded: boolean;
+    public isInvoice: boolean;
 }
 
 export class SingleLocation
@@ -63,6 +64,7 @@ export class SingleLocation
     public assignee: string;
     public resolution: string;
     public resolutionId: number;
+    public isInvoice: boolean;
 }
 
 export class SingleLocationFilter implements IFilter
@@ -71,7 +73,7 @@ export class SingleLocationFilter implements IFilter
     {
         this.driver = '';
         this.dateFormatted = '';
-        this.jobType = undefined;
+        this.jobTypeId = undefined;
         this.jobStatus = undefined;
         this.exceptions = undefined;
         this.clean = undefined;
@@ -81,7 +83,7 @@ export class SingleLocationFilter implements IFilter
 
     public driver: string;
     public dateFormatted: string;
-    public jobType: string;
+    public jobTypeId: string;
     public jobStatus: string;
     public exceptions: boolean;
     public clean: boolean;
@@ -93,10 +95,15 @@ export class SingleLocationFilter implements IFilter
         switch (filterName) {
             case 'driver':
             case 'dateFormatted':
-            case 'jobType':
             case 'jobStatus':
             case 'assignee':
                 return GridHelpersFunctions.isEqualFilter;
+
+            case 'jobTypeId':
+                return (value: number, value2: string) =>
+                {
+                    return GridHelpersFunctions.isEqualFilter(value, +value2);
+                };
 
             case 'exceptions':
             case 'clean':

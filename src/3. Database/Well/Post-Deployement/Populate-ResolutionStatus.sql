@@ -12,10 +12,15 @@ USING	(VALUES	(1,			'Imported'),
 				(256 | 2,   'Closed - Driver Completed'),
 				(256 | 64,  'Closed - Credited'),
 				(256 | 128, 'Closed - Resolved'),
-				(512,		'Completed by Well')
+				(512,		'Manually Completed')
 		)
 AS Source (Id, [Description])
 	ON Target.Id = Source.Id
+WHEN MATCHED 
+	AND (Target.Description != Source.Description)
+	THEN
+	UPDATE SET 
+			[Description]		= Source.[Description]
 
 WHEN NOT MATCHED BY TARGET THEN
 	INSERT (Id, [Description])

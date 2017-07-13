@@ -41,7 +41,9 @@
                 ShortQuantity = lineItems.Sum(li => li.TotalShortQty),
                 BypassQuantity = lineItems.Sum(li => li.TotalBypassQty),
                 DamageQuantity = lineItems.Sum(li => li.TotalDamageQty),
-                TotalValue = lineItems.Sum(li => li.TotalActionValue)
+                TotalExceptionValue = lineItems.Sum(li => li.TotalActionValue),
+                TotalDispatchedQuantity = job.JobDetails.Sum(jd=> jd.OriginalDespatchQty),
+                TotalDispatchedValue = job.JobDetails.Sum(jd=> jd.OriginalDespatchQty * jd.NetPrice??0)
             };
             return item;
         }

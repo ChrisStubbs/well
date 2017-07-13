@@ -27,8 +27,8 @@ AS
 		rh.RouteDate AS [Date],
 		jt.Id AS JobTypeId,
 		jt.Description AS JobType,
-		js.Id AS JobStatusId,
-		js.Description as JobStatus,
+		js.WellStatusId AS JobStatusId,
+		'' AS JobStatus,
 		CONVERT(Bit, CASE WHEN ISNULL(j.COD, '') = '' THEN 0 ELSE 1 END) AS Cod,
 		CONVERT(Bit, CASE WHEN j.ProofOfDelivery IS NULL THEN 0 ELSE 0 END) AS Pod,
 		ISNULL(ex.Exceptions, 0) AS Exceptions,
@@ -39,9 +39,13 @@ AS
 		END AS TBA,
 		credit.CreditValue AS Credit,
 		j.ResolutionStatusId AS ResolutionStatus,
-		j.InvoiceNumber as Invoice
+		j.InvoiceNumber as Invoice,
+		j.Id as JobId,
+		CONVERT(Bit, CASE WHEN a.ActivityTypeId = dbo.ActivityType_Invoice() THEN 1 ELSE 0 END) AS IsInvoice
 	FROM 
-		Job j
+		Job j 
+		INNER JOIN JobStatusView js 
+			ON js.JobId = j.Id
 		INNER JOIN Activity a
 			ON j.ActivityId = a.Id
 			AND j.DateDeleted IS NULL
@@ -56,8 +60,6 @@ AS
 		INNER JOIN JobType jt
 			ON j.JobTypeCode = jt.Code
 			AND jt.code != 'DEL-DOC'
-		INNER JOIN JobStatus js
-			ON j.JobStatusId = js.Id
 		LEFT JOIN
 		(
 			SELECT 

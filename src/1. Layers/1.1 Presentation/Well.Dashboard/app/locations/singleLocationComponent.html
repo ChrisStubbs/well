@@ -2,43 +2,53 @@
     <div class="row">
         <div class="col-md-5">
             <div class="row">
-                <label class="col-md-4">Branch</label>
-                <div class="col-md-8">{{source.branch}} ({{source.branchId}})</div>
-            </div>
-            <div class="row">
-                <label class="col-md-4">
-                    P.O.D.<a href="" title="Proof of delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
-                </label>
-                <div class="col-md-8">
-                    <span *ngIf="source.pod; else noPod">Yes</span>
-                    <ng-template #noPod>No</ng-template>
+                <div class="col-md-12">
+                    <label>Branch: </label>
+                    <span>{{source.branch}} ({{source.branchId}})</span>
                 </div>
             </div>
             <div class="row">
-                <label class="col-md-4">
-                    C.O.D.<a href="" title="Cash on delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
-                </label>
-                <div class="col-md-8">
-                    <span *ngIf="source.cod; else noCod">Yes</span>
-                    <ng-template #noCod>No</ng-template>
+                <div class="col-md-12">
+                    <label>
+                        P.O.D.: <a href="" title="Proof of delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
+                    </label>
+                    <span>
+                        <span *ngIf="source.pod; else noPod">Yes</span>
+                        <ng-template #noPod>No</ng-template>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>
+                        C.O.D.:<a href="" title="Cash on delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
+                    </label>
+                    <span>
+                        <span *ngIf="source.cod; else noCod">Yes</span>
+                        <ng-template #noCod>No</ng-template>
+                    </span>
                 </div>
             </div>
         </div>
         <div class="col-md-7">
             <div class="row">
-                <label class="col-md-4 col-form-label">Account Number</label>
-                <div class="col-md-8">
-                    {{source.accountNumber}}
+                <div class="col-md-12">
+                    <label class=" col-form-label">Account Number:</label>
+                    <span>{{source.accountNumber}}</span>
                     <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
                 </div>
             </div>
             <div class="row">
-                <label class="col-md-4 col-form-label">Account Name</label>
-                <div class="col-md-8">{{source.accountName}}</div>
+                <div class="col-md-12">
+                    <label class="col-form-label">Account Name:</label>
+                    <span>{{source.accountName}}</span>
+                </div>
             </div>
             <div class="row">
-                <label class="col-md-4 col-form-label">Account Address</label>
-                <div class="col-md-8">{{source.accountAddress}}</div>
+                <div class="col-md-12">
+                    <label class="col-form-label">Account Address:</label>
+                    <span>{{source.accountAddress}}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -74,7 +84,7 @@
                             </ng-template>
                         </a>
                     </th>
-                    <th  style="width: 9%">
+                    <th  style="width: 11%">
                         <div class="text-center">Driver</div>
                         <div>
                             <select class="form-control" [(ngModel)]="filters.driver" (change)="buildGridSource()" title="">
@@ -85,18 +95,18 @@
                             </select>
                         </div>
                     </th>
-                    <th style="width: 10%">
+                    <th style="width: 14%">
                         <div class="text-center">Date</div>
                         <div>
                             <input type="date" [(ngModel)]="filters.dateFormatted" (change)="buildGridSource()" class="form-control">
                         </div>
                     </th>
-                    <th  style="width: 8%">
+                    <th  style="width: 10%">
                         <div class="text-center">Job Type</div>
                         <div>
-                            <select class="form-control" [(ngModel)]="filters.jobType" (change)="buildGridSource()" title="">
+                            <select class="form-control" [(ngModel)]="filters.jobTypeId" (change)="buildGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
+                                <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
                                     {{ jobType.value }}
                                 </option>
                             </select>
@@ -107,15 +117,11 @@
                         <div>
                             <select class="form-control" [(ngModel)]="filters.jobStatus" (change)="buildGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let js of jobStatus" [value]="js.value">
+                                <option *ngFor="let js of wellStatus" [value]="js.value">
                                     {{ js.value }}
                                 </option>
                             </select>
                         </div>
-                    </th>
-                    <th style="width: 8%">
-                        <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
-                        <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                     </th>
                     <th style="width: 7%">
                         <div class="text-center">Damages</div>
@@ -176,8 +182,11 @@
                                     <span class="fa" [class.fa-arrow-circle-down]="item.isExpanded" [class.fa-arrow-circle-right]="!item.isExpanded"></span>
                                 </a>
                             </td>
-                            <td colspan="5">
-                                <a [routerLink]="['invoice', item.invoice, source.branchId]">{{item.invoice}}</a>
+                            <td colspan="4">
+                                <div *ngIf="item.isInvoice; then isInvoice else notInvoice"></div>
+                                <ng-template #isInvoice><label>Invoice: </label></ng-template>
+                                <ng-template #notInvoice><label>Uplift: </label></ng-template>
+                                <a [routerLink]="['/invoice', item.invoice, source.branchId]">{{item.invoice}}</a>
                             </td>
                             <td class="text-right">{{item.totalException}}</td>
                             <td class="text-right">{{item.totalClean}}</td>
@@ -191,15 +200,12 @@
                             <td>{{detail.date | date:'dd MMM yyyy'}}</td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.jobStatus}}</td>
-                            <td>
-                                <ow-account-flags [isCashOnDelivery]="detail.cod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
-                            </td>
                             <td class="text-right">{{detail.exceptions}}</td>
                             <td class="text-right">{{detail.clean}}</td>
                             <td class="text-right">{{detail.tba}}</td>
                             <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
                             <td>
-                                <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
+                                <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(detail)"></assign-modal>
                             </td>
                             <td>{{detail.resolution}}</td>
                             <td>
@@ -209,6 +215,9 @@
                     </ng-container>
                 </tbody>
             </table>
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
     </div>
 </div>

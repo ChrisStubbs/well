@@ -35,6 +35,7 @@
                 <div class="col-md-12">
                     <label class=" col-form-label">Account Number:</label>
                     <span>{{source.accountNumber}}</span>
+                    <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
                 </div>
             </div>
             <div class="row">
@@ -116,8 +117,8 @@
                         <div>
                             <select class="form-control" [(ngModel)]="filters.jobStatus" (change)="buildGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let js of jobStatus" [value]="js">
-                                    {{ js }}
+                                <option *ngFor="let js of wellStatus" [value]="js.value">
+                                    {{ js.value }}
                                 </option>
                             </select>
                         </div>
@@ -214,6 +215,9 @@
                     </ng-container>
                 </tbody>
             </table>
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
     </div>
 </div>

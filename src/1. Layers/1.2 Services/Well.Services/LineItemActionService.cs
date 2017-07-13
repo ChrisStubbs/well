@@ -55,7 +55,7 @@ namespace PH.Well.Services
                 {
                     var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
 
-                    // Create default comment for close action
+                    // Create default comment for close action every time when action is saved
                     if (action.DeliveryAction == DeliveryAction.Close)
                     {
                         var defaultCommentReason = commentReasonRepository.GetAll().Single(x => x.IsDefault);

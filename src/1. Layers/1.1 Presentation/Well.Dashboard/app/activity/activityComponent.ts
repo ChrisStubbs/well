@@ -28,6 +28,7 @@ import { BulkEditActionModal }                                  from '../shared/
 import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import { AccountReference } from '../shared/crm/crmLinkPipe';
 
 @Component({
     selector: 'ow-activity',
@@ -68,6 +69,7 @@ export class ActivityComponent implements IObservableAlive
     private inputFilterTimer: any;
     private jobTypes: Array<ILookupValue> = [];
     private tobaccoBags: Array<[string, string]>;
+    private accountReference: AccountReference = new AccountReference('', 0);
 
     constructor(
         private lookupService: LookupService,
@@ -96,6 +98,8 @@ export class ActivityComponent implements IObservableAlive
                 this.resolutionStatuses = res[0];
                 this.source = res[1];
                 this.buildGridSource();
+
+                this.accountReference = new AccountReference(this.source.accountNumber, this.source.branchId);
 
                 this.tobaccoBags = _.chain(this.source.details)
                     .map((value: ActivitySourceDetail) => [value.barCodeFilter, value.tobacco])

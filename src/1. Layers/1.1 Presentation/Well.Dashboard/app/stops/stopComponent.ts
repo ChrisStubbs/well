@@ -24,6 +24,7 @@ import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
 import { IBulkEditResult } from '../shared/action/bulkEditItem';
 import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
+import {AccountReference} from '../shared/crm/crmLinkPipe';
 import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
 import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
 import {SubmitActionModal} from '../shared/action/submitActionModal';
@@ -80,6 +81,7 @@ export class StopComponent implements IObservableAlive
     private customerAccount: IAccount = new IAccount();
     private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
         'Edit Exceptions', 'Submit Exceptions'];
+    private accountReference: AccountReference = new AccountReference('', 0);
     constructor(
         private stopService: StopService,
         private route: ActivatedRoute,
@@ -155,6 +157,8 @@ export class StopComponent implements IObservableAlive
                     .subscribe(account =>
                     {
                         this.customerAccount = account;
+
+                        this.accountReference = new AccountReference(this.customerAccount.code, this.stop.branchId);
                     });
             });
     }

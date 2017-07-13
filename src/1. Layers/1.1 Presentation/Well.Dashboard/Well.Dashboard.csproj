@@ -298,6 +298,7 @@
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />
     <Content Include="app\shared\components\assign-modal.html" />
+    <Content Include="app\shared\buttonDropDownComponent.html" />
     <Content Include="app\shared\loading.html" />
     <Content Include="app\shared\manualCompletion\manualCompletionModal.html" />
     <Content Include="app\stops\stopComponent.html" />
@@ -596,7 +597,7 @@
     <TypeScriptCompile Include="app\shared\OrderByExecutor.ts" />
     <TypeScriptCompile Include="app\shared\orderByPipe.ts" />
     <TypeScriptCompile Include="app\shared\shared.ts" />
-    <TypeScriptCompile Include="app\shared\splitButtonComponent.ts" />
+    <TypeScriptCompile Include="app\shared\buttonDropDownComponent.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

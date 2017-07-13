@@ -67,7 +67,7 @@ export class SingleLocationComponent implements IObservableAlive
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
                     this.lookupService.get(LookupsEnum.JobType),
-                    this.locationsService.getSingleRoute(data.id, data.accountNumber, <number>data.branchId),
+                    this.locationsService.getSingleLocation(data.id, data.accountNumber, <number>data.branchId),
                     this.lookupService.get(LookupsEnum.WellStatus)
                 );
             })

@@ -29,7 +29,7 @@ export class GridHelpersFunctions
     public static startsWithFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {
         const filterValues = new StringFilterValuePair(value, value2);
-        return _.startsWith(filterValues.value2(), filterValues.value1());
+        return _.startsWith(filterValues.value1(), filterValues.value2());
     }
 
     public static containsFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>

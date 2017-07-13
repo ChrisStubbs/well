@@ -128,3 +128,68 @@ export class SingleLocationFilter implements IFilter
         return undefined;
     }
 }
+
+export class Locations
+{
+    public branch: string;
+    public branchId: number;
+    public primaryAccountNumber: string;
+    public accountNumber: string;
+    public accountName: string;
+    public address: string;
+    public totalInvoices: number;
+    public exceptions: number;
+    public get cleans(): number
+    {
+        return this.totalInvoices - this.exceptions;
+    }
+}
+
+export class LocationFilter implements  IFilter
+{
+    constructor()
+    {
+        this.primaryAccountNumber = '';
+        this.accountNumber = '';
+        this.accountName = '';
+        this.address = '';
+        this.exceptions = undefined;
+        this.cleans = undefined;
+    }
+
+    public primaryAccountNumber: string;
+    public accountNumber: string;
+    public accountName: string;
+    public address: string;
+    public exceptions: boolean;
+    public cleans: boolean;
+
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
+    {
+        switch (filterName)
+        {
+            case 'accountNumber':
+            case 'primaryAccountNumber':
+                return GridHelpersFunctions.startsWithFilter;
+
+            case 'accountName':
+            case 'address':
+                return GridHelpersFunctions.containsFilter;
+
+            case 'exceptions':
+            case 'cleans':
+                return (value: number, value2?: boolean) => {
+                    if (_.isNull(value2)) {
+                        return true;
+                    }
+                    if (value2.toString() == 'true') {
+                        return value > 0;
+                    }
+
+                    return value == 0;
+                };
+        }
+
+        throw new Error('Method not implemented.');
+    }
+}

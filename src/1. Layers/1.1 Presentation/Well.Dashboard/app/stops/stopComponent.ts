@@ -79,8 +79,8 @@ export class StopComponent implements IObservableAlive
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
     private customerAccount: IAccount = new IAccount();
-    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
-        'Edit Exceptions', 'Submit Exceptions'];
+    private actionOptions: string[] = [ 'Manually Complete', 'Manually Bypass',
+                                        'Edit Exceptions', 'Submit Exceptions'];
     private accountReference: AccountReference = new AccountReference('', 0);
     constructor(
         private stopService: StopService,

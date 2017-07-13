@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -46,6 +47,7 @@
 
                 var jobList = new List<Job> { job, job2 };
 
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
                 manualCompletionService.CompleteAsBypassed(jobIds);
 
@@ -71,6 +73,7 @@
 
                 var jobList = new List<Job> { job, job2 };
 
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
 
                 manualCompletionService.CompleteAsClean(jobIds);
@@ -108,6 +111,7 @@
 
                 jobList = new List<Job> { job1, job2, job3 };
 
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
             }
 
@@ -140,6 +144,54 @@
             }
 
             private void DoNothingAction(IEnumerable<Job> invoicedJobs) { }
+        }
+
+        public class TheGetJobsAvailableForCompletionMethod : ManualCompletionServiceTests
+        {
+            private Job job1;
+            private Job job2;
+            private Job job3;
+
+            public override void SetUp()
+            {
+                base.SetUp();
+                job1 = JobFactory.New.With(x => x.WellStatus = WellStatus.Invoiced).Build();
+                job2 = JobFactory.New.With(x => x.WellStatus = WellStatus.Invoiced).Build();
+                job3 = JobFactory.New.With(x => x.WellStatus = WellStatus.Invoiced).Build();
+            }
+
+            [Test]
+            public void ShouldCallGetJobIdsAssignedToCurrentUserAndPassToGetJobsWithRoute()
+            {
+                var jobIds = new[] {1, 2, 3};
+
+                var jobList = new List<Job> {job1, job2, job3};
+
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(new[] {1, 3});
+                jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(jobList);
+                manualCompletionService.GetJobsAvailableForCompletion(jobIds);
+
+                jobService.Verify(x => x.GetJobsIdsAssignedToCurrentUser(It.IsAny<IEnumerable<int>>()), Times.Once);
+                jobService.Verify(x => x.GetJobsIdsAssignedToCurrentUser(jobIds), Times.Once);
+                jobService.Verify(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>()), Times.Once);
+                jobService.Verify(x => x.GetJobsWithRoute(It.Is<IEnumerable<int>>(
+                    ids => ids.Count() == 2 && ids.ToList()[0] == 1 && ids.ToList()[1] == 3)), Times.Once);
+            }
+
+            [Test]
+            public void ShouldFilterJobListByInvoiced()
+            {
+                var jobIds = new[] { 1, 2, 3 };
+
+                var jobList = new List<Job> { job1, job2, job3 };
+
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(new[] { 1, 3 });
+                jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(jobList);
+                var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(jobIds);
+
+                Assert.True(jobsAvailableForCompletion.All(x=> x.WellStatus == WellStatus.Invoiced));
+              
+            }
         }
 
         public class InvoicedJobServiceManualIntegrationTests : ManualCompletionServiceTests

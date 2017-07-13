@@ -1,9 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System;
-    using System.CodeDom;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Transactions;
     using Contracts;
@@ -85,7 +83,8 @@
 
         public IEnumerable<Job> GetJobsAvailableForCompletion(IEnumerable<int> jobIds)
         {
-            return jobService.GetJobsWithRoute(jobIds).Where(x => x.WellStatus == WellStatus.Invoiced).ToList();
+            IEnumerable<int> userJobsIds = jobService.GetJobsIdsAssignedToCurrentUser(jobIds);
+            return jobService.GetJobsWithRoute(userJobsIds).Where(x => x.WellStatus == WellStatus.Invoiced).ToList();
         }
 
     }

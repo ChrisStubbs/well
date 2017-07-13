@@ -14,5 +14,6 @@ namespace PH.Well.Services.Contracts
         void SetGrn(int jobId, string grn);
         Job PopulateLineItemsAndRoute(Job job);
         IEnumerable<Job> GetJobsWithRoute(IEnumerable<int> jobIds);
+        IEnumerable<int> GetJobsIdsAssignedToCurrentUser(IEnumerable<int> jobIds);
     }
 }

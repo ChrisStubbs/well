@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
+    using Common.Contracts;
     using Domain.Extensions;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
@@ -19,12 +20,17 @@
         private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> steps;
         private readonly IAssigneeReadRepository assigneeReadRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
+        private readonly IUserNameProvider userNameProvider;
+        private readonly IUserRepository userRepository;
 
         public JobService(IJobRepository jobRepository, 
             IUserThresholdService userThresholdService, 
             IDateThresholdService dateThresholdService,
             IAssigneeReadRepository assigneeReadRepository,
-            ILineItemSearchReadRepository lineItemRepository)
+            ILineItemSearchReadRepository lineItemRepository,
+            IUserNameProvider userNameProvider,
+            IUserRepository userRepository
+            )
         {
             this.jobRepository = jobRepository;
             this.evaluators = new List<Func<Job, ResolutionStatus>>();
@@ -33,6 +39,8 @@
             this.dateThresholdService = dateThresholdService;
             this.assigneeReadRepository = assigneeReadRepository;
             this.lineItemRepository = lineItemRepository;
+            this.userNameProvider = userNameProvider;
+            this.userRepository = userRepository;
         }
 
         #region IJobService
@@ -379,6 +387,8 @@
 
             return ResolutionStatus.Invalid;
         }
+        
+        #endregion
 
         public IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs)
         {
@@ -414,6 +424,13 @@
             return jobs;
         }
 
-        #endregion
+        public IEnumerable<int> GetJobsIdsAssignedToCurrentUser(IEnumerable<int> jobIds)
+        {
+            var username = this.userNameProvider.GetUserName();
+            var user = this.userRepository.GetByIdentity(username);
+            return userRepository.GetUserJobsByJobIds(jobIds)
+                .Where(x => x.UserId == user.Id).Select(x => x.JobId);
+        }
+
     }
 }

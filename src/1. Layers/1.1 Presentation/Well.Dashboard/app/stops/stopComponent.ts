@@ -24,8 +24,10 @@ import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
 import { IBulkEditResult } from '../shared/action/bulkEditItem';
 import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
+import {AccountReference} from '../shared/crm/crmLinkPipe';
 import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
 import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
+import { SubmitActionModal } from '../shared/action/submitActionModal';
 
 @Component({
     selector: 'ow-stop',
@@ -69,6 +71,7 @@ export class StopComponent implements IObservableAlive
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
     @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
@@ -76,7 +79,9 @@ export class StopComponent implements IObservableAlive
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
     private customerAccount: IAccount = new IAccount();
-
+    private actionOptions: string[] = [ 'Manually Complete', 'Manually Bypass',
+                                        'Edit Exceptions', 'Submit Exceptions'];
+    private accountReference: AccountReference = new AccountReference('', 0);
     constructor(
         private stopService: StopService,
         private route: ActivatedRoute,
@@ -86,7 +91,8 @@ export class StopComponent implements IObservableAlive
         private editExceptionsService: EditExceptionsService,
         private lookupService: LookupService) { }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void
+    {
 
         this.refreshStopFromApi();
 
@@ -151,8 +157,10 @@ export class StopComponent implements IObservableAlive
                     .subscribe(account =>
                     {
                         this.customerAccount = account;
+
+                        this.accountReference = new AccountReference(this.customerAccount.code, this.stop.branchId);
                     });
-            });    
+            });
     }
 
     public ngOnDestroy(): void
@@ -473,7 +481,8 @@ export class StopComponent implements IObservableAlive
         });
     }
 
-    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void {
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
+    {
         this.refreshStopFromApi();
     }
 
@@ -510,25 +519,31 @@ export class StopComponent implements IObservableAlive
         return GrnHelpers.isGrnRequired(item);
     }
 
-    private bulkEdit(): void
-    {
-        this.bulkEditActionModal.show();
-    }
-
     private disableBulkEdit(): boolean
     {
         return (this.selectedItems().length === 0
             || this.getAssignModel().assigned !== this.globalSettingsService.globalSettings.userName);
     }
 
-    private manuallyComplete(): void
+    private submitAction(action: string): void
     {
-        this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
-    }
-
-    private manuallyBypass(): void
-    {
-        this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+        switch (action)
+        {
+            case 'Manually Complete':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+                break;
+            case 'Manually Bypass':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+                break;
+            case 'Edit Exceptions':
+                this.bulkEditActionModal.show();
+                break;
+            case 'Submit Exceptions':
+                this.submitActionModal.show();
+                break;
+            default:
+                return;
+        }
     }
 }
 

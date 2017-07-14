@@ -32,7 +32,7 @@
 			LineItem li
 			INNER JOIN LineItemAction lia ON li.Id = lia.LineItemId
 		WHERE 
-			lia.DateDeleted IS NULL AND (ExceptionTypeId = dbo.ExceptionType_Short() OR ExceptionTypeId = dbo.ExceptionType_Bypass() ) 
+			lia.DateDeleted IS NULL AND (ExceptionTypeId = dbo.ExceptionType_Short() ) 
 		GROUP BY li.Id
 	)
 

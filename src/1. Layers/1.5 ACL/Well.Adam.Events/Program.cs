@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Adam.Events
 {
+    using System.Security.Cryptography.X509Certificates;
     using Common;
     using Common.Contracts;
     using Repositories;
@@ -56,6 +57,8 @@
                     x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
                     x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
+                    x.For<IAdamRepository>().Use<AdamRepository>();
+                    x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
                 });
         }
     }

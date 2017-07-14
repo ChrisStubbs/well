@@ -1,6 +1,6 @@
 ﻿CREATE VIEW [dbo].[JobDetailTotalsView]
 	AS 
-	WITH Rejected (JobId, Quantity) AS
+	WITH Rejected (JobDetailId, Quantity) AS
 	(
 		SELECT 
 			jd.Id, SUM(jdd.Qty)
@@ -10,7 +10,7 @@
 		WHERE UPPER(REPLACE(jdd.PdaReasonDescription, ' ', '')) LIKE '%NOTREQUIRED%'
 		GROUP BY jd.Id
 	),
-	Damage (JobId, Quantity) AS
+	Damage (JobDetailId, Quantity) AS
 	(
 		SELECT 
 			jd.Id, SUM(jdd.Qty)
@@ -20,7 +20,7 @@
 		WHERE UPPER(REPLACE(jdd.PdaReasonDescription, ' ', '')) NOT LIKE '%NOTREQUIRED%'
 		GROUP BY jd.Id
 	),
-	Short (JobId, Quantity) AS
+	Short (JobDetailId, Quantity) AS
 	(
 		SELECT 
 			jd.Id, jd.ShortQty
@@ -30,11 +30,11 @@
 			ShortQty IS NOT NULL
 	)
 	SELECT 
-		jd.Id
+		jd.Id AS JobDetailId
 		,jd.DeliveredQty AS Delivered
-		,ISNULL((SELECT Quantity FROM Short WHERE JobId = jd.Id) , 0) AS ShortTotal
-		,ISNULL((SELECT Quantity FROM Damage WHERE JobId = jd.Id) , 0) AS DamageTotal
-		,ISNULL((SELECT Quantity FROM Rejected WHERE JobId = jd.Id) , 0) AS RejectedTotal 
+		,ISNULL((SELECT Quantity FROM Short WHERE JobDetailId = jd.Id) , 0) AS ShortTotal
+		,ISNULL((SELECT Quantity FROM Damage WHERE JobDetailId = jd.Id) , 0) AS DamageTotal
+		,ISNULL((SELECT Quantity FROM Rejected WHERE JobDetailId = jd.Id) , 0) AS RejectedTotal 
 	FROM 
 		JobDetail jd
 	WHERE 

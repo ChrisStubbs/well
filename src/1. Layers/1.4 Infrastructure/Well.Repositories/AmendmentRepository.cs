@@ -24,7 +24,7 @@
         public IEnumerable<Amendment> GetAmendments(IEnumerable<int> jobIds)
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetAmendments)
-                .AddParameter("jobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .QueryMultiple(GetFromGrid);
 
         }
@@ -35,11 +35,11 @@
             var amendmentLines = grid.Read<AmendmentLine>().ToList();
 
             foreach (var amendment in amendments)
-            {
-                amendment.AmendmentLines =
-                    new List<AmendmentLine>(amendmentLines.Where(a => a.JobId == amendment.JobId));
-            }
-
+              {
+                  amendment.AmendmentLines =
+                       new List<AmendmentLine>(amendmentLines.Where(a => a.JobId == amendment.JobId));
+               }
+            
             return amendments;
         }
 

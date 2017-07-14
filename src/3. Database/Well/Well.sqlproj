@@ -419,6 +419,7 @@
     <Build Include="dbo\StoredProcedures\SingleLocation_Get.sql" />
     <Build Include="dbo\Views\LineItemAmendmentsView.sql" />
     <Build Include="dbo\StoredProcedures\Amendment_GetByJobIds.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

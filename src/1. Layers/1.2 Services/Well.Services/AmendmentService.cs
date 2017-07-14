@@ -24,9 +24,12 @@
 
             foreach (var amendment in amendments)
             {
-                var amendmentTransaction = this.amendmentFactory.Build(amendment);
-                // send amendment to ExceptionEvent table
-                this.exceptionEventRepository.InsertAmendmentTransaction(amendmentTransaction);
+                if (amendment.AmendmentLines.Count > 0)
+                {
+                    var amendmentTransaction = this.amendmentFactory.Build(amendment);
+                    // send amendment to ExceptionEvent table
+                    this.exceptionEventRepository.InsertAmendmentTransaction(amendmentTransaction);
+                }
             }
         }
     }

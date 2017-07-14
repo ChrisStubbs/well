@@ -7,7 +7,7 @@
     using Domain.Enums;
     using Domain.ValueObjects;
 
-    public class AmendmentFactory
+    public class AmendmentFactory : IAmendmentFactory
     {
         private readonly IUserRepository userRepository;
 

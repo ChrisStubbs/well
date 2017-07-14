@@ -221,6 +221,7 @@
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\crm\crmLinkPipe.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionRequest.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionService.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionModal.ts" />
@@ -276,7 +277,6 @@
     <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
-    <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\clean_preferences\clean-preferences-add-modal.html" />
     <Content Include="app\clean_preferences\clean-preferences-view.html" />
     <Content Include="app\clean_preferences\clean-preference-remove-modal.html" />
@@ -318,8 +318,6 @@
     <Content Include="app\home\widgetGraph.html" />
     <Content Include="app\notifications\notification-archive-modal.html" />
     <Content Include="app\notifications\notifications-list.html" />
-    <Content Include="app\route_header\delivery-selection-modal.html" />
-    <Content Include="app\route_header\routeheader-list.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-add-modal.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-remove-modal.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-view.html" />
@@ -502,8 +500,6 @@
     <Content Include="app\shared\branch\branch.ts" />
     <Content Include="app\branch\branchSelectionComponent.ts" />
     <Content Include="app\shared\branch\branchService.ts" />
-    <Content Include="app\clean\cleanDelivery.ts" />
-    <Content Include="app\clean\cleanDeliveryService.ts" />
     <Content Include="app\delivery\model\jobDetailReason.ts" />
     <Content Include="app\delivery\model\delivery.ts" />
     <Content Include="app\delivery\deliveryComponent.ts" />
@@ -520,11 +516,7 @@
     <Content Include="app\notifications\notification.ts" />
     <Content Include="app\notifications\notificationsComponent.ts" />
     <Content Include="app\notifications\notificationsService.ts" />
-    <Content Include="app\route_header\delivery-selection-modal.ts" />
     <Content Include="app\routes\route.ts" />
-    <Content Include="app\route_header\routeHeader.ts" />
-    <Content Include="app\route_header\routeHeaderComponent.ts" />
-    <Content Include="app\route_header\routeHeaderService.ts" />
     <Content Include="app\shared\branch\branchCheckboxComponent.ts" />
     <Content Include="app\shared\contactModal.ts" />
     <Content Include="app\shared\creditItem.ts" />

@@ -65,7 +65,7 @@
 
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.GetAmendments))
                   .Returns(this.dapperProxy.Object);
-                this.dapperProxy.Setup(x => x.AddParameter("jobIds",It.IsAny<DataTable>(), DbType.Object , null))
+                this.dapperProxy.Setup(x => x.AddParameter("Ids",It.IsAny<DataTable>(), DbType.Object , null))
                   .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, List<Amendment>>>()))
@@ -75,7 +75,7 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.GetAmendments), Times.Once);
                 this.dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, List<Amendment>>>()), Times.Once);
-                this.dapperProxy.Verify(x => x.AddParameter("jobIds", It.Is<DataTable>(
+                this.dapperProxy.Verify(x => x.AddParameter("Ids", It.Is<DataTable>(
                     dt=> (int)dt.Rows[0][0] == 1 && dt.Rows.Count == 1)
                     , DbType.Object, null),
                     Times.Once);

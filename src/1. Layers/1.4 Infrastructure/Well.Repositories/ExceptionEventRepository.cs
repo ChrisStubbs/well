@@ -60,7 +60,7 @@
             var grnEventJson = JsonConvert.SerializeObject(grnEvent);
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                //.AddParameter("Event", grnEventJson, DbType.String)
+                .AddParameter("Event", grnEventJson, DbType.String)
                 .AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32)
                 .AddParameter("DateCanBeProcessed", dateCanBeProcessed, DbType.DateTime)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)

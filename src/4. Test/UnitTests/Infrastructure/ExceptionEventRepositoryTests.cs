@@ -141,7 +141,7 @@
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.EventInsert))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Event", grnEventJson, DbType.String, 2500))
+                this.dapperProxy.Setup(x => x.AddParameter("Event", It.IsAny<string>(), DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32, null))
@@ -169,7 +169,7 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.EventInsert), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("Event", grnEventJson, DbType.String, 2500), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("Event", It.IsAny<string>(), DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32, null),
                     Times.Once);
@@ -276,7 +276,7 @@
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.EventInsert))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.AddParameter("Event", amendmentJson, DbType.String, 2500))
+                this.dapperProxy.Setup(x => x.AddParameter("Event", It.IsAny<string>(), DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.AddParameter("ExceptionActionId", EventAction.Amendment, DbType.Int32, null))
@@ -304,7 +304,7 @@
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.EventInsert), Times.Once);
 
-                this.dapperProxy.Verify(x => x.AddParameter("Event", amendmentJson, DbType.String, 2500), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("Event", It.IsAny<string>(), DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("ExceptionActionId", EventAction.Amendment, DbType.Int32, null),
                     Times.Once);

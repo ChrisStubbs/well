@@ -9,6 +9,9 @@ AS
 			j.PHAccount AS Account
 		FROM
 			Job j 
+			INNER JOIN JobType jt
+				ON j.JobTypeCode = jt.Code
+				AND jt.code != 'DEL-DOC'
 		WHERE
 			j.DateDeleted IS NULL
 		GROUP BY 

@@ -29,6 +29,7 @@ export class SingleLocationGroup
     public details: Array<SingleLocation>;
     public isExpanded: boolean;
     public isInvoice: boolean;
+    public accountNumber: string;
 }
 
 export class SingleLocation
@@ -65,6 +66,7 @@ export class SingleLocation
     public resolution: string;
     public resolutionId: number;
     public isInvoice: boolean;
+    public accountNumber: string;
 }
 
 export class SingleLocationFilter implements IFilter

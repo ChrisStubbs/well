@@ -28,6 +28,7 @@ export class SingleLocationGroup
     public totalCredit: number;
     public details: Array<SingleLocation>;
     public isExpanded: boolean;
+    public isInvoice: boolean;
 }
 
 export class SingleLocation
@@ -63,6 +64,7 @@ export class SingleLocation
     public assignee: string;
     public resolution: string;
     public resolutionId: number;
+    public isInvoice: boolean;
 }
 
 export class SingleLocationFilter implements IFilter
@@ -71,7 +73,7 @@ export class SingleLocationFilter implements IFilter
     {
         this.driver = '';
         this.dateFormatted = '';
-        this.jobType = undefined;
+        this.jobTypeId = undefined;
         this.jobStatus = undefined;
         this.exceptions = undefined;
         this.clean = undefined;
@@ -81,7 +83,7 @@ export class SingleLocationFilter implements IFilter
 
     public driver: string;
     public dateFormatted: string;
-    public jobType: string;
+    public jobTypeId: string;
     public jobStatus: string;
     public exceptions: boolean;
     public clean: boolean;
@@ -93,10 +95,15 @@ export class SingleLocationFilter implements IFilter
         switch (filterName) {
             case 'driver':
             case 'dateFormatted':
-            case 'jobType':
             case 'jobStatus':
             case 'assignee':
                 return GridHelpersFunctions.isEqualFilter;
+
+            case 'jobTypeId':
+                return (value: number, value2: string) =>
+                {
+                    return GridHelpersFunctions.isEqualFilter(value, +value2);
+                };
 
             case 'exceptions':
             case 'clean':
@@ -119,5 +126,70 @@ export class SingleLocationFilter implements IFilter
         }
 
         return undefined;
+    }
+}
+
+export class Locations
+{
+    public branch: string;
+    public branchId: number;
+    public primaryAccountNumber: string;
+    public accountNumber: string;
+    public accountName: string;
+    public address: string;
+    public totalInvoices: number;
+    public exceptions: number;
+    public get cleans(): number
+    {
+        return this.totalInvoices - this.exceptions;
+    }
+}
+
+export class LocationFilter implements  IFilter
+{
+    constructor()
+    {
+        this.primaryAccountNumber = '';
+        this.accountNumber = '';
+        this.accountName = '';
+        this.address = '';
+        this.exceptions = undefined;
+        this.cleans = undefined;
+    }
+
+    public primaryAccountNumber: string;
+    public accountNumber: string;
+    public accountName: string;
+    public address: string;
+    public exceptions: boolean;
+    public cleans: boolean;
+
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
+    {
+        switch (filterName)
+        {
+            case 'accountNumber':
+            case 'primaryAccountNumber':
+                return GridHelpersFunctions.startsWithFilter;
+
+            case 'accountName':
+            case 'address':
+                return GridHelpersFunctions.containsFilter;
+
+            case 'exceptions':
+            case 'cleans':
+                return (value: number, value2?: boolean) => {
+                    if (_.isNull(value2)) {
+                        return true;
+                    }
+                    if (value2.toString() == 'true') {
+                        return value > 0;
+                    }
+
+                    return value == 0;
+                };
+        }
+
+        throw new Error('Method not implemented.');
     }
 }

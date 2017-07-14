@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
@@ -35,6 +36,15 @@
                     });
 
             return result;
+        }
+
+        public IList<Location> GetLocation(int branchId)
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.GetLocations)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
+                    .Query<Location>()
+                    .OrderBy(p => p.PrimaryAccountNumber)
+                    .ToList();
         }
     }
 }

@@ -418,6 +418,7 @@
     <Build Include="dbo\Views\JobDetailTotalsView.sql" />
     <Build Include="dbo\StoredProcedures\SingleLocation_Get.sql" />
     <Build Include="dbo\Views\LineItemAmendmentsView.sql" />
+    <Build Include="dbo\StoredProcedures\Locations_GET.sql" />
     <Build Include="dbo\StoredProcedures\Amendment_GetByJobIds.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
   </ItemGroup>

@@ -78,7 +78,7 @@
                                     <th>Short Qty</th>
                                     <th>Damage Qty</th>
                                     <th>Bypass Qty</th>
-                                    <th>Total Value</th>
+                                    <th>Exception Value</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,7 +89,7 @@
                                     <td>{{item.shortQuantity}}</td>
                                     <td>{{item.damageQuantity}}</td>
                                     <td>{{item.bypassQuantity}}</td>
-                                    <td>{{item.totalValue | currency:'GBP': true}}</td>
+                                    <td>{{item.totalExceptionValue | currency:'GBP': true}}</td>
                                 </tr>
                             </tbody>
                         </table>

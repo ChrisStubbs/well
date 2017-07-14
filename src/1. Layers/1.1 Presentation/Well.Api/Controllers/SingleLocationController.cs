@@ -3,19 +3,39 @@
     using System.Web.Http;
     using Domain;
     using Repositories.Contracts;
+    using System.Linq;
+    using Domain.Extensions;
+    using Domain.Enums;
 
     public class SingleLocationController : ApiController
     {
         private readonly ILocationRepository locationRepository;
+        private readonly IAssigneeReadRepository assigneeRepository;
 
-        public SingleLocationController(ILocationRepository locationRepository)
+        public SingleLocationController(ILocationRepository locationRepository,
+            IAssigneeReadRepository assigneeRepository)
         {
             this.locationRepository = locationRepository;
+            this.assigneeRepository = assigneeRepository;
         }
 
         public SingleLocation Get([FromUri]SingleLocationQuery qs)
         {
-            return this.locationRepository.GetSingleLocation(qs.LocationId, qs.AccountNumber, qs.BranchId);
+            var data = this.locationRepository.GetSingleLocation(qs.LocationId, qs.AccountNumber, qs.BranchId);
+            var jobIds = data.Details.Select(p => p.JobId).Distinct();
+            var assignees = assigneeRepository.GetByJobIds(jobIds).ToDictionary(k => k.JobId, v => v.Name);
+
+            data.Details = data.Details
+                .Select(p =>
+                {
+                    p.Assignee = assignees.ContainsKey(p.JobId) ? assignees[p.JobId] : string.Empty;
+                    p.JobStatus = EnumExtensions.GetDescription((WellStatus)p.JobStatusId);
+
+                    return p;
+                })
+                .ToList();
+
+            return data;
         }
     }
 

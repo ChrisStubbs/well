@@ -1,20 +1,4 @@
-﻿export interface IBulkEditSummary
-{
-    message: string;
-    items: IBulkEditItem[];
-}
-
-export interface IBulkEditItem
-{
-    jobId: number;
-    invoice: string;
-    type: string;
-    account: string;
-    shortQuantity: number;
-    damageQuantity: number;
-    bypassQuantity: number;
-    totalValue: number;
-}
+﻿import {IJobIdResolutionStatus} from '../models/jobIdResolutionStatus';
 
 export interface IBulkEditPatchRequest
 {
@@ -27,12 +11,7 @@ export interface IBulkEditPatchRequest
 
 export interface IBulkEditResult
 {
-    statuses: IBulkEditResolutionStatus[];
+    statuses: IJobIdResolutionStatus[];
     lineItemIds:number[];
 }
 
-export interface IBulkEditResolutionStatus
-{
-    jobId: number;
-    status: any;
-}

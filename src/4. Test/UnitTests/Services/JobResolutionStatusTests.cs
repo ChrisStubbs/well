@@ -11,6 +11,8 @@ using PH.Well.UnitTests.Factories;
 
 namespace PH.Well.UnitTests.Services
 {
+    using Well.Common.Contracts;
+
     [TestFixture]
     public class JobResolutionStatusTests
     {
@@ -24,7 +26,19 @@ namespace PH.Well.UnitTests.Services
             var jobRepository = new Mock<IJobRepository>();
             var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
             var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
-            this.sut = new JobService(jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object, lineItemRepository.Object);
+            var  userNameProvider = new Mock<IUserNameProvider>(); 
+            var  userRepository = new Mock<IUserRepository>(); 
+
+
+            this.sut = new JobService(
+                jobRepository.Object, 
+                userThreshold.Object, 
+                dateThresholdService.Object, 
+                assigneeReadRepository.Object, 
+                lineItemRepository.Object,
+                userNameProvider.Object,
+                userRepository.Object
+                );
         }
 
         [Test]
@@ -118,8 +132,8 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
                 .Build();
-            job.ResolutionStatus = ResolutionStatus.CompletedByWell;
-            Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.CompletedByWell));
+            job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
+            Assert.That(job.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
             Assert.That(sut.GetCurrentResolutionStatus(job), Is.EqualTo(ResolutionStatus.PendingSubmission));
         }
 
@@ -286,7 +300,18 @@ namespace PH.Well.UnitTests.Services
             var jobRepository = new Mock<IJobRepository>();
             var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
             var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
-            var sut = new JobService(jobRepository.Object, userThresholdService, dateThresholdService, assigneeReadRepository.Object, lineItemRepository.Object);
+            var userNameProvider = new Mock<IUserNameProvider>();
+            var userRepository = new Mock<IUserRepository>();
+
+
+            var sut = new JobService(
+                jobRepository.Object, 
+                userThresholdService, 
+                dateThresholdService, 
+                assigneeReadRepository.Object, 
+                lineItemRepository.Object,
+                userNameProvider.Object,
+                userRepository.Object);
 
             return sut.GetNextResolutionStatus(job);
         }

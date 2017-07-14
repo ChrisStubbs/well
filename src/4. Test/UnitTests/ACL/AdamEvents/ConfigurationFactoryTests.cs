@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.UnitTests.ACL.AdamEvents
 {
+    using System;
     using NUnit.Framework;
 
     using PH.Well.Domain.Enums;
@@ -152,6 +153,12 @@
             Assert.That(config.Server, Is.EqualTo(Config.AdamServerHaydock));
             Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsHaydock));
             Assert.That(config.Port, Is.EqualTo(Config.AdamPortHaydock));
+        }
+
+        [Test]
+        public void NotValidValue()
+        {
+            Assert.Throws<ArgumentException>(() => AdamSettingsFactory.GetAdamSettings((Branch)20000));
         }
     }
 }

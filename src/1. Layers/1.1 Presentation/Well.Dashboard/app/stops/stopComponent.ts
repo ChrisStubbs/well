@@ -23,6 +23,11 @@ import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IAccount } from '../account/account';
 import { IBulkEditResult } from '../shared/action/bulkEditItem';
+import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
+import {AccountReference} from '../shared/crm/crmLinkPipe';
+import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
+import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
+import { SubmitActionModal } from '../shared/action/submitActionModal';
 
 @Component({
     selector: 'ow-stop',
@@ -65,6 +70,8 @@ export class StopComponent implements IObservableAlive
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
+    @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
@@ -72,7 +79,9 @@ export class StopComponent implements IObservableAlive
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
     private customerAccount: IAccount = new IAccount();
-
+    private actionOptions: string[] = [ 'Manually Complete', 'Manually Bypass',
+                                        'Edit Exceptions', 'Submit Exceptions'];
+    private accountReference: AccountReference = new AccountReference('', 0);
     constructor(
         private stopService: StopService,
         private route: ActivatedRoute,
@@ -83,6 +92,23 @@ export class StopComponent implements IObservableAlive
         private lookupService: LookupService) { }
 
     public ngOnInit(): void
+    {
+
+        this.refreshStopFromApi();
+
+        this.lookupService.get(LookupsEnum.ResolutionStatus)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: ILookupValue[]) =>
+            {
+                this.resolutionStatuses = value;
+            });
+
+        this.filters = new StopFilter();
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshStopFromApi(): void 
     {
         this.route.params
             .flatMap(data =>
@@ -131,19 +157,10 @@ export class StopComponent implements IObservableAlive
                     .subscribe(account =>
                     {
                         this.customerAccount = account;
+
+                        this.accountReference = new AccountReference(this.customerAccount.code, this.stop.branchId);
                     });
             });
-
-        this.lookupService.get(LookupsEnum.ResolutionStatus)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: ILookupValue[]) =>
-            {
-                this.resolutionStatuses = value;
-            });
-
-        this.filters = new StopFilter();
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     public ngOnDestroy(): void
@@ -170,14 +187,17 @@ export class StopComponent implements IObservableAlive
         this.stop.assignedTo = userName;
     }
 
-    private selectAllJobs = (selected: boolean) => {
+    private selectAllJobs = (selected: boolean) =>
+    {
         const jobIds = _.map(_.filter(this.gridSource, (item) => { return item.isRowGroup; }),
-            (item: StopItemSource) => {
+            (item: StopItemSource) =>
+            {
                 return item.jobId;
             });
 
         _.each(jobIds,
-            (jobId: number) => {
+            (jobId: number) =>
+            {
                 this.selectJobs(selected, jobId);
             });
     }
@@ -453,13 +473,17 @@ export class StopComponent implements IObservableAlive
                 {
                     item.resolutionId = x.status.value;
                     item.resolution = x.status.description;
-                    if (_.some(result.lineItemIds, id => item.lineItemId)) 
+                    if (_.includes(result.lineItemIds, item.lineItemId)) 
                     {
                         item.hasUnresolvedActions = false;
                     }
                 });
         });
+    }
 
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
+    {
+        this.refreshStopFromApi();
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void
@@ -495,15 +519,31 @@ export class StopComponent implements IObservableAlive
         return GrnHelpers.isGrnRequired(item);
     }
 
-    private bulkEdit(): void
-    {
-        this.bulkEditActionModal.show();
-    }
-
     private disableBulkEdit(): boolean
     {
         return (this.selectedItems().length === 0
             || this.getAssignModel().assigned !== this.globalSettingsService.globalSettings.userName);
+    }
+
+    private submitAction(action: string): void
+    {
+        switch (action)
+        {
+            case 'Manually Complete':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+                break;
+            case 'Manually Bypass':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+                break;
+            case 'Edit Exceptions':
+                this.bulkEditActionModal.show();
+                break;
+            case 'Submit Exceptions':
+                this.submitActionModal.show();
+                break;
+            default:
+                return;
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-﻿export * from './splitButtonComponent';
+﻿export * from './buttonDropDownComponent';
 export * from './dateComponent';
 export * from './dropDownItem';
 export * from './security/securityService';

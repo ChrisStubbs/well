@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using System.Configuration;
+
+namespace PH.Well.Api.Controllers
 {
     using System.IO;
     using System.Net;
@@ -35,7 +37,8 @@
                 IdentityName = UserIdentityName,
                 UserName = user?.Name,
                 User = user,
-                Permissions = this.userRoleProvider.GetRolesForUser(this.UserIdentityName)
+                Permissions = this.userRoleProvider.GetRolesForUser(this.UserIdentityName),
+                CrmBaseUrl = ConfigurationManager.AppSettings.Get("Crm.CrmBaseUrl")
             };
 
             return this.Request.CreateResponse(HttpStatusCode.OK, settings);

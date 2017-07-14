@@ -81,7 +81,7 @@ import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DateComponent, SplitButtonComponent } from './shared/shared';
+import { DateComponent, ButtonDropDownComponent } from './shared/shared';
 import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import { StopComponent } from './stops/stopComponent';
@@ -97,7 +97,9 @@ import { ActivityComponent, ActivityService } from './activity/activity';
 import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
 import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
-import { SingleLocationComponent, LocationsService } from './locations/locations';
+import { SingleLocationComponent, LocationsService, LocationsComponent } from './locations/locations';
+import { CrmLinkPipe } from './shared/crm/crmLinkPipe';
+import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -112,9 +114,9 @@ import { SingleLocationComponent, LocationsService } from './locations/locations
         RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
         AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
+        AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, ButtonDropDownComponent, StopComponent, SelectYeNoFilterComponent,
         SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent
+        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, LocationsComponent, ManualCompletionModal
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

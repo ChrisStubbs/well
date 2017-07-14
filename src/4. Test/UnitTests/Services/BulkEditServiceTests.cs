@@ -20,12 +20,10 @@
         private Mock<ILogger> logger;
         private Mock<IJobRepository> jobRepository;
         private Mock<IPatchSummaryMapper> mapper;
-        private Mock<IUserNameProvider> userNameProvider;
-        private Mock<IUserRepository> userRepository;
         private Mock<ILineItemActionRepository> lineItemActionRepository;
         private Mock<IJobService> jobService;
         private BulkEditService bulkEditService;
-        public const string Username = "Me";
+     
         public User User = new User { Id = 1 };
 
         [SetUp]
@@ -34,21 +32,15 @@
             logger = new Mock<ILogger>();
             jobRepository = new Mock<IJobRepository>();
             mapper = new Mock<IPatchSummaryMapper>();
-            userNameProvider = new Mock<IUserNameProvider>();
-            userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+           
             lineItemActionRepository = new Mock<ILineItemActionRepository>(MockBehavior.Strict);
             jobService = new Mock<IJobService>(MockBehavior.Strict);
-
-            userNameProvider.Setup(x => x.GetUserName()).Returns(Username);
-            userRepository.Setup(x => x.GetByIdentity(Username)).Returns(User);
-
+            
             bulkEditService = new BulkEditService(
                 logger.Object,
                 jobService.Object,
                 jobRepository.Object,
                 mapper.Object,
-                userNameProvider.Object,
-                userRepository.Object,
                 lineItemActionRepository.Object
                 );
         }
@@ -94,10 +86,10 @@
             [Test]
             public void ShouldReturnEditableJobs()
             {
-                var userJobs = jobList.Select(j => new UserJob { UserId = User.Id, JobId = j.Id });
+                var userJobIds = jobList.Select(j =>  j.Id );
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                userRepository.Setup(x => x.GetUserJobsByJobIds(new List<int> { 1, 3, 4 })).Returns(userJobs);
-
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(new List<int> {1, 3, 4})).Returns(userJobIds);
+              
                 var editableJobs = bulkEditService.GetEditableJobs(jobList).ToArray();
 
                 Assert.That(editableJobs.Count(), Is.EqualTo(3));
@@ -109,9 +101,9 @@
             [Test]
             public void ShouldReturnEditableJobsWhereLineItemInList()
             {
-                var userJobs = jobList.Select(j => new UserJob { UserId = User.Id, JobId = j.Id });
+                var userJobIds = jobList.Select(j => j.Id);
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                userRepository.Setup(x => x.GetUserJobsByJobIds(new List<int> { 1, 3 })).Returns(userJobs);
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(new List<int> { 1, 3})).Returns(userJobIds);
 
                 var editableJobs = bulkEditService.GetEditableJobs(jobList, new List<int> { 2020, 2021 }).ToArray();
 
@@ -123,9 +115,9 @@
             [Test]
             public void ShouldReturnEditableJobsWhereBelongToUser()
             {
-                var userJobs = jobList.Select(j => new UserJob { UserId = User.Id, JobId = j.Id });
+                var userJobIds = jobList.Select(j => j.Id);
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                userRepository.Setup(x => x.GetUserJobsByJobIds(new List<int> { 1, 3, 4 })).Returns(userJobs.Where(x => x.JobId == 4));
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(new List<int> { 1, 3, 4 })).Returns(userJobIds.Where(x => x == 4));
 
                 var editableJobs = bulkEditService.GetEditableJobs(jobList).ToArray();
 
@@ -138,9 +130,7 @@
         public class TheUpdateMethod : BulkEditServiceTests
         {
             private Mock<BulkEditService> stubbedService;
-
-
-
+            
             [SetUp]
             public void SetUp()
             {
@@ -150,8 +140,6 @@
                     jobService.Object,
                     jobRepository.Object,
                     mapper.Object,
-                    userNameProvider.Object,
-                    userRepository.Object,
                     lineItemActionRepository.Object
                     )
                 { CallBase = true };

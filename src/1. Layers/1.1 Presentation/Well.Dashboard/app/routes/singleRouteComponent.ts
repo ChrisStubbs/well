@@ -1,29 +1,34 @@
-import { Component, ViewChild }                                 from '@angular/core';
-import { CurrencyPipe }                                         from '@angular/common';
-import { RoutesService }                                        from './routesService';
-import { SingleRoute, SingleRouteSource, SingleRouteFilter }    from './singleRoute';
-import { ActivatedRoute }                                       from '@angular/router';
-import * as _                                                   from 'lodash';
-import { AssignModel, AssignModalResult }                       from '../shared/components/components';
-import { Branch }                                               from '../shared/branch/branch';
-import { SecurityService }                                      from '../shared/security/securityService';
-import { GlobalSettingsService }                                from '../shared/globalSettings';
-import { IObservableAlive }                                     from '../shared/IObservableAlive';
-import { SingleRouteItem }                                      from './singleRoute';
-import {
+import { Component, ViewChild } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { RoutesService } from './routesService';
+import { SingleRoute, SingleRouteSource, SingleRouteFilter } from './singleRoute';
+import { ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
+import { AssignModel, AssignModalResult } from '../shared/components/components';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { SingleRouteItem } from './singleRoute';
+import
+{
     LookupService,
     LookupsEnum,
     ILookupValue,
     ResolutionStatusEnum
-}                                                               from '../shared/services/services';
-import { Observable }                                           from 'rxjs';
-import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
-import { ISubmitActionResult }                                  from '../shared/action/submitActionModel';
-import { JobService, GrnHelpers }                               from '../job/job';
-import { ISubmitActionResultDetails }                           from '../shared/action/submitActionModel';
-import { BulkEditActionModal }                                  from '../shared/action/bulkEditActionModal';
-import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
+} from '../shared/services/services';
+import { Observable } from 'rxjs';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
+import { ISubmitActionResult } from '../shared/action/submitActionModel';
+import { JobService, GrnHelpers } from '../job/job';
+import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/mergeMap';
+import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
+import { SubmitActionModal } from '../shared/action/submitActionModal';
+import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
+import {IJobIdResolutionStatus} from '../shared/models/jobIdResolutionStatus';
 
 @Component({
     selector: 'ow-route',
@@ -49,6 +54,10 @@ export class SingleRouteComponent implements IObservableAlive
     private filters = new SingleRouteFilter();
     private inputFilterTimer: any;
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
+    @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
+    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
+        'Edit Exceptions', 'Submit Exceptions'];
 
     constructor(
         private lookupService: LookupService,
@@ -59,6 +68,27 @@ export class SingleRouteComponent implements IObservableAlive
         private jobService: JobService) { }
 
     public ngOnInit()
+    {
+        this.refreshRouteFromApi();
+
+        Observable.forkJoin(
+            this.lookupService.get(LookupsEnum.JobType),
+            this.lookupService.get(LookupsEnum.WellStatus),
+            this.lookupService.get(LookupsEnum.ResolutionStatus)
+        )
+            .takeWhile(() => this.isAlive)
+            .subscribe(res =>
+            {
+                this.jobTypes = res[0];
+                this.wellStatus = res[1];
+                this.resolutionStatuses = res[2];
+            });
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshRouteFromApi(): void
     {
         this.route.params
             .flatMap(data =>
@@ -78,22 +108,6 @@ export class SingleRouteComponent implements IObservableAlive
                 this.source = this.buildGridSource(data.items);
                 this.fillGridSource();
             });
-
-        Observable.forkJoin(
-            this.lookupService.get(LookupsEnum.JobType),
-            this.lookupService.get(LookupsEnum.WellStatus),
-            this.lookupService.get(LookupsEnum.ResolutionStatus)
-        )
-            .takeWhile(() => this.isAlive)
-            .subscribe(res =>
-            {
-                this.jobTypes = res[0];
-                this.wellStatus = res[1];
-                this.resolutionStatuses = res[2];
-            });
-
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     public ngOnDestroy(): void
@@ -208,7 +222,8 @@ export class SingleRouteComponent implements IObservableAlive
         {
             totalExceptions += current.exceptions;
             //if job in resolution = imported or status = bypassed just don't print the value, print 0 instead-
-            if (!(current.resolutionId == 1 || current.jobStatus == 8)) {
+            if (!(current.resolutionId == 1 || current.jobStatus == 8))
+            {
                 totalClean += current.clean;
             }
 
@@ -277,11 +292,13 @@ export class SingleRouteComponent implements IObservableAlive
         const assignees = [];
         _.map(this.source, (current: SingleRouteSource) =>
         {
-            if (!current.stopAssignee) {
+            if (!current.stopAssignee)
+            {
                 current.stopAssignee = 'Unallocated';
 
                 _.each(current.items,
-                    (item: SingleRouteItem) => {
+                    (item: SingleRouteItem) =>
+                    {
                         item.assignee = 'Unallocated';
                     });
             }
@@ -359,8 +376,29 @@ export class SingleRouteComponent implements IObservableAlive
         return GrnHelpers.isGrnRequired(item);
     }
 
-    private bulkEdit(): void 
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
     {
-        this.bulkEditActionModal.show();
+        this.refreshRouteFromApi();
+    }
+
+    private submitAction(action: string): void
+    {
+        switch (action)
+        {
+            case 'Manually Complete':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+                break;
+            case 'Manually Bypass':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+                break;
+            case 'Edit Exceptions':
+                this.bulkEditActionModal.show();
+                break;
+            case 'Submit Exceptions':
+                this.submitActionModal.show();
+                break;
+            default:
+                return;
+        }
     }
 }

@@ -176,5 +176,7 @@
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
+
+        public const string GetAmendments = "Amendment_GetByJobIds";
     }
 }

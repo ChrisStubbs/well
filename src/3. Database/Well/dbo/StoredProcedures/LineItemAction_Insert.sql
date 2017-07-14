@@ -11,11 +11,12 @@ BEGIN
 				Quantity INT
 				,ExceptionType INT
 				,LineItemId INT
+				,PDAReasonDescription VARCHAR(50)
 			)
 	
 	-- damages
-	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)				
-	SELECT Qty, dbo.ExceptionType_Damage(), jd.LineItemId
+	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)				
+	SELECT Qty, dbo.ExceptionType_Damage(), jd.LineItemId, ISNULL(jdd.PDAReasonDescription, '')
 	FROM JobDetailDamage jdd
 	INNER JOIN JobDetail jd on jd.Id = jdd.JobDetailId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = jd.JobId
@@ -24,8 +25,8 @@ BEGIN
 	WHERE lia.Id IS NULL
 
 	-- shorts
-	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
-	SELECT jd.ShortQty, dbo.ExceptionType_Short(), jd.LineItemId
+	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)	
+	SELECT jd.ShortQty, dbo.ExceptionType_Short(), jd.LineItemId, ''
 	FROM JobDetail jd
 	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
@@ -34,8 +35,8 @@ BEGIN
 	WHERE lia.Id IS NULL AND jd.ShortQty > 0 and j.JobStatusId != dbo.JobStatus_Bypass()
 
 	-- bypass
-	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
-	SELECT jd.OriginalDespatchQty, dbo.ExceptionType_Bypass(), jd.LineItemId
+	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)	
+	SELECT jd.OriginalDespatchQty, dbo.ExceptionType_Bypass(), jd.LineItemId, ''
 	FROM JobDetail jd
 	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
@@ -44,8 +45,8 @@ BEGIN
 	WHERE lia.Id IS NULL and j.JobStatusId = dbo.JobStatus_Bypass() and jd.OriginalDespatchQty > 0
 
 	-- successful uplift
-	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId)	
-	SELECT jd.DeliveredQty, dbo.ExceptionType_Uplifted(), jd.LineItemId
+	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)	
+	SELECT jd.DeliveredQty, dbo.ExceptionType_Uplifted(), jd.LineItemId, ''
 	FROM JobDetail jd
 	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
@@ -53,7 +54,7 @@ BEGIN
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
 	WHERE lia.Id IS NULL and jdd.Id IS NULL
-	AND j.JobTypeCode = 'UPL-STD'
+	AND j.JobTypeCode = 'UPL-STD' AND jd.ShortQty = 0
 
 	BEGIN TRAN
 		

@@ -11,6 +11,7 @@
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services;
+    using Well.Services.Contracts;
 
     [TestFixture]
     public class CleanDeliveryServiceTests
@@ -31,6 +32,8 @@
 
         private Mock<ISeasonalDateRepository> seasonalDateRepository;
 
+        private Mock<IAmendmentService> amendmentService;
+
         private CleanDeliveryService service;
 
         [SetUp]
@@ -44,6 +47,8 @@
             this.routeToRemoveRepository = new Mock<IRouteToRemoveRepository>(MockBehavior.Strict);
             this.cleanPreferenceRepository = new Mock<ICleanPreferenceRepository>(MockBehavior.Strict);
             this.seasonalDateRepository = new Mock<ISeasonalDateRepository>(MockBehavior.Strict);
+            this.amendmentService = new Mock<IAmendmentService>(MockBehavior.Strict);
+
 
             this.service = new CleanDeliveryService(this.logger.Object,
                 this.routeHeaderRepository.Object,
@@ -52,7 +57,8 @@
                 this.jobDetailRepository.Object,
                 this.routeToRemoveRepository.Object,
                 this.cleanPreferenceRepository.Object,
-                this.seasonalDateRepository.Object);
+                this.seasonalDateRepository.Object,
+                this.amendmentService.Object);
         }
 
         public class TheCanDeleteMethod : CleanDeliveryServiceTests

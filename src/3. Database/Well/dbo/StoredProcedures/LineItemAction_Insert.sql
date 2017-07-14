@@ -54,7 +54,7 @@ BEGIN
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
 	WHERE lia.Id IS NULL and jdd.Id IS NULL
-	AND j.JobTypeCode = 'UPL-STD' AND jd.ShortQty = 0
+	AND j.JobTypeCode = 'UPL-STD' AND jd.ShortQty = 0 AND j.JobStatusId != dbo.JobStatus_Bypass()  
 
 	BEGIN TRAN
 		

@@ -1,11 +1,11 @@
 import { Injectable }                           from '@angular/core';
 import { Response }                             from '@angular/http';
-import { Observable }                           from 'rxjs/Observable';
-import { GlobalSettingsService }                from '../shared/globalSettings';
-import { HttpErrorService }                     from '../shared/httpErrorService';
-import { HttpService }                          from '../shared/httpService';
-import { SingleLocationHeader, SingleLocation } from './singleLocation';
-import * as _                                   from 'lodash';
+import { Observable }                                       from 'rxjs/Observable';
+import { GlobalSettingsService }                            from '../shared/globalSettings';
+import { HttpErrorService }                                 from '../shared/httpErrorService';
+import { HttpService }                                      from '../shared/httpService';
+import { SingleLocationHeader, SingleLocation, Locations }   from './singleLocation';
+import * as _                                               from 'lodash';
 
 @Injectable()
 export class LocationsService
@@ -15,7 +15,24 @@ export class LocationsService
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService) { }
 
-    public getSingleRoute(locationId?: string, account?: string, branchId?: number): Observable<SingleLocationHeader>
+    public getLocations(branchId: number): Observable<Array<Locations>>
+    {
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'Location/' + branchId;
+
+        return this.http.get(url)
+            .map((response: Response) =>
+            {
+                const locations: Locations[] = (response.json() as any[]).map((obj) =>
+                {
+                    return Object.assign(new Locations(), obj);
+                }) as Locations[];
+
+                return locations;
+            })
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public getSingleLocation(locationId?: string, account?: string, branchId?: number): Observable<SingleLocationHeader>
     {
         let url: string = this.globalSettingsService.globalSettings.apiUrl + 'SingleLocation?';
 
@@ -29,8 +46,6 @@ export class LocationsService
         return this.http.get(url)
             .map((response: Response) =>
             {
-                let a: number;
-                a = 1;
                 const act = (response.json() as SingleLocationHeader);
 
                 const items = (act.details as any[]).map((obj) =>

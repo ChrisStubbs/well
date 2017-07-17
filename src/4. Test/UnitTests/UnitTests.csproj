@@ -184,6 +184,7 @@
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
+    <Compile Include="Infrastructure\AmendmentRepositoryTests.cs" />
     <Compile Include="Infrastructure\LineItemActionRepositoryTests.cs" />
     <Compile Include="Infrastructure\NotificationRepositoryTests.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Infrastructure\ExceptionEventRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
+    <Compile Include="Infrastructure\AmendTransactionFactoryTests.cs" />
     <Compile Include="Infrastructure\PodTransactionFactoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteToRemoveRepositoryTests.cs" />
@@ -205,10 +207,12 @@
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\AdamImportServiceTests.cs" />
     <Compile Include="Services\AdamUpdateTests.cs" />
+    <Compile Include="Services\AmendmentServiceTests.cs" />
     <Compile Include="Services\AppSearchServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\BulkEditServiceTests.cs" />
     <Compile Include="Services\CleanDeliveryServiceTests.cs" />
+    <Compile Include="Services\DateThresholdServiceTests.cs" />
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />

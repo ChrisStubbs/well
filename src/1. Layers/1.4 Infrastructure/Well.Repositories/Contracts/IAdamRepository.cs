@@ -28,6 +28,7 @@
 
         AdamResponse PodTransaction(PodTransaction podTransaction, AdamSettings adamSettings);
 
+        AdamResponse AmendmentTransaction(AmendmentTransaction amend, AdamSettings adamSettings);
         AdamResponse GlobalUplift(GlobalUpliftTransaction globalUpliftTransaction, AdamSettings adamSettings);
 
     }

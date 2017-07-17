@@ -51,5 +51,6 @@ namespace PH.Well.Domain
         public int JobId { get; set; }
         public string Assignee { get; set; }
         public bool IsInvoice { get; set; }
+        public string AccountNumber { get; set; }
     }
 }

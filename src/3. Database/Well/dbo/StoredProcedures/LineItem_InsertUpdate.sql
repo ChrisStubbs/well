@@ -16,6 +16,7 @@ BEGIN
 	JOIN Job j ON j.Id = jd.JobId
 	WHERE LineItemId IS NULL
 	AND ProdDesc NOT LIKE '%Tobacco bag%' 
+	AND j.JobTypeCode NOT IN ('DEL-DOC', 'UPL-SAN', 'UPL-ASS')  -- no need to create line item or actions for these job types
 
 	BEGIN TRAN
 

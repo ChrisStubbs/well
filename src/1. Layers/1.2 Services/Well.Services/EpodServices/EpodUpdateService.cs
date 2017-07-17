@@ -221,6 +221,19 @@
                     continue;
                 }
 
+                if (existingJob.ResolutionStatus == ResolutionStatus.ManuallyCompleted)
+                {
+                    this.logger.LogError(
+                        $"Job update ignored because it has been manually completed ({existingJob.Id}), StopId ({existingJob.StopId})");
+                      
+                    this.eventLogger.TryWriteToEventLog(
+                        EventSource.WellAdamXmlImport,
+                        $"Job update ignored because it has been manually completed ({existingJob.Id}), StopId ({existingJob.StopId})",
+                        9860);
+
+                    continue;
+                }
+
                 existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
                 updatedJobs.Add(UpdateJob(jobDto, existingJob, branchId, routeDate));
 

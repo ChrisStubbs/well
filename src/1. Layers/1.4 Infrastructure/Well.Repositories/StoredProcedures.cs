@@ -158,7 +158,8 @@
         public const string ActivityGetById = "Activity_GetById";
         public const string LocationGetById = "Location_GetById";
         public const string GetSingleLocation = "SingleLocation_Get";
-
+        public const string GetLocations = "Locations_GET";
+        
         //lookups
         public const string ExceptionType = "ExceptionTypeGet";
         public const string ExceptionAction = "ExceptionAction_Get";
@@ -176,5 +177,7 @@
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
+
+        public const string GetAmendments = "Amendment_GetByJobIds";
     }
 }

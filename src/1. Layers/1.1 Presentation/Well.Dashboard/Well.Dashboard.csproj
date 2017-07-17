@@ -206,6 +206,7 @@
     <TypeScriptCompile Include="app\job\job.ts" />
     <TypeScriptCompile Include="app\job\jobService.ts" />
     <TypeScriptCompile Include="app\locations\locations.ts" />
+    <TypeScriptCompile Include="app\locations\locationsComponent.ts" />
     <TypeScriptCompile Include="app\locations\locationsService.ts" />
     <TypeScriptCompile Include="app\locations\singleLocation.ts" />
     <TypeScriptCompile Include="app\locations\singleLocationComponent.ts" />
@@ -213,6 +214,7 @@
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\action.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
+    <Content Include="app\locations\locationsComponent.html" />
     <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
     <Content Include="app\shared\action\bulkEditActionModal.html" />

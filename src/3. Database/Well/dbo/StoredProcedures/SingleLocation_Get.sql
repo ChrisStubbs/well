@@ -41,7 +41,8 @@ AS
 		j.ResolutionStatusId AS ResolutionStatus,
 		j.InvoiceNumber as Invoice,
 		j.Id as JobId,
-		CONVERT(Bit, CASE WHEN a.ActivityTypeId = dbo.ActivityType_Invoice() THEN 1 ELSE 0 END) AS IsInvoice
+		CONVERT(Bit, CASE WHEN a.ActivityTypeId = dbo.ActivityType_Invoice() THEN 1 ELSE 0 END) AS IsInvoice,
+		j.PHAccount AS AccountNumber
 	FROM 
 		Job j 
 		INNER JOIN JobStatusView js 

@@ -415,8 +415,13 @@
     <Build Include="dbo\StoredProcedures\Job_GetWithLineItemActions.sql" />
     <Build Include="dbo\Functions\ExceptionType_Uplifted.sql" />
     <Build Include="dbo\Functions\JobStatus_Clean.sql" />
+    <Build Include="dbo\Views\JobDetailTotalsView.sql" />
     <Build Include="dbo\StoredProcedures\SingleLocation_Get.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_DeleteForJob.sql" />
+    <Build Include="dbo\Views\LineItemAmendmentsView.sql" />
+    <Build Include="dbo\StoredProcedures\Locations_GET.sql" />
+    <Build Include="dbo\StoredProcedures\Amendment_GetByJobIds.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

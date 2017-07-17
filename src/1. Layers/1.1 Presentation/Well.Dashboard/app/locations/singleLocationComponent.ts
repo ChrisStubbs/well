@@ -24,13 +24,13 @@ import { AssignModalResult, AssignModel }                   from '../shared/comp
 import { Branch }                                           from '../shared/branch/branch';
 import { ISubmitActionResult, ISubmitActionResultDetails }  from '../shared/action/submitActionModel';
 import {IBulkEditResult}                                    from '../shared/action/bulkEditItem';
+import {AccountReference}                                   from '../shared/crm/crmLinkPipe';
+import {ManualCompletionModal}                              from '../shared/manualCompletion/manualCompletionModal';
+import {SubmitActionModal}                                  from '../shared/action/submitActionModal';
+import {ManualCompletionType}                               from '../shared/manualCompletion/manualCompletionRequest';
+import {IJobIdResolutionStatus}                             from '../shared/models/jobIdResolutionStatus';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import {AccountReference} from '../shared/crm/crmLinkPipe';
-import {ManualCompletionModal} from '../shared/manualCompletion/manualCompletionModal';
-import {SubmitActionModal} from '../shared/action/submitActionModal';
-import {ManualCompletionType} from '../shared/manualCompletion/manualCompletionRequest';
-import {IJobIdResolutionStatus} from '../shared/models/jobIdResolutionStatus';
 
 @Component({
     selector: 'ow-singleLocation',
@@ -85,7 +85,7 @@ export class SingleLocationComponent implements IObservableAlive
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
                     this.lookupService.get(LookupsEnum.JobType),
-                    this.locationsService.getSingleRoute(data.id, data.accountNumber, <number>data.branchId),
+                    this.locationsService.getSingleLocation(data.id, data.accountNumber, <number>data.branchId),
                     this.lookupService.get(LookupsEnum.WellStatus)
                 );
             })
@@ -146,6 +146,7 @@ export class SingleLocationComponent implements IObservableAlive
                 item.isExpanded = _.includes(expanded, current[0].invoice);
                 item.details = current;
                 item.isInvoice = current[0].isInvoice;
+                item.accountNumber = current[0].accountNumber;
 
                 this.gridSource.push(item);
             })

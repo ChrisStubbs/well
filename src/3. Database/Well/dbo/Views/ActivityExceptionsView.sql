@@ -5,7 +5,7 @@ WITH Exception (ActivityId, ExceptionTypeId, ExceptionCount) AS
 	( SELECT a.id, lia.ExceptionTypeId, COUNT(lia.ExceptionTypeId)
 		FROM Activity a
 		INNER JOIN LineItem li ON li.ActivityId = a.Id
-		INNER JOIN LineItemAction lia ON li.Id = lia.LineItemId
+		INNER JOIN LineItemAction lia ON li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 		GROUP BY a.Id, lia.ExceptionTypeId
 	)
 

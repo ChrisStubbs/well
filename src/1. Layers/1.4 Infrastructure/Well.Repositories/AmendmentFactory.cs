@@ -37,8 +37,16 @@
                     endFlag = 1;
                 }
 
+
+                var productCodeNumeric = 0;
+                var result = Int32.TryParse(line.ProductCode, out productCodeNumeric);
+                if (!result)
+                {
+                    productCodeNumeric = 0;
+                }
+
                 var amendLine =
-                    $"INSERT INTO WELLLINE.WELLNAMDREC (WELLNAMDGUID, WELLNAMDRCDTYPE, WELLNAMDSEQNUM, WELLNAMDQTDELDEL, WELLNAMDQTDELSHT, WELLNAMDQTDELDAM, WELLNAMDQTDELREJ, WELLNAMDQTAMDDEL, WELLNAMDQTAMDSHT, WELLNAMDQTAMDDAM, WELLNAMDQTAMDREJ, WELLNAMDENDLINE) VALUES( {line.JobId}, {(int)EventAction.Amendment}, {lineCount}, {line.DeliveredQuantity}, {line.ShortTotal}, {line.DamageTotal}, {line.RejectedTotal}, {line.AmendedDeliveredQuantity}, {line.AmendedShortTotal}, {line.AmendedDamageTotal}, {line.AmendedRejectedTotal}, {endFlag});";
+                    $"INSERT INTO WELLLINE.WELLNAMDREC (WELLNAMDGUID, WELLNAMDRCDTYPE, WELLNAMDSEQNUM, WELLNAMDPROD, WELLNAMDQTDELDEL, WELLNAMDQTDELSHT, WELLNAMDQTDELDAM, WELLNAMDQTDELREJ, WELLNAMDQTAMDDEL, WELLNAMDQTAMDSHT, WELLNAMDQTAMDDAM, WELLNAMDQTAMDREJ, WELLNAMDENDLINE) VALUES( {line.JobId}, {(int)EventAction.Amendment}, {lineCount}, {productCodeNumeric},  {line.DeliveredQuantity}, {line.ShortTotal}, {line.DamageTotal}, {line.RejectedTotal}, {line.AmendedDeliveredQuantity}, {line.AmendedShortTotal}, {line.AmendedDamageTotal}, {line.AmendedRejectedTotal}, {endFlag});";
 
                 lineDictionary.Add(lineCount, amendLine);
             }

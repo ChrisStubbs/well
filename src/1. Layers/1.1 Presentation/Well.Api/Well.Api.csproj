@@ -206,7 +206,6 @@
     <Compile Include="Controllers\LineItemSearchController.cs" />
     <Compile Include="Controllers\SingleLocationController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
-    <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Controllers\SingleRouteController.cs" />

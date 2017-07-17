@@ -1,5 +1,4 @@
 ﻿export * from './buttonDropDownComponent';
-export * from './dateComponent';
 export * from './dropDownItem';
 export * from './security/securityService';
 export * from './globalSettings'; 

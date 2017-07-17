@@ -2,8 +2,6 @@
 {
     public struct StoredProcedures
     {
-        public const string AuditGet = "Audit_Get";
-        public const string AuditInsert = "Audit_Insert";
         public const string RouteHeaderGetAll = "RouteHeader_GetAll";
         public const string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public const string RouteInsert = "Route_Insert";

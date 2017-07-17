@@ -32,7 +32,6 @@ import { CleanPreferenceRemoveModalComponent } from './clean_preferences/cleanPr
 import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
 import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
-import { OptionFilterComponent } from './shared/optionFilterComponent';
 import { AppSearch, MenuBarAppSearchComponent } from './shared/appSearch/appSearch';
 import { CustomDatePipe } from './shared/customDatePipe';
 import { OptionFilterPipe } from './shared/optionFilterPipe';
@@ -40,7 +39,6 @@ import { OrderByDatePipe } from './shared/orderByDatePipe';
 import { OrderByPipe } from './shared/orderByPipe';
 import { OutstandingPipe } from './shared/outstandingPipe';
 import { AccountFlagsComponent, AssignModal } from './shared/components/components';
-import { OrderArrowComponent } from './shared/orderbyArrow';
 import { SeasonalDatesEditModalComponent } from './seasonal_dates/seasonalDatesEditModalComponent';
 import { SeasonalDatesAddModalComponent } from './seasonal_dates/seasonalDatesAddModalComponent';
 import { SeasonalDatesRemoveModalComponent } from './seasonal_dates/seasonalDatesRemoveModalComponent';
@@ -70,14 +68,11 @@ import { CleanPreferenceService } from './clean_preferences/cleanPreferenceServi
 import { UserService } from './shared/userService';
 import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { DeliveryService } from './delivery/deliveryService';
-import { NavigateQueryParametersService } from './shared/NavigateQueryParametersService';
-import { AuditComponent } from './audit/auditComponent';
-import { AuditService } from './audit/auditService';
 import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DateComponent, ButtonDropDownComponent } from './shared/shared';
+import { ButtonDropDownComponent } from './shared/shared';
 import { RoutesComponent } from './routes/routesComponent';
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import { StopComponent } from './stops/stopComponent';
@@ -98,17 +93,17 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
 
 @NgModule({
     declarations: [LoadingComponent,
-        OptionFilterComponent, AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
+        AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
         SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
         CleanPreferenceEditModalComponent, DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent,
-        AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, DeliveryComponent,
+        AccountComponent, ApprovalsComponent, BranchSelectionComponent, DeliveryComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
         CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
         RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, OrderArrowComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
+        AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, BulkCreditConfirmModal, DateComponent, ButtonDropDownComponent, StopComponent, SubmitActionModal, EditExceptionsComponent,
+        AccountFlagsComponent, BulkCreditConfirmModal, ButtonDropDownComponent, StopComponent, SubmitActionModal, EditExceptionsComponent,
         EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
         SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, LocationsComponent, ManualCompletionModal
     ],
@@ -117,11 +112,10 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
         ReactiveFormsModule, BrowserAnimationsModule, Ng2Webstorage, TooltipModule
     ],
     providers: [
-        ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, AuditService, BranchService,
+        ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
-        CleanPreferenceService, UserService, NavigateQueryParametersService, UserPreferenceService, ActivityService,
-        JobService, LocationsService,
+        CleanPreferenceService, UserService, UserPreferenceService, ActivityService, JobService, LocationsService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

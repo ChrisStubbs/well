@@ -121,7 +121,6 @@
     <Compile Include="AdamResilienceTests.cs" />
     <Compile Include="Api\Controllers\AppSearchControllerTests.cs" />
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />
-    <Compile Include="Api\Controllers\AuditControllerTests.cs" />
     <Compile Include="Api\Controllers\BranchControllerTests.cs" />
     <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
     <Compile Include="Api\Controllers\ActionDeliveryLineControllerTests.cs" />

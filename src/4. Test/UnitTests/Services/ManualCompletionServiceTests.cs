@@ -200,6 +200,7 @@
 
             [Test]
             [Explicit]
+            [Ignore("for now")]
             public void CompleteAsClean()
             {
                 var jobIds = new[] { 6, 7 };
@@ -213,6 +214,7 @@
 
             [Test]
             [Explicit]
+            [Ignore("for now")]
             public void CompleteAsBypassed()
             {
                 var jobIds = new[] { 4, 5 };

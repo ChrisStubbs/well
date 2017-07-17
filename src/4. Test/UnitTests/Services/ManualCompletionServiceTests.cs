@@ -6,6 +6,7 @@
     using Factories;
     using Moq;
     using NUnit.Framework;
+    using Repositories.Contracts;
     using StructureMap;
     using Well.Api.DependencyResolution;
     using Well.Domain;
@@ -18,6 +19,7 @@
     {
         private Mock<IJobService> jobService;
         private Mock<IEpodUpdateService> epodUpdateService;
+        private Mock<ILineItemActionRepository> lineItemActionRepository;
         private ManualCompletionService manualCompletionService;
 
         [SetUp]
@@ -25,7 +27,8 @@
         {
             jobService = new Mock<IJobService>();
             epodUpdateService = new Mock<IEpodUpdateService>();
-            manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object);
+            lineItemActionRepository = new Mock<ILineItemActionRepository>();
+            manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object, lineItemActionRepository.Object);
         }
 
         public class TheCompleteAsBypassedMethod : ManualCompletionServiceTests
@@ -126,6 +129,17 @@
             }
 
             [Test]
+            public void ShouldDleteLineItemActionsOnceForEachInvoicedJob()
+            {
+                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()), Times.Exactly(2));
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job1.Id), Times.Exactly(1));
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job2.Id), Times.Exactly(1));
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job3.Id), Times.Never);
+               
+            }
+
+            [Test]
             public void ShouldSetResolutionStatusCompletedByWell()
             {
                 manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
@@ -163,11 +177,11 @@
             [Test]
             public void ShouldCallGetJobIdsAssignedToCurrentUserAndPassToGetJobsWithRoute()
             {
-                var jobIds = new[] {1, 2, 3};
+                var jobIds = new[] { 1, 2, 3 };
 
-                var jobList = new List<Job> {job1, job2, job3};
+                var jobList = new List<Job> { job1, job2, job3 };
 
-                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(new[] {1, 3});
+                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(new[] { 1, 3 });
                 jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(jobList);
                 manualCompletionService.GetJobsAvailableForCompletion(jobIds);
 
@@ -179,49 +193,20 @@
             }
 
             [Test]
-            public void ShouldFilterJobListByInvoiced()
+            public void ShouldFilterJobListByInvoicedOrCmpletedOnPaper()
             {
-                var jobIds = new[] { 1, 2, 3 };
+                var jobIds = new[] { 1, 2, 3, 4, 5 };
+                var job4 = JobFactory.New.With(x => x.WellStatus = WellStatus.Complete).Build();
+                var job5 = JobFactory.New.With(x => x.WellStatus = WellStatus.Complete).With(x => x.JobStatus = JobStatus.CompletedOnPaper).Build();
 
-                var jobList = new List<Job> { job1, job2, job3 };
+                var jobList = new List<Job> { job1, job2, job3, job4, job5 };
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(new[] { 1, 3 });
                 jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(jobList);
                 var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(jobIds);
 
-                Assert.True(jobsAvailableForCompletion.All(x=> x.WellStatus == WellStatus.Invoiced));
-              
-            }
-        }
+                Assert.True(jobsAvailableForCompletion.All(x => x.WellStatus == WellStatus.Invoiced || x.JobStatus == JobStatus.CompletedOnPaper));
 
-        public class InvoicedJobServiceManualIntegrationTests : ManualCompletionServiceTests
-        {
-            readonly IContainer container = IoC.Container;
-
-            [Test]
-            [Explicit]
-            public void CompleteAsClean()
-            {
-                var jobIds = new[] { 6, 7 };
-
-                var jobService = container.GetInstance<IJobService>();
-                var epodUpdateService = container.GetInstance<IEpodUpdateService>();
-                var service = new ManualCompletionService(jobService, epodUpdateService);
-
-                service.CompleteAsClean(jobIds);
-            }
-
-            [Test]
-            [Explicit]
-            public void CompleteAsBypassed()
-            {
-                var jobIds = new[] { 4, 5 };
-
-                var jobService = container.GetInstance<IJobService>();
-                var epodUpdateService = container.GetInstance<IEpodUpdateService>();
-                var service = new ManualCompletionService(jobService, epodUpdateService);
-
-                service.CompleteAsBypassed(jobIds);
             }
         }
     }

@@ -235,8 +235,6 @@
 
             this.jobService.DetermineStatus(existingJob, branchId);
 
-
-
             if (!string.IsNullOrWhiteSpace(jobDto.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
             {
                 var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };

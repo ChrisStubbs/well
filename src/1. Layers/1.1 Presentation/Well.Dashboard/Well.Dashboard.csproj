@@ -215,7 +215,9 @@
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
     <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
+    <Content Include="app\shared\action\actionEditComponentRefactor.html" />
     <Content Include="app\shared\action\bulkEditActionModal.html" />
+    <TypeScriptCompile Include="app\shared\action\actionEditComponentRefactor.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />

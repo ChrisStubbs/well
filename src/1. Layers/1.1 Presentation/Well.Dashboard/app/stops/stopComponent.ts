@@ -27,6 +27,7 @@ import { ManualCompletionModal } from '../shared/manualCompletion/manualCompleti
 import {AccountReference} from '../shared/crm/crmLinkPipe';
 import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
 import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
+import {ActionEditComponentRefactor} from '../shared/action/actionEditComponentRefactor';
 
 @Component({
     selector: 'ow-stop',
@@ -70,6 +71,7 @@ export class StopComponent implements IObservableAlive
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
     @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(ActionEditComponentRefactor) private actionEditComponentRefactor: ActionEditComponent;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
@@ -401,9 +403,9 @@ export class StopComponent implements IObservableAlive
     {
         this.editExceptionsService.get([item.lineItemId])
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Array<EditLineItemException>) =>
-            {
-                this.actionEditComponent.show(res[0]);
+            .subscribe((res: Array<EditLineItemException>) => {
+                this.actionEditComponentRefactor.show(res[0]);
+                //this.actionEditComponent.show(res[0]);
             });
     }
 

@@ -4,7 +4,6 @@ import {ApprovalsComponent} from './approvals/approvalsComponent';
 import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
-import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RoutesComponent } from './routes/routesComponent';
@@ -28,7 +27,6 @@ const routes: Routes = [
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
     { path: 'delivery/:id', component: DeliveryComponent },
-    { path: 'delivery/:id/:line', component: DeliveryUpdateComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'routes', component: RoutesComponent },
     { path: 'widgets', component: WidgetComponent },

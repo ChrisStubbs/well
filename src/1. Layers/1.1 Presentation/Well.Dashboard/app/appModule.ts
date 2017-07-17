@@ -14,7 +14,6 @@ import { ApprovalsComponent } from './approvals/approvalsComponent';
 import { AccountComponent } from './account/accountComponent';
 import { BranchSelectionComponent } from './branch/branchSelectionComponent';
 import { DeliveryComponent } from './delivery/deliveryComponent';
-import { DeliveryUpdateComponent } from './delivery/deliveryUpdateComponent';
 import { DeliveryIssuesComponent } from './delivery/deliveryIssuesComponent';
 import { LoadingComponent } from './shared/loadingComponent';
 import { NotificationsComponent } from './notifications/notificationsComponent';
@@ -100,7 +99,7 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
 @NgModule({
     declarations: [LoadingComponent,
         OptionFilterComponent, AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
-        AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, DeliveryUpdateComponent, WidgetGraphComponent,
+        AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
         SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
         CleanPreferenceEditModalComponent, DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent,
         AccountComponent, ApprovalsComponent, AuditComponent, BranchSelectionComponent, DeliveryComponent,

@@ -422,6 +422,7 @@
     <Build Include="dbo\Tables\BranchDateThreshold.sql" />
     <Build Include="dbo\StoredProcedures\DateThreshold_Get.sql" />
     <Build Include="dbo\StoredProcedures\DateThreshold_Delete.sql" />
+    <None Include="Post-Deployement\Populate-BranchDateThreshold.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

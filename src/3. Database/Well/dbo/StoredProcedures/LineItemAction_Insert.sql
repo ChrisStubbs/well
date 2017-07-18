@@ -21,7 +21,7 @@ BEGIN
 	INNER JOIN JobDetail jd on jd.Id = jdd.JobDetailId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = jd.JobId
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
-	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
+	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 	WHERE lia.Id IS NULL
 
 	-- shorts
@@ -31,7 +31,7 @@ BEGIN
 	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
-	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
+	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 	WHERE lia.Id IS NULL AND jd.ShortQty > 0 and j.JobStatusId != dbo.JobStatus_Bypass()
 
 	-- bypass
@@ -41,7 +41,7 @@ BEGIN
 	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
-	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
+	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 	WHERE lia.Id IS NULL and j.JobStatusId = dbo.JobStatus_Bypass() and jd.OriginalDespatchQty > 0
 
 	-- successful uplift
@@ -52,9 +52,9 @@ BEGIN
 	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	LEFT JOIN JobDetailDamage jdd on jdd.JobDetailId = jd.Id
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
-	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId
+	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 	WHERE lia.Id IS NULL and jdd.Id IS NULL
-	AND j.JobTypeCode = 'UPL-STD' AND jd.ShortQty = 0
+	AND j.JobTypeCode = 'UPL-STD' AND jd.ShortQty = 0 AND j.JobStatusId != dbo.JobStatus_Bypass()  
 
 	BEGIN TRAN
 		

@@ -26,15 +26,15 @@ namespace PH.Well.UnitTests.Services
             var jobRepository = new Mock<IJobRepository>();
             var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
             var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
-            var  userNameProvider = new Mock<IUserNameProvider>(); 
-            var  userRepository = new Mock<IUserRepository>(); 
+            var userNameProvider = new Mock<IUserNameProvider>();
+            var userRepository = new Mock<IUserRepository>();
 
 
             this.sut = new JobService(
-                jobRepository.Object, 
-                userThreshold.Object, 
-                dateThresholdService.Object, 
-                assigneeReadRepository.Object, 
+                jobRepository.Object,
+                userThreshold.Object,
+                dateThresholdService.Object,
+                assigneeReadRepository.Object,
                 lineItemRepository.Object,
                 userNameProvider.Object,
                 userRepository.Object
@@ -51,7 +51,7 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
                 .Build();
 
-            
+
             var newStatus = sut.GetCurrentResolutionStatus(job);
 
             Assert.That(newStatus, Is.EqualTo(ResolutionStatus.DriverCompleted));
@@ -244,7 +244,7 @@ namespace PH.Well.UnitTests.Services
             newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Credited));
         }
-        
+
         [Test]
         [Description("Check if the Job is in Resolved status")]
         [Category("JobResolutionStatus get status")]
@@ -269,7 +269,7 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.Invalid)
                 .Build();
-            
+
             newStatus = sut.GetCurrentResolutionStatus(job);
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
 
@@ -305,10 +305,10 @@ namespace PH.Well.UnitTests.Services
 
 
             var sut = new JobService(
-                jobRepository.Object, 
-                userThresholdService, 
-                dateThresholdService, 
-                assigneeReadRepository.Object, 
+                jobRepository.Object,
+                userThresholdService,
+                dateThresholdService,
+                assigneeReadRepository.Object,
                 lineItemRepository.Object,
                 userNameProvider.Object,
                 userRepository.Object);
@@ -342,6 +342,51 @@ namespace PH.Well.UnitTests.Services
                 yield return new TestCaseData(DriverCompletedInWindowComplainNoActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
                     .Returns(ResolutionStatus.DriverCompleted)
                     .SetDescription("DriverCompleted Job should stay in DriverCompleted");
+
+                yield return new TestCaseData(DriverCompletedInWindowComplainWithCreditAction(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
+                    .Returns(ResolutionStatus.DriverCompleted)
+                    .SetDescription("DriverCompleted Job should stay in DriverCompleted");
+
+                yield return new TestCaseData(DriverCompletedOutWindowComplainWithCreditAction(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.Closed | ResolutionStatus.DriverCompleted)
+                    .SetDescription("DriverCompleted Job should move to Close Driver Completed");
+
+                yield return new TestCaseData(DriverCompletedInWindowComplainWithActionZeroQuantity(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
+                    .Returns(ResolutionStatus.DriverCompleted)
+                    .SetDescription("DriverCompleted Job should stay in DriverCompleted");
+            
+
+                yield return new TestCaseData(ManuallyCompletedOutWindowComplainNoActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.Closed | ResolutionStatus.ManuallyCompleted)
+                    .SetDescription("ManuallyCompleted Job should move to Close");
+
+                yield return new TestCaseData(ManuallyCompletedOutWindowComplainWithActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.ActionRequired)
+                    .SetDescription("ManuallyCompleted Job should move to ActionRequired");
+
+                yield return new TestCaseData(ManuallyCompletedInWindowComplainWithActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
+                    .Returns(ResolutionStatus.ActionRequired)
+                    .SetDescription("ManuallyCompleted Job should move to ActionRequired");
+
+                yield return new TestCaseData(ManuallyCompletedInWindowComplainNoActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
+                    .Returns(ResolutionStatus.ManuallyCompleted)
+                    .SetDescription("ManuallyCompleted Job should stay in ManuallyCompleted");
+
+                yield return new TestCaseData(ManuallyCompletedInWindowComplainWithCreditAction(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
+                    .Returns(ResolutionStatus.ManuallyCompleted)
+                    .SetDescription("ManuallyCompleted Job should stay in ManuallyCompleted");
+
+                yield return new TestCaseData(ManuallyCompletedOutWindowComplainWithCreditAction(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.Closed | ResolutionStatus.ManuallyCompleted)
+                    .SetDescription("ManuallyCompleted Job should move to Close Driver Completed");
+
+                yield return new TestCaseData(ManuallyCompletedInWindowComplainWithActionZeroQuantity(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
+                    .Returns(ResolutionStatus.ManuallyCompleted)
+                    .SetDescription("ManuallyCompleted Job should stay in ManuallyCompleted");
+
+                yield return new TestCaseData(DriverCompletedOutWindowComplainWithActionZeroQuantity(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.Closed | ResolutionStatus.DriverCompleted)
+                    .SetDescription("DriverCompleted Job should move to Close Driver Completed");
 
                 yield return new TestCaseData(ActionRequired(true), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
                     .Returns(ResolutionStatus.ActionRequired)
@@ -384,7 +429,7 @@ namespace PH.Well.UnitTests.Services
                     .SetDescription("Credited Job should stay in Resolved");
             }
         }
-        
+
         private static IUserThresholdService CreateUserThresholdService(bool withinThreshol)
         {
             var mock = new Mock<IUserThresholdService>();
@@ -399,7 +444,7 @@ namespace PH.Well.UnitTests.Services
             var mock = new Mock<IDateThresholdService>();
 
             mock.Setup(p => p.EarliestSubmitDate(It.IsAny<DateTime>(), It.IsAny<int>())).Returns(date);
-            
+
             return mock.Object;
         }
 
@@ -416,7 +461,7 @@ namespace PH.Well.UnitTests.Services
         {
             return JobFactory.New
                 .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
-                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
                 .Build();
         }
@@ -425,7 +470,7 @@ namespace PH.Well.UnitTests.Services
         {
             return JobFactory.New
                 .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
-                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
                 .Build();
         }
@@ -438,6 +483,119 @@ namespace PH.Well.UnitTests.Services
                 .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
                 .Build();
         }
+
+        private static Job DriverCompletedInWindowComplainWithActionZeroQuantity()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
+                .Build();
+        }
+
+        private static Job DriverCompletedOutWindowComplainWithActionZeroQuantity()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
+                .Build();
+        }
+
+        private static Job DriverCompletedInWindowComplainWithCreditAction()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
+                .Build();
+        }
+
+        private static Job DriverCompletedOutWindowComplainWithCreditAction()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.DriverCompleted)
+                .Build();
+        }
+
+
+        #region manual Completion
+
+        private static Job ManuallyCompletedOutWindowComplainNoActions()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
+                .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedOutWindowComplainWithActions()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedInWindowComplainWithActions()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddNotDefinedAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedInWindowComplainNoActions()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
+                .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedInWindowComplainWithActionZeroQuantity()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedOutWindowComplainWithActionZeroQuantity()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedInWindowComplainWithCreditAction()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now.AddDays(-30) })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        private static Job ManuallyCompletedOutWindowComplainWithCreditAction()
+        {
+            return JobFactory.New
+                .With(p => p.JobRoute = new Well.Domain.ValueObjects.JobRoute { RouteDate = DateTime.Now })
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ManuallyCompleted)
+                .Build();
+        }
+
+        #endregion
 
         private static Job ActionRequired(bool addNotDefinedAction)
         {

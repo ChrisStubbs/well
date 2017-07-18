@@ -151,6 +151,7 @@
         public const string LineItemActionGetByIds = "LineItemActionGetByIds";
         public const string LineItemActionUpdate = "LineItemActionUpdate";
         public const string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
+        public const string LineItemActionDeleteForJob = "LineItemAction_DeleteForJob";
 
         public const string ActivityGetById = "Activity_GetById";
         public const string LocationGetById = "Location_GetById";

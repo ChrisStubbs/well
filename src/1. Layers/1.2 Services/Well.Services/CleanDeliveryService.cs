@@ -65,6 +65,8 @@
 
             foreach (var routeId in routeIds)
             {
+               
+
                 var jobIdsForDeletion = new List<int>();
                 var route = this.routeToRemoveRepository.GetRouteToRemove(routeId);
 

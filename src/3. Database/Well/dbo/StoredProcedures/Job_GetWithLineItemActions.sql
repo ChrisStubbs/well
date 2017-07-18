@@ -9,6 +9,6 @@ BEGIN
 	INNER JOIN Activity a ON a.Id = li.ActivityId
 	INNER JOIN Job j ON j.ActivityId = a.Id
 	INNER JOIN @Ids  i on i.Value = j.Id
-
-	RETURN 0
+	WHERE lia.DateDeleted is null
+		
 END
